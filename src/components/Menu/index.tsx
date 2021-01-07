@@ -107,7 +107,7 @@ export default function Menu() {
             <Send size={14} />
             Telegram
           </MenuItem>
-          <MenuItem id="link" href="https://discord.com/PARrDYYbfw">
+          <MenuItem id="link" href="https://discord.com/invite/PARrDYYbfw">
             <MessageCircle size={14} />
             Discord
           </MenuItem>
