@@ -1,6 +1,6 @@
 import { TokenAmount, Pair, Currency, ChainId } from '@pangolindex/sdk'
 import { useMemo } from 'react'
-import { abi as IPangolinPairABI } from '@pangolin/exchange-contracts/artifacts/contracts/pangolin-core/interfaces/IPangolinPair.sol/IPangolinPair.json'
+import { abi as IPangolinPairABI } from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-core/interfaces/IPangolinPair.sol/IPangolinPair.json'
 import { Interface } from '@ethersproject/abi'
 import { useActiveWeb3React } from '../hooks'
 
