@@ -1,7 +1,7 @@
 {
   "name": "@pangolindex/interface",
   "description": "Pangolin Interface",
-  "homepage": "https://pangolin.exchange",
+  "homepage": ".",
   "private": true,
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
