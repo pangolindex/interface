@@ -1,5 +1,5 @@
 import { Web3Provider } from '@ethersproject/providers'
-import { InjectedConnector } from '@web3-react/injected-connector'
+import { InjectedConnector } from '@pangolindex/web3-react-injected-connector'
 
 import { NetworkConnector } from './NetworkConnector'
 
