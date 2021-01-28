@@ -1,5 +1,5 @@
-import { ChainId } from '@pangolindex/sdk'
-import React from 'react'
+import { ChainId, TokenAmount } from '@pangolindex/sdk'
+import React, { useState } from 'react'
 import { Text } from 'rebass'
 import { NavLink } from 'react-router-dom'
 import { darken } from 'polished'
@@ -11,7 +11,10 @@ import Logo from '../../assets/svg/icon.svg'
 import LogoDark from '../../assets/svg/icon.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
-import { useETHBalances } from '../../state/wallet/hooks'
+import { useETHBalances, useAggregatePngBalance } from '../../state/wallet/hooks'
+import { CardNoise } from '../earn/styled'
+import { CountUp } from 'use-count-up'
+import { TYPE } from '../../theme'
 
 import { RedCard } from '../Card'
 import Settings from '../Settings'
@@ -19,6 +22,9 @@ import Menu from '../Menu'
 
 import Row, { RowFixed } from '../Row'
 import Web3Status from '../Web3Status'
+import Modal from '../Modal'
+import PngBalanceContent from './PngBalanceContent'
+import usePrevious from '../../hooks/usePrevious'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -117,6 +123,27 @@ const AccountElement = styled.div<{ active: boolean }>`
   } */
 `
 
+const PNGAmount = styled(AccountElement)`
+  color: white;
+  padding: 4px 8px;
+  height: 36px;
+  font-weight: 500;
+  background-color: ${({ theme }) => theme.bg3};
+  background: radial-gradient(174.47% 188.91% at 1.84% 0%, #ff007a 0%, #2172e5 100%), #edeef2;
+`
+
+const PNGWrapper = styled.span`
+  width: fit-content;
+  position: relative;
+  cursor: pointer;
+  :hover {
+    opacity: 0.8;
+  }
+  :active {
+    opacity: 0.9;
+  }
+`
+
 const HideSmall = styled.span`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;
@@ -156,7 +183,7 @@ const Title = styled.a`
   }
 `
 
-const UniIcon = styled.div`
+const PngIcon = styled.div`
   transition: transform 0.3s ease;
   :hover {
     transform: rotate(-5deg);
@@ -204,13 +231,23 @@ export default function Header() {
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   const [isDark] = useDarkModeManager()
 
+  const aggregateBalance: TokenAmount | undefined = useAggregatePngBalance()
+
+  const [showPngBalanceModal, setShowPngBalanceModal] = useState(false)
+
+  const countUpValue = aggregateBalance?.toFixed(0) ?? '0'
+  const countUpValuePrevious = usePrevious(countUpValue) ?? '0'
+
   return (
     <HeaderFrame>
+      <Modal isOpen={showPngBalanceModal} onDismiss={() => setShowPngBalanceModal(false)}>
+        <PngBalanceContent setShowPngBalanceModal={setShowPngBalanceModal} />
+      </Modal>
       <HeaderRow>
         <Title href=".">
-          <UniIcon>
+          <PngIcon>
             <img width={'24px'} src={isDark ? LogoDark : Logo} alt="logo" />
-          </UniIcon>
+          </PngIcon>
         </Title>
         <HeaderLinks>
           <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
@@ -229,9 +266,9 @@ export default function Header() {
           >
             {t('pool')}
           </StyledNavLink>
-          <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
-            {t('This website is in Beta. Do not use actual money.')}
-          </StyledNavLink>
+          <StyledNavLink id={`stake-nav-link`} to={'/png'}>
+            PNG
+           </StyledNavLink>
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
@@ -241,6 +278,32 @@ export default function Header() {
               <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
             )}
           </HideSmall>
+          {aggregateBalance && (
+            <PNGWrapper onClick={() => setShowPngBalanceModal(true)}>
+              <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
+                {account && (
+                  <HideSmall>
+                    <TYPE.white
+                      style={{
+                        paddingRight: '.4rem'
+                      }}
+                    >
+                      <CountUp
+                        key={countUpValue}
+                        isCounting
+                        start={parseFloat(countUpValuePrevious)}
+                        end={parseFloat(countUpValue)}
+                        thousandsSeparator={','}
+                        duration={1}
+                      />
+                    </TYPE.white>
+                  </HideSmall>
+                )}
+                PNG
+              </PNGAmount>
+              <CardNoise />
+            </PNGWrapper>
+          )}
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>

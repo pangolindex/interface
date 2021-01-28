@@ -6,13 +6,20 @@ import { injected } from '../connectors'
 export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.FUJI]: '0x1926f5F6a710063e99c5Ec0290A344c8319a7e14',
   [ChainId.AVALANCHE]: '0x44771c71250D303d32E638c1c7ca7d00135cd65f'
-} 
+}
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
+}
+
+export const DAI = new Token(ChainId.AVALANCHE, '0x2DCA6503946d29Ca8d1C87A247ef122652B03c0e', 18, 'DAI', 'Dai Stablecoin')
+
+export const PNG: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, '0x20C62EEde571409f7101076F8dA0221867AA46dc', 18, 'PNG', 'Pangolin'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x20C62EEde571409f7101076F8dA0221867AA46dc', 18, 'PNG', 'Pangolin')
 }
 
 const WAVAX_ONLY: ChainTokenList = {
@@ -32,7 +39,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
  */
 export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {
   [ChainId.AVALANCHE]: {
-    
+
   }
 }
 
