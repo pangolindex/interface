@@ -19,7 +19,7 @@ export const DAI = new Token(ChainId.AVALANCHE, '0x2DCA6503946d29Ca8d1C87A247ef1
 
 export const PNG: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, '0x20C62EEde571409f7101076F8dA0221867AA46dc', 18, 'PNG', 'Pangolin'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x20C62EEde571409f7101076F8dA0221867AA46dc', 18, 'PNG', 'Pangolin')
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'PNG', 'Pangolin')
 }
 
 const WAVAX_ONLY: ChainTokenList = {

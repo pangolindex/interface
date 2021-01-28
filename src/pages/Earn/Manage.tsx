@@ -122,7 +122,7 @@ export default function Manage({
 	const totalSupplyOfStakingToken = useTotalSupply(stakingInfo?.stakedAmount?.token)
 	let valueOfTotalStakedAmountInWAVAX: TokenAmount | undefined
 	if (totalSupplyOfStakingToken && stakingTokenPair && stakingInfo && WAVAX) {
-		// take the total amount of LP tokens staked, multiply by ETH value of all LP tokens, divide by all LP tokens
+		// take the total amount of LP tokens staked, multiply by AVAX value of all LP tokens, divide by all LP tokens
 		valueOfTotalStakedAmountInWAVAX = new TokenAmount(
 			WAVAX,
 			JSBI.divide(
@@ -169,7 +169,7 @@ export default function Manage({
 						<TYPE.body fontSize={24} fontWeight={500}>
 							{valueOfTotalStakedAmountInUSDC
 								? `$${valueOfTotalStakedAmountInUSDC.toFixed(0, { groupSeparator: ',' })}`
-								: `${valueOfTotalStakedAmountInWAVAX?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} ETH`}
+								: `${valueOfTotalStakedAmountInWAVAX?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`}
 						</TYPE.body>
 					</AutoColumn>
 				</PoolData>
@@ -180,7 +180,7 @@ export default function Manage({
 							{stakingInfo?.totalRewardRate
 								?.multiply((60 * 60 * 24 * 7).toString())
 								?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
-							{' UNI / week'}
+							{' PNG / week'}
 						</TYPE.body>
 					</AutoColumn>
 				</PoolData>
@@ -193,11 +193,11 @@ export default function Manage({
 					<CardSection>
 						<AutoColumn gap="md">
 							<RowBetween>
-								<TYPE.white fontWeight={600}>Step 1. Get UNI-V2 Liquidity tokens</TYPE.white>
+								<TYPE.white fontWeight={600}>Step 1. Get PNG Liquidity tokens</TYPE.white>
 							</RowBetween>
 							<RowBetween style={{ marginBottom: '1rem' }}>
 								<TYPE.white fontSize={14}>
-									{`UNI-V2 LP tokens are required. Once you've added liquidity to the ${currencyA?.symbol}-${currencyB?.symbol} pool you can stake your liquidity tokens on this page.`}
+									{`PNG LP tokens are required. Once you've added liquidity to the ${currencyA?.symbol}-${currencyB?.symbol} pool you can stake your liquidity tokens on this page.`}
 								</TYPE.white>
 							</RowBetween>
 							<ButtonPrimary
@@ -252,7 +252,7 @@ export default function Manage({
 										{stakingInfo?.stakedAmount?.toSignificant(6) ?? '-'}
 									</TYPE.white>
 									<TYPE.white>
-										UNI-V2 {currencyA?.symbol}-{currencyB?.symbol}
+										PNG {currencyA?.symbol}-{currencyB?.symbol}
 									</TYPE.white>
 								</RowBetween>
 							</AutoColumn>
@@ -264,7 +264,7 @@ export default function Manage({
 						<AutoColumn gap="sm">
 							<RowBetween>
 								<div>
-									<TYPE.black>Your unclaimed UNI</TYPE.black>
+									<TYPE.black>Your unclaimed PNG</TYPE.black>
 								</div>
 								{stakingInfo?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, stakingInfo?.earnedAmount?.raw) && (
 									<ButtonEmpty
@@ -296,7 +296,7 @@ export default function Manage({
 									{stakingInfo?.rewardRate
 										?.multiply((60 * 60 * 24 * 7).toString())
 										?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
-									{' UNI / week'}
+									{' PNG / week'}
 								</TYPE.black>
 							</RowBetween>
 						</AutoColumn>
@@ -306,13 +306,13 @@ export default function Manage({
 					<span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>
 						⭐️
            </span>
-           When you withdraw, the contract will automagically claim UNI on your behalf!
+           When you withdraw, the contract will automagically claim PNG on your behalf!
          </TYPE.main>
 
 				{!showAddLiquidityButton && (
 					<DataRow style={{ marginBottom: '1rem' }}>
 						<ButtonPrimary padding="8px" borderRadius="8px" width="160px" onClick={handleDepositClick}>
-							{stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) ? 'Deposit' : 'Deposit UNI-V2 LP Tokens'}
+							{stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) ? 'Deposit' : 'Deposit PNG LP Tokens'}
 						</ButtonPrimary>
 
 						{stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) && (
@@ -330,7 +330,7 @@ export default function Manage({
 					</DataRow>
 				)}
 				{!userLiquidityUnstaked ? null : userLiquidityUnstaked.equalTo('0') ? null : (
-					<TYPE.main>{userLiquidityUnstaked.toSignificant(6)} UNI-V2 LP tokens available</TYPE.main>
+					<TYPE.main>{userLiquidityUnstaked.toSignificant(6)} PNG LP tokens available</TYPE.main>
 				)}
 			</PositionInfo>
 		</PageWrapper>
