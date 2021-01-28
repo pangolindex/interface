@@ -2311,10 +2311,10 @@
   resolved "https://registry.yarnpkg.com/@pangolindex/exchange-contracts/-/exchange-contracts-1.0.1.tgz#3c4374ed7de9d0f5f141614a12349f97d611ab35"
   integrity sha512-lvL2y1xVsAh1S+fC3RCp9+Z70MOtydaRvBD9AZAJ4ZUajvMtDhTzCAAZAf2op43149JMWAytWYOrAbCSUeaw7Q==
 
-"@pangolindex/sdk@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-1.0.0.tgz#6180e119b5d2f07fcf8e302e070e930cb717d584"
-  integrity sha512-1MItwjdFn+kAhrVz9hhi5j20YMzS0acy6+sPkRtfpLCzeFgx2fdxF+UbIvFiarRhUWWeTW+e4HcwNEtvp6BAxQ==
+"@pangolindex/sdk@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-1.0.2.tgz#1b93eeb9883f02495b847fa34bd96f6940c5f664"
+  integrity sha512-DT3a9fVI/Ps/UdTXm2vB8UvIk9hN5HFsJbf+DuhZw95JXDA8Z4h04VV3F7LE00gL0r2Aj32V8qJ4XMlRDJ8f4A==
   dependencies:
     "@openzeppelin/cli" "^2.8.2"
     "@pangolindex/exchange-contracts" "^1.0.1"

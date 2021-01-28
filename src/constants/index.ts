@@ -4,9 +4,9 @@ import { AbstractConnector } from '@web3-react/abstract-connector'
 import { injected } from '../connectors'
 
 export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
-  [ChainId.FUJI]: '0x1926f5F6a710063e99c5Ec0290A344c8319a7e14',
+  [ChainId.FUJI]: '0x2D99ABD9008Dc933ff5c0CD271B88309593aB921',
   [ChainId.AVALANCHE]: '0x44771c71250D303d32E638c1c7ca7d00135cd65f'
-} 
+}
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -32,7 +32,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
  */
 export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {
   [ChainId.AVALANCHE]: {
-    
+
   }
 }
 
