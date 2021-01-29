@@ -193,11 +193,11 @@ export default function Manage({
 					<CardSection>
 						<AutoColumn gap="md">
 							<RowBetween>
-								<TYPE.white fontWeight={600}>Step 1. Get PNG Liquidity tokens</TYPE.white>
+								<TYPE.white fontWeight={600}>Step 1. Get Pangolin Liquidity tokens (PGL)</TYPE.white>
 							</RowBetween>
 							<RowBetween style={{ marginBottom: '1rem' }}>
 								<TYPE.white fontSize={14}>
-									{`PNG LP tokens are required. Once you've added liquidity to the ${currencyA?.symbol}-${currencyB?.symbol} pool you can stake your liquidity tokens on this page.`}
+									{`PGL tokens are required. Once you've added liquidity to the ${currencyA?.symbol}-${currencyB?.symbol} pool you can stake your liquidity tokens on this page.`}
 								</TYPE.white>
 							</RowBetween>
 							<ButtonPrimary
@@ -252,7 +252,7 @@ export default function Manage({
 										{stakingInfo?.stakedAmount?.toSignificant(6) ?? '-'}
 									</TYPE.white>
 									<TYPE.white>
-										PNG {currencyA?.symbol}-{currencyB?.symbol}
+										PGL {currencyA?.symbol}-{currencyB?.symbol}
 									</TYPE.white>
 								</RowBetween>
 							</AutoColumn>
@@ -312,7 +312,7 @@ export default function Manage({
 				{!showAddLiquidityButton && (
 					<DataRow style={{ marginBottom: '1rem' }}>
 						<ButtonPrimary padding="8px" borderRadius="8px" width="160px" onClick={handleDepositClick}>
-							{stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) ? 'Deposit' : 'Deposit PNG LP Tokens'}
+							{stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) ? 'Deposit' : 'Deposit PGL Tokens'}
 						</ButtonPrimary>
 
 						{stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) && (
@@ -330,7 +330,7 @@ export default function Manage({
 					</DataRow>
 				)}
 				{!userLiquidityUnstaked ? null : userLiquidityUnstaked.equalTo('0') ? null : (
-					<TYPE.main>{userLiquidityUnstaked.toSignificant(6)} PNG LP tokens available</TYPE.main>
+					<TYPE.main>{userLiquidityUnstaked.toSignificant(6)} PGL tokens available</TYPE.main>
 				)}
 			</PositionInfo>
 		</PageWrapper>
