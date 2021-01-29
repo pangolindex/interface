@@ -2344,38 +2344,30 @@
   "version" "2.8.0"
   dependencies:
     "@types/cbor" "^2.0.0"
-    "axios" "^0.18.0"
-    "bignumber.js" "^7.2.0"
-    "cbor" "^4.1.5"
-    "chalk" "^2.4.1"
-    "ethers" "^4.0.20"
-    "glob" "^7.1.3"
-    "lodash" "^4.17.15"
-    "semver" "^5.5.1"
-    "spinnies" "^0.4.2"
-    "truffle-flattener" "^1.4.0"
-    "web3" "1.2.2"
-    "web3-eth" "1.2.2"
-    "web3-eth-contract" "1.2.2"
-    "web3-utils" "1.2.2"
+    axios "^0.18.0"
+    bignumber.js "^7.2.0"
+    cbor "^4.1.5"
+    chalk "^2.4.1"
+    ethers "^4.0.20"
+    glob "^7.1.3"
+    lodash "^4.17.15"
+    semver "^5.5.1"
+    spinnies "^0.4.2"
+    truffle-flattener "^1.4.0"
+    web3 "1.2.2"
+    web3-eth "1.2.2"
+    web3-eth-contract "1.2.2"
+    web3-utils "1.2.2"
 
-"@pangolindex/exchange-contracts@^1.0.1", "@pangolindex/exchange-contracts@1.0.1":
-  "integrity" "sha512-lvL2y1xVsAh1S+fC3RCp9+Z70MOtydaRvBD9AZAJ4ZUajvMtDhTzCAAZAf2op43149JMWAytWYOrAbCSUeaw7Q=="
-  "resolved" "https://registry.yarnpkg.com/@pangolindex/exchange-contracts/-/exchange-contracts-1.0.1.tgz"
-  "version" "1.0.1"
-
-"@pangolindex/governance@^1.0.2":
-  "integrity" "sha512-zmxM3601g89mJVPPVRnI1rHQtSehcVdyslMrx7AnyQzoOUU12DGedkgmwlQkCygoA6nMWWej1eQUq5NF5IGJ7w=="
-  "resolved" "https://registry.npmjs.org/@pangolindex/governance/-/governance-1.0.2.tgz"
-  "version" "1.0.2"
-  dependencies:
-    "@pangolindex/exchange-contracts" "^1.0.1"
-    "@tenderly/hardhat-tenderly" "^1.0.6"
+"@pangolindex/exchange-contracts@1.0.1", "@pangolindex/exchange-contracts@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@pangolindex/exchange-contracts/-/exchange-contracts-1.0.1.tgz#3c4374ed7de9d0f5f141614a12349f97d611ab35"
+  integrity sha512-lvL2y1xVsAh1S+fC3RCp9+Z70MOtydaRvBD9AZAJ4ZUajvMtDhTzCAAZAf2op43149JMWAytWYOrAbCSUeaw7Q==
 
 "@pangolindex/sdk@1.0.2":
-  "integrity" "sha512-DT3a9fVI/Ps/UdTXm2vB8UvIk9hN5HFsJbf+DuhZw95JXDA8Z4h04VV3F7LE00gL0r2Aj32V8qJ4XMlRDJ8f4A=="
-  "resolved" "https://registry.npmjs.org/@pangolindex/sdk/-/sdk-1.0.2.tgz"
-  "version" "1.0.2"
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-1.0.2.tgz#1b93eeb9883f02495b847fa34bd96f6940c5f664"
+  integrity sha512-DT3a9fVI/Ps/UdTXm2vB8UvIk9hN5HFsJbf+DuhZw95JXDA8Z4h04VV3F7LE00gL0r2Aj32V8qJ4XMlRDJ8f4A==
   dependencies:
     "@openzeppelin/cli" "^2.8.2"
     "@pangolindex/exchange-contracts" "^1.0.1"
