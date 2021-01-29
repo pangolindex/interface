@@ -2372,10 +2372,10 @@
     "@pangolindex/exchange-contracts" "^1.0.1"
     "@tenderly/hardhat-tenderly" "^1.0.6"
 
-"@pangolindex/sdk@1.0.0":
-  "integrity" "sha512-1MItwjdFn+kAhrVz9hhi5j20YMzS0acy6+sPkRtfpLCzeFgx2fdxF+UbIvFiarRhUWWeTW+e4HcwNEtvp6BAxQ=="
-  "resolved" "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-1.0.0.tgz"
-  "version" "1.0.0"
+"@pangolindex/sdk@1.0.2":
+  "integrity" "sha512-DT3a9fVI/Ps/UdTXm2vB8UvIk9hN5HFsJbf+DuhZw95JXDA8Z4h04VV3F7LE00gL0r2Aj32V8qJ4XMlRDJ8f4A=="
+  "resolved" "https://registry.npmjs.org/@pangolindex/sdk/-/sdk-1.0.2.tgz"
+  "version" "1.0.2"
   dependencies:
     "@openzeppelin/cli" "^2.8.2"
     "@pangolindex/exchange-contracts" "^1.0.1"

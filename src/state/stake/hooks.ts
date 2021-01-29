@@ -1,6 +1,6 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair } from '@pangolindex/sdk'
 import { useMemo } from 'react'
-import { PNG, JOE, DAI, UNI } from '../../constants'
+import { PNG, DAI, UNI, JOE } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
@@ -32,11 +32,11 @@ export const STAKING_REWARDS_INFO: {
 		},
 		{
 			tokens: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
-			stakingRewardAddress: '0xffb4da4bef80273293bd27e31779414ec957476c'
+			stakingRewardAddress: '0x89a5bbE037c082563bD1002A78566E4F5f25feA7'
 		},
 		{
 			tokens: [PNG[ChainId.FUJI], JOE[ChainId.FUJI]],
-			stakingRewardAddress: '0xca97bd44bee544e4706a2bd810128772b5c5b78c'
+			stakingRewardAddress: '0x7578b8488Bba7d1b49F715F86a77E0e4fd75DEe4'
 		},
 	]
 }
