@@ -2,7 +2,7 @@
 
 import { ChainId, Currency, currencyEquals, JSBI, Price, WAVAX } from '@pangolindex/sdk'
 import { useMemo } from 'react'
-import { DAI as USDC } from '../constants'
+import { DAI } from '../constants'
 import { PairState, usePairs } from '../data/Reserves'
 import { useActiveWeb3React } from '../hooks'
 import { wrappedCurrency } from './wrappedCurrency'
@@ -14,6 +14,7 @@ import { wrappedCurrency } from './wrappedCurrency'
 export default function useUSDCPrice(currency?: Currency): Price | undefined {
 	const { chainId } = useActiveWeb3React()
 	const wrapped = wrappedCurrency(currency, chainId)
+	const USDC = chainId ? DAI[chainId] : DAI[ChainId.AVALANCHE]
 	const tokenPairs: [Currency | undefined, Currency | undefined][] = useMemo(
 		() => [
 			[

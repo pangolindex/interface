@@ -1,6 +1,6 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair } from '@pangolindex/sdk'
 import { useMemo } from 'react'
-import { PNG } from '../../constants'
+import { PNG, JOE, DAI, UNI } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
@@ -19,8 +19,24 @@ export const STAKING_REWARDS_INFO: {
 } = {
 	[ChainId.FUJI]: [
 		{
+			tokens: [WAVAX[ChainId.FUJI], UNI[ChainId.FUJI]],
+			stakingRewardAddress: '0x57f0bf4096419ce89c720467c4abe0dd3f6baf7d'
+		},
+		{
+			tokens: [WAVAX[ChainId.FUJI], JOE[ChainId.FUJI]],
+			stakingRewardAddress: '0x787040c7afa1a85d33e199e40c1c897bb7c17487'
+		},
+		{
+			tokens: [WAVAX[ChainId.FUJI], DAI[ChainId.FUJI]],
+			stakingRewardAddress: '0x1861834145f4edf757ae0698a820eeb562a9a669'
+		},
+		{
 			tokens: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
 			stakingRewardAddress: '0xffb4da4bef80273293bd27e31779414ec957476c'
+		},
+		{
+			tokens: [PNG[ChainId.FUJI], JOE[ChainId.FUJI]],
+			stakingRewardAddress: '0xca97bd44bee544e4706a2bd810128772b5c5b78c'
 		},
 	]
 }

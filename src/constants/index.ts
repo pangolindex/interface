@@ -15,11 +15,24 @@ type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
 }
 
-export const DAI = new Token(ChainId.AVALANCHE, '0x2DCA6503946d29Ca8d1C87A247ef122652B03c0e', 18, 'DAI', 'Dai Stablecoin')
-
 export const PNG: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, '0x20C62EEde571409f7101076F8dA0221867AA46dc', 18, 'PNG', 'Pangolin'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'PNG', 'Pangolin')
+}
+
+export const DAI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, '0x34B6C87bb59Eb37EFe35C8d594a234Cd8C654D50', 18, 'DAI', 'Dai Stablecoin'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'DAI', 'Dai Stablecoin')
+}
+
+export const UNI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, '0xf4E0A9224e8827dE91050b528F34e2F99C82Fbf6', 18, 'UNI', 'Uniswap'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'UNI', 'Uniswap')
+}
+
+export const JOE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, '0xEa81F6972aDf76765Fd1435E119Acc0Aafc80BeA', 18, 'JOE', 'JOE'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'JOE', 'JOE')
 }
 
 const WAVAX_ONLY: ChainTokenList = {
