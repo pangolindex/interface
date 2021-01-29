@@ -20,24 +20,24 @@ export const STAKING_REWARDS_INFO: {
 	[ChainId.FUJI]: [
 		{
 			tokens: [WAVAX[ChainId.FUJI], UNI[ChainId.FUJI]],
-			stakingRewardAddress: '0x57f0bf4096419ce89c720467c4abe0dd3f6baf7d'
+			stakingRewardAddress: '0xe58c04c44a5da14f26eabd7a93b340f4b61c3aa2'
 		},
 		{
 			tokens: [WAVAX[ChainId.FUJI], JOE[ChainId.FUJI]],
-			stakingRewardAddress: '0x787040c7afa1a85d33e199e40c1c897bb7c17487'
+			stakingRewardAddress: '0x529a451a763d150bc676fe70051fca5dffb55511'
 		},
 		{
 			tokens: [WAVAX[ChainId.FUJI], DAI[ChainId.FUJI]],
-			stakingRewardAddress: '0x1861834145f4edf757ae0698a820eeb562a9a669'
+			stakingRewardAddress: '0xa203754a56c1891b46e32c93de2473665a4c9457'
 		},
-		// {
-		// 	tokens: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
-		// 	stakingRewardAddress: '0xf983063433F20F62964684e9aac01fBBce195c12'
-		// },
-		// {
-		// 	tokens: [PNG[ChainId.FUJI], JOE[ChainId.FUJI]],
-		// 	stakingRewardAddress: '0x74128520C850349fcfcca4D4297EB1bdC1693F14'
-		// },
+		{
+			tokens: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
+			stakingRewardAddress: '0x8ee345e508598e08a657af090f132ba2ef42c6ac'
+		},
+		{
+			tokens: [PNG[ChainId.FUJI], JOE[ChainId.FUJI]],
+			stakingRewardAddress: '0x2dd490273b5a4c7d359797e7dae487d0a465536b'
+		},
 	]
 }
 
