@@ -30,14 +30,14 @@ export const STAKING_REWARDS_INFO: {
 			tokens: [WAVAX[ChainId.FUJI], DAI[ChainId.FUJI]],
 			stakingRewardAddress: '0x1861834145f4edf757ae0698a820eeb562a9a669'
 		},
-		{
-			tokens: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
-			stakingRewardAddress: '0x89a5bbE037c082563bD1002A78566E4F5f25feA7'
-		},
-		{
-			tokens: [PNG[ChainId.FUJI], JOE[ChainId.FUJI]],
-			stakingRewardAddress: '0x7578b8488Bba7d1b49F715F86a77E0e4fd75DEe4'
-		},
+		// {
+		// 	tokens: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
+		// 	stakingRewardAddress: '0xf983063433F20F62964684e9aac01fBBce195c12'
+		// },
+		// {
+		// 	tokens: [PNG[ChainId.FUJI], JOE[ChainId.FUJI]],
+		// 	stakingRewardAddress: '0x74128520C850349fcfcca4D4297EB1bdC1693F14'
+		// },
 	]
 }
 
