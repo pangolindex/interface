@@ -1,4 +1,4 @@
-import { ChainId, TokenAmount } from '@pangolindex/sdk'
+import { ChainId, TokenAmount, WAVAX, JSBI } from '@pangolindex/sdk'
 import React, { useMemo } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
@@ -11,10 +11,10 @@ import { useTotalPngEarned } from '../../state/stake/hooks'
 import { useAggregatePngBalance, useTokenBalance } from '../../state/wallet/hooks'
 import { StyledInternalLink, TYPE, PngTokenAnimated, ExternalLink } from '../../theme'
 import { computePngCirculation } from '../../utils/computePngCirculation'
-import useUSDCPrice from '../../utils/useUSDCPrice'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
 import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../earn/styled'
+import { usePair } from '../../data/Reserves'
 
 const ContentWrapper = styled(AutoColumn)`
    width: 100%;
@@ -48,7 +48,21 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
 	const pngToClaim: TokenAmount | undefined = useTotalPngEarned()
 
 	const totalSupply: TokenAmount | undefined = useTotalSupply(png)
-	const pngPrice = useUSDCPrice(png)
+
+	// Determine PNG price in AVAX
+	const wavax = WAVAX[chainId ? chainId : 43114]
+	const [, avaxPngTokenPair] = usePair(wavax, png)
+	const oneToken = JSBI.BigInt(1000000000000000000)
+	let pngPrice: Number | undefined
+	if (avaxPngTokenPair && png) {
+		console.log("WAVAX Reserve:", avaxPngTokenPair.reserveOf(wavax).raw.toString())
+		console.log("PNG Reserve:", avaxPngTokenPair.reserveOf(png).raw.toString())
+		const avaxPngRatio = JSBI.divide(JSBI.multiply(oneToken, avaxPngTokenPair.reserveOf(wavax).raw),
+										 avaxPngTokenPair.reserveOf(png).raw)
+		console.log("Ratio", avaxPngRatio.toString())
+		pngPrice = JSBI.toNumber(avaxPngRatio) / 1000000000000000000
+	}
+
 	const blockTimestamp = useCurrentBlockTimestamp()
 	const circulation: TokenAmount | undefined = useMemo(
 		() =>
@@ -104,7 +118,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
 					<AutoColumn gap="md">
 						<RowBetween>
 							<TYPE.white color="white">PNG price:</TYPE.white>
-							<TYPE.white color="white">${pngPrice?.toFixed(2) ?? '-'}</TYPE.white>
+							<TYPE.white color="white">{pngPrice?.toFixed(5) ?? '-'} AVAX</TYPE.white>
 						</RowBetween>
 						<RowBetween>
 							<TYPE.white color="white">PNG in circulation:</TYPE.white>
