@@ -5,7 +5,7 @@ import { TYPE } from '../../theme'
 import Card from '../../components/Card'
 import { ButtonError } from '../../components/Button'
 import { useIsTransactionPending } from '../../state/transactions/hooks'
-import { useClaimCallback } from '../../state/airdrop/hooks'
+import { useClaimCallback, useUserHasAvailableClaim, useUserUnclaimedAmount } from '../../state/airdrop/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import Confetti from '../../components/Confetti'
 
@@ -59,6 +59,10 @@ export default function Vote() {
 	// monitor the status of the claim from contracts and txns
 	const { claimCallback } = useClaimCallback(account)
 
+	const canClaim = useUserHasAvailableClaim(account)
+
+	const claimAmount = useUserUnclaimedAmount(account)
+
 	const [hash, setHash] = useState<string | undefined>()
 
 	// monitor the status of the claim from contracts and txns
@@ -94,6 +98,12 @@ export default function Vote() {
 							Connect to a wallet to view your liquidity.
            				</TYPE.body>
 					</Card>
+				) : !canClaim ? (
+					<Card padding="40px">
+						<TYPE.body color={theme.text3} textAlign="center">
+							You have no available claim.
+           				</TYPE.body>
+					</Card>
 				) : attempting ? (
 					<EmptyProposals>
 						<TYPE.body color={theme.text3} textAlign="center">
@@ -111,17 +121,16 @@ export default function Vote() {
 						</span>
 					</TYPE.subHeader>
 				) : (
-								<ButtonError
-									error={!!error}
-									padding="16px 16px"
-									width="100%"
-									// borderRadius="12px"
-									mt="1rem"
-									onClick={onClaim}
-								>
-									{error ? error['data']['message'] : "Claim PNG"}
-								</ButtonError>
-							)}
+									<ButtonError
+										error={!!error}
+										padding="16px 16px"
+										width="100%"
+										mt="1rem"
+										onClick={onClaim}
+									>
+										{error ? error['data']['message'] : "Claim " + claimAmount?.toFixed(0, { groupSeparator: ',' }) + " PNG"}
+									</ButtonError>
+								)}
 
 			</TopSection>
 		</PageWrapper >
