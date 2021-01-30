@@ -73,6 +73,7 @@ export default function Vote() {
 		setAttempting(true)
 		claimCallback()
 			.then(hash => {
+				setAttempting(false)
 				setHash(hash)
 			})
 			// reset and log error
