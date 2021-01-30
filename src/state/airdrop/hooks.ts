@@ -51,6 +51,10 @@ export function useClaimCallback(
 					})
 					return response.hash
 				})
+				.catch((error: any) => {
+					console.log(error)
+					return ""
+				})
 		})
 	}
 
