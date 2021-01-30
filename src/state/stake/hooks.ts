@@ -1,6 +1,6 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair } from '@pangolindex/sdk'
 import { useMemo } from 'react'
-import { PNG, DAI, UNI, JOE } from '../../constants'
+import { PNG, DAI, UNI, JOE, SUSHI } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
@@ -20,23 +20,31 @@ export const STAKING_REWARDS_INFO: {
 	[ChainId.FUJI]: [
 		{
 			tokens: [WAVAX[ChainId.FUJI], UNI[ChainId.FUJI]],
-			stakingRewardAddress: '0xe58c04c44a5da14f26eabd7a93b340f4b61c3aa2'
+			stakingRewardAddress: '0xdb24e62c8cfa6349ec1a8b4cddcf3b2284735027'
 		},
 		{
 			tokens: [WAVAX[ChainId.FUJI], JOE[ChainId.FUJI]],
-			stakingRewardAddress: '0x529a451a763d150bc676fe70051fca5dffb55511'
+			stakingRewardAddress: '0xf04c72afa5a35111918443c1e20ca9c800fe3c4d'
 		},
 		{
 			tokens: [WAVAX[ChainId.FUJI], DAI[ChainId.FUJI]],
-			stakingRewardAddress: '0xa203754a56c1891b46e32c93de2473665a4c9457'
+			stakingRewardAddress: '0x65219acb793b205833ac2a58f7f0cdc3ad1753b4'
+		},
+		{
+			tokens: [WAVAX[ChainId.FUJI], SUSHI[ChainId.FUJI]],
+			stakingRewardAddress: '0xc29a36eadead30bf1e25e74588a45f6476ebe5c9'
 		},
 		{
 			tokens: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
-			stakingRewardAddress: '0x8ee345e508598e08a657af090f132ba2ef42c6ac'
+			stakingRewardAddress: '0x604da058a4de3102c6e0b8c7bfaf8ef01a8e04d3'
 		},
 		{
 			tokens: [PNG[ChainId.FUJI], JOE[ChainId.FUJI]],
-			stakingRewardAddress: '0x2dd490273b5a4c7d359797e7dae487d0a465536b'
+			stakingRewardAddress: '0xe522f2c2e54005d084e04c534b7dc55242a4903d'
+		},
+		{
+			tokens: [PNG[ChainId.FUJI], SUSHI[ChainId.FUJI]],
+			stakingRewardAddress: '0xff6f58309311564e2ccb5ec53d973db03272f57e'
 		},
 	]
 }

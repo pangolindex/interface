@@ -16,7 +16,7 @@ type ChainTokenList = {
 }
 
 export const PNG: { [chainId in ChainId]: Token } = {
-  [ChainId.FUJI]: new Token(ChainId.FUJI, '0x5479A4c4c088A7970634C9De0A5EcAb43B539852', 18, 'PNG', 'Pangolin'),
+  [ChainId.FUJI]: new Token(ChainId.FUJI, '0xa79FD4Aa2bdD5Df395Ad82FA61dB2B2201244188', 18, 'PNG', 'Pangolin'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'PNG', 'Pangolin')
 }
 
@@ -35,8 +35,13 @@ export const JOE: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'JOE', 'JOE')
 }
 
+export const SUSHI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, '0x72C14f7fB8B14040dA6E5b1B9D1B9438ebD85F58', 18, 'SUSHI', 'Sushiswap'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'JOE', 'JOE')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
-  [ChainId.FUJI]: '0xc07F8D6444C11C2e6E59d69BcC1dcde03b33BD63'
+  [ChainId.FUJI]: '0xD7d465156a1D94bC774b5Cd4B2e4Ee7a7c38F801'
 }
 
 const WAVAX_ONLY: ChainTokenList = {
