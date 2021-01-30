@@ -2325,10 +2325,10 @@
   resolved "https://registry.yarnpkg.com/@pangolindex/exchange-contracts/-/exchange-contracts-1.0.1.tgz#3c4374ed7de9d0f5f141614a12349f97d611ab35"
   integrity sha512-lvL2y1xVsAh1S+fC3RCp9+Z70MOtydaRvBD9AZAJ4ZUajvMtDhTzCAAZAf2op43149JMWAytWYOrAbCSUeaw7Q==
 
-"@pangolindex/governance@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@pangolindex/governance/-/governance-1.0.3.tgz#51aeca036272956eded9426d2378698c01c8ad9b"
-  integrity sha512-JgRJqMOrw276tk53VHgmxE93QV3oH4aqn5y9CcpmMPt549s2ISYp0BGUmg9os7oFmGxAMe7XlgeyWNJkAp26eQ==
+"@pangolindex/governance@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@pangolindex/governance/-/governance-1.0.4.tgz#883e3b82cfde401291de7e19887a2dbf27554b26"
+  integrity sha512-/TUJjm0o/Rpx7vmhaTXEPFAM7RAKI/gUUTLg6gfO9QHcD4XdPUomSsZWSciYqlghAp9ujnYd/wIXtC0rM9so0w==
   dependencies:
     "@pangolindex/exchange-contracts" "^1.0.1"
     "@tenderly/hardhat-tenderly" "^1.0.6"
