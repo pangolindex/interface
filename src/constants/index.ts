@@ -36,8 +36,8 @@ export const JOE: { [chainId in ChainId]: Token } = {
 }
 
 export const SUSHI: { [chainId in ChainId]: Token } = {
-  [ChainId.FUJI]: new Token(ChainId.FUJI, '0x72C14f7fB8B14040dA6E5b1B9D1B9438ebD85F58', 18, 'SUSHI', 'Sushiswap'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'JOE', 'JOE')
+  [ChainId.FUJI]: new Token(ChainId.FUJI, '0x72C14f7fB8B14040dA6E5b1B9D1B9438ebD85F58', 18, 'SUSHI', 'SushiSwap'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'SUSHI', 'SushiSwap')
 }
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
