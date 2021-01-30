@@ -16,7 +16,7 @@ type ChainTokenList = {
 }
 
 export const PNG: { [chainId in ChainId]: Token } = {
-  [ChainId.FUJI]: new Token(ChainId.FUJI, '0x7D3679DEEe52090cAbD89aAc53F08b1A56969219', 18, 'PNG', 'Pangolin'),
+  [ChainId.FUJI]: new Token(ChainId.FUJI, '0xdbB8519d8C69f6A106c886291D392d4B68471933', 18, 'PNG', 'Pangolin'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'PNG', 'Pangolin')
 }
 
@@ -36,7 +36,7 @@ export const JOE: { [chainId in ChainId]: Token } = {
 }
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
-  [ChainId.FUJI]: '0x120F5C7deC65C5D1827b6D34458A1515D30A2CA1'
+  [ChainId.FUJI]: '0x0fe8c42b7588de7Cd21324c1120C25317c7437e9'
 }
 
 const WAVAX_ONLY: ChainTokenList = {
