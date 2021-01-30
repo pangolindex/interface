@@ -8,6 +8,9 @@ import { useIsTransactionPending } from '../../state/transactions/hooks'
 import { useClaimCallback, useUserHasAvailableClaim, useUserUnclaimedAmount } from '../../state/airdrop/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import Confetti from '../../components/Confetti'
+import { useTokenBalance } from '../../state/wallet/hooks'
+import { UNI } from '../../constants'
+import { ChainId, JSBI } from '@pangolindex/sdk'
 
 const PageWrapper = styled(AutoColumn)``
 
@@ -49,7 +52,7 @@ export const Dots = styled.span`
  `
 
 export default function Vote() {
-	const { account } = useActiveWeb3React()
+	const { account, chainId } = useActiveWeb3React()
 
 	const theme = useContext(ThemeContext)
 
@@ -62,6 +65,11 @@ export default function Vote() {
 	const canClaim = useUserHasAvailableClaim(account)
 
 	const claimAmount = useUserUnclaimedAmount(account)
+
+	const uniAmount = useTokenBalance(account ? account : undefined, chainId ? UNI[chainId] : UNI[ChainId.FUJI])
+	// const sushiAmount = useTokenBalance(account ? account : undefined, chainId ? SUSHI[chainId] : SUSHI[ChainId.FUJI])
+
+	const hasUni = uniAmount?.greaterThan(JSBI.BigInt(1)) || uniAmount?.equalTo(JSBI.BigInt(1))
 
 	const [hash, setHash] = useState<string | undefined>()
 
@@ -104,6 +112,12 @@ export default function Vote() {
 							You have no available claim.
            				</TYPE.body>
 					</Card>
+				) : !hasUni ? (
+					<Card padding="40px">
+						<TYPE.body color={theme.text1} textAlign="center">
+							You have no UNI tokens. Please follow the tutorial here to add UNI tokens to your wallet.
+           				</TYPE.body>
+					</Card>
 				) : attempting ? (
 					<EmptyProposals>
 						<TYPE.body color={theme.text3} textAlign="center">
@@ -121,16 +135,16 @@ export default function Vote() {
 						</span>
 					</TYPE.subHeader>
 				) : (
-									<ButtonError
-										error={!!error}
-										padding="16px 16px"
-										width="100%"
-										mt="1rem"
-										onClick={onClaim}
-									>
-										{error ? error['data']['message'] : "Claim " + claimAmount?.toFixed(0, { groupSeparator: ',' }) + " PNG"}
-									</ButtonError>
-								)}
+										<ButtonError
+											error={!!error}
+											padding="16px 16px"
+											width="100%"
+											mt="1rem"
+											onClick={onClaim}
+										>
+											{error ? error['data']['message'] : "Claim " + claimAmount?.toFixed(0, { groupSeparator: ',' }) + " PNG"}
+										</ButtonError>
+									)}
 
 			</TopSection>
 		</PageWrapper >
