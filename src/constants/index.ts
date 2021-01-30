@@ -35,6 +35,10 @@ export const JOE: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'JOE', 'JOE')
 }
 
+export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
+  [ChainId.FUJI]: '0x822210Df9Cb1862Cf6D8d1Ec4E7d0332d0169a05'
+}
+
 const WAVAX_ONLY: ChainTokenList = {
   [ChainId.FUJI]: [WAVAX[ChainId.FUJI]],
   [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE]]

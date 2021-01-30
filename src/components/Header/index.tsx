@@ -269,6 +269,9 @@ export default function Header() {
           <StyledNavLink id={`stake-nav-link`} to={'/png'}>
             PNG
            </StyledNavLink>
+          <StyledNavLink id={`airdrop-nav-link`} to={'/airdrop'}>
+            Airdrop
+           </StyledNavLink>
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
