@@ -9,7 +9,7 @@ import { useActiveWeb3React } from '../../hooks'
 import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp'
 import { useTotalPngEarned } from '../../state/stake/hooks'
 import { useAggregatePngBalance, useTokenBalance } from '../../state/wallet/hooks'
-import { StyledInternalLink, TYPE, PngTokenAnimated, ExternalLink } from '../../theme'
+import { StyledInternalLink, TYPE, PngTokenAnimated } from '../../theme'
 import { computePngCirculation } from '../../utils/computePngCirculation'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
@@ -55,11 +55,8 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
 	const oneToken = JSBI.BigInt(1000000000000000000)
 	let pngPrice: Number | undefined
 	if (avaxPngTokenPair && png) {
-		console.log("WAVAX Reserve:", avaxPngTokenPair.reserveOf(wavax).raw.toString())
-		console.log("PNG Reserve:", avaxPngTokenPair.reserveOf(png).raw.toString())
 		const avaxPngRatio = JSBI.divide(JSBI.multiply(oneToken, avaxPngTokenPair.reserveOf(wavax).raw),
 										 avaxPngTokenPair.reserveOf(png).raw)
-		console.log("Ratio", avaxPngRatio.toString())
 		pngPrice = JSBI.toNumber(avaxPngRatio) / 1000000000000000000
 	}
 
@@ -128,9 +125,6 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
 							<TYPE.white color="white">Total Supply</TYPE.white>
 							<TYPE.white color="white">{totalSupply?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>
 						</RowBetween>
-						{png && png.chainId === ChainId.AVALANCHE ? (
-							<ExternalLink href={`https://pangoon-info.netlify.app/token/${png.address}`}>View PNG Analytics</ExternalLink>
-						) : null}
 					</AutoColumn>
 				</CardSection>
 			</ModalUpper>

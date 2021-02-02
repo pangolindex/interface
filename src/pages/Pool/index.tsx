@@ -19,7 +19,9 @@ import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks
 import { Dots } from '../../components/swap/styleds'
 import { ChainId } from '@pangolindex/sdk'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
+import { LANDING_PAGE } from '../../constants'
 
+const LiquidityTutorial = LANDING_PAGE + 'tutorials/manage-liquidity'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -129,7 +131,7 @@ export default function Pool() {
               <ExternalLink
                 style={{ color: 'white', textDecoration: 'underline' }}
                 target="_blank"
-                href="https://uniswap.org/docs/v2/core-concepts/pools/"
+                href={LiquidityTutorial}
               >
                 <TYPE.white fontSize={14}>Read more about providing liquidity</TYPE.white>
               </ExternalLink>

@@ -53,7 +53,7 @@ export default function Earn() {
 							</RowBetween>
 							<RowBetween>
 								<TYPE.white fontSize={14}>
-									Deposit your Liquidity Provider tokens to receive PNG, the Pangolin protocol governance token.
+									Deposit your Pangolin Liquidity Provider PGL tokens to receive PNG, the Pangolin protocol governance token.
                  </TYPE.white>
 							</RowBetween>{' '}
 							<ExternalLink

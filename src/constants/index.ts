@@ -8,6 +8,8 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.AVALANCHE]: '0x44771c71250D303d32E638c1c7ca7d00135cd65f'
 }
 
+export const LANDING_PAGE = 'https://pangoon-landing.netlify.app/'
+
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 // a list of tokens by chain

@@ -24,7 +24,7 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
 			[wrapped?.equals(USDC) ? undefined : wrapped, chainId === ChainId.AVALANCHE ? USDC : undefined],
 			[chainId ? WAVAX[chainId] : undefined, chainId === ChainId.AVALANCHE ? USDC : undefined]
 		],
-		[chainId, currency, wrapped]
+		[chainId, currency, wrapped, USDC]
 	)
 	const [[avaxPairState, avaxPair], [usdcPairState, usdcPair], [usdcAvaxPairState, usdcAvaxPair]] = usePairs(tokenPairs)
 
@@ -65,5 +65,5 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
 			}
 		}
 		return undefined
-	}, [chainId, currency, avaxPair, avaxPairState, usdcAvaxPair, usdcAvaxPairState, usdcPair, usdcPairState, wrapped])
+	}, [chainId, currency, avaxPair, avaxPairState, usdcAvaxPair, usdcAvaxPairState, usdcPair, usdcPairState, wrapped, USDC])
 }

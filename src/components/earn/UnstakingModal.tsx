@@ -79,7 +79,7 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
 							<TYPE.body fontWeight={600} fontSize={36}>
 								{<FormattedCurrencyAmount currencyAmount={stakingInfo.stakedAmount} />}
 							</TYPE.body>
-							<TYPE.body>Deposited liquidity:</TYPE.body>
+							<TYPE.body>Deposited PGL liquidity:</TYPE.body>
 						</AutoColumn>
 					)}
 					{stakingInfo?.earnedAmount && (
@@ -91,7 +91,7 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
 						</AutoColumn>
 					)}
 					<TYPE.subHeader style={{ textAlign: 'center' }}>
-						When you withdraw, your PNG is claimed and your liquidity is removed from the mining pool.
+						When you withdraw, your PNG is claimed and your Pangolin Liquidity tokens, PGL, are returned to you. You will no longer earn PNG rewards on this liquidity. Your original token liquidity will remain in its liquidity pool.
            </TYPE.subHeader>
 					<ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onWithdraw}>
 						{error ?? 'Withdraw & Claim'}
