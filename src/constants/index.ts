@@ -41,7 +41,8 @@ export const SUSHI: { [chainId in ChainId]: Token } = {
 }
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
-  [ChainId.FUJI]: '0xD7d465156a1D94bC774b5Cd4B2e4Ee7a7c38F801'
+  [ChainId.FUJI]: '0xD7d465156a1D94bC774b5Cd4B2e4Ee7a7c38F801',
+  [ChainId.AVALANCHE]: ZERO_ADDRESS
 }
 
 const WAVAX_ONLY: ChainTokenList = {

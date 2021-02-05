@@ -10,7 +10,7 @@ import { useSingleCallResult } from '../multicall/hooks'
 export function useUserHasAvailableClaim(account: string | null | undefined): boolean {
 	const airdropContract = useAirdropContract()
 	const withdrawAmountResult = useSingleCallResult(airdropContract, 'withdrawAmount', [account ? account : undefined])
-	return Boolean(account && !withdrawAmountResult.loading && !JSBI.equal(JSBI.BigInt(withdrawAmountResult.result?.[0]), JSBI.BigInt(0)))
+	return Boolean(account && !withdrawAmountResult.loading && withdrawAmountResult.result != undefined && !JSBI.equal(JSBI.BigInt(withdrawAmountResult.result?.[0]), JSBI.BigInt(0)))
 }
 
 export function useUserUnclaimedAmount(account: string | null | undefined): TokenAmount | undefined {
