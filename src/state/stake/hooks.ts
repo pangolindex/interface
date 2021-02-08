@@ -1,6 +1,6 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair } from '@pangolindex/sdk'
 import { useMemo } from 'react'
-import { PNG, DAI, UNI, JOE, SUSHI } from '../../constants'
+import { PNG, DAI, UNI, SUSHI, ETH, USDT, WBTC, LINK, AAVE, YFI } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
@@ -19,32 +19,80 @@ export const STAKING_REWARDS_INFO: {
 } = {
 	[ChainId.FUJI]: [
 		{
-			tokens: [WAVAX[ChainId.FUJI], UNI[ChainId.FUJI]],
+			tokens: [WAVAX[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
 			stakingRewardAddress: '0x8cc0183526ab00b2b1f3f4d42ae7821e6af2cbcb'
 		},
 		{
-			tokens: [WAVAX[ChainId.FUJI], JOE[ChainId.FUJI]],
-			stakingRewardAddress: '0x81ff04ecf78678323f5ea7452b1369e01c5e50a6'
+			tokens: [WAVAX[ChainId.AVALANCHE], USDT[ChainId.AVALANCHE]],
+			stakingRewardAddress: '0x8cc0183526ab00b2b1f3f4d42ae7821e6af2cbcb'
 		},
 		{
-			tokens: [WAVAX[ChainId.FUJI], DAI[ChainId.FUJI]],
-			stakingRewardAddress: '0xdf3b6e196ac0ee13a6648c1d635ea1d7971a5660'
-		},
-		{
-			tokens: [WAVAX[ChainId.FUJI], SUSHI[ChainId.FUJI]],
-			stakingRewardAddress: '0x3ca949709c1fed46f55606f71d4553548bac5492'
+			tokens: [WAVAX[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
+			stakingRewardAddress: '0x8cc0183526ab00b2b1f3f4d42ae7821e6af2cbcb'
 		},
 		{
 			tokens: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
 			stakingRewardAddress: '0x3d84a98b07510a198cd1f63e172d7a17ab103d46'
 		},
 		{
-			tokens: [PNG[ChainId.FUJI], JOE[ChainId.FUJI]],
+			tokens: [WAVAX[ChainId.AVALANCHE], LINK[ChainId.AVALANCHE]],
+			stakingRewardAddress: '0x8cc0183526ab00b2b1f3f4d42ae7821e6af2cbcb'
+		},
+		{
+			tokens: [WAVAX[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
+			stakingRewardAddress: '0x8cc0183526ab00b2b1f3f4d42ae7821e6af2cbcb'
+		},
+		{
+			tokens: [WAVAX[ChainId.AVALANCHE], UNI[ChainId.AVALANCHE]],
+			stakingRewardAddress: '0x8cc0183526ab00b2b1f3f4d42ae7821e6af2cbcb'
+		},
+		{
+			tokens: [WAVAX[ChainId.AVALANCHE], SUSHI[ChainId.AVALANCHE]],
+			stakingRewardAddress: '0x8cc0183526ab00b2b1f3f4d42ae7821e6af2cbcb'
+		},
+		{
+			tokens: [WAVAX[ChainId.AVALANCHE], AAVE[ChainId.AVALANCHE]],
+			stakingRewardAddress: '0x8cc0183526ab00b2b1f3f4d42ae7821e6af2cbcb'
+		},
+		{
+			tokens: [WAVAX[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
+			stakingRewardAddress: '0x8cc0183526ab00b2b1f3f4d42ae7821e6af2cbcb'
+		},
+		{
+			tokens: [PNG[ChainId.FUJI], ETH[ChainId.FUJI]],
+			stakingRewardAddress: '0xdaceae737d6cb30d477534d4b6d291b6f3b68aae'
+		},
+		{
+			tokens: [PNG[ChainId.FUJI], USDT[ChainId.FUJI]],
+			stakingRewardAddress: '0x314843d119cd87661e3a8ed0bc197a63aadf92f5'
+		},
+		{
+			tokens: [PNG[ChainId.FUJI], WBTC[ChainId.FUJI]],
+			stakingRewardAddress: '0xdaceae737d6cb30d477534d4b6d291b6f3b68aae'
+		},
+		{
+			tokens: [PNG[ChainId.FUJI], LINK[ChainId.FUJI]],
+			stakingRewardAddress: '0xdaceae737d6cb30d477534d4b6d291b6f3b68aae'
+		},
+		{
+			tokens: [PNG[ChainId.FUJI], DAI[ChainId.FUJI]],
+			stakingRewardAddress: '0xdaceae737d6cb30d477534d4b6d291b6f3b68aae'
+		},
+		{
+			tokens: [PNG[ChainId.FUJI], UNI[ChainId.FUJI]],
 			stakingRewardAddress: '0xdaceae737d6cb30d477534d4b6d291b6f3b68aae'
 		},
 		{
 			tokens: [PNG[ChainId.FUJI], SUSHI[ChainId.FUJI]],
-			stakingRewardAddress: '0x314843d119cd87661e3a8ed0bc197a63aadf92f5'
+			stakingRewardAddress: '0xdaceae737d6cb30d477534d4b6d291b6f3b68aae'
+		},
+		{
+			tokens: [PNG[ChainId.FUJI], AAVE[ChainId.FUJI]],
+			stakingRewardAddress: '0xdaceae737d6cb30d477534d4b6d291b6f3b68aae'
+		},
+		{
+			tokens: [PNG[ChainId.FUJI], YFI[ChainId.FUJI]],
+			stakingRewardAddress: '0xdaceae737d6cb30d477534d4b6d291b6f3b68aae'
 		},
 	]
 }
