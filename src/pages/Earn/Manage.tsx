@@ -3,7 +3,7 @@ import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-import { JSBI, TokenAmount, CAVAX, CurrencyAmount, Token, WAVAX } from '@pangolindex/sdk'
+import { JSBI, TokenAmount, CAVAX, Token, WAVAX } from '@pangolindex/sdk'
 import { RouteComponentProps } from 'react-router-dom'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useCurrency } from '../../hooks/Tokens'
@@ -27,7 +27,7 @@ import { currencyId } from '../../utils/currencyId'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { usePair } from '../../data/Reserves'
 import usePrevious from '../../hooks/usePrevious'
-import useUSDCPrice from '../../utils/useUSDCPrice'
+// import useUSDCPrice from '../../utils/useUSDCPrice'
 import { BIG_INT_ZERO, PNG } from '../../constants'
 
 const PageWrapper = styled(AutoColumn)`
@@ -105,12 +105,12 @@ export default function Manage({
 	const avaxPool = currencyA === CAVAX || currencyB === CAVAX
 
 	let valueOfTotalStakedAmountInWavax: TokenAmount | undefined
-	let valueOfTotalStakedAmountInUSDC: CurrencyAmount | undefined
+	// let valueOfTotalStakedAmountInUSDC: CurrencyAmount | undefined
 	let backgroundColor: string
 	let token: Token | undefined
 	const totalSupplyOfStakingToken = useTotalSupply(stakingInfo?.stakedAmount?.token)
 	const [, avaxPngTokenPair] = usePair(CAVAX, PNG[chainId ? chainId : 43114])
-	let usdToken: Token | undefined
+	// let usdToken: Token | undefined
 	if (avaxPool) {
 		token = currencyA === CAVAX ? tokenB : tokenA
 		const wavax = currencyA === CAVAX ? tokenA : tokenB
@@ -131,7 +131,7 @@ export default function Manage({
 		}
 
 		// get the USD value of staked wavax
-		usdToken = wavax
+		// usdToken = wavax
 
 
 	} else {
@@ -147,7 +147,7 @@ export default function Manage({
 		if (totalSupplyOfStakingToken && stakingTokenPair && avaxPngTokenPair && tokenB && png) {
 			const oneToken = JSBI.BigInt(1000000000000000000)
 			const avaxPngRatio = JSBI.divide(JSBI.multiply(oneToken, avaxPngTokenPair.reserveOf(WAVAX[tokenB.chainId]).raw),
-											 avaxPngTokenPair.reserveOf(png).raw)
+				avaxPngTokenPair.reserveOf(png).raw)
 
 			const valueOfPngInAvax = JSBI.divide(JSBI.multiply(stakingTokenPair.reserveOf(png).raw, avaxPngRatio), oneToken)
 
@@ -161,15 +161,15 @@ export default function Manage({
 				)
 			)
 		}
-		usdToken = png
+		// usdToken = png
 	}
 
 	// get the color of the token
 	backgroundColor = useColor(token)
 
-	const USDPrice = useUSDCPrice(usdToken)
-	valueOfTotalStakedAmountInUSDC =
-			valueOfTotalStakedAmountInWavax && USDPrice?.quote(valueOfTotalStakedAmountInWavax)
+	// const USDPrice = useUSDCPrice(usdToken)
+	// valueOfTotalStakedAmountInUSDC =
+	// 		valueOfTotalStakedAmountInWavax && USDPrice?.quote(valueOfTotalStakedAmountInWavax)
 
 	// detect existing unstaked LP position to show add button if none found
 	const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
@@ -229,9 +229,10 @@ export default function Manage({
 					<AutoColumn gap="sm">
 						<TYPE.body style={{ margin: 0 }}>Total deposits</TYPE.body>
 						<TYPE.body fontSize={24} fontWeight={500}>
-							{valueOfTotalStakedAmountInUSDC
-								? `$${valueOfTotalStakedAmountInUSDC.toFixed(0, { groupSeparator: ',' })}`
-								: `${valueOfTotalStakedAmountInWavax?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`}
+							{`${valueOfTotalStakedAmountInWavax?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`}
+							{/* {valueOfTotalStakedAmountInUSDC
+							? `$${valueOfTotalStakedAmountInUSDC.toFixed(0, { groupSeparator: ',' })}`
+							: `${valueOfTotalStakedAmountInWavax?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`} */}
 						</TYPE.body>
 					</AutoColumn>
 				</PoolData>
