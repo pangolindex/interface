@@ -99,9 +99,6 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
 		// let returnOverMonth: Percent = new Percent('0')
 		if (totalSupplyOfStakingToken && stakingTokenPair) {
 			// take the total amount of LP tokens staked, multiply by AVAX value of all LP tokens, divide by all LP tokens
-			console.log("WAVAX amount of", token0.symbol, token1.symbol, stakingTokenPair.reserveOf(wavax).raw.toString())
-			console.log("Staked amount:", stakingInfo.totalStakedAmount.raw.toString())
-			console.log("Total amount:", totalSupplyOfStakingToken.raw.toString())
 			valueOfTotalStakedAmountInWavax = new TokenAmount(
 				wavax,
 				JSBI.divide(
@@ -129,22 +126,12 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
 		}
 
 		if (totalSupplyOfStakingToken && stakingTokenPair && avaxPngTokenPair) {
-			console.log("WAVAX: ", WAVAX[token1.chainId])
-			console.log("PNG", png)
-			console.log("AVAX/PNG AVAX Reserve:", avaxPngTokenPair.reserveOf(WAVAX[token1.chainId]).raw.toString())
-			console.log("AVAX/PNG PNG Reserve:", avaxPngTokenPair.reserveOf(png).raw.toString())
 			const oneToken = JSBI.BigInt(1000000000000000000)
 			const avaxPngRatio = JSBI.divide(JSBI.multiply(oneToken, avaxPngTokenPair.reserveOf(WAVAX[token1.chainId]).raw),
 				avaxPngTokenPair.reserveOf(png).raw)
-			console.log("AVAX/PNG ratio:", avaxPngRatio.toString())
 
 
 			const valueOfPngInAvax = JSBI.divide(JSBI.multiply(stakingTokenPair.reserveOf(png).raw, avaxPngRatio), oneToken)
-			console.log("PNG in pool:", stakingTokenPair.reserveOf(png).raw.toString())
-			console.log("PNG Value in AVAX:", valueOfPngInAvax.toString())
-
-			console.log("Staked amount:", stakingInfo.totalStakedAmount.raw.toString())
-			console.log("Total amount:", totalSupplyOfStakingToken.raw.toString())
 
 			valueOfTotalStakedAmountInWavax = new TokenAmount(WAVAX[token1.chainId],
 				JSBI.divide(
@@ -156,7 +143,6 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
 				)
 			)
 
-			//console.log
 		}
 		// usdToken = png
 	}
