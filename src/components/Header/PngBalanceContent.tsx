@@ -63,7 +63,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
 	const blockTimestamp = useCurrentBlockTimestamp()
 	const circulation: TokenAmount | undefined = useMemo(
 		() =>
-			blockTimestamp && png && chainId === ChainId.FUJI
+			blockTimestamp && png && chainId === ChainId.AVALANCHE
 				? computePngCirculation(png, blockTimestamp)
 				: totalSupply,
 		[blockTimestamp, chainId, totalSupply, png]
