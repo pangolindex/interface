@@ -1,7 +1,7 @@
 import { JSBI, Token, TokenAmount } from '@pangolindex/sdk'
 import { BigNumber } from 'ethers'
 
-const TREASURY_VESTING_GENESIS = 1612645968
+const TREASURY_VESTING_GENESIS = 1612899125
 
 const FOUR_YEARS: number = 60 * 60 * 24 * 365 * 4
 const TREASURY_BEGIN_PERIOD_1 = TREASURY_VESTING_GENESIS
