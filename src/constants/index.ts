@@ -19,7 +19,7 @@ type ChainTokenList = {
 
 export const PNG: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'PNG', 'Pangolin'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x83080D4b5fC60e22dFFA8d14AD3BB41Dde48F199', 18, 'PNG', 'Pangolin')
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x60781C2586D68229fde47564546784ab3fACA982', 18, 'PNG', 'Pangolin')
 }
 
 export const ETH: { [chainId in ChainId]: Token } = {
@@ -68,8 +68,8 @@ export const YFI: { [chainId in ChainId]: Token } = {
 }
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
-  [ChainId.FUJI]: '0x4D7A2BDF6A0fb4A690725752FF193aA845a49846',
-  [ChainId.AVALANCHE]: ZERO_ADDRESS
+  [ChainId.FUJI]: ZERO_ADDRESS,
+  [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
 }
 
 const WAVAX_ONLY: ChainTokenList = {
