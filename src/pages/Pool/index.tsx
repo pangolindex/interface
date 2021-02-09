@@ -6,7 +6,7 @@ import { SwapPoolTabs } from '../../components/NavigationTabs'
 
 import FullPositionCard from '../../components/PositionCard'
 import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks'
-import { StyledInternalLink, TYPE, HideSmall } from '../../theme'
+import { StyledInternalLink, TYPE, HideSmall, ExternalLink } from '../../theme'
 import { Text } from 'rebass'
 import Card from '../../components/Card'
 import { RowBetween, RowFixed } from '../../components/Row'
@@ -18,11 +18,20 @@ import { usePairs } from '../../data/Reserves'
 import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks'
 import { Dots } from '../../components/swap/styleds'
 import { ChainId } from '@pangolindex/sdk'
+import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
+import { LANDING_PAGE } from '../../constants'
+
+const LiquidityTutorial = LANDING_PAGE + 'tutorials/manage-liquidity'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
   width: 100%;
 `
+
+const VoteCard = styled(DataCard)`
+   background: radial-gradient(76.02% 75.41% at 1.84% 0%, #27ae60 0%, #000000 100%);
+   overflow: hidden;
+ `
 
 const TitleRow = styled(RowBetween)`
   ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -106,6 +115,32 @@ export default function Pool() {
       <PageWrapper>
         <SwapPoolTabs active={'pool'} />
 
+        <VoteCard>
+          <CardBGImage />
+          <CardNoise />
+          <CardSection>
+            <AutoColumn gap="md">
+              <RowBetween>
+                <TYPE.white fontWeight={600}>Liquidity provider rewards</TYPE.white>
+              </RowBetween>
+              <RowBetween>
+                <TYPE.white fontSize={14}>
+                  {`Liquidity providers earn a 0.3% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.`}
+                </TYPE.white>
+              </RowBetween>
+              <ExternalLink
+                style={{ color: 'white', textDecoration: 'underline' }}
+                target="_blank"
+                href={LiquidityTutorial}
+              >
+                <TYPE.white fontSize={14}>Read more about providing liquidity</TYPE.white>
+              </ExternalLink>
+            </AutoColumn>
+          </CardSection>
+          <CardBGImage />
+          <CardNoise />
+        </VoteCard>
+
         <AutoColumn gap="lg" justify="center">
           <AutoColumn gap="lg" style={{ width: '100%' }}>
             <TitleRow style={{ marginTop: '1rem' }} padding={'0'}>
@@ -145,12 +180,12 @@ export default function Pool() {
                 ))}
               </>
             ) : (
-              <EmptyProposals>
-                <TYPE.body color={theme.text3} textAlign="center">
-                  No liquidity found.
+                    <EmptyProposals>
+                      <TYPE.body color={theme.text3} textAlign="center">
+                        No liquidity found.
                 </TYPE.body>
-              </EmptyProposals>
-            )}
+                    </EmptyProposals>
+                  )}
 
             <AutoColumn justify={'center'} gap="md">
               <Text textAlign="center" fontSize={14} style={{ padding: '.5rem 0 .5rem 0' }}>

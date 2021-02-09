@@ -1,12 +1,15 @@
 import React, { useRef } from 'react'
-import { MessageCircle, Send, Info, Twitter, GitHub} from 'react-feather'
+import { MessageCircle, Send, Info, Twitter, GitHub, Book} from 'react-feather'
 import styled from 'styled-components'
 import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg'
+import { LANDING_PAGE } from '../../constants'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 
 import { ExternalLink } from '../../theme'
+
+const TutorialPage = LANDING_PAGE + 'tutorials'
 
 const StyledMenuIcon = styled(MenuIcon)`
   path {
@@ -99,9 +102,13 @@ export default function Menu() {
 
       {open && (
         <MenuFlyout>
-          <MenuItem id="link" href="https://pangolin.exchange/">
+          <MenuItem id="link" href={LANDING_PAGE}>
             <Info size={14} />
             About
+          </MenuItem>
+          <MenuItem id="link" href={TutorialPage}>
+            <Book size={14} />
+            Tutorials
           </MenuItem>
           <MenuItem id="link" href="https://t.me/pangolindex">
             <Send size={14} />
@@ -119,7 +126,7 @@ export default function Menu() {
             <GitHub size={14} />
             Code
           </MenuItem>
-          
+
         </MenuFlyout>
       )}
     </StyledMenu>
