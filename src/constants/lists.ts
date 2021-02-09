@@ -1,8 +1,8 @@
 // the Pangolin Default token list lives here
-export const DEFAULT_TOKEN_LIST_URL = 'https://raw.githubusercontent.com/pangolindex/tokenlists/main/all.json'
-export const FUJI_TOKEN_List = 'https://raw.githubusercontent.com/dasconnor/tokenlist/main/fuji.tokenlist.json'
+export const DEFAULT_TOKEN_LIST_URL = 'https://raw.githubusercontent.com/pangolindex/tokenlists/main/aeb.tokenlist.json'
+export const TOP_15_TOKEN_List = 'https://raw.githubusercontent.com/pangolindex/tokenlists/main/top15.tokenlist.json'
 
 export const DEFAULT_LIST_OF_LISTS: string[] = [
   DEFAULT_TOKEN_LIST_URL,
-  FUJI_TOKEN_List
+  TOP_15_TOKEN_List
 ]
