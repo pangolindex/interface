@@ -43,9 +43,16 @@ import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import useENS from '../../hooks/useENS'
+import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
+import styled from 'styled-components'
 
 export default function Swap() {
   const loadedUrlParams = useDefaultsFromURLSearch()
+
+  const VoteCard = styled(DataCard)`
+   background: radial-gradient(76.02% 75.41% at 1.84% 0%, #e84142 50%, #000000 100%);
+   overflow: hidden;
+ `
 
   // token warning stuff
   const [loadedInputCurrency, loadedOutputCurrency] = [
@@ -266,6 +273,25 @@ export default function Swap() {
         onConfirm={handleConfirmTokenWarning}
       />
       <AppBody>
+      <VoteCard>
+          <CardBGImage />
+          <CardNoise />
+          <CardSection>
+            <AutoColumn gap="md">
+              <RowBetween>
+                <TYPE.white fontWeight={600}>{'\u26a0'} Warning: Network Congestion </TYPE.white>
+              </RowBetween>
+              <RowBetween>
+                <TYPE.white fontSize={14}>
+                  {`Due to high network congestion, transactions may not be accepted. Please check back later.`}
+                </TYPE.white>
+              </RowBetween>
+
+            </AutoColumn>
+          </CardSection>
+          <CardBGImage />
+          <CardNoise />
+        </VoteCard>
         <SwapPoolTabs active={'swap'} />
         <Wrapper id="swap-page">
           <ConfirmSwapModal
