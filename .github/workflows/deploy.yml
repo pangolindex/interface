@@ -1,0 +1,38 @@
+name: Deploy Code
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  node_version: 14
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/cache@v2.1.4
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - uses: actions/setup-node@v2.1.4
+        with:
+          node-version: ${{ env.node_version }}
+      - run: yarn --frozen-lockfile
+        env:
+          CI: true
+      - run: yarn build
+        env:
+          CI: false
+      - name: Publish
+        uses: cloudflare/wrangler-action@1.3.0
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+        env:
+          USER: root
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
