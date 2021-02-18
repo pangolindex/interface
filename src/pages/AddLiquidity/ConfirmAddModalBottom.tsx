@@ -6,6 +6,7 @@ import { RowBetween, RowFixed } from '../../components/Row'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import { Field } from '../../state/mint/actions'
 import { TYPE } from '../../theme'
+import GasFeeAlert from '../../components/GasFeeAlert'
 
 export function ConfirmAddModalBottom({
   noLiquidity,
@@ -41,22 +42,21 @@ export function ConfirmAddModalBottom({
       <RowBetween>
         <TYPE.body>Rates</TYPE.body>
         <TYPE.body>
-          {`1 ${currencies[Field.CURRENCY_A]?.symbol} = ${price?.toSignificant(4)} ${
-            currencies[Field.CURRENCY_B]?.symbol
-          }`}
+          {`1 ${currencies[Field.CURRENCY_A]?.symbol} = ${price?.toSignificant(4)} ${currencies[Field.CURRENCY_B]?.symbol
+            }`}
         </TYPE.body>
       </RowBetween>
       <RowBetween style={{ justifyContent: 'flex-end' }}>
         <TYPE.body>
-          {`1 ${currencies[Field.CURRENCY_B]?.symbol} = ${price?.invert().toSignificant(4)} ${
-            currencies[Field.CURRENCY_A]?.symbol
-          }`}
+          {`1 ${currencies[Field.CURRENCY_B]?.symbol} = ${price?.invert().toSignificant(4)} ${currencies[Field.CURRENCY_A]?.symbol
+            }`}
         </TYPE.body>
       </RowBetween>
       <RowBetween>
         <TYPE.body>Share of Pool:</TYPE.body>
         <TYPE.body>{noLiquidity ? '100' : poolTokenPercentage?.toSignificant(4)}%</TYPE.body>
       </RowBetween>
+      <GasFeeAlert></GasFeeAlert>
       <ButtonPrimary style={{ margin: '20px 0 0 0' }} onClick={onAdd}>
         <Text fontWeight={500} fontSize={20}>
           {noLiquidity ? 'Create Pool & Supply' : 'Confirm Supply'}

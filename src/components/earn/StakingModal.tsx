@@ -19,6 +19,7 @@ import { wrappedCurrencyAmount } from '../../utils/wrappedCurrency'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
+import GasFeeAlert from '../GasFeeAlert'
 
 const HypotheticalRewardRate = styled.div<{ dim: boolean }>`
    display: flex;
@@ -218,6 +219,8 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
              </TYPE.black>
 					</HypotheticalRewardRate>
 
+					<GasFeeAlert></GasFeeAlert>
+
 					<RowBetween>
 						<ButtonConfirmed
 							mr="0.5rem"
@@ -236,24 +239,29 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
 						</ButtonError>
 					</RowBetween>
 					<ProgressCircles steps={[approval === ApprovalState.APPROVED || signatureData !== null]} disabled={true} />
-				</ContentWrapper>
-			)}
-			{attempting && !hash && (
-				<LoadingView onDismiss={wrappedOnDismiss}>
-					<AutoColumn gap="12px" justify={'center'}>
-						<TYPE.largeHeader>Depositing Liquidity</TYPE.largeHeader>
-						<TYPE.body fontSize={20}>{parsedAmount?.toSignificant(4)} PGL</TYPE.body>
-					</AutoColumn>
-				</LoadingView>
-			)}
-			{attempting && hash && (
-				<SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
-					<AutoColumn gap="12px" justify={'center'}>
-						<TYPE.largeHeader>Transaction Submitted</TYPE.largeHeader>
-						<TYPE.body fontSize={20}>Deposited {parsedAmount?.toSignificant(4)} PGL</TYPE.body>
-					</AutoColumn>
-				</SubmittedView>
-			)}
-		</Modal>
+				</ContentWrapper >
+			)
+			}
+			{
+				attempting && !hash && (
+					<LoadingView onDismiss={wrappedOnDismiss}>
+						<AutoColumn gap="12px" justify={'center'}>
+							<TYPE.largeHeader>Depositing Liquidity</TYPE.largeHeader>
+							<TYPE.body fontSize={20}>{parsedAmount?.toSignificant(4)} PGL</TYPE.body>
+						</AutoColumn>
+					</LoadingView>
+				)
+			}
+			{
+				attempting && hash && (
+					<SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
+						<AutoColumn gap="12px" justify={'center'}>
+							<TYPE.largeHeader>Transaction Submitted</TYPE.largeHeader>
+							<TYPE.body fontSize={20}>Deposited {parsedAmount?.toSignificant(4)} PGL</TYPE.body>
+						</AutoColumn>
+					</SubmittedView>
+				)
+			}
+		</Modal >
 	)
 }
