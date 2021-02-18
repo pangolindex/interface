@@ -11,6 +11,7 @@ import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { useActiveWeb3React } from '../../hooks'
+import GasFeeAlert from '../GasFeeAlert'
 
 const ContentWrapper = styled(AutoColumn)`
    width: 100%;
@@ -84,6 +85,7 @@ export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo }: Sta
 					<TYPE.subHeader style={{ textAlign: 'center' }}>
 						When you claim without withdrawing your liquidity remains in the mining pool.
            </TYPE.subHeader>
+					<GasFeeAlert></GasFeeAlert>
 					<ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onClaimReward}>
 						{error ?? 'Claim'}
 					</ButtonError>
