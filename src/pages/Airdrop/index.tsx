@@ -119,7 +119,7 @@ export default function Vote() {
 							You have no UNI or SUSHI tokens. Please follow the tutorial here to add UNI or SUSHI tokens to your wallet.
            				</TYPE.body>
 						<TYPE.body mt="1rem" color={theme.text1} textAlign="center">
-							{"You have" + claimAmount?.toFixed(0, { groupSeparator: ',' }) + " PNG available to claim"}
+							{"You have " + claimAmount?.toFixed(0, { groupSeparator: ',' }) + " PNG available to claim"}
 						</TYPE.body>
 					</Card>
 				) : attempting ? (
