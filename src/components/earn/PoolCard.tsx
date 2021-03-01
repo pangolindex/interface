@@ -4,7 +4,7 @@ import { RowBetween } from '../Row'
 import styled from 'styled-components'
 import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
-import { CAVAX, JSBI, TokenAmount, WAVAX, Token } from '@pangolindex/sdk'
+import { CAVAX, JSBI, TokenAmount, WAVAX, Token, Fraction } from '@pangolindex/sdk'
 import { ButtonPrimary } from '../Button'
 import { StakingInfo } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
@@ -153,6 +153,13 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
 	// const USDPrice = useUSDCPrice(usdToken)
 	// valueOfTotalStakedAmountInUSDC =
 	// valueOfTotalStakedAmountInWavax && USDPrice?.quote(valueOfTotalStakedAmountInWavax)
+	let weeklyRewardPerAvax: Fraction | undefined
+	let weeklyRewardAmount = stakingInfo.totalRewardRate.multiply(JSBI.BigInt(60 * 60 * 24 * 7))
+
+	if (valueOfTotalStakedAmountInWavax !== undefined)
+	{
+		weeklyRewardPerAvax = weeklyRewardAmount.divide(valueOfTotalStakedAmountInWavax)
+	}
 
 	return (
 		<Wrapper showBackground={isStaking} bgColor={backgroundColor}>
@@ -184,9 +191,11 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
 				</RowBetween>
 				<RowBetween>
 					<TYPE.white> Pool rate </TYPE.white>
-					<TYPE.white>{`${stakingInfo.totalRewardRate
-						?.multiply(`${60 * 60 * 24 * 7}`)
-						?.toFixed(0, { groupSeparator: ',' })} PNG / week`}</TYPE.white>
+					<TYPE.white>{`${weeklyRewardAmount?.toFixed(0, { groupSeparator: ',' })} PNG / week`}</TYPE.white>
+				</RowBetween>
+				<RowBetween>
+					<TYPE.white> Current reward </TYPE.white>
+					<TYPE.white>{`${weeklyRewardPerAvax?.toFixed(4, {groupSeparator: ','}) ?? '-'} PNG / Week per AVAX`}</TYPE.white>
 				</RowBetween>
 			</StatContainer>
 
