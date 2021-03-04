@@ -25,6 +25,7 @@ import Web3Status from '../Web3Status'
 import Modal from '../Modal'
 import PngBalanceContent from './PngBalanceContent'
 import usePrevious from '../../hooks/usePrevious'
+import { ANALYTICS_PAGE } from '../../constants'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -303,7 +304,7 @@ export default function Header() {
           <StyledNavLink id={`airdrop-nav-link`} to={'/airdrop'}>
             Airdrop
           </StyledNavLink>
-          <StyledExternalLink id={`info-nav-link`} href={'https://info.pangolin.exchange'}>
+          <StyledExternalLink id={`info-nav-link`} href={ANALYTICS_PAGE}>
 	            Charts <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
           <StyledExternalLink id={`gov-nav-link`} href={'https://gov.pangolin.exchange'}>
