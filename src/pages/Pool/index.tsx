@@ -19,7 +19,7 @@ import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks
 import { Dots } from '../../components/swap/styleds'
 import { ChainId } from '@pangolindex/sdk'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
-import { LANDING_PAGE } from '../../constants'
+import { LANDING_PAGE, ANALYTICS_PAGE } from '../../constants'
 
 const LiquidityTutorial = LANDING_PAGE + 'tutorials/manage-liquidity'
 
@@ -78,6 +78,8 @@ const EmptyProposals = styled.div`
 export default function Pool() {
   const theme = useContext(ThemeContext)
   const { account, chainId } = useActiveWeb3React()
+
+  const AccountAnalytics = account ? ANALYTICS_PAGE + '#/account/' + account : ANALYTICS_PAGE + '#/accounts'
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
@@ -140,6 +142,14 @@ export default function Pool() {
           <CardBGImage />
           <CardNoise />
         </VoteCard>
+
+        <ExternalLink
+                style={{ marginTop: '1.5rem', color: 'black', textDecoration: 'underline' }}
+                target="_blank"
+                href={AccountAnalytics}
+              >
+                <TYPE.black fontSize={18}>View your staked liquidity</TYPE.black>
+              </ExternalLink>
 
         <AutoColumn gap="lg" justify="center">
           <AutoColumn gap="lg" style={{ width: '100%' }}>

@@ -11,6 +11,7 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
 }
 
 export const LANDING_PAGE = 'https://pangolin.exchange/'
+export const ANALYTICS_PAGE = 'https://info.pangolin.exchange/'
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
