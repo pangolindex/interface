@@ -4,15 +4,13 @@ import { RowBetween } from '../Row'
 import styled from 'styled-components'
 import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
-import { CAVAX, JSBI, TokenAmount, WAVAX, Token, Fraction } from '@pangolindex/sdk'
+import { CAVAX, JSBI, Token } from '@pangolindex/sdk'
 import { ButtonPrimary } from '../Button'
 import { StakingInfo } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
 import { Break, CardNoise, CardBGImage } from './styled'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
-import { useTotalSupply } from '../../data/TotalSupply'
-import { usePair } from '../../data/Reserves'
 // import useUSDCPrice from '../../utils/useUSDCPrice'
 import { PNG } from '../../constants'
 
@@ -83,83 +81,22 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
 	const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
 	const avaxPool = currency0 === CAVAX || currency1 === CAVAX
-
-	let valueOfTotalStakedAmountInWavax: TokenAmount | undefined
-	// let valueOfTotalStakedAmountInUSDC: CurrencyAmount | undefined
-	let backgroundColor: string
 	let token: Token
-	const totalSupplyOfStakingToken = useTotalSupply(stakingInfo.stakedAmount.token)
-	const [, stakingTokenPair] = usePair(...stakingInfo.tokens)
-	const [, avaxPngTokenPair] = usePair(CAVAX, PNG[token1.chainId])
-	// let usdToken: Token
 	if (avaxPool) {
 		token = currency0 === CAVAX ? token1 : token0
-		const wavax = currency0 === CAVAX ? token0 : token1
-
-		// let returnOverMonth: Percent = new Percent('0')
-		if (totalSupplyOfStakingToken && stakingTokenPair) {
-			// take the total amount of LP tokens staked, multiply by AVAX value of all LP tokens, divide by all LP tokens
-			valueOfTotalStakedAmountInWavax = new TokenAmount(
-				wavax,
-				JSBI.divide(
-					JSBI.multiply(
-						JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(wavax).raw),
-						JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
-					),
-					totalSupplyOfStakingToken.raw
-				)
-			)
-		}
-
-		// get the USD value of staked wavax
-		// usdToken = wavax
-
-
 	} else {
-		var png
-		if (token0.equals(PNG[token0.chainId])) {
-			token = token1
-			png = token0
-		} else {
-			token = token0
-			png = token1
-		}
-
-		if (totalSupplyOfStakingToken && stakingTokenPair && avaxPngTokenPair) {
-			const oneToken = JSBI.BigInt(1000000000000000000)
-			const avaxPngRatio = JSBI.divide(JSBI.multiply(oneToken, avaxPngTokenPair.reserveOf(WAVAX[token1.chainId]).raw),
-				avaxPngTokenPair.reserveOf(png).raw)
-
-
-			const valueOfPngInAvax = JSBI.divide(JSBI.multiply(stakingTokenPair.reserveOf(png).raw, avaxPngRatio), oneToken)
-
-			valueOfTotalStakedAmountInWavax = new TokenAmount(WAVAX[token1.chainId],
-				JSBI.divide(
-					JSBI.multiply(
-						JSBI.multiply(stakingInfo.totalStakedAmount.raw, valueOfPngInAvax),
-						JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
-					),
-					totalSupplyOfStakingToken.raw
-				)
-			)
-
-		}
-		// usdToken = png
+		token = token0.equals(PNG[token0.chainId]) ? token1 : token0
 	}
-
+	// let valueOfTotalStakedAmountInUSDC: CurrencyAmount | undefined
 	// get the color of the token
-	backgroundColor = useColor(token)
-
+	let backgroundColor = useColor(token)
+	
+	// let usdToken: Token
 	// const USDPrice = useUSDCPrice(usdToken)
 	// valueOfTotalStakedAmountInUSDC =
 	// valueOfTotalStakedAmountInWavax && USDPrice?.quote(valueOfTotalStakedAmountInWavax)
-	let weeklyRewardPerAvax: Fraction | undefined
 	let weeklyRewardAmount = stakingInfo.totalRewardRate.multiply(JSBI.BigInt(60 * 60 * 24 * 7))
-
-	if (valueOfTotalStakedAmountInWavax !== undefined)
-	{
-		weeklyRewardPerAvax = weeklyRewardAmount.divide(valueOfTotalStakedAmountInWavax)
-	}
+	const weeklyRewardPerAvax = weeklyRewardAmount.divide(stakingInfo.totalStakedInWavax)
 
 	return (
 		<Wrapper showBackground={isStaking} bgColor={backgroundColor}>
@@ -183,7 +120,7 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
 				<RowBetween>
 					<TYPE.white> Total deposited</TYPE.white>
 					<TYPE.white>
-						{`${valueOfTotalStakedAmountInWavax?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`}
+						{`${stakingInfo.totalStakedInWavax.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`}
 						{/* {valueOfTotalStakedAmountInUSDC
 							? `$${valueOfTotalStakedAmountInUSDC.toFixed(0, { groupSeparator: ',' })}`
 							: `${valueOfTotalStakedAmountInWavax?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`} */}
@@ -191,11 +128,11 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
 				</RowBetween>
 				<RowBetween>
 					<TYPE.white> Pool rate </TYPE.white>
-					<TYPE.white>{`${weeklyRewardAmount?.toFixed(0, { groupSeparator: ',' })} PNG / week`}</TYPE.white>
+					<TYPE.white>{`${weeklyRewardAmount.toFixed(0, { groupSeparator: ',' })} PNG / week`}</TYPE.white>
 				</RowBetween>
 				<RowBetween>
 					<TYPE.white> Current reward </TYPE.white>
-					<TYPE.white>{`${weeklyRewardPerAvax?.toFixed(4, {groupSeparator: ','}) ?? '-'} PNG / Week per AVAX`}</TYPE.white>
+					<TYPE.white>{`${weeklyRewardPerAvax.toFixed(4, {groupSeparator: ','}) ?? '-'} PNG / Week per AVAX`}</TYPE.white>
 				</RowBetween>
 			</StatContainer>
 

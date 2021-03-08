@@ -8,6 +8,8 @@ import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
 import { useActiveWeb3React } from '../../hooks'
+import { JSBI } from '@pangolindex/sdk'
+
 
 const PageWrapper = styled(AutoColumn)`
    max-width: 640px;
@@ -84,11 +86,34 @@ export default function Earn() {
 					) : !stakingRewardsExist ? (
 						'No active rewards'
 					) : (
-								stakingInfos?.map(stakingInfo => {
-									// need to sort by added liquidity here
+						stakingInfos?.sort(
+								function(info_a, info_b) { 
+									// greater stake in avax comes first
+									return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
+								}
+							).sort(
+								function(info_a, info_b) {
+									if (info_a.stakedAmount.greaterThan(JSBI.BigInt(0))) {
+										if (info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
+											// both are being staked, so we keep the previous sorting
+											return 0
+										else
+											// the second is actually not at stake, so we should bring the first up
+											return -1
+									} else {
+										if (info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
+											// first is not being staked, but second is, so we should bring the first down
+											return 1
+										else
+											// none are being staked, let's keep the  previous sorting
+											return 0
+									}
+							}).map(
+								stakingInfo => {
 									return <PoolCard key={stakingInfo.stakingRewardAddress} stakingInfo={stakingInfo} />
-								})
-							)}
+								}
+							)
+					)}
 				</PoolSection>
 			</AutoColumn>
 		</PageWrapper>

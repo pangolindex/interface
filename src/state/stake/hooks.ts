@@ -2,6 +2,7 @@ import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair } from '
 import { useMemo } from 'react'
 import { PNG, DAI, UNI, SUSHI, ETH, USDT, WBTC, LINK, AAVE, YFI } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
+import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
 import { tryParseAmount } from '../swap/hooks'
@@ -113,6 +114,8 @@ export interface StakingInfo {
 	// the current amount of token distributed to the active account per second.
 	// equivalent to percent of total supply * reward rate
 	rewardRate: TokenAmount
+	//  total staked Avax in the pool
+	totalStakedInWavax: TokenAmount
 	// when the period ends
 	periodFinish: Date | undefined
 	// calculates a hypothetical amount of token distributed to the active account per second.
@@ -122,6 +125,45 @@ export interface StakingInfo {
 		totalRewardRate: TokenAmount
 	) => TokenAmount
 }
+
+const calculateTotalStakedAmountInAvaxFromPng = function(
+	totalSupply: JSBI,
+	avaxPngPairReserveOfPng: JSBI,
+	avaxPngPairReserveOfOtherToken: JSBI,
+	stakingTokenPairReserveOfPng: JSBI,
+	totalStakedAmount: TokenAmount,
+): TokenAmount
+{
+	const oneToken = JSBI.BigInt(1000000000000000000)
+	const avaxPngRatio = JSBI.divide(JSBI.multiply(oneToken, avaxPngPairReserveOfOtherToken),
+	avaxPngPairReserveOfPng)
+
+
+	const valueOfPngInAvax = JSBI.divide(JSBI.multiply(stakingTokenPairReserveOfPng, avaxPngRatio), oneToken)
+
+	return new TokenAmount(WAVAX[ChainId.AVALANCHE], JSBI.divide(
+			JSBI.multiply(
+				JSBI.multiply(totalStakedAmount.raw, valueOfPngInAvax),
+				JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
+			),
+			totalSupply
+		)
+	)
+}
+
+const calculteTotalStakedAmountInAvax = function(totalSupply: JSBI, reserveInWavax: JSBI, totalStakedAmount: TokenAmount): TokenAmount
+{
+	// take the total amount of LP tokens staked, multiply by AVAX value of all LP tokens, divide by all LP tokens
+	return new TokenAmount(WAVAX[ChainId.AVALANCHE], JSBI.divide(
+			JSBI.multiply(
+				JSBI.multiply(totalStakedAmount.raw, reserveInWavax),
+				JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
+			),
+			totalSupply
+		)
+	)
+}
+
 
 // gets the staking info from the network for the active chain id
 export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
@@ -149,9 +191,12 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 	const accountArg = useMemo(() => [account ?? undefined], [account])
 
 	// get all the info from the staking rewards contracts
+	const tokens = useMemo(() => info.map(({tokens}) => tokens), [info])
 	const balances = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'balanceOf', accountArg)
 	const earnedAmounts = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'earned', accountArg)
 	const totalSupplies = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'totalSupply')
+	const pairs = usePairs(tokens)
+	const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[ChainId.AVALANCHE], png)
 
 	// tokens per second, constants
 	const rewardRates = useMultipleContractSingleData(
@@ -181,6 +226,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 			const totalSupplyState = totalSupplies[index]
 			const rewardRateState = rewardRates[index]
 			const periodFinishState = periodFinishes[index]
+			const [pairState, pair] = pairs[index]
 
 			if (
 				// these may be undefined if not logged in
@@ -192,14 +238,22 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 				rewardRateState &&
 				!rewardRateState.loading &&
 				periodFinishState &&
-				!periodFinishState.loading
+				!periodFinishState.loading &&
+				pair &&
+				avaxPngPair &&
+				pairState !== PairState.LOADING &&
+				avaxPngPairState !== PairState.LOADING
 			) {
 				if (
 					balanceState?.error ||
 					earnedAmountState?.error ||
 					totalSupplyState.error ||
 					rewardRateState.error ||
-					periodFinishState.error
+					periodFinishState.error ||
+					pairState === PairState.INVALID ||
+					pairState === PairState.NOT_EXISTS ||
+					avaxPngPairState === PairState.INVALID ||
+					avaxPngPairState === PairState.NOT_EXISTS
 				) {
 					console.error('Failed to load staking rewards info')
 					return memo
@@ -207,13 +261,23 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 
 				// get the LP token
 				const tokens = info[index].tokens
+				const wavax = tokens[0].equals(WAVAX[tokens[0].chainId]) ? tokens[0] : tokens[1]
 				const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
-
 				// check for account, if no account set to 0
-
+				
+				const totalSupply = JSBI.BigInt(totalSupplyState.result?.[0])
 				const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
-				const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(totalSupplyState.result?.[0]))
+				const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, totalSupply)
 				const totalRewardRate = new TokenAmount(png, JSBI.BigInt(rewardRateState.result?.[0]))
+				const isAvaxPool = tokens[0].equals(WAVAX[tokens[0].chainId])
+				const totalStakedInWavax = isAvaxPool ? 
+					calculteTotalStakedAmountInAvax(totalSupply, pair.reserveOf(wavax).raw, totalStakedAmount) :
+					calculateTotalStakedAmountInAvaxFromPng(
+						totalSupply, avaxPngPair.reserveOf(png).raw, 
+						avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
+						 pair.reserveOf(png).raw, totalStakedAmount
+					)
+				
 
 				const getHypotheticalRewardRate = (
 					stakedAmount: TokenAmount,
@@ -234,19 +298,20 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 
 				memo.push({
 					stakingRewardAddress: rewardsAddress,
-					tokens: info[index].tokens,
+					tokens: tokens,
 					periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
 					earnedAmount: new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
 					rewardRate: individualRewardRate,
 					totalRewardRate: totalRewardRate,
 					stakedAmount: stakedAmount,
 					totalStakedAmount: totalStakedAmount,
+					totalStakedInWavax: totalStakedInWavax,
 					getHypotheticalRewardRate
 				})
 			}
 			return memo
 		}, [])
-	}, [balances, chainId, earnedAmounts, info, periodFinishes, rewardRates, rewardsAddresses, totalSupplies, png])
+	}, [balances, chainId, earnedAmounts, info, periodFinishes, rewardRates, rewardsAddresses, totalSupplies, avaxPngPairState, pairs, png, avaxPngPair])
 }
 
 export function useTotalPngEarned(): TokenAmount | undefined {
