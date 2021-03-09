@@ -184,7 +184,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 		[chainId, pairToFilterBy]
 	)
 
-	const png = chainId ? PNG[chainId] : undefined
+	const png = PNG[ChainId.AVALANCHE]
 
 	const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
 
@@ -264,20 +264,20 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 				const wavax = tokens[0].equals(WAVAX[tokens[0].chainId]) ? tokens[0] : tokens[1]
 				const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
 				// check for account, if no account set to 0
-				
+
 				const totalSupply = JSBI.BigInt(totalSupplyState.result?.[0])
 				const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
 				const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, totalSupply)
 				const totalRewardRate = new TokenAmount(png, JSBI.BigInt(rewardRateState.result?.[0]))
 				const isAvaxPool = tokens[0].equals(WAVAX[tokens[0].chainId])
-				const totalStakedInWavax = isAvaxPool ? 
+				const totalStakedInWavax = isAvaxPool ?
 					calculteTotalStakedAmountInAvax(totalSupply, pair.reserveOf(wavax).raw, totalStakedAmount) :
 					calculateTotalStakedAmountInAvaxFromPng(
-						totalSupply, avaxPngPair.reserveOf(png).raw, 
+						totalSupply, avaxPngPair.reserveOf(png).raw,
 						avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
 						 pair.reserveOf(png).raw, totalStakedAmount
 					)
-				
+
 
 				const getHypotheticalRewardRate = (
 					stakedAmount: TokenAmount,
