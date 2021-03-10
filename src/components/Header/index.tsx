@@ -301,9 +301,6 @@ export default function Header() {
           <StyledNavLink id={`stake-nav-link`} to={'/png'}>
             PNG
            </StyledNavLink>
-          <StyledNavLink id={`airdrop-nav-link`} to={'/airdrop'}>
-            Airdrop
-          </StyledNavLink>
           <StyledExternalLink id={`info-nav-link`} href={ANALYTICS_PAGE}>
 	            Charts <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
