@@ -5,7 +5,12 @@ import { TYPE } from '../../theme'
 import Card from '../../components/Card'
 import { ButtonError } from '../../components/Button'
 import { useIsTransactionPending } from '../../state/transactions/hooks'
-import { useClaimCallback, useUserHasAvailableClaim, useUserUnclaimedAmount } from '../../state/airdrop/hooks'
+import {
+	useAirdropIsClaimingAllowed,
+	useClaimCallback,
+	useUserHasAvailableClaim,
+	useUserUnclaimedAmount
+} from '../../state/airdrop/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import Confetti from '../../components/Confetti'
 import { useTokenBalance } from '../../state/wallet/hooks'
@@ -62,6 +67,7 @@ export default function Vote() {
 	// monitor the status of the claim from contracts and txns
 	const { claimCallback } = useClaimCallback(account)
 
+	const claimingAllowed = useAirdropIsClaimingAllowed()
 	const canClaim = useUserHasAvailableClaim(account)
 
 	const claimAmount = useUserUnclaimedAmount(account)
@@ -101,7 +107,13 @@ export default function Vote() {
 			<TopSection gap="2px">
 				<Confetti start={Boolean(claimConfirmed)} />
 				<TYPE.mediumHeader style={{ margin: '0.5rem 0' }} textAlign="center">Claim PNG from Airdrop</TYPE.mediumHeader>
-				{!account ? (
+				{!claimingAllowed ? (
+					<Card padding="40px">
+						<TYPE.body color={theme.text3} textAlign="center">
+							The airdrop claim period has ended.
+						</TYPE.body>
+					</Card>
+				) : !account ? (
 					<Card padding="40px">
 						<TYPE.body color={theme.text3} textAlign="center">
 							Connect to a wallet to view your liquidity.
