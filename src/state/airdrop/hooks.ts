@@ -7,6 +7,12 @@ import { TokenAmount, JSBI } from '@pangolindex/sdk'
 import { PNG } from './../../constants/index'
 import { useSingleCallResult } from '../multicall/hooks'
 
+export function useAirdropIsClaimingAllowed(): boolean {
+	const airdropContract = useAirdropContract()
+	const claimingAllowedResult = useSingleCallResult(airdropContract, 'claimingAllowed', [])
+	return Boolean(!claimingAllowedResult.loading && claimingAllowedResult.result != undefined && claimingAllowedResult.result[0] === true)
+}
+
 export function useUserHasAvailableClaim(account: string | null | undefined): boolean {
 	const airdropContract = useAirdropContract()
 	const withdrawAmountResult = useSingleCallResult(airdropContract, 'withdrawAmount', [account ? account : undefined])
