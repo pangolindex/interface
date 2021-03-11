@@ -227,7 +227,7 @@ export default function Manage({
 			<DataRow style={{ gap: '24px' }}>
 				<PoolData>
 					<AutoColumn gap="sm">
-						<TYPE.body style={{ margin: 0 }}>Total deposits</TYPE.body>
+						<TYPE.body style={{ margin: 0 }}>Total Staked</TYPE.body>
 						<TYPE.body fontSize={24} fontWeight={500}>
 							{`${valueOfTotalStakedAmountInWavax?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`}
 							{/* {valueOfTotalStakedAmountInUSDC
