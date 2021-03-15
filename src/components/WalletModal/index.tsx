@@ -8,12 +8,13 @@ import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { injected } from '../../connectors'
-import { LANDING_PAGE, SUPPORTED_WALLETS } from '../../constants'
+import { LANDING_PAGE, SUPPORTED_WALLETS, AVALANCHE_CHAIN_PARAMS } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useWalletModalToggle } from '../../state/application/hooks'
 import { ExternalLink } from '../../theme'
 import AccountDetails from '../AccountDetails'
+import { ButtonLight } from '../../components/Button'
 
 import Modal from '../Modal'
 import Option from './Option'
@@ -278,7 +279,21 @@ export default function WalletModal({
     })
   }
 
+  function addAvalancheNetwork() {
+    injected.getProvider().then(provider => {
+      provider
+        .request({
+          method: 'wallet_addEthereumChain',
+          params: [AVALANCHE_CHAIN_PARAMS]
+        })
+        .catch((error: any) => {
+          console.log(error)
+        })
+    })
+  }
+
   function getModalContent() {
+    const isMetamask = window.ethereum && window.ethereum.isMetaMask
     if (error) {
       return (
         <UpperSection>
@@ -288,7 +303,10 @@ export default function WalletModal({
           <HeaderRow>{error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting'}</HeaderRow>
           <ContentWrapper>
             {error instanceof UnsupportedChainIdError ? (
-              <h5>Please connect to the appropriate Avalanche network.</h5>
+              <>
+                <h5>Please connect to the appropriate Avalanche network.</h5>
+                {isMetamask && <ButtonLight onClick={addAvalancheNetwork}>Switch to Avalanche Chain</ButtonLight>}
+              </>
             ) : (
               'Error connecting. Try refreshing the page.'
             )}
