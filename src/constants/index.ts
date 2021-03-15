@@ -148,7 +148,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
 export const NetworkContextName = 'NETWORK'
 
 export const AVALANCHE_CHAIN_PARAMS = {
-  chainId: '0x' + parseInt('0xa86a').toString(16), // A 0x-prefixed hexadecimal string
+  chainId: '0xa86a', // A 0x-prefixed hexadecimal chainId
   chainName: 'Avalanche Mainnet C-Chain',
   nativeCurrency: {
     name: 'Avalanche',
