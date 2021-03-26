@@ -147,6 +147,18 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
 
 export const NetworkContextName = 'NETWORK'
 
+export const AVALANCHE_CHAIN_PARAMS = {
+  chainId: '0xa86a', // A 0x-prefixed hexadecimal chainId
+  chainName: 'Avalanche Mainnet C-Chain',
+  nativeCurrency: {
+    name: 'Avalanche',
+    symbol: 'AVAX',
+    decimals: 18
+  },
+  rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+  blockExplorerUrls: ['https://cchain.explorer.avax.network/']
+}
+
 // default allowed slippage, in bips
 export const INITIAL_ALLOWED_SLIPPAGE = 50
 // 60 minutes, denominated in seconds
