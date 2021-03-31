@@ -15,6 +15,10 @@ export const ANALYTICS_PAGE = 'https://info.pangolin.exchange/'
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
+export const GOVERNANCE_ADDRESS = '0xb6f0120a714d11a710d3D505Aa98D8cf94Fb3c4f'
+
+export const PROPOSAL_LENGTH_IN_DAYS = 7
+
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
