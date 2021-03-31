@@ -9,6 +9,7 @@
     "@pangolindex/governance": "1.0.5",
     "@pangolindex/sdk": "1.1.0",
     "@pangolindex/web3-react-injected-connector": "1.0.1",
+    "@chainsafe/chainbridge-contracts": "^1.0.3",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.10.3",
     "@reach/portal": "^0.10.3",
