@@ -23,6 +23,7 @@ import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redir
 import Swap from './Swap'
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 import Airdrop from './Airdrop'
+import Bridge from './Bridge'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -81,6 +82,7 @@ export default function App() {
               <Route exact strict path="/find" component={PoolFinder} />
               <Route exact strict path="/pool" component={Pool} />
               <Route exact strict path="/png" component={Earn} />
+              <Route exact strict path="/bridge" component={Bridge} />
               <Route exact strict path="/airdrop" component={Airdrop} />
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />
               <Route exact path="/add" component={AddLiquidity} />

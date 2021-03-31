@@ -54,3 +54,23 @@ export default function Toggle({ id, isActive, toggle }: ToggleProps) {
     </StyledToggle>
   )
 }
+
+export interface ToggleOptionsProps {
+  id?: string
+  options: [string, string]
+  isActive: boolean
+  toggle: () => void
+}
+
+export function ToggleOptions({ id, options, isActive, toggle }: ToggleOptionsProps) {
+  return (
+    <StyledToggle id={id} isActive={isActive} onClick={toggle}>
+      <ToggleElement isActive={isActive} isOnSwitch={true}>
+        {options[0]}
+      </ToggleElement>
+      <ToggleElement isActive={!isActive} isOnSwitch={true}>
+        {options[1]}
+      </ToggleElement>
+    </StyledToggle>
+  )
+}

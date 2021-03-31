@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {AutoColumn} from '../../components/Column'
-import ChainSelectionPanel from '../../components/ChainSelection'
-import {ChainbridgeProvider} from "../../contexts/ChainbridgeContext";
-import {useActiveWeb3React} from "../../hooks";
-import {useWalletModalToggle} from "../../state/application/hooks";
-import {ButtonLight} from "../../components/Button";
-import {ToggleOptions} from "../../components/Toggle";
-import TokenWrappingPanel from '../../components/ChainSelection/Wrap'
+import BridgeTransferPanel from '../../components/Bridge/Transfer'
+import {ChainbridgeProvider} from '../../contexts/chainbridge/ChainbridgeContext'
+import {useActiveWeb3React} from '../../hooks'
+import {useWalletModalToggle} from '../../state/application/hooks'
+import {ButtonLight} from '../../components/Button'
+import {ToggleOptions} from '../../components/Toggle'
+import TokenWrappingPanel from '../../components/Bridge/Wrap'
 
 const PageWrapper = styled(AutoColumn)`
   position: relative;
@@ -31,10 +31,10 @@ export default function Bridge() {
     <PageWrapper>
       { account ?
       <ChainbridgeProvider>
-        <AutoColumn gap="lg" style={{width: '100%'}}>
-          <ToggleOptions options = {["Cross-chain transfer", "Wrap tokens"]} isActive={transferMode} toggle={() => toggleTransferMode(!transferMode)} />
+        <AutoColumn gap='lg' style={{width: '100%'}}>
+          <ToggleOptions options = {['Cross-chain transfer', 'Wrap tokens']} isActive={transferMode} toggle={() => toggleTransferMode(!transferMode)} />
           {transferMode ?
-            <ChainSelectionPanel/>
+            <BridgeTransferPanel/>
             :
             <TokenWrappingPanel/>
           }
