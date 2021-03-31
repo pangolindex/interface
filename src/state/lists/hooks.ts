@@ -32,7 +32,8 @@ export type TokenAddressMap = Readonly<{ [chainId in ChainId]: Readonly<{ [token
  */
 const EMPTY_LIST: TokenAddressMap = {
   [ChainId.FUJI]: {},
-  [ChainId.AVALANCHE]: {}
+  [ChainId.AVALANCHE]: {},
+  [ChainId.ETHEREUM]: {}
 }
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =
