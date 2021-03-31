@@ -43,6 +43,8 @@ import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import useENS from '../../hooks/useENS'
+import {isSwapChain} from "../../utils";
+import {addAvalancheNetwork} from "../../utils/walletUtils";
 
 export default function Swap() {
   const loadedUrlParams = useDefaultsFromURLSearch()
@@ -61,7 +63,7 @@ export default function Swap() {
     setDismissTokenWarning(true)
   }, [])
 
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
 
   // toggle wallet when disconnected
@@ -370,7 +372,10 @@ export default function Swap() {
           <BottomGrouping>
             {!account ? (
               <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
-            ) : showWrap ? (
+            ) : !isSwapChain(chainId) ? (
+              <ButtonLight onClick={addAvalancheNetwork}>Connect to Avalanche</ButtonLight>
+            ) :
+              showWrap ? (
               <ButtonPrimary disabled={Boolean(wrapInputError)} onClick={onWrap}>
                 {wrapInputError ??
                   (wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null)}

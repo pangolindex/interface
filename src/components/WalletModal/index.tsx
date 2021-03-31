@@ -8,13 +8,14 @@ import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { injected } from '../../connectors'
-import { LANDING_PAGE, SUPPORTED_WALLETS, AVALANCHE_CHAIN_PARAMS } from '../../constants'
+import { LANDING_PAGE, SUPPORTED_WALLETS } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useWalletModalToggle } from '../../state/application/hooks'
 import { ExternalLink } from '../../theme'
 import AccountDetails from '../AccountDetails'
 import { ButtonLight } from '../../components/Button'
+import { addAvalancheNetwork } from "../../utils/walletUtils";
 
 import Modal from '../Modal'
 import Option from './Option'
@@ -276,19 +277,6 @@ export default function WalletModal({
           />
         )
       )
-    })
-  }
-
-  function addAvalancheNetwork() {
-    injected.getProvider().then(provider => {
-      provider
-        .request({
-          method: 'wallet_addEthereumChain',
-          params: [AVALANCHE_CHAIN_PARAMS]
-        })
-        .catch((error: any) => {
-          console.log(error)
-        })
     })
   }
 

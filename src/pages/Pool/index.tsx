@@ -20,6 +20,7 @@ import { Dots } from '../../components/swap/styleds'
 import { ChainId } from '@pangolindex/sdk'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import { LANDING_PAGE, ANALYTICS_PAGE } from '../../constants'
+import { isSwapChain } from '../../utils'
 
 const LiquidityTutorial = LANDING_PAGE + 'tutorials/manage-liquidity'
 
@@ -144,7 +145,7 @@ export default function Pool() {
         </VoteCard>
 
         <ExternalLink
-                style={{ marginTop: '1.5rem', color: 'black', textDecoration: 'underline' }}
+                style={{ marginTop: '1.5rem', marginBottom: '1rem', color: 'black', textDecoration: 'underline' }}
                 target="_blank"
                 href={AccountAnalytics}
               >
@@ -153,8 +154,9 @@ export default function Pool() {
 
         <AutoColumn gap="lg" justify="center">
           <AutoColumn gap="lg" style={{ width: '100%' }}>
-            <TitleRow style={{ marginTop: '1rem' }} padding={'0'}>
-              <HideSmall>
+            { account && isSwapChain(chainId) &&
+            <TitleRow padding={'0'}>
+                <HideSmall>
                 <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
                   Your liquidity
                 </TYPE.mediumHeader>
@@ -170,7 +172,7 @@ export default function Pool() {
                 </ResponsiveButtonPrimary>
               </ButtonRow>
             </TitleRow>
-
+            }
             {!account ? (
               <Card padding="40px">
                 <TYPE.body color={theme.text3} textAlign="center">
@@ -189,6 +191,12 @@ export default function Pool() {
                   <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
                 ))}
               </>
+            ) : !isSwapChain(chainId) ?(
+              <EmptyProposals>
+                <TYPE.body color={theme.text3} textAlign="center">
+                  Connect to the Avalanche network to manage your liquidity.
+                </TYPE.body>
+              </EmptyProposals>
             ) : (
                     <EmptyProposals>
                       <TYPE.body color={theme.text3} textAlign="center">
@@ -196,7 +204,7 @@ export default function Pool() {
                 </TYPE.body>
                     </EmptyProposals>
                   )}
-
+            { isSwapChain(chainId) &&
             <AutoColumn justify={'center'} gap="md">
               <Text textAlign="center" fontSize={14} style={{ padding: '.5rem 0 .5rem 0' }}>
                 {hasV1Liquidity ? 'Uniswap V1 liquidity found!' : "Don't see a pool you joined?"}{' '}
@@ -205,6 +213,7 @@ export default function Pool() {
                 </StyledInternalLink>
               </Text>
             </AutoColumn>
+            }
           </AutoColumn>
         </AutoColumn>
       </PageWrapper>

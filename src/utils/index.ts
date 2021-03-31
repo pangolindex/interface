@@ -29,6 +29,12 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   1: ""
 }
 
+export const SUPPORTED_SWAP_CHAINS: ChainId[] = [ChainId.FUJI, ChainId.AVALANCHE]
+
+export function isSwapChain(chainId: ChainId | undefined): boolean {
+  return !!chainId && SUPPORTED_SWAP_CHAINS.includes(chainId)
+}
+
 export function getChainExplorerLink(
   chainId: ChainId,
   data: string,
