@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { AutoColumn } from './Column'
+import Column, { AutoColumn } from './Column'
 import styled, { ThemeContext } from 'styled-components'
 import { transparentize } from 'polished'
 import { AlertTriangle } from 'react-feather'
@@ -22,7 +22,10 @@ export default function GasFeeAlert() {
 		<GasFee style={{ marginTop: '16px' }} justify="flex-start" gap={'0px'}>
 			<RowFixed>
 				<AlertTriangle size={20} style={{ marginRight: '8px', minWidth: 24 }} />
-				<TYPE.main color={theme.primary1}> Transactions will not be accepted unless the gas fee is set to {GAS_PRICE} gwei.</TYPE.main>
+				<Column>
+					<TYPE.main color={theme.primary1} >!!! Gas Fee Reduction !!!<br/></TYPE.main>
+					<TYPE.main color={theme.primary1}>Transactions will not be accepted unless the gas fee is set to {GAS_PRICE} gwei.</TYPE.main>
+				</Column>
 			</RowFixed>
 		</GasFee>
 	)
