@@ -17,6 +17,12 @@ export function isAddress(value: any): string | false {
   }
 }
 
+export const EXPLORER_LABELS: { [chainId in ChainId]: string } = {
+  43113: 'C-Chain Explorer',
+  43114: 'C-Chain Explorer',
+  1: 'Etherscan'
+}
+
 const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   43113: 'avax-test',
   43114: 'avax',
