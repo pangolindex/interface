@@ -11,7 +11,7 @@ import Transaction from './Transaction'
 
 import { SUPPORTED_WALLETS } from '../../constants'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { getEtherscanLink } from '../../utils'
+import { getChainExplorerLink } from '../../utils'
 import { injected } from '../../connectors'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
@@ -314,7 +314,7 @@ export default function AccountDetails({
                           <AddressLink
                             hasENS={!!ENSName}
                             isENS={true}
-                            href={chainId && getEtherscanLink(chainId, ENSName, 'address')}
+                            href={chainId && getChainExplorerLink(chainId, ENSName, 'address')}
                           >
                             <LinkIcon size={16} />
                             <span style={{ marginLeft: '4px' }}>View on the C-Chain Explorer</span>
@@ -336,7 +336,7 @@ export default function AccountDetails({
                           <AddressLink
                             hasENS={!!ENSName}
                             isENS={false}
-                            href={getEtherscanLink(chainId, account, 'address')}
+                            href={getChainExplorerLink(chainId, account, 'address')}
                           >
                             <LinkIcon size={16} />
                             <span style={{ marginLeft: '4px' }}>View on the C-Chain Explorer</span>

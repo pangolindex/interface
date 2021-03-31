@@ -5,7 +5,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { ExternalLink, TYPE } from '../../theme'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
-import { getEtherscanLink } from '../../utils'
+import { getChainExplorerLink } from '../../utils'
 
 const InputPanel = styled.div`
   ${({ theme }) => theme.flexColumnNoWrap}
@@ -102,7 +102,7 @@ export default function AddressInputPanel({
                 Recipient
               </TYPE.black>
               {address && chainId && (
-                <ExternalLink href={getEtherscanLink(chainId, name ?? address, 'address')} style={{ fontSize: '14px' }}>
+                <ExternalLink href={getChainExplorerLink(chainId, name ?? address, 'address')} style={{ fontSize: '14px' }}>
                   (View on Avalanche C-Chain Explorer)
                 </ExternalLink>
               )}

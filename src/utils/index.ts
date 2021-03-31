@@ -23,12 +23,19 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   1: ""
 }
 
-export function getEtherscanLink(
+export function getChainExplorerLink(
   chainId: ChainId,
   data: string,
   type: 'transaction' | 'token' | 'address' | 'block'
 ): string {
-  const prefix = `https://cchain.explorer.${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[43114]}.network`
+  const prefix = (() => {
+    switch(chainId) {
+      case ChainId.ETHEREUM:
+        return `https://etherscan.io/`
+      default:
+        return `https://cchain.explorer.${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[43114]}.network`
+    }
+  })
 
   switch (type) {
     case 'transaction': {
