@@ -302,6 +302,9 @@ export default function Header() {
           <StyledNavLink id={`stake-nav-link`} to={'/png'}>
             PNG
            </StyledNavLink>
+           <StyledNavLink id={`stake-nav-link`} to={'/vote'}>
+            Vote
+           </StyledNavLink>
           <StyledExternalLink id={`info-nav-link`} href={ANALYTICS_PAGE}>
 	            Charts <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>

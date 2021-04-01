@@ -10,14 +10,13 @@ import { ArrowLeft } from 'react-feather'
 import { ButtonPrimary } from '../../components/Button'
 import { ProposalStatus } from './styled'
 import { useProposalData, useUserVotes, useUserDelegatee, ProposalData } from '../../state/governance/hooks'
-import { useTimestampFromBlock } from '../../hooks/useTimestampFromBlock'
 import { DateTime } from 'luxon'
 import ReactMarkdown from 'react-markdown'
 import VoteModal from '../../components/vote/VoteModal'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../hooks'
-import { PNG, ZERO_ADDRESS, PROPOSAL_LENGTH_IN_DAYS } from '../../constants'
+import { PNG, ZERO_ADDRESS } from '../../constants'
 import { isAddress, getEtherscanLink } from '../../utils'
 
 const PageWrapper = styled(AutoColumn)`
@@ -110,9 +109,14 @@ export default function VotePage({
   const [showModal, setShowModal] = useState<boolean>(false)
 
   // get and format date from data
-  const startTimestamp: number | undefined = useTimestampFromBlock(proposalData?.startBlock)
-  const endDate: DateTime | undefined = startTimestamp
-    ? DateTime.fromSeconds(startTimestamp).plus({ days: PROPOSAL_LENGTH_IN_DAYS })
+  // const startTimestamp: number | undefined = useTimestampFromBlock(proposalData?.startBlock)
+  const startTimestamp: number | undefined = proposalData?.startTime
+  const endTimestamp: number | undefined = proposalData?.endTime
+  const startDate: DateTime | undefined = startTimestamp
+    ? DateTime.fromSeconds(startTimestamp)
+    : undefined
+  const endDate: DateTime | undefined = endTimestamp
+    ? DateTime.fromSeconds(endTimestamp)
     : undefined
   const now: DateTime = DateTime.local()
 
@@ -161,7 +165,7 @@ export default function VotePage({
               {endDate && endDate < now
                 ? 'Voting ended ' + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
                 : proposalData
-                ? 'Voting ends approximately' + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
+                ? 'Voting ends ' + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
                 : ''}
             </TYPE.main>
             {showUnlockVoting && endDate && endDate > now && (
@@ -174,6 +178,15 @@ export default function VotePage({
                 Unlock Voting
               </ButtonPrimary>
             )}
+          </RowBetween>
+          <RowBetween>
+          <TYPE.main>
+              {startDate && startDate >= now
+                ? 'Voting started ' + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
+                : proposalData
+                ? 'Voting starts ' + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
+                : ''}
+            </TYPE.main>
           </RowBetween>
         </AutoColumn>
         {!showUnlockVoting &&

@@ -1,4 +1,17 @@
-import React, { useState } from 'react'
+import { Button } from 'rebass/styled-components'
+import { darken } from 'polished'
+import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
+import { useAllProposalData, ProposalData, useUserVotes, useUserDelegatee } from '../../state/governance/hooks'
+import DelegateModal from '../../components/vote/DelegateModal'
+import { useTokenBalance } from '../../state/wallet/hooks'
+import { useActiveWeb3React } from '../../hooks'
+import { PNG, ZERO_ADDRESS } from '../../constants'
+import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
+import { shortenAddress, getEtherscanLink } from '../../utils'
+import Loader from '../../components/Loader'
+import FormattedCurrencyAmount from '../../components/FormattedCurrencyAmount'
+
+import React from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { TYPE, ExternalLink } from '../../theme'
@@ -7,18 +20,8 @@ import { Link } from 'react-router-dom'
 import { ProposalStatus } from './styled'
 import { ButtonPrimary } from '../../components/Button'
 
-import { Button } from 'rebass/styled-components'
-import { darken } from 'polished'
-import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
-import { useAllProposalData, ProposalData, useUserVotes, useUserDelegatee } from '../../state/governance/hooks'
-import DelegateModal from '../../components/vote/DelegateModal'
-import { useTokenBalance } from '../../state/wallet/hooks'
-import { useActiveWeb3React } from '../../hooks'
-import { UNI, ZERO_ADDRESS } from '../../constants'
-import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
-import { shortenAddress, getEtherscanLink } from '../../utils'
-import Loader from '../../components/Loader'
-import FormattedCurrencyAmount from '../../components/FormattedCurrencyAmount'
+import { useModalOpen, useToggleDelegateModal } from '../../state/application/hooks'
+import { ApplicationModal } from '../../state/application/actions'
 
 const PageWrapper = styled(AutoColumn)``
 
@@ -77,6 +80,13 @@ const TextButton = styled(TYPE.main)`
   }
 `
 
+const ResponsiveButtonPrimary = styled(ButtonPrimary)`
+  width: fit-content;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    width: 48%;
+  `};
+`
+
 const AddressButton = styled.div`
   border: 1px solid ${({ theme }) => theme.bg3};
   padding: 2px 4px;
@@ -102,26 +112,29 @@ const EmptyProposals = styled.div`
 
 export default function Vote() {
   const { account, chainId } = useActiveWeb3React()
-  const [showModal, setShowModal] = useState<boolean>(false)
+
+  // toggle for showing delegation modal
+  const showDelegateModal = useModalOpen(ApplicationModal.DELEGATE)
+  const toggleDelegateModal = useToggleDelegateModal()
 
   // get data to list all proposals
   const allProposals: ProposalData[] = useAllProposalData()
 
   // user data
   const availableVotes: TokenAmount | undefined = useUserVotes()
-  const uniBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, chainId ? UNI[chainId] : undefined)
+  const pngBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, chainId ? PNG[chainId] : undefined)
   const userDelegatee: string | undefined = useUserDelegatee()
 
   // show delegation option if they have have a balance, but have not delegated
   const showUnlockVoting = Boolean(
-    uniBalance && JSBI.notEqual(uniBalance.raw, JSBI.BigInt(0)) && userDelegatee === ZERO_ADDRESS
+    pngBalance && JSBI.notEqual(pngBalance.raw, JSBI.BigInt(0)) && userDelegatee === ZERO_ADDRESS
   )
 
   return (
     <PageWrapper gap="lg" justify="center">
       <DelegateModal
-        isOpen={showModal}
-        onDismiss={() => setShowModal(false)}
+        isOpen={showDelegateModal}
+        onDismiss={toggleDelegateModal}
         title={showUnlockVoting ? 'Unlock Votes' : 'Update Delegation'}
       />
       <TopSection gap="md">
@@ -131,11 +144,11 @@ export default function Vote() {
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
-                <TYPE.white fontWeight={600}>Uniswap Governance</TYPE.white>
+                <TYPE.white fontWeight={600}>Pangolin Governance</TYPE.white>
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  UNI tokens represent voting shares in Uniswap governance. You can vote on each proposal yourself or
+                  PNG tokens represent voting shares in Pangolin governance. You can vote on each proposal yourself or
                   delegate your votes to a third party.
                 </TYPE.white>
               </RowBetween>
@@ -144,7 +157,7 @@ export default function Vote() {
                 href="https://uniswap.org/blog/uni"
                 target="_blank"
               >
-                <TYPE.white fontSize={14}>Read more about Uniswap governance</TYPE.white>
+                <TYPE.white fontSize={14}>Read more about Pangolin governance</TYPE.white>
               </ExternalLink>
             </AutoColumn>
           </CardSection>
@@ -154,14 +167,14 @@ export default function Vote() {
       </TopSection>
       <TopSection gap="2px">
         <WrapSmall>
-          <TYPE.mediumHeader style={{ margin: '0.5rem 0' }}>Proposals</TYPE.mediumHeader>
+          <TYPE.mediumHeader style={{ margin: '0.5rem 0.5rem 0.5rem 0', flexShrink: 0 }}>Proposals</TYPE.mediumHeader>
           {(!allProposals || allProposals.length === 0) && !availableVotes && <Loader />}
           {showUnlockVoting ? (
             <ButtonPrimary
               style={{ width: 'fit-content' }}
               padding="8px"
               borderRadius="8px"
-              onClick={() => setShowModal(true)}
+              onClick={toggleDelegateModal}
             >
               Unlock Voting
             </ButtonPrimary>
@@ -169,12 +182,12 @@ export default function Vote() {
             <TYPE.body fontWeight={500} mr="6px">
               <FormattedCurrencyAmount currencyAmount={availableVotes} /> Votes
             </TYPE.body>
-          ) : uniBalance &&
+          ) : pngBalance &&
             userDelegatee &&
             userDelegatee !== ZERO_ADDRESS &&
-            JSBI.notEqual(JSBI.BigInt(0), uniBalance?.raw) ? (
+            JSBI.notEqual(JSBI.BigInt(0), pngBalance?.raw) ? (
             <TYPE.body fontWeight={500} mr="6px">
-              <FormattedCurrencyAmount currencyAmount={uniBalance} /> Votes
+              <FormattedCurrencyAmount currencyAmount={pngBalance} /> Votes
             </TYPE.body>
           ) : (
             ''
@@ -190,12 +203,12 @@ export default function Vote() {
                 </TYPE.body>
                 <AddressButton>
                   <StyledExternalLink
-                    href={getEtherscanLink(ChainId.AVALANCHE, userDelegatee, 'address')}
+                    href={getEtherscanLink(ChainId.FUJI, userDelegatee, 'address')}
                     style={{ margin: '0 4px' }}
                   >
                     {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee)}
                   </StyledExternalLink>
-                  <TextButton onClick={() => setShowModal(true)} style={{ marginLeft: '4px' }}>
+                  <TextButton onClick={toggleDelegateModal} style={{ marginLeft: '4px' }}>
                     (edit)
                   </TextButton>
                 </AddressButton>
@@ -223,8 +236,11 @@ export default function Vote() {
           )
         })}
       </TopSection>
+      <ResponsiveButtonPrimary id="join-pool-button" as={Link} padding="6px 8px" to="/submit">
+        Submit Proposal
+      </ResponsiveButtonPrimary>
       <TYPE.subHeader color="text3">
-        A minimum threshhold of 1% of the total UNI supply is required to submit proposals
+        A minimum threshhold of 1% of the total PNG supply is required to submit proposals
       </TYPE.subHeader>
     </PageWrapper>
   )

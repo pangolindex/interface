@@ -25,8 +25,9 @@ export interface ProposalData {
   status: string
   forCount: number
   againstCount: number
+  startTime: number
+  endTime: number
   startBlock: number
-  endBlock: number
   details: ProposalDetail[]
 }
 
@@ -116,21 +117,25 @@ export function useAllProposalData() {
     allProposals.reverse()
     allProposalStates.reverse()
 
+
     return allProposals
       .filter((p, i) => {
         return Boolean(p.result) && Boolean(allProposalStates[i]?.result) && Boolean(formattedEvents[i])
       })
       .map((p, i) => {
+        const description = formattedEvents[i].description
+        debugger
         const formattedProposal: ProposalData = {
           id: allProposals[i]?.result?.id.toString(),
-          title: formattedEvents[i].description?.split(/# |\n/g)[1] || 'Untitled',
-          description: formattedEvents[i].description?.split(/# /)[1] || 'No description.',
+          title: description?.split(/# |\n/g)[1] || 'Untitled',
+          description: description || 'No description.',
           proposer: allProposals[i]?.result?.proposer,
           status: enumerateProposalState(allProposalStates[i]?.result?.[0]) ?? 'Undetermined',
           forCount: parseFloat(ethers.utils.formatUnits(allProposals[i]?.result?.forVotes.toString(), 18)),
           againstCount: parseFloat(ethers.utils.formatUnits(allProposals[i]?.result?.againstVotes.toString(), 18)),
+          startTime: parseInt(allProposals[i]?.result?.startTime?.toString()),
+          endTime: parseInt(allProposals[i]?.result?.endTime?.toString()),
           startBlock: parseInt(allProposals[i]?.result?.startBlock?.toString()),
-          endBlock: parseInt(allProposals[i]?.result?.endBlock?.toString()),
           details: formattedEvents[i].details
         }
         return formattedProposal
