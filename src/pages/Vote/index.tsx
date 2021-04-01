@@ -152,13 +152,17 @@ export default function Vote() {
                   delegate your votes to a third party.
                 </TYPE.white>
               </RowBetween>
-              <ExternalLink
-                style={{ color: 'white', textDecoration: 'underline' }}
-                href="https://uniswap.org/blog/uni"
-                target="_blank"
-              >
-                <TYPE.white fontSize={14}>Read more about Pangolin governance</TYPE.white>
-              </ExternalLink>
+              <RowBetween>
+                <TYPE.white fontSize={14}>
+                  To be eligible to vote, you must hold PNG in your wallet and delegate
+                  it at the start of voting. After voting has begun, you may pool or spend your PNG.
+                </TYPE.white>
+              </RowBetween>
+              <RowBetween>
+                <TYPE.white fontSize={14}>
+                  Governance votes are decided by simple majority. There is no quorum threshold.
+                </TYPE.white>
+              </RowBetween>
             </AutoColumn>
           </CardSection>
           <CardBGImage />
@@ -240,7 +244,7 @@ export default function Vote() {
         Submit Proposal
       </ResponsiveButtonPrimary>
       <TYPE.subHeader color="text3">
-        A minimum threshhold of 1% of the total PNG supply is required to submit proposals
+        A minimum threshhold of 1,000,000 PNG is required to submit proposals
       </TYPE.subHeader>
     </PageWrapper>
   )

@@ -162,10 +162,10 @@ export default function VotePage({
           <TYPE.largeHeader style={{ marginBottom: '.5rem' }}>{proposalData?.title}</TYPE.largeHeader>
           <RowBetween>
             <TYPE.main>
-              {endDate && endDate < now
-                ? 'Voting ended ' + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
+              {startDate && startDate >= now
+                ? 'Voting started ' + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
                 : proposalData
-                ? 'Voting ends ' + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
+                ? 'Voting starts ' + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
                 : ''}
             </TYPE.main>
             {showUnlockVoting && endDate && endDate > now && (
@@ -180,11 +180,11 @@ export default function VotePage({
             )}
           </RowBetween>
           <RowBetween>
-          <TYPE.main>
-              {startDate && startDate >= now
-                ? 'Voting started ' + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
+            <TYPE.main>
+              {endDate && endDate < now
+                ? 'Voting ended ' + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
                 : proposalData
-                ? 'Voting starts ' + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
+                ? 'Voting ends ' + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
                 : ''}
             </TYPE.main>
           </RowBetween>
