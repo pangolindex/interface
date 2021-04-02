@@ -169,16 +169,6 @@ export default function VotePage({
                 ? 'Voting starts ' + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
                 : ''}
             </TYPE.main>
-            {showUnlockVoting && endDate && endDate > now && (
-              <ButtonPrimary
-                style={{ width: 'fit-content' }}
-                padding="8px"
-                borderRadius="8px"
-                onClick={() => setShowModal(true)}
-              >
-                Unlock Voting
-              </ButtonPrimary>
-            )}
           </RowBetween>
           <RowBetween>
             <TYPE.main>
