@@ -119,6 +119,7 @@ export default function VotePage({
     ? DateTime.fromSeconds(endTimestamp)
     : undefined
   const now: DateTime = DateTime.local()
+  debugger
 
   // get total votes and format percentages for UI
   const totalVotes: number | undefined = proposalData ? proposalData.forCount + proposalData.againstCount : undefined
@@ -162,7 +163,7 @@ export default function VotePage({
           <TYPE.largeHeader style={{ marginBottom: '.5rem' }}>{proposalData?.title}</TYPE.largeHeader>
           <RowBetween>
             <TYPE.main>
-              {startDate && startDate >= now
+              {startDate && startDate <= now
                 ? 'Voting started ' + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
                 : proposalData
                 ? 'Voting starts ' + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
@@ -193,7 +194,9 @@ export default function VotePage({
         availableVotes &&
         JSBI.greaterThan(availableVotes?.raw, JSBI.BigInt(0)) &&
         endDate &&
-        endDate > now ? (
+        endDate > now &&
+        startDate &&
+        startDate <= now ? (
           <RowFixed style={{ width: '100%', gap: '12px' }}>
             <ButtonPrimary
               padding="8px"

@@ -80,13 +80,6 @@ const TextButton = styled(TYPE.main)`
   }
 `
 
-const ResponsiveButtonPrimary = styled(ButtonPrimary)`
-  width: fit-content;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    width: 48%;
-  `};
-`
-
 const AddressButton = styled.div`
   border: 1px solid ${({ theme }) => theme.bg3};
   padding: 2px 4px;
@@ -240,9 +233,6 @@ export default function Vote() {
           )
         })}
       </TopSection>
-      <ResponsiveButtonPrimary id="join-pool-button" as={Link} padding="6px 8px" to="/submit">
-        Submit Proposal
-      </ResponsiveButtonPrimary>
       <TYPE.subHeader color="text3">
         A minimum threshhold of 1,000,000 PNG is required to submit proposals
       </TYPE.subHeader>

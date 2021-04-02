@@ -124,7 +124,6 @@ export function useAllProposalData() {
       })
       .map((p, i) => {
         const description = formattedEvents[i].description
-        debugger
         const formattedProposal: ProposalData = {
           id: allProposals[i]?.result?.id.toString(),
           title: description?.split(/# |\n/g)[1] || 'Untitled',
