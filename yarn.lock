@@ -2325,13 +2325,15 @@
   resolved "https://registry.yarnpkg.com/@pangolindex/exchange-contracts/-/exchange-contracts-1.0.1.tgz#3c4374ed7de9d0f5f141614a12349f97d611ab35"
   integrity sha512-lvL2y1xVsAh1S+fC3RCp9+Z70MOtydaRvBD9AZAJ4ZUajvMtDhTzCAAZAf2op43149JMWAytWYOrAbCSUeaw7Q==
 
-"@pangolindex/governance@1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@pangolindex/governance/-/governance-1.0.5.tgz#cc865d37d53cb8c57baa13999729a7c00caf8b60"
-  integrity sha512-HIm+0nOzv0OKRJAFS/dBQnzxtMrMELXSlpz7VEyMNXp3qLF8eGsGN1xXkL61xHE3MyLZbhYoY7Aqy9gwL8YAWg==
+"@pangolindex/governance@1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@pangolindex/governance/-/governance-1.0.6.tgz#45a7356f496ae4ed4ac76c5c75e345e517f1412d"
+  integrity sha512-2k3FuCw/xlyUUvhEqRKDi/WM9p0/7pDrTWXomtBrnCtNaafk3zaiKOQ9B2fy4Pp580wwFBbmPARoqLPWrpF18Q==
   dependencies:
     "@pangolindex/exchange-contracts" "^1.0.1"
     "@tenderly/hardhat-tenderly" "^1.0.6"
+    csv-batch "^2.0.2"
+    openzeppelin-solidity "^3.4.0"
 
 "@pangolindex/sdk@1.1.0":
   version "1.1.0"
@@ -6634,6 +6636,11 @@ csstype@^3.0.2:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.6.tgz#865d0b5833d7d8d40f4e5b8a6d76aea3de4725ef"
   integrity sha512-+ZAmfyWMT7TiIlzdqJgjMb7S4f1beorDbWbsocyK4RaiqA5RTX3K14bnBWmmA9QEM0gRdsjyyrEmcyga8Zsxmw==
+
+csv-batch@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/csv-batch/-/csv-batch-2.0.2.tgz#3b931cf1f609bdaedde9339878da5353f1d1ff1f"
+  integrity sha512-febYcxnSbr6jTZJ7+glapHZv4JrhHo7X2P1QxSgnasfArCPtiR4VnNbQWagEUvJYHAii7Dn335NVRXAULjcVJw==
 
 cyclist@^1.0.1:
   version "1.0.1"
@@ -13078,6 +13085,11 @@ open@^7.0.2:
   dependencies:
     is-docker "^2.0.0"
     is-wsl "^2.1.1"
+
+openzeppelin-solidity@^3.4.0:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/openzeppelin-solidity/-/openzeppelin-solidity-3.4.1.tgz#c250f0c46b0ed38437b91bba80fed369adf1b09e"
+  integrity sha512-cr23CIbIbs77AV/l1rCB1ppSE/ROIyM+9126GYH/t+ehYwIs1FWHevZfgXQi1JFhXZqxOHjW6isRWmlDVR4OLA==
 
 opn@^5.5.0:
   version "5.5.0"
