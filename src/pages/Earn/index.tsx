@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
 import { TYPE, ExternalLink } from '../../theme'
 import PoolCard from '../../components/earn/PoolCard'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, NavLink } from 'react-router-dom'
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
@@ -99,20 +99,20 @@ export default function Earn({
 									then deposit.
                                 </TYPE.white>
 							</RowBetween>{' '}
-							<ExternalLink
+							<NavLink
 								style={{ color: 'white', textDecoration: 'underline' }}
-								href="http://pangolin.exchange/#/png/0"
+								to="/png/0"
 								target="_blank"
 							>
 								<TYPE.white fontSize={14}>Old PNG pools</TYPE.white>
-							</ExternalLink>
-							<ExternalLink
+							</NavLink>
+							<NavLink
 								style={{ color: 'white', textDecoration: 'underline' }}
-								href="http://pangolin.exchange/#/png/1"
+								to="/png/1"
 								target="_blank"
 							>
 								<TYPE.white fontSize={14}>New PNG pools</TYPE.white>
-							</ExternalLink>
+							</NavLink>
 						</AutoColumn>
 					</CardSection>
 				</DataCard>
