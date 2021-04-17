@@ -299,12 +299,15 @@ export default function Header() {
           >
             {t('pool')}
           </StyledNavLink>
-          <StyledNavLink id={`stake-nav-link`} to={'/png'}>
-            PNG
-           </StyledNavLink>
-           <StyledNavLink id={`stake-nav-link`} to={'/vote'}>
+          <StyledNavLink id={`stake-nav-link`} to={'/png/1'}>
+            New PNG
+          </StyledNavLink>
+          <StyledNavLink id={`stake-nav-link`} to={'/png/0'}>
+            Old PNG
+          </StyledNavLink>
+          <StyledNavLink id={`stake-nav-link`} to={'/vote'}>
             Vote
-           </StyledNavLink>
+          </StyledNavLink>
           <StyledExternalLink id={`info-nav-link`} href={ANALYTICS_PAGE}>
 	            Charts <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
