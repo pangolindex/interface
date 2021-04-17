@@ -11,91 +11,177 @@ export const STAKING_GENESIS = 1600387200
 
 export const REWARDS_DURATION_DAYS = 60
 
-// TODO add staking rewards addresses here
+export const STAKING_V1: {
+	tokens: [Token, Token]
+	stakingRewardAddress: string
+}[] = [
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xa16381eae6285123c323a665d4d99a6bcfaac307'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], USDT[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x4f019452f51bba0250ec8b69d64282b79fc8bd9f'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x01897e996eefff65ae9999c02d1d8d7e9e0c0352'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x8fd2755c6ae7252753361991bdcd6ff55bdc01ce'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], LINK[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x7d7ecd4d370384b17dfc1b4155a8410e97841b65'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xb5b9ded9c193731f816ae1f8ffb7f8b0fae40c88'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], UNI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xe4d9ae03859dac6d65432d557f75b9b588a38ee1'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], SUSHI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x88f26b81c9cae4ea168e31bc6353f493fda29661'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], AAVE[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xee0023108918884181e48902f7c797573f413ece'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x797cbcf107519f4b279fc5db372e292cdf7e6956'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x4e550fefbf888cb43ead73d821f646f43b1f2309'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], USDT[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x7accc6f16bf8c0dce22371fbd914c6b5b402bf9f'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x99b06b9673fea30ba55179b1433ce909fdc28723'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], LINK[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x4ad6e309805cb477010bea9ffc650cb27c1a9504'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x8866077f08b076360c25f4fd7fbc959ef135474c'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], UNI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x41188b4332fe68135d1524e43db98e81519d263b'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], SUSHI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x6955cb85edea63f861c0be39c3d7f8921606c4dc'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], AAVE[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xb921a3ae9ceda66fa8a74dbb0946367fb14fae34'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x2061298c76cd76219b9b44439e96a75f19c61f7f'
+	},
+]
+
+export const STAKING_V2: {
+	tokens: [Token, Token]
+	stakingRewardAddress: string
+}[] = [
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x417c02150b9a31bcacb201d1d60967653384e1c6'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], USDT[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x94c021845efe237163831dac39448cfd371279d6'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xe968e9753fd2c323c2fe94caff954a48afc18546'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x574d3245e36cf8c9dc86430eadb0fdb2f385f829'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], LINK[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xbda623cdd04d822616a263bf4edbbce0b7dc4ae7'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x701e03fad691799a8905043c0d18d2213bbcf2c7'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], UNI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x1f6acc5f5fe6af91c1bb3bebd27f4807a243d935'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], SUSHI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xda354352b03f87f84315eef20cdd83c49f7e812e'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], AAVE[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x4df32f1f8469648e89e62789f4246f73fe768b8e'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x2c31822f35506c6444f458ed7470c79f9924ee86'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x7ac007afb5d61f48d1e3c8cc130d4cf6b765000e'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], USDT[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xe2510a1fcccde8d2d1c40b41e8f71fb1f47e5bba'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x681047473b6145ba5db90b074e32861549e85cc7'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], LINK[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x6356b24b36074abe2903f44fe4019bc5864fde36'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xe3103e565cf96a5709ae8e603b1efb7fed04613b'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], UNI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x4f74bbf6859a994e7c309ea0f11e3cc112955110'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], SUSHI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x633f4b4db7dd4fa066bd9949ab627a551e0ecd32'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], AAVE[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xfd9acec0f413ca05d5ad5b962f3b4de40018ad87'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xc7d0e29b616b29ac6ff4fd5f37c8da826d16db0d'
+	},
+]
+
 export const STAKING_REWARDS_INFO: {
 	[chainId in ChainId]?: {
 		tokens: [Token, Token]
 		stakingRewardAddress: string
-	}[]
+	}[][]
 } = {
-	[ChainId.AVALANCHE]: [
-		{
-			tokens: [WAVAX[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0xa16381eae6285123c323a665d4d99a6bcfaac307'
-		},
-		{
-			tokens: [WAVAX[ChainId.AVALANCHE], USDT[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x4f019452f51bba0250ec8b69d64282b79fc8bd9f'
-		},
-		{
-			tokens: [WAVAX[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x01897e996eefff65ae9999c02d1d8d7e9e0c0352'
-		},
-		{
-			tokens: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x8fd2755c6ae7252753361991bdcd6ff55bdc01ce'
-		},
-		{
-			tokens: [WAVAX[ChainId.AVALANCHE], LINK[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x7d7ecd4d370384b17dfc1b4155a8410e97841b65'
-		},
-		{
-			tokens: [WAVAX[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0xb5b9ded9c193731f816ae1f8ffb7f8b0fae40c88'
-		},
-		{
-			tokens: [WAVAX[ChainId.AVALANCHE], UNI[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0xe4d9ae03859dac6d65432d557f75b9b588a38ee1'
-		},
-		{
-			tokens: [WAVAX[ChainId.AVALANCHE], SUSHI[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x88f26b81c9cae4ea168e31bc6353f493fda29661'
-		},
-		{
-			tokens: [WAVAX[ChainId.AVALANCHE], AAVE[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0xee0023108918884181e48902f7c797573f413ece'
-		},
-		{
-			tokens: [WAVAX[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x797cbcf107519f4b279fc5db372e292cdf7e6956'
-		},
-		{
-			tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x4e550fefbf888cb43ead73d821f646f43b1f2309'
-		},
-		{
-			tokens: [PNG[ChainId.AVALANCHE], USDT[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x7accc6f16bf8c0dce22371fbd914c6b5b402bf9f'
-		},
-		{
-			tokens: [PNG[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x99b06b9673fea30ba55179b1433ce909fdc28723'
-		},
-		{
-			tokens: [PNG[ChainId.AVALANCHE], LINK[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x4ad6e309805cb477010bea9ffc650cb27c1a9504'
-		},
-		{
-			tokens: [PNG[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x8866077f08b076360c25f4fd7fbc959ef135474c'
-		},
-		{
-			tokens: [PNG[ChainId.AVALANCHE], UNI[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x41188b4332fe68135d1524e43db98e81519d263b'
-		},
-		{
-			tokens: [PNG[ChainId.AVALANCHE], SUSHI[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x6955cb85edea63f861c0be39c3d7f8921606c4dc'
-		},
-		{
-			tokens: [PNG[ChainId.AVALANCHE], AAVE[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0xb921a3ae9ceda66fa8a74dbb0946367fb14fae34'
-		},
-		{
-			tokens: [PNG[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
-			stakingRewardAddress: '0x2061298c76cd76219b9b44439e96a75f19c61f7f'
-		},
-	]
+	[ChainId.AVALANCHE]: [STAKING_V1, STAKING_V2]
 }
 
 export interface StakingInfo {
@@ -134,6 +220,9 @@ const calculateTotalStakedAmountInAvaxFromPng = function(
 	totalStakedAmount: TokenAmount,
 ): TokenAmount
 {
+	if (JSBI.EQ(totalSupply, JSBI.BigInt(0))) {
+		return new TokenAmount(WAVAX[ChainId.AVALANCHE], JSBI.BigInt(0))
+	}
 	const oneToken = JSBI.BigInt(1000000000000000000)
 	const avaxPngRatio = JSBI.divide(JSBI.multiply(oneToken, avaxPngPairReserveOfOtherToken),
 	avaxPngPairReserveOfPng)
@@ -153,26 +242,30 @@ const calculateTotalStakedAmountInAvaxFromPng = function(
 
 const calculteTotalStakedAmountInAvax = function(totalSupply: JSBI, reserveInWavax: JSBI, totalStakedAmount: TokenAmount): TokenAmount
 {
-	// take the total amount of LP tokens staked, multiply by AVAX value of all LP tokens, divide by all LP tokens
-	return new TokenAmount(WAVAX[ChainId.AVALANCHE], JSBI.divide(
-			JSBI.multiply(
-				JSBI.multiply(totalStakedAmount.raw, reserveInWavax),
-				JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
-			),
-			totalSupply
+	if (JSBI.GT(totalSupply, 0)) {
+		// take the total amount of LP tokens staked, multiply by AVAX value of all LP tokens, divide by all LP tokens
+		return new TokenAmount(WAVAX[ChainId.AVALANCHE], JSBI.divide(
+				JSBI.multiply(
+					JSBI.multiply(totalStakedAmount.raw, reserveInWavax),
+					JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
+				),
+				totalSupply
+			)
 		)
-	)
+	} else {
+		return new TokenAmount(WAVAX[ChainId.AVALANCHE], JSBI.BigInt(0))
+	}
 }
 
 
 // gets the staking info from the network for the active chain id
-export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
+export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): StakingInfo[] {
 	const { chainId, account } = useActiveWeb3React()
 
 	const info = useMemo(
 		() =>
 			chainId
-				? STAKING_REWARDS_INFO[chainId]?.filter(stakingRewardInfo =>
+				? STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
 					pairToFilterBy === undefined
 						? true
 						: pairToFilterBy === null
@@ -181,7 +274,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 							pairToFilterBy.involvesToken(stakingRewardInfo.tokens[1])
 				) ?? []
 				: [],
-		[chainId, pairToFilterBy]
+		[chainId, pairToFilterBy, version]
 	)
 
 	const png = PNG[ChainId.AVALANCHE]
@@ -278,7 +371,6 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 						 pair.reserveOf(png).raw, totalStakedAmount
 					)
 
-
 				const getHypotheticalRewardRate = (
 					stakedAmount: TokenAmount,
 					totalStakedAmount: TokenAmount,
@@ -317,17 +409,31 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 export function useTotalPngEarned(): TokenAmount | undefined {
 	const { chainId } = useActiveWeb3React()
 	const png = chainId ? PNG[chainId] : undefined
-	const stakingInfos = useStakingInfo()
+	const stakingInfo1 = useStakingInfo(0)
+	const stakingInfo2 = useStakingInfo(1)
 
-	return useMemo(() => {
+	let earned1 = useMemo(() => {
 		if (!png) return undefined
 		return (
-			stakingInfos?.reduce(
+			stakingInfo1?.reduce(
 				(accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
 				new TokenAmount(png, '0')
 			) ?? new TokenAmount(png, '0')
 		)
-	}, [stakingInfos, png])
+	}, [stakingInfo1, png])
+
+	let earned2 = useMemo(() => {
+		if (!png) return undefined
+		return (
+			stakingInfo2?.reduce(
+				(accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
+				new TokenAmount(png, '0')
+			) ?? new TokenAmount(png, '0')
+		)
+	}, [stakingInfo2, png])
+
+	let total = earned1 ? (earned2 ? earned1.add(earned2) : earned1) : (earned2 ? earned2 : undefined)
+	return total
 }
 
 // based on typed value

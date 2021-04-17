@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
 import { TYPE, ExternalLink } from '../../theme'
 import PoolCard from '../../components/earn/PoolCard'
+import { RouteComponentProps } from 'react-router-dom'
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
@@ -30,9 +31,13 @@ const PoolSection = styled.div`
    justify-self: center;
  `
 
-export default function Earn() {
+export default function Earn({
+	match: {
+		params: { version }
+	}
+}: RouteComponentProps<{  version: string }>) {
 	const { chainId } = useActiveWeb3React()
-	const stakingInfos = useStakingInfo()
+	const stakingInfos = useStakingInfo(Number(version))
 
 	const DataRow = styled(RowBetween)`
      ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -70,6 +75,47 @@ export default function Earn() {
 					<CardBGImage />
 					<CardNoise />
 				</DataCard>
+				<DataCard>
+					<CardNoise />
+					<CardSection>
+						<AutoColumn gap="md">
+							<RowBetween>
+								<TYPE.white fontWeight={600}>IMPORTANT UPDATE</TYPE.white>
+							</RowBetween>
+							<RowBetween>
+								<TYPE.white fontSize={14}>
+									As a result of Pangolin governance proposal 1, Pangolin is changing staking contracts!
+									After approximately 08:59 UTC on 4/19, all staking rewards will be distributed to the
+									new staking contracts. Before the switch, all rewards will still be distributed to the
+									old contracts. To avoid interruptions to yield farming rewards, you need to unstake your
+									liquidity from the old contracts and restake in the new contracts. You do not need to
+									remove liquidity from your pools or alter your positions.
+                                </TYPE.white>
+								</RowBetween>
+								<RowBetween>
+								<TYPE.white fontSize={14}>
+									To unstake, go to the old pools, click manage and withdraw your PGL tokens. This will
+									also claim any earned PNG. To restake, navigate to the new pools, click manage, and
+									then deposit.
+                                </TYPE.white>
+							</RowBetween>{' '}
+							<ExternalLink
+								style={{ color: 'white', textDecoration: 'underline' }}
+								href="http://pangolin.exchange/#/png/0"
+								target="_blank"
+							>
+								<TYPE.white fontSize={14}>Old PNG pools</TYPE.white>
+							</ExternalLink>
+							<ExternalLink
+								style={{ color: 'white', textDecoration: 'underline' }}
+								href="http://pangolin.exchange/#/png/1"
+								target="_blank"
+							>
+								<TYPE.white fontSize={14}>New PNG pools</TYPE.white>
+							</ExternalLink>
+						</AutoColumn>
+					</CardSection>
+				</DataCard>
 			</TopSection>
 
 			<AutoColumn gap="lg" style={{ width: '100%', maxWidth: '720px' }}>
@@ -87,7 +133,7 @@ export default function Earn() {
 						'No active rewards'
 					) : (
 						stakingInfos?.sort(
-								function(info_a, info_b) { 
+								function(info_a, info_b) {
 									// greater stake in avax comes first
 									return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
 								}
@@ -110,7 +156,7 @@ export default function Earn() {
 									}
 							}).map(
 								stakingInfo => {
-									return <PoolCard key={stakingInfo.stakingRewardAddress} stakingInfo={stakingInfo} />
+									return <PoolCard key={stakingInfo.stakingRewardAddress} stakingInfo={stakingInfo} version={version} />
 								}
 							)
 					)}

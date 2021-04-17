@@ -4,7 +4,7 @@ import { RowBetween } from '../Row'
 import styled from 'styled-components'
 import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
-import { CAVAX, JSBI, Token } from '@pangolindex/sdk'
+import { CAVAX, JSBI, Token, Fraction } from '@pangolindex/sdk'
 import { ButtonPrimary } from '../Button'
 import { StakingInfo } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
@@ -71,7 +71,7 @@ const BottomSection = styled.div<{ showBackground: boolean }>`
    z-index: 1;
  `
 
-export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) {
+export default function PoolCard({ stakingInfo, version }: { stakingInfo: StakingInfo, version: string }) {
 	const token0 = stakingInfo.tokens[0]
 	const token1 = stakingInfo.tokens[1]
 
@@ -90,13 +90,17 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
 	// let valueOfTotalStakedAmountInUSDC: CurrencyAmount | undefined
 	// get the color of the token
 	let backgroundColor = useColor(token)
-	
+
 	// let usdToken: Token
 	// const USDPrice = useUSDCPrice(usdToken)
 	// valueOfTotalStakedAmountInUSDC =
 	// valueOfTotalStakedAmountInWavax && USDPrice?.quote(valueOfTotalStakedAmountInWavax)
 	let weeklyRewardAmount = stakingInfo.totalRewardRate.multiply(JSBI.BigInt(60 * 60 * 24 * 7))
-	const weeklyRewardPerAvax = weeklyRewardAmount.divide(stakingInfo.totalStakedInWavax)
+	let weeklyRewardPerAvax = weeklyRewardAmount.divide(stakingInfo.totalStakedInWavax)
+	console.log("Weekly fixed:", weeklyRewardPerAvax)
+	if (JSBI.EQ(weeklyRewardPerAvax.denominator,0)) {
+		weeklyRewardPerAvax = new Fraction(JSBI.BigInt(0), JSBI.BigInt(1))
+	}
 
 	return (
 		<Wrapper showBackground={isStaking} bgColor={backgroundColor}>
@@ -109,7 +113,7 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
 					{currency0.symbol}-{currency1.symbol}
 				</TYPE.white>
 
-				<StyledInternalLink to={`/png/${currencyId(currency0)}/${currencyId(currency1)}`} style={{ width: '100%' }}>
+				<StyledInternalLink to={`/png/${currencyId(currency0)}/${currencyId(currency1)}/${version}`} style={{ width: '100%' }}>
 					<ButtonPrimary padding="8px" borderRadius="8px">
 						{isStaking ? 'Manage' : 'Deposit'}
 					</ButtonPrimary>
