@@ -97,7 +97,6 @@ export default function PoolCard({ stakingInfo, version }: { stakingInfo: Stakin
 	// valueOfTotalStakedAmountInWavax && USDPrice?.quote(valueOfTotalStakedAmountInWavax)
 	let weeklyRewardAmount = stakingInfo.totalRewardRate.multiply(JSBI.BigInt(60 * 60 * 24 * 7))
 	let weeklyRewardPerAvax = weeklyRewardAmount.divide(stakingInfo.totalStakedInWavax)
-	console.log("Weekly fixed:", weeklyRewardPerAvax)
 	if (JSBI.EQ(weeklyRewardPerAvax.denominator,0)) {
 		weeklyRewardPerAvax = new Fraction(JSBI.BigInt(0), JSBI.BigInt(1))
 	}

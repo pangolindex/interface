@@ -92,7 +92,6 @@ export default function Manage({
 		params: { currencyIdA, currencyIdB, version }
 	}
 }: RouteComponentProps<{ currencyIdA: string; currencyIdB: string; version: string }>) {
-	console.log("Got version:", version)
 	const { account, chainId } = useActiveWeb3React()
 
 	// get currencies and pair
