@@ -10,6 +10,8 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../transactions/hooks'
 import { useState, useEffect, useCallback } from 'react'
 import { abi as GOV_ABI } from '@pangolindex/governance/artifacts/contracts/GovernorAlpha.sol/GovernorAlpha.json'
+import { GET_BLOCK } from '../../apollo/queries'
+import { blockClient } from '../../apollo/client'
 
 interface ProposalDetail {
   target: string
@@ -47,6 +49,23 @@ export function useProposalCount(): number | undefined {
 }
 
 /**
+ * @notice Fetches first block after a given timestamp
+ * @dev Query speed is optimized by limiting to a 600-second period
+ * @param {Int} timestamp in seconds
+ */
+ export async function getBlockFromTimestamp(timestamp: number) {
+  let result = await blockClient.query({
+    query: GET_BLOCK,
+    variables: {
+      timestampFrom: timestamp,
+      timestampTo: timestamp + 60 * 60 * 24 * 7,
+    },
+    fetchPolicy: 'cache-first',
+  })
+  return result?.data?.blocks?.[0]?.number
+}
+
+/**
  * Need proposal events to get description data emitted from
  * new proposal event.
  */
@@ -55,13 +74,51 @@ export function useDataFromEventLogs() {
   const [formattedEvents, setFormattedEvents] = useState<any>()
   const govContract = useGovernanceContract()
 
+  const proposalCount = useProposalCount()
+
+  const proposalIndexes = []
+  for (let i = 1; i <= (proposalCount ?? 0); i++) {
+    proposalIndexes.push([i])
+  }
+
+  // get all proposal entities
+  const voteDelay = 60*60*24
+  const allProposals = useSingleContractMultipleData(govContract, 'proposals', proposalIndexes)
+  const eventTimes: number[] = []
+
+  for (let i = 0; i < allProposals.length; i++) {
+    let startTime = parseInt(allProposals[i]?.result?.startTime?.toString())
+    if (startTime) {
+      // debugger
+      let eventTime = startTime - voteDelay;
+      getBlockFromTimestamp(eventTime).then((result: number) => {
+        // debugger
+        eventTimes.push(result - 1)
+      })
+
+    }
+  }
+
+  // const proposalBlocks = eventTimes.sort()
+
   // create filter for these specific events
-  const filter = { ...govContract?.filters?.['ProposalCreated'](), fromBlock: 0, toBlock: 'latest' }
+  // const filter = { ...govContract?.filters?.['ProposalCreated'](), fromBlock: 0, toBlock: 'latest' }
+  const filters = eventTimes.map(block => ({
+    ...govContract?.filters?.['ProposalCreated'](),
+    fromBlock: block - 10,
+    toBlock: block + 10
+  }))
   const eventParser = new ethers.utils.Interface(GOV_ABI)
 
   useEffect(() => {
     async function fetchData() {
-      const pastEvents = await library?.getLogs(filter)
+      // const pastEvents = await library?.getLogs(filter)
+      let pastEvents = [] as any[]
+      for (const filter of filters) {
+        debugger
+        pastEvents = pastEvents.concat(await library?.getLogs(filter))
+      }
+      // reverse events to get them from newest to oldest
       // reverse events to get them from newest to odlest
       const formattedEventData = pastEvents
         ?.map(event => {
@@ -89,7 +146,7 @@ export function useDataFromEventLogs() {
     if (!formattedEvents) {
       fetchData()
     }
-  }, [eventParser, filter, library, formattedEvents])
+  }, [eventParser, filters, library, formattedEvents, eventTimes])
 
   return formattedEvents
 }
