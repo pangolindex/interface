@@ -119,7 +119,6 @@ export default function VotePage({
     ? DateTime.fromSeconds(endTimestamp)
     : undefined
   const now: DateTime = DateTime.local()
-  debugger
 
   // get total votes and format percentages for UI
   const totalVotes: number | undefined = proposalData ? proposalData.forCount + proposalData.againstCount : undefined
