@@ -43,7 +43,7 @@ export function useProposalCount(): number | undefined {
   const gov = useGovernanceContract()
   const res = useSingleCallResult(gov, 'proposalCount')
   if (res.result && !res.loading) {
-    return parseInt(res.result[0])
+    return parseInt(res.result[0]) ?? 0
   }
   return undefined
 }
@@ -51,10 +51,10 @@ export function useProposalCount(): number | undefined {
 /**
  * @notice Fetches first block after a given timestamp
  * @dev Query speed is optimized by limiting to a 600-second period
- * @param {Int} timestamp in seconds
+ * @param {Number} timestamp in seconds
  */
- export async function getBlockFromTimestamp(timestamp: number) {
-  let result = await blockClient.query({
+export async function getBlockFromTimestamp(timestamp: number) {
+  const result = await blockClient.query({
     query: GET_BLOCK,
     variables: {
       timestampFrom: timestamp,
@@ -81,72 +81,64 @@ export function useDataFromEventLogs() {
     proposalIndexes.push([i])
   }
 
-  // get all proposal entities
-  const voteDelay = 60*60*24
   const allProposals = useSingleContractMultipleData(govContract, 'proposals', proposalIndexes)
-  const eventTimes: number[] = []
-
-  for (let i = 0; i < allProposals.length; i++) {
-    let startTime = parseInt(allProposals[i]?.result?.startTime?.toString())
-    if (startTime) {
-      // debugger
-      let eventTime = startTime - voteDelay;
-      getBlockFromTimestamp(eventTime).then((result: number) => {
-        // debugger
-        eventTimes.push(result - 1)
-      })
-
-    }
-  }
-
-  // const proposalBlocks = eventTimes.sort()
-
-  // create filter for these specific events
-  // const filter = { ...govContract?.filters?.['ProposalCreated'](), fromBlock: 0, toBlock: 'latest' }
-  const filters = eventTimes.map(block => ({
-    ...govContract?.filters?.['ProposalCreated'](),
-    fromBlock: block - 10,
-    toBlock: block + 10
-  }))
-  const eventParser = new ethers.utils.Interface(GOV_ABI)
 
   useEffect(() => {
+    const voteDelay: number = 60 * 60 * 24
+    const eventParser = new ethers.utils.Interface(GOV_ABI)
+
     async function fetchData() {
-      // const pastEvents = await library?.getLogs(filter)
       let pastEvents = [] as any[]
-      for (const filter of filters) {
-        debugger
-        pastEvents = pastEvents.concat(await library?.getLogs(filter))
-      }
-      // reverse events to get them from newest to oldest
-      // reverse events to get them from newest to odlest
-      const formattedEventData = pastEvents
-        ?.map(event => {
-          const eventParsed = eventParser.parseLog(event).args
-          return {
-            description: eventParsed.description,
-            details: eventParsed.targets.map((target: string, i: number) => {
-              const signature = eventParsed.signatures[i]
-              const [name, types] = signature.substr(0, signature.length - 1).split('(')
 
-              const calldata = eventParsed.calldatas[i]
-              const decoded = utils.defaultAbiCoder.decode(types.split(','), calldata)
-
-              return {
-                target,
-                functionSig: name,
-                callData: decoded.join(', ')
-              }
-            })
+      for (const proposal of allProposals) {
+        const startTime: number = parseInt(proposal?.result?.startTime?.toString())
+        if (startTime) {
+          const eventTime: number = startTime - voteDelay
+          const block: number = parseInt(await getBlockFromTimestamp(eventTime)) // Actual returns the "next" block
+          const filter = {
+            ...govContract?.filters?.['ProposalCreated'](),
+            fromBlock: block - 10,
+            toBlock: block + 10
           }
-        })
-        .reverse()
+          pastEvents = pastEvents.concat(await library?.getLogs(filter))
+        }
+      }
+
+      const formattedEventData = pastEvents
+        ?.map(event => eventParser.parseLog(event).args)
+        ?.map(eventParsed => ({
+          description: eventParsed.description,
+          details: eventParsed.targets.map((target: string, i: number) => {
+            const signature = eventParsed.signatures[i]
+            const [name, types] = signature.substr(0, signature.length - 1).split('(')
+
+            const calldata = eventParsed.calldatas[i]
+            const decoded = utils.defaultAbiCoder.decode(types.split(','), calldata)
+
+            return {
+              target,
+              functionSig: name,
+              callData: decoded.join(', ')
+            }
+          })
+        }))
+        .reverse() // reverse events to get them from newest to oldest
+
       setFormattedEvents(formattedEventData)
     }
-    if (!formattedEvents) {
+
+    if (
+      library &&
+      govContract &&
+      proposalCount !== undefined &&
+      allProposals &&
+      allProposals.length === proposalCount &&
+      allProposals.every(proposal => !proposal.loading) &&
+      !formattedEvents
+    ) {
       fetchData()
     }
-  }, [eventParser, filters, library, formattedEvents, eventTimes])
+  }, [library, govContract, proposalCount, allProposals, formattedEvents])
 
   return formattedEvents
 }
