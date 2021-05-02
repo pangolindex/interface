@@ -137,6 +137,10 @@ export const STAKING_V2: {
 		tokens: [WAVAX[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
 		stakingRewardAddress: '0x2c31822f35506c6444f458ed7470c79f9924ee86'
 	},
+    {
+        tokens: [WAVAX[ChainId.AVALANCHE], SNOB[ChainId.AVALANCHE]],
+        stakingRewardAddress: '0xf2b788085592380bfcac40ac5e0d10d9d0b54eee'
+    },
 	{
 		tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
 		stakingRewardAddress: '0x7ac007afb5d61f48d1e3c8cc130d4cf6b765000e'
@@ -173,6 +177,10 @@ export const STAKING_V2: {
 		tokens: [PNG[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
 		stakingRewardAddress: '0xc7d0e29b616b29ac6ff4fd5f37c8da826d16db0d'
 	},
+    {
+        tokens: [PNG[ChainId.AVALANCHE], SNOB[ChainId.AVALANCHE]],
+        stakingRewardAddress: '0x759ee0072901f409e4959e00b00a16fd729397ec'
+    },
 ]
 
 export const STAKING_REWARDS_INFO: {
