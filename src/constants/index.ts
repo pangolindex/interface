@@ -72,6 +72,11 @@ export const YFI: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x99519AcB025a0e0d44c3875A4BbF03af65933627', 18, 'YFI', 'yearn.finance')
 }
 
+export const SNOB: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, '0xf319e2f610462f846d6e93f51cdc862eeff2a554', 18, 'SNOB', 'Snowball'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xc38f41a296a4493ff429f1238e030924a1542e50', 18, 'SNOB', 'Snowball')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
