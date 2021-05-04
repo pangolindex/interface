@@ -139,7 +139,7 @@ export const STAKING_V2: {
 	},
     {
         tokens: [WAVAX[ChainId.AVALANCHE], SNOB[ChainId.AVALANCHE]],
-        stakingRewardAddress: '0xf2b788085592380bfcac40ac5e0d10d9d0b54eee'
+        stakingRewardAddress: '0x640d754113a3cbdd80bccc1b5c0387148eebf2fe'
     },
 	{
 		tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
@@ -179,7 +179,7 @@ export const STAKING_V2: {
 	},
     {
         tokens: [PNG[ChainId.AVALANCHE], SNOB[ChainId.AVALANCHE]],
-        stakingRewardAddress: '0x759ee0072901f409e4959e00b00a16fd729397ec'
+        stakingRewardAddress: '0x08b9a023e34bad6db868b699fa642bf5f12ebe76'
     },
 ]
 
