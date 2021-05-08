@@ -142,7 +142,7 @@ export default function PoolCard({ stakingInfo, version }: { stakingInfo: Stakin
 					<TYPE.white>{`${weeklyRewardPerAvax.toFixed(4, {groupSeparator: ','}) ?? '-'} PNG / Week per AVAX`}</TYPE.white>
 				</RowBetween>
 				<RowBetween>
-					<TYPE.white> Earn up to </TYPE.white>
+					<TYPE.white> Earn up to (yearly) </TYPE.white>
 					<TYPE.white>{`${apr}%`}</TYPE.white>
 				</RowBetween>
 			</StatContainer>
