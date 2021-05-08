@@ -101,6 +101,10 @@ export default function PoolCard({ stakingInfo, version }: { stakingInfo: Stakin
 		weeklyRewardPerAvax = new Fraction(JSBI.BigInt(0), JSBI.BigInt(1))
 	}
 
+	let apr = "0";
+
+	fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`).then(res => res.text()).then(x => apr = x)
+
 	return (
 		<Wrapper showBackground={isStaking} bgColor={backgroundColor}>
 			<CardBGImage desaturate />
@@ -136,6 +140,10 @@ export default function PoolCard({ stakingInfo, version }: { stakingInfo: Stakin
 				<RowBetween>
 					<TYPE.white> Current reward </TYPE.white>
 					<TYPE.white>{`${weeklyRewardPerAvax.toFixed(4, {groupSeparator: ','}) ?? '-'} PNG / Week per AVAX`}</TYPE.white>
+				</RowBetween>
+				<RowBetween>
+					<TYPE.white> Earn up to </TYPE.white>
+					<TYPE.white>{`${apr}%`}</TYPE.white>
 				</RowBetween>
 			</StatContainer>
 
