@@ -71,7 +71,7 @@ const BottomSection = styled.div<{ showBackground: boolean }>`
    z-index: 1;
  `
 
-export default function PoolCard({ stakingInfo, version }: { stakingInfo: StakingInfo, version: string }) {
+export default function PoolCard({ stakingInfo, version, apr }: { stakingInfo: StakingInfo, version: string, apr: string }) {
 	const token0 = stakingInfo.tokens[0]
 	const token1 = stakingInfo.tokens[1]
 
@@ -100,10 +100,6 @@ export default function PoolCard({ stakingInfo, version }: { stakingInfo: Stakin
 	if (JSBI.EQ(weeklyRewardPerAvax.denominator,0)) {
 		weeklyRewardPerAvax = new Fraction(JSBI.BigInt(0), JSBI.BigInt(1))
 	}
-
-	let apr = "0";
-
-	fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`).then(res => res.text()).then(x => apr = x)
 
 	return (
 		<Wrapper showBackground={isStaking} bgColor={backgroundColor}>

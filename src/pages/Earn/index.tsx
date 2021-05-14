@@ -155,8 +155,8 @@ export default function Earn({
 											return 0
 									}
 							}).map(
-								stakingInfo => {
-									return <PoolCard key={stakingInfo.stakingRewardAddress} stakingInfo={stakingInfo} version={version} />
+								async stakingInfo => {
+									return <PoolCard apr={await fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`).then(res => res.text())} key={stakingInfo.stakingRewardAddress} stakingInfo={stakingInfo} version={version} />
 								}
 							)
 					)}
