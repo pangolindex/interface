@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
-import { StakingInfo, STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
+import { STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
 import { TYPE, ExternalLink } from '../../theme'
 import PoolCard from '../../components/earn/PoolCard'
 import { RouteComponentProps, NavLink } from 'react-router-dom'
@@ -37,16 +37,39 @@ export default function Earn({
 }: RouteComponentProps<{ version: string }>) {
   const { chainId } = useActiveWeb3React()
   const stakingInfos = useStakingInfo(Number(version))
-  const [stakingInfoResult, setStakingInfoResult] = useState<StakingInfo>()
-  const [stakingApr, setStakingApr] = useState<string>()
+  const [stakingInfoResults, setStakingInfoResults] = useState<any[]>()
 
-  useEffect(() => {
-    if (stakingInfoResult) {
-      fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfoResult.stakingRewardAddress}`)
-        .then(res => res.text())
-        .then(res => setStakingApr(res))
-    }
-  }, [stakingInfoResult])
+  useMemo(() => {
+    Promise.all(
+      stakingInfos
+        ?.sort(function(info_a, info_b) {
+          // greater stake in avax comes first
+          return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
+        })
+        .sort(function(info_a, info_b) {
+          if (info_a.stakedAmount.greaterThan(JSBI.BigInt(0))) {
+            if (info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
+              // both are being staked, so we keep the previous sorting
+              return 0
+            // the second is actually not at stake, so we should bring the first up
+            else return -1
+          } else {
+            if (info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
+              // first is not being staked, but second is, so we should bring the first down
+              return 1
+            // none are being staked, let's keep the  previous sorting
+            else return 0
+          }
+        })
+        .map(stakingInfo => {
+          return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+            .then(res => res.text())
+            .then(res => ({ apr: res, ...stakingInfo }))
+        })
+    ).then(results => {
+      setStakingInfoResults(results)
+    })
+  }, [stakingInfos])
 
   const DataRow = styled(RowBetween)`
     ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -130,37 +153,14 @@ export default function Earn({
           ) : !stakingRewardsExist ? (
             'No active rewards'
           ) : (
-            stakingInfos
-              ?.sort(function(info_a, info_b) {
-                // greater stake in avax comes first
-                return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
-              })
-              .sort(function(info_a, info_b) {
-                if (info_a.stakedAmount.greaterThan(JSBI.BigInt(0))) {
-                  if (info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
-                    // both are being staked, so we keep the previous sorting
-                    return 0
-                  // the second is actually not at stake, so we should bring the first up
-                  else return -1
-                } else {
-                  if (info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
-                    // first is not being staked, but second is, so we should bring the first down
-                    return 1
-                  // none are being staked, let's keep the  previous sorting
-                  else return 0
-                }
-              })
-              .map(stakingInfo => {
-                setStakingInfoResult(stakingInfo)
-                return (
-                  <PoolCard
-                    apr={stakingApr || ''}
-                    key={stakingInfo.stakingRewardAddress}
-                    stakingInfo={stakingInfo}
-                    version={version}
-                  />
-                )
-              })
+            stakingInfoResults?.map(stakingInfo => (
+              <PoolCard
+                apr={stakingInfo.apr}
+                key={stakingInfo.stakingRewardAddress}
+                stakingInfo={stakingInfo}
+                version={version}
+              />
+            ))
           )}
         </PoolSection>
       </AutoColumn>
