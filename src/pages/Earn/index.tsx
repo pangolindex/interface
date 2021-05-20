@@ -69,7 +69,7 @@ export default function Earn({
     ).then(results => {
       setStakingInfoResults(results)
     })
-  }, [stakingInfos])
+  }, [stakingInfos?.length])
 
   const DataRow = styled(RowBetween)`
     ${({ theme }) => theme.mediaWidth.upToSmall`
