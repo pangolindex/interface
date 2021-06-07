@@ -20,6 +20,7 @@ import { Dots } from '../../components/swap/styleds'
 import { ChainId } from '@pangolindex/sdk'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import { LANDING_PAGE, ANALYTICS_PAGE } from '../../constants'
+import { useTranslation } from 'react-i18next'
 
 const LiquidityTutorial = LANDING_PAGE + 'tutorials/manage-liquidity'
 
@@ -29,9 +30,9 @@ const PageWrapper = styled(AutoColumn)`
 `
 
 const VoteCard = styled(DataCard)`
-   background: radial-gradient(76.02% 75.41% at 1.84% 0%, #27ae60 0%, #000000 100%);
-   overflow: hidden;
- `
+  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #27ae60 0%, #000000 100%);
+  overflow: hidden;
+`
 
 const TitleRow = styled(RowBetween)`
   ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -83,8 +84,13 @@ export default function Pool() {
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
+  const { t } = useTranslation()
   const tokenPairsWithLiquidityTokens = useMemo(
-    () => trackedTokenPairs.map(tokens => ({ liquidityToken: toV2LiquidityToken(tokens, chainId ? chainId : ChainId.AVALANCHE), tokens })),
+    () =>
+      trackedTokenPairs.map(tokens => ({
+        liquidityToken: toV2LiquidityToken(tokens, chainId ? chainId : ChainId.AVALANCHE),
+        tokens
+      })),
     [trackedTokenPairs, chainId]
   )
   const liquidityTokens = useMemo(() => tokenPairsWithLiquidityTokens.map(tpwlt => tpwlt.liquidityToken), [
@@ -123,19 +129,17 @@ export default function Pool() {
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
-                <TYPE.white fontWeight={600}>Liquidity provider rewards</TYPE.white>
+                <TYPE.white fontWeight={600}>{t('pool.liquidityProviderRewards')}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>
-                  {`Liquidity providers earn a 0.3% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.`}
-                </TYPE.white>
+                <TYPE.white fontSize={14}>{t('pool.liquidityProvidersEarn')}</TYPE.white>
               </RowBetween>
               <ExternalLink
                 style={{ color: 'white', textDecoration: 'underline' }}
                 target="_blank"
                 href={LiquidityTutorial}
               >
-                <TYPE.white fontSize={14}>Read more about providing liquidity</TYPE.white>
+                <TYPE.white fontSize={14}>{t('pool.readMoreProviding')}</TYPE.white>
               </ExternalLink>
             </AutoColumn>
           </CardSection>
@@ -144,28 +148,28 @@ export default function Pool() {
         </VoteCard>
 
         <ExternalLink
-                style={{ marginTop: '1.5rem', color: 'black', textDecoration: 'underline' }}
-                target="_blank"
-                href={AccountAnalytics}
-              >
-                <TYPE.black fontSize={18}>View your staked liquidity</TYPE.black>
-              </ExternalLink>
+          style={{ marginTop: '1.5rem', color: 'black', textDecoration: 'underline' }}
+          target="_blank"
+          href={AccountAnalytics}
+        >
+          <TYPE.black fontSize={18}>{t('pool.viewStakedLiquidity')}</TYPE.black>
+        </ExternalLink>
 
         <AutoColumn gap="lg" justify="center">
           <AutoColumn gap="lg" style={{ width: '100%' }}>
             <TitleRow style={{ marginTop: '1rem' }} padding={'0'}>
               <HideSmall>
                 <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
-                  Your liquidity
+                  {t('pool.yourLiquidity')}
                 </TYPE.mediumHeader>
               </HideSmall>
               <ButtonRow>
                 <ResponsiveButtonSecondary as={Link} padding="6px 8px" to="/create/AVAX">
-                  Create a pair
+                  {t('pool.createPair')}
                 </ResponsiveButtonSecondary>
                 <ResponsiveButtonPrimary id="join-pool-button" as={Link} padding="6px 8px" to="/add/AVAX">
                   <Text fontWeight={500} fontSize={16}>
-                    Add Liquidity
+                    {t('pool.addLiquidity')}
                   </Text>
                 </ResponsiveButtonPrimary>
               </ButtonRow>
@@ -174,13 +178,13 @@ export default function Pool() {
             {!account ? (
               <Card padding="40px">
                 <TYPE.body color={theme.text3} textAlign="center">
-                  Connect to a wallet to view your liquidity.
+                  {t('pool.connectWalletToView')}
                 </TYPE.body>
               </Card>
             ) : v2IsLoading ? (
               <EmptyProposals>
                 <TYPE.body color={theme.text3} textAlign="center">
-                  <Dots>Loading</Dots>
+                  <Dots>{t('pool.loading')}</Dots>
                 </TYPE.body>
               </EmptyProposals>
             ) : allV2PairsWithLiquidity?.length > 0 ? (
@@ -190,18 +194,18 @@ export default function Pool() {
                 ))}
               </>
             ) : (
-                    <EmptyProposals>
-                      <TYPE.body color={theme.text3} textAlign="center">
-                        No liquidity found.
+              <EmptyProposals>
+                <TYPE.body color={theme.text3} textAlign="center">
+                  {t('pool.noLiquidity')}
                 </TYPE.body>
-                    </EmptyProposals>
-                  )}
+              </EmptyProposals>
+            )}
 
             <AutoColumn justify={'center'} gap="md">
               <Text textAlign="center" fontSize={14} style={{ padding: '.5rem 0 .5rem 0' }}>
-                {hasV1Liquidity ? 'Uniswap V1 liquidity found!' : "Don't see a pool you joined?"}{' '}
+                {hasV1Liquidity ? t('pool.uniswapV1Found') : t('pool.noSeePoolJoined')}{' '}
                 <StyledInternalLink id="import-pool-link" to={hasV1Liquidity ? '/migrate/v1' : '/find'}>
-                  {hasV1Liquidity ? 'Migrate now.' : 'Import it.'}
+                  {hasV1Liquidity ? t('pool.migrateNow') : t('pool.importIt')}
                 </StyledInternalLink>
               </Text>
             </AutoColumn>

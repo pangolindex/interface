@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { MessageCircle, Send, Info, Twitter, GitHub, Book} from 'react-feather'
+import { MessageCircle, Send, Info, Twitter, GitHub, Book } from 'react-feather'
 import styled from 'styled-components'
 import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg'
 import { LANDING_PAGE } from '../../constants'
@@ -8,6 +8,7 @@ import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 
 import { ExternalLink } from '../../theme'
+import { useTranslation } from 'react-i18next'
 
 const TutorialPage = LANDING_PAGE + 'tutorials'
 
@@ -87,10 +88,10 @@ const MenuItem = styled(ExternalLink)`
 `
 
 export default function Menu() {
-
   const node = useRef<HTMLDivElement>()
   const open = useModalOpen(ApplicationModal.MENU)
   const toggle = useToggleModal(ApplicationModal.MENU)
+  const { t } = useTranslation()
   useOnClickOutside(node, open ? toggle : undefined)
 
   return (
@@ -104,29 +105,28 @@ export default function Menu() {
         <MenuFlyout>
           <MenuItem id="link" href={LANDING_PAGE}>
             <Info size={14} />
-            About
+            {t('menu.about')}
           </MenuItem>
           <MenuItem id="link" href={TutorialPage}>
             <Book size={14} />
-            Tutorials
+            {t('menu.tutorials')}
           </MenuItem>
           <MenuItem id="link" href="https://t.me/pangolindex">
             <Send size={14} />
-            Telegram
+            {t('menu.telegram')}
           </MenuItem>
           <MenuItem id="link" href="https://discord.com/invite/PARrDYYbfw">
             <MessageCircle size={14} />
-            Discord
+            {t('menu.discord')}
           </MenuItem>
           <MenuItem id="link" href="https://twitter.com/pangolindex">
             <Twitter size={14} />
-            Twitter
+            {t('menu.twitter')}
           </MenuItem>
           <MenuItem id="link" href="https://github.com/pangolindex">
             <GitHub size={14} />
-            Code
+            {t('menu.code')}
           </MenuItem>
-
         </MenuFlyout>
       )}
     </StyledMenu>

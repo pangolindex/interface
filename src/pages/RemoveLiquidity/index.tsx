@@ -44,6 +44,7 @@ import { useUserSlippageTolerance } from '../../state/user/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
 import { ChainId } from '@pangolindex/sdk'
 import GasFeeAlert from '../../components/GasFeeAlert'
+import { useTranslation } from 'react-i18next'
 
 export default function RemoveLiquidity({
   history,
@@ -80,12 +81,14 @@ export default function RemoveLiquidity({
   const deadline = useTransactionDeadline()
   const [allowedSlippage] = useUserSlippageTolerance()
 
+  const { t } = useTranslation()
+
   const formattedAmounts = {
     [Field.LIQUIDITY_PERCENT]: parsedAmounts[Field.LIQUIDITY_PERCENT].equalTo('0')
       ? '0'
       : parsedAmounts[Field.LIQUIDITY_PERCENT].lessThan(new Percent('1', '100'))
-        ? '<1'
-        : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
+      ? '<1'
+      : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
     [Field.LIQUIDITY]:
       independentField === Field.LIQUIDITY ? typedValue : parsedAmounts[Field.LIQUIDITY]?.toSignificant(6) ?? '',
     [Field.CURRENCY_A]:
@@ -101,7 +104,10 @@ export default function RemoveLiquidity({
 
   // allowance handling
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(parsedAmounts[Field.LIQUIDITY], chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE])
+  const [approval, approveCallback] = useApproveCallback(
+    parsedAmounts[Field.LIQUIDITY],
+    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
+  )
 
   const isArgentWallet = false
 
@@ -419,8 +425,9 @@ export default function RemoveLiquidity({
     )
   }
 
-  const pendingText = `Removing ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${currencyA?.symbol
-    } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencyB?.symbol}`
+  const pendingText = `Removing ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
+    currencyA?.symbol
+  } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencyB?.symbol}`
 
   const liquidityPercentChangeCallback = useCallback(
     (value: number) => {
@@ -432,8 +439,8 @@ export default function RemoveLiquidity({
   const oneCurrencyIsAVAX = currencyA === CAVAX || currencyB === CAVAX
   const oneCurrencyIsWAVAX = Boolean(
     chainId &&
-    ((currencyA && currencyEquals(WAVAX[chainId], currencyA)) ||
-      (currencyB && currencyEquals(WAVAX[chainId], currencyB)))
+      ((currencyA && currencyEquals(WAVAX[chainId], currencyA)) ||
+        (currencyB && currencyEquals(WAVAX[chainId], currencyB)))
   )
 
   const handleSelectCurrencyA = useCallback(
@@ -484,7 +491,7 @@ export default function RemoveLiquidity({
             hash={txHash ? txHash : ''}
             content={() => (
               <ConfirmationModalContent
-                title={'You will receive'}
+                title={t('removeLiquidity.youWillReceive')}
                 onDismiss={handleDismissConfirmation}
                 topContent={modalHeader}
                 bottomContent={modalBottom}
@@ -496,14 +503,14 @@ export default function RemoveLiquidity({
             <LightCard>
               <AutoColumn gap="20px">
                 <RowBetween>
-                  <Text fontWeight={500}>Amount</Text>
+                  <Text fontWeight={500}>{t('removeLiquidity.amount')}</Text>
                   <ClickableText
                     fontWeight={500}
                     onClick={() => {
                       setShowDetailed(!showDetailed)
                     }}
                   >
-                    {showDetailed ? 'Simple' : 'Detailed'}
+                    {showDetailed ? t('removeLiquidity.simple') : t('removeLiquidity.detailed')}
                   </ClickableText>
                 </RowBetween>
                 <Row style={{ alignItems: 'flex-end' }}>
@@ -565,17 +572,19 @@ export default function RemoveLiquidity({
                       <RowBetween style={{ justifyContent: 'flex-end' }}>
                         {oneCurrencyIsAVAX ? (
                           <StyledInternalLink
-                            to={`/remove/${currencyA === CAVAX ? WAVAX[chainId].address : currencyIdA}/${currencyB === CAVAX ? WAVAX[chainId].address : currencyIdB
-                              }`}
+                            to={`/remove/${currencyA === CAVAX ? WAVAX[chainId].address : currencyIdA}/${
+                              currencyB === CAVAX ? WAVAX[chainId].address : currencyIdB
+                            }`}
                           >
-                            Receive WAVAX
+                            {t('removeLiquidity.receiveWavax')}
                           </StyledInternalLink>
                         ) : oneCurrencyIsWAVAX ? (
                           <StyledInternalLink
-                            to={`/remove/${currencyA && currencyEquals(currencyA, WAVAX[chainId]) ? 'AVAX' : currencyIdA
-                              }/${currencyB && currencyEquals(currencyB, WAVAX[chainId]) ? 'AVAX' : currencyIdB}`}
+                            to={`/remove/${
+                              currencyA && currencyEquals(currencyA, WAVAX[chainId]) ? 'AVAX' : currencyIdA
+                            }/${currencyB && currencyEquals(currencyB, WAVAX[chainId]) ? 'AVAX' : currencyIdB}`}
                           >
-                            Receive AVAX
+                            {t('removeLiquidity.receiveAvax')}
                           </StyledInternalLink>
                         ) : null}
                       </RowBetween>
@@ -609,7 +618,7 @@ export default function RemoveLiquidity({
                   onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
                   showMaxButton={!atMaxAmount}
                   currency={currencyA}
-                  label={'Output'}
+                  label={t('removeLiquidity.output')}
                   onCurrencySelect={handleSelectCurrencyA}
                   id="remove-liquidity-tokena"
                 />
@@ -623,7 +632,7 @@ export default function RemoveLiquidity({
                   onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
                   showMaxButton={!atMaxAmount}
                   currency={currencyB}
-                  label={'Output'}
+                  label={t('removeLiquidity.output')}
                   onCurrencySelect={handleSelectCurrencyB}
                   id="remove-liquidity-tokenb"
                 />
@@ -632,7 +641,7 @@ export default function RemoveLiquidity({
             {pair && (
               <div style={{ padding: '10px 20px' }}>
                 <RowBetween>
-                  Price:
+                  {t('removeLiquidity.price')}
                   <div>
                     1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
                   </div>
@@ -649,36 +658,36 @@ export default function RemoveLiquidity({
               {!account ? (
                 <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
               ) : (
-                  <RowBetween>
-                    <ButtonConfirmed
-                      onClick={onAttemptToApprove}
-                      confirmed={approval === ApprovalState.APPROVED || signatureData !== null}
-                      disabled={approval !== ApprovalState.NOT_APPROVED || signatureData !== null}
-                      mr="0.5rem"
-                      fontWeight={500}
-                      fontSize={16}
-                    >
-                      {approval === ApprovalState.PENDING ? (
-                        <Dots>Approving</Dots>
-                      ) : approval === ApprovalState.APPROVED || signatureData !== null ? (
-                        'Approved'
-                      ) : (
-                            'Approve'
-                          )}
-                    </ButtonConfirmed>
-                    <ButtonError
-                      onClick={() => {
-                        setShowConfirm(true)
-                      }}
-                      disabled={!isValid || (signatureData === null && approval !== ApprovalState.APPROVED)}
-                      error={!isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]}
-                    >
-                      <Text fontSize={16} fontWeight={500}>
-                        {error || 'Remove'}
-                      </Text>
-                    </ButtonError>
-                  </RowBetween>
-                )}
+                <RowBetween>
+                  <ButtonConfirmed
+                    onClick={onAttemptToApprove}
+                    confirmed={approval === ApprovalState.APPROVED || signatureData !== null}
+                    disabled={approval !== ApprovalState.NOT_APPROVED || signatureData !== null}
+                    mr="0.5rem"
+                    fontWeight={500}
+                    fontSize={16}
+                  >
+                    {approval === ApprovalState.PENDING ? (
+                      <Dots>{t('removeLiquidity.approving')}</Dots>
+                    ) : approval === ApprovalState.APPROVED || signatureData !== null ? (
+                      t('removeLiquidity.approved')
+                    ) : (
+                      t('removeLiquidity.approve')
+                    )}
+                  </ButtonConfirmed>
+                  <ButtonError
+                    onClick={() => {
+                      setShowConfirm(true)
+                    }}
+                    disabled={!isValid || (signatureData === null && approval !== ApprovalState.APPROVED)}
+                    error={!isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]}
+                  >
+                    <Text fontSize={16} fontWeight={500}>
+                      {error || t('removeLiquidity.remove')}
+                    </Text>
+                  </ButtonError>
+                </RowBetween>
+              )}
             </div>
           </AutoColumn>
         </Wrapper>

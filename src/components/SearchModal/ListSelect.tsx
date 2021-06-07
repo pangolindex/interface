@@ -24,6 +24,7 @@ import ListLogo from '../ListLogo'
 import QuestionHelper from '../QuestionHelper'
 import Row, { RowBetween } from '../Row'
 import { PaddedColumn, SearchInput, Separator, SeparatorDark } from './styleds'
+import { useTranslation } from 'react-i18next'
 
 const UnpaddedLinkStyledButton = styled(LinkStyledButton)`
   padding: 0;
@@ -92,6 +93,8 @@ function listUrlRowHTMLId(listUrl: string) {
 const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; onBack: () => void }) {
   const listsByUrl = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
   const selectedListUrl = useSelectedListUrl()
+
+  const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
   const { current: list, pendingUpdate: pending } = listsByUrl[listUrl]
 
@@ -138,7 +141,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
       action: 'Start Remove List',
       label: listUrl
     })
-    if (window.prompt(`Please confirm you would like to remove this list by typing REMOVE`) === `REMOVE`) {
+    if (window.prompt(t('searchModal.confirmListRemovalPrompt')) === `REMOVE`) {
       ReactGA.event({
         category: 'Lists',
         action: 'Confirm Remove List',
@@ -196,12 +199,12 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
           <PopoverContainer show={true} ref={setPopperElement as any} style={styles.popper} {...attributes.popper}>
             <div>{list && listVersionLabel(list.version)}</div>
             <SeparatorDark />
-            <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>View list</ExternalLink>
+            <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>{t('searchModal.viewList')}</ExternalLink>
             <UnpaddedLinkStyledButton onClick={handleRemoveList} disabled={Object.keys(listsByUrl).length === 1}>
-              Remove list
+              {t('searchModal.removeList')}
             </UnpaddedLinkStyledButton>
             {pending && (
-              <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>Update list</UnpaddedLinkStyledButton>
+              <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>{t('searchModal.updateList')}</UnpaddedLinkStyledButton>
             )}
           </PopoverContainer>
         )}
@@ -212,7 +215,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
           className="select-button"
           style={{ width: '5rem', minWidth: '5rem', padding: '0.5rem .35rem', borderRadius: '12px', fontSize: '14px' }}
         >
-          Selected
+          {t('searchModal.selected')}
         </ButtonPrimary>
       ) : (
         <>
@@ -227,7 +230,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
             }}
             onClick={selectThisList}
           >
-            Select
+            {t('searchModal.select')}
           </ButtonPrimary>
         </>
       )}
@@ -319,6 +322,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
       })
   }, [lists])
 
+  const { t } = useTranslation()
   return (
     <Column style={{ width: '100%', flex: '1 1' }}>
       <PaddedColumn>
@@ -327,7 +331,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
             <ArrowLeft style={{ cursor: 'pointer' }} onClick={onBack} />
           </div>
           <Text fontWeight={500} fontSize={20}>
-            Manage Lists
+            {t('searchModal.manageLists')}
           </Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
@@ -337,21 +341,21 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
 
       <PaddedColumn gap="14px">
         <Text fontWeight={600}>
-          Add a list{' '}
-          <QuestionHelper text="Token lists are an open specification for lists of ERC20 tokens. You can use any token list by entering its URL below. Beware that third party token lists can contain fake or malicious ERC20 tokens." />
+          {t('searchModal.addList')}
+          <QuestionHelper text={t('searchModal.tokenListHelper')} />
         </Text>
         <Row>
           <SearchInput
             type="text"
             id="list-add-input"
-            placeholder="https:// or ipfs://"
+            placeholder={t('searchModal.httpsPlaceholder')}
             value={listUrlInput}
             onChange={handleInput}
             onKeyDown={handleEnterKey}
             style={{ height: '2.75rem', borderRadius: 12, padding: '12px' }}
           />
           <AddListButton onClick={handleAddList} disabled={!validUrl}>
-            Add
+            {t('searchModal.add')}
           </AddListButton>
         </Row>
         {addError ? (

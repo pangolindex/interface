@@ -13,6 +13,7 @@ import { Break, CardNoise, CardBGImage } from './styled'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 // import useUSDCPrice from '../../utils/useUSDCPrice'
 import { PNG } from '../../constants'
+import { useTranslation } from 'react-i18next'
 
 const StatContainer = styled.div`
   display: flex;
@@ -86,6 +87,7 @@ export default function PoolCard({
   const currency0 = unwrappedToken(token0)
   const currency1 = unwrappedToken(token1)
 
+  const { t } = useTranslation()
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
   const avaxPool = currency0 === CAVAX || currency1 === CAVAX
@@ -97,13 +99,13 @@ export default function PoolCard({
   }
   // let valueOfTotalStakedAmountInUSDC: CurrencyAmount | undefined
   // get the color of the token
-  let backgroundColor = useColor(token)
+  const backgroundColor = useColor(token)
 
   // let usdToken: Token
   // const USDPrice = useUSDCPrice(usdToken)
   // valueOfTotalStakedAmountInUSDC =
   // valueOfTotalStakedAmountInWavax && USDPrice?.quote(valueOfTotalStakedAmountInWavax)
-  let weeklyRewardAmount = stakingInfo.totalRewardRate.multiply(JSBI.BigInt(60 * 60 * 24 * 7))
+  const weeklyRewardAmount = stakingInfo.totalRewardRate.multiply(JSBI.BigInt(60 * 60 * 24 * 7))
   let weeklyRewardPerAvax = weeklyRewardAmount.divide(stakingInfo.totalStakedInWavax)
   if (JSBI.EQ(weeklyRewardPerAvax.denominator, 0)) {
     weeklyRewardPerAvax = new Fraction(JSBI.BigInt(0), JSBI.BigInt(1))
@@ -125,14 +127,14 @@ export default function PoolCard({
           style={{ width: '100%' }}
         >
           <ButtonPrimary padding="8px" borderRadius="8px">
-            {isStaking ? 'Manage' : 'Deposit'}
+            {isStaking ? t('earn.manage') : t('earn.deposit')}
           </ButtonPrimary>
         </StyledInternalLink>
       </TopSection>
 
       <StatContainer>
         <RowBetween>
-          <TYPE.white> Total deposited</TYPE.white>
+          <TYPE.white> {t('earn.totalDeposited')}</TYPE.white>
           <TYPE.white>
             {`${stakingInfo.totalStakedInWavax.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`}
             {/* {valueOfTotalStakedAmountInUSDC
@@ -141,16 +143,17 @@ export default function PoolCard({
           </TYPE.white>
         </RowBetween>
         <RowBetween>
-          <TYPE.white> Pool rate </TYPE.white>
-          <TYPE.white>{`${weeklyRewardAmount.toFixed(0, { groupSeparator: ',' })} PNG / week`}</TYPE.white>
+          <TYPE.white> {t('earn.poolRate')} </TYPE.white>
+          <TYPE.white>{`${weeklyRewardAmount.toFixed(0, { groupSeparator: ',' })}`} {t('earn.pngWeek')}</TYPE.white>
         </RowBetween>
         <RowBetween>
-          <TYPE.white> Current reward </TYPE.white>
-          <TYPE.white>{`${weeklyRewardPerAvax.toFixed(4, { groupSeparator: ',' }) ??
-            '-'} PNG / Week per AVAX`}</TYPE.white>
+          <TYPE.white> {t('earn.currentReward')} </TYPE.white>
+          <TYPE.white>
+            {`${weeklyRewardPerAvax.toFixed(4, { groupSeparator: ',' }) ?? '-'}`} {t('earn.pngPerAvax')}
+          </TYPE.white>
         </RowBetween>
         <RowBetween>
-          <TYPE.white> Earn up to (yearly) </TYPE.white>
+          <TYPE.white> {t('earn.earnUpTo')} </TYPE.white>
           <TYPE.white>{`${apr}%`}</TYPE.white>
         </RowBetween>
       </StatContainer>
@@ -160,7 +163,7 @@ export default function PoolCard({
           <Break />
           <BottomSection showBackground={true}>
             <TYPE.black color={'white'} fontWeight={500}>
-              <span>Your rate</span>
+              <span>{t('earn.yourRate')}</span>
             </TYPE.black>
 
             <TYPE.black style={{ textAlign: 'right' }} color={'white'} fontWeight={500}>
