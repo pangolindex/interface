@@ -26,6 +26,7 @@ import Modal from '../Modal'
 import PngBalanceContent from './PngBalanceContent'
 import usePrevious from '../../hooks/usePrevious'
 import { ANALYTICS_PAGE } from '../../constants'
+import LanguageSelection from "../LanguageSelection";
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -360,6 +361,7 @@ export default function Header() {
         </HeaderElement>
         <HeaderElementWrap>
           <Settings />
+          <LanguageSelection />
           <Menu />
         </HeaderElementWrap>
       </HeaderControls>

@@ -1,32 +1,33 @@
-import React, { useContext, useRef, useState } from 'react'
-import { Settings, X } from 'react-feather'
-import { Text } from 'rebass'
-import styled, { ThemeContext } from 'styled-components'
-import { useOnClickOutside } from '../../hooks/useOnClickOutside'
-import { ApplicationModal } from '../../state/application/actions'
-import { useModalOpen, useToggleSettingsMenu } from '../../state/application/hooks'
+import React, {useContext, useRef, useState} from 'react'
+import {Settings, X} from 'react-feather'
+import {Text} from 'rebass'
+import styled, {ThemeContext} from 'styled-components'
+import {useOnClickOutside} from '../../hooks/useOnClickOutside'
+import {ApplicationModal} from '../../state/application/actions'
+import {useModalOpen, useToggleSettingsMenu} from '../../state/application/hooks'
 import {
   useDarkModeManager,
   useExpertModeManager,
   useUserTransactionTTL,
   useUserSlippageTolerance
 } from '../../state/user/hooks'
-import { TYPE } from '../../theme'
-import { ButtonError } from '../Button'
-import { AutoColumn } from '../Column'
+import {TYPE} from '../../theme'
+import {ButtonError} from '../Button'
+import {AutoColumn} from '../Column'
 import Modal from '../Modal'
 import QuestionHelper from '../QuestionHelper'
-import { RowBetween, RowFixed } from '../Row'
+import {RowBetween, RowFixed} from '../Row'
 import Toggle from '../Toggle'
 import TransactionSettings from '../TransactionSettings'
-import { useTranslation } from 'react-i18next'
+import {useTranslation} from 'react-i18next'
+import {StyledMenu, StyledMenuButton, MenuFlyout} from "../StyledMenu";
 
 const StyledMenuIcon = styled(Settings)`
   height: 20px;
   width: 20px;
 
   > * {
-    stroke: ${({ theme }) => theme.text1};
+    stroke: ${({theme}) => theme.text1};
   }
 `
 
@@ -39,35 +40,10 @@ const StyledCloseIcon = styled(X)`
   }
 
   > * {
-    stroke: ${({ theme }) => theme.text1};
+    stroke: ${({theme}) => theme.text1};
   }
 `
 
-const StyledMenuButton = styled.button`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border: none;
-  background-color: transparent;
-  margin: 0;
-  padding: 0;
-  height: 35px;
-  background-color: ${({ theme }) => theme.bg3};
-
-  padding: 0.15rem 0.5rem;
-  border-radius: 0.5rem;
-
-  :hover,
-  :focus {
-    cursor: pointer;
-    outline: none;
-    background-color: ${({ theme }) => theme.bg4};
-  }
-
-  svg {
-    margin-top: 2px;
-  }
-`
 const EmojiWrapper = styled.div`
   position: absolute;
   bottom: -6px;
@@ -75,29 +51,22 @@ const EmojiWrapper = styled.div`
   font-size: 14px;
 `
 
-const StyledMenu = styled.div`
-  margin-left: 0.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  border: none;
-  text-align: left;
+const Break = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: ${({theme}) => theme.bg3};
 `
 
-const MenuFlyout = styled.span`
-  min-width: 20.125rem;
-  background-color: ${({ theme }) => theme.bg2};
-  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
-    0px 24px 32px rgba(0, 0, 0, 0.01);
-  border-radius: 12px;
+const ModalContentWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  font-size: 1rem;
-  position: absolute;
-  top: 4rem;
-  right: 0rem;
-  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+  background-color: ${({theme}) => theme.bg2};
+  border-radius: 20px;
+`
+
+const SettingsMenuFlyout = styled(MenuFlyout)`
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     min-width: 18.125rem;
@@ -108,21 +77,6 @@ const MenuFlyout = styled.span`
     min-width: 18.125rem;
     top: -22rem;
   `};
-`
-
-const Break = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: ${({ theme }) => theme.bg3};
-`
-
-const ModalContentWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 0;
-  background-color: ${({ theme }) => theme.bg2};
-  border-radius: 20px;
 `
 
 export default function SettingsTab() {
@@ -144,22 +98,22 @@ export default function SettingsTab() {
 
   useOnClickOutside(node, open ? toggle : undefined)
 
-  const { t } = useTranslation()
+  const {t} = useTranslation()
   return (
     // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451
     <StyledMenu ref={node as any}>
       <Modal isOpen={showConfirmation} onDismiss={() => setShowConfirmation(false)} maxHeight={100}>
         <ModalContentWrapper>
           <AutoColumn gap="lg">
-            <RowBetween style={{ padding: '0 2rem' }}>
-              <div />
+            <RowBetween style={{padding: '0 2rem'}}>
+              <div/>
               <Text fontWeight={500} fontSize={20}>
                 {t('settings.areYouSure')}
               </Text>
-              <StyledCloseIcon onClick={() => setShowConfirmation(false)} />
+              <StyledCloseIcon onClick={() => setShowConfirmation(false)}/>
             </RowBetween>
-            <Break />
-            <AutoColumn gap="lg" style={{ padding: '0 2rem' }}>
+            <Break/>
+            <AutoColumn gap="lg" style={{padding: '0 2rem'}}>
               <Text fontWeight={500} fontSize={20}>
                 {t('settings.expertInfo')}
               </Text>
@@ -185,7 +139,7 @@ export default function SettingsTab() {
         </ModalContentWrapper>
       </Modal>
       <StyledMenuButton onClick={toggle} id="open-settings-dialog-button">
-        <StyledMenuIcon />
+        <StyledMenuIcon/>
         {expertMode ? (
           <EmojiWrapper>
             <span role="img" aria-label="wizard-icon">
@@ -195,8 +149,8 @@ export default function SettingsTab() {
         ) : null}
       </StyledMenuButton>
       {open && (
-        <MenuFlyout>
-          <AutoColumn gap="md" style={{ padding: '1rem' }}>
+        <SettingsMenuFlyout>
+          <AutoColumn gap="md" style={{padding: '1rem'}}>
             <Text fontWeight={600} fontSize={14}>
               {t('settings.transactionSettings')}
             </Text>
@@ -214,7 +168,7 @@ export default function SettingsTab() {
                 <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
                   {t('settings.toggleExpertMode')}
                 </TYPE.black>
-                <QuestionHelper text={t('settings.expertModeHelper')} />
+                <QuestionHelper text={t('settings.expertModeHelper')}/>
               </RowFixed>
               <Toggle
                 id="toggle-expert-mode-button"
@@ -222,13 +176,13 @@ export default function SettingsTab() {
                 toggle={
                   expertMode
                     ? () => {
-                        toggleExpertMode()
-                        setShowConfirmation(false)
-                      }
+                      toggleExpertMode()
+                      setShowConfirmation(false)
+                    }
                     : () => {
-                        toggle()
-                        setShowConfirmation(true)
-                      }
+                      toggle()
+                      setShowConfirmation(true)
+                    }
                 }
               />
             </RowBetween>
@@ -238,10 +192,10 @@ export default function SettingsTab() {
                   {t('settings.toggleDarkMode')}
                 </TYPE.black>
               </RowFixed>
-              <Toggle isActive={darkMode} toggle={toggleDarkMode} />
+              <Toggle isActive={darkMode} toggle={toggleDarkMode}/>
             </RowBetween>
           </AutoColumn>
-        </MenuFlyout>
+        </SettingsMenuFlyout>
       )}
     </StyledMenu>
   )
