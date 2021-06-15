@@ -82,6 +82,11 @@ export const VSO: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x846D50248BAf8b7ceAA9d9B53BFd12d7D7FBB25a', 18, 'VSO', 'VersoToken')
 }
 
+export const SPORE: { [chainId in ChainId]: Token } = {
+    [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 9, 'SPORE', 'Spore.Finance'),
+    [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x6e7f5c0b9f4432716bdd0a77a3601291b9d9e985', 9, 'SPORE', 'Spore.Finance')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
