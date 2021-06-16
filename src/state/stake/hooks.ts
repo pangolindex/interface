@@ -433,10 +433,20 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
 export function useTotalPngEarned(): TokenAmount | undefined {
 	const { chainId } = useActiveWeb3React()
 	const png = chainId ? PNG[chainId] : undefined
-	const stakingInfo1 = useStakingInfo(0)
-	const stakingInfo2 = useStakingInfo(1)
+	const stakingInfo0 = useStakingInfo(0)
+	const stakingInfo1 = useStakingInfo(1)
 
-	let earned1 = useMemo(() => {
+	const earned0 = useMemo(() => {
+		if (!png) return undefined
+		return (
+			stakingInfo0?.reduce(
+				(accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
+				new TokenAmount(png, '0')
+			) ?? new TokenAmount(png, '0')
+		)
+	}, [stakingInfo0, png])
+
+	const earned1 = useMemo(() => {
 		if (!png) return undefined
 		return (
 			stakingInfo1?.reduce(
@@ -446,18 +456,7 @@ export function useTotalPngEarned(): TokenAmount | undefined {
 		)
 	}, [stakingInfo1, png])
 
-	let earned2 = useMemo(() => {
-		if (!png) return undefined
-		return (
-			stakingInfo2?.reduce(
-				(accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
-				new TokenAmount(png, '0')
-			) ?? new TokenAmount(png, '0')
-		)
-	}, [stakingInfo2, png])
-
-	let total = earned1 ? (earned2 ? earned1.add(earned2) : earned1) : (earned2 ? earned2 : undefined)
-	return total
+	return earned0 ? (earned1 ? earned0.add(earned1) : earned0) : (earned1 ? earned1 : undefined)
 }
 
 // based on typed value
