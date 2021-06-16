@@ -100,7 +100,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
 									<TYPE.white color="white">
 										{pngToClaim?.toFixed(4, { groupSeparator: ',' })}{' '}
 										{pngToClaim && pngToClaim.greaterThan('0') && (
-											<StyledInternalLink onClick={() => setShowPngBalanceModal(false)} to="/png">
+											<StyledInternalLink onClick={() => setShowPngBalanceModal(false)} to="/png/1">
 												(claim)
 											</StyledInternalLink>
 										)}
