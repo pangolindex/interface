@@ -19,7 +19,6 @@ import { wrappedCurrencyAmount } from '../../utils/wrappedCurrency'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
-import GasFeeAlert from '../GasFeeAlert'
 
 const HypotheticalRewardRate = styled.div<{ dim: boolean }>`
    display: flex;
@@ -218,8 +217,6 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
                PNG / week
              </TYPE.black>
 					</HypotheticalRewardRate>
-
-					<GasFeeAlert></GasFeeAlert>
 
 					<RowBetween>
 						<ButtonConfirmed

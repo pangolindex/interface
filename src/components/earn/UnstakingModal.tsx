@@ -12,7 +12,6 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import FormattedCurrencyAmount from '../FormattedCurrencyAmount'
 import { useActiveWeb3React } from '../../hooks'
-import GasFeeAlert from '../GasFeeAlert'
 
 const ContentWrapper = styled(AutoColumn)`
    width: 100%;
@@ -94,7 +93,6 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
 					<TYPE.subHeader style={{ textAlign: 'center' }}>
 						When you withdraw, your PNG is claimed and your Pangolin Liquidity tokens, PGL, are returned to you. You will no longer earn PNG rewards on this liquidity. Your original token liquidity will remain in its liquidity pool.
            </TYPE.subHeader>
-					<GasFeeAlert></GasFeeAlert>
 					<ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onWithdraw}>
 						{error ?? 'Withdraw & Claim'}
 					</ButtonError>
