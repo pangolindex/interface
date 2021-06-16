@@ -19,6 +19,7 @@ import { ButtonLight } from '../../components/Button'
 import Modal from '../Modal'
 import Option from './Option'
 import PendingView from './PendingView'
+import { useTranslation } from 'react-i18next'
 
 const WALLET_TUTORIAL = LANDING_PAGE + 'tutorials/getting-started/#set-up-metamask'
 
@@ -140,6 +141,7 @@ export default function WalletModal({
   const toggleWalletModal = useWalletModalToggle()
 
   const previousAccount = usePrevious(account)
+  const { t } = useTranslation()
 
   // close on connection, when logged out before
   useEffect(() => {
@@ -300,15 +302,15 @@ export default function WalletModal({
           <CloseIcon onClick={toggleWalletModal}>
             <CloseColor />
           </CloseIcon>
-          <HeaderRow>{error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting'}</HeaderRow>
+          <HeaderRow>{error instanceof UnsupportedChainIdError ? t('walletModal.wrongNetwork') : t('walletModal.errorConnecting')}</HeaderRow>
           <ContentWrapper>
             {error instanceof UnsupportedChainIdError ? (
               <>
-                <h5>Please connect to the appropriate Avalanche network.</h5>
-                {isMetamask && <ButtonLight onClick={addAvalancheNetwork}>Switch to Avalanche Chain</ButtonLight>}
+                <h5>{t('walletModal.pleaseConnectAvalanche')}</h5>
+                {isMetamask && <ButtonLight onClick={addAvalancheNetwork}>{t('walletModal.switchAvalanche')}</ButtonLight>}
               </>
             ) : (
-              'Error connecting. Try refreshing the page.'
+              t('walletModal.errorConnectingRefresh')
             )}
           </ContentWrapper>
         </UpperSection>
@@ -343,7 +345,7 @@ export default function WalletModal({
           </HeaderRow>
         ) : (
           <HeaderRow>
-            <HoverText>Connect to a wallet</HoverText>
+            <HoverText>{t('walletModal.connectToWallet')}</HoverText>
           </HeaderRow>
         )}
         <ContentWrapper>
@@ -359,8 +361,8 @@ export default function WalletModal({
           )}
           {walletView !== WALLET_VIEWS.PENDING && (
             <Blurb>
-              <span>New to Avalanche? &nbsp;</span>{' '}
-              <ExternalLink href={WALLET_TUTORIAL}>Learn more about setting up a wallet</ExternalLink>
+              <span>{t('walletModal.newToAvalanche')} &nbsp;</span>{' '}
+              <ExternalLink href={WALLET_TUTORIAL}>{t('walletModal.learnMoreWallet')}</ExternalLink>
             </Blurb>
           )}
         </ContentWrapper>

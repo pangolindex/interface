@@ -13,6 +13,7 @@ import { useVoteCallback, useUserVotes } from '../../state/governance/hooks'
 import { getEtherscanLink } from '../../utils'
 import { ExternalLink } from '../../theme/components'
 import { TokenAmount } from '@pangolindex/sdk'
+import { useTranslation } from 'react-i18next'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -57,6 +58,8 @@ export default function VoteModal({ isOpen, onDismiss, proposalId, support }: Vo
   // get theme for colors
   const theme = useContext(ThemeContext)
 
+  const { t } = useTranslation()
+
   // wrapper to reset state on modal close
   function wrappedOndismiss() {
     setHash(undefined)
@@ -87,16 +90,18 @@ export default function VoteModal({ isOpen, onDismiss, proposalId, support }: Vo
         <ContentWrapper gap="lg">
           <AutoColumn gap="lg" justify="center">
             <RowBetween>
-              <TYPE.mediumHeader fontWeight={500}>{`Vote ${
-                support ? 'for ' : 'against'
-              } proposal ${proposalId}`}</TYPE.mediumHeader>
+              <TYPE.mediumHeader fontWeight={500}>
+                {t('vote.vote')} {support ? t('vote.for') : t('vote.against')} {t('vote.proposal')} {proposalId}
+              </TYPE.mediumHeader>
               <StyledClosed stroke="black" onClick={wrappedOndismiss} />
             </RowBetween>
-            <TYPE.largeHeader>{availableVotes?.toSignificant(4)} Votes</TYPE.largeHeader>
+            <TYPE.largeHeader>
+              {availableVotes?.toSignificant(4)} {t('vote.votes')}
+            </TYPE.largeHeader>
             <ButtonPrimary onClick={onVote}>
-              <TYPE.mediumHeader color="white">{`Vote ${
-                support ? 'for ' : 'against'
-              } proposal  ${proposalId}`}</TYPE.mediumHeader>
+              <TYPE.mediumHeader color="white">
+                {t('vote.vote')} {support ? t('vote.for') : t('vote.against')} {t('vote.proposal')} {proposalId}
+              </TYPE.mediumHeader>
             </ButtonPrimary>
           </AutoColumn>
         </ContentWrapper>
@@ -112,9 +117,9 @@ export default function VoteModal({ isOpen, onDismiss, proposalId, support }: Vo
           </ConfirmedIcon>
           <AutoColumn gap="100px" justify={'center'}>
             <AutoColumn gap="12px" justify={'center'}>
-              <TYPE.largeHeader>Submitting Vote</TYPE.largeHeader>
+              <TYPE.largeHeader>{t('vote.submittingVote')} </TYPE.largeHeader>
             </AutoColumn>
-            <TYPE.subHeader>Confirm this transaction in your wallet</TYPE.subHeader>
+            <TYPE.subHeader>{t('vote.confirmTransaction')}</TYPE.subHeader>
           </AutoColumn>
         </ConfirmOrLoadingWrapper>
       )}
@@ -129,11 +134,11 @@ export default function VoteModal({ isOpen, onDismiss, proposalId, support }: Vo
           </ConfirmedIcon>
           <AutoColumn gap="100px" justify={'center'}>
             <AutoColumn gap="12px" justify={'center'}>
-              <TYPE.largeHeader>Transaction Submitted</TYPE.largeHeader>
+              <TYPE.largeHeader>{t('vote.transactionSubmitted')}</TYPE.largeHeader>
             </AutoColumn>
             {chainId && (
               <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')} style={{ marginLeft: '4px' }}>
-                <TYPE.subHeader>View transaction on Etherscan</TYPE.subHeader>
+                <TYPE.subHeader>{t('vote.viewExplorer')}</TYPE.subHeader>
               </ExternalLink>
             )}
           </AutoColumn>
