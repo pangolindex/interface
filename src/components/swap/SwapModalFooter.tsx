@@ -17,7 +17,6 @@ import QuestionHelper from '../QuestionHelper'
 import { AutoRow, RowBetween, RowFixed } from '../Row'
 import FormattedPriceImpact from './FormattedPriceImpact'
 import { StyledBalanceMaxMini, SwapCallbackError } from './styleds'
-import GasFeeAlert from '../GasFeeAlert'
 
 export default function SwapModalFooter({
   trade,
@@ -107,7 +106,6 @@ export default function SwapModalFooter({
             {realizedLPFee ? realizedLPFee?.toSignificant(6) + ' ' + trade.inputAmount.currency.symbol : '-'}
           </TYPE.black>
         </RowBetween>
-        <GasFeeAlert></GasFeeAlert>
       </AutoColumn>
 
       <AutoRow>
