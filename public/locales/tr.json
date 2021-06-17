@@ -104,7 +104,7 @@
     "updateAvailable": "Token listesi için bir güncelleme mevcut \" {{oldList}} \"",
     "viewExplorer": "C-Chain Explorer'da görüntüleyin",
     "hash": "Hash: ",
-    "added": "eklendi,
+    "added": "eklendi",
     "removed": "kaldırıldı",
     "tokensUpdated": "tokenler güncellendi",
     "acceptUpdate": "Güncellemeyi kabul et",
