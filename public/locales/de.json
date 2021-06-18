@@ -89,14 +89,14 @@
     "viewTransaction": "Transaktion im C-Chain Explorer ansehen"
   },
   "navigationTabs": {
-    "useThisTool": "Benutze dieses Werkzeug, um dir Paare anzeigen zu lassen, die nicht in der Schnittstelle auftauchen.",
+    "useThisTool": "Benutze dieses Werkzeug, um dir Paare anzeigen zu lassen, die nicht automatisch in der Schnittstelle auftauchen.",
     "swap": "Tauschen",
     "pool": "Pool",
     "importPool": "Pool importieren",
     "createPair": "Erstelle ein Paar",
     "addLiquidity": "Füge Liquidität hinzu",
     "removeLiquidity": "Entferne Liquidität",
-    "whenYouAddLiquidityInfo": "Wenn du Liquidität hinzufügst, erhältst du Pool-Token, die Deine Position im Pool repräsentieren. Diese Token schütten automatisch Vergütungen aus, die abhängig von deinem Anteil am Pool sind. Du kannst deine Pool-Token können jederzeit einlösen!",
+    "whenYouAddLiquidityInfo": "Wenn du Liquidität hinzufügst, erhältst du Pool-Token, die deine Position im Pool repräsentieren. Diese Token schütten automatisch Vergütungen aus, die abhängig von deinem Anteil am Pool sind. Du kannst deine Pool-Token können jederzeit einlösen!",
     "removingPoolTokensInfo": "Wenn du deine Pool-Token einlöst, erhältst du deine ursprünglich eingezahlten Token im momentanen Verhältnis zurück, abhängig von deinem Anteil am Pool. Von dir verdiente Transaktionsgebühren sind im Betrag inbegriffen."
   },
   "popups": {
