@@ -38,7 +38,7 @@
     "selectToken": "Bir token seçin",
     "balance": "Bakiye: ",
     "max": "HEPSİ",
-    "to": "...'ya"
+    "to": "Seçilen Tokene"
   },
   "earn": {
     "claimAccumulated": "Biriken PNG ödüllerini talep edin",
@@ -81,7 +81,7 @@
     "twitter": "Twitter",
     "discord": "Discord",
     "telegram": "Telegram",
-    "tutorials": "Eğitimler",
+    "tutorials": "Öğreticiler",
     "about": "Hakkında"
   },
   "modalView": {
