@@ -1,46 +1,18 @@
 import AppBody from "../AppBody";
 import {Wrapper} from "../../components/swap/styleds";
-import React, {useContext, useState, useEffect} from 'react'
-import {Input as NumericalInput} from "../../components/NumericalInput";
-import styled, { ThemeContext } from 'styled-components'
-import {RowBetween} from "../../components/Row";
-import { darken } from 'polished'
+import React, {useState} from 'react'
 import {TYPE} from "../../theme";
 import PurchaseForm, {Data } from "../../components/PurchaseForm"
 import TextInput from "../../components/PurchaseForm/input"
 import {ButtonPrimary} from "../../components/Button";
+import {AutoColumn, ColumnCenter} from "../../components/Column";
+import {OutlineCard} from "../../components/Card";
+import FiatInputPanel from "../../components/FiatInputPanel";
+import { USD } from '../../constants/fiat'
+import {useQuoteRequest} from '../../state/wyre/hooks'
+import {useActiveWeb3React} from "../../hooks";
+import Footer from "../../components/FiatInputPanel/Footer";
 
-const InputRow = styled.div`
-  ${({theme}) => theme.flexRowNoWrap}
-  align-items: center;
-  padding: 0.75rem 0.5rem 0.75rem 1rem;`
-
-const InputPanel = styled.div`
-  ${({theme}) => theme.flexColumnNoWrap}
-  position: relative;
-  border-radius: 8px;
-  background-color: ${({theme}) => theme.bg2};
-  z-index: 1;
-`
-
-const Container = styled.div`
-  border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.bg2};
-  background-color: ${({ theme }) => theme.bg1};
-`
-
-const LabelRow = styled.div`
-  ${({ theme }) => theme.flexRowNoWrap}
-  align-items: center;
-  color: ${({ theme }) => theme.text1};
-  font-size: 0.75rem;
-  line-height: 1rem;
-  padding: 0.75rem 1rem 0 1rem;
-  span:hover {
-    cursor: pointer;
-    color: ${({ theme }) => darken(0.2, theme.text2)};
-  }
-`
 const emailPattern = /^[A-Za-z0-9][A-Za-z0-9._-]*@[A-za-z0-9.-]+\.[A-Za-z]{2,4}$/;
 
 const minLengthValidator = (val: string): string[] => {
@@ -62,52 +34,39 @@ const emailValidator = (val: string): string[] => {
 }
 
 export default function Buy() {
-
+  const { account } = useActiveWeb3React()
   const [amount, setAmount] = useState('')
-  useEffect(() => console.log(amount), [amount])
+  const [fiat, setFiat] = useState(USD)
+  useQuoteRequest(account, amount, fiat.symbol)
 
-  const theme = useContext(ThemeContext)
+
   return (
     <>
-
       <AppBody>
         <Wrapper id="swap-page">
-          Buy Ser?
+          <ColumnCenter>
+              <AutoColumn gap="10px">
+                <OutlineCard>
+                <TYPE.link fontSize={14} fontWeight={500} color={'primaryText2'}>
+                  Buy AVAX with fiat from our partner Sendwyre.<br/>
+                  Pangolin does not store your purchase history or any personal data.
+                </TYPE.link>
+                </OutlineCard>
+              </AutoColumn>
+          </ColumnCenter>
+          <p></p>
           <PurchaseForm onSubmit={(data: Data) => console.log(data)}>
             <TextInput type="text" name="firstName" placeholder="First name" validators={[minLengthValidator]}></TextInput>
             <TextInput type="text" name="lastName" placeholder="Last name" validators={[minLengthValidator]}></TextInput>
             <TextInput type="text" name="email" placeholder="Email" validators={[emailValidator, minLengthValidator]}></TextInput>
-            <TextInput type="text" name="money" placeholder="0.0" onChange={setAmount}></TextInput>
+            <FiatInputPanel fiat={fiat} value={amount} onUserInput={setAmount} onFiatSelect={setFiat} id="fiatPanel"/>
             <ButtonPrimary type="submit" style={{ margin: '20px 0 0 0' }}>
               Go
             </ButtonPrimary>
           </PurchaseForm>
-          <Container>
-            <LabelRow>
-              <RowBetween>
-                <TYPE.body color={theme.text2} fontWeight={500} fontSize={14}>
-                  Currency
-                </TYPE.body>
-              </RowBetween>
-            </LabelRow>
 
-
-          </Container>
-          <InputPanel id="amountInput">
-            <Container>
-              <LabelRow>
-                <RowBetween>
-                  <TYPE.body color={theme.text2} fontWeight={500} fontSize={14}>
-                    USD
-                  </TYPE.body>
-                </RowBetween>
-              </LabelRow>
-              <InputRow>
-                <NumericalInput title="Amount in USD" value={0} onUserInput={val => (val)}></NumericalInput>
-              </InputRow>
-            </Container>
-          </InputPanel>
         </Wrapper>
       </AppBody>
+      <Footer/>
     </>)
 }

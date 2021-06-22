@@ -59,7 +59,7 @@ export default function FiatSearchModal({
         }
       }
     },
-    [handleFiatSelect, searchQuery]
+    [handleFiatSelect, searchQuery, filteredFiats]
   )
 
   const fixedList = useRef<FixedSizeList>()
@@ -67,7 +67,7 @@ export default function FiatSearchModal({
 
   const Row = (props: ListChildComponentProps) => {
     const fiat = props.data[props.index]
-    const isSelected = Boolean(selectedFiat && (fiat.symbol == selectedFiat.symbol))
+    const isSelected = Boolean(selectedFiat && (fiat.symbol === selectedFiat.symbol))
     const onSelect = () => handleFiatSelect(fiat)
     return (
       <MenuItem

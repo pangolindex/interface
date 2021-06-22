@@ -33,7 +33,7 @@ interface FormProps {
 }
 
 export function isEmpty(input: Validators | Errors): boolean {
-  return (Object.keys(input).length == 0)
+  return (Object.keys(input).length === 0)
 }
 
 export default function PurchaseForm({

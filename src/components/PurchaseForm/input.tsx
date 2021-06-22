@@ -4,7 +4,7 @@ import {MouseoverTooltip} from "../Tooltip";
 import styled from 'styled-components'
 import {Validator, FormContext} from './'
 
-const StyledInput = styled.input<{ error?: boolean }>`
+export const StyledInput = styled.input<{ error?: boolean }>`
   color: ${({error, theme}) => (error ? theme.red1 : theme.text1)};
   position: relative;
   display: flex;
@@ -12,13 +12,14 @@ const StyledInput = styled.input<{ error?: boolean }>`
   margin-bottom: 8px;
   align-items: center;
   width: 100%;
+  autocomplete: off;
   flex: 0 0 100%;
   white-space: nowrap;
   background: transparent;
   border-radius: 8px;
   color: ${({theme}) => theme.text1};
   border-style: solid;
-  border: 1px solid ${({theme}) => theme.bg2};
+  border: 1px solid ${({error, theme}) => (error ? theme.red1 : theme.bg2)};
   background: ${({theme}) => theme.bg1};
   -webkit-appearance: none;
   font-size: 24px;
@@ -70,7 +71,7 @@ export default function TextInput({
                                     placeholder
                                   }: InputProps) {
 
-  const hasError = (errors: string[]): boolean => (errors && (errors).length != 0)
+  const hasError = (errors: string[]): boolean => (errors && (errors).length !== 0)
   const {registerInput} = useContext(FormContext)
 
   useEffect(
@@ -78,8 +79,7 @@ export default function TextInput({
       registerInput({
         name: name,
         validators: validators
-      }),
-    []
+      }), []
   );
   return (
     <FormContext.Consumer>
