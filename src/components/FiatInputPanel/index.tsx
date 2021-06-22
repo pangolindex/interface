@@ -2,10 +2,11 @@ import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { darken } from 'polished'
 import FiatSearchModal from './FiatSearchModal'
-import { Fiat, USD } from '../../constants/fiat'
+import { Fiat } from '../../constants/fiat'
 import { Input as NumericalInput } from '../NumericalInput'
+import {StyledEthereumLogo as FiatLogo} from "../CurrencyLogo";
 import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg'
-
+import {StyledTokenName as StyledFiatName} from "../CurrencyInputPanel";
 
 const InputRow = styled.div<{ selected: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -79,7 +80,7 @@ export default function FiatInputPanel({
   value,
   onUserInput,
   onFiatSelect,
-  fiat = USD,
+  fiat,
   hideInput = false,
   id,
 }: FiatInputPanelProps) {
@@ -113,6 +114,10 @@ export default function FiatInputPanel({
             }}
           >
             <Aligner>
+              <FiatLogo src={fiat.logo} size={'24px'} alt={fiat.name}/>
+              <StyledFiatName className="token-symbol-container" active={Boolean(fiat && fiat.symbol)}>
+                {fiat.symbol}
+              </StyledFiatName>
               <StyledDropDown selected={!!fiat} />
             </Aligner>
           </FiatSelect>

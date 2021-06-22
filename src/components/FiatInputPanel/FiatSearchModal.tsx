@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useRef, KeyboardEvent, RefObject, useMemo, useState, useCallback } from 'react'
 import Modal from '../Modal'
 import {StyledInput} from '../PurchaseForm/input'
 import {FixedSizeList, ListChildComponentProps} from 'react-window'
@@ -12,6 +12,7 @@ import {Text} from 'rebass'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import {SUPPORTED_FIAT_CURRENCIES} from "../../constants/fiat";
 import {StyledEthereumLogo as FiatLogo} from "../CurrencyLogo";
+import {filterFiats} from "./filtering";
 
 interface FiatSearchModalProps {
   isOpen: boolean
@@ -31,18 +32,43 @@ export default function FiatSearchModal({
 
 
   // @ts-ignore
-  const handleFiatSelect = useCallback(
-    (fiat: Fiat) => {
+  const handleFiatSelect = (fiat: Fiat) => {
       onFiatSelect(fiat)
       onDismiss()
+    }
+
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const filteredFiats: Fiat[] = useMemo(() => {
+    return filterFiats(SUPPORTED_FIAT_CURRENCIES, searchQuery)
+  }, [searchQuery])
+  const handleInput = useCallback(event => {
+    const input = event.target.value
+    setSearchQuery(input)
+    fixedList.current?.scrollTo(0)
+  }, [])
+  const handleEnter = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        if (filteredFiats.length > 0) {
+          if (
+            filteredFiats[0].symbol?.toLowerCase() === searchQuery.trim().toLowerCase() ||
+            filteredFiats.length === 1
+          ) {
+            handleFiatSelect(filteredFiats[0])
+          }
+        }
+      }
     },
-    [onDismiss, onFiatSelect]
+    [handleFiatSelect, searchQuery]
   )
+
+  const fixedList = useRef<FixedSizeList>()
+  const inputRef = useRef<HTMLInputElement>()
 
   const Row = (props: ListChildComponentProps) => {
     const fiat = props.data[props.index]
-    const isSelected = Boolean(fiat.symbol == 'USD')
-    const onSelect = () => console.log(fiat)
+    const isSelected = Boolean(selectedFiat && (fiat.symbol == selectedFiat.symbol))
+    const onSelect = () => handleFiatSelect(fiat)
     return (
       <MenuItem
         style={props.style}
@@ -50,7 +76,7 @@ export default function FiatSearchModal({
       >
         <FiatLogo size={'24px'} src={`${fiat.logo}`} alt={fiat.title}/>
         <Column>
-          <Text title={fiat.title} fontWeight={500}>
+          <Text title={fiat.name} fontWeight={(isSelected) ? 700 : 500}>
             {fiat.symbol}
           </Text>
       </Column>
@@ -70,6 +96,13 @@ export default function FiatSearchModal({
             <CloseIcon onClick={onDismiss}/>
           </RowBetween>
           <StyledInput
+            type="text"
+            id="token-search-input"
+            placeholder="Search"
+            value={searchQuery}
+          ref={inputRef as RefObject<HTMLInputElement>}
+          onChange={handleInput}
+          onKeyDown={handleEnter}
           />
         </PaddedColumn>
           <Separator/>
@@ -80,9 +113,10 @@ export default function FiatSearchModal({
                 <FixedSizeList
                   height={height}
                   width="100%"
-                  itemData={SUPPORTED_FIAT_CURRENCIES}
-                  itemCount={SUPPORTED_FIAT_CURRENCIES.length}
+                  itemData={filteredFiats}
+                  itemCount={filteredFiats.length}
                   itemSize={56}
+                  ref={fixedList as any}
                 >
                   {Row}
                 </FixedSizeList>
