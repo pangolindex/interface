@@ -12,6 +12,7 @@ import { USD } from '../../constants/fiat'
 import {useQuoteRequest} from '../../state/wyre/hooks'
 import {useActiveWeb3React} from "../../hooks";
 import Footer from "../../components/FiatInputPanel/Footer";
+import {redirectToWyre} from "./redirect";
 
 const emailPattern = /^[A-Za-z0-9][A-Za-z0-9._-]*@[A-za-z0-9.-]+\.[A-Za-z]{2,4}$/;
 
@@ -36,9 +37,26 @@ const emailValidator = (val: string): string[] => {
 export default function Buy() {
   const { account } = useActiveWeb3React()
   const [amount, setAmount] = useState('')
+  const [fieldError, setFieldError] = useState(true)
+  const [formError, setFormError] = useState(false)
   const [fiat, setFiat] = useState(USD)
   useQuoteRequest(account, amount, fiat.symbol)
+  const ableToBuy = account && Number(amount) && !fieldError
 
+  const handleSubmit = (data: Data) => {
+    const formDataWithAmount = {...data,
+      amount: amount,
+      sourceCurrency: fiat.symbol,
+      dest: `ethereum:${account}`
+    }
+    redirectToWyre(formDataWithAmount)
+      .then(
+        (success) => {
+          console.log(success)
+          setFormError(!success)
+        })
+
+  }
 
   return (
     <>
@@ -55,13 +73,14 @@ export default function Buy() {
               </AutoColumn>
           </ColumnCenter>
           <p></p>
-          <PurchaseForm onSubmit={(data: Data) => console.log(data)}>
-            <TextInput type="text" name="firstName" placeholder="First name" validators={[minLengthValidator]}></TextInput>
-            <TextInput type="text" name="lastName" placeholder="Last name" validators={[minLengthValidator]}></TextInput>
-            <TextInput type="text" name="email" placeholder="Email" validators={[emailValidator, minLengthValidator]}></TextInput>
+          <PurchaseForm onSubmit={handleSubmit}>
+            <TextInput type="text" name="firstName" placeholder="First name" validators={[minLengthValidator]} onError={setFieldError}></TextInput>
+            <TextInput type="text" name="lastName" placeholder="Last name" validators={[minLengthValidator]} onError={setFieldError}></TextInput>
+            <TextInput type="text" name="email" placeholder="Email" validators={[emailValidator, minLengthValidator]} onError={setFieldError}></TextInput>
             <FiatInputPanel fiat={fiat} value={amount} onUserInput={setAmount} onFiatSelect={setFiat} id="fiatPanel"/>
-            <ButtonPrimary type="submit" style={{ margin: '20px 0 0 0' }}>
-              Go
+            {formError ? <TYPE.error title={'Error'} error>An error occurred while submitting the data to Sendwyre</TYPE.error> : null}
+            <ButtonPrimary type="submit" style={{ margin: '20px 0 0 0' }} disabled={!ableToBuy}>
+              Buy AVAX
             </ButtonPrimary>
           </PurchaseForm>
 

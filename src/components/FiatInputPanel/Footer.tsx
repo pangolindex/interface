@@ -10,7 +10,6 @@ import QuestionHelper from "../QuestionHelper";
 export default function Footer() {
 
   const quote = useGetQuote().quote
-  console.log("QUOTE", quote)
   const sourceCurrency = !quote ? 'USD' : quote.sourceCurrency
   const destCurrency = !quote ? '' : quote.destCurrency
   const amountReceivable = !quote ? 0 : quote.destAmount.toFixed(2)
