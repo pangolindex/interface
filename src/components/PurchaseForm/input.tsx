@@ -56,6 +56,7 @@ interface InputProps {
   type: string,
   validators?: Validator[],
   onChange?: (val: string) => void,
+  onError?: (hasError: boolean) => void,
   value?: string,
   label?: string,
   placeholder?: string,
@@ -66,6 +67,7 @@ export default function TextInput({
                                     type,
                                     validators,
                                     onChange,
+                                    onError,
                                     value,
                                     label,
                                     placeholder
@@ -75,25 +77,30 @@ export default function TextInput({
   const {registerInput} = useContext(FormContext)
 
   useEffect(
-    () =>
+    () => {
       registerInput({
         name: name,
         validators: validators
-      }), []
+      })}, []
   );
+
   return (
     <FormContext.Consumer>
       {(context) =>
         <MouseoverTooltip text={hasError(context.errors[name]) ? context.errors[name].join('\n') : ""}>
           <label>{label}</label>
-          {console.log(context)}
           <StyledInput
             name={name}
             type={type}
             error={hasError(context.errors[name])}
             className="form-control"
             placeholder={placeholder}
-            onBlur={() => context.validateField(name)}
+            onBlur={() => {
+              context.validateField(name)
+              if (onError) {
+                onError(hasError(context.errors[name]))
+              }
+            }}
             onChange={event => {
               const val = event.target.value;
               context.setFieldValue(name, val)

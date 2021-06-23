@@ -99,7 +99,6 @@ export default function PurchaseForm({
   }
 
   const validateField = (name: string) => {
-    console.log(formState)
     let formErrors = formState.errors
     let validators = formState.validators[name]
     const messages = validators.reduce<string[]>((result, validator) => {
@@ -177,7 +176,6 @@ export default function PurchaseForm({
       <form
         onSubmit={event => {
           event.preventDefault()
-
           if (validate()) {
             onSubmit(formState.data)
           }
