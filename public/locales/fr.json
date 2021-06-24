@@ -43,7 +43,7 @@
   "earn": {
     "claimAccumulated": "Réclamer les récompenses PNG accumulées",
     "connectWallet": "Connecter le portefeuille",
-    "enterAmount": "Entrez un montant",
+    "enterAmount": "Entrer un montant",
     "unclaimedPng": "PNG non réclamé",
     "claim": "Réclamer",
     "liquityRemainsPool": "Lorsque vous réclamez sans retirer, vos liquidités restent dans la pool de minage.",
@@ -73,7 +73,7 @@
     "depositedPglLiquidity": "Liquidité PGL déposée :",
     "whenYouWithdrawWarning": "Lorsque vous effectuez un retrait, votre PNG est réclamé et vos jetons de liquidité Pangolin, PGL, vous sont rendus. Vous ne gagnerez plus de récompenses en PNG sur cette liquidité. Votre jeton de liquidité original restera dans sa pool de liquidité.",
     "withdrawAndClaim": "Retirer & réclamer",
-    "withdrewPgl": "Retirez PGL!",
+    "withdrewPgl": "PGL Retiré!",
     "approve": "Approuver"
   },
   "menu": {
@@ -143,7 +143,7 @@
     "updateList": "Mise à jour de la liste",
     "removeList": "Supprimer la liste",
     "selected": "Sélectionné",
-    "select": "Sélectionnez"
+    "select": "Sélectionner"
   },
   "settings":
   {
@@ -169,7 +169,7 @@
     "route": "Route",
     "routingHelper": "En passant par ces jetons, vous obtenez le meilleur prix pour votre transaction.",
     "confirmSwap": "Confirmer l'échange",
-    "swapAnyway": "Échangez quand même",
+    "swapAnyway": "Échanger quand même",
     "price": "Prix",
     "accept": "Accepter",
     "minimumReceived": "Minimum Reçu",
