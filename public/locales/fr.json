@@ -23,7 +23,7 @@
     "disconnect": "Déconnexion",
     "change": "Changer",
     "copy": "Copie de l'adresse",
-    "viewExplorer": "Voir sur le C-Chain Explorer",
+    "viewExplorer": "Voir sur l'explorateur C-Chain d'Avalanche",
     "clearAll": "(Effacer tout)",
     "transactionAppear": "Vos transactions apparaîtront ici...",
     "recentTransactions": "Transactions récentes",
@@ -31,7 +31,7 @@
   },
   "addressInputPanel": {
     "recipient": "Bénéficiaire",
-    "viewExplorer": "(Voir sur Avalanche C-Chain Explorer)",
+    "viewExplorer": "(Voir sur l'explorateur C-Chain d'Avalanche)",
     "walletAddress": "Adresse du portefeuille"
   },
   "currencyInputPanel": {
