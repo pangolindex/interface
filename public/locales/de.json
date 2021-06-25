@@ -9,7 +9,7 @@
     "forum": "Forum",
     "pngBreakDown": "Deine PNG-Übersicht",
     "balance": "Kontostand: ",
-    "unclaimed": "Nicht geclaimt: ",
+    "unclaimed": "Nicht beansprucht: ",
     "pngPrice": "PNG-Preis:",
     "pngCirculation": "PNG im Umlauf:",
     "totalSupply": "Gesamtmenge",
@@ -41,16 +41,16 @@
     "to": "Für"
   },
   "earn": {
-    "claimAccumulated": "Ausstehende PNG-Vergütung claimen",
+    "claimAccumulated": "Ausstehende PNG-Vergütung beanspruchen",
     "connectWallet": "Mit Wallet verbinden",
     "enterAmount": "Gib einen Betrag ein",
-    "unclaimedPng": "Ungeclaimte PNG",
-    "claim": "Claimen",
-    "liquityRemainsPool": "Wenn du ohne abzubuchen claimst, wird deine Liquidität im Pool verbleiben.",
+    "unclaimedPng": "Unbeanspruchte PNG",
+    "claim": "Beanspruchen",
+    "liquityRemainsPool": "Wenn du deine Vergütung ohne abzubuchen beanspruchst, wird deine Liquidität im Pool verbleiben.",
     "png": "PNG",
-    "claiming": "Claimt",
+    "claiming": "Wird beansprucht",
     "transactionSubmitted": "Transaktion eingereicht",
-    "claimedPng": "PNG geclaimt!",
+    "claimedPng": "PNG beansprucht!",
     "manage": "Verwalten",
     "deposit": "Einlage",
     "poolRate": "Pool-Rate",
@@ -71,8 +71,8 @@
     "deposited": "Eingezahlt",
     "withdrawDepositedLiquidity": "Eingezahlte Liquidität abbuchen",
     "depositedPglLiquidity": "Eingezahlte PGL-Liquidität:",
-    "whenYouWithdrawWarning": "Wenn du abbuchst, wird deine ausstehenden PNG-Vergütung geclaimt. Deine Pangolin-Liquiditätstoken, PGL, werden an dich zurückgegeben und du wirst keine PNG-Vergütungen mehr auf diese Liquiditätsposition erhalten. Deine ursprüngliche Liquidität wird im Liquiditätspool verbleiben.",
-    "withdrawAndClaim": "Abbuchen & Claimen",
+    "whenYouWithdrawWarning": "Wenn du abbuchst, wird deine ausstehenden PNG-Vergütung beansprucht. Deine Pangolin-Liquiditätstoken, PGL, werden an dich zurückgegeben und du wirst keine PNG-Vergütungen mehr auf diese Liquiditätsposition erhalten. Deine ursprüngliche Liquidität wird im Liquiditätspool verbleiben.",
+    "withdrawAndClaim": "Abbuchen & Beanspruchen",
     "withdrewPgl": "PGL abgebucht!",
     "approve": "Bestätigen"
   },
@@ -89,14 +89,14 @@
     "viewTransaction": "Transaktion im C-Chain Explorer ansehen"
   },
   "navigationTabs": {
-    "useThisTool": "Benutze dieses Werkzeug, um dir Paare anzeigen zu lassen, die nicht automatisch in der Schnittstelle auftauchen.",
+    "useThisTool": "Benutze dieses Werkzeug, um dir Paare anzeigen zu lassen, die nicht in der Schnittstelle auftauchen.",
     "swap": "Tauschen",
     "pool": "Pool",
     "importPool": "Pool importieren",
     "createPair": "Erstelle ein Paar",
     "addLiquidity": "Füge Liquidität hinzu",
     "removeLiquidity": "Entferne Liquidität",
-    "whenYouAddLiquidityInfo": "Wenn du Liquidität hinzufügst, erhältst du Pool-Token, die deine Position im Pool repräsentieren. Diese Token schütten automatisch Vergütungen aus, die abhängig von deinem Anteil am Pool sind. Du kannst deine Pool-Token können jederzeit einlösen!",
+    "whenYouAddLiquidityInfo": "Wenn du Liquidität hinzufügst, erhältst du Pool-Token, die Deine Position im Pool repräsentieren. Diese Token schütten automatisch Vergütungen aus, die abhängig von deinem Anteil am Pool sind. Du kannst deine Pool-Token können jederzeit einlösen!",
     "removingPoolTokensInfo": "Wenn du deine Pool-Token einlöst, erhältst du deine ursprünglich eingezahlten Token im momentanen Verhältnis zurück, abhängig von deinem Anteil am Pool. Von dir verdiente Transaktionsgebühren sind im Betrag inbegriffen."
   },
   "popups": {
@@ -119,7 +119,7 @@
     "manage": "Verwalten",
     "loading": "Lädt",
     "yourPosition": "Deine Position",
-    "byAddingLiquidityInfo": "Durch das Bereitstellen von Liquidität verdienst du 0,3% an allen Trades auf diesem Paar, proportional zu deinem Anteil am Pool. \n Gebühren werden dem Pool hinzugefügt, fallen in Echtzeit an und können geclaimt werden, indem die Liquidität abgebucht wird."
+    "byAddingLiquidityInfo": "Durch das Bereitstellen von Liquidität verdienst du 0,3% an allen Trades auf diesem Paar, proportional zu deinem Anteil am Pool. \n Gebühren werden dem Pool hinzugefügt, fallen in Echtzeit an und können beansprucht werden, indem die Liquidität abgebucht wird."
   },
   "searchModal": {
     "commonBases": "Übliche Basis-Token",
@@ -282,16 +282,16 @@
     "poolTokens": " Pool-Token"
   },
   "airdrop": {
-    "claimPngAirdrop": "PNG aus Airdrop claimen",
-    "claimPeriodEnded": "Der Zeitraum für das Claimen von Airdrops ist abgelaufen.",
+    "claimPngAirdrop": "PNG aus Airdrop beanspruchen",
+    "claimPeriodEnded": "Der Zeitraum für das Beanspruchen von Airdrops ist abgelaufen.",
     "connectWalletViewLiquidity": "Verbinde mit einer Wallet, um deine Liquidität zu sehen.",
-    "noAvailableClaim": "Dir steht kein Claim zu.",
+    "noAvailableClaim": "Dir stehen keine PNG zum Beanspruchen zu.",
     "noUniNoSushi": "Du hast keine UNI- oder SUSHI Token. Bitte folge diesem Tutorial, um deiner Wallet UNI- oder SUSHI-Token hinzuzufügen.",
     "youHave": "Du hast ",
-    "pngAvailableClaim": " PNG verfügbar zum Claimen",
+    "pngAvailableClaim": " PNG verfügbar zum Beanspruchen",
     "loading": "Lädt",
     "welcomeToTeamPangolin": "Willkommen im Pangolin-Team",
-    "claim": "Claimen "
+    "claim": "Beanspruchen "
   },
   "earnPage": {
     "pangolinLiquidityMining": "Pangolin Liquidity-Mining",
@@ -299,7 +299,7 @@
     "readMoreAboutPng": "Erfahre mehr über PNG",
     "importantUpdate": "WICHTIGES UPDATE",
     "pangolinGovernanceProposalResult": "Als Ergebnis des Pangolin-Governance-Antrags 1 ändert Pangolin die Staking-Smart Contracts! Nach ca. 09:59 MEZ am 19.4. werden alle Staking-Vergütungen auf die neuen Staking-Smart Contracts verteilt. Vor der Umstellung werden alle Vergütungen noch auf die alten Verträge verteilt. Um Unterbrechungen bei den Yield Farming-Vergütungen zu vermeiden, musst du deine Liquidität aus den alten Smart Contracts herausnehmen und in den neuen Smart Contracts staken. Du musst weder Liquidität aus deinen Pools entfernen noch deine Positionen ändern.",
-    "toUnstake": "Um deinen Stake zu entfernen, gehe zu den alten Pools, klicke auf Verwalten und buche deine PGL-Token ab. Dies wird auch deine ausstehenden PNG-Vergütungen claimen. Um in den neuen Smart Contracts zu staken, gehe zu den neuen Pools, klicke auf Verwalten und zahle deine PGL-Token ein.",
+    "toUnstake": "Um deinen Stake zu entfernen, gehe zu den alten Pools, klicke auf Verwalten und buche deine PGL-Token ab. Dies wird auch deine ausstehenden PNG-Vergütungen beanspruchen. Um in den neuen Smart Contracts zu staken, gehe zu den neuen Pools, klicke auf Verwalten und zahle deine PGL-Token ein.",
     "oldPngPools": "Alte PNG-Pools",
     "newPngPools": "Neue PNG-Pools",
     "participatingPools": "Pools, an denen du beteiligt bist",
@@ -312,17 +312,17 @@
     "pglTokenRequired": "Es sind PGL-Token erforderlich. Sobald du Liquidität zu dem {{ poolHandle }} Pool hinzugefügt hast, kannst du deine Liquiditätsprovider-Token auf dieser Seite staken.",
     "addPoolLiquidity": "Füge {{ poolHandle }} Liquidität hinzu",
     "liquidityDeposits": "Deine Liquiditätseinzahlungen",
-    "unclaimedPng": "Deine ungeclaimten PNG",
-    "claim": "Claim",
+    "unclaimedPng": "Deine unbeanspruchten PNG",
+    "claim": "Beanspruchen",
     "pngPerWeek": " PNG / Woche",
-    "automagically": "Wenn du abbuchst, wird der Smart Contract automagisch PNG für dich claimen!",
+    "automagically": "Wenn du abbuchst, wird der Smart Contract automagisch PNG für dich beanspruchen!",
     "deposit": "Einzahlen",
     "depositPglTokens": "Zahle PGL-Token ein",
     "pglTokenAvailable": "PGL-Token verfügbar"
   },
   "pool": {
     "liquidityProviderRewards": "Liquiditätsprovider-Vergütungen",
-    "liquidityProvidersEarn": "Durch das Bereitstellen von Liquidität verdienen Liquiditätsprovider 0,3% an allen Trades auf diesem Paar, proportional zu ihren Anteil am Pool. Gebühren werden dem Pool hinzugefügt, fallen in Echtzeit an und können geclaimt werden, indem die Liquidität abgebucht wird.",
+    "liquidityProvidersEarn": "Durch das Bereitstellen von Liquidität verdienen Liquiditätsprovider 0,3% an allen Trades auf diesem Paar, proportional zu ihren Anteil am Pool. Gebühren werden dem Pool hinzugefügt, fallen in Echtzeit an und können beansprucht werden, indem die Liquidität abgebucht wird.",
     "readMoreProviding": "Erfahre mehr über das Bereitstellen von Liquidität",
     "viewStakedLiquidity": "Lass dir deine gestakte Liquidität anzeigen",
     "yourLiquidity": "Deine Liquidität",
