@@ -16,7 +16,7 @@ i18next
     },
     fallbackLng: 'en',
     preload: ['en'],
-    whitelist: ['de', 'en', 'es-AR', 'es-US', 'it-IT', 'iw', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW'],
+    whitelist: ['en', 'de', 'es-AR', 'es-US', 'it-IT', 'iw', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW'],
     keySeparator: false,
     interpolation: { escapeValue: false }
   })
