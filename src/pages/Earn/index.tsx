@@ -37,6 +37,7 @@ export default function Earn({
 }: RouteComponentProps<{ version: string }>) {
   const { chainId } = useActiveWeb3React()
   const stakingInfos = useStakingInfo(Number(version))
+  const previousStakingInfos = useStakingInfo(Number(version) - 1)
   const [stakingInfoResults, setStakingInfoResults] = useState<any[]>()
 
   useMemo(() => {
@@ -158,6 +159,7 @@ export default function Earn({
                 apr={stakingInfo.apr}
                 key={stakingInfo.stakingRewardAddress}
                 stakingInfo={stakingInfo}
+                migrationInfo={previousStakingInfos.find(info => info.migratedTo === stakingInfo.stakingRewardAddress)}
                 version={version}
               />
             ))

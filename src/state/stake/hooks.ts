@@ -14,88 +14,109 @@ export const REWARDS_DURATION_DAYS = 60
 export const STAKING_V1: {
 	tokens: [Token, Token]
 	stakingRewardAddress: string
+	migratedTo?: string
 }[] = [
 	{
 		tokens: [WAVAX[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0xa16381eae6285123c323a665d4d99a6bcfaac307'
+		stakingRewardAddress: '0xa16381eae6285123c323a665d4d99a6bcfaac307',
+		migratedTo: '0x417c02150b9a31bcacb201d1d60967653384e1c6'
 	},
 	{
 		tokens: [WAVAX[ChainId.AVALANCHE], USDT[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x4f019452f51bba0250ec8b69d64282b79fc8bd9f'
+		stakingRewardAddress: '0x4f019452f51bba0250ec8b69d64282b79fc8bd9f',
+		migratedTo: '0x94c021845efe237163831dac39448cfd371279d6'
 	},
 	{
 		tokens: [WAVAX[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x01897e996eefff65ae9999c02d1d8d7e9e0c0352'
+		stakingRewardAddress: '0x01897e996eefff65ae9999c02d1d8d7e9e0c0352',
+		migratedTo: '0xe968e9753fd2c323c2fe94caff954a48afc18546'
 	},
 	{
 		tokens: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x8fd2755c6ae7252753361991bdcd6ff55bdc01ce'
+		stakingRewardAddress: '0x8fd2755c6ae7252753361991bdcd6ff55bdc01ce',
+		migratedTo: '0x574d3245e36cf8c9dc86430eadb0fdb2f385f829'
 	},
 	{
 		tokens: [WAVAX[ChainId.AVALANCHE], LINK[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x7d7ecd4d370384b17dfc1b4155a8410e97841b65'
+		stakingRewardAddress: '0x7d7ecd4d370384b17dfc1b4155a8410e97841b65',
+		migratedTo: '0xbda623cdd04d822616a263bf4edbbce0b7dc4ae7'
 	},
 	{
 		tokens: [WAVAX[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0xb5b9ded9c193731f816ae1f8ffb7f8b0fae40c88'
+		stakingRewardAddress: '0xb5b9ded9c193731f816ae1f8ffb7f8b0fae40c88',
+		migratedTo: '0x701e03fad691799a8905043c0d18d2213bbcf2c7'
 	},
 	{
 		tokens: [WAVAX[ChainId.AVALANCHE], UNI[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0xe4d9ae03859dac6d65432d557f75b9b588a38ee1'
+		stakingRewardAddress: '0xe4d9ae03859dac6d65432d557f75b9b588a38ee1',
+		migratedTo: '0x1f6acc5f5fe6af91c1bb3bebd27f4807a243d935'
 	},
 	{
 		tokens: [WAVAX[ChainId.AVALANCHE], SUSHI[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x88f26b81c9cae4ea168e31bc6353f493fda29661'
+		stakingRewardAddress: '0x88f26b81c9cae4ea168e31bc6353f493fda29661',
+		migratedTo: '0xda354352b03f87f84315eef20cdd83c49f7e812e'
 	},
 	{
 		tokens: [WAVAX[ChainId.AVALANCHE], AAVE[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0xee0023108918884181e48902f7c797573f413ece'
+		stakingRewardAddress: '0xee0023108918884181e48902f7c797573f413ece',
+		migratedTo: '0x4df32f1f8469648e89e62789f4246f73fe768b8e'
 	},
 	{
 		tokens: [WAVAX[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x797cbcf107519f4b279fc5db372e292cdf7e6956'
+		stakingRewardAddress: '0x797cbcf107519f4b279fc5db372e292cdf7e6956',
+		migratedTo: '0x2c31822f35506c6444f458ed7470c79f9924ee86'
 	},
 	{
 		tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x4e550fefbf888cb43ead73d821f646f43b1f2309'
+		stakingRewardAddress: '0x4e550fefbf888cb43ead73d821f646f43b1f2309',
+		migratedTo: '0x7ac007afb5d61f48d1e3c8cc130d4cf6b765000e'
 	},
 	{
 		tokens: [PNG[ChainId.AVALANCHE], USDT[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x7accc6f16bf8c0dce22371fbd914c6b5b402bf9f'
+		stakingRewardAddress: '0x7accc6f16bf8c0dce22371fbd914c6b5b402bf9f',
+		migratedTo: '0xe2510a1fcccde8d2d1c40b41e8f71fb1f47e5bba'
 	},
 	{
 		tokens: [PNG[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x99b06b9673fea30ba55179b1433ce909fdc28723'
+		stakingRewardAddress: '0x99b06b9673fea30ba55179b1433ce909fdc28723',
+		migratedTo: '0x681047473b6145ba5db90b074e32861549e85cc7'
 	},
 	{
 		tokens: [PNG[ChainId.AVALANCHE], LINK[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x4ad6e309805cb477010bea9ffc650cb27c1a9504'
+		stakingRewardAddress: '0x4ad6e309805cb477010bea9ffc650cb27c1a9504',
+		migratedTo: '0x6356b24b36074abe2903f44fe4019bc5864fde36'
 	},
 	{
 		tokens: [PNG[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x8866077f08b076360c25f4fd7fbc959ef135474c'
+		stakingRewardAddress: '0x8866077f08b076360c25f4fd7fbc959ef135474c',
+		migratedTo: '0xe3103e565cf96a5709ae8e603b1efb7fed04613b'
 	},
 	{
 		tokens: [PNG[ChainId.AVALANCHE], UNI[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x41188b4332fe68135d1524e43db98e81519d263b'
+		stakingRewardAddress: '0x41188b4332fe68135d1524e43db98e81519d263b',
+		migratedTo: '0x4f74bbf6859a994e7c309ea0f11e3cc112955110'
 	},
 	{
 		tokens: [PNG[ChainId.AVALANCHE], SUSHI[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x6955cb85edea63f861c0be39c3d7f8921606c4dc'
+		stakingRewardAddress: '0x6955cb85edea63f861c0be39c3d7f8921606c4dc',
+		migratedTo: '0x633f4b4db7dd4fa066bd9949ab627a551e0ecd32'
 	},
 	{
 		tokens: [PNG[ChainId.AVALANCHE], AAVE[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0xb921a3ae9ceda66fa8a74dbb0946367fb14fae34'
+		stakingRewardAddress: '0xb921a3ae9ceda66fa8a74dbb0946367fb14fae34',
+		migratedTo: '0xfd9acec0f413ca05d5ad5b962f3b4de40018ad87'
 	},
 	{
 		tokens: [PNG[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0x2061298c76cd76219b9b44439e96a75f19c61f7f'
+		stakingRewardAddress: '0x2061298c76cd76219b9b44439e96a75f19c61f7f',
+		migratedTo: '0xc7d0e29b616b29ac6ff4fd5f37c8da826d16db0d'
 	},
 ]
 
 export const STAKING_V2: {
 	tokens: [Token, Token]
 	stakingRewardAddress: string
+	migratedTo?: string
 }[] = [
 	{
 		tokens: [WAVAX[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
@@ -203,6 +224,7 @@ export const STAKING_REWARDS_INFO: {
 	[chainId in ChainId]?: {
 		tokens: [Token, Token]
 		stakingRewardAddress: string
+		migratedTo?: string
 	}[][]
 } = {
 	[ChainId.AVALANCHE]: [STAKING_V1, STAKING_V2]
@@ -211,6 +233,8 @@ export const STAKING_REWARDS_INFO: {
 export interface StakingInfo {
 	// the address of the reward contract
 	stakingRewardAddress: string
+	// staking address this been migrated to
+	migratedTo: string | undefined
 	// the tokens involved in this pair
 	tokens: [Token, Token]
 	// the amount of token currently staked, or undefined if no account
@@ -412,8 +436,11 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
 
 				const periodFinishMs = periodFinishState.result?.[0]?.mul(1000)?.toNumber()
 
+				const migratedTo = info[index].migratedTo;
+
 				memo.push({
 					stakingRewardAddress: rewardsAddress,
+					migratedTo: migratedTo,
 					tokens: tokens,
 					periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
 					earnedAmount: new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),

@@ -45,13 +45,13 @@ const Wrapper = styled(AutoColumn)<{ showBackground: boolean; bgColor: any }>`
 
 const TopSection = styled.div`
   display: grid;
-  grid-template-columns: 48px 1fr 120px;
+  grid-template-columns: 48px 1fr auto 120px;
   grid-gap: 0px;
   align-items: center;
   padding: 1rem;
   z-index: 1;
   ${({ theme }) => theme.mediaWidth.upToSmall`
-     grid-template-columns: 48px 1fr 96px;
+     grid-template-columns: 48px 1fr auto 96px;
    `};
 `
 
@@ -73,10 +73,12 @@ const BottomSection = styled.div<{ showBackground: boolean }>`
 
 export default function PoolCard({
   stakingInfo,
+	migrationInfo,
   version,
   apr
 }: {
   stakingInfo: StakingInfo
+	migrationInfo?: StakingInfo
   version: string
   apr: string
 }) {
@@ -87,6 +89,10 @@ export default function PoolCard({
   const currency1 = unwrappedToken(token1)
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
+	const canMigrate = Boolean(migrationInfo?.stakedAmount?.greaterThan('0'))
+
+	const migrationCurrency0 = !!migrationInfo ? unwrappedToken(migrationInfo.tokens[0]) : undefined
+	const migrationCurrency1 = !!migrationInfo ? unwrappedToken(migrationInfo.tokens[1]) : undefined
 
   const avaxPool = currency0 === CAVAX || currency1 === CAVAX
   let token: Token
@@ -119,6 +125,19 @@ export default function PoolCard({
         <TYPE.white fontWeight={600} fontSize={24} style={{ marginLeft: '8px' }}>
           {currency0.symbol}-{currency1.symbol}
         </TYPE.white>
+
+	      {canMigrate && migrationCurrency0 && migrationCurrency1 ? (
+		      <StyledInternalLink
+			      to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${version}/${currencyId(migrationCurrency0)}/${currencyId(migrationCurrency1)}/${Number(version) - 1}`}
+			      style={{ marginRight: '10px' }}
+		      >
+			      <ButtonPrimary padding='8px' borderRadius='8px'>
+				      Migrate
+			      </ButtonPrimary>
+		      </StyledInternalLink>
+	      ) : (
+					<span></span>
+	      )}
 
         <StyledInternalLink
           to={`/png/${currencyId(currency0)}/${currencyId(currency1)}/${version}`}
