@@ -14,9 +14,14 @@ i18next
     react: {
       useSuspense: true
     },
-    fallbackLng: 'en',
+    fallbackLng: {
+      'en-US': ['en'],
+      'en-GB': ['en'],
+      'en-AU': ['en'],
+      'default': ['en']
+    },
     preload: ['en'],
-    whitelist: ['en', 'de', 'es-AR', 'es-US', 'it-IT', 'iw', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW'],
+    whitelist: ['en', 'en-US', 'en-GB', 'en-AU', 'de', 'es-AR', 'es-US', 'it-IT', 'iw', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW'],
     keySeparator: false,
     interpolation: { escapeValue: false }
   })
