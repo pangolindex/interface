@@ -20,7 +20,6 @@ import { usePair } from '../../data/Reserves'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import StakingModal from '../../components/earn/StakingModal'
 import UnstakingModal from '../../components/earn/UnstakingModal'
-import ClaimRewardModal from '../../components/earn/ClaimRewardModal'
 
 const PageWrapper = styled(AutoColumn)`
    max-width: 640px;
@@ -52,28 +51,31 @@ export default function Migrate({
 	const stakingInfoTo = useStakingInfo(Number(versionTo), stakingTokenPairTo)?.[0]
 	const stakingInfoFrom = useStakingInfo(Number(versionFrom), stakingTokenPairFrom)?.[0]
 
+  const currentlyStakingOld = stakingInfoFrom?.stakedAmount
+
 	const userLiquidityUnstakedOld = useTokenBalance(account ?? undefined, stakingInfoFrom?.stakedAmount?.token)
 	const userLiquidityUnstakedNew = useTokenBalance(account ?? undefined, stakingInfoTo?.stakedAmount?.token)
 
 	// detect if old LP tokens are staked
-	const requiresUnstake = stakingInfoFrom?.stakedAmount?.greaterThan('0')
+	const requiresUnstake = currentlyStakingOld?.greaterThan('0')
 
-	// detect if old LP is owned and not staked
-	const requiresBurn = userLiquidityUnstakedOld?.greaterThan('0')
+	// detect if old LP is currently held and cannot be migrated directly to the new staking contract
+	const requiresBurn = userLiquidityUnstakedOld?.greaterThan('0') && !stakingInfoFrom?.stakedAmount?.token.equals(stakingInfoTo?.stakedAmount?.token)
 
-	// detect if LP needs to be converted
-	const requiresConvert = userLiquidityUnstakedOld && userLiquidityUnstakedNew && !userLiquidityUnstakedOld.equalTo(userLiquidityUnstakedNew)
+	// detect if underlying token needs to be converted
+  const requiresConvertingToken0 = stakingInfoFrom && stakingInfoTo && !stakingInfoTo?.tokens.includes(stakingInfoFrom?.tokens[0])
+  const requiresConvertingToken1 = stakingInfoFrom && stakingInfoTo && !stakingInfoTo?.tokens.includes(stakingInfoFrom?.tokens[1])
+	const requiresConvert = requiresConvertingToken0 || requiresConvertingToken1
 
 	// detect if new LP has been minted and not staked
 	const requiresMint = userLiquidityUnstakedNew?.equalTo('0')
 	const requiresStake = userLiquidityUnstakedNew?.greaterThan('0')
 
-	// detect if new LP tokens are staked
-	const requiresNothing = stakingInfoTo?.stakedAmount?.equalTo('0')
+	// detect if all steps have been completed
+	const requiresNothing = !requiresUnstake && !requiresBurn && !requiresConvert && !requiresMint && !requiresStake
 
 	const [showStakingModal, setShowStakingModal] = useState(false)
 	const [showUnstakingModal, setShowUnstakingModal] = useState(false)
-	const [showClaimRewardModal, setShowClaimRewardModal] = useState(false)
 
 	const toggleWalletModal = useWalletModalToggle()
 
@@ -93,150 +95,171 @@ export default function Migrate({
          </TYPE.mediumHeader>
 			</RowBetween>
 
-			{(requiresUnstake || true) && (
-				<VoteCard>
-					<CardBGImage />
-					<CardNoise />
-					<CardSection>
-						<AutoColumn gap="md">
-							<RowBetween>
-								<TYPE.white fontWeight={600}>Step 1. Unstake Pangolin liquidity tokens (PGL)</TYPE.white>
-							</RowBetween>
-							<RowBetween style={{ marginBottom: '1rem' }}>
-								<TYPE.white fontSize={14}>
-									{`You are currently staking deprecated PGL tokens. You must unstake to continue the migration process`}
-								</TYPE.white>
-							</RowBetween>
-							<ButtonPrimary
-								padding="8px"
-								borderRadius="8px"
-								width={'fit-content'}
-								onClick={() => setShowUnstakingModal(true)}
-							>
-								{`Unstake ${currencyToA?.symbol}-${currencyToB?.symbol} liquidity`}
-							</ButtonPrimary>
-						</AutoColumn>
-					</CardSection>
-					<CardBGImage />
-					<CardNoise />
-				</VoteCard>
-			)}
+      <VoteCard>
+        <CardBGImage />
+        <CardNoise />
+        <CardSection>
+          <AutoColumn gap="md">
+            <RowBetween>
+              <TYPE.white fontWeight={600}>Step 1. Unstake Pangolin liquidity tokens (PGL)</TYPE.white>
+            </RowBetween>
+            {(requiresUnstake) && (
+              <>
+                <RowBetween style={{ marginBottom: '1rem' }}>
+                  <TYPE.white fontSize={14}>
+                    {`You are currently staking deprecated PGL tokens. Unstake to continue the migration process`}
+                  </TYPE.white>
+                </RowBetween>
+                <ButtonPrimary
+                  padding="8px"
+                  borderRadius="8px"
+                  width={'fit-content'}
+                  onClick={() => setShowUnstakingModal(true)}
+                >
+                  {`Unstake ${currentlyStakingOld?.toSignificant(4) ?? ''} ${currencyToA?.symbol}-${currencyToB?.symbol} liquidity`}
+                </ButtonPrimary>
+              </>
+            )}
+          </AutoColumn>
+        </CardSection>
+        <CardBGImage />
+        <CardNoise />
+      </VoteCard>
 
-			{(requiresBurn || true) && (
-				<VoteCard>
-					<CardBGImage />
-					<CardNoise />
-					<CardSection>
-						<AutoColumn gap="md">
-							<RowBetween>
-								<TYPE.white fontWeight={600}>Step 2. Convert Pangolin liquidity (PGL) into the underlying assets</TYPE.white>
-							</RowBetween>
-							<RowBetween style={{ marginBottom: '1rem' }}>
-								<TYPE.white fontSize={14}>
-									{`You are currently holding deprecated PGL tokens. You must claim and withdraw your principal continue the migration process`}
-								</TYPE.white>
-							</RowBetween>
-							<ButtonPrimary
-								padding="8px"
-								borderRadius="8px"
-								width={'fit-content'}
-								as={Link}
-								to={`/remove/${currencyFromA && currencyId(currencyFromA)}/${currencyFromB && currencyId(currencyFromB)}`}
-							>
-								{`Withdraw ${currencyToA?.symbol}-${currencyToB?.symbol} liquidity`}
-							</ButtonPrimary>
-						</AutoColumn>
-					</CardSection>
-					<CardBGImage />
-					<CardNoise />
-				</VoteCard>
-			)}
+      <VoteCard>
+        <CardBGImage />
+        <CardNoise />
+        <CardSection>
+          <AutoColumn gap="md">
+            <RowBetween>
+              <TYPE.white fontWeight={600}>Step 2. Convert Pangolin liquidity tokens (PGL) into the underlying assets</TYPE.white>
+            </RowBetween>
+            {(requiresBurn) && (
+              <>
+                <RowBetween style={{ marginBottom: '1rem' }}>
+                  <TYPE.white fontSize={14}>
+                    {`You are currently holding deprecated PGL tokens. Claim and withdraw your principal to continue the migration process`}
+                  </TYPE.white>
+                </RowBetween>
+                <ButtonPrimary
+                  padding="8px"
+                  borderRadius="8px"
+                  width={'fit-content'}
+                  as={Link}
+                  to={`/remove/${currencyFromA && currencyId(currencyFromA)}/${currencyFromB && currencyId(currencyFromB)}`}
+                >
+                  {`Withdraw ${userLiquidityUnstakedOld?.toSignificant(4) ?? ''} ${currencyToA?.symbol}-${currencyToB?.symbol} liquidity`}
+                </ButtonPrimary>
+              </>
+            )}
+          </AutoColumn>
+        </CardSection>
+        <CardBGImage />
+        <CardNoise />
+      </VoteCard>
 
-			{(requiresConvert || true) && (
-				<VoteCard>
-					<CardBGImage />
-					<CardNoise />
-					<CardSection>
-						<AutoColumn gap="md">
-							<RowBetween>
-								<TYPE.white fontWeight={600}>Step 3. Convert deprecated asset to the new asset</TYPE.white>
-							</RowBetween>
-							<RowBetween style={{ marginBottom: '1rem' }}>
-								<TYPE.white fontSize={14}>
-									{`You are currently holding a deprecated token. You should convert 1:1 to the new token`}
-								</TYPE.white>
-							</RowBetween>
-							<ButtonPrimary
-								padding="8px"
-								borderRadius="8px"
-								width={'fit-content'}
-								onClick={() => window.location.href=`https://aeb.xyz`}
-							>
-								{`Convert ASSET (old) to ASSET (new)`}
-							</ButtonPrimary>
-						</AutoColumn>
-					</CardSection>
-					<CardBGImage />
-					<CardNoise />
-				</VoteCard>
-			)}
+      <VoteCard>
+        <CardBGImage />
+        <CardNoise />
+        <CardSection>
+          <AutoColumn gap="md">
+            <RowBetween>
+              <TYPE.white fontWeight={600}>Step 3. Convert deprecated tokens</TYPE.white>
+            </RowBetween>
+            {(requiresConvert) && (
+              <>
+                <RowBetween style={{ marginBottom: '1rem' }}>
+                  <TYPE.white fontSize={14}>
+                    {`You are currently holding a deprecated token. Convert to the new token 1:1 to continue the migration process`}
+                  </TYPE.white>
+                </RowBetween>
+                {(requiresConvertingToken0 || true) && (
+                  <ButtonPrimary
+                    padding="8px"
+                    borderRadius="8px"
+                    width={'fit-content'}
+                    onClick={() => window.location.href=`https://aeb.xyz`}
+                  >
+                    {`Convert deprecated ${stakingInfoFrom?.tokens[0].symbol ?? 'token'}`}
+                  </ButtonPrimary>
+                )}
+                {(requiresConvertingToken1) && (
+                  <ButtonPrimary
+                    padding="8px"
+                    borderRadius="8px"
+                    width={'fit-content'}
+                    onClick={() => window.location.href=`https://aeb.xyz`}
+                  >
+                    {`Convert deprecated ${stakingInfoFrom?.tokens[1].symbol ?? 'token'}`}
+                  </ButtonPrimary>
+                )}
+              </>
+            )}
+          </AutoColumn>
+        </CardSection>
+        <CardBGImage />
+        <CardNoise />
+      </VoteCard>
 
-			{(requiresMint || true) && (
-				<VoteCard>
-					<CardBGImage />
-					<CardNoise />
-					<CardSection>
-						<AutoColumn gap="md">
-							<RowBetween>
-								<TYPE.white fontWeight={600}>Step 4. Get Pangolin Liquidity tokens (PGL)</TYPE.white>
-							</RowBetween>
-							<RowBetween style={{ marginBottom: '1rem' }}>
-								<TYPE.white fontSize={14}>
-									{`PGL tokens are required. Once you've added liquidity to the ${currencyToA?.symbol}-${currencyToB?.symbol} pool you can stake your liquidity tokens on this page.`}
-								</TYPE.white>
-							</RowBetween>
-							<ButtonPrimary
-								padding="8px"
-								borderRadius="8px"
-								width={'fit-content'}
-								as={Link}
-								to={`/add/${currencyToA && currencyId(currencyToA)}/${currencyToB && currencyId(currencyToB)}`}
-							>
-								{`Add new ${currencyToA?.symbol}-${currencyToB?.symbol} liquidity`}
-							</ButtonPrimary>
-						</AutoColumn>
-					</CardSection>
-					<CardBGImage />
-					<CardNoise />
-				</VoteCard>
-			)}
+      <VoteCard>
+        <CardBGImage />
+        <CardNoise />
+        <CardSection>
+          <AutoColumn gap="md">
+            <RowBetween>
+              <TYPE.white fontWeight={600}>Step 4. Get Pangolin liquidity tokens (PGL)</TYPE.white>
+            </RowBetween>
+            {(requiresMint) && (
+              <>
+                <RowBetween style={{ marginBottom: '1rem' }}>
+                  <TYPE.white fontSize={14}>
+                    {`You are not currently holding PGL tokens for this pool. Provide liquidity to the ${currencyToA?.symbol}-${currencyToB?.symbol} pool to receive PGL tokens representing your share of the liquidity pool`}
+                  </TYPE.white>
+                </RowBetween>
+                <ButtonPrimary
+                  padding="8px"
+                  borderRadius="8px"
+                  width={'fit-content'}
+                  as={Link}
+                  to={`/add/${currencyToA && currencyId(currencyToA)}/${currencyToB && currencyId(currencyToB)}`}
+                >
+                  {`Add new ${currencyToA?.symbol}-${currencyToB?.symbol} liquidity`}
+                </ButtonPrimary>
+              </>
+            )}
+          </AutoColumn>
+        </CardSection>
+        <CardBGImage />
+        <CardNoise />
+      </VoteCard>
 
-			{(requiresStake || true) && (
-				<VoteCard>
-					<CardBGImage />
-					<CardNoise />
-					<CardSection>
-						<AutoColumn gap="md">
-							<RowBetween>
-								<TYPE.white fontWeight={600}>Step 5. Stake Pangolin liquidity (PGL) to earn PNG</TYPE.white>
-							</RowBetween>
-							<ButtonPrimary
-								padding="8px"
-								borderRadius="8px"
-								width={'fit-content'}
-								onClick={handleDepositClick}
-							>
-								{`Stake ${currencyToA?.symbol}-${currencyToB?.symbol} liquidity`}
-							</ButtonPrimary>
-						</AutoColumn>
-					</CardSection>
-					<CardBGImage />
-					<CardNoise />
-				</VoteCard>
-			)}
+      <VoteCard>
+        <CardBGImage />
+        <CardNoise />
+        <CardSection>
+          <AutoColumn gap="md">
+            <RowBetween>
+              <TYPE.white fontWeight={600}>Step 5. Stake Pangolin liquidity (PGL) to earn PNG</TYPE.white>
+            </RowBetween>
+            {(requiresStake) && (
+              <>
+                <ButtonPrimary
+                  padding="8px"
+                  borderRadius="8px"
+                  width={'fit-content'}
+                  onClick={handleDepositClick}
+                >
+                  {`Stake ${userLiquidityUnstakedNew?.toSignificant(4) ?? ''} ${currencyToA?.symbol}-${currencyToB?.symbol} liquidity`}
+                </ButtonPrimary>
+              </>
+            )}
+          </AutoColumn>
+        </CardSection>
+        <CardBGImage />
+        <CardNoise />
+      </VoteCard>
 
-
-			{(requiresNothing || true) && (
+			{(requiresNothing) && (
 				<VoteCard>
 					<CardBGImage />
 					<CardNoise />
@@ -254,11 +277,6 @@ export default function Migrate({
 
 			{stakingInfoFrom && stakingInfoTo && (
 				<>
-					<ClaimRewardModal
-						isOpen={showClaimRewardModal}
-						onDismiss={() => setShowClaimRewardModal(false)}
-						stakingInfo={stakingInfoFrom}
-					/>
 					<StakingModal
 						isOpen={showStakingModal}
 						onDismiss={() => setShowStakingModal(false)}
@@ -276,6 +294,3 @@ export default function Migrate({
 		</PageWrapper>
 	)
 }
-
-// setShowStakingModal(true) && check for wallet
-// onClick={() => setShowUnstakingModal(true)}
