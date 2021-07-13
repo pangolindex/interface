@@ -143,7 +143,6 @@ export default function Migrate({
                 </RowBetween>
                 <ButtonPrimary
                   padding="8px"
-                  borderRadius="8px"
                   width={'fit-content'}
                   as={Link}
                   to={`/remove/${currencyFromA && currencyId(currencyFromA)}/${currencyFromB && currencyId(currencyFromB)}`}
@@ -218,7 +217,6 @@ export default function Migrate({
                 </RowBetween>
                 <ButtonPrimary
                   padding="8px"
-                  borderRadius="8px"
                   width={'fit-content'}
                   as={Link}
                   to={`/add/${currencyToA && currencyId(currencyToA)}/${currencyToB && currencyId(currencyToB)}`}
