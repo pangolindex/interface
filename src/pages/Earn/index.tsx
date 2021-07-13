@@ -128,7 +128,10 @@ export default function Earn({
                 apr={stakingInfo.apr}
                 key={stakingInfo.stakingRewardAddress}
                 stakingInfo={stakingInfo}
-                migrationInfo={previousStakingInfos.find(info => info.migratedTo === stakingInfo.stakingRewardAddress)}
+                migrationInfo={
+                  stakingInfos.find(info => info.migratedTo === stakingInfo.stakingRewardAddress)
+                  ||
+                  previousStakingInfos.find(info => info.migratedTo === stakingInfo.stakingRewardAddress)}
                 version={version}
               />
             ))
