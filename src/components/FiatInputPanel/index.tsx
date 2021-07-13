@@ -108,6 +108,7 @@ export default function FiatInputPanel({
           )}
           <FiatSelect
             selected={!!fiat}
+            type="button"
             className="open-currency-select-button"
             onClick={() => {
                 setModalOpen(true)
