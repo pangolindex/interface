@@ -304,7 +304,7 @@ export default function Header() {
             {t('pool')}
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/png/1'}>
-            New PNG
+            PNG
           </StyledNavLink>
           {hasPositionV0 && (
             <StyledNavLink id={`stake-nav-link`} to={'/png/0'}>
