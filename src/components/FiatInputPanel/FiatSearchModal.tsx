@@ -1,4 +1,11 @@
-import React, { useRef, KeyboardEvent, RefObject, useMemo, useState, useCallback } from 'react'
+import React, {
+  useRef,
+  KeyboardEvent,
+  RefObject,
+  useMemo,
+  useState,
+  useCallback
+} from 'react'
 import Modal from '../Modal'
 import {StyledInput} from '../PurchaseForm/input'
 import {FixedSizeList, ListChildComponentProps} from 'react-window'
@@ -22,7 +29,6 @@ interface FiatSearchModalProps {
 }
 
 
-
 export default function FiatSearchModal({
                                           isOpen,
                                           onDismiss,
@@ -31,11 +37,10 @@ export default function FiatSearchModal({
                                         }: FiatSearchModalProps) {
 
 
-  // @ts-ignore
-  const handleFiatSelect = (fiat: Fiat) => {
-      onFiatSelect(fiat)
-      onDismiss()
-    }
+  const handleFiatSelect = useCallback((fiat: Fiat) => {
+    onFiatSelect(fiat)
+    onDismiss()
+  }, [onDismiss, onFiatSelect])
 
   const [searchQuery, setSearchQuery] = useState<string>('')
   const filteredFiats: Fiat[] = useMemo(() => {
@@ -79,7 +84,7 @@ export default function FiatSearchModal({
           <Text title={fiat.name} fontWeight={(isSelected) ? 700 : 500}>
             {fiat.symbol}
           </Text>
-      </Column>
+        </Column>
       </MenuItem>
     )
   }
@@ -100,29 +105,29 @@ export default function FiatSearchModal({
             id="token-search-input"
             placeholder="Search"
             value={searchQuery}
-          ref={inputRef as RefObject<HTMLInputElement>}
-          onChange={handleInput}
-          onKeyDown={handleEnter}
+            ref={inputRef as RefObject<HTMLInputElement>}
+            onChange={handleInput}
+            onKeyDown={handleEnter}
           />
         </PaddedColumn>
-          <Separator/>
+        <Separator/>
 
-          <div style={{ flex: '1' }}>
-            <AutoSizer disableWidth>
-              {({height}) => (
-                <FixedSizeList
-                  height={height}
-                  width="100%"
-                  itemData={filteredFiats}
-                  itemCount={filteredFiats.length}
-                  itemSize={56}
-                  ref={fixedList as any}
-                >
-                  {Row}
-                </FixedSizeList>
-              )}
-            </AutoSizer>
-          </div>
+        <div style={{flex: '1'}}>
+          <AutoSizer disableWidth>
+            {({height}) => (
+              <FixedSizeList
+                height={height}
+                width="100%"
+                itemData={filteredFiats}
+                itemCount={filteredFiats.length}
+                itemSize={56}
+                ref={fixedList as any}
+              >
+                {Row}
+              </FixedSizeList>
+            )}
+          </AutoSizer>
+        </div>
       </Column>
     </Modal>
   )

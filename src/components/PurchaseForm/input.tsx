@@ -81,6 +81,7 @@ export default function TextInput({
       registerInput({
         name: name,
         validators: validators
+        // eslint-disable-next-line
       })}, []
   );
 
