@@ -8,7 +8,7 @@ import { useCurrency } from '../../hooks/Tokens'
 import { TYPE } from '../../theme'
 
 import { RowBetween } from '../../components/Row'
-import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
+import { CardSection, DataCard } from '../../components/earn/styled'
 import { ButtonPrimary } from '../../components/Button'
 import { useStakingInfo } from '../../state/stake/hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
@@ -26,30 +26,30 @@ const PageWrapper = styled(AutoColumn)`
    width: 100%;
  `
 
-const VoteCard = styled(DataCard)`
-   background: radial-gradient(76.02% 75.41% at 1.84% 0%, #27ae60 0%, #000000 100%);
-   overflow: hidden;
- `
+const StepCard = styled(DataCard)`
+  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #c97200 0%, #000000 100%);
+  overflow: hidden;
+`
 
 export default function Migrate({
 	match: {
-		params: { currencyIdToA, currencyIdToB, versionTo, currencyIdFromA, currencyIdFromB, versionFrom }
+		params: { currencyIdFromA, currencyIdFromB, versionFrom, currencyIdToA, currencyIdToB, versionTo }
 	}
-}: RouteComponentProps<{ currencyIdToA: string; currencyIdToB: string; versionTo: string; currencyIdFromA: string; currencyIdFromB: string; versionFrom: string }>) {
+}: RouteComponentProps<{ currencyIdFromA: string; currencyIdFromB: string; versionFrom: string; currencyIdToA: string; currencyIdToB: string; versionTo: string; }>) {
 	const { account, chainId } = useActiveWeb3React()
 
 	// get currencies and pair
-	const [currencyToA, currencyToB, currencyFromA, currencyFromB] = [useCurrency(currencyIdToA), useCurrency(currencyIdToB), useCurrency(currencyIdFromA), useCurrency(currencyIdFromB)]
+	const [currencyFromA, currencyFromB, currencyToA, currencyToB] = [useCurrency(currencyIdFromA), useCurrency(currencyIdFromB), useCurrency(currencyIdToA), useCurrency(currencyIdToB)]
+  const tokenFromA = wrappedCurrency(currencyFromA ?? undefined, chainId)
+  const tokenFromB = wrappedCurrency(currencyFromB ?? undefined, chainId)
 	const tokenToA = wrappedCurrency(currencyToA ?? undefined, chainId)
 	const tokenToB = wrappedCurrency(currencyToB ?? undefined, chainId)
-	const tokenFromA = wrappedCurrency(currencyFromA ?? undefined, chainId)
-	const tokenFromB = wrappedCurrency(currencyFromB ?? undefined, chainId)
 
+  const [, stakingTokenPairFrom] = usePair(tokenFromA, tokenFromB)
 	const [, stakingTokenPairTo] = usePair(tokenToA, tokenToB)
-	const [, stakingTokenPairFrom] = usePair(tokenFromA, tokenFromB)
 
+  const stakingInfoFrom = useStakingInfo(Number(versionFrom), stakingTokenPairFrom)?.[0]
 	const stakingInfoTo = useStakingInfo(Number(versionTo), stakingTokenPairTo)?.[0]
-	const stakingInfoFrom = useStakingInfo(Number(versionFrom), stakingTokenPairFrom)?.[0]
 
   const currentlyStakingOld = stakingInfoFrom?.stakedAmount
 
@@ -59,22 +59,32 @@ export default function Migrate({
   const userOldBalanceToken0 = useTokenBalance(account ?? undefined, stakingInfoFrom?.tokens[0])
   const userOldBalanceToken1 = useTokenBalance(account ?? undefined, stakingInfoFrom?.tokens[1])
 
-	// detect if old LP tokens are staked
+  const userNewBalanceToken0 = useTokenBalance(account ?? undefined, stakingInfoTo?.tokens[0])
+  const userNewBalanceToken1 = useTokenBalance(account ?? undefined, stakingInfoTo?.tokens[1])
+
+  // Step 1: Detect if old LP tokens are staked
 	const requiresUnstake = currentlyStakingOld?.greaterThan('0')
 
-	// detect if old LP is currently held and cannot be migrated directly to the new staking contract
-	const requiresBurn = userLiquidityUnstakedOld?.greaterThan('0') && !stakingInfoFrom?.stakedAmount?.token.equals(stakingInfoTo?.stakedAmount?.token)
+	// Step 2: Detect if old LP is currently held and cannot be migrated directly to the new staking contract
+	const requiresBurn = (!requiresUnstake)
+    && userLiquidityUnstakedOld?.greaterThan('0')
+    && !stakingInfoFrom?.stakedAmount?.token.equals(stakingInfoTo?.stakedAmount?.token)
 
-	// detect if underlying token needs to be converted
+	// Step 3: Detect if underlying token needs to be converted
   const requiresConvertingToken0 = stakingInfoFrom && stakingInfoTo && !stakingInfoTo?.tokens.includes(stakingInfoFrom?.tokens[0]) && userOldBalanceToken0?.greaterThan('0')
   const requiresConvertingToken1 = stakingInfoFrom && stakingInfoTo && !stakingInfoTo?.tokens.includes(stakingInfoFrom?.tokens[1]) && userOldBalanceToken1?.greaterThan('0')
-	const requiresConvert = requiresConvertingToken0 || requiresConvertingToken1
+	const requiresConvert = (!requiresUnstake && !requiresBurn) && (requiresConvertingToken0 || requiresConvertingToken1)
 
-	// detect if new LP has been minted and not staked
-	const requiresMint = userLiquidityUnstakedNew?.equalTo('0')
-	const requiresStake = userLiquidityUnstakedNew?.greaterThan('0')
+	// Step 4: Detect if underlying tokens are available but not provided as liquidity
+	const requiresMint = (!requiresUnstake && !requiresBurn && !requiresConvert)
+    && userNewBalanceToken0?.greaterThan('0')
+    && userNewBalanceToken1?.greaterThan('0')
+    && userLiquidityUnstakedNew?.equalTo('0')
 
-	// detect if all steps have been completed
+  // Step 5: Detect if new LP has been minted and not staked
+	const requiresStake = (!requiresUnstake && !requiresBurn && !requiresConvert && !requiresMint) && userLiquidityUnstakedNew?.greaterThan('0')
+
+	// Detect if all steps have been completed
 	const requiresNothing = !requiresUnstake && !requiresBurn && !requiresConvert && !requiresMint && !requiresStake
 
 	const [showStakingModal, setShowStakingModal] = useState(false)
@@ -98,9 +108,7 @@ export default function Migrate({
          </TYPE.mediumHeader>
 			</RowBetween>
 
-      <VoteCard>
-        <CardBGImage />
-        <CardNoise />
+      <StepCard>
         <CardSection>
           <AutoColumn gap="md">
             <RowBetween>
@@ -125,13 +133,9 @@ export default function Migrate({
             )}
           </AutoColumn>
         </CardSection>
-        <CardBGImage />
-        <CardNoise />
-      </VoteCard>
+      </StepCard>
 
-      <VoteCard>
-        <CardBGImage />
-        <CardNoise />
+      <StepCard>
         <CardSection>
           <AutoColumn gap="md">
             <RowBetween>
@@ -156,13 +160,9 @@ export default function Migrate({
             )}
           </AutoColumn>
         </CardSection>
-        <CardBGImage />
-        <CardNoise />
-      </VoteCard>
+      </StepCard>
 
-      <VoteCard>
-        <CardBGImage />
-        <CardNoise />
+      <StepCard>
         <CardSection>
           <AutoColumn gap="md">
             <RowBetween>
@@ -175,7 +175,7 @@ export default function Migrate({
                     {`You are currently holding a deprecated token. Convert to the new token 1:1 to continue the migration process`}
                   </TYPE.white>
                 </RowBetween>
-                {(requiresConvertingToken0 || true) && (
+                {(requiresConvertingToken0) && (
                   <ButtonPrimary
                     padding="8px"
                     borderRadius="8px"
@@ -199,13 +199,9 @@ export default function Migrate({
             )}
           </AutoColumn>
         </CardSection>
-        <CardBGImage />
-        <CardNoise />
-      </VoteCard>
+      </StepCard>
 
-      <VoteCard>
-        <CardBGImage />
-        <CardNoise />
+      <StepCard>
         <CardSection>
           <AutoColumn gap="md">
             <RowBetween>
@@ -230,13 +226,9 @@ export default function Migrate({
             )}
           </AutoColumn>
         </CardSection>
-        <CardBGImage />
-        <CardNoise />
-      </VoteCard>
+      </StepCard>
 
-      <VoteCard>
-        <CardBGImage />
-        <CardNoise />
+      <StepCard>
         <CardSection>
           <AutoColumn gap="md">
             <RowBetween>
@@ -256,14 +248,10 @@ export default function Migrate({
             )}
           </AutoColumn>
         </CardSection>
-        <CardBGImage />
-        <CardNoise />
-      </VoteCard>
+      </StepCard>
 
 			{(requiresNothing) && (
-				<VoteCard>
-					<CardBGImage />
-					<CardNoise />
+				<StepCard>
 					<CardSection>
 						<AutoColumn gap="md">
 							<RowBetween>
@@ -271,9 +259,7 @@ export default function Migrate({
 							</RowBetween>
 						</AutoColumn>
 					</CardSection>
-					<CardBGImage />
-					<CardNoise />
-				</VoteCard>
+				</StepCard>
 			)}
 
 			{stakingInfoFrom && stakingInfoTo && (

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
-import { STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
+import { MIGRATIONS, STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
 import { TYPE, ExternalLink } from '../../theme'
 import PoolCard from '../../components/earn/PoolCard'
 import { RouteComponentProps } from 'react-router-dom'
@@ -37,24 +37,25 @@ export default function Earn({
 }: RouteComponentProps<{ version: string }>) {
   const { chainId } = useActiveWeb3React()
   const stakingInfos = useStakingInfo(Number(version))
-  const previousStakingInfos = useStakingInfo(Number(version) - 1)
   const [stakingInfoResults, setStakingInfoResults] = useState<any[]>()
 
   useMemo(() => {
+    const migrated = MIGRATIONS.map(migration => migration.from.stakingRewardAddress)
+
     Promise.all(
       stakingInfos
         ?.sort(function(info_a, info_b) {
-          // Only first has been migrated
-          if (info_a.migratedTo && !info_b.migratedTo) return 1
-          // Only second has been migrated
-          if (!info_a.migratedTo && info_b.migratedTo) return -1
+          // only first has been migrated
+          if (migrated.includes(info_a.stakingRewardAddress) && !migrated.includes(info_b.stakingRewardAddress)) return 1
+          // only second has been migrated
+          if (!migrated.includes(info_a.stakingRewardAddress) && migrated.includes(info_b.stakingRewardAddress)) return -1
           // greater stake in avax comes first
           return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
         })
         .sort(function(info_a, info_b) {
-          // the second is actually not at stake, so we should bring the first up
+          // only the first is being staked, so we should bring the first up
           if (info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && !info_b.stakedAmount.greaterThan(JSBI.BigInt(0))) return -1
-          // first is not being staked, but second is, so we should bring the first down
+          // only the second is being staked, so we should bring the first down
           if (!info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && info_b.stakedAmount.greaterThan(JSBI.BigInt(0))) return 1
           return 0
         })
@@ -124,10 +125,7 @@ export default function Earn({
                 apr={stakingInfo.apr}
                 key={stakingInfo.stakingRewardAddress}
                 stakingInfo={stakingInfo}
-                migrationInfo={
-                  stakingInfos.find(info => info.migratedTo === stakingInfo.stakingRewardAddress)
-                  ||
-                  previousStakingInfos.find(info => info.migratedTo === stakingInfo.stakingRewardAddress)}
+                migration={MIGRATIONS.find(migration => migration.to.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.from}
                 version={version}
               />
             ))

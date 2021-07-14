@@ -98,7 +98,7 @@ export default function App() {
               <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
               <Route exact strict path="/png/:currencyIdA/:currencyIdB/:version" component={Manage} />
               <Route exact strict path="/vote/:id" component={VotePage} />
-	            <Route exact path="/migrate/:currencyIdToA/:currencyIdToB/:versionTo/:currencyIdFromA/:currencyIdFromB/:versionFrom" component={Migrate} />
+	            <Route exact path="/migrate/:currencyIdFromA/:currencyIdFromB/:versionFrom/:currencyIdToA/:currencyIdToB/:versionTo/" component={Migrate} />
               <Route component={RedirectPathToSwapOnly} />
             </Switch>
           </Web3ReactManager>
