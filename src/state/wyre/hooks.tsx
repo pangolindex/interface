@@ -9,27 +9,29 @@ export function useQuoteRequest(account: string | null | undefined, amount: stri
 
   const dispatch = useDispatch<AppDispatch>()
 
+
   const getQuote = useCallback(async () => {
 
     if (!account || Number(amount) <= 0 || !Number(amount)) {
       dispatch(updateQuote({quote: false}))
     } else {
 
-      // @ts-ignore
       const data = {
         'amount': amount,
         'sourceCurrency': sourceCurrency,
-        'destCurrency': 'ETH',
+        'destCurrency': 'AVAX',
         'dest': 'ethereum:' + account,
         'accountId': WYRE_ID,
         'country': getCountry()
       }
 
+      const url = `${WYRE_API_URL}${WYRE_QUOTE_API_ENDPOINT}`
+
       const headers = {
         'Authorization': WYRE_API_KEY,
         'Content-Type': 'application/json'
       }
-      const url = `${WYRE_API_URL}${WYRE_QUOTE_API_ENDPOINT}`
+
       try {
         const response = await fetch(url, {
           method: 'post',
