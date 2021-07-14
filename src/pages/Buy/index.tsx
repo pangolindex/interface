@@ -52,7 +52,6 @@ export default function Buy() {
     redirectToWyre(formDataWithAmount)
       .then(
         (success) => {
-          console.log(success)
           setFormError(!success)
         })
 
