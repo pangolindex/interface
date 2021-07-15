@@ -23,7 +23,7 @@ type ChainTokenList = {
 }
 
 export const PNG: { [chainId in ChainId]: Token } = {
-  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'PNG', 'Pangolin'),
+  [ChainId.FUJI]: new Token(ChainId.FUJI, '0x83080D4b5fC60e22dFFA8d14AD3BB41Dde48F199', 18, 'PNG', 'Pangolin'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x60781C2586D68229fde47564546784ab3fACA982', 18, 'PNG', 'Pangolin')
 }
 
@@ -92,15 +92,14 @@ export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
 }
 
-const WAVAX_ONLY: ChainTokenList = {
-  [ChainId.FUJI]: [WAVAX[ChainId.FUJI]],
-  [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE]]
+const WAVAX_AND_PNG_ONLY: ChainTokenList = {
+  [ChainId.FUJI]: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
+  [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]]
 }
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
-  ...WAVAX_ONLY,
-  [ChainId.AVALANCHE]: [...WAVAX_ONLY[ChainId.AVALANCHE]]
+  ...WAVAX_AND_PNG_ONLY,
 }
 
 /**
@@ -115,14 +114,12 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
-  ...WAVAX_ONLY,
-  [ChainId.AVALANCHE]: [...WAVAX_ONLY[ChainId.AVALANCHE]]
+  ...WAVAX_AND_PNG_ONLY,
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
-  ...WAVAX_ONLY,
-  [ChainId.AVALANCHE]: [...WAVAX_ONLY[ChainId.AVALANCHE]]
+  ...WAVAX_AND_PNG_ONLY,
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
