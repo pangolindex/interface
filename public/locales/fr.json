@@ -294,8 +294,6 @@
     "depositPangolinLiquidity": "Déposez vos jetons PGL (Pangolin Liquidity Provider) pour recevoir PNG, le jeton de gouvernance du protocole Pangolin.",
     "readMoreAboutPng": "En savoir plus sur PNG",
     "importantUpdate": "IMPORTANTE MISE À JOUR",
-    "pangolinGovernanceProposalResult": "Suite à la proposition de gouvernance 1 de Pangolin, Pangolin change de contrat de staking ! Après environ 08:59 UTC le 19 avril, toutes les récompenses de staking seront distribuées aux nouveaux contrats de staking. Avant le changement, toutes les récompenses seront encore distribuées aux anciens contrats. Pour éviter toute interruption des récompenses du yield farming, vous devez retirer vos liquidités des anciens contrats et les remettre dans les nouveaux contrats. Vous n'avez pas besoin de retirer des liquidités de vos pools ou de modifier vos positions.",
-    "toUnstake": "Pour unstake, allez sur les anciens pools, cliquez sur gérer et retirez vos jetons PGL. Cela permettra également de réclamer tous les PNG gagnés. Pour réintégrer, allez dans les nouveaux pools, cliquez sur gérer, puis déposez.",
     "oldPngPools": "Anciennes Pools PNG",
     "newPngPools": "Nouvelles Pools PNG",
     "participatingPools": "Pools participantes",

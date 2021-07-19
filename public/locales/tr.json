@@ -294,8 +294,6 @@
     "depositPangolinLiquidity": "Pangolin protokolünün yönetim tokenı olan PNG'yi elde etmek için Pangolin Likidite Sağlayıcı(PGL) tokenlarınızı yatırın.",
     "readMoreAboutPng": "PNG hakkında daha fazla bilgi edinin",
     "importantUpdate": "ÖNEMLİ GÜNCELLEME",
-    "pangolinGovernanceProposalResult": "Pangolin yönetiminin 1. önergesinin oylama sonucuna göre: Pangolin, yatırma işlemlerinde kullanılan sözleşmelerini değiştirmiştir. 19/04/2021 tarihinde saat 08:59’dan sonra (UTC saat dilimi), likidite sağlama karşılığında verilen tüm ödüller, yeni sözleşmelerine dağıtılacaktır. Geçişten önce ise, tüm ödüller eski sözleşmelere dağıtılmaya devam edecektir. Yield farming ödüllerinin kesintiye uğramasını önlemek adına likiditenizi eski sözleşmelerden kaldırmanız ve yeni sözleşmelere geçiş sağlamanız gerekmektedir. Bununla birlikte havuzlardaki likiditenizi çekmenize veya pozisyonlarınızı değiştirmenize gerek yoktur.",
-    "toUnstake": "Yatırdığınız tokenları çekmek için eski havuzlara gidin, yönet'e tıklayın ve PGL tokenlarınızı geri çekin. Bu, aynı zamanda kazandığınız PNG'leri de sizin adınıza talep edecektir. PGL tokenlarınızı tekrardan yatırmak için yeni havuzlara gidin, yönet'e tıklayın ve ardından tokenlarınızı yatırın.",
     "oldPngPools": "Eski PNG havuzları",
     "newPngPools": "Yeni PNG havuzları",
     "participatingPools": "Katılım olan havuzlar",
