@@ -83,8 +83,20 @@ export const VSO: { [chainId in ChainId]: Token } = {
 }
 
 export const SPORE: { [chainId in ChainId]: Token } = {
-    [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 9, 'SPORE', 'Spore.Finance'),
-    [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x6e7f5c0b9f4432716bdd0a77a3601291b9d9e985', 9, 'SPORE', 'Spore.Finance')
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 9, 'SPORE', 'Spore.Finance'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x6e7f5c0b9f4432716bdd0a77a3601291b9d9e985', 9, 'SPORE', 'Spore.Finance')
+}
+
+// Bridged via anyswap
+export const BIFI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'BIFI', 'beefy.finance'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xd6070ae98b8069de6B494332d1A1a81B6179D960', 18, 'BIFI', 'beefy.finance')
+}
+
+// Bridged via anyswap
+export const BNB: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'BNB', 'Binance'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x264c1383EA520f73dd837F915ef3a732e204a493', 18, 'BNB', 'Binance')
 }
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {

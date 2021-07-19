@@ -1,6 +1,6 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair } from '@pangolindex/sdk'
 import { useMemo } from 'react'
-import { PNG, DAI, UNI, SUSHI, ETH, USDT, WBTC, LINK, AAVE, YFI, SNOB, VSO, SPORE } from '../../constants'
+import { PNG, DAI, UNI, SUSHI, ETH, USDT, WBTC, LINK, AAVE, YFI, SNOB, VSO, SPORE, BIFI, BNB } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
@@ -146,6 +146,14 @@ export const STAKING_V2: {
 		stakingRewardAddress: '0xf2b788085592380bfCAc40Ac5E0d10D9d0b54eEe'
 	},
 	{
+		tokens: [WAVAX[ChainId.AVALANCHE], BIFI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x4E258f7ec60234bb6f3Ea7eCFf5931901182Bd6E'
+	},
+	{
+		tokens: [WAVAX[ChainId.AVALANCHE], BNB[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x21CCa1672E95996413046077B8cf1E52F080A165'
+	},
+	{
 		tokens: [WAVAX[ChainId.AVALANCHE], SPORE[ChainId.AVALANCHE]],
 		stakingRewardAddress: '0xd3e5538A049FcFcb8dF559B85B352302fEfB8d7C'
 	},
@@ -196,6 +204,14 @@ export const STAKING_V2: {
 	{
 		tokens: [PNG[ChainId.AVALANCHE], SPORE[ChainId.AVALANCHE]],
 		stakingRewardAddress: '0x12A33F6B0dd0D35279D402aB61587fE7eB23f7b0'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], BIFI[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x518B07E2d9e08A8c2e3cB7704336520827a4d399'
+	},
+	{
+		tokens: [PNG[ChainId.AVALANCHE], BNB[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0x68a90C38bF4f90AC2a870d6FcA5b0A5A218763AD'
 	},
 ]
 
