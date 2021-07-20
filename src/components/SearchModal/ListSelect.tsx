@@ -149,7 +149,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
       })
       dispatch(removeList(listUrl))
     }
-  }, [dispatch, listUrl])
+  }, [dispatch, listUrl, t])
 
   if (!list) return null
 
