@@ -10,6 +10,7 @@ import { ArrowUpCircle } from 'react-feather'
 import Circle from '../../assets/images/blue-loader.svg'
 import { getEtherscanLink } from '../../utils'
 import { ExternalLink } from '../../theme/components'
+import { useTranslation } from 'react-i18next'
 
 const ConfirmOrLoadingWrapper = styled.div`
   width: 100%;
@@ -21,6 +22,7 @@ const ConfirmedIcon = styled(ColumnCenter)`
 `
 
 export function LoadingView({ children, onDismiss }: { children: any; onDismiss: () => void }) {
+  const { t } = useTranslation()
   return (
     <ConfirmOrLoadingWrapper>
       <RowBetween>
@@ -32,7 +34,7 @@ export function LoadingView({ children, onDismiss }: { children: any; onDismiss:
       </ConfirmedIcon>
       <AutoColumn gap="100px" justify={'center'}>
         {children}
-        <TYPE.subHeader>Confirm this transaction in your wallet</TYPE.subHeader>
+        <TYPE.subHeader>{t('modalView.confirmTransaction')}</TYPE.subHeader>
       </AutoColumn>
     </ConfirmOrLoadingWrapper>
   )
@@ -49,6 +51,7 @@ export function SubmittedView({
 }) {
   const theme = useContext(ThemeContext)
   const { chainId } = useActiveWeb3React()
+  const { t } = useTranslation()
 
   return (
     <ConfirmOrLoadingWrapper>
@@ -63,7 +66,7 @@ export function SubmittedView({
         {children}
         {chainId && hash && (
           <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')} style={{ marginLeft: '4px' }}>
-            <TYPE.subHeader>View transaction on the C-Chain Explorer</TYPE.subHeader>
+            <TYPE.subHeader>{t('modalView.viewTransaction')}</TYPE.subHeader>
           </ExternalLink>
         )}
       </AutoColumn>

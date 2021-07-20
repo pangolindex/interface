@@ -3,6 +3,8 @@ import { initReactI18next } from 'react-i18next'
 import XHR from 'i18next-xhr-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
+export const availableLanguages = ['en', 'de', 'tr', 'zh-cn', 'es', 'fr']
+
 i18next
   .use(XHR)
   .use(LanguageDetector)
@@ -14,15 +16,10 @@ i18next
     react: {
       useSuspense: true
     },
-    fallbackLng: {
-      'en-US': ['en'],
-      'en-GB': ['en'],
-      'en-AU': ['en'],
-      'default': ['en']
-    },
-    preload: ['en'],
-    whitelist: ['en', 'en-US', 'en-GB', 'en-AU', 'de', 'es-AR', 'es-US', 'it-IT', 'iw', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW'],
-    keySeparator: false,
+    fallbackLng: 'en',
+    preload: availableLanguages,
+    whitelist: availableLanguages,
+    keySeparator: '.',
     interpolation: { escapeValue: false }
   })
 

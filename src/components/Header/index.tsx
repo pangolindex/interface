@@ -26,6 +26,7 @@ import Modal from '../Modal'
 import PngBalanceContent from './PngBalanceContent'
 import usePrevious from '../../hooks/usePrevious'
 import { ANALYTICS_PAGE } from '../../constants'
+import LanguageSelection from "../LanguageSelection";
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -130,7 +131,7 @@ const PNGAmount = styled(AccountElement)`
   height: 36px;
   font-weight: 500;
   background-color: ${({ theme }) => theme.bg3};
-  background: radial-gradient(174.47% 188.91% at 1.84% 0%, #f97316 0%, #E84142 100%), #edeef2;
+  background: radial-gradient(174.47% 188.91% at 1.84% 0%, #f97316 0%, #e84142 100%), #edeef2;
 `
 
 const PNGWrapper = styled.span`
@@ -284,7 +285,7 @@ export default function Header() {
         </Title>
         <HeaderLinks>
           <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
-            {t('swap')}
+            {t('header.swap')}
           </StyledNavLink>
           <StyledNavLink
             id={`pool-nav-link`}
@@ -297,22 +298,22 @@ export default function Header() {
               pathname.startsWith('/find')
             }
           >
-            {t('pool')}
+            {t('header.pool')}
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/png/1'}>
-            New PNG
+            {t('header.newPng')}
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/png/0'}>
-            Old PNG
+            {t('header.oldPng')}
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/vote'}>
-            Vote
+            {t('header.vote')}
           </StyledNavLink>
           <StyledExternalLink id={`info-nav-link`} href={ANALYTICS_PAGE}>
-	            Charts <span style={{ fontSize: '11px' }}>↗</span>
+            {t('header.charts')} <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
           <StyledExternalLink id={`gov-nav-link`} href={'https://gov.pangolin.exchange'}>
-	            Forum <span style={{ fontSize: '11px' }}>↗</span>
+            {t('header.forum')} <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
         </HeaderLinks>
       </HeaderRow>
@@ -360,6 +361,7 @@ export default function Header() {
         </HeaderElement>
         <HeaderElementWrap>
           <Settings />
+          <LanguageSelection />
           <Menu />
         </HeaderElementWrap>
       </HeaderControls>
