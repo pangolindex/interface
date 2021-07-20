@@ -244,7 +244,7 @@ export default function Manage({
               {stakingInfo?.totalRewardRate
                 ?.multiply((60 * 60 * 24 * 7).toString())
                 ?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
-              {' PNG / week'}
+              {t('earnPage.pngPerWeek')}
             </TYPE.body>
           </AutoColumn>
         </PoolData>

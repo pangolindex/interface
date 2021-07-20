@@ -111,6 +111,7 @@ export default function RemoveLiquidity({
   const isArgentWallet = false
 
   async function onAttemptToApprove() {
+    {/*TODO: Translate using i18n*/}
     if (!pairContract || !pair || !library || !deadline) throw new Error('missing dependencies')
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
@@ -202,6 +203,7 @@ export default function RemoveLiquidity({
     if (!chainId || !library || !account || !deadline) throw new Error('missing dependencies')
     const { [Field.CURRENCY_A]: currencyAmountA, [Field.CURRENCY_B]: currencyAmountB } = parsedAmounts
     if (!currencyAmountA || !currencyAmountB) {
+      {/*TODO: Translate using i18n*/}
       throw new Error('missing currency amounts')
     }
     const router = getRouterContract(chainId, library, account)
@@ -211,6 +213,7 @@ export default function RemoveLiquidity({
       [Field.CURRENCY_B]: calculateSlippageAmount(currencyAmountB, allowedSlippage)[0]
     }
 
+    {/*TODO: Translate using i18n*/}
     if (!currencyA || !currencyB) throw new Error('missing tokens')
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
@@ -218,6 +221,7 @@ export default function RemoveLiquidity({
     const currencyBIsETH = currencyB === CAVAX
     const oneCurrencyIsETH = currencyA === CAVAX || currencyBIsETH
 
+    {/*TODO: Translate using i18n*/}
     if (!tokenA || !tokenB) throw new Error('could not wrap')
 
     let methodNames: string[], args: Array<string | string[] | number | boolean>
@@ -285,6 +289,7 @@ export default function RemoveLiquidity({
         ]
       }
     } else {
+      {/*TODO: Translate using i18n*/}
       throw new Error('Attempting to confirm without approval or a signature. Please contact support.')
     }
 
@@ -317,9 +322,11 @@ export default function RemoveLiquidity({
         .then((response: TransactionResponse) => {
           setAttemptingTxn(false)
 
+          {/*TODO: Translate using i18n*/}
           addTransaction(response, {
             summary:
-              'Remove ' +
+              t('removeLiquidity.remove') +
+              ' ' +
               parsedAmounts[Field.CURRENCY_A]?.toSignificant(3) +
               ' ' +
               currencyA?.symbol +
@@ -375,6 +382,7 @@ export default function RemoveLiquidity({
         </RowBetween>
 
         <TYPE.italic fontSize={12} color={theme.text2} textAlign="left" padding={'12px 0 0 0'}>
+          {/*TODO: Translate using i18n*/}
           {`Output is estimated. If the price changes by more than ${allowedSlippage /
             100}% your transaction will revert.`}
         </TYPE.italic>
@@ -387,6 +395,7 @@ export default function RemoveLiquidity({
       <>
         <RowBetween>
           <Text color={theme.text2} fontWeight={500} fontSize={16}>
+            {/*TODO: Translate using i18n*/}
             {'PGL ' + currencyA?.symbol + '/' + currencyB?.symbol} Burned
           </Text>
           <RowFixed>
@@ -400,7 +409,7 @@ export default function RemoveLiquidity({
           <>
             <RowBetween>
               <Text color={theme.text2} fontWeight={500} fontSize={16}>
-                Price
+                {t('removeLiquidity.price')}
               </Text>
               <Text fontWeight={500} fontSize={16} color={theme.text1}>
                 1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
@@ -416,6 +425,7 @@ export default function RemoveLiquidity({
         )}
         <ButtonPrimary disabled={!(approval === ApprovalState.APPROVED || signatureData !== null)} onClick={onRemove}>
           <Text fontWeight={500} fontSize={20}>
+            {/*TODO: Translate using i18n*/}
             Confirm
           </Text>
         </ButtonPrimary>
@@ -423,6 +433,7 @@ export default function RemoveLiquidity({
     )
   }
 
+  {/*TODO: Translate using i18n*/}
   const pendingText = `Removing ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
     currencyA?.symbol
   } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencyB?.symbol}`
@@ -530,7 +541,8 @@ export default function RemoveLiquidity({
                         75%
                       </MaxButton>
                       <MaxButton onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')} width="20%">
-                        Max
+                        {/*TODO: Translate using i18n entry from removeLiquidity object*/}
+                        {t('currencyInputPanel.max')}
                       </MaxButton>
                     </RowBetween>
                   </>
