@@ -35,25 +35,27 @@ export default function LanguageSelection() {
   const toggle = useToggleModal(ApplicationModal.LANGUAGE)
 
   useOnClickOutside(node, open ? toggle : undefined)
+
   return (
     <StyledMenu ref={node as any}>
       <StyledMenuButton onClick={toggle}>
-        <FlagIcon src={'/images/flags/' + i18n.language + '.svg'}/>
+        <FlagIcon src={`/images/flags/${i18n.language}.svg`}/>
       </StyledMenuButton>
-      {console.log(i18n)}
       {open && (
         <NarrowMenuFlyout>
-          {availableLanguages.map((lang, i) => {
-            return (
-
-              <ClickableMenuItem key={i} onClick={() => {
-                i18n.changeLanguage(lang)
-                toggle()}}>
-                <FlagIcon src={'/images/flags/' + lang +'.svg'}/> &nbsp;
+          {availableLanguages.map((lang, i) => (
+              <ClickableMenuItem 
+                key={i} 
+                onClick={() => {
+                  i18n.changeLanguage(lang)
+                  toggle()
+                }}
+              >
+                <FlagIcon src={`/images/flags/${lang}.svg`}/> &nbsp;
                 {lang.toUpperCase()}
               </ClickableMenuItem>
             )
-          })}
+          )}
         </NarrowMenuFlyout>
       )}
     </StyledMenu>
