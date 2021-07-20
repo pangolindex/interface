@@ -49,7 +49,6 @@
     "liquityRemainsPool": "Cuando reclamas sin retirar, tu liquidez permanece en la pool de minería.",
     "png": "PNG",
     "claiming": "Reclamando",
-    "transactionSubmitted": "Transaccion enviada",
     "claimedPng": "PNG reclamados!",
     "manage": "Gestionar",
     "deposit": "Depositar",
@@ -159,9 +158,6 @@
     "toggleDarkMode": "Activar modo oscuro"
   },
   "swap": {
-    "minimumReceived": "Mínimo recivido",
-    "maximumSold": "Máximo vendido",
-    "transactionRevertHelper": "Tu transacción se revertirá si hay un gran movimiento de precio desfavorable antes de ser confirmada.",
     "priceImpact": "Impacto en el precio",
     "priceImpactHelper": "La diferencia entre el precio de merkado y el precio estimado debido al tamaño del intercambio.",
     "liquidityProviderFee": "Tasa de proveedor de liquidez",

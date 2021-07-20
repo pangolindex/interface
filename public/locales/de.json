@@ -49,7 +49,6 @@
     "liquityRemainsPool": "Wenn du deine Vergütung ohne abzubuchen beanspruchst, wird deine Liquidität im Pool verbleiben.",
     "png": "PNG",
     "claiming": "Wird beansprucht",
-    "transactionSubmitted": "Transaktion eingereicht",
     "claimedPng": "PNG beansprucht!",
     "manage": "Verwalten",
     "deposit": "Einlage",
@@ -159,9 +158,6 @@
     "toggleDarkMode": "Nachtmodus ein-/ausschalten"
   },
   "swap": {
-    "minimumReceived": "Du erhältst mindestens",
-    "maximumSold": "Du verkaufst höchstens",
-    "transactionRevertHelper": "Deine Transaktion wird storniert, wenn es eine große, ungünstige Preisbewegung gibt, bevor sie bestätigt wird.",
     "priceImpact": "Preisauswirkungen",
     "priceImpactHelper": "Unterschied zwischen Marktpreis und dem durch die Größe des Trades beeinflusstem, geschätzten Preis.",
     "liquidityProviderFee": "Gebühren an Liquiditäts-Provider",

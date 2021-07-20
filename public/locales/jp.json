@@ -49,7 +49,6 @@
     "liquityRemainsPool": "When you claim without withdrawing your liquidity remains in the mining pool.",
     "png": "PNG",
     "claiming": "Claiming",
-    "transactionSubmitted": "Transaction Submitted",
     "claimedPng": "Claimed PNG!",
     "manage": "Manage",
     "deposit": "Deposit",
@@ -159,9 +158,6 @@
     "toggleDarkMode": "Toggle Dark Mode"
   },
   "swap": {
-    "minimumReceived": "Minimum received",
-    "maximumSold": "Maximum sold",
-    "transactionRevertHelper": "Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.",
     "priceImpact": "Price Impact",
     "priceImpactHelper": "The difference between the market price and estimated price due to trade size.",
     "liquidityProviderFee": "Liquidity Provider Fee",

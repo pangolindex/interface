@@ -49,7 +49,6 @@
     "liquityRemainsPool": "Ödülleri, likiditenizi çekmeden talep ettiğinizde sağladığınız likidite madencilik havuzunda kalır.",
     "png": "PNG",
     "claiming": "Talep ediliyor",
-    "transactionSubmitted": "İşlem Gönderildi",
     "claimedPng": "PNG talep edildi!",
     "manage": "Yönet",
     "deposit": "Yatır",
@@ -159,9 +158,6 @@
     "toggleDarkMode": "Karanlık Modu"
   },
   "swap": {
-    "minimumReceived": "Minimum alınacak",
-    "maximumSold": "Maksimum satılacak",
-    "transactionRevertHelper": "Onaylanmadan önce büyük, olumsuz bir fiyat hareketi olursa işleminiz geri çevrilecektir.",
     "priceImpact": "Fiyat Etkisi",
     "priceImpactHelper": "Swap(takas) işleminin büyüklüğüne bağlı olarak piyasa fiyatı ile tahmini fiyat arasında oluşacak fark.",
     "liquidityProviderFee": "Likidite Sağlayıcı Ücreti",
