@@ -84,8 +84,8 @@ export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo }: Sta
 						</AutoColumn>
 					)}
 					<TYPE.subHeader style={{ textAlign: 'center' }}>
-						{t('earn.liquityRemainsPool')}
-           			</TYPE.subHeader>
+						{t('earn.liquidityRemainsPool')}
+					</TYPE.subHeader>
 					<ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onClaimReward}>
 						{error ?? t('earn.unclaimedPng')}
 					</ButtonError>
@@ -94,7 +94,7 @@ export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo }: Sta
 			{attempting && !hash && (
 				<LoadingView onDismiss={wrappedOnDismiss}>
 					<AutoColumn gap="12px" justify={'center'}>
-						<TYPE.body fontSize={20}>{t('earn.claiming')} {stakingInfo?.earnedAmount?.toSignificant(6)} {t('earn.png')}</TYPE.body>
+						<TYPE.body fontSize={20}>{t('earn.claiming')} {stakingInfo?.earnedAmount?.toSignificant(6)} PNG</TYPE.body>
 					</AutoColumn>
 				</LoadingView>
 			)}

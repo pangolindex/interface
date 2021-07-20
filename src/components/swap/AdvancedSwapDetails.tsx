@@ -89,7 +89,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
               <AutoColumn style={{ padding: '0 24px' }}>
                 <RowFixed>
                   <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                    {t('swap.Route')}
+                    {t('swap.route')}
                   </TYPE.black>
                   <QuestionHelper text={t('swap.routingHelper')} />
                 </RowFixed>
