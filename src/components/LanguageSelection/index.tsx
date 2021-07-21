@@ -8,6 +8,9 @@ import {useOnClickOutside} from "../../hooks/useOnClickOutside";
 
 const NarrowMenuFlyout = styled(MenuFlyout)`
   min-width: 7.125rem;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    top: -14.25rem;
+  `};
 `
 
 export const ClickableMenuItem = styled.a`
