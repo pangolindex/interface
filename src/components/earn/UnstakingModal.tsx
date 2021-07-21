@@ -103,8 +103,8 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
       {attempting && !hash && (
         <LoadingView onDismiss={wrappedOndismiss}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.body fontSize={20}>{t('earn.withdrawing')} {stakingInfo?.stakedAmount?.toSignificant(4)} PGL</TYPE.body>
-            <TYPE.body fontSize={20}>{t('earn.claiming')} {stakingInfo?.earnedAmount?.toSignificant(4)} PNG</TYPE.body>
+            <TYPE.body fontSize={20}>{t('earn.withdrawingPgl', {"amount": stakingInfo?.stakedAmount?.toSignificant(4)})}</TYPE.body>
+            <TYPE.body fontSize={20}>{t('earn.claimingPng', {"amount": stakingInfo?.earnedAmount?.toSignificant(4)})}</TYPE.body>
           </AutoColumn>
         </LoadingView>
       )}

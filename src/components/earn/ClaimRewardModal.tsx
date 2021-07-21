@@ -94,7 +94,7 @@ export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo }: Sta
 			{attempting && !hash && (
 				<LoadingView onDismiss={wrappedOnDismiss}>
 					<AutoColumn gap="12px" justify={'center'}>
-						<TYPE.body fontSize={20}>{t('earn.claiming')} {stakingInfo?.earnedAmount?.toSignificant(6)} PNG</TYPE.body>
+						<TYPE.body fontSize={20}>{t('earn.claimingPng', {"amount": stakingInfo?.earnedAmount?.toSignificant(6)})}</TYPE.body>
 					</AutoColumn>
 				</LoadingView>
 			)}
