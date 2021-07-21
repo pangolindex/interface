@@ -222,7 +222,7 @@ const StyledNavLink = styled(NavLink).attrs({
 
 const StyledExternalLink = styled(ExternalLink).attrs({
   activeClassName
-})<{ isActive?: boolean }>`
+}) <{ isActive?: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: left;
   border-radius: 3rem;
@@ -297,22 +297,19 @@ export default function Header() {
               pathname.startsWith('/find')
             }
           >
-            {t('pool')}
+            {t('Liquidity')}
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/png/1'}>
-            New PNG
-          </StyledNavLink>
-          <StyledNavLink id={`stake-nav-link`} to={'/png/0'}>
-            Old PNG
+            Stake PGL
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/vote'}>
             Vote
           </StyledNavLink>
           <StyledExternalLink id={`info-nav-link`} href={ANALYTICS_PAGE}>
-	            Charts <span style={{ fontSize: '11px' }}>↗</span>
+            Charts <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
           <StyledExternalLink id={`gov-nav-link`} href={'https://gov.pangolin.exchange'}>
-	            Forum <span style={{ fontSize: '11px' }}>↗</span>
+            Forum <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
         </HeaderLinks>
       </HeaderRow>
