@@ -17,6 +17,7 @@ import QuestionHelper from '../QuestionHelper'
 import { AutoRow, RowBetween, RowFixed } from '../Row'
 import FormattedPriceImpact from './FormattedPriceImpact'
 import { StyledBalanceMaxMini, SwapCallbackError } from './styleds'
+import { useTranslation } from 'react-i18next'
 
 export default function SwapModalFooter({
   trade,
@@ -39,13 +40,14 @@ export default function SwapModalFooter({
   ])
   const { priceImpactWithoutFee, realizedLPFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
   const severity = warningSeverity(priceImpactWithoutFee)
+  const { t } = useTranslation()
 
   return (
     <>
       <AutoColumn gap="0px">
         <RowBetween align="center">
           <Text fontWeight={400} fontSize={14} color={theme.text2}>
-            Price
+            {t('swap.price')}
           </Text>
           <Text
             fontWeight={500}
@@ -69,9 +71,9 @@ export default function SwapModalFooter({
         <RowBetween>
           <RowFixed>
             <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-              {trade.tradeType === TradeType.EXACT_INPUT ? 'Minimum received' : 'Maximum sold'}
+              {trade.tradeType === TradeType.EXACT_INPUT ? t('swap.minimumReceived') : t('swap.maximumSold')}
             </TYPE.black>
-            <QuestionHelper text="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed." />
+            <QuestionHelper text={t('swap.transactionRevertHelper')} />
           </RowFixed>
           <RowFixed>
             <TYPE.black fontSize={14}>
@@ -89,18 +91,18 @@ export default function SwapModalFooter({
         <RowBetween>
           <RowFixed>
             <TYPE.black color={theme.text2} fontSize={14} fontWeight={400}>
-              Price Impact
+              {t('swap.priceImpact')}
             </TYPE.black>
-            <QuestionHelper text="The difference between the market price and your price due to trade size." />
+            <QuestionHelper text={t('swap.priceImpactHelper')} />
           </RowFixed>
           <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
         </RowBetween>
         <RowBetween>
           <RowFixed>
             <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-              Liquidity Provider Fee
+              {t('swap.liquidityProviderFee')}
             </TYPE.black>
-            <QuestionHelper text="A portion of each trade (0.30%) goes to liquidity providers as a protocol incentive." />
+            <QuestionHelper text={t('swap.liquidityProviderHelper')} />
           </RowFixed>
           <TYPE.black fontSize={14}>
             {realizedLPFee ? realizedLPFee?.toSignificant(6) + ' ' + trade.inputAmount.currency.symbol : '-'}
@@ -117,7 +119,7 @@ export default function SwapModalFooter({
           id="confirm-swap-or-send"
         >
           <Text fontSize={20} fontWeight={500}>
-            {severity > 2 ? 'Swap Anyway' : 'Confirm Swap'}
+            {severity > 2 ? t('swap.swapAnyway') : t('swap.confirmSwap')}
           </Text>
         </ButtonError>
 

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { AlertTriangle, X } from 'react-feather'
 import { useURLWarningToggle, useURLWarningVisible } from '../../state/user/hooks'
 import { isMobile } from 'react-device-detect'
+import { useTranslation } from 'react-i18next'
 
 const PhishAlert = styled.div<{ isActive: any }>`
   width: 100%;
@@ -25,11 +26,12 @@ export const StyledClose = styled(X)`
 export default function URLWarning() {
   const toggleURLWarning = useURLWarningToggle()
   const showURLWarning = useURLWarningVisible()
+  const { t } = useTranslation()
 
   return isMobile ? (
     <PhishAlert isActive={showURLWarning}>
       <div style={{ display: 'flex' }}>
-        <AlertTriangle style={{ marginRight: 6 }} size={12} /> Make sure the URL is
+        <AlertTriangle style={{ marginRight: 6 }} size={12} /> {t('header.makeSureURLWarning')}
         <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>app.pangolin.exchange</code>
       </div>
       <StyledClose size={12} onClick={toggleURLWarning} />
@@ -37,9 +39,9 @@ export default function URLWarning() {
   ) : window.location.hostname === 'app.pangolin.exchange' ? (
     <PhishAlert isActive={showURLWarning}>
       <div style={{ display: 'flex' }}>
-        <AlertTriangle style={{ marginRight: 6 }} size={12} /> Always make sure the URL is
-        <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>app.pangolin.exchange</code> - bookmark it
-        to be safe.
+        <AlertTriangle style={{ marginRight: 6 }} size={12} /> {t('header.alwaysMakeSureWarning')}
+        <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>app.pangolin.exchange</code> -
+        {t('header.bookmarkIt')}
       </div>
       <StyledClose size={12} onClick={toggleURLWarning} />
     </PhishAlert>

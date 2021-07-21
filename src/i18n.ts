@@ -3,6 +3,29 @@ import { initReactI18next } from 'react-i18next'
 import XHR from 'i18next-xhr-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
+export const availableLanguages = ['en', 'de', 'tr', 'zh', 'es', 'fr']
+export const defaultLocale = 'en'
+
+const determineLngFn = (code: string): string => {
+  if (!code || code.length === 0) {
+    return i18next.language = defaultLocale
+  }
+
+  // Full locale match
+  if (availableLanguages.includes(code.toLowerCase())) {
+    return i18next.language = code.toLowerCase()
+  }
+
+  // Base locale match
+  const codeBase = code.split('-')[0].toLowerCase()
+  if (availableLanguages.includes(codeBase)) {
+    return i18next.language = codeBase
+  }
+
+  // Fallback
+  return i18next.language = defaultLocale
+}
+
 i18next
   .use(XHR)
   .use(LanguageDetector)
@@ -14,15 +37,10 @@ i18next
     react: {
       useSuspense: true
     },
-    fallbackLng: {
-      'en-US': ['en'],
-      'en-GB': ['en'],
-      'en-AU': ['en'],
-      'default': ['en']
-    },
-    preload: ['en'],
-    whitelist: ['en', 'en-US', 'en-GB', 'en-AU', 'de', 'es-AR', 'es-US', 'it-IT', 'iw', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW'],
-    keySeparator: false,
+    lowerCaseLng: true,
+    fallbackLng: determineLngFn,
+    preload: [defaultLocale],
+    keySeparator: '.',
     interpolation: { escapeValue: false }
   })
 

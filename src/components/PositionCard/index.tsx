@@ -24,6 +24,7 @@ import CurrencyLogo from '../CurrencyLogo'
 import DoubleCurrencyLogo from '../DoubleLogo'
 import { RowBetween, RowFixed } from '../Row'
 import { Dots } from '../swap/styleds'
+import { useTranslation } from 'react-i18next'
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
@@ -35,7 +36,7 @@ export const HoverCard = styled(Card)`
     border: 1px solid ${({ theme }) => darken(0.06, theme.bg2)};
   }
 `
-const StyledPositionCard = styled(LightCard) <{ bgColor: any }>`
+const StyledPositionCard = styled(LightCard)<{ bgColor: any }>`
   border: none;
   background: ${({ theme, bgColor }) =>
     `radial-gradient(91.85% 100% at 1.84% 0%, ${transparentize(0.8, bgColor)} 0%, ${theme.bg3} 100%) `};
@@ -55,6 +56,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
   const currency0 = showUnwrapped ? pair.token0 : unwrappedToken(pair.token0)
   const currency1 = showUnwrapped ? pair.token1 : unwrappedToken(pair.token1)
 
+  const { t } = useTranslation()
   const [showMore, setShowMore] = useState(false)
 
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
@@ -67,14 +69,14 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
 
   const [token0Deposited, token1Deposited] =
     !!pair &&
-      !!totalPoolTokens &&
-      !!userPoolBalance &&
-      // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-      JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+    !!totalPoolTokens &&
+    !!userPoolBalance &&
+    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
       ? [
-        pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
-        pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false)
-      ]
+          pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
+          pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false)
+        ]
       : [undefined, undefined]
 
   return (
@@ -85,7 +87,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
             <FixedHeightRow>
               <RowFixed>
                 <Text fontWeight={500} fontSize={16}>
-                  Your position
+                  {t('positionCard.yourPosition')}
                 </Text>
               </RowFixed>
             </FixedHeightRow>
@@ -105,7 +107,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
             <AutoColumn gap="4px">
               <FixedHeightRow>
                 <Text fontSize={16} fontWeight={500}>
-                  Your pool share:
+                  {t('positionCard.poolShare')}
                 </Text>
                 <Text fontSize={16} fontWeight={500}>
                   {poolTokenPercentage ? poolTokenPercentage.toFixed(6) + '%' : '-'}
@@ -122,8 +124,8 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
                     </Text>
                   </RowFixed>
                 ) : (
-                    '-'
-                  )}
+                  '-'
+                )}
               </FixedHeightRow>
               <FixedHeightRow>
                 <Text fontSize={16} fontWeight={500}>
@@ -136,23 +138,22 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
                     </Text>
                   </RowFixed>
                 ) : (
-                    '-'
-                  )}
+                  '-'
+                )}
               </FixedHeightRow>
             </AutoColumn>
           </AutoColumn>
         </GreyCard>
       ) : (
-          <LightCard>
-            <TYPE.subHeader style={{ textAlign: 'center' }}>
-              <span role="img" aria-label="wizard-icon">
-                ⭐️
+        <LightCard>
+          <TYPE.subHeader style={{ textAlign: 'center' }}>
+            <span role="img" aria-label="wizard-icon">
+              ⭐️
             </span>{' '}
-            By adding liquidity you&apos;ll earn 0.3% of all trades on this pair proportional to your share of the pool.
-            Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.
+            {t('positionCard.byAddingLiquidityInfo')}
           </TYPE.subHeader>
-          </LightCard>
-        )}
+        </LightCard>
+      )}
     </>
   )
 }
@@ -162,6 +163,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
 
   const currency0 = unwrappedToken(pair.token0)
   const currency1 = unwrappedToken(pair.token1)
+  const { t } = useTranslation()
 
   const [showMore, setShowMore] = useState(false)
 
@@ -175,14 +177,14 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
 
   const [token0Deposited, token1Deposited] =
     !!pair &&
-      !!totalPoolTokens &&
-      !!userPoolBalance &&
-      // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-      JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+    !!totalPoolTokens &&
+    !!userPoolBalance &&
+    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
       ? [
-        pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
-        pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false)
-      ]
+          pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
+          pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false)
+        ]
       : [undefined, undefined]
 
   const backgroundColor = useColor(pair?.token0)
@@ -195,7 +197,11 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
           <RowFixed>
             <DoubleCurrencyLogo currency0={currency0} currency1={currency1} margin={true} size={20} />
             <Text fontWeight={500} fontSize={20}>
-              {!currency0 || !currency1 ? <Dots>Loading</Dots> : `${currency0.symbol}/${currency1.symbol}`}
+              {!currency0 || !currency1 ? (
+                <Dots>{t('positionCard.loading')}</Dots>
+              ) : (
+                `${currency0.symbol}/${currency1.symbol}`
+              )}
             </Text>
           </RowFixed>
 
@@ -209,15 +215,15 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
               {showMore ? (
                 <>
                   {' '}
-                  Manage
+                  {t('positionCard.manage')}
                   <ChevronUp size="20" style={{ marginLeft: '10px' }} />
                 </>
               ) : (
-                  <>
-                    Manage
+                <>
+                  {t('positionCard.manage')}
                   <ChevronDown size="20" style={{ marginLeft: '10px' }} />
-                  </>
-                )}
+                </>
+              )}
             </ButtonEmpty>
           </RowFixed>
         </FixedHeightRow>
@@ -226,7 +232,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
           <AutoColumn gap="8px">
             <FixedHeightRow>
               <Text fontSize={16} fontWeight={500}>
-                Your pool tokens:
+                {t('positionCard.poolTokens')}
               </Text>
               <Text fontSize={16} fontWeight={500}>
                 {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
@@ -235,7 +241,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
             <FixedHeightRow>
               <RowFixed>
                 <Text fontSize={16} fontWeight={500}>
-                  Pooled {currency0.symbol}:
+                  {t('positionCard.pooled')} {currency0.symbol}:
                 </Text>
               </RowFixed>
               {token0Deposited ? (
@@ -246,14 +252,14 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                   <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency0} />
                 </RowFixed>
               ) : (
-                  '-'
-                )}
+                '-'
+              )}
             </FixedHeightRow>
 
             <FixedHeightRow>
               <RowFixed>
                 <Text fontSize={16} fontWeight={500}>
-                  Pooled {currency1.symbol}:
+                  {t('positionCard.pooled')} {currency1.symbol}:
                 </Text>
               </RowFixed>
               {token1Deposited ? (
@@ -264,13 +270,13 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                   <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency1} />
                 </RowFixed>
               ) : (
-                  '-'
-                )}
+                '-'
+              )}
             </FixedHeightRow>
 
             <FixedHeightRow>
               <Text fontSize={16} fontWeight={500}>
-                Your pool share:
+                {t('positionCard.poolShare')}
               </Text>
               <Text fontSize={16} fontWeight={500}>
                 {poolTokenPercentage ? poolTokenPercentage.toFixed(2) + '%' : '-'}
@@ -285,7 +291,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
                 width="48%"
               >
-                Add
+                {t('positionCard.add')}
               </ButtonPrimary>
               <ButtonPrimary
                 padding="8px"
@@ -294,7 +300,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 width="48%"
                 to={`/remove/${currencyId(currency0)}/${currencyId(currency1)}`}
               >
-                Remove
+                {t('positionCard.remove')}
               </ButtonPrimary>
             </RowBetween>
           </AutoColumn>
