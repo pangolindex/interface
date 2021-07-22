@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { MIGRATIONS, STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
 import { TYPE, ExternalLink } from '../../theme'
 import PoolCard from '../../components/earn/PoolCard'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, NavLink } from 'react-router-dom'
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
@@ -40,6 +40,9 @@ export default function Earn({
   const { t } = useTranslation()
   const stakingInfos = useStakingInfo(Number(version))
   const [stakingInfoResults, setStakingInfoResults] = useState<any[]>()
+
+  const stakingInfoV0 = useStakingInfo(Number(0))
+  const hasPositionV0 = stakingInfoV0?.some((stakingInfo) => stakingInfo.stakedAmount.greaterThan('0'))
 
   useMemo(() => {
     Promise.all(
@@ -103,7 +106,7 @@ export default function Earn({
           <CardBGImage />
           <CardNoise />
         </DataCard>
-        {version === '0' && (
+        {(hasPositionV0 || version === '0') && (
           <DataCard>
             <CardNoise />
             <CardSection>
@@ -114,6 +117,11 @@ export default function Earn({
                 <RowBetween>
                   <TYPE.white fontSize={14}>{t('earnPage.pangolinGovernanceProposalResult')}</TYPE.white>
                 </RowBetween>
+                {version !== '0' && (
+                  <NavLink style={{ color: 'white', textDecoration: 'underline' }} to='/png/0'>
+                    <TYPE.white fontSize={14}>{t('earnPage.oldPngPools')}</TYPE.white>
+                  </NavLink>
+                )}
               </AutoColumn>
             </CardSection>
           </DataCard>
