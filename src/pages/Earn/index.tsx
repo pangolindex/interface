@@ -47,7 +47,11 @@ export default function Earn({
   useMemo(() => {
     Promise.all(
       stakingInfos
-        ?.sort(function(info_a, info_b) {
+        ?.filter(function(info) {
+          // Only include pools that are live or require a migration
+          return (!info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0)))
+        })
+        .sort(function(info_a, info_b) {
           // only first has ended
           if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
           // only second has ended
@@ -136,7 +140,7 @@ export default function Earn({
         <PoolSection>
           {stakingRewardsExist && stakingInfos?.length === 0 ? (
             <Loader style={{ margin: 'auto' }} />
-          ) : !stakingRewardsExist ? (
+          ) : !stakingRewardsExist || stakingInfoResults?.length === 0 ? (
             t('earnPage.noActiveRewards')
           ) : (
             stakingInfoResults?.map(stakingInfo => (
