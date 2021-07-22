@@ -111,7 +111,7 @@ export default function RemoveLiquidity({
   const isArgentWallet = false
 
   async function onAttemptToApprove() {
-    // TODO: Translate using i18n
+    {/*TODO: Translate using i18n*/}
     if (!pairContract || !pair || !library || !deadline) throw new Error('missing dependencies')
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
@@ -203,7 +203,7 @@ export default function RemoveLiquidity({
     if (!chainId || !library || !account || !deadline) throw new Error('missing dependencies')
     const { [Field.CURRENCY_A]: currencyAmountA, [Field.CURRENCY_B]: currencyAmountB } = parsedAmounts
     if (!currencyAmountA || !currencyAmountB) {
-      // TODO: Translate using i18n
+      {/*TODO: Translate using i18n*/}
       throw new Error('missing currency amounts')
     }
     const router = getRouterContract(chainId, library, account)
@@ -213,7 +213,7 @@ export default function RemoveLiquidity({
       [Field.CURRENCY_B]: calculateSlippageAmount(currencyAmountB, allowedSlippage)[0]
     }
 
-    // TODO: Translate using i18n
+    {/*TODO: Translate using i18n*/}
     if (!currencyA || !currencyB) throw new Error('missing tokens')
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
@@ -221,7 +221,7 @@ export default function RemoveLiquidity({
     const currencyBIsETH = currencyB === CAVAX
     const oneCurrencyIsETH = currencyA === CAVAX || currencyBIsETH
 
-    // TODO: Translate using i18n
+    {/*TODO: Translate using i18n*/}
     if (!tokenA || !tokenB) throw new Error('could not wrap')
 
     let methodNames: string[], args: Array<string | string[] | number | boolean>
@@ -289,7 +289,7 @@ export default function RemoveLiquidity({
         ]
       }
     } else {
-      // TODO: Translate using i18n
+      {/*TODO: Translate using i18n*/}
       throw new Error('Attempting to confirm without approval or a signature. Please contact support.')
     }
 
@@ -322,7 +322,7 @@ export default function RemoveLiquidity({
         .then((response: TransactionResponse) => {
           setAttemptingTxn(false)
 
-          // TODO: Translate using i18n
+          {/*TODO: Translate using i18n*/}
           addTransaction(response, {
             summary:
               t('removeLiquidity.remove') +
@@ -433,7 +433,7 @@ export default function RemoveLiquidity({
     )
   }
 
-  // TODO: Translate using i18n
+  {/*TODO: Translate using i18n*/}
   const pendingText = `Removing ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
     currencyA?.symbol
   } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencyB?.symbol}`

@@ -295,6 +295,7 @@
     "readMoreAboutPng": "Leer más sobre PNG",
     "importantUpdate": "ACTUALIZACIÓN IMPORTANTE",
     "pangolinGovernanceProposalResult": "Como resultado de la primera proposición de governanza de Pangolin, este está cambiando sus contratos de staking! Después de aproximadamente 08:59 UTC el 4/19, todas las recompensas serán distribuidas a los nuevos contratos. Antes del cambio, todas las recompensas serán distribuidas a los viejos contratos. para evitar interrupciones en las recompensas, necesita retirar su liquidez de los viejos contratos y depositarla en los nuevos. No necesita retirar su liquidez de sus pools ni alterar sus posiciones.",
+    "toUnstake": "Para retirar, vaya a las viejas pools, haga click en gestionar y retire sus tokens PGL. Esto además reclamará sus PNG. Para volver a depositar, navegue a las nuevas pools, haga click en gestionar y deposite.",
     "oldPngPools": "Viejas pools PNG",
     "newPngPools": "Nuevas pools PNG",
     "participatingPools": "Participating pools",

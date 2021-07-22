@@ -26,8 +26,7 @@ import Modal from '../Modal'
 import PngBalanceContent from './PngBalanceContent'
 import usePrevious from '../../hooks/usePrevious'
 import { ANALYTICS_PAGE } from '../../constants'
-import LanguageSelection from '../LanguageSelection'
-import { useStakingInfo } from '../../state/stake/hooks'
+import LanguageSelection from "../LanguageSelection";
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -273,9 +272,6 @@ export default function Header() {
   const countUpValue = aggregateBalance?.toFixed(0) ?? '0'
   const countUpValuePrevious = usePrevious(countUpValue) ?? '0'
 
-	const stakingInfoV0 = useStakingInfo(Number(0))
-	const hasPositionV0 = stakingInfoV0?.some((stakingInfo) => stakingInfo.stakedAmount.greaterThan('0'))
-
   return (
     <HeaderFrame>
       <Modal isOpen={showPngBalanceModal} onDismiss={() => setShowPngBalanceModal(false)}>
@@ -305,13 +301,11 @@ export default function Header() {
             {t('header.pool')}
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/png/1'}>
-            PNG
+            {t('header.newPng')}
           </StyledNavLink>
-          {hasPositionV0 && (
-            <StyledNavLink id={`stake-nav-link`} to={'/png/0'}>
-              {t('header.oldPng')}
-            </StyledNavLink>
-          )}
+          <StyledNavLink id={`stake-nav-link`} to={'/png/0'}>
+            {t('header.oldPng')}
+          </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/vote'}>
             {t('header.vote')}
           </StyledNavLink>

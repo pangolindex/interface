@@ -295,6 +295,7 @@
     "readMoreAboutPng": "Erfahre mehr über PNG",
     "importantUpdate": "WICHTIGES UPDATE",
     "pangolinGovernanceProposalResult": "Als Ergebnis des Pangolin-Governance-Antrags 1 ändert Pangolin die Staking-Smart Contracts! Nach ca. 09:59 MEZ am 19.4. werden alle Staking-Vergütungen auf die neuen Staking-Smart Contracts verteilt. Vor der Umstellung werden alle Vergütungen noch auf die alten Verträge verteilt. Um Unterbrechungen bei den Yield Farming-Vergütungen zu vermeiden, musst du deine Liquidität aus den alten Smart Contracts herausnehmen und in den neuen Smart Contracts staken. Du musst weder Liquidität aus deinen Pools entfernen noch deine Positionen ändern.",
+    "toUnstake": "Um deinen Stake zu entfernen, gehe zu den alten Pools, klicke auf Verwalten und buche deine PGL-Token ab. Dies wird auch deine ausstehenden PNG-Vergütungen beanspruchen. Um in den neuen Smart Contracts zu staken, gehe zu den neuen Pools, klicke auf Verwalten und zahle deine PGL-Token ein.",
     "oldPngPools": "Alte PNG-Pools",
     "newPngPools": "Neue PNG-Pools",
     "participatingPools": "Pools, an denen du beteiligt bist",
