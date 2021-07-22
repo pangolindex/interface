@@ -26,7 +26,7 @@ import Modal from '../Modal'
 import PngBalanceContent from './PngBalanceContent'
 import usePrevious from '../../hooks/usePrevious'
 import { ANALYTICS_PAGE } from '../../constants'
-import LanguageSelection from "../LanguageSelection";
+import LanguageSelection from '../LanguageSelection'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -300,11 +300,15 @@ export default function Header() {
           >
             {t('header.pool')}
           </StyledNavLink>
-          <StyledNavLink id={`stake-nav-link`} to={'/png/1'}>
-            {t('header.newPng')}
-          </StyledNavLink>
-          <StyledNavLink id={`stake-nav-link`} to={'/png/0'}>
-            {t('header.oldPng')}
+          <StyledNavLink
+            id={`stake-nav-link`}
+            to={'/png/1'}
+            isActive={(match, { pathname }) =>
+              Boolean(match) ||
+              pathname.startsWith('/png')
+            }
+          >
+            PNG
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/vote'}>
             {t('header.vote')}
