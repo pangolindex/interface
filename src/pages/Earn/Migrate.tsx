@@ -27,7 +27,7 @@ const PageWrapper = styled(AutoColumn)`
  `
 
 const StepCard = styled(DataCard)`
-  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #c97200 0%, #000000 100%);
+  background: #22242A;
   overflow: hidden;
 `
 
