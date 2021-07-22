@@ -275,7 +275,7 @@ export default function Migrate({
         </SuccessCard>
       )}
 
-      <Confetti start={Boolean(requiresNothing)} />
+      <Confetti start={requiresNothing && !showStakingModal} />
 
       {stakingInfoFrom && stakingInfoTo && (
         <>
