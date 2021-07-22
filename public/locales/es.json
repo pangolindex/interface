@@ -294,6 +294,7 @@
     "depositPangolinLiquidity": "Deposite sus tokens Pangolin Liquidity Provider PGL para recivir PNG, el token del protocolo de governanza de Pangolin.",
     "readMoreAboutPng": "Leer más sobre PNG",
     "importantUpdate": "ACTUALIZACIÓN IMPORTANTE",
+    "pangolinGovernanceProposalResult": "Como resultado de la primera proposición de governanza de Pangolin, este está cambiando sus contratos de staking! Después de aproximadamente 08:59 UTC el 4/19, todas las recompensas serán distribuidas a los nuevos contratos. Antes del cambio, todas las recompensas serán distribuidas a los viejos contratos. para evitar interrupciones en las recompensas, necesita retirar su liquidez de los viejos contratos y depositarla en los nuevos. No necesita retirar su liquidez de sus pools ni alterar sus posiciones.",
     "oldPngPools": "Viejas pools PNG",
     "newPngPools": "Nuevas pools PNG",
     "participatingPools": "Participating pools",

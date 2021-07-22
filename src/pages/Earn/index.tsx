@@ -103,6 +103,21 @@ export default function Earn({
           <CardBGImage />
           <CardNoise />
         </DataCard>
+        {version === '0' && (
+          <DataCard>
+            <CardNoise />
+            <CardSection>
+              <AutoColumn gap="md">
+                <RowBetween>
+                  <TYPE.white fontWeight={600}>{t('earnPage.importantUpdate')}</TYPE.white>
+                </RowBetween>
+                <RowBetween>
+                  <TYPE.white fontSize={14}>{t('earnPage.pangolinGovernanceProposalResult')}</TYPE.white>
+                </RowBetween>
+              </AutoColumn>
+            </CardSection>
+          </DataCard>
+        )}
       </TopSection>
 
       <AutoColumn gap="lg" style={{ width: '100%', maxWidth: '720px' }}>

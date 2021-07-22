@@ -294,6 +294,7 @@
     "depositPangolinLiquidity": "存入您的 Pangolin LP 代币PGL 以接收 Pangolin 协议治理代币 PNG。",
     "readMoreAboutPng": "阅读有关 PNG 的更多信息",
     "importantUpdate": "重要更新",
+    "pangolinGovernanceProposalResult": "由于 Pangolin 治理提案1，穿山甲正在改变Staking合约！ 在 4/19 UTC 大约 08:59 之后，所有 Staking 奖励将分配给新的 Staking 合约。 切换前，所有奖励仍将分配给旧合约。 为避免产生农业奖励的中断，您需要从旧合约中取消您的流动性并在新合约中重新投入。 您不需要从您的池中移除流动性或改变您的部位。",
     "oldPngPools": "旧的 PNG 矿池",
     "newPngPools": "新 PNG 矿池",
     "participatingPools": "参与矿池",
