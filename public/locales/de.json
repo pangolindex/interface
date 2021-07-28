@@ -51,7 +51,7 @@
     "claimingPng": "Wird beansprucht {{ amount }} PNG",
     "claimedPng": "PNG beansprucht!",
     "manage": "Verwalten",
-    "deposit": "Einlage",
+    "deposit": "Einzahlen",
     "poolRate": "Pool-Rate",
     "currentReward": "Momentane Vergütung",
     "pngPerAvax": "PNG / Woche pro AVAX",
@@ -153,9 +153,9 @@
     "turnOnExpertMode": "Aktiviere Expertenmodus",
     "transactionSettings": "Transaktionseinstellungen",
     "interfaceSettings": "Schnittstelleneinstellungen",
-    "toggleExpertMode": "Expertenmodus ein-/ausschalten",
+    "toggleExpertMode": "Expertenmodus",
     "expertModeHelper": "Umgeht Bestätigungsaufforderungen und ermöglicht Trades mit hoher Slippage. Verwendung auf eigene Gefahr.",
-    "toggleDarkMode": "Nachtmodus ein-/ausschalten"
+    "toggleDarkMode": "Nachtmodus"
   },
   "swap": {
     "priceImpact": "Preisauswirkungen",
@@ -250,7 +250,7 @@
     "pending": "ausstehend",
     "wrongNetwork": "Falsches Netzwerk",
     "error": "Fehler",
-    "connectToWallet": "Mit Wallet verbunden"
+    "connectToWallet": "Mit Wallet verbinden"
   },
   "gasFeeAlert": {
     "gasFeeReduction": "!!! Gasgebühren-Reduzierung !!!",
@@ -384,7 +384,7 @@
     "updateDelegation": "Delegierung aktualisieren",
     "pangolinGovernance": "Pangolin-Governance",
     "earnedPngTokens": "PNG-Token repräsentieren Stimmgewichte in der Pangolin Governance. Du kannst entweder über jeden Vorschlag selbst abstimmen oder deine Stimmen an einen Dritten delegieren.",
-    "eligibleToVote": "Um stimmberechtigt zu sein, musst Du PNG in deiner Wallet haben und diese zu Beginn der Abstimmung delegieren. Nachdem die Abstimmung begonnen hat, kannst du deine PNG einem Pool hinzufügen oder ausgeben.",
+    "eligibleToVote": "Um stimmberechtigt zu sein, musst du PNG in deiner Wallet haben und diese zu Beginn der Abstimmung delegieren. Nachdem die Abstimmung begonnen hat, kannst du deine PNG einem Pool hinzufügen oder ausgeben.",
     "governanceVotes": "Abstimmungen zur Governance werden mit einfacher Mehrheit entschieden. Es gibt keine Mindestwahlbeteiligung.",
     "proposals": "Anträge",
     "allProposals": "Alle Anträge",
