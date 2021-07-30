@@ -1,5 +1,5 @@
 import { nanoid } from '@reduxjs/toolkit'
-import { TokenList } from '@uniswap/token-lists'
+import { TokenList } from '@pangolindex/token-lists'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../state'
