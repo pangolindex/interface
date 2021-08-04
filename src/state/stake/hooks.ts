@@ -514,7 +514,7 @@ const calculateTotalStakedAmountInAvaxFromPng = function(
   )
 }
 
-const calculteTotalStakedAmountInAvax = function(
+const calculateTotalStakedAmountInAvax = function(
   totalSupply: JSBI,
   reserveInWavax: JSBI,
   totalStakedAmount: TokenAmount
@@ -647,7 +647,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
 				const totalRewardRate = new TokenAmount(png, JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0]))
 				const isAvaxPool = tokens[0].equals(WAVAX[tokens[0].chainId])
 				const totalStakedInWavax = isAvaxPool ?
-					calculteTotalStakedAmountInAvax(totalSupply, pair.reserveOf(wavax).raw, totalStakedAmount) :
+					calculateTotalStakedAmountInAvax(totalSupply, pair.reserveOf(wavax).raw, totalStakedAmount) :
 					calculateTotalStakedAmountInAvaxFromPng(
 						totalSupply, avaxPngPair.reserveOf(png).raw,
 						avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
