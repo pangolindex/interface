@@ -1,6 +1,35 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair } from '@pangolindex/sdk'
 import { useMemo } from 'react'
-import { PNG, DAI, UNI, SUSHI, ETH, USDT, WBTC, LINK, AAVE, YFI, SNOB, VSO, SPORE, BIFI, BNB, XAVA } from '../../constants'
+import {
+  PNG,
+  DAI,
+  DAIe,
+  UNI,
+  UNIe,
+  SUSHI,
+  SUSHIe,
+  ETH,
+  WETHe,
+  USDT,
+  USDTe,
+  WBTC,
+  WBTCe,
+  LINK,
+  LINKe,
+  AAVE,
+  AAVEe,
+  YFI,
+  YFIe,
+  SNOB,
+  VSO,
+  SPORE,
+  BIFI,
+  BNB,
+  XAVA,
+  PEFI,
+  TRYB,
+  SHERPA
+} from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
@@ -123,14 +152,29 @@ const STAKING: {
     stakingRewardAddress: '0x417c02150b9a31bcacb201d1d60967653384e1c6',
     version: 1
   },
+  WAVAX_WETHe_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], WETHe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x830A966B9B447c9B15aB24c0369c4018E75F31C9',
+    version: 1
+  },
   WAVAX_USDT_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], USDT[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x94c021845efe237163831dac39448cfd371279d6',
     version: 1
   },
+  WAVAX_USDTe_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], USDTe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x006cC053bdb84C2d6380B3C4a573d84636378A47',
+    version: 1
+  },
   WAVAX_WBTC_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xe968e9753fd2c323c2fe94caff954a48afc18546',
+    version: 1
+  },
+  WAVAX_WBTCe_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], WBTCe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x30CbF11f6fcc9FC1bF6E55A6941b1A47A56eAEC5',
     version: 1
   },
   WAVAX_PNG_V1: {
@@ -143,9 +187,19 @@ const STAKING: {
     stakingRewardAddress: '0xbda623cdd04d822616a263bf4edbbce0b7dc4ae7',
     version: 1
   },
+  WAVAX_LINKe_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], LINKe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x2e10D9d08f76807eFdB6903025DE8e006b1185F5',
+    version: 1
+  },
   WAVAX_DAI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x701e03fad691799a8905043c0d18d2213bbcf2c7',
+    version: 1
+  },
+  WAVAX_DAIe_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], DAIe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x63A84F66b8c90841Cb930F2dC3D28799F0c6657B',
     version: 1
   },
   WAVAX_UNI_V1: {
@@ -153,9 +207,19 @@ const STAKING: {
     stakingRewardAddress: '0x1f6acc5f5fe6af91c1bb3bebd27f4807a243d935',
     version: 1
   },
+  WAVAX_UNIe_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], UNIe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x6E36A71c1A211f01Ff848C1319D4e34BB5483224',
+    version: 1
+  },
   WAVAX_SUSHI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], SUSHI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xda354352b03f87f84315eef20cdd83c49f7e812e',
+    version: 1
+  },
+  WAVAX_SUSHIe_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], SUSHIe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x2D55341f2abbb5472020e2d556a4f6B951C8Fa22',
     version: 1
   },
   WAVAX_AAVE_V1: {
@@ -163,9 +227,19 @@ const STAKING: {
     stakingRewardAddress: '0x4df32f1f8469648e89e62789f4246f73fe768b8e',
     version: 1
   },
+  WAVAX_AAVEe_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], AAVEe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xa04fCcE7955312709c838982ad0E297375002C32',
+    version: 1
+  },
   WAVAX_YFI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x2c31822f35506c6444f458ed7470c79f9924ee86',
+    version: 1
+  },
+  WAVAX_YFIe_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], YFIe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x642c5B7AC22f56A0eF87930a89f0980FcA904B03',
     version: 1
   },
   WAVAX_SNOB_V1: {
@@ -198,9 +272,29 @@ const STAKING: {
     stakingRewardAddress: '0x4219330Af5368378D5ffd869a55f5F2a26aB898c',
     version: 1
   },
+  WAVAX_PEFI_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], PEFI[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xd7EDBb1005ec65721a3976Dba996AdC6e02dc9bA',
+    version: 1
+  },
+  WAVAX_TRYB_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TRYB[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x079a479e270E72A1899239570912358C6BC22d94',
+    version: 1
+  },
+  WAVAX_SHERPA_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], SHERPA[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x99918c92655D6f8537588210cD3Ddd52312CB36d',
+    version: 1
+  },
   PNG_ETH_V1: {
     tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x7ac007afb5d61f48d1e3c8cc130d4cf6b765000e',
+    version: 1
+  },
+  PNG_WETHe_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], WETHe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x03a9091620CACeE4968c915232B175C16a584733',
     version: 1
   },
   PNG_USDT_V1: {
@@ -208,9 +302,19 @@ const STAKING: {
     stakingRewardAddress: '0xe2510a1fcccde8d2d1c40b41e8f71fb1f47e5bba',
     version: 1
   },
+  PNG_USDTe_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], USDTe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x7216d1e173c1f1Ed990239d5c77d74714a837Cd5',
+    version: 1
+  },
   PNG_WBTC_V1: {
     tokens: [PNG[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x681047473b6145ba5db90b074e32861549e85cc7',
+    version: 1
+  },
+  PNG_WBTCe_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], WBTCe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xEeEA1e815f12d344b5035a33da4bc383365F5Fee',
     version: 1
   },
   PNG_LINK_V1: {
@@ -218,9 +322,19 @@ const STAKING: {
     stakingRewardAddress: '0x6356b24b36074abe2903f44fe4019bc5864fde36',
     version: 1
   },
+  PNG_LINKe_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], LINKe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x4B283e4211B3fAa525846d21869925e78f93f189',
+    version: 1
+  },
   PNG_DAI_V1: {
     tokens: [PNG[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xe3103e565cf96a5709ae8e603b1efb7fed04613b',
+    version: 1
+  },
+  PNG_DAIe_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], DAIe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xF344611DD94099708e508C2Deb16628578940d77',
     version: 1
   },
   PNG_UNI_V1: {
@@ -228,9 +342,19 @@ const STAKING: {
     stakingRewardAddress: '0x4f74bbf6859a994e7c309ea0f11e3cc112955110',
     version: 1
   },
+  PNG_UNIe_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], UNIe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xD4E49A8Ec23daB51ACa459D233e9447DE03AFd29',
+    version: 1
+  },
   PNG_SUSHI_V1: {
     tokens: [PNG[ChainId.AVALANCHE], SUSHI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x633f4b4db7dd4fa066bd9949ab627a551e0ecd32',
+    version: 1
+  },
+  PNG_SUSHIe_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], SUSHIe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x923E69322Bea5e22799a29Dcfc9c616F3B5cF95b',
     version: 1
   },
   PNG_AAVE_V1: {
@@ -238,9 +362,19 @@ const STAKING: {
     stakingRewardAddress: '0xfd9acec0f413ca05d5ad5b962f3b4de40018ad87',
     version: 1
   },
+  PNG_AAVEe_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], AAVEe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x3F91756D773A1455A7a1A70f5d9239F1B1d1f095',
+    version: 1
+  },
   PNG_YFI_V1: {
     tokens: [PNG[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xc7d0e29b616b29ac6ff4fd5f37c8da826d16db0d',
+    version: 1
+  },
+  PNG_YFIe_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], YFIe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x269Ed6B2040f965D9600D0859F36951cB9F01460',
     version: 1
   },
   PNG_SNOB_V1: {
@@ -271,6 +405,21 @@ const STAKING: {
   PNG_XAVA_V1: {
     tokens: [PNG[ChainId.AVALANCHE], XAVA[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x5b3Ed7f47D1d4FA22b559D043a09d78bc55A94E9',
+    version: 1
+  },
+  PNG_PEFI_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], PEFI[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x76e404Ab7357fD97d4f1e8Dd52f298A035fd408c',
+    version: 1
+  },
+  PNG_TRYB_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], TRYB[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0A9773AEbc1429d860A492d70c8EA335fAa9F19f',
+    version: 1
+  },
+  PNG_SHERPA_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], SHERPA[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x80E919784e7c5AD3Dd59cAfCDC0e9C079B65f262',
     version: 1
   },
 }
@@ -365,7 +514,7 @@ const calculateTotalStakedAmountInAvaxFromPng = function(
   )
 }
 
-const calculteTotalStakedAmountInAvax = function(
+const calculateTotalStakedAmountInAvax = function(
   totalSupply: JSBI,
   reserveInWavax: JSBI,
   totalStakedAmount: TokenAmount
@@ -498,7 +647,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
 				const totalRewardRate = new TokenAmount(png, JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0]))
 				const isAvaxPool = tokens[0].equals(WAVAX[tokens[0].chainId])
 				const totalStakedInWavax = isAvaxPool ?
-					calculteTotalStakedAmountInAvax(totalSupply, pair.reserveOf(wavax).raw, totalStakedAmount) :
+					calculateTotalStakedAmountInAvax(totalSupply, pair.reserveOf(wavax).raw, totalStakedAmount) :
 					calculateTotalStakedAmountInAvaxFromPng(
 						totalSupply, avaxPngPair.reserveOf(png).raw,
 						avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
