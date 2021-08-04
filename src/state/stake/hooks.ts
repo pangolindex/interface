@@ -274,17 +274,17 @@ const STAKING: {
   },
   WAVAX_PEFI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], PEFI[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x________________________________________',
+    stakingRewardAddress: '0xd7EDBb1005ec65721a3976Dba996AdC6e02dc9bA',
     version: 1
   },
   WAVAX_TRYB_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], TRYB[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x________________________________________',
+    stakingRewardAddress: '0x079a479e270E72A1899239570912358C6BC22d94',
     version: 1
   },
   WAVAX_SHERPA_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], SHERPA[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x________________________________________',
+    stakingRewardAddress: '0x99918c92655D6f8537588210cD3Ddd52312CB36d',
     version: 1
   },
   PNG_ETH_V1: {
@@ -409,17 +409,17 @@ const STAKING: {
   },
   PNG_PEFI_V1: {
     tokens: [PNG[ChainId.AVALANCHE], PEFI[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x________________________________________',
+    stakingRewardAddress: '0x76e404Ab7357fD97d4f1e8Dd52f298A035fd408c',
     version: 1
   },
   PNG_TRYB_V1: {
     tokens: [PNG[ChainId.AVALANCHE], TRYB[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x________________________________________',
+    stakingRewardAddress: '0x0A9773AEbc1429d860A492d70c8EA335fAa9F19f',
     version: 1
   },
   PNG_SHERPA_V1: {
     tokens: [PNG[ChainId.AVALANCHE], SHERPA[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x________________________________________',
+    stakingRewardAddress: '0x80E919784e7c5AD3Dd59cAfCDC0e9C079B65f262',
     version: 1
   },
 }
