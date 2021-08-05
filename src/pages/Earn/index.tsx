@@ -11,6 +11,7 @@ import Loader from '../../components/Loader'
 import { useActiveWeb3React } from '../../hooks'
 import { JSBI } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
+import { SearchInput } from '../../components/SearchModal/styleds'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -39,7 +40,8 @@ export default function Earn({
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const stakingInfos = useStakingInfo(Number(version))
-  const [stakingInfoResults, setStakingInfoResults] = useState<any[]>()
+  const [stakingInfoCards, setStakingInfoCards] = useState<any[]>()
+  const [searchQuery, setSearchQuery] = useState<string>('')
 
   const stakingInfoV0 = useStakingInfo(Number(0))
   const hasPositionV0 = stakingInfoV0?.some((stakingInfo) => stakingInfo.stakedAmount.greaterThan('0'))
@@ -71,8 +73,18 @@ export default function Earn({
             .then(res => res.text())
             .then(res => ({ apr: res, ...stakingInfo }))
         })
-    ).then(results => {
-      setStakingInfoResults(results)
+    ).then(stakingInfos => {
+      const poolCards = stakingInfos
+        .map(stakingInfo => (
+          <PoolCard
+            apr={stakingInfo.apr}
+            key={stakingInfo.stakingRewardAddress}
+            stakingInfo={stakingInfo}
+            migration={MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to}
+            version={version}
+          />
+        ))
+      setStakingInfoCards(poolCards)
     })
   }, [stakingInfos?.length])
 
@@ -140,18 +152,22 @@ export default function Earn({
         <PoolSection>
           {stakingRewardsExist && stakingInfos?.length === 0 ? (
             <Loader style={{ margin: 'auto' }} />
-          ) : !stakingRewardsExist || stakingInfoResults?.length === 0 ? (
+          ) : !stakingRewardsExist || stakingInfoCards?.length === 0 ? (
             t('earnPage.noActiveRewards')
           ) : (
-            stakingInfoResults?.map(stakingInfo => (
-              <PoolCard
-                apr={stakingInfo.apr}
-                key={stakingInfo.stakingRewardAddress}
-                stakingInfo={stakingInfo}
-                migration={MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to}
-                version={version}
+            <>
+              <SearchInput
+                type="text"
+                id="token-search-input"
+                placeholder={t('searchModal.tokenName')}
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value.trim().toUpperCase())}
               />
-            ))
+              {stakingInfoCards?.filter(card =>
+                  card.props.stakingInfo.tokens[0].symbol.toUpperCase().includes(searchQuery)
+                || card.props.stakingInfo.tokens[1].symbol.toUpperCase().includes(searchQuery))
+              }
+            </>
           )}
         </PoolSection>
       </AutoColumn>
