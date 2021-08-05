@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { MIGRATIONS, STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
@@ -12,6 +12,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { JSBI } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/SearchModal/styleds'
+import useDebounce from '../../hooks/useDebounce'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -32,6 +33,12 @@ const PoolSection = styled.div`
   justify-self: center;
 `
 
+const DataRow = styled(RowBetween)`
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   flex-direction: column;
+ `};
+`
+
 export default function Earn({
   match: {
     params: { version }
@@ -40,11 +47,24 @@ export default function Earn({
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const stakingInfos = useStakingInfo(Number(version))
-  const [stakingInfoCards, setStakingInfoCards] = useState<any[]>()
+  const [poolCards, setPoolCards] = useState<any[]>()
+  const [filteredPoolCards, setFilteredPoolCards] = useState<any[]>()
   const [searchQuery, setSearchQuery] = useState<string>('')
+  const debouncedSearchQuery = useDebounce(searchQuery, 250)
 
   const stakingInfoV0 = useStakingInfo(Number(0))
   const hasPositionV0 = stakingInfoV0?.some((stakingInfo) => stakingInfo.stakedAmount.greaterThan('0'))
+
+  const handleSearch = useCallback((event) => {
+    setSearchQuery(event.target.value.trim().toUpperCase())
+  }, [])
+
+  useEffect(() => {
+    const filtered = poolCards?.filter(card =>
+      card.props.stakingInfo.tokens[0].symbol.toUpperCase().includes(debouncedSearchQuery)
+      || card.props.stakingInfo.tokens[1].symbol.toUpperCase().includes(debouncedSearchQuery))
+    setFilteredPoolCards(filtered)
+  }, [poolCards, debouncedSearchQuery])
 
   useMemo(() => {
     Promise.all(
@@ -84,15 +104,9 @@ export default function Earn({
             version={version}
           />
         ))
-      setStakingInfoCards(poolCards)
+      setPoolCards(poolCards)
     })
   }, [stakingInfos?.length])
-
-  const DataRow = styled(RowBetween)`
-    ${({ theme }) => theme.mediaWidth.upToSmall`
-     flex-direction: column;
-   `};
-  `
 
   const stakingRewardsExist = Boolean(typeof chainId === 'number' && (STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0)
 
@@ -152,7 +166,7 @@ export default function Earn({
         <PoolSection>
           {stakingRewardsExist && stakingInfos?.length === 0 ? (
             <Loader style={{ margin: 'auto' }} />
-          ) : !stakingRewardsExist || stakingInfoCards?.length === 0 ? (
+          ) : !stakingRewardsExist || poolCards?.length === 0 ? (
             t('earnPage.noActiveRewards')
           ) : (
             <>
@@ -161,12 +175,9 @@ export default function Earn({
                 id="token-search-input"
                 placeholder={t('searchModal.tokenName')}
                 value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value.trim().toUpperCase())}
+                onChange={handleSearch}
               />
-              {stakingInfoCards?.filter(card =>
-                  card.props.stakingInfo.tokens[0].symbol.toUpperCase().includes(searchQuery)
-                || card.props.stakingInfo.tokens[1].symbol.toUpperCase().includes(searchQuery))
-              }
+              {filteredPoolCards}
             </>
           )}
         </PoolSection>
