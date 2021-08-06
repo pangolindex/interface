@@ -17,6 +17,8 @@ export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 export const GOVERNANCE_ADDRESS = '0xb0Ff2b1047d9E8d294c2eD798faE3fA817F43Ee1'
 
+export const BRIDGE_MIGRATOR_ADDRESS = '0x89A9A0c31661E1f61589EA2d4E1aaCB23cF8B87b'
+
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
