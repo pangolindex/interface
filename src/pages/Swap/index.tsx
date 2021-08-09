@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { ArrowDown } from 'react-feather'
 import ReactGA from 'react-ga'
 import { Text } from 'rebass'
-import { ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import AddressInputPanel from '../../components/AddressInputPanel'
 import { ButtonError, ButtonLight, ButtonPrimary, ButtonConfirmed } from '../../components/Button'
 import Card, { GreyCard } from '../../components/Card'
@@ -44,6 +44,15 @@ import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import useENS from '../../hooks/useENS'
 import { useTranslation } from 'react-i18next'
+
+const TopText = styled.span`
+  margin-bottom: 8px;
+`
+
+const VeloxLink = styled.a`
+  color: #ed147a;
+  text-decoration: none;
+`
 
 export default function Swap() {
   const loadedUrlParams = useDefaultsFromURLSearch()
@@ -267,6 +276,11 @@ export default function Swap() {
         tokens={urlLoadedTokens}
         onConfirm={handleConfirmTokenWarning}
       />
+
+      <TopText>
+        Set a limit order on <VeloxLink href={'https://app.velox.global/'} target={'_blank'}>Velox</VeloxLink>
+      </TopText>
+
       <AppBody>
         <SwapPoolTabs active={'swap'} />
         <Wrapper id="swap-page">
