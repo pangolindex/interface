@@ -7,7 +7,7 @@ import { PNG } from '../../constants'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
 import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp'
-import { useTotalPngEarned } from '../../state/stake/hooks'
+import { STAKING_REWARDS_CURRENT_VERSION, useTotalPngEarned } from '../../state/stake/hooks'
 import { useAggregatePngBalance, useTokenBalance } from '../../state/wallet/hooks'
 import { StyledInternalLink, TYPE, PngTokenAnimated } from '../../theme'
 import { computePngCirculation } from '../../utils/computePngCirculation'
@@ -102,8 +102,10 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                   <TYPE.white color="white">
                     {pngToClaim?.toFixed(4, { groupSeparator: ',' })}{' '}
                     {pngToClaim && pngToClaim.greaterThan('0') && (
-                      <StyledInternalLink onClick={() => setShowPngBalanceModal(false)} to="/png">
-                        (claim)
+                      <StyledInternalLink
+                        onClick={() => setShowPngBalanceModal(false)}
+                        to={`/png/${STAKING_REWARDS_CURRENT_VERSION}`}>
+                        ({t('earn.claim')})
                       </StyledInternalLink>
                     )}
                   </TYPE.white>
