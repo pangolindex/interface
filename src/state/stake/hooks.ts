@@ -28,7 +28,8 @@ import {
   XAVA,
   PEFI,
   TRYB,
-  SHERPA
+  SHERPA,
+  YAK,
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -287,6 +288,12 @@ const STAKING: {
     stakingRewardAddress: '0x99918c92655D6f8537588210cD3Ddd52312CB36d',
     version: 1
   },
+  WAVAX_YAK_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], YAK[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xb600429CCD364F1727F91FC0E75D67d65D0ee4c5',
+    version: 1
+  },
+
   PNG_ETH_V1: {
     tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x7ac007afb5d61f48d1e3c8cc130d4cf6b765000e',
@@ -420,6 +427,11 @@ const STAKING: {
   PNG_SHERPA_V1: {
     tokens: [PNG[ChainId.AVALANCHE], SHERPA[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x80E919784e7c5AD3Dd59cAfCDC0e9C079B65f262',
+    version: 1
+  },
+  PNG_YAK_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], YAK[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x42ff9473a5AEa00dE39355e0288c7A151EB00B6e',
     version: 1
   },
 }
