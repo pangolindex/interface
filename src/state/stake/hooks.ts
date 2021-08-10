@@ -451,6 +451,8 @@ export const MIGRATIONS: Migration[] = [
 export const STAKING_V0: Staking[] = Object.values(STAKING).filter(staking => staking.version === 0)
 export const STAKING_V1: Staking[] = Object.values(STAKING).filter(staking => staking.version === 1)
 
+export const STAKING_REWARDS_CURRENT_VERSION = Math.max(...Object.values(STAKING).map(staking => staking.version))
+
 export const STAKING_REWARDS_INFO: {
 	[chainId in ChainId]?: Staking[][]
 } = {
