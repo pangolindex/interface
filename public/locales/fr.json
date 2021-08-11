@@ -59,6 +59,7 @@
     "earnUpTo": "Gagnez jusqu'à (par an)",
     "yourRate": "Votre taux",
     "totalDeposited": "Total déposé",
+    "totalStaked": "Total staké",
     "depositLiquidity": "Liquidité des dépôts",
     "attemptingToStakeError": "Tentative de staking sans autorisation ni signature. Veuillez contacter le support.",
     "transactionSubmitted": "Transaction Soumise",

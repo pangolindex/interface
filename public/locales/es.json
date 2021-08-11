@@ -59,6 +59,7 @@
     "earnUpTo": "Gana hasta (anualmente)",
     "yourRate": "Tu ritmo",
     "totalDeposited": "Total depositado",
+    "totalStaked": "Total depositado",
     "depositLiquidity": "Depositar liquidez",
     "attemptingToStakeError": "Attempting to stake without approval or a signature. Por favor contacta con el soporte.",
     "transactionSubmitted": "Transacción Enviada",
