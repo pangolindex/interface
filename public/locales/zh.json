@@ -59,6 +59,7 @@
     "earnUpTo": "赚取高达（每年）",
     "yourRate": "您的费率",
     "totalDeposited": "存款总额",
+    "totalStaked": "总质押",
     "depositLiquidity": "存款流动性",
     "attemptingToStakeError": "试图在未经批准或签名的情况下进行抵押。请至帮助联系我们。",
     "transactionSubmitted": "交易提交",
