@@ -73,6 +73,16 @@ export default function BridgeMigratorModal({ isOpen, onDismiss, pairFrom, pairT
           `0x${parsedAmount.raw.toString(16)}`,
           deadline.toNumber(),
         )
+        .then((response: TransactionResponse) => {
+          addTransaction(response, {
+            summary: 'Migrate liquidity'
+          })
+          setHash(response.hash)
+        })
+        .catch((error: any) => {
+          setAttempting(false)
+          console.error(error)
+        })
       } else if (signatureData) {
         bridgeMigratorContract
           .migrateLiquidityWithPermit(
@@ -87,17 +97,17 @@ export default function BridgeMigratorModal({ isOpen, onDismiss, pairFrom, pairT
           )
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-              summary: t('earn.depositLiquidity')
+              summary: 'Migrate liquidity'
             })
             setHash(response.hash)
           })
           .catch((error: any) => {
             setAttempting(false)
-            console.log(error)
+            console.error(error)
           })
       } else {
         setAttempting(false)
-        throw new Error(t('earn.attemptingToStakeError'))
+        throw new Error('Attempting to migrate without approval or a signature. Please contact support.')
       }
     }
   }
@@ -172,9 +182,10 @@ export default function BridgeMigratorModal({ isOpen, onDismiss, pairFrom, pairT
       })
       .catch(error => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-        if (error?.code !== 4001) {
-          approveCallback()
-        }
+        // if (error?.code !== 4001) {
+        //   approveCallback()
+        // }
+        approveCallback()
       })
   }
 
