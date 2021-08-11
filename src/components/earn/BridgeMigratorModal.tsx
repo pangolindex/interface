@@ -66,7 +66,13 @@ export default function BridgeMigratorModal({ isOpen, onDismiss, pairFrom, pairT
     setAttempting(true)
     if (bridgeMigratorContract && parsedAmount && deadline && account) {
       if (approval === ApprovalState.APPROVED) {
-        await bridgeMigratorContract.migrateLiquidity(`0x${parsedAmount.raw.toString(16)}`, { gasLimit: 350000 })
+        await bridgeMigratorContract.migrateLiquidity(
+          pairFrom.liquidityToken.address,
+          pairTo.liquidityToken.address,
+          account,
+          `0x${parsedAmount.raw.toString(16)}`,
+          deadline.toNumber(),
+        )
       } else if (signatureData) {
         bridgeMigratorContract
           .migrateLiquidityWithPermit(
