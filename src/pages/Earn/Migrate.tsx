@@ -88,6 +88,7 @@ export default function Migrate({
 
   // Step 3: Detect if new LP has been minted and not staked
   const requiresStake = (!requiresUnstake && !requiresConvert)
+    && !!stakingInfoTo
     && pglToBalance?.greaterThan('0')
 
   // Detect if all steps have been completed
