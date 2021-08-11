@@ -502,47 +502,47 @@ export interface StakingInfo {
 }
 
 const calculateTotalStakedAmountInAvaxFromPng = function(
-  totalSupply: JSBI,
+  amountStaked: JSBI,
+  amountAvailable: JSBI,
   avaxPngPairReserveOfPng: JSBI,
-  avaxPngPairReserveOfOtherToken: JSBI,
-  stakingTokenPairReserveOfPng: JSBI,
-  totalStakedAmount: TokenAmount
+  avaxPngPairReserveOfWavax: JSBI,
+  reserveInPng: JSBI,
 ): TokenAmount {
-  if (JSBI.EQ(totalSupply, JSBI.BigInt(0))) {
+  if (JSBI.EQ(amountAvailable, JSBI.BigInt(0))) {
     return new TokenAmount(WAVAX[ChainId.AVALANCHE], JSBI.BigInt(0))
   }
-  const oneToken = JSBI.BigInt(1000000000000000000)
-  const avaxPngRatio = JSBI.divide(JSBI.multiply(oneToken, avaxPngPairReserveOfOtherToken), avaxPngPairReserveOfPng)
 
-  const valueOfPngInAvax = JSBI.divide(JSBI.multiply(stakingTokenPairReserveOfPng, avaxPngRatio), oneToken)
+  const oneToken = JSBI.BigInt(1000000000000000000)
+  const avaxPngRatio = JSBI.divide(JSBI.multiply(oneToken, avaxPngPairReserveOfWavax), avaxPngPairReserveOfPng)
+  const valueOfPngInAvax = JSBI.divide(JSBI.multiply(reserveInPng, avaxPngRatio), oneToken)
 
   return new TokenAmount(
     WAVAX[ChainId.AVALANCHE],
     JSBI.divide(
       JSBI.multiply(
-        JSBI.multiply(totalStakedAmount.raw, valueOfPngInAvax),
+        JSBI.multiply(amountStaked, valueOfPngInAvax),
         JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
       ),
-      totalSupply
+      amountAvailable
     )
   )
 }
 
 const calculateTotalStakedAmountInAvax = function(
-  totalSupply: JSBI,
-  reserveInWavax: JSBI,
-  totalStakedAmount: TokenAmount
+  amountStaked: JSBI,
+  amountAvailable: JSBI,
+  reserveInWavax: JSBI
 ): TokenAmount {
-  if (JSBI.GT(totalSupply, 0)) {
+  if (JSBI.GT(amountAvailable, 0)) {
     // take the total amount of LP tokens staked, multiply by AVAX value of all LP tokens, divide by all LP tokens
     return new TokenAmount(
       WAVAX[ChainId.AVALANCHE],
       JSBI.divide(
         JSBI.multiply(
-          JSBI.multiply(totalStakedAmount.raw, reserveInWavax),
+          JSBI.multiply(amountStaked, reserveInWavax),
           JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
         ),
-        totalSupply
+        amountAvailable
       )
     )
   } else {
@@ -579,8 +579,17 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
   const tokens = useMemo(() => info.map(({ tokens }) => tokens), [info])
   const balances = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'balanceOf', accountArg)
   const earnedAmounts = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'earned', accountArg)
-  const totalSupplies = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'totalSupply')
+  const stakingTotalSupplies = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'totalSupply')
   const pairs = usePairs(tokens)
+
+  const pairAddresses = useMemo(() => {
+    const pairsHaveLoaded = pairs?.every(([state, pair]) => state === PairState.EXISTS)
+    if (!pairsHaveLoaded) return []
+    else return pairs.map(([state, pair]) => pair?.liquidityToken.address)
+  }, [pairs])
+
+  const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, STAKING_REWARDS_INTERFACE, 'totalSupply')
+
   const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[ChainId.AVALANCHE], png)
 
   // tokens per second, constants
@@ -608,22 +617,24 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
       const earnedAmountState = earnedAmounts[index]
 
       // these get fetched regardless of account
-      const totalSupplyState = totalSupplies[index]
+      const stakingTotalSupplyState = stakingTotalSupplies[index]
       const rewardRateState = rewardRates[index]
       const periodFinishState = periodFinishes[index]
       const [pairState, pair] = pairs[index]
+      const pairTotalSupplyState = pairTotalSupplies[index]
 
       if (
         // these may be undefined if not logged in
         !balanceState?.loading &&
         !earnedAmountState?.loading &&
         // always need these
-        totalSupplyState &&
-        !totalSupplyState.loading &&
+        stakingTotalSupplyState &&
+        !stakingTotalSupplyState.loading &&
         rewardRateState &&
         !rewardRateState.loading &&
         periodFinishState &&
         !periodFinishState.loading &&
+        !pairTotalSupplyState?.loading &&
         pair &&
         avaxPngPair &&
         pairState !== PairState.LOADING &&
@@ -632,9 +643,10 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
         if (
           balanceState?.error ||
           earnedAmountState?.error ||
-          totalSupplyState.error ||
+          stakingTotalSupplyState.error ||
           rewardRateState.error ||
           periodFinishState.error ||
+          pairTotalSupplyState?.error ||
           pairState === PairState.INVALID ||
           pairState === PairState.NOT_EXISTS ||
           avaxPngPairState === PairState.INVALID ||
@@ -650,23 +662,27 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
         const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
         // check for account, if no account set to 0
 
-				const periodFinishMs = periodFinishState.result?.[0]?.mul(1000)?.toNumber()
+        const periodFinishMs = periodFinishState.result?.[0]?.mul(1000)?.toNumber()
 
-				// periodFinish will be 0 immediately after a reward contract is initialized
-				const isPeriodFinished = periodFinishMs === 0 ? false : periodFinishMs < Date.now()
+        // periodFinish will be 0 immediately after a reward contract is initialized
+        const isPeriodFinished = periodFinishMs === 0 ? false : periodFinishMs < Date.now()
 
-				const totalSupply = JSBI.BigInt(totalSupplyState.result?.[0])
-				const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
-				const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, totalSupply)
-				const totalRewardRate = new TokenAmount(png, JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0]))
-				const isAvaxPool = tokens[0].equals(WAVAX[tokens[0].chainId])
-				const totalStakedInWavax = isAvaxPool ?
-					calculateTotalStakedAmountInAvax(totalSupply, pair.reserveOf(wavax).raw, totalStakedAmount) :
-					calculateTotalStakedAmountInAvaxFromPng(
-						totalSupply, avaxPngPair.reserveOf(png).raw,
-						avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
-						 pair.reserveOf(png).raw, totalStakedAmount
-					)
+        const totalSupplyStaked = JSBI.BigInt(stakingTotalSupplyState.result?.[0])
+        const totalSupplyAvailable = JSBI.BigInt(pairTotalSupplyState.result?.[0])
+
+        const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
+        const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(totalSupplyStaked))
+        const totalRewardRate = new TokenAmount(png, JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0]))
+
+        const isAvaxPool = tokens[0].equals(WAVAX[tokens[0].chainId])
+        const totalStakedInWavax = isAvaxPool ?
+            calculateTotalStakedAmountInAvax(totalSupplyStaked, totalSupplyAvailable, pair.reserveOf(wavax).raw) :
+            calculateTotalStakedAmountInAvaxFromPng(
+                totalSupplyStaked, totalSupplyAvailable,
+                avaxPngPair.reserveOf(png).raw,
+                avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
+                pair.reserveOf(png).raw,
+            )
 
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
@@ -699,7 +715,21 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
 			}
 			return memo
 		}, [])
-	}, [balances, chainId, earnedAmounts, info, periodFinishes, rewardRates, rewardsAddresses, totalSupplies, avaxPngPairState, pairs, png, avaxPngPair])
+	}, [
+    chainId,
+    png,
+    rewardsAddresses,
+    balances,
+    earnedAmounts,
+    stakingTotalSupplies,
+    rewardRates,
+    periodFinishes,
+    pairs,
+    pairTotalSupplies,
+    avaxPngPair,
+    avaxPngPairState,
+    info,
+  ])
 }
 
 export function useTotalPngEarned(): TokenAmount | undefined {
