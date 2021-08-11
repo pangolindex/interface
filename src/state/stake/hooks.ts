@@ -37,6 +37,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
 import { tryParseAmount } from '../swap/hooks'
 import { useTranslation } from 'react-i18next'
+import ERC20_INTERFACE from '../../constants/abis/erc20'
 
 export interface Staking {
   tokens: [Token, Token]
@@ -588,7 +589,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
     else return pairs.map(([state, pair]) => pair?.liquidityToken.address)
   }, [pairs])
 
-  const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, STAKING_REWARDS_INTERFACE, 'totalSupply')
+  const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
 
   const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[ChainId.AVALANCHE], png)
 
