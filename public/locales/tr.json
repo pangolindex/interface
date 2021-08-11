@@ -59,6 +59,7 @@
     "earnUpTo": "Şu kadara kadar kazanın (yıllık)",
     "yourRate": "Getiriniz",
     "totalDeposited": "Toplam yatırılan",
+    "totalStaked": "Yatırılan toplam",
     "depositLiquidity": "Likidite Yatır",
     "attemptingToStakeError": "Onay veya bir imza olmadan likidite sağlamaya çalışıyorsunuz. Lütfen destek ile iletişime geçin.",
     "transactionSubmitted": "İşlem Gönderildi",
