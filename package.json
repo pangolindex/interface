@@ -5,7 +5,7 @@
   "private": true,
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
-    "@pangolindex/exchange-contracts": "1.0.1",
+    "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.0.6",
     "@pangolindex/sdk": "1.1.0",
     "@pangolindex/web3-react-injected-connector": "1.0.1",
