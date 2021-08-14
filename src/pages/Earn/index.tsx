@@ -74,6 +74,14 @@ export default function Earn({
           return (!info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0)))
         })
         .sort(function(info_a, info_b) {
+          // Bring pools that require migration to the top
+          const aCanMigrate = MIGRATIONS.find(migration => migration.from.stakingRewardAddress === info_a.stakingRewardAddress)?.to
+          const bCanMigrate = MIGRATIONS.find(migration => migration.from.stakingRewardAddress === info_b.stakingRewardAddress)?.to
+          if (aCanMigrate && !bCanMigrate) return -1;
+          if (!aCanMigrate && bCanMigrate) return 1;
+          return 0;
+        })
+        .sort(function(info_a, info_b) {
           // only first has ended
           if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
           // only second has ended
@@ -106,7 +114,7 @@ export default function Earn({
         ))
       setPoolCards(poolCards)
     })
-  }, [stakingInfos?.length])
+  }, [stakingInfos?.length, version])
 
   const stakingRewardsExist = Boolean(typeof chainId === 'number' && (STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0)
 
