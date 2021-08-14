@@ -25,6 +25,7 @@ import DoubleCurrencyLogo from '../DoubleLogo'
 import { RowBetween, RowFixed } from '../Row'
 import { Dots } from '../swap/styleds'
 import { useTranslation } from 'react-i18next'
+import { BRIDGE_MIGRATORS, STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/hooks'
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
@@ -170,6 +171,9 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
   const totalPoolTokens = useTotalSupply(pair.liquidityToken)
 
+  const upgradeable0 = BRIDGE_MIGRATORS.find(({ aeb, ab }) => pair?.token0?.address === aeb)
+  const upgradeable1 = BRIDGE_MIGRATORS.find(({ aeb, ab }) => pair?.token1?.address === aeb)
+
   const poolTokenPercentage =
     !!userPoolBalance && !!totalPoolTokens && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
       ? new Percent(userPoolBalance.raw, totalPoolTokens.raw)
@@ -206,6 +210,16 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
           </RowFixed>
 
           <RowFixed gap="8px">
+            {(upgradeable0 || upgradeable1) && (
+              <ButtonEmpty
+                padding="8px"
+                as={Link}
+                to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${STAKING_REWARDS_CURRENT_VERSION}/${upgradeable0 ? upgradeable0.ab : currencyId(currency0)}/${upgradeable1 ? upgradeable1.ab : currencyId(currency1)}/${STAKING_REWARDS_CURRENT_VERSION}`}
+                width="48%"
+              >
+                Migrate
+              </ButtonEmpty>
+            )}
             <ButtonEmpty
               padding="6px 8px"
               borderRadius="12px"
@@ -286,7 +300,6 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
             <RowBetween marginTop="10px">
               <ButtonPrimary
                 padding="8px"
-                borderRadius="8px"
                 as={Link}
                 to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
                 width="48%"
@@ -295,7 +308,6 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
               </ButtonPrimary>
               <ButtonPrimary
                 padding="8px"
-                borderRadius="8px"
                 as={Link}
                 width="48%"
                 to={`/remove/${currencyId(currency0)}/${currencyId(currency1)}`}

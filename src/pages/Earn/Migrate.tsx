@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 
 import { RouteComponentProps } from 'react-router-dom'
 import { useCurrency } from '../../hooks/Tokens'
@@ -10,17 +9,19 @@ import { TYPE } from '../../theme'
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard } from '../../components/earn/styled'
 import { ButtonPrimary } from '../../components/Button'
-import { useStakingInfo } from '../../state/stake/hooks'
+import { BRIDGE_MIGRATORS, useStakingInfo } from '../../state/stake/hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../hooks'
 
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
-import { currencyId } from '../../utils/currencyId'
 import { usePair } from '../../data/Reserves'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import StakingModal from '../../components/earn/StakingModal'
 import UnstakingModal from '../../components/earn/UnstakingModal'
 import Confetti from '../../components/Confetti'
+import RemoveLiquidityModal from '../../components/earn/RemoveLiquidityModal'
+import UpgradeTokenModal from '../../components/earn/UpgradeTokenModal'
+import AddLiquidityModal from '../../components/earn/AddLiquidityModal'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -58,22 +59,22 @@ export default function Migrate({
   const tokenToA = wrappedCurrency(currencyToA ?? undefined, chainId)
   const tokenToB = wrappedCurrency(currencyToB ?? undefined, chainId)
 
-  const [, stakingTokenPairFrom] = usePair(tokenFromA, tokenFromB)
-  const [, stakingTokenPairTo] = usePair(tokenToA, tokenToB)
+  const [, pglFrom] = usePair(tokenFromA, tokenFromB)
+  const [, pglTo] = usePair(tokenToA, tokenToB)
 
-  const stakingInfoFrom = useStakingInfo(Number(versionFrom), stakingTokenPairFrom)?.[0]
-  const stakingInfoTo = useStakingInfo(Number(versionTo), stakingTokenPairTo)?.[0]
+  const stakingInfoFrom = useStakingInfo(Number(versionFrom), pglFrom)?.[0]
+  const stakingInfoTo = useStakingInfo(Number(versionTo), pglTo)?.[0]
 
   const currentlyStakingOld = stakingInfoFrom?.stakedAmount
 
-  const userLiquidityUnstakedOld = useTokenBalance(account ?? undefined, stakingInfoFrom?.stakedAmount?.token)
-  const userLiquidityUnstakedNew = useTokenBalance(account ?? undefined, stakingInfoTo?.stakedAmount?.token)
+  const userLiquidityUnstakedOld = useTokenBalance(account ?? undefined, pglFrom?.liquidityToken)
+  const userLiquidityUnstakedNew = useTokenBalance(account ?? undefined, pglTo?.liquidityToken)
 
-  const userOldBalanceToken0 = useTokenBalance(account ?? undefined, stakingInfoFrom?.tokens[0])
-  const userOldBalanceToken1 = useTokenBalance(account ?? undefined, stakingInfoFrom?.tokens[1])
+  const userOldBalanceToken0 = useTokenBalance(account ?? undefined, pglFrom?.token0)
+  const userOldBalanceToken1 = useTokenBalance(account ?? undefined, pglFrom?.token1)
 
-  const userNewBalanceToken0 = useTokenBalance(account ?? undefined, stakingInfoTo?.tokens[0])
-  const userNewBalanceToken1 = useTokenBalance(account ?? undefined, stakingInfoTo?.tokens[1])
+  const userNewBalanceToken0 = useTokenBalance(account ?? undefined, pglTo?.token0)
+  const userNewBalanceToken1 = useTokenBalance(account ?? undefined, pglTo?.token1)
 
   // Step 1: Detect if old LP tokens are staked
   const requiresUnstake = currentlyStakingOld?.greaterThan('0')
@@ -81,11 +82,13 @@ export default function Migrate({
   // Step 2: Detect if old LP is currently held and cannot be migrated directly to the new staking contract
   const requiresBurn = (!requiresUnstake)
     && userLiquidityUnstakedOld?.greaterThan('0')
-    && !stakingInfoFrom?.stakedAmount?.token.equals(stakingInfoTo?.stakedAmount?.token)
+    && pglFrom?.liquidityToken?.address !== pglTo?.liquidityToken?.address
 
   // Step 3: Detect if underlying token needs to be converted
-  const requiresConvertingToken0 = stakingInfoFrom && stakingInfoTo && !stakingInfoTo?.tokens.includes(stakingInfoFrom?.tokens[0]) && userOldBalanceToken0?.greaterThan('0')
-  const requiresConvertingToken1 = stakingInfoFrom && stakingInfoTo && !stakingInfoTo?.tokens.includes(stakingInfoFrom?.tokens[1]) && userOldBalanceToken1?.greaterThan('0')
+  const requiresConvertingToken0 = userOldBalanceToken0?.greaterThan('0') && pglFrom?.token0 && !pglTo?.involvesToken(pglFrom?.token0)
+  const token0MigratorAddress = requiresConvertingToken0 && BRIDGE_MIGRATORS.find(entry => entry.aeb === pglFrom?.token0?.address)?.ab
+  const requiresConvertingToken1 = userOldBalanceToken1?.greaterThan('0') && pglFrom?.token1 && !pglTo?.involvesToken(pglFrom?.token1)
+  const token1MigratorAddress = requiresConvertingToken1 && BRIDGE_MIGRATORS.find(entry => entry.aeb === pglFrom?.token1?.address)?.ab
   const requiresConvert = (!requiresUnstake && !requiresBurn) && (requiresConvertingToken0 || requiresConvertingToken1)
 
   // Step 4: Detect if underlying tokens are available but not provided as liquidity
@@ -95,12 +98,20 @@ export default function Migrate({
     && userLiquidityUnstakedNew?.equalTo('0')
 
   // Step 5: Detect if new LP has been minted and not staked
-  const requiresStake = (!requiresUnstake && !requiresBurn && !requiresConvert && !requiresMint) && userLiquidityUnstakedNew?.greaterThan('0')
+  const requiresStake = (!requiresUnstake && !requiresBurn && !requiresConvert && !requiresMint)
+    && stakingInfoTo
+    && userLiquidityUnstakedNew?.greaterThan('0')
 
   // Detect if all steps have been completed
   const requiresNothing = !!stakingInfoFrom && !!stakingInfoTo && !requiresUnstake && !requiresBurn && !requiresConvert && !requiresMint && !requiresStake
 
+  const [aebTokenBalance, setAebTokenBalance] = useState(userOldBalanceToken0)
+  const [abTokenAddress, setAbTokenAddress] = useState('')
+
   const [showStakingModal, setShowStakingModal] = useState(false)
+  const [showRemoveLiquidityModal, setShowRemoveLiquidityModal] = useState(false)
+  const [showUpgradeTokenModal, setShowUpgradeTokenModal] = useState(false)
+  const [showAddLiquidityModal, setShowAddLiquidityModal] = useState(false)
   const [showUnstakingModal, setShowUnstakingModal] = useState(false)
 
   const toggleWalletModal = useWalletModalToggle()
@@ -140,7 +151,7 @@ export default function Migrate({
                   width={'fit-content'}
                   onClick={() => setShowUnstakingModal(true)}
                 >
-                  {`Unstake ${currentlyStakingOld?.toSignificant(4) ?? ''} ${currencyToA?.symbol}-${currencyToB?.symbol} liquidity`}
+                  {`Unstake ${currentlyStakingOld?.toSignificant(4) ?? ''} ${tokenFromA?.symbol}-${tokenFromB?.symbol} liquidity`}
                 </ButtonPrimary>
               </>
             )}
@@ -163,11 +174,11 @@ export default function Migrate({
                 </RowBetween>
                 <ButtonPrimary
                   padding="8px"
+                  borderRadius="8px"
                   width={'fit-content'}
-                  as={Link}
-                  to={`/remove/${currencyFromA && currencyId(currencyFromA)}/${currencyFromB && currencyId(currencyFromB)}`}
+                  onClick={() => setShowRemoveLiquidityModal(true)}
                 >
-                  {`Withdraw ${userLiquidityUnstakedOld?.toSignificant(4) ?? ''} ${currencyToA?.symbol}-${currencyToB?.symbol} liquidity`}
+                  {`Withdraw ${userLiquidityUnstakedOld?.toSignificant(4) ?? ''} ${tokenFromA?.symbol}-${tokenFromB?.symbol} liquidity`}
                 </ButtonPrimary>
               </>
             )}
@@ -179,13 +190,13 @@ export default function Migrate({
         <CardSection>
           <AutoColumn gap="md">
             <RowBetween>
-              <TYPE.white fontWeight={600}>Step 3. Convert deprecated tokens</TYPE.white>
+              <TYPE.white fontWeight={600}>Step 3. Upgrade deprecated tokens</TYPE.white>
             </RowBetween>
             {(requiresConvert) && (
               <>
                 <RowBetween style={{ marginBottom: '1rem' }}>
                   <TYPE.white fontSize={14}>
-                    {`You are currently holding a deprecated token. Convert to the new token 1:1 to continue the migration process`}
+                    {`You are currently holding a deprecated token. Upgrade to the new token 1:1 to continue the migration process`}
                   </TYPE.white>
                 </RowBetween>
                 {(requiresConvertingToken0) && (
@@ -193,9 +204,17 @@ export default function Migrate({
                     padding="8px"
                     borderRadius="8px"
                     width={'fit-content'}
-                    onClick={() => window.location.href = `https://aeb.xyz`}
+                    onClick={() => {
+                      if (token0MigratorAddress) {
+                        setAebTokenBalance(userOldBalanceToken0)
+                        setAbTokenAddress(token0MigratorAddress)
+                        setShowUpgradeTokenModal(true)
+                      } else {
+                        window.open('https://bridge.avax.network/convert', '_blank')
+                      }
+                    }}
                   >
-                    {`Convert deprecated ${stakingInfoFrom?.tokens[0].symbol ?? 'token'}`}
+                    {`Upgrade ${userOldBalanceToken0?.toSignificant(4) ?? ''} ${pglFrom?.token0?.symbol ?? 'token'}`}
                   </ButtonPrimary>
                 )}
                 {(requiresConvertingToken1) && (
@@ -203,9 +222,17 @@ export default function Migrate({
                     padding="8px"
                     borderRadius="8px"
                     width={'fit-content'}
-                    onClick={() => window.location.href = `https://aeb.xyz`}
+                    onClick={() => {
+                      if (token1MigratorAddress) {
+                        setAebTokenBalance(userOldBalanceToken1)
+                        setAbTokenAddress(token1MigratorAddress)
+                        setShowUpgradeTokenModal(true)
+                      } else {
+                        window.open('https://bridge.avax.network/convert', '_blank')
+                      }
+                    }}
                   >
-                    {`Convert deprecated ${stakingInfoFrom?.tokens[1].symbol ?? 'token'}`}
+                    {`Upgrade ${userOldBalanceToken1?.toSignificant(4) ?? ''} ${pglFrom?.token1?.symbol ?? 'token'}`}
                   </ButtonPrimary>
                 )}
               </>
@@ -224,16 +251,16 @@ export default function Migrate({
               <>
                 <RowBetween style={{ marginBottom: '1rem' }}>
                   <TYPE.white fontSize={14}>
-                    {`You are not currently holding PGL tokens for this pool. Provide liquidity to the ${currencyToA?.symbol}-${currencyToB?.symbol} pool to receive PGL tokens representing your share of the liquidity pool`}
+                    {`You are not currently holding PGL tokens for this pool. Provide liquidity to the ${tokenToA?.symbol}-${tokenToB?.symbol} pool to receive PGL tokens representing your share of the liquidity pool`}
                   </TYPE.white>
                 </RowBetween>
                 <ButtonPrimary
                   padding="8px"
+                  borderRadius="8px"
                   width={'fit-content'}
-                  as={Link}
-                  to={`/add/${currencyToA && currencyId(currencyToA)}/${currencyToB && currencyId(currencyToB)}`}
+                  onClick={() => setShowAddLiquidityModal(true)}
                 >
-                  {`Add new ${currencyToA?.symbol}-${currencyToB?.symbol} liquidity`}
+                  {`Add new ${tokenToA?.symbol}-${tokenToB?.symbol} liquidity`}
                 </ButtonPrimary>
               </>
             )}
@@ -255,7 +282,7 @@ export default function Migrate({
                   width={'fit-content'}
                   onClick={handleDepositClick}
                 >
-                  {`Stake ${userLiquidityUnstakedNew?.toSignificant(4) ?? ''} ${currencyToA?.symbol}-${currencyToB?.symbol} liquidity`}
+                  {`Stake ${userLiquidityUnstakedNew?.toSignificant(4) ?? ''} ${tokenToA?.symbol}-${tokenToB?.symbol} liquidity`}
                 </ButtonPrimary>
               </>
             )}
@@ -277,18 +304,36 @@ export default function Migrate({
 
       <Confetti start={requiresNothing && !showStakingModal} />
 
-      {stakingInfoFrom && stakingInfoTo && (
+      {(stakingInfoFrom && stakingInfoTo && tokenFromA && tokenFromB && tokenToA && tokenToB) && (
         <>
+          <UnstakingModal
+            isOpen={showUnstakingModal}
+            onDismiss={() => setShowUnstakingModal(false)}
+            stakingInfo={stakingInfoFrom}
+          />
+          <RemoveLiquidityModal
+            isOpen={showRemoveLiquidityModal}
+            onDismiss={() => setShowRemoveLiquidityModal(false)}
+            currencyIdA={tokenFromA.address}
+            currencyIdB={tokenFromB.address}
+          />
+          <UpgradeTokenModal
+            isOpen={showUpgradeTokenModal}
+            onDismiss={() => setShowUpgradeTokenModal(false)}
+            aebTokenBalance={aebTokenBalance}
+            abTokenAddress={abTokenAddress}
+          />
+          <AddLiquidityModal
+            isOpen={showAddLiquidityModal}
+            onDismiss={() => setShowAddLiquidityModal(false)}
+            currencyIdA={tokenToA.address}
+            currencyIdB={tokenToB.address}
+          />
           <StakingModal
             isOpen={showStakingModal}
             onDismiss={() => setShowStakingModal(false)}
             stakingInfo={stakingInfoTo}
             userLiquidityUnstaked={userLiquidityUnstakedNew}
-          />
-          <UnstakingModal
-            isOpen={showUnstakingModal}
-            onDismiss={() => setShowUnstakingModal(false)}
-            stakingInfo={stakingInfoFrom}
           />
         </>
       )}

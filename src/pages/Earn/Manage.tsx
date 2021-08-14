@@ -266,7 +266,6 @@ export default function Manage({
               </RowBetween>
               <ButtonPrimary
                 padding="8px"
-                borderRadius="8px"
                 width={'fit-content'}
                 as={Link}
                 to={`/add/${currencyA && currencyId(currencyA)}/${currencyB && currencyId(currencyB)}`}
