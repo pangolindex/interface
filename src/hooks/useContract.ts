@@ -57,7 +57,7 @@ export function useBridgeTokenContract(tokenAddress?: string, withSignerIfPossib
 
 export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React()
-  return useContract(chainId ? WAVAX[chainId].address : undefined, WETH_ABI, withSignerIfPossible)
+  return useContract(chainId ? WAVAX[chainId]?.address : undefined, WETH_ABI, withSignerIfPossible)
 }
 
 export function useENSResolverContract(address: string | undefined, withSignerIfPossible?: boolean): Contract | null {

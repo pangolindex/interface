@@ -302,12 +302,18 @@ export default function WalletModal({
           <CloseIcon onClick={toggleWalletModal}>
             <CloseColor />
           </CloseIcon>
-          <HeaderRow>{error instanceof UnsupportedChainIdError ? t('walletModal.wrongNetwork') : t('walletModal.errorConnecting')}</HeaderRow>
+          <HeaderRow>
+            {error instanceof UnsupportedChainIdError
+              ? t('walletModal.wrongNetwork')
+              : t('walletModal.errorConnecting')}
+          </HeaderRow>
           <ContentWrapper>
             {error instanceof UnsupportedChainIdError ? (
               <>
                 <h5>{t('walletModal.pleaseConnectAvalanche')}</h5>
-                {isMetamask && <ButtonLight onClick={addAvalancheNetwork}>{t('walletModal.switchAvalanche')}</ButtonLight>}
+                {isMetamask && (
+                  <ButtonLight onClick={addAvalancheNetwork}>{t('walletModal.switchAvalanche')}</ButtonLight>
+                )}
               </>
             ) : (
               t('walletModal.errorConnectingRefresh')

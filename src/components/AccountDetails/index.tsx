@@ -10,9 +10,10 @@ import Copy from './Copy'
 import Transaction from './Transaction'
 
 import { SUPPORTED_WALLETS } from '../../constants'
+import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { getEtherscanLink } from '../../utils'
-import { injected } from '../../connectors'
+import { injected, walletlink } from '../../connectors'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
@@ -242,7 +243,13 @@ export default function AccountDetails({
           <Identicon />
         </IconWrapper>
       )
-    } 
+    } else if (connector === walletlink) {
+      return (
+        <IconWrapper size={16}>
+          <img src={CoinbaseWalletIcon} alt={'Coinbase Wallet logo'} />
+        </IconWrapper>
+      )
+    }
     return null
   }
 

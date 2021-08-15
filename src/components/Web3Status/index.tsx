@@ -5,7 +5,8 @@ import React, { useMemo } from 'react'
 import { Activity } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
-import { injected } from '../../connectors'
+import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
+import { injected, walletlink } from '../../connectors'
 import { NetworkContextName } from '../../constants'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
@@ -102,6 +103,16 @@ const NetworkIcon = styled(Activity)`
   height: 16px;
 `
 
+const IconWrapper = styled.div<{ size?: number }>`
+  ${({ theme }) => theme.flexColumnNoWrap};
+  align-items: center;
+  justify-content: center;
+  & > * {
+    height: ${({ size }) => (size ? size + 'px' : '32px')};
+    width: ${({ size }) => (size ? size + 'px' : '32px')};
+  }
+`
+
 // we want the latest one to come first, so return negative if a is after b
 function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
   return b.addedTime - a.addedTime
@@ -111,7 +122,13 @@ function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
 function StatusIcon({ connector }: { connector: AbstractConnector }) {
   if (connector === injected) {
     return <Identicon />
-  } 
+  } else if (connector === walletlink) {
+    return (
+      <IconWrapper size={16}>
+        <img src={CoinbaseWalletIcon} alt={'CoinbaseWallet'} />
+      </IconWrapper>
+    )
+  }
   return null
 }
 
@@ -136,7 +153,10 @@ function Web3StatusInner() {
       <Web3StatusConnected id="web3-status-connected" onClick={toggleWalletModal} pending={hasPendingTransactions}>
         {hasPendingTransactions ? (
           <RowBetween>
-            <Text>{pending?.length} {t('web3Status.pending')}</Text> <Loader stroke="white" />
+            <Text>
+              {pending?.length} {t('web3Status.pending')}
+            </Text>{' '}
+            <Loader stroke="white" />
           </RowBetween>
         ) : (
           <>
