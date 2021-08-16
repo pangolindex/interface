@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { InjectedConnector } from '@pangolindex/web3-react-injected-connector'
-
+import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { NetworkConnector } from './NetworkConnector'
 
 const NETWORK_URL = process.env.REACT_APP_NETWORK_URL
@@ -12,7 +12,8 @@ if (typeof NETWORK_URL === 'undefined') {
 }
 
 export const network = new NetworkConnector({
-  urls: { [NETWORK_CHAIN_ID]: NETWORK_URL }
+  urls: { [NETWORK_CHAIN_ID]: NETWORK_URL },
+  defaultChainId: NETWORK_CHAIN_ID
 })
 
 let networkLibrary: Web3Provider | undefined
@@ -24,3 +25,8 @@ export const injected = new InjectedConnector({
   supportedChainIds: [43113, 43114]
 })
 
+export const walletlink = new WalletLinkConnector({
+  url: NETWORK_URL,
+  appName: 'Pangolin',
+  appLogoUrl: 'https://raw.githubusercontent.com/pangolindex/interface/master/public/images/384x384_App_Icon.png'
+})

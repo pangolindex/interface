@@ -303,10 +303,7 @@ export default function Header() {
           <StyledNavLink
             id={`stake-nav-link`}
             to={'/png/1'}
-            isActive={(match, { pathname }) =>
-              Boolean(match) ||
-              pathname.startsWith('/png')
-            }
+            isActive={(match, { pathname }) => Boolean(match) || pathname.startsWith('/png')}
           >
             PNG
           </StyledNavLink>
