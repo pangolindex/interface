@@ -11,9 +11,10 @@ import Transaction from './Transaction'
 
 import { SUPPORTED_WALLETS } from '../../constants'
 import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
+import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { getEtherscanLink } from '../../utils'
-import { injected, walletlink } from '../../connectors'
+import { injected, walletlink, walletconnect } from '../../connectors'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
@@ -129,7 +130,7 @@ const AccountControl = styled.div`
   }
 `
 
-const AddressLink = styled(ExternalLink)<{ hasENS: boolean; isENS: boolean }>`
+const AddressLink = styled(ExternalLink) <{ hasENS: boolean; isENS: boolean }>`
   font-size: 0.825rem;
   color: ${({ theme }) => theme.text3};
   margin-left: 1rem;
@@ -243,6 +244,12 @@ export default function AccountDetails({
           <Identicon />
         </IconWrapper>
       )
+    } else if (connector === walletconnect) {
+      return (
+        <IconWrapper size={16}>
+          <img src={WalletConnectIcon} alt={'WalletConnect logo'} />
+        </IconWrapper>
+      )
     } else if (connector === walletlink) {
       return (
         <IconWrapper size={16}>
@@ -274,7 +281,7 @@ export default function AccountDetails({
                     <WalletAction
                       style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
                       onClick={() => {
-                        ;(connector as any).close()
+                        ; (connector as any).close()
                       }}
                     >
                       {t('accountDetails.disconnect')}

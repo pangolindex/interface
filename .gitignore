@@ -34,3 +34,4 @@ cypress/screenshots
 cypress/fixtures/example.json
 # Local Netlify folder
 .netlify
+.vercel

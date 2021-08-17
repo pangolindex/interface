@@ -6,7 +6,8 @@ import { Activity } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
 import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
-import { injected, walletlink } from '../../connectors'
+import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
+import { injected, walletlink, walletconnect } from '../../connectors'
 import { NetworkContextName } from '../../constants'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
@@ -43,7 +44,7 @@ const Web3StatusError = styled(Web3StatusGeneric)`
   }
 `
 
-const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
+const Web3StatusConnect = styled(Web3StatusGeneric) <{ faded?: boolean }>`
   background-color: ${({ theme }) => theme.primary4};
   border: none;
   color: ${({ theme }) => theme.primaryText1};
@@ -70,7 +71,7 @@ const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
     `}
 `
 
-const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
+const Web3StatusConnected = styled(Web3StatusGeneric) <{ pending?: boolean }>`
   background-color: ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg2)};
   border: 1px solid ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg3)};
   color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
@@ -122,6 +123,12 @@ function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
 function StatusIcon({ connector }: { connector: AbstractConnector }) {
   if (connector === injected) {
     return <Identicon />
+  } else if (connector === walletconnect) {
+    return (
+      <IconWrapper size={16}>
+        <img src={WalletConnectIcon} alt={'WalletConnect'} />
+      </IconWrapper>
+    )
   } else if (connector === walletlink) {
     return (
       <IconWrapper size={16}>
