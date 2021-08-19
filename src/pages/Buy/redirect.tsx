@@ -16,7 +16,7 @@ export const redirectToWyre = async (data: any): Promise<boolean> => {
     hideTrackBtn: true,
     country: getCountry()
   }
-  console.log(body)
+
   // Signature Calculation using Crypto-js
   const signature = (url: string, data:string) => {
     const dataToSign = url + data;
