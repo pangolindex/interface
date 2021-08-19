@@ -202,6 +202,6 @@ export const BETTER_TRADE_LINK_THRESHOLD = new Percent(JSBI.BigInt(75), JSBI.Big
 export const WYRE_API_KEY = process.env.REACT_APP_WYRE_API_KEY ? process.env.REACT_APP_WYRE_API_KEY : ''
 export const WYRE_SECRET_KEY = process.env.REACT_APP_WYRE_SECRET_KEY ? process.env.REACT_APP_WYRE_SECRET_KEY : ''
 export const WYRE_ID = process.env.REACT_APP_WYRE_ID ? process.env.REACT_APP_WYRE_ID : ''
-export const WYRE_API_URL = 'https://api.testwyre.com' //'https://api.sendwyre.com'
+export const WYRE_API_URL = 'https://api.sendwyre.com' //'https://api.testwyre.com'
 export const WYRE_QUOTE_API_ENDPOINT = '/v3/orders/quote/partner'
 export const WYRE_RESERVE_API_ENDPOINT = '/v3/orders/reserve'
