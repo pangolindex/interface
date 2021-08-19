@@ -179,7 +179,7 @@ export const QI: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'QI', 'BENQI')
 }
 
-export const QI: { [chainId in ChainId]: Token } = {
+export const WALBT: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'WALBT', 'Wrapped AllianceBlock Token'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'WALBT', 'Wrapped AllianceBlock Token')
 }
