@@ -3,7 +3,13 @@ import {useCallback} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppDispatch, AppState} from '../../state'
 import {updateQuote} from './actions'
-import {WYRE_API_KEY, WYRE_ID, WYRE_API_URL, WYRE_QUOTE_API_ENDPOINT} from '../../constants'
+import {
+  WYRE_API_KEY,
+  WYRE_ID,
+  WYRE_API_URL,
+  WYRE_QUOTE_API_ENDPOINT,
+  WYRE_SECRET_KEY
+} from '../../constants'
 
 export function useQuoteRequest(account: string | null | undefined, amount: string, sourceCurrency: string): void {
 
@@ -20,15 +26,25 @@ export function useQuoteRequest(account: string | null | undefined, amount: stri
         'amount': amount,
         'sourceCurrency': sourceCurrency,
         'destCurrency': 'AVAX',
-        'dest': 'ethereum:' + account,
+        'dest': 'avalanche:' + account.toLowerCase(),
         'accountId': WYRE_ID,
         'country': getCountry()
       }
 
-      const url = `${WYRE_API_URL}${WYRE_QUOTE_API_ENDPOINT}`
+      // Signature Calculation using Crypto-js
+      const signature = (url: string, data:string) => {
+        const dataToSign = url + data;
+        // @ts-ignore
+        const token = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(dataToSign.toString(CryptoJS.enc.Utf8), WYRE_SECRET_KEY));
+        return token;
+      }
+
+      const timestamp = new Date().getTime();
+      const url = `${WYRE_API_URL}${WYRE_QUOTE_API_ENDPOINT}?timestamp=${timestamp}`
 
       const headers = {
-        'Authorization': WYRE_API_KEY,
+        'X-Api-Key': WYRE_API_KEY,
+        'X-Api-Signature': signature(url, JSON.stringify(data)),
         'Content-Type': 'application/json'
       }
 

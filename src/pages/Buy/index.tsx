@@ -47,7 +47,7 @@ export default function Buy() {
     const formDataWithAmount = {...data,
       amount: amount,
       sourceCurrency: fiat.symbol,
-      dest: `ethereum:${account}`
+      dest: `avalanche:${account?.toLowerCase()}`
     }
     redirectToWyre(formDataWithAmount)
       .then(
