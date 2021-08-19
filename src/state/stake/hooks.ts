@@ -313,7 +313,7 @@ const STAKING: {
     version: 1
   },
   WAVAX_WALBT_V1: {
-    tokens: [WAVAX[ChainId.AVALANCHE], QI[ChainId.AVALANCHE]],
+    tokens: [WAVAX[ChainId.AVALANCHE], WALBT[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x0000000000000000000000000000000000000000',
     version: 1
   },
