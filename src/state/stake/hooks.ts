@@ -30,6 +30,9 @@ import {
   TRYB,
   SHERPA,
   YAK,
+  DYP,
+  QI,
+  WALBT,
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -299,6 +302,21 @@ const STAKING: {
     stakingRewardAddress: '0xb600429CCD364F1727F91FC0E75D67d65D0ee4c5',
     version: 1
   },
+  WAVAX_DYP_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], DYP[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
+  WAVAX_QI_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], QI[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
+  WAVAX_WALBT_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], QI[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
 
   PNG_ETH_V1: {
     tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
@@ -438,6 +456,21 @@ const STAKING: {
   PNG_YAK_V1: {
     tokens: [PNG[ChainId.AVALANCHE], YAK[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x42ff9473a5AEa00dE39355e0288c7A151EB00B6e',
+    version: 1
+  },
+  PNG_DYP_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], DYP[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
+  PNG_QI_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], QI[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
+  PNG_WALBT_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], WALBT[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
     version: 1
   },
 }
