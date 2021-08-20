@@ -36,3 +36,6 @@ jobs:
           IPFS_DEPLOY_CLOUDFLARE__API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           IPFS_DEPLOY_CLOUDFLARE__ZONE: ${{ secrets.CF_ZONE }}
           IPFS_DEPLOY_CLOUDFLARE__RECORD: ${{ github.ref == 'refs/heads/master' && secrets.CF_RECORD || secrets.CF_BETA_RECORD }}
+          REACT_APP_WYRE_API_KEY: ${{ secrets.REACT_APP_WYRE_API_KEY }}
+          REACT_APP_WYRE_ID: ${{ secrets.REACT_APP_WYRE_ID }}
+          REACT_APP_WYRE_SECRET_KEY: ${{ secrets.REACT_APP_WYRE_SECRET_KEY }}
