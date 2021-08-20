@@ -10,6 +10,7 @@ import {
   WYRE_QUOTE_API_ENDPOINT,
   WYRE_SECRET_KEY
 } from '../../constants'
+import CryptoJS from 'crypto-js'
 
 export function useQuoteRequest(account: string | null | undefined, amount: string, sourceCurrency: string): void {
 
