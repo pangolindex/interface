@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next'
 import XHR from 'i18next-xhr-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
-export const availableLanguages = ['en', 'de', 'tr', 'zh', 'es', 'fr']
+export const availableLanguages = ['en', 'de', 'tr', 'zh', 'es', 'fr', 'pt-br']
 export const defaultLocale = 'en'
 
 const determineLngFn = (code: string): string => {
