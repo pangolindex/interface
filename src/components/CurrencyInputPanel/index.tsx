@@ -84,7 +84,7 @@ const Container = styled.div<{ hideInput: boolean }>`
   background-color: ${({ theme }) => theme.bg1};
 `
 
-const StyledTokenName = styled.span<{ active?: boolean }>`
+export const StyledTokenName = styled.span<{ active?: boolean }>`
   ${({ active }) => (active ? '  margin: 0 0.25rem 0 0.75rem;' : '  margin: 0 0.25rem 0 0.25rem;')}
   font-size:  ${({ active }) => (active ? '20px' : '16px')};
 
