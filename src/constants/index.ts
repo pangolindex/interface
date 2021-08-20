@@ -183,7 +183,7 @@ export const DYP: { [chainId in ChainId]: Token } = {
 
 export const WALBT: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'WALBT', 'Wrapped AllianceBlock Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'WALBT', 'Wrapped AllianceBlock Token')
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x9E037dE681CaFA6E661e6108eD9c2bd1AA567Ecd', 18, 'WALBT', 'Wrapped AllianceBlock Token')
 }
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
