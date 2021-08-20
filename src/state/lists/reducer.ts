@@ -16,7 +16,7 @@ export interface ListsState {
   }
   // this contains the default list of lists from the last time the updateVersion was called, i.e. the app was reloaded
   readonly lastInitializedDefaultListOfLists?: string[]
-  readonly selectedListUrl: string | undefined
+  readonly selectedListUrl: string[] | undefined
 }
 
 type ListState = ListsState['byUrl'][string]
@@ -38,7 +38,7 @@ const initialState: ListsState = {
       return memo
     }, {})
   },
-  selectedListUrl: DEFAULT_TOKEN_LIST_URL
+  selectedListUrl: [DEFAULT_TOKEN_LIST_URL]
 }
 
 export default createReducer(initialState, builder =>
@@ -93,8 +93,29 @@ export default createReducer(initialState, builder =>
         pendingUpdate: null
       }
     })
-    .addCase(selectList, (state, { payload: url }) => {
-      state.selectedListUrl = url
+    .addCase(selectList, (state, { payload: { url, shouldSelect } }) => {
+      const existingSelectedListUrl: string[] = ([] as string[]).concat(state.selectedListUrl || ([] as string[]))
+      if (shouldSelect) {
+        existingSelectedListUrl.push(url)
+        state.selectedListUrl = existingSelectedListUrl
+      } else {
+        var index = existingSelectedListUrl.indexOf(url)
+
+        if (index !== -1) {
+          if ((existingSelectedListUrl || []).length === 1) {
+            const newSelectedListUrl: string[] = ([] as string[]).concat(
+              (url === DEFAULT_TOKEN_LIST_URL ? Object.keys(state.byUrl)[0] : DEFAULT_TOKEN_LIST_URL) ||
+                ([] as string[])
+            )
+
+            state.selectedListUrl = newSelectedListUrl
+          } else {
+            existingSelectedListUrl.splice(index, 1)
+            state.selectedListUrl = existingSelectedListUrl
+          }
+        }
+      }
+
       // automatically adds list
       if (!state.byUrl[url]) {
         state.byUrl[url] = NEW_LIST_STATE
@@ -109,8 +130,21 @@ export default createReducer(initialState, builder =>
       if (state.byUrl[url]) {
         delete state.byUrl[url]
       }
-      if (state.selectedListUrl === url) {
-        state.selectedListUrl = url === DEFAULT_TOKEN_LIST_URL ? Object.keys(state.byUrl)[0] : DEFAULT_TOKEN_LIST_URL
+
+      const existingSelectedListUrl: string[] = ([] as string[]).concat(state.selectedListUrl || ([] as string[]))
+      var index = existingSelectedListUrl.indexOf(url)
+
+      if (index !== -1) {
+        if ((existingSelectedListUrl || []).length === 1) {
+          const newSelectedListUrl: string[] = ([] as string[]).concat(
+            (url === DEFAULT_TOKEN_LIST_URL ? Object.keys(state.byUrl)[0] : DEFAULT_TOKEN_LIST_URL) || ([] as string[])
+          )
+
+          state.selectedListUrl = newSelectedListUrl
+        } else {
+          existingSelectedListUrl.splice(index, 1)
+          state.selectedListUrl = existingSelectedListUrl
+        }
       }
     })
     .addCase(acceptListUpdate, (state, { payload: url }) => {
@@ -127,7 +161,7 @@ export default createReducer(initialState, builder =>
       // state loaded from localStorage, but new lists have never been initialized
       if (!state.lastInitializedDefaultListOfLists) {
         state.byUrl = initialState.byUrl
-        state.selectedListUrl = DEFAULT_TOKEN_LIST_URL
+        state.selectedListUrl = [DEFAULT_TOKEN_LIST_URL]
       } else if (state.lastInitializedDefaultListOfLists) {
         const lastInitializedSet = state.lastInitializedDefaultListOfLists.reduce<Set<string>>(
           (s, l) => s.add(l),
@@ -151,7 +185,7 @@ export default createReducer(initialState, builder =>
       state.lastInitializedDefaultListOfLists = DEFAULT_LIST_OF_LISTS
 
       if (!state.selectedListUrl) {
-        state.selectedListUrl = DEFAULT_TOKEN_LIST_URL
+        state.selectedListUrl = [DEFAULT_TOKEN_LIST_URL]
         if (!state.byUrl[DEFAULT_TOKEN_LIST_URL]) {
           state.byUrl[DEFAULT_TOKEN_LIST_URL] = NEW_LIST_STATE
         }
