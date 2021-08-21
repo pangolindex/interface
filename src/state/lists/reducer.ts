@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { getVersionUpgrade, VersionUpgrade } from '@pangolindex/token-lists'
 import { TokenList } from '@pangolindex/token-lists/dist/types'
-import { DEFAULT_LIST_OF_LISTS, DEFAULT_TOKEN_LIST_URL } from '../../constants/lists'
+import { DEFAULT_LIST_OF_LISTS, DEFAULT_TOKEN_LIST_URL, STABLECOIN_TOKEN_LIST } from '../../constants/lists'
 import { updateVersion } from '../global/actions'
 import { acceptListUpdate, addList, fetchTokenList, removeList, selectList } from './actions'
 
@@ -94,21 +94,21 @@ export default createReducer(initialState, builder =>
       }
     })
     .addCase(selectList, (state, { payload: { url, shouldSelect } }) => {
-      const existingSelectedListUrl: string[] = ([] as string[]).concat(state.selectedListUrl || ([] as string[]))
+      const existingSelectedListUrl = ([] as string[]).concat(state.selectedListUrl || [])
       if (shouldSelect) {
+        // if user want to select the list, then just push it into selected array
         existingSelectedListUrl.push(url)
         state.selectedListUrl = existingSelectedListUrl
       } else {
-        var index = existingSelectedListUrl.indexOf(url)
+        let index = existingSelectedListUrl.indexOf(url)
 
         if (index !== -1) {
-          if ((existingSelectedListUrl || []).length === 1) {
-            const newSelectedListUrl: string[] = ([] as string[]).concat(
-              (url === DEFAULT_TOKEN_LIST_URL ? Object.keys(state.byUrl)[0] : DEFAULT_TOKEN_LIST_URL) ||
-                ([] as string[])
-            )
-
-            state.selectedListUrl = newSelectedListUrl
+          if (existingSelectedListUrl?.length === 1) {
+            // if user want to deselect the list and if there is only one item in the list
+            // and user is trying to unselect default list then select stable coin list ( because we always want to keep atleast one list selected )
+            // otherwise select default list url
+            const newSelectedListUrl = url === DEFAULT_TOKEN_LIST_URL ? STABLECOIN_TOKEN_LIST : DEFAULT_TOKEN_LIST_URL
+            state.selectedListUrl = [newSelectedListUrl]
           } else {
             existingSelectedListUrl.splice(index, 1)
             state.selectedListUrl = existingSelectedListUrl
@@ -131,19 +131,20 @@ export default createReducer(initialState, builder =>
         delete state.byUrl[url]
       }
 
-      const existingSelectedListUrl: string[] = ([] as string[]).concat(state.selectedListUrl || ([] as string[]))
-      var index = existingSelectedListUrl.indexOf(url)
+      const existingList = ([] as string[]).concat(state.selectedListUrl || [])
+      let index = existingList.indexOf(url)
 
       if (index !== -1) {
-        if ((existingSelectedListUrl || []).length === 1) {
-          const newSelectedListUrl: string[] = ([] as string[]).concat(
-            (url === DEFAULT_TOKEN_LIST_URL ? Object.keys(state.byUrl)[0] : DEFAULT_TOKEN_LIST_URL) || ([] as string[])
-          )
-
-          state.selectedListUrl = newSelectedListUrl
+        if (existingList?.length === 1) {
+          // if user want to remove the list and if there is only one item in the selected list
+          // and user is trying to remove default list then select first list from all lists ( because we always want to keep atleast one list selected )
+          // otherwise select default list url
+          const newSelectedListUrl =
+            url === DEFAULT_TOKEN_LIST_URL ? Object.keys(state.byUrl)[0] : DEFAULT_TOKEN_LIST_URL
+          state.selectedListUrl = [newSelectedListUrl]
         } else {
-          existingSelectedListUrl.splice(index, 1)
-          state.selectedListUrl = existingSelectedListUrl
+          existingList.splice(index, 1)
+          state.selectedListUrl = existingList
         }
       }
     })

@@ -71,34 +71,33 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
 export function useTokenList(urls: string[] | undefined): TokenAddressMap {
   const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
 
-  let tokenList = {} as any
+  let tokenList = {} as { [chainId: string]: { [tokenAddress: string]: WrappedTokenInfo } }
   return useMemo(() => {
-    ;(urls || []).forEach(url => {
+    ;([] as string[]).concat(urls || []).forEach(url => {
       const current = lists[url]?.current
-
       if (url && current) {
         try {
-          const data: any = listToTokenMap(current)
-
-          Object.keys(data).forEach(chainId => {
+          const data = listToTokenMap(current)
+          for (const [chainId, tokens] of Object.entries(data)) {
             tokenList[chainId] = tokenList[chainId] || {}
             tokenList[chainId] = {
               ...tokenList[chainId],
-              ...data[chainId]
+              ...tokens
             }
-          })
+          }
         } catch (error) {
           console.error('Could not show token list due to error', error)
         }
       }
     })
-
-    return tokenList
+    return tokenList as TokenAddressMap
   }, [lists, urls])
 }
 
 export function useSelectedListUrl(): string[] | undefined {
-  return useSelector<AppState, AppState['lists']['selectedListUrl']>(state => state.lists.selectedListUrl)
+  return useSelector<AppState, AppState['lists']['selectedListUrl']>(state =>
+    ([] as string[]).concat(state?.lists?.selectedListUrl || [])
+  )
 }
 
 export function useSelectedTokenList(): TokenAddressMap {
@@ -112,9 +111,9 @@ export function useSelectedListInfo(): {
   multipleSelected: boolean
 } {
   const selectedListUrl = useSelectedListUrl()
-  const selectedUrl = (selectedListUrl || [])?.[0]
+  const firstSelectedUrl = (selectedListUrl || [])?.[0]
   const listsByUrl = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
-  const list = selectedUrl ? listsByUrl[selectedUrl] : undefined
+  const list = firstSelectedUrl ? listsByUrl[firstSelectedUrl] : undefined
   return {
     current: list?.current ?? null,
     pending: list?.pendingUpdate ?? null,
