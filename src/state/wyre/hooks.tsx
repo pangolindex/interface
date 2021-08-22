@@ -12,6 +12,14 @@ import {
 } from '../../constants'
 import CryptoJS from 'crypto-js'
 
+// Signature Calculation using Crypto-js
+export const signature = (url: string, data:string) => {
+  const dataToSign = url + data;
+  // @ts-ignore
+  const token = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(dataToSign.toString(CryptoJS.enc.Utf8), WYRE_SECRET_KEY));
+  return token;
+}
+
 export function useQuoteRequest(account: string | null | undefined, amount: string, sourceCurrency: string): void {
 
   const dispatch = useDispatch<AppDispatch>()
@@ -32,13 +40,6 @@ export function useQuoteRequest(account: string | null | undefined, amount: stri
         'country': getCountry()
       }
 
-      // Signature Calculation using Crypto-js
-      const signature = (url: string, data:string) => {
-        const dataToSign = url + data;
-        // @ts-ignore
-        const token = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(dataToSign.toString(CryptoJS.enc.Utf8), WYRE_SECRET_KEY));
-        return token;
-      }
 
       const timestamp = new Date().getTime();
       const url = `${WYRE_API_URL}${WYRE_QUOTE_API_ENDPOINT}?timestamp=${timestamp}`
