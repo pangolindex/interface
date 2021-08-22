@@ -27,6 +27,7 @@ import Airdrop from './Airdrop'
 
 import Vote from './Vote'
 import VotePage from './Vote/VotePage'
+import Migrate from './Earn/Migrate'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -99,6 +100,7 @@ export default function App() {
               <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
               <Route exact strict path="/png/:currencyIdA/:currencyIdB/:version" component={Manage} />
               <Route exact strict path="/vote/:id" component={VotePage} />
+	            <Route exact path="/migrate/:currencyIdFromA/:currencyIdFromB/:versionFrom/:currencyIdToA/:currencyIdToB/:versionTo/" component={Migrate} />
               <Route component={RedirectPathToSwapOnly} />
             </Switch>
           </Web3ReactManager>

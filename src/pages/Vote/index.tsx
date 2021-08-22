@@ -22,6 +22,7 @@ import { ButtonPrimary } from '../../components/Button'
 
 import { useModalOpen, useToggleDelegateModal } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/actions'
+import { useTranslation } from 'react-i18next'
 
 const PageWrapper = styled(AutoColumn)``
 
@@ -105,6 +106,7 @@ const EmptyProposals = styled.div`
 
 export default function Vote() {
   const { account, chainId } = useActiveWeb3React()
+  const { t } = useTranslation()
 
   // toggle for showing delegation modal
   const showDelegateModal = useModalOpen(ApplicationModal.DELEGATE)
@@ -128,7 +130,7 @@ export default function Vote() {
       <DelegateModal
         isOpen={showDelegateModal}
         onDismiss={toggleDelegateModal}
-        title={showUnlockVoting ? 'Unlock Votes' : 'Update Delegation'}
+        title={showUnlockVoting ? t('votePage.unlockVotes') : t('votePage.updateDelegation')}
       />
       <TopSection gap="md">
         <VoteCard>
@@ -137,24 +139,16 @@ export default function Vote() {
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
-                <TYPE.white fontWeight={600}>Pangolin Governance</TYPE.white>
+                <TYPE.white fontWeight={600}>{t('votePage.pangolinGovernance')}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>
-                  PNG tokens represent voting shares in Pangolin governance. You can vote on each proposal yourself or
-                  delegate your votes to a third party.
-                </TYPE.white>
+                <TYPE.white fontSize={14}>{t('votePage.earnedPngTokens')}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>
-                  To be eligible to vote, you must hold PNG in your wallet and delegate
-                  it at the start of voting. After voting has begun, you may pool or spend your PNG.
-                </TYPE.white>
+                <TYPE.white fontSize={14}>{t('votePage.eligibleToVote')}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>
-                  Governance votes are decided by simple majority. There is no quorum threshold.
-                </TYPE.white>
+                <TYPE.white fontSize={14}>{t('votePage.governanceVotes')}</TYPE.white>
               </RowBetween>
             </AutoColumn>
           </CardSection>
@@ -164,7 +158,9 @@ export default function Vote() {
       </TopSection>
       <TopSection gap="2px">
         <WrapSmall>
-          <TYPE.mediumHeader style={{ margin: '0.5rem 0.5rem 0.5rem 0', flexShrink: 0 }}>Proposals</TYPE.mediumHeader>
+          <TYPE.mediumHeader style={{ margin: '0.5rem 0.5rem 0.5rem 0', flexShrink: 0 }}>
+            {t('votePage.proposals')}
+          </TYPE.mediumHeader>
           {(!allProposals || allProposals.length === 0) && !availableVotes && <Loader />}
           {showUnlockVoting ? (
             <ButtonPrimary
@@ -173,18 +169,18 @@ export default function Vote() {
               borderRadius="8px"
               onClick={toggleDelegateModal}
             >
-              Unlock Voting
+              {t('votePage.unlockVoting')}
             </ButtonPrimary>
           ) : availableVotes && JSBI.notEqual(JSBI.BigInt(0), availableVotes?.raw) ? (
             <TYPE.body fontWeight={500} mr="6px">
-              <FormattedCurrencyAmount currencyAmount={availableVotes} /> Votes
+              <FormattedCurrencyAmount currencyAmount={availableVotes} /> {t('votePage.votes')}
             </TYPE.body>
           ) : pngBalance &&
             userDelegatee &&
             userDelegatee !== ZERO_ADDRESS &&
             JSBI.notEqual(JSBI.BigInt(0), pngBalance?.raw) ? (
             <TYPE.body fontWeight={500} mr="6px">
-              <FormattedCurrencyAmount currencyAmount={pngBalance} /> Votes
+              <FormattedCurrencyAmount currencyAmount={pngBalance} /> {t('votePage.votes')}
             </TYPE.body>
           ) : (
             ''
@@ -196,7 +192,7 @@ export default function Vote() {
             {userDelegatee && userDelegatee !== ZERO_ADDRESS ? (
               <RowFixed>
                 <TYPE.body fontWeight={500} mr="4px">
-                  Delegated to:
+                  {t('votePage.delegatedTo')}
                 </TYPE.body>
                 <AddressButton>
                   <StyledExternalLink
@@ -206,7 +202,7 @@ export default function Vote() {
                     {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee)}
                   </StyledExternalLink>
                   <TextButton onClick={toggleDelegateModal} style={{ marginLeft: '4px' }}>
-                    (edit)
+                    ({t('votePage.edit')})
                   </TextButton>
                 </AddressButton>
               </RowFixed>
@@ -217,9 +213,9 @@ export default function Vote() {
         )}
         {allProposals?.length === 0 && (
           <EmptyProposals>
-            <TYPE.body style={{ marginBottom: '8px' }}>No proposals found.</TYPE.body>
+            <TYPE.body style={{ marginBottom: '8px' }}>{t('votePage.noProposalsFound')}</TYPE.body>
             <TYPE.subHeader>
-              <i>Proposals submitted by community members will appear here.</i>
+              <i>{t('votePage.proposalCommunityMembers')}</i>
             </TYPE.subHeader>
           </EmptyProposals>
         )}
@@ -233,9 +229,7 @@ export default function Vote() {
           )
         })}
       </TopSection>
-      <TYPE.subHeader color="text3">
-        A minimum threshhold of 1,000,000 PNG is required to submit proposals
-      </TYPE.subHeader>
+      <TYPE.subHeader color="text3">{t('votePage.minimumThreshold')}</TYPE.subHeader>
     </PageWrapper>
   )
 }

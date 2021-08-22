@@ -1,15 +1,16 @@
-name: Deploy Code
+name: CD
 
 on:
   push:
     branches:
       - master
+      - dev
 
 env:
   node_version: 14
 
 jobs:
-  deploy:
+  Release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,10 +29,13 @@ jobs:
       - run: yarn build
         env:
           CI: false
+          REACT_APP_WYRE_API_KEY: ${{ secrets.REACT_APP_WYRE_API_KEY }}
+          REACT_APP_WYRE_ID: ${{ secrets.REACT_APP_WYRE_ID }}
+          REACT_APP_WYRE_SECRET_KEY: ${{ secrets.REACT_APP_WYRE_SECRET_KEY }}
       - run: npx ipfs-deploy@8.0.1 ./build -p infura -p pinata -d cloudflare -O -C
         env:
           IPFS_DEPLOY_PINATA__API_KEY: ${{ secrets.PINATA_KEY }}
           IPFS_DEPLOY_PINATA__SECRET_API_KEY: ${{ secrets.PINATA_SECRET }}
           IPFS_DEPLOY_CLOUDFLARE__API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           IPFS_DEPLOY_CLOUDFLARE__ZONE: ${{ secrets.CF_ZONE }}
-          IPFS_DEPLOY_CLOUDFLARE__RECORD: ${{ secrets.CF_RECORD }}
+          IPFS_DEPLOY_CLOUDFLARE__RECORD: ${{ github.ref == 'refs/heads/master' && secrets.CF_RECORD || secrets.CF_BETA_RECORD }}

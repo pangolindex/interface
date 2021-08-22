@@ -15,6 +15,7 @@ import { useDelegateCallback } from '../../state/governance/hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { PNG } from '../../constants'
 import { LoadingView, SubmittedView } from '../ModalViews'
+import { useTranslation } from 'react-i18next'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -41,6 +42,7 @@ interface VoteModalProps {
 
 export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalProps) {
   const { account, chainId } = useActiveWeb3React()
+  const { t } = useTranslation()
 
   // state for delegate input
   const [usingDelegate, setUsingDelegate] = useState(false)
@@ -96,17 +98,15 @@ export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalPro
               <TYPE.mediumHeader fontWeight={500}>{title}</TYPE.mediumHeader>
               <StyledClosed stroke="black" onClick={wrappedOndismiss} />
             </RowBetween>
-            <TYPE.body>Earned PNG tokens represent voting shares in Pangolin governance.</TYPE.body>
-            <TYPE.body>
-              You can either vote on each proposal yourself or delegate your votes to a third party.
-            </TYPE.body>
+            <TYPE.body>{t('vote.earnedPng')}</TYPE.body>
+            <TYPE.body>{t('vote.canEitherVote')}</TYPE.body>
             {usingDelegate && <AddressInputPanel value={typed} onChange={handleRecipientType} />}
             <ButtonPrimary disabled={!isAddress(parsedAddress ?? '')} onClick={onDelegate}>
-              <TYPE.mediumHeader color="white">{usingDelegate ? 'Delegate Votes' : 'Self Delegate'}</TYPE.mediumHeader>
+              <TYPE.mediumHeader color="white">{usingDelegate ? t('vote.delegateVotes') : t('vote.selfDelegate')}</TYPE.mediumHeader>
             </ButtonPrimary>
             <TextButton onClick={() => setUsingDelegate(!usingDelegate)}>
               <TYPE.blue>
-                {usingDelegate ? 'Remove' : 'Add'} Delegate {!usingDelegate && '+'}
+                {usingDelegate ? t('vote.remove') : t('vote.add')} {t('vote.delegate')} {!usingDelegate && '+'}
               </TYPE.blue>
             </TextButton>
           </AutoColumn>
@@ -115,7 +115,7 @@ export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalPro
       {attempting && !hash && (
         <LoadingView onDismiss={wrappedOndismiss}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.largeHeader>{usingDelegate ? 'Delegating votes' : 'Unlocking Votes'}</TYPE.largeHeader>
+            <TYPE.largeHeader>{usingDelegate ? t('vote.delegatingVotes') : t('vote.unlockingVotes')}</TYPE.largeHeader>
             <TYPE.main fontSize={36}>{pngBalance?.toSignificant(4)}</TYPE.main>
           </AutoColumn>
         </LoadingView>
@@ -123,7 +123,7 @@ export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalPro
       {hash && (
         <SubmittedView onDismiss={wrappedOndismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.largeHeader>Transaction Submitted</TYPE.largeHeader>
+            <TYPE.largeHeader>{t('vote.transactionSubmitted')}</TYPE.largeHeader>
             <TYPE.main fontSize={36}>{pngBalance?.toSignificant(4)}</TYPE.main>
           </AutoColumn>
         </SubmittedView>

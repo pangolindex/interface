@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
-import { STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
+import { MIGRATIONS, STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
 import { TYPE, ExternalLink } from '../../theme'
 import PoolCard from '../../components/earn/PoolCard'
 import { RouteComponentProps, NavLink } from 'react-router-dom'
@@ -10,6 +10,9 @@ import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/
 import Loader from '../../components/Loader'
 import { useActiveWeb3React } from '../../hooks'
 import { JSBI } from '@pangolindex/sdk'
+import { useTranslation } from 'react-i18next'
+import { SearchInput } from '../../components/SearchModal/styleds'
+import useDebounce from '../../hooks/useDebounce'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -30,52 +33,88 @@ const PoolSection = styled.div`
   justify-self: center;
 `
 
+const DataRow = styled(RowBetween)`
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   flex-direction: column;
+ `};
+`
+
 export default function Earn({
   match: {
     params: { version }
   }
 }: RouteComponentProps<{ version: string }>) {
   const { chainId } = useActiveWeb3React()
+  const { t } = useTranslation()
   const stakingInfos = useStakingInfo(Number(version))
-  const [stakingInfoResults, setStakingInfoResults] = useState<any[]>()
+  const [poolCards, setPoolCards] = useState<any[]>()
+  const [filteredPoolCards, setFilteredPoolCards] = useState<any[]>()
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const debouncedSearchQuery = useDebounce(searchQuery, 250)
+
+  const stakingInfoV0 = useStakingInfo(Number(0))
+  const hasPositionV0 = stakingInfoV0?.some((stakingInfo) => stakingInfo.stakedAmount.greaterThan('0'))
+
+  const handleSearch = useCallback((event) => {
+    setSearchQuery(event.target.value.trim().toUpperCase())
+  }, [])
+
+  useEffect(() => {
+    const filtered = poolCards?.filter(card =>
+      card.props.stakingInfo.tokens[0].symbol.toUpperCase().includes(debouncedSearchQuery)
+      || card.props.stakingInfo.tokens[1].symbol.toUpperCase().includes(debouncedSearchQuery))
+    setFilteredPoolCards(filtered)
+  }, [poolCards, debouncedSearchQuery])
 
   useMemo(() => {
     Promise.all(
       stakingInfos
-        ?.sort(function(info_a, info_b) {
+        ?.filter(function(info) {
+          // Only include pools that are live or require a migration
+          return (!info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0)))
+        })
+        .sort(function(info_a, info_b) {
+          // only first has ended
+          if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
+          // only second has ended
+          if (!info_a.isPeriodFinished && info_b.isPeriodFinished) return -1
           // greater stake in avax comes first
           return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
         })
         .sort(function(info_a, info_b) {
-          if (info_a.stakedAmount.greaterThan(JSBI.BigInt(0))) {
-            if (info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
-              // both are being staked, so we keep the previous sorting
-              return 0
-            // the second is actually not at stake, so we should bring the first up
-            else return -1
-          } else {
-            if (info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
-              // first is not being staked, but second is, so we should bring the first down
-              return 1
-            // none are being staked, let's keep the  previous sorting
-            else return 0
-          }
+          // only the first is being staked, so we should bring the first up
+          if (info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && !info_b.stakedAmount.greaterThan(JSBI.BigInt(0))) return -1
+          // only the second is being staked, so we should bring the first down
+          if (!info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && info_b.stakedAmount.greaterThan(JSBI.BigInt(0))) return 1
+          return 0
+        })
+        .sort(function(info_a, info_b) {
+          // Bring pools that require migration to the top
+          const aCanMigrate = MIGRATIONS.find(migration => migration.from.stakingRewardAddress === info_a.stakingRewardAddress)?.to
+          const bCanMigrate = MIGRATIONS.find(migration => migration.from.stakingRewardAddress === info_b.stakingRewardAddress)?.to
+          if (aCanMigrate && !bCanMigrate) return -1;
+          if (!aCanMigrate && bCanMigrate) return 1;
+          return 0;
         })
         .map(stakingInfo => {
           return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
             .then(res => res.text())
             .then(res => ({ apr: res, ...stakingInfo }))
         })
-    ).then(results => {
-      setStakingInfoResults(results)
+    ).then(stakingInfos => {
+      const poolCards = stakingInfos
+        .map(stakingInfo => (
+          <PoolCard
+            apr={stakingInfo.apr}
+            key={stakingInfo.stakingRewardAddress}
+            stakingInfo={stakingInfo}
+            migration={MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to}
+            version={version}
+          />
+        ))
+      setPoolCards(poolCards)
     })
-  }, [stakingInfos?.length])
-
-  const DataRow = styled(RowBetween)`
-    ${({ theme }) => theme.mediaWidth.upToSmall`
-     flex-direction: column;
-   `};
-  `
+  }, [stakingInfos?.length, version])
 
   const stakingRewardsExist = Boolean(typeof chainId === 'number' && (STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0)
 
@@ -88,79 +127,66 @@ export default function Earn({
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
-                <TYPE.white fontWeight={600}>Pangolin liquidity mining</TYPE.white>
+                <TYPE.white fontWeight={600}>{t('earnPage.pangolinLiquidityMining')}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>
-                  Deposit your Pangolin Liquidity Provider PGL tokens to receive PNG, the Pangolin protocol governance
-                  token.
-                </TYPE.white>
+                <TYPE.white fontSize={14}>{t('earnPage.depositPangolinLiquidity')}</TYPE.white>
               </RowBetween>{' '}
               <ExternalLink
                 style={{ color: 'white', textDecoration: 'underline' }}
                 href="https://pangolin.exchange/litepaper"
                 target="_blank"
               >
-                <TYPE.white fontSize={14}>Read more about PNG</TYPE.white>
+                <TYPE.white fontSize={14}>{t('earnPage.readMoreAboutPng')}</TYPE.white>
               </ExternalLink>
             </AutoColumn>
           </CardSection>
           <CardBGImage />
           <CardNoise />
         </DataCard>
-        <DataCard>
-          <CardNoise />
-          <CardSection>
-            <AutoColumn gap="md">
-              <RowBetween>
-                <TYPE.white fontWeight={600}>IMPORTANT UPDATE</TYPE.white>
-              </RowBetween>
-              <RowBetween>
-                <TYPE.white fontSize={14}>
-                  As a result of Pangolin governance proposal 1, Pangolin is changing staking contracts! After
-                  approximately 08:59 UTC on 4/19, all staking rewards will be distributed to the new staking contracts.
-                  Before the switch, all rewards will still be distributed to the old contracts. To avoid interruptions
-                  to yield farming rewards, you need to unstake your liquidity from the old contracts and restake in the
-                  new contracts. You do not need to remove liquidity from your pools or alter your positions.
-                </TYPE.white>
-              </RowBetween>
-              <RowBetween>
-                <TYPE.white fontSize={14}>
-                  To unstake, go to the old pools, click manage and withdraw your PGL tokens. This will also claim any
-                  earned PNG. To restake, navigate to the new pools, click manage, and then deposit.
-                </TYPE.white>
-              </RowBetween>{' '}
-              <NavLink style={{ color: 'white', textDecoration: 'underline' }} to="/png/0" target="_blank">
-                <TYPE.white fontSize={14}>Old PNG pools</TYPE.white>
-              </NavLink>
-              <NavLink style={{ color: 'white', textDecoration: 'underline' }} to="/png/1" target="_blank">
-                <TYPE.white fontSize={14}>New PNG pools</TYPE.white>
-              </NavLink>
-            </AutoColumn>
-          </CardSection>
-        </DataCard>
+        {(hasPositionV0 || version === '0') && (
+          <DataCard>
+            <CardNoise />
+            <CardSection>
+              <AutoColumn gap="md">
+                <RowBetween>
+                  <TYPE.white fontWeight={600}>{t('earnPage.importantUpdate')}</TYPE.white>
+                </RowBetween>
+                <RowBetween>
+                  <TYPE.white fontSize={14}>{t('earnPage.pangolinGovernanceProposalResult')}</TYPE.white>
+                </RowBetween>
+                {version !== '0' && (
+                  <NavLink style={{ color: 'white', textDecoration: 'underline' }} to='/png/0'>
+                    <TYPE.white fontSize={14}>{t('earnPage.oldPngPools')}</TYPE.white>
+                  </NavLink>
+                )}
+              </AutoColumn>
+            </CardSection>
+          </DataCard>
+        )}
       </TopSection>
 
       <AutoColumn gap="lg" style={{ width: '100%', maxWidth: '720px' }}>
         <DataRow style={{ alignItems: 'baseline' }}>
-          <TYPE.mediumHeader style={{ marginTop: '0.5rem' }}>Participating pools</TYPE.mediumHeader>
-          <TYPE.black fontWeight={400}>The Rewards Never End!</TYPE.black>
+          <TYPE.mediumHeader style={{ marginTop: '0.5rem' }}>{t('earnPage.participatingPools')}</TYPE.mediumHeader>
         </DataRow>
 
         <PoolSection>
           {stakingRewardsExist && stakingInfos?.length === 0 ? (
             <Loader style={{ margin: 'auto' }} />
-          ) : !stakingRewardsExist ? (
-            'No active rewards'
+          ) : !stakingRewardsExist || poolCards?.length === 0 ? (
+            t('earnPage.noActiveRewards')
           ) : (
-            stakingInfoResults?.map(stakingInfo => (
-              <PoolCard
-                apr={stakingInfo.apr}
-                key={stakingInfo.stakingRewardAddress}
-                stakingInfo={stakingInfo}
-                version={version}
+            <>
+              <SearchInput
+                type="text"
+                id="token-search-input"
+                placeholder={t('searchModal.tokenName')}
+                value={searchQuery}
+                onChange={handleSearch}
               />
-            ))
+              {filteredPoolCards}
+            </>
           )}
         </PoolSection>
       </AutoColumn>

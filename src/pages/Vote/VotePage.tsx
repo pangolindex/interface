@@ -18,6 +18,7 @@ import { useTokenBalance } from '../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { PNG, ZERO_ADDRESS } from '../../constants'
 import { isAddress, getEtherscanLink } from '../../utils'
+import { useTranslation } from 'react-i18next'
 
 const PageWrapper = styled(AutoColumn)`
   width: 100%;
@@ -98,6 +99,7 @@ export default function VotePage({
   }
 }: RouteComponentProps<{ id: string }>) {
   const { account, chainId } = useActiveWeb3React()
+  const { t } = useTranslation()
 
   // get data for this specific proposal
   const proposalData: ProposalData | undefined = useProposalData(id)
@@ -112,12 +114,8 @@ export default function VotePage({
   // const startTimestamp: number | undefined = useTimestampFromBlock(proposalData?.startBlock)
   const startTimestamp: number | undefined = proposalData?.startTime
   const endTimestamp: number | undefined = proposalData?.endTime
-  const startDate: DateTime | undefined = startTimestamp
-    ? DateTime.fromSeconds(startTimestamp)
-    : undefined
-  const endDate: DateTime | undefined = endTimestamp
-    ? DateTime.fromSeconds(endTimestamp)
-    : undefined
+  const startDate: DateTime | undefined = startTimestamp ? DateTime.fromSeconds(startTimestamp) : undefined
+  const endDate: DateTime | undefined = endTimestamp ? DateTime.fromSeconds(endTimestamp) : undefined
   const now: DateTime = DateTime.local()
 
   // get total votes and format percentages for UI
@@ -154,7 +152,7 @@ export default function VotePage({
       <ProposalInfo gap="lg" justify="start">
         <RowBetween style={{ width: '100%' }}>
           <ArrowWrapper to="/vote">
-            <ArrowLeft size={20} /> All Proposals
+            <ArrowLeft size={20} /> {t('votePage.allProposals')}
           </ArrowWrapper>
           {proposalData && <ProposalStatus status={proposalData?.status ?? ''}>{proposalData?.status}</ProposalStatus>}
         </RowBetween>
@@ -163,18 +161,18 @@ export default function VotePage({
           <RowBetween>
             <TYPE.main>
               {startDate && startDate <= now
-                ? 'Voting started ' + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
+                ? t('votePage.votingStarted') + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
                 : proposalData
-                ? 'Voting starts ' + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
+                ? t('votePage.votingStarts') + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
                 : ''}
             </TYPE.main>
           </RowBetween>
           <RowBetween>
             <TYPE.main>
               {endDate && endDate < now
-                ? 'Voting ended ' + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
+                ? t('votePage.votingEnded') + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
                 : proposalData
-                ? 'Voting ends ' + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
+                ? t('votePage.votingEnds') + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
                 : ''}
             </TYPE.main>
           </RowBetween>
@@ -195,7 +193,7 @@ export default function VotePage({
                 setShowModal(true)
               }}
             >
-              Vote For
+              {t('votePage.voteFor')}
             </ButtonPrimary>
             <ButtonPrimary
               padding="8px"
@@ -205,7 +203,7 @@ export default function VotePage({
                 setShowModal(true)
               }}
             >
-              Vote Against
+              {t('votePage.voteAgainst')}
             </ButtonPrimary>
           </RowFixed>
         ) : (
@@ -216,7 +214,7 @@ export default function VotePage({
             <CardSection>
               <AutoColumn gap="md">
                 <WrapSmall>
-                  <TYPE.black fontWeight={600}>For</TYPE.black>
+                  <TYPE.black fontWeight={600}>{t('votePage.for')}</TYPE.black>
                   <TYPE.black fontWeight={600}>
                     {' '}
                     {proposalData?.forCount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
@@ -232,7 +230,7 @@ export default function VotePage({
             <CardSection>
               <AutoColumn gap="md">
                 <WrapSmall>
-                  <TYPE.black fontWeight={600}>Against</TYPE.black>
+                  <TYPE.black fontWeight={600}>{t('votePage.against')}</TYPE.black>
                   <TYPE.black fontWeight={600}>
                     {proposalData?.againstCount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </TYPE.black>
@@ -245,7 +243,7 @@ export default function VotePage({
           </StyledDataCard>
         </CardWrapper>
         <AutoColumn gap="md">
-          <TYPE.mediumHeader fontWeight={600}>Details</TYPE.mediumHeader>
+          <TYPE.mediumHeader fontWeight={600}>{t('votePage.details')}</TYPE.mediumHeader>
           {proposalData?.details?.map((d, i) => {
             return (
               <DetailText key={i}>
@@ -264,13 +262,13 @@ export default function VotePage({
           })}
         </AutoColumn>
         <AutoColumn gap="md">
-          <TYPE.mediumHeader fontWeight={600}>Overview</TYPE.mediumHeader>
+          <TYPE.mediumHeader fontWeight={600}>{t('votePage.overview')}</TYPE.mediumHeader>
           <MarkDownWrapper>
             <ReactMarkdown source={proposalData?.description} />
           </MarkDownWrapper>
         </AutoColumn>
         <AutoColumn gap="md">
-          <TYPE.mediumHeader fontWeight={600}>Proposer</TYPE.mediumHeader>
+          <TYPE.mediumHeader fontWeight={600}>{t('votePage.proposer')}</TYPE.mediumHeader>
           <ExternalLink
             href={proposalData?.proposer && chainId ? getEtherscanLink(chainId, proposalData?.proposer, 'address') : ''}
           >

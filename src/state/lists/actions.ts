@@ -1,5 +1,5 @@
 import { ActionCreatorWithPayload, createAction } from '@reduxjs/toolkit'
-import { TokenList, Version } from '@uniswap/token-lists'
+import { TokenList, Version } from '@pangolindex/token-lists'
 
 export const fetchTokenList: Readonly<{
   pending: ActionCreatorWithPayload<{ url: string; requestId: string }>
@@ -14,5 +14,5 @@ export const fetchTokenList: Readonly<{
 export const acceptListUpdate = createAction<string>('lists/acceptListUpdate')
 export const addList = createAction<string>('lists/addList')
 export const removeList = createAction<string>('lists/removeList')
-export const selectList = createAction<string>('lists/selectList')
+export const selectList = createAction<{ url: string; shouldSelect: boolean }>('lists/selectList')
 export const rejectVersionUpdate = createAction<Version>('lists/rejectVersionUpdate')

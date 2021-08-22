@@ -142,15 +142,15 @@ export function CurrencySearch({
       <PaddedColumn gap="14px">
         <RowBetween>
           <Text fontWeight={500} fontSize={16}>
-            Select a token
-            <QuestionHelper text="Find a token by searching for its name or symbol or by pasting its address below." />
+            {t('searchModal.selectToken')}
+            <QuestionHelper text={t('searchModal.findToken')} />
           </Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
         <SearchInput
           type="text"
           id="token-search-input"
-          placeholder={t('tokenSearchPlaceholder')}
+          placeholder={t('searchModal.tokenSearchPlaceholder')}
           value={searchQuery}
           ref={inputRef as RefObject<HTMLInputElement>}
           onChange={handleInput}
@@ -161,7 +161,7 @@ export function CurrencySearch({
         )}
         <RowBetween>
           <Text fontSize={14} fontWeight={500}>
-            Token Name
+            {t('searchModal.tokenName')}
           </Text>
           <SortButton ascending={invertSearchOrder} toggleSortOrder={() => setInvertSearchOrder(iso => !iso)} />
         </RowBetween>
@@ -187,27 +187,37 @@ export function CurrencySearch({
 
       <Separator />
       <Card>
-        <RowBetween>
-          {selectedListInfo.current ? (
-            <Row>
-              {selectedListInfo.current.logoURI ? (
-                <ListLogo
-                  style={{ marginRight: 12 }}
-                  logoURI={selectedListInfo.current.logoURI}
-                  alt={`${selectedListInfo.current.name} list logo`}
-                />
-              ) : null}
-              <TYPE.main id="currency-search-selected-list-name">{selectedListInfo.current.name}</TYPE.main>
-            </Row>
-          ) : null}
+        {selectedListInfo.multipleSelected ? (
           <LinkStyledButton
-            style={{ fontWeight: 500, color: theme.text2, fontSize: 16 }}
+            style={{ fontWeight: 500, color: theme.text2, fontSize: 16, textAlign: 'center', width: '100%' }}
             onClick={onChangeList}
             id="currency-search-change-list-button"
           >
-            {selectedListInfo.current ? 'Change' : 'Select a list'}
+            {t('searchModal.manageTokenLists')}
           </LinkStyledButton>
-        </RowBetween>
+        ) : (
+          <RowBetween>
+            {selectedListInfo.current ? (
+              <Row>
+                {selectedListInfo.current.logoURI ? (
+                  <ListLogo
+                    style={{ marginRight: 12 }}
+                    logoURI={selectedListInfo.current.logoURI}
+                    alt={`${selectedListInfo.current.name} list logo`}
+                  />
+                ) : null}
+                <TYPE.main id="currency-search-selected-list-name">{selectedListInfo.current.name}</TYPE.main>
+              </Row>
+            ) : null}
+            <LinkStyledButton
+              style={{ fontWeight: 500, color: theme.text2, fontSize: 16 }}
+              onClick={onChangeList}
+              id="currency-search-change-list-button"
+            >
+              {selectedListInfo.current ? t('searchModal.change') : t('searchModal.selectList')}
+            </LinkStyledButton>
+          </RowBetween>
+        )}
       </Card>
     </Column>
   )

@@ -10,6 +10,7 @@ import { AppDispatch, AppState } from '../index'
 import { tryParseAmount } from '../swap/hooks'
 import { useCurrencyBalances } from '../wallet/hooks'
 import { Field, typeInput } from './actions'
+import { useTranslation } from 'react-i18next'
 
 const ZERO = JSBI.BigInt(0)
 
@@ -34,6 +35,7 @@ export function useDerivedMintInfo(
   error?: string
 } {
   const { account, chainId } = useActiveWeb3React()
+  const { t } = useTranslation()
 
   const { independentField, typedValue, otherTypedValue } = useMintState()
 
@@ -147,29 +149,29 @@ export function useDerivedMintInfo(
 
   let error: string | undefined
   if (!account) {
-    error = 'Connect Wallet'
+    error = t('mintHooks.connectWallet')
   }
 
   if (insufficientInput) {
-    error = 'Insufficient input amount'
+    error = t('mintHooks.insufficientInputAmount')
   }
 
   if (pairState === PairState.INVALID) {
-    error = error ?? 'Invalid pair'
+    error = error ?? t('mintHooks.invalidPair')
   }
 
   if (!parsedAmounts[Field.CURRENCY_A] || !parsedAmounts[Field.CURRENCY_B]) {
-    error = error ?? 'Enter an amount'
+    error = error ?? t('mintHooks.enterAmount')
   }
 
   const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts
 
   if (currencyAAmount && currencyBalances?.[Field.CURRENCY_A]?.lessThan(currencyAAmount)) {
-    error = 'Insufficient ' + currencies[Field.CURRENCY_A]?.symbol + ' balance'
+    error = t('mintHooks.insufficient') + currencies[Field.CURRENCY_A]?.symbol + t('mintHooks.balance')
   }
 
   if (currencyBAmount && currencyBalances?.[Field.CURRENCY_B]?.lessThan(currencyBAmount)) {
-    error = 'Insufficient ' + currencies[Field.CURRENCY_B]?.symbol + ' balance'
+    error = t('mintHooks.insufficient') + currencies[Field.CURRENCY_B]?.symbol + t('mintHooks.balance')
   }
 
   return {

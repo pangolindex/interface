@@ -12,6 +12,7 @@ import { AutoRow, RowBetween } from '../Row'
 import { AutoColumn } from '../Column'
 import { AlertTriangle } from 'react-feather'
 import { ButtonError } from '../Button'
+import { useTranslation } from 'react-i18next'
 
 const Wrapper = styled.div<{ error: boolean }>`
   background: ${({ theme }) => transparentize(0.6, theme.bg3)};
@@ -44,6 +45,7 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
   const tokenName = token?.name?.toLowerCase() ?? ''
 
   const allTokens = useAllTokens()
+  const { t } = useTranslation()
 
   const duplicateNameOrSymbol = useMemo(() => {
     if (!token || !chainId) return false
@@ -74,7 +76,7 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
           </TYPE.main>
           {chainId && (
             <ExternalLink style={{ fontWeight: 400 }} href={getEtherscanLink(chainId, token.address, 'token')}>
-              <TYPE.blue title={token.address}>{shortenAddress(token.address)} (View on the C-Chain Explorer)</TYPE.blue>
+              <TYPE.blue title={token.address}>{shortenAddress(token.address)} ({t('tokenWarningModal.viewExplorer')})</TYPE.blue>
             </ExternalLink>
           )}
         </AutoColumn>
@@ -96,24 +98,23 @@ export default function TokenWarningModal({
   const toggleUnderstand = useCallback(() => setUnderstandChecked(uc => !uc), [])
 
   const handleDismiss = useCallback(() => null, [])
+  const { t } = useTranslation()
   return (
     <Modal isOpen={isOpen} onDismiss={handleDismiss} maxHeight={90}>
       <WarningContainer className="token-warning-container">
         <AutoColumn gap="lg">
           <AutoRow gap="6px">
             <StyledWarningIcon />
-            <TYPE.main color={'red2'}>Token imported</TYPE.main>
+            <TYPE.main color={'red2'}>{t('tokenWarningModal.tokenImported')}</TYPE.main>
           </AutoRow>
           <TYPE.body color={'red2'}>
-            Anyone can create an ERC-20 token on Avalanche with <em>any</em> name, including creating fake versions of
-            existing tokens and tokens that claim to represent projects that do not have a token.
+            {t('tokenWarningModal.anyoneCanCreateWarning')}
           </TYPE.body>
           <TYPE.body color={'red2'}>
-            This interface can load arbitrary tokens by token addresses. Please take extra caution and do your research
-            when interacting with arbitrary ERC-20 tokens.
+            {t('tokenWarningModal.loadArbitraryWarning')}
           </TYPE.body>
           <TYPE.body color={'red2'}>
-            If you purchase an arbitrary token, <strong>you may be unable to sell it back.</strong>
+            {t('tokenWarningModal.purchaseArbitraryWarning')}
           </TYPE.body>
           {tokens.map(token => {
             return <TokenWarningCard key={token.address} token={token} />
@@ -127,7 +128,7 @@ export default function TokenWarningModal({
                   checked={understandChecked}
                   onChange={toggleUnderstand}
                 />{' '}
-                I understand
+                {t('tokenWarningModal.understand')}
               </label>
             </div>
             <ButtonError
@@ -143,7 +144,7 @@ export default function TokenWarningModal({
                 onConfirm()
               }}
             >
-              <TYPE.body color="white">Continue</TYPE.body>
+              <TYPE.body color="white">{t('tokenWarningModal.continue')}</TYPE.body>
             </ButtonError>
           </RowBetween>
         </AutoColumn>
