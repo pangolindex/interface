@@ -143,7 +143,8 @@
     "updateList": "Update list",
     "removeList": "Remove list",
     "selected": "Selected",
-    "select": "Select"
+    "select": "Select",
+    "manageTokenLists": "Manage Token Lists"
   },
   "settings":
   {

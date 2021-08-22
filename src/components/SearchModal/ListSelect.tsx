@@ -17,7 +17,7 @@ import { CloseIcon, ExternalLink, LinkStyledButton, TYPE } from '../../theme'
 import listVersionLabel from '../../utils/listVersionLabel'
 import { parseENSAddress } from '../../utils/parseENSAddress'
 import uriToHttp from '../../utils/uriToHttp'
-import { ButtonOutlined, ButtonPrimary, ButtonSecondary } from '../Button'
+import { ButtonOutlined, ButtonSecondary } from '../Button'
 
 import Column from '../Column'
 import ListLogo from '../ListLogo'
@@ -25,6 +25,7 @@ import QuestionHelper from '../QuestionHelper'
 import Row, { RowBetween } from '../Row'
 import { PaddedColumn, SearchInput, Separator, SeparatorDark } from './styleds'
 import { useTranslation } from 'react-i18next'
+import Toggle from '../../components/Toggle'
 
 const UnpaddedLinkStyledButton = styled(LinkStyledButton)`
   padding: 0;
@@ -98,7 +99,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
   const dispatch = useDispatch<AppDispatch>()
   const { current: list, pendingUpdate: pending } = listsByUrl[listUrl]
 
-  const isSelected = listUrl === selectedListUrl
+  const isSelected = (selectedListUrl || []).includes(listUrl)
 
   const [open, toggle] = useToggle(false)
   const node = useRef<HTMLDivElement>()
@@ -114,15 +115,13 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
   useOnClickOutside(node, open ? toggle : undefined)
 
   const selectThisList = useCallback(() => {
-    if (isSelected) return
     ReactGA.event({
       category: 'Lists',
       action: 'Select List',
       label: listUrl
     })
 
-    dispatch(selectList(listUrl))
-    onBack()
+    dispatch(selectList({ url: listUrl, shouldSelect: !isSelected }))
   }, [dispatch, isSelected, listUrl, onBack])
 
   const handleAcceptListUpdate = useCallback(() => {
@@ -199,41 +198,22 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
           <PopoverContainer show={true} ref={setPopperElement as any} style={styles.popper} {...attributes.popper}>
             <div>{list && listVersionLabel(list.version)}</div>
             <SeparatorDark />
-            <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>{t('searchModal.viewList')}</ExternalLink>
+            <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>
+              {t('searchModal.viewList')}
+            </ExternalLink>
             <UnpaddedLinkStyledButton onClick={handleRemoveList} disabled={Object.keys(listsByUrl).length === 1}>
               {t('searchModal.removeList')}
             </UnpaddedLinkStyledButton>
             {pending && (
-              <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>{t('searchModal.updateList')}</UnpaddedLinkStyledButton>
+              <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>
+                {t('searchModal.updateList')}
+              </UnpaddedLinkStyledButton>
             )}
           </PopoverContainer>
         )}
       </StyledMenu>
-      {isSelected ? (
-        <ButtonPrimary
-          disabled={true}
-          className="select-button"
-          style={{ width: '5rem', minWidth: '5rem', padding: '0.5rem .35rem', borderRadius: '12px', fontSize: '14px' }}
-        >
-          {t('searchModal.selected')}
-        </ButtonPrimary>
-      ) : (
-        <>
-          <ButtonPrimary
-            className="select-button"
-            style={{
-              width: '5rem',
-              minWidth: '4.5rem',
-              padding: '0.5rem .35rem',
-              borderRadius: '12px',
-              fontSize: '14px'
-            }}
-            onClick={selectThisList}
-          >
-            {t('searchModal.select')}
-          </ButtonPrimary>
-        </>
-      )}
+
+      <Toggle id="toggle-expert-mode-button" isActive={isSelected} toggle={selectThisList} />
     </Row>
   )
 })
