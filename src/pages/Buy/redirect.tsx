@@ -3,26 +3,19 @@ import {
   WYRE_API_KEY,
   WYRE_ID,
   WYRE_RESERVE_API_ENDPOINT,
-  WYRE_SECRET_KEY,
-  WYRE_API_URL
+  WYRE_API_URL,
+  WYRE_CALLBACK_URL
 } from '../../constants'
-import CryptoJS from 'crypto-js'
+import {signature} from '../../state/wyre/hooks'
 
 export const redirectToWyre = async (data: any): Promise<boolean> => {
   const body = {
     ...data,
     referrerAccountId: WYRE_ID,
     destCurrency: "AVAX",
+    redirectUrl: WYRE_CALLBACK_URL,
     hideTrackBtn: true,
     country: getCountry()
-  }
-
-  // Signature Calculation using Crypto-js
-  const signature = (url: string, data:string) => {
-    const dataToSign = url + data;
-    // @ts-ignore
-    const token = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(dataToSign.toString(CryptoJS.enc.Utf8), WYRE_SECRET_KEY));
-    return token;
   }
 
   const timestamp = new Date().getTime();
