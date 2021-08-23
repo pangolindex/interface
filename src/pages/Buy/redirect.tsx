@@ -3,7 +3,8 @@ import {
   WYRE_API_KEY,
   WYRE_ID,
   WYRE_RESERVE_API_ENDPOINT,
-  WYRE_API_URL
+  WYRE_API_URL,
+  WYRE_CALLBACK_URL
 } from '../../constants'
 import {signature} from '../../state/wyre/hooks'
 
@@ -12,6 +13,7 @@ export const redirectToWyre = async (data: any): Promise<boolean> => {
     ...data,
     referrerAccountId: WYRE_ID,
     destCurrency: "AVAX",
+    redirectUrl: WYRE_CALLBACK_URL,
     hideTrackBtn: true,
     country: getCountry()
   }
