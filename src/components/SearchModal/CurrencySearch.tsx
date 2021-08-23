@@ -187,27 +187,37 @@ export function CurrencySearch({
 
       <Separator />
       <Card>
-        <RowBetween>
-          {selectedListInfo.current ? (
-            <Row>
-              {selectedListInfo.current.logoURI ? (
-                <ListLogo
-                  style={{ marginRight: 12 }}
-                  logoURI={selectedListInfo.current.logoURI}
-                  alt={`${selectedListInfo.current.name} list logo`}
-                />
-              ) : null}
-              <TYPE.main id="currency-search-selected-list-name">{selectedListInfo.current.name}</TYPE.main>
-            </Row>
-          ) : null}
+        {selectedListInfo.multipleSelected ? (
           <LinkStyledButton
-            style={{ fontWeight: 500, color: theme.text2, fontSize: 16 }}
+            style={{ fontWeight: 500, color: theme.text2, fontSize: 16, textAlign: 'center', width: '100%' }}
             onClick={onChangeList}
             id="currency-search-change-list-button"
           >
-            {selectedListInfo.current ? t('searchModal.change') : t('searchModal.selectList')}
+            {t('searchModal.manageTokenLists')}
           </LinkStyledButton>
-        </RowBetween>
+        ) : (
+          <RowBetween>
+            {selectedListInfo.current ? (
+              <Row>
+                {selectedListInfo.current.logoURI ? (
+                  <ListLogo
+                    style={{ marginRight: 12 }}
+                    logoURI={selectedListInfo.current.logoURI}
+                    alt={`${selectedListInfo.current.name} list logo`}
+                  />
+                ) : null}
+                <TYPE.main id="currency-search-selected-list-name">{selectedListInfo.current.name}</TYPE.main>
+              </Row>
+            ) : null}
+            <LinkStyledButton
+              style={{ fontWeight: 500, color: theme.text2, fontSize: 16 }}
+              onClick={onChangeList}
+              id="currency-search-change-list-button"
+            >
+              {selectedListInfo.current ? t('searchModal.change') : t('searchModal.selectList')}
+            </LinkStyledButton>
+          </RowBetween>
+        )}
       </Card>
     </Column>
   )

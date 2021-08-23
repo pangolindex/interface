@@ -40,6 +40,7 @@ const listCache: WeakMap<TokenList, TokenAddressMap> | null =
 
 export function listToTokenMap(list: TokenList): TokenAddressMap {
   const result = listCache?.get(list)
+
   if (result) return result
 
   const map = list.tokens.reduce<TokenAddressMap>(
@@ -67,37 +68,57 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
   return map
 }
 
-export function useTokenList(url: string | undefined): TokenAddressMap {
+export function useTokenList(urls: string[] | undefined): TokenAddressMap {
   const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
+
+  let tokenList = {} as { [chainId: string]: { [tokenAddress: string]: WrappedTokenInfo } }
   return useMemo(() => {
-    if (!url) return EMPTY_LIST
-    const current = lists[url]?.current
-    if (!current) return EMPTY_LIST
-    try {
-      return listToTokenMap(current)
-    } catch (error) {
-      console.error('Could not show token list due to error', error)
-      return EMPTY_LIST
-    }
-  }, [lists, url])
+    ;([] as string[]).concat(urls || []).forEach(url => {
+      const current = lists[url]?.current
+      if (url && current) {
+        try {
+          const data = listToTokenMap(current)
+          for (const [chainId, tokens] of Object.entries(data)) {
+            tokenList[chainId] = tokenList[chainId] || {}
+            tokenList[chainId] = {
+              ...tokenList[chainId],
+              ...tokens
+            }
+          }
+        } catch (error) {
+          console.error('Could not show token list due to error', error)
+        }
+      }
+    })
+    return tokenList as TokenAddressMap
+  }, [lists, urls])
 }
 
-export function useSelectedListUrl(): string | undefined {
-  return useSelector<AppState, AppState['lists']['selectedListUrl']>(state => state.lists.selectedListUrl)
+export function useSelectedListUrl(): string[] | undefined {
+  return useSelector<AppState, AppState['lists']['selectedListUrl']>(state =>
+    ([] as string[]).concat(state?.lists?.selectedListUrl || [])
+  )
 }
 
 export function useSelectedTokenList(): TokenAddressMap {
   return useTokenList(useSelectedListUrl())
 }
 
-export function useSelectedListInfo(): { current: TokenList | null; pending: TokenList | null; loading: boolean } {
-  const selectedUrl = useSelectedListUrl()
+export function useSelectedListInfo(): {
+  current: TokenList | null
+  pending: TokenList | null
+  loading: boolean
+  multipleSelected: boolean
+} {
+  const selectedListUrl = useSelectedListUrl()
+  const firstSelectedUrl = (selectedListUrl || [])?.[0]
   const listsByUrl = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
-  const list = selectedUrl ? listsByUrl[selectedUrl] : undefined
+  const list = firstSelectedUrl ? listsByUrl[firstSelectedUrl] : undefined
   return {
     current: list?.current ?? null,
     pending: list?.pendingUpdate ?? null,
-    loading: list?.loadingRequestId !== null
+    loading: list?.loadingRequestId !== null,
+    multipleSelected: (selectedListUrl || [])?.length > 1
   }
 }
 
