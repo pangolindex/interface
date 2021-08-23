@@ -37,8 +37,10 @@ export const walletconnect = new WalletConnectConnector({
   supportedChainIds: [43113, 43114],
   rpc: {
     [43113]: TEST_NETWORK_URL,
-    [43114]: NETWORK_URL
+    [43114]: NETWORK_URL,
   },
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
+  pollingInterval: 15000,
+  chainId: 43114
 })
