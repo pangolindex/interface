@@ -43,7 +43,8 @@ const pinDirectoryToIPFS = (pinataApiKey, pinataSecretApiKey) => {
       name: 'png-interface-'+shortsha,
       keyvalues: {
         commit: shortsha,
-        branch: branch
+        branch: branch,
+        time: new Date()
       }
     });
     data.append('pinataMetadata', metadata);
