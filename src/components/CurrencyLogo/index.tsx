@@ -10,7 +10,7 @@ import Logo from '../Logo'
 const getTokenLogoURL = (address: string) =>
   `https://raw.githubusercontent.com/pangolindex/tokens/main/assets/${address}/logo.png`
 
-const StyledEthereumLogo = styled.img<{ size: string }>`
+export const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.075);
