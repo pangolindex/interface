@@ -65,7 +65,7 @@ export default function Buy() {
               <AutoColumn gap="10px">
                 <OutlineCard>
                 <TYPE.link fontSize={14} fontWeight={500} color={'primaryText2'}>
-                  Buy AVAX with fiat from our partner Sendwyre.<br/>
+                  Buy AVAX with fiat from our partner Wyre.<br/>
                   Pangolin does not store your purchase history or any personal data.
                 </TYPE.link>
                 </OutlineCard>
@@ -77,7 +77,7 @@ export default function Buy() {
             <TextInput type="text" name="lastName" placeholder="Last name" validators={[minLengthValidator]} onError={setFieldError}></TextInput>
             <TextInput type="text" name="email" placeholder="Email" validators={[emailValidator, minLengthValidator]} onError={setFieldError}></TextInput>
             <FiatInputPanel fiat={fiat} value={amount} onUserInput={setAmount} onFiatSelect={setFiat} id="fiatPanel"/>
-            {formError ? <TYPE.error title={'Error'} error>An error occurred while submitting the data to Sendwyre</TYPE.error> : null}
+            {formError ? <TYPE.error title={'Error'} error>An error occurred while submitting the data to Wyre</TYPE.error> : null}
             <ButtonPrimary type="submit" style={{ margin: '20px 0 0 0' }} disabled={!ableToBuy}>
               Buy AVAX
             </ButtonPrimary>
