@@ -62,7 +62,7 @@ export function useQuoteRequest(account: string | null | undefined, amount: stri
           dispatch(updateQuote({quote: false}))
         }
       } catch (error) {
-        console.debug('Failed to fetch quote from Sendwyre', error)
+        console.debug('Failed to fetch quote from Wyre', error)
         dispatch(updateQuote({quote: false}))
       }
     }

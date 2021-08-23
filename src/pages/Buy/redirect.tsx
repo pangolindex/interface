@@ -37,7 +37,7 @@ export const redirectToWyre = async (data: any): Promise<boolean> => {
       if (responseBody.url) {
         window.open(responseBody.url, '_self')
       } else {
-        console.debug("No URL returned by Sendwyre")
+        console.debug("No URL returned by Wyre")
         return false
       }
     } else {
@@ -46,7 +46,7 @@ export const redirectToWyre = async (data: any): Promise<boolean> => {
     }
     return true
   } catch (error) {
-    console.debug('Failed to fetch quote from Sendwyre', error)
+    console.debug('Failed to fetch quote from Wyre', error)
     return false
   }
 }
