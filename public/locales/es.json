@@ -15,7 +15,8 @@
     "totalSupply": "Suministro total",
     "makeSureURLWarning": "Asegúrese de que el URL es",
     "alwaysMakeSureWarning": "Asegúrese siempre de que la URL sea",
-    "bookmarkIt": "marcarla para estar seguro."
+    "bookmarkIt": "marcarla para estar seguro.",
+    "addmetamask": "Agregar PNG a MetaMask"
   },
   "accountDetails": {
     "connectedWith": "Connectado con ",
