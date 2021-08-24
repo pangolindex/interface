@@ -33,6 +33,7 @@ import {
   DYP,
   QI,
   WALBT,
+  HUSKY,
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -317,6 +318,11 @@ const STAKING: {
     stakingRewardAddress: '0xa296F9474e77aE21f90afb50713F44Cc6916FbB2',
     version: 1
   },
+  WAVAX_HUSKY_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], HUSKY[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
 
   PNG_ETH_V1: {
     tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
@@ -471,6 +477,11 @@ const STAKING: {
   PNG_WALBT_V1: {
     tokens: [PNG[ChainId.AVALANCHE], WALBT[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x393fe4bc29AfbB3786D99f043933c49097449fA1',
+    version: 1
+  },
+  PNG_HUSKY_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], HUSKY[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
     version: 1
   },
 }
