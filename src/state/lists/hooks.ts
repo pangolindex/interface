@@ -3,6 +3,7 @@ import { Tags, TokenInfo, TokenList } from '@pangolindex/token-lists'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { AppState } from '../index'
+import { AEB_TOKENLIST } from '../../constants/lists'
 
 type TagDetails = Tags[keyof Tags]
 export interface TagInfo extends TagDetails {
@@ -133,4 +134,22 @@ export function useAllLists(): TokenList[] {
         .filter((l): l is TokenList => Boolean(l)),
     [lists]
   )
+}
+
+export function useIsSelectedAEBTokenList(): Boolean {
+  const selectedListUrl = useSelectedListUrl()
+  const isSelected = (selectedListUrl || []).includes(AEB_TOKENLIST)
+  return isSelected
+}
+
+export function useCheckAEBToken(): Boolean {
+  const listsByUrl = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
+
+  const allAEBTokens = listsByUrl[AEB_TOKENLIST]?.current?.tokens || []
+
+  const selectedOutputToken = useSelector<AppState, AppState['swap']['OUTPUT']>(state => state.swap.OUTPUT)
+
+  const aebToken = allAEBTokens.find(token => token?.address === selectedOutputToken?.currencyId)
+
+  return !!aebToken
 }
