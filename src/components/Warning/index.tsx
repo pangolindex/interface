@@ -11,7 +11,6 @@ const WarningWrapper = styled.div`
   background: rgba(248, 45, 58, 0.05);
   padding: 1rem;
   color: #f82d3a;
-  margin: 0 0 2rem 0;
   position: relative;
   @media screen and (max-width: 800px) {
     width: 80% !important;

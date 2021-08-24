@@ -150,6 +150,7 @@ export function useCheckAEBToken(): Boolean {
   const selectedOutputToken = useSelector<AppState, AppState['swap']['OUTPUT']>(state => state.swap.OUTPUT)
 
   const aebToken = allAEBTokens.find(token => token?.address === selectedOutputToken?.currencyId)
-
+  // ignore PNG and WAVAX token
+  if (aebToken?.symbol === 'PNG' || aebToken?.symbol === 'WAVAX') return false
   return !!aebToken
 }

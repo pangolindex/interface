@@ -59,6 +59,7 @@ const VeloxLink = styled.a`
 const WarningWrapper = styled.div`
   max-width: 420px;
   width: 100%;
+  margin: 0 0 2rem 0;
 `
 
 export default function Swap() {
