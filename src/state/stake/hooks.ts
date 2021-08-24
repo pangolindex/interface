@@ -700,14 +700,10 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
         !balanceState?.loading &&
         !earnedAmountState?.loading &&
         // always need these
-        stakingTotalSupplyState &&
-        !stakingTotalSupplyState.loading &&
-        rewardRateState &&
-        !rewardRateState.loading &&
-        periodFinishState &&
-        !periodFinishState.loading &&
-        pairTotalSupplyState &&
-        !pairTotalSupplyState.loading &&
+        stakingTotalSupplyState?.loading === false &&
+        rewardRateState?.loading === false &&
+        periodFinishState?.loading === false &&
+        pairTotalSupplyState?.loading === false &&
         pair &&
         avaxPngPair &&
         pairState !== PairState.LOADING &&
