@@ -706,7 +706,8 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
         !rewardRateState.loading &&
         periodFinishState &&
         !periodFinishState.loading &&
-        !pairTotalSupplyState?.loading &&
+        pairTotalSupplyState &&
+        !pairTotalSupplyState.loading &&
         pair &&
         avaxPngPair &&
         pairState !== PairState.LOADING &&
@@ -718,7 +719,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
           stakingTotalSupplyState.error ||
           rewardRateState.error ||
           periodFinishState.error ||
-          pairTotalSupplyState?.error ||
+          pairTotalSupplyState.error ||
           pairState === PairState.INVALID ||
           pairState === PairState.NOT_EXISTS ||
           avaxPngPairState === PairState.INVALID ||
