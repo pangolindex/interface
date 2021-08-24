@@ -15,7 +15,8 @@
     "totalSupply": "Gesamtmenge",
     "makeSureURLWarning": "Gehe sicher, dass die URL folgende ist:",
     "alwaysMakeSureWarning": "Gehe immer sicher, dass die URL folgende ist:",
-    "bookmarkIt": "Füge sie deinen Favoriten hinzu, um dich abzusichern."
+    "bookmarkIt": "Füge sie deinen Favoriten hinzu, um dich abzusichern.",
+    "addmetamask": "PNG zu MetaMask hinzufügen"
   },
   "accountDetails": {
     "connectedWith": "Verbunden mit ",
