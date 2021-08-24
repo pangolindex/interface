@@ -38,7 +38,7 @@
   "currencyInputPanel": {
     "selectToken": "Bir token seçin",
     "balance": "Bakiye: ",
-    "max": "Maksimum",
+    "max": "Max",
     "to": "Hangi tokena"
   },
   "earn": {

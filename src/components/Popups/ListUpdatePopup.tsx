@@ -12,6 +12,15 @@ import { ButtonSecondary } from '../Button'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+
+const PopupUnorderedList = styled.ul`
+  overflow-y: auto;
+  max-height: 40vh;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    max-height: 15vh;
+  `};
+`
 
 export default function ListUpdatePopup({
   popKey,
@@ -65,7 +74,7 @@ export default function ListUpdatePopup({
                 {t('popups.updateAvailable', {"oldList": oldList.name})} (
                 {listVersionLabel(oldList.version)} to {listVersionLabel(newList.version)}).
               </Text>
-              <ul>
+              <PopupUnorderedList>
                 {tokensAdded.length > 0 ? (
                   <li>
                     {tokensAdded.map((token, i) => (
@@ -89,7 +98,7 @@ export default function ListUpdatePopup({
                   </li>
                 ) : null}
                 {numTokensChanged > 0 ? <li>{numTokensChanged} {t('popups.tokensUpdated')}</li> : null}
-              </ul>
+              </PopupUnorderedList>
             </div>
             <AutoRow>
               <div style={{ flexGrow: 1, marginRight: 12 }}>
