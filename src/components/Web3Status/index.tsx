@@ -6,7 +6,8 @@ import { Activity } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
 import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
-import { injected, walletlink } from '../../connectors'
+import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
+import { injected, walletlink, walletconnect } from '../../connectors'
 import { NetworkContextName } from '../../constants'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
@@ -126,6 +127,12 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
     return (
       <IconWrapper size={16}>
         <img src={CoinbaseWalletIcon} alt={'CoinbaseWallet'} />
+      </IconWrapper>
+    )
+  } else if (connector === walletconnect) {
+    return (
+      <IconWrapper size={16}>
+        <img src={WalletConnectIcon} alt={'WalletConnect'} />
       </IconWrapper>
     )
   }

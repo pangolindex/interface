@@ -1,7 +1,7 @@
 import { ChainId, JSBI, Percent, Token, WAVAX } from '@pangolindex/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
-import { injected, walletlink } from '../connectors'
+import { injected, walletlink, walletconnect } from '../connectors'
 
 export const GAS_PRICE = 225;
 
@@ -261,6 +261,14 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     name: 'Coinbase Wallet',
     iconName: 'coinbaseWalletIcon.svg',
     description: 'Use Coinbase Wallet app on mobile device',
+    href: null,
+    color: '#315CF5',
+  },
+  WALLET_CONNECT: {
+    connector: walletconnect,
+    name: 'Wallet Connect',
+    iconName: 'walletConnectIcon.svg',
+    description: 'Use Wallet Connect',
     href: null,
     color: '#315CF5',
   },
