@@ -15,7 +15,8 @@
         "totalSupply": "Suprimento total",
         "makeSureURLWarning": "Certifique-se que a URL seja",
         "alwaysMakeSureWarning": "Certifique-se sempre que a URL seja",
-        "bookmarkIt": "marque para ser seguro."
+        "bookmarkIt": "marque para ser seguro.",
+        "addmetamask": "Adicionar PNG no MetaMask"
     },
     "accountDetails": {
         "connectedWith": "Conectado com ",
@@ -139,11 +140,12 @@
         "tokenListHelper": "Listas de token são uma especificação aberta para listas de tokens ERC20. Você pode usar qualquer lista de token inserindo sua URL abaixo. Cuidado, pois listas de tokens de terceiros podem conter tokens ERC-20 falsos ou maliciosos.",
         "httpsPlaceholder": "https:// or ipfs://",
         "manageLists": "Gerenciar Listas",
-        "viewList": "Visualizar lista",
+        "viewList": "Ver lista",
         "updateList": "Atualizar lista",
         "removeList": "Remover lista",
         "selected": "Selecionado",
-        "select": "Selecionar"
+        "select": "Selecionar",
+        "manageTokenLists": "Gerenciar Lista de Tokens"
     },
     "settings":
     {
