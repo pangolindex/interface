@@ -34,6 +34,10 @@ import {
   QI,
   WALBT,
   HUSKY,
+  USDCe,
+  LYD,
+  TUSD,
+  GAJ,
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -323,6 +327,26 @@ const STAKING: {
     stakingRewardAddress: '0x0000000000000000000000000000000000000000',
     version: 1
   },
+  WAVAX_USDCe_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], USDCe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
+  WAVAX_LYD_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], LYD[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
+  WAVAX_TUSD_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TUSD[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
+  WAVAX_GAJ_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], GAJ[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
 
   PNG_ETH_V1: {
     tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
@@ -481,6 +505,26 @@ const STAKING: {
   },
   PNG_HUSKY_V1: {
     tokens: [PNG[ChainId.AVALANCHE], HUSKY[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
+  PNG_USDCe_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], USDCe[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
+  PNG_LYD_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], LYD[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
+  PNG_TUSD_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], TUSD[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    version: 1
+  },
+  PNG_GAJ_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], GAJ[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x0000000000000000000000000000000000000000',
     version: 1
   },
