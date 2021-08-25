@@ -40,8 +40,7 @@ export function DeprecatedWarning() {
           </Text>
         </RowFixed>
         <Text fontWeight={500} lineHeight={'145.23%'} mt={'10px'}>
-          Please note these tokens were used by the old AEB bridge and have been deprecated. Using these tokens may
-          result in unexpected behaviour and is not recommended. If you still hold old AEB tokens, please convert them
+          Please note these tokens were used by the old AEB bridge and have been deprecated. If you still hold old AEB tokens, please convert them
           here{' '}
           <ConvertLink href={'https://bridge.avax.network/convert'} target="_blank">
             https://bridge.avax.network/convert

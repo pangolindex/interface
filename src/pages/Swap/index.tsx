@@ -44,7 +44,7 @@ import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import useENS from '../../hooks/useENS'
 import { useTranslation } from 'react-i18next'
-import { useCheckAEBToken } from '../../state/lists/hooks'
+import { useIsSelectedAEBToken } from '../../state/lists/hooks'
 import { DeprecatedWarning } from '../../components/Warning'
 
 const TopText = styled.span`
@@ -273,7 +273,7 @@ export default function Swap() {
     onCurrencySelection
   ])
 
-  const isAEBToken = useCheckAEBToken()
+  const isAEBToken = useIsSelectedAEBToken()
 
   return (
     <>
