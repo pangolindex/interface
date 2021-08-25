@@ -44,6 +44,8 @@ import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import useENS from '../../hooks/useENS'
 import { useTranslation } from 'react-i18next'
+import { useIsSelectedAEBToken } from '../../state/lists/hooks'
+import { DeprecatedWarning } from '../../components/Warning'
 
 const TopText = styled.span`
   margin-bottom: 8px;
@@ -52,6 +54,12 @@ const TopText = styled.span`
 const VeloxLink = styled.a`
   color: #ed147a;
   text-decoration: none;
+`
+
+const WarningWrapper = styled.div`
+  max-width: 420px;
+  width: 100%;
+  margin: 0 0 2rem 0;
 `
 
 export default function Swap() {
@@ -208,11 +216,7 @@ export default function Swap() {
               : (recipientAddress ?? recipient) === account
               ? 'Swap w/o Send + recipient'
               : 'Swap w/ Send',
-          label: [
-            trade?.inputAmount?.currency?.symbol,
-            trade?.outputAmount?.currency?.symbol,
-            Version.v2
-          ].join('/')
+          label: [trade?.inputAmount?.currency?.symbol, trade?.outputAmount?.currency?.symbol, Version.v2].join('/')
         })
       })
       .catch(error => {
@@ -269,6 +273,8 @@ export default function Swap() {
     onCurrencySelection
   ])
 
+  const isAEBToken = useIsSelectedAEBToken()
+
   return (
     <>
       <TokenWarningModal
@@ -277,8 +283,17 @@ export default function Swap() {
         onConfirm={handleConfirmTokenWarning}
       />
 
+      {isAEBToken && (
+        <WarningWrapper>
+          <DeprecatedWarning />
+        </WarningWrapper>
+      )}
+
       <TopText>
-        Set a limit order on <VeloxLink href={'https://app.velox.global/'} target={'_blank'}>Velox</VeloxLink>
+        Set a limit order on{' '}
+        <VeloxLink href={'https://app.velox.global/'} target={'_blank'}>
+          Velox
+        </VeloxLink>
       </TopText>
 
       <AppBody>
@@ -300,7 +315,11 @@ export default function Swap() {
 
           <AutoColumn gap={'md'}>
             <CurrencyInputPanel
-              label={independentField === Field.OUTPUT && !showWrap && trade ? t('swapPage.fromEstimated') : t('swapPage.from')}
+              label={
+                independentField === Field.OUTPUT && !showWrap && trade
+                  ? t('swapPage.fromEstimated')
+                  : t('swapPage.from')
+              }
               value={formattedAmounts[Field.INPUT]}
               showMaxButton={!atMaxAmountInput}
               currency={currencies[Field.INPUT]}
@@ -332,7 +351,9 @@ export default function Swap() {
             <CurrencyInputPanel
               value={formattedAmounts[Field.OUTPUT]}
               onUserInput={handleTypeOutput}
-              label={independentField === Field.INPUT && !showWrap && trade ? t('swapPage.toEstimated') : t('swapPage.to')}
+              label={
+                independentField === Field.INPUT && !showWrap && trade ? t('swapPage.toEstimated') : t('swapPage.to')
+              }
               showMaxButton={false}
               currency={currencies[Field.OUTPUT]}
               onCurrencySelect={handleOutputSelect}
@@ -389,7 +410,11 @@ export default function Swap() {
             ) : showWrap ? (
               <ButtonPrimary disabled={Boolean(wrapInputError)} onClick={onWrap}>
                 {wrapInputError ??
-                  (wrapType === WrapType.WRAP ? t('swapPage.wrap') : wrapType === WrapType.UNWRAP ? t('swapPage.unwrap') : null)}
+                  (wrapType === WrapType.WRAP
+                    ? t('swapPage.wrap')
+                    : wrapType === WrapType.UNWRAP
+                    ? t('swapPage.unwrap')
+                    : null)}
               </ButtonPrimary>
             ) : noRoute && userHasSpecifiedInputOutput ? (
               <GreyCard style={{ textAlign: 'center' }}>
