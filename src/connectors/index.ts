@@ -33,5 +33,5 @@ export const walletlink = new WalletLinkConnector({
 })
 
 export const walletconnect = new WalletConnectConnector({ rpc: {
-  [1]: NETWORK_URL
+    1: NETWORK_URL
   }, qrcode: true, bridge: 'https://bridge.walletconnect.org'})
