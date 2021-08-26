@@ -15,7 +15,8 @@
     "totalSupply": "Toplam Arz",
     "makeSureURLWarning": "URL'nin bu olduğundan emin olun:",
     "alwaysMakeSureWarning": "Her zaman URL'nin bu olduğundan emin olun:",
-    "bookmarkIt": "güvende olmak için yer imlerine ekleyin."
+    "bookmarkIt": "güvende olmak için yer imlerine ekleyin.",
+    "addmetamask": "PNG'yi MetaMask'e ekleyin"
   },
   "accountDetails": {
     "connectedWith": "Neye Bağlı: ",
@@ -37,7 +38,7 @@
   "currencyInputPanel": {
     "selectToken": "Bir token seçin",
     "balance": "Bakiye: ",
-    "max": "Maksimum",
+    "max": "Max",
     "to": "Hangi tokena"
   },
   "earn": {

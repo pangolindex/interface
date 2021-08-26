@@ -26,6 +26,8 @@ import Row, { RowBetween } from '../Row'
 import { PaddedColumn, SearchInput, Separator, SeparatorDark } from './styleds'
 import { useTranslation } from 'react-i18next'
 import Toggle from '../../components/Toggle'
+import { useIsSelectedAEBTokenList } from '../../state/lists/hooks'
+import { DeprecatedWarning } from '../../components/Warning'
 
 const UnpaddedLinkStyledButton = styled(LinkStyledButton)`
   padding: 0;
@@ -67,6 +69,10 @@ const StyledListUrlText = styled.div`
   font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
+`
+
+const WarningWrapper = styled.div`
+  padding: 10px;
 `
 
 function ListOrigin({ listUrl }: { listUrl: string }) {
@@ -302,6 +308,8 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
       })
   }, [lists])
 
+  const isAEBTokenList = useIsSelectedAEBTokenList()
+
   const { t } = useTranslation()
   return (
     <Column style={{ width: '100%', flex: '1 1' }}>
@@ -346,6 +354,12 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
       </PaddedColumn>
 
       <Separator />
+
+      {isAEBTokenList && (
+        <WarningWrapper>
+          <DeprecatedWarning />
+        </WarningWrapper>
+      )}
 
       <ListContainer>
         {sortedLists.map(listUrl => (
