@@ -32,4 +32,6 @@ export const walletlink = new WalletLinkConnector({
   appLogoUrl: 'https://raw.githubusercontent.com/pangolindex/interface/master/public/images/384x384_App_Icon.png'
 })
 
-export const walletconnect = new WalletConnectConnector({ rpc: { [NETWORK_CHAIN_ID]: NETWORK_URL }, qrcode: true, bridge: 'https://bridge.walletconnect.org'})
+export const walletconnect = new WalletConnectConnector({ rpc: {
+  [1]: NETWORK_URL
+  }, qrcode: true, bridge: 'https://bridge.walletconnect.org'})
