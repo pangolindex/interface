@@ -42,7 +42,7 @@ import {
   MFI,
   SHIBX,
   AVE,
-  ELE
+  ELE,
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
