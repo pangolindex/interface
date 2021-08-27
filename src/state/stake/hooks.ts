@@ -38,6 +38,11 @@ import {
   LYD,
   TUSD,
   GAJ,
+  GDL,
+  MFI,
+  SHIBX,
+  AVE,
+  ELE,
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -347,6 +352,31 @@ const STAKING: {
     stakingRewardAddress: '0xd31FFD05a41645631A22a64c1f870a6248A4DDcF',
     version: 1
   },
+  WAVAX_GDL_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], GDL[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xA6F2408e3CD34084c37A0D88FED8C6b6490F7529',
+    version: 1
+  },
+  WAVAX_MFI_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], MFI[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xd64370aeDbEbbAE04CfCaE27E8E0c5ecbD343336',
+    version: 1
+  },
+  WAVAX_SHIBX_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], SHIBX[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0029381eFF48E9eA963F8095eA204098ac8e44B5',
+    version: 1
+  },
+  WAVAX_AVE_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], AVE[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x94183DD08FFAa595e43B104804d55eE95492C8cB',
+    version: 1
+  },
+  WAVAX_ELE_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], ELE[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x10E5d5f598abb970F85456Ea59f0611D77E00168',
+    version: 1
+  },
 
   PNG_ETH_V1: {
     tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
@@ -526,6 +556,31 @@ const STAKING: {
   PNG_GAJ_V1: {
     tokens: [PNG[ChainId.AVALANCHE], GAJ[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x95bD8FDb58692d343C89bC7bc435773779CC0e47',
+    version: 1
+  },
+  PNG_GDL_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], GDL[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xb008e7AD32c710B07fb8D4453aBC79214Cd34891',
+    version: 1
+  },
+  PNG_MFI_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], MFI[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x4c0650668A63EF468c7bDCd910A62287e9FC4d52',
+    version: 1
+  },
+  PNG_SHIBX_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], SHIBX[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xEcF9b9aE88150F11cbf2263c69823e2ECb84F07B',
+    version: 1
+  },
+  PNG_AVE_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], AVE[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x7C960e55C8119457528490C3a34C1438FaF6B039',
+    version: 1
+  },
+  PNG_ELE_V1: {
+    tokens: [PNG[ChainId.AVALANCHE], ELE[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xfcB0C53FC5c71005D11C6838922e254323b7Ca06',
     version: 1
   },
 }
