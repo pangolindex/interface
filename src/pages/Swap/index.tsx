@@ -49,10 +49,21 @@ import { DeprecatedWarning } from '../../components/Warning'
 
 const TopText = styled.span`
   margin-bottom: 8px;
+  font-size: 18px;
+`
+
+const BottomText = styled.span`
+  margin-top: 8px;
+  font-size: 18px;
 `
 
 const VeloxLink = styled.a`
-  color: #ed147a;
+  color: #f25c23;
+  text-decoration: none;
+`
+
+const MarginswapLink = styled.a`
+  color: #f25c23;
   text-decoration: none;
 `
 
@@ -509,6 +520,14 @@ export default function Swap() {
           </BottomGrouping>
         </Wrapper>
       </AppBody>
+
+      <BottomText>
+        Trade with leverage on{' '}
+        <MarginswapLink href={'https://app.marginswap.exchange/swap'} target={'_blank'}>
+          Marginswap
+        </MarginswapLink>
+      </BottomText>
+
       <AdvancedSwapDetailsDropdown trade={trade} />
     </>
   )
