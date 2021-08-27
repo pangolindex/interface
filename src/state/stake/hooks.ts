@@ -354,7 +354,7 @@ const STAKING: {
   },
   WAVAX_GDL_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], GDL[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    stakingRewardAddress: '0xA6F2408e3CD34084c37A0D88FED8C6b6490F7529',
     version: 1
   },
   WAVAX_MFI_V1: {
@@ -364,17 +364,17 @@ const STAKING: {
   },
   WAVAX_SHIBX_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], SHIBX[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    stakingRewardAddress: '0x0029381eFF48E9eA963F8095eA204098ac8e44B5',
     version: 1
   },
   WAVAX_AVE_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], AVE[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    stakingRewardAddress: '0x94183DD08FFAa595e43B104804d55eE95492C8cB',
     version: 1
   },
   WAVAX_ELE_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], ELE[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    stakingRewardAddress: '0x10E5d5f598abb970F85456Ea59f0611D77E00168',
     version: 1
   },
 
@@ -560,27 +560,27 @@ const STAKING: {
   },
   PNG_GDL_V1: {
     tokens: [PNG[ChainId.AVALANCHE], GDL[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    stakingRewardAddress: '0xb008e7AD32c710B07fb8D4453aBC79214Cd34891',
     version: 1
   },
   PNG_MFI_V1: {
     tokens: [PNG[ChainId.AVALANCHE], MFI[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    stakingRewardAddress: '0x4c0650668A63EF468c7bDCd910A62287e9FC4d52',
     version: 1
   },
   PNG_SHIBX_V1: {
     tokens: [PNG[ChainId.AVALANCHE], SHIBX[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    stakingRewardAddress: '0xEcF9b9aE88150F11cbf2263c69823e2ECb84F07B',
     version: 1
   },
   PNG_AVE_V1: {
     tokens: [PNG[ChainId.AVALANCHE], AVE[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    stakingRewardAddress: '0x7C960e55C8119457528490C3a34C1438FaF6B039',
     version: 1
   },
   PNG_ELE_V1: {
     tokens: [PNG[ChainId.AVALANCHE], ELE[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    stakingRewardAddress: '0xfcB0C53FC5c71005D11C6838922e254323b7Ca06',
     version: 1
   },
 }
