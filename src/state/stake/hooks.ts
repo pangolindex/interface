@@ -359,7 +359,7 @@ const STAKING: {
   },
   WAVAX_MFI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], MFI[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x0000000000000000000000000000000000000000',
+    stakingRewardAddress: '0xd64370aeDbEbbAE04CfCaE27E8E0c5ecbD343336',
     version: 1
   },
   WAVAX_SHIBX_V1: {
