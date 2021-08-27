@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { MIGRATIONS, STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
@@ -66,7 +66,7 @@ export default function Earn({
     setFilteredPoolCards(filtered)
   }, [poolCards, debouncedSearchQuery])
 
-  useMemo(() => {
+  useEffect(() => {
     Promise.all(
       stakingInfos
         ?.filter(function(info) {
