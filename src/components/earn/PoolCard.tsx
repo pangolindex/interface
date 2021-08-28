@@ -4,7 +4,7 @@ import { RowBetween } from '../Row'
 import styled from 'styled-components'
 import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
-import { CAVAX, JSBI, Token, Fraction } from '@pangolindex/sdk'
+import { CAVAX, Token } from '@pangolindex/sdk'
 import { ButtonPrimary } from '../Button'
 import { Staking, StakingInfo } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
@@ -94,12 +94,6 @@ export default function PoolCard({
   // get the color of the token
   const backgroundColor = useColor(token)
 
-  const weeklyRewardAmount = stakingInfo.totalRewardRate.multiply(JSBI.BigInt(60 * 60 * 24 * 7))
-  let weeklyRewardPerAvax = weeklyRewardAmount.divide(stakingInfo.totalStakedInWavax)
-  if (JSBI.EQ(weeklyRewardPerAvax.denominator, 0)) {
-    weeklyRewardPerAvax = new Fraction(JSBI.BigInt(0), JSBI.BigInt(1))
-  }
-
   return (
     <Wrapper showBackground={isStaking} bgColor={backgroundColor}>
       <CardBGImage desaturate />
@@ -144,15 +138,7 @@ export default function PoolCard({
           </TYPE.white>
         </RowBetween>
         <RowBetween>
-          <TYPE.white> {t('earn.poolRate')} </TYPE.white>
-          <TYPE.white>{stakingInfo.isPeriodFinished ? `-` : `${weeklyRewardAmount.toFixed(0, { groupSeparator: ',' })} ${t('earn.pngWeek')}`}</TYPE.white>
-        </RowBetween>
-        <RowBetween>
-          <TYPE.white> {t('earn.currentReward')} </TYPE.white>
-          <TYPE.white>{stakingInfo.isPeriodFinished ? `-` : `${weeklyRewardPerAvax.toFixed(4, {groupSeparator: ','}) ?? '-'} ${t('earn.pngPerAvax')}`}</TYPE.white>
-        </RowBetween>
-        <RowBetween>
-          <TYPE.white> {t('earn.earnUpTo')} </TYPE.white>
+          <TYPE.white>APR</TYPE.white>
           <TYPE.white>{`${apr}%`}</TYPE.white>
         </RowBetween>
       </StatContainer>
