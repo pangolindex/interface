@@ -1,5 +1,5 @@
-import { ChainId, TokenAmount, WAVAX, JSBI } from '@pangolindex/sdk'
-import React, { useMemo } from 'react'
+import { TokenAmount, WAVAX, JSBI } from '@pangolindex/sdk'
+import React, { useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from '../../assets/images/token-logo.png'
@@ -7,11 +7,9 @@ import { injected } from '../../connectors'
 import { PNG } from '../../constants'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
-import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp'
 import { STAKING_REWARDS_CURRENT_VERSION, useTotalPngEarned } from '../../state/stake/hooks'
 import { useAggregatePngBalance, useTokenBalance } from '../../state/wallet/hooks'
 import { StyledInternalLink, TYPE, PngTokenAnimated } from '../../theme'
-import { computePngCirculation } from '../../utils/computePngCirculation'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
 import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../earn/styled'
@@ -83,12 +81,14 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
     pngPrice = JSBI.toNumber(avaxPngRatio) / 1000000000000000000
   }
 
-  const blockTimestamp = useCurrentBlockTimestamp()
-  const circulation: TokenAmount | undefined = useMemo(
-    () =>
-      blockTimestamp && png && chainId === ChainId.AVALANCHE ? computePngCirculation(png, blockTimestamp) : totalSupply,
-    [blockTimestamp, chainId, totalSupply, png]
-  )
+  const [circulation, setCirculation] = useState(totalSupply)
+
+  useMemo(() => {
+    if (png === undefined) return
+    fetch(`https://api.pangolin.exchange/png/circulating-supply`)
+      .then(res => res.text())
+      .then(val => setCirculation(new TokenAmount(png, val)))
+  }, [png])
 
   return (
     <ContentWrapper gap="lg">
