@@ -98,14 +98,15 @@ export default function Earn({
         })
         .map(stakingInfo => {
           return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
-            .then(res => res.text())
-            .then(res => ({ apr: res, ...stakingInfo }))
+            .then(res => res.json())
+            .then(res => ({ swapFeeApr: res.swapFeeApr, stakingApr: res.stakingApr, combinedApr: res.combinedApr, ...stakingInfo }))
         })
     ).then(stakingInfos => {
       const poolCards = stakingInfos
         .map(stakingInfo => (
           <PoolCard
-            apr={stakingInfo.apr}
+            swapFeeApr={stakingInfo.swapFeeApr}
+            stakingApr={stakingInfo.stakingApr}
             key={stakingInfo.stakingRewardAddress}
             stakingInfo={stakingInfo}
             migration={MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to}
