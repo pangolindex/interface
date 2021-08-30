@@ -75,7 +75,7 @@ export default function PoolCard({
   stakingInfo: StakingInfo
   migration?: Staking
   version: string
-  apr: string
+  apr: number
 }) {
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]

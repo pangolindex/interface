@@ -49,6 +49,7 @@ const SortField = styled.div`
   font-size: 14px;
   cursor: pointer;
   display: flex;
+  line-height: 20px;
 `
 
 export default function Earn({
@@ -65,6 +66,7 @@ export default function Earn({
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [sortBy, setSortBy] = useState<any>({ field: '', desc: true })
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
+  const [stakingInfoData, setStakingInfoData] = useState<any[]>(stakingInfos)
 
   const stakingInfoV0 = useStakingInfo(Number(0))
   const hasPositionV0 = stakingInfoV0?.some(stakingInfo => stakingInfo.stakedAmount.greaterThan('0'))
@@ -85,7 +87,7 @@ export default function Earn({
 
   useEffect(() => {
     Promise.all(
-      stakingInfos
+      stakingInfoData
         ?.filter(function(info) {
           // Only include pools that are live or require a migration
           return !info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0))
@@ -106,15 +108,18 @@ export default function Earn({
             }
           }
 
+          if (sortBy.field === 'apr') {
+            if (sortBy.desc) {
+              return info_a.apr > info_b.apr ? -1 : 1
+            } else {
+              return info_a.apr < info_b.apr ? -1 : 1
+            }
+          }
+
           return 0
         })
-        .map(stakingInfo => {
-          return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
-            .then(res => res.text())
-            .then(res => ({ apr: res, ...stakingInfo }))
-        })
-    ).then(stakingInfos => {
-      const poolCards = stakingInfos.map(stakingInfo => (
+    ).then(stakingInfoData => {
+      const poolCards = stakingInfoData.map(stakingInfo => (
         <PoolCard
           apr={stakingInfo.apr}
           key={stakingInfo.stakingRewardAddress}
@@ -169,7 +174,7 @@ export default function Earn({
         .map(stakingInfo => {
           return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
             .then(res => res.text())
-            .then(res => ({ apr: res, ...stakingInfo }))
+            .then(res => ({ apr: parseInt(res), ...stakingInfo }))
         })
     ).then(stakingInfos => {
       const poolCards = stakingInfos.map(stakingInfo => (
@@ -183,6 +188,8 @@ export default function Earn({
           version={version}
         />
       ))
+
+      setStakingInfoData(stakingInfos)
       setPoolCards(poolCards)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
