@@ -138,7 +138,7 @@ export default function PoolCard({
           </TYPE.white>
         </RowBetween>
         <RowBetween>
-          <TYPE.white>APR</TYPE.white>
+          <TYPE.white>APR (swap fees + PNG rewards)</TYPE.white>
           <TYPE.white>{`${apr}%`}</TYPE.white>
         </RowBetween>
       </StatContainer>
