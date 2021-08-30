@@ -186,6 +186,56 @@ export const WALBT: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x9E037dE681CaFA6E661e6108eD9c2bd1AA567Ecd', 18, 'WALBT', 'Wrapped AllianceBlock Token')
 }
 
+export const HUSKY: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HUSKY', 'Husky'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x65378b697853568dA9ff8EaB60C13E1Ee9f4a654', 18, 'HUSKY', 'Husky')
+}
+
+export const USDCe: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'USDC.e', 'USD Coin'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664', 6, 'USDC.e', 'USD Coin')
+}
+
+export const LYD: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'LYD', 'LydiaFinance Token'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x4C9B4E1AC6F24CdE3660D5E4Ef1eBF77C710C084', 18, 'LYD', 'LydiaFinance Token')
+}
+
+export const TUSD: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'TUSD', 'TrueUSD'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x1C20E891Bab6b1727d14Da358FAe2984Ed9B59EB', 18, 'TUSD', 'TrueUSD')
+}
+
+export const GAJ: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'GAJ', 'PolyGaj Token'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x595c8481c48894771CE8FaDE54ac6Bf59093F9E8', 18, 'GAJ', 'PolyGaj Token')
+}
+
+export const GDL: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'GDL', 'Gondola'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xD606199557c8Ab6F4Cc70bD03FaCc96ca576f142', 18, 'GDL', 'Gondola')
+}
+
+export const MFI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'MFI', 'MarginSwap'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x9Fda7cEeC4c18008096C2fE2B85F05dc300F94d0', 18, 'MFI', 'MarginSwap')
+}
+
+export const SHIBX: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'SHIBX', 'SHIBAVAX'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x440aBbf18c54b2782A4917b80a1746d3A2c2Cce1', 18, 'SHIBX', 'SHIBAVAX')
+}
+
+export const AVE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'AVE', 'Avaware'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x78ea17559B3D2CF85a7F9C2C704eda119Db5E6dE', 18, 'AVE', 'Avaware')
+}
+
+export const ELE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ELE', 'Eleven.finance'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xAcD7B3D9c10e97d0efA418903C0c7669E702E4C0', 18, 'ELE', 'Eleven.finance')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'

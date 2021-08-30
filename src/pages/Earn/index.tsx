@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import styled from 'styled-components'
@@ -80,6 +80,7 @@ export default function Earn({
         card.props.stakingInfo.tokens[1].symbol.toUpperCase().includes(debouncedSearchQuery)
     )
     setFilteredPoolCards(filtered)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [poolCards, debouncedSearchQuery])
 
   useEffect(() => {
@@ -126,9 +127,10 @@ export default function Earn({
       ))
       setPoolCards(poolCards)
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortBy])
 
-  useMemo(() => {
+  useEffect(() => {
     Promise.all(
       stakingInfos
         ?.filter(function(info) {
@@ -183,6 +185,7 @@ export default function Earn({
       ))
       setPoolCards(poolCards)
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingInfos?.length, version])
 
   const stakingRewardsExist = Boolean(typeof chainId === 'number' && (STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0)
