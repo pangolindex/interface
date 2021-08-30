@@ -55,7 +55,6 @@ const TopSection = styled.div`
    `};
 `
 
-
 const BottomSection = styled.div<{ showBackground: boolean }>`
   padding: 12px 16px;
   opacity: ${({ showBackground }) => (showBackground ? '1' : '0.4')};
@@ -74,7 +73,7 @@ export default function PoolCard({
   apr
 }: {
   stakingInfo: StakingInfo
-	migration?: Staking
+  migration?: Staking
   version: string
   apr: string
 }) {
@@ -87,9 +86,14 @@ export default function PoolCard({
   const { t } = useTranslation()
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  const token: Token = currency0 === CAVAX || currency1 === CAVAX
-    ? currency0 === CAVAX ? token1 : token0
-    : token0.equals(PNG[token0.chainId]) ? token1 : token0
+  const token: Token =
+    currency0 === CAVAX || currency1 === CAVAX
+      ? currency0 === CAVAX
+        ? token1
+        : token0
+      : token0.equals(PNG[token0.chainId])
+      ? token1
+      : token0
 
   // get the color of the token
   const backgroundColor = useColor(token)
@@ -111,12 +115,14 @@ export default function PoolCard({
           {currency0.symbol}-{currency1.symbol}
         </TYPE.white>
 
-        {(migration && isStaking) ? (
+        {migration && isStaking ? (
           <StyledInternalLink
-            to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${Number(version)}/${currencyId(migration.tokens[0])}/${currencyId(migration.tokens[1])}/${migration?.version}`}
-              style={{ marginRight: '10px' }}
-            >
-            <ButtonPrimary padding='8px' borderRadius='8px'>
+            to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${Number(version)}/${currencyId(
+              migration.tokens[0]
+            )}/${currencyId(migration.tokens[1])}/${migration?.version}`}
+            style={{ marginRight: '10px' }}
+          >
+            <ButtonPrimary padding="8px" borderRadius="8px">
               Migrate
             </ButtonPrimary>
           </StyledInternalLink>
@@ -145,15 +151,28 @@ export default function PoolCard({
         </RowBetween>
         <RowBetween>
           <TYPE.white> {t('earn.poolRate')} </TYPE.white>
-          <TYPE.white>{stakingInfo.isPeriodFinished ? `-` : `${weeklyRewardAmount.toFixed(0, { groupSeparator: ',' })} ${t('earn.pngWeek')}`}</TYPE.white>
+          <TYPE.white>
+            {stakingInfo.isPeriodFinished
+              ? `-`
+              : `${weeklyRewardAmount.toFixed(0, { groupSeparator: ',' })} ${t('earn.pngWeek')}`}
+          </TYPE.white>
         </RowBetween>
         <RowBetween>
           <TYPE.white> {t('earn.currentReward')} </TYPE.white>
-          <TYPE.white>{stakingInfo.isPeriodFinished ? `-` : `${weeklyRewardPerAvax.toFixed(4, {groupSeparator: ','}) ?? '-'} ${t('earn.pngPerAvax')}`}</TYPE.white>
+          <TYPE.white>
+            {stakingInfo.isPeriodFinished
+              ? `-`
+              : `${weeklyRewardPerAvax.toFixed(4, { groupSeparator: ',' }) ?? '-'} ${t('earn.pngPerAvax')}`}
+          </TYPE.white>
         </RowBetween>
         <RowBetween>
           <TYPE.white> {t('earn.earnUpTo')} </TYPE.white>
           <TYPE.white>{`${apr}%`}</TYPE.white>
+        </RowBetween>
+        
+        <RowBetween>
+          <TYPE.white> {t('earn.poolWeight')} </TYPE.white>
+          <TYPE.white>{`${stakingInfo.multiplier}X`}</TYPE.white>
         </RowBetween>
       </StatContainer>
 

@@ -75,7 +75,8 @@
     "whenYouWithdrawWarning": "当您退出时，您的 PNG 将被认领，您的Pangolin流动性代币 PGL 将退还给您。您将不再透过此流动性获得 PNG 奖励。您的流动性代币将在保持流动状态。",
     "withdrawAndClaim": "提取 & 收成",
     "withdrewPgl": "提取 PGL!",
-    "approve": "批准"
+    "approve": "批准",
+    "poolWeight": "泳池重量"
   },
   "menu": {
     "code": "Code",
