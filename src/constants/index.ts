@@ -246,6 +246,11 @@ export const FXS: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xD67de0e0a0Fd7b15dC8348Bb9BE742F3c5850454', 18, 'FXS', 'Frax Share')
 }
 
+export const START: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'START', 'Starter'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xF44Fb887334Fa17d2c5c0F970B5D320ab53eD557', 18, 'START', 'Starter')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'

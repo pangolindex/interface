@@ -44,7 +44,8 @@ import {
   AVE,
   ELE,
   FRAX,
-  FXS
+  FXS,
+  START
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -389,7 +390,11 @@ const STAKING: {
     stakingRewardAddress: '0x76Ad5c64Fe6B26b6aD9aaAA19eBa00e9eCa31FE1',
     version: 1
   },
-
+  WAVAX_START_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], START[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x5105d9De003fB7d22979cd0cE167Ab919E60900A',
+    version: 1
+  },
 
   PNG_ETH_V1: {
     tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
