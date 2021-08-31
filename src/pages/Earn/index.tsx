@@ -108,11 +108,11 @@ export default function Earn({
             }
           }
 
-          if (sortBy.field === 'apr') {
+          if (sortBy.field === 'stakingApr') {
             if (sortBy.desc) {
-              return info_a.apr > info_b.apr ? -1 : 1
+              return info_a.stakingApr > info_b.stakingApr ? -1 : 1
             } else {
-              return info_a.apr < info_b.apr ? -1 : 1
+              return info_a.stakingApr < info_b.stakingApr ? -1 : 1
             }
           }
 
@@ -121,7 +121,8 @@ export default function Earn({
     ).then(stakingInfoData => {
       const poolCards = stakingInfoData.map(stakingInfo => (
         <PoolCard
-          apr={stakingInfo.apr}
+          swapFeeApr={stakingInfo.swapFeeApr}
+          stakingApr={stakingInfo.stakingApr}
           key={stakingInfo.stakingRewardAddress}
           stakingInfo={stakingInfo}
           migration={
@@ -173,13 +174,19 @@ export default function Earn({
         })
         .map(stakingInfo => {
           return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
-            .then(res => res.text())
-            .then(res => ({ apr: parseInt(res), ...stakingInfo }))
+            .then(res => res.json())
+            .then(res => ({
+              swapFeeApr: res.swapFeeApr,
+              stakingApr: Number(res.stakingApr),
+              combinedApr: res.combinedApr,
+              ...stakingInfo
+            }))
         })
     ).then(stakingInfos => {
       const poolCards = stakingInfos.map(stakingInfo => (
         <PoolCard
-          apr={stakingInfo.apr}
+          swapFeeApr={stakingInfo.swapFeeApr}
+          stakingApr={stakingInfo.stakingApr}
           key={stakingInfo.stakingRewardAddress}
           stakingInfo={stakingInfo}
           migration={
@@ -188,7 +195,6 @@ export default function Earn({
           version={version}
         />
       ))
-
       setStakingInfoData(stakingInfos)
       setPoolCards(poolCards)
     })
@@ -292,8 +298,17 @@ export default function Earn({
                   )}
                 </SortField>
                 |{' '}
-                <SortField onClick={() => setSortBy({ field: 'apr', desc: !sortBy?.desc })}>
-                  APR{sortBy?.field === 'apr' ? sortBy?.desc ? <ChevronDown size="16" /> : <ChevronUp size="16" /> : ''}
+                <SortField onClick={() => setSortBy({ field: 'stakingApr', desc: !sortBy?.desc })}>
+                  APR
+                  {sortBy?.field === 'stakingApr' ? (
+                    sortBy?.desc ? (
+                      <ChevronDown size="16" />
+                    ) : (
+                      <ChevronUp size="16" />
+                    )
+                  ) : (
+                    ''
+                  )}
                 </SortField>
               </SortSection>
 

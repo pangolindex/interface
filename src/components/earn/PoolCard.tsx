@@ -70,12 +70,14 @@ export default function PoolCard({
   stakingInfo,
   migration,
   version,
-  apr
+  swapFeeApr,
+  stakingApr
 }: {
   stakingInfo: StakingInfo
   migration?: Staking
   version: string
-  apr: number
+  swapFeeApr: number
+  stakingApr: number
 }) {
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
@@ -144,10 +146,18 @@ export default function PoolCard({
           </TYPE.white>
         </RowBetween>
         <RowBetween>
-          <TYPE.white>APR</TYPE.white>
-          <TYPE.white>{`${apr}%`}</TYPE.white>
+          <TYPE.white>Swap Fee APR</TYPE.white>
+          <TYPE.white>{`${swapFeeApr}%`}</TYPE.white>
         </RowBetween>
-        
+        <RowBetween>
+          <TYPE.white>PNG Rewards APR</TYPE.white>
+          <TYPE.white>{`${stakingApr}%`}</TYPE.white>
+        </RowBetween>
+        <RowBetween>
+          <TYPE.white>Total APR</TYPE.white>
+          <TYPE.white>{`${swapFeeApr + stakingApr}%`}</TYPE.white>
+        </RowBetween>
+
         <RowBetween>
           <TYPE.white> {t('earn.poolWeight')} </TYPE.white>
           <TYPE.white>{`${stakingInfo.multiplier}X`}</TYPE.white>
