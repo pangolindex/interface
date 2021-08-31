@@ -203,6 +203,15 @@ export default function Earn({
 
   const stakingRewardsExist = Boolean(typeof chainId === 'number' && (STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0)
 
+  const getSortField = (label: string, field: string, sortBy: any, setSortBy: Function) => {
+    return (
+      <SortField onClick={() => setSortBy({ field: field, desc: !sortBy?.desc })}>
+        {label}
+        {sortBy?.field === field && (sortBy?.desc ? <ChevronDown size="16" /> : <ChevronUp size="16" />)}
+      </SortField>
+    )
+  }
+
   return (
     <PageWrapper gap="lg" justify="center">
       <TopSection gap="md">
@@ -271,45 +280,9 @@ export default function Earn({
                 onChange={handleSearch}
               />
               <SortSection>
-                Sort by :{' '}
-                <SortField onClick={() => setSortBy({ field: 'totalStakedInWavax', desc: !sortBy?.desc })}>
-                  Liquidity
-                  {sortBy?.field === 'totalStakedInWavax' ? (
-                    sortBy?.desc ? (
-                      <ChevronDown size="16" />
-                    ) : (
-                      <ChevronUp size="16" />
-                    )
-                  ) : (
-                    ''
-                  )}
-                </SortField>{' '}
-                |{' '}
-                <SortField onClick={() => setSortBy({ field: 'multiplier', desc: !sortBy?.desc })}>
-                  Pool Weight
-                  {sortBy?.field === 'multiplier' ? (
-                    sortBy?.desc ? (
-                      <ChevronDown size="16" />
-                    ) : (
-                      <ChevronUp size="16" />
-                    )
-                  ) : (
-                    ''
-                  )}
-                </SortField>
-                |{' '}
-                <SortField onClick={() => setSortBy({ field: 'stakingApr', desc: !sortBy?.desc })}>
-                  APR
-                  {sortBy?.field === 'stakingApr' ? (
-                    sortBy?.desc ? (
-                      <ChevronDown size="16" />
-                    ) : (
-                      <ChevronUp size="16" />
-                    )
-                  ) : (
-                    ''
-                  )}
-                </SortField>
+                Sort by : {getSortField('Liquidity', 'totalStakedInWavax', sortBy, setSortBy)} |{' '}
+                {getSortField('Pool Weight', 'multiplier', sortBy, setSortBy)} |{' '}
+                {getSortField('APR', 'stakingApr', sortBy, setSortBy)}
               </SortSection>
 
               {filteredPoolCards}

@@ -27,6 +27,16 @@ const StatContainer = styled.div`
  `};
 `
 
+const AprContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
+`
+
 const Wrapper = styled(AutoColumn)<{ showBackground: boolean; bgColor: any }>`
   border-radius: 12px;
   width: 100%;
@@ -145,6 +155,8 @@ export default function PoolCard({
             {`${stakingInfo.totalStakedInWavax.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`}
           </TYPE.white>
         </RowBetween>
+      </StatContainer>
+      <AprContainer>
         <RowBetween>
           <TYPE.white>Swap Fee APR</TYPE.white>
           <TYPE.white>{`${swapFeeApr}%`}</TYPE.white>
@@ -157,7 +169,8 @@ export default function PoolCard({
           <TYPE.white>Total APR</TYPE.white>
           <TYPE.white>{`${swapFeeApr + stakingApr}%`}</TYPE.white>
         </RowBetween>
-
+      </AprContainer>
+      <StatContainer>
         <RowBetween>
           <TYPE.white> {t('earn.poolWeight')} </TYPE.white>
           <TYPE.white>{`${stakingInfo.multiplier}X`}</TYPE.white>
