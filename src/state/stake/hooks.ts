@@ -466,19 +466,16 @@ const STAKING: {
     tokens: [WAVAX[ChainId.AVALANCHE], SWAPe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x255e7a0eB5aa1616781702203B042821C35394eF',
     version: 1,
-    multiplier: 2
   },
   WAVAX_YTS_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], YTS[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x6F571bA11447136fC11BA9AC98f0f0233dAc1BFF',
-    version: 1,
-    multiplier: 2
+    version: 1
   },
   WAVAX_TUNDRA_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], TUNDRA[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xeD617a06C6c727827Ca3B6fb3E565C68342c4c2b',
-    version: 1,
-    multiplier: 2
+    version: 1
   },
 
   PNG_ETH_V1: {
