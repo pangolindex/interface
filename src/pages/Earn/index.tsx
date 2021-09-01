@@ -52,6 +52,12 @@ const SortField = styled.div`
   line-height: 20px;
 `
 
+enum SortingType {
+  totalStakedInWavax = 'totalStakedInWavax',
+  multiplier = 'multiplier',
+  stakingApr = 'stakingApr'
+}
+
 export default function Earn({
   match: {
     params: { version }
@@ -60,6 +66,8 @@ export default function Earn({
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const stakingInfos = useStakingInfo(Number(version))
+
+  console.log("stakingInfos",stakingInfos);
 
   const [poolCards, setPoolCards] = useState<any[]>()
   const [filteredPoolCards, setFilteredPoolCards] = useState<any[]>()
@@ -93,14 +101,14 @@ export default function Earn({
           return !info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0))
         })
         .sort(function(info_a, info_b) {
-          if (sortBy.field === 'totalStakedInWavax') {
+          if (sortBy.field === SortingType.totalStakedInWavax) {
             if (sortBy.desc) {
               return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
             } else {
               return info_a.totalStakedInWavax?.lessThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
             }
           }
-          if (sortBy.field === 'multiplier') {
+          if (sortBy.field === SortingType.multiplier) {
             if (sortBy.desc) {
               return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
             } else {
@@ -108,7 +116,7 @@ export default function Earn({
             }
           }
 
-          if (sortBy.field === 'stakingApr') {
+          if (sortBy.field === SortingType.stakingApr) {
             if (sortBy.desc) {
               return info_a.stakingApr > info_b.stakingApr ? -1 : 1
             } else {
@@ -280,9 +288,9 @@ export default function Earn({
                 onChange={handleSearch}
               />
               <SortSection>
-                Sort by : {getSortField('Liquidity', 'totalStakedInWavax', sortBy, setSortBy)} |{' '}
-                {getSortField('Pool Weight', 'multiplier', sortBy, setSortBy)} |{' '}
-                {getSortField('APR', 'stakingApr', sortBy, setSortBy)}
+                Sort by : {getSortField('Liquidity', SortingType.totalStakedInWavax, sortBy, setSortBy)} |{' '}
+                {getSortField('Pool Weight', SortingType.multiplier, sortBy, setSortBy)} |{' '}
+                {getSortField('APR', SortingType.stakingApr, sortBy, setSortBy)}
               </SortSection>
 
               {filteredPoolCards}

@@ -97,7 +97,7 @@ const STAKING: {
     tokens: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x8FD2755c6ae7252753361991bDcd6fF55bDc01CE',
     version: 0,
-    multiplier: 0
+    multiplier: 12
   },
   WAVAX_LINK_V0: {
     tokens: [WAVAX[ChainId.AVALANCHE], LINK[ChainId.AVALANCHE]],
@@ -189,7 +189,6 @@ const STAKING: {
     version: 0,
     multiplier: 0
   },
-
   WAVAX_ETH_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x417C02150b9a31BcaCb201d1D60967653384E1C6',
@@ -416,51 +415,50 @@ const STAKING: {
     tokens: [WAVAX[ChainId.AVALANCHE], GDL[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xA6F2408e3CD34084c37A0D88FED8C6b6490F7529',
     version: 1,
-    multiplier: 0
+    multiplier: 2
   },
   WAVAX_MFI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], MFI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xd64370aeDbEbbAE04CfCaE27E8E0c5ecbD343336',
     version: 1,
-    multiplier: 0
+    multiplier: 1
   },
   WAVAX_SHIBX_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], SHIBX[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x0029381eFF48E9eA963F8095eA204098ac8e44B5',
     version: 1,
-    multiplier: 0
+    multiplier: 2
   },
   WAVAX_AVE_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], AVE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x94183DD08FFAa595e43B104804d55eE95492C8cB',
     version: 1,
-    multiplier: 0
+    multiplier: 1
   },
   WAVAX_ELE_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], ELE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x10E5d5f598abb970F85456Ea59f0611D77E00168',
     version: 1,
-    multiplier: 0
+    multiplier: 1
   },
   WAVAX_FRAX_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], FRAX[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xfd0824dF1E598D34C3495e1C2a339E2FA23Af40D',
     version: 1,
-    multiplier: 0
+    multiplier: 2
   },
   WAVAX_FXS_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], FXS[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x76Ad5c64Fe6B26b6aD9aaAA19eBa00e9eCa31FE1',
     version: 1,
-    multiplier: 0
+    multiplier: 1
   },
   WAVAX_START_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], START[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x5105d9De003fB7d22979cd0cE167Ab919E60900A',
     version: 1,
-    multiplier: 0
+    multiplier: 2
   },
-
   PNG_ETH_V1: {
     tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x7ac007afB5d61F48D1E3C8Cc130d4cf6b765000e',
@@ -483,7 +481,7 @@ const STAKING: {
     tokens: [PNG[ChainId.AVALANCHE], USDTe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x7216d1e173c1f1Ed990239d5c77d74714a837Cd5',
     version: 1,
-    multiplier: 0
+    multiplier: 5
   },
   PNG_WBTC_V1: {
     tokens: [PNG[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
@@ -495,7 +493,7 @@ const STAKING: {
     tokens: [PNG[ChainId.AVALANCHE], WBTCe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xEeEA1e815f12d344b5035a33da4bc383365F5Fee',
     version: 1,
-    multiplier: 0
+    multiplier: 3
   },
   PNG_LINK_V1: {
     tokens: [PNG[ChainId.AVALANCHE], LINK[ChainId.AVALANCHE]],
@@ -687,7 +685,7 @@ const STAKING: {
     tokens: [PNG[ChainId.AVALANCHE], MFI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x4c0650668A63EF468c7bDCd910A62287e9FC4d52',
     version: 1,
-    multiplier: 0
+    multiplier: 5
   },
   PNG_SHIBX_V1: {
     tokens: [PNG[ChainId.AVALANCHE], SHIBX[ChainId.AVALANCHE]],
@@ -699,13 +697,13 @@ const STAKING: {
     tokens: [PNG[ChainId.AVALANCHE], AVE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x7C960e55C8119457528490C3a34C1438FaF6B039',
     version: 1,
-    multiplier: 0
+    multiplier: 5
   },
   PNG_ELE_V1: {
     tokens: [PNG[ChainId.AVALANCHE], ELE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xfcB0C53FC5c71005D11C6838922e254323b7Ca06',
     version: 1,
-    multiplier: 0
+    multiplier: 5
   }
 }
 
