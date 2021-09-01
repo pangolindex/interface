@@ -152,7 +152,7 @@
         "areYouSure": "Você tem certeza?",
         "expertInfo": "O modo expert desliga o prompt de confirmação de transação e permite alta variação de preço que muitas vezes resultam em taxas ruins e perdas.",
         "expertWarningCAPS": "USE APENAS ESTE MODO SE VOCÊ SABE O QUE ESTÁ FAZENDO",
-	"confirm": "confirmar",
+        "confirm": "confirmar",
         "confirmExpertMode": "Por favor digite a palavra \"confirmar\" para habilitar o modo expert.",
         "turnOnExpertMode": "Ativar modo expert",
         "transactionSettings": "Configurações de transação",
