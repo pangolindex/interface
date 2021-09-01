@@ -75,7 +75,8 @@
     "whenYouWithdrawWarning": "When you withdraw, your PNG is claimed and your Pangolin Liquidity tokens, PGL, are returned to you. You will no longer earn PNG rewards on this liquidity. Your original token liquidity will remain in its liquidity pool.",
     "withdrawAndClaim": "Withdraw & Claim",
     "withdrewPgl": "Withdrew PGL!",
-    "approve": "Approve"
+    "approve": "Approve",
+    "poolWeight": "Pool Weight"
   },
   "menu": {
     "code": "Code",

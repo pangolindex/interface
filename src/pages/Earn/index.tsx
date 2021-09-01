@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
+import { ChevronDown, ChevronUp } from 'react-feather'
 import styled from 'styled-components'
 import { MIGRATIONS, STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
 import { TYPE, ExternalLink } from '../../theme'
@@ -39,6 +40,31 @@ const DataRow = styled(RowBetween)`
  `};
 `
 
+const SortSection = styled.div`
+  display: flex;
+`
+const SortField = styled.div`
+  margin: 0px 5px 0px 5px;
+  font-weight: 400;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  line-height: 20px;
+`
+
+const SortFieldContainer = styled.div`
+  display: flex;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   display: none;
+ `};
+`
+
+enum SortingType {
+  totalStakedInWavax = 'totalStakedInWavax',
+  multiplier = 'multiplier',
+  totalApr = 'totalApr'
+}
+
 export default function Earn({
   match: {
     params: { version }
@@ -47,31 +73,88 @@ export default function Earn({
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const stakingInfos = useStakingInfo(Number(version))
+
   const [poolCards, setPoolCards] = useState<any[]>()
   const [filteredPoolCards, setFilteredPoolCards] = useState<any[]>()
   const [searchQuery, setSearchQuery] = useState<string>('')
+  const [sortBy, setSortBy] = useState<any>({ field: '', desc: true })
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
+  const [stakingInfoData, setStakingInfoData] = useState<any[]>(stakingInfos)
 
   const stakingInfoV0 = useStakingInfo(Number(0))
-  const hasPositionV0 = stakingInfoV0?.some((stakingInfo) => stakingInfo.stakedAmount.greaterThan('0'))
+  const hasPositionV0 = stakingInfoV0?.some(stakingInfo => stakingInfo.stakedAmount.greaterThan('0'))
 
-  const handleSearch = useCallback((event) => {
+  const handleSearch = useCallback(event => {
     setSearchQuery(event.target.value.trim().toUpperCase())
   }, [])
 
   useEffect(() => {
-    const filtered = poolCards?.filter(card =>
-      card.props.stakingInfo.tokens[0].symbol.toUpperCase().includes(debouncedSearchQuery)
-      || card.props.stakingInfo.tokens[1].symbol.toUpperCase().includes(debouncedSearchQuery))
+    const filtered = poolCards?.filter(
+      card =>
+        card.props.stakingInfo.tokens[0].symbol.toUpperCase().includes(debouncedSearchQuery) ||
+        card.props.stakingInfo.tokens[1].symbol.toUpperCase().includes(debouncedSearchQuery)
+    )
     setFilteredPoolCards(filtered)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [poolCards, debouncedSearchQuery])
+
+  useEffect(() => {
+    Promise.all(
+      stakingInfoData
+        ?.filter(function(info) {
+          // Only include pools that are live or require a migration
+          return !info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0))
+        })
+        .sort(function(info_a, info_b) {
+          if (sortBy.field === SortingType.totalStakedInWavax) {
+            if (sortBy.desc) {
+              return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
+            } else {
+              return info_a.totalStakedInWavax?.lessThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
+            }
+          }
+          if (sortBy.field === SortingType.multiplier) {
+            if (sortBy.desc) {
+              return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
+            } else {
+              return JSBI.lessThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
+            }
+          }
+
+          if (sortBy.field === SortingType.totalApr) {
+            if (sortBy.desc) {
+              return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
+            } else {
+              return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
+            }
+          }
+
+          return 0
+        })
+    ).then(stakingInfoData => {
+      const poolCards = stakingInfoData.map(stakingInfo => (
+        <PoolCard
+          swapFeeApr={stakingInfo.swapFeeApr}
+          stakingApr={stakingInfo.stakingApr}
+          key={stakingInfo.stakingRewardAddress}
+          stakingInfo={stakingInfo}
+          migration={
+            MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to
+          }
+          version={version}
+        />
+      ))
+      setPoolCards(poolCards)
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortBy])
 
   useEffect(() => {
     Promise.all(
       stakingInfos
         ?.filter(function(info) {
           // Only include pools that are live or require a migration
-          return (!info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0)))
+          return !info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0))
         })
         .sort(function(info_a, info_b) {
           // only first has ended
@@ -83,41 +166,69 @@ export default function Earn({
         })
         .sort(function(info_a, info_b) {
           // only the first is being staked, so we should bring the first up
-          if (info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && !info_b.stakedAmount.greaterThan(JSBI.BigInt(0))) return -1
+          if (info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && !info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
+            return -1
           // only the second is being staked, so we should bring the first down
-          if (!info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && info_b.stakedAmount.greaterThan(JSBI.BigInt(0))) return 1
+          if (!info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
+            return 1
           return 0
         })
         .sort(function(info_a, info_b) {
           // Bring pools that require migration to the top
-          const aCanMigrate = MIGRATIONS.find(migration => migration.from.stakingRewardAddress === info_a.stakingRewardAddress)?.to
-          const bCanMigrate = MIGRATIONS.find(migration => migration.from.stakingRewardAddress === info_b.stakingRewardAddress)?.to
-          if (aCanMigrate && !bCanMigrate) return -1;
-          if (!aCanMigrate && bCanMigrate) return 1;
-          return 0;
+          const aCanMigrate = MIGRATIONS.find(
+            migration => migration.from.stakingRewardAddress === info_a.stakingRewardAddress
+          )?.to
+          const bCanMigrate = MIGRATIONS.find(
+            migration => migration.from.stakingRewardAddress === info_b.stakingRewardAddress
+          )?.to
+          if (aCanMigrate && !bCanMigrate) return -1
+          if (!aCanMigrate && bCanMigrate) return 1
+          return 0
         })
         .map(stakingInfo => {
           return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
             .then(res => res.json())
-            .then(res => ({ swapFeeApr: res.swapFeeApr, stakingApr: res.stakingApr, combinedApr: res.combinedApr, ...stakingInfo }))
+            .then(res => ({
+              swapFeeApr: res.swapFeeApr,
+              stakingApr: Number(res.stakingApr),
+              combinedApr: res.combinedApr,
+              ...stakingInfo
+            }))
         })
     ).then(stakingInfos => {
-      const poolCards = stakingInfos
-        .map(stakingInfo => (
-          <PoolCard
-            swapFeeApr={stakingInfo.swapFeeApr}
-            stakingApr={stakingInfo.stakingApr}
-            key={stakingInfo.stakingRewardAddress}
-            stakingInfo={stakingInfo}
-            migration={MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to}
-            version={version}
-          />
-        ))
+      const poolCards = stakingInfos.map(stakingInfo => (
+        <PoolCard
+          swapFeeApr={stakingInfo.swapFeeApr}
+          stakingApr={stakingInfo.stakingApr}
+          key={stakingInfo.stakingRewardAddress}
+          stakingInfo={stakingInfo}
+          migration={
+            MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to
+          }
+          version={version}
+        />
+      ))
+      setStakingInfoData(stakingInfos)
       setPoolCards(poolCards)
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingInfos?.length, version])
 
   const stakingRewardsExist = Boolean(typeof chainId === 'number' && (STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0)
+
+  const getSortField = (label: string, field: string, sortBy: any, setSortBy: Function) => {
+    return (
+      <SortField
+        onClick={() => {
+          const desc = sortBy?.field === field ? !sortBy?.desc : true
+          setSortBy({ field, desc })
+        }}
+      >
+        {label}
+        {sortBy?.field === field && (sortBy?.desc ? <ChevronDown size="16" /> : <ChevronUp size="16" />)}
+      </SortField>
+    )
+  }
 
   return (
     <PageWrapper gap="lg" justify="center">
@@ -157,7 +268,7 @@ export default function Earn({
                   <TYPE.white fontSize={14}>{t('earnPage.pangolinGovernanceProposalResult')}</TYPE.white>
                 </RowBetween>
                 {version !== '0' && (
-                  <NavLink style={{ color: 'white', textDecoration: 'underline' }} to='/png/0'>
+                  <NavLink style={{ color: 'white', textDecoration: 'underline' }} to="/png/0">
                     <TYPE.white fontSize={14}>{t('earnPage.oldPngPools')}</TYPE.white>
                   </NavLink>
                 )}
@@ -186,6 +297,15 @@ export default function Earn({
                 value={searchQuery}
                 onChange={handleSearch}
               />
+              <SortSection>
+                Sort by :{' '}
+                <SortFieldContainer>
+                  {getSortField('Liquidity', SortingType.totalStakedInWavax, sortBy, setSortBy)} |{' '}
+                  {getSortField('Pool Weight', SortingType.multiplier, sortBy, setSortBy)} |{' '}
+                </SortFieldContainer>
+                {getSortField('APR', SortingType.totalApr, sortBy, setSortBy)}
+              </SortSection>
+
               {filteredPoolCards}
             </>
           )}

@@ -75,7 +75,8 @@
         "whenYouWithdrawWarning": "Quando você retirar, seu PNG é resgatado e seus tokens de liquidez do Pangolin, PGL, são devolvidos para você. Você não vai mais ganhar recompensas de PNG nessa liquidez. Sua liquidez original de token permanecerá na sua pool de liquidez.",
         "withdrawAndClaim": "Retirar & resgatar",
         "withdrewPgl": "Retirar PGL!",
-        "approve": "Aprovar"
+        "approve": "Aprovar",
+        "poolWeight": "Peso da piscina"
     },
     "menu": {
         "code": "Código",

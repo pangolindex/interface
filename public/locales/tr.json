@@ -75,7 +75,8 @@
     "whenYouWithdrawWarning": "Sağladığınız likiditeyi çektiğinizde PNG'nizi talep edersiniz ve Pangolin likidite tokenlarınız(PGL) size iade edilir. Bu likidite üzerinden artık PNG ödülleri kazanmayacaksınız. Orijinal token likiditeniz, likidite havuzunda kalacaktır.",
     "withdrawAndClaim": "Çek & Ödülü Talep Et",
     "withdrewPgl": "PGL çekildi!",
-    "approve": "Onayla"
+    "approve": "Onayla",
+    "poolWeight": "Havuz Ağırlığı"
   },
   "menu": {
     "code": "Kod",

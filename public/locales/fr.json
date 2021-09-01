@@ -75,7 +75,8 @@
     "whenYouWithdrawWarning": "Lorsque vous effectuez un retrait, votre PNG est réclamé et vos jetons de liquidité Pangolin, PGL, vous sont rendus. Vous ne gagnerez plus de récompenses en PNG sur cette liquidité. Votre jeton de liquidité original restera dans sa pool de liquidité.",
     "withdrawAndClaim": "Retirer & réclamer",
     "withdrewPgl": "PGL Retiré!",
-    "approve": "Approuver"
+    "approve": "Approuver",
+    "poolWeight": "Poids de la piscine"
   },
   "menu": {
     "code": "Code",

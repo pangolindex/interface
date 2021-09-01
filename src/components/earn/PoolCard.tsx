@@ -27,6 +27,16 @@ const StatContainer = styled.div`
  `};
 `
 
+const AprContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
+`
+
 const Wrapper = styled(AutoColumn)<{ showBackground: boolean; bgColor: any }>`
   border-radius: 12px;
   width: 100%;
@@ -55,7 +65,6 @@ const TopSection = styled.div`
    `};
 `
 
-
 const BottomSection = styled.div<{ showBackground: boolean }>`
   padding: 12px 16px;
   opacity: ${({ showBackground }) => (showBackground ? '1' : '0.4')};
@@ -72,10 +81,10 @@ export default function PoolCard({
   migration,
   version,
   swapFeeApr,
-  stakingApr,
+  stakingApr
 }: {
   stakingInfo: StakingInfo
-	migration?: Staking
+  migration?: Staking
   version: string
   swapFeeApr: number
   stakingApr: number
@@ -89,9 +98,14 @@ export default function PoolCard({
   const { t } = useTranslation()
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  const token: Token = currency0 === CAVAX || currency1 === CAVAX
-    ? currency0 === CAVAX ? token1 : token0
-    : token0.equals(PNG[token0.chainId]) ? token1 : token0
+  const token: Token =
+    currency0 === CAVAX || currency1 === CAVAX
+      ? currency0 === CAVAX
+        ? token1
+        : token0
+      : token0.equals(PNG[token0.chainId])
+      ? token1
+      : token0
 
   // get the color of the token
   const backgroundColor = useColor(token)
@@ -107,12 +121,14 @@ export default function PoolCard({
           {currency0.symbol}-{currency1.symbol}
         </TYPE.white>
 
-        {(migration && isStaking) ? (
+        {migration && isStaking ? (
           <StyledInternalLink
-            to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${Number(version)}/${currencyId(migration.tokens[0])}/${currencyId(migration.tokens[1])}/${migration?.version}`}
-              style={{ marginRight: '10px' }}
-            >
-            <ButtonPrimary padding='8px' borderRadius='8px'>
+            to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${Number(version)}/${currencyId(
+              migration.tokens[0]
+            )}/${currencyId(migration.tokens[1])}/${migration?.version}`}
+            style={{ marginRight: '10px' }}
+          >
+            <ButtonPrimary padding="8px" borderRadius="8px">
               Migrate
             </ButtonPrimary>
           </StyledInternalLink>
@@ -139,20 +155,25 @@ export default function PoolCard({
             {`${stakingInfo.totalStakedInWavax.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`}
           </TYPE.white>
         </RowBetween>
+      </StatContainer>
+      <AprContainer>
         <RowBetween>
           <TYPE.white>Swap Fee APR</TYPE.white>
-          <TYPE.white>{`${swapFeeApr}%`}
-          </TYPE.white>
+          <TYPE.white>{`${swapFeeApr}%`}</TYPE.white>
         </RowBetween>
         <RowBetween>
           <TYPE.white>PNG Rewards APR</TYPE.white>
-          <TYPE.white>{`${stakingApr}%`}
-          </TYPE.white>
+          <TYPE.white>{`${stakingApr}%`}</TYPE.white>
         </RowBetween>
         <RowBetween>
           <TYPE.white>Total APR</TYPE.white>
-          <TYPE.white>{`${swapFeeApr + stakingApr}%`}
-          </TYPE.white>
+          <TYPE.white>{`${swapFeeApr + stakingApr}%`}</TYPE.white>
+        </RowBetween>
+      </AprContainer>
+      <StatContainer>
+        <RowBetween>
+          <TYPE.white> {t('earn.poolWeight')} </TYPE.white>
+          <TYPE.white>{`${stakingInfo.multiplier}X`}</TYPE.white>
         </RowBetween>
       </StatContainer>
 
