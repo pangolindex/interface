@@ -52,6 +52,13 @@ const SortField = styled.div`
   line-height: 20px;
 `
 
+const SortFieldContainer = styled.div`
+  display: flex;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   display: none;
+ `};
+`
+
 enum SortingType {
   totalStakedInWavax = 'totalStakedInWavax',
   multiplier = 'multiplier',
@@ -291,8 +298,11 @@ export default function Earn({
                 onChange={handleSearch}
               />
               <SortSection>
-                Sort by : {getSortField('Liquidity', SortingType.totalStakedInWavax, sortBy, setSortBy)} |{' '}
-                {getSortField('Pool Weight', SortingType.multiplier, sortBy, setSortBy)} |{' '}
+                Sort by :{' '}
+                <SortFieldContainer>
+                  {getSortField('Liquidity', SortingType.totalStakedInWavax, sortBy, setSortBy)} |{' '}
+                  {getSortField('Pool Weight', SortingType.multiplier, sortBy, setSortBy)} |{' '}
+                </SortFieldContainer>
                 {getSortField('APR', SortingType.totalApr, sortBy, setSortBy)}
               </SortSection>
 
