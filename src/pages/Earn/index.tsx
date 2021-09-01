@@ -211,7 +211,12 @@ export default function Earn({
 
   const getSortField = (label: string, field: string, sortBy: any, setSortBy: Function) => {
     return (
-      <SortField onClick={() => setSortBy({ field: field, desc: !sortBy?.desc })}>
+      <SortField
+        onClick={() => {
+          const desc = sortBy?.field === field ? !sortBy?.desc : true
+          setSortBy({ field, desc })
+        }}
+      >
         {label}
         {sortBy?.field === field && (sortBy?.desc ? <ChevronDown size="16" /> : <ChevronUp size="16" />)}
       </SortField>
