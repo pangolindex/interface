@@ -169,6 +169,7 @@
     "routingHelper": "Routing through these tokens resulted in the best price for your trade.",
     "confirmSwap": "Confirm Swap",
     "swapAnyway": "Swap Anyway",
+    "confirm": "confirm",
     "price": "Price",
     "accept": "Accept",
     "minimumReceived": "Minimum Received",

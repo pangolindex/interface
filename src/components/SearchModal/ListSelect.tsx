@@ -146,7 +146,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
       action: 'Start Remove List',
       label: listUrl
     })
-    if (window.prompt(t('searchModal.confirmListRemovalPrompt')) === `REMOVE`) {
+    if (window.prompt(t('searchModal.confirmListRemovalPrompt')) === t('searchModal.remove')) {
       ReactGA.event({
         category: 'Lists',
         action: 'Confirm Remove List',
