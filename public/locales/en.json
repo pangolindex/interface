@@ -152,6 +152,7 @@
     "areYouSure": "Are you sure?",
     "expertInfo": "Expert mode turns off the confirm transaction prompt and allows high slippage trades that often result in bad rates and lost funds.",
     "expertWarningCAPS": "ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING.",
+    "confirm": "confirm",
     "confirmExpertMode": "Please type the word \"confirm\" to enable expert mode.",
     "turnOnExpertMode": "Turn On Expert Mode",
     "transactionSettings": "Transaction Settings",
