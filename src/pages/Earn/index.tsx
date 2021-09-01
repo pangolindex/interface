@@ -67,8 +67,6 @@ export default function Earn({
   const { t } = useTranslation()
   const stakingInfos = useStakingInfo(Number(version))
 
-  console.log("stakingInfos",stakingInfos);
-
   const [poolCards, setPoolCards] = useState<any[]>()
   const [filteredPoolCards, setFilteredPoolCards] = useState<any[]>()
   const [searchQuery, setSearchQuery] = useState<string>('')
