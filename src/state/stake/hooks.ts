@@ -229,7 +229,7 @@ const STAKING: {
     tokens: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x574d3245e36Cf8C9dc86430EaDb0fDB2F385F829',
     version: 1,
-    multiplier: 10
+    multiplier: 12
   },
   WAVAX_LINK_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], LINK[ChainId.AVALANCHE]],
