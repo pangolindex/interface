@@ -55,7 +55,7 @@ const SortField = styled.div`
 enum SortingType {
   totalStakedInWavax = 'totalStakedInWavax',
   multiplier = 'multiplier',
-  stakingApr = 'stakingApr'
+  totalApr = 'totalApr'
 }
 
 export default function Earn({
@@ -114,11 +114,11 @@ export default function Earn({
             }
           }
 
-          if (sortBy.field === SortingType.stakingApr) {
+          if (sortBy.field === SortingType.totalApr) {
             if (sortBy.desc) {
-              return info_a.stakingApr > info_b.stakingApr ? -1 : 1
+              return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
             } else {
-              return info_a.stakingApr < info_b.stakingApr ? -1 : 1
+              return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
             }
           }
 
@@ -293,7 +293,7 @@ export default function Earn({
               <SortSection>
                 Sort by : {getSortField('Liquidity', SortingType.totalStakedInWavax, sortBy, setSortBy)} |{' '}
                 {getSortField('Pool Weight', SortingType.multiplier, sortBy, setSortBy)} |{' '}
-                {getSortField('APR', SortingType.stakingApr, sortBy, setSortBy)}
+                {getSortField('APR', SortingType.totalApr, sortBy, setSortBy)}
               </SortSection>
 
               {filteredPoolCards}
