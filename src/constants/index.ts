@@ -251,6 +251,21 @@ export const START: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xF44Fb887334Fa17d2c5c0F970B5D320ab53eD557', 18, 'START', 'Starter')
 }
 
+export const SWAPe: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'SWAP.e', 'TrustSwap Token'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xc7B5D72C836e718cDA8888eaf03707fAef675079', 18, 'SWAP.e', 'TrustSwap Token')
+}
+
+export const YTS: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'YTS', 'YetiSwap'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x488F73cddDA1DE3664775fFd91623637383D6404', 18, 'YTS', 'YetiSwap')
+}
+
+export const TUNDRA: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'TUNDRA', 'TUNDRA Token'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x21c5402C3B7d40C89Cc472C9dF5dD7E51BbAb1b1', 18, 'TUNDRA', 'TUNDRA Token')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
