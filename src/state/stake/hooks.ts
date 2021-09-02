@@ -48,7 +48,9 @@ import {
   START,
   SWAPe,
   YTS,
-  TUNDRA
+  TUNDRA,
+  XUSD,
+  XDO
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -477,6 +479,18 @@ const STAKING: {
   WAVAX_TUNDRA_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], TUNDRA[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xeD617a06C6c727827Ca3B6fb3E565C68342c4c2b',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_XUSD_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], XUSD[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xbD56b964FCdd208a7a83C291864eEb8271BaB773',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_XDO_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], XDO[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x5d479aEbfc49b9e08860BbfCfb3BB4D768Aa1fc3',
     version: 1,
     multiplier: 2
   },
