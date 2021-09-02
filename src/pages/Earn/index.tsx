@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { MIGRATIONS, STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
@@ -66,7 +66,7 @@ export default function Earn({
     setFilteredPoolCards(filtered)
   }, [poolCards, debouncedSearchQuery])
 
-  useMemo(() => {
+  useEffect(() => {
     Promise.all(
       stakingInfos
         ?.filter(function(info) {
@@ -98,14 +98,15 @@ export default function Earn({
         })
         .map(stakingInfo => {
           return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
-            .then(res => res.text())
-            .then(res => ({ apr: res, ...stakingInfo }))
+            .then(res => res.json())
+            .then(res => ({ swapFeeApr: res.swapFeeApr, stakingApr: res.stakingApr, combinedApr: res.combinedApr, ...stakingInfo }))
         })
     ).then(stakingInfos => {
       const poolCards = stakingInfos
         .map(stakingInfo => (
           <PoolCard
-            apr={stakingInfo.apr}
+            swapFeeApr={stakingInfo.swapFeeApr}
+            stakingApr={stakingInfo.stakingApr}
             key={stakingInfo.stakingRewardAddress}
             stakingInfo={stakingInfo}
             migration={MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to}
