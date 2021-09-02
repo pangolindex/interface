@@ -5,7 +5,8 @@ import { useActiveWeb3React } from '../../hooks'
 import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import useInterval from '../../hooks/useInterval'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
-import { addPopup } from '../application/actions'
+import ReactGA from 'react-ga'
+// import { addPopup } from '../application/actions'
 import { AppDispatch, AppState } from '../index'
 import { acceptListUpdate } from './actions'
 
@@ -53,20 +54,25 @@ export default function Updater(): null {
             const min = minVersionBump(list.current.tokens, list.pendingUpdate.tokens)
             // automatically update minor/patch as long as bump matches the min update
             if (bump >= min) {
+              ReactGA.event({
+                category: 'Lists',
+                action: 'Update List from Popup',
+                label: listUrl
+              })
               dispatch(acceptListUpdate(listUrl))
-              dispatch(
-                addPopup({
-                  key: listUrl,
-                  content: {
-                    listUpdate: {
-                      listUrl,
-                      oldList: list.current,
-                      newList: list.pendingUpdate,
-                      auto: true
-                    }
-                  }
-                })
-              )
+              // dispatch(
+              //   addPopup({
+              //     key: listUrl,
+              //     content: {
+              //       listUpdate: {
+              //         listUrl,
+              //         oldList: list.current,
+              //         newList: list.pendingUpdate,
+              //         auto: true
+              //       }
+              //     }
+              //   })
+              // )
             } else {
               console.error(
                 `List at url ${listUrl} could not automatically update because the version bump was only PATCH/MINOR while the update had breaking changes and should have been MAJOR`
@@ -75,20 +81,26 @@ export default function Updater(): null {
             break
 
           case VersionUpgrade.MAJOR:
-            dispatch(
-              addPopup({
-                key: listUrl,
-                content: {
-                  listUpdate: {
-                    listUrl,
-                    auto: false,
-                    oldList: list.current,
-                    newList: list.pendingUpdate
-                  }
-                },
-                removeAfterMs: null
-              })
-            )
+            ReactGA.event({
+              category: 'Lists',
+              action: 'Update List from Popup',
+              label: listUrl
+            })
+            dispatch(acceptListUpdate(listUrl))
+            // dispatch(
+            //   addPopup({
+            //     key: listUrl,
+            //     content: {
+            //       listUpdate: {
+            //         listUrl,
+            //         auto: false,
+            //         oldList: list.current,
+            //         newList: list.pendingUpdate
+            //       }
+            //     },
+            //     removeAfterMs: null
+            //   })
+            // )
         }
       }
     })
