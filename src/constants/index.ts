@@ -266,6 +266,16 @@ export const TUNDRA: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x21c5402C3B7d40C89Cc472C9dF5dD7E51BbAb1b1', 18, 'TUNDRA', 'TUNDRA Token')
 }
 
+export const XUSD: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'xUSD', 'xDollar Stablecoin'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x3509f19581aFEDEff07c53592bc0Ca84e4855475', 18, 'xUSD', 'xDollar Stablecoin')
+}
+
+export const XDO: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'XDO', 'xDollar'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x9eF758aC000a354479e538B8b2f01b917b8e89e7', 18, 'XDO', 'xDollar')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
