@@ -384,7 +384,9 @@
     "swap": "Échanger",
     "anyway": " Peu importe",
     "from": "De",
-    "fromEstimated": "De (estimation)"
+    "fromEstimated": "De (estimation)",
+    "velox": "Définissez un ordre limité sur <1>Velox</1>",
+    "marginSwap": "Tradez avec levier sur <1>MarginSwap"
   },
   "buyPage": {
     "buyAvaxInfo": "Achetez AVAX avec monnaie fiat chez notre partenaire Wyre.",

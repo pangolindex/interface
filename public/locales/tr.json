@@ -384,7 +384,9 @@
     "swap": "Takasla",
     "anyway": " Her durumda",
     "from": "Hangi tokendan",
-    "fromEstimated": "Hangi tokendan (yaklaşık)"
+    "fromEstimated": "Hangi tokendan (yaklaşık)",
+    "velox": "<1>Velox</1>'da limit emriyle al-sat",
+    "marginSwap": "<1>MarginSwap</1>'da kaldıraçlı al-sat"
   },
   "buyPage": {
     "buyAvaxInfo": "Ortağımız Wyre aracılığıyla AVAX satın alın.",

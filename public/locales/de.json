@@ -384,7 +384,9 @@
     "swap": "Tauschen",
     "anyway": " Trotzdem",
     "from": "Tausche",
-    "fromEstimated": "Tausche (geschätzt)"
+    "fromEstimated": "Tausche (geschätzt)",
+    "velox": "Setzen Sie eine Limit-Order auf <1>Velox</1>",
+    "marginSwap": "Tauschen Sie mit Leverage auf <1>MarginSwap</1>"
   },
   "buyPage": {
     "buyAvaxInfo": "Kaufen Sie AVAX mit Fiatgeld von unserem Partner Wyre.",

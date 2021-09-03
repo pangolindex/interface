@@ -384,7 +384,9 @@
     "swap": "兌換",
     "anyway": " 反正",
     "from": "来自",
-    "fromEstimated": "来自（估计）"
+    "fromEstimated": "来自（估计）",
+    "velox": "在 <1>Velox</1> 上设置限价单",
+    "marginSwap": "在 <1>Marginswap</1> 上使用杠杆进行交易"
   },
   "buyPage": {
     "buyAvaxInfo": "用我们的合作伙伴怀尔的法定资金购买 AVAX。",

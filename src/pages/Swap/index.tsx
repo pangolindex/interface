@@ -43,7 +43,7 @@ import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import useENS from '../../hooks/useENS'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useIsSelectedAEBToken } from '../../state/lists/hooks'
 import { DeprecatedWarning } from '../../components/Warning'
 
@@ -286,6 +286,8 @@ export default function Swap() {
 
   const isAEBToken = useIsSelectedAEBToken()
 
+//  const marginSwapLink = "<MarginswapLink href={'https://app.marginswap.exchange/swap'} target={'_blank'}>Marginswap</MarginswapLink>"
+
   return (
     <>
       <TokenWarningModal
@@ -301,10 +303,12 @@ export default function Swap() {
       )}
 
       <TopText>
-        Set a limit order on{' '}
-        <VeloxLink href={'https://app.velox.global/'} target={'_blank'}>
-          Velox
-        </VeloxLink>
+        <Trans i18nKey="swapPage.velox">
+          Set a limit order on
+          <VeloxLink href={'https://app.velox.global/'} target={'_blank'}>
+            Velox
+          </VeloxLink>
+        </Trans>
       </TopText>
 
       <AppBody>
@@ -522,10 +526,12 @@ export default function Swap() {
       </AppBody>
 
       <BottomText>
-        Trade with leverage on{' '}
-        <MarginswapLink href={'https://app.marginswap.exchange/swap'} target={'_blank'}>
-          Marginswap
-        </MarginswapLink>
+        <Trans i18nKey="swapPage.marginSwap">
+          Trade with leverage on
+          <MarginswapLink href={'https://app.marginswap.exchange/swap'} target={'_blank'}>
+            Marginswap
+          </MarginswapLink>
+        </Trans>
       </BottomText>
 
       <AdvancedSwapDetailsDropdown trade={trade} />
