@@ -525,6 +525,8 @@ export default function Swap() {
         </Wrapper>
       </AppBody>
 
+      <AdvancedSwapDetailsDropdown trade={trade} />
+
       <BottomText>
         <Trans i18nKey="swapPage.marginSwap">
           Trade with leverage on
@@ -533,8 +535,6 @@ export default function Swap() {
           </MarginswapLink>
         </Trans>
       </BottomText>
-
-      <AdvancedSwapDetailsDropdown trade={trade} />
     </>
   )
 }
