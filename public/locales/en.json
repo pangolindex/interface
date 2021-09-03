@@ -1,6 +1,7 @@
 {
   "header": {
     "swap": "Swap",
+    "buy": "Buy",
     "pool": "Pool",
     "newPng": "New PNG",
     "oldPng": "Old PNG",
@@ -384,6 +385,13 @@
     "anyway": " Anyway",
     "from": "From",
     "fromEstimated": "From (estimated)"
+  },
+  "buyPage": {
+    "buyAvaxInfo": "Buy AVAX with fiat from our partner Wyre.",
+    "privacyInfo": "Pangolin does not store your purchase history or any personal data.",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email"
   },
   "votePage": {
     "unlockVotes": "Unlock Votes",

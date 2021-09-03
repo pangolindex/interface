@@ -1,6 +1,7 @@
 {
   "header": {
     "swap": "Échanger",
+    "buy": "Acheter",
     "pool": "Pool",
     "newPng": "Nouveau PNG",
     "oldPng": "Ancien PNG",
@@ -384,6 +385,13 @@
     "anyway": " Peu importe",
     "from": "De",
     "fromEstimated": "De (estimation)"
+  },
+  "buyPage": {
+    "buyAvaxInfo": "Achetez AVAX avec monnaie fiat chez notre partenaire Wyre.",
+    "privacyInfo": "Pangolin ne stocke pas votre historique d'achat ni aucune donnée personnelle.",
+    "firstName": "Prénom",
+    "lastName": "Nom de Famille",
+    "email": "Email"
   },
   "votePage": {
     "unlockVotes": "Déverrouiller les votes",

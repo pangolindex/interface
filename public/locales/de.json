@@ -1,6 +1,7 @@
 {
   "header": {
     "swap": "Tauschen",
+    "buy": "Kaufen",
     "pool": "Pool",
     "newPng": "Neues PNG",
     "oldPng": "Altes PNG",
@@ -384,6 +385,13 @@
     "anyway": " Trotzdem",
     "from": "Tausche",
     "fromEstimated": "Tausche (geschätzt)"
+  },
+  "buyPage": {
+    "buyAvaxInfo": "Kaufen Sie AVAX mit Fiatgeld von unserem Partner Wyre.",
+    "privacyInfo": "Pangolin speichert weder Ihre Kaufhistorie noch persönliche Daten.",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "email": "E-Mail-Adresse"
   },
   "votePage": {
     "unlockVotes": "Stimmen freischalten",

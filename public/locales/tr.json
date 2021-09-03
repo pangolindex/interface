@@ -1,6 +1,7 @@
 {
   "header": {
     "swap": "Takas",
+    "buy": "Satın Al",
     "pool": "Havuz",
     "newPng": "Yeni PNG",
     "oldPng": "Eski PNG",
@@ -384,6 +385,13 @@
     "anyway": " Her durumda",
     "from": "Hangi tokendan",
     "fromEstimated": "Hangi tokendan (yaklaşık)"
+  },
+  "buyPage": {
+    "buyAvaxInfo": "Ortağımız Wyre aracılığıyla AVAX satın alın.",
+    "privacyInfo": "Pangolin, satın alma geçmişinizi ya da şahsi bilgilerinizi depolamaz.",
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "email": "E-mail"
   },
   "votePage": {
     "unlockVotes": "Oyların Kilidini Kaldır",

@@ -1,6 +1,7 @@
 {
     "header": {
         "swap": "Swap",
+        "buy": "Comprar",
         "pool": "Pool",
         "newPng": "Novo PNG",
         "oldPng": "Antigo PNG",
@@ -384,6 +385,13 @@
         "anyway": " de qualquer forma",
         "from": "De",
         "fromEstimated": "De (estimado)"
+    },
+    "buyPage": {
+        "buyAvaxInfo": "Compre AVAX com moeda fiduciária do nosso parceiro Wyre.",
+        "privacyInfo": "Pangolin não armazena seu histórico de compras ou dados pessoais.",
+        "firstName": "Nome",
+        "lastName": "Apelido",
+        "email": "Email"
     },
     "votePage": {
         "unlockVotes": "Desbloquear votos",
