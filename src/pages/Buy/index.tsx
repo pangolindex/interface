@@ -81,7 +81,7 @@ export default function Buy() {
             <FiatInputPanel fiat={fiat} value={amount} onUserInput={setAmount} onFiatSelect={setFiat} id="fiatPanel"/>
             {formError ? <TYPE.error title={'Error'} error>An error occurred while submitting the data to Wyre</TYPE.error> : null}
             <ButtonPrimary type="submit" style={{ margin: '20px 0 0 0' }} disabled={!ableToBuy}>
-              Buy AVAX
+              {t('buyPage.buyAvax')}
             </ButtonPrimary>
           </PurchaseForm>
 

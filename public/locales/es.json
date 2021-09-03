@@ -393,7 +393,8 @@
     "privacyInfo": "Pangolin no almacena su historial de compras ni ningún dato personal.",
     "firstName": "Nombre",
     "lastName": "Apellido",
-    "email": "Email"
+    "email": "Email",
+    "buyAvax": "Compre AVAX"
   },
   "votePage": {
     "unlockVotes": "Desbloquear votos",

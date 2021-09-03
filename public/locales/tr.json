@@ -393,7 +393,8 @@
     "privacyInfo": "Pangolin, satın alma geçmişinizi ya da şahsi bilgilerinizi depolamaz.",
     "firstName": "Ad",
     "lastName": "Soyad",
-    "email": "E-mail"
+    "email": "E-mail",
+    "buyAvax": "AVAX Satın Al"
   },
   "votePage": {
     "unlockVotes": "Oyların Kilidini Kaldır",

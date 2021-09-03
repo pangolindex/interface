@@ -393,7 +393,8 @@
     "privacyInfo": "Pangolin 不存储您的购买历史记录或任何个人数据。",
     "firstName": "名",
     "lastName": "姓",
-    "email": "邮箱"
+    "email": "邮箱",
+    "buyAvax": "购买 AVAX"
   },
   "votePage": {
     "unlockVotes": "解锁投票",
