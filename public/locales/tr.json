@@ -40,7 +40,7 @@
     "selectToken": "Bir token seçin",
     "balance": "Bakiye: ",
     "max": "Max",
-    "to": "Hangi tokena"
+    "to": "Hangi tokene"
   },
   "earn": {
     "claimAccumulated": "Birikmiş PNG ödüllerini talep et",
@@ -73,7 +73,7 @@
     "deposited": "Yatırıldı",
     "withdrawDepositedLiquidity": "Yatırılan likiditeyi çek",
     "depositedPglLiquidity": "Yatırılan PGL likiditesi:",
-    "whenYouWithdrawWarning": "Sağladığınız likiditeyi çektiğinizde PNG'nizi talep edersiniz ve Pangolin likidite tokenlarınız(PGL) size iade edilir. Bu likidite üzerinden artık PNG ödülleri kazanmayacaksınız. Orijinal token likiditeniz, likidite havuzunda kalacaktır.",
+    "whenYouWithdrawWarning": "Sağladığınız likiditeyi çektiğinizde PNG'nizi talep edersiniz ve Pangolin likidite tokenleriniz (PGL) size iade edilir. Bu likidite üzerinden artık PNG ödülleri kazanmayacaksınız. Orijinal token likiditeniz, likidite havuzunda kalacaktır.",
     "withdrawAndClaim": "Çek & Ödülü Talep Et",
     "withdrewPgl": "PGL çekildi!",
     "approve": "Onayla",
@@ -99,8 +99,8 @@
     "createPair": "Bir işlem çifti oluştur",
     "addLiquidity": "Likidite Ekle",
     "removeLiquidity": "Likiditeyi Çıkar",
-    "whenYouAddLiquidityInfo": "Likidite eklediğinizde, size pozisyonunuzu temsil eden havuz tokenları verilir. Bu tokenlar, yapılan her işlemden otomatik olarak ve havuzdaki payınızla orantılı şekilde ücret alır ve bu ücreti herhangi bir zamanda talep edilebilirsiniz.",
-    "removingPoolTokensInfo": "Havuz tokenlarını çekmek istediğinizde; pozisyonunuz, havuzdaki payınızla orantılı olarak mevcut oran üzerinden likidite sağladığınız tokenlara dönüştürülür. Biriken ücretler, aldığınız tutara dahildir."
+    "whenYouAddLiquidityInfo": "Likidite eklediğinizde, size pozisyonunuzu temsil eden havuz tokenleri verilir. Bu tokenler, yapılan her işlemden otomatik olarak ve havuzdaki payınızla orantılı şekilde ücret alır ve bu ücreti herhangi bir zamanda talep edilebilirsiniz.",
+    "removingPoolTokensInfo": "Havuz tokenlerini çekmek istediğinizde; pozisyonunuz, havuzdaki payınızla orantılı olarak mevcut oran üzerinden likidite sağladığınız tokenlere dönüştürülür. Biriken ücretler, aldığınız tutara dahildir."
   },
   "popups": {
     "tokenListUpdated": "\" {{oldList}} \" token listesi şuna güncellendi: ",
@@ -109,7 +109,7 @@
     "hash": "Hash: ",
     "added": "eklendi",
     "removed": "çıkarıldı",
-    "tokensUpdated": "tokenlar güncellendi",
+    "tokensUpdated": "tokenler güncellendi",
     "acceptUpdate": "Güncellemeyi kabul et",
     "dismiss": "Yoksay"
   },
@@ -118,7 +118,7 @@
     "remove": "Çıkar",
     "poolShare": "Havuz payınız:",
     "pooled": "Havuzda",
-    "poolTokens": "Havuz tokenlarınız:",
+    "poolTokens": "Havuz tokenleriniz:",
     "manage": "Yönet",
     "loading": "Yükleniyor",
     "yourPosition": "Pozisyonunuz",
@@ -126,7 +126,7 @@
   },
   "searchModal": {
     "commonBases": "Ortak bazlar",
-    "tokensPairsHelper": "Bu tokenlar genellikle diğer tokenlarla eşleştiriliyor.",
+    "tokensPairsHelper": "Bu tokenler genellikle diğer tokenlerle eşleştiriliyor.",
     "addedByUser": "Şu kullanıcı tarafından eklendi: ",
     "foundByAddress": "Şu adres ile bulundu:",
     "remove": "çıkar",
@@ -139,7 +139,7 @@
     "selectList": "Bir liste seçin",
     "confirmListRemovalPrompt": "Lütfen \"çıkar\" yazarak bu listeyi kaldırmak istediğinizi onaylayın",
     "addList": "Bir Liste Ekle ",
-    "tokenListHelper": "Token listeleri, ERC20 tokenlarının listeleri için tanımlamaya açık bir özelliktir. Hehangi bir token listenin URL'sini aşağıya girerek kullanabilirsiniz. Üçüncü parti token listelerinin sahte veya kötü amaçlı ERC20 tokenları içerebileceğine dikkat edin.",
+    "tokenListHelper": "Token listeleri, ERC20 tokenlerinin listeleri için tanımlamaya açık bir özelliktir. Hehangi bir token listenin URL'sini aşağıya girerek kullanabilirsiniz. Üçüncü parti token listelerinin sahte veya kötü amaçlı ERC20 tokenleri içerebileceğine dikkat edin.",
     "httpsPlaceholder": "https:// veya ipfs://",
     "manageLists": "Listeleri yönet",
     "viewList": "Listeyi görüntüle",
@@ -147,7 +147,7 @@
     "removeList": "Listeyi çıkar",
     "selected": "Seçildi",
     "select": "Seç",
-    "manageTokenLists": "Jeton Listelerini Yönet"
+    "manageTokenLists": "Token Listelerini Yönet"
   },
   "settings":
   {
@@ -169,7 +169,7 @@
     "liquidityProviderFee": "Likidite Sağlayıcı Ücreti",
     "liquidityProviderHelper": "Her takasın bir kısmı (%0.30) protokolü teşvik etmek adına likidite sağlayıcılarına gider.",
     "route": "Rota",
-    "routingHelper": "İşleminiz için en iyi fiyatı bu tokenlar aracılığıyla izlenen rota veriyor.",
+    "routingHelper": "İşleminiz için en iyi fiyatı bu tokenler aracılığıyla izlenen rota veriyor.",
     "confirmSwap": "Takası Onayla",
     "swapAnyway": "Yine de Takasla",
     "confirm": "onayla",
@@ -192,8 +192,8 @@
   },
   "tokenWarningModal": {
     "tokenImported": "Token dışarıdan eklendi",
-    "anyoneCanCreateWarning": "Mevcut tokenların sahte versiyonlarını veya bir tokena sahip olmayan projeleri temsil ettiğini iddia eden tokenları oluşturmak da dahil olmak üzere, herkes Avalanche üzerinde <em>herhangi bir</em> adla bir ERC-20 token oluşturabilir.",
-    "loadArbitraryWarning": "Bu arayüze, token adresini bildiğiz sürece rastgele tokenlar yüklenebilmektedir. Lütfen ekstra dikkatli olun ve rastgele ERC-20 tokenlarıyla etkileşim kurarken araştırmanızı yapın.",
+    "anyoneCanCreateWarning": "Mevcut tokenlerin sahte versiyonlarını veya bir tokene sahip olmayan projeleri temsil ettiğini iddia eden tokenleri oluşturmak da dahil olmak üzere, herkes Avalanche üzerinde <em>herhangi bir</em> adla bir ERC-20 token oluşturabilir.",
+    "loadArbitraryWarning": "Bu arayüze, token adresini bildiğiz sürece rastgele tokenler yüklenebilmektedir. Lütfen ekstra dikkatli olun ve rastgele ERC-20 tokenleriyle etkileşim kurarken araştırmanızı yapın.",
     "purchaseArbitraryWarning": "Eğer rastgele bir token alırsanız, <strong>geri satamayabilirsiniz.</strong>",
     "understand": "Anladım",
     "continue": "Devam et",
@@ -219,7 +219,7 @@
     "minutes": "dakika"
   },
   "vote": {
-    "earnedPng": "Kazanılan PNG tokenları, Pangolin'in yönetimindeki oy hakkını temsil eder.",
+    "earnedPng": "Kazanılan PNG tokenleri, Pangolin'in yönetimindeki oy hakkını temsil eder.",
     "canEitherVote": "Her önergeye kendiniz oy verebilir veya oylarınızı üçüncü bir partiye devredebilirsiniz.",
     "delegateVotes": "Oylarınızın Yetkisini Başkasına Verin",
     "selfDelegate": "Kendinizi Temsil Edin",
@@ -272,7 +272,7 @@
     "creatingPool": "Bir havuz oluşturuyorsunuz",
     "willReceive": "Şu kadar alacaksınız/elde edeceksiniz:",
     "firstLP": "İlk likidite sağlayıcısı sizsiniz.",
-    "ratioTokens": "Eklediğiniz tokenların oranı bu havuzun fiyatını belirleyecektir.",
+    "ratioTokens": "Eklediğiniz tokenlerin oranı bu havuzun fiyatını belirleyecektir.",
     "happyRate": "Orandan memnun olduğunuzda likidite sağla tuşuna basın.",
     "initialPrices": "Başlangıçtaki Fiyatlar",
     "prices": "Fiyatlar",
@@ -282,14 +282,14 @@
     "supply": "Likidite Sağla",
     "per": " başına ",
     "rates": "Oranlar",
-    "poolTokens": " Havuz Tokenları"
+    "poolTokens": " Havuz Tokenleri"
   },
   "airdrop": {
     "claimPngAirdrop": "Airdrop’dan Gelen PNG’yi Talep Et",
     "claimPeriodEnded": "Airdrop’u talep etme süresi sonra erdi.",
     "connectWalletViewLiquidity": "Likiditenizi görmek için bir cüzdana bağlanın.",
     "noAvailableClaim": "Mevcut bir talebiniz bulunmuyor.",
-    "noUniNoSushi": "UNI veya SUSHI tokenınız mevcut değil. Cüzdanınıza UNI veya SUSHI tokenını eklemek için lütfen buradaki rehberi inceleyin.",
+    "noUniNoSushi": "UNI veya SUSHI tokeniniz mevcut değil. Cüzdanınıza UNI veya SUSHI tokenini eklemek için lütfen buradaki rehberi inceleyin.",
     "youHave": "Talep edebileceğiniz mevcut PNG: ",
     "pngAvailableClaim": "",
     "loading": "Yükleniyor",
@@ -298,7 +298,7 @@
   },
   "earnPage": {
     "pangolinLiquidityMining": "Pangolin likidite madenciliği",
-    "depositPangolinLiquidity": "Pangolin protokolünün yönetim tokenı olan PNG'yi elde etmek için Pangolin Likidite Sağlayıcı(PGL) tokenlarınızı yatırın.",
+    "depositPangolinLiquidity": "Pangolin protokolünün yönetim tokeni olan PNG'yi elde etmek için Pangolin Likidite Sağlayıcı(PGL) tokenlerinizi yatırın.",
     "readMoreAboutPng": "PNG hakkında daha fazla bilgi edinin",
     "importantUpdate": "ÖNEMLİ GÜNCELLEME",
     "pangolinGovernanceProposalResult": "Pangolin yönetiminin 1. önergesinin oylama sonucuna göre: Pangolin, yatırma işlemlerinde kullanılan sözleşmelerini değiştirmiştir. 19/04/2021 tarihinde saat 08:59’dan sonra (UTC saat dilimi), likidite sağlama karşılığında verilen tüm ödüller, yeni sözleşmelerine dağıtılacaktır. Geçişten önce ise, tüm ödüller eski sözleşmelere dağıtılmaya devam edecektir. Yield farming ödüllerinin kesintiye uğramasını önlemek adına likiditenizi eski sözleşmelerden kaldırmanız ve yeni sözleşmelere geçiş sağlamanız gerekmektedir. Bununla birlikte havuzlardaki likiditenizi çekmenize veya pozisyonlarınızı değiştirmenize gerek yoktur.",
@@ -310,8 +310,8 @@
     "liquidityMining": "Likidite Madenciliği",
     "totalStaked": "Yatırılan Toplam",
     "poolRate": "Havuzun Getirisi",
-    "step1": "1. Aşama: Pangolin likidite tokenları(PGL) edinin",
-    "pglTokenRequired": "PGL tokenı gereklidir. {{ poolHandle }} havuzuna likidite ekledikten sonra bu sayfadan likidite tokenlarınızı yatırabilirsiniz.",
+    "step1": "1. Aşama: Pangolin likidite tokenleri (PGL) edinin",
+    "pglTokenRequired": "PGL tokeni gereklidir. {{ poolHandle }} havuzuna likidite ekledikten sonra bu sayfadan likidite tokenlerinizi yatırabilirsiniz.",
     "addPoolLiquidity": "{{ poolHandle }} havuzuna likidite ekle",
     "liquidityDeposits": "Likidite yatırımlarınız",
     "unclaimedPng": "Talep edilmemiş PNG’leriniz",
@@ -319,8 +319,8 @@
     "pngPerWeek": " PNG / hafta",
     "automagically": "Bir çekim işlemi yaptığınızda sözleşme otomatik olarak PNG'lerinizi sizin adınıza talep edecektir!",
     "deposit": "Yatır",
-    "depositPglTokens": "PGL Tokenı Yatır",
-    "pglTokenAvailable": "Kullanılabilir PNG Tokenı"
+    "depositPglTokens": "PGL Tokeni Yatır",
+    "pglTokenAvailable": "Kullanılabilir PNG Tokeni"
   },
   "pool": {
     "liquidityProviderRewards": "Likidite sağlayıcılarına verilen ödüller",
@@ -368,23 +368,23 @@
   },
   "swapPage": {
     "addSend": "+ Bir alıcı ekleyin (opsiyonel)",
-    "toEstimated": "Hangi tokena (yaklaşık)",
-    "to": "Hangi tokena",
+    "toEstimated": "Hangi tokene (yaklaşık)",
+    "to": "Hangi tokene",
     "removeSend": "- Alıcıyı sil",
     "price": "Fiyat",
     "slippageTolerance": "Slipaj Toleransı",
     "connectWallet": "Cüzdanı Bağla",
     "insufficientLiquidity": "Bu işlem için yetersiz likidite.",
-    "wrap": "Tokenı Sar",
-    "unwrap": "Sarılı Tokenı Aç",
+    "wrap": "Tokeni Sar",
+    "unwrap": "Sarılı Tokeni Aç",
     "approving": "Onaylanıyor",
     "approve": "Onayla ",
     "approved": "Onaylandı",
     "priceImpactHigh": "Fiyat Etkisi Yüksek",
     "swap": "Takasla",
     "anyway": " Her durumda",
-    "from": "Hangi tokendan",
-    "fromEstimated": "Hangi tokendan (yaklaşık)",
+    "from": "Hangi tokenden",
+    "fromEstimated": "Hangi tokenden (yaklaşık)",
     "velox": "<1>Velox</1>'da limit emriyle al-sat",
     "marginSwap": "<1>MarginSwap</1>'da kaldıraçlı al-sat"
   },
@@ -399,7 +399,7 @@
     "unlockVotes": "Oyların Kilidini Kaldır",
     "updateDelegation": "Delegasyonu(Yetkilerdirme) Güncelle",
     "pangolinGovernance": "Pangolin Yönetimi",
-    "earnedPngTokens": "PNG tokenları, Pangolin'in yönetiminde kullanabildiğiniz oy hakkını temsil eder. Her önergede kendiniz oy verebilir veya oy haklarınızı üçüncü bir partiye devredebilirsiniz.",
+    "earnedPngTokens": "PNG tokenleri, Pangolin'in yönetiminde kullanabildiğiniz oy hakkını temsil eder. Her önergede kendiniz oy verebilir veya oy haklarınızı üçüncü bir partiye devredebilirsiniz.",
     "eligibleToVote": "Oy kullanmaya uygun olmak için cüzdanınızda PNG tutmanız ve oylama başında PNG'lerinizi yetkilendirmeniz gerekir. Oylama başladıktan sonra PNG'lerinizi bir havuza aktarabilir veya harcayabilirsiniz.",
     "governanceVotes": "Yönetimin sunduğu önergeler, basit çoğunlukla kararlaştırılır. Ulaşılması veya geçilmesi gereken bir çoğunluk eşiği yoktur.",
     "proposals": "Önergeler",
