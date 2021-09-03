@@ -386,7 +386,7 @@
         "from": "De",
         "fromEstimated": "De (estimado)",
         "velox": "Definir uma ordem de limite no <1>Velox</1>",
-        "marginSwap": "Negocie com alavancagem no <1>MarginSwap"
+        "marginSwap": "Negocie com alavancagem no <1>MarginSwap</1>"
     },
     "buyPage": {
         "buyAvaxInfo": "Compre AVAX com moeda fiduciária do nosso parceiro Wyre.",
