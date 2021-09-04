@@ -286,8 +286,6 @@ export default function Swap() {
 
   const isAEBToken = useIsSelectedAEBToken()
 
-//  const marginSwapLink = "<MarginswapLink href={'https://app.marginswap.exchange/swap'} target={'_blank'}>Marginswap</MarginswapLink>"
-
   return (
     <>
       <TokenWarningModal
