@@ -50,7 +50,9 @@ import {
   YTS,
   TUNDRA,
   XUSD,
-  XDO
+  XDO,
+  JOE,
+  ZABU
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -396,7 +398,7 @@ const STAKING: {
     tokens: [WAVAX[ChainId.AVALANCHE], USDCe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x84B536dA1A2D9b0609f9Da73139674cc2D75AF2D',
     version: 1,
-    multiplier: 1
+    multiplier: 10
   },
   WAVAX_LYD_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], LYD[ChainId.AVALANCHE]],
@@ -491,6 +493,18 @@ const STAKING: {
   WAVAX_XDO_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], XDO[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x5d479aEbfc49b9e08860BbfCfb3BB4D768Aa1fc3',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_JOE_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], JOE[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xC0B2D45b8617997bcDad0F33AEE03e4DF4C4f81E',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_ZABU_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], ZABU[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x184949E5A7E8740Da20231B90Fd38E7725FA657A',
     version: 1,
     multiplier: 2
   },
