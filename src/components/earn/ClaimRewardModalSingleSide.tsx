@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { RowBetween } from '../Row'
 import { TYPE, CloseIcon } from '../../theme'
 import { ButtonError } from '../Button'
-import { DoubleSideStakingInfo } from '../../state/stake/hooks'
+import { SingleSideStakingInfo } from '../../state/stake/hooks'
 import { useStakingContract } from '../../hooks/useContract'
 import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -21,10 +21,10 @@ const ContentWrapper = styled(AutoColumn)`
 interface StakingModalProps {
   isOpen: boolean
   onDismiss: () => void
-  stakingInfo: DoubleSideStakingInfo
+  stakingInfo: SingleSideStakingInfo
 }
 
-export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo }: StakingModalProps) {
+export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingInfo }: StakingModalProps) {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
 

@@ -1,4 +1,4 @@
-import { CurrencyAmount, JSBI, Token, Trade } from '@pangolindex/sdk'
+import { ChainId, CurrencyAmount, JSBI, Token, Trade } from '@pangolindex/sdk'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -20,7 +20,7 @@ import TradePrice from '../../components/swap/TradePrice'
 import TokenWarningModal from '../../components/TokenWarningModal'
 import ProgressSteps from '../../components/ProgressSteps'
 
-import { INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
+import { INITIAL_ALLOWED_SLIPPAGE, TRUSTED_TOKEN_ADDRESSES } from '../../constants'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
 import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
@@ -91,7 +91,7 @@ export default function Swap() {
     setDismissTokenWarning(true)
   }, [])
 
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
 
   // toggle wallet when disconnected
@@ -286,10 +286,14 @@ export default function Swap() {
 
   const isAEBToken = useIsSelectedAEBToken()
 
+  const isTrustedToken = useCallback((token: Token) => {
+    return TRUSTED_TOKEN_ADDRESSES[chainId ? chainId : ChainId.AVALANCHE].includes(token.address)
+  }, [chainId])
+
   return (
     <>
       <TokenWarningModal
-        isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
+        isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning && !urlLoadedTokens.every(isTrustedToken)}
         tokens={urlLoadedTokens}
         onConfirm={handleConfirmTokenWarning}
       />

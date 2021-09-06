@@ -8,13 +8,13 @@ import { TYPE, CloseIcon } from '../../theme'
 import { ButtonConfirmed, ButtonError } from '../Button'
 import ProgressCircles from '../ProgressSteps'
 import CurrencyInputPanel from '../CurrencyInputPanel'
-import { TokenAmount, Pair, ChainId } from '@pangolindex/sdk'
+import { TokenAmount } from '@pangolindex/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
-import { usePairContract, useStakingContract } from '../../hooks/useContract'
+import { usePngContract, useStakingContract } from '../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
-import { DoubleSideStakingInfo, useDerivedStakeInfo } from '../../state/stake/hooks'
+import { SingleSideStakingInfo, useDerivedStakeInfo } from '../../state/stake/hooks'
 import { wrappedCurrencyAmount } from '../../utils/wrappedCurrency'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
@@ -38,11 +38,11 @@ const ContentWrapper = styled(AutoColumn)`
 interface StakingModalProps {
   isOpen: boolean
   onDismiss: () => void
-  stakingInfo: DoubleSideStakingInfo
+  stakingInfo: SingleSideStakingInfo
   userLiquidityUnstaked: TokenAmount | undefined
 }
 
-export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiquidityUnstaked }: StakingModalProps) {
+export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo, userLiquidityUnstaked }: StakingModalProps) {
   const { account, chainId, library } = useActiveWeb3React()
 
   // track and parse user input
@@ -69,13 +69,7 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
     onDismiss()
   }, [onDismiss])
 
-  // pair contract for this token to be staked
-  const dummyPair = new Pair(
-    new TokenAmount(stakingInfo.tokens[0], '0'),
-    new TokenAmount(stakingInfo.tokens[1], '0'),
-    chainId ? chainId : ChainId.AVALANCHE
-  )
-  const pairContract = usePairContract(dummyPair.liquidityToken.address)
+  const stakingTokenContract = usePngContract()
 
   // approval data for stake
   const deadline = useTransactionDeadline()
@@ -98,7 +92,6 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
             signatureData.v,
             signatureData.r,
             signatureData.s,
-            { gasLimit: 350000 }
           )
           .then((response: TransactionResponse) => {
             addTransaction(response, {
@@ -131,12 +124,12 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
   }, [maxAmountInput, onUserInput])
 
   async function onAttemptToApprove() {
-    if (!pairContract || !library || !deadline) throw new Error(t('earn.missingDependencies'))
+    if (!stakingTokenContract || !library || !deadline) throw new Error(t('earn.missingDependencies'))
     const liquidityAmount = parsedAmount
     if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
 
     // try to gather a signature for permission
-    const nonce = await pairContract.nonces(account)
+    const nonce = await stakingTokenContract.nonces(account)
 
     const EIP712Domain = [
       { name: 'name', type: 'string' },
@@ -148,7 +141,7 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
       name: 'Pangolin Liquidity',
       version: '1',
       chainId: chainId,
-      verifyingContract: pairContract.address
+      verifyingContract: stakingTokenContract.address
     }
     const Permit = [
       { name: 'owner', type: 'address' },
@@ -207,7 +200,7 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
             onMax={handleMax}
             showMaxButton={!atMaxAmount}
             currency={stakingInfo.stakedAmount.token}
-            pair={dummyPair}
+            pair={null}
             label={''}
             disableCurrencySelect={true}
             customBalanceText={t('earn.availableToDeposit')}
