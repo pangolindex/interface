@@ -1,6 +1,7 @@
 {
   "header": {
     "swap": "兌換",
+    "buy": "购买",
     "pool": "矿池",
     "newPng": "新的 PNG",
     "oldPng": "旧的 PNG",
@@ -383,7 +384,17 @@
     "swap": "兌換",
     "anyway": " 反正",
     "from": "来自",
-    "fromEstimated": "来自（估计）"
+    "fromEstimated": "来自（估计）",
+    "velox": "在 <1>Velox</1> 上设置限价单",
+    "marginSwap": "在 <1>Marginswap</1> 上使用杠杆进行交易"
+  },
+  "buyPage": {
+    "buyAvaxInfo": "用我们的合作伙伴怀尔的法定资金购买 AVAX。",
+    "privacyInfo": "Pangolin 不存储您的购买历史记录或任何个人数据。",
+    "firstName": "名",
+    "lastName": "姓",
+    "email": "邮箱",
+    "buyAvax": "购买 AVAX"
   },
   "votePage": {
     "unlockVotes": "解锁投票",
