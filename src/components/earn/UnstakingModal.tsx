@@ -81,7 +81,7 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
               <TYPE.body fontWeight={600} fontSize={36}>
                 {<FormattedCurrencyAmount currencyAmount={stakingInfo.stakedAmount} />}
               </TYPE.body>
-              <TYPE.body>{t('earn.depositedLiquidity', { symbol: 'PGL' })}</TYPE.body>
+              <TYPE.body>{t('earn.depositedPglLiquidity')}</TYPE.body>
             </AutoColumn>
           )}
           {stakingInfo?.earnedAmount && (
@@ -123,7 +123,7 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
             <TYPE.body fontSize={20}>{t('earn.withdrewStakingToken', { symbol: 'PGL' })}</TYPE.body>
-            <TYPE.body fontSize={20}>{t('earn.claimedRewardToken', { symbol: 'PNG' })}</TYPE.body>
+            <TYPE.body fontSize={20}>{t('earn.claimedReward', { symbol: 'PNG' })}</TYPE.body>
           </AutoColumn>
         </SubmittedView>
       )}

@@ -184,8 +184,8 @@ export default function Manage({
 							<AutoColumn gap="md">
 								<RowBetween>
 									<TYPE.white fontWeight={600}>
-                    {t('earnPage.stakedDeposits', { symbol: 'PNG' })}
-                  </TYPE.white>
+										{t('earnPage.yourStakedToken', { symbol: 'PNG' })}
+									</TYPE.white>
 								</RowBetween>
 								<RowBetween style={{ alignItems: 'baseline' }}>
 									<TYPE.white fontSize={36} fontWeight={600}>
@@ -202,9 +202,9 @@ export default function Manage({
 						<AutoColumn gap="sm">
 							<RowBetween>
 								<div>
-                  <TYPE.black>
-                    {t('earnPage.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}
-                  </TYPE.black>
+									<TYPE.black>
+										{t('earnPage.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}
+									</TYPE.black>
 								</div>
 								{stakingInfo?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, stakingInfo?.earnedAmount?.raw) && (
 									<ButtonEmpty
@@ -213,7 +213,7 @@ export default function Manage({
 										width="fit-content"
 										onClick={() => setShowClaimRewardModal(true)}
 									>
-                    {t('earnPage.claim')}
+										{t('earnPage.claim')}
 									</ButtonEmpty>
 								)}
 							</RowBetween>
@@ -257,7 +257,7 @@ export default function Manage({
             width="auto"
             as={Link}
             to={`/swap?inputCurrency=${ZERO_ADDRESS}&outputCurrency=${png.address}`}>
-            {t('earnPage.getStakingToken', { symbol: 'PNG' })}
+	          {t('earnPage.getToken', { symbol: 'PNG' })}
           </ButtonPrimary>
         )}
 
@@ -275,7 +275,7 @@ export default function Manage({
 
       {userPngUnstaked?.greaterThan('0') && (
         <TYPE.main>
-          {userPngUnstaked.toSignificant(6)} {t('earnPage.stakingTokenAvailable', { symbol: 'PNG' })}
+	        {userPngUnstaked.toSignificant(6)} {t('earnPage.stakingTokensAvailable', { symbol: 'PNG' })}
         </TYPE.main>
       )}
 		</PageWrapper>

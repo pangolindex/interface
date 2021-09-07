@@ -400,7 +400,7 @@ export default function Manage({
         )}
         {!userLiquidityUnstaked ? null : userLiquidityUnstaked.equalTo('0') ? null : (
           <TYPE.main>
-            {userLiquidityUnstaked.toSignificant(6)} {t('earnPage.stakingTokenAvailable', { symbol: 'PGL' })}
+            {userLiquidityUnstaked.toSignificant(6)} {t('earnPage.stakingTokensAvailable', { symbol: 'PGL' })}
           </TYPE.main>
         )}
       </PositionInfo>

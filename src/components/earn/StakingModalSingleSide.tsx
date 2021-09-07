@@ -243,7 +243,7 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
       {attempting && !hash && (
         <LoadingView onDismiss={wrappedOnDismiss}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.largeHeader>{t('earn.depositingPng')}</TYPE.largeHeader>
+            <TYPE.largeHeader>{t('earn.depositingToken', { symbol: 'PNG' })}</TYPE.largeHeader>
             <TYPE.body fontSize={20}>{parsedAmount?.toSignificant(4)} PNG</TYPE.body>
           </AutoColumn>
         </LoadingView>

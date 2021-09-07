@@ -81,7 +81,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
               <TYPE.body fontWeight={600} fontSize={36}>
                 {<FormattedCurrencyAmount currencyAmount={stakingInfo.stakedAmount} />}
               </TYPE.body>
-              <TYPE.body>{t('earn.depositedLiquidity', { symbol: 'PNG' })}</TYPE.body>
+              <TYPE.body>{t('earn.depositedToken', { symbol: 'PNG' })}</TYPE.body>
             </AutoColumn>
           )}
           {stakingInfo?.earnedAmount && (
@@ -126,7 +126,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
               {t('earn.withdrewStakingToken', { symbol: 'PNG' })}
             </TYPE.body>
             <TYPE.body fontSize={20}>
-              {t('earn.claimedRewardToken', { symbol: stakingInfo?.rewardToken?.symbol })}
+              {t('earn.claimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}
             </TYPE.body>
           </AutoColumn>
         </SubmittedView>
