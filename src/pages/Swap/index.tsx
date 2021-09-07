@@ -43,7 +43,7 @@ import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import useENS from '../../hooks/useENS'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { useIsSelectedAEBToken } from '../../state/lists/hooks'
 import { DeprecatedWarning } from '../../components/Warning'
 
@@ -57,15 +57,15 @@ const BottomText = styled.span`
   font-size: 18px;
 `
 
-const VeloxLink = styled.a`
+/* const VeloxLink = styled.a`
   color: #f25c23;
   text-decoration: none;
-`
+` */
 
-const MarginswapLink = styled.a`
-  color: #f25c23;
-  text-decoration: none;
-`
+// const MarginswapLink = styled.a`
+//   color: #f25c23;
+//   text-decoration: none;
+// `
 
 const WarningWrapper = styled.div`
   max-width: 420px;
@@ -133,13 +133,13 @@ export default function Swap() {
 
   const parsedAmounts = showWrap
     ? {
-        [Field.INPUT]: parsedAmount,
-        [Field.OUTPUT]: parsedAmount
-      }
+      [Field.INPUT]: parsedAmount,
+      [Field.OUTPUT]: parsedAmount
+    }
     : {
-        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount
-      }
+      [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+      [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount
+    }
 
   const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
   const isValid = !swapInputError
@@ -225,8 +225,8 @@ export default function Swap() {
             recipient === null
               ? 'Swap w/o Send'
               : (recipientAddress ?? recipient) === account
-              ? 'Swap w/o Send + recipient'
-              : 'Swap w/ Send',
+                ? 'Swap w/o Send + recipient'
+                : 'Swap w/ Send',
           label: [trade?.inputAmount?.currency?.symbol, trade?.outputAmount?.currency?.symbol, Version.v2].join('/')
         })
       })
@@ -301,12 +301,12 @@ export default function Swap() {
       )}
 
       <TopText>
-        <Trans i18nKey="swapPage.velox">
-          Set a limit order on
+        {/*         <Trans i18nKey="swapPage.velox">
+                    Set a limit order on
           <VeloxLink href={'https://app.velox.global/'} target={'_blank'}>
             Velox
           </VeloxLink>
-        </Trans>
+        </Trans> */}
       </TopText>
 
       <AppBody>
@@ -426,8 +426,8 @@ export default function Swap() {
                   (wrapType === WrapType.WRAP
                     ? t('swapPage.wrap')
                     : wrapType === WrapType.UNWRAP
-                    ? t('swapPage.unwrap')
-                    : null)}
+                      ? t('swapPage.unwrap')
+                      : null)}
               </ButtonPrimary>
             ) : noRoute && userHasSpecifiedInputOutput ? (
               <GreyCard style={{ textAlign: 'center' }}>
@@ -503,8 +503,8 @@ export default function Swap() {
                   {swapInputError
                     ? swapInputError
                     : priceImpactSeverity > 3 && !isExpertMode
-                    ? t('swapPage.priceImpactHigh')
-                    : t('swapPage.swap') + `${priceImpactSeverity > 2 ? t('swapPage.anyway') : ''}`}
+                      ? t('swapPage.priceImpactHigh')
+                      : t('swapPage.swap') + `${priceImpactSeverity > 2 ? t('swapPage.anyway') : ''}`}
                 </Text>
               </ButtonError>
             )}
@@ -526,12 +526,7 @@ export default function Swap() {
       <AdvancedSwapDetailsDropdown trade={trade} />
 
       <BottomText>
-        <Trans i18nKey="swapPage.marginSwap">
-          Trade with leverage on
-          <MarginswapLink href={'https://app.marginswap.exchange/swap'} target={'_blank'}>
-            Marginswap
-          </MarginswapLink>
-        </Trans>
+
       </BottomText>
     </>
   )

@@ -223,7 +223,7 @@ const StyledNavLink = styled(NavLink).attrs({
 
 const StyledExternalLink = styled(ExternalLink).attrs({
   activeClassName
-})<{ isActive?: boolean }>`
+}) <{ isActive?: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: left;
   border-radius: 3rem;
@@ -287,9 +287,7 @@ export default function Header() {
           <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
             {t('header.swap')}
           </StyledNavLink>
-          <StyledNavLink id={`swap-nav-link`} to={'/buy'}>
-            {t('header.buy')}
-          </StyledNavLink>
+
           <StyledNavLink
             id={`pool-nav-link`}
             to={'/pool'}
@@ -319,6 +317,9 @@ export default function Header() {
           <StyledExternalLink id={`gov-nav-link`} href={'https://gov.pangolin.exchange'}>
             {t('header.forum')} <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
+          <StyledNavLink id={`swap-nav-link`} to={'/buy'}>
+            {t('header.buy')}
+          </StyledNavLink>
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
