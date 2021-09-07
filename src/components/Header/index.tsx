@@ -308,14 +308,14 @@ export default function Header() {
             to={'/png/1'}
             isActive={(match, { pathname }) => Boolean(match) || pathname.startsWith('/png')}
           >
-            Farm
+            {t('header.farm')}
           </StyledNavLink>
           <StyledNavLink
             id={`stake-nav-link`}
             to={'/stake/0'}
             isActive={(match, { pathname }) => Boolean(match) || pathname.startsWith('/stake')}
           >
-            Stake
+            {t('header.stake')}
           </StyledNavLink>
           <StyledNavLink id={`vote-nav-link`} to={'/vote'}>
             {t('header.vote')}
