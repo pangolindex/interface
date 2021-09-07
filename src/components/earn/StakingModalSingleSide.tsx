@@ -82,7 +82,18 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
     setAttempting(true)
     if (stakingContract && parsedAmount && deadline) {
       if (approval === ApprovalState.APPROVED) {
-        await stakingContract.stake(`0x${parsedAmount.raw.toString(16)}`, { gasLimit: 350000 })
+        stakingContract
+	        .stake(`0x${parsedAmount.raw.toString(16)}`)
+	        .then((response: TransactionResponse) => {
+		        addTransaction(response, {
+			        summary: t('earnPage.stakeStakingTokens', { symbol: 'PNG' })
+		        })
+		        setHash(response.hash)
+	        })
+	        .catch((error: any) => {
+		        setAttempting(false)
+		        console.error(error)
+	        })
       } else if (signatureData) {
         stakingContract
           .stakeWithPermit(
@@ -94,13 +105,13 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
           )
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-              summary: t('earn.depositLiquidity')
+	            summary: t('earnPage.stakeStakingTokens', { symbol: 'PNG' })
             })
             setHash(response.hash)
           })
           .catch((error: any) => {
             setAttempting(false)
-            console.log(error)
+            console.error(error)
           })
       } else {
         setAttempting(false)
