@@ -10,6 +10,7 @@ import { CardSection, DataCard } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
 import { useActiveWeb3React } from '../../hooks'
 import { BIG_INT_ZERO } from '../../constants'
+import { useTranslation } from 'react-i18next'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -36,6 +37,7 @@ export default function Earn({
   }
 }: RouteComponentProps<{ version: string }>) {
   const { chainId } = useActiveWeb3React()
+  const { t } = useTranslation()
   const stakingInfos = useSingleSideStakingInfo(Number(version))
   const [stakingInfoResults, setStakingInfoResults] = useState<any[]>()
 
@@ -61,9 +63,6 @@ export default function Earn({
             else return 0
           }
         })
-        .map(stakingInfo => {
-          return { ...stakingInfo, apr: 0 }
-        })
     ).then(results => {
       setStakingInfoResults(results)
     })
@@ -84,12 +83,10 @@ export default function Earn({
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
-                <TYPE.white fontWeight={600}>Pangolin PNG staking</TYPE.white>
+                <TYPE.white fontWeight={600}>{t('earnPage.pangolinLiquidityStaking')}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>
-                  Deposit and stake your PNG tokens to earn more tokens.
-                </TYPE.white>
+                <TYPE.white fontSize={14}>{t('earnPage.depositPangolinStaking')}</TYPE.white>
               </RowBetween>
             </AutoColumn>
           </CardSection>
@@ -98,14 +95,16 @@ export default function Earn({
 
       <AutoColumn gap="lg" style={{ width: '100%', maxWidth: '720px' }}>
         <DataRow style={{ alignItems: 'baseline' }}>
-          <TYPE.mediumHeader style={{ marginTop: '0.5rem' }}>Current opportunities</TYPE.mediumHeader>
+          <TYPE.mediumHeader style={{ marginTop: '0.5rem' }}>
+            {t('earnPage.currentOpportunities')}
+          </TYPE.mediumHeader>
         </DataRow>
 
         <PoolSection>
           {stakingRewardsExist && stakingInfos?.length === 0 ? (
             <Loader style={{ margin: 'auto' }} />
           ) : !stakingRewardsExist ? (
-            'No active PNG staking'
+            t('earnPage.noActiveRewards')
           ) : (
             stakingInfoResults?.map(stakingInfo => (
               <SingleSidePoolCard

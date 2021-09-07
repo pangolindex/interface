@@ -34,7 +34,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
   const [hash, setHash] = useState<string | undefined>()
   const [attempting, setAttempting] = useState(false)
 
-  function wrappedOndismiss() {
+  function wrappedOnDismiss() {
     setHash(undefined)
     setAttempting(false)
     onDismiss()
@@ -69,19 +69,19 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
   }
 
   return (
-    <Modal isOpen={isOpen} onDismiss={wrappedOndismiss} maxHeight={90}>
+    <Modal isOpen={isOpen} onDismiss={wrappedOnDismiss} maxHeight={90}>
       {!attempting && !hash && (
         <ContentWrapper gap="lg">
           <RowBetween>
             <TYPE.mediumHeader>Withdraw</TYPE.mediumHeader>
-            <CloseIcon onClick={wrappedOndismiss} />
+            <CloseIcon onClick={wrappedOnDismiss} />
           </RowBetween>
           {stakingInfo?.stakedAmount && (
             <AutoColumn justify="center" gap="md">
               <TYPE.body fontWeight={600} fontSize={36}>
                 {<FormattedCurrencyAmount currencyAmount={stakingInfo.stakedAmount} />}
               </TYPE.body>
-              <TYPE.body>{t('earn.depositedPglLiquidity')}</TYPE.body>
+              <TYPE.body>{t('earn.depositedLiquidity', { symbol: 'PNG' })}</TYPE.body>
             </AutoColumn>
           )}
           {stakingInfo?.earnedAmount && (
@@ -89,11 +89,11 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
               <TYPE.body fontWeight={600} fontSize={36}>
                 {<FormattedCurrencyAmount currencyAmount={stakingInfo?.earnedAmount} />}
               </TYPE.body>
-              <TYPE.body>{t('earn.unclaimedPng')}</TYPE.body>
+              <TYPE.body>{t('earn.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}</TYPE.body>
             </AutoColumn>
           )}
           <TYPE.subHeader style={{ textAlign: 'center' }}>
-            {t('earn.whenYouWithdrawWarning')}
+            {t('earn.whenYouWithdrawSingleSideWarning', { symbol: stakingInfo?.rewardToken?.symbol })}
           </TYPE.subHeader>
           <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onWithdraw}>
             {error ?? t('earn.withdrawAndClaim')}
@@ -101,19 +101,33 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
         </ContentWrapper>
       )}
       {attempting && !hash && (
-        <LoadingView onDismiss={wrappedOndismiss}>
+        <LoadingView onDismiss={wrappedOnDismiss}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.body fontSize={20}>{t('earn.withdrawingPgl', {"amount": stakingInfo?.stakedAmount?.toSignificant(4)})}</TYPE.body>
-            <TYPE.body fontSize={20}>{t('earn.claimingPng', {"amount": stakingInfo?.earnedAmount?.toSignificant(4)})}</TYPE.body>
+            <TYPE.body fontSize={20}>
+              {t('earn.withdrawingLiquidity', {
+                amount: stakingInfo?.stakedAmount?.toSignificant(4),
+                symbol: 'PNG'
+              })}
+            </TYPE.body>
+            <TYPE.body fontSize={20}>
+              {t('earn.claimingReward', {
+                amount: stakingInfo?.earnedAmount?.toSignificant(4),
+                symbol: stakingInfo?.rewardToken?.symbol
+              })}
+            </TYPE.body>
           </AutoColumn>
         </LoadingView>
       )}
       {hash && (
-        <SubmittedView onDismiss={wrappedOndismiss} hash={hash}>
+        <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{t('earn.withdrewPgl')}</TYPE.body>
-            <TYPE.body fontSize={20}>{t('earn.claimedPng')}</TYPE.body>
+            <TYPE.body fontSize={20}>
+              {t('earn.withdrewStakingToken', { symbol: 'PNG' })}
+            </TYPE.body>
+            <TYPE.body fontSize={20}>
+              {t('earn.claimedRewardToken', { symbol: stakingInfo?.rewardToken?.symbol })}
+            </TYPE.body>
           </AutoColumn>
         </SubmittedView>
       )}

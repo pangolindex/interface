@@ -840,9 +840,9 @@ export const SINGLE_SIDE_STAKING_REWARDS_INFO: {
 }
 
 export const DOUBLE_SIDE_STAKING_REWARDS_INFO: {
-	[chainId in ChainId]?: DoubleSideStaking[][]
+  [chainId in ChainId]?: DoubleSideStaking[][]
 } = {
-	[ChainId.AVALANCHE]: [DOUBLE_SIDE_STAKING_V0, DOUBLE_SIDE_STAKING_V1]
+  [ChainId.AVALANCHE]: [DOUBLE_SIDE_STAKING_V0, DOUBLE_SIDE_STAKING_V1]
 }
 
 export interface StakingInfoBase {
@@ -876,11 +876,12 @@ export interface SingleSideStakingInfo extends StakingInfoBase {
   rewardToken: Token
   // total staked PNG in the pool
   totalStakedInPng: TokenAmount
+  apr: JSBI
 }
 
 export interface DoubleSideStakingInfo extends StakingInfoBase {
-	// the tokens involved in this pair
-	tokens: [Token, Token]
+  // the tokens involved in this pair
+  tokens: [Token, Token]
   // the pool weight
   multiplier: JSBI
   // total staked AVAX in the pool
@@ -911,6 +912,46 @@ const calculateTotalStakedAmountInAvaxFromPng = function(
       ),
       amountAvailable
     )
+  )
+}
+
+const calculateRewardRateInPng = function(
+  rewardRate: JSBI,
+  pair: Pair | null,
+  stakingToken: Token,
+  rewardToken: Token
+): JSBI {
+  if (!pair) return JSBI.BigInt(0)
+
+  // TODO: Handle situation where stakingToken and rewardToken have different decimals
+  const oneToken = JSBI.BigInt(1000000000000000000)
+
+  const pairRatio = JSBI.divide(
+    JSBI.multiply(oneToken, pair.reserveOf(stakingToken).raw), // Multiply first for precision
+    pair.reserveOf(rewardToken).raw
+  )
+  return JSBI.divide(
+    JSBI.multiply(rewardRate, pairRatio), // Multiply first for precision
+    oneToken
+  )
+}
+
+const calculateApr = function(
+  rewardRatePerSecond: JSBI,
+  totalSupply: JSBI
+): JSBI {
+  if (JSBI.EQ(totalSupply, JSBI.BigInt(0))) {
+    return JSBI.BigInt(0)
+  }
+
+  const rewardsPerYear = JSBI.multiply(
+    rewardRatePerSecond,
+    JSBI.BigInt(31536000) // Seconds in year
+  )
+
+  return JSBI.divide(
+    JSBI.multiply(rewardsPerYear, JSBI.BigInt(100)),
+    totalSupply
   )
 }
 
@@ -945,8 +986,8 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
       chainId
         ? DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
             pairToFilterBy === undefined
-              ? true
-              : pairToFilterBy === null
+            ? true
+            : pairToFilterBy === null
               ? false
               : pairToFilterBy.involvesToken(stakingRewardInfo.tokens[0]) &&
                 pairToFilterBy.involvesToken(stakingRewardInfo.tokens[1])
@@ -1061,12 +1102,12 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
         const totalStakedInWavax = isAvaxPool
           ? calculateTotalStakedAmountInAvax(totalSupplyStaked, totalSupplyAvailable, pair.reserveOf(wavax).raw)
           : calculateTotalStakedAmountInAvaxFromPng(
-              totalSupplyStaked,
-              totalSupplyAvailable,
-              avaxPngPair.reserveOf(png).raw,
-              avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
-              pair.reserveOf(png).raw
-            )
+            totalSupplyStaked,
+            totalSupplyAvailable,
+            avaxPngPair.reserveOf(png).raw,
+            avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
+            pair.reserveOf(png).raw
+          )
 
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
@@ -1143,8 +1184,14 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
   const accountArg = useMemo(() => [account ?? undefined], [account])
 
   // get all the info from the staking rewards contracts
+  const tokens = useMemo((): [Token, Token][] => info.map(({ rewardToken }) => [png, rewardToken]), [info])
   const balances = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'balanceOf', accountArg)
   const earnedAmounts = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'earned', accountArg)
+  const pairs = usePairs(tokens)
+
+  const pairsHaveLoaded = useMemo(() => {
+    return pairs?.every(([state, pair]) => state !== PairState.LOADING)
+  }, [pairs])
 
   const stakingTotalSupplies = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'totalSupply')
 
@@ -1182,6 +1229,7 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
         !balanceState?.loading &&
         !earnedAmountState?.loading &&
         // always need these
+        pairsHaveLoaded === true &&
         stakingTotalSupplyState?.loading === false &&
         rewardRateState?.loading === false &&
         periodFinishState?.loading === false
@@ -1198,6 +1246,7 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
         }
 
         const rewardToken = info[index].rewardToken
+        const [, pngPair] = pairs[index]
         const periodFinishMs = periodFinishState.result?.[0]?.mul(1000)?.toNumber()
 
         // periodFinish will be 0 immediately after a reward contract is initialized
@@ -1209,6 +1258,15 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
         const totalStakedAmount = new TokenAmount(png, JSBI.BigInt(totalSupplyStaked))
         const totalRewardRate = new TokenAmount(rewardToken, JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0]))
         const earnedAmount = new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0))
+
+        const rewardRateInPng = calculateRewardRateInPng(
+          totalRewardRate.raw,
+          pngPair,
+          png,
+          rewardToken
+        )
+
+        const apr = isPeriodFinished ? JSBI.BigInt(0) : calculateApr(rewardRateInPng, totalSupplyStaked)
 
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
@@ -1236,7 +1294,8 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
           stakedAmount: stakedAmount,
           totalStakedAmount: totalStakedAmount,
           totalStakedInPng: totalStakedAmount,
-          getHypotheticalRewardRate
+          getHypotheticalRewardRate,
+          apr: apr
         })
       }
       return memo
@@ -1246,11 +1305,13 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
     png,
     rewardsAddresses,
     balances,
+    pairs,
+    pairsHaveLoaded,
     earnedAmounts,
     stakingTotalSupplies,
     rewardRates,
     periodFinishes,
-    info,
+    info
   ])
 }
 

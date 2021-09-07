@@ -13,7 +13,6 @@ import { useActiveWeb3React } from '../../hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { usePngContract, useStakingContract } from '../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
-import { splitSignature } from 'ethers/lib/utils'
 import { SingleSideStakingInfo, useDerivedStakeInfo } from '../../state/stake/hooks'
 import { wrappedCurrencyAmount } from '../../utils/wrappedCurrency'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -43,7 +42,7 @@ interface StakingModalProps {
 }
 
 export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo, userLiquidityUnstaked }: StakingModalProps) {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { chainId, library } = useActiveWeb3React()
 
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
@@ -128,62 +127,65 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
     const liquidityAmount = parsedAmount
     if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
 
-    // try to gather a signature for permission
-    const nonce = await stakingTokenContract.nonces(account)
+    // Short circuit Permit attempt
+    return approveCallback()
 
-    const EIP712Domain = [
-      { name: 'name', type: 'string' },
-      { name: 'version', type: 'string' },
-      { name: 'chainId', type: 'uint256' },
-      { name: 'verifyingContract', type: 'address' }
-    ]
-    const domain = {
-      name: 'Pangolin Liquidity',
-      version: '1',
-      chainId: chainId,
-      verifyingContract: stakingTokenContract.address
-    }
-    const Permit = [
-      { name: 'owner', type: 'address' },
-      { name: 'spender', type: 'address' },
-      { name: 'value', type: 'uint256' },
-      { name: 'nonce', type: 'uint256' },
-      { name: 'deadline', type: 'uint256' }
-    ]
-    const message = {
-      owner: account,
-      spender: stakingInfo.stakingRewardAddress,
-      value: liquidityAmount.raw.toString(),
-      nonce: nonce.toHexString(),
-      deadline: deadline.toNumber()
-    }
-    const data = JSON.stringify({
-      types: {
-        EIP712Domain,
-        Permit
-      },
-      domain,
-      primaryType: 'Permit',
-      message
-    })
-
-    library
-      .send('eth_signTypedData_v4', [account, data])
-      .then(splitSignature)
-      .then(signature => {
-        setSignatureData({
-          v: signature.v,
-          r: signature.r,
-          s: signature.s,
-          deadline: deadline.toNumber()
-        })
-      })
-      .catch(error => {
-        // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-        if (error?.code !== 4001) {
-          approveCallback()
-        }
-      })
+    // // try to gather a signature for permission
+    // const nonce = await stakingTokenContract.nonces(account)
+    //
+    // const EIP712Domain = [
+    //   { name: 'name', type: 'string' },
+    //   { name: 'version', type: 'string' },
+    //   { name: 'chainId', type: 'uint256' },
+    //   { name: 'verifyingContract', type: 'address' }
+    // ]
+    // const domain = {
+    //   name: 'Pangolin Liquidity',
+    //   version: '1',
+    //   chainId: chainId,
+    //   verifyingContract: stakingTokenContract.address
+    // }
+    // const Permit = [
+    //   { name: 'owner', type: 'address' },
+    //   { name: 'spender', type: 'address' },
+    //   { name: 'value', type: 'uint256' },
+    //   { name: 'nonce', type: 'uint256' },
+    //   { name: 'deadline', type: 'uint256' }
+    // ]
+    // const message = {
+    //   owner: account,
+    //   spender: stakingInfo.stakingRewardAddress,
+    //   value: liquidityAmount.raw.toString(),
+    //   nonce: nonce.toHexString(),
+    //   deadline: deadline.toNumber()
+    // }
+    // const data = JSON.stringify({
+    //   types: {
+    //     EIP712Domain,
+    //     Permit
+    //   },
+    //   domain,
+    //   primaryType: 'Permit',
+    //   message
+    // })
+    //
+    // library
+    //   .send('eth_signTypedData_v4', [account, data])
+    //   .then(splitSignature)
+    //   .then(signature => {
+    //     setSignatureData({
+    //       v: signature.v,
+    //       r: signature.r,
+    //       s: signature.s,
+    //       deadline: deadline.toNumber()
+    //     })
+    //   })
+    //   .catch(error => {
+    //     // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
+    //     if (error?.code !== 4001) {
+    //       approveCallback()
+    //     }
+    //   })
   }
 
   return (
@@ -214,7 +216,7 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
 
             <TYPE.black>
               {hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toSignificant(4, { groupSeparator: ',' })}{' '}
-              {t('earn.pngWeek')}
+              {t('earn.rewardPerWeek', { symbol: stakingInfo?.rewardToken?.symbol })}
             </TYPE.black>
           </HypotheticalRewardRate>
 
@@ -241,8 +243,8 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
       {attempting && !hash && (
         <LoadingView onDismiss={wrappedOnDismiss}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.largeHeader>{t('earn.depositingLiquidity')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{parsedAmount?.toSignificant(4)} PGL</TYPE.body>
+            <TYPE.largeHeader>{t('earn.depositingPng')}</TYPE.largeHeader>
+            <TYPE.body fontSize={20}>{parsedAmount?.toSignificant(4)} PNG</TYPE.body>
           </AutoColumn>
         </LoadingView>
       )}
@@ -250,7 +252,7 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{t('earn.deposited')} {parsedAmount?.toSignificant(4)} PGL</TYPE.body>
+            <TYPE.body fontSize={20}>{t('earn.deposited')} {parsedAmount?.toSignificant(4)} PNG</TYPE.body>
           </AutoColumn>
         </SubmittedView>
       )}

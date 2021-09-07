@@ -48,7 +48,7 @@ export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingI
         .getReward({ gasLimit: 350000 })
         .then((response: TransactionResponse) => {
           addTransaction(response, {
-            summary: t('earn.claimAccumulated')
+            summary: t('earn.claimAccumulated', { symbol: stakingInfo?.rewardToken?.symbol })
           })
           setHash(response.hash)
         })
@@ -80,21 +80,26 @@ export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingI
 							<TYPE.body fontWeight={600} fontSize={36}>
 								{stakingInfo?.earnedAmount?.toSignificant(6)}
 							</TYPE.body>
-							<TYPE.body>{t('earn.unclaimedPng')}</TYPE.body>
+							<TYPE.body>{t('earn.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}</TYPE.body>
 						</AutoColumn>
 					)}
 					<TYPE.subHeader style={{ textAlign: 'center' }}>
 						{t('earn.liquidityRemainsPool')}
 					</TYPE.subHeader>
 					<ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onClaimReward}>
-						{error ?? t('earn.unclaimedPng')}
+						{error ?? t('earn.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}
 					</ButtonError>
 				</ContentWrapper>
 			)}
 			{attempting && !hash && (
 				<LoadingView onDismiss={wrappedOnDismiss}>
 					<AutoColumn gap="12px" justify={'center'}>
-						<TYPE.body fontSize={20}>{t('earn.claimingPng', {"amount": stakingInfo?.earnedAmount?.toSignificant(6)})}</TYPE.body>
+						<TYPE.body fontSize={20}>
+              {t('earn.claimingReward', {
+                amount: stakingInfo?.earnedAmount?.toSignificant(6),
+                symbol: stakingInfo?.rewardToken?.symbol
+              })}
+            </TYPE.body>
 					</AutoColumn>
 				</LoadingView>
 			)}
@@ -102,7 +107,7 @@ export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingI
 				<SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
 					<AutoColumn gap="12px" justify={'center'}>
 						<TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-						<TYPE.body fontSize={20}>{t('earn.claimedPng')}</TYPE.body>
+						<TYPE.body fontSize={20}>{t('earn.claimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}</TYPE.body>
 					</AutoColumn>
 				</SubmittedView>
 			)}

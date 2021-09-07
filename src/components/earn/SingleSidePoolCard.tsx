@@ -120,7 +120,7 @@ export default function SingleSidePoolCard({
       <AprContainer>
         <RowBetween>
           <TYPE.white>APR</TYPE.white>
-          <TYPE.white>{`${apr}%`}</TYPE.white>
+          <TYPE.white>{`${apr.toLocaleString()}%`}</TYPE.white>
         </RowBetween>
       </AprContainer>
 

@@ -10,7 +10,7 @@ import { TYPE } from '../../theme'
 
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard } from '../../components/earn/styled'
-import { ButtonPrimary, ButtonEmpty } from '../../components/Button'
+import { ButtonPrimary, ButtonEmpty, ButtonSecondary } from '../../components/Button'
 import { useSingleSideStakingInfo } from '../../state/stake/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { useColor } from '../../hooks/useColor'
@@ -24,6 +24,8 @@ import StakingModalSingleSide from '../../components/earn/StakingModalSingleSide
 import UnstakingModalSingleSide from '../../components/earn/UnstakingModalSingleSide'
 import ClaimRewardModalSingleSide from '../../components/earn/ClaimRewardModalSingleSide'
 import { useTokenBalance } from '../../state/wallet/hooks'
+import { useTranslation } from 'react-i18next'
+import Loader from '../../components/Loader'
 
 const PageWrapper = styled(AutoColumn)`
    max-width: 640px;
@@ -83,6 +85,7 @@ export default function Manage({
 	}
 }: RouteComponentProps<{ rewardCurrencyId: string; version: string }>) {
 	const { account, chainId } = useActiveWeb3React()
+	const { t } = useTranslation()
 
 	const rewardCurrency = useCurrency(rewardCurrencyId)
 	const rewardToken = wrappedCurrency(rewardCurrency ?? undefined, chainId)
@@ -121,7 +124,7 @@ export default function Manage({
 			<RowBetween style={{ gap: '24px' }}>
         <CurrencyLogo currency={png} />
 				<TYPE.mediumHeader style={{ margin: 0 }}>
-					PNG Staking
+          {t('earnPage.pngStaking')}
          </TYPE.mediumHeader>
 				<CurrencyLogo currency={rewardCurrency ?? undefined} />
 			</RowBetween>
@@ -129,20 +132,21 @@ export default function Manage({
 			<DataRow style={{ gap: '24px' }}>
 				<PoolData>
 					<AutoColumn gap="sm">
-						<TYPE.body style={{ margin: 0 }}>Total Staked</TYPE.body>
+						<TYPE.body style={{ margin: 0 }}>{t('earnPage.totalStaked')}</TYPE.body>
 						<TYPE.body fontSize={24} fontWeight={500}>
-							{`${stakingInfo?.totalStakedInPng?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} PNG`}
+							{stakingInfo
+                ? `${stakingInfo?.totalStakedInPng?.toSignificant(4, { groupSeparator: ',' })} PNG`
+                : <Loader />}
 						</TYPE.body>
 					</AutoColumn>
 				</PoolData>
 				<PoolData>
 					<AutoColumn gap="sm">
-						<TYPE.body style={{ margin: 0 }}>Reward Rate</TYPE.body>
+						<TYPE.body style={{ margin: 0 }}>APR</TYPE.body>
 						<TYPE.body fontSize={24} fontWeight={500}>
-							{stakingInfo?.totalRewardRate
-								?.multiply((60 * 60 * 24 * 7).toString())
-								?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
-							{` ${rewardToken?.symbol} / week`}
+							{stakingInfo
+                ? `${stakingInfo?.apr?.toLocaleString()}%`
+                : <Loader />}
 						</TYPE.body>
 					</AutoColumn>
 				</PoolData>
@@ -175,7 +179,9 @@ export default function Manage({
 						<CardSection>
 							<AutoColumn gap="md">
 								<RowBetween>
-									<TYPE.white fontWeight={600}>Your staked PNG</TYPE.white>
+									<TYPE.white fontWeight={600}>
+                    {t('earnPage.stakedDeposits', { symbol: 'PNG' })}
+                  </TYPE.white>
 								</RowBetween>
 								<RowBetween style={{ alignItems: 'baseline' }}>
 									<TYPE.white fontSize={36} fontWeight={600}>
@@ -192,7 +198,9 @@ export default function Manage({
 						<AutoColumn gap="sm">
 							<RowBetween>
 								<div>
-									<TYPE.black>Your unclaimed {rewardCurrency?.symbol}</TYPE.black>
+                  <TYPE.black>
+                    {t('earnPage.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}
+                  </TYPE.black>
 								</div>
 								{stakingInfo?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, stakingInfo?.earnedAmount?.raw) && (
 									<ButtonEmpty
@@ -201,7 +209,7 @@ export default function Manage({
 										width="fit-content"
 										onClick={() => setShowClaimRewardModal(true)}
 									>
-										Claim
+                    {t('earnPage.claim')}
 									</ButtonEmpty>
 								)}
 							</RowBetween>
@@ -224,8 +232,8 @@ export default function Manage({
 									{stakingInfo?.rewardRate
 										?.multiply((60 * 60 * 24 * 7).toString())
 										?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
-									{` ${rewardCurrency?.symbol} / week`}
-								</TYPE.black>
+                  {t('earnPage.rewardPerWeek', { symbol: rewardCurrency?.symbol })}
+                </TYPE.black>
 							</RowBetween>
 						</AutoColumn>
 					</StyledBottomCard>
@@ -235,7 +243,9 @@ export default function Manage({
       <DataRow style={{ marginBottom: '1rem' }}>
         {userPngUnstaked?.greaterThan('0') ? (
           <ButtonPrimary padding="10px" borderRadius="8px" width="auto" onClick={handleStakeClick}>
-            {stakingInfo?.stakedAmount?.greaterThan('0') ? 'Stake' : 'Stake PNG'}
+            {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0))
+              ? t('earnPage.stake')
+              : t('earnPage.stakeStakingTokens', { symbol: 'PNG' })}
           </ButtonPrimary>
         ) : (
           <ButtonPrimary
@@ -243,24 +253,26 @@ export default function Manage({
             width="auto"
             as={Link}
             to={`/swap?inputCurrency=${ZERO_ADDRESS}&outputCurrency=${png.address}`}>
-            Get PNG
+            {t('earnPage.getStakingToken', { symbol: 'PNG' })}
           </ButtonPrimary>
         )}
 
         {stakingInfo?.stakedAmount?.greaterThan('0') && (
-          <ButtonPrimary
+          <ButtonSecondary
             padding="10px"
             borderRadius="8px"
             width="auto"
             onClick={() => setShowUnstakingModal(true)}
           >
-            Claim & Unstake
-          </ButtonPrimary>
+            {t('earnPage.unstake')}
+          </ButtonSecondary>
         )}
       </DataRow>
 
       {userPngUnstaked?.greaterThan('0') && (
-        <TYPE.main>{userPngUnstaked.toSignificant(6)} PNG tokens available</TYPE.main>
+        <TYPE.main>
+          {userPngUnstaked.toSignificant(6)} {t('earnPage.stakingTokenAvailable', { symbol: 'PNG' })}
+        </TYPE.main>
       )}
 		</PageWrapper>
 	)

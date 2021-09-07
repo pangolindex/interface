@@ -81,7 +81,7 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
               <TYPE.body fontWeight={600} fontSize={36}>
                 {<FormattedCurrencyAmount currencyAmount={stakingInfo.stakedAmount} />}
               </TYPE.body>
-              <TYPE.body>{t('earn.depositedPglLiquidity')}</TYPE.body>
+              <TYPE.body>{t('earn.depositedLiquidity', { symbol: 'PGL' })}</TYPE.body>
             </AutoColumn>
           )}
           {stakingInfo?.earnedAmount && (
@@ -89,7 +89,7 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
               <TYPE.body fontWeight={600} fontSize={36}>
                 {<FormattedCurrencyAmount currencyAmount={stakingInfo?.earnedAmount} />}
               </TYPE.body>
-              <TYPE.body>{t('earn.unclaimedPng')}</TYPE.body>
+              <TYPE.body>{t('earn.unclaimedReward', { symbol: 'PNG' })}</TYPE.body>
             </AutoColumn>
           )}
           <TYPE.subHeader style={{ textAlign: 'center' }}>
@@ -103,8 +103,18 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
       {attempting && !hash && (
         <LoadingView onDismiss={wrappedOndismiss}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.body fontSize={20}>{t('earn.withdrawingPgl', {"amount": stakingInfo?.stakedAmount?.toSignificant(4)})}</TYPE.body>
-            <TYPE.body fontSize={20}>{t('earn.claimingPng', {"amount": stakingInfo?.earnedAmount?.toSignificant(4)})}</TYPE.body>
+            <TYPE.body fontSize={20}>
+              {t('earn.withdrawingLiquidity', {
+                amount: stakingInfo?.stakedAmount?.toSignificant(4),
+                symbol: 'PGL'
+              })}
+            </TYPE.body>
+            <TYPE.body fontSize={20}>
+              {t('earn.claimingReward', {
+                amount: stakingInfo?.earnedAmount?.toSignificant(4),
+                symbol: 'PNG'
+              })}
+            </TYPE.body>
           </AutoColumn>
         </LoadingView>
       )}
@@ -112,8 +122,8 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
         <SubmittedView onDismiss={wrappedOndismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{t('earn.withdrewPgl')}</TYPE.body>
-            <TYPE.body fontSize={20}>{t('earn.claimedPng')}</TYPE.body>
+            <TYPE.body fontSize={20}>{t('earn.withdrewStakingToken', { symbol: 'PGL' })}</TYPE.body>
+            <TYPE.body fontSize={20}>{t('earn.claimedRewardToken', { symbol: 'PNG' })}</TYPE.body>
           </AutoColumn>
         </SubmittedView>
       )}
