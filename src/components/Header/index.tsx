@@ -314,7 +314,7 @@ export default function Header() {
             {t('header.vote')}
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/IDO'}>
-            IDOs
+            {t('header.ido')}
           </StyledNavLink>
           <StyledExternalLink id={`info-nav-link`} href={ANALYTICS_PAGE}>
             {t('header.charts')} <span style={{ fontSize: '11px' }}>↗</span>

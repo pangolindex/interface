@@ -5,6 +5,7 @@
     "newPng": "Yeni PNG",
     "oldPng": "Eski PNG",
     "vote": "Oy Ver",
+    "ido": "IDO",
     "charts": "Çizelgeler",
     "forum": "Forum",
     "pngBreakDown": "PNG dağılımınız",
@@ -409,6 +410,15 @@
     "details": "Detaylar",
     "overview": "Genel Bakış",
     "proposer": "Teklif eden"
+  },
+  "IDOPage": {
+    "pangolinIDOs": "Initial DEX Offering (IDO)",
+    "pangolinIDODescription": "İlk DEX Teklifleri (ICO), projelerin yerel tokenlerini merkezi olmayan borsalarda kitle fonlamasına olanak tanır. Avalanche topluluğuna harika projeler getirmek için harika ekiplerle ortaklık kurduk.",
+    "upcomingIDOs": "Yaklaşan",
+    "endedIDOs": "Bitti",
+    "allIDOs": "Tüm IDO'lar",
+    "noIDOsFound": "IDO bulunamadı",
+    "IDOAnnounced": "Kamuya açıklanan İDO'lar burada görünecek."
   },
   "swapHooks": {
     "connectWallet": "Cüzdanı Bağla",

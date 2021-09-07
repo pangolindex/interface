@@ -5,6 +5,7 @@
     "newPng": "Nouveau PNG",
     "oldPng": "Ancien PNG",
     "vote": "Vote",
+    "ido": "IDO",
     "charts": "Graphiques",
     "forum": "Forum",
     "pngBreakDown": "Votre répartition PNG",
@@ -409,6 +410,15 @@
     "details": "Détails",
     "overview": "Vue d'ensemble",
     "proposer": "Auteur"
+  },
+  "IDOPage": {
+    "pangolinIDOs": "Initial DEX Offering (IDO)",
+    "pangolinIDODescription": "Les offres DEX initiales (ICO) permettent aux projets de financer participatif leurs jetons natifs sur des échanges décentralisés. Nous nous sommes associés à des équipes incroyables pour apporter de grands projets à la communauté Avalanche.",
+    "upcomingIDOs": "A venir",
+    "endedIDOs": "Terminé",
+    "allIDOs": "Tous les IDO",
+    "noIDOsFound": "Aucun IDO trouvé",
+    "IDOAnnounced": "Les IDO annoncés publiquement apparaîtront ici."
   },
   "swapHooks": {
     "connectWallet": "Connecter un Portefeuille",
