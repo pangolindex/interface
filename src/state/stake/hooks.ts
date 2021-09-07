@@ -88,7 +88,7 @@ export interface BridgeMigrator {
 const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
   PNG_V0: {
     rewardToken: WAVAX[ChainId.AVALANCHE],
-    stakingRewardAddress: '0x0C7D565b5279Fe03FCCc828BB7F2da754A56132c',
+    stakingRewardAddress: '0xD49B406A7A29D64e081164F6C3353C599A2EeAE9',
     version: 0
   }
 }
