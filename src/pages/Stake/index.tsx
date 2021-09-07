@@ -111,7 +111,6 @@ export default function Earn({
                 key={stakingInfo.stakingRewardAddress}
                 stakingInfo={stakingInfo}
                 version={version}
-                apr={stakingInfo.apr}
               />
             ))
           )}

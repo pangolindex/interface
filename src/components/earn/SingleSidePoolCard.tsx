@@ -10,6 +10,7 @@ import { currencyId } from '../../utils/currencyId'
 import { Break } from './styled'
 import { useTranslation } from 'react-i18next'
 import CurrencyLogo from '../CurrencyLogo'
+import { JSBI } from "@pangolindex/sdk";
 
 const StatContainer = styled.div`
   display: flex;
@@ -76,12 +77,10 @@ const BottomSection = styled.div<{ showBackground: boolean }>`
 export default function SingleSidePoolCard({
   stakingInfo,
   version,
-  apr,
 }: {
   stakingInfo: SingleSideStakingInfo
 	migration?: SingleSideStaking
   version: string
-  apr: number
 }) {
   const { t } = useTranslation()
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
@@ -120,7 +119,12 @@ export default function SingleSidePoolCard({
       <AprContainer>
         <RowBetween>
           <TYPE.white>APR</TYPE.white>
-          <TYPE.white>{`${apr.toLocaleString()}%`}</TYPE.white>
+          <TYPE.white>
+            {JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0))
+              ? `${stakingInfo.apr.toLocaleString()}%`
+              : ' - '
+            }
+          </TYPE.white>
         </RowBetween>
       </AprContainer>
 

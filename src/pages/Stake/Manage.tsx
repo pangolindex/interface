@@ -135,8 +135,9 @@ export default function Manage({
 						<TYPE.body style={{ margin: 0 }}>{t('earnPage.totalStaked')}</TYPE.body>
 						<TYPE.body fontSize={24} fontWeight={500}>
 							{stakingInfo
-                ? `${stakingInfo?.totalStakedInPng?.toSignificant(4, { groupSeparator: ',' })} PNG`
-                : <Loader />}
+								? `${stakingInfo.totalStakedInPng?.toSignificant(4, { groupSeparator: "," })} PNG`
+								: <Loader />
+							}
 						</TYPE.body>
 					</AutoColumn>
 				</PoolData>
@@ -145,8 +146,11 @@ export default function Manage({
 						<TYPE.body style={{ margin: 0 }}>APR</TYPE.body>
 						<TYPE.body fontSize={24} fontWeight={500}>
 							{stakingInfo
-                ? `${stakingInfo?.apr?.toLocaleString()}%`
-                : <Loader />}
+								? JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0))
+									? `${stakingInfo.apr?.toLocaleString()}%`
+									: ' - '
+								: <Loader />
+							}
 						</TYPE.body>
 					</AutoColumn>
 				</PoolData>
