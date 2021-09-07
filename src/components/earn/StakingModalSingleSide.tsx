@@ -19,6 +19,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
+import { splitSignature } from 'ethers/lib/utils'
 
 const HypotheticalRewardRate = styled.div<{ dim: boolean }>`
   display: flex;
@@ -42,7 +43,7 @@ interface StakingModalProps {
 }
 
 export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo, userLiquidityUnstaked }: StakingModalProps) {
-  const { chainId, library } = useActiveWeb3React()
+  const { account, chainId, library } = useActiveWeb3React()
 
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
@@ -138,65 +139,60 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
     const liquidityAmount = parsedAmount
     if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
 
-    // Short circuit Permit attempt
-    return approveCallback()
+    // try to gather a signature for permission
+    const nonce = await stakingTokenContract.nonces(account)
 
-    // // try to gather a signature for permission
-    // const nonce = await stakingTokenContract.nonces(account)
-    //
-    // const EIP712Domain = [
-    //   { name: 'name', type: 'string' },
-    //   { name: 'version', type: 'string' },
-    //   { name: 'chainId', type: 'uint256' },
-    //   { name: 'verifyingContract', type: 'address' }
-    // ]
-    // const domain = {
-    //   name: 'Pangolin Liquidity',
-    //   version: '1',
-    //   chainId: chainId,
-    //   verifyingContract: stakingTokenContract.address
-    // }
-    // const Permit = [
-    //   { name: 'owner', type: 'address' },
-    //   { name: 'spender', type: 'address' },
-    //   { name: 'value', type: 'uint256' },
-    //   { name: 'nonce', type: 'uint256' },
-    //   { name: 'deadline', type: 'uint256' }
-    // ]
-    // const message = {
-    //   owner: account,
-    //   spender: stakingInfo.stakingRewardAddress,
-    //   value: liquidityAmount.raw.toString(),
-    //   nonce: nonce.toHexString(),
-    //   deadline: deadline.toNumber()
-    // }
-    // const data = JSON.stringify({
-    //   types: {
-    //     EIP712Domain,
-    //     Permit
-    //   },
-    //   domain,
-    //   primaryType: 'Permit',
-    //   message
-    // })
-    //
-    // library
-    //   .send('eth_signTypedData_v4', [account, data])
-    //   .then(splitSignature)
-    //   .then(signature => {
-    //     setSignatureData({
-    //       v: signature.v,
-    //       r: signature.r,
-    //       s: signature.s,
-    //       deadline: deadline.toNumber()
-    //     })
-    //   })
-    //   .catch(error => {
-    //     // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-    //     if (error?.code !== 4001) {
-    //       approveCallback()
-    //     }
-    //   })
+	  const EIP712Domain = [
+		  { name: 'name', type: 'string' },
+		  { name: 'chainId', type: 'uint256' },
+		  { name: 'verifyingContract', type: 'address' }
+	  ]
+	  const domain = {
+		  name: 'Pangolin',
+		  chainId: chainId,
+		  verifyingContract: stakingTokenContract.address
+	  }
+    const Permit = [
+      { name: 'owner', type: 'address' },
+      { name: 'spender', type: 'address' },
+      { name: 'value', type: 'uint256' },
+      { name: 'nonce', type: 'uint256' },
+      { name: 'deadline', type: 'uint256' }
+    ]
+    const message = {
+      owner: account,
+      spender: stakingInfo.stakingRewardAddress,
+      value: liquidityAmount.raw.toString(),
+      nonce: nonce.toHexString(),
+      deadline: deadline.toNumber()
+    }
+    const data = JSON.stringify({
+      types: {
+        EIP712Domain,
+        Permit
+      },
+      domain,
+      primaryType: 'Permit',
+      message
+    })
+
+    library
+      .send('eth_signTypedData_v4', [account, data])
+      .then(splitSignature)
+      .then(signature => {
+        setSignatureData({
+          v: signature.v,
+          r: signature.r,
+          s: signature.s,
+          deadline: deadline.toNumber()
+        })
+      })
+      .catch(error => {
+        // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
+        if (error?.code !== 4001) {
+          approveCallback()
+        }
+      })
   }
 
   return (
