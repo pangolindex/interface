@@ -73,7 +73,7 @@ export default function Earn({
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const stakingInfos = useStakingInfo(Number(version))
-
+  const [poolCardsLoading, setPoolCardsLoading] = useState(false)
   const [poolCards, setPoolCards] = useState<any[]>()
   const [filteredPoolCards, setFilteredPoolCards] = useState<any[]>()
   const [searchQuery, setSearchQuery] = useState<string>('')
@@ -100,37 +100,30 @@ export default function Earn({
 
   useEffect(() => {
     Promise.all(
-      stakingInfoData
-        ?.filter(function(info) {
-          // Only include pools that are live or require a migration
-          return !info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0))
-        })
-        .sort(function(info_a, info_b) {
-          if (sortBy.field === SortingType.totalStakedInWavax) {
-            if (sortBy.desc) {
-              return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
-            } else {
-              return info_a.totalStakedInWavax?.lessThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
-            }
+      stakingInfoData.sort(function(info_a, info_b) {
+        if (sortBy.field === SortingType.totalStakedInWavax) {
+          if (sortBy.desc) {
+            return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
+          } else {
+            return info_a.totalStakedInWavax?.lessThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
           }
-          if (sortBy.field === SortingType.multiplier) {
-            if (sortBy.desc) {
-              return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
-            } else {
-              return JSBI.lessThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
-            }
+        }
+        if (sortBy.field === SortingType.multiplier) {
+          if (sortBy.desc) {
+            return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
+          } else {
+            return JSBI.lessThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
           }
-
-          if (sortBy.field === SortingType.totalApr) {
-            if (sortBy.desc) {
-              return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
-            } else {
-              return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
-            }
+        }
+        if (sortBy.field === SortingType.totalApr) {
+          if (sortBy.desc) {
+            return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
+          } else {
+            return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
           }
-
-          return 0
-        })
+        }
+        return 0
+      })
     ).then(stakingInfoData => {
       const poolCards = stakingInfoData.map(stakingInfo => (
         <DoubleSidePoolCard
@@ -147,70 +140,75 @@ export default function Earn({
       setPoolCards(poolCards)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy])
+  }, [sortBy?.field, sortBy?.desc])
 
   useEffect(() => {
-    Promise.all(
-      stakingInfos
-        ?.filter(function(info) {
-          // Only include pools that are live or require a migration
-          return !info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0))
-        })
-        .sort(function(info_a, info_b) {
-          // only first has ended
-          if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
-          // only second has ended
-          if (!info_a.isPeriodFinished && info_b.isPeriodFinished) return -1
-          // greater stake in avax comes first
-          return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
-        })
-        .sort(function(info_a, info_b) {
-          // only the first is being staked, so we should bring the first up
-          if (info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && !info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
-            return -1
-          // only the second is being staked, so we should bring the first down
-          if (!info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
-            return 1
-          return 0
-        })
-        .sort(function(info_a, info_b) {
-          // Bring pools that require migration to the top
-          const aCanMigrate = MIGRATIONS.find(
-            migration => migration.from.stakingRewardAddress === info_a.stakingRewardAddress
-          )?.to
-          const bCanMigrate = MIGRATIONS.find(
-            migration => migration.from.stakingRewardAddress === info_b.stakingRewardAddress
-          )?.to
-          if (aCanMigrate && !bCanMigrate) return -1
-          if (!aCanMigrate && bCanMigrate) return 1
-          return 0
-        })
-        .map(stakingInfo => {
-          return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
-            .then(res => res.json())
-            .then(res => ({
-              swapFeeApr: res.swapFeeApr,
-              stakingApr: Number(res.stakingApr),
-              combinedApr: res.combinedApr,
-              ...stakingInfo
-            }))
-        })
-    ).then(stakingInfos => {
-      const poolCards = stakingInfos.map(stakingInfo => (
-        <DoubleSidePoolCard
-          swapFeeApr={stakingInfo.swapFeeApr}
-          stakingApr={stakingInfo.stakingApr}
-          key={stakingInfo.stakingRewardAddress}
-          stakingInfo={stakingInfo}
-          migration={
-            MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to
-          }
-          version={version}
-        />
-      ))
-      setStakingInfoData(stakingInfos)
-      setPoolCards(poolCards)
-    })
+    setPoolCardsLoading(true)
+    if (stakingInfos?.length > 0) {
+      Promise.all(
+        stakingInfos
+          .filter(function(info) {
+            // Only include pools that are live or require a migration
+            return !info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0))
+          })
+          .sort(function(info_a, info_b) {
+            // only first has ended
+            if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
+            // only second has ended
+            if (!info_a.isPeriodFinished && info_b.isPeriodFinished) return -1
+            // greater stake in avax comes first
+            return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
+          })
+          .sort(function(info_a, info_b) {
+            // only the first is being staked, so we should bring the first up
+            if (info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && !info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
+              return -1
+            // only the second is being staked, so we should bring the first down
+            if (!info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
+              return 1
+            return 0
+          })
+          .sort(function(info_a, info_b) {
+            // Bring pools that require migration to the top
+            const aCanMigrate = MIGRATIONS.find(
+              migration => migration.from.stakingRewardAddress === info_a.stakingRewardAddress
+            )?.to
+            const bCanMigrate = MIGRATIONS.find(
+              migration => migration.from.stakingRewardAddress === info_b.stakingRewardAddress
+            )?.to
+            if (aCanMigrate && !bCanMigrate) return -1
+            if (!aCanMigrate && bCanMigrate) return 1
+            return 0
+          })
+          .map(stakingInfo => {
+            return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+              .then(res => res.json())
+              .then(res => ({
+                swapFeeApr: Number(res.swapFeeApr),
+                stakingApr: Number(res.stakingApr),
+                combinedApr: Number(res.combinedApr),
+                ...stakingInfo
+              }))
+          })
+      ).then(updatedStakingInfos => {
+        const poolCards = updatedStakingInfos.map(stakingInfo => (
+          <DoubleSidePoolCard
+            swapFeeApr={stakingInfo.swapFeeApr}
+            stakingApr={stakingInfo.stakingApr}
+            key={stakingInfo.stakingRewardAddress}
+            stakingInfo={stakingInfo}
+            migration={
+              MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to
+            }
+            version={version}
+          />
+        ))
+        setStakingInfoData(updatedStakingInfos)
+        setPoolCards(poolCards)
+        setPoolCardsLoading(false)
+      })
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingInfos?.length, version])
 
@@ -284,9 +282,9 @@ export default function Earn({
         </DataRow>
 
         <PoolSection>
-          {stakingRewardsExist && stakingInfos?.length === 0 ? (
+          {(stakingRewardsExist && stakingInfos?.length === 0) || poolCardsLoading ? (
             <Loader style={{ margin: 'auto' }} />
-          ) : !stakingRewardsExist || poolCards?.length === 0 ? (
+          ) : (!stakingRewardsExist || poolCards?.length === 0) && !poolCardsLoading ? (
             t('earnPage.noActiveRewards')
           ) : (
             <>

@@ -159,15 +159,15 @@ export default function DoubleSidePoolCard({
       <AprContainer>
         <RowBetween>
           <TYPE.white>Swap Fee APR</TYPE.white>
-          <TYPE.white>{`${swapFeeApr}%`}</TYPE.white>
+          <TYPE.white>{swapFeeApr ? `${swapFeeApr}%` : '-'}</TYPE.white>
         </RowBetween>
         <RowBetween>
           <TYPE.white>PNG Rewards APR</TYPE.white>
-          <TYPE.white>{`${stakingApr}%`}</TYPE.white>
+          <TYPE.white>{stakingApr ? `${stakingApr}%` : '-'}</TYPE.white>
         </RowBetween>
         <RowBetween>
           <TYPE.white>Total APR</TYPE.white>
-          <TYPE.white>{`${swapFeeApr + stakingApr}%`}</TYPE.white>
+          <TYPE.white>{swapFeeApr ? `${swapFeeApr + stakingApr}%` : '-'}</TYPE.white>
         </RowBetween>
       </AprContainer>
       <StatContainer>
