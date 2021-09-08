@@ -100,37 +100,32 @@ export default function Earn({
 
   useEffect(() => {
     Promise.all(
-      stakingInfoData
-        ?.filter(function(info) {
-          // Only include pools that are live or require a migration
-          return !info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0))
-        })
-        .sort(function(info_a, info_b) {
-          if (sortBy.field === SortingType.totalStakedInWavax) {
-            if (sortBy.desc) {
-              return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
-            } else {
-              return info_a.totalStakedInWavax?.lessThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
-            }
+      stakingInfoData.sort(function(info_a, info_b) {
+        if (sortBy.field === SortingType.totalStakedInWavax) {
+          if (sortBy.desc) {
+            return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
+          } else {
+            return info_a.totalStakedInWavax?.lessThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
           }
-          if (sortBy.field === SortingType.multiplier) {
-            if (sortBy.desc) {
-              return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
-            } else {
-              return JSBI.lessThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
-            }
+        }
+        if (sortBy.field === SortingType.multiplier) {
+          if (sortBy.desc) {
+            return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
+          } else {
+            return JSBI.lessThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
           }
+        }
 
-          if (sortBy.field === SortingType.totalApr) {
-            if (sortBy.desc) {
-              return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
-            } else {
-              return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
-            }
+        if (sortBy.field === SortingType.totalApr) {
+          if (sortBy.desc) {
+            return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
+          } else {
+            return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
           }
+        }
 
-          return 0
-        })
+        return 0
+      })
     ).then(stakingInfoData => {
       const poolCards = stakingInfoData.map(stakingInfo => (
         <PoolCard
@@ -154,10 +149,7 @@ export default function Earn({
     if (stakingInfos?.length > 0) {
       Promise.all(
         stakingInfos
-          ?.filter(function(info) {
-            // Only include pools that are live or require a migration
-            return !info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0))
-          })
+
           .sort(function(info_a, info_b) {
             // only first has ended
             if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
