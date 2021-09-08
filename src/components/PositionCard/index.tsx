@@ -25,7 +25,7 @@ import DoubleCurrencyLogo from '../DoubleLogo'
 import { RowBetween, RowFixed } from '../Row'
 import { Dots } from '../swap/styleds'
 import { useTranslation } from 'react-i18next'
-import { BRIDGE_MIGRATORS, STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/hooks'
+import { BRIDGE_MIGRATORS, DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/hooks'
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
@@ -214,7 +214,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
               <ButtonEmpty
                 padding="8px"
                 as={Link}
-                to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${STAKING_REWARDS_CURRENT_VERSION}/${upgradeable0 ? upgradeable0.ab : currencyId(currency0)}/${upgradeable1 ? upgradeable1.ab : currencyId(currency1)}/${STAKING_REWARDS_CURRENT_VERSION}`}
+                to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}/${upgradeable0 ? upgradeable0.ab : currencyId(currency0)}/${upgradeable1 ? upgradeable1.ab : currencyId(currency1)}/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}`}
                 width="48%"
               >
                 Migrate

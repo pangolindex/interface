@@ -62,7 +62,13 @@ import { tryParseAmount } from '../swap/hooks'
 import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 
-export interface Staking {
+export interface SingleSideStaking {
+  rewardToken: Token
+  stakingRewardAddress: string
+  version: number
+}
+
+export interface DoubleSideStaking {
   tokens: [Token, Token]
   stakingRewardAddress: string
   version: number
@@ -70,8 +76,8 @@ export interface Staking {
 }
 
 export interface Migration {
-  from: Staking
-  to: Staking
+  from: DoubleSideStaking,
+  to: DoubleSideStaking
 }
 
 export interface BridgeMigrator {
@@ -79,9 +85,15 @@ export interface BridgeMigrator {
   ab: string
 }
 
-const STAKING: {
-  [key: string]: Staking
-} = {
+const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
+  PNG_V0: {
+    rewardToken: WAVAX[ChainId.AVALANCHE],
+    stakingRewardAddress: '0xD49B406A7A29D64e081164F6C3353C599A2EeAE9',
+    version: 0
+  }
+}
+
+const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   WAVAX_ETH_V0: {
     tokens: [WAVAX[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xa16381eae6285123c323A665D4D99a6bCfaAC307',
@@ -759,47 +771,47 @@ const STAKING: {
 
 // The first mapping in the list takes priority if multiple migrations exist from the same pool
 export const MIGRATIONS: Migration[] = [
-  { from: STAKING.WAVAX_PNG_V0, to: STAKING.WAVAX_PNG_V1 },
-  { from: STAKING.WAVAX_ETH_V0, to: STAKING.WAVAX_WETHe_V1 },
-  { from: STAKING.WAVAX_USDT_V0, to: STAKING.WAVAX_USDTe_V1 },
-  { from: STAKING.WAVAX_WBTC_V0, to: STAKING.WAVAX_WBTCe_V1 },
-  { from: STAKING.WAVAX_LINK_V0, to: STAKING.WAVAX_LINKe_V1 },
-  { from: STAKING.WAVAX_DAI_V0, to: STAKING.WAVAX_DAIe_V1 },
-  { from: STAKING.WAVAX_UNI_V0, to: STAKING.WAVAX_UNIe_V1 },
-  { from: STAKING.WAVAX_SUSHI_V0, to: STAKING.WAVAX_SUSHIe_V1 },
-  { from: STAKING.WAVAX_AAVE_V0, to: STAKING.WAVAX_AAVEe_V1 },
-  { from: STAKING.WAVAX_YFI_V0, to: STAKING.WAVAX_YFIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_PNG_V0, to: DOUBLE_SIDE_STAKING.WAVAX_PNG_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_ETH_V0, to: DOUBLE_SIDE_STAKING.WAVAX_WETHe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_USDT_V0, to: DOUBLE_SIDE_STAKING.WAVAX_USDTe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_WBTC_V0, to: DOUBLE_SIDE_STAKING.WAVAX_WBTCe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_LINK_V0, to: DOUBLE_SIDE_STAKING.WAVAX_LINKe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_DAI_V0, to: DOUBLE_SIDE_STAKING.WAVAX_DAIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_UNI_V0, to: DOUBLE_SIDE_STAKING.WAVAX_UNIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_SUSHI_V0, to: DOUBLE_SIDE_STAKING.WAVAX_SUSHIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_AAVE_V0, to: DOUBLE_SIDE_STAKING.WAVAX_AAVEe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_YFI_V0, to: DOUBLE_SIDE_STAKING.WAVAX_YFIe_V1 },
   // From v0 (PNG)
-  { from: STAKING.PNG_ETH_V0, to: STAKING.PNG_WETHe_V1 },
-  { from: STAKING.PNG_USDT_V0, to: STAKING.PNG_USDTe_V1 },
-  { from: STAKING.PNG_WBTC_V0, to: STAKING.PNG_WBTCe_V1 },
-  { from: STAKING.PNG_LINK_V0, to: STAKING.PNG_LINKe_V1 },
-  { from: STAKING.PNG_DAI_V0, to: STAKING.PNG_DAIe_V1 },
-  { from: STAKING.PNG_UNI_V0, to: STAKING.PNG_UNIe_V1 },
-  { from: STAKING.PNG_SUSHI_V0, to: STAKING.PNG_SUSHIe_V1 },
-  { from: STAKING.PNG_AAVE_V0, to: STAKING.PNG_AAVEe_V1 },
-  { from: STAKING.PNG_YFI_V0, to: STAKING.PNG_YFIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_ETH_V0, to: DOUBLE_SIDE_STAKING.PNG_WETHe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_USDT_V0, to: DOUBLE_SIDE_STAKING.PNG_USDTe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_WBTC_V0, to: DOUBLE_SIDE_STAKING.PNG_WBTCe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_LINK_V0, to: DOUBLE_SIDE_STAKING.PNG_LINKe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_DAI_V0, to: DOUBLE_SIDE_STAKING.PNG_DAIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_UNI_V0, to: DOUBLE_SIDE_STAKING.PNG_UNIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_SUSHI_V0, to: DOUBLE_SIDE_STAKING.PNG_SUSHIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_AAVE_V0, to: DOUBLE_SIDE_STAKING.PNG_AAVEe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_YFI_V0, to: DOUBLE_SIDE_STAKING.PNG_YFIe_V1 },
 
   // From v1 (WAVAX)
-  { from: STAKING.WAVAX_ETH_V1, to: STAKING.WAVAX_WETHe_V1 },
-  { from: STAKING.WAVAX_USDT_V1, to: STAKING.WAVAX_USDTe_V1 },
-  { from: STAKING.WAVAX_WBTC_V1, to: STAKING.WAVAX_WBTCe_V1 },
-  { from: STAKING.WAVAX_LINK_V1, to: STAKING.WAVAX_LINKe_V1 },
-  { from: STAKING.WAVAX_DAI_V1, to: STAKING.WAVAX_DAIe_V1 },
-  { from: STAKING.WAVAX_UNI_V1, to: STAKING.WAVAX_UNIe_V1 },
-  { from: STAKING.WAVAX_SUSHI_V1, to: STAKING.WAVAX_SUSHIe_V1 },
-  { from: STAKING.WAVAX_AAVE_V1, to: STAKING.WAVAX_AAVEe_V1 },
-  { from: STAKING.WAVAX_YFI_V1, to: STAKING.WAVAX_YFIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_ETH_V1, to: DOUBLE_SIDE_STAKING.WAVAX_WETHe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_USDT_V1, to: DOUBLE_SIDE_STAKING.WAVAX_USDTe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_WBTC_V1, to: DOUBLE_SIDE_STAKING.WAVAX_WBTCe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_LINK_V1, to: DOUBLE_SIDE_STAKING.WAVAX_LINKe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_DAI_V1, to: DOUBLE_SIDE_STAKING.WAVAX_DAIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_UNI_V1, to: DOUBLE_SIDE_STAKING.WAVAX_UNIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_SUSHI_V1, to: DOUBLE_SIDE_STAKING.WAVAX_SUSHIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_AAVE_V1, to: DOUBLE_SIDE_STAKING.WAVAX_AAVEe_V1 },
+  { from: DOUBLE_SIDE_STAKING.WAVAX_YFI_V1, to: DOUBLE_SIDE_STAKING.WAVAX_YFIe_V1 },
   // From v1 (PNG)
-  { from: STAKING.PNG_ETH_V1, to: STAKING.PNG_WETHe_V1 },
-  { from: STAKING.PNG_USDT_V1, to: STAKING.PNG_USDTe_V1 },
-  { from: STAKING.PNG_WBTC_V1, to: STAKING.PNG_WBTCe_V1 },
-  { from: STAKING.PNG_LINK_V1, to: STAKING.PNG_LINKe_V1 },
-  { from: STAKING.PNG_DAI_V1, to: STAKING.PNG_DAIe_V1 },
-  { from: STAKING.PNG_UNI_V1, to: STAKING.PNG_UNIe_V1 },
-  { from: STAKING.PNG_SUSHI_V1, to: STAKING.PNG_SUSHIe_V1 },
-  { from: STAKING.PNG_AAVE_V1, to: STAKING.PNG_AAVEe_V1 },
-  { from: STAKING.PNG_YFI_V1, to: STAKING.PNG_YFIe_V1 }
+  { from: DOUBLE_SIDE_STAKING.PNG_ETH_V1, to: DOUBLE_SIDE_STAKING.PNG_WETHe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_USDT_V1, to: DOUBLE_SIDE_STAKING.PNG_USDTe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_WBTC_V1, to: DOUBLE_SIDE_STAKING.PNG_WBTCe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_LINK_V1, to: DOUBLE_SIDE_STAKING.PNG_LINKe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_DAI_V1, to: DOUBLE_SIDE_STAKING.PNG_DAIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_UNI_V1, to: DOUBLE_SIDE_STAKING.PNG_UNIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_SUSHI_V1, to: DOUBLE_SIDE_STAKING.PNG_SUSHIe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_AAVE_V1, to: DOUBLE_SIDE_STAKING.PNG_AAVEe_V1 },
+  { from: DOUBLE_SIDE_STAKING.PNG_YFI_V1, to: DOUBLE_SIDE_STAKING.PNG_YFIe_V1 }
 ]
 
 export const BRIDGE_MIGRATORS: BridgeMigrator[] = [
@@ -814,22 +826,28 @@ export const BRIDGE_MIGRATORS: BridgeMigrator[] = [
   { aeb: '0x99519AcB025a0e0d44c3875A4BbF03af65933627', ab: '0x9eAaC1B23d935365bD7b542Fe22cEEe2922f52dc' } // YFI
 ]
 
-export const STAKING_V0: Staking[] = Object.values(STAKING).filter(staking => staking.version === 0)
-export const STAKING_V1: Staking[] = Object.values(STAKING).filter(staking => staking.version === 1)
+export const SINGLE_SIDE_STAKING_V0: SingleSideStaking[] = Object.values(SINGLE_SIDE_STAKING).filter(staking => staking.version === 0)
+export const SINGLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(...Object.values(SINGLE_SIDE_STAKING).map(staking => staking.version))
 
-export const STAKING_REWARDS_CURRENT_VERSION = Math.max(...Object.values(STAKING).map(staking => staking.version))
+export const DOUBLE_SIDE_STAKING_V0: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING).filter(staking => staking.version === 0)
+export const DOUBLE_SIDE_STAKING_V1: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING).filter(staking => staking.version === 1)
+export const DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(...Object.values(DOUBLE_SIDE_STAKING).map(staking => staking.version))
 
-export const STAKING_REWARDS_INFO: {
-  [chainId in ChainId]?: Staking[][]
+export const SINGLE_SIDE_STAKING_REWARDS_INFO: {
+  [chainId in ChainId]?: SingleSideStaking[][]
 } = {
-  [ChainId.AVALANCHE]: [STAKING_V0, STAKING_V1]
+  [ChainId.AVALANCHE]: [SINGLE_SIDE_STAKING_V0]
 }
 
-export interface StakingInfo {
+export const DOUBLE_SIDE_STAKING_REWARDS_INFO: {
+  [chainId in ChainId]?: DoubleSideStaking[][]
+} = {
+  [ChainId.AVALANCHE]: [DOUBLE_SIDE_STAKING_V0, DOUBLE_SIDE_STAKING_V1]
+}
+
+export interface StakingInfoBase {
   // the address of the reward contract
   stakingRewardAddress: string
-  // the tokens involved in this pair
-  tokens: [Token, Token]
   // the amount of token currently staked, or undefined if no account
   stakedAmount: TokenAmount
   // the amount of reward token earned by the active account, or undefined if no account
@@ -841,20 +859,33 @@ export interface StakingInfo {
   // the current amount of token distributed to the active account per second.
   // equivalent to percent of total supply * reward rate
   rewardRate: TokenAmount
-  //  total staked Avax in the pool
-  totalStakedInWavax: TokenAmount
   // when the period ends
   periodFinish: Date | undefined
   // has the reward period expired
   isPeriodFinished: boolean
-  // the pool weight
-  multiplier: JSBI
   // calculates a hypothetical amount of token distributed to the active account per second.
   getHypotheticalRewardRate: (
     stakedAmount: TokenAmount,
     totalStakedAmount: TokenAmount,
     totalRewardRate: TokenAmount
   ) => TokenAmount
+}
+
+export interface SingleSideStakingInfo extends StakingInfoBase {
+  // the token being earned
+  rewardToken: Token
+  // total staked PNG in the pool
+  totalStakedInPng: TokenAmount
+  apr: JSBI
+}
+
+export interface DoubleSideStakingInfo extends StakingInfoBase {
+  // the tokens involved in this pair
+  tokens: [Token, Token]
+  // the pool weight
+  multiplier: JSBI
+  // total staked AVAX in the pool
+  totalStakedInWavax: TokenAmount
 }
 
 const calculateTotalStakedAmountInAvaxFromPng = function(
@@ -884,6 +915,46 @@ const calculateTotalStakedAmountInAvaxFromPng = function(
   )
 }
 
+const calculateRewardRateInPng = function(
+  rewardRate: JSBI,
+  pair: Pair | null,
+  stakingToken: Token,
+  rewardToken: Token
+): JSBI {
+  if (!pair) return JSBI.BigInt(0)
+
+  // TODO: Handle situation where stakingToken and rewardToken have different decimals
+  const oneToken = JSBI.BigInt(1000000000000000000)
+
+  const pairRatio = JSBI.divide(
+    JSBI.multiply(oneToken, pair.reserveOf(stakingToken).raw), // Multiply first for precision
+    pair.reserveOf(rewardToken).raw
+  )
+  return JSBI.divide(
+    JSBI.multiply(rewardRate, pairRatio), // Multiply first for precision
+    oneToken
+  )
+}
+
+const calculateApr = function(
+  rewardRatePerSecond: JSBI,
+  totalSupply: JSBI
+): JSBI {
+  if (JSBI.EQ(totalSupply, JSBI.BigInt(0))) {
+    return JSBI.BigInt(0)
+  }
+
+  const rewardsPerYear = JSBI.multiply(
+    rewardRatePerSecond,
+    JSBI.BigInt(31536000) // Seconds in year
+  )
+
+  return JSBI.divide(
+    JSBI.multiply(rewardsPerYear, JSBI.BigInt(100)),
+    totalSupply
+  )
+}
+
 const calculateTotalStakedAmountInAvax = function(
   amountStaked: JSBI,
   amountAvailable: JSBI,
@@ -907,16 +978,16 @@ const calculateTotalStakedAmountInAvax = function(
 }
 
 // gets the staking info from the network for the active chain id
-export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): StakingInfo[] {
+export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): DoubleSideStakingInfo[] {
   const { chainId, account } = useActiveWeb3React()
 
   const info = useMemo(
     () =>
       chainId
-        ? STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
+        ? DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
             pairToFilterBy === undefined
-              ? true
-              : pairToFilterBy === null
+            ? true
+            : pairToFilterBy === null
               ? false
               : pairToFilterBy.involvesToken(stakingRewardInfo.tokens[0]) &&
                 pairToFilterBy.involvesToken(stakingRewardInfo.tokens[1])
@@ -967,7 +1038,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
   return useMemo(() => {
     if (!chainId || !png) return []
 
-    return rewardsAddresses.reduce<StakingInfo[]>((memo, rewardsAddress, index) => {
+    return rewardsAddresses.reduce<DoubleSideStakingInfo[]>((memo, rewardsAddress, index) => {
       // these two are dependent on account
       const balanceState = balances[index]
       const earnedAmountState = earnedAmounts[index]
@@ -1031,12 +1102,12 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
         const totalStakedInWavax = isAvaxPool
           ? calculateTotalStakedAmountInAvax(totalSupplyStaked, totalSupplyAvailable, pair.reserveOf(wavax).raw)
           : calculateTotalStakedAmountInAvaxFromPng(
-              totalSupplyStaked,
-              totalSupplyAvailable,
-              avaxPngPair.reserveOf(png).raw,
-              avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
-              pair.reserveOf(png).raw
-            )
+            totalSupplyStaked,
+            totalSupplyAvailable,
+            avaxPngPair.reserveOf(png).raw,
+            avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
+            pair.reserveOf(png).raw
+          )
 
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
@@ -1088,6 +1159,162 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): S
     info
   ])
 }
+
+export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?: Token | null): SingleSideStakingInfo[] {
+  const { chainId, account } = useActiveWeb3React()
+
+  const info = useMemo(
+    () =>
+      chainId
+        ? SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
+        rewardTokenToFilterBy === undefined
+          ? true
+          : rewardTokenToFilterBy === null
+            ? false
+            : rewardTokenToFilterBy.equals(stakingRewardInfo.rewardToken)
+      ) ?? []
+        : [],
+    [chainId, rewardTokenToFilterBy, version]
+  )
+
+  const png = PNG[ChainId.AVALANCHE]
+
+  const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
+
+  const accountArg = useMemo(() => [account ?? undefined], [account])
+
+  // get all the info from the staking rewards contracts
+  const tokens = useMemo((): [Token, Token][] => info.map(({ rewardToken }) => [png, rewardToken]), [info])
+  const balances = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'balanceOf', accountArg)
+  const earnedAmounts = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'earned', accountArg)
+  const pairs = usePairs(tokens)
+
+  const pairsHaveLoaded = useMemo(() => {
+    return pairs?.every(([state, pair]) => state !== PairState.LOADING)
+  }, [pairs])
+
+  const stakingTotalSupplies = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'totalSupply')
+
+  // tokens per second, constants
+  const rewardRates = useMultipleContractSingleData(
+    rewardsAddresses,
+    STAKING_REWARDS_INTERFACE,
+    'rewardRate',
+    undefined,
+    NEVER_RELOAD
+  )
+  const periodFinishes = useMultipleContractSingleData(
+    rewardsAddresses,
+    STAKING_REWARDS_INTERFACE,
+    'periodFinish',
+    undefined,
+    NEVER_RELOAD
+  )
+
+  return useMemo(() => {
+    if (!chainId || !png) return []
+
+    return rewardsAddresses.reduce<SingleSideStakingInfo[]>((memo, rewardsAddress, index) => {
+      // these two are dependent on account
+      const balanceState = balances[index]
+      const earnedAmountState = earnedAmounts[index]
+
+      // these get fetched regardless of account
+      const stakingTotalSupplyState = stakingTotalSupplies[index]
+      const rewardRateState = rewardRates[index]
+      const periodFinishState = periodFinishes[index]
+
+      if (
+        // these may be undefined if not logged in
+        !balanceState?.loading &&
+        !earnedAmountState?.loading &&
+        // always need these
+        pairsHaveLoaded === true &&
+        stakingTotalSupplyState?.loading === false &&
+        rewardRateState?.loading === false &&
+        periodFinishState?.loading === false
+      ) {
+        if (
+          balanceState?.error ||
+          earnedAmountState?.error ||
+          stakingTotalSupplyState.error ||
+          rewardRateState.error ||
+          periodFinishState.error
+        ) {
+          console.error('Failed to load staking rewards info')
+          return memo
+        }
+
+        const rewardToken = info[index].rewardToken
+        const [, pngPair] = pairs[index]
+        const periodFinishMs = periodFinishState.result?.[0]?.mul(1000)?.toNumber()
+
+        // periodFinish will be 0 immediately after a reward contract is initialized
+        const isPeriodFinished = periodFinishMs === 0 ? false : periodFinishMs < Date.now()
+
+        const totalSupplyStaked = JSBI.BigInt(stakingTotalSupplyState.result?.[0])
+
+        const stakedAmount = new TokenAmount(png, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
+        const totalStakedAmount = new TokenAmount(png, JSBI.BigInt(totalSupplyStaked))
+        const totalRewardRate = new TokenAmount(rewardToken, JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0]))
+        const earnedAmount = new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0))
+
+        const rewardRateInPng = calculateRewardRateInPng(
+          totalRewardRate.raw,
+          pngPair,
+          png,
+          rewardToken
+        )
+
+        const apr = isPeriodFinished ? JSBI.BigInt(0) : calculateApr(rewardRateInPng, totalSupplyStaked)
+
+        const getHypotheticalRewardRate = (
+          stakedAmount: TokenAmount,
+          totalStakedAmount: TokenAmount,
+          totalRewardRate: TokenAmount
+        ): TokenAmount => {
+          return new TokenAmount(
+            rewardToken,
+            JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
+              ? JSBI.divide(JSBI.multiply(totalRewardRate.raw, stakedAmount.raw), totalStakedAmount.raw)
+              : JSBI.BigInt(0)
+          )
+        }
+
+        const individualRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, totalRewardRate)
+
+        memo.push({
+          stakingRewardAddress: rewardsAddress,
+          rewardToken: rewardToken,
+          periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
+          isPeriodFinished: isPeriodFinished,
+          earnedAmount: earnedAmount,
+          rewardRate: individualRewardRate,
+          totalRewardRate: totalRewardRate,
+          stakedAmount: stakedAmount,
+          totalStakedAmount: totalStakedAmount,
+          totalStakedInPng: totalStakedAmount,
+          getHypotheticalRewardRate,
+          apr: apr
+        })
+      }
+      return memo
+    }, [])
+  }, [
+    chainId,
+    png,
+    rewardsAddresses,
+    balances,
+    pairs,
+    pairsHaveLoaded,
+    earnedAmounts,
+    stakingTotalSupplies,
+    rewardRates,
+    periodFinishes,
+    info
+  ])
+}
+
 
 export function useTotalPngEarned(): TokenAmount | undefined {
   const { chainId } = useActiveWeb3React()

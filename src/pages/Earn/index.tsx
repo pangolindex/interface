@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import styled from 'styled-components'
-import { MIGRATIONS, STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
+import { MIGRATIONS, DOUBLE_SIDE_STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
 import { TYPE, ExternalLink } from '../../theme'
-import PoolCard from '../../components/earn/PoolCard'
+import DoubleSidePoolCard from '../../components/earn/DoubleSidePoolCard'
 import { RouteComponentProps, NavLink } from 'react-router-dom'
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
@@ -133,7 +133,7 @@ export default function Earn({
         })
     ).then(stakingInfoData => {
       const poolCards = stakingInfoData.map(stakingInfo => (
-        <PoolCard
+        <DoubleSidePoolCard
           swapFeeApr={stakingInfo.swapFeeApr}
           stakingApr={stakingInfo.stakingApr}
           key={stakingInfo.stakingRewardAddress}
@@ -197,7 +197,7 @@ export default function Earn({
         })
     ).then(stakingInfos => {
       const poolCards = stakingInfos.map(stakingInfo => (
-        <PoolCard
+        <DoubleSidePoolCard
           swapFeeApr={stakingInfo.swapFeeApr}
           stakingApr={stakingInfo.stakingApr}
           key={stakingInfo.stakingRewardAddress}
@@ -214,7 +214,7 @@ export default function Earn({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingInfos?.length, version])
 
-  const stakingRewardsExist = Boolean(typeof chainId === 'number' && (STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0)
+  const stakingRewardsExist = Boolean(typeof chainId === 'number' && (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0)
 
   const getSortField = (label: string, field: string, sortBy: any, setSortBy: Function) => {
     return (

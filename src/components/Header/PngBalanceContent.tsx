@@ -7,7 +7,7 @@ import { injected } from '../../connectors'
 import { PNG } from '../../constants'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
-import { STAKING_REWARDS_CURRENT_VERSION, useTotalPngEarned } from '../../state/stake/hooks'
+import { DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION, useTotalPngEarned } from '../../state/stake/hooks'
 import { useAggregatePngBalance, useTokenBalance } from '../../state/wallet/hooks'
 import { StyledInternalLink, TYPE, PngTokenAnimated } from '../../theme'
 import { AutoColumn } from '../Column'
@@ -123,7 +123,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                     {pngToClaim && pngToClaim.greaterThan('0') && (
                       <StyledInternalLink
                         onClick={() => setShowPngBalanceModal(false)}
-                        to={`/png/${STAKING_REWARDS_CURRENT_VERSION}`}>
+                        to={`/png/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}`}>
                         ({t('earn.claim')})
                       </StyledInternalLink>
                     )}

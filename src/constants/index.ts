@@ -326,6 +326,14 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   ]
 }
 
+export const TRUSTED_TOKEN_ADDRESSES: { readonly [chainId in ChainId]: string[] } = {
+  [ChainId.FUJI]: [],
+  [ChainId.AVALANCHE]: [
+    WAVAX[ChainId.AVALANCHE].address,
+    PNG[ChainId.AVALANCHE].address,
+  ]
+}
+
 export interface WalletInfo {
   connector?: AbstractConnector
   name: string

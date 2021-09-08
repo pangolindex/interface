@@ -6,7 +6,7 @@ import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
 import { CAVAX, Token } from '@pangolindex/sdk'
 import { ButtonPrimary } from '../Button'
-import { Staking, StakingInfo } from '../../state/stake/hooks'
+import { DoubleSideStaking, DoubleSideStakingInfo } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
 import { Break, CardNoise, CardBGImage } from './styled'
@@ -76,15 +76,15 @@ const BottomSection = styled.div<{ showBackground: boolean }>`
   z-index: 1;
 `
 
-export default function PoolCard({
+export default function DoubleSidePoolCard({
   stakingInfo,
   migration,
   version,
   swapFeeApr,
   stakingApr
 }: {
-  stakingInfo: StakingInfo
-  migration?: Staking
+  stakingInfo: DoubleSideStakingInfo
+	migration?: DoubleSideStaking
   version: string
   swapFeeApr: number
   stakingApr: number

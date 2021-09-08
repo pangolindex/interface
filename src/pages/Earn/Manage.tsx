@@ -244,7 +244,7 @@ export default function Manage({
               {stakingInfo?.totalRewardRate
                 ?.multiply((60 * 60 * 24 * 7).toString())
                 ?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
-              {t('earnPage.pngPerWeek')}
+              {t('earnPage.rewardPerWeek', { symbol: 'PNG' })}
             </TYPE.body>
           </AutoColumn>
         </PoolData>
@@ -308,7 +308,9 @@ export default function Manage({
               <CardNoise />
               <AutoColumn gap="md">
                 <RowBetween>
-                  <TYPE.white fontWeight={600}>{t('earnPage.liquidityDeposits')}</TYPE.white>
+                  <TYPE.white fontWeight={600}>
+                    {t('earnPage.liquidityDeposits')}
+                  </TYPE.white>
                 </RowBetween>
                 <RowBetween style={{ alignItems: 'baseline' }}>
                   <TYPE.white fontSize={36} fontWeight={600}>
@@ -327,7 +329,9 @@ export default function Manage({
             <AutoColumn gap="sm">
               <RowBetween>
                 <div>
-                  <TYPE.black>{t('earnPage.unclaimedPng')}</TYPE.black>
+                  <TYPE.black>
+                    {t('earnPage.unclaimedReward', { symbol: 'PNG' })}
+                  </TYPE.black>
                 </div>
                 {stakingInfo?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, stakingInfo?.earnedAmount?.raw) && (
                   <ButtonEmpty
@@ -359,7 +363,7 @@ export default function Manage({
                   {stakingInfo?.rewardRate
                     ?.multiply((60 * 60 * 24 * 7).toString())
                     ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
-                  {t('earnPage.pngPerWeek')}
+                  {t('earnPage.rewardPerWeek', { symbol: 'PNG' })}
                 </TYPE.black>
               </RowBetween>
             </AutoColumn>
@@ -377,7 +381,7 @@ export default function Manage({
             <ButtonPrimary padding="8px" borderRadius="8px" width="160px" onClick={handleDepositClick}>
               {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0))
                 ? t('earnPage.deposit')
-                : t('earnPage.depositPglTokens')}
+                : t('earnPage.depositStakingTokens', { symbol: 'PGL' })}
             </ButtonPrimary>
 
             {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) && (
@@ -396,7 +400,7 @@ export default function Manage({
         )}
         {!userLiquidityUnstaked ? null : userLiquidityUnstaked.equalTo('0') ? null : (
           <TYPE.main>
-            {userLiquidityUnstaked.toSignificant(6)} {t('earnPage.pglTokenAvailable')}
+            {userLiquidityUnstaked.toSignificant(6)} {t('earnPage.stakingTokensAvailable', { symbol: 'PGL' })}
           </TYPE.main>
         )}
       </PositionInfo>

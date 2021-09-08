@@ -304,16 +304,23 @@ export default function Header() {
             {t('header.pool')}
           </StyledNavLink>
           <StyledNavLink
-            id={`stake-nav-link`}
+            id={`png-nav-link`}
             to={'/png/1'}
             isActive={(match, { pathname }) => Boolean(match) || pathname.startsWith('/png')}
           >
-            PNG
+            {t('header.farm')}
           </StyledNavLink>
-          <StyledNavLink id={`stake-nav-link`} to={'/vote'}>
+          <StyledNavLink
+            id={`stake-nav-link`}
+            to={'/stake/0'}
+            isActive={(match, { pathname }) => Boolean(match) || pathname.startsWith('/stake')}
+          >
+            {t('header.stake')}
+          </StyledNavLink>
+          <StyledNavLink id={`vote-nav-link`} to={'/vote'}>
             {t('header.vote')}
           </StyledNavLink>
-          <StyledExternalLink id={`info-nav-link`} href={ANALYTICS_PAGE}>
+          <StyledExternalLink id={`charts-nav-link`} href={ANALYTICS_PAGE}>
             {t('header.charts')} <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
           <StyledExternalLink id={`gov-nav-link`} href={'https://gov.pangolin.exchange'}>
