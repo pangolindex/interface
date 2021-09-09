@@ -175,7 +175,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                 });
               }
             }>
-                <TYPE.white color="white">{t('header.addmetamask')}</TYPE.white>
+                <TYPE.white color="white">{t('header.addMetamask')}</TYPE.white>
               </AddPNG>
             </AutoColumn>
           </CardSection>

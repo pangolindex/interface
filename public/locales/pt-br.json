@@ -19,7 +19,7 @@
         "makeSureURLWarning": "Certifique-se que a URL seja",
         "alwaysMakeSureWarning": "Certifique-se sempre que a URL seja",
         "bookmarkIt": "marque para ser seguro.",
-        "addmetamask": "Adicionar PNG no MetaMask"
+        "addMetamask": "Adicionar PNG no MetaMask"
     },
     "accountDetails": {
         "connectedWith": "Conectado com ",

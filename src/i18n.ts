@@ -32,7 +32,7 @@ i18next
   .use(initReactI18next)
   .init({
     backend: {
-      loadPath: `./locales/{{lng}}.json?q=${Math.random()}`
+      loadPath: `./locales/{{lng}}.json`
     },
     react: {
       useSuspense: true
