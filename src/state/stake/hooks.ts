@@ -52,7 +52,8 @@ import {
   XUSD,
   XDO,
   JOE,
-  ZABU
+  ZABU,
+  YAY
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -517,6 +518,12 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   WAVAX_ZABU_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], ZABU[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x184949E5A7E8740Da20231B90Fd38E7725FA657A',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_YAY_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], YAY[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x2DaE4d6Cccd824917cA783774C1e8854FF86951F',
     version: 1,
     multiplier: 2
   },
