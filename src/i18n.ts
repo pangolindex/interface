@@ -8,22 +8,22 @@ export const defaultLocale = 'en'
 
 const determineLngFn = (code: string): string => {
   if (!code || code.length === 0) {
-    return i18next.language = defaultLocale
+    return (i18next.language = defaultLocale)
   }
 
   // Full locale match
   if (availableLanguages.includes(code.toLowerCase())) {
-    return i18next.language = code.toLowerCase()
+    return (i18next.language = code.toLowerCase())
   }
 
   // Base locale match
   const codeBase = code.split('-')[0].toLowerCase()
   if (availableLanguages.includes(codeBase)) {
-    return i18next.language = codeBase
+    return (i18next.language = codeBase)
   }
 
   // Fallback
-  return i18next.language = defaultLocale
+  return (i18next.language = defaultLocale)
 }
 
 i18next
@@ -32,7 +32,8 @@ i18next
   .use(initReactI18next)
   .init({
     backend: {
-      loadPath: `./locales/{{lng}}.json`
+      loadPath: `./locales/{{lng}}.json`,
+      queryStringParams: { v: '1.0.0' }
     },
     react: {
       useSuspense: true
