@@ -5,6 +5,7 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 
 export const availableLanguages = ['en', 'de', 'tr', 'zh', 'es', 'fr', 'pt-br']
 export const defaultLocale = 'en'
+const LOCALE_VERSION = '1.0.0'
 
 const determineLngFn = (code: string): string => {
   if (!code || code.length === 0) {
@@ -33,7 +34,7 @@ i18next
   .init({
     backend: {
       loadPath: `./locales/{{lng}}.json`,
-      queryStringParams: { v: '1.0.0' }
+      queryStringParams: { v: LOCALE_VERSION }
     },
     react: {
       useSuspense: true
