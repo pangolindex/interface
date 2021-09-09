@@ -19,7 +19,7 @@
     "makeSureURLWarning": "URL'nin bu olduğundan emin olun:",
     "alwaysMakeSureWarning": "Her zaman URL'nin bu olduğundan emin olun:",
     "bookmarkIt": "güvende olmak için yer imlerine ekleyin.",
-    "addmetamask": "PNG'yi MetaMask'e ekleyin"
+    "addMetamask": "PNG'yi MetaMask'e ekleyin"
   },
   "accountDetails": {
     "connectedWith": "Neye Bağlı: ",
