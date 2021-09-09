@@ -288,7 +288,7 @@ export default function Header() {
             {t('header.swap')}
           </StyledNavLink>
           <StyledNavLink id={`swap-nav-link`} to={'/buy'}>
-            Buy
+            {t('header.buy')}
           </StyledNavLink>
           <StyledNavLink
             id={`pool-nav-link`}
@@ -304,13 +304,20 @@ export default function Header() {
             {t('header.pool')}
           </StyledNavLink>
           <StyledNavLink
-            id={`stake-nav-link`}
+            id={`png-nav-link`}
             to={'/png/1'}
             isActive={(match, { pathname }) => Boolean(match) || pathname.startsWith('/png')}
           >
-            PNG
+            {t('header.farm')}
           </StyledNavLink>
-          <StyledNavLink id={`stake-nav-link`} to={'/vote'}>
+          <StyledNavLink
+            id={`stake-nav-link`}
+            to={'/stake/0'}
+            isActive={(match, { pathname }) => Boolean(match) || pathname.startsWith('/stake')}
+          >
+            {t('header.stake')}
+          </StyledNavLink>
+          <StyledNavLink id={`vote-nav-link`} to={'/vote'}>
             {t('header.vote')}
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/IDO'}>

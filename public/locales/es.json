@@ -1,7 +1,10 @@
 {
   "header": {
     "swap": "Intercambio",
+    "buy": "Comprar",
     "pool": "Pool",
+    "farm": "Farm",
+    "stake": "Stake",
     "newPng": "Nuevo PNG",
     "oldPng": "Viejo PNG",
     "vote": "Votar",
@@ -17,7 +20,7 @@
     "makeSureURLWarning": "Asegúrese de que el URL es",
     "alwaysMakeSureWarning": "Asegúrese siempre de que la URL sea",
     "bookmarkIt": "marcarla para estar seguro.",
-    "addmetamask": "Agregar PNG a MetaMask"
+    "addMetamask": "Agregar PNG a MetaMask"
   },
   "accountDetails": {
     "connectedWith": "Connectado con ",
@@ -43,21 +46,21 @@
     "to": "A"
   },
   "earn": {
-    "claimAccumulated": "Reclama las recompensas accumulatadas de PNG",
+    "claimAccumulated": "Reclama las recompensas accumulatadas de {{ symbol }}",
     "connectWallet": "Connectar cartera",
     "enterAmount": "Introduce una cantidad",
-    "unclaimedPng": "PNG sin reclamar",
+    "unclaimedReward": "{{ symbol }} sin reclamar",
     "claim": "Reclamar",
     "liquidityRemainsPool": "Cuando reclamas sin retirar, tu liquidez permanece en la pool de minería.",
-    "withdrawingPgl": "Retirar {{ amount }} PGL",
-    "claimingPng": "Reclamando {{ amount }} PNG",
-    "claimedPng": "PNG reclamados!",
+    "withdrawingLiquidity": "Retirar {{ amount }} {{ symbol }}",
+    "claimingReward": "Reclamando {{ amount }} {{ symbol }}",
+    "claimedReward": "{{ symbol }} reclamados!",
     "manage": "Gestionar",
     "deposit": "Depositar",
     "poolRate": "Ratio de la pool",
     "currentReward": "Recompensa actual",
     "pngPerAvax": "PNG / Semana por AVAX",
-    "pngWeek": "PNG / Semana",
+    "rewardPerWeek": "{{ symbol }} / Semana",
     "earnUpTo": "Gana hasta (anualmente)",
     "yourRate": "Tu ritmo",
     "totalDeposited": "Total depositado",
@@ -66,6 +69,8 @@
     "attemptingToStakeError": "Attempting to stake without approval or a signature. Por favor contacta con el soporte.",
     "transactionSubmitted": "Transacción Enviada",
     "depositingLiquidity": "depositando Liquidez",
+    "depositingToken": "Depositing {{ symbol }}",
+    "depositedToken": "Deposited {{ symbol }}",
     "availableToDeposit": "Disponible para depositar: ",
     "weeklyRewards": "Recompensas semanales",
     "missingLiquidityAmount": "falta liquidez",
@@ -74,9 +79,11 @@
     "withdrawDepositedLiquidity": "Retirar liquidez depositada",
     "depositedPglLiquidity": "Liquidez PGL depositados:",
     "whenYouWithdrawWarning": "Cuando retiras, sus PNG son reclamados y tus Pangolin Liquidity tokens, PGL, le son devueltos. Usted no ganará PNG de recompensa por esta liquidez. Tu token original de liquidez permanecerá en su pool de liquidez.",
+    "whenYouWithdrawSingleSideWarning": "When you withdraw, your {{ symbol }} is claimed and your PNG is returned to you. You will no longer earn {{ symbol }} rewards on this PNG.",
     "withdrawAndClaim": "Retirar y reclamar",
-    "withdrewPgl": "PGL retirados!",
-    "approve": "Aprobar"
+    "withdrewStakingToken": "{{ symbol }} retirados!",
+    "approve": "Aprobar",
+    "poolWeight": "Peso de la piscina"
   },
   "menu": {
     "code": "Código",
@@ -136,7 +143,7 @@
     "tokenName": "Nombre del token",
     "change": "Cambiar",
     "selectList": "Selecciona una lista",
-    "confirmListRemovalPrompt": "Por favor, confirme que quiere borrar esta lista escribiendo: REMOVE",
+    "confirmListRemovalPrompt": "Por favor, confirme que quiere borrar esta lista escribiendo: \"borrar\"",
     "addList": "Añadir una Lista ",
     "tokenListHelper": "Las listas de tokens son an especificaciones abiertas para listas de tokens ERC20. Puede usar cualquier lista introduciendo su URL. Tenga en cuenta que las listas de tokens de terceros pueden contener tokens ERC20 falsos o maliciosos.",
     "httpsPlaceholder": "https:// o ipfs://",
@@ -153,7 +160,8 @@
     "areYouSure": "Estas seguro?",
     "expertInfo": "El modo experto deshabilita el aviso de confirmar transacción y permite altos deslizamientos en intercambios que suelen causar malos ratios y fondos perdidos.",
     "expertWarningCAPS": "USA ESTE MODO SOLO SI SABES LO QUE ESTÁS HACIENDO.",
-    "confirmExpertMode": "Por favor introduce la palabra \"confirm\" para habilitar el modo experto.",
+    "confirm": "confirmar",
+    "confirmExpertMode": "Por favor introduce la palabra \"confirmar\" para habilitar el modo experto.",
     "turnOnExpertMode": "Habilitar modo experto",
     "transactionSettings": "Ajustes de transacción",
     "interfaceSettings": "Ajustes de la interfaz",
@@ -170,6 +178,7 @@
     "routingHelper": "Enrutando estos tokens produce el mejor precio para su intercambio.",
     "confirmSwap": "Confirmar intercambio",
     "swapAnyway": "Intercambiar de todos modos",
+    "confirm": "confirmar",
     "price": "Precio",
     "accept": "Aceptar",
     "minimumReceived": "Mínimo recibido",
@@ -180,7 +189,7 @@
     "transactionRevert": " o la transacción se revertirá.",
     "inputEstimated": "El resultado es estimado. Venderá como mucho ",
     "outputSentTo": "La salida se mandará a ",
-    "priceImpactMinPrompt": "Este intercambio tiene un impacto en el precio de por lo menos {{ priceImpact }}%. Por favor, escriba la palabra \"confirm\" para continuar con este intercambio.",
+    "priceImpactMinPrompt": "Este intercambio tiene un impacto en el precio de por lo menos {{ priceImpact }}%. Por favor, escriba la palabra \"confirmar\" para continuar con este intercambio.",
     "priceImpactHighPrompt": "Este intercambio tiene un impacto en el precio de por lo menos {{ priceImpact }}%. Por favor, confirme que quiere continuar con este intercambio."
   },
   "toggle": {
@@ -295,7 +304,10 @@
   },
   "earnPage": {
     "pangolinLiquidityMining": "Minería de liquidez Pangolin",
+    "pangolinLiquidityStaking": "Pangolin PNG staking",
     "depositPangolinLiquidity": "Deposite sus tokens Pangolin Liquidity Provider PGL para recivir PNG, el token del protocolo de governanza de Pangolin.",
+    "depositPangolinStaking": "Deposit and stake your PNG tokens to earn more tokens.",
+    "currentOpportunities": "Current opportunities",
     "readMoreAboutPng": "Leer más sobre PNG",
     "importantUpdate": "ACTUALIZACIÓN IMPORTANTE",
     "pangolinGovernanceProposalResult": "Como resultado de la primera proposición de governanza de Pangolin, este está cambiando sus contratos de staking! Después de aproximadamente 08:59 UTC el 4/19, todas las recompensas serán distribuidas a los nuevos contratos. Antes del cambio, todas las recompensas serán distribuidas a los viejos contratos. para evitar interrupciones en las recompensas, necesita retirar su liquidez de los viejos contratos y depositarla en los nuevos. No necesita retirar su liquidez de sus pools ni alterar sus posiciones.",
@@ -305,19 +317,25 @@
     "rewardsNeverEnd": "Las recompensas nunca terminan!",
     "noActiveRewards": "No hay recompensas activas",
     "liquidityMining": "Minería de liquidez",
+    "pngStaking": "PNG Staking",
     "totalStaked": "Total depositado",
     "poolRate": "Ratio de la Pool",
     "step1": "Step 1. Get Pangolin Liquidity tokens (PGL)",
     "pglTokenRequired": "PGL tokens are required. Once you've added liquidity to the {{ poolHandle }} pool you can stake your liquidity tokens on this page.",
     "addPoolLiquidity": "Add {{ poolHandle }} liquidity",
     "liquidityDeposits": "Sus depósitods de liquidez",
-    "unclaimedPng": "Sus PNG sin reclamar",
+    "yourStakedToken": "Your staked {{ symbol }}",
+    "unclaimedReward": "Sus {{ symbol }} sin reclamar",
     "claim": "Reclamar",
-    "pngPerWeek": " PNG / week",
+    "rewardPerWeek": " {{ symbol }} / week",
     "automagically": "Cuando retira, el contrato reclama los PNG por usted automáticamente",
     "deposit": "Depositar",
-    "depositPglTokens": "Depositar tokens PGL",
-    "pglTokenAvailable": "Toens PGL disponibles"
+    "depositStakingTokens": "Depositar tokens {{ symbol }}",
+    "stake": "Stake",
+    "stakeStakingTokens": "Stake {{ symbol }} Tokens",
+    "unstake": "Unstake",
+    "stakingTokensAvailable": "Toens {{ symbol }} disponibles",
+    "getToken": "Get {{ symbol }}"
   },
   "pool": {
     "liquidityProviderRewards": "Recompensas a proveedores de liquidez",
@@ -381,7 +399,17 @@
     "swap": "Intercambiar",
     "anyway": " De todos modos",
     "from": "Desde",
-    "fromEstimated": "Desde (estimado)"
+    "fromEstimated": "Desde (estimado)",
+    "velox": "Pon una orden límite en <1>Velox</1>",
+    "marginSwap": "Opere con apalancamiento en <1>MarginSwap</1>"
+  },
+  "buyPage": {
+    "buyAvaxInfo": "Compre AVAX con fiat de nuestro socio Wyre.",
+    "privacyInfo": "Pangolin no almacena su historial de compras ni ningún dato personal.",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Email",
+    "buyAvax": "Compre AVAX"
   },
   "votePage": {
     "unlockVotes": "Desbloquear votos",
