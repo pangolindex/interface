@@ -66,6 +66,7 @@ export default function Earn({
     ).then(results => {
       setStakingInfoResults(results)
     })
+	// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingInfos?.length])
 
   const DataRow = styled(RowBetween)`
