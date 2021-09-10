@@ -53,7 +53,8 @@ import {
   XDO,
   JOE,
   ZABU,
-  YAY
+  YAY,
+  STORM
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -524,6 +525,12 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   WAVAX_YAY_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], YAY[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x2DaE4d6Cccd824917cA783774C1e8854FF86951F',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_STORM_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], STORM[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x62Da43b98a9338221cc36dDa40605B0F5eA0Ac2d',
     version: 1,
     multiplier: 2
   },
