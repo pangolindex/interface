@@ -84,7 +84,7 @@ export default function DoubleSidePoolCard({
   stakingApr
 }: {
   stakingInfo: DoubleSideStakingInfo
-	migration?: DoubleSideStaking
+  migration?: DoubleSideStaking
   version: string
   swapFeeApr: number
   stakingApr: number
@@ -152,7 +152,7 @@ export default function DoubleSidePoolCard({
         <RowBetween>
           <TYPE.white> {t('earn.totalStaked')}</TYPE.white>
           <TYPE.white>
-            {`${stakingInfo.totalStakedInWavax.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`}
+            {`${stakingInfo.totalStackedInUsd.toSignificant(4, { groupSeparator: ',' }) ?? '-'} USD`}
           </TYPE.white>
         </RowBetween>
       </StatContainer>

@@ -60,7 +60,7 @@ const SortFieldContainer = styled.div`
 `
 
 enum SortingType {
-  totalStakedInWavax = 'totalStakedInWavax',
+  totalStackedInUsd = 'totalStackedInUsd',
   multiplier = 'multiplier',
   totalApr = 'totalApr'
 }
@@ -101,11 +101,19 @@ export default function Earn({
   useEffect(() => {
     Promise.all(
       stakingInfoData.sort(function(info_a, info_b) {
-        if (sortBy.field === SortingType.totalStakedInWavax) {
+        if (sortBy.field === SortingType.totalStackedInUsd) {
           if (sortBy.desc) {
-            return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
+            return info_a.totalStackedInUsd?.greaterThan(
+              info_b.totalStackedInUsd ?? JSBI.BigInt(0)
+            )
+              ? -1
+              : 1
           } else {
-            return info_a.totalStakedInWavax?.lessThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
+            return info_a.totalStackedInUsd?.lessThan(
+              info_b.totalStackedInUsd ?? JSBI.BigInt(0)
+            )
+              ? -1
+              : 1
           }
         }
         if (sortBy.field === SortingType.multiplier) {
@@ -212,7 +220,9 @@ export default function Earn({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingInfos?.length, version])
 
-  const stakingRewardsExist = Boolean(typeof chainId === 'number' && (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0)
+  const stakingRewardsExist = Boolean(
+    typeof chainId === 'number' && (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0
+  )
 
   const getSortField = (label: string, field: string, sortBy: any, setSortBy: Function) => {
     return (
@@ -298,7 +308,7 @@ export default function Earn({
               <SortSection>
                 Sort by :{' '}
                 <SortFieldContainer>
-                  {getSortField('Liquidity', SortingType.totalStakedInWavax, sortBy, setSortBy)} |{' '}
+                  {getSortField('Liquidity', SortingType.totalStackedInUsd, sortBy, setSortBy)} |{' '}
                   {getSortField('Pool Weight', SortingType.multiplier, sortBy, setSortBy)} |{' '}
                 </SortFieldContainer>
                 {getSortField('APR', SortingType.totalApr, sortBy, setSortBy)}
