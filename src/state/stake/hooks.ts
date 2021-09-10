@@ -418,19 +418,19 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], LYD[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xE6dE666a80a357497A2cAB3A91F1c28dcAA1Eca4',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_TUSD_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], TUSD[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xf2dd964AcF53ad8959540CceEFD9FeA13d4D0Eb1',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_GAJ_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], GAJ[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xd31FFD05a41645631A22a64c1f870a6248A4DDcF',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_GDL_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], GDL[ChainId.AVALANCHE]],
