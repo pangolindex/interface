@@ -39,6 +39,7 @@ i18next
     react: {
       useSuspense: true
     },
+    load: 'languageOnly',
     lowerCaseLng: true,
     fallbackLng: determineLngFn,
     preload: [defaultLocale],
