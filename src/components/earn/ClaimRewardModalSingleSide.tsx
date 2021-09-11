@@ -87,7 +87,7 @@ export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingI
 						{t('earn.liquidityRemainsPool')}
 					</TYPE.subHeader>
 					<ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onClaimReward}>
-						{error ?? t('earn.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}
+						{error ?? t('earn.claimReward', { symbol: stakingInfo?.rewardToken?.symbol })}
 					</ButtonError>
 				</ContentWrapper>
 			)}
