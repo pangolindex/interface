@@ -50,6 +50,7 @@
     "enterAmount": "Entrer un montant",
     "unclaimedReward": "{{ symbol }} non réclamé",
     "claim": "Réclamer",
+    "claimReward": "{{ symbol }} Réclamer",
     "liquidityRemainsPool": "Lorsque vous réclamez sans retirer, vos liquidités restent dans la pool de minage.",
     "withdrawingLiquidity": "Retirer {{ amount }} {{ symbol }}",
     "claimingReward": "Réclamation en cours {{ amount }} {{ symbol }}",
