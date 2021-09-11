@@ -8,18 +8,18 @@ import { TYPE, CloseIcon } from '../../theme'
 import { ButtonConfirmed, ButtonError } from '../Button'
 import ProgressCircles from '../ProgressSteps'
 import CurrencyInputPanel from '../CurrencyInputPanel'
-import { TokenAmount, Pair, ChainId } from '@pangolindex/sdk'
+import { TokenAmount } from '@pangolindex/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
-import { usePairContract, useStakingContract } from '../../hooks/useContract'
+import { usePngContract, useStakingContract } from '../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
-import { splitSignature } from 'ethers/lib/utils'
-import { DoubleSideStakingInfo, useDerivedStakeInfo } from '../../state/stake/hooks'
+import { SingleSideStakingInfo, useDerivedStakeInfo } from '../../state/stake/hooks'
 import { wrappedCurrencyAmount } from '../../utils/wrappedCurrency'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
+import { splitSignature } from 'ethers/lib/utils'
 
 const HypotheticalRewardRate = styled.div<{ dim: boolean }>`
   display: flex;
@@ -38,11 +38,11 @@ const ContentWrapper = styled(AutoColumn)`
 interface StakingModalProps {
   isOpen: boolean
   onDismiss: () => void
-  stakingInfo: DoubleSideStakingInfo
+  stakingInfo: SingleSideStakingInfo
   userLiquidityUnstaked: TokenAmount | undefined
 }
 
-export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiquidityUnstaked }: StakingModalProps) {
+export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo, userLiquidityUnstaked }: StakingModalProps) {
   const { account, chainId, library } = useActiveWeb3React()
 
   // track and parse user input
@@ -69,13 +69,7 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
     onDismiss()
   }, [onDismiss])
 
-  // pair contract for this token to be staked
-  const dummyPair = new Pair(
-    new TokenAmount(stakingInfo.tokens[0], '0'),
-    new TokenAmount(stakingInfo.tokens[1], '0'),
-    chainId ? chainId : ChainId.AVALANCHE
-  )
-  const pairContract = usePairContract(dummyPair.liquidityToken.address)
+  const stakingTokenContract = usePngContract()
 
   // approval data for stake
   const deadline = useTransactionDeadline()
@@ -90,16 +84,16 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
     if (stakingContract && parsedAmount && deadline) {
       if (approval === ApprovalState.APPROVED) {
         stakingContract
-	        .stake(`0x${parsedAmount.raw.toString(16)}`, { gasLimit: 350000 })
+	        .stake(`0x${parsedAmount.raw.toString(16)}`)
 	        .then((response: TransactionResponse) => {
 		        addTransaction(response, {
-			        summary: t("earn.depositLiquidity")
-		        });
-		        setHash(response.hash);
+			        summary: t('earnPage.stakeStakingTokens', { symbol: 'PNG' })
+		        })
+		        setHash(response.hash)
 	        })
 	        .catch((error: any) => {
-		        setAttempting(false);
-		        console.error(error);
+		        setAttempting(false)
+		        console.error(error)
 	        })
       } else if (signatureData) {
         stakingContract
@@ -109,11 +103,10 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
             signatureData.v,
             signatureData.r,
             signatureData.s,
-            { gasLimit: 350000 }
           )
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-              summary: t('earn.depositLiquidity')
+	            summary: t('earnPage.stakeStakingTokens', { symbol: 'PNG' })
             })
             setHash(response.hash)
           })
@@ -142,25 +135,23 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
   }, [maxAmountInput, onUserInput])
 
   async function onAttemptToApprove() {
-    if (!pairContract || !library || !deadline) throw new Error(t('earn.missingDependencies'))
+    if (!stakingTokenContract || !library || !deadline) throw new Error(t('earn.missingDependencies'))
     const liquidityAmount = parsedAmount
     if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
 
     // try to gather a signature for permission
-    const nonce = await pairContract.nonces(account)
+    const nonce = await stakingTokenContract.nonces(account)
 
-    const EIP712Domain = [
-      { name: 'name', type: 'string' },
-      { name: 'version', type: 'string' },
-      { name: 'chainId', type: 'uint256' },
-      { name: 'verifyingContract', type: 'address' }
-    ]
-    const domain = {
-      name: 'Pangolin Liquidity',
-      version: '1',
-      chainId: chainId,
-      verifyingContract: pairContract.address
-    }
+	  const EIP712Domain = [
+		  { name: 'name', type: 'string' },
+		  { name: 'chainId', type: 'uint256' },
+		  { name: 'verifyingContract', type: 'address' }
+	  ]
+	  const domain = {
+		  name: 'Pangolin',
+		  chainId: chainId,
+		  verifyingContract: stakingTokenContract.address
+	  }
     const Permit = [
       { name: 'owner', type: 'address' },
       { name: 'spender', type: 'address' },
@@ -218,7 +209,7 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
             onMax={handleMax}
             showMaxButton={!atMaxAmount}
             currency={stakingInfo.stakedAmount.token}
-            pair={dummyPair}
+            pair={null}
             label={''}
             disableCurrencySelect={true}
             customBalanceText={t('earn.availableToDeposit')}
@@ -232,7 +223,7 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
 
             <TYPE.black>
               {hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toSignificant(4, { groupSeparator: ',' })}{' '}
-              {t('earn.rewardPerWeek', { symbol: 'PNG' })}
+              {t('earn.rewardPerWeek', { symbol: stakingInfo?.rewardToken?.symbol })}
             </TYPE.black>
           </HypotheticalRewardRate>
 
@@ -259,8 +250,8 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
       {attempting && !hash && (
         <LoadingView onDismiss={wrappedOnDismiss}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.largeHeader>{t('earn.depositingLiquidity')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{parsedAmount?.toSignificant(4)} PGL</TYPE.body>
+            <TYPE.largeHeader>{t('earn.depositingToken', { symbol: 'PNG' })}</TYPE.largeHeader>
+            <TYPE.body fontSize={20}>{parsedAmount?.toSignificant(4)} PNG</TYPE.body>
           </AutoColumn>
         </LoadingView>
       )}
@@ -268,7 +259,7 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{t('earn.deposited')} {parsedAmount?.toSignificant(4)} PGL</TYPE.body>
+            <TYPE.body fontSize={20}>{t('earn.deposited')} {parsedAmount?.toSignificant(4)} PNG</TYPE.body>
           </AutoColumn>
         </SubmittedView>
       )}

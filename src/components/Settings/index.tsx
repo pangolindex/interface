@@ -124,7 +124,7 @@ export default function SettingsTab() {
                 error={true}
                 padding={'12px'}
                 onClick={() => {
-                  if (window.prompt(t('settings.confirmExpertMode')) === 'confirm') {
+                  if (window.prompt(t('settings.confirmExpertMode')) === t('settings.confirm')) {
                     toggleExpertMode()
                     setShowConfirmation(false)
                   }

@@ -1,4 +1,4 @@
-import { CurrencyAmount, JSBI, Token, Trade } from '@pangolindex/sdk'
+import { ChainId, CurrencyAmount, JSBI, Token, Trade } from '@pangolindex/sdk'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -20,7 +20,7 @@ import TradePrice from '../../components/swap/TradePrice'
 import TokenWarningModal from '../../components/TokenWarningModal'
 import ProgressSteps from '../../components/ProgressSteps'
 
-import { INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
+import { INITIAL_ALLOWED_SLIPPAGE, TRUSTED_TOKEN_ADDRESSES } from '../../constants'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
 import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
@@ -43,7 +43,7 @@ import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import useENS from '../../hooks/useENS'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useIsSelectedAEBToken } from '../../state/lists/hooks'
 import { DeprecatedWarning } from '../../components/Warning'
 
@@ -91,7 +91,7 @@ export default function Swap() {
     setDismissTokenWarning(true)
   }, [])
 
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
 
   // toggle wallet when disconnected
@@ -286,10 +286,14 @@ export default function Swap() {
 
   const isAEBToken = useIsSelectedAEBToken()
 
+  const isTrustedToken = useCallback((token: Token) => {
+    return TRUSTED_TOKEN_ADDRESSES[chainId ? chainId : ChainId.AVALANCHE].includes(token.address)
+  }, [chainId])
+
   return (
     <>
       <TokenWarningModal
-        isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
+        isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning && !urlLoadedTokens.every(isTrustedToken)}
         tokens={urlLoadedTokens}
         onConfirm={handleConfirmTokenWarning}
       />
@@ -301,10 +305,12 @@ export default function Swap() {
       )}
 
       <TopText>
-        Set a limit order on{' '}
-        <VeloxLink href={'https://app.velox.global/'} target={'_blank'}>
-          Velox
-        </VeloxLink>
+        <Trans i18nKey="swapPage.velox">
+          Set a limit order on
+          <VeloxLink href={'https://app.velox.global/'} target={'_blank'}>
+            Velox
+          </VeloxLink>
+        </Trans>
       </TopText>
 
       <AppBody>
@@ -521,14 +527,16 @@ export default function Swap() {
         </Wrapper>
       </AppBody>
 
-      <BottomText>
-        Trade with leverage on{' '}
-        <MarginswapLink href={'https://app.marginswap.exchange/swap'} target={'_blank'}>
-          Marginswap
-        </MarginswapLink>
-      </BottomText>
-
       <AdvancedSwapDetailsDropdown trade={trade} />
+
+      <BottomText>
+        <Trans i18nKey="swapPage.marginSwap">
+          Trade with leverage on
+          <MarginswapLink href={'https://app.marginswap.exchange/swap'} target={'_blank'}>
+            Marginswap
+          </MarginswapLink>
+        </Trans>
+      </BottomText>
     </>
   )
 }

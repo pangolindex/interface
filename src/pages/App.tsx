@@ -15,7 +15,9 @@ import {
   RedirectToAddLiquidity
 } from './AddLiquidity/redirects'
 import Earn from './Earn'
-import Manage from './Earn/Manage'
+import ManageEarn from './Earn/Manage'
+import Stake from './Stake'
+import ManageStake from './Stake/Manage'
 import Pool from './Pool'
 import Buy from './Buy'
 import PoolFinder from './PoolFinder'
@@ -89,6 +91,7 @@ export default function App() {
               <Route exact strict path="/find" component={PoolFinder} />
               <Route exact strict path="/pool" component={Pool} />
               <Route exact strict path="/png/:version" component={Earn} />
+              <Route exact strict path="/stake/:version" component={Stake} />
               <Route exact strict path="/vote" component={Vote} />
               <Route exact strict path="/ido" component={IDO} />
               <Route exact strict path="/airdrop" component={Airdrop} />
@@ -101,7 +104,8 @@ export default function App() {
               <Route exact path="/create/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
               <Route exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
               <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
-              <Route exact strict path="/png/:currencyIdA/:currencyIdB/:version" component={Manage} />
+              <Route exact strict path="/png/:currencyIdA/:currencyIdB/:version" component={ManageEarn} />
+              <Route exact strict path="/stake/:version/:rewardCurrencyId" component={ManageStake} />
               <Route exact strict path="/vote/:id" component={VotePage} />
 	            <Route exact path="/migrate/:currencyIdFromA/:currencyIdFromB/:versionFrom/:currencyIdToA/:currencyIdToB/:versionTo/" component={Migrate} />
               <Route component={RedirectPathToSwapOnly} />
