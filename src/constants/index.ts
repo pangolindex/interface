@@ -313,7 +313,13 @@ const WAVAX_AND_PNG_ONLY: ChainTokenList = {
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
-  ...WAVAX_AND_PNG_ONLY,
+  [ChainId.FUJI]: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
+  [ChainId.AVALANCHE]: [
+    WAVAX[ChainId.AVALANCHE],
+    PNG[ChainId.AVALANCHE],
+    USDTe[ChainId.AVALANCHE],
+    DAIe[ChainId.AVALANCHE],
+  ]
 }
 
 /**
@@ -341,6 +347,7 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   ]
 }
 
+// these tokens can be directly linked to (via url params) in the swap page without prompting a warning
 export const TRUSTED_TOKEN_ADDRESSES: { readonly [chainId in ChainId]: string[] } = {
   [ChainId.FUJI]: [],
   [ChainId.AVALANCHE]: [
