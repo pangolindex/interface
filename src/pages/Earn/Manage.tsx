@@ -3,7 +3,7 @@ import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-import { JSBI, TokenAmount, CurrencyAmount, CAVAX, Token, WAVAX } from '@pangolindex/sdk'
+import { JSBI, TokenAmount, CurrencyAmount, CAVAX, Token, WAVAX, ChainId } from '@pangolindex/sdk'
 import { RouteComponentProps } from 'react-router-dom'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useCurrency } from '../../hooks/Tokens'
@@ -112,6 +112,7 @@ export default function Manage({
   const totalSupplyOfStakingToken = useTotalSupply(stakingInfo?.stakedAmount?.token)
   const [, avaxPngTokenPair] = usePair(CAVAX, PNG[chainId ? chainId : 43114])
   let usdToken: Token | undefined
+  usdToken = WAVAX[ChainId.AVALANCHE]
   if (avaxPool) {
     token = currencyA === CAVAX ? tokenB : tokenA
     const wavax = currencyA === CAVAX ? tokenA : tokenB
@@ -132,7 +133,7 @@ export default function Manage({
     }
 
     // get the USD value of staked wavax
-    usdToken = wavax
+    //usdToken = wavax
   } else {
     let png
     if (tokenA && tokenA.equals(PNG[tokenA.chainId])) {
@@ -163,7 +164,7 @@ export default function Manage({
         )
       )
     }
-    usdToken = png
+    //usdToken = png
   }
 
   // get the color of the token
