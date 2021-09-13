@@ -544,6 +544,12 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     version: 1,
     multiplier: 2
   },
+  WAVAX_OOE_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], OOE[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xB9cE09322FC55Da298e27b8678d300423988b40E',
+    version: 1,
+    multiplier: 2
+  },
 
   PNG_ETH_V1: {
     tokens: [PNG[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
