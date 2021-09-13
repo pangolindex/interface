@@ -54,18 +54,21 @@ import {
   JOE,
   ZABU,
   YAY,
-  STORM
+  STORM,
+  OOE
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
-import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
+import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleData } from "../multicall/hooks";
 import { tryParseAmount } from '../swap/hooks'
 import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
+import { getRouterContract } from "../../utils";
 
 export interface SingleSideStaking {
   rewardToken: Token
+  conversionRouteHops: Token[]
   stakingRewardAddress: string
   version: number
 }
@@ -88,11 +91,18 @@ export interface BridgeMigrator {
 }
 
 const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
-  PNG_V0: {
+  WAVAX_V0: {
     rewardToken: WAVAX[ChainId.AVALANCHE],
+	  conversionRouteHops: [],
     stakingRewardAddress: '0xD49B406A7A29D64e081164F6C3353C599A2EeAE9',
     version: 0
-  }
+  },
+	OOE_V0: {
+		rewardToken: OOE[ChainId.AVALANCHE],
+    conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xf0eFf017644680B9878429137ccb2c041b4Fb701',
+		version: 0
+	},
 }
 
 const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
@@ -931,22 +941,16 @@ const calculateTotalStakedAmountInAvaxFromPng = function(
 
 const calculateRewardRateInPng = function(
   rewardRate: JSBI,
-  pair: Pair | null,
-  stakingToken: Token,
-  rewardToken: Token
+  valueOfPng: JSBI | null
 ): JSBI {
-  if (!pair) return JSBI.BigInt(0)
+  if (!valueOfPng || JSBI.EQ(valueOfPng, 0)) return JSBI.BigInt(0)
 
   // TODO: Handle situation where stakingToken and rewardToken have different decimals
   const oneToken = JSBI.BigInt(1000000000000000000)
 
-  const pairRatio = JSBI.divide(
-    JSBI.multiply(oneToken, pair.reserveOf(stakingToken).raw), // Multiply first for precision
-    pair.reserveOf(rewardToken).raw
-  )
   return JSBI.divide(
-    JSBI.multiply(rewardRate, pairRatio), // Multiply first for precision
-    oneToken
+    JSBI.multiply(rewardRate, oneToken), // Multiply first for precision
+    valueOfPng
   )
 }
 
@@ -954,7 +958,7 @@ const calculateApr = function(
   rewardRatePerSecond: JSBI,
   totalSupply: JSBI
 ): JSBI {
-  if (JSBI.EQ(totalSupply, JSBI.BigInt(0))) {
+  if (JSBI.EQ(totalSupply, 0)) {
     return JSBI.BigInt(0)
   }
 
@@ -1175,7 +1179,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
 }
 
 export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?: Token | null): SingleSideStakingInfo[] {
-  const { chainId, account } = useActiveWeb3React()
+  const { chainId, library, account } = useActiveWeb3React()
 
   const info = useMemo(
     () =>
@@ -1194,19 +1198,24 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
   const png = PNG[ChainId.AVALANCHE]
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
+  const routes = useMemo((): string[][] => info.map(({ conversionRouteHops, rewardToken }) => {
+    return [png.address, ...conversionRouteHops.map(token => token.address), rewardToken.address];
+  }), [info])
 
   const accountArg = useMemo(() => [account ?? undefined], [account])
+  const getAmountsOutArgs = useMemo(() => {
+    const amountIn = '1' + '0'.repeat(18) // 1 PNG
+    return routes.map(route => [amountIn, route])
+  }, [routes])
+
+  const routerContract = useMemo(() => {
+    if (!chainId || !library) return
+    return getRouterContract(chainId, library)
+  }, [chainId, library])
 
   // get all the info from the staking rewards contracts
-  const tokens = useMemo((): [Token, Token][] => info.map(({ rewardToken }) => [png, rewardToken]), [info])
   const balances = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'balanceOf', accountArg)
   const earnedAmounts = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'earned', accountArg)
-  const pairs = usePairs(tokens)
-
-  const pairsHaveLoaded = useMemo(() => {
-    return pairs?.every(([state, pair]) => state !== PairState.LOADING)
-  }, [pairs])
-
   const stakingTotalSupplies = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'totalSupply')
 
   // tokens per second, constants
@@ -1225,6 +1234,13 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
     NEVER_RELOAD
   )
 
+  const amountsOuts = useSingleContractMultipleData(
+    routerContract,
+    'getAmountsOut',
+    getAmountsOutArgs,
+    NEVER_RELOAD
+  )
+
   return useMemo(() => {
     if (!chainId || !png) return []
 
@@ -1237,30 +1253,32 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
       const stakingTotalSupplyState = stakingTotalSupplies[index]
       const rewardRateState = rewardRates[index]
       const periodFinishState = periodFinishes[index]
+      const amountsOutsState = amountsOuts[index]
 
       if (
         // these may be undefined if not logged in
         !balanceState?.loading &&
         !earnedAmountState?.loading &&
         // always need these
-        pairsHaveLoaded === true &&
         stakingTotalSupplyState?.loading === false &&
         rewardRateState?.loading === false &&
-        periodFinishState?.loading === false
+        periodFinishState?.loading === false &&
+        amountsOutsState?.loading === false
       ) {
         if (
           balanceState?.error ||
           earnedAmountState?.error ||
           stakingTotalSupplyState.error ||
           rewardRateState.error ||
-          periodFinishState.error
+          periodFinishState.error ||
+          amountsOutsState.error
         ) {
           console.error('Failed to load staking rewards info')
           return memo
         }
 
         const rewardToken = info[index].rewardToken
-        const [, pngPair] = pairs[index]
+        const valueOfPng = JSBI.BigInt(amountsOutsState.result?.[0]?.slice(-1)?.[0] ?? 0)
         const periodFinishMs = periodFinishState.result?.[0]?.mul(1000)?.toNumber()
 
         // periodFinish will be 0 immediately after a reward contract is initialized
@@ -1275,9 +1293,7 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
 
         const rewardRateInPng = calculateRewardRateInPng(
           totalRewardRate.raw,
-          pngPair,
-          png,
-          rewardToken
+          valueOfPng
         )
 
         const apr = isPeriodFinished ? JSBI.BigInt(0) : calculateApr(rewardRateInPng, totalSupplyStaked)
@@ -1319,12 +1335,11 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
     png,
     rewardsAddresses,
     balances,
-    pairs,
-    pairsHaveLoaded,
     earnedAmounts,
     stakingTotalSupplies,
     rewardRates,
     periodFinishes,
+    amountsOuts,
     info
   ])
 }
