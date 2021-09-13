@@ -1050,7 +1050,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
 
   const wavax = WAVAX[ChainId.AVALANCHE]
 
-  const usDPrice = useUSDCPrice(wavax)
+  const usdPrice = useUSDCPrice(wavax)
 
   return useMemo(() => {
     if (!chainId || !png) return []
@@ -1126,7 +1126,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
               pair.reserveOf(png).raw
             )
 
-        const totalStackedInUsd = totalStakedInWavax && (usDPrice?.quote(totalStakedInWavax) as TokenAmount)
+        const totalStackedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax) as TokenAmount)
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
           totalStakedAmount: TokenAmount,

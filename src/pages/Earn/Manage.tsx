@@ -111,8 +111,7 @@ export default function Manage({
   let token: Token | undefined
   const totalSupplyOfStakingToken = useTotalSupply(stakingInfo?.stakedAmount?.token)
   const [, avaxPngTokenPair] = usePair(CAVAX, PNG[chainId ? chainId : 43114])
-  let usdToken: Token | undefined
-  usdToken = WAVAX[ChainId.AVALANCHE]
+  let usdToken = WAVAX[ChainId.AVALANCHE]
   if (avaxPool) {
     token = currencyA === CAVAX ? tokenB : tokenA
     const wavax = currencyA === CAVAX ? tokenA : tokenB
