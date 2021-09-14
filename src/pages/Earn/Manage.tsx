@@ -12,11 +12,12 @@ import { TYPE } from '../../theme'
 
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
-import { ButtonPrimary, ButtonEmpty } from '../../components/Button'
+import { ButtonPrimary, ButtonEmpty, ButtonSecondary } from '../../components/Button'
 import StakingModal from '../../components/earn/StakingModal'
 import { useStakingInfo } from '../../state/stake/hooks'
 import UnstakingModal from '../../components/earn/UnstakingModal'
 import ClaimRewardModal from '../../components/earn/ClaimRewardModal'
+import AutoCompounderModal from '../../components/AutoCompound/AutoCompounderModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { useColor } from '../../hooks/useColor'
@@ -181,6 +182,7 @@ export default function Manage({
   const [showStakingModal, setShowStakingModal] = useState(false)
   const [showUnstakingModal, setShowUnstakingModal] = useState(false)
   const [showClaimRewardModal, setShowClaimRewardModal] = useState(false)
+  const [showAutocompoundModal, setShowAutocompoundModal] = useState(false)
 
   // fade cards if nothing staked or nothing earned yet
   const disableTop = !stakingInfo?.stakedAmount || stakingInfo.stakedAmount.equalTo(JSBI.BigInt(0))
@@ -297,6 +299,10 @@ export default function Manage({
             onDismiss={() => setShowClaimRewardModal(false)}
             stakingInfo={stakingInfo}
           />
+          <AutoCompounderModal
+            isOpen={showAutocompoundModal}
+            onDismiss={() => setShowAutocompoundModal(false)}
+          />
         </>
       )}
 
@@ -383,6 +389,17 @@ export default function Manage({
                 ? t('earnPage.deposit')
                 : t('earnPage.depositStakingTokens', { symbol: 'PGL' })}
             </ButtonPrimary>
+
+            {userLiquidityUnstaked?.greaterThan(JSBI.BigInt(0)) && (
+              <ButtonSecondary
+                padding="8px"
+                borderRadius="8px"
+                width="180px"
+                onClick={() => setShowAutocompoundModal(true)}
+              >
+                Deposit PGL Tokens (auto compound)
+              </ButtonSecondary>
+            )}
 
             {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) && (
               <>
