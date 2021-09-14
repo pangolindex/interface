@@ -64,6 +64,7 @@ import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleD
 import { tryParseAmount } from '../swap/hooks'
 import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
+import useUSDCPrice from '../../utils/useUSDCPrice'
 import { getRouterContract } from "../../utils";
 
 export interface SingleSideStaking {
@@ -81,7 +82,7 @@ export interface DoubleSideStaking {
 }
 
 export interface Migration {
-  from: DoubleSideStaking,
+  from: DoubleSideStaking
   to: DoubleSideStaking
 }
 
@@ -856,12 +857,22 @@ export const BRIDGE_MIGRATORS: BridgeMigrator[] = [
   { aeb: '0x99519AcB025a0e0d44c3875A4BbF03af65933627', ab: '0x9eAaC1B23d935365bD7b542Fe22cEEe2922f52dc' } // YFI
 ]
 
-export const SINGLE_SIDE_STAKING_V0: SingleSideStaking[] = Object.values(SINGLE_SIDE_STAKING).filter(staking => staking.version === 0)
-export const SINGLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(...Object.values(SINGLE_SIDE_STAKING).map(staking => staking.version))
+export const SINGLE_SIDE_STAKING_V0: SingleSideStaking[] = Object.values(SINGLE_SIDE_STAKING).filter(
+  staking => staking.version === 0
+)
+export const SINGLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(
+  ...Object.values(SINGLE_SIDE_STAKING).map(staking => staking.version)
+)
 
-export const DOUBLE_SIDE_STAKING_V0: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING).filter(staking => staking.version === 0)
-export const DOUBLE_SIDE_STAKING_V1: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING).filter(staking => staking.version === 1)
-export const DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(...Object.values(DOUBLE_SIDE_STAKING).map(staking => staking.version))
+export const DOUBLE_SIDE_STAKING_V0: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING).filter(
+  staking => staking.version === 0
+)
+export const DOUBLE_SIDE_STAKING_V1: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING).filter(
+  staking => staking.version === 1
+)
+export const DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(
+  ...Object.values(DOUBLE_SIDE_STAKING).map(staking => staking.version)
+)
 
 export const SINGLE_SIDE_STAKING_REWARDS_INFO: {
   [chainId in ChainId]?: SingleSideStaking[][]
@@ -916,6 +927,7 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
   multiplier: JSBI
   // total staked AVAX in the pool
   totalStakedInWavax: TokenAmount
+  totalStakedInUsd: TokenAmount
 }
 
 const calculateTotalStakedAmountInAvaxFromPng = function(
@@ -973,10 +985,7 @@ const calculateApr = function(
     JSBI.BigInt(31536000) // Seconds in year
   )
 
-  return JSBI.divide(
-    JSBI.multiply(rewardsPerYear, JSBI.BigInt(100)),
-    totalSupply
-  )
+  return JSBI.divide(JSBI.multiply(rewardsPerYear, JSBI.BigInt(100)), totalSupply)
 }
 
 const calculateTotalStakedAmountInAvax = function(
@@ -1010,8 +1019,8 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
       chainId
         ? DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
             pairToFilterBy === undefined
-            ? true
-            : pairToFilterBy === null
+              ? true
+              : pairToFilterBy === null
               ? false
               : pairToFilterBy.involvesToken(stakingRewardInfo.tokens[0]) &&
                 pairToFilterBy.involvesToken(stakingRewardInfo.tokens[1])
@@ -1058,6 +1067,10 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
     undefined,
     NEVER_RELOAD
   )
+
+  const wavax = WAVAX[ChainId.AVALANCHE]
+
+  const usdPrice = useUSDCPrice(wavax)
 
   return useMemo(() => {
     if (!chainId || !png) return []
@@ -1126,13 +1139,14 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
         const totalStakedInWavax = isAvaxPool
           ? calculateTotalStakedAmountInAvax(totalSupplyStaked, totalSupplyAvailable, pair.reserveOf(wavax).raw)
           : calculateTotalStakedAmountInAvaxFromPng(
-            totalSupplyStaked,
-            totalSupplyAvailable,
-            avaxPngPair.reserveOf(png).raw,
-            avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
-            pair.reserveOf(png).raw
-          )
+              totalSupplyStaked,
+              totalSupplyAvailable,
+              avaxPngPair.reserveOf(png).raw,
+              avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
+              pair.reserveOf(png).raw
+            )
 
+        const totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax) as TokenAmount)
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
           totalStakedAmount: TokenAmount,
@@ -1161,6 +1175,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
           stakedAmount: stakedAmount,
           totalStakedAmount: totalStakedAmount,
           totalStakedInWavax: totalStakedInWavax,
+          totalStakedInUsd: totalStakedInUsd,
           multiplier: JSBI.BigInt(multiplier),
           getHypotheticalRewardRate
         })
@@ -1191,12 +1206,12 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
     () =>
       chainId
         ? SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
-        rewardTokenToFilterBy === undefined
-          ? true
-          : rewardTokenToFilterBy === null
-            ? false
-            : rewardTokenToFilterBy.equals(stakingRewardInfo.rewardToken)
-      ) ?? []
+            rewardTokenToFilterBy === undefined
+              ? true
+              : rewardTokenToFilterBy === null
+              ? false
+              : rewardTokenToFilterBy.equals(stakingRewardInfo.rewardToken)
+          ) ?? []
         : [],
     [chainId, rewardTokenToFilterBy, version]
   )
@@ -1294,7 +1309,10 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
 
         const stakedAmount = new TokenAmount(png, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
         const totalStakedAmount = new TokenAmount(png, JSBI.BigInt(totalSupplyStaked))
-        const totalRewardRate = new TokenAmount(rewardToken, JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0]))
+        const totalRewardRate = new TokenAmount(
+          rewardToken,
+          JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0])
+        )
         const earnedAmount = new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0))
 
         const rewardRateInPng = calculateRewardRateInPng(
@@ -1349,7 +1367,6 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
     info
   ])
 }
-
 
 export function useTotalPngEarned(): TokenAmount | undefined {
   const { chainId } = useActiveWeb3React()
