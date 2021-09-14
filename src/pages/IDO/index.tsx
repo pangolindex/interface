@@ -1,9 +1,7 @@
 import { darken } from 'polished'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 
-import yaygamesIcon from '../../assets/images/yaygames-icon.png'
-import boofinanceIcon from '../../assets/images/boofinance-icon.jpeg'
-
+import {IDO_LIST} from '../../constants'
 
 import React from 'react'
 import { AutoColumn } from '../../components/Column'
@@ -21,7 +19,7 @@ const TopSection = styled(AutoColumn)`
   width: 100%;
 `
 
-const VoteCard = styled(DataCard)`
+const IDOCard = styled(DataCard)`
   background: radial-gradient(76.02% 75.41% at 1.84% 0%, #27ae60 0%, #000000 100%);
   overflow: hidden;
 `
@@ -95,6 +93,18 @@ const IDOs = styled.div`
   }
 `
 
+const EmptyProposals = styled.div`
+  border: 1px solid ${({ theme }) => theme.text4};
+  padding: 16px 12px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
+
+
 export default function IDO() {
   const { t } = useTranslation()
 
@@ -102,7 +112,7 @@ export default function IDO() {
     <PageWrapper gap="lg" justify="center">
       {/* This is the top section of the page */} 
       <TopSection gap="md">
-        <VoteCard>
+        <IDOCard>
           <CardBGImage />
           <CardNoise />
           <CardSection>
@@ -119,35 +129,37 @@ export default function IDO() {
           </CardSection>
           <CardBGImage />
           <CardNoise />
-        </VoteCard>
+        </IDOCard>
       </TopSection>
+
       <TopSection gap="2px">
         <WrapSmall> {/* This is the title section of the IDO list */}
           <TYPE.mediumHeader style={{ margin: '0.5rem 0.5rem 0.5rem 0', flexShrink: 0 }}>
             {t('IDOPage.upcomingIDOs')}
           </TYPE.mediumHeader> 
         </WrapSmall>
-
-        {/* We can use this when there are no upcoming IDOs 
-        {allProposals?.length === 0 && (
+         {/*  We can use this when there are no upcoming IDOs */}
+         { !(IDO_LIST.some(el => el.status === "Upcoming")) && (
           <EmptyProposals>
             <TYPE.body style={{ marginBottom: '8px' }}>{t('IDOPage.noIDOsFound')}</TYPE.body>
             <TYPE.subHeader>
               <i>{t('IDOPage.IDOAnnounced')}</i>
             </TYPE.subHeader>
           </EmptyProposals>
-        )} 
-        
-        */}
+        )}
         {
-          <IDOs>
-            <PngIcon>
-              <img width={'50px'} src={boofinanceIcon} alt="logo" />
-            </PngIcon>
-            <StyledExternalLink id={`gov-nav-link`} href={'https://twitter.com/penguin_defi/status/1431640280063750155?s=20'}>
-              Boo Finance by PenguinFinance <span style={{ fontSize: '11px' }}>↗</span>
-            </StyledExternalLink>
-          </IDOs> 
+          IDO_LIST?.filter(ido => ido.status === "Upcoming").map(filteredIDO => {
+            return ( 
+                <IDOs key={filteredIDO.id}>
+                  <PngIcon>
+                    <img width={'50px'} src={filteredIDO.projectIconLocation} alt="logo" />
+                  </PngIcon>
+                  <StyledExternalLink id={`gov-nav-link`} href={filteredIDO.announcementUrl}>
+                    {filteredIDO.title} by {filteredIDO.launchpad} <span style={{ fontSize: '11px' }}>↗</span>
+                  </StyledExternalLink>
+                </IDOs>
+            )
+          })
         }
       </TopSection>
       <TopSection gap="2px">
@@ -157,14 +169,19 @@ export default function IDO() {
           </TYPE.mediumHeader> 
         </WrapSmall>
         {
-          <IDOs>
-            <PngIcon>
-              <img width={'50px'} src={yaygamesIcon} alt="logo" />
-            </PngIcon>
-            <StyledExternalLink id={`gov-nav-link`} href={'https://medium.com/avalaunch/yay-games-update-public-sale-has-been-increased-to-400-000-63695d5788d5'}>
-              YAY Protocol by Avalaunch <span style={{ fontSize: '11px' }}>↗</span>
-            </StyledExternalLink>
-          </IDOs> 
+          IDO_LIST.filter(ido => ido.status === "Ended").map(filteredIDO => {
+            return ( 
+              <IDOs key={filteredIDO.id}>
+                <PngIcon>
+                  <img width={'50px'} src={filteredIDO.projectIconLocation} alt="logo" />
+                </PngIcon>
+                <StyledExternalLink id={`gov-nav-link`} href={filteredIDO.announcementUrl}>
+                  {filteredIDO.title} by {filteredIDO.launchpad} <span style={{ fontSize: '11px' }}>↗</span>
+                </StyledExternalLink>
+              </IDOs>
+            )
+
+          }) 
         }
       </TopSection>
     </PageWrapper>
