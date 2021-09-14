@@ -55,7 +55,10 @@ import {
   ZABU,
   YAY,
   STORM,
-  OOE
+  OOE,
+  VEE,
+  AVXT,
+  OLIVE
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -254,7 +257,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], WBTCe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x30CbF11f6fcc9FC1bF6E55A6941b1A47A56eAEC5',
     version: 1,
-    multiplier: 1
+    multiplier: 5
   },
   WAVAX_PNG_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
@@ -272,7 +275,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], LINKe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x2e10D9d08f76807eFdB6903025DE8e006b1185F5',
     version: 1,
-    multiplier: 1
+    multiplier: 5
   },
   WAVAX_DAI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
@@ -518,7 +521,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], XDO[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x5d479aEbfc49b9e08860BbfCfb3BB4D768Aa1fc3',
     version: 1,
-    multiplier: 2
+    multiplier: 0
   },
   WAVAX_JOE_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], JOE[ChainId.AVALANCHE]],
@@ -530,7 +533,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], ZABU[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x184949E5A7E8740Da20231B90Fd38E7725FA657A',
     version: 1,
-    multiplier: 2
+    multiplier: 0
   },
   WAVAX_YAY_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], YAY[ChainId.AVALANCHE]],
@@ -547,6 +550,24 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   WAVAX_OOE_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], OOE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xB9cE09322FC55Da298e27b8678d300423988b40E',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_VEE_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], VEE[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xDa959F3464FE2375f0B1f8A872404181931978B2',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_AVXT_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], AVXT[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x05930052a9a1e2f14B0e6cCc726b60E06792fB67',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_OLIVE_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], OLIVE[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x01bc14c7063212c8cAc269960bA875E58568E4fD',
     version: 1,
     multiplier: 2
   },
