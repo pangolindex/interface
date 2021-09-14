@@ -1089,9 +1089,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
     NEVER_RELOAD
   )
 
-  const wavax = WAVAX[ChainId.AVALANCHE]
-
-  const usdPrice = useUSDCPrice(wavax)
+  const usdPrice = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
 
   return useMemo(() => {
     if (!chainId || !png) return []
