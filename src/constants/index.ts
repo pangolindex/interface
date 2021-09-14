@@ -301,6 +301,21 @@ export const OOE: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x0ebd9537A25f56713E34c45b38F421A1e7191469', 18, 'OOE', 'OpenOcean')
 }
 
+export const VEE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'VEE', 'Vee'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x3709E8615E02C15B096f8a9B460ccb8cA8194e86', 18, 'VEE', 'Vee')
+}
+
+export const AVXT: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'AVXT', 'Avaxtars'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x397bBd6A0E41bdF4C3F971731E180Db8Ad06eBc1', 6, 'AVXT', 'Avaxtars')
+}
+
+export const OLIVE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OOE', 'OpenOcean'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x0ebd9537A25f56713E34c45b38F421A1e7191469', 18, 'OOE', 'OpenOcean')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
