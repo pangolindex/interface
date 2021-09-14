@@ -312,8 +312,8 @@ export const AVXT: { [chainId in ChainId]: Token } = {
 }
 
 export const OLIVE: { [chainId in ChainId]: Token } = {
-  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OOE', 'OpenOcean'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x0ebd9537A25f56713E34c45b38F421A1e7191469', 18, 'OOE', 'OpenOcean')
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OLIVE', 'Olive Token'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x617724974218A18769020A70162165A539c07E8a', 18, 'OLIVE', 'Olive Token')
 }
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
