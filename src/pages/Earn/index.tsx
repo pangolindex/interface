@@ -165,7 +165,7 @@ export default function Earn({
             // only second has ended
             if (!info_a.isPeriodFinished && info_b.isPeriodFinished) return -1
             // greater stake in avax comes first
-            return info_a.totalStakedInWavax?.greaterThan(info_b.totalStakedInWavax ?? JSBI.BigInt(0)) ? -1 : 1
+            return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? JSBI.BigInt(0)) ? -1 : 1
           })
           .sort(function(info_a, info_b) {
             // only the first is being staked, so we should bring the first up
