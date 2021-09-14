@@ -111,7 +111,6 @@ export default function Manage({
   let token: Token | undefined
   const totalSupplyOfStakingToken = useTotalSupply(stakingInfo?.stakedAmount?.token)
   const [, avaxPngTokenPair] = usePair(CAVAX, PNG[chainId ? chainId : 43114])
-  let usdToken = WAVAX[ChainId.AVALANCHE]
   if (avaxPool) {
     token = currencyA === CAVAX ? tokenB : tokenA
     const wavax = currencyA === CAVAX ? tokenA : tokenB
@@ -169,7 +168,7 @@ export default function Manage({
   // get the color of the token
   backgroundColor = useColor(token)
 
-  const USDPrice = useUSDCPrice(usdToken)
+  const USDPrice = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
   valueOfTotalStakedAmountInUSDC = valueOfTotalStakedAmountInWavax && USDPrice?.quote(valueOfTotalStakedAmountInWavax)
 
   // detect existing unstaked LP position to show add button if none found
