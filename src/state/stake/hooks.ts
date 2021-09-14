@@ -63,12 +63,12 @@ import {
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
-import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleData } from "../multicall/hooks";
+import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
 import { tryParseAmount } from '../swap/hooks'
 import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import useUSDCPrice from '../../utils/useUSDCPrice'
-import { getRouterContract } from "../../utils";
+import { getRouterContract } from '../../utils'
 
 export interface SingleSideStaking {
   rewardToken: Token
