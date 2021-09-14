@@ -120,7 +120,7 @@ export default function SingleSidePoolCard({
         <RowBetween>
           <TYPE.white>APR</TYPE.white>
           <TYPE.white>
-            {JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0))
+            {JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0)) && !stakingInfo.isPeriodFinished
               ? `${stakingInfo.apr.toLocaleString()}%`
               : ' - '
             }

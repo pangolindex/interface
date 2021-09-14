@@ -50,6 +50,7 @@
     "enterAmount": "Enter an amount",
     "unclaimedReward": "Unclaimed {{ symbol }}",
     "claim": "Claim",
+    "claimReward": "Claim {{ symbol }}",
     "liquidityRemainsPool": "When you claim without withdrawing your liquidity remains in the mining pool.",
     "withdrawingLiquidity": "Withdrawing {{ amount }} {{ symbol }}",
     "claimingReward": "Claiming {{ amount }} {{ symbol }}",
