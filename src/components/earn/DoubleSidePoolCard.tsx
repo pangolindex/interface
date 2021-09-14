@@ -110,6 +110,8 @@ export default function DoubleSidePoolCard({
   // get the color of the token
   const backgroundColor = useColor(token)
 
+  const totalStakedInUsd = stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
+
   return (
     <Wrapper showBackground={isStaking} bgColor={backgroundColor}>
       <CardBGImage desaturate />
@@ -151,15 +153,13 @@ export default function DoubleSidePoolCard({
       <StatContainer>
         <RowBetween>
           <TYPE.white> {t('earn.totalStaked')}</TYPE.white>
-          <TYPE.white>
-            {`$${stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' }) ?? '-'}`}
-          </TYPE.white>
+          <TYPE.white>{totalStakedInUsd ? `$${totalStakedInUsd}` : '-'}</TYPE.white>
         </RowBetween>
       </StatContainer>
       <AprContainer>
         <RowBetween>
           <TYPE.white>Swap Fee APR</TYPE.white>
-          <TYPE.white>{swapFeeApr && !stakingInfo.isPeriodFinished  ? `${swapFeeApr}%` : '-'}</TYPE.white>
+          <TYPE.white>{swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr}%` : '-'}</TYPE.white>
         </RowBetween>
         <RowBetween>
           <TYPE.white>PNG Rewards APR</TYPE.white>
@@ -167,7 +167,7 @@ export default function DoubleSidePoolCard({
         </RowBetween>
         <RowBetween>
           <TYPE.white>Total APR</TYPE.white>
-          <TYPE.white>{swapFeeApr && !stakingInfo.isPeriodFinished  ? `${swapFeeApr + stakingApr}%` : '-'}</TYPE.white>
+          <TYPE.white>{swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr + stakingApr}%` : '-'}</TYPE.white>
         </RowBetween>
       </AprContainer>
       <StatContainer>
