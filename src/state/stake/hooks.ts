@@ -904,7 +904,7 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
   multiplier: JSBI
   // total staked AVAX in the pool
   totalStakedInWavax: TokenAmount
-  totalStackedInUsd: TokenAmount
+  totalStakedInUsd: TokenAmount
 }
 
 const calculateTotalStakedAmountInAvaxFromPng = function(
@@ -1126,7 +1126,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
               pair.reserveOf(png).raw
             )
 
-        const totalStackedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax) as TokenAmount)
+        const totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax) as TokenAmount)
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
           totalStakedAmount: TokenAmount,
@@ -1155,7 +1155,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
           stakedAmount: stakedAmount,
           totalStakedAmount: totalStakedAmount,
           totalStakedInWavax: totalStakedInWavax,
-          totalStackedInUsd: totalStackedInUsd,
+          totalStakedInUsd: totalStakedInUsd,
           multiplier: JSBI.BigInt(multiplier),
           getHypotheticalRewardRate
         })

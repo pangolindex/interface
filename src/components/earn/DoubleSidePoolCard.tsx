@@ -152,7 +152,7 @@ export default function DoubleSidePoolCard({
         <RowBetween>
           <TYPE.white> {t('earn.totalStaked')}</TYPE.white>
           <TYPE.white>
-            {`${stakingInfo.totalStackedInUsd.toSignificant(4, { groupSeparator: ',' }) ?? '-'} USD`}
+            {`$${stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' }) ?? '-'}`}
           </TYPE.white>
         </RowBetween>
       </StatContainer>

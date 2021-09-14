@@ -60,7 +60,7 @@ const SortFieldContainer = styled.div`
 `
 
 enum SortingType {
-  totalStackedInUsd = 'totalStackedInUsd',
+  totalStakedInUsd = 'totalStakedInUsd',
   multiplier = 'multiplier',
   totalApr = 'totalApr'
 }
@@ -101,16 +101,16 @@ export default function Earn({
   useEffect(() => {
     Promise.all(
       stakingInfoData.sort(function(info_a, info_b) {
-        if (sortBy.field === SortingType.totalStackedInUsd) {
+        if (sortBy.field === SortingType.totalStakedInUsd) {
           if (sortBy.desc) {
-            return info_a.totalStackedInUsd?.greaterThan(
-              info_b.totalStackedInUsd ?? JSBI.BigInt(0)
+            return info_a.totalStakedInUsd?.greaterThan(
+              info_b.totalStakedInUsd ?? JSBI.BigInt(0)
             )
               ? -1
               : 1
           } else {
-            return info_a.totalStackedInUsd?.lessThan(
-              info_b.totalStackedInUsd ?? JSBI.BigInt(0)
+            return info_a.totalStakedInUsd?.lessThan(
+              info_b.totalStakedInUsd ?? JSBI.BigInt(0)
             )
               ? -1
               : 1
@@ -308,7 +308,7 @@ export default function Earn({
               <SortSection>
                 Sort by :{' '}
                 <SortFieldContainer>
-                  {getSortField('Liquidity', SortingType.totalStackedInUsd, sortBy, setSortBy)} |{' '}
+                  {getSortField('Liquidity', SortingType.totalStakedInUsd, sortBy, setSortBy)} |{' '}
                   {getSortField('Pool Weight', SortingType.multiplier, sortBy, setSortBy)} |{' '}
                 </SortFieldContainer>
                 {getSortField('APR', SortingType.totalApr, sortBy, setSortBy)}

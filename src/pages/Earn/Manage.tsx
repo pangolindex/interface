@@ -229,7 +229,7 @@ export default function Manage({
           <AutoColumn gap="sm">
             <TYPE.body style={{ margin: 0 }}>{t('earnPage.totalStaked')}</TYPE.body>
             <TYPE.body fontSize={24} fontWeight={500}>
-              {`${valueOfTotalStakedAmountInUSDC?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} USD`}
+              {`$${valueOfTotalStakedAmountInUSDC?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}`}
               {/* {valueOfTotalStakedAmountInUSDC
 							? `$${valueOfTotalStakedAmountInUSDC.toFixed(0, { groupSeparator: ',' })}`
 							: `${valueOfTotalStakedAmountInWavax?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`} */}
