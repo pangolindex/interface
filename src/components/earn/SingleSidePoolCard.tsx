@@ -3,16 +3,14 @@ import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
 import styled from 'styled-components'
 import { TYPE, StyledInternalLink } from '../../theme'
-import DoubleCurrencyLogo from '../DoubleLogo'
-import { CAVAX, Token } from '@pangolindex/sdk'
 import { ButtonPrimary } from '../Button'
-import { Staking, StakingInfo } from '../../state/stake/hooks'
+import { SingleSideStaking, SingleSideStakingInfo } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
-import { Break, CardNoise, CardBGImage } from './styled'
-import { unwrappedToken } from '../../utils/wrappedCurrency'
-import { PNG } from '../../constants'
+import { Break } from './styled'
 import { useTranslation } from 'react-i18next'
+import CurrencyLogo from '../CurrencyLogo'
+import { JSBI } from "@pangolindex/sdk";
 
 const StatContainer = styled.div`
   display: flex;
@@ -25,6 +23,16 @@ const StatContainer = styled.div`
   ${({ theme }) => theme.mediaWidth.upToSmall`
    display: none;
  `};
+`
+
+const AprContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
 `
 
 const Wrapper = styled(AutoColumn)<{ showBackground: boolean; bgColor: any }>`
@@ -45,16 +53,15 @@ const Wrapper = styled(AutoColumn)<{ showBackground: boolean; bgColor: any }>`
 
 const TopSection = styled.div`
   display: grid;
-  grid-template-columns: 48px 1fr auto 120px;
+  grid-template-columns: 24px 1fr 120px;
   grid-gap: 0px;
   align-items: center;
   padding: 1rem;
   z-index: 1;
   ${({ theme }) => theme.mediaWidth.upToSmall`
-     grid-template-columns: 48px 1fr auto 96px;
+     grid-template-columns: 24px 1fr 96px;
    `};
 `
-
 
 const BottomSection = styled.div<{ showBackground: boolean }>`
   padding: 12px 16px;
@@ -67,62 +74,31 @@ const BottomSection = styled.div<{ showBackground: boolean }>`
   z-index: 1;
 `
 
-export default function PoolCard({
+export default function SingleSidePoolCard({
   stakingInfo,
-  migration,
   version,
-  swapFeeApr,
-  stakingApr,
 }: {
-  stakingInfo: StakingInfo
-	migration?: Staking
+  stakingInfo: SingleSideStakingInfo
+	migration?: SingleSideStaking
   version: string
-  swapFeeApr: number
-  stakingApr: number
 }) {
-  const token0 = stakingInfo.tokens[0]
-  const token1 = stakingInfo.tokens[1]
-
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
-
   const { t } = useTranslation()
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  const token: Token = currency0 === CAVAX || currency1 === CAVAX
-    ? currency0 === CAVAX ? token1 : token0
-    : token0.equals(PNG[token0.chainId]) ? token1 : token0
-
   // get the color of the token
-  const backgroundColor = useColor(token)
+  const backgroundColor = useColor(stakingInfo.rewardToken)
 
   return (
     <Wrapper showBackground={isStaking} bgColor={backgroundColor}>
-      <CardBGImage desaturate />
-      <CardNoise />
-
       <TopSection>
-        <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={24} />
+        <CurrencyLogo currency={stakingInfo.rewardToken} />
         <TYPE.white fontWeight={600} fontSize={24} style={{ marginLeft: '8px' }}>
-          {currency0.symbol}-{currency1.symbol}
+          Earn {stakingInfo.rewardToken.symbol}
         </TYPE.white>
-
-        {(migration && isStaking) ? (
-          <StyledInternalLink
-            to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${Number(version)}/${currencyId(migration.tokens[0])}/${currencyId(migration.tokens[1])}/${migration?.version}`}
-              style={{ marginRight: '10px' }}
-            >
-            <ButtonPrimary padding='8px' borderRadius='8px'>
-              Migrate
-            </ButtonPrimary>
-          </StyledInternalLink>
-        ) : (
-          <span></span>
-        )}
 
         {(isStaking || !stakingInfo.isPeriodFinished) && (
           <StyledInternalLink
-            to={`/png/${currencyId(currency0)}/${currencyId(currency1)}/${version}`}
+            to={`/stake/${version}/${currencyId(stakingInfo.rewardToken)}`}
             style={{ width: '100%' }}
           >
             <ButtonPrimary padding="8px" borderRadius="8px">
@@ -136,25 +112,21 @@ export default function PoolCard({
         <RowBetween>
           <TYPE.white> {t('earn.totalStaked')}</TYPE.white>
           <TYPE.white>
-            {`${stakingInfo.totalStakedInWavax.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`}
-          </TYPE.white>
-        </RowBetween>
-        <RowBetween>
-          <TYPE.white>Swap Fee APR</TYPE.white>
-          <TYPE.white>{`${swapFeeApr}%`}
-          </TYPE.white>
-        </RowBetween>
-        <RowBetween>
-          <TYPE.white>PNG Rewards APR</TYPE.white>
-          <TYPE.white>{`${stakingApr}%`}
-          </TYPE.white>
-        </RowBetween>
-        <RowBetween>
-          <TYPE.white>Total APR</TYPE.white>
-          <TYPE.white>{`${swapFeeApr + stakingApr}%`}
+            {`${stakingInfo.totalStakedInPng.toSignificant(4, { groupSeparator: ',' }) ?? '-'} PNG`}
           </TYPE.white>
         </RowBetween>
       </StatContainer>
+      <AprContainer>
+        <RowBetween>
+          <TYPE.white>APR</TYPE.white>
+          <TYPE.white>
+            {JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0)) && !stakingInfo.isPeriodFinished
+              ? `${stakingInfo.apr.toLocaleString()}%`
+              : ' - '
+            }
+          </TYPE.white>
+        </RowBetween>
+      </AprContainer>
 
       {isStaking && (
         <>
@@ -170,7 +142,7 @@ export default function PoolCard({
               </span>
               {`${stakingInfo.rewardRate
                 ?.multiply(`${60 * 60 * 24 * 7}`)
-                ?.toSignificant(4, { groupSeparator: ',' })} PNG / week`}
+                ?.toSignificant(4, { groupSeparator: ',' })} ${stakingInfo.rewardToken.symbol} / week`}
             </TYPE.black>
           </BottomSection>
         </>

@@ -42,7 +42,7 @@ export default function LanguageSelection() {
   return (
     <StyledMenu ref={node as any}>
       <StyledMenuButton onClick={toggle}>
-        <FlagIcon src={`/images/flags/${i18n.language}.svg`}/>
+        <FlagIcon src={`./images/flags/${i18n.language}.svg`}/>
       </StyledMenuButton>
       {open && (
         <NarrowMenuFlyout>
@@ -54,7 +54,7 @@ export default function LanguageSelection() {
                   toggle()
                 }}
               >
-                <FlagIcon src={`/images/flags/${lang}.svg`}/> &nbsp;
+                <FlagIcon src={`./images/flags/${lang}.svg`}/> &nbsp;
                 {lang.toUpperCase()}
               </ClickableMenuItem>
             )

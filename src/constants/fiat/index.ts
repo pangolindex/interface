@@ -1,6 +1,6 @@
 export type Fiat = { symbol: string, name: string, logo: string }
 
-const FLAG_FOLDER = "/images/flags/round/"
+const FLAG_FOLDER = "./images/flags/round/"
 
 export const USD: Fiat = {'symbol': 'USD', 'name': 'United States Dollar', 'logo': `${FLAG_FOLDER}us.svg`}
 export const EUR: Fiat = {'symbol': 'EUR', 'name': 'Euro', 'logo': `${FLAG_FOLDER}eu.svg`}
