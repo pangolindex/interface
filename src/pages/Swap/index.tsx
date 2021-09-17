@@ -1,4 +1,4 @@
-import { ChainId, CurrencyAmount, JSBI, Token, Trade } from '@pangolindex/sdk'
+import { CurrencyAmount, JSBI, Token, Trade } from '@pangolindex/sdk'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -44,8 +44,9 @@ import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import useENS from '../../hooks/useENS'
 import { Trans, useTranslation } from 'react-i18next'
-import { useIsSelectedAEBToken } from '../../state/lists/hooks'
+import { useIsSelectedAEBToken, useSelectedTokenList } from '../../state/lists/hooks'
 import { DeprecatedWarning } from '../../components/Warning'
+import { isTokenOnList } from '../../utils'
 
 const TopText = styled.span`
   margin-bottom: 8px;
@@ -291,9 +292,12 @@ export default function Swap() {
 
   const isAEBToken = useIsSelectedAEBToken()
 
+  const selectedTokens = useSelectedTokenList()
+
   const isTrustedToken = useCallback((token: Token) => {
-    return TRUSTED_TOKEN_ADDRESSES[chainId ? chainId : ChainId.AVALANCHE].includes(token.address)
-  }, [chainId])
+    if (!chainId || !selectedTokens) return true // Assume trusted at first to avoid flashing a warning
+    return TRUSTED_TOKEN_ADDRESSES[chainId].includes(token.address) || isTokenOnList(selectedTokens, token)
+  }, [chainId, selectedTokens])
 
   return (
     <>
