@@ -1,7 +1,7 @@
 import { darken } from 'polished'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 
-import {IDO_LIST} from '../../constants'
+import { IDO_LIST } from '../../constants/idos'
 
 import React from 'react'
 import { AutoColumn } from '../../components/Column'
@@ -103,14 +103,15 @@ const EmptyProposals = styled.div`
   align-items: center;
 `
 
-
+const IDO_STATUS_UPCOMING = 'Upcoming'
+const IDO_STATUS_ENDED = 'Ended'
 
 export default function IDO() {
   const { t } = useTranslation()
 
   return (
     <PageWrapper gap="lg" justify="center">
-      {/* This is the top section of the page */} 
+      {/* This is the top section of the page */}
       <TopSection gap="md">
         <IDOCard>
           <CardBGImage />
@@ -123,8 +124,7 @@ export default function IDO() {
               <RowBetween>
                 <TYPE.white fontSize={14}>{t('IDOPage.pangolinIDODescription')}</TYPE.white>
               </RowBetween>
-              <RowBetween>
-              </RowBetween>
+              <RowBetween></RowBetween>
             </AutoColumn>
           </CardSection>
           <CardBGImage />
@@ -133,13 +133,14 @@ export default function IDO() {
       </TopSection>
 
       <TopSection gap="2px">
-        <WrapSmall> {/* This is the title section of the IDO list */}
+        <WrapSmall>
+          {/* This is the title section of the IDO list */}
           <TYPE.mediumHeader style={{ margin: '0.5rem 0.5rem 0.5rem 0', flexShrink: 0 }}>
             {t('IDOPage.upcomingIDOs')}
-          </TYPE.mediumHeader> 
+          </TYPE.mediumHeader>
         </WrapSmall>
-         {/*  We can use this when there are no upcoming IDOs */}
-         { !(IDO_LIST.some(el => el.status === "Upcoming")) && (
+        {/*  We can use this when there are no upcoming IDOs */}
+        {!IDO_LIST.some(el => el.status === IDO_STATUS_UPCOMING) && (
           <EmptyProposals>
             <TYPE.body style={{ marginBottom: '8px' }}>{t('IDOPage.noIDOsFound')}</TYPE.body>
             <TYPE.subHeader>
@@ -147,42 +148,38 @@ export default function IDO() {
             </TYPE.subHeader>
           </EmptyProposals>
         )}
-        {
-          IDO_LIST?.filter(ido => ido.status === "Upcoming").map(filteredIDO => {
-            return ( 
-                <IDOs key={filteredIDO.id}>
-                  <PngIcon>
-                    <img width={'50px'} src={filteredIDO.projectIconLocation} alt="logo" />
-                  </PngIcon>
-                  <StyledExternalLink id={`gov-nav-link`} href={filteredIDO.announcementUrl}>
-                    {filteredIDO.title} by {filteredIDO.launchpad} <span style={{ fontSize: '11px' }}>↗</span>
-                  </StyledExternalLink>
-                </IDOs>
-            )
-          })
-        }
+        {IDO_LIST?.filter(ido => ido.status === IDO_STATUS_UPCOMING).map(filteredIDO => {
+          return (
+            <IDOs key={filteredIDO.id}>
+              <PngIcon>
+                <img width={'50px'} src={filteredIDO.projectIconLocation} alt="logo" />
+              </PngIcon>
+              <StyledExternalLink id={`gov-nav-link`} href={filteredIDO.announcementUrl}>
+                {filteredIDO.title} by {filteredIDO.launchpad} <span style={{ fontSize: '11px' }}>↗</span>
+              </StyledExternalLink>
+            </IDOs>
+          )
+        })}
       </TopSection>
       <TopSection gap="2px">
-        <WrapSmall> {/* This is the title section of the IDO list */}
+        <WrapSmall>
+          {/* This is the title section of the IDO list */}
           <TYPE.mediumHeader style={{ margin: '0.5rem 0.5rem 0.5rem 0', flexShrink: 0 }}>
             {t('IDOPage.endedIDOs')}
-          </TYPE.mediumHeader> 
+          </TYPE.mediumHeader>
         </WrapSmall>
-        {
-          IDO_LIST.filter(ido => ido.status === "Ended").map(filteredIDO => {
-            return ( 
-              <IDOs key={filteredIDO.id}>
-                <PngIcon>
-                  <img width={'50px'} src={filteredIDO.projectIconLocation} alt="logo" />
-                </PngIcon>
-                <StyledExternalLink id={`gov-nav-link`} href={filteredIDO.announcementUrl}>
-                  {filteredIDO.title} by {filteredIDO.launchpad} <span style={{ fontSize: '11px' }}>↗</span>
-                </StyledExternalLink>
-              </IDOs>
-            )
-
-          }) 
-        }
+        {IDO_LIST.filter(ido => ido.status === IDO_STATUS_ENDED).map(filteredIDO => {
+          return (
+            <IDOs key={filteredIDO.id}>
+              <PngIcon>
+                <img width={'50px'} src={filteredIDO.projectIconLocation} alt="logo" />
+              </PngIcon>
+              <StyledExternalLink id={`gov-nav-link`} href={filteredIDO.announcementUrl}>
+                {filteredIDO.title} by {filteredIDO.launchpad} <span style={{ fontSize: '11px' }}>↗</span>
+              </StyledExternalLink>
+            </IDOs>
+          )
+        })}
       </TopSection>
     </PageWrapper>
   )
