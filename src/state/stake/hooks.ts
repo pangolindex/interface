@@ -53,18 +53,28 @@ import {
   XDO,
   JOE,
   ZABU,
-  YAY
+  YAY,
+  STORM,
+  OOE,
+  VEE,
+  AVXT,
+  OLIVE,
+  APEIN,
+  GB
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
-import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
+import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
 import { tryParseAmount } from '../swap/hooks'
 import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
+import useUSDCPrice from '../../utils/useUSDCPrice'
+import { getRouterContract } from '../../utils'
 
 export interface SingleSideStaking {
   rewardToken: Token
+  conversionRouteHops: Token[]
   stakingRewardAddress: string
   version: number
 }
@@ -77,7 +87,7 @@ export interface DoubleSideStaking {
 }
 
 export interface Migration {
-  from: DoubleSideStaking,
+  from: DoubleSideStaking
   to: DoubleSideStaking
 }
 
@@ -87,11 +97,18 @@ export interface BridgeMigrator {
 }
 
 const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
-  PNG_V0: {
+  WAVAX_V0: {
     rewardToken: WAVAX[ChainId.AVALANCHE],
+	  conversionRouteHops: [],
     stakingRewardAddress: '0xD49B406A7A29D64e081164F6C3353C599A2EeAE9',
     version: 0
-  }
+  },
+	OOE_V0: {
+		rewardToken: OOE[ChainId.AVALANCHE],
+    conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
+		stakingRewardAddress: '0xf0eFf017644680B9878429137ccb2c041b4Fb701',
+		version: 0
+	},
 }
 
 const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
@@ -243,7 +260,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], WBTCe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x30CbF11f6fcc9FC1bF6E55A6941b1A47A56eAEC5',
     version: 1,
-    multiplier: 1
+    multiplier: 5
   },
   WAVAX_PNG_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
@@ -261,7 +278,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], LINKe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x2e10D9d08f76807eFdB6903025DE8e006b1185F5',
     version: 1,
-    multiplier: 1
+    multiplier: 5
   },
   WAVAX_DAI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
@@ -417,19 +434,19 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], LYD[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xE6dE666a80a357497A2cAB3A91F1c28dcAA1Eca4',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_TUSD_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], TUSD[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xf2dd964AcF53ad8959540CceEFD9FeA13d4D0Eb1',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_GAJ_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], GAJ[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xd31FFD05a41645631A22a64c1f870a6248A4DDcF',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_GDL_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], GDL[ChainId.AVALANCHE]],
@@ -507,7 +524,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], XDO[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x5d479aEbfc49b9e08860BbfCfb3BB4D768Aa1fc3',
     version: 1,
-    multiplier: 2
+    multiplier: 0
   },
   WAVAX_JOE_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], JOE[ChainId.AVALANCHE]],
@@ -519,11 +536,53 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], ZABU[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x184949E5A7E8740Da20231B90Fd38E7725FA657A',
     version: 1,
-    multiplier: 2
+    multiplier: 0
   },
   WAVAX_YAY_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], YAY[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x2DaE4d6Cccd824917cA783774C1e8854FF86951F',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_STORM_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], STORM[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x62Da43b98a9338221cc36dDa40605B0F5eA0Ac2d',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_OOE_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], OOE[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xB9cE09322FC55Da298e27b8678d300423988b40E',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_VEE_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], VEE[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xDa959F3464FE2375f0B1f8A872404181931978B2',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_AVXT_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], AVXT[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x05930052a9a1e2f14B0e6cCc726b60E06792fB67',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_OLIVE_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], OLIVE[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x01bc14c7063212c8cAc269960bA875E58568E4fD',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_APEIN_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], APEIN[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xac102f66A1670508DFA5753Fcbbba80E0648a0c7',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_GB_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], GB[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x6cFdB5Ce2a26a5b07041618fDAD81273815c8bb4',
     version: 1,
     multiplier: 2
   },
@@ -833,12 +892,22 @@ export const BRIDGE_MIGRATORS: BridgeMigrator[] = [
   { aeb: '0x99519AcB025a0e0d44c3875A4BbF03af65933627', ab: '0x9eAaC1B23d935365bD7b542Fe22cEEe2922f52dc' } // YFI
 ]
 
-export const SINGLE_SIDE_STAKING_V0: SingleSideStaking[] = Object.values(SINGLE_SIDE_STAKING).filter(staking => staking.version === 0)
-export const SINGLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(...Object.values(SINGLE_SIDE_STAKING).map(staking => staking.version))
+export const SINGLE_SIDE_STAKING_V0: SingleSideStaking[] = Object.values(SINGLE_SIDE_STAKING).filter(
+  staking => staking.version === 0
+)
+export const SINGLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(
+  ...Object.values(SINGLE_SIDE_STAKING).map(staking => staking.version)
+)
 
-export const DOUBLE_SIDE_STAKING_V0: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING).filter(staking => staking.version === 0)
-export const DOUBLE_SIDE_STAKING_V1: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING).filter(staking => staking.version === 1)
-export const DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(...Object.values(DOUBLE_SIDE_STAKING).map(staking => staking.version))
+export const DOUBLE_SIDE_STAKING_V0: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING).filter(
+  staking => staking.version === 0
+)
+export const DOUBLE_SIDE_STAKING_V1: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING).filter(
+  staking => staking.version === 1
+)
+export const DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(
+  ...Object.values(DOUBLE_SIDE_STAKING).map(staking => staking.version)
+)
 
 export const SINGLE_SIDE_STAKING_REWARDS_INFO: {
   [chainId in ChainId]?: SingleSideStaking[][]
@@ -893,6 +962,7 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
   multiplier: JSBI
   // total staked AVAX in the pool
   totalStakedInWavax: TokenAmount
+  totalStakedInUsd: TokenAmount
 }
 
 const calculateTotalStakedAmountInAvaxFromPng = function(
@@ -924,22 +994,16 @@ const calculateTotalStakedAmountInAvaxFromPng = function(
 
 const calculateRewardRateInPng = function(
   rewardRate: JSBI,
-  pair: Pair | null,
-  stakingToken: Token,
-  rewardToken: Token
+  valueOfPng: JSBI | null
 ): JSBI {
-  if (!pair) return JSBI.BigInt(0)
+  if (!valueOfPng || JSBI.EQ(valueOfPng, 0)) return JSBI.BigInt(0)
 
   // TODO: Handle situation where stakingToken and rewardToken have different decimals
   const oneToken = JSBI.BigInt(1000000000000000000)
 
-  const pairRatio = JSBI.divide(
-    JSBI.multiply(oneToken, pair.reserveOf(stakingToken).raw), // Multiply first for precision
-    pair.reserveOf(rewardToken).raw
-  )
   return JSBI.divide(
-    JSBI.multiply(rewardRate, pairRatio), // Multiply first for precision
-    oneToken
+    JSBI.multiply(rewardRate, oneToken), // Multiply first for precision
+    valueOfPng
   )
 }
 
@@ -947,7 +1011,7 @@ const calculateApr = function(
   rewardRatePerSecond: JSBI,
   totalSupply: JSBI
 ): JSBI {
-  if (JSBI.EQ(totalSupply, JSBI.BigInt(0))) {
+  if (JSBI.EQ(totalSupply, 0)) {
     return JSBI.BigInt(0)
   }
 
@@ -956,10 +1020,7 @@ const calculateApr = function(
     JSBI.BigInt(31536000) // Seconds in year
   )
 
-  return JSBI.divide(
-    JSBI.multiply(rewardsPerYear, JSBI.BigInt(100)),
-    totalSupply
-  )
+  return JSBI.divide(JSBI.multiply(rewardsPerYear, JSBI.BigInt(100)), totalSupply)
 }
 
 const calculateTotalStakedAmountInAvax = function(
@@ -993,8 +1054,8 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
       chainId
         ? DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
             pairToFilterBy === undefined
-            ? true
-            : pairToFilterBy === null
+              ? true
+              : pairToFilterBy === null
               ? false
               : pairToFilterBy.involvesToken(stakingRewardInfo.tokens[0]) &&
                 pairToFilterBy.involvesToken(stakingRewardInfo.tokens[1])
@@ -1041,6 +1102,8 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
     undefined,
     NEVER_RELOAD
   )
+
+  const usdPrice = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
 
   return useMemo(() => {
     if (!chainId || !png) return []
@@ -1109,13 +1172,14 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
         const totalStakedInWavax = isAvaxPool
           ? calculateTotalStakedAmountInAvax(totalSupplyStaked, totalSupplyAvailable, pair.reserveOf(wavax).raw)
           : calculateTotalStakedAmountInAvaxFromPng(
-            totalSupplyStaked,
-            totalSupplyAvailable,
-            avaxPngPair.reserveOf(png).raw,
-            avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
-            pair.reserveOf(png).raw
-          )
+              totalSupplyStaked,
+              totalSupplyAvailable,
+              avaxPngPair.reserveOf(png).raw,
+              avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
+              pair.reserveOf(png).raw
+            )
 
+        const totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax) as TokenAmount)
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
           totalStakedAmount: TokenAmount,
@@ -1144,6 +1208,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
           stakedAmount: stakedAmount,
           totalStakedAmount: totalStakedAmount,
           totalStakedInWavax: totalStakedInWavax,
+          totalStakedInUsd: totalStakedInUsd,
           multiplier: JSBI.BigInt(multiplier),
           getHypotheticalRewardRate
         })
@@ -1168,18 +1233,18 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
 }
 
 export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?: Token | null): SingleSideStakingInfo[] {
-  const { chainId, account } = useActiveWeb3React()
+  const { chainId, library, account } = useActiveWeb3React()
 
   const info = useMemo(
     () =>
       chainId
         ? SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
-        rewardTokenToFilterBy === undefined
-          ? true
-          : rewardTokenToFilterBy === null
-            ? false
-            : rewardTokenToFilterBy.equals(stakingRewardInfo.rewardToken)
-      ) ?? []
+            rewardTokenToFilterBy === undefined
+              ? true
+              : rewardTokenToFilterBy === null
+              ? false
+              : rewardTokenToFilterBy.equals(stakingRewardInfo.rewardToken)
+          ) ?? []
         : [],
     [chainId, rewardTokenToFilterBy, version]
   )
@@ -1187,19 +1252,24 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
   const png = PNG[ChainId.AVALANCHE]
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
+  const routes = useMemo((): string[][] => info.map(({ conversionRouteHops, rewardToken }) => {
+    return [png.address, ...conversionRouteHops.map(token => token.address), rewardToken.address];
+  }), [info])
 
   const accountArg = useMemo(() => [account ?? undefined], [account])
+  const getAmountsOutArgs = useMemo(() => {
+    const amountIn = '1' + '0'.repeat(18) // 1 PNG
+    return routes.map(route => [amountIn, route])
+  }, [routes])
+
+  const routerContract = useMemo(() => {
+    if (!chainId || !library) return
+    return getRouterContract(chainId, library)
+  }, [chainId, library])
 
   // get all the info from the staking rewards contracts
-  const tokens = useMemo((): [Token, Token][] => info.map(({ rewardToken }) => [png, rewardToken]), [info])
   const balances = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'balanceOf', accountArg)
   const earnedAmounts = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'earned', accountArg)
-  const pairs = usePairs(tokens)
-
-  const pairsHaveLoaded = useMemo(() => {
-    return pairs?.every(([state, pair]) => state !== PairState.LOADING)
-  }, [pairs])
-
   const stakingTotalSupplies = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'totalSupply')
 
   // tokens per second, constants
@@ -1218,6 +1288,13 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
     NEVER_RELOAD
   )
 
+  const amountsOuts = useSingleContractMultipleData(
+    routerContract,
+    'getAmountsOut',
+    getAmountsOutArgs,
+    NEVER_RELOAD
+  )
+
   return useMemo(() => {
     if (!chainId || !png) return []
 
@@ -1230,30 +1307,32 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
       const stakingTotalSupplyState = stakingTotalSupplies[index]
       const rewardRateState = rewardRates[index]
       const periodFinishState = periodFinishes[index]
+      const amountsOutsState = amountsOuts[index]
 
       if (
         // these may be undefined if not logged in
         !balanceState?.loading &&
         !earnedAmountState?.loading &&
         // always need these
-        pairsHaveLoaded === true &&
         stakingTotalSupplyState?.loading === false &&
         rewardRateState?.loading === false &&
-        periodFinishState?.loading === false
+        periodFinishState?.loading === false &&
+        amountsOutsState?.loading === false
       ) {
         if (
           balanceState?.error ||
           earnedAmountState?.error ||
           stakingTotalSupplyState.error ||
           rewardRateState.error ||
-          periodFinishState.error
+          periodFinishState.error ||
+          amountsOutsState.error
         ) {
           console.error('Failed to load staking rewards info')
           return memo
         }
 
         const rewardToken = info[index].rewardToken
-        const [, pngPair] = pairs[index]
+        const valueOfPng = JSBI.BigInt(amountsOutsState.result?.[0]?.slice(-1)?.[0] ?? 0)
         const periodFinishMs = periodFinishState.result?.[0]?.mul(1000)?.toNumber()
 
         // periodFinish will be 0 immediately after a reward contract is initialized
@@ -1263,14 +1342,15 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
 
         const stakedAmount = new TokenAmount(png, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
         const totalStakedAmount = new TokenAmount(png, JSBI.BigInt(totalSupplyStaked))
-        const totalRewardRate = new TokenAmount(rewardToken, JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0]))
+        const totalRewardRate = new TokenAmount(
+          rewardToken,
+          JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0])
+        )
         const earnedAmount = new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0))
 
         const rewardRateInPng = calculateRewardRateInPng(
           totalRewardRate.raw,
-          pngPair,
-          png,
-          rewardToken
+          valueOfPng
         )
 
         const apr = isPeriodFinished ? JSBI.BigInt(0) : calculateApr(rewardRateInPng, totalSupplyStaked)
@@ -1312,16 +1392,14 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
     png,
     rewardsAddresses,
     balances,
-    pairs,
-    pairsHaveLoaded,
     earnedAmounts,
     stakingTotalSupplies,
     rewardRates,
     periodFinishes,
+    amountsOuts,
     info
   ])
 }
-
 
 export function useTotalPngEarned(): TokenAmount | undefined {
   const { chainId } = useActiveWeb3React()

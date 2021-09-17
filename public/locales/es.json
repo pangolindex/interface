@@ -51,6 +51,7 @@
     "enterAmount": "Introduce una cantidad",
     "unclaimedReward": "{{ symbol }} sin reclamar",
     "claim": "Reclamar",
+    "claimReward": "{{ symbol }} Reclamar",
     "liquidityRemainsPool": "Cuando reclamas sin retirar, tu liquidez permanece en la pool de minería.",
     "withdrawingLiquidity": "Retirar {{ amount }} {{ symbol }}",
     "claimingReward": "Reclamando {{ amount }} {{ symbol }}",

@@ -51,6 +51,7 @@
     "enterAmount": "Bir tutar girin",
     "unclaimedReward": "Talep edilmemiş {{ symbol }}",
     "claim": "Talep Et",
+    "claimReward": "{{ symbol }} Talep Et",
     "liquidityRemainsPool": "Ödülleri, likiditenizi çekmeden talep ettiğinizde sağladığınız likidite madencilik havuzunda kalır.",
     "withdrawingLiquidity": "{{ amount }} {{ symbol }} Çekiliyor",
     "claimingReward": "{{ amount }} {{ symbol }} Talep Ediliyor",

@@ -51,6 +51,7 @@
     "enterAmount": "输入金额",
     "unclaimedReward": "未領取的 {{ symbol }}",
     "claim": "领取",
+    "claimReward": "领取 {{ symbol }}",
     "liquidityRemainsPool": "当您在不提取LP的情况下领取奖励，您的流动性仍留在矿池中。",
     "withdrawingLiquidity": "取款 {{ amount }} {{ symbol }}",
     "claimingReward": "领取中 {{ amount }} {{ symbol }}",

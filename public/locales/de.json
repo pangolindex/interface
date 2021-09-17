@@ -51,6 +51,7 @@
     "enterAmount": "Gib einen Betrag ein",
     "unclaimedReward": "Unbeanspruchte {{ symbol }}",
     "claim": "Beanspruchen",
+    "claimReward": "{{ symbol }} Beanspruchen",
     "liquidityRemainsPool": "Wenn du deine Vergütung ohne abzubuchen beanspruchst, wird deine Liquidität im Pool verbleiben.",
     "withdrawingLiquidity": "{{ amount }} {{ symbol }} opnemen",
     "claimingReward": "Wird beansprucht {{ amount }} {{ symbol }}",

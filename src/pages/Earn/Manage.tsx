@@ -3,7 +3,7 @@ import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-import { JSBI, TokenAmount, CAVAX, Token, WAVAX } from '@pangolindex/sdk'
+import { JSBI, TokenAmount, CurrencyAmount, CAVAX, Token, WAVAX, ChainId } from '@pangolindex/sdk'
 import { RouteComponentProps } from 'react-router-dom'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useCurrency } from '../../hooks/Tokens'
@@ -27,7 +27,7 @@ import { currencyId } from '../../utils/currencyId'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { usePair } from '../../data/Reserves'
 import usePrevious from '../../hooks/usePrevious'
-// import useUSDCPrice from '../../utils/useUSDCPrice'
+import useUSDCPrice from '../../utils/useUSDCPrice'
 import { BIG_INT_ZERO, PNG } from '../../constants'
 import { useTranslation } from 'react-i18next'
 
@@ -106,12 +106,11 @@ export default function Manage({
   const avaxPool = currencyA === CAVAX || currencyB === CAVAX
 
   let valueOfTotalStakedAmountInWavax: TokenAmount | undefined
-  // let valueOfTotalStakedAmountInUSDC: CurrencyAmount | undefined
+  let valueOfTotalStakedAmountInUSDC: CurrencyAmount | undefined
   let backgroundColor: string
   let token: Token | undefined
   const totalSupplyOfStakingToken = useTotalSupply(stakingInfo?.stakedAmount?.token)
   const [, avaxPngTokenPair] = usePair(CAVAX, PNG[chainId ? chainId : 43114])
-  // let usdToken: Token | undefined
   if (avaxPool) {
     token = currencyA === CAVAX ? tokenB : tokenA
     const wavax = currencyA === CAVAX ? tokenA : tokenB
@@ -132,7 +131,7 @@ export default function Manage({
     }
 
     // get the USD value of staked wavax
-    // usdToken = wavax
+    //usdToken = wavax
   } else {
     let png
     if (tokenA && tokenA.equals(PNG[tokenA.chainId])) {
@@ -163,15 +162,14 @@ export default function Manage({
         )
       )
     }
-    // usdToken = png
+    //usdToken = png
   }
 
   // get the color of the token
   backgroundColor = useColor(token)
 
-  // const USDPrice = useUSDCPrice(usdToken)
-  // valueOfTotalStakedAmountInUSDC =
-  // 		valueOfTotalStakedAmountInWavax && USDPrice?.quote(valueOfTotalStakedAmountInWavax)
+  const USDPrice = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
+  valueOfTotalStakedAmountInUSDC = valueOfTotalStakedAmountInWavax && USDPrice?.quote(valueOfTotalStakedAmountInWavax)
 
   // detect existing unstaked LP position to show add button if none found
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
@@ -230,7 +228,7 @@ export default function Manage({
           <AutoColumn gap="sm">
             <TYPE.body style={{ margin: 0 }}>{t('earnPage.totalStaked')}</TYPE.body>
             <TYPE.body fontSize={24} fontWeight={500}>
-              {`${valueOfTotalStakedAmountInWavax?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`}
+              {`$${valueOfTotalStakedAmountInUSDC?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}`}
               {/* {valueOfTotalStakedAmountInUSDC
 							? `$${valueOfTotalStakedAmountInUSDC.toFixed(0, { groupSeparator: ',' })}`
 							: `${valueOfTotalStakedAmountInWavax?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`} */}
@@ -308,9 +306,7 @@ export default function Manage({
               <CardNoise />
               <AutoColumn gap="md">
                 <RowBetween>
-                  <TYPE.white fontWeight={600}>
-                    {t('earnPage.liquidityDeposits')}
-                  </TYPE.white>
+                  <TYPE.white fontWeight={600}>{t('earnPage.liquidityDeposits')}</TYPE.white>
                 </RowBetween>
                 <RowBetween style={{ alignItems: 'baseline' }}>
                   <TYPE.white fontSize={36} fontWeight={600}>
@@ -329,9 +325,7 @@ export default function Manage({
             <AutoColumn gap="sm">
               <RowBetween>
                 <div>
-                  <TYPE.black>
-                    {t('earnPage.unclaimedReward', { symbol: 'PNG' })}
-                  </TYPE.black>
+                  <TYPE.black>{t('earnPage.unclaimedReward', { symbol: 'PNG' })}</TYPE.black>
                 </div>
                 {stakingInfo?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, stakingInfo?.earnedAmount?.raw) && (
                   <ButtonEmpty
