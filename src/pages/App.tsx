@@ -29,6 +29,8 @@ import Airdrop from './Airdrop'
 
 import Vote from './Vote'
 import VotePage from './Vote/VotePage'
+
+import IDO from './IDO'
 import Migrate from './Earn/Migrate'
 
 const AppWrapper = styled.div`
@@ -91,6 +93,7 @@ export default function App() {
               <Route exact strict path="/png/:version" component={Earn} />
               <Route exact strict path="/stake/:version" component={Stake} />
               <Route exact strict path="/vote" component={Vote} />
+              <Route exact strict path="/ido" component={IDO} />
               <Route exact strict path="/airdrop" component={Airdrop} />
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />
               <Route exact path="/add" component={AddLiquidity} />

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { MessageCircle, Send, Info, Twitter, GitHub, Book } from 'react-feather'
+import { MessageCircle, Send, Info, Twitter, GitHub, Book, Calendar } from 'react-feather'
 import styled from 'styled-components'
 import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg'
 import { LANDING_PAGE } from '../../constants'
@@ -7,7 +7,7 @@ import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 
-import { StyledMenu, StyledMenuButton, MenuFlyout, MenuItem } from '../StyledMenu'
+import { StyledMenu, StyledMenuButton, MenuFlyout, MenuItem, MenuNavItem } from '../StyledMenu'
 
 import { useTranslation } from 'react-i18next'
 
@@ -46,6 +46,10 @@ export default function Menu() {
             <Info size={14} />
             {t('menu.about')}
           </MenuItem>
+          <MenuNavItem id="link" to={'/IDO'}>
+            <Calendar size={14} />
+            {t('menu.idos')}
+          </MenuNavItem>
           <MenuItem id="link" href={TutorialPage}>
             <Book size={14} />
             {t('menu.tutorials')}

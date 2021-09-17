@@ -8,6 +8,7 @@
     "newPng": "Nuevo PNG",
     "oldPng": "Viejo PNG",
     "vote": "Votar",
+    "ido": "IDO",
     "charts": "Gráficas",
     "forum": "Foro",
     "pngBreakDown": "Desglose de tu PNG",
@@ -91,6 +92,7 @@
     "discord": "Discord",
     "telegram": "Telegram",
     "tutorials": "Tutoriales",
+    "idos": "IDOs",
     "about": "Acerca de"
   },
   "modalView": {
@@ -438,6 +440,15 @@
     "details": "Detalles",
     "overview": "Resumen",
     "proposer": "Proponente"
+  },
+  "IDOPage": {
+    "pangolinIDOs": "Initial DEX Offering (IDO)",
+    "pangolinIDODescription": "Las Ofertas Iniciales DEX (IDO) permiten a los proyectos financiar en forma colectiva sus tokens nativos en plataformas de intercambio descentralizados. Nos hemos asociado con equipos increíbles para llevar grandes proyectos a la comunidad de Avalanche.",
+    "upcomingIDOs": "Próximos",
+    "endedIDOs": "Terminados",
+    "allIDOs": "Todos los IDOs",
+    "noIDOsFound": "No se encontraron IDOs",
+    "IDOAnnounced": "Los IDOs publicamente anunciados aparecerán aquí."
   },
   "swapHooks": {
     "connectWallet": "Conectar cartera",

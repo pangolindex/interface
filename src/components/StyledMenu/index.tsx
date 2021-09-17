@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { NavLink } from 'react-router-dom'
 import {ExternalLink} from "../../theme";
 
 export const StyledMenuButton = styled.button`
@@ -58,6 +59,20 @@ export const MenuItem = styled(ExternalLink)`
   flex: 1;
   padding: 0.5rem 0.5rem;
   color: ${({ theme }) => theme.text2};
+  :hover {
+    color: ${({ theme }) => theme.text1};
+    cursor: pointer;
+    text-decoration: none;
+  }
+  > svg {
+    margin-right: 8px;
+  }
+`
+export const MenuNavItem = styled(NavLink)`
+  flex: 1;
+  padding: 0.5rem 0.5rem;
+  color: ${({ theme }) => theme.text2};
+  text-decoration: none;
   :hover {
     color: ${({ theme }) => theme.text1};
     cursor: pointer;
