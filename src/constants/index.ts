@@ -557,7 +557,17 @@ export const APEIN: { [chainId in ChainId]: Token } = {
 
 export const GB: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 9, 'GB', 'Good Bridging'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x90842eb834cFD2A1DB0b1512B254a18E4D396215', 18, 'GB', 'Good Bridging')
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x90842eb834cFD2A1DB0b1512B254a18E4D396215', 9, 'GB', 'Good Bridging')
+}
+
+export const CNR: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'CNR', 'Canary'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x8D88e48465F30Acfb8daC0b3E35c9D6D7d36abaf', 18, 'CNR', 'Canary')
+}
+
+export const CYCLE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'CYCLE', 'Cycle'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x81440C939f2C1E34fc7048E518a637205A632a74', 18, 'CYCLE', 'Cycle')
 }
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {

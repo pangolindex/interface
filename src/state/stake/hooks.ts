@@ -60,7 +60,9 @@ import {
   AVXT,
   OLIVE,
   APEIN,
-  GB
+  GB,
+  CNR,
+  CYCLE
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -583,6 +585,18 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   WAVAX_GB_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], GB[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x6cFdB5Ce2a26a5b07041618fDAD81273815c8bb4',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_CNR_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], CNR[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xd43035F5Ef932E1335A664c707d85c54C924667e',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_CYCLE_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], CYCLE[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x45cd033361E9fEF750AAea96DbC360B342F4b4a2',
     version: 1,
     multiplier: 2
   },
