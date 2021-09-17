@@ -1,7 +1,7 @@
 import { darken } from 'polished'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 
-import { IDO_LIST } from '../../constants/idos'
+import { IDO_LIST, IDO_STATUS_UPCOMING, IDO_STATUS_ENDED } from '../../constants/idos'
 
 import React from 'react'
 import { AutoColumn } from '../../components/Column'
@@ -102,9 +102,6 @@ const EmptyProposals = styled.div`
   justify-content: center;
   align-items: center;
 `
-
-const IDO_STATUS_UPCOMING = 'Upcoming'
-const IDO_STATUS_ENDED = 'Ended'
 
 export default function IDO() {
   const { t } = useTranslation()

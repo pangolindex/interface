@@ -1,3 +1,6 @@
+export const IDO_STATUS_UPCOMING = 'Upcoming'
+export const IDO_STATUS_ENDED = 'Ended'
+
 interface AnnouncedIDOItem {
   id: number
   title: string
@@ -16,7 +19,7 @@ export const IDO_LIST: Array<AnnouncedIDOItem> = [
     id: 5,
     title: 'Kalao',
     description: '',
-    status: 'Upcoming',
+    status: IDO_STATUS_UPCOMING,
     launchpad: 'Avalaunch',
     announcementUrl: 'https://medium.com/avalaunch/kalao-x-avalaunch-ido-announcement-c788122628ab',
     projectIconLocation: '/images/kalao-icon.svg',
@@ -28,7 +31,7 @@ export const IDO_LIST: Array<AnnouncedIDOItem> = [
     id: 1,
     title: 'Boo Finance',
     description: '',
-    status: 'Upcoming',
+    status: IDO_STATUS_UPCOMING,
     launchpad: 'Penguin Finance',
     announcementUrl: 'https://twitter.com/penguin_defi/status/1431640280063750155?s=20',
     projectIconLocation: '/images/boofinance-icon.jpeg',
@@ -40,7 +43,7 @@ export const IDO_LIST: Array<AnnouncedIDOItem> = [
     id: 2,
     title: 'Yay Protocol',
     description: '',
-    status: 'Ended',
+    status: IDO_STATUS_ENDED,
     launchpad: 'Avalaunch',
     announcementUrl:
       'https://medium.com/avalaunch/yay-games-update-public-sale-has-been-increased-to-400-000-63695d5788d5',
@@ -53,7 +56,7 @@ export const IDO_LIST: Array<AnnouncedIDOItem> = [
     id: 3,
     title: 'Oh! Finance',
     description: '',
-    status: 'Upcoming',
+    status: IDO_STATUS_UPCOMING,
     launchpad: 'Avalaunch',
     announcementUrl: 'https://medium.com/avalaunch/coming-soon-to-avalaunch-398e8281f7fb',
     projectIconLocation: '/images/oh-finance-icon.png',
@@ -65,7 +68,7 @@ export const IDO_LIST: Array<AnnouncedIDOItem> = [
     id: 4,
     title: 'Rise Online',
     description: '',
-    status: 'Upcoming',
+    status: IDO_STATUS_UPCOMING,
     launchpad: 'Avalaunch',
     announcementUrl: 'https://medium.com/avalaunch/coming-soon-to-avalaunch-398e8281f7fb',
     projectIconLocation: '/images/rise-online-icon.png',
@@ -77,7 +80,7 @@ export const IDO_LIST: Array<AnnouncedIDOItem> = [
     id: 6,
     title: 'Colony',
     description: '',
-    status: 'Upcoming',
+    status: IDO_STATUS_UPCOMING,
     launchpad: 'Avalaunch',
     announcementUrl: 'https://medium.com/avalaunch/coming-soon-to-avalaunch-398e8281f7fb',
     projectIconLocation: '/images/colony-icon.jpeg',
