@@ -403,7 +403,8 @@
     "from": "Desde",
     "fromEstimated": "Desde (estimado)",
     "velox": "Pon una orden límite en <1>Velox</1>",
-    "marginSwap": "Opere con apalancamiento en <1>MarginSwap</1>"
+    "marginSwap": "Opere con apalancamiento en <1>MarginSwap</1>",
+    "veeFinance": " o <1>Vee Finance</1>"
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX con fiat de nuestro socio Wyre.",
