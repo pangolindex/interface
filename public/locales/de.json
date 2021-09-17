@@ -403,7 +403,8 @@
     "from": "Tausche",
     "fromEstimated": "Tausche (geschätzt)",
     "velox": "Setzen Sie eine Limit-Order auf <1>Velox</1>",
-    "marginSwap": "Traden Sie mit Leverage auf <1>MarginSwap</1>"
+    "marginSwap": "Traden Sie mit Leverage auf <1>MarginSwap</1>",
+    "veeFinance": " oder <1>Vee Finance</1>"
   },
   "buyPage": {
     "buyAvaxInfo": "Kaufen Sie AVAX mit Fiatgeld von unserem Partner Wyre.",

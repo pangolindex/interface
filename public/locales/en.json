@@ -403,7 +403,8 @@
     "from": "From",
     "fromEstimated": "From (estimated)",
     "velox": "Set a limit order on <1>Velox</1>",
-    "marginSwap": "Trade with leverage on <1>MarginSwap</1>"
+    "marginSwap": "Trade with leverage on <1>MarginSwap</1>",
+    "veeFinance": " or <1>Vee Finance</1>"
   },
   "buyPage": {
     "buyAvaxInfo": "Buy AVAX with fiat from our partner Wyre.",
