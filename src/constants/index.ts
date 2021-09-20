@@ -570,6 +570,11 @@ export const CYCLE: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x81440C939f2C1E34fc7048E518a637205A632a74', 18, 'CYCLE', 'Cycle')
 }
 
+export const IronICE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'IronICE', 'Iron Finance ICE'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xfC108f21931576a21D0b4b301935DAc80d9E5086', 18, 'IronICE', 'Iron Finance ICE')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
