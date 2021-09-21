@@ -68,10 +68,10 @@ const MarginswapLink = styled.a`
   text-decoration: none;
 `
 
-const VeeFinanceLink = styled.a`
-  color: #f25c23;
-  text-decoration: none;
-`
+// const VeeFinanceLink = styled.a`
+//   color: #f25c23;
+//   text-decoration: none;
+// `
 
 const WarningWrapper = styled.div`
   max-width: 420px;
@@ -545,12 +545,12 @@ export default function Swap() {
             Marginswap
           </MarginswapLink>
         </Trans>
-        <Trans i18nKey="swapPage.veeFinance">
-          or
-          <VeeFinanceLink href={'https://vee.finance/dashboard/trade'} target={'_blank'}>
-            Vee Finance
-          </VeeFinanceLink>
-        </Trans>
+        {/*<Trans i18nKey="swapPage.veeFinance">*/}
+        {/*  or*/}
+        {/*  <VeeFinanceLink href={'https://vee.finance/dashboard/trade'} target={'_blank'}>*/}
+        {/*    Vee Finance*/}
+        {/*  </VeeFinanceLink>*/}
+        {/*</Trans>*/}
       </BottomText>
     </>
   )
