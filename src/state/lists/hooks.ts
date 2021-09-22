@@ -94,6 +94,7 @@ export function useTokenList(urls: string[] | undefined): TokenAddressMap {
       }
     })
     return tokenList as TokenAddressMap
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lists, urls])
 }
 

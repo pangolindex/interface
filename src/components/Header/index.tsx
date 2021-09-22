@@ -320,7 +320,7 @@ export default function Header() {
           <StyledNavLink id={`vote-nav-link`} to={'/vote'}>
             {t('header.vote')}
           </StyledNavLink>
-          <StyledExternalLink id={`charts-nav-link`} href={ANALYTICS_PAGE}>
+          <StyledExternalLink id={`info-nav-link`} href={ANALYTICS_PAGE}>
             {t('header.charts')} <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
           <StyledExternalLink id={`gov-nav-link`} href={'https://gov.pangolin.exchange'}>

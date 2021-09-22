@@ -8,6 +8,7 @@
     "newPng": "Nuevo PNG",
     "oldPng": "Viejo PNG",
     "vote": "Votar",
+    "ido": "IDO",
     "charts": "Gráficas",
     "forum": "Foro",
     "pngBreakDown": "Desglose de tu PNG",
@@ -91,6 +92,7 @@
     "discord": "Discord",
     "telegram": "Telegram",
     "tutorials": "Tutoriales",
+    "idos": "IDOs",
     "about": "Acerca de"
   },
   "modalView": {
@@ -401,7 +403,8 @@
     "from": "Desde",
     "fromEstimated": "Desde (estimado)",
     "velox": "Pon una orden límite en <1>Velox</1>",
-    "marginSwap": "Opere con apalancamiento en <1>MarginSwap</1>"
+    "marginSwap": "Opere con apalancamiento en <1>MarginSwap</1>",
+    "veeFinance": " o <1>Vee Finance</1>"
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX con fiat de nuestro socio Wyre.",
@@ -438,6 +441,15 @@
     "details": "Detalles",
     "overview": "Resumen",
     "proposer": "Proponente"
+  },
+  "IDOPage": {
+    "pangolinIDOs": "Initial DEX Offering (IDO)",
+    "pangolinIDODescription": "Las Ofertas Iniciales DEX (IDO) permiten a los proyectos financiar en forma colectiva sus tokens nativos en plataformas de intercambio descentralizados. Nos hemos asociado con equipos increíbles para llevar grandes proyectos a la comunidad de Avalanche.",
+    "upcomingIDOs": "Próximos",
+    "endedIDOs": "Terminados",
+    "allIDOs": "Todos los IDOs",
+    "noIDOsFound": "No se encontraron IDOs",
+    "IDOAnnounced": "Los IDOs publicamente anunciados aparecerán aquí."
   },
   "swapHooks": {
     "connectWallet": "Conectar cartera",
