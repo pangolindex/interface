@@ -51,6 +51,8 @@ export const StyledInput = styled.input<{ error?: boolean }>`
   }
 `
 
+
+
 interface InputProps {
   name: string,
   type: string,
@@ -113,6 +115,4 @@ export default function TextInput({
           />
         </MouseoverTooltip>}
     </FormContext.Consumer>)
-
-
 }
