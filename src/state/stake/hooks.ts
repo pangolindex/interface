@@ -63,7 +63,9 @@ import {
   GB,
   CNR,
   CYCLE,
-  IronICE
+  IronICE,
+  MYAK,
+  WOW
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -604,6 +606,18 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   WAVAX_ICE_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], IronICE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x12b493A6E4F185EF1feef45565654F71156C25bA',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_MYAK_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], MYAK[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x716c19807f46F97DdAc0745878675fF5B3A75004',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_WOW_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], WOW[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x437352A8E2394379521BC84f0874c66c94F32fbb',
     version: 1,
     multiplier: 2
   },
