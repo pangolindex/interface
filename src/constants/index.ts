@@ -585,6 +585,11 @@ export const WOW: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xA384Bc7Cdc0A93e686da9E7B8C0807cD040F4E0b', 18, 'WOW', 'WOWswap')
 }
 
+export const TEDDY: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'TEDDY', 'TEDDY'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x094bd7B2D99711A1486FB94d4395801C6d0fdDcC', 18, 'TEDDY', 'TEDDY')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
