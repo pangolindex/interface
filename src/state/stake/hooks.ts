@@ -65,7 +65,8 @@ import {
   CYCLE,
   IronICE,
   MYAK,
-  WOW
+  WOW,
+  TEDDY
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -331,7 +332,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], AAVEe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xa04fCcE7955312709c838982ad0E297375002C32',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_YFI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
@@ -361,13 +362,13 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], SPORE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xd3e5538A049FcFcb8dF559B85B352302fEfB8d7C',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_BIFI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], BIFI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x4E258f7ec60234bb6f3Ea7eCFf5931901182Bd6E',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_BNB_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], BNB[ChainId.AVALANCHE]],
@@ -397,13 +398,13 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], SHERPA[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x99918c92655D6f8537588210cD3Ddd52312CB36d',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_YAK_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], YAK[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xb600429CCD364F1727F91FC0E75D67d65D0ee4c5',
     version: 1,
-    multiplier: 1
+    multiplier: 4
   },
   WAVAX_DYP_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], DYP[ChainId.AVALANCHE]],
@@ -481,7 +482,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], ELE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x10E5d5f598abb970F85456Ea59f0611D77E00168',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_FRAX_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], FRAX[ChainId.AVALANCHE]],
@@ -535,7 +536,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], JOE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xC0B2D45b8617997bcDad0F33AEE03e4DF4C4f81E',
     version: 1,
-    multiplier: 2
+    multiplier: 4
   },
   WAVAX_ZABU_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], ZABU[ChainId.AVALANCHE]],
@@ -589,7 +590,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], GB[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x6cFdB5Ce2a26a5b07041618fDAD81273815c8bb4',
     version: 1,
-    multiplier: 2
+    multiplier: 4
   },
   WAVAX_CNR_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], CNR[ChainId.AVALANCHE]],
@@ -613,13 +614,19 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], MYAK[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x716c19807f46F97DdAc0745878675fF5B3A75004',
     version: 1,
-    multiplier: 2
+    multiplier: 4
   },
   WAVAX_WOW_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], WOW[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x437352A8E2394379521BC84f0874c66c94F32fbb',
     version: 1,
     multiplier: 2
+  },
+  WAVAX_TEDDY_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TEDDY[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x676247D8729B728BEEa83d1c1314acDD937327b6',
+    version: 1,
+    multiplier: 4
   },
 
   PNG_ETH_V1: {
@@ -644,7 +651,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [PNG[ChainId.AVALANCHE], USDTe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x7216d1e173c1f1Ed990239d5c77d74714a837Cd5',
     version: 1,
-    multiplier: 5
+    multiplier: 10
   },
   PNG_WBTC_V1: {
     tokens: [PNG[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
@@ -716,7 +723,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [PNG[ChainId.AVALANCHE], AAVEe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x3F91756D773A1455A7a1A70f5d9239F1B1d1f095',
     version: 1,
-    multiplier: 3
+    multiplier: 0
   },
   PNG_YFI_V1: {
     tokens: [PNG[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
@@ -752,7 +759,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [PNG[ChainId.AVALANCHE], BIFI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x518B07E2d9e08A8c2e3cB7704336520827a4d399',
     version: 1,
-    multiplier: 5
+    multiplier: 0
   },
   PNG_BNB_V1: {
     tokens: [PNG[ChainId.AVALANCHE], BNB[ChainId.AVALANCHE]],
@@ -782,7 +789,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [PNG[ChainId.AVALANCHE], SHERPA[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x80E919784e7c5AD3Dd59cAfCDC0e9C079B65f262',
     version: 1,
-    multiplier: 5
+    multiplier: 0
   },
   PNG_YAK_V1: {
     tokens: [PNG[ChainId.AVALANCHE], YAK[ChainId.AVALANCHE]],
@@ -866,7 +873,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [PNG[ChainId.AVALANCHE], ELE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xfcB0C53FC5c71005D11C6838922e254323b7Ca06',
     version: 1,
-    multiplier: 5
+    multiplier: 0
   }
 }
 
