@@ -386,7 +386,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], PEFI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xd7EDBb1005ec65721a3976Dba996AdC6e02dc9bA',
     version: 1,
-    multiplier: 1
+    multiplier: 4
   },
   WAVAX_TRYB_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], TRYB[ChainId.AVALANCHE]],
