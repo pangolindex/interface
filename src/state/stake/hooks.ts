@@ -66,7 +66,9 @@ import {
   IronICE,
   MYAK,
   WOW,
-  TEDDY
+  TEDDY,
+  TSD,
+  EVRT
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -560,7 +562,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], OOE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xB9cE09322FC55Da298e27b8678d300423988b40E',
     version: 1,
-    multiplier: 2
+    multiplier: 4
   },
   WAVAX_VEE_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], VEE[ChainId.AVALANCHE]],
@@ -627,6 +629,18 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     stakingRewardAddress: '0x676247D8729B728BEEa83d1c1314acDD937327b6',
     version: 1,
     multiplier: 4
+  },
+  WAVAX_TSD_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TSD[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x30914Dbb452BeF7aD226aF0Aeb130658A4aC1Cb0',
+    version: 1,
+    multiplier: 4
+  },
+  WAVAX_EVRT_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], EVRT[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xfC04c452035A1E4D4fD4d5BF6b083CB563a20CA4',
+    version: 1,
+    multiplier: 2
   },
 
   PNG_ETH_V1: {

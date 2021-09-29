@@ -130,7 +130,7 @@
     "manage": "管理",
     "loading": "加载中",
     "yourPosition": "您的部位",
-    "byAddingLiquidityInfo": "通过增加流动性，您将获得该货币对所有交易的 0.3%，与您在池中的份额成比例。\n 交易手续费随时累积并添加到池中，可以透过提取您的流动性来收成收益。"
+    "byAddingLiquidityInfo": "通过增加流动性，您将获得该货币对所有交易的 0.25%，与您在池中的份额成比例。\n 交易手续费随时累积并添加到池中，可以透过提取您的流动性来收成收益。"
   },
   "searchModal": {
     "commonBases": "共同底层",
@@ -341,7 +341,7 @@
   },
   "pool": {
     "liquidityProviderRewards": "流动性提供者奖励",
-    "liquidityProvidersEarn": "流动性提供者在所有交易中收取 0.3% 的费用，费用与其在池中的份额成正比。费用被添加到池中，实时累积，可以通过提取您的流动性来索取。",
+    "liquidityProvidersEarn": "流动性提供者在所有交易中收取 0.25% 的费用，费用与其在池中的份额成正比。费用被添加到池中，实时累积，可以通过提取您的流动性来索取。",
     "readMoreProviding": "阅读有关提供流动性的更多信息",
     "viewStakedLiquidity": "查看您质押的流动性",
     "yourLiquidity": "您的流动性",

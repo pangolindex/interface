@@ -130,7 +130,7 @@
     "manage": "Yönet",
     "loading": "Yükleniyor",
     "yourPosition": "Pozisyonunuz",
-    "byAddingLiquidityInfo": "Likidite ekleyerek, havuzdaki payınızla orantılı olarak bu çiftteki tüm işlemlerin %0.3'ünü kazanacaksınız.\n Ücretler havuza eklenir, gerçek zamanlı olarak birikir ve likiditenizi çekerek talep edilebilir."
+    "byAddingLiquidityInfo": "Likidite ekleyerek, havuzdaki payınızla orantılı olarak bu çiftteki tüm işlemlerin %0.25'ünü kazanacaksınız.\n Ücretler havuza eklenir, gerçek zamanlı olarak birikir ve likiditenizi çekerek talep edilebilir."
   },
   "searchModal": {
     "commonBases": "Ortak bazlar",
@@ -341,7 +341,7 @@
   },
   "pool": {
     "liquidityProviderRewards": "Likidite sağlayıcılarına verilen ödüller",
-    "liquidityProvidersEarn": "Likidite sağlayanlar, havuzdaki paylarıyla orantılı olarak tüm işlemlerden %0.3 ücret alır. Ücretler havuza eklenir, gerçek zamanlı olarak birikir ve likiditenizi çekerek talep edilebilir.",
+    "liquidityProvidersEarn": "Likidite sağlayanlar, havuzdaki paylarıyla orantılı olarak tüm işlemlerden %0.25 ücret alır. Ücretler havuza eklenir, gerçek zamanlı olarak birikir ve likiditenizi çekerek talep edilebilir.",
     "readMoreProviding": "Likidite sağlamak hakkında daha fazla bilgi edinin",
     "viewStakedLiquidity": "Sağladığınız likiditeyi görüntüleyin",
     "yourLiquidity": "Likiditeniz",
