@@ -130,7 +130,7 @@
         "manage": "Gerenciar",
         "loading": "Carregando",
         "yourPosition": "Sua posição",
-        "byAddingLiquidityInfo": "Ao adicionar liquidez, você ganhará 0,3% de todas as trocas sobre este par, proporcional à sua parte do pool. \n Taxas são adicionadas ao pool, acumulando em tempo real e podem ser reivindicadas retirando sua liquidez."
+        "byAddingLiquidityInfo": "Ao adicionar liquidez, você ganhará 0,25% de todas as trocas sobre este par, proporcional à sua parte do pool. \n Taxas são adicionadas ao pool, acumulando em tempo real e podem ser reivindicadas retirando sua liquidez."
     },
     "searchModal": {
         "commonBases": "Bases comuns",
@@ -341,7 +341,7 @@
     },
     "pool": {
         "liquidityProviderRewards": "Recompensas dos provedores de liquidez",
-        "liquidityProvidersEarn": "Os provedores de liquidez ganham uma taxa de 0,3% sobre todas as trocas proporcionais a sua parte na pool. As taxas são adicionadas à pool, acumulando em tempo real e podendo ser reivindicadas retirando sua liquidez.",
+        "liquidityProvidersEarn": "Os provedores de liquidez ganham uma taxa de 0,25% sobre todas as trocas proporcionais a sua parte na pool. As taxas são adicionadas à pool, acumulando em tempo real e podendo ser reivindicadas retirando sua liquidez.",
         "readMoreProviding": "Leia mais sobre como fornecer liquidez",
         "viewStakedLiquidity": "Veja sua liquidez depositada",
         "yourLiquidity": "Sua liquidez",

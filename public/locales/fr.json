@@ -130,7 +130,7 @@
     "manage": "Gérer",
     "loading": "Chargement",
     "yourPosition": "Votre position",
-    "byAddingLiquidityInfo": "En ajoutant de la liquidité, vous gagnerez 0,3 % de toutes les transactions sur cette paire, proportionnellement à votre part de la pool.\n Les frais sont ajoutés au pool, s'accumulent en temps réel et peuvent être réclamés en retirant votre liquidité."
+    "byAddingLiquidityInfo": "En ajoutant de la liquidité, vous gagnerez 0,25 % de toutes les transactions sur cette paire, proportionnellement à votre part de la pool.\n Les frais sont ajoutés au pool, s'accumulent en temps réel et peuvent être réclamés en retirant votre liquidité."
   },
   "searchModal": {
     "commonBases": "Bases communes",
@@ -341,7 +341,7 @@
   },
   "pool": {
     "liquidityProviderRewards": "Rémunération du fournisseur de liquidités",
-    "liquidityProvidersEarn": "Les fournisseurs de liquidités perçoivent une commission de 0,3 % sur toutes les transactions, proportionnellement à leur part du pool. Les commissions sont ajoutées au pool, s'accumulent en temps réel et peuvent être réclamées en retirant vos liquidités.",
+    "liquidityProvidersEarn": "Les fournisseurs de liquidités perçoivent une commission de 0,25 % sur toutes les transactions, proportionnellement à leur part du pool. Les commissions sont ajoutées au pool, s'accumulent en temps réel et peuvent être réclamées en retirant vos liquidités.",
     "readMoreProviding": "En savoir plus sur la fourniture de liquidités",
     "viewStakedLiquidity": "Visualisez votre liquidité staké",
     "yourLiquidity": "Vos liquidités",

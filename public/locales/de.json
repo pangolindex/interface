@@ -130,7 +130,7 @@
     "manage": "Verwalten",
     "loading": "Lädt",
     "yourPosition": "Deine Position",
-    "byAddingLiquidityInfo": "Durch das Bereitstellen von Liquidität verdienst du 0,3% an allen Trades auf diesem Paar, proportional zu deinem Anteil am Pool. \n Gebühren werden dem Pool hinzugefügt, fallen in Echtzeit an und können beansprucht werden, indem die Liquidität abgebucht wird."
+    "byAddingLiquidityInfo": "Durch das Bereitstellen von Liquidität verdienst du 0,25% an allen Trades auf diesem Paar, proportional zu deinem Anteil am Pool. \n Gebühren werden dem Pool hinzugefügt, fallen in Echtzeit an und können beansprucht werden, indem die Liquidität abgebucht wird."
   },
   "searchModal": {
     "commonBases": "Übliche Basis-Token",
@@ -341,7 +341,7 @@
   },
   "pool": {
     "liquidityProviderRewards": "Liquiditätsprovider-Vergütungen",
-    "liquidityProvidersEarn": "Durch das Bereitstellen von Liquidität verdienen Liquiditätsprovider 0,3% an allen Trades auf diesem Paar, proportional zu ihren Anteil am Pool. Gebühren werden dem Pool hinzugefügt, fallen in Echtzeit an und können beansprucht werden, indem die Liquidität abgebucht wird.",
+    "liquidityProvidersEarn": "Durch das Bereitstellen von Liquidität verdienen Liquiditätsprovider 0,25% an allen Trades auf diesem Paar, proportional zu ihren Anteil am Pool. Gebühren werden dem Pool hinzugefügt, fallen in Echtzeit an und können beansprucht werden, indem die Liquidität abgebucht wird.",
     "readMoreProviding": "Erfahre mehr über das Bereitstellen von Liquidität",
     "viewStakedLiquidity": "Lass dir deine gestakte Liquidität anzeigen",
     "yourLiquidity": "Deine Liquidität",
