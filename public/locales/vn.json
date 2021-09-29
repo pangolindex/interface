@@ -457,7 +457,7 @@
   },
   "swapHooks": {
     "connectWallet": "Kết nối ví",
-    "enterAmount": "Nhập một số lượng",
+    "enterAmount": "Nhập số lượng",
     "selectToken": "Chọn một token",
     "enterRecipient": "Nhập một người nhận",
     "invalidRecipient": "Người nhận không hợp lệ",
@@ -468,16 +468,16 @@
     "connectWallet": "Kết nối ví",
     "insufficientInputAmount": "Số lượng đầu vào không đủ",
     "invalidPair": "Cặp không hợp lệ ",
-    "enterAmount": "Nhập một số lượng",
+    "enterAmount": "Nhập số lượng",
     "insufficient": "Không đủ ",
     "balance": " số dư"
   },
   "stakeHooks": {
     "connectWallet": "Kết nối ví",
-    "enterAmount": "Nhập một số lượng"
+    "enterAmount": "Nhập số lượng"
   },
   "burnHooks": {
     "connectWallet": "Kết nối ví",
-    "enterAmount": "Nhập một số lượng"
+    "enterAmount": "Nhập số lượng"
   }
 }
