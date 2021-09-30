@@ -600,6 +600,11 @@ export const EVRT: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x3ACa5545e76746A3Fe13eA66B24BC0eBcC51E6b4', 18, 'EVRT', 'Everest Token')
 }
 
+export const RAI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'RAI', 'Rai Reflex Index'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x97Cd1CFE2ed5712660bb6c14053C0EcB031Bff7d', 18, 'RAI', 'Rai Reflex Index\'')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
