@@ -68,7 +68,8 @@ import {
   WOW,
   TEDDY,
   TSD,
-  EVRT
+  EVRT,
+  RAI
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -639,6 +640,12 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   WAVAX_EVRT_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], EVRT[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xfC04c452035A1E4D4fD4d5BF6b083CB563a20CA4',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_RAI_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], RAI[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xA69057977211C7bAe847c72dF6338d1B71E838af',
     version: 1,
     multiplier: 2
   },
