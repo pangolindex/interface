@@ -623,6 +623,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     PNG[ChainId.AVALANCHE],
     USDTe[ChainId.AVALANCHE],
     DAIe[ChainId.AVALANCHE],
+    USDCe[ChainId.AVALANCHE],
   ]
 }
 
