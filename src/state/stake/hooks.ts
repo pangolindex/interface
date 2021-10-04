@@ -245,7 +245,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], WETHe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x830A966B9B447c9B15aB24c0369c4018E75F31C9',
     version: 1,
-    multiplier: 10
+    multiplier: 9
   },
   WAVAX_USDT_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], USDT[ChainId.AVALANCHE]],
@@ -257,7 +257,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], USDTe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x006cC053bdb84C2d6380B3C4a573d84636378A47',
     version: 1,
-    multiplier: 10
+    multiplier: 11
   },
   WAVAX_WBTC_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
@@ -437,7 +437,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], USDCe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x84B536dA1A2D9b0609f9Da73139674cc2D75AF2D',
     version: 1,
-    multiplier: 10
+    multiplier: 11
   },
   WAVAX_LYD_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], LYD[ChainId.AVALANCHE]],
@@ -846,7 +846,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [PNG[ChainId.AVALANCHE], USDCe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x73d1cC4B8dA555005E949B3ECEE490A7206C14DF',
     version: 1,
-    multiplier: 5
+    multiplier: 10
   },
   PNG_LYD_V1: {
     tokens: [PNG[ChainId.AVALANCHE], LYD[ChainId.AVALANCHE]],
