@@ -103,17 +103,9 @@ export default function Earn({
       stakingInfoData.sort(function(info_a, info_b) {
         if (sortBy.field === SortingType.totalStakedInUsd) {
           if (sortBy.desc) {
-            return info_a.totalStakedInUsd?.greaterThan(
-              info_b.totalStakedInUsd ?? JSBI.BigInt(0)
-            )
-              ? -1
-              : 1
+            return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? JSBI.BigInt(0)) ? -1 : 1
           } else {
-            return info_a.totalStakedInUsd?.lessThan(
-              info_b.totalStakedInUsd ?? JSBI.BigInt(0)
-            )
-              ? -1
-              : 1
+            return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? JSBI.BigInt(0)) ? -1 : 1
           }
         }
         if (sortBy.field === SortingType.multiplier) {
@@ -252,13 +244,22 @@ export default function Earn({
               <RowBetween>
                 <TYPE.white fontSize={14}>{t('earnPage.depositPangolinLiquidity')}</TYPE.white>
               </RowBetween>{' '}
-              <ExternalLink
-                style={{ color: 'white', textDecoration: 'underline' }}
-                href="https://pangolin.exchange/litepaper"
-                target="_blank"
-              >
-                <TYPE.white fontSize={14}>{t('earnPage.readMoreAboutPng')}</TYPE.white>
-              </ExternalLink>
+              <RowBetween>
+                <ExternalLink
+                  style={{ color: 'white', textDecoration: 'underline' }}
+                  href="https://pangolin.exchange/litepaper"
+                  target="_blank"
+                >
+                  <TYPE.white fontSize={14}>{t('earnPage.readMoreAboutPng')}</TYPE.white>
+                </ExternalLink>
+                <ExternalLink
+                  style={{ color: 'white', textDecoration: 'underline' }}
+                  href="https://app.insurace.io/Insurance/BuyCovers?referrer=565928487188065888397039055593264600345483712698"
+                  target="_blank"
+                >
+                  <TYPE.white fontSize={14}>{t('earnPage.getInsuranceCoverage')}</TYPE.white>
+                </ExternalLink>
+              </RowBetween>
             </AutoColumn>
           </CardSection>
           <CardBGImage />

@@ -311,6 +311,7 @@
         "depositPangolinStaking": "Deposit and stake your PNG tokens to earn more tokens.",
         "currentOpportunities": "Current opportunities",
         "readMoreAboutPng": "Leia mais sobre PNG",
+        "getInsuranceCoverage": "Obtenha cobertura de seguro",
         "importantUpdate": "ATUALIZAÇÃO IMPORTANTE",
         "pangolinGovernanceProposalResult": "Como resultado da proposta de governança 1 do Pangolin, O Pangolin está mudando contratos de staking! Aproximadamente cerca de depois de 08:59 UTC no dia 19/4, todas as recompensas de staking serão distribuídas para os novos contratos de staking. Antes da mudança, todas as recompensas ainda serão distribuídas para os contratos antigos. Para evitar interrupções nas recompensas de yield farming, Você precisa remover sua liquidez dos contratos antigos e delegar novamente nos novos contratos. Você não precisa remover liquidez das suas pools ou alterar suas posições.",
         "oldPngPools": "Pools antigas de PNG",
