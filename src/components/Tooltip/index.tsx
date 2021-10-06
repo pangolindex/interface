@@ -9,11 +9,6 @@ const TooltipContainer = styled.div`
   font-weight: 400;
 `
 
-const InputContainer = styled.div`
-  width: 388px;
-`
-
-
 interface TooltipProps extends Omit<PopoverProps, 'content'> {
   text: string
 }
@@ -28,11 +23,9 @@ export function MouseoverTooltip({ children, text, ...rest }: Omit<TooltipProps,
   const close = useCallback(() => setShow(false), [setShow])
   return (
     <Tooltip text={text} {...rest} show={show && text.length > 1}>
-      <InputContainer>
-        <div onMouseEnter={open} onMouseLeave={close}>
-          {children}
-        </div>
-      </InputContainer>
+      <div onMouseEnter={open} onMouseLeave={close}>
+        {children}
+      </div>
     </Tooltip>
   )
 }
