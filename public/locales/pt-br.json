@@ -404,6 +404,7 @@
         "fromEstimated": "De (estimado)",
         "velox": "Definir uma ordem de limite no <1>Velox</1>",
         "marginSwap": "Negocie com alavancagem no <1>MarginSwap</1>",
+        "wowSwap": " ou <1>WOWswap</1>",
         "veeFinance": " ou <1>Vee Finance</1>"
     },
     "buyPage": {

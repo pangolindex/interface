@@ -121,7 +121,7 @@
     "acceptUpdate": "Accept update",
     "dismiss": "Dismiss"
   },
-  "positionCard":{
+  "positionCard": {
     "add": "Add",
     "remove": "Remove",
     "poolShare": "Your pool share:",
@@ -157,8 +157,7 @@
     "select": "Select",
     "manageTokenLists": "Manage Token Lists"
   },
-  "settings":
-  {
+  "settings": {
     "areYouSure": "Are you sure?",
     "expertInfo": "Expert mode turns off the confirm transaction prompt and allows high slippage trades that often result in bad rates and lost funds.",
     "expertWarningCAPS": "ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING.",
@@ -404,6 +403,7 @@
     "fromEstimated": "From (estimated)",
     "velox": "Set a limit order on <1>Velox</1>",
     "marginSwap": "Trade with leverage on <1>MarginSwap</1>",
+    "wowSwap": " or <1>WOWswap</1>",
     "veeFinance": " or <1>Vee Finance</1>"
   },
   "buyPage": {

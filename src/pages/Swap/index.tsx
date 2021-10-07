@@ -66,6 +66,14 @@ const VeloxLink = styled.a`
 const MarginswapLink = styled.a`
   color: #f25c23;
   text-decoration: none;
+  margin-right: 5px;
+  margin-left: 5px;
+`
+
+const WowSwapLink = styled.a`
+  color: #f25c23;
+  text-decoration: none;
+  margin-left: 5px;
 `
 
 const WarningWrapper = styled.div`
@@ -289,10 +297,13 @@ export default function Swap() {
 
   const selectedTokens = useSelectedTokenList()
 
-  const isTrustedToken = useCallback((token: Token) => {
-    if (!chainId || !selectedTokens) return true // Assume trusted at first to avoid flashing a warning
-    return TRUSTED_TOKEN_ADDRESSES[chainId].includes(token.address) || isTokenOnList(selectedTokens, token)
-  }, [chainId, selectedTokens])
+  const isTrustedToken = useCallback(
+    (token: Token) => {
+      if (!chainId || !selectedTokens) return true // Assume trusted at first to avoid flashing a warning
+      return TRUSTED_TOKEN_ADDRESSES[chainId].includes(token.address) || isTokenOnList(selectedTokens, token)
+    },
+    [chainId, selectedTokens]
+  )
 
   return (
     <>
@@ -534,12 +545,20 @@ export default function Swap() {
       <AdvancedSwapDetailsDropdown trade={trade} />
 
       <BottomText>
-        <Trans i18nKey="swapPage.marginSwap">
-          Trade with leverage on
-          <MarginswapLink href={'https://app.marginswap.exchange/swap'} target={'_blank'}>
-            Marginswap
-          </MarginswapLink>
-        </Trans>
+        <AutoRow>
+          <Trans i18nKey="swapPage.marginSwap">
+            Trade with leverage on
+            <MarginswapLink href={'https://app.marginswap.exchange/swap'} target={'_blank'}>
+              Marginswap
+            </MarginswapLink>{' '}
+          </Trans>
+          <Trans i18nKey="swapPage.wowSwap">
+            or 
+            <WowSwapLink href={'https://wowswap.io/swap'} target={'_blank'}>
+              WOWswap
+            </WowSwapLink>
+          </Trans>
+        </AutoRow>
       </BottomText>
     </>
   )

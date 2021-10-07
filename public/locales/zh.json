@@ -404,6 +404,7 @@
     "fromEstimated": "来自（估计）",
     "velox": "在 <1>Velox</1> 上设置限价单",
     "marginSwap": "通过 <1>Marginswap</1>",
+    "wowSwap": " 或 <1>WOWswap</1> 使用保证金交易",
     "veeFinance": " 或 <1>Vee Finance</1> 使用保证金交易"
   },
   "buyPage": {
