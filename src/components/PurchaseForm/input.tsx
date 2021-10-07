@@ -50,6 +50,10 @@ export const StyledInput = styled.input<{ error?: boolean }>`
     -webkit-appearance: none;
   }
 `
+const BlockDiv = styled.div`
+  display: block;
+`
+
 
 interface InputProps {
   name: string,
@@ -88,7 +92,7 @@ export default function TextInput({
   return (
     <FormContext.Consumer>
       {(context) =>
-        <MouseoverTooltip text={hasError(context.errors[name]) ? context.errors[name].join('\n') : ""}>
+        <MouseoverTooltip text={hasError(context.errors[name]) ? context.errors[name].join('\n') : ""} referenceElementAs={BlockDiv}>
           <label>{label}</label>
           <StyledInput
             name={name}
@@ -113,6 +117,4 @@ export default function TextInput({
           />
         </MouseoverTooltip>}
     </FormContext.Consumer>)
-
-
 }

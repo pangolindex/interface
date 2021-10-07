@@ -111,7 +111,7 @@ export default function FiatInputPanel({
             type="button"
             className="open-currency-select-button"
             onClick={() => {
-                setModalOpen(true)
+              setModalOpen(true)
             }}
           >
             <Aligner>
