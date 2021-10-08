@@ -602,7 +602,17 @@ export const EVRT: { [chainId in ChainId]: Token } = {
 
 export const RAI: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'RAI', 'Rai Reflex Index'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x97Cd1CFE2ed5712660bb6c14053C0EcB031Bff7d', 18, 'RAI', 'Rai Reflex Index\'')
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x97Cd1CFE2ed5712660bb6c14053C0EcB031Bff7d', 18, 'RAI', 'Rai Reflex Index')
+}
+
+export const AAVAXB: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'aAVAXb', 'Ankr AVAX Bond'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929', 18, 'aAVAXb', 'Ankr AVAX Bond')
+}
+
+export const INSUR: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'INSUR', 'InsurAce Token'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x544c42fBB96B39B21DF61cf322b5EDC285EE7429', 18, 'INSUR', 'InsurAce Token')
 }
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
