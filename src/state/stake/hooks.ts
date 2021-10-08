@@ -69,7 +69,9 @@ import {
   TEDDY,
   TSD,
   EVRT,
-  RAI
+  RAI,
+  AAVAXB,
+  INSUR
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -635,13 +637,13 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], TEDDY[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x676247D8729B728BEEa83d1c1314acDD937327b6',
     version: 1,
-    multiplier: 4
+    multiplier: 5
   },
   WAVAX_TSD_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], TSD[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x30914Dbb452BeF7aD226aF0Aeb130658A4aC1Cb0',
     version: 1,
-    multiplier: 4
+    multiplier: 5
   },
   WAVAX_EVRT_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], EVRT[ChainId.AVALANCHE]],
@@ -652,6 +654,18 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   WAVAX_RAI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], RAI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xA69057977211C7bAe847c72dF6338d1B71E838af',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_AAVAXB_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], AAVAXB[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xAa01F80375528F36291677C683905b4A113A6470',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_INSUR_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], INSUR[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x41d731926E5B8d3ba70Bb62B9f067A163bE706ab',
     version: 1,
     multiplier: 2
   },
