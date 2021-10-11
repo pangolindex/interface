@@ -615,6 +615,16 @@ export const INSUR: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x544c42fBB96B39B21DF61cf322b5EDC285EE7429', 18, 'INSUR', 'InsurAce Token')
 }
 
+export const AVME: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'AVME', 'AVME'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x1ECd47FF4d9598f89721A2866BFEb99505a413Ed', 18, 'AVME', 'AVME')
+}
+
+export const TIME: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 9, 'TIME', 'Time'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xb54f16fB19478766A268F172C9480f8da1a7c9C3', 9, 'TIME', 'Time')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
