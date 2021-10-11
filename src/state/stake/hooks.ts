@@ -71,7 +71,9 @@ import {
   EVRT,
   RAI,
   AAVAXB,
-  INSUR
+  INSUR,
+  TIME,
+  AVME
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -668,6 +670,18 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     stakingRewardAddress: '0x41d731926E5B8d3ba70Bb62B9f067A163bE706ab',
     version: 1,
     multiplier: 2
+  },
+  WAVAX_AVME_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], AVME[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xE4FED988974C0B7DFEB162287DeD67c6B197Af63',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_TIME_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TIME[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0875e51e54fbb7e63b1819acb069dc8d684563eb',
+    version: 1,
+    multiplier: 4
   },
 
   PNG_ETH_V1: {
