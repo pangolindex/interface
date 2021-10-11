@@ -47,7 +47,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { useIsSelectedAEBToken, useSelectedTokenList, useTokenList } from '../../state/lists/hooks'
 import { DeprecatedWarning } from '../../components/Warning'
 import { isTokenOnList } from '../../utils'
-import { DEFI_TOKEN_LIST } from '../../constants/lists'
+import { DEFI_TOKEN_LIST, AVAX_BRIDGE_LIST } from '../../constants/lists'
 
 const TopText = styled.span`
   margin-bottom: 8px;
@@ -297,7 +297,7 @@ export default function Swap() {
   const isAEBToken = useIsSelectedAEBToken()
 
   const selectedTokens = useSelectedTokenList()
-  const defiTokens = useTokenList([DEFI_TOKEN_LIST])
+  const whitelistedTokens = useTokenList([DEFI_TOKEN_LIST, AVAX_BRIDGE_LIST])
 
   const isTrustedToken = useCallback(
     (token: Token) => {
@@ -305,10 +305,10 @@ export default function Swap() {
       return (
         TRUSTED_TOKEN_ADDRESSES[chainId].includes(token.address) || // trust token from manually whitelisted token
         isTokenOnList(selectedTokens, token) || // trust all tokens from selected token list by user
-        isTokenOnList(defiTokens, token) // trust all defi tokens
+        isTokenOnList(whitelistedTokens, token) // trust all defi + AB tokens
       )
     },
-    [chainId, selectedTokens, defiTokens]
+    [chainId, selectedTokens, whitelistedTokens]
   )
 
   return (
