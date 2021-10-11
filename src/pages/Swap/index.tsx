@@ -44,9 +44,10 @@ import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import useENS from '../../hooks/useENS'
 import { Trans, useTranslation } from 'react-i18next'
-import { useIsSelectedAEBToken, useSelectedTokenList } from '../../state/lists/hooks'
+import { useIsSelectedAEBToken, useSelectedTokenList, useTokenList } from '../../state/lists/hooks'
 import { DeprecatedWarning } from '../../components/Warning'
 import { isTokenOnList } from '../../utils'
+import { DEFI_TOKEN_LIST, AVAX_BRIDGE_LIST } from '../../constants/lists'
 
 const TopText = styled.span`
   margin-bottom: 8px;
@@ -296,13 +297,18 @@ export default function Swap() {
   const isAEBToken = useIsSelectedAEBToken()
 
   const selectedTokens = useSelectedTokenList()
+  const whitelistedTokens = useTokenList([DEFI_TOKEN_LIST, AVAX_BRIDGE_LIST])
 
   const isTrustedToken = useCallback(
     (token: Token) => {
       if (!chainId || !selectedTokens) return true // Assume trusted at first to avoid flashing a warning
-      return TRUSTED_TOKEN_ADDRESSES[chainId].includes(token.address) || isTokenOnList(selectedTokens, token)
+      return (
+        TRUSTED_TOKEN_ADDRESSES[chainId].includes(token.address) || // trust token from manually whitelisted token
+        isTokenOnList(selectedTokens, token) || // trust all tokens from selected token list by user
+        isTokenOnList(whitelistedTokens, token) // trust all defi + AB tokens
+      )
     },
-    [chainId, selectedTokens]
+    [chainId, selectedTokens, whitelistedTokens]
   )
 
   return (
@@ -553,7 +559,7 @@ export default function Swap() {
             </MarginswapLink>{' '}
           </Trans>
           <Trans i18nKey="swapPage.wowSwap">
-            or 
+            or
             <WowSwapLink href={'https://wowswap.io/swap'} target={'_blank'}>
               WOWswap
             </WowSwapLink>
