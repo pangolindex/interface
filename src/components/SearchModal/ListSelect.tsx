@@ -128,6 +128,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
     })
 
     dispatch(selectList({ url: listUrl, shouldSelect: !isSelected }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, isSelected, listUrl, onBack])
 
   const handleAcceptListUpdate = useCallback(() => {

@@ -1312,6 +1312,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
       }
       return memo
     }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     chainId,
     png,
@@ -1351,6 +1352,7 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
   const routes = useMemo((): string[][] => info.map(({ conversionRouteHops, rewardToken }) => {
     return [png.address, ...conversionRouteHops.map(token => token.address), rewardToken.address];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [info])
 
   const accountArg = useMemo(() => [account ?? undefined], [account])
