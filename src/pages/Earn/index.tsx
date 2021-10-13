@@ -6,7 +6,7 @@ import { MIGRATIONS, DOUBLE_SIDE_STAKING_REWARDS_INFO, useStakingInfo } from '..
 import { TYPE, ExternalLink } from '../../theme'
 import DoubleSidePoolCard from '../../components/earn/DoubleSidePoolCard'
 import { RouteComponentProps, NavLink } from 'react-router-dom'
-import { RowBetween } from '../../components/Row'
+import { AutoRow, RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
 import { useActiveWeb3React } from '../../hooks'
@@ -23,6 +23,12 @@ const PageWrapper = styled(AutoColumn)`
 const TopSection = styled(AutoColumn)`
   max-width: 720px;
   width: 100%;
+`
+
+const FlexDiv = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 `
 
 const PoolSection = styled.div`
@@ -244,7 +250,7 @@ export default function Earn({
               <RowBetween>
                 <TYPE.white fontSize={14}>{t('earnPage.depositPangolinLiquidity')}</TYPE.white>
               </RowBetween>{' '}
-              <RowBetween>
+              <AutoRow justify="space-between">
                 <ExternalLink
                   style={{ color: 'white', textDecoration: 'underline' }}
                   href="https://pangolin.exchange/litepaper"
@@ -252,14 +258,23 @@ export default function Earn({
                 >
                   <TYPE.white fontSize={14}>{t('earnPage.readMoreAboutPng')}</TYPE.white>
                 </ExternalLink>
-                <ExternalLink
-                  style={{ color: 'white', textDecoration: 'underline' }}
-                  href="https://app.insurace.io/Insurance/BuyCovers?referrer=565928487188065888397039055593264600345483712698"
-                  target="_blank"
-                >
-                  <TYPE.white fontSize={14}>{t('earnPage.getInsuranceCoverage')}</TYPE.white>
-                </ExternalLink>
-              </RowBetween>
+                <FlexDiv>
+                  <ExternalLink
+                    style={{ color: 'white', textDecoration: 'underline', marginRight: 10 }}
+                    href="https://app.nexusmutual.io/cover/buy/get-quote?address=0xefa94DE7a4656D787667C749f7E1223D71E9FD88"
+                    target="_blank"
+                  >
+                    <TYPE.white fontSize={14}>{t('earnPage.getCoverNexusMutual')}</TYPE.white>
+                  </ExternalLink>
+                  <ExternalLink
+                    style={{ color: 'white', textDecoration: 'underline' }}
+                    href="https://app.insurace.io/Insurance/BuyCovers?referrer=565928487188065888397039055593264600345483712698"
+                    target="_blank"
+                  >
+                    <TYPE.white fontSize={14}>{t('earnPage.getInsuranceCoverage')}</TYPE.white>
+                  </ExternalLink>
+                </FlexDiv>
+              </AutoRow>
             </AutoColumn>
           </CardSection>
           <CardBGImage />
