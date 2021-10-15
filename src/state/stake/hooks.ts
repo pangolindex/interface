@@ -73,7 +73,8 @@ import {
   AAVAXB,
   INSUR,
   TIME,
-  AVME
+  AVME,
+  HCT
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -682,6 +683,12 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     stakingRewardAddress: '0x0875e51e54fbb7e63b1819acb069dc8d684563eb',
     version: 1,
     multiplier: 4
+  },
+  WAVAX_HCT_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], HCT[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x6528DCc443B2e014185946d1Dc1efd6e9aBE4CD8',
+    version: 1,
+    multiplier: 2
   },
 
   PNG_ETH_V1: {
