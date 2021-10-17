@@ -74,7 +74,8 @@ import {
   INSUR,
   TIME,
   AVME,
-  HCT
+  HCT,
+  FRAXV2
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -502,13 +503,13 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], FRAX[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xfd0824dF1E598D34C3495e1C2a339E2FA23Af40D',
     version: 1,
-    multiplier: 2
+    multiplier: 0
   },
   WAVAX_FXS_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], FXS[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x76Ad5c64Fe6B26b6aD9aaAA19eBa00e9eCa31FE1',
     version: 1,
-    multiplier: 1
+    multiplier: 0
   },
   WAVAX_START_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], START[ChainId.AVALANCHE]],
@@ -688,7 +689,13 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], HCT[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x6528DCc443B2e014185946d1Dc1efd6e9aBE4CD8',
     version: 1,
-    multiplier: 2
+    multiplier: 4
+  },
+  WAVAX_FRAXV2_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], FRAXV2[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x55152E05202AE58fDab26b20c6Fd762F5BCA797c',
+    version: 1,
+    multiplier: 6
   },
 
   PNG_ETH_V1: {
