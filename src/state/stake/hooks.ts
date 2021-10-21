@@ -75,7 +75,8 @@ import {
   TIME,
   AVME,
   HCT,
-  FRAXV2
+  FRAXV2,
+  ROCO
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -696,6 +697,12 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     stakingRewardAddress: '0x55152E05202AE58fDab26b20c6Fd762F5BCA797c',
     version: 1,
     multiplier: 6
+  },
+  WAVAX_ROCO_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], ROCO[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x23855F21d158efAE410e3568FB623C35BC1952E0',
+    version: 1,
+    multiplier: 4
   },
 
   PNG_ETH_V1: {

@@ -635,6 +635,11 @@ export const FRAXV2: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xD24C2Ad096400B6FBcd2ad8B24E7acBc21A1da64', 18, 'FRAX', 'Frax')
 }
 
+export const ROCO: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ROCO', 'ROCO'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xb2a85C5ECea99187A977aC34303b80AcbDdFa208', 18, 'ROCO', 'ROCO')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
