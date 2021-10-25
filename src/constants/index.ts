@@ -640,6 +640,16 @@ export const ROCO: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xb2a85C5ECea99187A977aC34303b80AcbDdFa208', 18, 'ROCO', 'ROCO')
 }
 
+export const IMX: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'IMX', 'IMX'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xeA6887e4a9CdA1B77E70129E5Fba830CdB5cdDef', 18, 'IMX', 'IMX')
+}
+
+export const AMPL: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 9, 'AMPL', 'Ampleforth'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x027dbcA046ca156De9622cD1e2D907d375e53aa7', 9, 'AMPL', 'Ampleforth')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
