@@ -475,5 +475,28 @@
     "burnHooks": {
         "connectWallet": "Conectar a uma carteira",
         "enterAmount": "Insira um valor"
-    }
+    },
+    "migratePage": {
+        "stack": "STACK",
+        "unstake": "UNSTACK",
+        "add": "ADD",
+        "remove": "REMOVE",
+        "startMigratingNow": "START MIGRATING NOW",
+        "startMigratingNowDescription": "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Etiam Justo Libero, Scelerisque Quis Ipsum Quis, Viverra Ornare Odio. Vestibulum Imperdiet",
+        "seeMore": "SEE MORE",
+        "migrateWithEase": "MIGRATE WITH EASE",
+        "migrateWithDescription":"Hey Anon! We have realized you have some tokens on your wallet that needs to move over Pangolin. You can also move tokens over through Trader Joe, Lydia, and Canary.",
+        "alreadyMigrate": "already migrated",
+        "walletMigrate": "wallet migrated",
+        "alreadyEarned": "MIGRATE NOW",
+        "migrateNow": "MIGRATE NOW",
+        "learn": "LEARN",
+        "moveYourTokensToNewContracts" :"MOVE YOUR TOKENS TO NEW CONTRACTS",
+        "moveYourTokensToNewContractsDescription" :"Hey Anon! We have realized you have some tokens on your wallet that needs to move over Pangolin. You can also move tokens over through Trader Joe, Lydia, and Canary.",
+        "readyToMigrate": "Ready to migrate",
+        "apr": "APR:",
+        "totalValueLocked": "Total Value Locked",
+        "lowVolatility": "Low Volatility",
+        "compoundable": "Compoundable"
+      }
 }

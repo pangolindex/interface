@@ -1,5 +1,5 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair } from '@pangolindex/sdk'
-import { useMemo } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import {
   PNG,
   DAI,
@@ -101,16 +101,16 @@ export interface BridgeMigrator {
 const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
   WAVAX_V0: {
     rewardToken: WAVAX[ChainId.AVALANCHE],
-	  conversionRouteHops: [],
+    conversionRouteHops: [],
     stakingRewardAddress: '0xD49B406A7A29D64e081164F6C3353C599A2EeAE9',
     version: 0
   },
-	OOE_V0: {
-		rewardToken: OOE[ChainId.AVALANCHE],
+  OOE_V0: {
+    rewardToken: OOE[ChainId.AVALANCHE],
     conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
-		stakingRewardAddress: '0xf0eFf017644680B9878429137ccb2c041b4Fb701',
-		version: 0
-	},
+    stakingRewardAddress: '0xf0eFf017644680B9878429137ccb2c041b4Fb701',
+    version: 0
+  }
 }
 
 const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
@@ -1006,10 +1006,7 @@ const calculateTotalStakedAmountInAvaxFromPng = function(
   )
 }
 
-const calculateRewardRateInPng = function(
-  rewardRate: JSBI,
-  valueOfPng: JSBI | null
-): JSBI {
+const calculateRewardRateInPng = function(rewardRate: JSBI, valueOfPng: JSBI | null): JSBI {
   if (!valueOfPng || JSBI.EQ(valueOfPng, 0)) return JSBI.BigInt(0)
 
   // TODO: Handle situation where stakingToken and rewardToken have different decimals
@@ -1021,10 +1018,7 @@ const calculateRewardRateInPng = function(
   )
 }
 
-const calculateApr = function(
-  rewardRatePerSecond: JSBI,
-  totalSupply: JSBI
-): JSBI {
+const calculateApr = function(rewardRatePerSecond: JSBI, totalSupply: JSBI): JSBI {
   if (JSBI.EQ(totalSupply, 0)) {
     return JSBI.BigInt(0)
   }
@@ -1247,7 +1241,10 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
   ])
 }
 
-export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?: Token | null): SingleSideStakingInfo[] {
+export function useSingleSideStakingInfo(
+  version: number,
+  rewardTokenToFilterBy?: Token | null
+): SingleSideStakingInfo[] {
   const { chainId, library, account } = useActiveWeb3React()
 
   const info = useMemo(
@@ -1267,10 +1264,14 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
   const png = PNG[ChainId.AVALANCHE]
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
-  const routes = useMemo((): string[][] => info.map(({ conversionRouteHops, rewardToken }) => {
-    return [png.address, ...conversionRouteHops.map(token => token.address), rewardToken.address];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [info])
+  const routes = useMemo(
+    (): string[][] =>
+      info.map(({ conversionRouteHops, rewardToken }) => {
+        return [png.address, ...conversionRouteHops.map(token => token.address), rewardToken.address]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }),
+    [info]
+  )
 
   const accountArg = useMemo(() => [account ?? undefined], [account])
   const getAmountsOutArgs = useMemo(() => {
@@ -1304,12 +1305,7 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
     NEVER_RELOAD
   )
 
-  const amountsOuts = useSingleContractMultipleData(
-    routerContract,
-    'getAmountsOut',
-    getAmountsOutArgs,
-    NEVER_RELOAD
-  )
+  const amountsOuts = useSingleContractMultipleData(routerContract, 'getAmountsOut', getAmountsOutArgs, NEVER_RELOAD)
 
   return useMemo(() => {
     if (!chainId || !png) return []
@@ -1364,10 +1360,7 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
         )
         const earnedAmount = new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0))
 
-        const rewardRateInPng = calculateRewardRateInPng(
-          totalRewardRate.raw,
-          valueOfPng
-        )
+        const rewardRateInPng = calculateRewardRateInPng(totalRewardRate.raw, valueOfPng)
 
         const apr = isPeriodFinished ? JSBI.BigInt(0) : calculateApr(rewardRateInPng, totalSupplyStaked)
 
@@ -1506,4 +1499,33 @@ export function useDerivedUnstakeInfo(
     parsedAmount,
     error
   }
+}
+
+export function useGetStackingDataWithAPR(version: number) {
+  const stakingInfos = useStakingInfo(version)
+
+  const [stakingInfoData, setStakingInfoData] = useState<any[]>(stakingInfos)
+
+  useEffect(() => {
+    if (stakingInfos?.length > 0) {
+      Promise.all(
+        stakingInfos.map(stakingInfo => {
+          return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+            .then(res => res.json())
+            .then(res => ({
+              swapFeeApr: Number(res.swapFeeApr),
+              stakingApr: Number(res.stakingApr),
+              combinedApr: Number(res.combinedApr),
+              ...stakingInfo
+            }))
+        })
+      ).then(updatedStakingInfos => {
+        setStakingInfoData(updatedStakingInfos)
+      })
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stakingInfos?.length, version])
+
+  return stakingInfoData
 }

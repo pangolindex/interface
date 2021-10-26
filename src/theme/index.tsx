@@ -53,6 +53,10 @@ export function colors(darkMode: boolean): Colors {
     bg3: darkMode ? '#40444F' : '#EDEEF2',
     bg4: darkMode ? '#565A69' : '#CED0D9',
     bg5: darkMode ? '#6C7284' : '#888D9B',
+    bg6: darkMode ? '#1c1c1c' : '#FFFFFF',
+    bg7: darkMode ? '#2C2D33' : '#FFFFFF',
+
+     
 
     //specialty colors
     modalBG: darkMode ? 'rgba(0,0,0,.425)' : 'rgba(0,0,0,0.3)',
@@ -230,4 +234,17 @@ body {
       theme.bg1
     )} 100%)`};
 }
+`
+
+export const ThemedGlobalBetaStyle = createGlobalStyle`
+html {
+  color: ${({ theme }) => theme.text1};
+  background-color: ${({ theme }) => theme.bg2};
+}
+
+body {
+  min-height: 100vh;
+  background-position: 0 -30vh;
+  background-repeat: no-repeat;
+  background-image: ${({ theme }) => theme.bg6}
 `

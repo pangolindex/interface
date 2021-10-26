@@ -19,6 +19,7 @@
     "@types/luxon": "^1.24.4",
     "@types/multicodec": "^1.0.0",
     "@types/node": "^13.13.5",
+    "@types/numeral": "^2.0.2",
     "@types/qs": "^6.9.2",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
@@ -64,6 +65,7 @@
     "multicodec": "^2.0.0",
     "multihashes": "^3.0.1",
     "node-vibrant": "^3.1.5",
+    "numeral": "^2.0.6",
     "polished": "^3.3.2",
     "prettier": "^1.17.0",
     "qs": "^6.9.4",
@@ -124,6 +126,7 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@pangolindex/components": "1.0.0",
     "@types/crypto-js": "^4.0.2",
     "crypto-js": "^4.0.0"
   }
