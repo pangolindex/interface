@@ -497,6 +497,7 @@
     "apr": "APR:",
     "totalValueLocked": "Total Value Locked",
     "lowVolatility": "Low Volatility",
-    "compoundable": "Compoundable"
+    "compoundable": "Compoundable",
+    "migrate": "Migrate"
   }
 }

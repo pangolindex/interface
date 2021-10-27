@@ -4,30 +4,29 @@ import { Panel, OptionButton, OptionsWrapper, Divider, MigrateButton, InnerWrapp
 import Stat from '../Stat'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { AutoRow } from '../Row'
-import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 import { useActiveWeb3React } from '../../hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
-import { useGetStackingDataWithAPR } from '../../state/stake/hooks'
 import { useTotalSupply } from '../../data/TotalSupply'
 import useUSDCPrice from '../../utils/useUSDCPrice'
 import numeral from 'numeral'
+import { StakingInfo } from '../../state/stake/hooks'
 
 export interface StatProps {
   pair: Pair
+  onClickMigrate: (pair: Pair) => void
+  stakingInfos: StakingInfo[]
 }
 
-const MigrationCard = ({ pair }: StatProps) => {
+const MigrationCard = ({ pair, onClickMigrate, stakingInfos }: StatProps) => {
   const { t } = useTranslation()
   const { account } = useActiveWeb3React()
-  const params: any = useParams()
+
   const currency0 = unwrappedToken(pair.token0)
   const currency1 = unwrappedToken(pair.token1)
 
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
-
-  const stakingInfos = useGetStackingDataWithAPR(Number(params?.version))
 
   // get match token address value for stack data
   const stackingData = stakingInfos.find(data => data?.stakedAmount?.token?.address === pair?.liquidityToken?.address)
@@ -93,7 +92,14 @@ const MigrationCard = ({ pair }: StatProps) => {
           />
         </Box>
         <Box>
-          <MigrateButton variant="primary"> {t('migratePage.migrateNow')}</MigrateButton>
+          <MigrateButton
+            variant="primary"
+            onClick={() => {
+              onClickMigrate(pair)
+            }}
+          >
+            {t('migratePage.migrateNow')}
+          </MigrateButton>
         </Box>
       </InnerWrapper>
     </Panel>

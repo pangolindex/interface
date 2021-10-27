@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import {
   PageWrapper,
   ResponsiveButtonPrimary,
@@ -13,8 +13,8 @@ import {
   ArrowRight,
   EmptyProposals
 } from './styleds'
-import { Pair } from '@pangolindex/sdk'
-import { ChainId } from '@pangolindex/sdk'
+import { ChainId, Pair } from '@pangolindex/sdk'
+import { useParams } from 'react-router-dom'
 import { useActiveWeb3React } from '../../hooks'
 import { usePairs } from '../../data/Reserves'
 import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks'
@@ -24,10 +24,15 @@ import StatCard from '../../components/StatCard'
 import MigrationCard from '../../components/MigrationCard'
 import { useTranslation } from 'react-i18next'
 import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks'
+import MigrationModal from '../../components/MigrationModal'
+import { useMigrationModalToggle } from '../../state/application/hooks'
+import { useGetStackingDataWithAPR } from '../../state/stake/hooks'
 
 export default function Migrate() {
   const below1080 = false
   const { t } = useTranslation()
+  const params: any = useParams()
+  const [selectedPool, setSelectedPool] = useState({} as Pair)
 
   const { account, chainId } = useActiveWeb3React()
 
@@ -68,6 +73,10 @@ export default function Migrate() {
 
   const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
 
+  const toggleMigrationModal = useMigrationModalToggle()
+
+  const stakingInfos = useGetStackingDataWithAPR(Number(params?.version))
+
   return (
     <PageWrapper>
       <FirstWrapper>
@@ -79,7 +88,16 @@ export default function Migrate() {
         </Text>
 
         <ButtonRow>
-          <ResponsiveButtonPrimary variant="primary">{t('migratePage.migrateNow')}</ResponsiveButtonPrimary>
+          <ResponsiveButtonPrimary
+            variant="primary"
+            onClick={() => {
+              setSelectedPool(null as any)
+              toggleMigrationModal()
+            }}
+            isDisabled={!(allV2PairsWithLiquidity?.length > 0)}
+          >
+            {t('migratePage.migrateNow')}
+          </ResponsiveButtonPrimary>
           <ResponsiveButtonOutline variant="outline">{t('migratePage.learn')}</ResponsiveButtonOutline>
         </ButtonRow>
       </FirstWrapper>
@@ -168,7 +186,15 @@ export default function Migrate() {
         ) : allV2PairsWithLiquidity?.length > 0 ? (
           <PanelWrapper style={{ marginTop: below1080 ? '0' : '50px' }}>
             {allV2PairsWithLiquidity.map(v2Pair => (
-              <MigrationCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
+              <MigrationCard
+                key={v2Pair.liquidityToken.address}
+                pair={v2Pair}
+                onClickMigrate={(pair: Pair) => {
+                  setSelectedPool(pair)
+                  toggleMigrationModal()
+                }}
+                stakingInfos={stakingInfos}
+              />
             ))}
           </PanelWrapper>
         ) : (
@@ -185,6 +211,7 @@ export default function Migrate() {
           </ResponsiveButtonPrimary>
         </Box>
       </Box>
+      <MigrationModal selectedPool={selectedPool} />
     </PageWrapper>
   )
 }

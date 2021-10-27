@@ -979,6 +979,12 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
   totalStakedInUsd: TokenAmount
 }
 
+export interface StakingInfo extends DoubleSideStakingInfo {
+  swapFeeApr?: Number
+  stakingApr?: Number
+  combinedApr?: Number
+}
+
 const calculateTotalStakedAmountInAvaxFromPng = function(
   amountStaked: JSBI,
   amountAvailable: JSBI,
@@ -1504,7 +1510,7 @@ export function useDerivedUnstakeInfo(
 export function useGetStackingDataWithAPR(version: number) {
   const stakingInfos = useStakingInfo(version)
 
-  const [stakingInfoData, setStakingInfoData] = useState<any[]>(stakingInfos)
+  const [stakingInfoData, setStakingInfoData] = useState<StakingInfo[]>(stakingInfos)
 
   useEffect(() => {
     if (stakingInfos?.length > 0) {
