@@ -6,7 +6,7 @@ import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { AutoRow } from '../Row'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { unwrappedToken } from '../../utils/wrappedCurrency'
+// import { unwrappedToken } from '../../utils/wrappedCurrency'
 import { useActiveWeb3React } from '../../hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useGetStackingDataWithAPR } from '../../state/stake/hooks'
@@ -22,8 +22,8 @@ const MigrationCard = ({ pair }: StatProps) => {
   const { t } = useTranslation()
   const { account } = useActiveWeb3React()
   const params: any = useParams()
-  const currency0 = unwrappedToken(pair.token0)
-  const currency1 = unwrappedToken(pair.token1)
+  const currency0 = pair.token0
+  const currency1 = pair.token1
 
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
 

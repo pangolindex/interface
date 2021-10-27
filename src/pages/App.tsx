@@ -91,8 +91,6 @@ const Marginer = styled.div`
 `
 
 export default function App() {
- 
-
   const url = window.location.href
   const isBeta = url.includes('beta')
 
@@ -103,11 +101,9 @@ export default function App() {
       <Route component={DarkModeQueryParamReader} />
       <AppWrapper>
         <URLWarning />
-        {!isBeta && (
-          <HeaderWrapper>
-            <Header />
-          </HeaderWrapper>
-        )}
+        <HeaderWrapper>
+          <Header />
+        </HeaderWrapper>
 
         <Wrapper>
           <Popups />
