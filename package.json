@@ -2,9 +2,13 @@
   "name": "@pangolindex/interface",
   "description": "Pangolin Interface",
   "homepage": ".",
+  "engines": {
+    "node": ">=14.17.0"
+  },
   "private": true,
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
+    "@pangolindex/components": "^1.0.0",
     "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.0.6",
     "@pangolindex/sdk": "1.1.0",
@@ -126,7 +130,6 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@pangolindex/components": "1.0.0",
     "@types/crypto-js": "^4.0.2",
     "crypto-js": "^4.0.0"
   }
