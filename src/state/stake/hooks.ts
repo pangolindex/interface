@@ -78,7 +78,8 @@ import {
   FRAXV2,
   ROCO,
   IMX,
-  AMPL
+  AMPL,
+  ORBS
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -715,6 +716,12 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   WAVAX_AMPL_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], AMPL[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xFE6338BEBef1989afA225494A63f235D8e8f46fd',
+    version: 1,
+    multiplier: 4
+  },
+  WAVAX_ORBS_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], ORBS[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xc2ecb35624Ad941474371E696AC8DAd0dda5e4d5',
     version: 1,
     multiplier: 4
   },
