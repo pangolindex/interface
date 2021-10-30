@@ -15,10 +15,11 @@ import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
 import UserUpdater from './state/user/updater'
-import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle, ThemedGlobalBetaStyle } from './theme'
+import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import { ThemeProvider as NewThemeProvider } from '@pangolindex/components'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
+import { useLocationHash } from './hooks/useLocation'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
@@ -54,15 +55,16 @@ function Updaters() {
     </>
   )
 }
-const url = window.location.href
-const isBeta = url.includes('beta')
 
 const ComponentThemeProvider = () => {
+  const hash = useLocationHash()
+  const isBeta = hash.includes('beta')
+
   const theme = useContext(ThemeContext)
 
   return (
     <NewThemeProvider theme={theme as any}>
-      {isBeta ? <ThemedGlobalBetaStyle /> : <ThemedGlobalStyle />}
+      <ThemedGlobalStyle isBeta={isBeta} />
       <HashRouter>
         <App />
       </HashRouter>

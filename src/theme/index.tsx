@@ -56,9 +56,6 @@ export function colors(darkMode: boolean): Colors {
     bg5: darkMode ? '#6C7284' : '#888D9B',
     bg6: darkMode ? '#1c1c1c' : '#FFFFFF',
     bg7: darkMode ? '#2C2D33' : '#FFFFFF',
-   
-
-     
 
     //specialty colors
     modalBG: darkMode ? 'rgba(0,0,0,.425)' : 'rgba(0,0,0,0.3)',
@@ -71,7 +68,6 @@ export function colors(darkMode: boolean): Colors {
     primary4: darkMode ? '#376bad70' : '#FF6B00',
     primary5: darkMode ? '#153d6f70' : '#FF6B00',
     primary6: darkMode ? '#2172E5' : '#FFFFFF',
-  
 
     // color text
     primaryText1: darkMode ? '#6da8ff' : '#ffffff',
@@ -221,33 +217,23 @@ html {
 }
 `
 
-export const ThemedGlobalStyle = createGlobalStyle`
+export const ThemedGlobalStyle = createGlobalStyle<{ isBeta: boolean }>`
 html {
   color: ${({ theme }) => theme.text1};
   background-color: ${({ theme }) => theme.bg2};
 }
 
 body {
-  min-height: 100vh;
+  min-height: ${({ isBeta }) => (isBeta ? 'unset' : '100vh')};
   background-position: 0 -30vh;
   background-repeat: no-repeat;
-  background-image: ${({ theme }) =>
-    `radial-gradient(50% 50% at 50% 50%, ${transparentize(0.85, theme.primary1)} 0%, ${transparentize(
-      1,
-      theme.bg1
-    )} 100%)`};
+  background-image: ${({ theme, isBeta }) =>
+    isBeta
+      ? 'unset'
+      : `radial-gradient(50% 50% at 50% 50%, ${transparentize(0.85, theme.primary1)} 0%, ${transparentize(
+          1,
+          theme.bg1
+        )} 100%)`};
+  background-color:  ${({ theme, isBeta }) => (isBeta ? theme.bg6 : 'unset')};
 }
-`
-
-export const ThemedGlobalBetaStyle = createGlobalStyle`
-html {
-  color: ${({ theme }) => theme.text1};
-  background-color: ${({ theme }) => theme.bg2};
-}
-
-body {
-  min-height: 100vh;
-  background-position: 0 -30vh;
-  background-repeat: no-repeat;
-  background-image: ${({ theme }) => theme.bg6}
 `
