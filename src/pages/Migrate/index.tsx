@@ -80,7 +80,7 @@ export default function Migrate() {
   return (
     <PageWrapper>
       <FirstWrapper>
-        <Text color="text1" fontSize={48} mb={20}>
+        <Text color="text1" fontSize={48} mb={20} fontWeight="900">
           {t('migratePage.moveYourTokensToNewContracts')}
         </Text>
         <Text color="text1" fontSize={24} mb={20}>
@@ -112,7 +112,7 @@ export default function Migrate() {
 
       <InfoWrapper>
         <Box>
-          <Text color="text1" fontSize={48} mb={10}>
+          <Text color="text1" fontSize={48} mb={10} fontWeight="900">
             {t('migratePage.migrateWithEase')}
           </Text>
           <Text color="text1" fontSize={24}>
@@ -163,7 +163,7 @@ export default function Migrate() {
 
       <Box mt={50}>
         <Box textAlign="center">
-          <Text color="text1" fontSize={48} mb={10}>
+          <Text color="text1" fontSize={48} mb={10} fontWeight="900">
             {t('migratePage.startMigratingNow')}
           </Text>
           <Text color="text1" fontSize={24}>
@@ -205,11 +205,11 @@ export default function Migrate() {
           </EmptyProposals>
         )}
 
-        <Box display="flex" justifyContent="center" mt={30}>
+        {/* <Box display="flex" justifyContent="center" mt={30}>
           <ResponsiveButtonPrimary variant="primary" width="200px">
             {t('migratePage.seeMore')}
           </ResponsiveButtonPrimary>
-        </Box>
+        </Box> */}
       </Box>
       <MigrationModal selectedPool={selectedPool} />
     </PageWrapper>

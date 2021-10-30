@@ -34,7 +34,7 @@ import IDO from './IDO'
 import Migrate from './Earn/Migrate'
 
 import MigrateCurrency from './Migrate'
-import { useLocationHash } from '../hooks/useLocation'
+import { useIsBetaUI } from '../hooks/useLocation'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -74,8 +74,7 @@ const Marginer = styled.div`
 `
 
 export default function App() {
-  const hash = useLocationHash()
-  const isBeta = hash.includes('beta')
+  const isBeta = useIsBetaUI()
 
   return (
     <Suspense fallback={null}>

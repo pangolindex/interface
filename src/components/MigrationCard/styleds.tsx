@@ -2,7 +2,7 @@ import { Box, Button } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const Panel = styled(Box)`
-  background-color: #111111;
+  background-color: ${({ theme }) => theme.bg2};
   position: relative;
   width: 100%;
   height: 100%;
@@ -57,7 +57,7 @@ export const MigrateButton = styled(Button)`
 export const InnerWrapper = styled(Box)`
   display: inline-flex;
   justify-content: space-between;
-  align-item: center;
+  align-items: center;
   border: 1px solid #2c2d33;
   border-radius: 4px;
   padding: 10px;

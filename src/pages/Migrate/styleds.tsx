@@ -74,7 +74,7 @@ export const PanelWrapper = styled.div`
 `
 
 export const InfoWrapper = styled(Box)`
-  background-color: #111111;
+  background-color: ${({ theme }) => theme.bg2};
   margin-top: 40px;
   padding: 50px;
   width: 100%;
@@ -82,19 +82,20 @@ export const InfoWrapper = styled(Box)`
 `
 
 export const ProcessWrapper = styled(Box)`
-display: flex;
-justify-content: space-between;
-align-items: center;
-flex-direction: row
-
-padding: 30px;
-${({ theme }) => theme.mediaWidth.upToSmall`
-flex-direction: column
-`};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  max-width: 1000px;
+  margin: 0px auto;
+  padding: 30px;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    flex-direction: column
+  `};
 `
 
 export const CircleIcon = styled(Box)`
-  background-color: #111111;
+  background-color: ${({ theme }) => theme.bg6};
   height: 150px;
   width: 150px;
   border-radius: 50%;
@@ -108,10 +109,9 @@ export const ArrowRight = styled(ChevronRight)`
   color: ${({ theme }) => theme.text1};
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-transform: rotate(90deg);
-`};
+    transform: rotate(90deg);
+  `};
 `
-
 
 export const EmptyProposals = styled.div`
   border: 1px solid ${({ theme }) => theme.text4};

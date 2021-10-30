@@ -19,7 +19,7 @@ import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import { ThemeProvider as NewThemeProvider } from '@pangolindex/components'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
-import { useLocationHash } from './hooks/useLocation'
+import { useIsBetaUI } from './hooks/useLocation'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
@@ -57,9 +57,7 @@ function Updaters() {
 }
 
 const ComponentThemeProvider = () => {
-  const hash = useLocationHash()
-  const isBeta = hash.includes('beta')
-
+  const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
 
   return (

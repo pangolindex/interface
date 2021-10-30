@@ -9,6 +9,7 @@ import styled, {
 import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
 import { Colors } from './styled'
+import { useIsBetaUI } from '../hooks/useLocation'
 
 export * from './components'
 
@@ -121,12 +122,58 @@ export function theme(darkMode: boolean): DefaultTheme {
   }
 }
 
+export function betaColors(darkMode: boolean): Colors {
+  return {
+    ...colors(darkMode),
+
+    // backgrounds / greys
+    bg1: darkMode ? '#212429' : '#FFFFFF',
+    bg2: darkMode ? '#111111' : '#F7F8FA',
+    bg3: darkMode ? '#40444F' : '#EDEEF2',
+    bg4: darkMode ? '#565A69' : '#CED0D9',
+    bg5: darkMode ? '#6C7284' : '#888D9B',
+    bg6: darkMode ? '#1c1c1c' : '#FFFFFF',
+    bg7: darkMode ? '#2C2D33' : '#FFFFFF',
+
+    //primary colors
+    primary1: darkMode ? '#FF6B00' : '#FF6B00',
+    primary2: darkMode ? '#FF6B00' : '#FF6B00',
+    primary3: darkMode ? '#FF6B00' : '#FF6B00',
+    primary4: darkMode ? '#FF6B00' : '#FF6B00',
+    primary5: darkMode ? '#FF6B00' : '#FF6B00',
+    primary6: darkMode ? '#FF6B00' : '#FFFFFF',
+
+    // color text
+    primaryText1: darkMode ? '#6da8ff' : '#ffffff',
+
+    // secondary colors
+    secondary1: darkMode ? '#2172E5' : '#ff007a',
+    secondary2: darkMode ? '#17000b26' : '#F6DDE8',
+    secondary3: darkMode ? '#17000b26' : '#FDEAF1',
+
+    yellow2: '#FF6B00'
+  }
+}
+
+export function betaThemeFn(darkMode: boolean): DefaultTheme {
+  return {
+    ...theme(darkMode),
+    ...betaColors(darkMode)
+  }
+}
+
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const darkMode = useIsDarkMode()
+  const isBeta = useIsBetaUI()
 
   const themeObject = useMemo(() => theme(darkMode), [darkMode])
+  const betaThemeObject = useMemo(() => betaThemeFn(darkMode), [darkMode])
 
-  return <StyledComponentsThemeProvider theme={themeObject}>{children}</StyledComponentsThemeProvider>
+  return (
+    <StyledComponentsThemeProvider theme={isBeta ? betaThemeObject : themeObject}>
+      {children}
+    </StyledComponentsThemeProvider>
+  )
 }
 
 const TextWrapper = styled(Text)<{ color: keyof Colors }>`
