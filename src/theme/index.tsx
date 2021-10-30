@@ -181,14 +181,14 @@ export const TYPE = {
   }
 }
 
-export const FixedGlobalStyle = createGlobalStyle`
+export const FixedGlobalStyle = createGlobalStyle<{ isBeta: boolean }>`
 html, input, textarea, button {
-  font-family: 'Inter', sans-serif;
+  font-family: ${({ isBeta }) => (isBeta ? "'Poppins', sans-serif" : "'Inter', sans-serif")};
   font-display: fallback;
 }
 @supports (font-variation-settings: normal) {
   html, input, textarea, button {
-    font-family: 'Inter var', sans-serif;
+    font-family: ${({ isBeta }) => (isBeta ? "'Poppins', sans-serif" : "'Inter var', sans-serif")};
   }
 }
 

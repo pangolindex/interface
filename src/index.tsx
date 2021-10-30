@@ -64,6 +64,7 @@ const ComponentThemeProvider = () => {
 
   return (
     <NewThemeProvider theme={theme as any}>
+      <FixedGlobalStyle isBeta={isBeta} />
       <ThemedGlobalStyle isBeta={isBeta} />
       <HashRouter>
         <App />
@@ -74,7 +75,6 @@ const ComponentThemeProvider = () => {
 
 ReactDOM.render(
   <StrictMode>
-    <FixedGlobalStyle />
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
         <Provider store={store}>
