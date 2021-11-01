@@ -14,11 +14,11 @@ import {useActiveWeb3React} from "../../hooks";
 import Footer from "../../components/FiatInputPanel/Footer";
 import {redirectToWyre} from "./redirect";
 import { useTranslation } from 'react-i18next'
-import MasterCardWhiteLogo from '../../assets/images/mc_hrz_rev_white.svg';
-import MasterCardBlackLogo from '../../assets/images/mc_hrz_pos_black.svg';
-import VisaWhiteLogo from '../../../src/assets/images/Visa_Brandmark_White_RGB_2021.png';
-import VisaBlackLogo from '../../../src/assets/images/Visa_Brandmark_Blue_RGB_2021.png';
-import ApplePayIcon from '../../../src/assets/images/Apple_Pay_Mark_RGB_041619.svg';
+import MasterCardWhiteLogo from "../../assets/images/mc_hrz_rev_white.svg";
+import MasterCardBlackLogo from "../../assets/images/mc_hrz_pos_black.svg";
+import VisaWhiteLogo from "../../../src/assets/images/Visa_Brandmark_White_RGB_2021.png";
+import VisaBlackLogo from "../../../src/assets/images/Visa_Brandmark_Blue_RGB_2021.png";
+import ApplePayIcon from "../../../src/assets/images/Apple_Pay_Mark_RGB_041619.svg";
 import { AutoRow } from "../../components/Row";
 import styled from "styled-components";
 import { useIsDarkMode } from "../../state/user/hooks";
