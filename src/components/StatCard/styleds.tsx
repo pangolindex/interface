@@ -2,7 +2,7 @@ import { Box } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const Panel = styled(Box)`
-  background-color: #111111;
+  background-color: ${({ theme }) => theme.bg2};
   position: relative;
   width: 100%;
   height: 100%;

@@ -9,6 +9,7 @@ import styled, {
 import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
 import { Colors } from './styled'
+import { useIsBetaUI } from '../hooks/useLocation'
 
 export * from './components'
 
@@ -56,9 +57,6 @@ export function colors(darkMode: boolean): Colors {
     bg5: darkMode ? '#6C7284' : '#888D9B',
     bg6: darkMode ? '#1c1c1c' : '#FFFFFF',
     bg7: darkMode ? '#2C2D33' : '#FFFFFF',
-   
-
-     
 
     //specialty colors
     modalBG: darkMode ? 'rgba(0,0,0,.425)' : 'rgba(0,0,0,0.3)',
@@ -71,7 +69,6 @@ export function colors(darkMode: boolean): Colors {
     primary4: darkMode ? '#376bad70' : '#FF6B00',
     primary5: darkMode ? '#153d6f70' : '#FF6B00',
     primary6: darkMode ? '#2172E5' : '#FFFFFF',
-  
 
     // color text
     primaryText1: darkMode ? '#6da8ff' : '#ffffff',
@@ -125,12 +122,58 @@ export function theme(darkMode: boolean): DefaultTheme {
   }
 }
 
+export function betaColors(darkMode: boolean): Colors {
+  return {
+    ...colors(darkMode),
+
+    // backgrounds / greys
+    bg1: darkMode ? '#212429' : '#FFFFFF',
+    bg2: darkMode ? '#111111' : '#F7F8FA',
+    bg3: darkMode ? '#40444F' : '#EDEEF2',
+    bg4: darkMode ? '#565A69' : '#CED0D9',
+    bg5: darkMode ? '#6C7284' : '#888D9B',
+    bg6: darkMode ? '#1c1c1c' : '#FFFFFF',
+    bg7: darkMode ? '#2C2D33' : '#FFFFFF',
+
+    //primary colors
+    primary1: darkMode ? '#FF6B00' : '#FF6B00',
+    primary2: darkMode ? '#FF6B00' : '#FF6B00',
+    primary3: darkMode ? '#FF6B00' : '#FF6B00',
+    primary4: darkMode ? '#FF6B00' : '#FF6B00',
+    primary5: darkMode ? '#FF6B00' : '#FF6B00',
+    primary6: darkMode ? '#FF6B00' : '#FFFFFF',
+
+    // color text
+    primaryText1: darkMode ? '#6da8ff' : '#ffffff',
+
+    // secondary colors
+    secondary1: darkMode ? '#2172E5' : '#ff007a',
+    secondary2: darkMode ? '#17000b26' : '#F6DDE8',
+    secondary3: darkMode ? '#17000b26' : '#FDEAF1',
+
+    yellow2: '#FF6B00'
+  }
+}
+
+export function betaThemeFn(darkMode: boolean): DefaultTheme {
+  return {
+    ...theme(darkMode),
+    ...betaColors(darkMode)
+  }
+}
+
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const darkMode = useIsDarkMode()
+  const isBeta = useIsBetaUI()
 
   const themeObject = useMemo(() => theme(darkMode), [darkMode])
+  const betaThemeObject = useMemo(() => betaThemeFn(darkMode), [darkMode])
 
-  return <StyledComponentsThemeProvider theme={themeObject}>{children}</StyledComponentsThemeProvider>
+  return (
+    <StyledComponentsThemeProvider theme={isBeta ? betaThemeObject : themeObject}>
+      {children}
+    </StyledComponentsThemeProvider>
+  )
 }
 
 const TextWrapper = styled(Text)<{ color: keyof Colors }>`
@@ -185,14 +228,14 @@ export const TYPE = {
   }
 }
 
-export const FixedGlobalStyle = createGlobalStyle`
+export const FixedGlobalStyle = createGlobalStyle<{ isBeta: boolean }>`
 html, input, textarea, button {
-  font-family: 'Inter', sans-serif;
+  font-family: ${({ isBeta }) => (isBeta ? "'Poppins', sans-serif" : "'Inter', sans-serif")};
   font-display: fallback;
 }
 @supports (font-variation-settings: normal) {
   html, input, textarea, button {
-    font-family: 'Inter var', sans-serif;
+    font-family: ${({ isBeta }) => (isBeta ? "'Poppins', sans-serif" : "'Inter var', sans-serif")};
   }
 }
 
@@ -221,33 +264,23 @@ html {
 }
 `
 
-export const ThemedGlobalStyle = createGlobalStyle`
+export const ThemedGlobalStyle = createGlobalStyle<{ isBeta: boolean }>`
 html {
   color: ${({ theme }) => theme.text1};
   background-color: ${({ theme }) => theme.bg2};
 }
 
 body {
-  min-height: 100vh;
+  min-height: ${({ isBeta }) => (isBeta ? 'unset' : '100vh')};
   background-position: 0 -30vh;
   background-repeat: no-repeat;
-  background-image: ${({ theme }) =>
-    `radial-gradient(50% 50% at 50% 50%, ${transparentize(0.85, theme.primary1)} 0%, ${transparentize(
-      1,
-      theme.bg1
-    )} 100%)`};
+  background-image: ${({ theme, isBeta }) =>
+    isBeta
+      ? 'unset'
+      : `radial-gradient(50% 50% at 50% 50%, ${transparentize(0.85, theme.primary1)} 0%, ${transparentize(
+          1,
+          theme.bg1
+        )} 100%)`};
+  background-color:  ${({ theme, isBeta }) => (isBeta ? theme.bg6 : 'unset')};
 }
-`
-
-export const ThemedGlobalBetaStyle = createGlobalStyle`
-html {
-  color: ${({ theme }) => theme.text1};
-  background-color: ${({ theme }) => theme.bg2};
-}
-
-body {
-  min-height: 100vh;
-  background-position: 0 -30vh;
-  background-repeat: no-repeat;
-  background-image: ${({ theme }) => theme.bg6}
 `

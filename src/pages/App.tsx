@@ -34,6 +34,7 @@ import IDO from './IDO'
 import Migrate from './Earn/Migrate'
 
 import MigrateCurrency from './Migrate'
+import { useIsBetaUI } from '../hooks/useLocation'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -48,31 +49,13 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
 `
 
-const BodyWrapper = styled.div`
+const BodyWrapper = styled.div<{ isBeta: boolean }>`
   display: flex;
   flex-direction: column;
   width: 100%;
   padding-top: 100px;
-  align-items: center;
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  z-index: 10;
-
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    padding: 16px;
-    padding-top: 2rem;
-  `};
-
-  z-index: 1;
-`
-
-const BetaWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding-top: 100px;
-  padding: 50px;
+  align-items: ${({ isBeta }) => (isBeta ? 'unset' : 'center')};
+  padding: ${({ isBeta }) => (isBeta ? '50px' : undefined)};
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
@@ -91,10 +74,8 @@ const Marginer = styled.div`
 `
 
 export default function App() {
-  const url = window.location.href
-  const isBeta = url.includes('beta')
+  const isBeta = useIsBetaUI()
 
-  const Wrapper = isBeta ? BetaWrapper : BodyWrapper
   return (
     <Suspense fallback={null}>
       <Route component={GoogleAnalyticsReporter} />
@@ -105,7 +86,7 @@ export default function App() {
           <Header />
         </HeaderWrapper>
 
-        <Wrapper>
+        <BodyWrapper isBeta={isBeta}>
           <Popups />
           <Polling />
           <Web3ReactManager>
@@ -143,7 +124,7 @@ export default function App() {
             </Switch>
           </Web3ReactManager>
           <Marginer />
-        </Wrapper>
+        </BodyWrapper>
       </AppWrapper>
     </Suspense>
   )
