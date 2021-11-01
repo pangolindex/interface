@@ -6,12 +6,13 @@ import { RowBetween } from '../Row'
 import { TYPE, CloseIcon } from '../../theme'
 import { ButtonError } from '../Button'
 import { DoubleSideStakingInfo } from '../../state/stake/hooks'
-import { useStakingContract } from '../../hooks/useContract'
+import { useMiniChefContract, useStakingContract } from '../../hooks/useContract'
 import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
+import { TokenAmount, JSBI } from '@pangolindex/sdk'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -22,9 +23,10 @@ interface StakingModalProps {
   isOpen: boolean
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
+  miniChefStaking?: { stakedAmount?: TokenAmount | undefined; pendingRewardAmount?: TokenAmount | undefined }
 }
 
-export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo }: StakingModalProps) {
+export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo, miniChefStaking }: StakingModalProps) {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
 
@@ -39,13 +41,15 @@ export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo }: Sta
     onDismiss()
   }
 
+  // @ts-ignore
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const minichefContract = useMiniChefContract()
 
   async function onClaimReward() {
-    if (stakingContract && stakingInfo?.stakedAmount) {
+    if (minichefContract && miniChefStaking?.stakedAmount) {
       setAttempting(true)
-      await stakingContract
-        .getReward({ gasLimit: 350000 })
+      await minichefContract
+        .harvest(JSBI.BigInt(3), account)
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.claimAccumulated', { symbol: 'PNG' })
@@ -63,54 +67,52 @@ export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo }: Sta
   if (!account) {
     error = t('earn.connectWallet')
   }
-  if (!stakingInfo?.stakedAmount) {
+  if (!miniChefStaking?.stakedAmount) {
     error = error ?? t('earn.enterAmount')
   }
 
-	return (
-		<Modal isOpen={isOpen} onDismiss={wrappedOnDismiss} maxHeight={90}>
-			{!attempting && !hash && (
-				<ContentWrapper gap="lg">
-					<RowBetween>
-						<TYPE.mediumHeader>{t('earn.claim')}</TYPE.mediumHeader>
-						<CloseIcon onClick={wrappedOnDismiss} />
-					</RowBetween>
-					{stakingInfo?.earnedAmount && (
-						<AutoColumn justify="center" gap="md">
-							<TYPE.body fontWeight={600} fontSize={36}>
-								{stakingInfo?.earnedAmount?.toSignificant(6)}
-							</TYPE.body>
-							<TYPE.body>{t('earn.unclaimedReward', { symbol: 'PNG' })}</TYPE.body>
-						</AutoColumn>
-					)}
-					<TYPE.subHeader style={{ textAlign: 'center' }}>
-						{t('earn.liquidityRemainsPool')}
-					</TYPE.subHeader>
-					<ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onClaimReward}>
-						{error ?? t('earn.claimReward', { symbol: 'PNG' })}
-					</ButtonError>
-				</ContentWrapper>
-			)}
-			{attempting && !hash && (
-				<LoadingView onDismiss={wrappedOnDismiss}>
-					<AutoColumn gap="12px" justify={'center'}>
-						<TYPE.body fontSize={20}>
+  return (
+    <Modal isOpen={isOpen} onDismiss={wrappedOnDismiss} maxHeight={90}>
+      {!attempting && !hash && (
+        <ContentWrapper gap="lg">
+          <RowBetween>
+            <TYPE.mediumHeader>{t('earn.claim')}</TYPE.mediumHeader>
+            <CloseIcon onClick={wrappedOnDismiss} />
+          </RowBetween>
+          {miniChefStaking?.pendingRewardAmount && (
+            <AutoColumn justify="center" gap="md">
+              <TYPE.body fontWeight={600} fontSize={36}>
+                {miniChefStaking?.pendingRewardAmount?.toSignificant(6)}
+              </TYPE.body>
+              <TYPE.body>{t('earn.unclaimedReward', { symbol: 'PNG' })}</TYPE.body>
+            </AutoColumn>
+          )}
+          <TYPE.subHeader style={{ textAlign: 'center' }}>{t('earn.liquidityRemainsPool')}</TYPE.subHeader>
+          <ButtonError disabled={!!error} error={!!error && !!miniChefStaking?.stakedAmount} onClick={onClaimReward}>
+            {error ?? t('earn.claimReward', { symbol: 'PNG' })}
+          </ButtonError>
+        </ContentWrapper>
+      )}
+      {attempting && !hash && (
+        <LoadingView onDismiss={wrappedOnDismiss}>
+          <AutoColumn gap="12px" justify={'center'}>
+            <TYPE.body fontSize={20}>
               {t('earn.claimingReward', {
-                amount: stakingInfo?.earnedAmount?.toSignificant(6),
+                amount: miniChefStaking?.pendingRewardAmount?.toSignificant(6),
                 symbol: 'PNG'
               })}
             </TYPE.body>
-					</AutoColumn>
-				</LoadingView>
-			)}
-			{hash && (
-				<SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
-					<AutoColumn gap="12px" justify={'center'}>
-						<TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-						<TYPE.body fontSize={20}>{t('earn.claimedReward', { symbol: 'PNG' })}</TYPE.body>
-					</AutoColumn>
-				</SubmittedView>
-			)}
-		</Modal>
-	)
+          </AutoColumn>
+        </LoadingView>
+      )}
+      {hash && (
+        <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
+          <AutoColumn gap="12px" justify={'center'}>
+            <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
+            <TYPE.body fontSize={20}>{t('earn.claimedReward', { symbol: 'PNG' })}</TYPE.body>
+          </AutoColumn>
+        </SubmittedView>
+      )}
+    </Modal>
+  )
 }

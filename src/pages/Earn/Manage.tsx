@@ -297,6 +297,7 @@ export default function Manage({
             isOpen={showClaimRewardModal}
             onDismiss={() => setShowClaimRewardModal(false)}
             stakingInfo={stakingInfo}
+            miniChefStaking={miniChefStaking}
           />
         </>
       )}

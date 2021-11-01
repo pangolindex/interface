@@ -51,7 +51,7 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo, miniChe
     if (miniChefContract && miniChefStaking?.stakedAmount) {
       setAttempting(true)
       await miniChefContract
-        .withdraw(JSBI.BigInt(3), `0x${miniChefStaking?.stakedAmount?.raw.toString(16)}`, account)
+        .withdrawAndHarvest(JSBI.BigInt(3), `0x${miniChefStaking?.stakedAmount?.raw.toString(16)}`, account)
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.withdrawDepositedLiquidity')
