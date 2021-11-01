@@ -3626,14 +3626,14 @@
     "@web3-react/types" "^6.0.7"
     tiny-invariant "^1.0.6"
 
-"@web3-react/walletlink-connector@^6.2.3":
-  version "6.2.3"
-  resolved "https://registry.yarnpkg.com/@web3-react/walletlink-connector/-/walletlink-connector-6.2.3.tgz#d6c2c3a1b8b7e05147845ee61fa19de13db82e19"
-  integrity sha512-vJsXyC2NWpVrlnfgwsssDuFo3P/xCoKOjvkEjbQyQEig2aucPijwuxc58BG/YzDx4FyeeyzpnkDMLfcXFuI1pg==
+"@web3-react/walletlink-connector@^6.2.7":
+  version "6.2.7"
+  resolved "https://registry.yarnpkg.com/@web3-react/walletlink-connector/-/walletlink-connector-6.2.7.tgz#f8c63556d1ddd569b88e0f27390b362e60dece3f"
+  integrity sha512-FW/+03XpDLFT3ZCJZzAV5pgqKnbDWkqy85bOyA4iHDMkWAo1Y1yz7M6y9GkYTipzKHO2IEn5zbP7XXwOzOxLZA==
   dependencies:
     "@web3-react/abstract-connector" "^6.0.7"
     "@web3-react/types" "^6.0.7"
-    walletlink "^2.1.6"
+    walletlink "^2.1.11"
 
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
@@ -18522,10 +18522,10 @@ walker@^1.0.7, walker@~1.0.5:
   dependencies:
     makeerror "1.0.x"
 
-walletlink@^2.1.6:
-  version "2.1.9"
-  resolved "https://registry.yarnpkg.com/walletlink/-/walletlink-2.1.9.tgz#c11c834bf0ff802312505704ff1845de89fbae0c"
-  integrity sha512-uwGja18XEm7gUDcMq5RzMhXpmX7nMg1cGm+/0g6+KgfhMoyTd7ogUmSDQRoVboL/wHItyYK8UT5dCdV+b62LAQ==
+walletlink@^2.1.11:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/walletlink/-/walletlink-2.2.6.tgz#cfea3ba94e5ea33e87b0a2f31151a77ee1a59d72"
+  integrity sha512-4TF1kkpo9aq1QlfKv6jTCEsV8Rc+1RIuXn2EtsTJt9/H02fG3oy7k49sqB4gXZ9CWN48yoXnmSwq1GdkvfYGjw==
   dependencies:
     "@metamask/safe-event-emitter" "2.0.0"
     bind-decorator "^1.0.11"
