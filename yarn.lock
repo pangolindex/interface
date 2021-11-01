@@ -2385,10 +2385,10 @@
     web3-eth-contract "1.2.2"
     web3-utils "1.2.2"
 
-"@pangolindex/components@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-1.0.0.tgz#294b9142585c6d3b626b597e17e27bacecf29b75"
-  integrity sha512-hYLZHKpUXTomXtG3cliNkglsD4v8OxY83sbZ3fLAPwplA1kQUGF2htJbOo6sL+bTsbBpmsGfdlj8mluJk3anxw==
+"@pangolindex/components@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-1.0.1.tgz#52ddf8db7bf28e1c05f57cfbfdfce2ede70ca28b"
+  integrity sha512-+17JF9zHEwduYcF3pLzczJVlMX2Q0zSwNQc13K5dAugZP4Zw2qUocCoAznVtm3B1Pw1cWDdkAbRcOEFHZxe+zg==
 
 "@pangolindex/exchange-contracts@1.0.2", "@pangolindex/exchange-contracts@^1.0.1":
   version "1.0.2"
