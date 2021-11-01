@@ -17,6 +17,7 @@ export interface PoolInfoProps {
   onChangePercentage?: (value: number) => void
   amount?: TokenAmount
   onChangeAmount?: (value: string) => void
+  userPoolBalance?: TokenAmount
 }
 
 const PoolInfo = ({
@@ -26,7 +27,8 @@ const PoolInfo = ({
   amount,
   percentage,
   onChangePercentage,
-  onChangeAmount
+  onChangeAmount,
+  userPoolBalance
 }: PoolInfoProps) => {
   const { account } = useActiveWeb3React()
 
@@ -125,10 +127,11 @@ const PoolInfo = ({
           addonLabel={
             type === 'stake' && (
               <Text color="text4" fontSize={12}>
-                Available to deposit: {amount?.toSignificant(6)}
+                Available to deposit: {userPoolBalance?.toSignificant(6)}
               </Text>
             )
           }
+          fontSize={24}
         />
       </Box>
 

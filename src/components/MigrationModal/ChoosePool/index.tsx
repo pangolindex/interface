@@ -53,13 +53,13 @@ const ChoosePool = ({
       </Box>
       <Box mt={30}>
         <Button
-          variant="primary"
+          variant='primary'
           onClick={() => {
             if ((Object.keys(allChoosePool) || []).length > 0) {
               goNext()
             }
           }}
-          isDisabled={v2IsLoading}
+          isDisabled={v2IsLoading || (Object.keys(allChoosePool) || []).length === 0}
         >
           Choose Pool
         </Button>

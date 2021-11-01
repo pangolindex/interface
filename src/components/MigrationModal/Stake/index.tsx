@@ -130,10 +130,11 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StackProps)
         onChangePercentage={(value: number) => {
           setPercentage(value)
         }}
-        amount={stakingAmount || userPoolBalance}
+        amount={stakingAmount}
         onChangeAmount={(value: string) => {
           onChangeAmount(value)
         }}
+        userPoolBalance={userPoolBalance}
       />
 
       <Box mt={10}>
