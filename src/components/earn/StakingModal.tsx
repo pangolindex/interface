@@ -22,6 +22,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
+import { MINICHEF_ADDRESS } from '../../constants'
 
 const HypotheticalRewardRate = styled.div<{ dim: boolean }>`
   display: flex;
@@ -84,7 +85,7 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
   const deadline = useTransactionDeadline()
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, '0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1')
+  const [approval, approveCallback] = useApproveCallback(parsedAmount, MINICHEF_ADDRESS)
 
   // @ts-ignore
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
