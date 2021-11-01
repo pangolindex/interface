@@ -14,7 +14,7 @@ import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import { ButtonPrimary, ButtonEmpty } from '../../components/Button'
 import StakingModal from '../../components/earn/StakingModal'
-import { useStakingInfo } from '../../state/stake/hooks'
+import { useMinichefStakingInfo, useStakingInfo } from '../../state/stake/hooks'
 import UnstakingModal from '../../components/earn/UnstakingModal'
 import ClaimRewardModal from '../../components/earn/ClaimRewardModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
@@ -103,6 +103,8 @@ export default function Manage({
   const [, stakingTokenPair] = usePair(tokenA, tokenB)
   const stakingInfo = useStakingInfo(Number(version), stakingTokenPair)?.[0]
 
+  const miniChefStaking = useMinichefStakingInfo(stakingTokenPair?.liquidityToken as Token)
+
   const avaxPool = currencyA === CAVAX || currencyB === CAVAX
 
   let valueOfTotalStakedAmountInWavax: TokenAmount | undefined
@@ -181,7 +183,7 @@ export default function Manage({
   const [showClaimRewardModal, setShowClaimRewardModal] = useState(false)
 
   // fade cards if nothing staked or nothing earned yet
-  const disableTop = !stakingInfo?.stakedAmount || stakingInfo.stakedAmount.equalTo(JSBI.BigInt(0))
+  const disableTop = !miniChefStaking?.stakedAmount || miniChefStaking.stakedAmount.equalTo(JSBI.BigInt(0))
 
   // get WAVAX value of staked LP tokens
 
@@ -200,7 +202,7 @@ export default function Manage({
   // 	)
   // }
 
-  const countUpAmount = stakingInfo?.earnedAmount?.toFixed(6) ?? '0'
+  const countUpAmount = miniChefStaking?.pendingRewardAmount?.toFixed(6) ?? '0'
   const countUpAmountPrevious = usePrevious(countUpAmount) ?? '0'
 
   const toggleWalletModal = useWalletModalToggle()
@@ -289,6 +291,7 @@ export default function Manage({
             isOpen={showUnstakingModal}
             onDismiss={() => setShowUnstakingModal(false)}
             stakingInfo={stakingInfo}
+            miniChefStaking={miniChefStaking}
           />
           <ClaimRewardModal
             isOpen={showClaimRewardModal}
@@ -310,7 +313,7 @@ export default function Manage({
                 </RowBetween>
                 <RowBetween style={{ alignItems: 'baseline' }}>
                   <TYPE.white fontSize={36} fontWeight={600}>
-                    {stakingInfo?.stakedAmount?.toSignificant(6) ?? '-'}
+                    {miniChefStaking?.stakedAmount?.toSignificant(6) ?? '-'}
                   </TYPE.white>
                   <TYPE.white>
                     PGL {currencyA?.symbol}-{currencyB?.symbol}
@@ -319,7 +322,7 @@ export default function Manage({
               </AutoColumn>
             </CardSection>
           </StyledDataCard>
-          <StyledBottomCard dim={stakingInfo?.stakedAmount?.equalTo(JSBI.BigInt(0))}>
+          <StyledBottomCard dim={miniChefStaking?.stakedAmount?.equalTo(JSBI.BigInt(0))}>
             <CardBGImage desaturate />
             <CardNoise />
             <AutoColumn gap="sm">
@@ -327,16 +330,17 @@ export default function Manage({
                 <div>
                   <TYPE.black>{t('earnPage.unclaimedReward', { symbol: 'PNG' })}</TYPE.black>
                 </div>
-                {stakingInfo?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, stakingInfo?.earnedAmount?.raw) && (
-                  <ButtonEmpty
-                    padding="8px"
-                    borderRadius="8px"
-                    width="fit-content"
-                    onClick={() => setShowClaimRewardModal(true)}
-                  >
-                    {t('earnPage.claim')}
-                  </ButtonEmpty>
-                )}
+                {miniChefStaking?.pendingRewardAmount &&
+                  JSBI.notEqual(BIG_INT_ZERO, miniChefStaking?.pendingRewardAmount?.raw) && (
+                    <ButtonEmpty
+                      padding="8px"
+                      borderRadius="8px"
+                      width="fit-content"
+                      onClick={() => setShowClaimRewardModal(true)}
+                    >
+                      {t('earnPage.claim')}
+                    </ButtonEmpty>
+                  )}
               </RowBetween>
               <RowBetween style={{ alignItems: 'baseline' }}>
                 <TYPE.largeHeader fontSize={36} fontWeight={600}>
@@ -373,12 +377,12 @@ export default function Manage({
         {!showAddLiquidityButton && (
           <DataRow style={{ marginBottom: '1rem' }}>
             <ButtonPrimary padding="8px" borderRadius="8px" width="160px" onClick={handleDepositClick}>
-              {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0))
+              {miniChefStaking?.stakedAmount?.greaterThan(JSBI.BigInt(0))
                 ? t('earnPage.deposit')
                 : t('earnPage.depositStakingTokens', { symbol: 'PGL' })}
             </ButtonPrimary>
 
-            {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) && (
+            {miniChefStaking?.stakedAmount?.greaterThan(JSBI.BigInt(0)) && (
               <>
                 <ButtonPrimary
                   padding="8px"

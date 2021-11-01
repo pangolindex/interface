@@ -84,12 +84,18 @@ import {
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
-import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
+import {
+  NEVER_RELOAD,
+  useMultipleContractSingleData,
+  useSingleCallResult,
+  useSingleContractMultipleData
+} from '../multicall/hooks'
 import { tryParseAmount } from '../swap/hooks'
 import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import useUSDCPrice from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
+import { useMiniChefContract } from '../../hooks/useContract'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -119,22 +125,22 @@ const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
   WAVAX_V0: {
     rewardToken: WAVAX[ChainId.AVALANCHE],
     conversionRouteHops: [],
-    stakingRewardAddress: "0xD49B406A7A29D64e081164F6C3353C599A2EeAE9",
+    stakingRewardAddress: '0xD49B406A7A29D64e081164F6C3353C599A2EeAE9',
     version: 0
   },
   OOE_V0: {
     rewardToken: OOE[ChainId.AVALANCHE],
     conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
-    stakingRewardAddress: "0xf0eFf017644680B9878429137ccb2c041b4Fb701",
+    stakingRewardAddress: '0xf0eFf017644680B9878429137ccb2c041b4Fb701',
     version: 0
   },
   APEIN_V0: {
     rewardToken: APEIN[ChainId.AVALANCHE],
     conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
-    stakingRewardAddress: "0xfe1d712363f2B1971818DBA935eEC13Ddea474cc",
+    stakingRewardAddress: '0xfe1d712363f2B1971818DBA935eEC13Ddea474cc',
     version: 0
   }
-};
+}
 
 const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   WAVAX_ETH_V0: {
@@ -1131,10 +1137,7 @@ const calculateTotalStakedAmountInAvaxFromPng = function(
   )
 }
 
-const calculateRewardRateInPng = function(
-  rewardRate: JSBI,
-  valueOfPng: JSBI | null
-): JSBI {
+const calculateRewardRateInPng = function(rewardRate: JSBI, valueOfPng: JSBI | null): JSBI {
   if (!valueOfPng || JSBI.EQ(valueOfPng, 0)) return JSBI.BigInt(0)
 
   // TODO: Handle situation where stakingToken and rewardToken have different decimals
@@ -1146,10 +1149,7 @@ const calculateRewardRateInPng = function(
   )
 }
 
-const calculateApr = function(
-  rewardRatePerSecond: JSBI,
-  totalSupply: JSBI
-): JSBI {
+const calculateApr = function(rewardRatePerSecond: JSBI, totalSupply: JSBI): JSBI {
   if (JSBI.EQ(totalSupply, 0)) {
     return JSBI.BigInt(0)
   }
@@ -1372,7 +1372,10 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
   ])
 }
 
-export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?: Token | null): SingleSideStakingInfo[] {
+export function useSingleSideStakingInfo(
+  version: number,
+  rewardTokenToFilterBy?: Token | null
+): SingleSideStakingInfo[] {
   const { chainId, library, account } = useActiveWeb3React()
 
   const info = useMemo(
@@ -1392,10 +1395,14 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
   const png = PNG[ChainId.AVALANCHE]
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
-  const routes = useMemo((): string[][] => info.map(({ conversionRouteHops, rewardToken }) => {
-    return [png.address, ...conversionRouteHops.map(token => token.address), rewardToken.address];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [info])
+  const routes = useMemo(
+    (): string[][] =>
+      info.map(({ conversionRouteHops, rewardToken }) => {
+        return [png.address, ...conversionRouteHops.map(token => token.address), rewardToken.address]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }),
+    [info]
+  )
 
   const accountArg = useMemo(() => [account ?? undefined], [account])
   const getAmountsOutArgs = useMemo(() => {
@@ -1429,12 +1436,7 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
     NEVER_RELOAD
   )
 
-  const amountsOuts = useSingleContractMultipleData(
-    routerContract,
-    'getAmountsOut',
-    getAmountsOutArgs,
-    NEVER_RELOAD
-  )
+  const amountsOuts = useSingleContractMultipleData(routerContract, 'getAmountsOut', getAmountsOutArgs, NEVER_RELOAD)
 
   return useMemo(() => {
     if (!chainId || !png) return []
@@ -1489,10 +1491,7 @@ export function useSingleSideStakingInfo(version: number, rewardTokenToFilterBy?
         )
         const earnedAmount = new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0))
 
-        const rewardRateInPng = calculateRewardRateInPng(
-          totalRewardRate.raw,
-          valueOfPng
-        )
+        const rewardRateInPng = calculateRewardRateInPng(totalRewardRate.raw, valueOfPng)
 
         const apr = isPeriodFinished ? JSBI.BigInt(0) : calculateApr(rewardRateInPng, totalSupplyStaked)
 
@@ -1631,4 +1630,32 @@ export function useDerivedUnstakeInfo(
     parsedAmount,
     error
   }
+}
+
+export const useMinichefStakingInfo = (lpToken: Token) => {
+  const { account, chainId } = useActiveWeb3React()
+  const minichefContract = useMiniChefContract()
+
+  const png = chainId ? PNG[chainId] : undefined
+
+  const pid = JSBI.BigInt('3').toString(16)
+  const userInputs = useMemo(() => [pid, account as string], [pid, account])
+  const userInfo = useSingleCallResult(minichefContract, 'userInfo', userInputs).result
+
+  const rewardInput = useMemo(() => [pid, account as string], [pid, account])
+  const rewardInfo = useSingleCallResult(minichefContract, 'pendingReward', rewardInput).result
+
+  if (lpToken && png) {
+    const amount = userInfo?.['amount']
+    const pendingReward = rewardInfo?.['pending']
+
+    const stakedAmount = amount ? new TokenAmount(lpToken, JSBI.BigInt(amount)) : undefined
+    const pendingRewardAmount = pendingReward ? new TokenAmount(png, JSBI.BigInt(pendingReward)) : undefined
+
+    return {
+      stakedAmount,
+      pendingRewardAmount
+    }
+  }
+  return {}
 }

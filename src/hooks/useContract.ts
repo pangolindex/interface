@@ -17,8 +17,9 @@ import { MULTICALL_ABI, MULTICALL_NETWORKS } from '../constants/multicall'
 import { V1_EXCHANGE_ABI, V1_FACTORY_ABI, V1_FACTORY_ADDRESSES } from '../constants/v1'
 import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
-import { AIRDROP_ADDRESS, BRIDGE_MIGRATOR_ADDRESS } from '../constants'
+import { AIRDROP_ADDRESS, BRIDGE_MIGRATOR_ADDRESS, MINICHEF_ADDRESS } from '../constants'
 import { GOVERNANCE_ADDRESS, PNG } from '../constants'
+import MINICHEF_ABI from '../constants/abis/minichef.json'
 
 // returns null on errors
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
@@ -42,6 +43,10 @@ export function useV1FactoryContract(): Contract | null {
 
 export function useV2MigratorContract(): Contract | null {
   return useContract(MIGRATOR_ADDRESS, MIGRATOR_ABI, true)
+}
+
+export function useMiniChefContract(): Contract | null {
+  return useContract(MINICHEF_ADDRESS, MINICHEF_ABI, true)
 }
 
 export function useBridgeMigratorContract(): Contract | null {

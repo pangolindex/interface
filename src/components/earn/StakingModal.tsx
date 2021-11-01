@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
 import Modal from '../Modal'
 import { AutoColumn } from '../Column'
+import { JSBI } from '@pangolindex/sdk'
 import styled from 'styled-components'
 import { RowBetween } from '../Row'
 import { TYPE, CloseIcon } from '../../theme'
@@ -11,8 +12,9 @@ import CurrencyInputPanel from '../CurrencyInputPanel'
 import { TokenAmount, Pair, ChainId } from '@pangolindex/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
-import { usePairContract, useStakingContract } from '../../hooks/useContract'
+import { useMiniChefContract, usePairContract, useStakingContract } from '../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
+// @ts-ignore
 import { splitSignature } from 'ethers/lib/utils'
 import { DoubleSideStakingInfo, useDerivedStakeInfo } from '../../state/stake/hooks'
 import { wrappedCurrencyAmount } from '../../utils/wrappedCurrency'
@@ -60,6 +62,7 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
   }
 
   // state for pending and submitted txn views
+  // @ts-ignore
   const addTransaction = useTransactionAdder()
   const [attempting, setAttempting] = useState<boolean>(false)
   const [hash, setHash] = useState<string | undefined>()
@@ -81,50 +84,26 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
   const deadline = useTransactionDeadline()
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, stakingInfo.stakingRewardAddress)
+  const [approval, approveCallback] = useApproveCallback(parsedAmount, '0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1')
 
+  // @ts-ignore
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
-
+  const miniChefContract = useMiniChefContract()
   async function onStake() {
     setAttempting(true)
-    if (stakingContract && parsedAmount && deadline) {
-      if (approval === ApprovalState.APPROVED) {
-        stakingContract
-	        .stake(`0x${parsedAmount.raw.toString(16)}`, { gasLimit: 350000 })
-	        .then((response: TransactionResponse) => {
-		        addTransaction(response, {
-			        summary: t("earn.depositLiquidity")
-		        });
-		        setHash(response.hash);
-	        })
-	        .catch((error: any) => {
-		        setAttempting(false);
-		        console.error(error);
-	        })
-      } else if (signatureData) {
-        stakingContract
-          .stakeWithPermit(
-            `0x${parsedAmount.raw.toString(16)}`,
-            signatureData.deadline,
-            signatureData.v,
-            signatureData.r,
-            signatureData.s,
-            { gasLimit: 350000 }
-          )
-          .then((response: TransactionResponse) => {
-            addTransaction(response, {
-              summary: t('earn.depositLiquidity')
-            })
-            setHash(response.hash)
+    if (miniChefContract && parsedAmount) {
+      miniChefContract
+        .deposit(JSBI.BigInt(3), `0x${parsedAmount.raw.toString(16)}`, account)
+        .then((response: TransactionResponse) => {
+          addTransaction(response, {
+            summary: t('earn.depositLiquidity')
           })
-          .catch((error: any) => {
-            setAttempting(false)
-            console.error(error)
-          })
-      } else {
-        setAttempting(false)
-        throw new Error(t('earn.attemptingToStakeError'))
-      }
+          setHash(response.hash)
+        })
+        .catch((error: any) => {
+          setAttempting(false)
+          console.error(error)
+        })
     }
   }
 
@@ -146,62 +125,7 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
     const liquidityAmount = parsedAmount
     if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
 
-    // try to gather a signature for permission
-    const nonce = await pairContract.nonces(account)
-
-    const EIP712Domain = [
-      { name: 'name', type: 'string' },
-      { name: 'version', type: 'string' },
-      { name: 'chainId', type: 'uint256' },
-      { name: 'verifyingContract', type: 'address' }
-    ]
-    const domain = {
-      name: 'Pangolin Liquidity',
-      version: '1',
-      chainId: chainId,
-      verifyingContract: pairContract.address
-    }
-    const Permit = [
-      { name: 'owner', type: 'address' },
-      { name: 'spender', type: 'address' },
-      { name: 'value', type: 'uint256' },
-      { name: 'nonce', type: 'uint256' },
-      { name: 'deadline', type: 'uint256' }
-    ]
-    const message = {
-      owner: account,
-      spender: stakingInfo.stakingRewardAddress,
-      value: liquidityAmount.raw.toString(),
-      nonce: nonce.toHexString(),
-      deadline: deadline.toNumber()
-    }
-    const data = JSON.stringify({
-      types: {
-        EIP712Domain,
-        Permit
-      },
-      domain,
-      primaryType: 'Permit',
-      message
-    })
-
-    library
-      .send('eth_signTypedData_v4', [account, data])
-      .then(splitSignature)
-      .then(signature => {
-        setSignatureData({
-          v: signature.v,
-          r: signature.r,
-          s: signature.s,
-          deadline: deadline.toNumber()
-        })
-      })
-      .catch(error => {
-        // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-        if (error?.code !== 4001) {
-          approveCallback()
-        }
-      })
+    approveCallback()
   }
 
   return (
@@ -268,7 +192,9 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{t('earn.deposited')} {parsedAmount?.toSignificant(4)} PGL</TYPE.body>
+            <TYPE.body fontSize={20}>
+              {t('earn.deposited')} {parsedAmount?.toSignificant(4)} PGL
+            </TYPE.body>
           </AutoColumn>
         </SubmittedView>
       )}
