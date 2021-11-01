@@ -14,6 +14,19 @@ import {useActiveWeb3React} from "../../hooks";
 import Footer from "../../components/FiatInputPanel/Footer";
 import {redirectToWyre} from "./redirect";
 import { useTranslation } from 'react-i18next'
+import MasterCardWhiteLogo from '../../assets/images/mc_hrz_rev_white.svg';
+import MasterCardBlackLogo from '../../assets/images/mc_hrz_pos_black.svg';
+import VisaWhiteLogo from '../../../src/assets/images/Visa_Brandmark_White_RGB_2021.png';
+import VisaBlackLogo from '../../../src/assets/images/Visa_Brandmark_Blue_RGB_2021.png';
+import ApplePayIcon from '../../../src/assets/images/Apple_Pay_Mark_RGB_041619.svg';
+import { AutoRow } from "../../components/Row";
+import styled from "styled-components";
+import { useIsDarkMode } from "../../state/user/hooks";
+
+const CardImage = styled.img`
+  width: 70px;
+  height: 28px;
+`
 
 const emailPattern = /^[A-Za-z0-9][A-Za-z0-9._-]*@[A-za-z0-9.-]+\.[A-Za-z]{2,4}$/;
 
@@ -44,6 +57,7 @@ export default function Buy() {
   useQuoteRequest(account, amount, fiat.symbol)
   const ableToBuy = account && Number(amount) && !fieldError
   const { t } = useTranslation()
+  const darkMode = useIsDarkMode()
 
   const handleSubmit = (data: Data) => {
     const formDataWithAmount = {...data,
@@ -70,10 +84,23 @@ export default function Buy() {
                   {t('buyPage.buyAvaxInfo')}<br/>
                   {t('buyPage.privacyInfo')}
                 </TYPE.link>
+                <br />
+                <AutoRow gap="3px" justify={"center"}>
+                  {
+                    darkMode
+                      ? <CardImage src={MasterCardWhiteLogo} alt={"Master Card"} />
+                      : <CardImage src={MasterCardBlackLogo} alt={"Master Card"} />
+                  }
+                  {
+                    darkMode
+                      ? <CardImage src={VisaWhiteLogo} alt={"VISA"} />
+                      : <CardImage src={VisaBlackLogo} alt={"VISA"} />
+                  }
+                  <CardImage src={ApplePayIcon} alt={"Apple Pay"} />
+                </AutoRow>
                 </OutlineCard>
               </AutoColumn>
           </ColumnCenter>
-          <p></p>
           <PurchaseForm onSubmit={handleSubmit}>
             <TextInput type="text" name="firstName" placeholder={t('buyPage.firstName')} validators={[minLengthValidator]} onError={setFieldError}></TextInput>
             <TextInput type="text" name="lastName" placeholder={t('buyPage.lastName')} validators={[minLengthValidator]} onError={setFieldError}></TextInput>
