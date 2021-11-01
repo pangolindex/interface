@@ -1,4 +1,4 @@
-import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair } from '@pangolindex/sdk'
+import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent, Fraction } from '@pangolindex/sdk'
 import { useMemo, useEffect, useState } from 'react'
 import {
   PNG,
@@ -73,6 +73,8 @@ import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import useUSDCPrice from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
+import { useTokenBalance } from '../../state/wallet/hooks'
+import { useTotalSupply } from '../../data/TotalSupply'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -1534,4 +1536,50 @@ export function useGetStackingDataWithAPR(version: number) {
   }, [stakingInfos?.length, version])
 
   return stakingInfoData
+}
+
+export function useGetPairDataFromPair(pair: Pair) {
+  const { account } = useActiveWeb3React()
+
+  const currency0 = pair.token0
+  const currency1 = pair.token1
+
+  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
+  const totalPoolTokens = useTotalSupply(pair.liquidityToken)
+
+  const poolTokenPercentage =
+    !!userPoolBalance && !!totalPoolTokens && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+      ? new Percent(userPoolBalance.raw, totalPoolTokens.raw)
+      : undefined
+
+  const [token0Deposited, token1Deposited] =
+    !!pair &&
+    !!totalPoolTokens &&
+    !!userPoolBalance &&
+    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+      ? [
+          pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
+          pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false)
+        ]
+      : [undefined, undefined]
+
+  const usdPriceCurrency0 = useUSDCPrice(currency0)
+  const usdPriceCurrency1 = useUSDCPrice(currency1)
+
+  const usdAmountCurrency0 = token0Deposited?.multiply(usdPriceCurrency0?.raw as Fraction)
+  const usdAmountCurrency1 = token1Deposited?.multiply(usdPriceCurrency1?.raw as Fraction)
+
+  const totalAmountUsd = usdAmountCurrency0?.add(usdAmountCurrency1 as Fraction)
+
+  const parData = {
+    currency0: pair.token0,
+    currency1: pair.token1,
+    userPoolBalance: userPoolBalance,
+    token0Deposited: token0Deposited,
+    token1Deposited: token1Deposited,
+    totalAmountUsd: totalAmountUsd,
+    poolTokenPercentage: poolTokenPercentage
+  }
+  return parData
 }

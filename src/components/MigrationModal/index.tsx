@@ -5,19 +5,21 @@ import { Wrapper } from './styleds'
 import Modal from '../Modal'
 import StepView from './StepView'
 import { Pair } from '@pangolindex/sdk'
+import { StakingInfo } from '../../state/stake/hooks'
 
 export interface MigrationModalProps {
-  selectedPool?: Pair
+  selectedPool?: { [address: string]: { pair: Pair; staking: StakingInfo } }
+  version: number
 }
 
-const MigrationModal = ({ selectedPool }: MigrationModalProps) => {
+const MigrationModal = ({ selectedPool, version }: MigrationModalProps) => {
   const migrationModalOpen = useModalOpen(ApplicationModal.MIGRATION)
   const toggleMigrationModal = useMigrationModalToggle()
 
   return (
     <Modal isOpen={migrationModalOpen} onDismiss={toggleMigrationModal} minHeight={false} maxHeight={180}>
       <Wrapper>
-        <StepView selectedPool={selectedPool} />
+        <StepView selectedPool={selectedPool} version={version} />
       </Wrapper>
     </Modal>
   )

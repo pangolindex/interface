@@ -1,55 +1,49 @@
 import React from 'react'
-import { InfoWrapper, DataBox, ContentBox } from './styleds'
+import { InfoWrapper, DataBox, ContentBox, TextBox } from './styleds'
 import { Text, Box, DoubleCurrencyLogo, Steps, Step } from '@pangolindex/components'
-import { JSBI, Pair, Percent, Fraction } from '@pangolindex/sdk'
+import { Pair, Fraction, TokenAmount } from '@pangolindex/sdk'
+import { useGetPairDataFromPair } from '../../../state/stake/hooks'
+import numeral from 'numeral'
+import { useTranslation } from 'react-i18next'
+import { StakingInfo } from '../../../state/stake/hooks'
 import { useTokenBalance } from '../../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../../hooks'
-import { useTotalSupply } from '../../../data/TotalSupply'
-import useUSDCPrice from '../../../utils/useUSDCPrice'
-import numeral from 'numeral'
 
 export interface PoolInfoProps {
   pair: Pair
   type: 'unstake' | 'remove' | 'stake' | 'add'
+  stakingInfo?: StakingInfo | undefined
+  percentage?: number
+  onChangePercentage?: (value: number) => void
+  amount?: TokenAmount
+  onChangeAmount?: (value: string) => void
 }
 
-const PoolInfo = ({ pair, type }: PoolInfoProps) => {
+const PoolInfo = ({
+  pair,
+  type,
+  stakingInfo,
+  amount,
+  percentage,
+  onChangePercentage,
+  onChangeAmount
+}: PoolInfoProps) => {
   const { account } = useActiveWeb3React()
 
-  const currency0 = pair.token0
-  const currency1 = pair.token1
+  const { t } = useTranslation()
 
-  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
-  const totalPoolTokens = useTotalSupply(pair.liquidityToken)
-
-  const poolTokenPercentage =
-    !!userPoolBalance && !!totalPoolTokens && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
-      ? new Percent(userPoolBalance.raw, totalPoolTokens.raw)
-      : undefined
-
-  const [token0Deposited, token1Deposited] =
-    !!pair &&
-    !!totalPoolTokens &&
-    !!userPoolBalance &&
-    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
-      ? [
-          pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
-          pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false)
-        ]
-      : [undefined, undefined]
-
-  const usdPriceCurrency0 = useUSDCPrice(currency0)
-  const usdPriceCurrency1 = useUSDCPrice(currency1)
-
-  const usdAmountCurrency0 = token0Deposited?.multiply(usdPriceCurrency0?.raw as Fraction)
-  const usdAmountCurrency1 = token1Deposited?.multiply(usdPriceCurrency1?.raw as Fraction)
-
-  const totalAmountUsd = usdAmountCurrency0?.add(usdAmountCurrency1 as Fraction)
+  const {
+    currency0,
+    currency1,
+    token0Deposited,
+    token1Deposited,
+    totalAmountUsd,
+    poolTokenPercentage
+  } = useGetPairDataFromPair(pair)
 
   const renderPoolDataRow = (label: string, value: string) => {
     return (
-      <DataBox>
+      <DataBox key={label}>
         <Text color="text4" fontSize={16}>
           {label}
         </Text>
@@ -61,26 +55,37 @@ const PoolInfo = ({ pair, type }: PoolInfoProps) => {
     )
   }
 
+  const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token) as TokenAmount
+
+  const unClaimedPng = stakingInfo?.earnedAmount?.toFixed(6) ?? '0'
+
+  const pngRate =
+    stakingInfo?.rewardRate?.multiply((60 * 60 * 24 * 7).toString())?.toSignificant(4, { groupSeparator: ',' }) ?? '-'
+
   const currency0Row = { label: `${currency0.symbol} Amount:`, value: `${token0Deposited?.toSignificant(6)}` }
   const currency1Row = { label: `${currency1.symbol} Amount:`, value: `${token1Deposited?.toSignificant(6)}` }
   const dollerWorthRow = {
     label: 'Dollar Worth:',
     value: `${numeral((totalAmountUsd as Fraction)?.toSignificant(8)).format('$0.00 a')}`
   }
-  const claimedRow = { label: 'Claimed Png:', value: '120.25' }
+
+  const yourPngRate = {
+    label: 'Your rate:',
+    value: `${pngRate}    ${t('earnPage.rewardPerWeek', { symbol: 'PNG' })}`
+  }
+
+  const claimedRow = {
+    label: 'unclaimed Png:',
+    value: userLiquidityUnstaked ? `${unClaimedPng}` : '-'
+  }
   const poolShareRow = {
     label: 'Share of Pool:',
     value: poolTokenPercentage ? poolTokenPercentage.toFixed(2) + '%' : '-'
   }
 
   let info = [] as any
-  if (type === 'unstake') info = [currency0Row, currency1Row, dollerWorthRow, claimedRow]
-  if (type === 'remove') info = [currency0Row, currency1Row, dollerWorthRow, poolShareRow]
-
-  if (type === 'add') info = [dollerWorthRow, poolShareRow]
+  if (type === 'unstake') info = [yourPngRate, claimedRow]
   if (type === 'stake') info = [currency0Row, currency1Row, dollerWorthRow, poolShareRow]
-
-  //
 
   return (
     <InfoWrapper>
@@ -106,33 +111,42 @@ const PoolInfo = ({ pair, type }: PoolInfoProps) => {
         Now you have chosen your pool then lets unstake you from there.
       </Text>
 
-      {type !== 'add' && (
-        <Box mt={10}>
-          <ContentBox>
-            <DataBox>
-              <Text color="text4" fontSize={24}>
-                {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
+      <Box mt={10}>
+        <TextBox
+          value={amount ? amount.toSignificant(4) : '0.00'}
+          addonAfter={
+            <Text color="text4" fontSize={24}>
+              PGL
+            </Text>
+          }
+          onChange={v => {
+            onChangeAmount && onChangeAmount((v?.target as any).value)
+          }}
+          addonLabel={
+            type === 'stake' && (
+              <Text color="text4" fontSize={12}>
+                Available to deposit: {amount?.toSignificant(6)}
               </Text>
+            )
+          }
+        />
+      </Box>
 
-              <Text color="text4" fontSize={24}>
-                PGL
-              </Text>
-            </DataBox>
-          </ContentBox>
-        </Box>
-      )}
-
-      {type !== 'add' && (
-        <Box>
-          <Steps onChange={() => {}} current={2} progressDot={true}>
-            <Step />
-            <Step />
-            <Step />
-            <Step />
-            <Step />
-          </Steps>
-        </Box>
-      )}
+      <Box>
+        <Steps
+          onChange={t => {
+            onChangePercentage && onChangePercentage(t)
+          }}
+          current={percentage}
+          progressDot={true}
+        >
+          <Step />
+          <Step />
+          <Step />
+          <Step />
+          <Step />
+        </Steps>
+      </Box>
 
       <Box>
         <ContentBox>{info.map((item: any) => renderPoolDataRow(item.label, item.value))}</ContentBox>

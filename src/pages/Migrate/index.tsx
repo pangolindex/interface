@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import {
   PageWrapper,
   ResponsiveButtonPrimary,
@@ -13,69 +13,29 @@ import {
   ArrowRight,
   EmptyProposals
 } from './styleds'
-import { ChainId, Pair } from '@pangolindex/sdk'
+import { Pair } from '@pangolindex/sdk'
 import { useParams } from 'react-router-dom'
 import { useActiveWeb3React } from '../../hooks'
-import { usePairs } from '../../data/Reserves'
-import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks'
 import { Dots } from '../../components/swap/styleds'
 import { Text, Box } from '@pangolindex/components'
 import StatCard from '../../components/StatCard'
 import MigrationCard from '../../components/MigrationCard'
 import { useTranslation } from 'react-i18next'
-import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks'
 import MigrationModal from '../../components/MigrationModal'
 import { useMigrationModalToggle } from '../../state/application/hooks'
-import { useGetStackingDataWithAPR } from '../../state/stake/hooks'
+import { useGetMigrationData } from '../../state/migrate/hooks'
+import { StakingInfo } from '../../state/stake/hooks'
 
 export default function Migrate() {
   const below1080 = false
   const { t } = useTranslation()
   const params: any = useParams()
-  const [selectedPool, setSelectedPool] = useState({} as Pair)
+  const [selectedPool, setSelectedPool] = useState({} as { [address: string]: { pair: Pair; staking: StakingInfo } })
 
-  const { account, chainId } = useActiveWeb3React()
-
-  // fetch the user's balances of all tracked V2 LP tokens
-  const trackedTokenPairs = useTrackedTokenPairs()
-
-  const tokenPairsWithLiquidityTokens = useMemo(
-    () =>
-      trackedTokenPairs.map(tokens => ({
-        liquidityToken: toV2LiquidityToken(tokens, chainId ? chainId : ChainId.AVALANCHE),
-        tokens
-      })),
-    [trackedTokenPairs, chainId]
-  )
-
-  const liquidityTokens = useMemo(() => tokenPairsWithLiquidityTokens.map(tpwlt => tpwlt.liquidityToken), [
-    tokenPairsWithLiquidityTokens
-  ])
-
-  const [v2PairsBalances, fetchingV2PairBalances] = useTokenBalancesWithLoadingIndicator(
-    account ?? undefined,
-    liquidityTokens
-  )
-
-  // fetch the reserves for all V2 pools in which the user has a balance
-  const liquidityTokensWithBalances = useMemo(
-    () =>
-      tokenPairsWithLiquidityTokens.filter(({ liquidityToken }) =>
-        v2PairsBalances[liquidityToken.address]?.greaterThan('0')
-      ),
-    [tokenPairsWithLiquidityTokens, v2PairsBalances]
-  )
-
-  const v2Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
-
-  const v2IsLoading =
-    fetchingV2PairBalances || v2Pairs?.length < liquidityTokensWithBalances.length || v2Pairs?.some(V2Pair => !V2Pair)
-
-  const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
-
+  const { account } = useActiveWeb3React()
   const toggleMigrationModal = useMigrationModalToggle()
 
-  const stakingInfos = useGetStackingDataWithAPR(Number(params?.version))
+  const { allPool, v2IsLoading, allV2PairsWithLiquidity } = useGetMigrationData(params?.version)
 
   return (
     <PageWrapper>
@@ -94,7 +54,7 @@ export default function Migrate() {
               setSelectedPool(null as any)
               toggleMigrationModal()
             }}
-            isDisabled={!(allV2PairsWithLiquidity?.length > 0)}
+            isDisabled={Object.keys(allPool)?.length === 0}
           >
             {t('migratePage.migrateNow')}
           </ResponsiveButtonPrimary>
@@ -185,15 +145,17 @@ export default function Migrate() {
           </EmptyProposals>
         ) : allV2PairsWithLiquidity?.length > 0 ? (
           <PanelWrapper style={{ marginTop: below1080 ? '0' : '50px' }}>
-            {allV2PairsWithLiquidity.map(v2Pair => (
+            {Object.values(allPool).map(pool => (
               <MigrationCard
-                key={v2Pair.liquidityToken.address}
-                pair={v2Pair}
-                onClickMigrate={(pair: Pair) => {
-                  setSelectedPool(pair)
+                key={pool?.pair?.liquidityToken.address}
+                pair={pool?.pair}
+                stackingData={pool?.staking}
+                onClickMigrate={() => {
+                  let container = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
+                  container[pool?.pair?.liquidityToken.address] = pool
+                  setSelectedPool(container)
                   toggleMigrationModal()
                 }}
-                stakingInfos={stakingInfos}
               />
             ))}
           </PanelWrapper>
@@ -211,7 +173,7 @@ export default function Migrate() {
           </ResponsiveButtonPrimary>
         </Box>
       </Box>
-      <MigrationModal selectedPool={selectedPool} />
+      <MigrationModal selectedPool={selectedPool} version={params?.version} />
     </PageWrapper>
   )
 }

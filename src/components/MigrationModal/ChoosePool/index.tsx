@@ -3,11 +3,12 @@ import { Wrapper } from './styleds'
 import { Text, Checkbox, Box, Button } from '@pangolindex/components'
 import { Pair } from '@pangolindex/sdk'
 import PairData from './PairData'
+import { StakingInfo } from '../../../state/stake/hooks'
 
 export interface ChoosePoolProps {
-  allChoosePool: { [address: string]: Pair }
-  v2PairData: { [address: string]: Pair }
-  v2IsLoading: Boolean
+  allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
+  allPool: { [address: string]: { pair: Pair; staking: StakingInfo } }
+  v2IsLoading: boolean
   toggleSelectAll: (value: boolean) => void
   toggleIndividualSelect: (address: string) => void
   goNext: () => void
@@ -15,7 +16,7 @@ export interface ChoosePoolProps {
 
 const ChoosePool = ({
   allChoosePool,
-  v2PairData,
+  allPool,
   v2IsLoading,
   toggleSelectAll,
   toggleIndividualSelect,
@@ -32,16 +33,17 @@ const ChoosePool = ({
           onChange={check => {
             toggleSelectAll(check)
           }}
-          checked={(Object.keys(v2PairData) || []).length === (Object.keys(allChoosePool) || []).length}
+          checked={(Object.keys(allPool) || []).length === (Object.keys(allChoosePool) || []).length}
         />
       </Box>
 
       <Box maxHeight="200px" overflowY="auto">
-        {(Object.keys(v2PairData) || []).map(address => {
+        {(Object.keys(allPool) || []).map(address => {
           return (
             <PairData
               key={address}
-              pair={v2PairData[address]}
+              pair={allPool[address]?.pair}
+              stackingData={allPool[address]?.staking}
               selected={!!allChoosePool[address]}
               address={address}
               toggleIndividualSelect={toggleIndividualSelect}
@@ -57,6 +59,7 @@ const ChoosePool = ({
               goNext()
             }
           }}
+          isDisabled={v2IsLoading}
         >
           Choose Pool
         </Button>

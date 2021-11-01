@@ -1,55 +1,26 @@
 import React from 'react'
-import { Pair, JSBI, Fraction } from '@pangolindex/sdk'
+import { Pair, Fraction } from '@pangolindex/sdk'
 import { Panel, OptionButton, OptionsWrapper, Divider, MigrateButton, InnerWrapper } from './styleds'
 import Stat from '../Stat'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { AutoRow } from '../Row'
 import { useTranslation } from 'react-i18next'
-import { useActiveWeb3React } from '../../hooks'
-import { useTokenBalance } from '../../state/wallet/hooks'
-import { useTotalSupply } from '../../data/TotalSupply'
-import useUSDCPrice from '../../utils/useUSDCPrice'
+import { useGetPairDataFromPair } from '../../state/stake/hooks'
 import numeral from 'numeral'
 import { StakingInfo } from '../../state/stake/hooks'
 
 export interface StatProps {
   pair: Pair
-  onClickMigrate: (pair: Pair) => void
-  stakingInfos: StakingInfo[]
+  stackingData: StakingInfo
+  onClickMigrate: () => void
 }
 
-const MigrationCard = ({ pair, onClickMigrate, stakingInfos }: StatProps) => {
+const MigrationCard = ({ pair, onClickMigrate, stackingData }: StatProps) => {
   const { t } = useTranslation()
-  const { account } = useActiveWeb3React()
 
-  const currency0 = pair.token0
-  const currency1 = pair.token1
+  const { currency0, currency1, totalAmountUsd } = useGetPairDataFromPair(pair)
 
-  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
-
-  // get match token address value for stack data
-  const stackingData = stakingInfos.find(data => data?.stakedAmount?.token?.address === pair?.liquidityToken?.address)
-
-  const totalPoolTokens = useTotalSupply(pair.liquidityToken)
-  const [token0Deposited, token1Deposited] =
-    !!pair &&
-    !!totalPoolTokens &&
-    !!userPoolBalance &&
-    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
-      ? [
-          pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
-          pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false)
-        ]
-      : [undefined, undefined]
-
-  const usdPriceCurrency0 = useUSDCPrice(currency0)
-  const usdPriceCurrency1 = useUSDCPrice(currency1)
-
-  const usdAmountCurrency0 = token0Deposited?.multiply(usdPriceCurrency0?.raw as Fraction)
-  const usdAmountCurrency1 = token1Deposited?.multiply(usdPriceCurrency1?.raw as Fraction)
-
-  const totalAmountUsd = usdAmountCurrency0?.add(usdAmountCurrency1 as Fraction)
+  let totalLiqAmount = stackingData?.stakedAmount
 
   return (
     <Panel>
@@ -86,7 +57,7 @@ const MigrationCard = ({ pair, onClickMigrate, stakingInfos }: StatProps) => {
         <Box>
           <Stat
             title={t('migratePage.readyToMigrate')}
-            stat={`${userPoolBalance ? userPoolBalance.toSignificant(4) : '-'} PGL`}
+            stat={`${totalLiqAmount ? totalLiqAmount.toSignificant(6) : '-'} PGL`}
             titlePosition="bottom"
           />
         </Box>
@@ -94,7 +65,7 @@ const MigrationCard = ({ pair, onClickMigrate, stakingInfos }: StatProps) => {
           <MigrateButton
             variant="primary"
             onClick={() => {
-              onClickMigrate(pair)
+              onClickMigrate()
             }}
           >
             {t('migratePage.migrateNow')}

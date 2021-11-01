@@ -2,23 +2,21 @@ import React from 'react'
 import { Pair } from '@pangolindex/sdk'
 import { PairBox } from './styleds'
 import { Text, Box, DoubleCurrencyLogo, Checkbox } from '@pangolindex/components'
-import { useActiveWeb3React } from '../../../hooks'
-import { useTokenBalance } from '../../../state/wallet/hooks'
+import { StakingInfo } from '../../../state/stake/hooks'
+import { useGetPairDataFromPair } from '../../../state/stake/hooks'
 
 export interface PairDataProps {
   pair: Pair
+  stackingData: StakingInfo | undefined
   selected: boolean
   address: string
   toggleIndividualSelect: (address: string) => void
 }
 
-const PairData = ({ pair, selected, address, toggleIndividualSelect }: PairDataProps) => {
-  const { account } = useActiveWeb3React()
+const PairData = ({ pair, stackingData, selected, address, toggleIndividualSelect }: PairDataProps) => {
+  const { currency0, currency1 } = useGetPairDataFromPair(pair)
 
-  const currency0 = pair.token0
-  const currency1 = pair.token1
-
-  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
+  let totalLiqAmount = stackingData?.stakedAmount
 
   return (
     <PairBox>
@@ -33,7 +31,7 @@ const PairData = ({ pair, selected, address, toggleIndividualSelect }: PairDataP
       </Box>
       <Box>
         <Text color="text1" fontSize={16}>
-          {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'} PGL
+          {totalLiqAmount ? totalLiqAmount.toSignificant(4) : '-'} PGL
         </Text>
       </Box>
     </PairBox>
