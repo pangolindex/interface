@@ -6,7 +6,8 @@ import {
   MIGRATIONS,
   DOUBLE_SIDE_STAKING_REWARDS_INFO,
   useStakingInfo,
-  useMinichefStakingInfos
+  useMinichefStakingInfos,
+  DoubleSideStakingInfo
 } from '../../state/stake/hooks'
 import { TYPE, ExternalLink } from '../../theme'
 import DoubleSidePoolCard from '../../components/earn/DoubleSidePoolCard'
@@ -83,7 +84,8 @@ export default function Earn({
 }: RouteComponentProps<{ version: string }>) {
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
-  const stakingInfos = useStakingInfo(Number(version))
+  const oldStakingInfos = useStakingInfo(Number(version))
+  const stakingInfos = useMinichefStakingInfos()
   const [poolCardsLoading, setPoolCardsLoading] = useState(false)
   const [poolCards, setPoolCards] = useState<any[]>()
   const [filteredPoolCards, setFilteredPoolCards] = useState<any[]>()
@@ -94,7 +96,6 @@ export default function Earn({
 
   const stakingInfoV0 = useStakingInfo(Number(0))
   const hasPositionV0 = stakingInfoV0?.some(stakingInfo => stakingInfo.stakedAmount.greaterThan('0'))
-  useMinichefStakingInfos()
 
   const handleSearch = useCallback(event => {
     setSearchQuery(event.target.value.trim().toUpperCase())
@@ -137,18 +138,24 @@ export default function Earn({
         return 0
       })
     ).then(stakingInfoData => {
-      const poolCards = stakingInfoData.map(stakingInfo => (
-        <DoubleSidePoolCard
-          swapFeeApr={stakingInfo.swapFeeApr}
-          stakingApr={stakingInfo.stakingApr}
-          key={stakingInfo.stakingRewardAddress}
-          stakingInfo={stakingInfo}
-          migration={
-            MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to
-          }
-          version={version}
-        />
-      ))
+      const poolCards = stakingInfoData.map(stakingInfo => {
+        const oldStakingInfo = oldStakingInfos.find(
+          item => item?.stakingRewardAddress === stakingInfo?.stakingRewardAddress
+        )
+        return (
+          <DoubleSidePoolCard
+            swapFeeApr={stakingInfo.swapFeeApr}
+            stakingApr={stakingInfo.stakingApr}
+            key={stakingInfo.stakingRewardAddress}
+            stakingInfo={oldStakingInfo as DoubleSideStakingInfo}
+            minichefStakingInfo={stakingInfo}
+            migration={
+              MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to
+            }
+            version={version}
+          />
+        )
+      })
       setPoolCards(poolCards)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -192,29 +199,40 @@ export default function Earn({
             if (!aCanMigrate && bCanMigrate) return 1
             return 0
           })
-          .map(stakingInfo => {
-            return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
-              .then(res => res.json())
-              .then(res => ({
-                swapFeeApr: Number(res.swapFeeApr),
-                stakingApr: Number(res.stakingApr),
-                combinedApr: Number(res.combinedApr),
-                ...stakingInfo
-              }))
-          })
+        // TODO: update here api call without staking reward address
+        // .map(stakingInfo => {
+        //   return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+        //     .then(res => res.json())
+        //     .then(res => ({
+        //       swapFeeApr: Number(res.swapFeeApr),
+        //       stakingApr: Number(res.stakingApr),
+        //       combinedApr: Number(res.combinedApr),
+        //       ...stakingInfo
+        //     }))
+        // })
       ).then(updatedStakingInfos => {
-        const poolCards = updatedStakingInfos.map(stakingInfo => (
-          <DoubleSidePoolCard
-            swapFeeApr={stakingInfo.swapFeeApr}
-            stakingApr={stakingInfo.stakingApr}
-            key={stakingInfo.stakingRewardAddress}
-            stakingInfo={stakingInfo}
-            migration={
-              MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to
-            }
-            version={version}
-          />
-        ))
+        const poolCards = updatedStakingInfos.map((stakingInfo, index) => {
+          const oldStakingInfo = oldStakingInfos.find(
+            item => item?.stakingRewardAddress === stakingInfo?.stakingRewardAddress
+          )
+
+          return (
+            <DoubleSidePoolCard
+              // @ts-ignore
+              swapFeeApr={stakingInfo.swapFeeApr}
+              // @ts-ignore
+              stakingApr={stakingInfo.stakingApr}
+              key={stakingInfo?.stakedAmount?.token?.address}
+              stakingInfo={oldStakingInfo as DoubleSideStakingInfo}
+              minichefStakingInfo={stakingInfo}
+              migration={
+                MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)
+                  ?.to
+              }
+              version={version}
+            />
+          )
+        })
         setStakingInfoData(updatedStakingInfos)
         setPoolCards(poolCards)
         setPoolCardsLoading(false)

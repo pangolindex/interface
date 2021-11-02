@@ -6,7 +6,7 @@ import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
 import { CAVAX, Token } from '@pangolindex/sdk'
 import { ButtonPrimary } from '../Button'
-import { DoubleSideStaking, DoubleSideStakingInfo } from '../../state/stake/hooks'
+import { DoubleSideStaking, DoubleSideStakingInfo, MiniChefStakingInfos } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
 import { Break, CardNoise, CardBGImage } from './styled'
@@ -81,16 +81,18 @@ export default function DoubleSidePoolCard({
   migration,
   version,
   swapFeeApr,
-  stakingApr
+  stakingApr,
+  minichefStakingInfo
 }: {
   stakingInfo: DoubleSideStakingInfo
+  minichefStakingInfo: MiniChefStakingInfos
   migration?: DoubleSideStaking
   version: string
   swapFeeApr: number
   stakingApr: number
 }) {
-  const token0 = stakingInfo.tokens[0]
-  const token1 = stakingInfo.tokens[1]
+  const token0 = minichefStakingInfo.tokens[0]
+  const token1 = minichefStakingInfo.tokens[1]
 
   const currency0 = unwrappedToken(token0)
   const currency1 = unwrappedToken(token1)
@@ -110,7 +112,7 @@ export default function DoubleSidePoolCard({
   // get the color of the token
   const backgroundColor = useColor(token)
 
-  const totalStakedInUsd = stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
+  const totalStakedInUsd = minichefStakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
 
   return (
     <Wrapper showBackground={isStaking} bgColor={backgroundColor}>
@@ -144,11 +146,9 @@ export default function DoubleSidePoolCard({
               Migrate
             </ButtonPrimary>
           </StyledInternalLink>
-        ) : (
-          <span></span>
-        )}
+        ) : null}
 
-        {(isStaking || !stakingInfo.isPeriodFinished) && (
+        {(isStaking || !minichefStakingInfo.isPeriodFinished) && (
           <StyledInternalLink
             to={`/png/${currencyId(currency0)}/${currencyId(currency1)}/${version}`}
             style={{ width: '100%' }}
@@ -169,21 +169,21 @@ export default function DoubleSidePoolCard({
       <AprContainer>
         <RowBetween>
           <TYPE.white>Swap Fee APR</TYPE.white>
-          <TYPE.white>{swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr}%` : '-'}</TYPE.white>
+          <TYPE.white>{swapFeeApr && !minichefStakingInfo.isPeriodFinished ? `${swapFeeApr}%` : '-'}</TYPE.white>
         </RowBetween>
         <RowBetween>
           <TYPE.white>PNG Rewards APR</TYPE.white>
-          <TYPE.white>{stakingApr && !stakingInfo.isPeriodFinished ? `${stakingApr}%` : '-'}</TYPE.white>
+          <TYPE.white>{stakingApr && !minichefStakingInfo.isPeriodFinished ? `${stakingApr}%` : '-'}</TYPE.white>
         </RowBetween>
         <RowBetween>
           <TYPE.white>Total APR</TYPE.white>
-          <TYPE.white>{swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr + stakingApr}%` : '-'}</TYPE.white>
+          <TYPE.white>{swapFeeApr && !minichefStakingInfo.isPeriodFinished ? `${swapFeeApr + stakingApr}%` : '-'}</TYPE.white>
         </RowBetween>
       </AprContainer>
       <StatContainer>
         <RowBetween>
           <TYPE.white> {t('earn.poolWeight')} </TYPE.white>
-          <TYPE.white>{`${stakingInfo.multiplier}X`}</TYPE.white>
+          <TYPE.white>{`${minichefStakingInfo.multiplier}X`}</TYPE.white>
         </RowBetween>
       </StatContainer>
 
@@ -199,7 +199,7 @@ export default function DoubleSidePoolCard({
               <span role="img" aria-label="wizard-icon" style={{ marginRight: '0.5rem' }}>
                 ⚡
               </span>
-              {`${stakingInfo.rewardRate
+              {`${minichefStakingInfo.rewardRate
                 ?.multiply(`${60 * 60 * 24 * 7}`)
                 ?.toSignificant(4, { groupSeparator: ',' })} PNG / week`}
             </TYPE.black>

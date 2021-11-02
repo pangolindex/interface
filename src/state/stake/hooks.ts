@@ -79,7 +79,8 @@ import {
   ROCO,
   IMX,
   AMPL,
-  ORBS
+  ORBS,
+  MINICHEF_ADDRESS
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
@@ -96,6 +97,7 @@ import ERC20_INTERFACE from '../../constants/abis/erc20'
 import useUSDCPrice from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
 import { useMiniChefContract } from '../../hooks/useContract'
+import { useRef } from 'react'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -1110,6 +1112,40 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
   totalStakedInUsd: TokenAmount
 }
 
+export interface MiniChefStakingInfos {
+  // the address of the reward contract
+  stakingRewardAddress: string
+  // the amount of token currently staked, or undefined if no account
+  stakedAmount: TokenAmount
+  // the amount of reward token earned by the active account, or undefined if no account
+  earnedAmount: TokenAmount
+  // the total amount of token staked in the contract
+  totalStakedAmount: TokenAmount
+  // the amount of token distributed per second to all LPs, constant
+  totalRewardRate: TokenAmount
+  // the current amount of token distributed to the active account per second.
+  // equivalent to percent of total supply * reward rate
+  rewardRate: TokenAmount
+  // when the period ends
+  periodFinish: Date | undefined
+  // has the reward period expired
+  isPeriodFinished: boolean
+  // calculates a hypothetical amount of token distributed to the active account per second.
+  getHypotheticalRewardRate: (
+    stakedAmount: TokenAmount,
+    totalStakedAmount: TokenAmount,
+    totalRewardRate: TokenAmount
+  ) => TokenAmount
+
+  // the tokens involved in this pair
+  tokens: [Token, Token]
+  // the pool weight
+  multiplier: JSBI
+  // total staked AVAX in the pool
+  totalStakedInWavax: TokenAmount
+  totalStakedInUsd: TokenAmount
+}
+
 export interface MiniChefStakingInfo {
   // user staked amount
   stakedAmount: TokenAmount
@@ -1667,13 +1703,13 @@ export const useMinichefPools = (): { [key: string]: JSBI } => {
   }, [lpTokensArr])
 }
 
-export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | null) => {
+export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | null): MiniChefStakingInfos[] => {
   const { chainId, account } = useActiveWeb3React()
   const minichefContract = useMiniChefContract()
   const poolMap = useMinichefPools()
   const png = chainId ? PNG[chainId] : PNG[ChainId.AVALANCHE]
 
-  const info = useMemo(
+  let info = useMemo(
     () =>
       chainId
         ? DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(item =>
@@ -1690,16 +1726,32 @@ export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | nul
   const tokens = useMemo(() => info.map(({ tokens }) => tokens), [info])
   const pairs = usePairs(tokens)
 
-  const pairAddresses = useMemo(() => {
+  const existingPairsIndex = useRef([] as number[])
+  const existingPairs = useMemo(() => {
     const pairsHaveLoaded = pairs?.every(([state, pair]) => state === PairState.EXISTS)
     if (!pairsHaveLoaded && Object.keys(poolMap).length > 0) return []
-    else
-      return pairs
-        .map(([state, pair]) => pair?.liquidityToken.address)
-        .filter(address => poolMap.hasOwnProperty(address as string))
+    // only keep those pairs which are in minichef contract
+    else {
+      existingPairsIndex.current = []
+      return pairs.filter(([state, pair], index) => {
+        const exist = poolMap.hasOwnProperty(pair?.liquidityToken?.address as string)
+        if (exist) existingPairsIndex.current.push(index)
+        return exist
+      })
+    }
   }, [pairs])
 
+  // update info based on existing pairs
+  let updatedInfo = useMemo(() => {
+    return existingPairsIndex.current.map(index => info[index])
+  }, [existingPairsIndex.current])
+
+  const pairAddresses = useMemo(() => {
+    return existingPairs.map(([state, pair]) => pair?.liquidityToken.address)
+  }, [existingPairs])
+
   const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
+  const balances = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'balanceOf', [MINICHEF_ADDRESS])
 
   const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[ChainId.AVALANCHE], png)
 
@@ -1728,6 +1780,8 @@ export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | nul
 
   const rewardPerSecond = useSingleCallResult(minichefContract, 'rewardPerSecond', []).result
   const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
+  const rewardsExpiration = useSingleCallResult(minichefContract, 'rewardsExpiration', []).result
+  const usdPrice = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
 
   const arr = useMemo(() => {
     if (!chainId || !png) return []
@@ -1736,9 +1790,10 @@ export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | nul
       // these two are dependent on account
 
       const pairTotalSupplyState = pairTotalSupplies[index]
+      const balanceState = balances[index]
       const poolInfo = poolInfos[index]
       const userPoolInfo = userInfos[index]
-      const [pairState, pair] = pairs[index]
+      const [pairState, pair] = existingPairs[index]
       const pendingRewardInfo = pendingRewards[index]
 
       if (
@@ -1746,14 +1801,17 @@ export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | nul
         poolInfo?.loading === false &&
         userPoolInfo?.loading === false &&
         pendingRewardInfo?.loading === false &&
+        balanceState?.loading === false &&
         pair &&
         avaxPngPair &&
         pairState !== PairState.LOADING &&
         avaxPngPairState !== PairState.LOADING &&
         rewardPerSecond &&
-        totalAllocPoint
+        totalAllocPoint &&
+        rewardsExpiration?.[0]
       ) {
         if (
+          balanceState?.error ||
           pairTotalSupplyState.error ||
           pairState === PairState.INVALID ||
           pairState === PairState.NOT_EXISTS ||
@@ -1763,27 +1821,48 @@ export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | nul
           console.error('Failed to load staking rewards info')
           return memo
         }
-        // get the LP token
-        const tokens = info[index].tokens
 
+        // get the LP token
+        const token0 = pair?.token0
+        const token1 = pair?.token1
+        const tokens = [token0, token1]
+        const wavax = token0.equals(WAVAX[token0.chainId]) ? token0 : token1
         // const wavax = tokens[0].equals(WAVAX[tokens[0].chainId]) ? tokens[0] : tokens[1]
         const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
         const lpToken = dummyPair.liquidityToken
 
+        const periodFinishMs = rewardsExpiration?.[0]?.mul(1000)?.toNumber()
+        // periodFinish will be 0 immediately after a reward contract is initialized
+        const isPeriodFinished = periodFinishMs === 0 ? false : periodFinishMs < Date.now()
+
         const poolAllocPointAmount = new TokenAmount(lpToken, JSBI.BigInt(poolInfo?.result?.['allocPoint']))
         const totalAllocPointAmount = new TokenAmount(lpToken, JSBI.BigInt(totalAllocPoint?.[0]))
         const rewardRatePerSecAmount = new TokenAmount(png, JSBI.BigInt(rewardPerSecond?.[0]))
-
         const poolRewardRate = new TokenAmount(
           png,
           JSBI.divide(JSBI.multiply(poolAllocPointAmount.raw, rewardRatePerSecAmount.raw), totalAllocPointAmount.raw)
         )
 
-        const totalStakedAmount = new TokenAmount(lpToken, JSBI.BigInt(pairTotalSupplyState?.result?.[0]))
+        const totalSupplyStaked = JSBI.BigInt(balanceState?.result?.[0])
+        const totalSupplyAvailable = JSBI.BigInt(pairTotalSupplyState?.result?.[0])
+        const totalStakedAmount = new TokenAmount(lpToken, JSBI.BigInt(balanceState?.result?.[0]))
         const stakedAmount = new TokenAmount(lpToken, JSBI.BigInt(userPoolInfo?.result?.['amount'] ?? 0))
         const earnedAmount = new TokenAmount(png, JSBI.BigInt(pendingRewardInfo?.result?.['pending'] ?? 0))
+        const multiplier = updatedInfo[index]?.multiplier
 
-        const multiplier = info[index].multiplier
+        const isAvaxPool = token0.equals(WAVAX[token0.chainId]) || token1.equals(WAVAX[token1.chainId])
+
+        const totalStakedInWavax = isAvaxPool
+          ? calculateTotalStakedAmountInAvax(totalSupplyStaked, totalSupplyAvailable, pair.reserveOf(wavax).raw)
+          : calculateTotalStakedAmountInAvaxFromPng(
+              totalSupplyStaked,
+              totalSupplyAvailable,
+              avaxPngPair.reserveOf(png).raw,
+              avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
+              pair.reserveOf(png).raw
+            )
+
+        const totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax) as TokenAmount)
 
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
@@ -1801,15 +1880,18 @@ export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | nul
         const userRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
 
         memo.push({
+          stakingRewardAddress: updatedInfo?.[index]?.stakingRewardAddress,
           tokens: tokens,
           earnedAmount,
           rewardRate: userRewardRate,
           totalRewardRate: poolRewardRate,
           stakedAmount,
           totalStakedAmount,
-          // totalStakedInWavax: totalStakedInWavax,
-          // totalStakedInUsd: totalStakedInUsd,
-          multiplier: JSBI.BigInt(multiplier),
+          totalStakedInWavax,
+          totalStakedInUsd,
+          multiplier: JSBI.BigInt(multiplier || 0),
+          periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
+          isPeriodFinished: isPeriodFinished || multiplier === 0,
           getHypotheticalRewardRate
         })
       }
@@ -1823,12 +1905,15 @@ export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | nul
     poolInfos,
     userInfos,
     info,
-    pairs,
+    existingPairs,
     avaxPngPair,
     avaxPngPairState,
     rewardPerSecond,
     totalAllocPoint,
-    pendingRewards
+    pendingRewards,
+    rewardsExpiration,
+    balances,
+    updatedInfo
   ])
 
   return arr
