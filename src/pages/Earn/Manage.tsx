@@ -228,7 +228,7 @@ export default function Manage({
           <AutoColumn gap="sm">
             <TYPE.body style={{ margin: 0 }}>{t('earnPage.totalStaked')}</TYPE.body>
             <TYPE.body fontSize={24} fontWeight={500}>
-              {`$${miniChefStaking?.totalStakedInUsd?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}`}
+              {`$${miniChefStaking?.totalStakedInUsd?.toFixed(0, { groupSeparator: ',' }) ?? '-'}`}
               {/* {valueOfTotalStakedAmountInUSDC
 							? `$${valueOfTotalStakedAmountInUSDC.toFixed(0, { groupSeparator: ',' })}`
 							: `${valueOfTotalStakedAmountInWavax?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`} */}
@@ -384,7 +384,7 @@ export default function Manage({
                   </span>
                   {miniChefStaking?.rewardRate
                     ?.multiply((60 * 60 * 24 * 7).toString())
-                    ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
+                    ?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
                   {t('earnPage.rewardPerWeek', { symbol: 'PNG' })}
                 </TYPE.black>
               </RowBetween>

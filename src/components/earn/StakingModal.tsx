@@ -70,7 +70,7 @@ export default function StakingModal({
   )
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  let hypotheticalRewardRate: TokenAmount = new TokenAmount(miniChefStaking?.rewardRate?.token, '0')
+  let hypotheticalRewardRate: TokenAmount = new TokenAmount(miniChefStaking?.totalRewardRate?.token, '0')
   if (parsedAmountWrapped?.greaterThan('0')) {
     hypotheticalRewardRate = miniChefStaking.getHypotheticalRewardRate(
       miniChefStaking?.stakedAmount?.add(parsedAmountWrapped),
@@ -175,7 +175,7 @@ export default function StakingModal({
             </div>
 
             <TYPE.black>
-              {hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toSignificant(4, { groupSeparator: ',' })}{' '}
+              {hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toFixed(0, { groupSeparator: ',' })}{' '}
               {t('earn.rewardPerWeek', { symbol: 'PNG' })}
             </TYPE.black>
           </HypotheticalRewardRate>

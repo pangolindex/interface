@@ -1785,8 +1785,6 @@ export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | nul
       if (
         pairTotalSupplyState?.loading === false &&
         poolInfo?.loading === false &&
-        userPoolInfo?.loading === false &&
-        pendingRewardInfo?.loading === false &&
         balanceState?.loading === false &&
         pair &&
         avaxPngPair &&
