@@ -17,7 +17,7 @@ import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallbac
 import { splitSignature } from 'ethers/lib/utils'
 import {
   DoubleSideStakingInfo,
-  MiniChefStakingInfo,
+  MiniChefStakingInfos,
   useDerivedStakeInfo,
   useMinichefPools
 } from '../../state/stake/hooks'
@@ -47,7 +47,7 @@ interface StakingModalProps {
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
   userLiquidityUnstaked: TokenAmount | undefined
-  miniChefStaking: MiniChefStakingInfo
+  miniChefStaking: MiniChefStakingInfos
   pairAddress?: string
 }
 
