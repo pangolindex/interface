@@ -121,7 +121,7 @@
     "acceptUpdate": "Aceptar actualización",
     "dismiss": "Descartar"
   },
-  "positionCard":{
+  "positionCard": {
     "add": "Añadir",
     "remove": "Retirar",
     "poolShare": "Tu parte de la pool:",
@@ -130,7 +130,7 @@
     "manage": "Gestionar",
     "loading": "Cargando",
     "yourPosition": "Tu posición",
-    "byAddingLiquidityInfo": "Añadiendo liquidez ganará el 0.3% de todos los intercambios en la pareja de forma proporcional a su parte de la Pool.\n Las tasas se añaden a la Pool, se acumulan en tiempo real y pueden ser reclamadas retirando su liquidez."
+    "byAddingLiquidityInfo": "Añadiendo liquidez ganará el 0.25% de todos los intercambios en la pareja de forma proporcional a su parte de la Pool.\n Las tasas se añaden a la Pool, se acumulan en tiempo real y pueden ser reclamadas retirando su liquidez."
   },
   "searchModal": {
     "commonBases": "Bases comunes",
@@ -157,8 +157,7 @@
     "select": "Seleccionar",
     "manageTokenLists": "Administrar listas de tokens"
   },
-  "settings":
-  {
+  "settings": {
     "areYouSure": "Estas seguro?",
     "expertInfo": "El modo experto deshabilita el aviso de confirmar transacción y permite altos deslizamientos en intercambios que suelen causar malos ratios y fondos perdidos.",
     "expertWarningCAPS": "USA ESTE MODO SOLO SI SABES LO QUE ESTÁS HACIENDO.",
@@ -311,6 +310,8 @@
     "depositPangolinStaking": "Deposit and stake your PNG tokens to earn more tokens.",
     "currentOpportunities": "Current opportunities",
     "readMoreAboutPng": "Leer más sobre PNG",
+    "getInsuranceCoverage": "Obtenga cobertura de seguro",
+    "getCoverNexusMutual": "Ponte a cubierto en Nexus Mutual",
     "importantUpdate": "ACTUALIZACIÓN IMPORTANTE",
     "pangolinGovernanceProposalResult": "Como resultado de la primera proposición de governanza de Pangolin, este está cambiando sus contratos de staking! Después de aproximadamente 08:59 UTC el 4/19, todas las recompensas serán distribuidas a los nuevos contratos. Antes del cambio, todas las recompensas serán distribuidas a los viejos contratos. para evitar interrupciones en las recompensas, necesita retirar su liquidez de los viejos contratos y depositarla en los nuevos. No necesita retirar su liquidez de sus pools ni alterar sus posiciones.",
     "oldPngPools": "Viejas pools PNG",
@@ -337,11 +338,14 @@
     "stakeStakingTokens": "Stake {{ symbol }} Tokens",
     "unstake": "Unstake",
     "stakingTokensAvailable": "Toens {{ symbol }} disponibles",
-    "getToken": "Get {{ symbol }}"
+    "getToken": "Get {{ symbol }}",
+    "migrateTitle": "Migre su PGL apilado",
+    "migrateDescription": "Pangolin ha cambiado la tokenómica. Deberá migrar su PGL apilado a un nuevo contrato",
+    "migrate": "Emigrar"
   },
   "pool": {
     "liquidityProviderRewards": "Recompensas a proveedores de liquidez",
-    "liquidityProvidersEarn": "Los proveedores de liquiez ganan una tasa del 0.3% de todos los intercambios de forma proporcional a su parte de la pool. Las tasas se añaden a la pool, se acumulan en tiempo real y pueden ser reclamadas retirando su liquidez.",
+    "liquidityProvidersEarn": "Los proveedores de liquiez ganan una tasa del 0.25% de todos los intercambios de forma proporcional a su parte de la pool. Las tasas se añaden a la pool, se acumulan en tiempo real y pueden ser reclamadas retirando su liquidez.",
     "readMoreProviding": "Leer más sobre la provisión de liquidez",
     "viewStakedLiquidity": "Ver su liquidez depositada",
     "yourLiquidity": "Su liquidez",
@@ -404,6 +408,7 @@
     "fromEstimated": "Desde (estimado)",
     "velox": "Pon una orden límite en <1>Velox</1>",
     "marginSwap": "Opere con apalancamiento en <1>MarginSwap</1>",
+    "wowSwap": " o <1>WOWswap</1>",
     "veeFinance": " o <1>Vee Finance</1>"
   },
   "buyPage": {

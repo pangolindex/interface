@@ -292,6 +292,7 @@ export default function Migrate({
           onDismiss={() => setShowStakingModal(false)}
           stakingInfo={stakingInfoTo}
           userLiquidityUnstaked={pglToBalance}
+          miniChefStaking={{} as any}
         />
       )}
 

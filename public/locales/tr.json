@@ -130,7 +130,7 @@
     "manage": "Yönet",
     "loading": "Yükleniyor",
     "yourPosition": "Pozisyonunuz",
-    "byAddingLiquidityInfo": "Likidite ekleyerek, havuzdaki payınızla orantılı olarak bu çiftteki tüm işlemlerin %0.3'ünü kazanacaksınız.\n Ücretler havuza eklenir, gerçek zamanlı olarak birikir ve likiditenizi çekerek talep edilebilir."
+    "byAddingLiquidityInfo": "Likidite ekleyerek, havuzdaki payınızla orantılı olarak bu çiftteki tüm işlemlerin %0.25'ünü kazanacaksınız.\n Ücretler havuza eklenir, gerçek zamanlı olarak birikir ve likiditenizi çekerek talep edilebilir."
   },
   "searchModal": {
     "commonBases": "Ortak bazlar",
@@ -311,6 +311,8 @@
     "depositPangolinStaking": "Ödül kazanmak için PNG tokenlerinizi yatırın ve stake edin.",
     "currentOpportunities": "Mevcut Fırsatlar",
     "readMoreAboutPng": "PNG hakkında daha fazla bilgi edinin",
+    "getInsuranceCoverage": "Sigorta Kapsamı Alın",
+    "getCoverNexusMutual": "Nexus Mutual'da siper alın",
     "importantUpdate": "ÖNEMLİ GÜNCELLEME",
     "pangolinGovernanceProposalResult": "Pangolin yönetiminin 1. önergesinin oylama sonucuna göre: Pangolin, yatırma işlemlerinde kullanılan sözleşmelerini değiştirmiştir. 19/04/2021 tarihinde saat 08:59’dan sonra (UTC saat dilimi), likidite sağlama karşılığında verilen tüm ödüller, yeni sözleşmelerine dağıtılacaktır. Geçişten önce ise, tüm ödüller eski sözleşmelere dağıtılmaya devam edecektir. Yield farming ödüllerinin kesintiye uğramasını önlemek adına likiditenizi eski sözleşmelerden kaldırmanız ve yeni sözleşmelere geçiş sağlamanız gerekmektedir. Bununla birlikte havuzlardaki likiditenizi çekmenize veya pozisyonlarınızı değiştirmenize gerek yoktur.",
     "oldPngPools": "Eski PNG havuzları",
@@ -337,11 +339,14 @@
     "stakeStakingTokens": "{{ symbol }} tokenlerinizi stake edin",
     "unstake": "Stake'den çıkarın",
     "stakingTokensAvailable": "Kullanılabilir {{ symbol }} Tokeni",
-    "getToken": "{{ symbol }} elde edin"
+    "getToken": "{{ symbol }} elde edin",
+    "migrateTitle": "Yığınlanmış PGL'nizi taşıyın",
+    "migrateDescription": "Pangolin belirteçleri değiştirdi. Yığılmış PGL'nizi yeni sözleşmeye taşımanız gerekecek",
+    "migrate": "Göç"
   },
   "pool": {
     "liquidityProviderRewards": "Likidite sağlayıcılarına verilen ödüller",
-    "liquidityProvidersEarn": "Likidite sağlayanlar, havuzdaki paylarıyla orantılı olarak tüm işlemlerden %0.3 ücret alır. Ücretler havuza eklenir, gerçek zamanlı olarak birikir ve likiditenizi çekerek talep edilebilir.",
+    "liquidityProvidersEarn": "Likidite sağlayanlar, havuzdaki paylarıyla orantılı olarak tüm işlemlerden %0.25 ücret alır. Ücretler havuza eklenir, gerçek zamanlı olarak birikir ve likiditenizi çekerek talep edilebilir.",
     "readMoreProviding": "Likidite sağlamak hakkında daha fazla bilgi edinin",
     "viewStakedLiquidity": "Sağladığınız likiditeyi görüntüleyin",
     "yourLiquidity": "Likiditeniz",
@@ -404,6 +409,7 @@
     "fromEstimated": "Hangi tokenden (yaklaşık)",
     "velox": "<1>Velox</1>'da limit emriyle al-sat",
     "marginSwap": "<1>MarginSwap</1>",
+    "wowSwap": " veya <1>WOWswap</1>'de kaldıraçla işlem yapın",
     "veeFinance": " veya <1>Vee Finance</1>'de kaldıraçla işlem yapın"
   },
   "buyPage": {

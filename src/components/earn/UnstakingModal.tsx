@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import { RowBetween } from '../Row'
 import { TYPE, CloseIcon } from '../../theme'
 import { ButtonError } from '../Button'
-import { DoubleSideStakingInfo } from '../../state/stake/hooks'
-import { useStakingContract } from '../../hooks/useContract'
+import { DoubleSideStakingInfo, MiniChefStakingInfo, useMinichefPools } from '../../state/stake/hooks'
+import { useMiniChefContract, useStakingContract } from '../../hooks/useContract'
 import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
@@ -23,9 +23,17 @@ interface StakingModalProps {
   isOpen: boolean
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
+  miniChefStaking?: MiniChefStakingInfo
+  pairAddress?: string
 }
 
-export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: StakingModalProps) {
+export default function UnstakingModal({
+  isOpen,
+  onDismiss,
+  stakingInfo,
+  miniChefStaking,
+  pairAddress
+}: StakingModalProps) {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
 
@@ -40,13 +48,17 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
     onDismiss()
   }
 
+  // @ts-ignore
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
+  const miniChefContract = useMiniChefContract()
+  const poolMap = useMinichefPools()
+
   async function onWithdraw() {
-    if (stakingContract && stakingInfo?.stakedAmount) {
+    if (miniChefContract && miniChefStaking?.stakedAmount && pairAddress) {
       setAttempting(true)
-      await stakingContract
-        .exit({ gasLimit: 300000 })
+      await miniChefContract
+        .withdrawAndHarvest(poolMap[pairAddress], `0x${miniChefStaking?.stakedAmount?.raw.toString(16)}`, account)
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.withdrawDepositedLiquidity')
@@ -64,7 +76,7 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
   if (!account) {
     error = t('earn.connectWallet')
   }
-  if (!stakingInfo?.stakedAmount) {
+  if (!miniChefStaking?.stakedAmount) {
     error = error ?? t('earn.enterAmount')
   }
 
@@ -76,26 +88,24 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
             <TYPE.mediumHeader>Withdraw</TYPE.mediumHeader>
             <CloseIcon onClick={wrappedOndismiss} />
           </RowBetween>
-          {stakingInfo?.stakedAmount && (
+          {miniChefStaking?.stakedAmount && (
             <AutoColumn justify="center" gap="md">
               <TYPE.body fontWeight={600} fontSize={36}>
-                {<FormattedCurrencyAmount currencyAmount={stakingInfo.stakedAmount} />}
+                {<FormattedCurrencyAmount currencyAmount={miniChefStaking.stakedAmount} />}
               </TYPE.body>
               <TYPE.body>{t('earn.depositedPglLiquidity')}</TYPE.body>
             </AutoColumn>
           )}
-          {stakingInfo?.earnedAmount && (
+          {miniChefStaking?.pendingRewardAmount && (
             <AutoColumn justify="center" gap="md">
               <TYPE.body fontWeight={600} fontSize={36}>
-                {<FormattedCurrencyAmount currencyAmount={stakingInfo?.earnedAmount} />}
+                {<FormattedCurrencyAmount currencyAmount={miniChefStaking?.pendingRewardAmount} />}
               </TYPE.body>
               <TYPE.body>{t('earn.unclaimedReward', { symbol: 'PNG' })}</TYPE.body>
             </AutoColumn>
           )}
-          <TYPE.subHeader style={{ textAlign: 'center' }}>
-            {t('earn.whenYouWithdrawWarning')}
-          </TYPE.subHeader>
-          <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onWithdraw}>
+          <TYPE.subHeader style={{ textAlign: 'center' }}>{t('earn.whenYouWithdrawWarning')}</TYPE.subHeader>
+          <ButtonError disabled={!!error} error={!!error && !!miniChefStaking?.stakedAmount} onClick={onWithdraw}>
             {error ?? t('earn.withdrawAndClaim')}
           </ButtonError>
         </ContentWrapper>
@@ -105,13 +115,13 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.body fontSize={20}>
               {t('earn.withdrawingLiquidity', {
-                amount: stakingInfo?.stakedAmount?.toSignificant(4),
+                amount: miniChefStaking?.stakedAmount?.toSignificant(4),
                 symbol: 'PGL'
               })}
             </TYPE.body>
             <TYPE.body fontSize={20}>
               {t('earn.claimingReward', {
-                amount: stakingInfo?.earnedAmount?.toSignificant(4),
+                amount: miniChefStaking?.pendingRewardAmount?.toSignificant(4),
                 symbol: 'PNG'
               })}
             </TYPE.body>

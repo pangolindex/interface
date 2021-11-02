@@ -130,7 +130,7 @@
     "manage": "Gérer",
     "loading": "Chargement",
     "yourPosition": "Votre position",
-    "byAddingLiquidityInfo": "En ajoutant de la liquidité, vous gagnerez 0,3 % de toutes les transactions sur cette paire, proportionnellement à votre part de la pool.\n Les frais sont ajoutés au pool, s'accumulent en temps réel et peuvent être réclamés en retirant votre liquidité."
+    "byAddingLiquidityInfo": "En ajoutant de la liquidité, vous gagnerez 0,25 % de toutes les transactions sur cette paire, proportionnellement à votre part de la pool.\n Les frais sont ajoutés au pool, s'accumulent en temps réel et peuvent être réclamés en retirant votre liquidité."
   },
   "searchModal": {
     "commonBases": "Bases communes",
@@ -311,6 +311,8 @@
     "depositPangolinStaking": "Déposez vos PNG pour gagner plus de tokens parmi les opportunités présentées.",
     "currentOpportunities": "Opportunités actuelles",
     "readMoreAboutPng": "En savoir plus sur PNG",
+    "getInsuranceCoverage": "Obtenez une couverture d'assurance",
+    "getCoverNexusMutual": "Obtenez une couverture sur Nexus Mutual",
     "importantUpdate": "IMPORTANTE MISE À JOUR",
     "pangolinGovernanceProposalResult": "Suite à la proposition de gouvernance 1 de Pangolin, Pangolin change de contrat de staking ! Après environ 08:59 UTC le 19 avril, toutes les récompenses de staking seront distribuées aux nouveaux contrats de staking. Avant le changement, toutes les récompenses seront encore distribuées aux anciens contrats. Pour éviter toute interruption des récompenses du yield farming, vous devez retirer vos liquidités des anciens contrats et les remettre dans les nouveaux contrats. Vous n'avez pas besoin de retirer des liquidités de vos pools ou de modifier vos positions.",
     "oldPngPools": "Anciennes Pools PNG",
@@ -337,11 +339,14 @@
     "stakeStakingTokens": "Déposez vos tokens {{ symbol }}",
     "unstake": "Retrait",
     "stakingTokensAvailable": "Jetons {{ symbol }} disponibles",
-    "getToken": "Obtenir des {{ symbol }}"
+    "getToken": "Obtenir des {{ symbol }}",
+    "migrateTitle": "Migrez votre PGL empilé",
+    "migrateDescription": "Pangolin a changé de tokenomics. Vous devrez migrer votre PGL empilé vers un nouveau contrat",
+    "migrate": "Émigrer"
   },
   "pool": {
     "liquidityProviderRewards": "Rémunération du fournisseur de liquidités",
-    "liquidityProvidersEarn": "Les fournisseurs de liquidités perçoivent une commission de 0,3 % sur toutes les transactions, proportionnellement à leur part du pool. Les commissions sont ajoutées au pool, s'accumulent en temps réel et peuvent être réclamées en retirant vos liquidités.",
+    "liquidityProvidersEarn": "Les fournisseurs de liquidités perçoivent une commission de 0,25 % sur toutes les transactions, proportionnellement à leur part du pool. Les commissions sont ajoutées au pool, s'accumulent en temps réel et peuvent être réclamées en retirant vos liquidités.",
     "readMoreProviding": "En savoir plus sur la fourniture de liquidités",
     "viewStakedLiquidity": "Visualisez votre liquidité staké",
     "yourLiquidity": "Vos liquidités",
@@ -404,6 +409,7 @@
     "fromEstimated": "De (estimation)",
     "velox": "Définissez un ordre limité sur <1>Velox</1>",
     "marginSwap": "Tradez avec levier sur <1>MarginSwap</1>",
+    "wowSwap": " ou <1>WOWswap</1>",
     "veeFinance": " ou <1>Vee Finance</1>"
   },
   "buyPage": {

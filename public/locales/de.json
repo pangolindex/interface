@@ -130,7 +130,7 @@
     "manage": "Verwalten",
     "loading": "Lädt",
     "yourPosition": "Deine Position",
-    "byAddingLiquidityInfo": "Durch das Bereitstellen von Liquidität verdienst du 0,3% an allen Trades auf diesem Paar, proportional zu deinem Anteil am Pool. \n Gebühren werden dem Pool hinzugefügt, fallen in Echtzeit an und können beansprucht werden, indem die Liquidität abgebucht wird."
+    "byAddingLiquidityInfo": "Durch das Bereitstellen von Liquidität verdienst du 0,25% an allen Trades auf diesem Paar, proportional zu deinem Anteil am Pool. \n Gebühren werden dem Pool hinzugefügt, fallen in Echtzeit an und können beansprucht werden, indem die Liquidität abgebucht wird."
   },
   "searchModal": {
     "commonBases": "Übliche Basis-Token",
@@ -311,6 +311,8 @@
     "depositPangolinStaking": "Deposit and stake your PNG tokens to earn more tokens.",
     "currentOpportunities": "Current opportunities",
     "readMoreAboutPng": "Erfahre mehr über PNG",
+    "getInsuranceCoverage": "Versicherungsschutz abschließen",
+    "getCoverNexusMutual": "Schützen Sie sich bei Nexus Mutual",
     "importantUpdate": "WICHTIGES UPDATE",
     "pangolinGovernanceProposalResult": "Als Ergebnis des Pangolin-Governance-Antrags 1 ändert Pangolin die Staking-Smart Contracts! Nach ca. 09:59 MEZ am 19.4. werden alle Staking-Vergütungen auf die neuen Staking-Smart Contracts verteilt. Vor der Umstellung werden alle Vergütungen noch auf die alten Verträge verteilt. Um Unterbrechungen bei den Yield Farming-Vergütungen zu vermeiden, musst du deine Liquidität aus den alten Smart Contracts herausnehmen und in den neuen Smart Contracts staken. Du musst weder Liquidität aus deinen Pools entfernen noch deine Positionen ändern.",
     "oldPngPools": "Alte PNG-Pools",
@@ -337,11 +339,14 @@
     "stakeStakingTokens": "Stake {{ symbol }} Tokens",
     "unstake": "Unstake",
     "stakingTokensAvailable": "{{ symbol }}-Token verfügbar",
-    "getToken": "Get {{ symbol }}"
+    "getToken": "Get {{ symbol }}",
+    "migrateTitle": "Migrieren Sie Ihre gestapelte PGL",
+    "migrateDescription": "Pangolin hat die Tokenomik geändert. Sie müssen Ihre gestapelte PGL auf einen neuen Vertrag migrieren",
+    "migrate": "Wandern"
   },
   "pool": {
     "liquidityProviderRewards": "Liquiditätsprovider-Vergütungen",
-    "liquidityProvidersEarn": "Durch das Bereitstellen von Liquidität verdienen Liquiditätsprovider 0,3% an allen Trades auf diesem Paar, proportional zu ihren Anteil am Pool. Gebühren werden dem Pool hinzugefügt, fallen in Echtzeit an und können beansprucht werden, indem die Liquidität abgebucht wird.",
+    "liquidityProvidersEarn": "Durch das Bereitstellen von Liquidität verdienen Liquiditätsprovider 0,25% an allen Trades auf diesem Paar, proportional zu ihren Anteil am Pool. Gebühren werden dem Pool hinzugefügt, fallen in Echtzeit an und können beansprucht werden, indem die Liquidität abgebucht wird.",
     "readMoreProviding": "Erfahre mehr über das Bereitstellen von Liquidität",
     "viewStakedLiquidity": "Lass dir deine gestakte Liquidität anzeigen",
     "yourLiquidity": "Deine Liquidität",
@@ -404,6 +409,7 @@
     "fromEstimated": "Tausche (geschätzt)",
     "velox": "Setzen Sie eine Limit-Order auf <1>Velox</1>",
     "marginSwap": "Traden Sie mit Leverage auf <1>MarginSwap</1>",
+    "wowSwap": " oder <1>WOWswap</1>",
     "veeFinance": " oder <1>Vee Finance</1>"
   },
   "buyPage": {

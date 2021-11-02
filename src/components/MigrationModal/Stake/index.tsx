@@ -10,10 +10,11 @@ import { useTokenBalance } from '../../../state/wallet/hooks'
 import { RowBetween } from '../../Row'
 import { useTranslation } from 'react-i18next'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
-import { useStakingContract } from '../../../hooks/useContract'
+import { useMiniChefContract, useStakingContract } from '../../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCallback'
 import { TransactionResponse } from '@ethersproject/providers'
-import { useDerivedStakeInfo } from '../../../state/stake/hooks'
+import { MINICHEF_ADDRESS } from '../../../constants'
+import { useDerivedStakeInfo, useMinichefPools } from '../../../state/stake/hooks'
 
 export interface StackProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
@@ -44,9 +45,7 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StackProps)
   const { parsedAmount } = useDerivedStakeInfo(stakingAmount, stakingInfo.stakedAmount.token, userLiquidityUnstaked)
   const [percentage, setPercentage] = useState(0)
   // approval data for stake
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, stakingInfo.stakingRewardAddress)
-
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const [approval, approveCallback] = useApproveCallback(parsedAmount, MINICHEF_ADDRESS)
 
   useEffect(() => {
     if (percentage) {
@@ -76,6 +75,11 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StackProps)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingAmount])
 
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const poolMap = useMinichefPools()
+
+  const miniChefContract = useMiniChefContract()
+
   async function onStake() {
     setAttempting(true)
 
@@ -83,14 +87,17 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StackProps)
     const parsedInput = tryParseAmount(stakingAmount, stakingToken) as TokenAmount
 
     if (
+      miniChefContract &&
       stakingContract &&
       parsedInput &&
       userLiquidityUnstaked &&
       JSBI.lessThanOrEqual(parsedInput.raw, userLiquidityUnstaked.raw)
     ) {
       if (approval === ApprovalState.APPROVED) {
-        stakingContract
-          .stake(`0x${parsedInput.raw.toString(16)}`, { gasLimit: 350000 })
+        // stakingContract
+        //   .stake(`0x${parsedInput.raw.toString(16)}`, { gasLimit: 350000 })
+        miniChefContract
+          .deposit(poolMap[pair?.liquidityToken?.address], `0x${parsedAmount?.raw.toString(16)}`, account)
           .then((response: TransactionResponse) => {
             addTransaction(response, {
               summary: t('earn.depositLiquidity')

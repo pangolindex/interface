@@ -121,7 +121,7 @@
     "acceptUpdate": "Accept update",
     "dismiss": "Dismiss"
   },
-  "positionCard":{
+  "positionCard": {
     "add": "Add",
     "remove": "Remove",
     "poolShare": "Your pool share:",
@@ -130,7 +130,7 @@
     "manage": "Manage",
     "loading": "Loading",
     "yourPosition": "Your position",
-    "byAddingLiquidityInfo": "By adding liquidity you'll earn 0.3% of all trades on this pair proportional to your share of the pool.\n Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity."
+    "byAddingLiquidityInfo": "By adding liquidity you'll earn 0.25% of all trades on this pair proportional to your share of the pool.\n Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity."
   },
   "searchModal": {
     "commonBases": "Common bases",
@@ -157,8 +157,7 @@
     "select": "Select",
     "manageTokenLists": "Manage Token Lists"
   },
-  "settings":
-  {
+  "settings": {
     "areYouSure": "Are you sure?",
     "expertInfo": "Expert mode turns off the confirm transaction prompt and allows high slippage trades that often result in bad rates and lost funds.",
     "expertWarningCAPS": "ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING.",
@@ -311,6 +310,8 @@
     "depositPangolinStaking": "Deposit and stake your PNG tokens to earn more tokens.",
     "currentOpportunities": "Current opportunities",
     "readMoreAboutPng": "Read more about PNG",
+    "getInsuranceCoverage": "Get Insurance Coverage",
+    "getCoverNexusMutual": "Get cover on Nexus Mutual",
     "importantUpdate": "IMPORTANT UPDATE",
     "pangolinGovernanceProposalResult": "As a result of Pangolin governance proposal 1, Pangolin is changing staking contracts! After approximately 08:59 UTC on 4/19, all staking rewards will be distributed to the new staking contracts. Before the switch, all rewards will still be distributed to the old contracts. To avoid interruptions to yield farming rewards, you need to unstake your liquidity from the old contracts and restake in the new contracts. You do not need to remove liquidity from your pools or alter your positions.",
     "oldPngPools": "Old PNG pools",
@@ -337,11 +338,14 @@
     "stakeStakingTokens": "Stake {{ symbol }} Tokens",
     "unstake": "Unstake",
     "stakingTokensAvailable": "{{ symbol }} tokens available",
-    "getToken": "Get {{ symbol }}"
+    "getToken": "Get {{ symbol }}",
+    "migrateTitle": "Migrate your staked PGL",
+    "migrateDescription": "Pangolin has changed tokonomics. You will need to migrate your staked PGL to new contract",
+    "migrate": "Migrate"
   },
   "pool": {
     "liquidityProviderRewards": "Liquidity provider rewards",
-    "liquidityProvidersEarn": "Liquidity providers earn a 0.3% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.",
+    "liquidityProvidersEarn": "Liquidity providers earn a 0.25% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.",
     "readMoreProviding": "Read more about providing liquidity",
     "viewStakedLiquidity": "View your staked liquidity",
     "yourLiquidity": "Your liquidity",
@@ -404,6 +408,7 @@
     "fromEstimated": "From (estimated)",
     "velox": "Set a limit order on <1>Velox</1>",
     "marginSwap": "Trade with leverage on <1>MarginSwap</1>",
+    "wowSwap": " or <1>WOWswap</1>",
     "veeFinance": " or <1>Vee Finance</1>"
   },
   "buyPage": {

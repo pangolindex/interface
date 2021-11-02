@@ -2,11 +2,16 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import styled from 'styled-components'
-import { MIGRATIONS, DOUBLE_SIDE_STAKING_REWARDS_INFO, useStakingInfo } from '../../state/stake/hooks'
+import {
+  MIGRATIONS,
+  DOUBLE_SIDE_STAKING_REWARDS_INFO,
+  useStakingInfo,
+  useMinichefStakingInfos
+} from '../../state/stake/hooks'
 import { TYPE, ExternalLink } from '../../theme'
 import DoubleSidePoolCard from '../../components/earn/DoubleSidePoolCard'
 import { RouteComponentProps, NavLink } from 'react-router-dom'
-import { RowBetween } from '../../components/Row'
+import { AutoRow, RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
 import { useActiveWeb3React } from '../../hooks'
@@ -23,6 +28,12 @@ const PageWrapper = styled(AutoColumn)`
 const TopSection = styled(AutoColumn)`
   max-width: 720px;
   width: 100%;
+`
+
+const FlexDiv = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 `
 
 const PoolSection = styled.div`
@@ -83,6 +94,7 @@ export default function Earn({
 
   const stakingInfoV0 = useStakingInfo(Number(0))
   const hasPositionV0 = stakingInfoV0?.some(stakingInfo => stakingInfo.stakedAmount.greaterThan('0'))
+  useMinichefStakingInfos()
 
   const handleSearch = useCallback(event => {
     setSearchQuery(event.target.value.trim().toUpperCase())
@@ -103,17 +115,9 @@ export default function Earn({
       stakingInfoData.sort(function(info_a, info_b) {
         if (sortBy.field === SortingType.totalStakedInUsd) {
           if (sortBy.desc) {
-            return info_a.totalStakedInUsd?.greaterThan(
-              info_b.totalStakedInUsd ?? JSBI.BigInt(0)
-            )
-              ? -1
-              : 1
+            return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? JSBI.BigInt(0)) ? -1 : 1
           } else {
-            return info_a.totalStakedInUsd?.lessThan(
-              info_b.totalStakedInUsd ?? JSBI.BigInt(0)
-            )
-              ? -1
-              : 1
+            return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? JSBI.BigInt(0)) ? -1 : 1
           }
         }
         if (sortBy.field === SortingType.multiplier) {
@@ -252,13 +256,31 @@ export default function Earn({
               <RowBetween>
                 <TYPE.white fontSize={14}>{t('earnPage.depositPangolinLiquidity')}</TYPE.white>
               </RowBetween>{' '}
-              <ExternalLink
-                style={{ color: 'white', textDecoration: 'underline' }}
-                href="https://pangolin.exchange/litepaper"
-                target="_blank"
-              >
-                <TYPE.white fontSize={14}>{t('earnPage.readMoreAboutPng')}</TYPE.white>
-              </ExternalLink>
+              <AutoRow justify="space-between">
+                <ExternalLink
+                  style={{ color: 'white', textDecoration: 'underline' }}
+                  href="https://pangolin.exchange/litepaper"
+                  target="_blank"
+                >
+                  <TYPE.white fontSize={14}>{t('earnPage.readMoreAboutPng')}</TYPE.white>
+                </ExternalLink>
+                <FlexDiv>
+                  <ExternalLink
+                    style={{ color: 'white', textDecoration: 'underline', marginRight: 10 }}
+                    href="https://app.nexusmutual.io/cover/buy/get-quote?address=0xefa94DE7a4656D787667C749f7E1223D71E9FD88"
+                    target="_blank"
+                  >
+                    <TYPE.white fontSize={14}>{t('earnPage.getCoverNexusMutual')}</TYPE.white>
+                  </ExternalLink>
+                  <ExternalLink
+                    style={{ color: 'white', textDecoration: 'underline' }}
+                    href="https://app.insurace.io/Insurance/BuyCovers?referrer=565928487188065888397039055593264600345483712698"
+                    target="_blank"
+                  >
+                    <TYPE.white fontSize={14}>{t('earnPage.getInsuranceCoverage')}</TYPE.white>
+                  </ExternalLink>
+                </FlexDiv>
+              </AutoRow>
             </AutoColumn>
           </CardSection>
           <CardBGImage />

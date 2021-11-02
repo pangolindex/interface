@@ -62,12 +62,34 @@ import {
   APEIN,
   GB,
   CNR,
-  CYCLE
+  CYCLE,
+  IronICE,
+  MYAK,
+  WOW,
+  TEDDY,
+  TSD,
+  EVRT,
+  RAI,
+  AAVAXB,
+  INSUR,
+  TIME,
+  AVME,
+  HCT,
+  FRAXV2,
+  ROCO,
+  IMX,
+  AMPL,
+  ORBS
 } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
-import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
+import {
+  NEVER_RELOAD,
+  useMultipleContractSingleData,
+  useSingleCallResult,
+  useSingleContractMultipleData
+} from '../multicall/hooks'
 import { tryParseAmount } from '../swap/hooks'
 import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
@@ -75,6 +97,7 @@ import useUSDCPrice from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useTotalSupply } from '../../data/TotalSupply'
+import { useMiniChefContract } from '../../hooks/useContract'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -111,6 +134,12 @@ const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
     rewardToken: OOE[ChainId.AVALANCHE],
     conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xf0eFf017644680B9878429137ccb2c041b4Fb701',
+    version: 0
+  },
+  APEIN_V0: {
+    rewardToken: APEIN[ChainId.AVALANCHE],
+    conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xfe1d712363f2B1971818DBA935eEC13Ddea474cc',
     version: 0
   }
 }
@@ -240,7 +269,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], WETHe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x830A966B9B447c9B15aB24c0369c4018E75F31C9',
     version: 1,
-    multiplier: 10
+    multiplier: 8
   },
   WAVAX_USDT_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], USDT[ChainId.AVALANCHE]],
@@ -252,7 +281,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], USDTe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x006cC053bdb84C2d6380B3C4a573d84636378A47',
     version: 1,
-    multiplier: 10
+    multiplier: 11
   },
   WAVAX_WBTC_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
@@ -264,7 +293,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], WBTCe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x30CbF11f6fcc9FC1bF6E55A6941b1A47A56eAEC5',
     version: 1,
-    multiplier: 5
+    multiplier: 6
   },
   WAVAX_PNG_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
@@ -282,7 +311,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], LINKe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x2e10D9d08f76807eFdB6903025DE8e006b1185F5',
     version: 1,
-    multiplier: 5
+    multiplier: 4
   },
   WAVAX_DAI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], DAI[ChainId.AVALANCHE]],
@@ -330,7 +359,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], AAVEe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xa04fCcE7955312709c838982ad0E297375002C32',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_YFI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
@@ -360,55 +389,55 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], SPORE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xd3e5538A049FcFcb8dF559B85B352302fEfB8d7C',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_BIFI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], BIFI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x4E258f7ec60234bb6f3Ea7eCFf5931901182Bd6E',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_BNB_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], BNB[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x21CCa1672E95996413046077B8cf1E52F080A165',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_XAVA_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], XAVA[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x4219330Af5368378D5ffd869a55f5F2a26aB898c',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_PEFI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], PEFI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xd7EDBb1005ec65721a3976Dba996AdC6e02dc9bA',
     version: 1,
-    multiplier: 1
+    multiplier: 4
   },
   WAVAX_TRYB_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], TRYB[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x079a479e270E72A1899239570912358C6BC22d94',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_SHERPA_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], SHERPA[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x99918c92655D6f8537588210cD3Ddd52312CB36d',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_YAK_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], YAK[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xb600429CCD364F1727F91FC0E75D67d65D0ee4c5',
     version: 1,
-    multiplier: 1
+    multiplier: 4
   },
   WAVAX_DYP_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], DYP[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x29a7F3D1F27637EDA531dC69D989c86Ab95225D8',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_QI_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], QI[ChainId.AVALANCHE]],
@@ -420,19 +449,19 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], WALBT[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xa296F9474e77aE21f90afb50713F44Cc6916FbB2',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_HUSKY_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], HUSKY[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x2e60ab79BbCdfea164874700D5d98969a386eB2a',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_USDCe_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], USDCe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x84B536dA1A2D9b0609f9Da73139674cc2D75AF2D',
     version: 1,
-    multiplier: 10
+    multiplier: 11
   },
   WAVAX_LYD_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], LYD[ChainId.AVALANCHE]],
@@ -480,19 +509,19 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], ELE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x10E5d5f598abb970F85456Ea59f0611D77E00168',
     version: 1,
-    multiplier: 1
+    multiplier: 2
   },
   WAVAX_FRAX_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], FRAX[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xfd0824dF1E598D34C3495e1C2a339E2FA23Af40D',
     version: 1,
-    multiplier: 2
+    multiplier: 0
   },
   WAVAX_FXS_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], FXS[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x76Ad5c64Fe6B26b6aD9aaAA19eBa00e9eCa31FE1',
     version: 1,
-    multiplier: 1
+    multiplier: 0
   },
   WAVAX_START_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], START[ChainId.AVALANCHE]],
@@ -534,7 +563,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], JOE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xC0B2D45b8617997bcDad0F33AEE03e4DF4C4f81E',
     version: 1,
-    multiplier: 2
+    multiplier: 4
   },
   WAVAX_ZABU_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], ZABU[ChainId.AVALANCHE]],
@@ -558,7 +587,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], OOE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xB9cE09322FC55Da298e27b8678d300423988b40E',
     version: 1,
-    multiplier: 2
+    multiplier: 4
   },
   WAVAX_VEE_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], VEE[ChainId.AVALANCHE]],
@@ -582,13 +611,13 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], APEIN[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xac102f66A1670508DFA5753Fcbbba80E0648a0c7',
     version: 1,
-    multiplier: 2
+    multiplier: 4
   },
   WAVAX_GB_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], GB[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x6cFdB5Ce2a26a5b07041618fDAD81273815c8bb4',
     version: 1,
-    multiplier: 2
+    multiplier: 4
   },
   WAVAX_CNR_V1: {
     tokens: [WAVAX[ChainId.AVALANCHE], CNR[ChainId.AVALANCHE]],
@@ -601,6 +630,108 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     stakingRewardAddress: '0x45cd033361E9fEF750AAea96DbC360B342F4b4a2',
     version: 1,
     multiplier: 2
+  },
+  WAVAX_ICE_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], IronICE[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x12b493A6E4F185EF1feef45565654F71156C25bA',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_MYAK_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], MYAK[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x716c19807f46F97DdAc0745878675fF5B3A75004',
+    version: 1,
+    multiplier: 4
+  },
+  WAVAX_WOW_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], WOW[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x437352A8E2394379521BC84f0874c66c94F32fbb',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_TEDDY_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TEDDY[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x676247D8729B728BEEa83d1c1314acDD937327b6',
+    version: 1,
+    multiplier: 5
+  },
+  WAVAX_TSD_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TSD[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x30914Dbb452BeF7aD226aF0Aeb130658A4aC1Cb0',
+    version: 1,
+    multiplier: 5
+  },
+  WAVAX_EVRT_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], EVRT[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xfC04c452035A1E4D4fD4d5BF6b083CB563a20CA4',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_RAI_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], RAI[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xA69057977211C7bAe847c72dF6338d1B71E838af',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_AAVAXB_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], AAVAXB[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xAa01F80375528F36291677C683905b4A113A6470',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_INSUR_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], INSUR[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x41d731926E5B8d3ba70Bb62B9f067A163bE706ab',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_AVME_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], AVME[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xE4FED988974C0B7DFEB162287DeD67c6B197Af63',
+    version: 1,
+    multiplier: 2
+  },
+  WAVAX_TIME_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TIME[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x0875e51e54fbb7e63b1819acb069dc8d684563eb',
+    version: 1,
+    multiplier: 4
+  },
+  WAVAX_HCT_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], HCT[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x6528DCc443B2e014185946d1Dc1efd6e9aBE4CD8',
+    version: 1,
+    multiplier: 4
+  },
+  WAVAX_FRAXV2_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], FRAXV2[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x55152E05202AE58fDab26b20c6Fd762F5BCA797c',
+    version: 1,
+    multiplier: 6
+  },
+  WAVAX_ROCO_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], ROCO[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x23855F21d158efAE410e3568FB623C35BC1952E0',
+    version: 1,
+    multiplier: 4
+  },
+  WAVAX_IMX_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], IMX[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xD6887808CfCd5cBFf867379e41FaC912F167b084',
+    version: 1,
+    multiplier: 4
+  },
+  WAVAX_AMPL_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], AMPL[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xFE6338BEBef1989afA225494A63f235D8e8f46fd',
+    version: 1,
+    multiplier: 4
+  },
+  WAVAX_ORBS_V1: {
+    tokens: [WAVAX[ChainId.AVALANCHE], ORBS[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0xc2ecb35624Ad941474371E696AC8DAd0dda5e4d5',
+    version: 1,
+    multiplier: 4
   },
 
   PNG_ETH_V1: {
@@ -625,7 +756,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [PNG[ChainId.AVALANCHE], USDTe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x7216d1e173c1f1Ed990239d5c77d74714a837Cd5',
     version: 1,
-    multiplier: 5
+    multiplier: 10
   },
   PNG_WBTC_V1: {
     tokens: [PNG[ChainId.AVALANCHE], WBTC[ChainId.AVALANCHE]],
@@ -697,7 +828,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [PNG[ChainId.AVALANCHE], AAVEe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x3F91756D773A1455A7a1A70f5d9239F1B1d1f095',
     version: 1,
-    multiplier: 3
+    multiplier: 0
   },
   PNG_YFI_V1: {
     tokens: [PNG[ChainId.AVALANCHE], YFI[ChainId.AVALANCHE]],
@@ -733,7 +864,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [PNG[ChainId.AVALANCHE], BIFI[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x518B07E2d9e08A8c2e3cB7704336520827a4d399',
     version: 1,
-    multiplier: 5
+    multiplier: 0
   },
   PNG_BNB_V1: {
     tokens: [PNG[ChainId.AVALANCHE], BNB[ChainId.AVALANCHE]],
@@ -763,7 +894,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [PNG[ChainId.AVALANCHE], SHERPA[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x80E919784e7c5AD3Dd59cAfCDC0e9C079B65f262',
     version: 1,
-    multiplier: 5
+    multiplier: 0
   },
   PNG_YAK_V1: {
     tokens: [PNG[ChainId.AVALANCHE], YAK[ChainId.AVALANCHE]],
@@ -799,7 +930,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [PNG[ChainId.AVALANCHE], USDCe[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x73d1cC4B8dA555005E949B3ECEE490A7206C14DF',
     version: 1,
-    multiplier: 5
+    multiplier: 10
   },
   PNG_LYD_V1: {
     tokens: [PNG[ChainId.AVALANCHE], LYD[ChainId.AVALANCHE]],
@@ -847,7 +978,7 @@ const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [PNG[ChainId.AVALANCHE], ELE[ChainId.AVALANCHE]],
     stakingRewardAddress: '0xfcB0C53FC5c71005D11C6838922e254323b7Ca06',
     version: 1,
-    multiplier: 5
+    multiplier: 0
   }
 }
 
@@ -985,6 +1116,24 @@ export interface StakingInfo extends DoubleSideStakingInfo {
   swapFeeApr?: Number
   stakingApr?: Number
   combinedApr?: Number
+}
+export interface MiniChefStakingInfo {
+  // user staked amount
+  stakedAmount: TokenAmount
+  // the total amount of token staked in the contract
+  totalStakedAmount: TokenAmount
+  // user unclaimed reward
+  pendingRewardAmount: TokenAmount
+  // pool reward rate per seconds
+  totalRewardRate: TokenAmount
+  // user pool reward rate per seconds
+  rewardRate: TokenAmount
+  // calculates a hypothetical amount of token distributed to the active account per second.
+  getHypotheticalRewardRate: (
+    stakedAmount: TokenAmount,
+    totalStakedAmount: TokenAmount,
+    totalRewardRate: TokenAmount
+  ) => TokenAmount
 }
 
 const calculateTotalStakedAmountInAvaxFromPng = function(
@@ -1582,4 +1731,263 @@ export function useGetPairDataFromPair(pair: Pair) {
     poolTokenPercentage: poolTokenPercentage
   }
   return parData
+}
+export const useMinichefPools = (): { [key: string]: JSBI } => {
+  const minichefContract = useMiniChefContract()
+  const lpTokens = useSingleCallResult(minichefContract, 'lpTokens', []).result
+  const lpTokensArr = lpTokens?.[0]
+
+  return useMemo(() => {
+    const poolMap: { [key: string]: JSBI } = {}
+    if (lpTokensArr) {
+      lpTokensArr.forEach((address: string, index: number) => {
+        poolMap[address] = JSBI.BigInt(index)
+      })
+    }
+    return poolMap
+  }, [lpTokensArr])
+}
+
+export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | null) => {
+  const { chainId, account } = useActiveWeb3React()
+  const minichefContract = useMiniChefContract()
+  const poolMap = useMinichefPools()
+  const png = chainId ? PNG[chainId] : PNG[ChainId.AVALANCHE]
+
+  const info = useMemo(
+    () =>
+      chainId
+        ? DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(item =>
+            pairToFilterBy === undefined
+              ? true
+              : pairToFilterBy === null
+              ? false
+              : pairToFilterBy.involvesToken(item.tokens[0]) && pairToFilterBy.involvesToken(item.tokens[1])
+          ) ?? []
+        : [],
+    [chainId, pairToFilterBy, version]
+  )
+
+  const tokens = useMemo(() => info.map(({ tokens }) => tokens), [info])
+  const pairs = usePairs(tokens)
+
+  const pairAddresses = useMemo(() => {
+    const pairsHaveLoaded = pairs?.every(([state, pair]) => state === PairState.EXISTS)
+    if (!pairsHaveLoaded && Object.keys(poolMap).length > 0) return []
+    else
+      return pairs
+        .map(([state, pair]) => pair?.liquidityToken.address)
+        .filter(address => poolMap.hasOwnProperty(address as string))
+  }, [pairs])
+
+  const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
+
+  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[ChainId.AVALANCHE], png)
+
+  const poolsIdInput = useMemo(
+    () =>
+      Object.values(poolMap).length > 0
+        ? Object.values(poolMap).map(id => {
+            return [JSBI.BigInt(id).toString(16)]
+          })
+        : undefined,
+    [poolMap]
+  )
+  const poolInfos = useSingleContractMultipleData(minichefContract, 'poolInfo', poolsIdInput ?? [])
+
+  const userInfoInput = useMemo(
+    () =>
+      account && Object.values(poolMap).length > 0
+        ? Object.values(poolMap).map(id => {
+            return [JSBI.BigInt(id).toString(16), account]
+          })
+        : undefined,
+    [poolMap]
+  )
+  const userInfos = useSingleContractMultipleData(minichefContract, 'userInfo', userInfoInput ?? [])
+  const pendingRewards = useSingleContractMultipleData(minichefContract, 'pendingReward', userInfoInput ?? [])
+
+  const rewardPerSecond = useSingleCallResult(minichefContract, 'rewardPerSecond', []).result
+  const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
+
+  const arr = useMemo(() => {
+    if (!chainId || !png) return []
+
+    return pairAddresses.reduce<any[]>((memo, pairAddress, index) => {
+      // these two are dependent on account
+
+      const pairTotalSupplyState = pairTotalSupplies[index]
+      const poolInfo = poolInfos[index]
+      const userPoolInfo = userInfos[index]
+      const [pairState, pair] = pairs[index]
+      const pendingRewardInfo = pendingRewards[index]
+
+      if (
+        pairTotalSupplyState?.loading === false &&
+        poolInfo?.loading === false &&
+        userPoolInfo?.loading === false &&
+        pendingRewardInfo?.loading === false &&
+        pair &&
+        avaxPngPair &&
+        pairState !== PairState.LOADING &&
+        avaxPngPairState !== PairState.LOADING &&
+        rewardPerSecond &&
+        totalAllocPoint
+      ) {
+        if (
+          pairTotalSupplyState.error ||
+          pairState === PairState.INVALID ||
+          pairState === PairState.NOT_EXISTS ||
+          avaxPngPairState === PairState.INVALID ||
+          avaxPngPairState === PairState.NOT_EXISTS
+        ) {
+          console.error('Failed to load staking rewards info')
+          return memo
+        }
+        // get the LP token
+        const tokens = info[index].tokens
+
+        // const wavax = tokens[0].equals(WAVAX[tokens[0].chainId]) ? tokens[0] : tokens[1]
+        const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
+        const lpToken = dummyPair.liquidityToken
+
+        const poolAllocPointAmount = new TokenAmount(lpToken, JSBI.BigInt(poolInfo?.result?.['allocPoint']))
+        const totalAllocPointAmount = new TokenAmount(lpToken, JSBI.BigInt(totalAllocPoint?.[0]))
+        const rewardRatePerSecAmount = new TokenAmount(png, JSBI.BigInt(rewardPerSecond?.[0]))
+
+        const poolRewardRate = new TokenAmount(
+          png,
+          JSBI.divide(JSBI.multiply(poolAllocPointAmount.raw, rewardRatePerSecAmount.raw), totalAllocPointAmount.raw)
+        )
+
+        const totalStakedAmount = new TokenAmount(lpToken, JSBI.BigInt(pairTotalSupplyState?.result?.[0]))
+        const stakedAmount = new TokenAmount(lpToken, JSBI.BigInt(userPoolInfo?.result?.['amount'] ?? 0))
+        const earnedAmount = new TokenAmount(png, JSBI.BigInt(pendingRewardInfo?.result?.['pending'] ?? 0))
+
+        const multiplier = info[index].multiplier
+
+        const getHypotheticalRewardRate = (
+          stakedAmount: TokenAmount,
+          totalStakedAmount: TokenAmount,
+          totalRewardRate: TokenAmount
+        ): TokenAmount => {
+          return new TokenAmount(
+            png,
+            JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
+              ? JSBI.divide(JSBI.multiply(totalRewardRate.raw, stakedAmount.raw), totalStakedAmount.raw)
+              : JSBI.BigInt(0)
+          )
+        }
+
+        const userRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
+
+        memo.push({
+          tokens: tokens,
+          earnedAmount,
+          rewardRate: userRewardRate,
+          totalRewardRate: poolRewardRate,
+          stakedAmount,
+          totalStakedAmount,
+          // totalStakedInWavax: totalStakedInWavax,
+          // totalStakedInUsd: totalStakedInUsd,
+          multiplier: JSBI.BigInt(multiplier),
+          getHypotheticalRewardRate
+        })
+      }
+
+      return memo
+    }, [])
+  }, [
+    chainId,
+    png,
+    pairTotalSupplies,
+    poolInfos,
+    userInfos,
+    info,
+    pairs,
+    avaxPngPair,
+    avaxPngPairState,
+    rewardPerSecond,
+    totalAllocPoint,
+    pendingRewards
+  ])
+
+  return arr
+}
+
+export const useMinichefStakingInfo = (lpToken: Token): MiniChefStakingInfo => {
+  const { account, chainId } = useActiveWeb3React()
+  const minichefContract = useMiniChefContract()
+  const poolMap = useMinichefPools()
+
+  const png = chainId ? PNG[chainId] : PNG[ChainId.AVALANCHE]
+
+  const pid = poolMap?.[lpToken?.address] ? poolMap?.[lpToken?.address].toString(16) : undefined
+
+  const userInputs = useMemo(() => [pid, account as string], [pid, account])
+  const userInfo = useSingleCallResult(minichefContract, 'userInfo', userInputs).result
+
+  const rewardInput = useMemo(() => [pid, account as string], [pid, account])
+  const rewardInfo = useSingleCallResult(minichefContract, 'pendingReward', rewardInput).result
+
+  const poolInfoInput = useMemo(() => [pid], [pid])
+  const poolInfo = useSingleCallResult(minichefContract, 'poolInfo', poolInfoInput).result
+
+  const rewardPerSecond = useSingleCallResult(minichefContract, 'rewardPerSecond', []).result
+  const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
+
+  const pairTotalSupplies = useMultipleContractSingleData([lpToken?.address], ERC20_INTERFACE, 'totalSupply')
+  const totalSupply = pairTotalSupplies?.[0]?.result?.[0]
+
+  const amount = userInfo?.['amount']
+  const pendingReward = rewardInfo?.['pending']
+
+  const getHypotheticalRewardRate = (
+    stakedAmount: TokenAmount,
+    totalStakedAmount: TokenAmount,
+    totalRewardRate: TokenAmount
+  ): TokenAmount => {
+    if (stakedAmount && totalStakedAmount && totalRewardRate) {
+      return new TokenAmount(
+        png,
+        JSBI.greaterThan(totalStakedAmount?.raw, JSBI.BigInt(0))
+          ? JSBI.divide(JSBI.multiply(totalRewardRate?.raw, stakedAmount?.raw), totalStakedAmount?.raw)
+          : JSBI.BigInt(0)
+      )
+    }
+    return new TokenAmount(png, JSBI.BigInt(0))
+  }
+
+  if (lpToken && png && rewardPerSecond && totalAllocPoint && poolInfo && totalSupply && amount && pendingReward) {
+    const poolAllocPointAmount = new TokenAmount(lpToken, JSBI.BigInt(poolInfo?.['allocPoint']))
+    const totalAllocPointAmount = new TokenAmount(lpToken, JSBI.BigInt(totalAllocPoint?.[0]))
+
+    const stakedAmount = new TokenAmount(lpToken, JSBI.BigInt(amount))
+    const pendingRewardAmount = new TokenAmount(png, JSBI.BigInt(pendingReward))
+    const rewardRatePerSec = new TokenAmount(png, JSBI.BigInt(rewardPerSecond?.[0]))
+    const totalAmount = new TokenAmount(lpToken, JSBI.BigInt(totalSupply))
+
+    const poolRewardRate = new TokenAmount(
+      png,
+      JSBI.divide(JSBI.multiply(poolAllocPointAmount.raw, rewardRatePerSec.raw), totalAllocPointAmount.raw)
+    )
+    const userRewardRate = getHypotheticalRewardRate(stakedAmount, totalAmount, poolRewardRate)
+
+    return {
+      stakedAmount,
+      pendingRewardAmount,
+      totalRewardRate: poolRewardRate,
+      rewardRate: userRewardRate,
+      getHypotheticalRewardRate,
+      totalStakedAmount: totalAmount
+    }
+  }
+  return {
+    stakedAmount: new TokenAmount(png, JSBI.BigInt(0)),
+    pendingRewardAmount: new TokenAmount(png, JSBI.BigInt(0)),
+    totalRewardRate: new TokenAmount(png, JSBI.BigInt(0)),
+    rewardRate: new TokenAmount(png, JSBI.BigInt(0)),
+    getHypotheticalRewardRate,
+    totalStakedAmount: new TokenAmount(png, JSBI.BigInt(0))
+  }
 }

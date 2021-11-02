@@ -14,7 +14,7 @@ import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import { ButtonPrimary, ButtonEmpty } from '../../components/Button'
 import StakingModal from '../../components/earn/StakingModal'
-import { useStakingInfo } from '../../state/stake/hooks'
+import { useMinichefStakingInfo, useStakingInfo } from '../../state/stake/hooks'
 import UnstakingModal from '../../components/earn/UnstakingModal'
 import ClaimRewardModal from '../../components/earn/ClaimRewardModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
@@ -103,6 +103,8 @@ export default function Manage({
   const [, stakingTokenPair] = usePair(tokenA, tokenB)
   const stakingInfo = useStakingInfo(Number(version), stakingTokenPair)?.[0]
 
+  const miniChefStaking = useMinichefStakingInfo(stakingTokenPair?.liquidityToken as Token)
+
   const avaxPool = currencyA === CAVAX || currencyB === CAVAX
 
   let valueOfTotalStakedAmountInWavax: TokenAmount | undefined
@@ -174,14 +176,14 @@ export default function Manage({
   // detect existing unstaked LP position to show add button if none found
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
   const showAddLiquidityButton = Boolean(stakingInfo?.stakedAmount?.equalTo('0') && userLiquidityUnstaked?.equalTo('0'))
-
+  const showMigrateButton = stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0))
   // toggle for staking modal and unstaking modal
   const [showStakingModal, setShowStakingModal] = useState(false)
   const [showUnstakingModal, setShowUnstakingModal] = useState(false)
   const [showClaimRewardModal, setShowClaimRewardModal] = useState(false)
 
   // fade cards if nothing staked or nothing earned yet
-  const disableTop = !stakingInfo?.stakedAmount || stakingInfo.stakedAmount.equalTo(JSBI.BigInt(0))
+  const disableTop = !miniChefStaking?.stakedAmount || miniChefStaking.stakedAmount.equalTo(JSBI.BigInt(0))
 
   // get WAVAX value of staked LP tokens
 
@@ -200,7 +202,7 @@ export default function Manage({
   // 	)
   // }
 
-  const countUpAmount = stakingInfo?.earnedAmount?.toFixed(6) ?? '0'
+  const countUpAmount = miniChefStaking?.pendingRewardAmount?.toFixed(6) ?? '0'
   const countUpAmountPrevious = usePrevious(countUpAmount) ?? '0'
 
   const toggleWalletModal = useWalletModalToggle()
@@ -239,7 +241,7 @@ export default function Manage({
           <AutoColumn gap="sm">
             <TYPE.body style={{ margin: 0 }}>{t('earnPage.poolRate')}</TYPE.body>
             <TYPE.body fontSize={24} fontWeight={500}>
-              {stakingInfo?.totalRewardRate
+              {miniChefStaking?.totalRewardRate
                 ?.multiply((60 * 60 * 24 * 7).toString())
                 ?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
               {t('earnPage.rewardPerWeek', { symbol: 'PNG' })}
@@ -284,19 +286,47 @@ export default function Manage({
             onDismiss={() => setShowStakingModal(false)}
             stakingInfo={stakingInfo}
             userLiquidityUnstaked={userLiquidityUnstaked}
+            miniChefStaking={miniChefStaking}
+            pairAddress={stakingTokenPair?.liquidityToken?.address}
           />
           <UnstakingModal
             isOpen={showUnstakingModal}
             onDismiss={() => setShowUnstakingModal(false)}
             stakingInfo={stakingInfo}
+            miniChefStaking={miniChefStaking}
+            pairAddress={stakingTokenPair?.liquidityToken?.address}
           />
           <ClaimRewardModal
             isOpen={showClaimRewardModal}
             onDismiss={() => setShowClaimRewardModal(false)}
             stakingInfo={stakingInfo}
+            miniChefStaking={miniChefStaking}
+            pairAddress={stakingTokenPair?.liquidityToken?.address}
           />
         </>
       )}
+
+      {showMigrateButton ? (
+        <VoteCard>
+          <CardBGImage />
+          <CardNoise />
+          <CardSection>
+            <AutoColumn gap="md">
+              <RowBetween>
+                <TYPE.white fontWeight={600}>{t('earnPage.migrateTitle')}</TYPE.white>
+              </RowBetween>
+              <RowBetween style={{ marginBottom: '1rem' }}>
+                <TYPE.white fontSize={14}>{t('earnPage.migrateDescription')}</TYPE.white>
+              </RowBetween>
+              <ButtonPrimary padding="8px" width={'fit-content'} as={Link} to={`/beta/migrate/1`}>
+                {t('earnPage.migrate')}
+              </ButtonPrimary>
+            </AutoColumn>
+          </CardSection>
+          <CardBGImage />
+          <CardNoise />
+        </VoteCard>
+      ) : null}
 
       <PositionInfo gap="lg" justify="center" dim={showAddLiquidityButton}>
         <BottomSection gap="lg" justify="center">
@@ -310,7 +340,7 @@ export default function Manage({
                 </RowBetween>
                 <RowBetween style={{ alignItems: 'baseline' }}>
                   <TYPE.white fontSize={36} fontWeight={600}>
-                    {stakingInfo?.stakedAmount?.toSignificant(6) ?? '-'}
+                    {miniChefStaking?.stakedAmount?.toSignificant(6) ?? '-'}
                   </TYPE.white>
                   <TYPE.white>
                     PGL {currencyA?.symbol}-{currencyB?.symbol}
@@ -319,7 +349,7 @@ export default function Manage({
               </AutoColumn>
             </CardSection>
           </StyledDataCard>
-          <StyledBottomCard dim={stakingInfo?.stakedAmount?.equalTo(JSBI.BigInt(0))}>
+          <StyledBottomCard dim={miniChefStaking?.stakedAmount?.equalTo(JSBI.BigInt(0))}>
             <CardBGImage desaturate />
             <CardNoise />
             <AutoColumn gap="sm">
@@ -327,16 +357,17 @@ export default function Manage({
                 <div>
                   <TYPE.black>{t('earnPage.unclaimedReward', { symbol: 'PNG' })}</TYPE.black>
                 </div>
-                {stakingInfo?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, stakingInfo?.earnedAmount?.raw) && (
-                  <ButtonEmpty
-                    padding="8px"
-                    borderRadius="8px"
-                    width="fit-content"
-                    onClick={() => setShowClaimRewardModal(true)}
-                  >
-                    {t('earnPage.claim')}
-                  </ButtonEmpty>
-                )}
+                {miniChefStaking?.pendingRewardAmount &&
+                  JSBI.notEqual(BIG_INT_ZERO, miniChefStaking?.pendingRewardAmount?.raw) && (
+                    <ButtonEmpty
+                      padding="8px"
+                      borderRadius="8px"
+                      width="fit-content"
+                      onClick={() => setShowClaimRewardModal(true)}
+                    >
+                      {t('earnPage.claim')}
+                    </ButtonEmpty>
+                  )}
               </RowBetween>
               <RowBetween style={{ alignItems: 'baseline' }}>
                 <TYPE.largeHeader fontSize={36} fontWeight={600}>
@@ -354,7 +385,7 @@ export default function Manage({
                   <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px ' }}>
                     ⚡
                   </span>
-                  {stakingInfo?.rewardRate
+                  {miniChefStaking?.rewardRate
                     ?.multiply((60 * 60 * 24 * 7).toString())
                     ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
                   {t('earnPage.rewardPerWeek', { symbol: 'PNG' })}
@@ -373,12 +404,12 @@ export default function Manage({
         {!showAddLiquidityButton && (
           <DataRow style={{ marginBottom: '1rem' }}>
             <ButtonPrimary padding="8px" borderRadius="8px" width="160px" onClick={handleDepositClick}>
-              {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0))
+              {miniChefStaking?.stakedAmount?.greaterThan(JSBI.BigInt(0))
                 ? t('earnPage.deposit')
                 : t('earnPage.depositStakingTokens', { symbol: 'PGL' })}
             </ButtonPrimary>
 
-            {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) && (
+            {miniChefStaking?.stakedAmount?.greaterThan(JSBI.BigInt(0)) && (
               <>
                 <ButtonPrimary
                   padding="8px"
