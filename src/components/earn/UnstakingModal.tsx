@@ -6,7 +6,7 @@ import { RowBetween } from '../Row'
 import { TYPE, CloseIcon } from '../../theme'
 import { ButtonError } from '../Button'
 import { DoubleSideStakingInfo, MiniChefStakingInfos, useMinichefPools } from '../../state/stake/hooks'
-import { useMiniChefContract, useStakingContract } from '../../hooks/useContract'
+import { useMiniChefContract } from '../../hooks/useContract'
 import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
@@ -47,9 +47,6 @@ export default function UnstakingModal({
     setAttempting(false)
     onDismiss()
   }
-
-  // @ts-ignore
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   const miniChefContract = useMiniChefContract()
   const poolMap = useMinichefPools()

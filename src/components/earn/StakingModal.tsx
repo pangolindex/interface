@@ -11,10 +11,8 @@ import CurrencyInputPanel from '../CurrencyInputPanel'
 import { TokenAmount, Pair, ChainId } from '@pangolindex/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
-import { useMiniChefContract, usePairContract, useStakingContract } from '../../hooks/useContract'
+import { useMiniChefContract, usePairContract } from '../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
-// @ts-ignore
-import { splitSignature } from 'ethers/lib/utils'
 import {
   DoubleSideStakingInfo,
   MiniChefStakingInfos,
@@ -103,12 +101,9 @@ export default function StakingModal({
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(parsedAmount, MINICHEF_ADDRESS)
-
-  // @ts-ignore
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
   const poolMap = useMinichefPools()
-
   const miniChefContract = useMiniChefContract()
+
   async function onStake() {
     setAttempting(true)
     if (miniChefContract && parsedAmount && pairAddress) {

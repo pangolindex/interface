@@ -1720,12 +1720,12 @@ export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | nul
         return exist
       })
     }
-  }, [pairs])
+  }, [pairs, poolMap])
 
   // update info based on existing pairs
   let updatedInfo = useMemo(() => {
     return existingPairsIndex.current.map(index => info[index])
-  }, [existingPairsIndex.current])
+  }, [existingPairsIndex.current, info])
 
   const pairAddresses = useMemo(() => {
     return existingPairs.map(([state, pair]) => pair?.liquidityToken.address)
@@ -1745,7 +1745,7 @@ export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | nul
               return [JSBI.BigInt(id).toString(16)]
             })
         : undefined,
-    [poolMap]
+    [poolMap, pairAddresses]
   )
   const poolInfos = useSingleContractMultipleData(minichefContract, 'poolInfo', poolsIdInput ?? [])
 
@@ -1758,7 +1758,7 @@ export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | nul
               return [JSBI.BigInt(id).toString(16), account]
             })
         : undefined,
-    [poolMap]
+    [poolMap, pairAddresses, account]
   )
   const userInfos = useSingleContractMultipleData(minichefContract, 'userInfo', userInfoInput ?? [])
 
@@ -1888,7 +1888,6 @@ export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | nul
     pairTotalSupplies,
     poolInfos,
     userInfos,
-    info,
     existingPairs,
     avaxPngPair,
     avaxPngPairState,
@@ -1897,6 +1896,8 @@ export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | nul
     pendingRewards,
     rewardsExpiration,
     balances,
+    usdPrice,
+    pairAddresses,
     updatedInfo
   ])
 
