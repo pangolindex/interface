@@ -1667,6 +1667,173 @@ export const useMinichefPools = (): { [key: string]: JSBI } => {
   }, [lpTokensArr])
 }
 
+export const useMinichefStakingInfos = (version = 1, pairToFilterBy?: Pair | null) => {
+  const { chainId, account } = useActiveWeb3React()
+  const minichefContract = useMiniChefContract()
+  const poolMap = useMinichefPools()
+  const png = chainId ? PNG[chainId] : PNG[ChainId.AVALANCHE]
+
+  const info = useMemo(
+    () =>
+      chainId
+        ? DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(item =>
+            pairToFilterBy === undefined
+              ? true
+              : pairToFilterBy === null
+              ? false
+              : pairToFilterBy.involvesToken(item.tokens[0]) && pairToFilterBy.involvesToken(item.tokens[1])
+          ) ?? []
+        : [],
+    [chainId, pairToFilterBy, version]
+  )
+
+  const tokens = useMemo(() => info.map(({ tokens }) => tokens), [info])
+  const pairs = usePairs(tokens)
+
+  const pairAddresses = useMemo(() => {
+    const pairsHaveLoaded = pairs?.every(([state, pair]) => state === PairState.EXISTS)
+    if (!pairsHaveLoaded && Object.keys(poolMap).length > 0) return []
+    else
+      return pairs
+        .map(([state, pair]) => pair?.liquidityToken.address)
+        .filter(address => poolMap.hasOwnProperty(address as string))
+  }, [pairs])
+
+  const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
+
+  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[ChainId.AVALANCHE], png)
+
+  const poolsIdInput = useMemo(
+    () =>
+      Object.values(poolMap).length > 0
+        ? Object.values(poolMap).map(id => {
+            return [JSBI.BigInt(id).toString(16)]
+          })
+        : undefined,
+    [poolMap]
+  )
+  const poolInfos = useSingleContractMultipleData(minichefContract, 'poolInfo', poolsIdInput ?? [])
+
+  const userInfoInput = useMemo(
+    () =>
+      account && Object.values(poolMap).length > 0
+        ? Object.values(poolMap).map(id => {
+            return [JSBI.BigInt(id).toString(16), account]
+          })
+        : undefined,
+    [poolMap]
+  )
+  const userInfos = useSingleContractMultipleData(minichefContract, 'userInfo', userInfoInput ?? [])
+  const pendingRewards = useSingleContractMultipleData(minichefContract, 'pendingReward', userInfoInput ?? [])
+
+  const rewardPerSecond = useSingleCallResult(minichefContract, 'rewardPerSecond', []).result
+  const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
+
+  const arr = useMemo(() => {
+    if (!chainId || !png) return []
+
+    return pairAddresses.reduce<any[]>((memo, pairAddress, index) => {
+      // these two are dependent on account
+
+      const pairTotalSupplyState = pairTotalSupplies[index]
+      const poolInfo = poolInfos[index]
+      const userPoolInfo = userInfos[index]
+      const [pairState, pair] = pairs[index]
+      const pendingRewardInfo = pendingRewards[index]
+
+      if (
+        pairTotalSupplyState?.loading === false &&
+        poolInfo?.loading === false &&
+        userPoolInfo?.loading === false &&
+        pendingRewardInfo?.loading === false &&
+        pair &&
+        avaxPngPair &&
+        pairState !== PairState.LOADING &&
+        avaxPngPairState !== PairState.LOADING &&
+        rewardPerSecond &&
+        totalAllocPoint
+      ) {
+        if (
+          pairTotalSupplyState.error ||
+          pairState === PairState.INVALID ||
+          pairState === PairState.NOT_EXISTS ||
+          avaxPngPairState === PairState.INVALID ||
+          avaxPngPairState === PairState.NOT_EXISTS
+        ) {
+          console.error('Failed to load staking rewards info')
+          return memo
+        }
+        // get the LP token
+        const tokens = info[index].tokens
+
+        // const wavax = tokens[0].equals(WAVAX[tokens[0].chainId]) ? tokens[0] : tokens[1]
+        const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
+        const lpToken = dummyPair.liquidityToken
+
+        const poolAllocPointAmount = new TokenAmount(lpToken, JSBI.BigInt(poolInfo?.result?.['allocPoint']))
+        const totalAllocPointAmount = new TokenAmount(lpToken, JSBI.BigInt(totalAllocPoint?.[0]))
+        const rewardRatePerSecAmount = new TokenAmount(png, JSBI.BigInt(rewardPerSecond?.[0]))
+
+        const poolRewardRate = new TokenAmount(
+          png,
+          JSBI.divide(JSBI.multiply(poolAllocPointAmount.raw, rewardRatePerSecAmount.raw), totalAllocPointAmount.raw)
+        )
+
+        const totalStakedAmount = new TokenAmount(lpToken, JSBI.BigInt(pairTotalSupplyState?.result?.[0]))
+        const stakedAmount = new TokenAmount(lpToken, JSBI.BigInt(userPoolInfo?.result?.['amount'] ?? 0))
+        const earnedAmount = new TokenAmount(png, JSBI.BigInt(pendingRewardInfo?.result?.['pending'] ?? 0))
+
+        const multiplier = info[index].multiplier
+
+        const getHypotheticalRewardRate = (
+          stakedAmount: TokenAmount,
+          totalStakedAmount: TokenAmount,
+          totalRewardRate: TokenAmount
+        ): TokenAmount => {
+          return new TokenAmount(
+            png,
+            JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
+              ? JSBI.divide(JSBI.multiply(totalRewardRate.raw, stakedAmount.raw), totalStakedAmount.raw)
+              : JSBI.BigInt(0)
+          )
+        }
+
+        const userRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
+
+        memo.push({
+          tokens: tokens,
+          earnedAmount,
+          rewardRate: userRewardRate,
+          totalRewardRate: poolRewardRate,
+          stakedAmount,
+          totalStakedAmount,
+          // totalStakedInWavax: totalStakedInWavax,
+          // totalStakedInUsd: totalStakedInUsd,
+          multiplier: JSBI.BigInt(multiplier),
+          getHypotheticalRewardRate
+        })
+      }
+
+      return memo
+    }, [])
+  }, [
+    chainId,
+    png,
+    pairTotalSupplies,
+    poolInfos,
+    userInfos,
+    info,
+    pairs,
+    avaxPngPair,
+    avaxPngPairState,
+    rewardPerSecond,
+    totalAllocPoint,
+    pendingRewards
+  ])
+
+  return arr
+}
+
 export const useMinichefStakingInfo = (lpToken: Token): MiniChefStakingInfo => {
   const { account, chainId } = useActiveWeb3React()
   const minichefContract = useMiniChefContract()
