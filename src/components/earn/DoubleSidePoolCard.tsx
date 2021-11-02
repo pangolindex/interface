@@ -53,15 +53,15 @@ const Wrapper = styled(AutoColumn)<{ showBackground: boolean; bgColor: any }>`
      0px 24px 32px rgba(0, 0, 0, 0.01);`}
 `
 
-const TopSection = styled.div`
+const TopSection = styled.div<{ isStaking?: boolean }>`
   display: grid;
-  grid-template-columns: 48px 1fr auto 120px;
+  grid-template-columns: ${({ isStaking }) => (isStaking ? '48px 1fr auto 120px 120px' : '48px 1fr auto 120px')};
   grid-gap: 0px;
   align-items: center;
   padding: 1rem;
   z-index: 1;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-     grid-template-columns: 48px 1fr auto 96px;
+  ${({ theme, isStaking }) => theme.mediaWidth.upToSmall`
+     grid-template-columns: ${isStaking ? '48px 1fr auto 96px 96px' : ' 48px 1fr auto 96px'};
    `};
 `
 
@@ -117,7 +117,7 @@ export default function DoubleSidePoolCard({
       <CardBGImage desaturate />
       <CardNoise />
 
-      <TopSection>
+      <TopSection isStaking={isStaking}>
         <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={24} />
         <TYPE.white fontWeight={600} fontSize={24} style={{ marginLeft: '8px' }}>
           {currency0.symbol}-{currency1.symbol}
@@ -130,6 +130,16 @@ export default function DoubleSidePoolCard({
             )}/${currencyId(migration.tokens[1])}/${migration?.version}`}
             style={{ marginRight: '10px' }}
           >
+            <ButtonPrimary padding="8px" borderRadius="8px">
+              Migrate
+            </ButtonPrimary>
+          </StyledInternalLink>
+        ) : (
+          <span></span>
+        )}
+
+        {isStaking ? (
+          <StyledInternalLink to={`/beta/migrate/1`} style={{ marginRight: '10px' }}>
             <ButtonPrimary padding="8px" borderRadius="8px">
               Migrate
             </ButtonPrimary>
