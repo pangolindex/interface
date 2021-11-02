@@ -150,9 +150,9 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: Unstake
               }}
               loading={attempting}
               isDisabled={!!error || attempting || isGreaterThan}
+              loadingText={t('migratePage.loading')}
             >
-              {attempting ? t('migratePage.loading') : t('migratePage.unstake')}{' '}
-              {allChoosePoolLength > 1 && `${index + 1}/${allChoosePoolLength}`}
+              {t('migratePage.unstake')} {allChoosePoolLength > 1 && `${index + 1}/${allChoosePoolLength}`}
             </Button>
           </Box>
         </RowBetween>

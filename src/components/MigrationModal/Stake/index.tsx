@@ -37,8 +37,6 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StackProps)
   let pair = Object.values(allChoosePool)?.[index]?.pair
   let stakingInfo = Object.values(allChoosePool)?.[index]?.staking
 
-  // const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
-  // let initalAmount: TokenAmount = new TokenAmount(stakingInfo.rewardRate.token, '0')
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, pair.liquidityToken) as TokenAmount
   const [stakingAmount, setStakingAmount] = useState('')
 
@@ -102,8 +100,9 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StackProps)
             addTransaction(response, {
               summary: t('earn.depositLiquidity')
             })
-            afterStake()
+
             setAttempting(false)
+            afterStake()
           })
           .catch((error: any) => {
             setAttempting(false)
@@ -169,6 +168,7 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StackProps)
               onClick={onAttemptToApprove}
               isDisabled={attempting || approval !== ApprovalState.NOT_APPROVED || isGreaterThan}
               loading={attempting}
+              loadingText={t('migratePage.loading')}
             >
               {t('earn.approve')} {allChoosePoolLength > 1 && `${index + 1}/${allChoosePoolLength}`}
             </Button>
@@ -179,6 +179,7 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StackProps)
               isDisabled={attempting || !!error || approval !== ApprovalState.APPROVED || isGreaterThan}
               onClick={onStake}
               loading={attempting}
+              loadingText={t('migratePage.loading')}
             >
               {error ?? t('earn.deposit')} {allChoosePoolLength > 1 && `${index + 1}/${allChoosePoolLength}`}
             </Button>
