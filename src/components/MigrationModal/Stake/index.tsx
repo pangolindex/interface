@@ -96,6 +96,7 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StackProps)
               summary: t('earn.depositLiquidity')
             })
             afterStake()
+            setAttempting(false)
           })
           .catch((error: any) => {
             setAttempting(false)
