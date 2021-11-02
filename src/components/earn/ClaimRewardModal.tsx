@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import { RowBetween } from '../Row'
 import { TYPE, CloseIcon } from '../../theme'
 import { ButtonError } from '../Button'
-import { DoubleSideStakingInfo, MiniChefStakingInfo, useMinichefPools } from '../../state/stake/hooks'
-import { useMiniChefContract, useStakingContract } from '../../hooks/useContract'
+import { DoubleSideStakingInfo, MiniChefStakingInfos, useMinichefPools } from '../../state/stake/hooks'
+import { useMiniChefContract } from '../../hooks/useContract'
 import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
@@ -22,7 +22,7 @@ interface StakingModalProps {
   isOpen: boolean
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
-  miniChefStaking?: MiniChefStakingInfo
+  miniChefStaking?: MiniChefStakingInfos
   pairAddress?: string
 }
 
@@ -47,8 +47,6 @@ export default function ClaimRewardModal({
     onDismiss()
   }
 
-  // @ts-ignore
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
   const minichefContract = useMiniChefContract()
   const poolMap = useMinichefPools()
 
@@ -86,10 +84,10 @@ export default function ClaimRewardModal({
             <TYPE.mediumHeader>{t('earn.claim')}</TYPE.mediumHeader>
             <CloseIcon onClick={wrappedOnDismiss} />
           </RowBetween>
-          {miniChefStaking?.pendingRewardAmount && (
+          {miniChefStaking?.earnedAmount && (
             <AutoColumn justify="center" gap="md">
               <TYPE.body fontWeight={600} fontSize={36}>
-                {miniChefStaking?.pendingRewardAmount?.toSignificant(6)}
+                {miniChefStaking?.earnedAmount?.toSignificant(6)}
               </TYPE.body>
               <TYPE.body>{t('earn.unclaimedReward', { symbol: 'PNG' })}</TYPE.body>
             </AutoColumn>
@@ -105,7 +103,7 @@ export default function ClaimRewardModal({
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.body fontSize={20}>
               {t('earn.claimingReward', {
-                amount: miniChefStaking?.pendingRewardAmount?.toSignificant(6),
+                amount: miniChefStaking?.earnedAmount?.toSignificant(6),
                 symbol: 'PNG'
               })}
             </TYPE.body>

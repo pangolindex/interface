@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import { RowBetween } from '../Row'
 import { TYPE, CloseIcon } from '../../theme'
 import { ButtonError } from '../Button'
-import { DoubleSideStakingInfo, MiniChefStakingInfo, useMinichefPools } from '../../state/stake/hooks'
-import { useMiniChefContract, useStakingContract } from '../../hooks/useContract'
+import { DoubleSideStakingInfo, MiniChefStakingInfos, useMinichefPools } from '../../state/stake/hooks'
+import { useMiniChefContract } from '../../hooks/useContract'
 import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
@@ -23,7 +23,7 @@ interface StakingModalProps {
   isOpen: boolean
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
-  miniChefStaking?: MiniChefStakingInfo
+  miniChefStaking?: MiniChefStakingInfos
   pairAddress?: string
 }
 
@@ -47,9 +47,6 @@ export default function UnstakingModal({
     setAttempting(false)
     onDismiss()
   }
-
-  // @ts-ignore
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   const miniChefContract = useMiniChefContract()
   const poolMap = useMinichefPools()
@@ -96,10 +93,10 @@ export default function UnstakingModal({
               <TYPE.body>{t('earn.depositedPglLiquidity')}</TYPE.body>
             </AutoColumn>
           )}
-          {miniChefStaking?.pendingRewardAmount && (
+          {miniChefStaking?.earnedAmount && (
             <AutoColumn justify="center" gap="md">
               <TYPE.body fontWeight={600} fontSize={36}>
-                {<FormattedCurrencyAmount currencyAmount={miniChefStaking?.pendingRewardAmount} />}
+                {<FormattedCurrencyAmount currencyAmount={miniChefStaking?.earnedAmount} />}
               </TYPE.body>
               <TYPE.body>{t('earn.unclaimedReward', { symbol: 'PNG' })}</TYPE.body>
             </AutoColumn>
@@ -121,7 +118,7 @@ export default function UnstakingModal({
             </TYPE.body>
             <TYPE.body fontSize={20}>
               {t('earn.claimingReward', {
-                amount: miniChefStaking?.pendingRewardAmount?.toSignificant(4),
+                amount: miniChefStaking?.earnedAmount?.toSignificant(4),
                 symbol: 'PNG'
               })}
             </TYPE.body>
