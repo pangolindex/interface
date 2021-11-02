@@ -15,7 +15,7 @@ export interface PoolInfoProps {
   stakingInfo?: StakingInfo | undefined
   percentage?: number
   onChangePercentage?: (value: number) => void
-  amount?: TokenAmount
+  amount?: string
   onChangeAmount?: (value: string) => void
   userPoolBalance?: TokenAmount
 }
@@ -67,26 +67,26 @@ const PoolInfo = ({
   const currency0Row = { label: `${currency0.symbol} Amount:`, value: `${token0Deposited?.toSignificant(6)}` }
   const currency1Row = { label: `${currency1.symbol} Amount:`, value: `${token1Deposited?.toSignificant(6)}` }
   const dollerWorthRow = {
-    label: 'Dollar Worth:',
+    label: `${t('migratePage.dollerWarth')}`,
     value: `${numeral((totalAmountUsd as Fraction)?.toSignificant(8)).format('$0.00 a')}`
   }
 
   const yourPngRate = {
-    label: 'Your rate:',
+    label: `${t('migratePage.yourRate')}`,
     value: `${pngRate}    ${t('earnPage.rewardPerWeek', { symbol: 'PNG' })}`
   }
 
-  const claimedRow = {
-    label: 'unclaimed Png:',
+  const unClaimedRow = {
+    label: `${t('migratePage.unclaimedPng')}`,
     value: userLiquidityUnstaked ? `${unClaimedPng}` : '-'
   }
   const poolShareRow = {
-    label: 'Share of Pool:',
+    label: `${t('migratePage.shareOfPool')}`,
     value: poolTokenPercentage ? poolTokenPercentage.toFixed(2) + '%' : '-'
   }
 
   let info = [] as any
-  if (type === 'unstake') info = [yourPngRate, claimedRow]
+  if (type === 'unstake') info = [yourPngRate, unClaimedRow]
   if (type === 'stake') info = [currency0Row, currency1Row, dollerWorthRow, poolShareRow]
 
   return (
@@ -95,7 +95,7 @@ const PoolInfo = ({
         <Box display="flex" alignItems="center">
           <DoubleCurrencyLogo size={25} currency0={currency0} currency1={currency1} />{' '}
           <Text color="text1" fontSize={16} ml={10}>
-            {currency0.symbol}-{currency1.symbol} Pool
+            {currency0.symbol}-{currency1.symbol} {t('migratePage.pool')}
           </Text>
         </Box>
 
@@ -110,28 +110,30 @@ const PoolInfo = ({
       </Box>
 
       <Text color="text4" fontSize={16} mt={10}>
-        Now you have chosen your pool then lets unstake you from there.
+        {t('migratePage.poolInfoDescription')}
       </Text>
 
       <Box mt={10}>
         <TextBox
-          value={amount ? amount.toSignificant(4) : '0.00'}
+          value={amount ? amount : ''}
           addonAfter={
             <Text color="text4" fontSize={24}>
               PGL
             </Text>
           }
-          onChange={v => {
-            onChangeAmount && onChangeAmount((v?.target as any).value)
+          onChange={(v: any) => {
+            onChangeAmount && onChangeAmount(v)
           }}
           addonLabel={
             type === 'stake' && (
               <Text color="text4" fontSize={12}>
-                Available to deposit: {userPoolBalance?.toSignificant(6)}
+                {t('migratePage.availableToDeposit')} {userPoolBalance?.toSignificant(6)}
               </Text>
             )
           }
           fontSize={24}
+          isNumeric={true}
+          placeholder="0.00"
         />
       </Box>
 

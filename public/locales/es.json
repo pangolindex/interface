@@ -498,6 +498,19 @@
     "totalValueLocked": "Total Value Locked",
     "lowVolatility": "Low Volatility",
     "compoundable": "Compoundable",
-    "migrate": "Migrate"
+    "migrate": "Migrate",
+    "migrationModalDescription": "We have realized you have these pools… Choose one or add one.",
+    "choosePool": "Choose Pool",
+    "pool": "Pool",
+    "availableToDeposit": "Available to deposit: ",
+    "poolInfoDescription": "Now you have chosen your pool then lets unstake you from there.",
+    "dollerWarth": "Dollar Worth: ",
+    "yourRate": "Your rate: ",
+    "unclaimedPng": "Unclaimed PNG: ",
+    "shareOfPool": "Share of Pool: ",
+    "choose": "CHOOSE",
+    "selectAll": "Select all",
+    "loading": "Loading",
+    "back": "Back"
   }
 }

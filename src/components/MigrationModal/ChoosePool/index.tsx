@@ -4,6 +4,7 @@ import { Text, Checkbox, Box, Button } from '@pangolindex/components'
 import { Pair } from '@pangolindex/sdk'
 import PairData from './PairData'
 import { StakingInfo } from '../../../state/stake/hooks'
+import { useTranslation } from 'react-i18next'
 
 export interface ChoosePoolProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
@@ -22,14 +23,15 @@ const ChoosePool = ({
   toggleIndividualSelect,
   goNext
 }: ChoosePoolProps) => {
+  const { t } = useTranslation()
   return (
     <Wrapper>
       <Text color="text4" fontSize={16}>
-        We have realized you have these pools… Choose one or add one.
+        {t('migratePage.migrationModalDescription')}
       </Text>
       <Box p={10}>
         <Checkbox
-          label="Select all"
+          label={t('migratePage.selectAll')}
           onChange={check => {
             toggleSelectAll(check)
           }}
@@ -53,7 +55,7 @@ const ChoosePool = ({
       </Box>
       <Box mt={30}>
         <Button
-          variant='primary'
+          variant="primary"
           onClick={() => {
             if ((Object.keys(allChoosePool) || []).length > 0) {
               goNext()
@@ -61,7 +63,7 @@ const ChoosePool = ({
           }}
           isDisabled={v2IsLoading || (Object.keys(allChoosePool) || []).length === 0}
         >
-          Choose Pool
+          {t('migratePage.choosePool')}
         </Button>
       </Box>
     </Wrapper>

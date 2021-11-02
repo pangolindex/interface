@@ -4,6 +4,7 @@ import { PairBox } from './styleds'
 import { Text, Box, DoubleCurrencyLogo, Checkbox } from '@pangolindex/components'
 import { StakingInfo } from '../../../state/stake/hooks'
 import { useGetPairDataFromPair } from '../../../state/stake/hooks'
+import { useTranslation } from 'react-i18next'
 
 export interface PairDataProps {
   pair: Pair
@@ -17,7 +18,7 @@ const PairData = ({ pair, stackingData, selected, address, toggleIndividualSelec
   const { currency0, currency1 } = useGetPairDataFromPair(pair)
 
   let totalLiqAmount = stackingData?.stakedAmount
-
+  const { t } = useTranslation()
   return (
     <PairBox>
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -26,7 +27,7 @@ const PairData = ({ pair, stackingData, selected, address, toggleIndividualSelec
           <DoubleCurrencyLogo size={25} currency0={currency0} currency1={currency1} />
         </Box>
         <Text color="text1" fontSize={16}>
-          PGL - {currency0.symbol}-{currency1.symbol} Pool
+          PGL - {currency0.symbol}-{currency1.symbol} {t('migratePage.pool')}
         </Text>
       </Box>
       <Box>

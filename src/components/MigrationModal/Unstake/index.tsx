@@ -10,26 +10,27 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
 import { useTranslation } from 'react-i18next'
 import { useActiveWeb3React } from '../../../hooks'
+import { RowBetween } from '../../Row'
 
 export interface UnstakeProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
   goNext: () => void
   allChoosePoolLength: number
+  goBack: () => void
 }
 
-const Unstake = ({ allChoosePool, goNext, allChoosePoolLength }: UnstakeProps) => {
+const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: UnstakeProps) => {
   const { account } = useActiveWeb3React()
+  const { t } = useTranslation()
 
   const [index, setIndex] = useState(0)
   const [attempting, setAttempting] = useState(false as boolean)
-
-  const { t } = useTranslation()
+  const [isGreaterThan, setIsGreaterThan] = useState(false as boolean)
 
   let pair = Object.values(allChoosePool)?.[index]?.pair
   let stakingInfo = Object.values(allChoosePool)?.[index]?.staking
 
-  const [unStackingAmount, setUnstackingAmount] = useState(stakingInfo?.stakedAmount as TokenAmount)
-
+  const [unStackingAmount, setUnstackingAmount] = useState('')
   const [percentage, setPercentage] = useState(0)
 
   useEffect(() => {
@@ -37,29 +38,33 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength }: UnstakeProps) =
       const newAmount = stakingInfo?.stakedAmount
         .multiply(JSBI.BigInt(percentage * 25))
         .divide(JSBI.BigInt(100)) as TokenAmount
-      setUnstackingAmount(newAmount)
+      setUnstackingAmount(newAmount?.toSignificant(6))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [percentage])
 
   useEffect(() => {
-    setUnstackingAmount(stakingInfo?.stakedAmount)
+    setUnstackingAmount(stakingInfo?.stakedAmount?.toSignificant(6))
     setAttempting(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, stakingInfo])
 
-  const onChangeAmount = (value: string) => {
+  useEffect(() => {
     let stakingToken = stakingInfo?.stakedAmount?.token
-    setPercentage(0)
-    const parsedInput = tryParseAmount(value, stakingToken) as TokenAmount
+    const parsedInput = tryParseAmount(unStackingAmount, stakingToken) as TokenAmount
 
-    if (
-      parsedInput &&
-      stakingInfo?.stakedAmount &&
-      JSBI.lessThanOrEqual(parsedInput.raw, stakingInfo?.stakedAmount.raw)
-    ) {
-      setUnstackingAmount(parsedInput)
+    if (parsedInput && stakingInfo?.stakedAmount && JSBI.greaterThan(parsedInput.raw, stakingInfo?.stakedAmount.raw)) {
+      setIsGreaterThan(true)
+    } else {
+      setIsGreaterThan(false)
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [unStackingAmount])
+
+  const onChangeAmount = (value: string) => {
+    setPercentage(0)
+    setUnstackingAmount(value)
   }
 
   // monitor call to help UI loading state
@@ -67,15 +72,24 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength }: UnstakeProps) =
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   async function onWithdraw() {
-    if (stakingContract && stakingInfo?.stakedAmount) {
+    let stakingToken = stakingInfo?.stakedAmount?.token
+    const parsedInput = tryParseAmount(unStackingAmount, stakingToken) as TokenAmount
+
+    if (
+      stakingContract &&
+      parsedInput &&
+      stakingInfo?.stakedAmount &&
+      JSBI.lessThanOrEqual(parsedInput.raw, stakingInfo?.stakedAmount.raw)
+    ) {
       setAttempting(true)
       await stakingContract
-        .exit({ gasLimit: 300000 })
+
+        .withdraw(`0x${parsedInput.raw.toString(16)}`)
+        //.exit({ gasLimit: 300000 })
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.withdrawDepositedLiquidity')
           })
-          // setHash(response.hash)
           onUnstake()
         })
         .catch((error: any) => {
@@ -119,16 +133,29 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength }: UnstakeProps) =
       />
 
       <Box mt={10}>
-        <Button
-          variant="primary"
-          onClick={() => {
-            onWithdraw()
-          }}
-          loading={attempting}
-          isDisabled={!!error || attempting}
-        >
-          {error ?? t('migratePage.unstake')} {allChoosePoolLength > 1 && `${index + 1}/${allChoosePoolLength}`}
-        </Button>
+        <RowBetween>
+          {index === 0 && (
+            <Box mr="5px" width="100%">
+              <Button variant="primary" onClick={goBack} isDisabled={!!error || attempting} loading={attempting}>
+                {t('migratePage.back')}
+              </Button>
+            </Box>
+          )}
+
+          <Box width="100%">
+            <Button
+              variant="primary"
+              onClick={() => {
+                onWithdraw()
+              }}
+              loading={attempting}
+              isDisabled={!!error || attempting || isGreaterThan}
+            >
+              {attempting ? t('migratePage.loading') : t('migratePage.unstake')}{' '}
+              {allChoosePoolLength > 1 && `${index + 1}/${allChoosePoolLength}`}
+            </Button>
+          </Box>
+        </RowBetween>
       </Box>
     </Wrapper>
   )

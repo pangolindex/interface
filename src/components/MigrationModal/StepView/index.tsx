@@ -65,44 +65,54 @@ const StepView = ({ selectedPool, version }: StepProps) => {
     setCurrentStep(newStep)
   }
 
+  const goBack = () => {
+    let newStep = currentStep - 1
+
+    setCurrentStep(newStep)
+  }
+
   return (
     <Wrapper>
-      <Text color="text1" fontSize={32}>
-        {t('migratePage.migrate')}
-      </Text>
       {!completed ? (
-        <Box mt={10}>
-          <Steps onChange={handleChange} current={currentStep}>
-            <Step title="Choose" />
-            <Step title="Unstake" disabled={currentStep === 0} />
-            <Step title="Stake" disabled={currentStep <= 1} />
-          </Steps>
-          {currentStep === 0 && (
-            <ChoosePool
-              allChoosePool={allChoosePool}
-              allPool={allPool}
-              v2IsLoading={v2IsLoading}
-              toggleSelectAll={toggleSelectAll}
-              toggleIndividualSelect={toggleIndividualSelect}
-              goNext={goNext}
-            />
-          )}
-          {currentStep === 1 && (
-            <Unstake
-              allChoosePool={allChoosePool}
-              goNext={goNext}
-              allChoosePoolLength={(Object.keys(allChoosePool) || []).length}
-            />
-          )}
+        <>
+          <Text color="text1" fontSize={32}>
+            {t('migratePage.migrate')}
+          </Text>
 
-          {currentStep === 2 && (
-            <Stake
-              allChoosePool={allChoosePool}
-              setCompleted={() => setCompleted(true)}
-              allChoosePoolLength={(Object.keys(allChoosePool) || []).length}
-            />
-          )}
-        </Box>
+          <Box mt={10}>
+            <Steps onChange={handleChange} current={currentStep}>
+              <Step title={t('migratePage.choose')} />
+              <Step title={t('migratePage.unstake')} disabled={currentStep === 0} />
+              <Step title={t('migratePage.stack')} disabled={currentStep <= 1} />
+            </Steps>
+            {currentStep === 0 && (
+              <ChoosePool
+                allChoosePool={allChoosePool}
+                allPool={allPool}
+                v2IsLoading={v2IsLoading}
+                toggleSelectAll={toggleSelectAll}
+                toggleIndividualSelect={toggleIndividualSelect}
+                goNext={goNext}
+              />
+            )}
+            {currentStep === 1 && (
+              <Unstake
+                allChoosePool={allChoosePool}
+                goNext={goNext}
+                allChoosePoolLength={(Object.keys(allChoosePool) || []).length}
+                goBack={goBack}
+              />
+            )}
+
+            {currentStep === 2 && (
+              <Stake
+                allChoosePool={allChoosePool}
+                setCompleted={() => setCompleted(true)}
+                allChoosePoolLength={(Object.keys(allChoosePool) || []).length}
+              />
+            )}
+          </Box>
+        </>
       ) : (
         <Box mt={10}>
           <ConfirmedIcon>
