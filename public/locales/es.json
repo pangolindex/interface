@@ -121,7 +121,7 @@
     "acceptUpdate": "Aceptar actualización",
     "dismiss": "Descartar"
   },
-  "positionCard":{
+  "positionCard": {
     "add": "Añadir",
     "remove": "Retirar",
     "poolShare": "Tu parte de la pool:",
@@ -157,8 +157,7 @@
     "select": "Seleccionar",
     "manageTokenLists": "Administrar listas de tokens"
   },
-  "settings":
-  {
+  "settings": {
     "areYouSure": "Estas seguro?",
     "expertInfo": "El modo experto deshabilita el aviso de confirmar transacción y permite altos deslizamientos en intercambios que suelen causar malos ratios y fondos perdidos.",
     "expertWarningCAPS": "USA ESTE MODO SOLO SI SABES LO QUE ESTÁS HACIENDO.",
@@ -339,7 +338,10 @@
     "stakeStakingTokens": "Stake {{ symbol }} Tokens",
     "unstake": "Unstake",
     "stakingTokensAvailable": "Toens {{ symbol }} disponibles",
-    "getToken": "Get {{ symbol }}"
+    "getToken": "Get {{ symbol }}",
+    "migrateTitle": "Migre su PGL apilado",
+    "migrateDescription": "Pangolin ha cambiado la tokenómica. Deberá migrar su PGL apilado a un nuevo contrato",
+    "migrate": "Emigrar"
   },
   "pool": {
     "liquidityProviderRewards": "Recompensas a proveedores de liquidez",

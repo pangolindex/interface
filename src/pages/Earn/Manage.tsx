@@ -176,7 +176,7 @@ export default function Manage({
   // detect existing unstaked LP position to show add button if none found
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
   const showAddLiquidityButton = Boolean(stakingInfo?.stakedAmount?.equalTo('0') && userLiquidityUnstaked?.equalTo('0'))
-
+  const showMigrateButton = stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0))
   // toggle for staking modal and unstaking modal
   const [showStakingModal, setShowStakingModal] = useState(false)
   const [showUnstakingModal, setShowUnstakingModal] = useState(false)
@@ -305,6 +305,28 @@ export default function Manage({
           />
         </>
       )}
+
+      {showMigrateButton ? (
+        <VoteCard>
+          <CardBGImage />
+          <CardNoise />
+          <CardSection>
+            <AutoColumn gap="md">
+              <RowBetween>
+                <TYPE.white fontWeight={600}>{t('earnPage.migrateTitle')}</TYPE.white>
+              </RowBetween>
+              <RowBetween style={{ marginBottom: '1rem' }}>
+                <TYPE.white fontSize={14}>{t('earnPage.migrateDescription')}</TYPE.white>
+              </RowBetween>
+              <ButtonPrimary padding="8px" width={'fit-content'} as={Link} to={`/beta/migrate/1`}>
+                {t('earnPage.migrate')}
+              </ButtonPrimary>
+            </AutoColumn>
+          </CardSection>
+          <CardBGImage />
+          <CardNoise />
+        </VoteCard>
+      ) : null}
 
       <PositionInfo gap="lg" justify="center" dim={showAddLiquidityButton}>
         <BottomSection gap="lg" justify="center">

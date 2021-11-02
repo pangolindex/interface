@@ -339,7 +339,10 @@
     "stakeStakingTokens": "Déposez vos tokens {{ symbol }}",
     "unstake": "Retrait",
     "stakingTokensAvailable": "Jetons {{ symbol }} disponibles",
-    "getToken": "Obtenir des {{ symbol }}"
+    "getToken": "Obtenir des {{ symbol }}",
+    "migrateTitle": "Migrez votre PGL empilé",
+    "migrateDescription": "Pangolin a changé de tokenomics. Vous devrez migrer votre PGL empilé vers un nouveau contrat",
+    "migrate": "Émigrer"
   },
   "pool": {
     "liquidityProviderRewards": "Rémunération du fournisseur de liquidités",

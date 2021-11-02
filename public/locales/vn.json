@@ -339,7 +339,10 @@
     "stakeStakingTokens": "Đặt cổ phần {{ symbol }}",
     "unstake": "Rút cổ phần",
     "stakingTokensAvailable": "{{ symbol }} khả dụng",
-    "getToken": "Nhận {{ symbol }}"
+    "getToken": "Nhận {{ symbol }}",
+    "migrateTitle": "Di chuyển PGL xếp chồng của bạn",
+    "migrateDescription": "Pangolin đã thay đổi tokenomics. Bạn sẽ cần di chuyển PGL xếp chồng của mình sang hợp đồng mới",
+    "migrate": "Di cư"
   },
   "pool": {
     "liquidityProviderRewards": "Phần thưởng người cung cấp thanh khoản",

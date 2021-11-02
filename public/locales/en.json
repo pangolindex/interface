@@ -338,7 +338,10 @@
     "stakeStakingTokens": "Stake {{ symbol }} Tokens",
     "unstake": "Unstake",
     "stakingTokensAvailable": "{{ symbol }} tokens available",
-    "getToken": "Get {{ symbol }}"
+    "getToken": "Get {{ symbol }}",
+    "migrateTitle": "Migrate your staked PGL",
+    "migrateDescription": "Pangolin has changed tokonomics. You will need to migrate your staked PGL to new contract",
+    "migrate": "Migrate"
   },
   "pool": {
     "liquidityProviderRewards": "Liquidity provider rewards",

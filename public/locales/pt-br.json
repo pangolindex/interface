@@ -339,7 +339,10 @@
         "stakeStakingTokens": "Stake {{ symbol }} Tokens",
         "unstake": "Unstake",
         "stakingTokensAvailable": "Tokens {{ symbol }} disponíveis",
-        "getToken": "Get {{ symbol }}"
+        "getToken": "Get {{ symbol }}",
+        "migrateTitle": "Migrar seu PGL empilhado",
+        "migrateDescription": "O Pangolin mudou a tokenômica. Você precisará migrar seu PGL empilhado para o novo contrato",
+        "migrate": "Migrar"
     },
     "pool": {
         "liquidityProviderRewards": "Recompensas dos provedores de liquidez",

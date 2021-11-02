@@ -339,7 +339,10 @@
     "stakeStakingTokens": "{{ symbol }} tokenlerinizi stake edin",
     "unstake": "Stake'den çıkarın",
     "stakingTokensAvailable": "Kullanılabilir {{ symbol }} Tokeni",
-    "getToken": "{{ symbol }} elde edin"
+    "getToken": "{{ symbol }} elde edin",
+    "migrateTitle": "Yığınlanmış PGL'nizi taşıyın",
+    "migrateDescription": "Pangolin belirteçleri değiştirdi. Yığılmış PGL'nizi yeni sözleşmeye taşımanız gerekecek",
+    "migrate": "Göç"
   },
   "pool": {
     "liquidityProviderRewards": "Likidite sağlayıcılarına verilen ödüller",

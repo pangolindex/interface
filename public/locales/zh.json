@@ -121,7 +121,7 @@
     "acceptUpdate": "接受更新",
     "dismiss": "撤出"
   },
-  "positionCard":{
+  "positionCard": {
     "add": "添加",
     "remove": "移除",
     "poolShare": "您池中的份额:",
@@ -157,8 +157,7 @@
     "select": "选择",
     "manageTokenLists": "管理令牌列表"
   },
-  "settings":
-  {
+  "settings": {
     "areYouSure": "你确定吗?",
     "expertInfo": "专家模式会关闭确认交易提示，并允许高滑点交易可能导致不良的利率和资金损失。",
     "expertWarningCAPS": "仅当您知道自己在做什么时才使用此模式。",
@@ -339,7 +338,10 @@
     "stakeStakingTokens": "质押 {{ symbol }} 代币",
     "unstake": "取消质押",
     "stakingTokensAvailable": "可用的 {{ symbol }} 代币",
-    "getToken": "获得 {{ symbol }}"
+    "getToken": "获得 {{ symbol }}",
+    "migrateTitle": "迁移您的堆叠 PGL",
+    "migrateDescription": "穿山甲改变了代币经济。你需要将堆叠的 PGL 迁移到新合约",
+    "migrate": "迁移"
   },
   "pool": {
     "liquidityProviderRewards": "流动性提供者奖励",
