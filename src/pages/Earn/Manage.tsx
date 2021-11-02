@@ -241,7 +241,7 @@ export default function Manage({
           <AutoColumn gap="sm">
             <TYPE.body style={{ margin: 0 }}>{t('earnPage.poolRate')}</TYPE.body>
             <TYPE.body fontSize={24} fontWeight={500}>
-              {stakingInfo?.totalRewardRate
+              {miniChefStaking?.totalRewardRate
                 ?.multiply((60 * 60 * 24 * 7).toString())
                 ?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
               {t('earnPage.rewardPerWeek', { symbol: 'PNG' })}
@@ -286,18 +286,22 @@ export default function Manage({
             onDismiss={() => setShowStakingModal(false)}
             stakingInfo={stakingInfo}
             userLiquidityUnstaked={userLiquidityUnstaked}
+            miniChefStaking={miniChefStaking}
+            pairAddress={stakingTokenPair?.liquidityToken?.address}
           />
           <UnstakingModal
             isOpen={showUnstakingModal}
             onDismiss={() => setShowUnstakingModal(false)}
             stakingInfo={stakingInfo}
             miniChefStaking={miniChefStaking}
+            pairAddress={stakingTokenPair?.liquidityToken?.address}
           />
           <ClaimRewardModal
             isOpen={showClaimRewardModal}
             onDismiss={() => setShowClaimRewardModal(false)}
             stakingInfo={stakingInfo}
             miniChefStaking={miniChefStaking}
+            pairAddress={stakingTokenPair?.liquidityToken?.address}
           />
         </>
       )}
@@ -359,7 +363,7 @@ export default function Manage({
                   <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px ' }}>
                     ⚡
                   </span>
-                  {stakingInfo?.rewardRate
+                  {miniChefStaking?.rewardRate
                     ?.multiply((60 * 60 * 24 * 7).toString())
                     ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
                   {t('earnPage.rewardPerWeek', { symbol: 'PNG' })}

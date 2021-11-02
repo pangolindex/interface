@@ -5,14 +5,13 @@ import styled from 'styled-components'
 import { RowBetween } from '../Row'
 import { TYPE, CloseIcon } from '../../theme'
 import { ButtonError } from '../Button'
-import { DoubleSideStakingInfo } from '../../state/stake/hooks'
+import { DoubleSideStakingInfo, MiniChefStakingInfo, useMinichefPools } from '../../state/stake/hooks'
 import { useMiniChefContract, useStakingContract } from '../../hooks/useContract'
 import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
-import { TokenAmount, JSBI } from '@pangolindex/sdk'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -23,10 +22,17 @@ interface StakingModalProps {
   isOpen: boolean
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
-  miniChefStaking?: { stakedAmount?: TokenAmount | undefined; pendingRewardAmount?: TokenAmount | undefined }
+  miniChefStaking?: MiniChefStakingInfo
+  pairAddress?: string
 }
 
-export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo, miniChefStaking }: StakingModalProps) {
+export default function ClaimRewardModal({
+  isOpen,
+  onDismiss,
+  stakingInfo,
+  miniChefStaking,
+  pairAddress
+}: StakingModalProps) {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
 
@@ -44,12 +50,13 @@ export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo, miniC
   // @ts-ignore
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
   const minichefContract = useMiniChefContract()
+  const poolMap = useMinichefPools()
 
   async function onClaimReward() {
-    if (minichefContract && miniChefStaking?.stakedAmount) {
+    if (minichefContract && miniChefStaking?.stakedAmount && pairAddress) {
       setAttempting(true)
       await minichefContract
-        .harvest(JSBI.BigInt(3), account)
+        .harvest(poolMap[pairAddress], account)
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.claimAccumulated', { symbol: 'PNG' })

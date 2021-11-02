@@ -1110,6 +1110,25 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
   totalStakedInUsd: TokenAmount
 }
 
+export interface MiniChefStakingInfo {
+  // user staked amount
+  stakedAmount: TokenAmount
+  // the total amount of token staked in the contract
+  totalStakedAmount: TokenAmount
+  // user unclaimed reward
+  pendingRewardAmount: TokenAmount
+  // pool reward rate per seconds
+  totalRewardRate: TokenAmount
+  // user pool reward rate per seconds
+  rewardRate: TokenAmount
+  // calculates a hypothetical amount of token distributed to the active account per second.
+  getHypotheticalRewardRate: (
+    stakedAmount: TokenAmount,
+    totalStakedAmount: TokenAmount,
+    totalRewardRate: TokenAmount
+  ) => TokenAmount
+}
+
 const calculateTotalStakedAmountInAvaxFromPng = function(
   amountStaked: JSBI,
   amountAvailable: JSBI,
@@ -1632,30 +1651,95 @@ export function useDerivedUnstakeInfo(
   }
 }
 
-export const useMinichefStakingInfo = (lpToken: Token) => {
+export const useMinichefPools = (): { [key: string]: JSBI } => {
+  const minichefContract = useMiniChefContract()
+  const lpTokens = useSingleCallResult(minichefContract, 'lpTokens', []).result
+  const lpTokensArr = lpTokens?.[0]
+
+  return useMemo(() => {
+    const poolMap: { [key: string]: JSBI } = {}
+    if (lpTokensArr) {
+      lpTokensArr.forEach((address: string, index: number) => {
+        poolMap[address] = JSBI.BigInt(index)
+      })
+    }
+    return poolMap
+  }, [lpTokensArr])
+}
+
+export const useMinichefStakingInfo = (lpToken: Token): MiniChefStakingInfo => {
   const { account, chainId } = useActiveWeb3React()
   const minichefContract = useMiniChefContract()
+  const poolMap = useMinichefPools()
 
-  const png = chainId ? PNG[chainId] : undefined
+  const png = chainId ? PNG[chainId] : PNG[ChainId.AVALANCHE]
 
-  const pid = JSBI.BigInt('3').toString(16)
+  const pid = poolMap?.[lpToken?.address] ? poolMap?.[lpToken?.address].toString(16) : undefined
+
   const userInputs = useMemo(() => [pid, account as string], [pid, account])
   const userInfo = useSingleCallResult(minichefContract, 'userInfo', userInputs).result
 
   const rewardInput = useMemo(() => [pid, account as string], [pid, account])
   const rewardInfo = useSingleCallResult(minichefContract, 'pendingReward', rewardInput).result
 
-  if (lpToken && png) {
-    const amount = userInfo?.['amount']
-    const pendingReward = rewardInfo?.['pending']
+  const poolInfoInput = useMemo(() => [pid], [pid])
+  const poolInfo = useSingleCallResult(minichefContract, 'poolInfo', poolInfoInput).result
 
-    const stakedAmount = amount ? new TokenAmount(lpToken, JSBI.BigInt(amount)) : undefined
-    const pendingRewardAmount = pendingReward ? new TokenAmount(png, JSBI.BigInt(pendingReward)) : undefined
+  const rewardPerSecond = useSingleCallResult(minichefContract, 'rewardPerSecond', []).result
+  const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
+
+  const pairTotalSupplies = useMultipleContractSingleData([lpToken?.address], ERC20_INTERFACE, 'totalSupply')
+  const totalSupply = pairTotalSupplies?.[0]?.result?.[0]
+
+  const amount = userInfo?.['amount']
+  const pendingReward = rewardInfo?.['pending']
+
+  const getHypotheticalRewardRate = (
+    stakedAmount: TokenAmount,
+    totalStakedAmount: TokenAmount,
+    totalRewardRate: TokenAmount
+  ): TokenAmount => {
+    if (stakedAmount && totalStakedAmount && totalRewardRate) {
+      return new TokenAmount(
+        png,
+        JSBI.greaterThan(totalStakedAmount?.raw, JSBI.BigInt(0))
+          ? JSBI.divide(JSBI.multiply(totalRewardRate?.raw, stakedAmount?.raw), totalStakedAmount?.raw)
+          : JSBI.BigInt(0)
+      )
+    }
+    return new TokenAmount(png, JSBI.BigInt(0))
+  }
+
+  if (lpToken && png && rewardPerSecond && totalAllocPoint && poolInfo && totalSupply && amount && pendingReward) {
+    const poolAllocPointAmount = new TokenAmount(lpToken, JSBI.BigInt(poolInfo?.['allocPoint']))
+    const totalAllocPointAmount = new TokenAmount(lpToken, JSBI.BigInt(totalAllocPoint?.[0]))
+
+    const stakedAmount = new TokenAmount(lpToken, JSBI.BigInt(amount))
+    const pendingRewardAmount = new TokenAmount(png, JSBI.BigInt(pendingReward))
+    const rewardRatePerSec = new TokenAmount(png, JSBI.BigInt(rewardPerSecond?.[0]))
+    const totalAmount = new TokenAmount(lpToken, JSBI.BigInt(totalSupply))
+
+    const poolRewardRate = new TokenAmount(
+      png,
+      JSBI.divide(JSBI.multiply(poolAllocPointAmount.raw, rewardRatePerSec.raw), totalAllocPointAmount.raw)
+    )
+    const userRewardRate = getHypotheticalRewardRate(stakedAmount, totalAmount, poolRewardRate)
 
     return {
       stakedAmount,
-      pendingRewardAmount
+      pendingRewardAmount,
+      totalRewardRate: poolRewardRate,
+      rewardRate: userRewardRate,
+      getHypotheticalRewardRate,
+      totalStakedAmount: totalAmount
     }
   }
-  return {}
+  return {
+    stakedAmount: new TokenAmount(png, JSBI.BigInt(0)),
+    pendingRewardAmount: new TokenAmount(png, JSBI.BigInt(0)),
+    totalRewardRate: new TokenAmount(png, JSBI.BigInt(0)),
+    rewardRate: new TokenAmount(png, JSBI.BigInt(0)),
+    getHypotheticalRewardRate,
+    totalStakedAmount: new TokenAmount(png, JSBI.BigInt(0))
+  }
 }

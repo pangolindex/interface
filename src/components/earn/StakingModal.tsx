@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
 import Modal from '../Modal'
 import { AutoColumn } from '../Column'
-import { JSBI } from '@pangolindex/sdk'
 import styled from 'styled-components'
 import { RowBetween } from '../Row'
 import { TYPE, CloseIcon } from '../../theme'
@@ -16,7 +15,12 @@ import { useMiniChefContract, usePairContract, useStakingContract } from '../../
 import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
 // @ts-ignore
 import { splitSignature } from 'ethers/lib/utils'
-import { DoubleSideStakingInfo, useDerivedStakeInfo } from '../../state/stake/hooks'
+import {
+  DoubleSideStakingInfo,
+  MiniChefStakingInfo,
+  useDerivedStakeInfo,
+  useMinichefPools
+} from '../../state/stake/hooks'
 import { wrappedCurrencyAmount } from '../../utils/wrappedCurrency'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
@@ -43,22 +47,35 @@ interface StakingModalProps {
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
   userLiquidityUnstaked: TokenAmount | undefined
+  miniChefStaking: MiniChefStakingInfo
+  pairAddress?: string
 }
 
-export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiquidityUnstaked }: StakingModalProps) {
+export default function StakingModal({
+  isOpen,
+  onDismiss,
+  stakingInfo,
+  userLiquidityUnstaked,
+  pairAddress,
+  miniChefStaking
+}: StakingModalProps) {
   const { account, chainId, library } = useActiveWeb3React()
 
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
-  const { parsedAmount, error } = useDerivedStakeInfo(typedValue, stakingInfo.stakedAmount.token, userLiquidityUnstaked)
+  const { parsedAmount, error } = useDerivedStakeInfo(
+    typedValue,
+    miniChefStaking?.stakedAmount?.token,
+    userLiquidityUnstaked
+  )
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  let hypotheticalRewardRate: TokenAmount = new TokenAmount(stakingInfo.rewardRate.token, '0')
+  let hypotheticalRewardRate: TokenAmount = new TokenAmount(miniChefStaking?.rewardRate?.token, '0')
   if (parsedAmountWrapped?.greaterThan('0')) {
-    hypotheticalRewardRate = stakingInfo.getHypotheticalRewardRate(
-      stakingInfo.stakedAmount.add(parsedAmountWrapped),
-      stakingInfo.totalStakedAmount.add(parsedAmountWrapped),
-      stakingInfo.totalRewardRate
+    hypotheticalRewardRate = miniChefStaking.getHypotheticalRewardRate(
+      miniChefStaking?.stakedAmount?.add(parsedAmountWrapped),
+      miniChefStaking?.totalStakedAmount?.add(parsedAmountWrapped),
+      miniChefStaking?.totalRewardRate
     )
   }
 
@@ -89,12 +106,14 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
 
   // @ts-ignore
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const poolMap = useMinichefPools()
+
   const miniChefContract = useMiniChefContract()
   async function onStake() {
     setAttempting(true)
-    if (miniChefContract && parsedAmount) {
+    if (miniChefContract && parsedAmount && pairAddress) {
       miniChefContract
-        .deposit(JSBI.BigInt(3), `0x${parsedAmount.raw.toString(16)}`, account)
+        .deposit(poolMap[pairAddress], `0x${parsedAmount.raw.toString(16)}`, account)
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.depositLiquidity')
@@ -142,7 +161,7 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
             onUserInput={onUserInput}
             onMax={handleMax}
             showMaxButton={!atMaxAmount}
-            currency={stakingInfo.stakedAmount.token}
+            currency={miniChefStaking.stakedAmount.token}
             pair={dummyPair}
             label={''}
             disableCurrencySelect={true}
