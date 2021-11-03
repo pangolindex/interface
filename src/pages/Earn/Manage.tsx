@@ -3,7 +3,7 @@ import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-import { JSBI, TokenAmount, CurrencyAmount, CAVAX, Token, WAVAX, ChainId } from '@pangolindex/sdk'
+import { JSBI, CAVAX, Token } from '@pangolindex/sdk'
 import { RouteComponentProps } from 'react-router-dom'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useCurrency } from '../../hooks/Tokens'
@@ -14,7 +14,7 @@ import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import { ButtonPrimary, ButtonEmpty } from '../../components/Button'
 import StakingModal from '../../components/earn/StakingModal'
-import { useMinichefStakingInfo, useStakingInfo } from '../../state/stake/hooks'
+import { useMinichefStakingInfos, useStakingInfo } from '../../state/stake/hooks'
 import UnstakingModal from '../../components/earn/UnstakingModal'
 import ClaimRewardModal from '../../components/earn/ClaimRewardModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
@@ -27,7 +27,7 @@ import { currencyId } from '../../utils/currencyId'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { usePair } from '../../data/Reserves'
 import usePrevious from '../../hooks/usePrevious'
-import useUSDCPrice from '../../utils/useUSDCPrice'
+// import useUSDCPrice from '../../utils/useUSDCPrice'
 import { BIG_INT_ZERO, PNG } from '../../constants'
 import { useTranslation } from 'react-i18next'
 
@@ -103,12 +103,12 @@ export default function Manage({
   const [, stakingTokenPair] = usePair(tokenA, tokenB)
   const stakingInfo = useStakingInfo(Number(version), stakingTokenPair)?.[0]
 
-  const miniChefStaking = useMinichefStakingInfo(stakingTokenPair?.liquidityToken as Token)
+  const miniChefStaking = useMinichefStakingInfos(Number(version), stakingTokenPair)?.[0]
 
   const avaxPool = currencyA === CAVAX || currencyB === CAVAX
 
-  let valueOfTotalStakedAmountInWavax: TokenAmount | undefined
-  let valueOfTotalStakedAmountInUSDC: CurrencyAmount | undefined
+  // let valueOfTotalStakedAmountInWavax: TokenAmount | undefined
+  // let valueOfTotalStakedAmountInUSDC: CurrencyAmount | undefined
   let backgroundColor: string
   let token: Token | undefined
   const totalSupplyOfStakingToken = useTotalSupply(stakingInfo?.stakedAmount?.token)
@@ -120,16 +120,16 @@ export default function Manage({
     // let returnOverMonth: Percent = new Percent('0')
     if (totalSupplyOfStakingToken && stakingTokenPair && wavax) {
       // take the total amount of LP tokens staked, multiply by AVAX value of all LP tokens, divide by all LP tokens
-      valueOfTotalStakedAmountInWavax = new TokenAmount(
-        wavax,
-        JSBI.divide(
-          JSBI.multiply(
-            JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(wavax).raw),
-            JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
-          ),
-          totalSupplyOfStakingToken.raw
-        )
-      )
+      // valueOfTotalStakedAmountInWavax = new TokenAmount(
+      //   wavax,
+      //   JSBI.divide(
+      //     JSBI.multiply(
+      //       JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(wavax).raw),
+      //       JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
+      //     ),
+      //     totalSupplyOfStakingToken.raw
+      //   )
+      // )
     }
 
     // get the USD value of staked wavax
@@ -145,24 +145,22 @@ export default function Manage({
     }
 
     if (totalSupplyOfStakingToken && stakingTokenPair && avaxPngTokenPair && tokenB && png) {
-      const oneToken = JSBI.BigInt(1000000000000000000)
-      const avaxPngRatio = JSBI.divide(
-        JSBI.multiply(oneToken, avaxPngTokenPair.reserveOf(WAVAX[tokenB.chainId]).raw),
-        avaxPngTokenPair.reserveOf(png).raw
-      )
-
-      const valueOfPngInAvax = JSBI.divide(JSBI.multiply(stakingTokenPair.reserveOf(png).raw, avaxPngRatio), oneToken)
-
-      valueOfTotalStakedAmountInWavax = new TokenAmount(
-        WAVAX[tokenB.chainId],
-        JSBI.divide(
-          JSBI.multiply(
-            JSBI.multiply(stakingInfo.totalStakedAmount.raw, valueOfPngInAvax),
-            JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
-          ),
-          totalSupplyOfStakingToken.raw
-        )
-      )
+      // const oneToken = JSBI.BigInt(1000000000000000000)
+      // const avaxPngRatio = JSBI.divide(
+      //   JSBI.multiply(oneToken, avaxPngTokenPair.reserveOf(WAVAX[tokenB.chainId]).raw),
+      //   avaxPngTokenPair.reserveOf(png).raw
+      // )
+      // const valueOfPngInAvax = JSBI.divide(JSBI.multiply(stakingTokenPair.reserveOf(png).raw, avaxPngRatio), oneToken)
+      // valueOfTotalStakedAmountInWavax = new TokenAmount(
+      //   WAVAX[tokenB.chainId],
+      //   JSBI.divide(
+      //     JSBI.multiply(
+      //       JSBI.multiply(stakingInfo.totalStakedAmount.raw, valueOfPngInAvax),
+      //       JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
+      //     ),
+      //     totalSupplyOfStakingToken.raw
+      //   )
+      // )
     }
     //usdToken = png
   }
@@ -170,8 +168,8 @@ export default function Manage({
   // get the color of the token
   backgroundColor = useColor(token)
 
-  const USDPrice = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
-  valueOfTotalStakedAmountInUSDC = valueOfTotalStakedAmountInWavax && USDPrice?.quote(valueOfTotalStakedAmountInWavax)
+  // const USDPrice = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
+  // valueOfTotalStakedAmountInUSDC = valueOfTotalStakedAmountInWavax && USDPrice?.quote(valueOfTotalStakedAmountInWavax)
 
   // detect existing unstaked LP position to show add button if none found
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
@@ -202,7 +200,7 @@ export default function Manage({
   // 	)
   // }
 
-  const countUpAmount = miniChefStaking?.pendingRewardAmount?.toFixed(6) ?? '0'
+  const countUpAmount = miniChefStaking?.earnedAmount?.toFixed(6) ?? '0'
   const countUpAmountPrevious = usePrevious(countUpAmount) ?? '0'
 
   const toggleWalletModal = useWalletModalToggle()
@@ -230,7 +228,7 @@ export default function Manage({
           <AutoColumn gap="sm">
             <TYPE.body style={{ margin: 0 }}>{t('earnPage.totalStaked')}</TYPE.body>
             <TYPE.body fontSize={24} fontWeight={500}>
-              {`$${valueOfTotalStakedAmountInUSDC?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}`}
+              {`$${miniChefStaking?.totalStakedInUsd?.toFixed(0, { groupSeparator: ',' }) ?? '-'}`}
               {/* {valueOfTotalStakedAmountInUSDC
 							? `$${valueOfTotalStakedAmountInUSDC.toFixed(0, { groupSeparator: ',' })}`
 							: `${valueOfTotalStakedAmountInWavax?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`} */}
@@ -357,17 +355,16 @@ export default function Manage({
                 <div>
                   <TYPE.black>{t('earnPage.unclaimedReward', { symbol: 'PNG' })}</TYPE.black>
                 </div>
-                {miniChefStaking?.pendingRewardAmount &&
-                  JSBI.notEqual(BIG_INT_ZERO, miniChefStaking?.pendingRewardAmount?.raw) && (
-                    <ButtonEmpty
-                      padding="8px"
-                      borderRadius="8px"
-                      width="fit-content"
-                      onClick={() => setShowClaimRewardModal(true)}
-                    >
-                      {t('earnPage.claim')}
-                    </ButtonEmpty>
-                  )}
+                {miniChefStaking?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, miniChefStaking?.earnedAmount?.raw) && (
+                  <ButtonEmpty
+                    padding="8px"
+                    borderRadius="8px"
+                    width="fit-content"
+                    onClick={() => setShowClaimRewardModal(true)}
+                  >
+                    {t('earnPage.claim')}
+                  </ButtonEmpty>
+                )}
               </RowBetween>
               <RowBetween style={{ alignItems: 'baseline' }}>
                 <TYPE.largeHeader fontSize={36} fontWeight={600}>
@@ -387,7 +384,7 @@ export default function Manage({
                   </span>
                   {miniChefStaking?.rewardRate
                     ?.multiply((60 * 60 * 24 * 7).toString())
-                    ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
+                    ?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
                   {t('earnPage.rewardPerWeek', { symbol: 'PNG' })}
                 </TYPE.black>
               </RowBetween>

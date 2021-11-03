@@ -11,13 +11,11 @@ import CurrencyInputPanel from '../CurrencyInputPanel'
 import { TokenAmount, Pair, ChainId } from '@pangolindex/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
-import { useMiniChefContract, usePairContract, useStakingContract } from '../../hooks/useContract'
+import { useMiniChefContract, usePairContract } from '../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
-// @ts-ignore
-import { splitSignature } from 'ethers/lib/utils'
 import {
   DoubleSideStakingInfo,
-  MiniChefStakingInfo,
+  MiniChefStakingInfos,
   useDerivedStakeInfo,
   useMinichefPools
 } from '../../state/stake/hooks'
@@ -47,7 +45,7 @@ interface StakingModalProps {
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
   userLiquidityUnstaked: TokenAmount | undefined
-  miniChefStaking: MiniChefStakingInfo
+  miniChefStaking: MiniChefStakingInfos
   pairAddress?: string
 }
 
@@ -70,7 +68,7 @@ export default function StakingModal({
   )
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  let hypotheticalRewardRate: TokenAmount = new TokenAmount(miniChefStaking?.rewardRate?.token, '0')
+  let hypotheticalRewardRate: TokenAmount = new TokenAmount(miniChefStaking?.totalRewardRate?.token, '0')
   if (parsedAmountWrapped?.greaterThan('0')) {
     hypotheticalRewardRate = miniChefStaking.getHypotheticalRewardRate(
       miniChefStaking?.stakedAmount?.add(parsedAmountWrapped),
@@ -103,12 +101,9 @@ export default function StakingModal({
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(parsedAmount, MINICHEF_ADDRESS)
-
-  // @ts-ignore
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
   const poolMap = useMinichefPools()
-
   const miniChefContract = useMiniChefContract()
+
   async function onStake() {
     setAttempting(true)
     if (miniChefContract && parsedAmount && pairAddress) {
@@ -175,7 +170,7 @@ export default function StakingModal({
             </div>
 
             <TYPE.black>
-              {hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toSignificant(4, { groupSeparator: ',' })}{' '}
+              {hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toFixed(0, { groupSeparator: ',' })}{' '}
               {t('earn.rewardPerWeek', { symbol: 'PNG' })}
             </TYPE.black>
           </HypotheticalRewardRate>
