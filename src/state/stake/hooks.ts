@@ -133,6 +133,12 @@ const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
     conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
     stakingRewardAddress: "0xfe1d712363f2B1971818DBA935eEC13Ddea474cc",
     version: 0
+  },
+  ORBS_V0: {
+    rewardToken: ORBS[ChainId.AVALANCHE],
+    conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: "0x78d4BFb3b50E5895932073DC5Eb4713eb532941B",
+    version: 0
   }
 };
 
