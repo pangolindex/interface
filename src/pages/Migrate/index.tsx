@@ -44,7 +44,7 @@ export default function Migrate() {
           {t('migratePage.moveYourTokensToNewContracts')}
         </Text>
         <Text color="text1" fontSize={24} mb={20}>
-          {t('migratePage.moveYourTokensToNewContractsDescription')}
+          {t('migratePage.migrateWithDescription')}
         </Text>
 
         <ButtonRow>
@@ -115,7 +115,7 @@ export default function Migrate() {
               <StyledMenuIcon />
             </CircleIcon>
             <Text color="text1" fontSize={24} mt={10}>
-              {t('migratePage.stack')}
+              {t('migratePage.stake')}
             </Text>
           </Box>
         </ProcessWrapper>

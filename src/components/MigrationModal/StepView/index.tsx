@@ -83,7 +83,7 @@ const StepView = ({ selectedPool, version }: StepProps) => {
             <Steps onChange={handleChange} current={currentStep}>
               <Step title={t('migratePage.choose')} />
               <Step title={t('migratePage.unstake')} disabled={currentStep === 0} />
-              <Step title={t('migratePage.stack')} disabled={currentStep <= 1} />
+              <Step title={t('migratePage.stake')} disabled={currentStep <= 1} />
             </Steps>
             {currentStep === 0 && (
               <ChoosePool

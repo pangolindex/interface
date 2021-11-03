@@ -16,13 +16,13 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { MINICHEF_ADDRESS } from '../../../constants'
 import { useDerivedStakeInfo, useMinichefPools } from '../../../state/stake/hooks'
 
-export interface StackProps {
+export interface StakeProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
   allChoosePoolLength: number
   setCompleted: () => void
 }
 
-const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StackProps) => {
+const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps) => {
   const { account } = useActiveWeb3React()
 
   const [index, setIndex] = useState(0)

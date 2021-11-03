@@ -480,6 +480,42 @@
   },
   "burnHooks": {
     "connectWallet": "Kết nối ví",
-    "enterAmount": "Nhập số lượng"
+    "enterAmount": "Nhập số lượng" 
+  },
+  "migratePage": {
+    "stake": "CỔ PHẦN",
+    "unstake": "BẤT NGỜ",
+    "add": "CỘNG",
+    "remove": "TẨY",
+    "startMigratingNow": "BẮT ĐẦU DI CƯ NGAY BÂY GIỜ",
+    "startMigratingNowDescription": "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Etiam Justo Libero, Scelerisque Quis Ipsum Quis, Viverra Ornare Odio. Vestibulum Imperdiet",
+    "seeMore": "XEM THÊM",
+    "migrateWithEase": "DI CHUYỂN VỚI EASE",
+    "migrateWithDescription":"Này Anon! Chúng tôi nhận thấy rằng bạn có một số mã thông báo trong ví của mình cần chuyển qua Pangolin. Bạn cũng có thể chuyển token qua Trader Joe, Lydia và Canary.",
+    "alreadyMigrate": "đã di cư",
+    "walletMigrate": "ví đã di chuyển",
+    "alreadyEarned": "đã kiếm được",
+    "migrateNow": "DI TRÚ NGAY BÂY GIỜ",
+    "learn": "HỌC",
+    "moveYourTokensToNewContracts" :"CHUYỂN TOKENS CỦA BẠN SANG HỢP ĐỒNG MỚI",
+    "readyToMigrate": "Sẵn sàng di chuyển",
+    "apr": "APR:",
+    "totalValueLocked": "Total Value Locked",
+    "lowVolatility": "Sự biến động thấp",
+    "compoundable": "Hợp chất",
+    "migrate": "Di cư",
+    "migrationModalDescription": "Chúng tôi nhận thấy rằng bạn có các nhóm này… Hãy chọn một hoặc thêm một nhóm.",
+    "choosePool": "Chọn nhóm",
+    "pool": "Hồ bơi",
+    "availableToDeposit": "Có sẵn để đặt cọc: ",
+    "poolInfoDescription": "Bây giờ bạn đã chọn hồ bơi của mình, sau đó cho phép bạn rời khỏi đó.",
+    "dollerWarth": "Giá trị đô la: ",
+    "yourRate": "Tỷ lệ của bạn: ",
+    "unclaimedPng": "PNG vô thừa nhận: ",
+    "shareOfPool": "Chia sẻ của Pool: ",
+    "choose": "LỰA CHỌN",
+    "selectAll": "Chọn tất cả",
+    "loading": "Đang tải",
+    "back": "Mặt sau"
   }
 }
