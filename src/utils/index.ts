@@ -18,8 +18,8 @@ export function isAddress(value: any): string | false {
 }
 
 const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
-  43113: 'avax-test',
-  43114: 'avax'
+  43113: 'https://testnet.snowtrace.io',
+  43114: 'https://snowtrace.io'
 }
 
 export function getEtherscanLink(
@@ -27,7 +27,7 @@ export function getEtherscanLink(
   data: string,
   type: 'transaction' | 'token' | 'address' | 'block'
 ): string {
-  const prefix = `https://cchain.explorer.${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[43114]}.network`
+  const prefix = `${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[43114]}`
 
   switch (type) {
     case 'transaction': {
