@@ -11,16 +11,16 @@ import { StakingInfo } from '../../state/stake/hooks'
 
 export interface StatProps {
   pair: Pair
-  stackingData: StakingInfo
+  stakingData: StakingInfo
   onClickMigrate: () => void
 }
 
-const MigrationCard = ({ pair, onClickMigrate, stackingData }: StatProps) => {
+const MigrationCard = ({ pair, onClickMigrate, stakingData }: StatProps) => {
   const { t } = useTranslation()
 
   const { currency0, currency1, totalAmountUsd } = useGetPairDataFromPair(pair)
 
-  let totalLiqAmount = stackingData?.stakedAmount
+  let totalLiqAmount = stakingData?.stakedAmount
 
   return (
     <Panel>
@@ -30,7 +30,7 @@ const MigrationCard = ({ pair, onClickMigrate, stackingData }: StatProps) => {
             {currency0.symbol}-{currency1.symbol}
           </Text>
           <OptionsWrapper>
-            <OptionButton active={true}>{stackingData?.multiplier ? `${stackingData?.multiplier}X` : '-'}</OptionButton>
+            <OptionButton active={true}>{stakingData?.multiplier ? `${stakingData?.multiplier}X` : '-'}</OptionButton>
             <OptionButton>{t('migratePage.lowVolatility')}</OptionButton>
             <OptionButton>{t('migratePage.compoundable')}</OptionButton>
           </OptionsWrapper>
@@ -48,7 +48,7 @@ const MigrationCard = ({ pair, onClickMigrate, stackingData }: StatProps) => {
         />
         <Stat
           title={t('migratePage.apr')}
-          stat={stackingData?.combinedApr ? `${stackingData?.combinedApr}%` : '-'}
+          stat={stakingData?.combinedApr ? `${stakingData?.combinedApr}%` : '-'}
           titlePosition="top"
         />
       </AutoRow>

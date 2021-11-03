@@ -30,7 +30,7 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: Unstake
   let pair = Object.values(allChoosePool)?.[index]?.pair
   let stakingInfo = Object.values(allChoosePool)?.[index]?.staking
 
-  const [unStackingAmount, setUnstackingAmount] = useState('')
+  const [unStakingAmount, setUnstakingAmount] = useState('')
   const [percentage, setPercentage] = useState(0)
 
   useEffect(() => {
@@ -38,20 +38,20 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: Unstake
       const newAmount = stakingInfo?.stakedAmount
         .multiply(JSBI.BigInt(percentage * 25))
         .divide(JSBI.BigInt(100)) as TokenAmount
-      setUnstackingAmount(newAmount?.toSignificant(6))
+      setUnstakingAmount(newAmount?.toSignificant(6))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [percentage])
 
   useEffect(() => {
-    setUnstackingAmount(stakingInfo?.stakedAmount?.toSignificant(6))
+    setUnstakingAmount(stakingInfo?.stakedAmount?.toSignificant(6))
     setAttempting(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, stakingInfo])
 
   useEffect(() => {
     let stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(unStackingAmount, stakingToken) as TokenAmount
+    const parsedInput = tryParseAmount(unStakingAmount, stakingToken) as TokenAmount
 
     if (parsedInput && stakingInfo?.stakedAmount && JSBI.greaterThan(parsedInput.raw, stakingInfo?.stakedAmount.raw)) {
       setIsGreaterThan(true)
@@ -60,11 +60,11 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: Unstake
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [unStackingAmount])
+  }, [unStakingAmount])
 
   const onChangeAmount = (value: string) => {
     setPercentage(0)
-    setUnstackingAmount(value)
+    setUnstakingAmount(value)
   }
 
   // monitor call to help UI loading state
@@ -73,7 +73,7 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: Unstake
 
   async function onWithdraw() {
     let stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(unStackingAmount, stakingToken) as TokenAmount
+    const parsedInput = tryParseAmount(unStakingAmount, stakingToken) as TokenAmount
 
     if (
       stakingContract &&
@@ -126,7 +126,7 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: Unstake
         onChangePercentage={(value: number) => {
           setPercentage(value)
         }}
-        amount={unStackingAmount}
+        amount={unStakingAmount}
         onChangeAmount={(value: string) => {
           onChangeAmount(value)
         }}

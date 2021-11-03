@@ -8,16 +8,16 @@ import { useTranslation } from 'react-i18next'
 
 export interface PairDataProps {
   pair: Pair
-  stackingData: StakingInfo | undefined
+  stakingData: StakingInfo | undefined
   selected: boolean
   address: string
   toggleIndividualSelect: (address: string) => void
 }
 
-const PairData = ({ pair, stackingData, selected, address, toggleIndividualSelect }: PairDataProps) => {
+const PairData = ({ pair, stakingData, selected, address, toggleIndividualSelect }: PairDataProps) => {
   const { currency0, currency1 } = useGetPairDataFromPair(pair)
 
-  let totalLiqAmount = stackingData?.stakedAmount
+  let totalLiqAmount = stakingData?.stakedAmount
   const { t } = useTranslation()
   return (
     <PairBox>

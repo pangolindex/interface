@@ -149,7 +149,7 @@ export default function Migrate() {
               <MigrationCard
                 key={pool?.pair?.liquidityToken.address}
                 pair={pool?.pair}
-                stackingData={pool?.staking}
+                stakingData={pool?.staking}
                 onClickMigrate={() => {
                   let container = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
                   container[pool?.pair?.liquidityToken.address] = pool

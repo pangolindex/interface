@@ -5,7 +5,7 @@ import { useTokenBalancesWithLoadingIndicator } from '../wallet/hooks'
 import { usePairs } from '../../data/Reserves'
 import { toV2LiquidityToken, useTrackedTokenPairs } from '../user/hooks'
 import { StakingInfo } from '../stake/hooks'
-import { useGetStackingDataWithAPR } from '../../state/stake/hooks'
+import { useGetStakingDataWithAPR } from '../../state/stake/hooks'
 
 export interface selectedPoolState {
   selectedPool: { [address: string]: { pair: Pair; staking?: StakingInfo | undefined } }
@@ -69,7 +69,7 @@ export function useGetMigrationData(version: number) {
 
   const [loading, setLoading] = useState(false as boolean)
 
-  const stakingInfos = useGetStackingDataWithAPR(Number(version))
+  const stakingInfos = useGetStakingDataWithAPR(Number(version))
 
   useEffect(() => {
     let pairs = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }

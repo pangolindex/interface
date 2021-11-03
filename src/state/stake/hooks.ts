@@ -1675,7 +1675,7 @@ export function useDerivedUnstakeInfo(
   }
 }
 
-export function useGetStackingDataWithAPR(version: number) {
+export function useGetStakingDataWithAPR(version: number) {
   const stakingInfos = useStakingInfo(version)
 
   const [stakingInfoData, setStakingInfoData] = useState<StakingInfo[]>(stakingInfos)

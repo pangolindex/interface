@@ -45,7 +45,7 @@ const ChoosePool = ({
             <PairData
               key={address}
               pair={allPool[address]?.pair}
-              stackingData={allPool[address]?.staking}
+              stakingData={allPool[address]?.staking}
               selected={!!allChoosePool[address]}
               address={address}
               toggleIndividualSelect={toggleIndividualSelect}
