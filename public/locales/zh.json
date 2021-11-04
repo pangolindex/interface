@@ -28,7 +28,7 @@
     "disconnect": "登出帐户",
     "change": "更改",
     "copy": "复制地址",
-    "viewExplorer": "在 C-Chain Explorer 上查看",
+    "viewExplorer": "在 Snowtrace Explorer 上查看",
     "clearAll": "(清除所有)",
     "transactionAppear": "您的交易将显示在此处...",
     "recentTransactions": "近期的交易",
@@ -36,7 +36,7 @@
   },
   "addressInputPanel": {
     "recipient": "接收者",
-    "viewExplorer": "(在 Avalanche C-Chain Explorer 上查看)",
+    "viewExplorer": "(在 Avalanche Snowtrace Explorer 上查看)",
     "walletAddress": "钱包地址"
   },
   "currencyInputPanel": {
@@ -97,7 +97,7 @@
   },
   "modalView": {
     "confirmTransaction": "在您的钱包中确认此交易",
-    "viewTransaction": "在 C-Chain Explore 上查看交易"
+    "viewTransaction": "在 Snowtrace Explore 上查看交易"
   },
   "navigationTabs": {
     "useThisTool": "使用此工具查找交易对不会自动出现在界面中",
@@ -113,7 +113,7 @@
   "popups": {
     "tokenListUpdated": "代币列表\" {{oldList}} \" 已更新为 ",
     "updateAvailable": "代币列表有更新可用 \" {{oldList}} \"",
-    "viewExplorer": "在 C-Chain Explorer 上查看",
+    "viewExplorer": "在 Snowtrace Explorer 上查看",
     "hash": "哈希: ",
     "added": "已添加",
     "removed": "已移除",
@@ -205,13 +205,13 @@
     "purchaseArbitraryWarning": "如果您购买任意代币，<strong>您可能无法将其卖回。</strong>",
     "understand": "我明白",
     "continue": "继续",
-    "viewExplorer": "在 C-Chain Explorer 上查看"
+    "viewExplorer": "在 Snowtrace Explorer 上查看"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "等待确认",
     "confirmTransaction": "在您的钱包中确认此交易",
     "transactionSubmitted": "交易提交",
-    "viewExplorer": "在 C-Chain Explorer 上查看",
+    "viewExplorer": "在 Snowtrace Explorer 上查看",
     "close": "关闭",
     "error": "错误",
     "dismiss": "撤回"
@@ -244,7 +244,7 @@
     "votes": "投票",
     "submittingVote": "提交投票",
     "confirmTransaction": "在您的钱包中确认此交易",
-    "viewExplorer": "在 C-Chain Explorer 上查看"
+    "viewExplorer": "在 Snowtrace Explorer 上查看"
   },
   "walletModal": {
     "wrongNetwork": "错误的网络",
