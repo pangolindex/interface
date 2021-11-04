@@ -28,7 +28,7 @@
     "disconnect": "Desconectar",
     "change": "Cambiar",
     "copy": "Copiar dirección",
-    "viewExplorer": "Ver en el Explorador C-Chain",
+    "viewExplorer": "Ver en el Explorador Snowtrace",
     "clearAll": "(borrar todo)",
     "transactionAppear": "Tus transacciones aparecerán aquí...",
     "recentTransactions": "Transacciones recientes",
@@ -36,7 +36,7 @@
   },
   "addressInputPanel": {
     "recipient": "Recipient",
-    "viewExplorer": "(Ver en el  Explorador C-Chain de Avalanche)",
+    "viewExplorer": "(Ver en el  Explorador Snowtrace de Avalanche)",
     "walletAddress": "Dirección de la cartera"
   },
   "currencyInputPanel": {
@@ -97,7 +97,7 @@
   },
   "modalView": {
     "confirmTransaction": "Confirma esta transacción en tu cartera",
-    "viewTransaction": "Ver la transacción en el Explorador C-Chain"
+    "viewTransaction": "Ver la transacción en el Explorador Snowtrace"
   },
   "navigationTabs": {
     "useThisTool": "Usa esta herramienta para encontrar parejas que no aparecen automáticamente en la interfaz.",
@@ -113,7 +113,7 @@
   "popups": {
     "tokenListUpdated": "la lista de Tokens \" {{oldList}} \" se ha actualizado a ",
     "updateAvailable": "Hay una actualización disponible para la lista de Tokens \" {{oldList}} \"",
-    "viewExplorer": "View on the C-Chain Explorer",
+    "viewExplorer": "Ver en el Explorador Snowtrace",
     "hash": "Hash: ",
     "added": "añadido",
     "removed": "retirado",
@@ -205,13 +205,13 @@
     "purchaseArbitraryWarning": "Si compras un token arbitrario, <strong>puede que no pueda venderlo devuelta.</strong>",
     "understand": "Lo entiendo",
     "continue": "Continuar",
-    "viewExplorer": "Ver en el Explorador C-Chain"
+    "viewExplorer": "Ver en el Explorador Snowtrace"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "Esperando confirmación",
     "confirmTransaction": "Confirme esta transacción en su cartera",
     "transactionSubmitted": "Transacción enviada",
-    "viewExplorer": "Ver en el Explorador C-Chain",
+    "viewExplorer": "Ver en el Explorador Snowtrace",
     "close": "Cerrar",
     "error": "Error",
     "dismiss": "Descartar"
@@ -244,7 +244,7 @@
     "votes": "Votos",
     "submittingVote": "Enviando voto",
     "confirmTransaction": "Confirme esta transacción en su cartera",
-    "viewExplorer": "Ver en el Explorador C-Chain"
+    "viewExplorer": "Ver en el Explorador Snowtrace"
   },
   "walletModal": {
     "wrongNetwork": "Red errónea",
