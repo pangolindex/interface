@@ -28,7 +28,7 @@
     "disconnect": "Bağlantıyı Kes",
     "change": "Değiştir",
     "copy": "Adresi Kopyala",
-    "viewExplorer": "C-Chain Explorer’da Görüntüle",
+    "viewExplorer": "Snowtrace Explorer’da Görüntüle",
     "clearAll": "(hepsini temizle)",
     "transactionAppear": "İşlemleriniz burada görünecektir...",
     "recentTransactions": "Son İşlemler",
@@ -36,7 +36,7 @@
   },
   "addressInputPanel": {
     "recipient": "Alıcı",
-    "viewExplorer": "(C-Chain Explorer’da Görüntüle)",
+    "viewExplorer": "(Snowtrace Explorer’da Görüntüle)",
     "walletAddress": "Cüzdan Adresi"
   },
   "currencyInputPanel": {
@@ -97,7 +97,7 @@
   },
   "modalView": {
     "confirmTransaction": "Bu işlemi cüzdanınızda onaylayın",
-    "viewTransaction": "İşlemi C-Chain Explorer’da Görüntüle"
+    "viewTransaction": "İşlemi Snowtrace Explorer’da Görüntüle"
   },
   "navigationTabs": {
     "useThisTool": "Arayüzde otomatik olarak görünmeyen işlem çiftlerini bulmak için bu aracı kullanın.",
@@ -113,7 +113,7 @@
   "popups": {
     "tokenListUpdated": "\" {{oldList}} \" token listesi şuna güncellendi: ",
     "updateAvailable": "Token listesi için bir güncelleme mevcut: \" {{oldList}} \"",
-    "viewExplorer": "C-Chain Explorer’da Görüntüle",
+    "viewExplorer": "Snowtrace Explorer’da Görüntüle",
     "hash": "Hash: ",
     "added": "eklendi",
     "removed": "çıkarıldı",
@@ -205,13 +205,13 @@
     "purchaseArbitraryWarning": "Eğer rastgele bir token alırsanız, <strong>geri satamayabilirsiniz.</strong>",
     "understand": "Anladım",
     "continue": "Devam et",
-    "viewExplorer": "C-Chain Explorer’da Görüntüle"
+    "viewExplorer": "Snowtrace Explorer’da Görüntüle"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "Onay İçin Bekleniyor",
     "confirmTransaction": "Bu işlemi cüzdanınızda onaylayın",
     "transactionSubmitted": "İşlem Gönderildi",
-    "viewExplorer": "C-Chain Explorer’da Görüntüle",
+    "viewExplorer": "Snowtrace Explorer’da Görüntüle",
     "close": "Kapat",
     "error": "Hata",
     "dismiss": "Yoksay"
@@ -244,7 +244,7 @@
     "votes": "Oylar",
     "submittingVote": "Oy Gönderiliyor",
     "confirmTransaction": "Bu işlemi cüzdanınızda onaylayın",
-    "viewExplorer": "C-Chain Explorer’da Görüntüle"
+    "viewExplorer": "Snowtrace Explorer’da Görüntüle"
   },
   "walletModal": {
     "wrongNetwork": "Yanlış Ağ",

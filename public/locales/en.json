@@ -28,7 +28,7 @@
     "disconnect": "Disconnect",
     "change": "Change",
     "copy": "Copy Address",
-    "viewExplorer": "View on the C-Chain Explorer",
+    "viewExplorer": "View on the Snowtrace Explorer",
     "clearAll": "(clear all)",
     "transactionAppear": "Your transactions will appear here...",
     "recentTransactions": "Recent Transactions",
@@ -36,7 +36,7 @@
   },
   "addressInputPanel": {
     "recipient": "Recipient",
-    "viewExplorer": "(View on Avalanche C-Chain Explorer)",
+    "viewExplorer": "(View on Avalanche Snowtrace Explorer)",
     "walletAddress": "Wallet Address"
   },
   "currencyInputPanel": {
@@ -97,7 +97,7 @@
   },
   "modalView": {
     "confirmTransaction": "Confirm this transaction in your wallet",
-    "viewTransaction": "View transaction on the C-Chain Explorer"
+    "viewTransaction": "View transaction on the Snowtrace Explorer"
   },
   "navigationTabs": {
     "useThisTool": "Use this tool to find pairs that don't automatically appear in the interface.",
@@ -113,7 +113,7 @@
   "popups": {
     "tokenListUpdated": "The token list \" {{oldList}} \" has been updated to ",
     "updateAvailable": "An update is available for the token list \" {{oldList}} \"",
-    "viewExplorer": "View on the C-Chain Explorer",
+    "viewExplorer": "View on the Snowtrace Explorer",
     "hash": "Hash: ",
     "added": "added",
     "removed": "removed",
@@ -204,13 +204,13 @@
     "purchaseArbitraryWarning": "If you purchase an arbitrary token, <strong>you may be unable to sell it back.</strong>",
     "understand": "I understand",
     "continue": "Continue",
-    "viewExplorer": "View on the C-Chain Explorer"
+    "viewExplorer": "View on the Snowtrace Explorer"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "Waiting For Confirmation",
     "confirmTransaction": "Confirm this transaction in your wallet",
     "transactionSubmitted": "Transaction Submitted",
-    "viewExplorer": "View on the C-Chain Explorer",
+    "viewExplorer": "View on the Snowtrace Explorer",
     "close": "Close",
     "error": "Error",
     "dismiss": "Dismiss"
@@ -243,7 +243,7 @@
     "votes": "Votes",
     "submittingVote": "Submitting Vote",
     "confirmTransaction": "Confirm this transaction in your wallet",
-    "viewExplorer": "View on the C-Chain Explorer"
+    "viewExplorer": "View on the Snowtrace Explorer"
   },
   "walletModal": {
     "wrongNetwork": "Wrong Network",

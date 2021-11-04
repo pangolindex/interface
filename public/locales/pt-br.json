@@ -28,7 +28,7 @@
         "disconnect": "Desconectar",
         "change": "Trocar",
         "copy": "Copiar endereço",
-        "viewExplorer": "Vizualize no C-Chain Explorer",
+        "viewExplorer": "Vizualize no Snowtrace Explorer",
         "clearAll": "(limpar tudo)",
         "transactionAppear": "Suas transações aparecerão aqui ... ",
         "recentTransactions": "Transações recentes",
@@ -36,7 +36,7 @@
     },
     "addressInputPanel": {
         "recipient": "Recebedor",
-        "viewExplorer": "(Visualize no Avalanche C-Chain Explorer)",
+        "viewExplorer": "(Visualize no Avalanche Snowtrace Explorer)",
         "walletAddress": "Endereço da carteira"
     },
     "currencyInputPanel": {
@@ -97,7 +97,7 @@
     },
     "modalView": {
         "confirmTransaction": "Confirme esta transação em sua carteira",
-        "viewTransaction": "Visualize a transação no C-Chain Explorer"
+        "viewTransaction": "Visualize a transação no Snowtrace Explorer"
     },
     "navigationTabs": {
         "useThisTool": "Use esta ferramenta para encontrar pares que não aparecem automaticamente na interface.",
@@ -113,7 +113,7 @@
     "popups": {
         "tokenListUpdated": "A lista de tokens \" {{oldList}} \" foi atualizada para ",
         "updateAvailable": "Uma atualização disponível para lista de tokens \" {{oldList}} \"",
-        "viewExplorer": "Vizualize no C-Chain Explorer",
+        "viewExplorer": "Vizualize no Snowtrace Explorer",
         "hash": "Hash: ",
         "added": "adicionado",
         "removed": "removido",
@@ -205,13 +205,13 @@
         "purchaseArbitraryWarning": "Se você comprar um token arbitrário, <strong>você pode não conseguir vendê-lo de volta.</strong>",
         "understand": "Compreendo",
         "continue": "Continuar",
-        "viewExplorer": "Visualize no C-Chain Explorer"
+        "viewExplorer": "Visualize no Snowtrace Explorer"
     },
     "transactionConfirmation": {
         "waitingConfirmation": "Esperando por confirmação",
         "confirmTransaction": "Confirme esta transação em sua carteira",
         "transactionSubmitted": "Transação enviada",
-        "viewExplorer": "Visualize no C-Chain Explorer",
+        "viewExplorer": "Visualize no Snowtrace Explorer",
         "close": "Fechar",
         "error": "Erro",
         "dismiss": "Dispensar"
@@ -244,7 +244,7 @@
         "votes": "Votos",
         "submittingVote": "Enviar voto",
         "confirmTransaction": "Confirme essa transação na sua carteira",
-        "viewExplorer": "Visualize no C-Chain Explorer"
+        "viewExplorer": "Visualize no Snowtrace Explorer"
     },
     "walletModal": {
         "wrongNetwork": "Rede errada",
