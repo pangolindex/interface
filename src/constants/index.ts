@@ -652,7 +652,7 @@ export const AMPL: { [chainId in ChainId]: Token } = {
 
 export const ORBS: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ORBS', 'Orbs'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x340fE1D898ECCAad394e2ba0fC1F93d27c7b717A', 9, 'ORBS', 'Orbs')
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x340fE1D898ECCAad394e2ba0fC1F93d27c7b717A', 18, 'ORBS', 'Orbs')
 }
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
