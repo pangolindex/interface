@@ -25,7 +25,7 @@ import DoubleCurrencyLogo from '../DoubleLogo'
 import { RowBetween, RowFixed } from '../Row'
 import { Dots } from '../swap/styleds'
 import { useTranslation } from 'react-i18next'
-import { BRIDGE_MIGRATORS, DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/hooks'
+import { BRIDGE_MIGRATORS, DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/doubleSideConfig'
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;

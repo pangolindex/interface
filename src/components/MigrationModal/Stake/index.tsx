@@ -10,7 +10,7 @@ import { useTokenBalance } from '../../../state/wallet/hooks'
 import { RowBetween } from '../../Row'
 import { useTranslation } from 'react-i18next'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
-import { useMiniChefContract, useStakingContract } from '../../../hooks/useContract'
+import { useStakingContract } from '../../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCallback'
 import { TransactionResponse } from '@ethersproject/providers'
 import { MINICHEF_ADDRESS } from '../../../constants'
@@ -76,7 +76,7 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps)
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
   const poolMap = useMinichefPools()
 
-  const miniChefContract = useMiniChefContract()
+  const miniChefContract = useStakingContract(MINICHEF_ADDRESS)
 
   async function onStake() {
     setAttempting(true)

@@ -19,7 +19,7 @@ import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
 import { AIRDROP_ADDRESS, BRIDGE_MIGRATOR_ADDRESS, MINICHEF_ADDRESS } from '../constants'
 import { GOVERNANCE_ADDRESS, PNG } from '../constants'
-import MINICHEF_ABI from '../constants/abis/minichef.json'
+import MINICHEF_ABI from '../constants/abis/miniChef.json'
 
 // returns null on errors
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
@@ -97,7 +97,7 @@ export function usePngContract(): Contract | null {
 }
 
 export function useStakingContract(stakingAddress?: string, withSignerIfPossible?: boolean): Contract | null {
-  return useContract(stakingAddress, STAKING_REWARDS_ABI, withSignerIfPossible)
+  return useContract(stakingAddress, stakingAddress === MINICHEF_ADDRESS ? MINICHEF_ABI : STAKING_REWARDS_ABI, withSignerIfPossible)
 }
 
 export function useAirdropContract(): Contract | null {

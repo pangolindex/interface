@@ -273,6 +273,7 @@ export default function Migrate({
           isOpen={showUnstakingModal}
           onDismiss={() => setShowUnstakingModal(false)}
           stakingInfo={stakingInfoFrom}
+          version={Number(versionFrom)}
         />
       )}
 
@@ -292,7 +293,7 @@ export default function Migrate({
           onDismiss={() => setShowStakingModal(false)}
           stakingInfo={stakingInfoTo}
           userLiquidityUnstaked={pglToBalance}
-          miniChefStaking={{} as any}
+          version={Number(versionTo)}
         />
       )}
 

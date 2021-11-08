@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import { RowBetween } from '../Row'
 import { TYPE, CloseIcon } from '../../theme'
 import { ButtonError } from '../Button'
-import { DoubleSideStakingInfo, MiniChefStakingInfos, useMinichefPools } from '../../state/stake/hooks'
-import { useMiniChefContract } from '../../hooks/useContract'
+import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks'
+import { useStakingContract } from '../../hooks/useContract'
 import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
@@ -23,17 +23,10 @@ interface StakingModalProps {
   isOpen: boolean
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
-  miniChefStaking?: MiniChefStakingInfos
-  pairAddress?: string
+  version: number
 }
 
-export default function UnstakingModal({
-  isOpen,
-  onDismiss,
-  stakingInfo,
-  miniChefStaking,
-  pairAddress
-}: StakingModalProps) {
+export default function UnstakingModal({ isOpen, onDismiss, stakingInfo, version }: StakingModalProps) {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
 
@@ -42,20 +35,26 @@ export default function UnstakingModal({
   const [hash, setHash] = useState<string | undefined>()
   const [attempting, setAttempting] = useState(false)
 
-  function wrappedOndismiss() {
+  function wrappedOnDismiss() {
     setHash(undefined)
     setAttempting(false)
     onDismiss()
   }
 
-  const miniChefContract = useMiniChefContract()
   const poolMap = useMinichefPools()
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   async function onWithdraw() {
-    if (miniChefContract && miniChefStaking?.stakedAmount && pairAddress) {
+    if (stakingContract && poolMap && stakingInfo?.stakedAmount) {
       setAttempting(true)
-      await miniChefContract
-        .withdrawAndHarvest(poolMap[pairAddress], `0x${miniChefStaking?.stakedAmount?.raw.toString(16)}`, account)
+      const method = version < 2 ? 'exit' : 'withdrawAndHarvest'
+      const args = version < 2
+        ? []
+        : [poolMap[stakingInfo.stakedAmount.token.address], `0x${stakingInfo.stakedAmount?.raw.toString(16)}`, account]
+
+      // TODO: Support withdrawing partial amounts for v2+
+      await stakingContract
+        [method](...args)
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.withdrawDepositedLiquidity')
@@ -73,52 +72,54 @@ export default function UnstakingModal({
   if (!account) {
     error = t('earn.connectWallet')
   }
-  if (!miniChefStaking?.stakedAmount) {
+  if (!stakingInfo?.stakedAmount) {
     error = error ?? t('earn.enterAmount')
   }
 
   return (
-    <Modal isOpen={isOpen} onDismiss={wrappedOndismiss} maxHeight={90}>
+    <Modal isOpen={isOpen} onDismiss={wrappedOnDismiss} maxHeight={90}>
       {!attempting && !hash && (
         <ContentWrapper gap="lg">
           <RowBetween>
             <TYPE.mediumHeader>Withdraw</TYPE.mediumHeader>
-            <CloseIcon onClick={wrappedOndismiss} />
+            <CloseIcon onClick={wrappedOnDismiss} />
           </RowBetween>
-          {miniChefStaking?.stakedAmount && (
+          {stakingInfo?.stakedAmount && (
             <AutoColumn justify="center" gap="md">
               <TYPE.body fontWeight={600} fontSize={36}>
-                {<FormattedCurrencyAmount currencyAmount={miniChefStaking.stakedAmount} />}
+                {<FormattedCurrencyAmount currencyAmount={stakingInfo.stakedAmount} />}
               </TYPE.body>
               <TYPE.body>{t('earn.depositedPglLiquidity')}</TYPE.body>
             </AutoColumn>
           )}
-          {miniChefStaking?.earnedAmount && (
+          {stakingInfo?.earnedAmount && (
             <AutoColumn justify="center" gap="md">
               <TYPE.body fontWeight={600} fontSize={36}>
-                {<FormattedCurrencyAmount currencyAmount={miniChefStaking?.earnedAmount} />}
+                {<FormattedCurrencyAmount currencyAmount={stakingInfo?.earnedAmount} />}
               </TYPE.body>
               <TYPE.body>{t('earn.unclaimedReward', { symbol: 'PNG' })}</TYPE.body>
             </AutoColumn>
           )}
-          <TYPE.subHeader style={{ textAlign: 'center' }}>{t('earn.whenYouWithdrawWarning')}</TYPE.subHeader>
-          <ButtonError disabled={!!error} error={!!error && !!miniChefStaking?.stakedAmount} onClick={onWithdraw}>
+          <TYPE.subHeader style={{ textAlign: 'center' }}>
+            {t('earn.whenYouWithdrawWarning')}
+          </TYPE.subHeader>
+          <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onWithdraw}>
             {error ?? t('earn.withdrawAndClaim')}
           </ButtonError>
         </ContentWrapper>
       )}
       {attempting && !hash && (
-        <LoadingView onDismiss={wrappedOndismiss}>
+        <LoadingView onDismiss={wrappedOnDismiss}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.body fontSize={20}>
               {t('earn.withdrawingLiquidity', {
-                amount: miniChefStaking?.stakedAmount?.toSignificant(4),
+                amount: stakingInfo?.stakedAmount?.toSignificant(4),
                 symbol: 'PGL'
               })}
             </TYPE.body>
             <TYPE.body fontSize={20}>
               {t('earn.claimingReward', {
-                amount: miniChefStaking?.earnedAmount?.toSignificant(4),
+                amount: stakingInfo?.earnedAmount?.toSignificant(4),
                 symbol: 'PNG'
               })}
             </TYPE.body>
@@ -126,7 +127,7 @@ export default function UnstakingModal({
         </LoadingView>
       )}
       {hash && (
-        <SubmittedView onDismiss={wrappedOndismiss} hash={hash}>
+        <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
             <TYPE.body fontSize={20}>{t('earn.withdrewStakingToken', { symbol: 'PGL' })}</TYPE.body>

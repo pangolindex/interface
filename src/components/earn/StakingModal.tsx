@@ -11,20 +11,15 @@ import CurrencyInputPanel from '../CurrencyInputPanel'
 import { TokenAmount, Pair, ChainId } from '@pangolindex/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
-import { useMiniChefContract, usePairContract } from '../../hooks/useContract'
+import { usePairContract, useStakingContract } from '../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
-import {
-  DoubleSideStakingInfo,
-  MiniChefStakingInfos,
-  useDerivedStakeInfo,
-  useMinichefPools
-} from '../../state/stake/hooks'
+import { splitSignature } from 'ethers/lib/utils'
+import { DoubleSideStakingInfo, useDerivedStakeInfo, useMinichefPools } from '../../state/stake/hooks'
 import { wrappedCurrencyAmount } from '../../utils/wrappedCurrency'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
-import { MINICHEF_ADDRESS } from '../../constants'
 
 const HypotheticalRewardRate = styled.div<{ dim: boolean }>`
   display: flex;
@@ -45,40 +40,27 @@ interface StakingModalProps {
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
   userLiquidityUnstaked: TokenAmount | undefined
-  miniChefStaking: MiniChefStakingInfos
-  pairAddress?: string
+  version: number
 }
 
-export default function StakingModal({
-  isOpen,
-  onDismiss,
-  stakingInfo,
-  userLiquidityUnstaked,
-  pairAddress,
-  miniChefStaking
-}: StakingModalProps) {
+export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiquidityUnstaked, version }: StakingModalProps) {
   const { account, chainId, library } = useActiveWeb3React()
 
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
-  const { parsedAmount, error } = useDerivedStakeInfo(
-    typedValue,
-    miniChefStaking?.stakedAmount?.token,
-    userLiquidityUnstaked
-  )
+  const { parsedAmount, error } = useDerivedStakeInfo(typedValue, stakingInfo.stakedAmount.token, userLiquidityUnstaked)
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  let hypotheticalRewardRate: TokenAmount = new TokenAmount(miniChefStaking?.totalRewardRate?.token, '0')
+  let hypotheticalRewardRate: TokenAmount = new TokenAmount(stakingInfo.rewardRate.token, '0')
   if (parsedAmountWrapped?.greaterThan('0')) {
-    hypotheticalRewardRate = miniChefStaking.getHypotheticalRewardRate(
-      miniChefStaking?.stakedAmount?.add(parsedAmountWrapped),
-      miniChefStaking?.totalStakedAmount?.add(parsedAmountWrapped),
-      miniChefStaking?.totalRewardRate
+    hypotheticalRewardRate = stakingInfo.getHypotheticalRewardRate(
+      stakingInfo.stakedAmount.add(parsedAmountWrapped),
+      stakingInfo.totalStakedAmount.add(parsedAmountWrapped),
+      stakingInfo.totalRewardRate
     )
   }
 
   // state for pending and submitted txn views
-  // @ts-ignore
   const addTransaction = useTransactionAdder()
   const [attempting, setAttempting] = useState<boolean>(false)
   const [hash, setHash] = useState<string | undefined>()
@@ -100,25 +82,55 @@ export default function StakingModal({
   const deadline = useTransactionDeadline()
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, MINICHEF_ADDRESS)
+  const [approval, approveCallback] = useApproveCallback(parsedAmount, stakingInfo.stakingRewardAddress)
+
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+
   const poolMap = useMinichefPools()
-  const miniChefContract = useMiniChefContract()
 
   async function onStake() {
-    setAttempting(true)
-    if (miniChefContract && parsedAmount && pairAddress) {
-      miniChefContract
-        .deposit(poolMap[pairAddress], `0x${parsedAmount.raw.toString(16)}`, account)
-        .then((response: TransactionResponse) => {
-          addTransaction(response, {
-            summary: t('earn.depositLiquidity')
+    if (stakingContract && poolMap && parsedAmount && deadline) {
+      setAttempting(true)
+      const method = version < 2 ? 'stake' : 'deposit'
+      const args = version < 2
+        ? [`0x${parsedAmount.raw.toString(16)}`]
+        : [poolMap[stakingInfo.stakedAmount.token.address], `0x${parsedAmount.raw.toString(16)}`, account]
+
+      if (approval === ApprovalState.APPROVED) {
+        stakingContract
+          [method](...args)
+          .then((response: TransactionResponse) => {
+            addTransaction(response, {
+              summary: t("earn.depositLiquidity")
+            });
+            setHash(response.hash);
           })
-          setHash(response.hash)
-        })
-        .catch((error: any) => {
-          setAttempting(false)
-          console.error(error)
-        })
+          .catch((error: any) => {
+            setAttempting(false);
+            console.error(error);
+          })
+      } else if (signatureData) {
+        const permitMethod = version < 2 ? 'stakeWithPermit' : 'depositWithPermit'
+        const permitArgs = version < 2
+          ? [`0x${parsedAmount.raw.toString(16)}`, signatureData.deadline, signatureData.v, signatureData.r, signatureData.s]
+          : [poolMap[stakingInfo.stakedAmount.token.address], `0x${parsedAmount.raw.toString(16)}`, account, signatureData.deadline, signatureData.v, signatureData.r, signatureData.s]
+
+        stakingContract
+          [permitMethod](...permitArgs)
+          .then((response: TransactionResponse) => {
+            addTransaction(response, {
+              summary: t('earn.depositLiquidity')
+            })
+            setHash(response.hash)
+          })
+          .catch((error: any) => {
+            setAttempting(false)
+            console.error(error)
+          })
+      } else {
+        setAttempting(false)
+        throw new Error(t('earn.attemptingToStakeError'))
+      }
     }
   }
 
@@ -140,7 +152,62 @@ export default function StakingModal({
     const liquidityAmount = parsedAmount
     if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
 
-    approveCallback()
+    // try to gather a signature for permission
+    const nonce = await pairContract.nonces(account)
+
+    const EIP712Domain = [
+      { name: 'name', type: 'string' },
+      { name: 'version', type: 'string' },
+      { name: 'chainId', type: 'uint256' },
+      { name: 'verifyingContract', type: 'address' }
+    ]
+    const domain = {
+      name: 'Pangolin Liquidity',
+      version: '1',
+      chainId: chainId,
+      verifyingContract: pairContract.address
+    }
+    const Permit = [
+      { name: 'owner', type: 'address' },
+      { name: 'spender', type: 'address' },
+      { name: 'value', type: 'uint256' },
+      { name: 'nonce', type: 'uint256' },
+      { name: 'deadline', type: 'uint256' }
+    ]
+    const message = {
+      owner: account,
+      spender: stakingInfo.stakingRewardAddress,
+      value: liquidityAmount.raw.toString(),
+      nonce: nonce.toHexString(),
+      deadline: deadline.toNumber()
+    }
+    const data = JSON.stringify({
+      types: {
+        EIP712Domain,
+        Permit
+      },
+      domain,
+      primaryType: 'Permit',
+      message
+    })
+
+    library
+      .send('eth_signTypedData_v4', [account, data])
+      .then(splitSignature)
+      .then(signature => {
+        setSignatureData({
+          v: signature.v,
+          r: signature.r,
+          s: signature.s,
+          deadline: deadline.toNumber()
+        })
+      })
+      .catch(error => {
+        // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
+        if (error?.code !== 4001) {
+          approveCallback()
+        }
+      })
   }
 
   return (
@@ -156,7 +223,7 @@ export default function StakingModal({
             onUserInput={onUserInput}
             onMax={handleMax}
             showMaxButton={!atMaxAmount}
-            currency={miniChefStaking.stakedAmount.token}
+            currency={stakingInfo.stakedAmount.token}
             pair={dummyPair}
             label={''}
             disableCurrencySelect={true}
@@ -170,7 +237,7 @@ export default function StakingModal({
             </div>
 
             <TYPE.black>
-              {hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toFixed(0, { groupSeparator: ',' })}{' '}
+              {hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toSignificant(4, { groupSeparator: ',' })}{' '}
               {t('earn.rewardPerWeek', { symbol: 'PNG' })}
             </TYPE.black>
           </HypotheticalRewardRate>
@@ -207,9 +274,7 @@ export default function StakingModal({
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>
-              {t('earn.deposited')} {parsedAmount?.toSignificant(4)} PGL
-            </TYPE.body>
+            <TYPE.body fontSize={20}>{t('earn.deposited')} {parsedAmount?.toSignificant(4)} PGL</TYPE.body>
           </AutoColumn>
         </SubmittedView>
       )}
