@@ -2,13 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import styled from 'styled-components'
-import {
-  MIGRATIONS,
-  DOUBLE_SIDE_STAKING_REWARDS_INFO,
-  useStakingInfo,
-  useMinichefStakingInfos,
-  DoubleSideStakingInfo
-} from '../../state/stake/hooks'
+import { useStakingInfo } from '../../state/stake/hooks'
+import { MIGRATIONS, DOUBLE_SIDE_STAKING_REWARDS_INFO } from '../../state/stake/doubleSideConfig'
 import { TYPE, ExternalLink } from '../../theme'
 import DoubleSidePoolCard from '../../components/earn/DoubleSidePoolCard'
 import { RouteComponentProps, NavLink } from 'react-router-dom'
@@ -20,6 +15,7 @@ import { JSBI } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import useDebounce from '../../hooks/useDebounce'
+import { BIG_INT_ZERO } from '../../constants'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -84,8 +80,7 @@ export default function Earn({
 }: RouteComponentProps<{ version: string }>) {
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
-  const oldStakingInfos = useStakingInfo(Number(version))
-  const stakingInfos = useMinichefStakingInfos()
+  const stakingInfos = useStakingInfo(Number(version))
   const [poolCardsLoading, setPoolCardsLoading] = useState(false)
   const [poolCards, setPoolCards] = useState<any[]>()
   const [filteredPoolCards, setFilteredPoolCards] = useState<any[]>()
@@ -93,9 +88,6 @@ export default function Earn({
   const [sortBy, setSortBy] = useState<any>({ field: '', desc: true })
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
   const [stakingInfoData, setStakingInfoData] = useState<any[]>(stakingInfos)
-
-  const stakingInfoV0 = useStakingInfo(Number(0))
-  const hasPositionV0 = stakingInfoV0?.some(stakingInfo => stakingInfo.stakedAmount.greaterThan('0'))
 
   const handleSearch = useCallback(event => {
     setSearchQuery(event.target.value.trim().toUpperCase())
@@ -116,9 +108,9 @@ export default function Earn({
       stakingInfoData.sort(function(info_a, info_b) {
         if (sortBy.field === SortingType.totalStakedInUsd) {
           if (sortBy.desc) {
-            return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? JSBI.BigInt(0)) ? -1 : 1
+            return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
           } else {
-            return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? JSBI.BigInt(0)) ? -1 : 1
+            return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
           }
         }
         if (sortBy.field === SortingType.multiplier) {
@@ -139,16 +131,12 @@ export default function Earn({
       })
     ).then(stakingInfoData => {
       const poolCards = stakingInfoData.map(stakingInfo => {
-        const oldStakingInfo = oldStakingInfos.find(
-          item => item?.stakingRewardAddress === stakingInfo?.stakingRewardAddress
-        )
         return (
           <DoubleSidePoolCard
             swapFeeApr={stakingInfo.swapFeeApr}
             stakingApr={stakingInfo.stakingApr}
             key={stakingInfo.stakingRewardAddress}
-            stakingInfo={oldStakingInfo as DoubleSideStakingInfo}
-            minichefStakingInfo={stakingInfo}
+            stakingInfo={stakingInfo}
             migration={
               MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to
             }
@@ -168,7 +156,7 @@ export default function Earn({
         stakingInfos
           .filter(function(info) {
             // Only include pools that are live or require a migration
-            return !info.isPeriodFinished || info.stakedAmount.greaterThan(JSBI.BigInt(0))
+            return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
           })
           .sort(function(info_a, info_b) {
             // only first has ended
@@ -176,25 +164,25 @@ export default function Earn({
             // only second has ended
             if (!info_a.isPeriodFinished && info_b.isPeriodFinished) return -1
             // greater stake in avax comes first
-            return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? JSBI.BigInt(0)) ? -1 : 1
+            return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
           })
           .sort(function(info_a, info_b) {
             // only the first is being staked, so we should bring the first up
-            if (info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && !info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
+            if (info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && !info_b.stakedAmount.greaterThan(BIG_INT_ZERO))
               return -1
             // only the second is being staked, so we should bring the first down
-            if (!info_a.stakedAmount.greaterThan(JSBI.BigInt(0)) && info_b.stakedAmount.greaterThan(JSBI.BigInt(0)))
+            if (!info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && info_b.stakedAmount.greaterThan(BIG_INT_ZERO))
               return 1
             return 0
           })
           .sort(function(info_a, info_b) {
             // Bring pools that require migration to the top
-            const aCanMigrate = MIGRATIONS.find(
+            const aCanMigrate = MIGRATIONS.some(
               migration => migration.from.stakingRewardAddress === info_a.stakingRewardAddress
-            )?.to
-            const bCanMigrate = MIGRATIONS.find(
+            ) && info_a.stakedAmount.greaterThan(BIG_INT_ZERO)
+            const bCanMigrate = MIGRATIONS.some(
               migration => migration.from.stakingRewardAddress === info_b.stakingRewardAddress
-            )?.to
+            ) && info_b.stakedAmount.greaterThan(BIG_INT_ZERO)
             if (aCanMigrate && !bCanMigrate) return -1
             if (!aCanMigrate && bCanMigrate) return 1
             return 0
@@ -212,10 +200,6 @@ export default function Earn({
         // })
       ).then(updatedStakingInfos => {
         const poolCards = updatedStakingInfos.map((stakingInfo, index) => {
-          const oldStakingInfo = oldStakingInfos.find(
-            item => item?.stakingRewardAddress === stakingInfo?.stakingRewardAddress
-          )
-
           return (
             <DoubleSidePoolCard
               // @ts-ignore
@@ -223,8 +207,7 @@ export default function Earn({
               // @ts-ignore
               stakingApr={stakingInfo.stakingApr}
               key={stakingInfo?.stakedAmount?.token?.address}
-              stakingInfo={oldStakingInfo as DoubleSideStakingInfo}
-              minichefStakingInfo={stakingInfo}
+              stakingInfo={stakingInfo}
               migration={
                 MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)
                   ?.to
@@ -304,7 +287,7 @@ export default function Earn({
           <CardBGImage />
           <CardNoise />
         </DataCard>
-        {(hasPositionV0 || version === '0') && (
+        {(version === '0') && (
           <DataCard>
             <CardNoise />
             <CardSection>

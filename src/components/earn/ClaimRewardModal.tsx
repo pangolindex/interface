@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import { RowBetween } from '../Row'
 import { TYPE, CloseIcon } from '../../theme'
 import { ButtonError } from '../Button'
-import { DoubleSideStakingInfo, MiniChefStakingInfos, useMinichefPools } from '../../state/stake/hooks'
-import { useMiniChefContract } from '../../hooks/useContract'
+import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks'
+import { useStakingContract } from '../../hooks/useContract'
 import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
@@ -22,17 +22,10 @@ interface StakingModalProps {
   isOpen: boolean
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
-  miniChefStaking?: MiniChefStakingInfos
-  pairAddress?: string
+  version: number
 }
 
-export default function ClaimRewardModal({
-  isOpen,
-  onDismiss,
-  stakingInfo,
-  miniChefStaking,
-  pairAddress
-}: StakingModalProps) {
+export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo, version }: StakingModalProps) {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
 
@@ -47,14 +40,19 @@ export default function ClaimRewardModal({
     onDismiss()
   }
 
-  const minichefContract = useMiniChefContract()
   const poolMap = useMinichefPools()
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   async function onClaimReward() {
-    if (minichefContract && miniChefStaking?.stakedAmount && pairAddress) {
+    if (stakingContract && poolMap && stakingInfo?.stakedAmount) {
       setAttempting(true)
-      await minichefContract
-        .harvest(poolMap[pairAddress], account)
+      const method = version < 2 ? 'getReward' : 'harvest'
+      const args = version < 2
+        ? []
+        : [poolMap[stakingInfo.stakedAmount.token.address], account]
+
+      await stakingContract
+        [method](...args)
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.claimAccumulated', { symbol: 'PNG' })
@@ -72,7 +70,7 @@ export default function ClaimRewardModal({
   if (!account) {
     error = t('earn.connectWallet')
   }
-  if (!miniChefStaking?.stakedAmount) {
+  if (!stakingInfo?.stakedAmount) {
     error = error ?? t('earn.enterAmount')
   }
 
@@ -84,16 +82,18 @@ export default function ClaimRewardModal({
             <TYPE.mediumHeader>{t('earn.claim')}</TYPE.mediumHeader>
             <CloseIcon onClick={wrappedOnDismiss} />
           </RowBetween>
-          {miniChefStaking?.earnedAmount && (
+          {stakingInfo?.earnedAmount && (
             <AutoColumn justify="center" gap="md">
               <TYPE.body fontWeight={600} fontSize={36}>
-                {miniChefStaking?.earnedAmount?.toSignificant(6)}
+                {stakingInfo?.earnedAmount?.toSignificant(6)}
               </TYPE.body>
               <TYPE.body>{t('earn.unclaimedReward', { symbol: 'PNG' })}</TYPE.body>
             </AutoColumn>
           )}
-          <TYPE.subHeader style={{ textAlign: 'center' }}>{t('earn.liquidityRemainsPool')}</TYPE.subHeader>
-          <ButtonError disabled={!!error} error={!!error && !!miniChefStaking?.stakedAmount} onClick={onClaimReward}>
+          <TYPE.subHeader style={{ textAlign: 'center' }}>
+            {t('earn.liquidityRemainsPool')}
+          </TYPE.subHeader>
+          <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onClaimReward}>
             {error ?? t('earn.claimReward', { symbol: 'PNG' })}
           </ButtonError>
         </ContentWrapper>
@@ -103,7 +103,7 @@ export default function ClaimRewardModal({
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.body fontSize={20}>
               {t('earn.claimingReward', {
-                amount: miniChefStaking?.earnedAmount?.toSignificant(6),
+                amount: stakingInfo?.earnedAmount?.toSignificant(6),
                 symbol: 'PNG'
               })}
             </TYPE.body>
