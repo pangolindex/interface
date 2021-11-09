@@ -119,6 +119,19 @@ const WALLET_VIEWS = {
   PENDING: 'pending'
 }
 
+function addAvalancheNetwork() {
+  injected.getProvider().then(provider => {
+    provider
+      .request({
+        method: 'wallet_addEthereumChain',
+        params: [AVALANCHE_CHAIN_PARAMS]
+      })
+      .catch((error: any) => {
+        console.log(error)
+      })
+  })
+}
+
 export default function WalletModal({
   pendingTransactions,
   confirmedTransactions,
@@ -190,13 +203,22 @@ export default function WalletModal({
     }
 
     connector &&
-      activate(connector, undefined, true).catch(error => {
-        if (error instanceof UnsupportedChainIdError) {
-          activate(connector) // a little janky...can't use setError because the connector isn't set
-        } else {
-          setPendingError(true)
-        }
-      })
+      activate(connector, undefined, true)
+        .then(() => {
+          const isCbWalletDappBrowser = window?.ethereum?.isCoinbaseWallet
+          const isWalletlink = !!window?.WalletLinkProvider || !!window?.walletLinkExtension
+          const isCbWallet = isCbWalletDappBrowser || isWalletlink
+          if (isCbWallet) {
+            addAvalancheNetwork()
+          }
+        })
+        .catch(error => {
+          if (error instanceof UnsupportedChainIdError) {
+            activate(connector) // a little janky...can't use setError because the connector isn't set
+          } else {
+            setPendingError(true)
+          }
+        })
   }
 
   // get wallets user can switch too, depending on device/browser
@@ -206,7 +228,6 @@ export default function WalletModal({
       const option = SUPPORTED_WALLETS[key]
       // check for mobile options
       if (isMobile) {
-
         if (!window.web3 && !window.ethereum && option.mobile) {
           return (
             <Option
@@ -281,21 +302,12 @@ export default function WalletModal({
     })
   }
 
-  function addAvalancheNetwork() {
-    injected.getProvider().then(provider => {
-      provider
-        .request({
-          method: 'wallet_addEthereumChain',
-          params: [AVALANCHE_CHAIN_PARAMS]
-        })
-        .catch((error: any) => {
-          console.log(error)
-        })
-    })
-  }
-
   function getModalContent() {
     const isMetamask = window.ethereum && window.ethereum.isMetaMask
+    const isCbWalletDappBrowser = window?.ethereum?.isCoinbaseWallet
+    const isWalletlink = !!window?.WalletLinkProvider || !!window?.walletLinkExtension
+    const isCbWallet = isCbWalletDappBrowser || isWalletlink
+    const isMetamaskOrCbWallet = isMetamask || isCbWallet
     if (error) {
       return (
         <UpperSection>
@@ -311,7 +323,7 @@ export default function WalletModal({
             {error instanceof UnsupportedChainIdError ? (
               <>
                 <h5>{t('walletModal.pleaseConnectAvalanche')}</h5>
-                {isMetamask && (
+                {isMetamaskOrCbWallet && (
                   <ButtonLight onClick={addAvalancheNetwork}>{t('walletModal.switchAvalanche')}</ButtonLight>
                 )}
               </>
