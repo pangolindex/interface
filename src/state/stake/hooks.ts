@@ -838,13 +838,16 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
         let totalStakedInWavax = new TokenAmount(DAIe[chainId], BIG_INT_ZERO)
 
         if (pair.involvesToken(DAIe[chainId])) {
-          totalStakedInUsd = new TokenAmount(DAIe[chainId], JSBI.multiply(pair.reserveOf(DAIe[chainId]).raw, BIG_INT_TWO))
+          const pairValueInUsd = JSBI.multiply(pair.reserveOf(DAIe[chainId]).raw, BIG_INT_TWO)
+          totalStakedInUsd = new TokenAmount(DAIe[chainId], JSBI.multiply(pairValueInUsd, totalSupplyStaked))
           totalStakedInWavax = new TokenAmount(WAVAX[chainId], JSBI.multiply(avaxPrice?.raw ?? BIG_INT_ZERO, totalStakedInUsd.raw))
         } else if (pair.involvesToken(USDCe[chainId])) {
-          totalStakedInUsd = new TokenAmount(USDCe[chainId],  JSBI.multiply(pair.reserveOf(USDCe[chainId]).raw, BIG_INT_TWO))
+          const pairValueInUsd = JSBI.multiply(pair.reserveOf(USDCe[chainId]).raw, BIG_INT_TWO)
+          totalStakedInUsd = new TokenAmount(DAIe[chainId], JSBI.multiply(pairValueInUsd, totalSupplyStaked))
           totalStakedInWavax = new TokenAmount(WAVAX[chainId], JSBI.multiply(avaxPrice?.raw ?? BIG_INT_ZERO, totalStakedInUsd.raw))
         } else if (pair.involvesToken(USDTe[chainId])) {
-          totalStakedInUsd = new TokenAmount(USDTe[chainId], JSBI.multiply(pair.reserveOf(USDTe[chainId]).raw, BIG_INT_TWO))
+          const pairValueInUsd = JSBI.multiply(pair.reserveOf(USDTe[chainId]).raw, BIG_INT_TWO)
+          totalStakedInUsd = new TokenAmount(DAIe[chainId], JSBI.multiply(pairValueInUsd, totalSupplyStaked))
           totalStakedInWavax = new TokenAmount(WAVAX[chainId], JSBI.multiply(avaxPrice?.raw ?? BIG_INT_ZERO, totalStakedInUsd.raw))
         } else if (isAvaxPool) {
           const totalStakedInWavax = calculateTotalStakedAmountInAvax(totalSupplyStaked, totalSupplyAvailable, pair.reserveOf(wavax).raw)
