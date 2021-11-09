@@ -2,29 +2,22 @@ import React, { useCallback, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-
-import { JSBI, Token } from '@pangolindex/sdk'
-import { RouteComponentProps } from 'react-router-dom'
+import { JSBI, Token, Currency } from '@pangolindex/sdk'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
-import { useCurrency } from '../../hooks/Tokens'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { TYPE } from '../../theme'
-
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import { ButtonPrimary, ButtonEmpty } from '../../components/Button'
 import StakingModal from '../../components/earn/StakingModal'
-import { useStakingInfo } from '../../state/stake/hooks'
+import { DoubleSideStakingInfo } from '../../state/stake/hooks'
 import UnstakingModal from '../../components/earn/UnstakingModal'
 import ClaimRewardModal from '../../components/earn/ClaimRewardModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { useColor } from '../../hooks/useColor'
 import { CountUp } from 'use-count-up'
-
-import { wrappedCurrency } from '../../utils/wrappedCurrency'
 import { currencyId } from '../../utils/currencyId'
-import { usePair } from '../../data/Reserves'
 import usePrevious from '../../hooks/usePrevious'
 import { BIG_INT_ZERO } from '../../constants'
 import { useTranslation } from 'react-i18next'
@@ -86,20 +79,15 @@ const DataRow = styled(RowBetween)`
    `};
 `
 
-export default function Manage({
-  match: {
-    params: { currencyIdA, currencyIdB, version }
-  }
-}: RouteComponentProps<{ currencyIdA: string; currencyIdB: string; version: string }>) {
-  const { account, chainId } = useActiveWeb3React()
+export interface ManageProps {
+  version: string
+  stakingInfo: DoubleSideStakingInfo
+  currencyA: Currency | null | undefined
+  currencyB: Currency | null | undefined
+}
 
-  // get currencies and pair
-  const [currencyA, currencyB] = [useCurrency(currencyIdA), useCurrency(currencyIdB)]
-  const tokenA = wrappedCurrency(currencyA ?? undefined, chainId)
-  const tokenB = wrappedCurrency(currencyB ?? undefined, chainId)
-
-  const [, stakingTokenPair] = usePair(tokenA, tokenB)
-  const stakingInfo = useStakingInfo(Number(version), stakingTokenPair)?.[0]
+const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, currencyB }) => {
+  const { account } = useActiveWeb3React()
 
   let backgroundColor: string
   let token: Token | undefined
@@ -163,6 +151,28 @@ export default function Manage({
           </AutoColumn>
         </PoolData>
       </DataRow>
+
+      {version === '1' && stakingInfo?.stakedAmount?.greaterThan(BIG_INT_ZERO) ? (
+        <VoteCard>
+          <CardBGImage />
+          <CardNoise />
+          <CardSection>
+            <AutoColumn gap="md">
+              <RowBetween>
+                <TYPE.white fontWeight={600}>{t('earnPage.migrateTitle')}</TYPE.white>
+              </RowBetween>
+              <RowBetween style={{ marginBottom: '1rem' }}>
+                <TYPE.white fontSize={14}>{t('earnPage.migrateDescription')}</TYPE.white>
+              </RowBetween>
+              <ButtonPrimary padding="8px" width={'fit-content'} as={Link} to={`/beta/migrate/1`}>
+                {t('earnPage.migrate')}
+              </ButtonPrimary>
+            </AutoColumn>
+          </CardSection>
+          <CardBGImage />
+          <CardNoise />
+        </VoteCard>
+      ) : null}
 
       {showAddLiquidityButton && (
         <VoteCard>
@@ -320,3 +330,5 @@ export default function Manage({
     </PageWrapper>
   )
 }
+
+export default Manage

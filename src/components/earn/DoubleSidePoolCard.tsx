@@ -54,15 +54,17 @@ const Wrapper = styled(AutoColumn)<{ showBackground: boolean; bgColor: any }>`
 `
 
 const TopSection = styled.div<{ isStaking?: boolean }>`
-  display: grid;
-  grid-template-columns: ${({ isStaking }) => (isStaking ? '48px 1fr auto 120px 120px' : '48px 1fr auto 120px')};
-  grid-gap: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // grid-template-columns: ${({ isStaking }) => (isStaking ? '48px 1fr auto 120px 120px' : '48px 1fr auto 120px')};
+  // grid-gap: 0px;
   align-items: center;
   padding: 1rem;
   z-index: 1;
-  ${({ theme, isStaking }) => theme.mediaWidth.upToSmall`
-     grid-template-columns: ${isStaking ? '48px 1fr auto 96px 96px' : ' 48px 1fr auto 96px'};
-   `};
+  // ${({ theme, isStaking }) => theme.mediaWidth.upToSmall`
+  //    grid-template-columns: ${isStaking ? '48px 1fr auto 96px 96px' : ' 48px 1fr auto 96px'};
+  //  `};
 `
 
 const BottomSection = styled.div<{ showBackground: boolean }>`
@@ -118,46 +120,49 @@ export default function DoubleSidePoolCard({
       <CardNoise />
 
       <TopSection isStaking={isStaking}>
-        <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={24} />
-        <TYPE.white fontWeight={600} fontSize={24} style={{ marginLeft: '8px' }}>
-          {currency0.symbol}-{currency1.symbol}
-        </TYPE.white>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={24} />
+          <TYPE.white fontWeight={600} fontSize={24} style={{ marginLeft: '8px' }}>
+            {currency0.symbol}-{currency1.symbol}
+          </TYPE.white>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {/* Legacy AEB Migration */}
+          {isStaking && Number(version) <= 1 && migration ? (
+            <StyledInternalLink
+              to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${Number(version)}/${currencyId(
+                migration.tokens[0]
+              )}/${currencyId(migration.tokens[1])}/${migration?.version}`}
+              style={{ marginRight: '10px' }}
+            >
+              <ButtonPrimary padding="8px" borderRadius="8px">
+                Migrate
+              </ButtonPrimary>
+            </StyledInternalLink>
+          ) : (
+            <span></span>
+          )}
 
-        {/* Legacy AEB Migration */}
-        {(isStaking && Number(version) <= 1 && migration) ? (
-          <StyledInternalLink
-            to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${Number(version)}/${currencyId(
-              migration.tokens[0]
-            )}/${currencyId(migration.tokens[1])}/${migration?.version}`}
-            style={{ marginRight: '10px' }}
-          >
-            <ButtonPrimary padding="8px" borderRadius="8px">
-              Migrate
-            </ButtonPrimary>
-          </StyledInternalLink>
-        ) : (
-          <span></span>
-        )}
+          {/* Beta Migration */}
+          {isStaking && Number(version) === 1 && !migration ? (
+            <StyledInternalLink to={`/beta/migrate/${version}`} style={{ marginRight: '10px' }}>
+              <ButtonPrimary padding="8px" borderRadius="8px">
+                Migrate
+              </ButtonPrimary>
+            </StyledInternalLink>
+          ) : null}
 
-        {/* Beta Migration */}
-        {(isStaking && Number(version) === 1 && !migration) ? (
-          <StyledInternalLink to={`/beta/migrate/${version}`} style={{ marginRight: '10px' }}>
-            <ButtonPrimary padding="8px" borderRadius="8px">
-              Migrate
-            </ButtonPrimary>
-          </StyledInternalLink>
-        ) : null}
-
-        {(isStaking || !stakingInfo.isPeriodFinished) && (
-          <StyledInternalLink
-            to={`/png/${currencyId(currency0)}/${currencyId(currency1)}/${version}`}
-            style={{ width: '100%' }}
-          >
-            <ButtonPrimary padding="8px" borderRadius="8px">
-              {isStaking ? t('earn.manage') : t('earn.deposit')}
-            </ButtonPrimary>
-          </StyledInternalLink>
-        )}
+          {(isStaking || !stakingInfo.isPeriodFinished) && (
+            <StyledInternalLink
+              to={`/png/${currencyId(currency0)}/${currencyId(currency1)}/${version}`}
+              style={{ width: '100%' }}
+            >
+              <ButtonPrimary padding="8px" borderRadius="8px">
+                {isStaking ? t('earn.manage') : t('earn.deposit')}
+              </ButtonPrimary>
+            </StyledInternalLink>
+          )}
+        </div>
       </TopSection>
 
       <StatContainer>

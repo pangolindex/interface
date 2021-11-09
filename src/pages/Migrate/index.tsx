@@ -35,7 +35,7 @@ export default function Migrate() {
   const { account } = useActiveWeb3React()
   const toggleMigrationModal = useMigrationModalToggle()
 
-  const { allPool, v2IsLoading, allV2PairsWithLiquidity } = useGetMigrationData(params?.version)
+  const { allPool, v2IsLoading } = useGetMigrationData(params?.version)
 
   return (
     <PageWrapper>
@@ -143,7 +143,7 @@ export default function Migrate() {
               <Dots>{t('pool.loading')}</Dots>
             </Text>
           </EmptyProposals>
-        ) : allV2PairsWithLiquidity?.length > 0 ? (
+        ) : Object.values(allPool)?.length > 0 ? (
           <PanelWrapper style={{ marginTop: below1080 ? '0' : '50px' }}>
             {Object.values(allPool).map(pool => (
               <MigrationCard

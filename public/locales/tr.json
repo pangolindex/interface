@@ -4,6 +4,8 @@
     "buy": "Satın Al",
     "pool": "Havuz",
     "farm": "Farm",
+    "version1": "Sürüm 1",
+    "version2": "Sürüm 2",
     "stake": "Stake",
     "newPng": "Yeni PNG",
     "oldPng": "Eski PNG",
@@ -516,6 +518,7 @@
     "choose": "SEÇ",
     "selectAll": "Hepsini seç",
     "loading": "Yükleniyor",
-    "back": "Geri"
+    "back": "Geri",
+    "availableToUnstake": "Kaldırılabilir: "
   }
 }

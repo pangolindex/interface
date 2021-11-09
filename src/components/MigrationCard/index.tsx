@@ -18,7 +18,7 @@ export interface StatProps {
 const MigrationCard = ({ pair, onClickMigrate, stakingData }: StatProps) => {
   const { t } = useTranslation()
 
-  const { currency0, currency1, totalAmountUsd } = useGetPairDataFromPair(pair)
+  const { currency0, currency1 } = useGetPairDataFromPair(pair)
 
   let totalLiqAmount = stakingData?.stakedAmount
 
@@ -42,8 +42,8 @@ const MigrationCard = ({ pair, onClickMigrate, stakingData }: StatProps) => {
 
       <AutoRow gap="20px">
         <Stat
-          title={t('migratePage.totalValueLocked')}
-          stat={numeral((totalAmountUsd as Fraction)?.toSignificant(8)).format('$0.00 a')}
+          title={t('earnPage.totalStaked')}
+          stat={numeral((stakingData?.totalStakedInUsd as Fraction)?.toFixed(2)).format('$0.00 a')}
           titlePosition="top"
         />
         <Stat

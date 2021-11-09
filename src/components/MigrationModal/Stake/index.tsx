@@ -41,6 +41,7 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps)
   const [stakingAmount, setStakingAmount] = useState('')
 
   const { parsedAmount } = useDerivedStakeInfo(stakingAmount, stakingInfo.stakedAmount.token, userLiquidityUnstaked)
+
   const [percentage, setPercentage] = useState(0)
   // approval data for stake
   const [approval, approveCallback] = useApproveCallback(parsedAmount, MINICHEF_ADDRESS)

@@ -4,6 +4,8 @@
     "buy": "Comprar",
     "pool": "Pool",
     "farm": "Farm",
+    "version1": "Versión 1",
+    "version2": "Versión 2",
     "stake": "Stake",
     "newPng": "Nuevo PNG",
     "oldPng": "Viejo PNG",
@@ -515,6 +517,7 @@
     "choose": "ESCOGER",
     "selectAll": "Seleccionar todo",
     "loading": "Cargando",
-    "back": "atrás"
+    "back": "atrás",
+    "availableToUnstake": "Disponible para desaplicar: "
   }
 }
