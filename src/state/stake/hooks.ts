@@ -701,16 +701,16 @@ export function useGetPairDataFromPair(pair: Pair) {
   }
   return parData
 }
-export const useMinichefPools = (): { [key: string]: JSBI } => {
+export const useMinichefPools = (): { [key: string]: number } => {
   const minichefContract = useStakingContract(MINICHEF_ADDRESS)
   const lpTokens = useSingleCallResult(minichefContract, 'lpTokens', []).result
   const lpTokensArr = lpTokens?.[0]
 
   return useMemo(() => {
-    const poolMap: { [key: string]: JSBI } = {}
+    const poolMap: { [key: string]: number } = {}
     if (lpTokensArr) {
       lpTokensArr.forEach((address: string, index: number) => {
-        poolMap[address] = JSBI.BigInt(index)
+        poolMap[address] = index
       })
     }
     return poolMap
@@ -749,30 +749,15 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
 
   const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[ChainId.AVALANCHE], png)
 
-  const poolsIdInput = useMemo(
-    () =>
-      Object.entries(poolMap).length > 0
-        ? Object.entries(poolMap)
-            .filter(([key]) => pairAddresses.includes(key as string))
-            .map(([, id]) => {
-              return [JSBI.BigInt(id).toString(16)]
-            })
-        : undefined,
-    [poolMap, pairAddresses]
-  )
+  const poolsIdInput = useMemo(() => {
+    return Object.values(poolMap).map((pid) => [pid])
+  }, [poolMap])
   const poolInfos = useSingleContractMultipleData(minichefContract, 'poolInfo', poolsIdInput ?? [])
 
-  const userInfoInput = useMemo(
-    () =>
-      account && Object.entries(poolMap).length > 0
-        ? Object.entries(poolMap)
-            .filter(([key]) => pairAddresses.includes(key as string))
-            .map(([, id]) => {
-              return [JSBI.BigInt(id).toString(16), account]
-            })
-        : undefined,
-    [poolMap, pairAddresses, account]
-  )
+  const userInfoInput = useMemo(() => {
+    if (!account) return []
+    return Object.values(poolMap).map((pid) => [pid, account])
+  }, [poolMap, account])
   const userInfos = useSingleContractMultipleData(minichefContract, 'userInfo', userInfoInput ?? [])
 
   const pendingRewards = useSingleContractMultipleData(minichefContract, 'pendingReward', userInfoInput ?? [])
