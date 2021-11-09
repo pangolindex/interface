@@ -517,6 +517,7 @@
     "choose": "选择",
     "selectAll": "全选",
     "loading": "加载中",
-    "back": "后退"
+    "back": "后退",
+    "availableToUnstake": "可取消抵押: "
   }
 }

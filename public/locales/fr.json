@@ -518,6 +518,7 @@
     "choose": "CHOISIR",
     "selectAll": "Tout sélectionner",
     "loading": "Chargement",
-    "back": "Arrière"
+    "back": "Arrière",
+    "availableToUnstake": "Disponible à démêler: "
   }
 }

@@ -517,6 +517,7 @@
     "choose": "CHOOSE",
     "selectAll": "Select all",
     "loading": "Loading",
-    "back": "Back"
+    "back": "Back",
+    "availableToUnstake": "Available to unstake: "
   }
 }

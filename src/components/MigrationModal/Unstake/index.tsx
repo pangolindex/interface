@@ -130,6 +130,7 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: Unstake
         onChangeAmount={(value: string) => {
           onChangeAmount(value)
         }}
+        unStakeAmount={stakingInfo?.stakedAmount}
       />
 
       <Box mt={10}>

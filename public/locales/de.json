@@ -518,6 +518,7 @@
     "choose": "WÄHLEN",
     "selectAll": "Wählen Sie Alle",
     "loading": "Wird geladen",
-    "back": "Zurück"
+    "back": "Zurück",
+    "availableToUnstake": "Verfügbar zum Abnehmen: "
   }
 }

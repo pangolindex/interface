@@ -502,7 +502,7 @@
     "moveYourTokensToNewContracts" :"CHUYỂN TOKENS CỦA BẠN SANG HỢP ĐỒNG MỚI",
     "readyToMigrate": "Sẵn sàng di chuyển",
     "apr": "APR:",
-    "totalValueLocked": "Total Value Locked",
+    "totalValueLocked": "Tổng giá trị đã khóa",
     "lowVolatility": "Sự biến động thấp",
     "compoundable": "Hợp chất",
     "migrate": "Di cư",
@@ -518,6 +518,7 @@
     "choose": "LỰA CHỌN",
     "selectAll": "Chọn tất cả",
     "loading": "Đang tải",
-    "back": "Mặt sau"
+    "back": "Mặt sau",
+    "availableToUnstake": "Có sẵn để hủy bỏ: "
   }
 }

@@ -690,7 +690,7 @@ export function useGetPairDataFromPair(pair: Pair) {
 
   const totalAmountUsd = usdAmountCurrency0?.add(usdAmountCurrency1 as Fraction)
 
-  const parData = {
+  const pairData = {
     currency0: pair.token0,
     currency1: pair.token1,
     userPoolBalance: userPoolBalance,
@@ -699,7 +699,7 @@ export function useGetPairDataFromPair(pair: Pair) {
     totalAmountUsd: totalAmountUsd,
     poolTokenPercentage: poolTokenPercentage
   }
-  return parData
+  return pairData
 }
 export const useMinichefPools = (): { [key: string]: number } => {
   const minichefContract = useStakingContract(MINICHEF_ADDRESS)

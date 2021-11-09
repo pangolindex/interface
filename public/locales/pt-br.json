@@ -518,6 +518,7 @@
         "choose": "ESCOLHER",
         "selectAll": "Selecionar tudo",
         "loading": "Carregando",
-        "back": "Voltar"
+        "back": "Voltar",
+        "availableToUnstake": "Disponível para desestocar: "
       }
 }

@@ -18,6 +18,7 @@ export interface PoolInfoProps {
   amount?: string
   onChangeAmount?: (value: string) => void
   userPoolBalance?: TokenAmount
+  unStakeAmount?: TokenAmount
 }
 
 const PoolInfo = ({
@@ -28,7 +29,8 @@ const PoolInfo = ({
   percentage,
   onChangePercentage,
   onChangeAmount,
-  userPoolBalance
+  userPoolBalance,
+  unStakeAmount
 }: PoolInfoProps) => {
   const { account } = useActiveWeb3React()
 
@@ -68,7 +70,7 @@ const PoolInfo = ({
   const currency1Row = { label: `${currency1.symbol} Amount:`, value: `${token1Deposited?.toSignificant(6)}` }
   const dollerWorthRow = {
     label: `${t('migratePage.dollerWarth')}`,
-    value: `${numeral((totalAmountUsd as Fraction)?.toSignificant(8)).format('$0.00 a')}`
+    value: `${numeral((totalAmountUsd as Fraction)?.toFixed(2)).format('$0.00 a')}`
   }
 
   const yourPngRate = {
@@ -88,6 +90,22 @@ const PoolInfo = ({
   let info = [] as any
   if (type === 'unstake') info = [yourPngRate, unClaimedRow]
   if (type === 'stake') info = [currency0Row, currency1Row, dollerWorthRow, poolShareRow]
+
+  const addonLabel = () => {
+    if (type === 'stake') {
+      return (
+        <Text color="text4" fontSize={12}>
+          {t('migratePage.availableToDeposit')} {userPoolBalance?.toSignificant(6)}
+        </Text>
+      )
+    } else {
+      return (
+        <Text color="text4" fontSize={12}>
+          {t('migratePage.availableToUnstake')} {unStakeAmount?.toSignificant(6)}
+        </Text>
+      )
+    }
+  }
 
   return (
     <InfoWrapper>
@@ -124,13 +142,7 @@ const PoolInfo = ({
           onChange={(v: any) => {
             onChangeAmount && onChangeAmount(v)
           }}
-          addonLabel={
-            type === 'stake' && (
-              <Text color="text4" fontSize={12}>
-                {t('migratePage.availableToDeposit')} {userPoolBalance?.toSignificant(6)}
-              </Text>
-            )
-          }
+          addonLabel={addonLabel()}
           fontSize={24}
           isNumeric={true}
           placeholder="0.00"

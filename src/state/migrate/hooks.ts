@@ -67,13 +67,10 @@ export function useGetMigrationData(version: number) {
 
   const [allPool, setAllPool] = useState({} as { [address: string]: { pair: Pair; staking: StakingInfo } })
 
-  const [loading, setLoading] = useState(false as boolean)
-
   const stakingInfos = useGetStakingDataWithAPR(Number(version))
 
   useEffect(() => {
     let pairs = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
-    setLoading(true)
 
     for (let index = 0; index < stakingInfos.length; index++) {
       const stakingInfo = stakingInfos[index]
@@ -93,11 +90,10 @@ export function useGetMigrationData(version: number) {
       }
     }
 
-    setLoading(false)
     setAllPool(pairs)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [(stakingInfos || []).length])
-  v2IsLoading = loading
 
-  return { allPool, v2IsLoading, allV2PairsWithLiquidity, allPairs }
+  return { allPool, v2IsLoading: v2IsLoading || stakingInfos.length === 0, allV2PairsWithLiquidity, allPairs }
 }

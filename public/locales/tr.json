@@ -518,6 +518,7 @@
     "choose": "SEÇ",
     "selectAll": "Hepsini seç",
     "loading": "Yükleniyor",
-    "back": "Geri"
+    "back": "Geri",
+    "availableToUnstake": "Kaldırılabilir: "
   }
 }
