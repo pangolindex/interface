@@ -7,9 +7,9 @@ import { wrappedCurrency } from '../../utils/wrappedCurrency'
 import { useCurrency } from '../../hooks/Tokens'
 import { useActiveWeb3React } from '../../hooks'
 
-const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB: string; version: string }>> = ({
+const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB: string; }>> = ({
   match: {
-    params: { currencyIdA, currencyIdB, version }
+    params: { currencyIdA, currencyIdB  }
   }
 }) => {
   const { chainId } = useActiveWeb3React()
@@ -20,10 +20,9 @@ const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB:
   const tokenB = wrappedCurrency(currencyB ?? undefined, chainId)
 
   const [, stakingTokenPair] = usePair(tokenA, tokenB)
+  const miniChefStaking = useMinichefStakingInfos(2, stakingTokenPair)?.[0]
 
-  const miniChefStaking = useMinichefStakingInfos(Number(version), stakingTokenPair)?.[0]
-
-  return <Manage version={version} stakingInfo={miniChefStaking} currencyA={currencyA} currencyB={currencyB} />
+  return <Manage version="2" stakingInfo={miniChefStaking} currencyA={currencyA} currencyB={currencyB} />
 }
 
 export default ManageV2

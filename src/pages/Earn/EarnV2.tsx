@@ -3,10 +3,10 @@ import { useMinichefStakingInfos } from '../../state/stake/hooks'
 import Earn from './Earn'
 
 interface Props {}
-const EarnV1: React.FC<Props> = () => {
+const EarnV2: React.FC<Props> = () => {
   const stakingInfos = useMinichefStakingInfos(2)
 
   return <Earn version="2" stakingInfos={stakingInfos} />
 }
 
-export default EarnV1
+export default EarnV2
