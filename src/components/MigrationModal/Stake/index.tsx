@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Wrapper } from './styleds'
 import { Box, Button } from '@pangolindex/components'
-import { Pair, JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
+import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
 import { StakingInfo } from '../../../state/stake/hooks'
 import { tryParseAmount } from '../../../state/swap/hooks'
@@ -10,13 +10,11 @@ import { useTokenBalance } from '../../../state/wallet/hooks'
 import { RowBetween } from '../../Row'
 import { useTranslation } from 'react-i18next'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
-import { usePairContract, useStakingContract } from '../../../hooks/useContract'
+import { useStakingContract } from '../../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCallback'
 import { TransactionResponse } from '@ethersproject/providers'
 import { MINICHEF_ADDRESS } from '../../../constants'
 import { useDerivedStakeInfo, useMinichefPools } from '../../../state/stake/hooks'
-import useTransactionDeadline from '../../../hooks/useTransactionDeadline'
-// import { splitSignature } from 'ethers/lib/utils'
 
 export interface StakeProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
@@ -25,14 +23,11 @@ export interface StakeProps {
 }
 
 const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps) => {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
 
   const [index, setIndex] = useState(0)
 
   const { t } = useTranslation()
-  const deadline = useTransactionDeadline()
-
-  const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
 
   // state for pending and submitted txn views
   const addTransaction = useTransactionAdder()
@@ -41,14 +36,6 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps)
 
   let pair = Object.values(allChoosePool)?.[index]?.pair
   let stakingInfo = Object.values(allChoosePool)?.[index]?.staking
-
-  // pair contract for this token to be staked
-  const dummyPair = new Pair(
-    new TokenAmount(stakingInfo.tokens[0], '0'),
-    new TokenAmount(stakingInfo.tokens[1], '0'),
-    chainId ? chainId : ChainId.AVALANCHE
-  )
-  const pairContract = usePairContract(dummyPair.liquidityToken.address)
 
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, pair.liquidityToken) as TokenAmount
   const [stakingAmount, setStakingAmount] = useState('')
@@ -103,8 +90,7 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps)
       stakingContract &&
       parsedInput &&
       userLiquidityUnstaked &&
-      JSBI.lessThanOrEqual(parsedInput.raw, userLiquidityUnstaked.raw) &&
-      deadline
+      JSBI.lessThanOrEqual(parsedInput.raw, userLiquidityUnstaked.raw)
     ) {
       if (approval === ApprovalState.APPROVED) {
         // stakingContract
@@ -123,95 +109,12 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps)
             setAttempting(false)
             console.error(error)
           })
-      } else if (signatureData) {
-        miniChefContract
-          .depositWithPermit(
-            poolMap[stakingInfo.stakedAmount.token.address],
-            `0x${parsedInput.raw.toString(16)}`,
-            account,
-            signatureData.deadline,
-            signatureData.v,
-            signatureData.r,
-            signatureData.s
-          )
-          .then((response: TransactionResponse) => {
-            addTransaction(response, {
-              summary: t('earn.depositLiquidity')
-            })
-          })
-          .catch((error: any) => {
-            setAttempting(false)
-            console.error(error)
-          })
       } else {
         setAttempting(false)
         throw new Error(t('earn.attemptingToStakeError'))
       }
     }
   }
-
-  // async function onAttemptToApprove() {
-  //   if (!pairContract || !library || !deadline) throw new Error(t('earn.missingDependencies'))
-  //   const liquidityAmount = parsedAmount
-  //   if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
-
-  //   // try to gather a signature for permission
-  //   const nonce = await pairContract.nonces(account)
-
-  //   const EIP712Domain = [
-  //     { name: 'name', type: 'string' },
-  //     { name: 'version', type: 'string' },
-  //     { name: 'chainId', type: 'uint256' },
-  //     { name: 'verifyingContract', type: 'address' }
-  //   ]
-  //   const domain = {
-  //     name: 'Pangolin Liquidity',
-  //     version: '2',
-  //     chainId: chainId,
-  //     verifyingContract: pairContract.address
-  //   }
-  //   const Permit = [
-  //     { name: 'owner', type: 'address' },
-  //     { name: 'spender', type: 'address' },
-  //     { name: 'value', type: 'uint256' },
-  //     { name: 'nonce', type: 'uint256' },
-  //     { name: 'deadline', type: 'uint256' }
-  //   ]
-  //   const message = {
-  //     owner: account,
-  //     spender: stakingInfo.stakingRewardAddress,
-  //     value: liquidityAmount.raw.toString(),
-  //     nonce: nonce.toHexString(),
-  //     deadline: deadline.toNumber()
-  //   }
-  //   const data = JSON.stringify({
-  //     types: {
-  //       EIP712Domain,
-  //       Permit
-  //     },
-  //     domain,
-  //     primaryType: 'Permit',
-  //     message
-  //   })
-
-  //   library
-  //     .send('eth_signTypedData_v4', [account, data])
-  //     .then(splitSignature)
-  //     .then(signature => {
-  //       setSignatureData({
-  //         v: signature.v,
-  //         r: signature.r,
-  //         s: signature.s,
-  //         deadline: deadline.toNumber()
-  //       })
-  //     })
-  //     .catch(error => {
-  //       // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-  //       if (error?.code !== 4001) {
-  //         approveCallback()
-  //       }
-  //     })
-  // }
 
   async function onAttemptToApprove() {
     const liquidityAmount = stakingAmount
