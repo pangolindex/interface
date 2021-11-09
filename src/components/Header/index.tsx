@@ -236,6 +236,7 @@ const StyledLink = styled.div<{ isActive: boolean }>`
   margin: 0 12px;
   font-weight: ${({ isActive }) => (isActive ? 600 : 500)};
   font-weight: 500;
+  line-height: 24px;
 
   :hover,
   :focus {

@@ -16,7 +16,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { MINICHEF_ADDRESS } from '../../../constants'
 import { useDerivedStakeInfo, useMinichefPools } from '../../../state/stake/hooks'
 import useTransactionDeadline from '../../../hooks/useTransactionDeadline'
-import { splitSignature } from 'ethers/lib/utils'
+// import { splitSignature } from 'ethers/lib/utils'
 
 export interface StakeProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
@@ -150,80 +150,80 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps)
     }
   }
 
-  async function onAttemptToApprove() {
-    if (!pairContract || !library || !deadline) throw new Error(t('earn.missingDependencies'))
-    const liquidityAmount = parsedAmount
-    if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
-
-    // try to gather a signature for permission
-    const nonce = await pairContract.nonces(account)
-
-    const EIP712Domain = [
-      { name: 'name', type: 'string' },
-      { name: 'version', type: 'string' },
-      { name: 'chainId', type: 'uint256' },
-      { name: 'verifyingContract', type: 'address' }
-    ]
-    const domain = {
-      name: 'Pangolin Liquidity',
-      version: '2',
-      chainId: chainId,
-      verifyingContract: pairContract.address
-    }
-    const Permit = [
-      { name: 'owner', type: 'address' },
-      { name: 'spender', type: 'address' },
-      { name: 'value', type: 'uint256' },
-      { name: 'nonce', type: 'uint256' },
-      { name: 'deadline', type: 'uint256' }
-    ]
-    const message = {
-      owner: account,
-      spender: stakingInfo.stakingRewardAddress,
-      value: liquidityAmount.raw.toString(),
-      nonce: nonce.toHexString(),
-      deadline: deadline.toNumber()
-    }
-    const data = JSON.stringify({
-      types: {
-        EIP712Domain,
-        Permit
-      },
-      domain,
-      primaryType: 'Permit',
-      message
-    })
-
-    library
-      .send('eth_signTypedData_v4', [account, data])
-      .then(splitSignature)
-      .then(signature => {
-        setSignatureData({
-          v: signature.v,
-          r: signature.r,
-          s: signature.s,
-          deadline: deadline.toNumber()
-        })
-      })
-      .catch(error => {
-        // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-        if (error?.code !== 4001) {
-          approveCallback()
-        }
-      })
-  }
-
   // async function onAttemptToApprove() {
-  //   const liquidityAmount = stakingAmount
+  //   if (!pairContract || !library || !deadline) throw new Error(t('earn.missingDependencies'))
+  //   const liquidityAmount = parsedAmount
   //   if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
 
-  //   approveCallback().catch(error => {
-  //     // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-  //     if (error?.code !== 4001) {
-  //       approveCallback()
-  //     }
+  //   // try to gather a signature for permission
+  //   const nonce = await pairContract.nonces(account)
+
+  //   const EIP712Domain = [
+  //     { name: 'name', type: 'string' },
+  //     { name: 'version', type: 'string' },
+  //     { name: 'chainId', type: 'uint256' },
+  //     { name: 'verifyingContract', type: 'address' }
+  //   ]
+  //   const domain = {
+  //     name: 'Pangolin Liquidity',
+  //     version: '2',
+  //     chainId: chainId,
+  //     verifyingContract: pairContract.address
+  //   }
+  //   const Permit = [
+  //     { name: 'owner', type: 'address' },
+  //     { name: 'spender', type: 'address' },
+  //     { name: 'value', type: 'uint256' },
+  //     { name: 'nonce', type: 'uint256' },
+  //     { name: 'deadline', type: 'uint256' }
+  //   ]
+  //   const message = {
+  //     owner: account,
+  //     spender: stakingInfo.stakingRewardAddress,
+  //     value: liquidityAmount.raw.toString(),
+  //     nonce: nonce.toHexString(),
+  //     deadline: deadline.toNumber()
+  //   }
+  //   const data = JSON.stringify({
+  //     types: {
+  //       EIP712Domain,
+  //       Permit
+  //     },
+  //     domain,
+  //     primaryType: 'Permit',
+  //     message
   //   })
+
+  //   library
+  //     .send('eth_signTypedData_v4', [account, data])
+  //     .then(splitSignature)
+  //     .then(signature => {
+  //       setSignatureData({
+  //         v: signature.v,
+  //         r: signature.r,
+  //         s: signature.s,
+  //         deadline: deadline.toNumber()
+  //       })
+  //     })
+  //     .catch(error => {
+  //       // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
+  //       if (error?.code !== 4001) {
+  //         approveCallback()
+  //       }
+  //     })
   // }
+
+  async function onAttemptToApprove() {
+    const liquidityAmount = stakingAmount
+    if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
+
+    approveCallback().catch(error => {
+      // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
+      if (error?.code !== 4001) {
+        approveCallback()
+      }
+    })
+  }
 
   const afterStake = () => {
     if (index === allChoosePoolLength - 1) {

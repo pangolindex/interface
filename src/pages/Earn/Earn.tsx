@@ -131,12 +131,12 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos }) => {
         return 0
       })
     ).then(stakingInfoData => {
-      const poolCards = stakingInfoData.map(stakingInfo => {
+      const poolCards = stakingInfoData.map((stakingInfo, index) => {
         return (
           <DoubleSidePoolCard
             swapFeeApr={stakingInfo.swapFeeApr}
             stakingApr={stakingInfo.stakingApr}
-            key={stakingInfo.stakingRewardAddress}
+            key={index}
             stakingInfo={stakingInfo}
             migration={
               MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to
@@ -188,17 +188,21 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos }) => {
             if (!aCanMigrate && bCanMigrate) return 1
             return 0
           })
-        // TODO: update here api call without staking reward address
-        // .map(stakingInfo => {
-        //   return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
-        //     .then(res => res.json())
-        //     .then(res => ({
-        //       swapFeeApr: Number(res.swapFeeApr),
-        //       stakingApr: Number(res.stakingApr),
-        //       combinedApr: Number(res.combinedApr),
-        //       ...stakingInfo
-        //     }))
-        // })
+          // TODO: update here api call without staking reward address
+          .map(stakingInfo => {
+            if (Number(version) < 2) {
+              return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+                .then(res => res.json())
+                .then(res => ({
+                  swapFeeApr: Number(res.swapFeeApr),
+                  stakingApr: Number(res.stakingApr),
+                  combinedApr: Number(res.combinedApr),
+                  ...stakingInfo
+                }))
+            } else {
+              return stakingInfo
+            }
+          })
       ).then(updatedStakingInfos => {
         const poolCards = updatedStakingInfos.map((stakingInfo, index) => {
           return (
@@ -207,7 +211,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos }) => {
               swapFeeApr={stakingInfo.swapFeeApr}
               // @ts-ignore
               stakingApr={stakingInfo.stakingApr}
-              key={stakingInfo?.stakedAmount?.token?.address}
+              key={index}
               stakingInfo={stakingInfo}
               migration={
                 MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)

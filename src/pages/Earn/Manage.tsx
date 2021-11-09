@@ -89,7 +89,6 @@ export interface ManageProps {
 const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, currencyB }) => {
   const { account } = useActiveWeb3React()
 
-  console.log("stakingInfo======",stakingInfo);
   let backgroundColor: string
   let token: Token | undefined
 
@@ -152,6 +151,28 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
           </AutoColumn>
         </PoolData>
       </DataRow>
+
+      {version === '1' && stakingInfo?.stakedAmount?.greaterThan(BIG_INT_ZERO) ? (
+        <VoteCard>
+          <CardBGImage />
+          <CardNoise />
+          <CardSection>
+            <AutoColumn gap="md">
+              <RowBetween>
+                <TYPE.white fontWeight={600}>{t('earnPage.migrateTitle')}</TYPE.white>
+              </RowBetween>
+              <RowBetween style={{ marginBottom: '1rem' }}>
+                <TYPE.white fontSize={14}>{t('earnPage.migrateDescription')}</TYPE.white>
+              </RowBetween>
+              <ButtonPrimary padding="8px" width={'fit-content'} as={Link} to={`/beta/migrate/1`}>
+                {t('earnPage.migrate')}
+              </ButtonPrimary>
+            </AutoColumn>
+          </CardSection>
+          <CardBGImage />
+          <CardNoise />
+        </VoteCard>
+      ) : null}
 
       {showAddLiquidityButton && (
         <VoteCard>
