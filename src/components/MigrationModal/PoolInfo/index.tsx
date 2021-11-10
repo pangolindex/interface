@@ -13,8 +13,8 @@ export interface PoolInfoProps {
   pair: Pair
   type: 'unstake' | 'remove' | 'stake' | 'add'
   stakingInfo?: StakingInfo | undefined
-  percentage?: number
-  onChangePercentage?: (value: number) => void
+  stepIndex?: number
+  onChangeDot?: (value: number) => void
   amount?: string
   onChangeAmount?: (value: string) => void
   userPoolBalance?: TokenAmount
@@ -26,8 +26,8 @@ const PoolInfo = ({
   type,
   stakingInfo,
   amount,
-  percentage,
-  onChangePercentage,
+  stepIndex,
+  onChangeDot,
   onChangeAmount,
   userPoolBalance,
   unStakeAmount
@@ -87,7 +87,7 @@ const PoolInfo = ({
     value: poolTokenPercentage ? poolTokenPercentage.toFixed(2) + '%' : '-'
   }
 
-  let info = [] as any
+  let info = [] as Array<{ label: string; value: string }>
   if (type === 'unstake') info = [yourPngRate, unClaimedRow]
   if (type === 'stake') info = [currency0Row, currency1Row, dollerWorthRow, poolShareRow]
 
@@ -116,15 +116,6 @@ const PoolInfo = ({
             {currency0.symbol}-{currency1.symbol} {t('migratePage.pool')}
           </Text>
         </Box>
-
-        {/* <Box display="flex" alignItems="center">
-          <Text color="text1" fontSize={16} mr={10}>
-            Trader JOE
-          </Text>
-          <IconWrapper size={16}>
-            <img src={CoinbaseWalletIcon} alt={'CoinbaseWallet'} />
-          </IconWrapper>
-        </Box> */}
       </Box>
 
       <Text color="text4" fontSize={16} mt={10}>
@@ -139,8 +130,8 @@ const PoolInfo = ({
               PGL
             </Text>
           }
-          onChange={(v: any) => {
-            onChangeAmount && onChangeAmount(v)
+          onChange={(value: any) => {
+            onChangeAmount && onChangeAmount(value)
           }}
           addonLabel={addonLabel()}
           fontSize={24}
@@ -151,10 +142,10 @@ const PoolInfo = ({
 
       <Box>
         <Steps
-          onChange={t => {
-            onChangePercentage && onChangePercentage(t)
+          onChange={value => {
+            onChangeDot && onChangeDot(value)
           }}
-          current={percentage}
+          current={stepIndex}
           progressDot={true}
         >
           <Step />
@@ -166,7 +157,7 @@ const PoolInfo = ({
       </Box>
 
       <Box>
-        <ContentBox>{info.map((item: any) => renderPoolDataRow(item.label, item.value))}</ContentBox>
+        <ContentBox>{info.map(item => renderPoolDataRow(item.label, item.value))}</ContentBox>
       </Box>
     </InfoWrapper>
   )

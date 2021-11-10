@@ -15,39 +15,27 @@ import { RowBetween } from '../../Row'
 export interface UnstakeProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
   goNext: () => void
-  allChoosePoolLength: number
   goBack: () => void
+  choosePoolIndex: number
 }
 
-const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: UnstakeProps) => {
+const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProps) => {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
-
-  const [index, setIndex] = useState(0)
   const [attempting, setAttempting] = useState(false as boolean)
   const [isGreaterThan, setIsGreaterThan] = useState(false as boolean)
 
-  let pair = Object.values(allChoosePool)?.[index]?.pair
-  let stakingInfo = Object.values(allChoosePool)?.[index]?.staking
+  let pair = Object.values(allChoosePool)?.[choosePoolIndex]?.pair
+  let stakingInfo = Object.values(allChoosePool)?.[choosePoolIndex]?.staking
 
   const [unStakingAmount, setUnstakingAmount] = useState('')
-  const [percentage, setPercentage] = useState(0)
-
-  useEffect(() => {
-    if (percentage) {
-      const newAmount = stakingInfo?.stakedAmount
-        .multiply(JSBI.BigInt(percentage * 25))
-        .divide(JSBI.BigInt(100)) as TokenAmount
-      setUnstakingAmount(newAmount?.toSignificant(6))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [percentage])
+  const [stepIndex, setStepIndex] = useState(4)
 
   useEffect(() => {
     setUnstakingAmount(stakingInfo?.stakedAmount?.toSignificant(6))
     setAttempting(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, stakingInfo])
+  }, [choosePoolIndex, stakingInfo])
 
   useEffect(() => {
     let stakingToken = stakingInfo?.stakedAmount?.token
@@ -63,7 +51,7 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: Unstake
   }, [unStakingAmount])
 
   const onChangeAmount = (value: string) => {
-    setPercentage(0)
+    setStepIndex(0)
     setUnstakingAmount(value)
   }
 
@@ -90,21 +78,12 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: Unstake
           addTransaction(response, {
             summary: t('earn.withdrawDepositedLiquidity')
           })
-          onUnstake()
+          goNext()
         })
         .catch((error: any) => {
           setAttempting(false)
           console.log(error)
         })
-    }
-  }
-
-  const onUnstake = () => {
-    if (index === allChoosePoolLength - 1) {
-      goNext()
-    } else {
-      const newIndex = index + 1
-      setIndex(newIndex)
     }
   }
 
@@ -122,9 +101,17 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: Unstake
         pair={pair}
         type="unstake"
         stakingInfo={stakingInfo}
-        percentage={percentage}
-        onChangePercentage={(value: number) => {
-          setPercentage(value)
+        stepIndex={stepIndex}
+        onChangeDot={(value: number) => {
+          setStepIndex(value)
+          if (value === 4) {
+            setUnstakingAmount(stakingInfo?.stakedAmount?.toSignificant(6))
+          } else {
+            const newAmount = stakingInfo?.stakedAmount
+              .multiply(JSBI.BigInt(value * 25))
+              .divide(JSBI.BigInt(100)) as TokenAmount
+            setUnstakingAmount(newAmount?.toSignificant(6))
+          }
         }}
         amount={unStakingAmount}
         onChangeAmount={(value: string) => {
@@ -135,7 +122,7 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: Unstake
 
       <Box mt={10}>
         <RowBetween>
-          {index === 0 && (
+          {choosePoolIndex === 0 && (
             <Box mr="5px" width="100%">
               <Button variant="primary" onClick={goBack} isDisabled={!!error || attempting} loading={attempting}>
                 {t('migratePage.back')}
@@ -153,7 +140,7 @@ const Unstake = ({ allChoosePool, goNext, allChoosePoolLength, goBack }: Unstake
               isDisabled={!!error || attempting || isGreaterThan}
               loadingText={t('migratePage.loading')}
             >
-              {t('migratePage.unstake')} {allChoosePoolLength > 1 && `${index + 1}/${allChoosePoolLength}`}
+              {t('migratePage.unstake')}
             </Button>
           </Box>
         </RowBetween>
