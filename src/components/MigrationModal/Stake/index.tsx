@@ -50,7 +50,7 @@ const Stake = ({
 
   const { parsedAmount } = useDerivedStakeInfo(stakingAmount, stakingInfo.stakedAmount.token, userLiquidityUnstaked)
 
-  const [stepIndex, setStepIndex] = useState(0)
+  const [stepIndex, setStepIndex] = useState(4)
   // approval data for stake
   const [approval, approveCallback] = useApproveCallback(parsedAmount, MINICHEF_ADDRESS)
 
@@ -58,6 +58,13 @@ const Stake = ({
     setStepIndex(0)
     setStakingAmount(value)
   }
+
+  useEffect(() => {
+    setStakingAmount(userLiquidityUnstaked.toSignificant(6))
+    setStepIndex(4)
+    setAttempting(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [choosePoolIndex, userLiquidityUnstaked.toFixed()])
 
   useEffect(() => {
     let stakingToken = stakingInfo?.stakedAmount?.token
