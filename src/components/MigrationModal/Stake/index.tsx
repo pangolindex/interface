@@ -20,12 +20,20 @@ export interface StakeProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
   allChoosePoolLength: number
   setCompleted: () => void
+  goBack: () => void
+  choosePoolIndex: number
+  setChoosePoolIndex: (value: number) => void
 }
 
-const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps) => {
+const Stake = ({
+  allChoosePool,
+  allChoosePoolLength,
+  setCompleted,
+  goBack,
+  choosePoolIndex,
+  setChoosePoolIndex
+}: StakeProps) => {
   const { account } = useActiveWeb3React()
-
-  const [index, setIndex] = useState(0)
 
   const { t } = useTranslation()
 
@@ -34,30 +42,20 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps)
   const [attempting, setAttempting] = useState<boolean>(false)
   const [isGreaterThan, setIsGreaterThan] = useState(false as boolean)
 
-  let pair = Object.values(allChoosePool)?.[index]?.pair
-  let stakingInfo = Object.values(allChoosePool)?.[index]?.staking
+  let pair = Object.values(allChoosePool)?.[choosePoolIndex]?.pair
+  let stakingInfo = Object.values(allChoosePool)?.[choosePoolIndex]?.staking
 
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, pair.liquidityToken) as TokenAmount
   const [stakingAmount, setStakingAmount] = useState('')
 
   const { parsedAmount } = useDerivedStakeInfo(stakingAmount, stakingInfo.stakedAmount.token, userLiquidityUnstaked)
 
-  const [percentage, setPercentage] = useState(0)
+  const [stepIndex, setStepIndex] = useState(0)
   // approval data for stake
   const [approval, approveCallback] = useApproveCallback(parsedAmount, MINICHEF_ADDRESS)
 
-  useEffect(() => {
-    if (percentage) {
-      const newAmount = (userLiquidityUnstaked as TokenAmount)
-        .multiply(JSBI.BigInt(percentage * 25))
-        .divide(JSBI.BigInt(100)) as TokenAmount
-      setStakingAmount(newAmount.toSignificant(4))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [percentage])
-
   const onChangeAmount = (value: string) => {
-    setPercentage(0)
+    setStepIndex(0)
     setStakingAmount(value)
   }
 
@@ -83,6 +81,7 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps)
     setAttempting(true)
 
     let stakingToken = stakingInfo?.stakedAmount?.token
+
     const parsedInput = tryParseAmount(stakingAmount, stakingToken) as TokenAmount
 
     if (
@@ -129,11 +128,12 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps)
   }
 
   const afterStake = () => {
-    if (index === allChoosePoolLength - 1) {
+    if (choosePoolIndex === allChoosePoolLength - 1) {
       setCompleted()
     } else {
-      const newIndex = index + 1
-      setIndex(newIndex)
+      const newIndex = choosePoolIndex + 1
+      setChoosePoolIndex(newIndex)
+      goBack()
     }
   }
 
@@ -150,9 +150,17 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps)
       <PoolInfo
         pair={pair}
         type="stake"
-        percentage={percentage}
-        onChangePercentage={(value: number) => {
-          setPercentage(value)
+        stepIndex={stepIndex}
+        onChangeDot={(value: number) => {
+          setStepIndex(value)
+          if (value === 4) {
+            setStakingAmount(userLiquidityUnstaked.toSignificant(6))
+          } else {
+            const newAmount = (userLiquidityUnstaked as TokenAmount)
+              .multiply(JSBI.BigInt(value * 25))
+              .divide(JSBI.BigInt(100)) as TokenAmount
+            setStakingAmount(newAmount.toSignificant(6))
+          }
         }}
         amount={stakingAmount}
         onChangeAmount={(value: string) => {
@@ -171,7 +179,7 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps)
               loading={attempting}
               loadingText={t('migratePage.loading')}
             >
-              {t('earn.approve')} {allChoosePoolLength > 1 && `${index + 1}/${allChoosePoolLength}`}
+              {t('earn.approve')}
             </Button>
           </Box>
           <Box width="100%">
@@ -182,7 +190,7 @@ const Stake = ({ allChoosePool, allChoosePoolLength, setCompleted }: StakeProps)
               loading={attempting}
               loadingText={t('migratePage.loading')}
             >
-              {error ?? t('earn.deposit')} {allChoosePoolLength > 1 && `${index + 1}/${allChoosePoolLength}`}
+              {error ?? t('earn.deposit')}
             </Button>
           </Box>
         </RowBetween>

@@ -25,6 +25,9 @@ const StepView = ({ selectedPool, version }: StepProps) => {
 
   const { allPool, v2IsLoading } = useGetMigrationData(version)
   const [completed, setCompleted] = useState(false)
+
+  const [choosePoolIndex, setChoosePoolIndex] = useState(0)
+
   const handleChange = (step: number) => {
     setCurrentStep(step)
   }
@@ -61,26 +64,26 @@ const StepView = ({ selectedPool, version }: StepProps) => {
 
   const goNext = () => {
     let newStep = currentStep + 1
-
     setCurrentStep(newStep)
   }
 
   const goBack = () => {
     let newStep = currentStep - 1
-
     setCurrentStep(newStep)
   }
+
+  const allChoosePoolLength = (Object.keys(allChoosePool) || []).length
 
   return (
     <Wrapper>
       {!completed ? (
         <>
           <Text color="text1" fontSize={32}>
-            {t('migratePage.migrate')}
+            {t('migratePage.migrate')} {allChoosePoolLength > 1 && `${choosePoolIndex + 1}/${allChoosePoolLength}`}
           </Text>
 
           <Box mt={10}>
-            <Steps onChange={handleChange} current={currentStep}>
+            <Steps onChange={handleChange} current={currentStep} allowChangeOnClick={false}>
               <Step title={t('migratePage.choose')} />
               <Step title={t('migratePage.unstake')} disabled={currentStep === 0} />
               <Step title={t('migratePage.stake')} disabled={currentStep <= 1} />
@@ -99,8 +102,8 @@ const StepView = ({ selectedPool, version }: StepProps) => {
               <Unstake
                 allChoosePool={allChoosePool}
                 goNext={goNext}
-                allChoosePoolLength={(Object.keys(allChoosePool) || []).length}
                 goBack={goBack}
+                choosePoolIndex={choosePoolIndex}
               />
             )}
 
@@ -108,7 +111,10 @@ const StepView = ({ selectedPool, version }: StepProps) => {
               <Stake
                 allChoosePool={allChoosePool}
                 setCompleted={() => setCompleted(true)}
-                allChoosePoolLength={(Object.keys(allChoosePool) || []).length}
+                allChoosePoolLength={allChoosePoolLength}
+                goBack={goBack}
+                choosePoolIndex={choosePoolIndex}
+                setChoosePoolIndex={value => setChoosePoolIndex(value)}
               />
             )}
           </Box>
