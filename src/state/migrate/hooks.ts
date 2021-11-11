@@ -84,7 +84,7 @@ export function useGetMigrationData(version: number) {
         data => data?.liquidityToken?.address === stakingData?.stakedAmount?.token?.address
       ) as Pair
 
-      if (stakingData?.stakedAmount.greaterThan('0') && Object.keys(poolMap).find(key => key === pairAddress)) {
+      if (stakingData?.stakedAmount.greaterThan('0') && poolMap.hasOwnProperty(pairAddress)) {
         pairs[pairAddress] = {
           pair: pair,
           staking: stakingData

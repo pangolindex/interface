@@ -157,7 +157,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
 
       {version === '1' &&
       stakingInfo?.stakedAmount?.greaterThan(BIG_INT_ZERO) &&
-      Object.keys(poolMap).find(key => key === pairAddress) ? (
+      poolMap.hasOwnProperty(pairAddress) ? (
         <VoteCard>
           <CardBGImage />
           <CardNoise />

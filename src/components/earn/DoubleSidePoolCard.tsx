@@ -148,7 +148,7 @@ export default function DoubleSidePoolCard({
           )}
 
           {/* Beta Migration */}
-          {isStaking && Number(version) === 1 && !migration && Object.keys(poolMap).find(key => key === pairAddress) ? (
+          {isStaking && Number(version) === 1 && !migration && poolMap.hasOwnProperty(pairAddress) ? (
             <StyledInternalLink to={`/beta/migrate/${version}`} style={{ marginRight: '10px' }}>
               <ButtonPrimary padding="8px" borderRadius="8px">
                 Migrate
