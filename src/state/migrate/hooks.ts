@@ -5,7 +5,7 @@ import { useTokenBalancesWithLoadingIndicator } from '../wallet/hooks'
 import { usePairs } from '../../data/Reserves'
 import { toV2LiquidityToken, useTrackedTokenPairs } from '../user/hooks'
 import { StakingInfo } from '../stake/hooks'
-import { useGetStakingDataWithAPR } from '../../state/stake/hooks'
+import { useGetStakingDataWithAPR, useMinichefPools } from '../../state/stake/hooks'
 
 export interface selectedPoolState {
   selectedPool: { [address: string]: { pair: Pair; staking?: StakingInfo | undefined } }
@@ -69,6 +69,8 @@ export function useGetMigrationData(version: number) {
 
   const stakingInfos = useGetStakingDataWithAPR(Number(version))
 
+  const poolMap = useMinichefPools()
+
   useEffect(() => {
     let pairs = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
 
@@ -82,7 +84,7 @@ export function useGetMigrationData(version: number) {
         data => data?.liquidityToken?.address === stakingData?.stakedAmount?.token?.address
       ) as Pair
 
-      if (stakingData?.stakedAmount.greaterThan('0')) {
+      if (stakingData?.stakedAmount.greaterThan('0') && Object.keys(poolMap).find(key => key === pairAddress)) {
         pairs[pairAddress] = {
           pair: pair,
           staking: stakingData

@@ -10,7 +10,7 @@ import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import { ButtonPrimary, ButtonEmpty } from '../../components/Button'
 import StakingModal from '../../components/earn/StakingModal'
-import { DoubleSideStakingInfo } from '../../state/stake/hooks'
+import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks'
 import UnstakingModal from '../../components/earn/UnstakingModal'
 import ClaimRewardModal from '../../components/earn/ClaimRewardModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
@@ -121,6 +121,9 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
     }
   }, [account, toggleWalletModal])
 
+  const poolMap = useMinichefPools()
+  let pairAddress = stakingInfo?.stakedAmount?.token?.address
+
   return (
     <PageWrapper gap="lg" justify="center">
       <RowBetween style={{ gap: '24px' }}>
@@ -152,7 +155,9 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
         </PoolData>
       </DataRow>
 
-      {version === '1' && stakingInfo?.stakedAmount?.greaterThan(BIG_INT_ZERO) ? (
+      {version === '1' &&
+      stakingInfo?.stakedAmount?.greaterThan(BIG_INT_ZERO) &&
+      Object.keys(poolMap).find(key => key === pairAddress) ? (
         <VoteCard>
           <CardBGImage />
           <CardNoise />
