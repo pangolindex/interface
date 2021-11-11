@@ -102,9 +102,9 @@ export default function Buy() {
               </AutoColumn>
           </ColumnCenter>
           <PurchaseForm onSubmit={handleSubmit}>
-            <TextInput type="text" name="firstName" placeholder={t('buyPage.firstName')} validators={[minLengthValidator]} onError={setFieldError}></TextInput>
-            <TextInput type="text" name="lastName" placeholder={t('buyPage.lastName')} validators={[minLengthValidator]} onError={setFieldError}></TextInput>
-            <TextInput type="text" name="email" placeholder={t('buyPage.email')} validators={[emailValidator, minLengthValidator]} onError={setFieldError}></TextInput>
+            <TextInput type="text" name="firstName" placeholder={t('buyPage.firstName')} validators={[minLengthValidator]} onError={setFieldError} />
+            <TextInput type="text" name="lastName" placeholder={t('buyPage.lastName')} validators={[minLengthValidator]} onError={setFieldError} />
+            <TextInput type="text" name="email" placeholder={t('buyPage.email')} validators={[emailValidator, minLengthValidator]} onError={setFieldError} />
             <FiatInputPanel fiat={fiat} value={amount} onUserInput={setAmount} onFiatSelect={setFiat} id="fiatPanel"/>
             {formError ? <TYPE.error title={'Error'} error>An error occurred while submitting the data to Wyre</TYPE.error> : null}
             <ButtonPrimary type="submit" style={{ margin: '20px 0 0 0' }} disabled={!ableToBuy}>
