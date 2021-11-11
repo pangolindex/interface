@@ -19,7 +19,7 @@ const MigrationModal = ({ selectedPool, version }: MigrationModalProps) => {
   return (
     <Modal isOpen={migrationModalOpen} onDismiss={toggleMigrationModal} minHeight={false} maxHeight={180}>
       <Wrapper>
-        <StepView selectedPool={selectedPool} version={version} />
+        <StepView selectedPool={selectedPool} version={version} onDismiss={toggleMigrationModal}/>
       </Wrapper>
     </Modal>
   )

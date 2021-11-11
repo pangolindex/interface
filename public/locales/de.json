@@ -519,6 +519,7 @@
     "selectAll": "Wählen Sie Alle",
     "loading": "Wird geladen",
     "back": "Zurück",
-    "availableToUnstake": "Verfügbar zum Abnehmen: "
+    "availableToUnstake": "Verfügbar zum Abnehmen: ",
+    "submittingTransaction": "Übermittlung der Transaktion"
   }
 }

@@ -518,6 +518,7 @@
     "selectAll": "Select all",
     "loading": "Loading",
     "back": "Back",
-    "availableToUnstake": "Available to unstake: "
+    "availableToUnstake": "Available to unstake: ",
+    "submittingTransaction": "Submitting transaction"
   }
 }
