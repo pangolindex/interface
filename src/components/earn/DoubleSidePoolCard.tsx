@@ -6,7 +6,7 @@ import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
 import { CAVAX, Token } from '@pangolindex/sdk'
 import { ButtonPrimary } from '../Button'
-import { DoubleSideStaking, DoubleSideStakingInfo } from '../../state/stake/hooks'
+import { DoubleSideStaking, DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
 import { Break, CardNoise, CardBGImage } from './styled'
@@ -97,6 +97,8 @@ export default function DoubleSidePoolCard({
   const currency0 = unwrappedToken(token0)
   const currency1 = unwrappedToken(token1)
 
+  const poolMap = useMinichefPools()
+
   const { t } = useTranslation()
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
@@ -113,6 +115,8 @@ export default function DoubleSidePoolCard({
   const backgroundColor = useColor(token)
 
   const totalStakedInUsd = stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
+
+  let pairAddress = stakingInfo?.stakedAmount?.token?.address
 
   return (
     <Wrapper showBackground={isStaking} bgColor={backgroundColor}>
@@ -144,7 +148,7 @@ export default function DoubleSidePoolCard({
           )}
 
           {/* Beta Migration */}
-          {isStaking && Number(version) === 1 && !migration ? (
+          {isStaking && Number(version) === 1 && !migration && poolMap.hasOwnProperty(pairAddress) ? (
             <StyledInternalLink to={`/beta/migrate/${version}`} style={{ marginRight: '10px' }}>
               <ButtonPrimary padding="8px" borderRadius="8px">
                 Migrate
