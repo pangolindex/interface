@@ -33,7 +33,7 @@ import VotePage from './Vote/VotePage'
 import IDO from './IDO'
 import Migrate from './Earn/Migrate'
 
-import MigrateCurrency from './Migrate'
+import MigrateV2 from './Migrate'
 import { useIsBetaUI } from '../hooks/useLocation'
 
 const AppWrapper = styled.div`
@@ -123,7 +123,7 @@ export default function App() {
                 path="/migrate/:currencyIdFromA/:currencyIdFromB/:versionFrom/:currencyIdToA/:currencyIdToB/:versionTo/"
                 component={Migrate}
               />
-              <Route exact path="/beta/migrate/:version" component={MigrateCurrency} />
+              <Route exact path="/beta/migrate/:version" component={MigrateV2} />
               <Route component={RedirectPathToSwapOnly} />
             </Switch>
           </Web3ReactManager>

@@ -16,7 +16,7 @@ const Migrate = () => {
     }
   }, [isModalOpen])
 
-  return refreshData && <MigrateUI />
+  return refreshData ? <MigrateUI /> : null
 }
 
 export default Migrate
