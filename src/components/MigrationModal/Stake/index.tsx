@@ -59,8 +59,20 @@ const Stake = ({
     setStakingAmount(value)
   }
 
+  const onChangeDot = (value: number) => {
+    setStepIndex(value)
+    if (value === 4) {
+      setStakingAmount(userLiquidityUnstaked.toExact())
+    } else {
+      const newAmount = (userLiquidityUnstaked as TokenAmount)
+        .multiply(JSBI.BigInt(value * 25))
+        .divide(JSBI.BigInt(100)) as TokenAmount
+      setStakingAmount(newAmount.toSignificant(6))
+    }
+  }
+
   useEffect(() => {
-    setStakingAmount(userLiquidityUnstaked.toSignificant(6))
+    setStakingAmount(userLiquidityUnstaked.toExact())
     setStepIndex(4)
     setAttempting(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,26 +94,20 @@ const Stake = ({
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
   const poolMap = useMinichefPools()
 
-  const miniChefContract = useStakingContract(MINICHEF_ADDRESS)
-
   async function onStake() {
-    setAttempting(true)
-
-    let stakingToken = stakingInfo?.stakedAmount?.token
-
+    const stakingToken = stakingInfo?.stakedAmount?.token
     const parsedInput = tryParseAmount(stakingAmount, stakingToken) as TokenAmount
 
     if (
-      miniChefContract &&
+      stakingContract &&
       stakingContract &&
       parsedInput &&
       userLiquidityUnstaked &&
       JSBI.lessThanOrEqual(parsedInput.raw, userLiquidityUnstaked.raw)
     ) {
       if (approval === ApprovalState.APPROVED) {
-        // stakingContract
-        //   .stake(`0x${parsedInput.raw.toString(16)}`, { gasLimit: 350000 })
-        miniChefContract
+        setAttempting(true)
+        await stakingContract
           .deposit(poolMap[pair?.liquidityToken?.address], `0x${parsedAmount?.raw.toString(16)}`, account)
           .then((response: TransactionResponse) => {
             addTransaction(response, {
@@ -158,21 +164,9 @@ const Stake = ({
         pair={pair}
         type="stake"
         stepIndex={stepIndex}
-        onChangeDot={(value: number) => {
-          setStepIndex(value)
-          if (value === 4) {
-            setStakingAmount(userLiquidityUnstaked.toSignificant(6))
-          } else {
-            const newAmount = (userLiquidityUnstaked as TokenAmount)
-              .multiply(JSBI.BigInt(value * 25))
-              .divide(JSBI.BigInt(100)) as TokenAmount
-            setStakingAmount(newAmount.toSignificant(6))
-          }
-        }}
+        onChangeDot={onChangeDot}
         amount={stakingAmount}
-        onChangeAmount={(value: string) => {
-          onChangeAmount(value)
-        }}
+        onChangeAmount={onChangeAmount}
         userPoolBalance={userLiquidityUnstaked}
       />
 
