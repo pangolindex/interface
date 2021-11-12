@@ -7,6 +7,8 @@ const Migrate = () => {
   const isModalOpen = useModalOpen(ApplicationModal.MIGRATION)
   const [refreshData, setRefreshData] = useState(true)
 
+  // Here we have done some hacky things to refresh migration data once user complete migrate process
+  // we are unmounting and mounting MigrateUI component so it loads all data fresh
   useEffect(() => {
     if (!isModalOpen) {
       setRefreshData(false)
