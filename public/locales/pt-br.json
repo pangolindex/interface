@@ -519,6 +519,7 @@
         "selectAll": "Selecionar tudo",
         "loading": "Carregando",
         "back": "Voltar",
-        "availableToUnstake": "Disponível para desestocar: "
+        "availableToUnstake": "Disponível para desestocar: ",
+        "submittingTransaction": "Enviando transação"
       }
 }

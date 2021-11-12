@@ -519,6 +519,7 @@
     "selectAll": "Chọn tất cả",
     "loading": "Đang tải",
     "back": "Mặt sau",
-    "availableToUnstake": "Có sẵn để hủy bỏ: "
+    "availableToUnstake": "Có sẵn để hủy bỏ: ",
+    "submittingTransaction": "Gửi giao dịch"
   }
 }

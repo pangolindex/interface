@@ -32,7 +32,8 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
   const [stepIndex, setStepIndex] = useState(4)
 
   useEffect(() => {
-    setUnstakingAmount(stakingInfo?.stakedAmount?.toSignificant(6))
+    setUnstakingAmount(stakingInfo?.stakedAmount?.toExact())
+    setStepIndex(4)
     setAttempting(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [choosePoolIndex, stakingInfo])
@@ -55,12 +56,24 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
     setUnstakingAmount(value)
   }
 
+  const onChangeDot = (value: number) => {
+    setStepIndex(value)
+    if (value === 4) {
+      setUnstakingAmount(stakingInfo?.stakedAmount?.toExact())
+    } else {
+      const newAmount = stakingInfo?.stakedAmount
+        .multiply(JSBI.BigInt(value * 25))
+        .divide(JSBI.BigInt(100)) as TokenAmount
+      setUnstakingAmount(newAmount?.toSignificant(6))
+    }
+  }
+
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   async function onWithdraw() {
-    let stakingToken = stakingInfo?.stakedAmount?.token
+    const stakingToken = stakingInfo?.stakedAmount?.token
     const parsedInput = tryParseAmount(unStakingAmount, stakingToken) as TokenAmount
 
     if (
@@ -71,9 +84,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
     ) {
       setAttempting(true)
       await stakingContract
-
         .withdraw(`0x${parsedInput.raw.toString(16)}`)
-        //.exit({ gasLimit: 300000 })
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.withdrawDepositedLiquidity')
@@ -102,21 +113,9 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
         type="unstake"
         stakingInfo={stakingInfo}
         stepIndex={stepIndex}
-        onChangeDot={(value: number) => {
-          setStepIndex(value)
-          if (value === 4) {
-            setUnstakingAmount(stakingInfo?.stakedAmount?.toSignificant(6))
-          } else {
-            const newAmount = stakingInfo?.stakedAmount
-              .multiply(JSBI.BigInt(value * 25))
-              .divide(JSBI.BigInt(100)) as TokenAmount
-            setUnstakingAmount(newAmount?.toSignificant(6))
-          }
-        }}
+        onChangeDot={onChangeDot}
         amount={unStakingAmount}
-        onChangeAmount={(value: string) => {
-          onChangeAmount(value)
-        }}
+        onChangeAmount={onChangeAmount}
         unStakeAmount={stakingInfo?.stakedAmount}
       />
 

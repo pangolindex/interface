@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { ColumnCenter } from '../../Column'
+import { ColumnCenter, AutoColumn } from '../../Column'
 
 export const Wrapper = styled.div`
   margin: 0;
@@ -7,4 +7,8 @@ export const Wrapper = styled.div`
 `
 export const ConfirmedIcon = styled(ColumnCenter)`
   padding: 60px 0;
+`
+
+export const Section = styled(AutoColumn)`
+  padding: 24px;
 `

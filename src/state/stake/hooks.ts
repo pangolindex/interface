@@ -749,15 +749,25 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
 
   const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[ChainId.AVALANCHE], png)
 
+  const poolIdArray = useMemo(() => {
+    if (!pairAddresses || !poolMap) return []
+    // TODO: clean up this logic. seems like a lot of work to ensure correct types
+    const NOT_FOUND = -1
+    const results = pairAddresses.map((address) => poolMap[address ?? ''] ?? NOT_FOUND)
+    if (results.some((result) => result === NOT_FOUND)) return []
+    return results
+  }, [poolMap, pairAddresses])
+
   const poolsIdInput = useMemo(() => {
-    return Object.values(poolMap).map((pid) => [pid])
-  }, [poolMap])
+    if (!poolIdArray) return []
+    return poolIdArray.map((pid) => [pid])
+  }, [poolIdArray])
   const poolInfos = useSingleContractMultipleData(minichefContract, 'poolInfo', poolsIdInput ?? [])
 
   const userInfoInput = useMemo(() => {
-    if (!account) return []
-    return Object.values(poolMap).map((pid) => [pid, account])
-  }, [poolMap, account])
+    if (!poolIdArray || !account) return []
+    return poolIdArray.map((pid) => [pid, account])
+  }, [poolIdArray, account])
   const userInfos = useSingleContractMultipleData(minichefContract, 'userInfo', userInfoInput ?? [])
 
   const pendingRewards = useSingleContractMultipleData(minichefContract, 'pendingReward', userInfoInput ?? [])

@@ -519,6 +519,7 @@
     "selectAll": "Tout sélectionner",
     "loading": "Chargement",
     "back": "Arrière",
-    "availableToUnstake": "Disponible à démêler: "
+    "availableToUnstake": "Disponible à démêler: ",
+    "submittingTransaction": "Soumission de la transaction"
   }
 }
