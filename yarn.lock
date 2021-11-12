@@ -2397,10 +2397,10 @@
   dependencies:
     hardhat-tracer "^1.0.0-alpha.5"
 
-"@pangolindex/governance@1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@pangolindex/governance/-/governance-1.0.6.tgz#45a7356f496ae4ed4ac76c5c75e345e517f1412d"
-  integrity sha512-2k3FuCw/xlyUUvhEqRKDi/WM9p0/7pDrTWXomtBrnCtNaafk3zaiKOQ9B2fy4Pp580wwFBbmPARoqLPWrpF18Q==
+"@pangolindex/governance@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@pangolindex/governance/-/governance-1.2.0.tgz#ef471636dab83d62ba414be6420ecacae07c74d2"
+  integrity sha512-+O2itZPNGSdcL9aAfzDghWqO337tY7H2qw8BadlMgbJq/OaTNEyALT9tgNwg9Y9xucsekOt/pB6MuyzpEboVbg==
   dependencies:
     "@pangolindex/exchange-contracts" "^1.0.1"
     "@tenderly/hardhat-tenderly" "^1.0.6"
