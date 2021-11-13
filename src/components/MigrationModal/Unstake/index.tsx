@@ -23,7 +23,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
   const [attempting, setAttempting] = useState(false as boolean)
-  const [isGreaterThan, setIsGreaterThan] = useState(false as boolean)
+  const [isValidAmount, setIsValidAmount] = useState(false as boolean)
 
   let pair = Object.values(allChoosePool)?.[choosePoolIndex]?.pair
   let stakingInfo = Object.values(allChoosePool)?.[choosePoolIndex]?.staking
@@ -43,16 +43,20 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
     const parsedInput = tryParseAmount(unStakingAmount, stakingToken) as TokenAmount
 
     if (parsedInput && stakingInfo?.stakedAmount && JSBI.greaterThan(parsedInput.raw, stakingInfo?.stakedAmount.raw)) {
-      setIsGreaterThan(true)
+      setIsValidAmount(false)
     } else {
-      setIsGreaterThan(false)
+      setIsValidAmount(true)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unStakingAmount])
 
   const onChangeAmount = (value: string) => {
-    setStepIndex(0)
+    if (value === stakingInfo?.stakedAmount?.toExact()) {
+      setStepIndex(4)
+    } else {
+      setStepIndex(0)
+    }
     setUnstakingAmount(value)
   }
 
@@ -91,10 +95,8 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
           })
           goNext()
         })
-        .catch((error: any) => {
-          setAttempting(false)
-          console.log(error)
-        })
+        .catch((error: any) => console.log(error))
+        .finally(() => setAttempting(false))
     }
   }
 
@@ -123,7 +125,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
         <RowBetween>
           {choosePoolIndex === 0 && (
             <Box mr="5px" width="100%">
-              <Button variant="primary" onClick={goBack} isDisabled={!!error || attempting} loading={attempting}>
+              <Button variant="outline" onClick={goBack} isDisabled={!!error || attempting} loading={attempting}>
                 {t('migratePage.back')}
               </Button>
             </Box>
@@ -132,11 +134,9 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
           <Box width="100%">
             <Button
               variant="primary"
-              onClick={() => {
-                onWithdraw()
-              }}
+              onClick={onWithdraw}
               loading={attempting}
-              isDisabled={!!error || attempting || isGreaterThan}
+              isDisabled={!!error || attempting || !isValidAmount}
               loadingText={t('migratePage.loading')}
             >
               {t('migratePage.unstake')}
