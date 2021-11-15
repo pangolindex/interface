@@ -23,7 +23,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
   const [attempting, setAttempting] = useState(false as boolean)
-  const [isGreaterThan, setIsGreaterThan] = useState(false as boolean)
+  const [isValidAmount, setIsValidAmount] = useState(false as boolean)
 
   let pair = Object.values(allChoosePool)?.[choosePoolIndex]?.pair
   let stakingInfo = Object.values(allChoosePool)?.[choosePoolIndex]?.staking
@@ -32,7 +32,8 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
   const [stepIndex, setStepIndex] = useState(4)
 
   useEffect(() => {
-    setUnstakingAmount(stakingInfo?.stakedAmount?.toSignificant(6))
+    setUnstakingAmount(stakingInfo?.stakedAmount?.toExact())
+    setStepIndex(4)
     setAttempting(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [choosePoolIndex, stakingInfo])
@@ -42,17 +43,33 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
     const parsedInput = tryParseAmount(unStakingAmount, stakingToken) as TokenAmount
 
     if (parsedInput && stakingInfo?.stakedAmount && JSBI.greaterThan(parsedInput.raw, stakingInfo?.stakedAmount.raw)) {
-      setIsGreaterThan(true)
+      setIsValidAmount(false)
     } else {
-      setIsGreaterThan(false)
+      setIsValidAmount(true)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unStakingAmount])
 
   const onChangeAmount = (value: string) => {
-    setStepIndex(0)
+    if (value === stakingInfo?.stakedAmount?.toExact()) {
+      setStepIndex(4)
+    } else {
+      setStepIndex(0)
+    }
     setUnstakingAmount(value)
+  }
+
+  const onChangeDot = (value: number) => {
+    setStepIndex(value)
+    if (value === 4) {
+      setUnstakingAmount(stakingInfo?.stakedAmount?.toExact())
+    } else {
+      const newAmount = stakingInfo?.stakedAmount
+        .multiply(JSBI.BigInt(value * 25))
+        .divide(JSBI.BigInt(100)) as TokenAmount
+      setUnstakingAmount(newAmount?.toSignificant(6))
+    }
   }
 
   // monitor call to help UI loading state
@@ -60,7 +77,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   async function onWithdraw() {
-    let stakingToken = stakingInfo?.stakedAmount?.token
+    const stakingToken = stakingInfo?.stakedAmount?.token
     const parsedInput = tryParseAmount(unStakingAmount, stakingToken) as TokenAmount
 
     if (
@@ -71,19 +88,15 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
     ) {
       setAttempting(true)
       await stakingContract
-
         .withdraw(`0x${parsedInput.raw.toString(16)}`)
-        //.exit({ gasLimit: 300000 })
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.withdrawDepositedLiquidity')
           })
           goNext()
         })
-        .catch((error: any) => {
-          setAttempting(false)
-          console.log(error)
-        })
+        .catch((error: any) => console.log(error))
+        .finally(() => setAttempting(false))
     }
   }
 
@@ -102,21 +115,9 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
         type="unstake"
         stakingInfo={stakingInfo}
         stepIndex={stepIndex}
-        onChangeDot={(value: number) => {
-          setStepIndex(value)
-          if (value === 4) {
-            setUnstakingAmount(stakingInfo?.stakedAmount?.toSignificant(6))
-          } else {
-            const newAmount = stakingInfo?.stakedAmount
-              .multiply(JSBI.BigInt(value * 25))
-              .divide(JSBI.BigInt(100)) as TokenAmount
-            setUnstakingAmount(newAmount?.toSignificant(6))
-          }
-        }}
+        onChangeDot={onChangeDot}
         amount={unStakingAmount}
-        onChangeAmount={(value: string) => {
-          onChangeAmount(value)
-        }}
+        onChangeAmount={onChangeAmount}
         unStakeAmount={stakingInfo?.stakedAmount}
       />
 
@@ -124,7 +125,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
         <RowBetween>
           {choosePoolIndex === 0 && (
             <Box mr="5px" width="100%">
-              <Button variant="primary" onClick={goBack} isDisabled={!!error || attempting} loading={attempting}>
+              <Button variant="outline" onClick={goBack} isDisabled={!!error || attempting} loading={attempting}>
                 {t('migratePage.back')}
               </Button>
             </Box>
@@ -133,11 +134,9 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
           <Box width="100%">
             <Button
               variant="primary"
-              onClick={() => {
-                onWithdraw()
-              }}
+              onClick={onWithdraw}
               loading={attempting}
-              isDisabled={!!error || attempting || isGreaterThan}
+              isDisabled={!!error || attempting || !isValidAmount}
               loadingText={t('migratePage.loading')}
             >
               {t('migratePage.unstake')}

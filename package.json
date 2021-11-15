@@ -10,7 +10,7 @@
     "@ethersproject/experimental": "^5.0.1",
     "@pangolindex/components": "1.0.4",
     "@pangolindex/exchange-contracts": "1.0.2",
-    "@pangolindex/governance": "1.0.6",
+    "@pangolindex/governance": "1.2.0",
     "@pangolindex/sdk": "1.1.0",
     "@pangolindex/token-lists": "^1.0.1",
     "@pangolindex/web3-react-injected-connector": "1.0.1",

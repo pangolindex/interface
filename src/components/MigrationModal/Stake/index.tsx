@@ -10,11 +10,13 @@ import { useTokenBalance } from '../../../state/wallet/hooks'
 import { RowBetween } from '../../Row'
 import { useTranslation } from 'react-i18next'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
-import { useStakingContract } from '../../../hooks/useContract'
+import { usePairContract, useStakingContract } from '../../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCallback'
 import { TransactionResponse } from '@ethersproject/providers'
 import { MINICHEF_ADDRESS } from '../../../constants'
 import { useDerivedStakeInfo, useMinichefPools } from '../../../state/stake/hooks'
+import { splitSignature } from 'ethers/lib/utils'
+import useTransactionDeadline from '../../../hooks/useTransactionDeadline'
 
 export interface StakeProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
@@ -33,14 +35,14 @@ const Stake = ({
   choosePoolIndex,
   setChoosePoolIndex
 }: StakeProps) => {
-  const { account } = useActiveWeb3React()
+  const { account, chainId, library } = useActiveWeb3React()
 
   const { t } = useTranslation()
 
   // state for pending and submitted txn views
   const addTransaction = useTransactionAdder()
   const [attempting, setAttempting] = useState<boolean>(false)
-  const [isGreaterThan, setIsGreaterThan] = useState(false as boolean)
+  const [isValidAmount, setIsValidAmount] = useState(false as boolean)
 
   let pair = Object.values(allChoosePool)?.[choosePoolIndex]?.pair
   let stakingInfo = Object.values(allChoosePool)?.[choosePoolIndex]?.staking
@@ -52,15 +54,34 @@ const Stake = ({
 
   const [stepIndex, setStepIndex] = useState(4)
   // approval data for stake
+  const deadline = useTransactionDeadline()
   const [approval, approveCallback] = useApproveCallback(parsedAmount, MINICHEF_ADDRESS)
+  const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
 
   const onChangeAmount = (value: string) => {
-    setStepIndex(0)
+    if (value === userLiquidityUnstaked.toExact()) {
+      setStepIndex(4)
+    } else {
+      setStepIndex(0)
+    }
     setStakingAmount(value)
+    setSignatureData(null)
+  }
+
+  const onChangeDot = (value: number) => {
+    setStepIndex(value)
+    if (value === 4) {
+      setStakingAmount(userLiquidityUnstaked.toExact())
+    } else {
+      const newAmount = (userLiquidityUnstaked as TokenAmount)
+        .multiply(JSBI.BigInt(value * 25))
+        .divide(JSBI.BigInt(100)) as TokenAmount
+      setStakingAmount(newAmount.toSignificant(6))
+    }
   }
 
   useEffect(() => {
-    setStakingAmount(userLiquidityUnstaked.toSignificant(6))
+    setStakingAmount(userLiquidityUnstaked.toExact())
     setStepIndex(4)
     setAttempting(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,67 +92,131 @@ const Stake = ({
     const parsedInput = tryParseAmount(stakingAmount, stakingToken) as TokenAmount
 
     if (parsedInput && stakingInfo?.stakedAmount && JSBI.greaterThan(parsedInput.raw, userLiquidityUnstaked.raw)) {
-      setIsGreaterThan(true)
+      setIsValidAmount(false)
     } else {
-      setIsGreaterThan(false)
+      setIsValidAmount(true)
     }
+
+    setSignatureData(null)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingAmount])
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const stakingContract = useStakingContract(MINICHEF_ADDRESS)
   const poolMap = useMinichefPools()
 
-  const miniChefContract = useStakingContract(MINICHEF_ADDRESS)
+  const pairContract = usePairContract(stakingInfo.stakedAmount.token.address)
 
   async function onStake() {
-    setAttempting(true)
-
-    let stakingToken = stakingInfo?.stakedAmount?.token
-
+    const stakingToken = stakingInfo?.stakedAmount?.token
     const parsedInput = tryParseAmount(stakingAmount, stakingToken) as TokenAmount
 
     if (
-      miniChefContract &&
       stakingContract &&
       parsedInput &&
       userLiquidityUnstaked &&
       JSBI.lessThanOrEqual(parsedInput.raw, userLiquidityUnstaked.raw)
     ) {
-      if (approval === ApprovalState.APPROVED) {
-        // stakingContract
-        //   .stake(`0x${parsedInput.raw.toString(16)}`, { gasLimit: 350000 })
-        miniChefContract
-          .deposit(poolMap[pair?.liquidityToken?.address], `0x${parsedAmount?.raw.toString(16)}`, account)
-          .then((response: TransactionResponse) => {
-            addTransaction(response, {
-              summary: t('earn.depositLiquidity')
-            })
+      let method, args
 
-            setAttempting(false)
-            afterStake()
-          })
-          .catch((error: any) => {
-            setAttempting(false)
-            console.error(error)
-          })
+      if (approval === ApprovalState.APPROVED) {
+        method = 'deposit'
+        args = [
+          poolMap[pair?.liquidityToken?.address],
+          `0x${parsedAmount?.raw.toString(16)}`,
+          account
+        ]
+      } else if (signatureData) {
+        method = 'depositWithPermit'
+        args = [
+          poolMap[pair?.liquidityToken?.address],
+          `0x${parsedAmount?.raw.toString(16)}`,
+          account,
+          signatureData.deadline,
+          signatureData.v,
+          signatureData.r,
+          signatureData.s
+        ]
       } else {
         setAttempting(false)
         throw new Error(t('earn.attemptingToStakeError'))
       }
+
+      setAttempting(true)
+
+      await stakingContract[method](...args)
+        .then((response: TransactionResponse) => {
+          addTransaction(response, {
+            summary: t('earn.depositLiquidity')
+          })
+          afterStake()
+        })
+        .catch((error: any) => console.error(error))
+        .finally(() => setAttempting(false))
     }
   }
 
   async function onAttemptToApprove() {
-    const liquidityAmount = stakingAmount
-    if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
+    if (!stakingContract || !pairContract || !library || !deadline) throw new Error(t('earn.missingDependencies'))
 
-    approveCallback().catch(error => {
-      // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-      if (error?.code !== 4001) {
-        approveCallback()
-      }
+    if (!parsedAmount) throw new Error(t('earn.missingLiquidityAmount'))
+
+    // try to gather a signature for permission
+    const nonce = await pairContract.nonces(account)
+
+    const EIP712Domain = [
+      { name: 'name', type: 'string' },
+      { name: 'version', type: 'string' },
+      { name: 'chainId', type: 'uint256' },
+      { name: 'verifyingContract', type: 'address' }
+    ]
+    const domain = {
+      name: 'Pangolin Liquidity',
+      version: '1',
+      chainId: chainId,
+      verifyingContract: pairContract.address
+    }
+    const Permit = [
+      { name: 'owner', type: 'address' },
+      { name: 'spender', type: 'address' },
+      { name: 'value', type: 'uint256' },
+      { name: 'nonce', type: 'uint256' },
+      { name: 'deadline', type: 'uint256' }
+    ]
+    const message = {
+      owner: account,
+      spender: stakingContract.address,
+      value: parsedAmount.raw.toString(),
+      nonce: nonce.toHexString(),
+      deadline: deadline.toNumber()
+    }
+    const data = JSON.stringify({
+      types: {
+        EIP712Domain,
+        Permit
+      },
+      domain,
+      primaryType: 'Permit',
+      message
     })
+
+    library
+      .send('eth_signTypedData_v4', [account, data])
+      .then(splitSignature)
+      .then(signature => {
+        setSignatureData({
+          v: signature.v,
+          r: signature.r,
+          s: signature.s,
+          deadline: deadline.toNumber()
+        })
+      })
+      .catch(error => {
+        // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
+        if (error?.code !== 4001) {
+          approveCallback()
+        }
+      })
   }
 
   const afterStake = () => {
@@ -158,21 +243,9 @@ const Stake = ({
         pair={pair}
         type="stake"
         stepIndex={stepIndex}
-        onChangeDot={(value: number) => {
-          setStepIndex(value)
-          if (value === 4) {
-            setStakingAmount(userLiquidityUnstaked.toSignificant(6))
-          } else {
-            const newAmount = (userLiquidityUnstaked as TokenAmount)
-              .multiply(JSBI.BigInt(value * 25))
-              .divide(JSBI.BigInt(100)) as TokenAmount
-            setStakingAmount(newAmount.toSignificant(6))
-          }
-        }}
+        onChangeDot={onChangeDot}
         amount={stakingAmount}
-        onChangeAmount={(value: string) => {
-          onChangeAmount(value)
-        }}
+        onChangeAmount={onChangeAmount}
         userPoolBalance={userLiquidityUnstaked}
       />
 
@@ -180,9 +253,14 @@ const Stake = ({
         <RowBetween>
           <Box mr="5px" width="100%">
             <Button
-              variant={approval === ApprovalState.APPROVED ? 'confirm' : 'primary'}
+              variant={approval === ApprovalState.APPROVED || signatureData !== null ? 'confirm' : 'primary'}
               onClick={onAttemptToApprove}
-              isDisabled={attempting || approval !== ApprovalState.NOT_APPROVED || isGreaterThan}
+              isDisabled={
+                attempting
+                || approval !== ApprovalState.NOT_APPROVED
+                || signatureData !== null
+                || !isValidAmount
+              }
               loading={attempting}
               loadingText={t('migratePage.loading')}
             >
@@ -192,7 +270,12 @@ const Stake = ({
           <Box width="100%">
             <Button
               variant="primary"
-              isDisabled={attempting || !!error || approval !== ApprovalState.APPROVED || isGreaterThan}
+              isDisabled={
+                attempting
+                || !!error
+                || (signatureData === null && approval !== ApprovalState.APPROVED)
+                || !isValidAmount
+              }
               onClick={onStake}
               loading={attempting}
               loadingText={t('migratePage.loading')}

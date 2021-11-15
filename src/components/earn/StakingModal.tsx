@@ -150,9 +150,6 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
   async function onAttemptToApprove() {
     if (!pairContract || !library || !deadline) throw new Error(t('earn.missingDependencies'))
 
-    // Use standard erc20 approve method for version 2+ unless permit is implemented
-    if (version >= 2) return approveCallback()
-
     const liquidityAmount = parsedAmount
     if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
 
