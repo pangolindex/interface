@@ -22,7 +22,11 @@
     "makeSureURLWarning": "Đảm bảo rằng URL là:",
     "alwaysMakeSureWarning": "Luôn đảm bảo rằng URL là:",
     "bookmarkIt": "Đánh dấu nó để an toàn.",
-    "addMetamask": "Thêm PNG vào MetaMask"
+    "addMetamask": "Thêm PNG vào MetaMask",
+    "bridge": "Cầu",
+    "ourPartners": "Những cộng sự của chúng ta",
+    "usefulLinks": "LIÊN KẾT HỮU ÍCH",
+    "comeAndJoinUs": "Hãy đến và tham gia cùng chúng tôi"
   },
   "accountDetails": {
     "connectedWith": "Kết nối với",

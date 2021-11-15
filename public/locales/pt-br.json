@@ -22,7 +22,11 @@
         "makeSureURLWarning": "Certifique-se que a URL seja",
         "alwaysMakeSureWarning": "Certifique-se sempre que a URL seja",
         "bookmarkIt": "marque para ser seguro.",
-        "addMetamask": "Adicionar PNG no MetaMask"
+        "addMetamask": "Adicionar PNG no MetaMask",
+        "bridge": "Ponte",
+        "ourPartners": "Nossos Parceiros",
+        "usefulLinks": "LINKS ÚTEIS",
+        "comeAndJoinUs": "Junte-se a nós"
     },
     "accountDetails": {
         "connectedWith": "Conectado com ",

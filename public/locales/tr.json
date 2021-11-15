@@ -22,7 +22,11 @@
     "makeSureURLWarning": "URL'nin bu olduğundan emin olun:",
     "alwaysMakeSureWarning": "Her zaman URL'nin bu olduğundan emin olun:",
     "bookmarkIt": "güvende olmak için yer imlerine ekleyin.",
-    "addMetamask": "PNG'yi MetaMask'e ekleyin"
+    "addMetamask": "PNG'yi MetaMask'e ekleyin",
+    "bridge": "Köprü",
+    "ourPartners": "Bizim ortaklarımız",
+    "usefulLinks": "KULLANIŞLI BAĞLANTILAR",
+    "comeAndJoinUs": "Gelip bize katıl"
   },
   "accountDetails": {
     "connectedWith": "Neye Bağlı: ",

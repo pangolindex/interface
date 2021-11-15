@@ -1,10 +1,10 @@
-import React, {useRef} from 'react'
-import {StyledMenu, MenuFlyout, StyledMenuButton} from '../StyledMenu'
+import React, { useRef } from 'react'
+import { StyledMenu, MenuFlyout, StyledMenuButton } from '../StyledMenu'
 import styled from 'styled-components'
-import {useModalOpen, useToggleModal} from "../../state/application/hooks"
-import {ApplicationModal} from "../../state/application/actions"
-import i18n, {availableLanguages} from '../../i18n'
-import {useOnClickOutside} from "../../hooks/useOnClickOutside";
+import { useModalOpen, useToggleModal } from '../../state/application/hooks'
+import { ApplicationModal } from '../../state/application/actions'
+import i18n, { availableLanguages } from '../../i18n'
+import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 
 const NarrowMenuFlyout = styled(MenuFlyout)`
   min-width: 7.125rem;
@@ -32,7 +32,11 @@ const FlagIcon = styled.img`
   width: 21px;
 `
 
-export default function LanguageSelection() {
+interface Props {
+  isBeta?: boolean
+}
+
+export default function LanguageSelection({ isBeta = false }: Props) {
   const node = useRef<HTMLDivElement>()
   const open = useModalOpen(ApplicationModal.LANGUAGE)
   const toggle = useToggleModal(ApplicationModal.LANGUAGE)
@@ -41,24 +45,23 @@ export default function LanguageSelection() {
 
   return (
     <StyledMenu ref={node as any}>
-      <StyledMenuButton onClick={toggle}>
-        <FlagIcon src={`./images/flags/${i18n.language}.svg`}/>
+      <StyledMenuButton onClick={toggle} isBeta={isBeta}>
+        <FlagIcon src={`./images/flags/${i18n.language}.svg`} />
       </StyledMenuButton>
       {open && (
         <NarrowMenuFlyout>
           {availableLanguages.map((lang, i) => (
-              <ClickableMenuItem 
-                key={i} 
-                onClick={() => {
-                  i18n.changeLanguage(lang)
-                  toggle()
-                }}
-              >
-                <FlagIcon src={`./images/flags/${lang}.svg`}/> &nbsp;
-                {lang.toUpperCase()}
-              </ClickableMenuItem>
-            )
-          )}
+            <ClickableMenuItem
+              key={i}
+              onClick={() => {
+                i18n.changeLanguage(lang)
+                toggle()
+              }}
+            >
+              <FlagIcon src={`./images/flags/${lang}.svg`} /> &nbsp;
+              {lang.toUpperCase()}
+            </ClickableMenuItem>
+          ))}
         </NarrowMenuFlyout>
       )}
     </StyledMenu>

@@ -35,6 +35,8 @@ import Migrate from './Earn/Migrate'
 
 import MigrateV2 from './Migrate'
 import { useIsBetaUI } from '../hooks/useLocation'
+import CustomRoute from './Route'
+import Layout from '../layout'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -53,17 +55,17 @@ const BodyWrapper = styled.div<{ isBeta: boolean }>`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-top: 100px;
+  padding-top:  ${({ isBeta }) => (isBeta ? '0px' : '100px')}; 
   align-items: ${({ isBeta }) => (isBeta ? 'unset' : 'center')};
-  padding: ${({ isBeta }) => (isBeta ? '50px' : undefined)};
+  // padding: ${({ isBeta }) => (isBeta ? '50px' : undefined)};
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 10;
 
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    padding: 16px;
-    padding-top: 2rem;
+  ${({ theme, isBeta }) => theme.mediaWidth.upToSmall`
+    padding: ${isBeta ? '0px' : '16px'};
+    padding-top: ${isBeta ? '0px' : '2rem'}; 
   `};
 
   z-index: 1;
@@ -82,9 +84,11 @@ export default function App() {
       <Route component={DarkModeQueryParamReader} />
       <AppWrapper>
         <URLWarning />
-        <HeaderWrapper>
-          <Header />
-        </HeaderWrapper>
+        {!isBeta && (
+          <HeaderWrapper>
+            <Header />
+          </HeaderWrapper>
+        )}
 
         <BodyWrapper isBeta={isBeta}>
           <Popups />
@@ -123,7 +127,11 @@ export default function App() {
                 path="/migrate/:currencyIdFromA/:currencyIdFromB/:versionFrom/:currencyIdToA/:currencyIdToB/:versionTo/"
                 component={Migrate}
               />
-              <Route exact path="/beta/migrate/:version" component={MigrateV2} />
+
+              <CustomRoute exact path="/beta/migrate/:version" component={MigrateV2} layout={Layout} />
+
+              {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
+
               <Route component={RedirectPathToSwapOnly} />
             </Switch>
           </Web3ReactManager>

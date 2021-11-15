@@ -11,7 +11,8 @@ import {
   CircleIcon,
   ProcessWrapper,
   ArrowRight,
-  EmptyProposals
+  EmptyProposals,
+  StatisticImage
 } from './styleds'
 import { Pair } from '@pangolindex/sdk'
 import { useParams } from 'react-router-dom'
@@ -25,6 +26,10 @@ import MigrationModal from '../../components/MigrationModal'
 import { useMigrationModalToggle } from '../../state/application/hooks'
 import { useGetMigrationData } from '../../state/migrate/hooks'
 import { StakingInfo } from '../../state/stake/hooks'
+import MigrationVector from '../../assets/images/migration_vector.png'
+import AlreadyMigrate from '../../assets/svg/alreadyMigrated.svg'
+import AlreadyEarned from '../../assets/svg/alreadyEarned.svg'
+import WalletMigrated from '../../assets/svg/walletMigrated.svg'
 
 const MigrateUI = () => {
   const below1080 = false
@@ -40,34 +45,51 @@ const MigrateUI = () => {
   return (
     <PageWrapper>
       <FirstWrapper>
-        <Text color="text1" fontSize={48} mb={20} fontWeight="900">
-          {t('migratePage.moveYourTokensToNewContracts')}
-        </Text>
-        <Text color="text1" fontSize={24} mb={20}>
-          {t('migratePage.migrateWithDescription')}
-        </Text>
+        <Box>
+          <Text color="text1" fontSize={48} mb={20} fontWeight="900">
+            {t('migratePage.moveYourTokensToNewContracts')}
+          </Text>
+          <Text color="text1" fontSize={24} mb={20}>
+            {t('migratePage.migrateWithDescription')}
+          </Text>
 
-        <ButtonRow>
-          <ResponsiveButtonPrimary
-            variant="primary"
-            onClick={() => {
-              setSelectedPool(null as any)
-              toggleMigrationModal()
-            }}
-            isDisabled={Object.keys(allPool)?.length === 0}
-          >
-            {t('migratePage.migrateNow')}
-          </ResponsiveButtonPrimary>
-          <ResponsiveButtonOutline variant="outline">{t('migratePage.learn')}</ResponsiveButtonOutline>
-        </ButtonRow>
+          <ButtonRow>
+            <ResponsiveButtonPrimary
+              variant="primary"
+              onClick={() => {
+                setSelectedPool(null as any)
+                toggleMigrationModal()
+              }}
+              isDisabled={Object.keys(allPool)?.length === 0}
+            >
+              {t('migratePage.migrateNow')}
+            </ResponsiveButtonPrimary>
+            <ResponsiveButtonOutline variant="outline">{t('migratePage.learn')}</ResponsiveButtonOutline>
+          </ButtonRow>
+        </Box>
+        <Box>
+          <img src={MigrationVector} alt="Migration" />
+        </Box>
       </FirstWrapper>
 
       <PanelWrapper style={{ marginTop: below1080 ? '0' : '50px' }}>
-        <StatCard icon={<StyledMenuIcon />} title={t('migratePage.alreadyMigrate')} stat={`250.000.000$`} />
+        <StatCard
+          icon={<StatisticImage src={AlreadyMigrate} alt="Already Migrate" />}
+          title={t('migratePage.alreadyMigrate')}
+          stat={`250.000.000$`}
+        />
 
-        <StatCard icon={<StyledMenuIcon />} title={t('migratePage.walletMigrate')} stat={`2.435`} />
+        <StatCard
+          icon={<StatisticImage src={WalletMigrated} alt="Wallet Migrated" />}
+          title={t('migratePage.walletMigrate')}
+          stat={`2.435`}
+        />
 
-        <StatCard icon={<StyledMenuIcon />} title={t('migratePage.alreadyEarned')} stat={`150.000$`} />
+        <StatCard
+          icon={<StatisticImage src={AlreadyEarned} alt="Alread yEarned" />}
+          title={t('migratePage.alreadyEarned')}
+          stat={`150.000$`}
+        />
       </PanelWrapper>
 
       <InfoWrapper>
