@@ -151,7 +151,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
         )}
       </LogoWrapper>
 
-      <Scrollbars autoHeight autoHeightMax={500}>
+      <Scrollbars autoHeight autoHeightMax={500} autoHide>
         <MenuWrapper>
           <Menu>
             {mainLinks.map((x, index) => {
