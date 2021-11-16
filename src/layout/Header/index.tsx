@@ -59,6 +59,8 @@ export default function Header() {
         <PngBalanceContent setShowPngBalanceModal={setShowPngBalanceModal} />
       </Modal>
 
+      
+
       <HeaderControls>
         <HeaderElement>
           <HideSmall>

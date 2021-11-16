@@ -33,7 +33,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 
 interface SidebarProps {
   collapsed: boolean
-  onCollapsed: (value: boolean) => void
+  onCollapsed: () => void
 }
 
 export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
@@ -151,7 +151,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
         )}
       </LogoWrapper>
 
-      <Scrollbars autoHide style={{ flex: 1 }}>
+      <Scrollbars autoHeight autoHeightMax={window.innerHeight - 200} autoHide style={{ flex: 1 }}>
         <MenuWrapper>
           <Menu>
             {mainLinks.map((x, index) => {
@@ -213,7 +213,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       </Scrollbars>
       <BottomBar>
         <SocialMedia collapsed={collapsed} />
-        <CollapseBar onClick={() => onCollapsed(!collapsed)} collapsed={collapsed}>
+        <CollapseBar onClick={() => onCollapsed()} collapsed={collapsed}>
           {collapsed ? (
             <img height={'16px'} src={Forward} alt={'Forward'} />
           ) : (

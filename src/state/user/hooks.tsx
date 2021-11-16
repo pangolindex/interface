@@ -17,7 +17,8 @@ import {
   updateUserDeadline,
   updateUserExpertMode,
   updateUserSlippageTolerance,
-  toggleURLWarning
+  toggleURLWarning,
+  updateUserCollapsedMode
 } from './actions'
 
 function serializeToken(token: Token): SerializedToken {
@@ -64,6 +65,32 @@ export function useDarkModeManager(): [boolean, () => void] {
   }, [darkMode, dispatch])
 
   return [darkMode, toggleSetDarkMode]
+}
+
+export function useIsCollapsedMode(): boolean {
+  const { userCollapsedMode, matchesCollapsedMode } = useSelector<
+    AppState,
+    { userCollapsedMode: boolean | null; matchesCollapsedMode: boolean }
+  >(
+    ({ user: { matchesCollapsedMode, userCollapsedMode } }) => ({
+      userCollapsedMode,
+      matchesCollapsedMode
+    }),
+    shallowEqual
+  )
+
+  return userCollapsedMode === null ? matchesCollapsedMode : userCollapsedMode
+}
+
+export function useCollapsedModeManager(): [boolean, () => void] {
+  const dispatch = useDispatch<AppDispatch>()
+  const collapsedMode = useIsCollapsedMode()
+
+  const toggleSetCollapsedMode = useCallback(() => {
+    dispatch(updateUserCollapsedMode({ userCollapsedMode: !collapsedMode }))
+  }, [collapsedMode, dispatch])
+
+  return [collapsedMode, toggleSetCollapsedMode]
 }
 
 export function useIsExpertMode(): boolean {
