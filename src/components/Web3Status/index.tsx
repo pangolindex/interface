@@ -14,6 +14,7 @@ import { isTransactionRecent, useAllTransactions } from '../../state/transaction
 import { TransactionDetails } from '../../state/transactions/reducer'
 import { shortenAddress } from '../../utils'
 import { ButtonSecondary } from '../Button'
+import { useIsBetaUI } from '../../hooks/useLocation'
 
 import Identicon from '../Identicon'
 import Loader from '../Loader'
@@ -44,29 +45,29 @@ const Web3StatusError = styled(Web3StatusGeneric)`
   }
 `
 
-const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
+const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean; isBeta: boolean }>`
   background-color: ${({ theme }) => theme.primary4};
   border: none;
-  color: ${({ theme }) => theme.primaryText1};
+  color: ${({ theme, isBeta }) => (isBeta ? theme.white : theme.primaryText1)};
   font-weight: 500;
 
   :hover,
   :focus {
     border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
-    color: ${({ theme }) => theme.primaryText1};
+    color: ${({ theme, isBeta }) => (isBeta ? theme.white : theme.primaryText1)};
   }
 
-  ${({ faded }) =>
+  ${({ faded, isBeta }) =>
     faded &&
     css`
       background-color: ${({ theme }) => theme.primary5};
       border: 1px solid ${({ theme }) => theme.primary5};
-      color: ${({ theme }) => theme.primaryText1};
+      color: ${({ theme }) => (isBeta ? theme.white : theme.primaryText1)};
 
       :hover,
       :focus {
         border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
-        color: ${({ theme }) => darken(0.05, theme.primaryText1)};
+        color: ${({ theme }) => darken(0.05, isBeta ? theme.white : theme.primaryText1)};
       }
     `}
 `
@@ -155,6 +156,8 @@ function Web3StatusInner() {
   const hasPendingTransactions = !!pending.length
   const toggleWalletModal = useWalletModalToggle()
 
+  const isBeta = useIsBetaUI()
+
   if (account) {
     return (
       <Web3StatusConnected id="web3-status-connected" onClick={toggleWalletModal} pending={hasPendingTransactions}>
@@ -182,7 +185,7 @@ function Web3StatusInner() {
     )
   } else {
     return (
-      <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
+      <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account} isBeta={isBeta}>
         <Text>{t('web3Status.connectToWallet')}</Text>
       </Web3StatusConnect>
     )

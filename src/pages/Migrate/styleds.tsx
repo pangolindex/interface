@@ -7,9 +7,12 @@ export const PageWrapper = styled(Box)`
   width: 100%;
 `
 
-export const FirstWrapper = styled(Box)`
-  max-width: 640px;
-  position: relative;
+export const FirstWrapper = styled(RowFixed)`
+  gap: 40px;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+  width: 100%;
+  justify-content: space-between;
+ `};
 `
 
 export const ButtonRow = styled(RowFixed)`
@@ -49,6 +52,11 @@ export const StyledMenuIcon = styled(Settings)`
   > * {
     stroke: ${({ theme }) => theme.text1};
   }
+`
+
+export const StatisticImage = styled.img`
+  height: 80px;
+  width: 80px;
 `
 
 export const PanelWrapper = styled.div`

@@ -1084,8 +1084,8 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     version: 2,
     multiplier: 5
   },
-  USDTe_TUSD_V2: {
-    tokens: [USDTe[ChainId.AVALANCHE], TUSD[ChainId.AVALANCHE]],
+  WAVAX_TUSD_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TUSD[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2,
     multiplier: 5
