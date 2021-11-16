@@ -28,4 +28,4 @@ export const removeSerializedPair = createAction<{ chainId: number; tokenAAddres
 )
 export const toggleURLWarning = createAction<void>('app/toggleURLWarning')
 
-export const updateUserCollapsedMode = createAction<{ userCollapsedMode: boolean }>('user/updateUserCollapsedMode')
+export const updateDrawerCollapsedMode = createAction<{ isDrawerCollapsed: boolean }>('user/updateDrawerCollapsedMode')

@@ -14,7 +14,7 @@ import {
   updateUserSlippageTolerance,
   updateUserDeadline,
   toggleURLWarning,
-  updateUserCollapsedMode
+  updateDrawerCollapsedMode
 } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
@@ -49,8 +49,7 @@ export interface UserState {
 
   timestamp: number
   URLWarningVisible: boolean
-  userCollapsedMode: boolean | null
-  matchesCollapsedMode: boolean
+  isDrawerCollapsed: boolean
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -67,8 +66,7 @@ export const initialState: UserState = {
   pairs: {},
   timestamp: currentTimestamp(),
   URLWarningVisible: true,
-  userCollapsedMode: null,
-  matchesCollapsedMode: false
+  isDrawerCollapsed: false
 }
 
 export default createReducer(initialState, builder =>
@@ -140,8 +138,8 @@ export default createReducer(initialState, builder =>
     .addCase(toggleURLWarning, state => {
       state.URLWarningVisible = !state.URLWarningVisible
     })
-    .addCase(updateUserCollapsedMode, (state, action) => {
-      state.userCollapsedMode = action.payload.userCollapsedMode
+    .addCase(updateDrawerCollapsedMode, (state, action) => {
+      state.isDrawerCollapsed = action.payload.isDrawerCollapsed
       state.timestamp = currentTimestamp()
     })
 )

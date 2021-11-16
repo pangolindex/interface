@@ -18,7 +18,7 @@ import {
   updateUserExpertMode,
   updateUserSlippageTolerance,
   toggleURLWarning,
-  updateUserCollapsedMode
+  updateDrawerCollapsedMode
 } from './actions'
 
 function serializeToken(token: Token): SerializedToken {
@@ -67,27 +67,23 @@ export function useDarkModeManager(): [boolean, () => void] {
   return [darkMode, toggleSetDarkMode]
 }
 
-export function useIsCollapsedMode(): boolean {
-  const { userCollapsedMode, matchesCollapsedMode } = useSelector<
-    AppState,
-    { userCollapsedMode: boolean | null; matchesCollapsedMode: boolean }
-  >(
-    ({ user: { matchesCollapsedMode, userCollapsedMode } }) => ({
-      userCollapsedMode,
-      matchesCollapsedMode
+export function useIsDrawerCollapsed(): boolean {
+  const { isDrawerCollapsed } = useSelector<AppState, { isDrawerCollapsed: boolean }>(
+    ({ user: { isDrawerCollapsed } }) => ({
+      isDrawerCollapsed
     }),
     shallowEqual
   )
 
-  return userCollapsedMode === null ? matchesCollapsedMode : userCollapsedMode
+  return isDrawerCollapsed
 }
 
-export function useCollapsedModeManager(): [boolean, () => void] {
+export function useDrawerCollapsedManager(): [boolean, () => void] {
   const dispatch = useDispatch<AppDispatch>()
-  const collapsedMode = useIsCollapsedMode()
+  const collapsedMode = useIsDrawerCollapsed()
 
   const toggleSetCollapsedMode = useCallback(() => {
-    dispatch(updateUserCollapsedMode({ userCollapsedMode: !collapsedMode }))
+    dispatch(updateDrawerCollapsedMode({ isDrawerCollapsed: !collapsedMode }))
   }, [collapsedMode, dispatch])
 
   return [collapsedMode, toggleSetCollapsedMode]
