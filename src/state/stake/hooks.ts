@@ -122,12 +122,6 @@ const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
     stakingRewardAddress: "0xD49B406A7A29D64e081164F6C3353C599A2EeAE9",
     version: 0
   },
-  OOE_V0: {
-    rewardToken: OOE[ChainId.AVALANCHE],
-    conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
-    stakingRewardAddress: "0xf0eFf017644680B9878429137ccb2c041b4Fb701",
-    version: 0
-  },
   APEIN_V0: {
     rewardToken: APEIN[ChainId.AVALANCHE],
     conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
