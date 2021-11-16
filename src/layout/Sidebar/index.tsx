@@ -181,7 +181,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
               return (
                 <MenuItem collapsed={collapsed} key={index}>
                   <MenuExternalLink id={x.id} href={x.link}>
-                    <img src={x.icon} width={16} />
+                    <img src={x.icon} width={16} alt={x.title} />
                     {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
                   </MenuExternalLink>
                 </MenuItem>
@@ -202,7 +202,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
               return (
                 <MenuItem collapsed={collapsed} key={index}>
                   <MenuExternalLink id={x.id} href={x.link}>
-                    <img src={x.icon} width={16} />
+                    <img src={x.icon} width={16} alt={x.title} />
                     {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
                   </MenuExternalLink>
                 </MenuItem>
