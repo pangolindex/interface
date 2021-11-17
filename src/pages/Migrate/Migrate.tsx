@@ -60,6 +60,7 @@ const MigrateUI = () => {
                 setSelectedPool(null as any)
                 toggleMigrationModal()
               }}
+              isDisabled={Object.keys(allPool)?.length === 0}
             >
               {t('migratePage.migrateNow')}
             </ResponsiveButtonPrimary>
