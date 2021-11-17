@@ -140,6 +140,13 @@ export const ThemeMode = styled(BlackCard)`
   cursor: pointer;
   height: 35px;
   line-height: 34px;
+
+  :hover,
+  :focus {
+    cursor: pointer;
+    outline: none;
+    background-color: ${({ theme }) => theme.bg4};
+  }
 `
 
 export const MobileHeader = styled.div`

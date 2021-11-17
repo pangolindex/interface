@@ -60,7 +60,6 @@ const MigrateUI = () => {
                 setSelectedPool(null as any)
                 toggleMigrationModal()
               }}
-              isDisabled={Object.keys(allPool)?.length === 0}
             >
               {t('migratePage.migrateNow')}
             </ResponsiveButtonPrimary>
@@ -111,26 +110,6 @@ const MigrateUI = () => {
             </Text>
           </Box>
 
-          <ArrowRight />
-
-          <Box display="inline-block">
-            <CircleIcon>
-              <StyledMenuIcon />
-            </CircleIcon>
-            <Text color="text1" fontSize={24} mt={10}>
-              {t('migratePage.remove')}
-            </Text>
-          </Box>
-
-          <ArrowRight />
-          <Box display="inline-block">
-            <CircleIcon>
-              <StyledMenuIcon />
-            </CircleIcon>
-            <Text color="text1" fontSize={24} mt={10}>
-              {t('migratePage.add')}
-            </Text>
-          </Box>
           <ArrowRight />
           <Box display="inline-block">
             <CircleIcon>
