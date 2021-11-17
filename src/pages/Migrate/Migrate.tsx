@@ -31,7 +31,7 @@ import AlreadyMigrate from '../../assets/svg/alreadyMigrated.svg'
 import AlreadyEarned from '../../assets/svg/alreadyEarned.svg'
 import WalletMigrated from '../../assets/svg/walletMigrated.svg'
 import Stake from '../../assets/svg/stake.svg'
-import Unstake from '../../assets/svg/Unstake.svg'
+import Unstake from '../../assets/svg/unstake.svg'
 
 const MigrateUI = () => {
   const below1080 = false
