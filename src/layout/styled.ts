@@ -29,6 +29,7 @@ export const AppContent = styled.div`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     padding:16px;
     padding-top: 2rem; 
+    margin-top: 50px;
   `};
 
   z-index: 1;

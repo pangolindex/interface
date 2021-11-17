@@ -12,7 +12,8 @@ import {
   ProcessWrapper,
   ArrowRight,
   EmptyProposals,
-  StatisticImage
+  StatisticImage,
+  HideSmall
 } from './styleds'
 import { Pair } from '@pangolindex/sdk'
 import { useParams } from 'react-router-dom'
@@ -67,16 +68,16 @@ const MigrateUI = () => {
             <ResponsiveButtonOutline variant="outline">{t('migratePage.learn')}</ResponsiveButtonOutline>
           </ButtonRow>
         </Box>
-        <Box>
+        <HideSmall>
           <img src={MigrationVector} alt="Migration" />
-        </Box>
+        </HideSmall>
       </FirstWrapper>
 
       <PanelWrapper style={{ marginTop: below1080 ? '0' : '50px' }}>
         <StatCard
           icon={<StatisticImage src={AlreadyMigrate} alt="Already Migrate" />}
           title={t('migratePage.alreadyMigrate')}
-          stat={`250.000.000$`}
+          stat={`250.000$`}
         />
 
         <StatCard

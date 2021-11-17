@@ -18,13 +18,14 @@ export const HeaderFrame = styled.div`
   z-index: 2;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
-    padding: 0 1rem;
+    padding: 0;
     width: calc(100%);
     position: relative;
   `};
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-        padding: 0.5rem 1rem;
+        padding: 0;
+        display: block;
   `}
 `
 
@@ -36,7 +37,7 @@ export const HeaderControls = styled.div`
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     justify-self: center;
     width: 100%;
     max-width: 960px;
@@ -165,7 +166,6 @@ export const MobileHeader = styled.div`
 `
 
 export const StyledMenuIcon = styled(MenuIcon)`
-  margin-top: 20px;
   cursor: pointer;
   path {
     stroke: ${({ theme }) => theme.text1};
@@ -174,5 +174,4 @@ export const StyledMenuIcon = styled(MenuIcon)`
 
 export const MobileLogoWrapper = styled.div`
   flex: 1;
-  margin: 20px 20px 0px 0px;
 `

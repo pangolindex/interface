@@ -18,7 +18,7 @@ import {
 } from './styled'
 import Backward from '../../assets/svg/backward.svg'
 import Forward from '../../assets/svg/forward.svg'
-import { Swap, Dashboard, Stake, Pool, Farm, Buy, Vote, Migration } from '../../components/Icons'
+import { Swap, Stake, Pool, Farm, Buy, Vote, Migration } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import Partners from '../../assets/svg/menu/partners.svg'
 import { ANALYTICS_PAGE } from '../../constants'

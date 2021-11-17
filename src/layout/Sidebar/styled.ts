@@ -109,11 +109,12 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
   padding: 8px;
   height: 50px;
   background-color: ${({ theme, isActive }) => (isActive ? darken(0.2, theme.color1) : 'transparent')};
-  border-radius: ${({ isActive }) => (isActive ? '9px' : '0px')};
+  border-radius: 9px;
 
   :hover,
   :focus {
     color: ${({ theme }) => darken(0.1, theme.text1)};
+    background-color: ${({ theme, isActive }) => (!isActive ? theme.bg7 : darken(0.2, theme.color1))};
   }
 `
 
