@@ -1,17 +1,12 @@
 import React, { useContext } from 'react'
 import { Text, Box } from '@pangolindex/components'
-import { useDarkModeManager } from '../../state/user/hooks'
+import { useWindowSize } from '../../hooks/useWindowSize'
 import { ThemeContext } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router'
 import SocialMedia from '../SocialMedia'
-import Logo from '../../assets/svg/icon.svg'
-import LogoDark from '../../assets/svg/icon.svg'
 import {
   Sider,
-  Title,
-  PngIcon,
-  LogoWrapper,
   CollapseBar,
   Menu,
   MenuItem,
@@ -30,6 +25,7 @@ import { ANALYTICS_PAGE } from '../../constants'
 import Bridge from '../../assets/svg/menu/bridge.svg'
 import Governance from '../../assets/svg/menu/governance.svg'
 import { Scrollbars } from 'react-custom-scrollbars'
+import Logo from '../Logo'
 
 interface SidebarProps {
   collapsed: boolean
@@ -37,7 +33,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
-  const [isDark] = useDarkModeManager()
+  const { height } = useWindowSize()
   const { t } = useTranslation()
   const location: any = useLocation()
   const theme = useContext(ThemeContext)
@@ -134,31 +130,21 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
   return (
     <Sider collapsed={collapsed}>
-      <LogoWrapper>
-        <Box>
-          <Title href=".">
-            <PngIcon>
-              <img width={'28px'} src={isDark ? LogoDark : Logo} alt="logo" />
-            </PngIcon>
-          </Title>
-        </Box>
-        {!collapsed && (
-          <Box ml={12}>
-            <Text color="text1" fontSize={16}>
-              Pangolin
-            </Text>
-          </Box>
-        )}
-      </LogoWrapper>
+      <Logo collapsed={collapsed} />
 
-      <Scrollbars autoHeight autoHeightMax={window.innerHeight - 200} autoHide style={{ flex: 1 }}>
+      <Scrollbars
+        autoHeight
+        autoHeightMax={height ? height - 200 : window.innerHeight - 200}
+        autoHide
+        style={{ flex: 1, overflowX: 'hidden' }}
+      >
         <MenuWrapper>
           <Menu>
             {mainLinks.map((x, index) => {
               const Icon = x.icon
 
               return (
-                <MenuItem isActive={x.isActive} collapsed={collapsed} key={index}>
+                <MenuItem isActive={x.isActive} key={index}>
                   <MenuLink id={x.id} to={x.link}>
                     <Icon size={16} fillColor={x.isActive ? theme.color3 : theme.color2} />
                     {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
@@ -179,7 +165,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
             {pangolinLinks.map((x, index) => {
               return (
-                <MenuItem collapsed={collapsed} key={index}>
+                <MenuItem key={index}>
                   <MenuExternalLink id={x.id} href={x.link}>
                     <img src={x.icon} width={16} alt={x.title} />
                     {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
@@ -200,7 +186,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
             {otherLinks.map((x, index) => {
               return (
-                <MenuItem collapsed={collapsed} key={index}>
+                <MenuItem key={index}>
                   <MenuExternalLink id={x.id} href={x.link}>
                     <img src={x.icon} width={16} alt={x.title} />
                     {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
@@ -213,7 +199,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       </Scrollbars>
       <BottomBar>
         <SocialMedia collapsed={collapsed} />
-        <CollapseBar onClick={() => onCollapsed()} collapsed={collapsed}>
+        <CollapseBar onClick={() => onCollapsed()}>
           {collapsed ? (
             <img height={'16px'} src={Forward} alt={'Forward'} />
           ) : (

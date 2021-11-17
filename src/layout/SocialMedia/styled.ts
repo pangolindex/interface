@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 import { ExternalLink } from '../../theme'
 
-export const Wrapper = styled.div<{ collapsed: boolean }>`
+export const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.bg2};
-  width: ${({ collapsed }) => (collapsed ? '50px' : '200px')};
+  width: '100%';
   padding: 10px;
   color: ${({ theme }) => theme.text2};
   text-align: center;

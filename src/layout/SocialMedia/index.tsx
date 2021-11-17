@@ -38,7 +38,7 @@ export default function SocialMedia({ collapsed }: SocialMediaProps) {
   ]
 
   return (
-    <Wrapper collapsed={collapsed}>
+    <Wrapper>
       {!collapsed && (
         <Box textAlign="center">
           <Text fontSize={12} color="text4">

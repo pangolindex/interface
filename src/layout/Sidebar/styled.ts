@@ -8,7 +8,7 @@ export const Sider = styled.div<{ collapsed: boolean }>`
   overflow: hidden;
   height: 100vh;
   position: fixed;
-  z-index: 2;
+  z-index: 99;
   left: 0;
   transition: width 350ms ease;
   background-color: ${({ theme }) => theme.bg2};
@@ -16,33 +16,12 @@ export const Sider = styled.div<{ collapsed: boolean }>`
   padding: 10px;
   display: flex;
   flex-direction: column;
-`
 
-export const Title = styled.a`
-  display: flex;
-  align-items: center;
-  pointer-events: auto;
-  justify-self: flex-start;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    justify-self: center;
+  ${({ theme, collapsed }) => theme.mediaWidth.upToSmall`
+  display: ${collapsed ? 'none' : 'flex'};
+  width: 100%;
+  height: 100%
   `};
-  :hover {
-    cursor: pointer;
-  }
-`
-
-export const PngIcon = styled.div`
-  transition: transform 0.3s ease;
-  :hover {
-    transform: rotate(-5deg);
-  }
-`
-
-export const LogoWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50px;
 `
 
 export const BottomBar = styled.div`
@@ -51,21 +30,20 @@ export const BottomBar = styled.div`
   z-index: 1;
 `
 
-export const CollapseBar = styled.div<{ collapsed: boolean }>`
+export const CollapseBar = styled.div`
   height: 48px;
   color: ${({ theme }) => theme.text2};
   line-height: 48px;
   text-align: center;
   cursor: pointer;
   background-color: ${({ theme }) => theme.bg6};
-  width: ${({ collapsed }) => (collapsed ? '50px' : '200px')};
+  width: '100%';
   transition: all 0.2s;
 `
 
 export const MenuWrapper = styled.div`
   flex: 1;
   height: 100%;
-  /* max-height: calc(100% - 220px); */
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -118,20 +96,18 @@ export const MenuExternalLink = styled(ExternalLink).attrs({
   }
 `
 
-export const MenuItem = styled.div<{ isActive?: boolean; collapsed: boolean }>`
+export const MenuItem = styled.div<{ isActive?: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
   display: flex;
   align-items: center;
   cursor: pointer;
   text-decoration: none;
   color: ${({ theme, isActive }) => (isActive ? theme.text1 : theme.text2)};
-  width: fit-content;
+  width: '100%';
   font-weight: 500;
   line-height: 24px;
-  // border: 1px solid red;
   padding: 8px;
   height: 50px;
-  width: ${({ collapsed }) => (collapsed ? '50px' : '200px')};
   background-color: ${({ theme, isActive }) => (isActive ? darken(0.2, theme.color1) : 'transparent')};
   border-radius: ${({ isActive }) => (isActive ? '9px' : '0px')};
 

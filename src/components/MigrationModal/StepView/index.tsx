@@ -95,7 +95,8 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
       {!loading && !completed ? (
         <>
           <Text color="text1" fontSize={32}>
-            {t('migratePage.migrate')} {allChoosePoolLength > 1 && `${choosePoolIndex + 1}/${allChoosePoolLength}`}
+            {t('migratePage.migrate')}{' '}
+            {currentStep > 0 && allChoosePoolLength > 1 && `${choosePoolIndex + 1}/${allChoosePoolLength}`}
           </Text>
 
           <Box mt={10}>

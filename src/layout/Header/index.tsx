@@ -27,15 +27,23 @@ import {
   HideSmall,
   NetworkCard,
   BalanceText,
-  ThemeMode
+  ThemeMode,
+  MobileHeader,
+  StyledMenuIcon,
+  MobileLogoWrapper
 } from './styled'
+import Logo from '../Logo'
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: 'Fuji',
   [ChainId.AVALANCHE]: 'Avalanche'
 }
 
-export default function Header() {
+interface HeaderProps {
+  onCollapsed: () => void
+}
+
+export default function Header({ onCollapsed }: HeaderProps) {
   const { account, chainId } = useActiveWeb3React()
 
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
@@ -59,7 +67,13 @@ export default function Header() {
         <PngBalanceContent setShowPngBalanceModal={setShowPngBalanceModal} />
       </Modal>
 
-      
+      <MobileHeader>
+    
+        <StyledMenuIcon onClick={() => onCollapsed()} />
+        <MobileLogoWrapper>
+          <Logo collapsed={false} />
+        </MobileLogoWrapper>
+      </MobileHeader>
 
       <HeaderControls>
         <HeaderElement>
