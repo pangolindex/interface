@@ -18,7 +18,7 @@ import {
 } from './styled'
 import Backward from '../../assets/svg/backward.svg'
 import Forward from '../../assets/svg/forward.svg'
-import { Swap, Dashboard, Stake } from '../../components/Icons'
+import { Swap, Dashboard, Stake, Pool, Farm, Buy, Vote, Migration } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import Partners from '../../assets/svg/menu/partners.svg'
 import { ANALYTICS_PAGE } from '../../constants'
@@ -47,14 +47,14 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
     },
     {
       link: '/buy',
-      icon: Dashboard,
+      icon: Buy,
       title: t('header.buy'),
       id: 'buy',
       isActive: location?.pathname?.startsWith('/buy')
     },
     {
       link: '/pool',
-      icon: Dashboard,
+      icon: Pool,
       title: t('header.pool'),
       id: 'buy',
       isActive:
@@ -67,7 +67,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
     {
       link: '/png/2',
-      icon: Dashboard,
+      icon: Farm,
       title: t('header.farm'),
       id: 'farm',
       isActive: location?.pathname?.startsWith('/png')
@@ -83,7 +83,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
     {
       link: '/vote',
-      icon: Dashboard,
+      icon: Vote,
       title: t('header.vote'),
       id: 'vote',
       isActive: location?.pathname?.startsWith('/vote')
@@ -91,7 +91,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
     {
       link: '/beta/migrate/1',
-      icon: Dashboard,
+      icon: Migration,
       title: 'Migrate',
       id: 'migrate',
       isActive: location?.pathname?.startsWith('/beta/migrate/')

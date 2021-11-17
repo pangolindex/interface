@@ -94,7 +94,7 @@ export const ProcessWrapper = styled(Box)`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  max-width: 1000px;
+  max-width: 450px;
   margin: 0px auto;
   padding: 30px;
   ${({ theme }) => theme.mediaWidth.upToSmall`
