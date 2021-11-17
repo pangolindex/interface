@@ -5,7 +5,6 @@ import {
   ResponsiveButtonOutline,
   ButtonRow,
   FirstWrapper,
-  StyledMenuIcon,
   PanelWrapper,
   InfoWrapper,
   CircleIcon,
@@ -31,6 +30,8 @@ import MigrationVector from '../../assets/images/migration_vector.png'
 import AlreadyMigrate from '../../assets/svg/alreadyMigrated.svg'
 import AlreadyEarned from '../../assets/svg/alreadyEarned.svg'
 import WalletMigrated from '../../assets/svg/walletMigrated.svg'
+import Stake from '../../assets/svg/stake.svg'
+import Unstake from '../../assets/svg/Unstake.svg'
 
 const MigrateUI = () => {
   const below1080 = false
@@ -105,7 +106,7 @@ const MigrateUI = () => {
         <ProcessWrapper>
           <Box display="inline-block">
             <CircleIcon>
-              <StyledMenuIcon />
+              <StatisticImage src={Unstake} alt="Already Migrate" />
             </CircleIcon>
             <Text color="text1" fontSize={24} mt={10}>
               {t('migratePage.unstake')}
@@ -115,7 +116,7 @@ const MigrateUI = () => {
           <ArrowRight />
           <Box display="inline-block">
             <CircleIcon>
-              <StyledMenuIcon />
+              <StatisticImage src={Stake} alt="Already Migrate" />
             </CircleIcon>
             <Text color="text1" fontSize={24} mt={10}>
               {t('migratePage.stake')}

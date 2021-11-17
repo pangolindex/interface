@@ -6,6 +6,9 @@ import Telegram from '../../assets/svg/social/Telegram.svg'
 import Twitter from '../../assets/svg/social/Twitter.svg'
 import Youtube from '../../assets/svg/social/Youtube.svg'
 import Medium from '../../assets/svg/social/Medium.svg'
+import Github from '../../assets/svg/social/Github.svg'
+import Discord from '../../assets/svg/social/Discord.svg'
+import Substack from '../../assets/svg/social/Substack.svg'
 
 interface SocialMediaProps {
   collapsed: boolean
@@ -34,6 +37,21 @@ export default function SocialMedia({ collapsed }: SocialMediaProps) {
       link: 'https://pangolindex.medium.com/',
       icon: Medium,
       title: 'Medium'
+    },
+    {
+      link: 'https://github.com/pangolindex',
+      icon: Github,
+      title: 'Github'
+    },
+    {
+      link: 'https://discord.gg/PARrDYYbfw',
+      icon: Discord,
+      title: 'Discord'
+    },
+    {
+      link: 'https://pangolin.substack.com/',
+      icon: Substack,
+      title: 'Substack'
     }
   ]
 
