@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Hoán đổi",
     "buy": "Mua",
     "pool": "Bể",
@@ -525,5 +526,13 @@
     "back": "Mặt sau",
     "availableToUnstake": "Có sẵn để hủy bỏ: ",
     "submittingTransaction": "Gửi giao dịch"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets"
   }
 }

@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "兌換",
     "buy": "购买",
     "pool": "矿池",
@@ -524,5 +525,13 @@
     "back": "后退",
     "availableToUnstake": "可取消抵押: ",
     "submittingTransaction": "提交交易"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets"
   }
 }

@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Échanger",
     "buy": "Acheter",
     "pool": "Pool",
@@ -525,5 +526,13 @@
     "back": "Arrière",
     "availableToUnstake": "Disponible à démêler: ",
     "submittingTransaction": "Soumission de la transaction"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets"
   }
 }
