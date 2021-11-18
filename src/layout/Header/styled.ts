@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { BlackCard } from '../../components/Card'
+import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg'
 import { Text } from 'rebass'
 
 export const HeaderFrame = styled.div`
@@ -17,13 +18,14 @@ export const HeaderFrame = styled.div`
   z-index: 2;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
-    padding: 0 1rem;
+    padding: 0;
     width: calc(100%);
     position: relative;
   `};
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-        padding: 0.5rem 1rem;
+        padding: 0;
+        display: block;
   `}
 `
 
@@ -35,7 +37,7 @@ export const HeaderControls = styled.div`
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     justify-self: center;
     width: 100%;
     max-width: 960px;
@@ -139,4 +141,37 @@ export const ThemeMode = styled(BlackCard)`
   cursor: pointer;
   height: 35px;
   line-height: 34px;
+
+  :hover,
+  :focus {
+    cursor: pointer;
+    outline: none;
+    background-color: ${({ theme }) => theme.bg4};
+  }
+`
+
+export const MobileHeader = styled.div`
+  height: 80px;
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+  background-color: ${({ theme }) => theme.bg2};
+  padding: 10px;
+  flex-direction: row;
+  display: none;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+  display: flex;
+  align-items: center;
+`};
+`
+
+export const StyledMenuIcon = styled(MenuIcon)`
+  cursor: pointer;
+  path {
+    stroke: ${({ theme }) => theme.text1};
+  }
+`
+
+export const MobileLogoWrapper = styled.div`
+  flex: 1;
 `

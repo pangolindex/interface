@@ -17,7 +17,7 @@ export const FirstWrapper = styled(RowFixed)`
 
 export const ButtonRow = styled(RowFixed)`
   gap: 40px;
-  width: 60%;
+  width: 65%;
   ${({ theme }) => theme.mediaWidth.upToSmall`
   width: 100%;
   justify-content: space-between;
@@ -94,7 +94,7 @@ export const ProcessWrapper = styled(Box)`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  max-width: 1000px;
+  max-width: 450px;
   margin: 0px auto;
   padding: 30px;
   ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -129,4 +129,13 @@ export const EmptyProposals = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`
+export const HideSmall = styled.div`
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    display: none;
+  `};
 `

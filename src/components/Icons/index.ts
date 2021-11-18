@@ -1,3 +1,8 @@
 export { default as Dashboard } from './Dashboard'
 export { default as Swap } from './Swap'
 export { default as Stake } from './Stake'
+export { default as Buy } from './Buy'
+export { default as Farm } from './Farm'
+export { default as Pool } from './Pool'
+export { default as Vote } from './Vote'
+export { default as Migration } from './Migration'

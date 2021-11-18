@@ -31,8 +31,6 @@ const MigrationCard = ({ pair, onClickMigrate, stakingData }: StatProps) => {
           </Text>
           <OptionsWrapper>
             <OptionButton active={true}>{stakingData?.multiplier ? `${stakingData?.multiplier}X` : '-'}</OptionButton>
-            <OptionButton>{t('migratePage.lowVolatility')}</OptionButton>
-            <OptionButton>{t('migratePage.compoundable')}</OptionButton>
           </OptionsWrapper>
         </Box>
 

@@ -5,14 +5,14 @@ import {
   ResponsiveButtonOutline,
   ButtonRow,
   FirstWrapper,
-  StyledMenuIcon,
   PanelWrapper,
   InfoWrapper,
   CircleIcon,
   ProcessWrapper,
   ArrowRight,
   EmptyProposals,
-  StatisticImage
+  StatisticImage,
+  HideSmall
 } from './styleds'
 import { Pair } from '@pangolindex/sdk'
 import { useParams } from 'react-router-dom'
@@ -30,6 +30,8 @@ import MigrationVector from '../../assets/images/migration_vector.png'
 import AlreadyMigrate from '../../assets/svg/alreadyMigrated.svg'
 import AlreadyEarned from '../../assets/svg/alreadyEarned.svg'
 import WalletMigrated from '../../assets/svg/walletMigrated.svg'
+import Stake from '../../assets/svg/stake.svg'
+import Unstake from '../../assets/svg/unstake.svg'
 
 const MigrateUI = () => {
   const below1080 = false
@@ -67,16 +69,16 @@ const MigrateUI = () => {
             <ResponsiveButtonOutline variant="outline">{t('migratePage.learn')}</ResponsiveButtonOutline>
           </ButtonRow>
         </Box>
-        <Box>
+        <HideSmall>
           <img src={MigrationVector} alt="Migration" />
-        </Box>
+        </HideSmall>
       </FirstWrapper>
 
       <PanelWrapper style={{ marginTop: below1080 ? '0' : '50px' }}>
         <StatCard
           icon={<StatisticImage src={AlreadyMigrate} alt="Already Migrate" />}
           title={t('migratePage.alreadyMigrate')}
-          stat={`250.000.000$`}
+          stat={`250.000$`}
         />
 
         <StatCard
@@ -104,7 +106,7 @@ const MigrateUI = () => {
         <ProcessWrapper>
           <Box display="inline-block">
             <CircleIcon>
-              <StyledMenuIcon />
+              <StatisticImage src={Unstake} alt="Already Migrate" />
             </CircleIcon>
             <Text color="text1" fontSize={24} mt={10}>
               {t('migratePage.unstake')}
@@ -112,29 +114,9 @@ const MigrateUI = () => {
           </Box>
 
           <ArrowRight />
-
           <Box display="inline-block">
             <CircleIcon>
-              <StyledMenuIcon />
-            </CircleIcon>
-            <Text color="text1" fontSize={24} mt={10}>
-              {t('migratePage.remove')}
-            </Text>
-          </Box>
-
-          <ArrowRight />
-          <Box display="inline-block">
-            <CircleIcon>
-              <StyledMenuIcon />
-            </CircleIcon>
-            <Text color="text1" fontSize={24} mt={10}>
-              {t('migratePage.add')}
-            </Text>
-          </Box>
-          <ArrowRight />
-          <Box display="inline-block">
-            <CircleIcon>
-              <StyledMenuIcon />
+              <StatisticImage src={Stake} alt="Already Migrate" />
             </CircleIcon>
             <Text color="text1" fontSize={24} mt={10}>
               {t('migratePage.stake')}

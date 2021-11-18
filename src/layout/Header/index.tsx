@@ -15,7 +15,7 @@ import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { useDarkModeManager } from '../../state/user/hooks'
 import NightMode from '../../assets/svg/nightMode.svg'
-import Settings from '../../assets/svg/settings.svg'
+import LightMode from '../../assets/svg/lightMode.svg'
 import {
   HeaderFrame,
   HeaderControls,
@@ -27,15 +27,23 @@ import {
   HideSmall,
   NetworkCard,
   BalanceText,
-  ThemeMode
+  ThemeMode,
+  MobileHeader,
+  StyledMenuIcon,
+  MobileLogoWrapper
 } from './styled'
+import Logo from '../Logo'
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: 'Fuji',
   [ChainId.AVALANCHE]: 'Avalanche'
 }
 
-export default function Header() {
+interface HeaderProps {
+  onCollapsed: () => void
+}
+
+export default function Header({ onCollapsed }: HeaderProps) {
   const { account, chainId } = useActiveWeb3React()
 
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
@@ -59,7 +67,13 @@ export default function Header() {
         <PngBalanceContent setShowPngBalanceModal={setShowPngBalanceModal} />
       </Modal>
 
-      
+      <MobileHeader>
+    
+        <StyledMenuIcon onClick={() => onCollapsed()} />
+        <MobileLogoWrapper>
+          <Logo collapsed={false} />
+        </MobileLogoWrapper>
+      </MobileHeader>
 
       <HeaderControls>
         <HeaderElement>
@@ -107,7 +121,7 @@ export default function Header() {
           <LanguageSelection isBeta={true} />
           <ThemeMode onClick={() => toggleDarkMode()}>
             {isDark ? (
-              <img width={'16px'} src={Settings} alt={'Setting'} />
+              <img width={'16px'} src={LightMode} alt={'Setting'} />
             ) : (
               <img width={'16px'} src={NightMode} alt={'NightMode'} />
             )}

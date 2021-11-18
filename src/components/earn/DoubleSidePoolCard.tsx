@@ -62,9 +62,9 @@ const TopSection = styled.div<{ isStaking?: boolean }>`
   align-items: center;
   padding: 1rem;
   z-index: 1;
-  // ${({ theme, isStaking }) => theme.mediaWidth.upToSmall`
+  /* // ${({ theme, isStaking }) => theme.mediaWidth.upToSmall`
   //    grid-template-columns: ${isStaking ? '48px 1fr auto 96px 96px' : ' 48px 1fr auto 96px'};
-  //  `};
+  //  `}; */
 `
 
 const BottomSection = styled.div<{ showBackground: boolean }>`

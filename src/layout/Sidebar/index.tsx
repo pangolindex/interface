@@ -1,17 +1,12 @@
 import React, { useContext } from 'react'
 import { Text, Box } from '@pangolindex/components'
-import { useDarkModeManager } from '../../state/user/hooks'
+import { useWindowSize } from '../../hooks/useWindowSize'
 import { ThemeContext } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router'
 import SocialMedia from '../SocialMedia'
-import Logo from '../../assets/svg/icon.svg'
-import LogoDark from '../../assets/svg/icon.svg'
 import {
   Sider,
-  Title,
-  PngIcon,
-  LogoWrapper,
   CollapseBar,
   Menu,
   MenuItem,
@@ -23,13 +18,14 @@ import {
 } from './styled'
 import Backward from '../../assets/svg/backward.svg'
 import Forward from '../../assets/svg/forward.svg'
-import { Swap, Dashboard, Stake } from '../../components/Icons'
+import { Swap, Stake, Pool, Farm, Buy, Vote, Migration } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import Partners from '../../assets/svg/menu/partners.svg'
 import { ANALYTICS_PAGE } from '../../constants'
 import Bridge from '../../assets/svg/menu/bridge.svg'
 import Governance from '../../assets/svg/menu/governance.svg'
 import { Scrollbars } from 'react-custom-scrollbars'
+import Logo from '../Logo'
 
 interface SidebarProps {
   collapsed: boolean
@@ -37,7 +33,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
-  const [isDark] = useDarkModeManager()
+  const { height } = useWindowSize()
   const { t } = useTranslation()
   const location: any = useLocation()
   const theme = useContext(ThemeContext)
@@ -51,14 +47,14 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
     },
     {
       link: '/buy',
-      icon: Dashboard,
+      icon: Buy,
       title: t('header.buy'),
       id: 'buy',
       isActive: location?.pathname?.startsWith('/buy')
     },
     {
       link: '/pool',
-      icon: Dashboard,
+      icon: Pool,
       title: t('header.pool'),
       id: 'buy',
       isActive:
@@ -71,7 +67,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
     {
       link: '/png/2',
-      icon: Dashboard,
+      icon: Farm,
       title: t('header.farm'),
       id: 'farm',
       isActive: location?.pathname?.startsWith('/png')
@@ -87,7 +83,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
     {
       link: '/vote',
-      icon: Dashboard,
+      icon: Vote,
       title: t('header.vote'),
       id: 'vote',
       isActive: location?.pathname?.startsWith('/vote')
@@ -95,7 +91,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
     {
       link: '/beta/migrate/1',
-      icon: Dashboard,
+      icon: Migration,
       title: 'Migrate',
       id: 'migrate',
       isActive: location?.pathname?.startsWith('/beta/migrate/')
@@ -134,31 +130,21 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
   return (
     <Sider collapsed={collapsed}>
-      <LogoWrapper>
-        <Box>
-          <Title href=".">
-            <PngIcon>
-              <img width={'28px'} src={isDark ? LogoDark : Logo} alt="logo" />
-            </PngIcon>
-          </Title>
-        </Box>
-        {!collapsed && (
-          <Box ml={12}>
-            <Text color="text1" fontSize={16}>
-              Pangolin
-            </Text>
-          </Box>
-        )}
-      </LogoWrapper>
+      <Logo collapsed={collapsed} />
 
-      <Scrollbars autoHeight autoHeightMax={window.innerHeight - 200} autoHide style={{ flex: 1 }}>
+      <Scrollbars
+        autoHeight
+        autoHeightMax={height ? height - 200 : window.innerHeight - 200}
+        autoHide
+        style={{ flex: 1, overflowX: 'hidden' }}
+      >
         <MenuWrapper>
           <Menu>
             {mainLinks.map((x, index) => {
               const Icon = x.icon
 
               return (
-                <MenuItem isActive={x.isActive} collapsed={collapsed} key={index}>
+                <MenuItem isActive={x.isActive} key={index}>
                   <MenuLink id={x.id} to={x.link}>
                     <Icon size={16} fillColor={x.isActive ? theme.color3 : theme.color2} />
                     {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
@@ -179,7 +165,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
             {pangolinLinks.map((x, index) => {
               return (
-                <MenuItem collapsed={collapsed} key={index}>
+                <MenuItem key={index}>
                   <MenuExternalLink id={x.id} href={x.link}>
                     <img src={x.icon} width={16} alt={x.title} />
                     {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
@@ -200,7 +186,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
             {otherLinks.map((x, index) => {
               return (
-                <MenuItem collapsed={collapsed} key={index}>
+                <MenuItem key={index}>
                   <MenuExternalLink id={x.id} href={x.link}>
                     <img src={x.icon} width={16} alt={x.title} />
                     {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
@@ -213,7 +199,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       </Scrollbars>
       <BottomBar>
         <SocialMedia collapsed={collapsed} />
-        <CollapseBar onClick={() => onCollapsed()} collapsed={collapsed}>
+        <CollapseBar onClick={() => onCollapsed()}>
           {collapsed ? (
             <img height={'16px'} src={Forward} alt={'Forward'} />
           ) : (

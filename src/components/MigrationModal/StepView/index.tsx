@@ -94,8 +94,14 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
     <Wrapper>
       {!loading && !completed ? (
         <>
+          <RowBetween>
+            <div />
+            <CloseIcon onClick={onDismiss} />
+          </RowBetween>
+
           <Text color="text1" fontSize={32}>
-            {t('migratePage.migrate')} {allChoosePoolLength > 1 && `${choosePoolIndex + 1}/${allChoosePoolLength}`}
+            {t('migratePage.migrate')}{' '}
+            {currentStep > 0 && allChoosePoolLength > 1 && `${choosePoolIndex + 1}/${allChoosePoolLength}`}
           </Text>
 
           <Box mt={10}>
@@ -141,10 +147,6 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
       ) : !loading && completed ? (
         <Wrapper>
           <Section>
-            <RowBetween>
-              <div />
-              <CloseIcon onClick={onDismiss} />
-            </RowBetween>
             <ConfirmedIcon>
               <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary1} />
             </ConfirmedIcon>
