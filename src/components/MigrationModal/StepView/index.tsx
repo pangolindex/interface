@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Wrapper, ConfirmedIcon, Section } from './styleds'
 import { Text, Steps, Step, Box } from '@pangolindex/components'
-import { CloseIcon, CustomLightSpinner } from '../../../theme/components'
+import { CloseIcon } from '../../../theme/components'
 import { useTranslation } from 'react-i18next'
 import ChoosePool from '../ChoosePool'
 import Unstake from '../Unstake'
@@ -11,10 +11,10 @@ import { useGetMigrationData } from '../../../state/migrate/hooks'
 import { StakingInfo } from '../../../state/stake/hooks'
 import { AutoColumn } from '../../Column'
 import { RowBetween } from '../../Row'
-import Circle from '../../../assets/images/blue-loader.svg'
 import { useBlockNumber } from '../../../state/application/hooks'
 import { ArrowUpCircle } from 'react-feather'
 import { ThemeContext } from 'styled-components'
+import Loader from '../Loader'
 
 export interface StepProps {
   selectedPool?: { [address: string]: { pair: Pair; staking: StakingInfo } }
@@ -33,6 +33,9 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
   const [loading, setLoading] = useState(false)
 
   const [choosePoolIndex, setChoosePoolIndex] = useState(0)
+
+  const [isUnstakeComplete, setIsUnstakeComplete] = useState(false)
+  const [isStakingLoading, setIsStakingLoading] = useState(false)
 
   const handleChange = (step: number) => {
     setCurrentStep(step)
@@ -90,6 +93,16 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [latestBlockNumber])
 
+  useEffect(() => {
+    if (latestBlockNumber && isUnstakeComplete && !isStakingLoading) {
+      setIsStakingLoading(true)
+    } else if (latestBlockNumber && isUnstakeComplete && isStakingLoading) {
+      setIsStakingLoading(false)
+      setIsUnstakeComplete(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [latestBlockNumber, isUnstakeComplete])
+
   return (
     <Wrapper>
       {!loading && !completed ? (
@@ -128,7 +141,7 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
               <Unstake
                 allChoosePool={allChoosePool}
                 goNext={() => {
-                  setLoading(true)
+                  setIsUnstakeComplete(true)
                   goNext()
                 }}
                 goBack={goBack}
@@ -147,6 +160,7 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
                 goBack={goBack}
                 choosePoolIndex={choosePoolIndex}
                 setChoosePoolIndex={value => setChoosePoolIndex(value)}
+                isStakingLoading={isStakingLoading}
               />
             )}
           </Box>
@@ -166,18 +180,7 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
           </Section>
         </Wrapper>
       ) : (
-        <Wrapper>
-          <Section>
-            <ConfirmedIcon>
-              <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
-            </ConfirmedIcon>
-            <AutoColumn gap="12px" justify={'center'}>
-              <Text fontWeight={500} fontSize={20}>
-                {t('migratePage.submittingTransaction')}
-              </Text>
-            </AutoColumn>
-          </Section>
-        </Wrapper>
+        <Loader loadingText={t('migratePage.submittingTransaction')} />
       )}
     </Wrapper>
   )

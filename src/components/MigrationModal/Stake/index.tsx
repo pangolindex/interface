@@ -17,6 +17,7 @@ import { MINICHEF_ADDRESS } from '../../../constants'
 import { useDerivedStakeInfo, useMinichefPools } from '../../../state/stake/hooks'
 import { splitSignature } from 'ethers/lib/utils'
 import useTransactionDeadline from '../../../hooks/useTransactionDeadline'
+import Loader from '../Loader'
 
 export interface StakeProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
@@ -25,6 +26,7 @@ export interface StakeProps {
   goBack: () => void
   choosePoolIndex: number
   setChoosePoolIndex: (value: number) => void
+  isStakingLoading: boolean
 }
 
 const Stake = ({
@@ -33,7 +35,8 @@ const Stake = ({
   setCompleted,
   goBack,
   choosePoolIndex,
-  setChoosePoolIndex
+  setChoosePoolIndex,
+  isStakingLoading
 }: StakeProps) => {
   const { account, chainId, library } = useActiveWeb3React()
 
@@ -121,11 +124,7 @@ const Stake = ({
 
       if (approval === ApprovalState.APPROVED) {
         method = 'deposit'
-        args = [
-          poolMap[pair?.liquidityToken?.address],
-          `0x${parsedAmount?.raw.toString(16)}`,
-          account
-        ]
+        args = [poolMap[pair?.liquidityToken?.address], `0x${parsedAmount?.raw.toString(16)}`, account]
       } else if (signatureData) {
         method = 'depositWithPermit'
         args = [
@@ -239,52 +238,55 @@ const Stake = ({
 
   return (
     <Wrapper>
-      <PoolInfo
-        pair={pair}
-        type="stake"
-        stepIndex={stepIndex}
-        onChangeDot={onChangeDot}
-        amount={stakingAmount}
-        onChangeAmount={onChangeAmount}
-        userPoolBalance={userLiquidityUnstaked}
-      />
+      {isStakingLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <PoolInfo
+            pair={pair}
+            type="stake"
+            stepIndex={stepIndex}
+            onChangeDot={onChangeDot}
+            amount={stakingAmount}
+            onChangeAmount={onChangeAmount}
+            userPoolBalance={userLiquidityUnstaked}
+          />
 
-      <Box mt={10}>
-        <RowBetween>
-          <Box mr="5px" width="100%">
-            <Button
-              variant={approval === ApprovalState.APPROVED || signatureData !== null ? 'confirm' : 'primary'}
-              onClick={onAttemptToApprove}
-              isDisabled={
-                attempting
-                || approval !== ApprovalState.NOT_APPROVED
-                || signatureData !== null
-                || !isValidAmount
-              }
-              loading={attempting}
-              loadingText={t('migratePage.loading')}
-            >
-              {t('earn.approve')}
-            </Button>
+          <Box mt={10}>
+            <RowBetween>
+              <Box mr="5px" width="100%">
+                <Button
+                  variant={approval === ApprovalState.APPROVED || signatureData !== null ? 'confirm' : 'primary'}
+                  onClick={onAttemptToApprove}
+                  isDisabled={
+                    attempting || approval !== ApprovalState.NOT_APPROVED || signatureData !== null || !isValidAmount
+                  }
+                  loading={attempting}
+                  loadingText={t('migratePage.loading')}
+                >
+                  {t('earn.approve')}
+                </Button>
+              </Box>
+              <Box width="100%">
+                <Button
+                  variant="primary"
+                  isDisabled={
+                    attempting ||
+                    !!error ||
+                    (signatureData === null && approval !== ApprovalState.APPROVED) ||
+                    !isValidAmount
+                  }
+                  onClick={onStake}
+                  loading={attempting}
+                  loadingText={t('migratePage.loading')}
+                >
+                  {error ?? t('earn.deposit')}
+                </Button>
+              </Box>
+            </RowBetween>
           </Box>
-          <Box width="100%">
-            <Button
-              variant="primary"
-              isDisabled={
-                attempting
-                || !!error
-                || (signatureData === null && approval !== ApprovalState.APPROVED)
-                || !isValidAmount
-              }
-              onClick={onStake}
-              loading={attempting}
-              loadingText={t('migratePage.loading')}
-            >
-              {error ?? t('earn.deposit')}
-            </Button>
-          </Box>
-        </RowBetween>
-      </Box>
+        </>
+      )}
     </Wrapper>
   )
 }
