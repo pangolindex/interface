@@ -1,6 +1,5 @@
 import React from 'react'
 import { Text } from '@pangolindex/components'
-import { useTranslation } from 'react-i18next'
 import Circle from '../../../assets/images/blue-loader.svg'
 import { CustomLightSpinner } from '../../../theme/components'
 import { Wrapper, ConfirmedIcon, Section } from './styleds'
@@ -11,7 +10,6 @@ interface LoaderProps {
 }
 
 const Loader = ({ loadingText }: LoaderProps) => {
-  const { t } = useTranslation()
   return (
     <Wrapper>
       <Section>
