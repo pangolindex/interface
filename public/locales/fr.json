@@ -34,7 +34,7 @@
     "disconnect": "Déconnexion",
     "change": "Changer",
     "copy": "Copie de l'adresse",
-    "viewExplorer": "Voir sur l'explorateur C-Chain d'Avalanche",
+    "viewExplorer": "Voir sur l'explorateur Snowtrace d'Avalanche",
     "clearAll": "(Effacer tout)",
     "transactionAppear": "Vos transactions apparaîtront ici...",
     "recentTransactions": "Transactions récentes",
@@ -42,7 +42,7 @@
   },
   "addressInputPanel": {
     "recipient": "Bénéficiaire",
-    "viewExplorer": "(Voir sur l'explorateur C-Chain d'Avalanche)",
+    "viewExplorer": "(Voir sur l'explorateur Snowtrace d'Avalanche)",
     "walletAddress": "Adresse du portefeuille"
   },
   "currencyInputPanel": {
@@ -103,7 +103,7 @@
   },
   "modalView": {
     "confirmTransaction": "Confirmez cette transaction dans votre portefeuille",
-    "viewTransaction": "Voir la transaction sur le C-Chain Explorer"
+    "viewTransaction": "Voir la transaction sur le Snowtrace Explorer"
   },
   "navigationTabs": {
     "useThisTool": "Utilisez cet outil pour trouver les paires qui n'apparaissent pas automatiquement dans l'interface.",
@@ -119,7 +119,7 @@
   "popups": {
     "tokenListUpdated": "La liste de jetons \" {{oldList}} \" a été mise à jour en ",
     "updateAvailable": "Une mise à jour est disponible pour la liste de jetons \" {{oldList}} \"",
-    "viewExplorer": "Voir sur le C-Chain Explorer",
+    "viewExplorer": "Voir sur le Snowtrace Explorer",
     "hash": "Hash: ",
     "added": "ajouté",
     "removed": "supprimé",
@@ -211,13 +211,13 @@
     "purchaseArbitraryWarning": "Si vous achetez un jeton arbitraire, <strong>vous ne pourrez peut-être pas le revendre.</strong>",
     "understand": "Je comprends",
     "continue": "Continuer",
-    "viewExplorer": "Voir sur le C-Chain Explorer"
+    "viewExplorer": "Voir sur le Snowtrace Explorer"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "En attente de confirmation",
     "confirmTransaction": "Confirmez cette transaction dans votre portefeuille",
     "transactionSubmitted": "Transaction soumise",
-    "viewExplorer": "Voir sur le C-Chain Explorer",
+    "viewExplorer": "Voir sur le Snowtrace Explorer",
     "close": "Fermer",
     "error": "Erreur",
     "dismiss": "Rejeter"
@@ -250,7 +250,7 @@
     "votes": "Votes",
     "submittingVote": "Soumission du vote",
     "confirmTransaction": "Confirmez cette transaction dans votre portefeuille",
-    "viewExplorer": "Voir sur le C-Chain Explorer"
+    "viewExplorer": "Voir sur le Snowtrace Explorer"
   },
   "walletModal": {
     "wrongNetwork": "Mauvais réseau",

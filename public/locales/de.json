@@ -34,7 +34,7 @@
     "disconnect": "Trennen",
     "change": "Ändern",
     "copy": "Adresse kopieren",
-    "viewExplorer": "Im C-Chain Explorer ansehen",
+    "viewExplorer": "Im Snowtrace Explorer ansehen",
     "clearAll": "(alle löschen)",
     "transactionAppear": "Deine Transaktionen werden hier erscheinen...",
     "recentTransactions": "Jüngste Transaktionen",
@@ -42,7 +42,7 @@
   },
   "addressInputPanel": {
     "recipient": "Empfänger",
-    "viewExplorer": "(Im Avalanche-C-Chain Explorer ansehen)",
+    "viewExplorer": "(Im Avalanche-Snowtrace Explorer ansehen)",
     "walletAddress": "Wallet-Adresse"
   },
   "currencyInputPanel": {
@@ -103,7 +103,7 @@
   },
   "modalView": {
     "confirmTransaction": "Diese Transaktion in deiner Wallet überprüfen",
-    "viewTransaction": "Transaktion im C-Chain Explorer ansehen"
+    "viewTransaction": "Transaktion im Snowtrace Explorer ansehen"
   },
   "navigationTabs": {
     "useThisTool": "Benutze dieses Werkzeug, um dir Paare anzeigen zu lassen, die nicht in der Schnittstelle auftauchen.",
@@ -119,7 +119,7 @@
   "popups": {
     "tokenListUpdated": "Die Token-Liste \" {{oldList}} \" wurde aktualisiert zu ",
     "updateAvailable": "Für die Token-Liste ist ein Update verfügbar \" {{oldList}} \"",
-    "viewExplorer": "Im C-Chain Explorer ansehen",
+    "viewExplorer": "Im Snowtrace Explorer ansehen",
     "hash": "Hash: ",
     "added": "hinzugefügt",
     "removed": "entfernt",
@@ -211,13 +211,13 @@
     "purchaseArbitraryWarning": "Wenn du einen beliebigen Token kaufst, <strong>kannst du ihn unter Umständen nicht zurückverkaufen.</strong>",
     "understand": "Ich verstehe",
     "continue": "Weiter",
-    "viewExplorer": "Im C-Chain Explorer ansehen"
+    "viewExplorer": "Im Snowtrace Explorer ansehen"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "Warte auf Bestätigung",
     "confirmTransaction": "Diese Transaktion in deiner Wallet überprüfen",
     "transactionSubmitted": "Transaktion eingereicht",
-    "viewExplorer": "Im C-Chain Explorer ansehen",
+    "viewExplorer": "Im Snowtrace Explorer ansehen",
     "close": "Schließen",
     "error": "Fehler",
     "dismiss": "Abbruch"
@@ -250,7 +250,7 @@
     "votes": "Stimmen",
     "submittingVote": "Stimme wird abgegeben",
     "confirmTransaction": "Diese Transaktion in deiner Wallet überprüfen",
-    "viewExplorer": "Im C-Chain Explorer ansehen"
+    "viewExplorer": "Im Snowtrace Explorer ansehen"
   },
   "walletModal": {
     "wrongNetwork": "Falsches Netzwerk",

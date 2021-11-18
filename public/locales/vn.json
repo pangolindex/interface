@@ -34,7 +34,7 @@
     "disconnect": "Mất kết nối",
     "change": "Thay đổi",
     "copy": "Sao chép địa chỉ",
-    "viewExplorer": "Xem trong trình khám phá chuỗi C-Chain Avalanche",
+    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avalanche",
     "clearAll": "(xóa tất cả)",
     "transactionAppear": "Các giao dịch của bạn sẽ xuất hiện tại đây ...",
     "recentTransactions": "Các giao dịch gần đây",
@@ -42,7 +42,7 @@
   },
   "addressInputPanel": {
     "recipient": "Người nhận",
-    "viewExplorer": "(Xem trong trình khám phá chuỗi C-Chain Avanlanche)",
+    "viewExplorer": "(Xem trong trình khám phá chuỗi Snowtrace Avanlanche)",
     "walletAddress": "Địa chỉ ví"
   },
   "currencyInputPanel": {
@@ -103,7 +103,7 @@
   },
   "modalView": {
     "confirmTransaction": "Xác nhận giao dịch này trong ví của bạn",
-    "viewTransaction": "Xem giao dịch trên trình phám khá C-Chain Avalanche"
+    "viewTransaction": "Xem giao dịch trên trình phám khá Snowtrace Avalanche"
   },
   "navigationTabs": {
     "useThisTool": "Sử dụng công cụ này để tìm các cặp không tự động xuất hiện trong giao diện.",
@@ -119,7 +119,7 @@
   "popups": {
     "tokenListUpdated": "Danh sách mã token \" {{oldList}} \" đã được cập nhật đến ",
     "updateAvailable": "Bản cập nhật khả dụng cho danh sách token\" {{oldList}} \"",
-    "viewExplorer": "Xem trong trình khám phá chuỗi C-Chain Avanlanche",
+    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avanlanche",
     "hash": "Băm:",
     "added": "thêm",
     "removed": "loại bỏ",
@@ -211,13 +211,13 @@
     "purchaseArbitraryWarning": "Nếu bạn mua một mã token tùy chỉnh, <strong>bạn có thể không bán lại được.</strong>",
     "understand": "Tôi hiểu",
     "continue": "Tiếp tục",
-    "viewExplorer": "Xem trong trình khám phá chuỗi C-Chain Avanlanche"
+    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avanlanche"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "Đang chờ xác nhận",
     "confirmTransaction": "Xác nhận giao dịch này trong ví của bạn",
     "transactionSubmitted": "Giao dịch đã được gửi đi",
-    "viewExplorer": "Xem trong trình khám phá chuỗi C-Chain Avanlanche",
+    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avanlanche",
     "close": "Đóng",
     "error": "Lỗi",
     "dismiss": "Bỏ qua"
@@ -250,7 +250,7 @@
     "votes": "những phiếu bầu",
     "submittingVote": "Đang gửi phiếu bầu",
     "confirmTransaction": "Xác nhận giao dịch này trên ví của bạn",
-    "viewExplorer": "Xem trong trình khám phá chuỗi C-Chain Avanlanche"
+    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avanlanche"
   },
   "walletModal": {
     "wrongNetwork": "Sai mạng lưới",
