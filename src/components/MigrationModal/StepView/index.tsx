@@ -100,8 +100,12 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
           </RowBetween>
 
           <Text color="text1" fontSize={32}>
-            {t('migratePage.migrate')}{' '}
-            {currentStep > 0 && allChoosePoolLength > 1 && `${choosePoolIndex + 1}/${allChoosePoolLength}`}
+            {currentStep > 0 && allChoosePoolLength > 1
+              ? t('migratePage.migrateModalHeading', {
+                  current: choosePoolIndex + 1,
+                  total: allChoosePoolLength
+                })
+              : t('migratePage.migrate')}
           </Text>
 
           <Box mt={10}>
@@ -123,7 +127,10 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
             {currentStep === 1 && (
               <Unstake
                 allChoosePool={allChoosePool}
-                goNext={goNext}
+                goNext={() => {
+                  setLoading(true)
+                  goNext()
+                }}
                 goBack={goBack}
                 choosePoolIndex={choosePoolIndex}
               />

@@ -493,16 +493,16 @@
     "add": "ADD",
     "remove": "REMOVE",
     "startMigratingNow": "START MIGRATING NOW",
-    "startMigratingNowDescription": "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Etiam Justo Libero, Scelerisque Quis Ipsum Quis, Viverra Ornare Odio. Vestibulum Imperdiet",
+    "startMigratingNowDescription": "Below you will find all the Farms you will need to migrate to Pangolin's V2 Contracts",
     "seeMore": "SEE MORE",
     "migrateWithEase": "MIGRATE WITH EASE",
-    "migrateWithDescription":"Hey Anon! We have realized you have some tokens on your wallet that needs to move over Pangolin. You can also move tokens over through Trader Joe, Lydia, and Canary.",
+    "migrateWithDescription":"We have designed an elegant wizard, which will help guide you through the process of migrating your Farms",
     "alreadyMigrate": "already migrated",
     "walletMigrate": "wallet migrated",
     "alreadyEarned": "already earned",
     "migrateNow": "MIGRATE NOW",
     "learn": "LEARN",
-    "moveYourTokensToNewContracts" :"MOVE YOUR TOKENS TO NEW CONTRACTS",
+    "moveYourTokensToNewContracts" :"Migrate your Farms to Pangolin V2",
     "readyToMigrate": "Ready to migrate",
     "apr": "APR:",
     "totalValueLocked": "Total Value Locked",
@@ -523,6 +523,8 @@
     "loading": "Loading",
     "back": "Back",
     "availableToUnstake": "Available to unstake: ",
-    "submittingTransaction": "Submitting transaction"
+    "submittingTransaction": "Submitting transaction",
+    "moveYourTokensToNewContractsDescription" :"As part of Pangolin's roll out to new improved contracts, you will need to migrate your Farms. If you need any help or guidance, please click on the “Learn” button.",
+    "migrateModalHeading": "Migrate {{ current }} of {{ total }} Farms"
   }
 }

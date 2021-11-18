@@ -494,16 +494,16 @@
     "add": "HINZUFÜGEN",
     "remove": "LÖSCHEN",
     "startMigratingNow": "STARTEN SIE JETZT MIT DER MIGRATION",
-    "startMigratingNowDescription": "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Etiam Justo Libero, Scelerisque Quis Ipsum Quis, Viverra Ornare Odio. Vestibulum Imperdiet",
+    "startMigratingNowDescription": "Unten finden Sie alle Farmen, die Sie für die Migration zu Pangolins V2-Verträgen benötigen",
     "seeMore": "MEHR SEHEN",
     "migrateWithEase": "MIT EINFACHEM MIGRIEREN",
-    "migrateWithDescription":"Hallo Anon! Wir haben festgestellt, dass Sie einige Token in Ihrer Brieftasche haben, die über Pangolin übertragen werden müssen. Sie können Token auch über Trader Joe, Lydia und Canary übertragen.",
+    "migrateWithDescription":"Wir haben einen eleganten Assistenten entwickelt, der Sie durch den Migrationsprozess Ihrer Farmen führt",
     "alreadyMigrate": "bereits migriert",
     "walletMigrate": "Brieftasche migriert",
     "alreadyEarned": "Bereits verdienen",
     "migrateNow": "JETZT MIGIEREN",
     "learn": "LERNEN",
-    "moveYourTokensToNewContracts" :"VERSCHIEBEN SIE IHRE TOKEN AUF NEUE VERTRÄGE",
+    "moveYourTokensToNewContracts" :"Migrieren Sie Ihre Farmen zu Pangolin V2",
     "readyToMigrate": "Bereit zur Migration",
     "apr": "APR:",
     "totalValueLocked": "Gesamtwert gesperrt",
@@ -524,6 +524,8 @@
     "loading": "Wird geladen",
     "back": "Zurück",
     "availableToUnstake": "Verfügbar zum Abnehmen: ",
-    "submittingTransaction": "Übermittlung der Transaktion"
+    "submittingTransaction": "Übermittlung der Transaktion",
+    "moveYourTokensToNewContractsDescription" :"Als Teil der Einführung von Pangolin zu neuen verbesserten Verträgen müssen Sie Ihre Farmen migrieren. Wenn Sie Hilfe oder Anleitung benötigen, klicken Sie bitte auf die Schaltfläche „Lernen“.",
+    "migrateModalHeading": "Migration {{ current }} der {{ total }} Farm"
   }
 }

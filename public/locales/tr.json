@@ -494,16 +494,16 @@
     "add": "EKLE",
     "remove": "KALDIRMAK",
     "startMigratingNow": "ŞİMDİ TAŞIMAYA BAŞLAYIN",
-    "startMigratingNowDescription": "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Etiam Justo Libero, Scelerisque Quis Ipsum Quis, Viverra Ornare Odio. Vestibulum Imperdiet",
+    "startMigratingNowDescription": "Aşağıda Pangolin'in V2 Sözleşmelerine geçmek için ihtiyaç duyacağınız tüm Çiftlikleri bulacaksınız.",
     "seeMore": "DAHA FAZLA GÖR",
     "migrateWithEase": "KOLAYLIKLA TAŞIYIN",
-    "migrateWithDescription":"Hey Anon! Cüzdanınızda Pangolin üzerinden taşınması gereken bazı jetonlarınız olduğunu fark ettik. Jetonları Trader Joe, Lydia ve Canary üzerinden de taşıyabilirsiniz.",
+    "migrateWithDescription":"Çiftliklerinizi taşıma sürecinde size rehberlik edecek zarif bir sihirbaz tasarladık.",
     "alreadyMigrate": "zaten taşındı",
     "walletMigrate": "cüzdan taşındı",
     "alreadyEarned": "zaten kazanılmış",
     "migrateNow": "ŞİMDİ TAŞI",
     "learn": "ÖĞRENMEK",
-    "moveYourTokensToNewContracts" :"TOKENLERİNİZİ YENİ SÖZLEŞMELERE TAŞIYIN",
+    "moveYourTokensToNewContracts" :"Çiftliklerinizi Pangolin V2'ye Taşıyın",
     "readyToMigrate": "Taşımaya hazır",
     "apr": "APR:",
     "totalValueLocked": "Toplam Değer Kilitli",
@@ -524,6 +524,8 @@
     "loading": "Yükleniyor",
     "back": "Geri",
     "availableToUnstake": "Kaldırılabilir: ",
-    "submittingTransaction": "işlem gönderme"
+    "submittingTransaction": "işlem gönderme",
+    "moveYourTokensToNewContractsDescription" :"Pangolin'in yeni geliştirilmiş sözleşmelere geçişinin bir parçası olarak, Çiftliklerinizi taşımanız gerekecek. Herhangi bir yardıma veya rehberliğe ihtiyacınız varsa, lütfen “Öğren” düğmesine tıklayın.",
+    "migrateModalHeading": "Göç {{ current }} of {{ total }} Çiftlik"
   }
 }

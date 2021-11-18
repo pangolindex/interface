@@ -494,16 +494,16 @@
     "add": "CỘNG",
     "remove": "TẨY",
     "startMigratingNow": "BẮT ĐẦU DI CƯ NGAY BÂY GIỜ",
-    "startMigratingNowDescription": "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Etiam Justo Libero, Scelerisque Quis Ipsum Quis, Viverra Ornare Odio. Vestibulum Imperdiet",
+    "startMigratingNowDescription": "Dưới đây, bạn sẽ tìm thấy tất cả các Trang trại mà bạn sẽ cần để di chuyển sang Hợp đồng V2 của Pangolin",
     "seeMore": "XEM THÊM",
     "migrateWithEase": "DI CHUYỂN VỚI EASE",
-    "migrateWithDescription":"Này Anon! Chúng tôi nhận thấy rằng bạn có một số mã thông báo trong ví của mình cần chuyển qua Pangolin. Bạn cũng có thể chuyển token qua Trader Joe, Lydia và Canary.",
+    "migrateWithDescription":"Chúng tôi đã thiết kế một trình hướng dẫn thanh lịch, sẽ giúp hướng dẫn bạn trong quá trình di chuyển Trang trại của bạn",
     "alreadyMigrate": "đã di cư",
     "walletMigrate": "ví đã di chuyển",
     "alreadyEarned": "đã kiếm được",
     "migrateNow": "DI TRÚ NGAY BÂY GIỜ",
     "learn": "HỌC",
-    "moveYourTokensToNewContracts" :"CHUYỂN TOKENS CỦA BẠN SANG HỢP ĐỒNG MỚI",
+    "moveYourTokensToNewContracts" :"Di chuyển trang trại của bạn sang Pangolin V2",
     "readyToMigrate": "Sẵn sàng di chuyển",
     "apr": "APR:",
     "totalValueLocked": "Tổng giá trị đã khóa",
@@ -524,6 +524,8 @@
     "loading": "Đang tải",
     "back": "Mặt sau",
     "availableToUnstake": "Có sẵn để hủy bỏ: ",
-    "submittingTransaction": "Gửi giao dịch"
+    "submittingTransaction": "Gửi giao dịch",
+    "moveYourTokensToNewContractsDescription" :"Là một phần trong kế hoạch triển khai các hợp đồng cải tiến mới của Pangolin, bạn sẽ cần phải di chuyển Trang trại của mình. Nếu bạn cần bất kỳ trợ giúp hoặc hướng dẫn nào, vui lòng nhấp vào nút “Tìm hiểu”.",
+    "migrateModalHeading": "Di cư {{ current }} của {{ total }} trang trại"
   }
 }

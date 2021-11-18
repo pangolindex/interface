@@ -494,16 +494,16 @@
     "add": "AJOUTER",
     "remove": "SUPPRIMER",
     "startMigratingNow": "COMMENCER À MIGRER MAINTENANT",
-    "startMigratingNowDescription": "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Etiam Justo Libero, Scelerisque Quis Ipsum Quis, Viverra Ornare Odio. Vestibulum Imperdiet",
+    "startMigratingNowDescription": "Vous trouverez ci-dessous toutes les fermes dont vous aurez besoin pour migrer vers les contrats V2 de Pangolin",
     "seeMore": "VOIR PLUS",
     "migrateWithEase": "MIGRER FACILEMENT",
-    "migrateWithDescription":"Salut Anon ! Nous avons réalisé que vous avez des jetons sur votre portefeuille qui doivent être transférés sur Pangolin. Vous pouvez également déplacer des jetons via Trader Joe, Lydia et Canary.",
+    "migrateWithDescription":"Nous avons conçu un assistant élégant qui vous guidera tout au long du processus de migration de vos fermes.",
     "alreadyMigrate": "déjà migré",
     "walletMigrate": "portefeuille migré",
     "alreadyEarned": "déjà gagné",
     "migrateNow": "MIGRER MAINTENANT",
     "learn": "APPRENDRE",
-    "moveYourTokensToNewContracts" :"DÉPLACEZ VOS JETONS VERS DE NOUVEAUX CONTRATS",
+    "moveYourTokensToNewContracts" :"Migrer vos fermes vers Pangolin V2",
     "readyToMigrate": "Prêt à migrer",
     "apr": "APR:",
     "totalValueLocked": "Valeur totale verrouillée",
@@ -524,6 +524,8 @@
     "loading": "Chargement",
     "back": "Arrière",
     "availableToUnstake": "Disponible à démêler: ",
-    "submittingTransaction": "Soumission de la transaction"
+    "submittingTransaction": "Soumission de la transaction",
+    "moveYourTokensToNewContractsDescription" :"Dans le cadre du déploiement de Pangolin vers de nouveaux contrats améliorés, vous devrez migrer vos fermes. Si vous avez besoin d'aide ou de conseils, veuillez cliquer sur le bouton « Apprendre ».",
+    "migrateModalHeading": "Migration {{ current }} de la {{ total }} ferme"
   }
 }

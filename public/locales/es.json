@@ -493,16 +493,16 @@
     "add": "AGREGAR",
     "remove": "RETIRAR",
     "startMigratingNow": "EMPIECE A MIGRAR AHORA",
-    "startMigratingNowDescription": "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Etiam Justo Libero, Scelerisque Quis Ipsum Quis, Viverra Ornare Odio. Vestibulum Imperdiet",
+    "startMigratingNowDescription": "A continuación encontrará todas las granjas que necesitará para migrar a los contratos V2 de Pangolin",
     "seeMore": "VER MÁS",
     "migrateWithEase": "MIGRA CON FACILIDAD",
-    "migrateWithDescription":"¡Oye Anon! Nos hemos dado cuenta de que tiene algunas fichas en su billetera que deben moverse sobre Pangolin. También puede mover tokens a través de Trader Joe, Lydia y Canary.",
+    "migrateWithDescription":"Hemos diseñado un asistente elegante, que lo guiará a través del proceso de migración de sus Fincas.",
     "alreadyMigrate": "Ya migrada",
     "walletMigrate": "billetera migrada",
     "alreadyEarned": "ya gana",
     "migrateNow": "MIGRA AHORA",
     "learn": "APRENDER",
-    "moveYourTokensToNewContracts" :"MUEVA SUS TOKENS A NUEVOS CONTRATOS",
+    "moveYourTokensToNewContracts" :"Migre sus granjas a Pangolin V2",
     "readyToMigrate": "Lista para migrar",
     "apr": "APR:",
     "totalValueLocked": "Valor total bloqueado",
@@ -523,6 +523,8 @@
     "loading": "Cargando",
     "back": "atrás",
     "availableToUnstake": "Disponible para desaplicar: ",
-    "submittingTransaction": "Enviar transacción"
+    "submittingTransaction": "Enviar transacción",
+    "moveYourTokensToNewContractsDescription" :"Como parte del lanzamiento de Pangolin a nuevos contratos mejorados, deberá migrar sus granjas. Si necesita ayuda u orientación, haga clic en el botón 'Aprender'",
+    "migrateModalHeading": "Migrar {{ current }} de {{ total }} granja"
   }
 }

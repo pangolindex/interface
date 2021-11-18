@@ -48,11 +48,11 @@ const MigrateUI = () => {
     <PageWrapper>
       <FirstWrapper>
         <Box>
-          <Text color="text1" fontSize={48} mb={20} fontWeight="900">
+          <Text color="text1" fontSize={32} mb={20} fontWeight="900" lineHeight="48px">
             {t('migratePage.moveYourTokensToNewContracts')}
           </Text>
-          <Text color="text1" fontSize={24} mb={20}>
-            {t('migratePage.migrateWithDescription')}
+          <Text color="text1" fontSize={18} mb={20} lineHeight="24px">
+            {t('migratePage.moveYourTokensToNewContractsDescription')}
           </Text>
 
           <ButtonRow>
@@ -70,7 +70,9 @@ const MigrateUI = () => {
           </ButtonRow>
         </Box>
         <HideSmall>
-          <img src={MigrationVector} alt="Migration" />
+          <Box pt={40}>
+            <img src={MigrationVector} alt="Migration" />
+          </Box>
         </HideSmall>
       </FirstWrapper>
 
@@ -78,7 +80,7 @@ const MigrateUI = () => {
         <StatCard
           icon={<StatisticImage src={AlreadyMigrate} alt="Already Migrate" />}
           title={t('migratePage.alreadyMigrate')}
-          stat={`250.000$`}
+          stat={`$250.000`}
         />
 
         <StatCard
@@ -90,16 +92,16 @@ const MigrateUI = () => {
         <StatCard
           icon={<StatisticImage src={AlreadyEarned} alt="Alread yEarned" />}
           title={t('migratePage.alreadyEarned')}
-          stat={`150.000$`}
+          stat={`$150.000`}
         />
       </PanelWrapper>
 
       <InfoWrapper>
         <Box>
-          <Text color="text1" fontSize={48} mb={10} fontWeight="900">
+          <Text color="text1" fontSize={32} mb={10} fontWeight="900">
             {t('migratePage.migrateWithEase')}
           </Text>
-          <Text color="text1" fontSize={24}>
+          <Text color="text1" fontSize={16}>
             {t('migratePage.migrateWithDescription')}
           </Text>
         </Box>
@@ -108,7 +110,7 @@ const MigrateUI = () => {
             <CircleIcon>
               <StatisticImage src={Unstake} alt="Already Migrate" />
             </CircleIcon>
-            <Text color="text1" fontSize={24} mt={10}>
+            <Text color="text1" fontSize={18} mt={10}>
               {t('migratePage.unstake')}
             </Text>
           </Box>
@@ -118,7 +120,7 @@ const MigrateUI = () => {
             <CircleIcon>
               <StatisticImage src={Stake} alt="Already Migrate" />
             </CircleIcon>
-            <Text color="text1" fontSize={24} mt={10}>
+            <Text color="text1" fontSize={18} mt={10}>
               {t('migratePage.stake')}
             </Text>
           </Box>
@@ -127,10 +129,10 @@ const MigrateUI = () => {
 
       <Box mt={50}>
         <Box textAlign="center">
-          <Text color="text1" fontSize={48} mb={10} fontWeight="900">
+          <Text color="text1" fontSize={24} mb={10} fontWeight="900">
             {t('migratePage.startMigratingNow')}
           </Text>
-          <Text color="text1" fontSize={24}>
+          <Text color="text1" fontSize={16}>
             {t('migratePage.startMigratingNowDescription')}
           </Text>
         </Box>
@@ -143,7 +145,7 @@ const MigrateUI = () => {
           </Box>
         ) : v2IsLoading ? (
           <EmptyProposals>
-            <Text color="text3" textAlign="center" fontSize={24}>
+            <Text color="text3" textAlign="center" fontSize={16}>
               <Dots>{t('pool.loading')}</Dots>
             </Text>
           </EmptyProposals>
