@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Échanger",
     "buy": "Acheter",
     "pool": "Pool",
@@ -127,7 +128,7 @@
     "acceptUpdate": "Accepter la mise à jour",
     "dismiss": "Rejeter"
   },
-  "positionCard":{
+  "positionCard": {
     "add": "Ajouter",
     "remove": "Retirer",
     "poolShare": "Votre part de la pool:",
@@ -163,8 +164,7 @@
     "select": "Sélectionner",
     "manageTokenLists": "Gérer les listes de jetons"
   },
-  "settings":
-  {
+  "settings": {
     "areYouSure": "Vous êtes sûr ?",
     "expertInfo": "Le mode expert désactive l'invite de confirmation de la transaction et autorise les transactions à fort slippage qui entraînent souvent de mauvais taux et des pertes de fonds.",
     "expertWarningCAPS": "N'UTILISEZ CE MODE QUE SI VOUS SAVEZ CE QUE VOUS FAITES.",
@@ -497,13 +497,13 @@
     "startMigratingNowDescription": "Vous trouverez ci-dessous toutes les fermes dont vous aurez besoin pour migrer vers les contrats V2 de Pangolin",
     "seeMore": "VOIR PLUS",
     "migrateWithEase": "MIGRER FACILEMENT",
-    "migrateWithDescription":"Nous avons conçu un assistant élégant qui vous guidera tout au long du processus de migration de vos fermes.",
+    "migrateWithDescription": "Nous avons conçu un assistant élégant qui vous guidera tout au long du processus de migration de vos fermes.",
     "alreadyMigrate": "déjà migré",
     "walletMigrate": "portefeuille migré",
     "alreadyEarned": "déjà gagné",
     "migrateNow": "MIGRER MAINTENANT",
     "learn": "APPRENDRE",
-    "moveYourTokensToNewContracts" :"Migrer vos fermes vers Pangolin V2",
+    "moveYourTokensToNewContracts": "Migrer vos fermes vers Pangolin V2",
     "readyToMigrate": "Prêt à migrer",
     "apr": "APR:",
     "totalValueLocked": "Valeur totale verrouillée",
@@ -525,7 +525,15 @@
     "back": "Arrière",
     "availableToUnstake": "Disponible à démêler: ",
     "submittingTransaction": "Soumission de la transaction",
-    "moveYourTokensToNewContractsDescription" :"Dans le cadre du déploiement de Pangolin vers de nouveaux contrats améliorés, vous devrez migrer vos fermes. Si vous avez besoin d'aide ou de conseils, veuillez cliquer sur le bouton « Apprendre ».",
+    "moveYourTokensToNewContractsDescription": "Dans le cadre du déploiement de Pangolin vers de nouveaux contrats améliorés, vous devrez migrer vos fermes. Si vous avez besoin d'aide ou de conseils, veuillez cliquer sur le bouton « Apprendre ».",
     "migrateModalHeading": "Migration {{ current }} de la {{ total }} ferme"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets"
   }
 }

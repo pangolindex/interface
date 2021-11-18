@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Intercambio",
     "buy": "Comprar",
     "pool": "Pool",
@@ -496,13 +497,13 @@
     "startMigratingNowDescription": "A continuación encontrará todas las granjas que necesitará para migrar a los contratos V2 de Pangolin",
     "seeMore": "VER MÁS",
     "migrateWithEase": "MIGRA CON FACILIDAD",
-    "migrateWithDescription":"Hemos diseñado un asistente elegante, que lo guiará a través del proceso de migración de sus Fincas.",
+    "migrateWithDescription": "Hemos diseñado un asistente elegante, que lo guiará a través del proceso de migración de sus Fincas.",
     "alreadyMigrate": "Ya migrada",
     "walletMigrate": "billetera migrada",
     "alreadyEarned": "ya gana",
     "migrateNow": "MIGRA AHORA",
     "learn": "APRENDER",
-    "moveYourTokensToNewContracts" :"Migre sus granjas a Pangolin V2",
+    "moveYourTokensToNewContracts": "Migre sus granjas a Pangolin V2",
     "readyToMigrate": "Lista para migrar",
     "apr": "APR:",
     "totalValueLocked": "Valor total bloqueado",
@@ -524,7 +525,15 @@
     "back": "atrás",
     "availableToUnstake": "Disponible para desaplicar: ",
     "submittingTransaction": "Enviar transacción",
-    "moveYourTokensToNewContractsDescription" :"Como parte del lanzamiento de Pangolin a nuevos contratos mejorados, deberá migrar sus granjas. Si necesita ayuda u orientación, haga clic en el botón 'Aprender'",
+    "moveYourTokensToNewContractsDescription": "Como parte del lanzamiento de Pangolin a nuevos contratos mejorados, deberá migrar sus granjas. Si necesita ayuda u orientación, haga clic en el botón 'Aprender'",
     "migrateModalHeading": "Migrar {{ current }} de {{ total }} granja"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets"
   }
 }
