@@ -83,6 +83,11 @@ const Stake = ({
     }
   }
 
+  const onMax = () => {
+    setStepIndex(4)
+    setStakingAmount(userLiquidityUnstaked.toExact())
+  }
+
   useEffect(() => {
     setStakingAmount(userLiquidityUnstaked.toExact())
     setStepIndex(4)
@@ -250,6 +255,7 @@ const Stake = ({
             amount={stakingAmount}
             onChangeAmount={onChangeAmount}
             userPoolBalance={userLiquidityUnstaked}
+            onMax={onMax}
           />
 
           <Box mt={10}>
