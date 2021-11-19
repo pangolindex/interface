@@ -1,5 +1,5 @@
 import React from 'react'
-import { InfoWrapper, DataBox, ContentBox, TextBox } from './styleds'
+import { InfoWrapper, DataBox, ContentBox, TextBox, StyledBalanceMax } from './styleds'
 import { Text, Box, DoubleCurrencyLogo, Steps, Step } from '@pangolindex/components'
 import { Pair, TokenAmount } from '@pangolindex/sdk'
 import { useGetPairDataFromPair } from '../../../state/stake/hooks'
@@ -22,6 +22,7 @@ export interface PoolInfoProps {
   onChangeAmount?: (value: string) => void
   userPoolBalance?: TokenAmount
   unStakeAmount?: TokenAmount
+  onMax: () => void
 }
 
 const PoolInfo = ({
@@ -33,7 +34,8 @@ const PoolInfo = ({
   onChangeDot,
   onChangeAmount,
   userPoolBalance,
-  unStakeAmount
+  unStakeAmount,
+  onMax
 }: PoolInfoProps) => {
   const { account, chainId } = useActiveWeb3React()
 
@@ -159,9 +161,13 @@ const PoolInfo = ({
         <TextBox
           value={amount ? amount : ''}
           addonAfter={
-            <Text color="text4" fontSize={24}>
-              PGL
-            </Text>
+            <Box display="flex" alignItems="center">
+              <StyledBalanceMax onClick={onMax}>{t('currencyInputPanel.max')}</StyledBalanceMax>
+
+              <Text color="text4" fontSize={24}>
+                PGL
+              </Text>
+            </Box>
           }
           onChange={(value: any) => {
             onChangeAmount && onChangeAmount(value)

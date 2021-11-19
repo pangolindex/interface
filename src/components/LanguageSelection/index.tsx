@@ -30,6 +30,7 @@ export const ClickableMenuItem = styled.a`
 const FlagIcon = styled.img`
   height: 15px;
   width: 21px;
+  margin-top: 3px;
 `
 
 interface Props {

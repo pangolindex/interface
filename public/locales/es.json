@@ -34,7 +34,7 @@
     "disconnect": "Desconectar",
     "change": "Cambiar",
     "copy": "Copiar dirección",
-    "viewExplorer": "Ver en el Explorador C-Chain",
+    "viewExplorer": "Ver en el Explorador Snowtrace",
     "clearAll": "(borrar todo)",
     "transactionAppear": "Tus transacciones aparecerán aquí...",
     "recentTransactions": "Transacciones recientes",
@@ -42,7 +42,7 @@
   },
   "addressInputPanel": {
     "recipient": "Recipient",
-    "viewExplorer": "(Ver en el  Explorador C-Chain de Avalanche)",
+    "viewExplorer": "(Ver en el  Explorador Snowtrace de Avalanche)",
     "walletAddress": "Dirección de la cartera"
   },
   "currencyInputPanel": {
@@ -103,7 +103,7 @@
   },
   "modalView": {
     "confirmTransaction": "Confirma esta transacción en tu cartera",
-    "viewTransaction": "Ver la transacción en el Explorador C-Chain"
+    "viewTransaction": "Ver la transacción en el Explorador Snowtrace"
   },
   "navigationTabs": {
     "useThisTool": "Usa esta herramienta para encontrar parejas que no aparecen automáticamente en la interfaz.",
@@ -119,7 +119,7 @@
   "popups": {
     "tokenListUpdated": "la lista de Tokens \" {{oldList}} \" se ha actualizado a ",
     "updateAvailable": "Hay una actualización disponible para la lista de Tokens \" {{oldList}} \"",
-    "viewExplorer": "View on the C-Chain Explorer",
+    "viewExplorer": "View on the Snowtrace Explorer",
     "hash": "Hash: ",
     "added": "añadido",
     "removed": "retirado",
@@ -210,13 +210,13 @@
     "purchaseArbitraryWarning": "Si compras un token arbitrario, <strong>puede que no pueda venderlo devuelta.</strong>",
     "understand": "Lo entiendo",
     "continue": "Continuar",
-    "viewExplorer": "Ver en el Explorador C-Chain"
+    "viewExplorer": "Ver en el Explorador Snowtrace"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "Esperando confirmación",
     "confirmTransaction": "Confirme esta transacción en su cartera",
     "transactionSubmitted": "Transacción enviada",
-    "viewExplorer": "Ver en el Explorador C-Chain",
+    "viewExplorer": "Ver en el Explorador Snowtrace",
     "close": "Cerrar",
     "error": "Error",
     "dismiss": "Descartar"
@@ -249,7 +249,7 @@
     "votes": "Votos",
     "submittingVote": "Enviando voto",
     "confirmTransaction": "Confirme esta transacción en su cartera",
-    "viewExplorer": "Ver en el Explorador C-Chain"
+    "viewExplorer": "Ver en el Explorador Snowtrace"
   },
   "walletModal": {
     "wrongNetwork": "Red errónea",
@@ -493,16 +493,16 @@
     "add": "AGREGAR",
     "remove": "RETIRAR",
     "startMigratingNow": "EMPIECE A MIGRAR AHORA",
-    "startMigratingNowDescription": "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Etiam Justo Libero, Scelerisque Quis Ipsum Quis, Viverra Ornare Odio. Vestibulum Imperdiet",
+    "startMigratingNowDescription": "A continuación encontrará todas las granjas que necesitará para migrar a los contratos V2 de Pangolin",
     "seeMore": "VER MÁS",
     "migrateWithEase": "MIGRA CON FACILIDAD",
-    "migrateWithDescription":"¡Oye Anon! Nos hemos dado cuenta de que tiene algunas fichas en su billetera que deben moverse sobre Pangolin. También puede mover tokens a través de Trader Joe, Lydia y Canary.",
+    "migrateWithDescription":"Hemos diseñado un asistente elegante, que lo guiará a través del proceso de migración de sus Fincas.",
     "alreadyMigrate": "Ya migrada",
     "walletMigrate": "billetera migrada",
     "alreadyEarned": "ya gana",
     "migrateNow": "MIGRA AHORA",
     "learn": "APRENDER",
-    "moveYourTokensToNewContracts" :"MUEVA SUS TOKENS A NUEVOS CONTRATOS",
+    "moveYourTokensToNewContracts" :"Migre sus granjas a Pangolin V2",
     "readyToMigrate": "Lista para migrar",
     "apr": "APR:",
     "totalValueLocked": "Valor total bloqueado",
@@ -523,6 +523,8 @@
     "loading": "Cargando",
     "back": "atrás",
     "availableToUnstake": "Disponible para desaplicar: ",
-    "submittingTransaction": "Enviar transacción"
+    "submittingTransaction": "Enviar transacción",
+    "moveYourTokensToNewContractsDescription" :"Como parte del lanzamiento de Pangolin a nuevos contratos mejorados, deberá migrar sus granjas. Si necesita ayuda u orientación, haga clic en el botón 'Aprender'",
+    "migrateModalHeading": "Migrar {{ current }} de {{ total }} granja"
   }
 }

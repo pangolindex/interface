@@ -50,6 +50,7 @@ const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean; isBeta: b
   border: none;
   color: ${({ theme, isBeta }) => (isBeta ? theme.white : theme.primaryText1)};
   font-weight: 500;
+  padding: ${({ isBeta }) => (isBeta ? '0.35rem' : '0.5rem')};
 
   :hover,
   :focus {
