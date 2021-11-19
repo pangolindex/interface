@@ -164,9 +164,9 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
             })}
           </Menu>
 
-          <Box mt={collapsed ? '0px' : '10px'}>
+          <Box mt={collapsed ? '0px' : '10px'} overflowY="hidden">
             {!collapsed && (
-              <Box height={35}>
+              <Box height={35} overflowY="hidden">
                 <Text color="color2" fontSize={12}>
                   PANGOLIN LINKS{' '}
                 </Text>
@@ -187,7 +187,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
           <Box mt={collapsed ? '0px' : '10px'}>
             {!collapsed && (
-              <Box height={35}>
+              <Box height={35} overflowY="hidden">
                 <Text color="color2" fontSize={12}>
                   {t('header.usefulLinks')}
                 </Text>

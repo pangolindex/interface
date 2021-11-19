@@ -22,6 +22,10 @@ export const Sider = styled.div<{ collapsed: boolean }>`
   width: 100%;
   height: 100%
   `};
+
+  * {
+    overflow-x: hidden !important;
+  }
 `
 
 export const BottomBar = styled.div`
@@ -101,6 +105,8 @@ export const MenuExternalLink = styled(ExternalLink).attrs({
   width: fit-content;
   margin: 0 8px;
   font-weight: 500;
+  overflow-y: hidden;
+  white-space: nowrap;
 
   :hover,
   :focus {
@@ -124,6 +130,8 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
   background-color: ${({ theme, isActive }) => (isActive ? darken(0.2, theme.color1) : 'transparent')};
   border-radius: 9px;
   margin-bottom: 5px;
+  overflow-y: hidden;
+  white-space: nowrap;
 
   :hover,
   :focus {
