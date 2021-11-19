@@ -10,6 +10,7 @@ import {
   CardBody
 } from './styleds'
 import { useTranslation } from 'react-i18next'
+import TradingViewChart from './TradingViewChart'
 
 const Dashboard = () => {
   const { t } = useTranslation()
@@ -21,7 +22,9 @@ const Dashboard = () => {
       <TopContainerWrapper>
         <Card>
           <CardHeader>{t('dashboardPage.portfolioValue')}</CardHeader>
-          <CardBody></CardBody>
+          <CardBody>
+            <TradingViewChart />
+          </CardBody>
         </Card>
         <div>
           <TopContainerWrapper>

@@ -133,6 +133,7 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@types/crypto-js": "^4.0.2",
-    "crypto-js": "^4.0.0"
+    "crypto-js": "^4.0.0",
+    "lightweight-charts": "^3.7.0"
   }
 }
