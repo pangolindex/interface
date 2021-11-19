@@ -34,7 +34,7 @@
     "disconnect": "登出帐户",
     "change": "更改",
     "copy": "复制地址",
-    "viewExplorer": "在 C-Chain Explorer 上查看",
+    "viewExplorer": "在 Snowtrace Explorer 上查看",
     "clearAll": "(清除所有)",
     "transactionAppear": "您的交易将显示在此处...",
     "recentTransactions": "近期的交易",
@@ -42,7 +42,7 @@
   },
   "addressInputPanel": {
     "recipient": "接收者",
-    "viewExplorer": "(在 Avalanche C-Chain Explorer 上查看)",
+    "viewExplorer": "(在 Avalanche Snowtrace Explorer 上查看)",
     "walletAddress": "钱包地址"
   },
   "currencyInputPanel": {
@@ -103,7 +103,7 @@
   },
   "modalView": {
     "confirmTransaction": "在您的钱包中确认此交易",
-    "viewTransaction": "在 C-Chain Explore 上查看交易"
+    "viewTransaction": "在 Snowtrace Explore 上查看交易"
   },
   "navigationTabs": {
     "useThisTool": "使用此工具查找交易对不会自动出现在界面中",
@@ -119,7 +119,7 @@
   "popups": {
     "tokenListUpdated": "代币列表\" {{oldList}} \" 已更新为 ",
     "updateAvailable": "代币列表有更新可用 \" {{oldList}} \"",
-    "viewExplorer": "在 C-Chain Explorer 上查看",
+    "viewExplorer": "在 Snowtrace Explorer 上查看",
     "hash": "哈希: ",
     "added": "已添加",
     "removed": "已移除",
@@ -210,13 +210,13 @@
     "purchaseArbitraryWarning": "如果您购买任意代币，<strong>您可能无法将其卖回。</strong>",
     "understand": "我明白",
     "continue": "继续",
-    "viewExplorer": "在 C-Chain Explorer 上查看"
+    "viewExplorer": "在 Snowtrace Explorer 上查看"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "等待确认",
     "confirmTransaction": "在您的钱包中确认此交易",
     "transactionSubmitted": "交易提交",
-    "viewExplorer": "在 C-Chain Explorer 上查看",
+    "viewExplorer": "在 Snowtrace Explorer 上查看",
     "close": "关闭",
     "error": "错误",
     "dismiss": "撤回"
@@ -249,7 +249,7 @@
     "votes": "投票",
     "submittingVote": "提交投票",
     "confirmTransaction": "在您的钱包中确认此交易",
-    "viewExplorer": "在 C-Chain Explorer 上查看"
+    "viewExplorer": "在 Snowtrace Explorer 上查看"
   },
   "walletModal": {
     "wrongNetwork": "错误的网络",
@@ -493,16 +493,16 @@
     "add": "添加",
     "remove": "消除",
     "startMigratingNow": "立即开始迁移",
-    "startMigratingNowDescription": "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Etiam Justo Libero, Scelerisque Quis Ipsum Quis, Viverra Ornare Odio. Vestibulum Imperdiet",
+    "startMigratingNowDescription": "您将在下方找到您需要迁移到的所有农场 Pangolin's V2 合同",
     "seeMore": "查看更多",
     "migrateWithEase": "轻松迁移",
-    "migrateWithDescription":"嗨，阿农！我们已经意识到您的钱包中有一些代币需要在穿山甲上移动。您还可以通过 Trader Joe、Lydia 和 Canary 转移代币。",
+    "migrateWithDescription":"我们设计了一个优雅的向导，它将帮助指导您完成迁移农场的过程",
     "alreadyMigrate": "已经迁移",
     "walletMigrate": "钱包迁移",
     "alreadyEarned": "已经赚了",
     "migrateNow": "立即迁移",
     "learn": "学习",
-    "moveYourTokensToNewContracts" :"将您的代币转移到新合约中",
+    "moveYourTokensToNewContracts" :"将您的农场迁移到 Pangolin V2",
     "readyToMigrate": "准备迁移",
     "apr": "APR:",
     "totalValueLocked": "总价值锁定",
@@ -523,6 +523,8 @@
     "loading": "加载中",
     "back": "后退",
     "availableToUnstake": "可取消抵押: ",
-    "submittingTransaction": "提交交易"
+    "submittingTransaction": "提交交易",
+    "moveYourTokensToNewContractsDescription" :"作为...的一部分 Pangolin's 推出新的改进合同，您将需要迁移您的农场。如果您需要任何帮助或指导，请单击“学习”按钮。",
+    "migrateModalHeading": "迁移 {{ current }} 的 {{ total }} 农场"
   }
 }

@@ -17,8 +17,7 @@ import {
   updateUserDeadline,
   updateUserExpertMode,
   updateUserSlippageTolerance,
-  toggleURLWarning,
-  updateDrawerCollapsedMode
+  toggleURLWarning
 } from './actions'
 
 function serializeToken(token: Token): SerializedToken {
@@ -65,28 +64,6 @@ export function useDarkModeManager(): [boolean, () => void] {
   }, [darkMode, dispatch])
 
   return [darkMode, toggleSetDarkMode]
-}
-
-export function useIsDrawerCollapsed(): boolean {
-  const { isDrawerCollapsed } = useSelector<AppState, { isDrawerCollapsed: boolean }>(
-    ({ user: { isDrawerCollapsed } }) => ({
-      isDrawerCollapsed
-    }),
-    shallowEqual
-  )
-
-  return isDrawerCollapsed
-}
-
-export function useDrawerCollapsedManager(): [boolean, () => void] {
-  const dispatch = useDispatch<AppDispatch>()
-  const collapsedMode = useIsDrawerCollapsed()
-
-  const toggleSetCollapsedMode = useCallback(() => {
-    dispatch(updateDrawerCollapsedMode({ isDrawerCollapsed: !collapsedMode }))
-  }, [collapsedMode, dispatch])
-
-  return [collapsedMode, toggleSetCollapsedMode]
 }
 
 export function useIsExpertMode(): boolean {

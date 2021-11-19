@@ -72,6 +72,11 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
     }
   }
 
+  const onMax = () => {
+    setStepIndex(4)
+    setUnstakingAmount(stakingInfo?.stakedAmount?.toExact())
+  }
+
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
@@ -119,6 +124,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
         amount={unStakingAmount}
         onChangeAmount={onChangeAmount}
         unStakeAmount={stakingInfo?.stakedAmount}
+        onMax={onMax}
       />
 
       <Box mt={10}>

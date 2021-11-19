@@ -26,7 +26,7 @@ const MigrationCard = ({ pair, onClickMigrate, stakingData }: StatProps) => {
     <Panel>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Box>
-          <Text color="text1" fontSize={42} fontWeight={500}>
+          <Text color="text1" fontSize={24} fontWeight={500}>
             {currency0.symbol}-{currency1.symbol}
           </Text>
           <OptionsWrapper>

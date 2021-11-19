@@ -20,7 +20,11 @@ const PairData = ({ pair, stakingData, selected, address, toggleIndividualSelect
   let totalLiqAmount = stakingData?.stakedAmount
   const { t } = useTranslation()
   return (
-    <PairBox>
+    <PairBox
+      onClick={() => {
+        toggleIndividualSelect(address)
+      }}
+    >
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Checkbox value={address} checked={selected} onChange={() => toggleIndividualSelect(address)} />
         <Box ml="5px" mr="5px">

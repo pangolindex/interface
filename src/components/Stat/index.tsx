@@ -11,12 +11,12 @@ const Stat = ({ title, titlePosition, stat }: StatProps) => {
   return (
     <Box display="inline-block">
       {titlePosition === 'top' && (
-        <Text color="text1" fontSize={16}>
+        <Text color="text1" fontSize={20}>
           {title}
         </Text>
       )}
 
-      <Text color="text1" fontSize={30}>
+      <Text color="text1" fontSize={16}>
         {stat}
       </Text>
 
