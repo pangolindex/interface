@@ -101,7 +101,7 @@ const PoolInfo = ({
   }
 
   const dollerWorthRow = {
-    label: `${t('migratePage.dollerWarth')}`,
+    label: `${t('migratePage.dollarWorth')}`,
     value: `${numeral(
       totalAmountUsd
         ?.multiply(parsedAmount || JSBI.BigInt(0))
