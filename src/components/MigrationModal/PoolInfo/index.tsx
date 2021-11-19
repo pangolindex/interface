@@ -62,8 +62,6 @@ const PoolInfo = ({
     )
   }
 
-  console.log('amount', amount)
-
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token) as TokenAmount
 
   const unClaimedPng = stakingInfo?.earnedAmount?.toFixed(6) ?? '0'
