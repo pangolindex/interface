@@ -14,4 +14,5 @@ export const PairBox = styled(Box)`
   border-radius: 4px;
   border: 1px solid ${({ theme }) => theme.text2};
   margin: 5px 0px 5px 0px;
+  cursor: pointer;
 `

@@ -129,6 +129,7 @@ export const EmptyProposals = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 10px;
 `
 export const HideSmall = styled.div`
   ${({ theme }) => theme.mediaWidth.upToSmall`
