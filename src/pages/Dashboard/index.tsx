@@ -6,7 +6,8 @@ import {
   TopContainerWrapper,
   BottomContainerWrapper,
   Card,
-  CardHeader
+  CardHeader,
+  CardBody
 } from './styleds'
 import { useTranslation } from 'react-i18next'
 
@@ -20,6 +21,7 @@ const Dashboard = () => {
       <TopContainerWrapper>
         <Card>
           <CardHeader>{t('dashboardPage.portfolioValue')}</CardHeader>
+          <CardBody></CardBody>
         </Card>
         <div>
           <TopContainerWrapper>
@@ -28,11 +30,16 @@ const Dashboard = () => {
             </Card>
             <Card>
               <CardHeader>{t('dashboardPage.earned')}</CardHeader>
+              <CardBody>
+                {t('dashboardPage.earned_dailyIncome')}
+                {t('dashboardPage.earned_totalEarned')}
+              </CardBody>
             </Card>
           </TopContainerWrapper>
           <BottomContainerWrapper>
             <Card>
               <CardHeader>{t('dashboardPage.coins')}</CardHeader>
+              <CardBody></CardBody>
             </Card>
           </BottomContainerWrapper>
         </div>
@@ -40,6 +47,7 @@ const Dashboard = () => {
       <BottomContainerWrapper>
         <Card>
           <CardHeader>{t('dashboardPage.followedWallets')}</CardHeader>
+          <CardBody></CardBody>
         </Card>
       </BottomContainerWrapper>
     </PageWrapper>
