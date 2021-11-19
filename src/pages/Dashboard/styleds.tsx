@@ -8,6 +8,7 @@ export const PageWrapper = styled(Box)`
 export const PageTitle = styled.div`
   font-size: 48px;
   line-height: 56px;
+  margin-bottom: 12px;
 
   color: ${({ theme }) => theme.text7};
 `
@@ -15,6 +16,7 @@ export const PageTitle = styled.div`
 export const PageDescription = styled.div`
   font-size: 28px;
   line-height: 42px;
+  margin-bottom: 30px;
 
   color: ${({ theme }) => theme.text8};
 `
@@ -34,8 +36,17 @@ export const Card = styled(Box)`
   padding: 25px 30px;
   margin-right: 22px;
   background: #111111;
+  border-radius: 8px;
 `
 
 export const CardHeader = styled(Box)`
   width: 100%;
+  color: ${({ theme }) => theme.text7};
+  font-size: 32px;
+  line-height: 48px;
+`
+
+export const CardBody = styled(Box)`
+  width: 100%;
+  color: ${({ theme }) => theme.text7};
 `
