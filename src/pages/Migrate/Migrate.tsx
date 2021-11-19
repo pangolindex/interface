@@ -47,7 +47,7 @@ const MigrateUI = () => {
   return (
     <PageWrapper>
       <FirstWrapper>
-        <Box>
+        <Box maxWidth={500}>
           <Text color="text1" fontSize={32} mb={20} fontWeight="900" lineHeight="48px">
             {t('migratePage.moveYourTokensToNewContracts')}
           </Text>
