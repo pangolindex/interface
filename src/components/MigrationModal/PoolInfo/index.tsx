@@ -10,6 +10,7 @@ import { useTokenBalance } from '../../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../../hooks'
 import { wrappedCurrencyAmount } from '../../../utils/wrappedCurrency'
 import { tryParseAmount } from '../../../state/swap/hooks'
+import { JSBI } from '@pangolindex/sdk'
 
 export interface PoolInfoProps {
   pair: Pair
@@ -61,6 +62,8 @@ const PoolInfo = ({
     )
   }
 
+  console.log('amount', amount)
+
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token) as TokenAmount
 
   const unClaimedPng = stakingInfo?.earnedAmount?.toFixed(6) ?? '0'
@@ -69,26 +72,40 @@ const PoolInfo = ({
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
   const pngRate = parsedAmountWrapped?.greaterThan('0')
-    ? stakingInfo?.getHypotheticalRewardRate(
-        stakingInfo?.stakedAmount.subtract(parsedAmountWrapped),
-        stakingInfo?.totalStakedAmount.subtract(parsedAmountWrapped),
-        stakingInfo?.totalRewardRate
-      )
-      .multiply((60 * 60 * 24 * 7).toString())
-      .toSignificant(4, { groupSeparator: ',' })
+    ? stakingInfo
+        ?.getHypotheticalRewardRate(
+          stakingInfo?.stakedAmount.subtract(parsedAmountWrapped),
+          stakingInfo?.totalStakedAmount.subtract(parsedAmountWrapped),
+          stakingInfo?.totalRewardRate
+        )
+        .multiply((60 * 60 * 24 * 7).toString())
+        .toSignificant(4, { groupSeparator: ',' })
     : stakingInfo?.rewardRate?.multiply((60 * 60 * 24 * 7).toString())?.toSignificant(4, { groupSeparator: ',' })
 
   const currency0Row = {
     label: `${currency0.symbol} Amount:`,
-    value: `${token0Deposited?.multiply((stepIndex ?? 0).toString()).divide('4').toSignificant(6)}`
+    value: `${token0Deposited
+      ?.multiply(parsedAmount || JSBI.BigInt(0))
+      .divide(userPoolBalance || JSBI.BigInt(1))
+      .toSignificant(6)}`
   }
+
   const currency1Row = {
     label: `${currency1.symbol} Amount:`,
-    value: `${token1Deposited?.multiply((stepIndex ?? 0).toString()).divide('4').toSignificant(6)}`
+    value: `${token1Deposited
+      ?.multiply(parsedAmount || JSBI.BigInt(0))
+      .divide(userPoolBalance || JSBI.BigInt(1))
+      .toSignificant(6)}`
   }
+
   const dollerWorthRow = {
     label: `${t('migratePage.dollerWarth')}`,
-    value: `${numeral(totalAmountUsd.multiply((stepIndex ?? 0).toString()).divide('4')?.toFixed(2)).format('$0.00 a')}`
+    value: `${numeral(
+      totalAmountUsd
+        ?.multiply(parsedAmount || JSBI.BigInt(0))
+        .divide(userPoolBalance || JSBI.BigInt(1))
+        ?.toFixed(2)
+    ).format('$0.00 a')}`
   }
 
   const yourPngRate = {

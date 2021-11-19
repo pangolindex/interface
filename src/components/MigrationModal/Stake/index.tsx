@@ -242,6 +242,7 @@ const Stake = ({
       <PoolInfo
         pair={pair}
         type="stake"
+        stakingInfo={stakingInfo}
         stepIndex={stepIndex}
         onChangeDot={onChangeDot}
         amount={stakingAmount}
