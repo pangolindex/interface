@@ -39,6 +39,19 @@ export const CollapseBar = styled.div`
   background-color: ${({ theme }) => theme.bg6};
   width: '100%';
   transition: all 0.2s;
+  display: none;
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+   display:block;
+  `};
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   display:block;
+  `};
+
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+   display:block;
+  `};
 `
 
 export const MenuWrapper = styled.div`
@@ -110,7 +123,7 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
   height: 50px;
   background-color: ${({ theme, isActive }) => (isActive ? darken(0.2, theme.color1) : 'transparent')};
   border-radius: 9px;
-  margin-bottom : 5px;
+  margin-bottom: 5px;
 
   :hover,
   :focus {
