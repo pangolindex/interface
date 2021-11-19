@@ -21,7 +21,6 @@ export interface PoolInfoProps {
   amount?: string
   onChangeAmount?: (value: string) => void
   userPoolBalance?: TokenAmount
-  unStakeAmount?: TokenAmount
   onMax: () => void
 }
 
@@ -34,7 +33,6 @@ const PoolInfo = ({
   onChangeDot,
   onChangeAmount,
   userPoolBalance,
-  unStakeAmount,
   onMax
 }: PoolInfoProps) => {
   const { account, chainId } = useActiveWeb3React()
@@ -136,7 +134,7 @@ const PoolInfo = ({
     } else {
       return (
         <Text color="text4" fontSize={12}>
-          {t('migratePage.availableToUnstake')} {unStakeAmount?.toSignificant(6)}
+          {t('migratePage.availableToUnstake')} {stakingInfo?.stakedAmount?.toSignificant(6)}
         </Text>
       )
     }

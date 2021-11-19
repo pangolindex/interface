@@ -42,10 +42,14 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
     let stakingToken = stakingInfo?.stakedAmount?.token
     const parsedInput = tryParseAmount(unStakingAmount, stakingToken) as TokenAmount
 
-    if (parsedInput && stakingInfo?.stakedAmount && JSBI.greaterThan(parsedInput.raw, stakingInfo?.stakedAmount.raw)) {
-      setIsValidAmount(false)
-    } else {
+    if (parsedInput
+      && stakingInfo?.stakedAmount
+      && JSBI.lessThanOrEqual(parsedInput.raw, stakingInfo?.stakedAmount.raw)
+      && JSBI.greaterThan(parsedInput.raw, JSBI.BigInt(0))
+    ) {
       setIsValidAmount(true)
+    } else {
+      setIsValidAmount(false)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,7 +127,6 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
         onChangeDot={onChangeDot}
         amount={unStakingAmount}
         onChangeAmount={onChangeAmount}
-        unStakeAmount={stakingInfo?.stakedAmount}
         onMax={onMax}
       />
 
