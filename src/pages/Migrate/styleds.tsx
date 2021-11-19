@@ -9,6 +9,8 @@ export const PageWrapper = styled(Box)`
 
 export const FirstWrapper = styled(RowFixed)`
   gap: 40px;
+  width: 100%;
+  justify-content: space-between;
   ${({ theme }) => theme.mediaWidth.upToSmall`
   width: 100%;
   justify-content: space-between;
