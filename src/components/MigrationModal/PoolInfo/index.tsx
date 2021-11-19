@@ -69,7 +69,11 @@ const PoolInfo = ({
   const parsedAmount = tryParseAmount(amount, stakingInfo?.stakedAmount?.token)
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  const pngRate = parsedAmountWrapped?.greaterThan('0')
+  const validPngRateInputs = !!parsedAmountWrapped
+    && stakingInfo?.stakedAmount.greaterThan(parsedAmountWrapped)
+    && stakingInfo?.totalStakedAmount.greaterThan(parsedAmountWrapped)
+
+  const pngRate = !!parsedAmountWrapped && validPngRateInputs
     ? stakingInfo
         ?.getHypotheticalRewardRate(
           stakingInfo?.stakedAmount.subtract(parsedAmountWrapped),
