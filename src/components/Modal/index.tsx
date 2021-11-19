@@ -9,7 +9,7 @@ import { useGesture } from 'react-use-gesture'
 
 const AnimatedDialogOverlay = animated(DialogOverlay)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StyledDialogOverlay = styled(AnimatedDialogOverlay)`
+const StyledDialogOverlay = styled(AnimatedDialogOverlay)<{ overlayBG?: string }>`
   &[data-reach-dialog-overlay] {
     z-index: 2;
     background-color: transparent;
@@ -19,7 +19,7 @@ const StyledDialogOverlay = styled(AnimatedDialogOverlay)`
     align-items: center;
     justify-content: center;
 
-    background-color: ${({ theme }) => theme.modalBG};
+    background-color: ${({ theme, overlayBG }) => (overlayBG ? overlayBG : theme.modalBG)};
   }
 `
 
@@ -81,6 +81,7 @@ interface ModalProps {
   maxHeight?: number
   initialFocusRef?: React.RefObject<any>
   children?: React.ReactNode
+  overlayBG?: string
 }
 
 export default function Modal({
@@ -89,7 +90,8 @@ export default function Modal({
   minHeight = false,
   maxHeight = 90,
   initialFocusRef,
-  children
+  children,
+  overlayBG
 }: ModalProps) {
   const fadeTransition = useTransition(isOpen, null, {
     config: { duration: 200 },
@@ -115,12 +117,18 @@ export default function Modal({
       {fadeTransition.map(
         ({ item, key, props }) =>
           item && (
-            <StyledDialogOverlay key={key} style={props} onDismiss={onDismiss} initialFocusRef={initialFocusRef}>
+            <StyledDialogOverlay
+              key={key}
+              style={props}
+              onDismiss={onDismiss}
+              initialFocusRef={initialFocusRef}
+              overlayBG={overlayBG}
+            >
               <StyledDialogContent
                 {...(isMobile
                   ? {
                       ...bind(),
-                      style: { transform: y.interpolate(y => `translateY(${y > 0 ? y : 0}px)`) }
+                      style: { transform: y.interpolate(y => `translateY(${(y as number) > 0 ? y : 0}px)`) }
                     }
                   : {})}
                 aria-label="dialog content"
