@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   PageTitle,
   PageDescription,
@@ -7,13 +7,23 @@ import {
   BottomContainerWrapper,
   Card,
   CardHeader,
-  CardBody
+  CardBody,
+  Label,
+  Value,
+  FlexWrapper
 } from './styleds'
 import { useTranslation } from 'react-i18next'
+import { Button } from '@pangolindex/components'
 import TradingViewChart from './TradingViewChart'
+import PngToggle from './PngToggle'
 
 const Dashboard = () => {
   const { t } = useTranslation()
+
+  const [earnedCurrency, setEarnedCurrency] = useState<boolean>(false)
+  const handleEarnedCurrency = (currency: boolean) => {
+    setEarnedCurrency(currency)
+  }
 
   return (
     <PageWrapper>
@@ -32,10 +42,19 @@ const Dashboard = () => {
               <CardHeader>News</CardHeader>
             </Card>
             <Card>
-              <CardHeader>{t('dashboardPage.earned')}</CardHeader>
+              <CardHeader>
+                <div>{t('dashboardPage.earned')}</div>
+                <PngToggle isActive={earnedCurrency} toggle={handleEarnedCurrency} />
+              </CardHeader>
               <CardBody>
-                {t('dashboardPage.earned_dailyIncome')}
-                {t('dashboardPage.earned_totalEarned')}
+                <Label>{t('dashboardPage.earned_dailyIncome')}</Label>
+                <Value>2.400021</Value>
+                <Label>{t('dashboardPage.earned_totalEarned')}</Label>
+                <Value>2.400021</Value>
+                <FlexWrapper>
+                  <Button variant="primary">xStake</Button>
+                  <Button variant="primary">{t('dashboardPage.earned_claim')}</Button>
+                </FlexWrapper>
               </CardBody>
             </Card>
           </TopContainerWrapper>

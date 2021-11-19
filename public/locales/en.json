@@ -537,6 +537,10 @@
     "followedWallets": "Followed Wallets",
     "earned_dailyIncome": "Daily Income",
     "earned_totalEarned": "Total Earned",
-    "earned_claim": "Claim"
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
   }
 }
