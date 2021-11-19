@@ -84,7 +84,7 @@ const PoolInfo = ({
     label: `${currency0.symbol} Amount:`,
     value: `${token0Deposited
       ?.multiply(parsedAmount || JSBI.BigInt(0))
-      .divide(userPoolBalance || JSBI.BigInt(1))
+      .divide(userPoolBalance?.greaterThan('0') ? userPoolBalance : JSBI.BigInt(1))
       .toSignificant(6)}`
   }
 
@@ -92,7 +92,7 @@ const PoolInfo = ({
     label: `${currency1.symbol} Amount:`,
     value: `${token1Deposited
       ?.multiply(parsedAmount || JSBI.BigInt(0))
-      .divide(userPoolBalance || JSBI.BigInt(1))
+      .divide(userPoolBalance?.greaterThan('0') ? userPoolBalance : JSBI.BigInt(1))
       .toSignificant(6)}`
   }
 
@@ -101,7 +101,7 @@ const PoolInfo = ({
     value: `${numeral(
       totalAmountUsd
         ?.multiply(parsedAmount || JSBI.BigInt(0))
-        .divide(userPoolBalance || JSBI.BigInt(1))
+        .divide(userPoolBalance?.greaterThan('0') ? userPoolBalance : JSBI.BigInt(1))
         ?.toFixed(2)
     ).format('$0.00 a')}`
   }
