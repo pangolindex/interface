@@ -14,10 +14,9 @@ export interface PairDataProps {
   toggleIndividualSelect: (address: string) => void
 }
 
-const PairData = ({ pair, stakingData, selected, address, toggleIndividualSelect }: PairDataProps) => {
+const PairData = ({ pair, selected, address, toggleIndividualSelect }: PairDataProps) => {
   const { currency0, currency1 } = useGetPairDataFromPair(pair)
 
-  let totalLiqAmount = stakingData?.stakedAmount
   const { t } = useTranslation()
   return (
     <PairBox
@@ -31,12 +30,7 @@ const PairData = ({ pair, stakingData, selected, address, toggleIndividualSelect
           <DoubleCurrencyLogo size={25} currency0={currency0} currency1={currency1} />
         </Box>
         <Text color="text1" fontSize={16}>
-          PGL - {currency0.symbol}-{currency1.symbol} {t('migratePage.pool')}
-        </Text>
-      </Box>
-      <Box>
-        <Text color="text1" fontSize={16}>
-          {totalLiqAmount ? totalLiqAmount.toSignificant(4) : '-'} PGL
+          {currency0.symbol}-{currency1.symbol} {t('migratePage.pool')}
         </Text>
       </Box>
     </PairBox>

@@ -1,13 +1,16 @@
 import React from 'react'
 import { InfoWrapper, DataBox, ContentBox, TextBox, StyledBalanceMax } from './styleds'
 import { Text, Box, DoubleCurrencyLogo, Steps, Step } from '@pangolindex/components'
-import { Pair, Fraction, TokenAmount } from '@pangolindex/sdk'
+import { Pair, TokenAmount } from '@pangolindex/sdk'
 import { useGetPairDataFromPair } from '../../../state/stake/hooks'
 import numeral from 'numeral'
 import { useTranslation } from 'react-i18next'
 import { StakingInfo } from '../../../state/stake/hooks'
 import { useTokenBalance } from '../../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../../hooks'
+import { wrappedCurrencyAmount } from '../../../utils/wrappedCurrency'
+import { tryParseAmount } from '../../../state/swap/hooks'
+import { JSBI } from '@pangolindex/sdk'
 
 export interface PoolInfoProps {
   pair: Pair
@@ -18,7 +21,6 @@ export interface PoolInfoProps {
   amount?: string
   onChangeAmount?: (value: string) => void
   userPoolBalance?: TokenAmount
-  unStakeAmount?: TokenAmount
   onMax: () => void
 }
 
@@ -31,10 +33,9 @@ const PoolInfo = ({
   onChangeDot,
   onChangeAmount,
   userPoolBalance,
-  unStakeAmount,
   onMax
 }: PoolInfoProps) => {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
   const { t } = useTranslation()
 
@@ -65,14 +66,48 @@ const PoolInfo = ({
 
   const unClaimedPng = stakingInfo?.earnedAmount?.toFixed(6) ?? '0'
 
-  const pngRate =
-    stakingInfo?.rewardRate?.multiply((60 * 60 * 24 * 7).toString())?.toSignificant(4, { groupSeparator: ',' }) ?? '-'
+  const parsedAmount = tryParseAmount(amount, stakingInfo?.stakedAmount?.token)
+  const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  const currency0Row = { label: `${currency0.symbol} Amount:`, value: `${token0Deposited?.toSignificant(6)}` }
-  const currency1Row = { label: `${currency1.symbol} Amount:`, value: `${token1Deposited?.toSignificant(6)}` }
+  const validPngRateInputs = !!parsedAmountWrapped
+    && stakingInfo?.stakedAmount.greaterThan(parsedAmountWrapped)
+    && stakingInfo?.totalStakedAmount.greaterThan(parsedAmountWrapped)
+
+  const pngRate = !!parsedAmountWrapped && validPngRateInputs
+    ? stakingInfo
+        ?.getHypotheticalRewardRate(
+          stakingInfo?.stakedAmount.subtract(parsedAmountWrapped),
+          stakingInfo?.totalStakedAmount.subtract(parsedAmountWrapped),
+          stakingInfo?.totalRewardRate
+        )
+        .multiply((60 * 60 * 24 * 7).toString())
+        .toSignificant(4, { groupSeparator: ',' })
+    : stakingInfo?.rewardRate?.multiply((60 * 60 * 24 * 7).toString())?.toSignificant(4, { groupSeparator: ',' })
+
+  const currency0Row = {
+    label: `${currency0.symbol} Amount:`,
+    value: `${token0Deposited
+      ?.multiply(parsedAmount || JSBI.BigInt(0))
+      .divide(userPoolBalance?.greaterThan('0') ? userPoolBalance : JSBI.BigInt(1))
+      .toSignificant(6)}`
+  }
+
+  const currency1Row = {
+    label: `${currency1.symbol} Amount:`,
+    value: `${token1Deposited
+      ?.multiply(parsedAmount || JSBI.BigInt(0))
+      .divide(userPoolBalance?.greaterThan('0') ? userPoolBalance : JSBI.BigInt(1))
+      .toSignificant(6)}`
+  }
+
   const dollerWorthRow = {
-    label: `${t('migratePage.dollerWarth')}`,
-    value: `${numeral((totalAmountUsd as Fraction)?.toFixed(2)).format('$0.00 a')}`
+    label: `${t('migratePage.dollarWorth')}`,
+    value: `${numeral(
+      totalAmountUsd
+        ?.multiply(parsedAmount || JSBI.BigInt(0))
+        .divide(userPoolBalance?.greaterThan('0') ? userPoolBalance : JSBI.BigInt(1))
+        ?.toFixed(2)
+    ).format('$0.00 a')}`
   }
 
   const yourPngRate = {
@@ -86,7 +121,7 @@ const PoolInfo = ({
   }
   const poolShareRow = {
     label: `${t('migratePage.shareOfPool')}`,
-    value: poolTokenPercentage ? poolTokenPercentage.toFixed(2) + '%' : '-'
+    value: poolTokenPercentage ? poolTokenPercentage.multiply('100').toFixed(2) + '%' : '-'
   }
 
   let info = [] as Array<{ label: string; value: string }>
@@ -103,7 +138,7 @@ const PoolInfo = ({
     } else {
       return (
         <Text color="text4" fontSize={12}>
-          {t('migratePage.availableToUnstake')} {unStakeAmount?.toSignificant(6)}
+          {t('migratePage.availableToUnstake')} {stakingInfo?.stakedAmount?.toSignificant(6)}
         </Text>
       )
     }

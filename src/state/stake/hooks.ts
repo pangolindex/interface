@@ -1,4 +1,4 @@
-import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent, Fraction } from '@pangolindex/sdk'
+import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent } from '@pangolindex/sdk'
 import { useMemo, useEffect, useState } from 'react'
 import {
   PNG,
@@ -659,8 +659,11 @@ export function useGetStakingDataWithAPR(version: number) {
 export function useGetPairDataFromPair(pair: Pair) {
   const { account } = useActiveWeb3React()
 
-  const currency0 = pair.token0
-  const currency1 = pair.token1
+  const usdPriceCurrency0 = useUSDCPrice(pair.token0)
+  const usdPriceCurrency1 = useUSDCPrice(pair.token1)
+
+  const zeroTokenAmount0 = new TokenAmount(pair.token0, '0')
+  const zeroTokenAmount1 = new TokenAmount(pair.token1, '0')
 
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
   const totalPoolTokens = useTotalSupply(pair.liquidityToken)
@@ -680,17 +683,14 @@ export function useGetPairDataFromPair(pair: Pair) {
           pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
           pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false)
         ]
-      : [undefined, undefined]
+      : [zeroTokenAmount0, zeroTokenAmount1]
 
-  const usdPriceCurrency0 = useUSDCPrice(currency0)
-  const usdPriceCurrency1 = useUSDCPrice(currency1)
+  const usdAmountCurrency0: CurrencyAmount = usdPriceCurrency0?.quote(token0Deposited) ?? zeroTokenAmount0
+  const usdAmountCurrency1: CurrencyAmount = usdPriceCurrency1?.quote(token1Deposited) ?? zeroTokenAmount1
 
-  const usdAmountCurrency0 = token0Deposited?.multiply(usdPriceCurrency0?.raw as Fraction)
-  const usdAmountCurrency1 = token1Deposited?.multiply(usdPriceCurrency1?.raw as Fraction)
+  const totalAmountUsd: CurrencyAmount = usdAmountCurrency0?.add(usdAmountCurrency1)
 
-  const totalAmountUsd = usdAmountCurrency0?.add(usdAmountCurrency1 as Fraction)
-
-  const pairData = {
+  return {
     currency0: pair.token0,
     currency1: pair.token1,
     userPoolBalance: userPoolBalance,
@@ -699,7 +699,6 @@ export function useGetPairDataFromPair(pair: Pair) {
     totalAmountUsd: totalAmountUsd,
     poolTokenPercentage: poolTokenPercentage
   }
-  return pairData
 }
 export const useMinichefPools = (): { [key: string]: number } => {
   const minichefContract = useStakingContract(MINICHEF_ADDRESS)

@@ -99,10 +99,14 @@ const Stake = ({
     let stakingToken = stakingInfo?.stakedAmount?.token
     const parsedInput = tryParseAmount(stakingAmount, stakingToken) as TokenAmount
 
-    if (parsedInput && stakingInfo?.stakedAmount && JSBI.greaterThan(parsedInput.raw, userLiquidityUnstaked.raw)) {
-      setIsValidAmount(false)
-    } else {
+    if (parsedInput
+      && stakingInfo?.stakedAmount
+      && JSBI.lessThanOrEqual(parsedInput.raw, userLiquidityUnstaked.raw)
+      && JSBI.greaterThan(parsedInput.raw, JSBI.BigInt(0))
+    ) {
       setIsValidAmount(true)
+    } else {
+      setIsValidAmount(false)
     }
 
     setSignatureData(null)
@@ -250,6 +254,7 @@ const Stake = ({
           <PoolInfo
             pair={pair}
             type="stake"
+            stakingInfo={stakingInfo}
             stepIndex={stepIndex}
             onChangeDot={onChangeDot}
             amount={stakingAmount}
