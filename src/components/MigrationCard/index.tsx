@@ -41,7 +41,7 @@ const MigrationCard = ({ pair, onClickMigrate, stakingData }: StatProps) => {
       <AutoRow gap="20px">
         <Stat
           title={t('earnPage.totalStaked')}
-          stat={numeral((stakingData?.totalStakedInUsd as Fraction)?.toFixed(2)).format('$0.00 a')}
+          stat={numeral((stakingData?.totalStakedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}
           titlePosition="top"
         />
         <Stat

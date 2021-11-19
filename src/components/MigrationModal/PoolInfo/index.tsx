@@ -107,7 +107,7 @@ const PoolInfo = ({
         ?.multiply(parsedAmount || JSBI.BigInt(0))
         .divide(userPoolBalance?.greaterThan('0') ? userPoolBalance : JSBI.BigInt(1))
         ?.toFixed(2)
-    ).format('$0.00 a')}`
+    ).format('$0.00a')}`
   }
 
   const yourPngRate = {
