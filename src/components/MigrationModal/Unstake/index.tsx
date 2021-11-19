@@ -86,18 +86,13 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   async function onWithdraw() {
-    const stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(unStakingAmount, stakingToken) as TokenAmount
-
     if (
       stakingContract &&
-      parsedInput &&
-      stakingInfo?.stakedAmount &&
-      JSBI.lessThanOrEqual(parsedInput.raw, stakingInfo?.stakedAmount.raw)
+      stakingInfo?.stakedAmount?.greaterThan('0')
     ) {
       setAttempting(true)
       await stakingContract
-        .withdraw(`0x${parsedInput.raw.toString(16)}`)
+        .exit()
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.withdrawDepositedLiquidity')

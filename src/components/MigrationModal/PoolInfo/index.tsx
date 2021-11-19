@@ -45,7 +45,8 @@ const PoolInfo = ({
     token0Deposited,
     token1Deposited,
     totalAmountUsd,
-    poolTokenPercentage
+    totalPoolTokens,
+    getHypotheticalPoolOwnership
   } = useGetPairDataFromPair(pair)
 
   const renderPoolDataRow = (label: string, value: string) => {
@@ -69,20 +70,14 @@ const PoolInfo = ({
   const parsedAmount = tryParseAmount(amount, stakingInfo?.stakedAmount?.token)
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  const validPngRateInputs = !!parsedAmountWrapped
-    && stakingInfo?.stakedAmount.greaterThan(parsedAmountWrapped)
-    && stakingInfo?.totalStakedAmount.greaterThan(parsedAmountWrapped)
+  const poolOwnership = getHypotheticalPoolOwnership(
+  parsedAmountWrapped ? stakingInfo?.stakedAmount.add(parsedAmountWrapped).raw : stakingInfo?.stakedAmount.raw,
+    parsedAmountWrapped ? totalPoolTokens?.add(parsedAmountWrapped).raw : totalPoolTokens?.raw
+  )
 
-  const pngRate = !!parsedAmountWrapped && validPngRateInputs
-    ? stakingInfo
-        ?.getHypotheticalRewardRate(
-          stakingInfo?.stakedAmount.subtract(parsedAmountWrapped),
-          stakingInfo?.totalStakedAmount.subtract(parsedAmountWrapped),
-          stakingInfo?.totalRewardRate
-        )
-        .multiply((60 * 60 * 24 * 7).toString())
-        .toSignificant(4, { groupSeparator: ',' })
-    : stakingInfo?.rewardRate?.multiply((60 * 60 * 24 * 7).toString())?.toSignificant(4, { groupSeparator: ',' })
+  const pngRate = stakingInfo?.rewardRate
+    ?.multiply((60 * 60 * 24 * 7).toString())
+    ?.toSignificant(4, { groupSeparator: ',' })
 
   const currency0Row = {
     label: `${currency0.symbol} Amount:`,
@@ -100,14 +95,14 @@ const PoolInfo = ({
       .toSignificant(6)}`
   }
 
-  const dollerWorthRow = {
+  const dollarWorthRow = {
     label: `${t('migratePage.dollarWorth')}`,
     value: `${numeral(
       totalAmountUsd
         ?.multiply(parsedAmount || JSBI.BigInt(0))
         .divide(userPoolBalance?.greaterThan('0') ? userPoolBalance : JSBI.BigInt(1))
         ?.toFixed(2)
-    ).format('$0.00 a')}`
+    ).format('$0.00a')}`
   }
 
   const yourPngRate = {
@@ -121,12 +116,12 @@ const PoolInfo = ({
   }
   const poolShareRow = {
     label: `${t('migratePage.shareOfPool')}`,
-    value: poolTokenPercentage ? poolTokenPercentage.multiply('100').toFixed(2) + '%' : '-'
+    value: poolOwnership ? poolOwnership.toFixed(2) + '%' : '-'
   }
 
   let info = [] as Array<{ label: string; value: string }>
   if (type === 'unstake') info = [yourPngRate, unClaimedRow]
-  if (type === 'stake') info = [currency0Row, currency1Row, dollerWorthRow, poolShareRow]
+  if (type === 'stake') info = [currency0Row, currency1Row, dollarWorthRow, poolShareRow]
 
   const addonLabel = () => {
     if (type === 'stake') {
@@ -155,47 +150,51 @@ const PoolInfo = ({
         </Box>
       </Box>
 
-      <Text color="text4" fontSize={16} mt={10}>
-        {t('migratePage.poolInfoDescription')}
-      </Text>
+      {type === 'stake' && (
+        <>
+          <Text color="text4" fontSize={16} mt={10}>
+            {t('migratePage.poolInfoDescription')}
+          </Text>
 
-      <Box mt={10}>
-        <TextBox
-          value={amount ? amount : ''}
-          addonAfter={
-            <Box display="flex" alignItems="center">
-              <StyledBalanceMax onClick={onMax}>{t('currencyInputPanel.max')}</StyledBalanceMax>
+          <Box mt={10}>
+            <TextBox
+              value={amount ? amount : ''}
+              addonAfter={
+                <Box display="flex" alignItems="center">
+                  <StyledBalanceMax onClick={onMax}>{t('currencyInputPanel.max')}</StyledBalanceMax>
 
-              <Text color="text4" fontSize={24}>
-                PGL
-              </Text>
-            </Box>
-          }
-          onChange={(value: any) => {
-            onChangeAmount && onChangeAmount(value)
-          }}
-          addonLabel={addonLabel()}
-          fontSize={24}
-          isNumeric={true}
-          placeholder="0.00"
-        />
-      </Box>
+                  <Text color="text4" fontSize={24}>
+                    PGL
+                  </Text>
+                </Box>
+              }
+              onChange={(value: any) => {
+                onChangeAmount && onChangeAmount(value)
+              }}
+              addonLabel={addonLabel()}
+              fontSize={24}
+              isNumeric={true}
+              placeholder="0.00"
+            />
+          </Box>
 
-      <Box>
-        <Steps
-          onChange={value => {
-            onChangeDot && onChangeDot(value)
-          }}
-          current={stepIndex}
-          progressDot={true}
-        >
-          <Step />
-          <Step />
-          <Step />
-          <Step />
-          <Step />
-        </Steps>
-      </Box>
+          <Box>
+            <Steps
+              onChange={value => {
+                onChangeDot && onChangeDot(value)
+              }}
+              current={stepIndex}
+              progressDot={true}
+            >
+              <Step />
+              <Step />
+              <Step />
+              <Step />
+              <Step />
+            </Steps>
+          </Box>
+        </>)
+      }
 
       <Box>
         <ContentBox>{info.map(item => renderPoolDataRow(item.label, item.value))}</ContentBox>

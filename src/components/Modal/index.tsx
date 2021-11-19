@@ -9,7 +9,7 @@ import { useGesture } from 'react-use-gesture'
 
 const AnimatedDialogOverlay = animated(DialogOverlay)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StyledDialogOverlay = styled(AnimatedDialogOverlay)<{ overlayBG?: string }>`
+const StyledDialogOverlay = styled(AnimatedDialogOverlay)<{ background?: string }>`
   &[data-reach-dialog-overlay] {
     z-index: 2;
     background-color: transparent;
@@ -19,7 +19,7 @@ const StyledDialogOverlay = styled(AnimatedDialogOverlay)<{ overlayBG?: string }
     align-items: center;
     justify-content: center;
 
-    background-color: ${({ theme, overlayBG }) => (overlayBG ? overlayBG : theme.modalBG)};
+    background-color: ${({ theme, background }) => (background ? background : theme.modalBG)};
   }
 `
 
@@ -122,7 +122,7 @@ export default function Modal({
               style={props}
               onDismiss={onDismiss}
               initialFocusRef={initialFocusRef}
-              overlayBG={overlayBG}
+              background={overlayBG}
             >
               <StyledDialogContent
                 {...(isMobile

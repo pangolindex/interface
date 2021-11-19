@@ -668,6 +668,13 @@ export function useGetPairDataFromPair(pair: Pair) {
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
   const totalPoolTokens = useTotalSupply(pair.liquidityToken)
 
+  const getHypotheticalPoolOwnership = (userBalance: JSBI | undefined, poolTotalBalance: JSBI | undefined): Percent => {
+    if (!userBalance || !poolTotalBalance || JSBI.equal(poolTotalBalance, BIG_INT_ZERO)) {
+      return new Percent(BIG_INT_ZERO, BIG_INT_ONE)
+    }
+    return new Percent(userBalance, poolTotalBalance).multiply('100')
+  }
+
   const poolTokenPercentage =
     !!userPoolBalance && !!totalPoolTokens && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
       ? new Percent(userPoolBalance.raw, totalPoolTokens.raw)
@@ -694,10 +701,12 @@ export function useGetPairDataFromPair(pair: Pair) {
     currency0: pair.token0,
     currency1: pair.token1,
     userPoolBalance: userPoolBalance,
+    totalPoolTokens: totalPoolTokens,
     token0Deposited: token0Deposited,
     token1Deposited: token1Deposited,
     totalAmountUsd: totalAmountUsd,
-    poolTokenPercentage: poolTokenPercentage
+    poolTokenPercentage: poolTokenPercentage,
+    getHypotheticalPoolOwnership
   }
 }
 export const useMinichefPools = (): { [key: string]: number } => {
