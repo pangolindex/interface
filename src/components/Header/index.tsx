@@ -1,12 +1,12 @@
 import { ChainId, TokenAmount } from '@pangolindex/sdk'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Text } from 'rebass'
 import { NavLink } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
-
+import { ChevronDown } from 'react-feather'
 import styled from 'styled-components'
-
 import Logo from '../../assets/svg/icon.svg'
 import LogoDark from '../../assets/svg/icon.svg'
 import { useActiveWeb3React } from '../../hooks'
@@ -15,11 +15,9 @@ import { useETHBalances, useAggregatePngBalance } from '../../state/wallet/hooks
 import { CardNoise } from '../earn/styled'
 import { CountUp } from 'use-count-up'
 import { TYPE, ExternalLink } from '../../theme'
-
 import { RedCard } from '../Card'
 import Settings from '../Settings'
 import Menu from '../Menu'
-
 import Row, { RowFixed } from '../Row'
 import Web3Status from '../Web3Status'
 import Modal from '../Modal'
@@ -27,6 +25,10 @@ import PngBalanceContent from './PngBalanceContent'
 import usePrevious from '../../hooks/usePrevious'
 import { ANALYTICS_PAGE } from '../../constants'
 import LanguageSelection from '../LanguageSelection'
+import { ApplicationModal } from '../../state/application/actions'
+import { useModalOpen, useToggleModal } from '../../state/application/hooks'
+import { MenuFlyout, MenuNavItem } from '../StyledMenu'
+import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -221,6 +223,27 @@ const StyledNavLink = styled(NavLink).attrs({
   }
 `
 
+const StyledLink = styled.div<{ isActive: boolean }>`
+  ${({ theme }) => theme.flexRowNoWrap}
+  align-items: left;
+  border-radius: 3rem;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: ${({ theme, isActive }) => (isActive ? theme.text1 : theme.text2)};
+  font-size: 1rem;
+  width: fit-content;
+  margin: 0 12px;
+  font-weight: ${({ isActive }) => (isActive ? 600 : 500)};
+  font-weight: 500;
+  line-height: 24px;
+
+  :hover,
+  :focus {
+    color: ${({ theme }) => darken(0.1, theme.text1)};
+  }
+`
+
 const StyledExternalLink = styled(ExternalLink).attrs({
   activeClassName
 })<{ isActive?: boolean }>`
@@ -253,6 +276,12 @@ const StyledExternalLink = styled(ExternalLink).attrs({
 `}
 `
 
+const NarrowMenuFlyout = styled(MenuFlyout)`
+  min-width: 8.125rem;
+  left: 15rem;
+  right: auto !important;
+`
+
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: 'Fuji',
   [ChainId.AVALANCHE]: 'Avalanche'
@@ -261,6 +290,8 @@ const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
+
+  const location: any = useLocation()
 
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   const [isDark] = useDarkModeManager()
@@ -271,6 +302,10 @@ export default function Header() {
 
   const countUpValue = aggregateBalance?.toFixed(0) ?? '0'
   const countUpValuePrevious = usePrevious(countUpValue) ?? '0'
+  const node = useRef<HTMLDivElement>()
+  const open = useModalOpen(ApplicationModal.FARM)
+  const toggle = useToggleModal(ApplicationModal.FARM)
+  useOnClickOutside(node, open ? toggle : undefined)
 
   return (
     <HeaderFrame>
@@ -303,13 +338,26 @@ export default function Header() {
           >
             {t('header.pool')}
           </StyledNavLink>
-          <StyledNavLink
+
+          <StyledLink
             id={`png-nav-link`}
-            to={'/png/1'}
-            isActive={(match, { pathname }) => Boolean(match) || pathname.startsWith('/png')}
+            onClick={toggle}
+            isActive={location?.pathname?.startsWith('/png')}
+            ref={node as any}
           >
-            {t('header.farm')}
-          </StyledNavLink>
+            {t('header.farm')} <ChevronDown size={24} />
+            {open && (
+              <NarrowMenuFlyout>
+                <MenuNavItem id="link" to={'/png/1'}>
+                  {t('header.version1')}
+                </MenuNavItem>
+                <MenuNavItem id="link" to={'/png/2'}>
+                  {t('header.version2')}
+                </MenuNavItem>
+              </NarrowMenuFlyout>
+            )}
+          </StyledLink>
+
           <StyledNavLink
             id={`stake-nav-link`}
             to={'/stake/0'}

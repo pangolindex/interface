@@ -6,7 +6,7 @@ import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
 import { CAVAX, Token } from '@pangolindex/sdk'
 import { ButtonPrimary } from '../Button'
-import { DoubleSideStaking, DoubleSideStakingInfo } from '../../state/stake/hooks'
+import { DoubleSideStaking, DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
 import { Break, CardNoise, CardBGImage } from './styled'
@@ -53,16 +53,18 @@ const Wrapper = styled(AutoColumn)<{ showBackground: boolean; bgColor: any }>`
      0px 24px 32px rgba(0, 0, 0, 0.01);`}
 `
 
-const TopSection = styled.div`
-  display: grid;
-  grid-template-columns: 48px 1fr auto 120px;
-  grid-gap: 0px;
+const TopSection = styled.div<{ isStaking?: boolean }>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // grid-template-columns: ${({ isStaking }) => (isStaking ? '48px 1fr auto 120px 120px' : '48px 1fr auto 120px')};
+  // grid-gap: 0px;
   align-items: center;
   padding: 1rem;
   z-index: 1;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-     grid-template-columns: 48px 1fr auto 96px;
-   `};
+  /* // ${({ theme, isStaking }) => theme.mediaWidth.upToSmall`
+  //    grid-template-columns: ${isStaking ? '48px 1fr auto 96px 96px' : ' 48px 1fr auto 96px'};
+  //  `}; */
 `
 
 const BottomSection = styled.div<{ showBackground: boolean }>`
@@ -95,6 +97,8 @@ export default function DoubleSidePoolCard({
   const currency0 = unwrappedToken(token0)
   const currency1 = unwrappedToken(token1)
 
+  const poolMap = useMinichefPools()
+
   const { t } = useTranslation()
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
@@ -112,42 +116,57 @@ export default function DoubleSidePoolCard({
 
   const totalStakedInUsd = stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
 
+  let pairAddress = stakingInfo?.stakedAmount?.token?.address
+
   return (
     <Wrapper showBackground={isStaking} bgColor={backgroundColor}>
       <CardBGImage desaturate />
       <CardNoise />
 
-      <TopSection>
-        <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={24} />
-        <TYPE.white fontWeight={600} fontSize={24} style={{ marginLeft: '8px' }}>
-          {currency0.symbol}-{currency1.symbol}
-        </TYPE.white>
+      <TopSection isStaking={isStaking}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={24} />
+          <TYPE.white fontWeight={600} fontSize={24} style={{ marginLeft: '8px' }}>
+            {currency0.symbol}-{currency1.symbol}
+          </TYPE.white>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {/* Legacy AEB Migration */}
+          {isStaking && Number(version) <= 1 && migration ? (
+            <StyledInternalLink
+              to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${Number(version)}/${currencyId(
+                migration.tokens[0]
+              )}/${currencyId(migration.tokens[1])}/${migration?.version}`}
+              style={{ marginRight: '10px' }}
+            >
+              <ButtonPrimary padding="8px" borderRadius="8px">
+                Migrate
+              </ButtonPrimary>
+            </StyledInternalLink>
+          ) : (
+            <span></span>
+          )}
 
-        {migration && isStaking ? (
-          <StyledInternalLink
-            to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${Number(version)}/${currencyId(
-              migration.tokens[0]
-            )}/${currencyId(migration.tokens[1])}/${migration?.version}`}
-            style={{ marginRight: '10px' }}
-          >
-            <ButtonPrimary padding="8px" borderRadius="8px">
-              Migrate
-            </ButtonPrimary>
-          </StyledInternalLink>
-        ) : (
-          <span></span>
-        )}
+          {/* Beta Migration */}
+          {isStaking && Number(version) === 1 && !migration && poolMap.hasOwnProperty(pairAddress) ? (
+            <StyledInternalLink to={`/beta/migrate/${version}`} style={{ marginRight: '10px' }}>
+              <ButtonPrimary padding="8px" borderRadius="8px">
+                Migrate
+              </ButtonPrimary>
+            </StyledInternalLink>
+          ) : null}
 
-        {(isStaking || !stakingInfo.isPeriodFinished) && (
-          <StyledInternalLink
-            to={`/png/${currencyId(currency0)}/${currencyId(currency1)}/${version}`}
-            style={{ width: '100%' }}
-          >
-            <ButtonPrimary padding="8px" borderRadius="8px">
-              {isStaking ? t('earn.manage') : t('earn.deposit')}
-            </ButtonPrimary>
-          </StyledInternalLink>
-        )}
+          {(isStaking || !stakingInfo.isPeriodFinished) && (
+            <StyledInternalLink
+              to={`/png/${currencyId(currency0)}/${currencyId(currency1)}/${version}`}
+              style={{ width: '100%' }}
+            >
+              <ButtonPrimary padding="8px" borderRadius="8px">
+                {isStaking ? t('earn.manage') : t('earn.deposit')}
+              </ButtonPrimary>
+            </StyledInternalLink>
+          )}
+        </div>
       </TopSection>
 
       <StatContainer>

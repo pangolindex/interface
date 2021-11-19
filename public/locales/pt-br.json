@@ -4,6 +4,8 @@
         "buy": "Comprar",
         "pool": "Pool",
         "farm": "Farm",
+        "version1": "Versão 1",
+        "version2": "Versão 2",
         "stake": "Stake",
         "newPng": "Novo PNG",
         "oldPng": "Antigo PNG",
@@ -20,7 +22,11 @@
         "makeSureURLWarning": "Certifique-se que a URL seja",
         "alwaysMakeSureWarning": "Certifique-se sempre que a URL seja",
         "bookmarkIt": "marque para ser seguro.",
-        "addMetamask": "Adicionar PNG no MetaMask"
+        "addMetamask": "Adicionar PNG no MetaMask",
+        "bridge": "Ponte",
+        "ourPartners": "Nossos Parceiros",
+        "usefulLinks": "LINKS ÚTEIS",
+        "comeAndJoinUs": "Junte-se a nós"
     },
     "accountDetails": {
         "connectedWith": "Conectado com ",
@@ -339,7 +345,10 @@
         "stakeStakingTokens": "Stake {{ symbol }} Tokens",
         "unstake": "Unstake",
         "stakingTokensAvailable": "Tokens {{ symbol }} disponíveis",
-        "getToken": "Get {{ symbol }}"
+        "getToken": "Get {{ symbol }}",
+        "migrateTitle": "Migrar seu PGL empilhado",
+        "migrateDescription": "O Pangolin mudou a tokenômica. Você precisará migrar seu PGL empilhado para o novo contrato",
+        "migrate": "Migrar"
     },
     "pool": {
         "liquidityProviderRewards": "Recompensas dos provedores de liquidez",
@@ -478,5 +487,45 @@
     "burnHooks": {
         "connectWallet": "Conectar a uma carteira",
         "enterAmount": "Insira um valor"
-    }
+    },
+    "migratePage": {
+        "stake": "ESTACA",
+        "unstake": "UNSTAKE",
+        "add": "ADICIONAR",
+        "remove": "RETIRAR",
+        "startMigratingNow": "COMECE A MIGRAR AGORA",
+        "startMigratingNowDescription": "Abaixo você encontrará todas as Fazendas de que precisará para migrar para os Contratos V2 da Pangolin",
+        "seeMore": "VER MAIS",
+        "migrateWithEase": "MIGRAR COM FACILIDADE",
+        "migrateWithDescription":"Projetamos um assistente elegante, que ajudará a guiá-lo durante o processo de migração de suas fazendas",
+        "alreadyMigrate": "já migrou",
+        "walletMigrate": "carteira migrada",
+        "alreadyEarned": "já ganhou",
+        "migrateNow": "MIGRAR AGORA",
+        "learn": "APRENDER",
+        "moveYourTokensToNewContracts" :"Migre suas fazendas para Pangolin V2",
+        "readyToMigrate": "Pronto para migrar",
+        "apr": "APR:",
+        "totalValueLocked": "Valor total bloqueado",
+        "lowVolatility": "Baixa volatilidade",
+        "compoundable": "Composta",
+        "migrate": "Migrar",
+        "migrationModalDescription": "Percebemos que você tem essas piscinas ... Escolha uma ou adicione uma.",
+        "choosePool": "Escolha o Pool",
+        "pool": "Pool",
+        "availableToDeposit": "Disponível para depositar: ",
+        "poolInfoDescription": "Agora que você escolheu sua piscina, vamos desamarrá-lo dela.",
+        "dollarWorth": "Valor em dólar: ",
+        "yourRate": "Sua taxa: ",
+        "unclaimedPng": "PNG não reclamado: ",
+        "shareOfPool": "Participação na piscina: ",
+        "choose": "ESCOLHER",
+        "selectAll": "Selecionar tudo",
+        "loading": "Carregando",
+        "back": "Voltar",
+        "availableToUnstake": "Disponível para desestocar: ",
+        "submittingTransaction": "Enviando transação",
+        "moveYourTokensToNewContractsDescription" :"Como parte da implementação do Pangolin para novos contratos aprimorados, você precisará migrar suas Fazendas. Se precisar de ajuda ou orientação, clique no botão “Aprender”.",
+        "migrateModalHeading": "Migrar {{ current }} de {{ total }} Fazenda"
+      }
 }

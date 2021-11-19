@@ -4,6 +4,8 @@
     "buy": "Comprar",
     "pool": "Pool",
     "farm": "Farm",
+    "version1": "Versión 1",
+    "version2": "Versión 2",
     "stake": "Stake",
     "newPng": "Nuevo PNG",
     "oldPng": "Viejo PNG",
@@ -20,7 +22,11 @@
     "makeSureURLWarning": "Asegúrese de que el URL es",
     "alwaysMakeSureWarning": "Asegúrese siempre de que la URL sea",
     "bookmarkIt": "marcarla para estar seguro.",
-    "addMetamask": "Agregar PNG a MetaMask"
+    "addMetamask": "Agregar PNG a MetaMask",
+    "bridge": "Puente",
+    "ourPartners": "Nuestros compañeros",
+    "usefulLinks": "ENLACES ÚTILES",
+    "comeAndJoinUs": "Ven y únete a nosotras"
   },
   "accountDetails": {
     "connectedWith": "Connectado con ",
@@ -121,7 +127,7 @@
     "acceptUpdate": "Aceptar actualización",
     "dismiss": "Descartar"
   },
-  "positionCard":{
+  "positionCard": {
     "add": "Añadir",
     "remove": "Retirar",
     "poolShare": "Tu parte de la pool:",
@@ -157,8 +163,7 @@
     "select": "Seleccionar",
     "manageTokenLists": "Administrar listas de tokens"
   },
-  "settings":
-  {
+  "settings": {
     "areYouSure": "Estas seguro?",
     "expertInfo": "El modo experto deshabilita el aviso de confirmar transacción y permite altos deslizamientos en intercambios que suelen causar malos ratios y fondos perdidos.",
     "expertWarningCAPS": "USA ESTE MODO SOLO SI SABES LO QUE ESTÁS HACIENDO.",
@@ -339,7 +344,10 @@
     "stakeStakingTokens": "Stake {{ symbol }} Tokens",
     "unstake": "Unstake",
     "stakingTokensAvailable": "Toens {{ symbol }} disponibles",
-    "getToken": "Get {{ symbol }}"
+    "getToken": "Get {{ symbol }}",
+    "migrateTitle": "Migre su PGL apilado",
+    "migrateDescription": "Pangolin ha cambiado la tokenómica. Deberá migrar su PGL apilado a un nuevo contrato",
+    "migrate": "Emigrar"
   },
   "pool": {
     "liquidityProviderRewards": "Recompensas a proveedores de liquidez",
@@ -478,5 +486,45 @@
   "burnHooks": {
     "connectWallet": "Conectar cartera",
     "enterAmount": "Introduzca una cantidad"
+  },
+  "migratePage": {
+    "stake": "APOSTAR",
+    "unstake": "DESPRENDIMIENTO",
+    "add": "AGREGAR",
+    "remove": "RETIRAR",
+    "startMigratingNow": "EMPIECE A MIGRAR AHORA",
+    "startMigratingNowDescription": "A continuación encontrará todas las granjas que necesitará para migrar a los contratos V2 de Pangolin",
+    "seeMore": "VER MÁS",
+    "migrateWithEase": "MIGRA CON FACILIDAD",
+    "migrateWithDescription":"Hemos diseñado un asistente elegante, que lo guiará a través del proceso de migración de sus Fincas.",
+    "alreadyMigrate": "Ya migrada",
+    "walletMigrate": "billetera migrada",
+    "alreadyEarned": "ya gana",
+    "migrateNow": "MIGRA AHORA",
+    "learn": "APRENDER",
+    "moveYourTokensToNewContracts" :"Migre sus granjas a Pangolin V2",
+    "readyToMigrate": "Lista para migrar",
+    "apr": "APR:",
+    "totalValueLocked": "Valor total bloqueado",
+    "lowVolatility": "Baja volatilidad",
+    "compoundable": "Compuesta",
+    "migrate": "Emigrar",
+    "migrationModalDescription": "Nos hemos dado cuenta de que tiene estas piscinas ... Elija una o agregue una.",
+    "choosePool": "Elige piscina",
+    "pool": "Pool",
+    "availableToDeposit": "Disponible para depositar: ",
+    "poolInfoDescription": "Ahora que ha elegido su grupo, dejemos de apostar desde allí.",
+    "dollarWorth": "Valor del dólar: ",
+    "yourRate": "Tu tarifa: ",
+    "unclaimedPng": "PNG no reclamada: ",
+    "shareOfPool": "Participación de la piscina: ",
+    "choose": "ESCOGER",
+    "selectAll": "Seleccionar todo",
+    "loading": "Cargando",
+    "back": "atrás",
+    "availableToUnstake": "Disponible para desaplicar: ",
+    "submittingTransaction": "Enviar transacción",
+    "moveYourTokensToNewContractsDescription" :"Como parte del lanzamiento de Pangolin a nuevos contratos mejorados, deberá migrar sus granjas. Si necesita ayuda u orientación, haga clic en el botón 'Aprender'",
+    "migrateModalHeading": "Migrar {{ current }} de {{ total }} granja"
   }
 }

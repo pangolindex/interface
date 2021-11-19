@@ -19,6 +19,8 @@ export const GOVERNANCE_ADDRESS = '0xb0Ff2b1047d9E8d294c2eD798faE3fA817F43Ee1'
 
 export const BRIDGE_MIGRATOR_ADDRESS = '0x4b23Aa72A1214d0E4fd3f2c8Da7C6ba660F7483C'
 
+export const MINICHEF_ADDRESS = '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853'
+
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
@@ -655,6 +657,16 @@ export const ORBS: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x340fE1D898ECCAad394e2ba0fC1F93d27c7b717A', 18, 'ORBS', 'Orbs')
 }
 
+export const SPELL: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'SPELL', 'Spell Token'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xCE1bFFBD5374Dac86a2893119683F4911a2F7814', 18, 'SPELL', 'Spell Token')
+}
+
+export const KLO: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'KLO', 'Kalao Token'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xb27c8941a7Df8958A1778c0259f76D1F8B711C35', 9, 'KLO', 'Kalao Token')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
@@ -773,6 +785,10 @@ export const INITIAL_ALLOWED_SLIPPAGE = 50
 export const DEFAULT_DEADLINE_FROM_NOW = 60 * 60
 
 export const BIG_INT_ZERO = JSBI.BigInt(0)
+export const BIG_INT_ONE = JSBI.BigInt(1)
+export const BIG_INT_TWO = JSBI.BigInt(2)
+export const BIG_INT_TEN = JSBI.BigInt(10)
+export const BIG_INT_EIGHTEEN = JSBI.BigInt(18)
 
 // one basis point
 export const ONE_BIPS = new Percent(JSBI.BigInt(1), JSBI.BigInt(10000))

@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import {ExternalLink} from "../../theme";
+import { ExternalLink } from '../../theme'
 
-export const StyledMenuButton = styled.button`
+export const StyledMenuButton = styled.button<{ isBeta?: boolean }>`
   position: relative;
   width: 100%;
   height: 100%;
@@ -11,7 +11,7 @@ export const StyledMenuButton = styled.button`
   margin: 0;
   padding: 0;
   height: 35px;
-  background-color: ${({ theme }) => theme.bg3};
+  background-color: ${({ theme, isBeta }) => (isBeta ? theme.bg2 : theme.bg3)};
 
   padding: 0.15rem 0.5rem;
   border-radius: 0.5rem;
@@ -51,9 +51,7 @@ export const MenuFlyout = styled.span`
   top: 4rem;
   right: 0rem;
   z-index: 100;
-
 `
-
 
 export const MenuItem = styled(ExternalLink)`
   flex: 1;

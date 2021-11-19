@@ -14,8 +14,8 @@ import {
   RedirectOldAddLiquidityPathStructure,
   RedirectToAddLiquidity
 } from './AddLiquidity/redirects'
-import Earn from './Earn'
-import ManageEarn from './Earn/Manage'
+import { EarnV1, EarnV2, ManageV1, ManageV2 } from './Earn'
+// import ManageEarn from './Earn/Manage'
 import Stake from './Stake'
 import ManageStake from './Stake/Manage'
 import Pool from './Pool'
@@ -33,6 +33,11 @@ import VotePage from './Vote/VotePage'
 import IDO from './IDO'
 import Migrate from './Earn/Migrate'
 
+import MigrateV2 from './Migrate'
+import { useIsBetaUI } from '../hooks/useLocation'
+import CustomRoute from './Route'
+import Layout from '../layout'
+
 const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;
@@ -46,20 +51,21 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
 `
 
-const BodyWrapper = styled.div`
+const BodyWrapper = styled.div<{ isBeta: boolean }>`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-top: 100px;
-  align-items: center;
+  padding-top:  ${({ isBeta }) => (isBeta ? '0px' : '100px')}; 
+  align-items: ${({ isBeta }) => (isBeta ? 'unset' : 'center')};
+  // padding: ${({ isBeta }) => (isBeta ? '50px' : undefined)};
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 10;
 
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    padding: 16px;
-    padding-top: 2rem;
+  ${({ theme, isBeta }) => theme.mediaWidth.upToSmall`
+    padding: ${isBeta ? '0px' : '16px'};
+    padding-top: ${isBeta ? '0px' : '2rem'}; 
   `};
 
   z-index: 1;
@@ -70,16 +76,21 @@ const Marginer = styled.div`
 `
 
 export default function App() {
+  const isBeta = useIsBetaUI()
+
   return (
     <Suspense fallback={null}>
       <Route component={GoogleAnalyticsReporter} />
       <Route component={DarkModeQueryParamReader} />
       <AppWrapper>
         <URLWarning />
-        <HeaderWrapper>
-          <Header />
-        </HeaderWrapper>
-        <BodyWrapper>
+        {!isBeta && (
+          <HeaderWrapper>
+            <Header />
+          </HeaderWrapper>
+        )}
+
+        <BodyWrapper isBeta={isBeta}>
           <Popups />
           <Polling />
           <Web3ReactManager>
@@ -90,7 +101,8 @@ export default function App() {
               <Route exact strict path="/buy" component={Buy} />
               <Route exact strict path="/find" component={PoolFinder} />
               <Route exact strict path="/pool" component={Pool} />
-              <Route exact strict path="/png/:version" component={Earn} />
+              <Route exact strict path="/png/2" component={EarnV2} />
+              <Route exact strict path="/png/:version" component={EarnV1} />
               <Route exact strict path="/stake/:version" component={Stake} />
               <Route exact strict path="/vote" component={Vote} />
               <Route exact strict path="/ido" component={IDO} />
@@ -104,10 +116,22 @@ export default function App() {
               <Route exact path="/create/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
               <Route exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
               <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
-              <Route exact strict path="/png/:currencyIdA/:currencyIdB/:version" component={ManageEarn} />
+
+              <Route exact strict path="/png/:currencyIdA/:currencyIdB/2" component={ManageV2} />
+              <Route exact strict path="/png/:currencyIdA/:currencyIdB/:version" component={ManageV1} />
+
               <Route exact strict path="/stake/:version/:rewardCurrencyId" component={ManageStake} />
               <Route exact strict path="/vote/:id" component={VotePage} />
-	            <Route exact path="/migrate/:currencyIdFromA/:currencyIdFromB/:versionFrom/:currencyIdToA/:currencyIdToB/:versionTo/" component={Migrate} />
+              <Route
+                exact
+                path="/migrate/:currencyIdFromA/:currencyIdFromB/:versionFrom/:currencyIdToA/:currencyIdToB/:versionTo/"
+                component={Migrate}
+              />
+
+              <CustomRoute exact path="/beta/migrate/:version" component={MigrateV2} layout={Layout} />
+
+              {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
+
               <Route component={RedirectPathToSwapOnly} />
             </Switch>
           </Web3ReactManager>

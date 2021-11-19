@@ -4,6 +4,8 @@
     "buy": "Satın Al",
     "pool": "Havuz",
     "farm": "Farm",
+    "version1": "Sürüm 1",
+    "version2": "Sürüm 2",
     "stake": "Stake",
     "newPng": "Yeni PNG",
     "oldPng": "Eski PNG",
@@ -20,7 +22,11 @@
     "makeSureURLWarning": "URL'nin bu olduğundan emin olun:",
     "alwaysMakeSureWarning": "Her zaman URL'nin bu olduğundan emin olun:",
     "bookmarkIt": "güvende olmak için yer imlerine ekleyin.",
-    "addMetamask": "PNG'yi MetaMask'e ekleyin"
+    "addMetamask": "PNG'yi MetaMask'e ekleyin",
+    "bridge": "Köprü",
+    "ourPartners": "Bizim ortaklarımız",
+    "usefulLinks": "KULLANIŞLI BAĞLANTILAR",
+    "comeAndJoinUs": "Gelip bize katıl"
   },
   "accountDetails": {
     "connectedWith": "Neye Bağlı: ",
@@ -339,7 +345,10 @@
     "stakeStakingTokens": "{{ symbol }} tokenlerinizi stake edin",
     "unstake": "Stake'den çıkarın",
     "stakingTokensAvailable": "Kullanılabilir {{ symbol }} Tokeni",
-    "getToken": "{{ symbol }} elde edin"
+    "getToken": "{{ symbol }} elde edin",
+    "migrateTitle": "Yığınlanmış PGL'nizi taşıyın",
+    "migrateDescription": "Pangolin belirteçleri değiştirdi. Yığılmış PGL'nizi yeni sözleşmeye taşımanız gerekecek",
+    "migrate": "Göç"
   },
   "pool": {
     "liquidityProviderRewards": "Likidite sağlayıcılarına verilen ödüller",
@@ -478,5 +487,45 @@
   "burnHooks": {
     "connectWallet": "Cüzdanı Bağla",
     "enterAmount": "Bir tutar girin"
+  },
+  "migratePage": {
+    "stake": "PAY",
+    "unstake": "UNSTAKE",
+    "add": "EKLE",
+    "remove": "KALDIRMAK",
+    "startMigratingNow": "ŞİMDİ TAŞIMAYA BAŞLAYIN",
+    "startMigratingNowDescription": "Aşağıda Pangolin'in V2 Sözleşmelerine geçmek için ihtiyaç duyacağınız tüm Çiftlikleri bulacaksınız.",
+    "seeMore": "DAHA FAZLA GÖR",
+    "migrateWithEase": "KOLAYLIKLA TAŞIYIN",
+    "migrateWithDescription":"Çiftliklerinizi taşıma sürecinde size rehberlik edecek zarif bir sihirbaz tasarladık.",
+    "alreadyMigrate": "zaten taşındı",
+    "walletMigrate": "cüzdan taşındı",
+    "alreadyEarned": "zaten kazanılmış",
+    "migrateNow": "ŞİMDİ TAŞI",
+    "learn": "ÖĞRENMEK",
+    "moveYourTokensToNewContracts" :"Çiftliklerinizi Pangolin V2'ye Taşıyın",
+    "readyToMigrate": "Taşımaya hazır",
+    "apr": "APR:",
+    "totalValueLocked": "Toplam Değer Kilitli",
+    "lowVolatility": "Düşük Volatilite",
+    "compoundable": "birleştirilebilir",
+    "migrate": "Göç",
+    "migrationModalDescription": "Bu havuzlara sahip olduğunuzu fark ettik… Birini seçin veya ekleyin.",
+    "choosePool": "Havuz Seç",
+    "pool": "Pool",
+    "availableToDeposit": "Para yatırmak için uygun: ",
+    "poolInfoDescription": "Şimdi havuzunuzu seçtiniz, sonra sizi oradan çıkaralım.",
+    "dollarWorth": "Dolar Değeri: ",
+    "yourRate": "Oranınız: ",
+    "unclaimedPng": "Sahipsiz PNG: ",
+    "shareOfPool": "Havuz Payı: ",
+    "choose": "SEÇ",
+    "selectAll": "Hepsini seç",
+    "loading": "Yükleniyor",
+    "back": "Geri",
+    "availableToUnstake": "Kaldırılabilir: ",
+    "submittingTransaction": "işlem gönderme",
+    "moveYourTokensToNewContractsDescription" :"Pangolin'in yeni geliştirilmiş sözleşmelere geçişinin bir parçası olarak, Çiftliklerinizi taşımanız gerekecek. Herhangi bir yardıma veya rehberliğe ihtiyacınız varsa, lütfen “Öğren” düğmesine tıklayın.",
+    "migrateModalHeading": "Göç {{ current }} of {{ total }} Çiftlik"
   }
 }
