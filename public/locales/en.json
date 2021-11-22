@@ -4,6 +4,8 @@
     "buy": "Buy",
     "pool": "Pool",
     "farm": "Farm",
+    "version1": "Version 1",
+    "version2": "Version 2",
     "stake": "Stake",
     "newPng": "New PNG",
     "oldPng": "Old PNG",
@@ -20,7 +22,11 @@
     "makeSureURLWarning": "Make sure the URL is",
     "alwaysMakeSureWarning": "Always make sure the URL is",
     "bookmarkIt": "bookmark it to be safe.",
-    "addMetamask": "Add PNG to MetaMask"
+    "addMetamask": "Add PNG to MetaMask",
+    "bridge": "Bridge",
+    "ourPartners": "Our Partners",
+    "usefulLinks": "USEFUL LINKS",
+    "comeAndJoinUs": "Come & Join Us"
   },
   "accountDetails": {
     "connectedWith": "Connected with ",
@@ -338,7 +344,10 @@
     "stakeStakingTokens": "Stake {{ symbol }} Tokens",
     "unstake": "Unstake",
     "stakingTokensAvailable": "{{ symbol }} tokens available",
-    "getToken": "Get {{ symbol }}"
+    "getToken": "Get {{ symbol }}",
+    "migrateTitle": "Migrate your staked PGL",
+    "migrateDescription": "Pangolin has changed tokonomics. You will need to migrate your staked PGL to new contract",
+    "migrate": "Migrate"
   },
   "pool": {
     "liquidityProviderRewards": "Liquidity provider rewards",
@@ -477,5 +486,45 @@
   "burnHooks": {
     "connectWallet": "Connect Wallet",
     "enterAmount": "Enter an amount"
+  },
+  "migratePage": {
+    "stake": "STAKE",
+    "unstake": "UNSTAKE",
+    "add": "ADD",
+    "remove": "REMOVE",
+    "startMigratingNow": "START MIGRATING NOW",
+    "startMigratingNowDescription": "Below you will find all the Farms you will need to migrate to Pangolin's V2 Contracts",
+    "seeMore": "SEE MORE",
+    "migrateWithEase": "MIGRATE WITH EASE",
+    "migrateWithDescription":"We have designed an elegant wizard, which will help guide you through the process of migrating your Farms",
+    "alreadyMigrate": "already migrated",
+    "walletMigrate": "wallet migrated",
+    "alreadyEarned": "already earned",
+    "migrateNow": "MIGRATE NOW",
+    "learn": "LEARN",
+    "moveYourTokensToNewContracts" :"Migrate your Farms to Pangolin V2",
+    "readyToMigrate": "Ready to migrate",
+    "apr": "APR:",
+    "totalValueLocked": "Total Value Locked",
+    "lowVolatility": "Low Volatility",
+    "compoundable": "Compoundable",
+    "migrate": "Migrate",
+    "migrationModalDescription": "Select the pools you wish to migrate",
+    "choosePool": "Choose Pool",
+    "pool": "Pool",
+    "availableToDeposit": "Available to deposit: ",
+    "poolInfoDescription": "Select the amount you wish to migrate",
+    "dollarWorth": "Dollar Worth: ",
+    "yourRate": "Your rate: ",
+    "unclaimedPng": "Unclaimed PNG: ",
+    "shareOfPool": "Share of Pool: ",
+    "choose": "CHOOSE",
+    "selectAll": "Select all",
+    "loading": "Loading",
+    "back": "Back",
+    "availableToUnstake": "Available to unstake: ",
+    "submittingTransaction": "Submitting transaction",
+    "moveYourTokensToNewContractsDescription" :"As part of Pangolin's roll out to new improved contracts, you will need to migrate your Farms. If you need any help or guidance, please click on the “Learn” button.",
+    "migrateModalHeading": "Migrate {{ current }} of {{ total }} Farms"
   }
 }

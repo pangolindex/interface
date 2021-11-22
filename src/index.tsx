@@ -1,6 +1,6 @@
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 import 'inter-ui'
-import React, { StrictMode } from 'react'
+import React, { StrictMode, useContext } from 'react'
 import { isMobile } from 'react-device-detect'
 import ReactDOM from 'react-dom'
 import ReactGA from 'react-ga'
@@ -16,7 +16,10 @@ import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
 import UserUpdater from './state/user/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
+import { ThemeProvider as NewThemeProvider } from '@pangolindex/components'
 import getLibrary from './utils/getLibrary'
+import { ThemeContext } from 'styled-components'
+import { useIsBetaUI } from './hooks/useLocation'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
@@ -53,18 +56,29 @@ function Updaters() {
   )
 }
 
+const ComponentThemeProvider = () => {
+  const isBeta = useIsBetaUI()
+  const theme = useContext(ThemeContext)
+
+  return (
+    <NewThemeProvider theme={theme as any}>
+      <FixedGlobalStyle isBeta={isBeta} />
+      <ThemedGlobalStyle isBeta={isBeta} />
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </NewThemeProvider>
+  )
+}
+
 ReactDOM.render(
   <StrictMode>
-    <FixedGlobalStyle />
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
         <Provider store={store}>
           <Updaters />
           <ThemeProvider>
-            <ThemedGlobalStyle />
-            <HashRouter>
-              <App />
-            </HashRouter>
+            <ComponentThemeProvider />
           </ThemeProvider>
         </Provider>
       </Web3ProviderNetwork>

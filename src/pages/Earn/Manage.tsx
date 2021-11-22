@@ -2,33 +2,24 @@ import React, { useCallback, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-
-import { JSBI, TokenAmount, CurrencyAmount, CAVAX, Token, WAVAX, ChainId } from '@pangolindex/sdk'
-import { RouteComponentProps } from 'react-router-dom'
+import { JSBI, Token, Currency } from '@pangolindex/sdk'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
-import { useCurrency } from '../../hooks/Tokens'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { TYPE } from '../../theme'
-
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import { ButtonPrimary, ButtonEmpty } from '../../components/Button'
 import StakingModal from '../../components/earn/StakingModal'
-import { useStakingInfo } from '../../state/stake/hooks'
+import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks'
 import UnstakingModal from '../../components/earn/UnstakingModal'
 import ClaimRewardModal from '../../components/earn/ClaimRewardModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { useColor } from '../../hooks/useColor'
 import { CountUp } from 'use-count-up'
-
-import { wrappedCurrency } from '../../utils/wrappedCurrency'
 import { currencyId } from '../../utils/currencyId'
-import { useTotalSupply } from '../../data/TotalSupply'
-import { usePair } from '../../data/Reserves'
 import usePrevious from '../../hooks/usePrevious'
-import useUSDCPrice from '../../utils/useUSDCPrice'
-import { BIG_INT_ZERO, PNG } from '../../constants'
+import { BIG_INT_ZERO } from '../../constants'
 import { useTranslation } from 'react-i18next'
 
 const PageWrapper = styled(AutoColumn)`
@@ -88,88 +79,21 @@ const DataRow = styled(RowBetween)`
    `};
 `
 
-export default function Manage({
-  match: {
-    params: { currencyIdA, currencyIdB, version }
-  }
-}: RouteComponentProps<{ currencyIdA: string; currencyIdB: string; version: string }>) {
-  const { account, chainId } = useActiveWeb3React()
+export interface ManageProps {
+  version: string
+  stakingInfo: DoubleSideStakingInfo
+  currencyA: Currency | null | undefined
+  currencyB: Currency | null | undefined
+}
 
-  // get currencies and pair
-  const [currencyA, currencyB] = [useCurrency(currencyIdA), useCurrency(currencyIdB)]
-  const tokenA = wrappedCurrency(currencyA ?? undefined, chainId)
-  const tokenB = wrappedCurrency(currencyB ?? undefined, chainId)
+const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, currencyB }) => {
+  const { account } = useActiveWeb3React()
 
-  const [, stakingTokenPair] = usePair(tokenA, tokenB)
-  const stakingInfo = useStakingInfo(Number(version), stakingTokenPair)?.[0]
-
-  const avaxPool = currencyA === CAVAX || currencyB === CAVAX
-
-  let valueOfTotalStakedAmountInWavax: TokenAmount | undefined
-  let valueOfTotalStakedAmountInUSDC: CurrencyAmount | undefined
   let backgroundColor: string
   let token: Token | undefined
-  const totalSupplyOfStakingToken = useTotalSupply(stakingInfo?.stakedAmount?.token)
-  const [, avaxPngTokenPair] = usePair(CAVAX, PNG[chainId ? chainId : 43114])
-  if (avaxPool) {
-    token = currencyA === CAVAX ? tokenB : tokenA
-    const wavax = currencyA === CAVAX ? tokenA : tokenB
-
-    // let returnOverMonth: Percent = new Percent('0')
-    if (totalSupplyOfStakingToken && stakingTokenPair && wavax) {
-      // take the total amount of LP tokens staked, multiply by AVAX value of all LP tokens, divide by all LP tokens
-      valueOfTotalStakedAmountInWavax = new TokenAmount(
-        wavax,
-        JSBI.divide(
-          JSBI.multiply(
-            JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(wavax).raw),
-            JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
-          ),
-          totalSupplyOfStakingToken.raw
-        )
-      )
-    }
-
-    // get the USD value of staked wavax
-    //usdToken = wavax
-  } else {
-    let png
-    if (tokenA && tokenA.equals(PNG[tokenA.chainId])) {
-      token = tokenB
-      png = tokenA
-    } else {
-      token = tokenA
-      png = tokenB
-    }
-
-    if (totalSupplyOfStakingToken && stakingTokenPair && avaxPngTokenPair && tokenB && png) {
-      const oneToken = JSBI.BigInt(1000000000000000000)
-      const avaxPngRatio = JSBI.divide(
-        JSBI.multiply(oneToken, avaxPngTokenPair.reserveOf(WAVAX[tokenB.chainId]).raw),
-        avaxPngTokenPair.reserveOf(png).raw
-      )
-
-      const valueOfPngInAvax = JSBI.divide(JSBI.multiply(stakingTokenPair.reserveOf(png).raw, avaxPngRatio), oneToken)
-
-      valueOfTotalStakedAmountInWavax = new TokenAmount(
-        WAVAX[tokenB.chainId],
-        JSBI.divide(
-          JSBI.multiply(
-            JSBI.multiply(stakingInfo.totalStakedAmount.raw, valueOfPngInAvax),
-            JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
-          ),
-          totalSupplyOfStakingToken.raw
-        )
-      )
-    }
-    //usdToken = png
-  }
 
   // get the color of the token
   backgroundColor = useColor(token)
-
-  const USDPrice = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
-  valueOfTotalStakedAmountInUSDC = valueOfTotalStakedAmountInWavax && USDPrice?.quote(valueOfTotalStakedAmountInWavax)
 
   // detect existing unstaked LP position to show add button if none found
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
@@ -181,24 +105,7 @@ export default function Manage({
   const [showClaimRewardModal, setShowClaimRewardModal] = useState(false)
 
   // fade cards if nothing staked or nothing earned yet
-  const disableTop = !stakingInfo?.stakedAmount || stakingInfo.stakedAmount.equalTo(JSBI.BigInt(0))
-
-  // get WAVAX value of staked LP tokens
-
-  // let valueOfTotalStakedAmountInWAVAX: TokenAmount | undefined
-  // if (totalSupplyOfStakingToken && stakingTokenPair && stakingInfo && WAVAX) {
-  // 	// take the total amount of LP tokens staked, multiply by AVAX value of all LP tokens, divide by all LP tokens
-  // 	valueOfTotalStakedAmountInWAVAX = new TokenAmount(
-  // 		WAVAX,
-  // 		JSBI.divide(
-  // 			JSBI.multiply(
-  // 				JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(WAVAX).raw),
-  // 				JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the WAVAX they entitle owner to
-  // 			),
-  // 			totalSupplyOfStakingToken.raw
-  // 		)
-  // 	)
-  // }
+  const disableTop = !stakingInfo?.stakedAmount || stakingInfo.stakedAmount.equalTo(BIG_INT_ZERO)
 
   const countUpAmount = stakingInfo?.earnedAmount?.toFixed(6) ?? '0'
   const countUpAmountPrevious = usePrevious(countUpAmount) ?? '0'
@@ -214,6 +121,9 @@ export default function Manage({
     }
   }, [account, toggleWalletModal])
 
+  const poolMap = useMinichefPools()
+  let pairAddress = stakingInfo?.stakedAmount?.token?.address
+
   return (
     <PageWrapper gap="lg" justify="center">
       <RowBetween style={{ gap: '24px' }}>
@@ -228,10 +138,7 @@ export default function Manage({
           <AutoColumn gap="sm">
             <TYPE.body style={{ margin: 0 }}>{t('earnPage.totalStaked')}</TYPE.body>
             <TYPE.body fontSize={24} fontWeight={500}>
-              {`$${valueOfTotalStakedAmountInUSDC?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}`}
-              {/* {valueOfTotalStakedAmountInUSDC
-							? `$${valueOfTotalStakedAmountInUSDC.toFixed(0, { groupSeparator: ',' })}`
-							: `${valueOfTotalStakedAmountInWavax?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} AVAX`} */}
+              {`$${stakingInfo?.totalStakedInUsd?.toFixed(0, { groupSeparator: ',' }) ?? '-'}`}
             </TYPE.body>
           </AutoColumn>
         </PoolData>
@@ -247,6 +154,30 @@ export default function Manage({
           </AutoColumn>
         </PoolData>
       </DataRow>
+
+      {version === '1' &&
+      stakingInfo?.stakedAmount?.greaterThan(BIG_INT_ZERO) &&
+      poolMap.hasOwnProperty(pairAddress) ? (
+        <VoteCard>
+          <CardBGImage />
+          <CardNoise />
+          <CardSection>
+            <AutoColumn gap="md">
+              <RowBetween>
+                <TYPE.white fontWeight={600}>{t('earnPage.migrateTitle')}</TYPE.white>
+              </RowBetween>
+              <RowBetween style={{ marginBottom: '1rem' }}>
+                <TYPE.white fontSize={14}>{t('earnPage.migrateDescription')}</TYPE.white>
+              </RowBetween>
+              <ButtonPrimary padding="8px" width={'fit-content'} as={Link} to={`/beta/migrate/1`}>
+                {t('earnPage.migrate')}
+              </ButtonPrimary>
+            </AutoColumn>
+          </CardSection>
+          <CardBGImage />
+          <CardNoise />
+        </VoteCard>
+      ) : null}
 
       {showAddLiquidityButton && (
         <VoteCard>
@@ -284,16 +215,19 @@ export default function Manage({
             onDismiss={() => setShowStakingModal(false)}
             stakingInfo={stakingInfo}
             userLiquidityUnstaked={userLiquidityUnstaked}
+            version={Number(version)}
           />
           <UnstakingModal
             isOpen={showUnstakingModal}
             onDismiss={() => setShowUnstakingModal(false)}
             stakingInfo={stakingInfo}
+            version={Number(version)}
           />
           <ClaimRewardModal
             isOpen={showClaimRewardModal}
             onDismiss={() => setShowClaimRewardModal(false)}
             stakingInfo={stakingInfo}
+            version={Number(version)}
           />
         </>
       )}
@@ -319,7 +253,7 @@ export default function Manage({
               </AutoColumn>
             </CardSection>
           </StyledDataCard>
-          <StyledBottomCard dim={stakingInfo?.stakedAmount?.equalTo(JSBI.BigInt(0))}>
+          <StyledBottomCard dim={stakingInfo?.stakedAmount?.equalTo(BIG_INT_ZERO)}>
             <CardBGImage desaturate />
             <CardNoise />
             <AutoColumn gap="sm">
@@ -373,12 +307,12 @@ export default function Manage({
         {!showAddLiquidityButton && (
           <DataRow style={{ marginBottom: '1rem' }}>
             <ButtonPrimary padding="8px" borderRadius="8px" width="160px" onClick={handleDepositClick}>
-              {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0))
+              {stakingInfo?.stakedAmount?.greaterThan(BIG_INT_ZERO)
                 ? t('earnPage.deposit')
                 : t('earnPage.depositStakingTokens', { symbol: 'PGL' })}
             </ButtonPrimary>
 
-            {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) && (
+            {stakingInfo?.stakedAmount?.greaterThan(BIG_INT_ZERO) && (
               <>
                 <ButtonPrimary
                   padding="8px"
@@ -401,3 +335,5 @@ export default function Manage({
     </PageWrapper>
   )
 }
+
+export default Manage

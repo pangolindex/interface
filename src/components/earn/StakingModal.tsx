@@ -14,7 +14,7 @@ import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { usePairContract, useStakingContract } from '../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
-import { DoubleSideStakingInfo, useDerivedStakeInfo } from '../../state/stake/hooks'
+import { DoubleSideStakingInfo, useDerivedStakeInfo, useMinichefPools } from '../../state/stake/hooks'
 import { wrappedCurrencyAmount } from '../../utils/wrappedCurrency'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
@@ -40,9 +40,10 @@ interface StakingModalProps {
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
   userLiquidityUnstaked: TokenAmount | undefined
+  version: number
 }
 
-export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiquidityUnstaked }: StakingModalProps) {
+export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiquidityUnstaked, version }: StakingModalProps) {
   const { account, chainId, library } = useActiveWeb3React()
 
   // track and parse user input
@@ -85,32 +86,37 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
 
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
+  const poolMap = useMinichefPools()
+
   async function onStake() {
-    setAttempting(true)
-    if (stakingContract && parsedAmount && deadline) {
+    if (stakingContract && poolMap && parsedAmount && deadline) {
+      setAttempting(true)
+      const method = version < 2 ? 'stake' : 'deposit'
+      const args = version < 2
+        ? [`0x${parsedAmount.raw.toString(16)}`]
+        : [poolMap[stakingInfo.stakedAmount.token.address], `0x${parsedAmount.raw.toString(16)}`, account]
+
       if (approval === ApprovalState.APPROVED) {
         stakingContract
-	        .stake(`0x${parsedAmount.raw.toString(16)}`, { gasLimit: 350000 })
-	        .then((response: TransactionResponse) => {
-		        addTransaction(response, {
-			        summary: t("earn.depositLiquidity")
-		        });
-		        setHash(response.hash);
-	        })
-	        .catch((error: any) => {
-		        setAttempting(false);
-		        console.error(error);
-	        })
+          [method](...args)
+          .then((response: TransactionResponse) => {
+            addTransaction(response, {
+              summary: t("earn.depositLiquidity")
+            });
+            setHash(response.hash);
+          })
+          .catch((error: any) => {
+            setAttempting(false);
+            console.error(error);
+          })
       } else if (signatureData) {
+        const permitMethod = version < 2 ? 'stakeWithPermit' : 'depositWithPermit'
+        const permitArgs = version < 2
+          ? [`0x${parsedAmount.raw.toString(16)}`, signatureData.deadline, signatureData.v, signatureData.r, signatureData.s]
+          : [poolMap[stakingInfo.stakedAmount.token.address], `0x${parsedAmount.raw.toString(16)}`, account, signatureData.deadline, signatureData.v, signatureData.r, signatureData.s]
+
         stakingContract
-          .stakeWithPermit(
-            `0x${parsedAmount.raw.toString(16)}`,
-            signatureData.deadline,
-            signatureData.v,
-            signatureData.r,
-            signatureData.s,
-            { gasLimit: 350000 }
-          )
+          [permitMethod](...permitArgs)
           .then((response: TransactionResponse) => {
             addTransaction(response, {
               summary: t('earn.depositLiquidity')
@@ -143,6 +149,7 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
 
   async function onAttemptToApprove() {
     if (!pairContract || !library || !deadline) throw new Error(t('earn.missingDependencies'))
+
     const liquidityAmount = parsedAmount
     if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
 

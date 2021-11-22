@@ -4,6 +4,8 @@
     "buy": "Mua",
     "pool": "Bể",
     "farm": "Farm",
+    "version1": "Phiên bản 1",
+    "version2": "Phiên bản 2",
     "stake": "Stake",
     "newPng": "PNG mới",
     "oldPng": "PNG cũ",
@@ -20,7 +22,11 @@
     "makeSureURLWarning": "Đảm bảo rằng URL là:",
     "alwaysMakeSureWarning": "Luôn đảm bảo rằng URL là:",
     "bookmarkIt": "Đánh dấu nó để an toàn.",
-    "addMetamask": "Thêm PNG vào MetaMask"
+    "addMetamask": "Thêm PNG vào MetaMask",
+    "bridge": "Cầu",
+    "ourPartners": "Những cộng sự của chúng ta",
+    "usefulLinks": "LIÊN KẾT HỮU ÍCH",
+    "comeAndJoinUs": "Hãy đến và tham gia cùng chúng tôi"
   },
   "accountDetails": {
     "connectedWith": "Kết nối với",
@@ -339,7 +345,10 @@
     "stakeStakingTokens": "Đặt cổ phần {{ symbol }}",
     "unstake": "Rút cổ phần",
     "stakingTokensAvailable": "{{ symbol }} khả dụng",
-    "getToken": "Nhận {{ symbol }}"
+    "getToken": "Nhận {{ symbol }}",
+    "migrateTitle": "Di chuyển PGL xếp chồng của bạn",
+    "migrateDescription": "Pangolin đã thay đổi tokenomics. Bạn sẽ cần di chuyển PGL xếp chồng của mình sang hợp đồng mới",
+    "migrate": "Di cư"
   },
   "pool": {
     "liquidityProviderRewards": "Phần thưởng người cung cấp thanh khoản",
@@ -477,6 +486,46 @@
   },
   "burnHooks": {
     "connectWallet": "Kết nối ví",
-    "enterAmount": "Nhập số lượng"
+    "enterAmount": "Nhập số lượng" 
+  },
+  "migratePage": {
+    "stake": "CỔ PHẦN",
+    "unstake": "BẤT NGỜ",
+    "add": "CỘNG",
+    "remove": "TẨY",
+    "startMigratingNow": "BẮT ĐẦU DI CƯ NGAY BÂY GIỜ",
+    "startMigratingNowDescription": "Dưới đây, bạn sẽ tìm thấy tất cả các Trang trại mà bạn sẽ cần để di chuyển sang Hợp đồng V2 của Pangolin",
+    "seeMore": "XEM THÊM",
+    "migrateWithEase": "DI CHUYỂN VỚI EASE",
+    "migrateWithDescription":"Chúng tôi đã thiết kế một trình hướng dẫn thanh lịch, sẽ giúp hướng dẫn bạn trong quá trình di chuyển Trang trại của bạn",
+    "alreadyMigrate": "đã di cư",
+    "walletMigrate": "ví đã di chuyển",
+    "alreadyEarned": "đã kiếm được",
+    "migrateNow": "DI TRÚ NGAY BÂY GIỜ",
+    "learn": "HỌC",
+    "moveYourTokensToNewContracts" :"Di chuyển trang trại của bạn sang Pangolin V2",
+    "readyToMigrate": "Sẵn sàng di chuyển",
+    "apr": "APR:",
+    "totalValueLocked": "Tổng giá trị đã khóa",
+    "lowVolatility": "Sự biến động thấp",
+    "compoundable": "Hợp chất",
+    "migrate": "Di cư",
+    "migrationModalDescription": "Chúng tôi nhận thấy rằng bạn có các nhóm này… Hãy chọn một hoặc thêm một nhóm.",
+    "choosePool": "Chọn nhóm",
+    "pool": "Hồ bơi",
+    "availableToDeposit": "Có sẵn để đặt cọc: ",
+    "poolInfoDescription": "Bây giờ bạn đã chọn hồ bơi của mình, sau đó cho phép bạn rời khỏi đó.",
+    "dollarWorth": "Giá trị đô la: ",
+    "yourRate": "Tỷ lệ của bạn: ",
+    "unclaimedPng": "PNG vô thừa nhận: ",
+    "shareOfPool": "Chia sẻ của Pool: ",
+    "choose": "LỰA CHỌN",
+    "selectAll": "Chọn tất cả",
+    "loading": "Đang tải",
+    "back": "Mặt sau",
+    "availableToUnstake": "Có sẵn để hủy bỏ: ",
+    "submittingTransaction": "Gửi giao dịch",
+    "moveYourTokensToNewContractsDescription" :"Là một phần trong kế hoạch triển khai các hợp đồng cải tiến mới của Pangolin, bạn sẽ cần phải di chuyển Trang trại của mình. Nếu bạn cần bất kỳ trợ giúp hoặc hướng dẫn nào, vui lòng nhấp vào nút “Tìm hiểu”.",
+    "migrateModalHeading": "Di cư {{ current }} của {{ total }} trang trại"
   }
 }
