@@ -539,12 +539,13 @@ export function useSingleSideStakingInfo(
 
 export function useTotalPngEarned(): TokenAmount | undefined {
   const { chainId } = useActiveWeb3React()
-  const png = chainId ? PNG[chainId] : undefined
+  const png = PNG[chainId || ChainId.AVALANCHE]
   const stakingInfo0 = useStakingInfo(0)
   const stakingInfo1 = useStakingInfo(1)
+  const stakingInfo2 = useMinichefStakingInfos(2)
 
   const earned0 = useMemo(() => {
-    if (!png) return undefined
+    if (!png) new TokenAmount(png, '0')
     return (
       stakingInfo0?.reduce(
         (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
@@ -554,7 +555,7 @@ export function useTotalPngEarned(): TokenAmount | undefined {
   }, [stakingInfo0, png])
 
   const earned1 = useMemo(() => {
-    if (!png) return undefined
+    if (!png) new TokenAmount(png, '0')
     return (
       stakingInfo1?.reduce(
         (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
@@ -563,7 +564,18 @@ export function useTotalPngEarned(): TokenAmount | undefined {
     )
   }, [stakingInfo1, png])
 
-  return earned0 ? (earned1 ? earned0.add(earned1) : earned0) : earned1 ? earned1 : undefined
+  const earned2 = useMemo(() => {
+    if (!png) new TokenAmount(png, '0')
+    return (
+      stakingInfo2?.reduce(
+        (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
+        new TokenAmount(png, '0')
+      ) ?? new TokenAmount(png, '0')
+    )
+  }, [stakingInfo2, png])
+
+  return earned0.add(earned1).add(earned2)
+  // return earned0 ? (earned1 ? earned0.add(earned1) : earned0) : earned1 ? earned1 : undefined
 }
 
 // based on typed value
@@ -762,20 +774,20 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     if (!pairAddresses || !poolMap) return []
     // TODO: clean up this logic. seems like a lot of work to ensure correct types
     const NOT_FOUND = -1
-    const results = pairAddresses.map((address) => poolMap[address ?? ''] ?? NOT_FOUND)
-    if (results.some((result) => result === NOT_FOUND)) return []
+    const results = pairAddresses.map(address => poolMap[address ?? ''] ?? NOT_FOUND)
+    if (results.some(result => result === NOT_FOUND)) return []
     return results
   }, [poolMap, pairAddresses])
 
   const poolsIdInput = useMemo(() => {
     if (!poolIdArray) return []
-    return poolIdArray.map((pid) => [pid])
+    return poolIdArray.map(pid => [pid])
   }, [poolIdArray])
   const poolInfos = useSingleContractMultipleData(minichefContract, 'poolInfo', poolsIdInput ?? [])
 
   const userInfoInput = useMemo(() => {
     if (!poolIdArray || !account) return []
-    return poolIdArray.map((pid) => [pid, account])
+    return poolIdArray.map(pid => [pid, account])
   }, [poolIdArray, account])
   const userInfos = useSingleContractMultipleData(minichefContract, 'userInfo', userInfoInput ?? [])
 
