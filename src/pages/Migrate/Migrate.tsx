@@ -19,7 +19,6 @@ import { useParams } from 'react-router-dom'
 import { useActiveWeb3React } from '../../hooks'
 import { Dots } from '../../components/swap/styleds'
 import { Text, Box } from '@pangolindex/components'
-import StatCard from '../../components/StatCard'
 import MigrationCard from '../../components/MigrationCard'
 import { useTranslation } from 'react-i18next'
 import MigrationModal from '../../components/MigrationModal'
@@ -27,9 +26,6 @@ import { useMigrationModalToggle } from '../../state/application/hooks'
 import { useGetMigrationData } from '../../state/migrate/hooks'
 import { StakingInfo } from '../../state/stake/hooks'
 import MigrationVector from '../../assets/images/migration_vector.png'
-import AlreadyMigrate from '../../assets/svg/alreadyMigrated.svg'
-import AlreadyEarned from '../../assets/svg/alreadyEarned.svg'
-import WalletMigrated from '../../assets/svg/walletMigrated.svg'
 import Stake from '../../assets/svg/stake.svg'
 import Unstake from '../../assets/svg/unstake.svg'
 
@@ -76,25 +72,25 @@ const MigrateUI = () => {
         </HideSmall>
       </FirstWrapper>
 
-      <PanelWrapper style={{ marginTop: below1080 ? '0' : '50px' }}>
-        <StatCard
-          icon={<StatisticImage src={AlreadyMigrate} alt="Already Migrate" />}
-          title={t('migratePage.alreadyMigrate')}
-          stat={`$250.000`}
-        />
+      {/*<PanelWrapper style={{ marginTop: below1080 ? '0' : '50px' }}>*/}
+      {/*  <StatCard*/}
+      {/*    icon={<StatisticImage src={AlreadyMigrate} alt="Already Migrate" />}*/}
+      {/*    title={t('migratePage.alreadyMigrate')}*/}
+      {/*    stat={`$250.000`}*/}
+      {/*  />*/}
 
-        <StatCard
-          icon={<StatisticImage src={WalletMigrated} alt="Wallet Migrated" />}
-          title={t('migratePage.walletMigrate')}
-          stat={`2.435`}
-        />
+      {/*  <StatCard*/}
+      {/*    icon={<StatisticImage src={WalletMigrated} alt="Wallet Migrated" />}*/}
+      {/*    title={t('migratePage.walletMigrate')}*/}
+      {/*    stat={`2.435`}*/}
+      {/*  />*/}
 
-        <StatCard
-          icon={<StatisticImage src={AlreadyEarned} alt="Alread yEarned" />}
-          title={t('migratePage.alreadyEarned')}
-          stat={`$150.000`}
-        />
-      </PanelWrapper>
+      {/*  <StatCard*/}
+      {/*    icon={<StatisticImage src={AlreadyEarned} alt="Alread yEarned" />}*/}
+      {/*    title={t('migratePage.alreadyEarned')}*/}
+      {/*    stat={`$150.000`}*/}
+      {/*  />*/}
+      {/*</PanelWrapper>*/}
 
       <InfoWrapper>
         <Box>
