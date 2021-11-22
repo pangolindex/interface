@@ -1,17 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useTranslation } from 'react-i18next'
 
 const PngToggleElement = styled.span<{ isActive?: boolean; isOnSwitch?: boolean }>`
   padding: 0.25rem 0.5rem;
-  border-radius: 14px;
+  border-radius: 7px;
   background: ${({ theme, isActive, isOnSwitch }) => (isActive ? (isOnSwitch ? theme.primary1 : theme.text4) : 'none')};
   color: ${({ theme, isActive, isOnSwitch }) => (isActive ? (isOnSwitch ? theme.white : theme.text2) : theme.text3)};
   font-size: 1rem;
   font-weight: 400;
 
   padding: 0.35rem 0.6rem;
-  border-radius: 12px;
+  border-radius: 6px;
   background: ${({ theme, isActive, isOnSwitch }) => (isActive ? (isOnSwitch ? theme.primary1 : theme.text4) : 'none')};
   color: ${({ theme, isActive, isOnSwitch }) => (isActive ? (isOnSwitch ? theme.white : theme.text2) : theme.text2)};
   font-size: 1rem;
@@ -25,7 +24,7 @@ const PngToggleElement = styled.span<{ isActive?: boolean; isOnSwitch?: boolean 
 `
 
 const StyledPngToggle = styled.button<{ isActive?: boolean; activeElement?: boolean }>`
-  border-radius: 12px;
+  border-radius: 6px;
   border: none;
   /* border: 1px solid ${({ theme, isActive }) => (isActive ? theme.primary5 : theme.text4)}; */
   background: ${({ theme }) => theme.bg3};
@@ -34,6 +33,7 @@ const StyledPngToggle = styled.button<{ isActive?: boolean; activeElement?: bool
   cursor: pointer;
   outline: none;
   padding: 0;
+  height: 100%;
   /* background-color: transparent; */
 `
 
@@ -41,17 +41,18 @@ export interface PngToggleProps {
   id?: string
   isActive: boolean
   toggle: (e: boolean) => void
+  leftLabel: string
+  rightLabel: string
 }
 
-export default function PngToggle({ id, isActive, toggle }: PngToggleProps) {
-  const { t } = useTranslation()
+export default function PngToggle({ id, isActive, toggle, leftLabel, rightLabel }: PngToggleProps) {
   return (
     <StyledPngToggle id={id} isActive={isActive} onClick={() => toggle(!isActive)}>
       <PngToggleElement isActive={isActive} isOnSwitch={true}>
-        {t('toggle.on')}
+        {leftLabel}
       </PngToggleElement>
       <PngToggleElement isActive={!isActive} isOnSwitch={false}>
-        {t('toggle.off')}
+        {rightLabel}
       </PngToggleElement>
     </StyledPngToggle>
   )
