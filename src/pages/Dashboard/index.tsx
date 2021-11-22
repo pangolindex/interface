@@ -10,12 +10,17 @@ import {
   CardBody,
   Label,
   Value,
-  FlexWrapper
+  FlexWrapper,
+  ContainerLeft,
+  ContainerRight,
+  ClaimButton,
+  XStakeButton,
+  CustomizePools,
 } from './styleds'
 import { useTranslation } from 'react-i18next'
-import { Button } from '@pangolindex/components'
 import TradingViewChart from './TradingViewChart'
 import PngToggle from './PngToggle'
+import { Link } from 'react-router-dom'
 
 const Dashboard = () => {
   const { t } = useTranslation()
@@ -30,13 +35,15 @@ const Dashboard = () => {
       <PageTitle>{t('dashboardPage.dashboard')}</PageTitle>
       <PageDescription>{t('dashboardPage.greetings')}</PageDescription>
       <TopContainerWrapper>
-        <Card>
-          <CardHeader>{t('dashboardPage.portfolioValue')}</CardHeader>
-          <CardBody>
-            <TradingViewChart />
-          </CardBody>
-        </Card>
-        <div>
+        <ContainerLeft>
+          <Card>
+            <CardHeader>{t('dashboardPage.portfolioValue')}</CardHeader>
+            <CardBody>
+              <TradingViewChart />
+            </CardBody>
+          </Card>
+        </ContainerLeft>
+        <ContainerRight>
           <TopContainerWrapper>
             <Card>
               <CardHeader>News</CardHeader>
@@ -44,7 +51,7 @@ const Dashboard = () => {
             <Card>
               <CardHeader>
                 <div>{t('dashboardPage.earned')}</div>
-                <PngToggle isActive={earnedCurrency} toggle={handleEarnedCurrency} />
+                <PngToggle isActive={earnedCurrency} toggle={handleEarnedCurrency} leftLabel="USD" rightLabel="PNG" />
               </CardHeader>
               <CardBody>
                 <Label>{t('dashboardPage.earned_dailyIncome')}</Label>
@@ -52,9 +59,12 @@ const Dashboard = () => {
                 <Label>{t('dashboardPage.earned_totalEarned')}</Label>
                 <Value>2.400021</Value>
                 <FlexWrapper>
-                  <Button variant="primary">xStake</Button>
-                  <Button variant="primary">{t('dashboardPage.earned_claim')}</Button>
+                  <XStakeButton variant="primary">xStake</XStakeButton>
+                  <ClaimButton variant="primary">{t('dashboardPage.earned_claim')}</ClaimButton>
                 </FlexWrapper>
+                <CustomizePools>
+                  <Link to="/">Customize Pools</Link>
+                </CustomizePools>
               </CardBody>
             </Card>
           </TopContainerWrapper>
@@ -64,7 +74,7 @@ const Dashboard = () => {
               <CardBody></CardBody>
             </Card>
           </BottomContainerWrapper>
-        </div>
+        </ContainerRight>
       </TopContainerWrapper>
       <BottomContainerWrapper>
         <Card>

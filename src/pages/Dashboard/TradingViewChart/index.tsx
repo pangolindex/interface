@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { createChart, IChartApi } from 'lightweight-charts'
 import styled from 'styled-components'
 
-const WIDTH = 1000
+const WIDTH = 600
 const HEIGHT = 300
 const data = [
   { time: '2021-11-07', value: 6.59 },
