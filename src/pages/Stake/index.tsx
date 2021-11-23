@@ -45,7 +45,11 @@ export default function Earn({
   useMemo(() => {
     Promise.all(
       stakingInfos
-        ?.sort(function(info_a, info_b) {
+        ?.filter(function(info) {
+          // Only include pools that are live or require a migration
+          return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+        })
+        .sort(function(info_a, info_b) {
           // greater stake in png comes first
           return info_a.totalStakedInPng?.greaterThan(info_b.totalStakedInPng ?? BIG_INT_ZERO) ? -1 : 1
         })
@@ -67,7 +71,7 @@ export default function Earn({
     ).then(results => {
       setStakingInfoResults(results)
     })
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingInfos?.length])
 
   const DataRow = styled(RowBetween)`
