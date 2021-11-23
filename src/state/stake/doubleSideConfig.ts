@@ -85,7 +85,6 @@ import {
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
-
 export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   WAVAX_ETH_V0: {
     tokens: [WAVAX[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
@@ -923,17 +922,6 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     multiplier: 0
   },
 
-
-
-
-
-
-
-
-
-
-
-
   WAVAX_PNG_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
@@ -1215,7 +1203,6 @@ export const BRIDGE_MIGRATORS: BridgeMigrator[] = [
   { aeb: '0x8cE2Dee54bB9921a2AE0A63dBb2DF8eD88B91dD9', ab: '0x63a72806098Bd3D9520cC43356dD78afe5D386D9' }, // AAVE
   { aeb: '0x99519AcB025a0e0d44c3875A4BbF03af65933627', ab: '0x9eAaC1B23d935365bD7b542Fe22cEEe2922f52dc' } // YFI
 ]
-
 
 export const DOUBLE_SIDE_STAKING_V0: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING).filter(
   staking => staking.version === 0
