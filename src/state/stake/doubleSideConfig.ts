@@ -1046,6 +1046,12 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], FRAX[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2,
+    multiplier: 0
+  },
+  WAVAX_FRAXV2_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], FRAXV2[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2,
     multiplier: 10
   },
   WAVAX_AMPL_V2: {
