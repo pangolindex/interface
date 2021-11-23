@@ -29,7 +29,7 @@ import Logo from '../Logo'
 
 interface SidebarProps {
   collapsed: boolean
-  onCollapsed: () => void
+  onCollapsed: (isCollapsed: boolean) => void
 }
 
 export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
@@ -136,7 +136,17 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
   ]
 
   return (
-    <Sider collapsed={collapsed}>
+    <Sider
+      collapsed={collapsed}
+      onMouseEnter={() => {
+        onCollapsed(false)
+      }}
+      onMouseLeave={() => {
+        if (!collapsed) {
+          onCollapsed(true)
+        }
+      }}
+    >
       <Logo collapsed={collapsed} />
 
       <Scrollbars
@@ -161,9 +171,9 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
             })}
           </Menu>
 
-          <Box mt={collapsed ? '0px' : '10px'}>
+          <Box mt={collapsed ? '0px' : '10px'} overflowY="hidden">
             {!collapsed && (
-              <Box height={35}>
+              <Box height={35} overflowY="hidden">
                 <Text color="color2" fontSize={12}>
                   PANGOLIN LINKS{' '}
                 </Text>
@@ -184,7 +194,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
           <Box mt={collapsed ? '0px' : '10px'}>
             {!collapsed && (
-              <Box height={35}>
+              <Box height={35} overflowY="hidden">
                 <Text color="color2" fontSize={12}>
                   {t('header.usefulLinks')}
                 </Text>
@@ -206,7 +216,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       </Scrollbars>
       <BottomBar>
         <SocialMedia collapsed={collapsed} />
-        <CollapseBar onClick={() => onCollapsed()}>
+        <CollapseBar onClick={() => onCollapsed(!collapsed)}>
           {collapsed ? (
             <img height={'16px'} src={Forward} alt={'Forward'} />
           ) : (

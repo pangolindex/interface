@@ -42,10 +42,14 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
     let stakingToken = stakingInfo?.stakedAmount?.token
     const parsedInput = tryParseAmount(unStakingAmount, stakingToken) as TokenAmount
 
-    if (parsedInput && stakingInfo?.stakedAmount && JSBI.greaterThan(parsedInput.raw, stakingInfo?.stakedAmount.raw)) {
-      setIsValidAmount(false)
-    } else {
+    if (parsedInput
+      && stakingInfo?.stakedAmount
+      && JSBI.lessThanOrEqual(parsedInput.raw, stakingInfo?.stakedAmount.raw)
+      && JSBI.greaterThan(parsedInput.raw, JSBI.BigInt(0))
+    ) {
       setIsValidAmount(true)
+    } else {
+      setIsValidAmount(false)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -72,23 +76,23 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
     }
   }
 
+  const onMax = () => {
+    setStepIndex(4)
+    setUnstakingAmount(stakingInfo?.stakedAmount?.toExact())
+  }
+
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   async function onWithdraw() {
-    const stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(unStakingAmount, stakingToken) as TokenAmount
-
     if (
       stakingContract &&
-      parsedInput &&
-      stakingInfo?.stakedAmount &&
-      JSBI.lessThanOrEqual(parsedInput.raw, stakingInfo?.stakedAmount.raw)
+      stakingInfo?.stakedAmount?.greaterThan('0')
     ) {
       setAttempting(true)
       await stakingContract
-        .withdraw(`0x${parsedInput.raw.toString(16)}`)
+        .exit()
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.withdrawDepositedLiquidity')
@@ -118,7 +122,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
         onChangeDot={onChangeDot}
         amount={unStakingAmount}
         onChangeAmount={onChangeAmount}
-        unStakeAmount={stakingInfo?.stakedAmount}
+        onMax={onMax}
       />
 
       <Box mt={10}>

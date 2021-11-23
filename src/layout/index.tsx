@@ -1,17 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from './Header'
 import Sidebar from './Sidebar'
 import { Wrapper, MainContent, AppContent } from './styled'
-import { useDrawerCollapsedManager } from '../state/user/hooks'
 
 const Layout: React.FC<{}> = ({ children }) => {
-  const [isDrawerCollapsed, toggleCollapsedMode] = useDrawerCollapsedManager()
+  const [isDrawerCollapsed, setIsDrawerCollapsed] = useState(true)
 
   return (
     <Wrapper>
-      <Sidebar collapsed={isDrawerCollapsed} onCollapsed={() => toggleCollapsedMode()} />
+      <Sidebar collapsed={isDrawerCollapsed} onCollapsed={value => setIsDrawerCollapsed(value)} />
       <MainContent collapsed={isDrawerCollapsed}>
-        <Header onCollapsed={() => toggleCollapsedMode()} />
+        <Header onCollapsed={() => setIsDrawerCollapsed(!isDrawerCollapsed)} />
         <AppContent>{children}</AppContent>
       </MainContent>
     </Wrapper>

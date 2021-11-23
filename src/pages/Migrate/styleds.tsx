@@ -9,6 +9,8 @@ export const PageWrapper = styled(Box)`
 
 export const FirstWrapper = styled(RowFixed)`
   gap: 40px;
+  width: 100%;
+  justify-content: space-between;
   ${({ theme }) => theme.mediaWidth.upToSmall`
   width: 100%;
   justify-content: space-between;
@@ -123,12 +125,13 @@ export const ArrowRight = styled(ChevronRight)`
 
 export const EmptyProposals = styled.div`
   border: 1px solid ${({ theme }) => theme.text4};
-  padding: 16px 12px;
+  padding: 8px 4px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 10px;
 `
 export const HideSmall = styled.div`
   ${({ theme }) => theme.mediaWidth.upToSmall`

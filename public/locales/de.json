@@ -35,7 +35,7 @@
     "disconnect": "Trennen",
     "change": "Ändern",
     "copy": "Adresse kopieren",
-    "viewExplorer": "Im C-Chain Explorer ansehen",
+    "viewExplorer": "Im Snowtrace Explorer ansehen",
     "clearAll": "(alle löschen)",
     "transactionAppear": "Deine Transaktionen werden hier erscheinen...",
     "recentTransactions": "Jüngste Transaktionen",
@@ -43,7 +43,7 @@
   },
   "addressInputPanel": {
     "recipient": "Empfänger",
-    "viewExplorer": "(Im Avalanche-C-Chain Explorer ansehen)",
+    "viewExplorer": "(Im Avalanche-Snowtrace Explorer ansehen)",
     "walletAddress": "Wallet-Adresse"
   },
   "currencyInputPanel": {
@@ -104,7 +104,7 @@
   },
   "modalView": {
     "confirmTransaction": "Diese Transaktion in deiner Wallet überprüfen",
-    "viewTransaction": "Transaktion im C-Chain Explorer ansehen"
+    "viewTransaction": "Transaktion im Snowtrace Explorer ansehen"
   },
   "navigationTabs": {
     "useThisTool": "Benutze dieses Werkzeug, um dir Paare anzeigen zu lassen, die nicht in der Schnittstelle auftauchen.",
@@ -120,7 +120,7 @@
   "popups": {
     "tokenListUpdated": "Die Token-Liste \" {{oldList}} \" wurde aktualisiert zu ",
     "updateAvailable": "Für die Token-Liste ist ein Update verfügbar \" {{oldList}} \"",
-    "viewExplorer": "Im C-Chain Explorer ansehen",
+    "viewExplorer": "Im Snowtrace Explorer ansehen",
     "hash": "Hash: ",
     "added": "hinzugefügt",
     "removed": "entfernt",
@@ -212,13 +212,13 @@
     "purchaseArbitraryWarning": "Wenn du einen beliebigen Token kaufst, <strong>kannst du ihn unter Umständen nicht zurückverkaufen.</strong>",
     "understand": "Ich verstehe",
     "continue": "Weiter",
-    "viewExplorer": "Im C-Chain Explorer ansehen"
+    "viewExplorer": "Im Snowtrace Explorer ansehen"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "Warte auf Bestätigung",
     "confirmTransaction": "Diese Transaktion in deiner Wallet überprüfen",
     "transactionSubmitted": "Transaktion eingereicht",
-    "viewExplorer": "Im C-Chain Explorer ansehen",
+    "viewExplorer": "Im Snowtrace Explorer ansehen",
     "close": "Schließen",
     "error": "Fehler",
     "dismiss": "Abbruch"
@@ -251,7 +251,7 @@
     "votes": "Stimmen",
     "submittingVote": "Stimme wird abgegeben",
     "confirmTransaction": "Diese Transaktion in deiner Wallet überprüfen",
-    "viewExplorer": "Im C-Chain Explorer ansehen"
+    "viewExplorer": "Im Snowtrace Explorer ansehen"
   },
   "walletModal": {
     "wrongNetwork": "Falsches Netzwerk",
@@ -495,16 +495,16 @@
     "add": "HINZUFÜGEN",
     "remove": "LÖSCHEN",
     "startMigratingNow": "STARTEN SIE JETZT MIT DER MIGRATION",
-    "startMigratingNowDescription": "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Etiam Justo Libero, Scelerisque Quis Ipsum Quis, Viverra Ornare Odio. Vestibulum Imperdiet",
+    "startMigratingNowDescription": "Unten finden Sie alle Farmen, die Sie für die Migration zu Pangolins V2-Verträgen benötigen",
     "seeMore": "MEHR SEHEN",
     "migrateWithEase": "MIT EINFACHEM MIGRIEREN",
-    "migrateWithDescription":"Hallo Anon! Wir haben festgestellt, dass Sie einige Token in Ihrer Brieftasche haben, die über Pangolin übertragen werden müssen. Sie können Token auch über Trader Joe, Lydia und Canary übertragen.",
+    "migrateWithDescription":"Wir haben einen eleganten Assistenten entwickelt, der Sie durch den Migrationsprozess Ihrer Farmen führt",
     "alreadyMigrate": "bereits migriert",
     "walletMigrate": "Brieftasche migriert",
     "alreadyEarned": "Bereits verdienen",
     "migrateNow": "JETZT MIGIEREN",
     "learn": "LERNEN",
-    "moveYourTokensToNewContracts" :"VERSCHIEBEN SIE IHRE TOKEN AUF NEUE VERTRÄGE",
+    "moveYourTokensToNewContracts" :"Migrieren Sie Ihre Farmen zu Pangolin V2",
     "readyToMigrate": "Bereit zur Migration",
     "apr": "APR:",
     "totalValueLocked": "Gesamtwert gesperrt",
@@ -516,7 +516,7 @@
     "pool": "Pool",
     "availableToDeposit": "Einzahlung möglich: ",
     "poolInfoDescription": "Jetzt haben Sie Ihren Pool ausgewählt und können Sie von dort abheben.",
-    "dollerWarth": "Dollarwert: ",
+    "dollarWorth": "Dollarwert: ",
     "yourRate": "Ihr Tarif: ",
     "unclaimedPng": "Nicht beanspruchtes PNG: ",
     "shareOfPool": "Poolanteil: ",
@@ -525,7 +525,9 @@
     "loading": "Wird geladen",
     "back": "Zurück",
     "availableToUnstake": "Verfügbar zum Abnehmen: ",
-    "submittingTransaction": "Übermittlung der Transaktion"
+    "submittingTransaction": "Übermittlung der Transaktion",
+    "moveYourTokensToNewContractsDescription" :"Als Teil der Einführung von Pangolin zu neuen verbesserten Verträgen müssen Sie Ihre Farmen migrieren. Wenn Sie Hilfe oder Anleitung benötigen, klicken Sie bitte auf die Schaltfläche „Lernen“.",
+    "migrateModalHeading": "Migration {{ current }} der {{ total }} Farm"
   },
   "dashboardPage": {
     "dashboard": "Dashboard",
