@@ -62,7 +62,12 @@ const MigrateUI = () => {
             >
               {t('migratePage.migrateNow')}
             </ResponsiveButtonPrimary>
-            <ResponsiveButtonOutline variant="outline">{t('migratePage.learn')}</ResponsiveButtonOutline>
+            <ResponsiveButtonOutline
+              variant="outline"
+              href="https://docs.pangolin.exchange/learn-how-to/migrate-to-v2-farms"
+            >
+              {t('migratePage.learn')}
+            </ResponsiveButtonOutline>
           </ButtonRow>
         </Box>
         <HideSmall>
