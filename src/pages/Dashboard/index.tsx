@@ -10,17 +10,22 @@ import {
   CardBody,
   Label,
   Value,
+  ValueWithInfo,
   FlexWrapper,
   ContainerLeft,
   ContainerRight,
   ClaimButton,
   XStakeButton,
-  CustomizePools,
+  CustomizePools
 } from './styleds'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import TradingViewChart from './TradingViewChart'
 import PngToggle from './PngToggle'
-import { Link } from 'react-router-dom'
+import { useDarkModeManager } from '../../state/user/hooks'
+import Logo from '../../assets/svg/icon.svg'
+import LogoDark from '../../assets/svg/icon.svg'
+import Info from '../../assets/svg/info.svg'
 
 const Dashboard = () => {
   const { t } = useTranslation()
@@ -29,6 +34,8 @@ const Dashboard = () => {
   const handleEarnedCurrency = (currency: boolean) => {
     setEarnedCurrency(currency)
   }
+
+  const [isDark] = useDarkModeManager()
 
   return (
     <PageWrapper>
@@ -55,9 +62,16 @@ const Dashboard = () => {
               </CardHeader>
               <CardBody>
                 <Label>{t('dashboardPage.earned_dailyIncome')}</Label>
-                <Value>2.400021</Value>
+                <Value>
+                  2.400021 <img width={'24px'} src={isDark ? LogoDark : Logo} alt="logo" />
+                </Value>
                 <Label>{t('dashboardPage.earned_totalEarned')}</Label>
-                <Value>2.400021</Value>
+                <ValueWithInfo>
+                  <Value>
+                    2.400021 <img width={'24px'} src={isDark ? LogoDark : Logo} alt="logo" />
+                  </Value>
+                  <img width={'24px'} src={Info} alt="logo" />
+                </ValueWithInfo>
                 <FlexWrapper>
                   <XStakeButton variant="primary">xStake</XStakeButton>
                   <ClaimButton variant="primary">{t('dashboardPage.earned_claim')}</ClaimButton>

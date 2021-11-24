@@ -11,15 +11,14 @@ const PngToggleElement = styled.span<{ isActive?: boolean; isOnSwitch?: boolean 
 
   padding: 0.35rem 0.6rem;
   border-radius: 6px;
-  background: ${({ theme, isActive, isOnSwitch }) => (isActive ? (isOnSwitch ? theme.primary1 : theme.text4) : 'none')};
-  color: ${({ theme, isActive, isOnSwitch }) => (isActive ? (isOnSwitch ? theme.white : theme.text2) : theme.text2)};
+  background: ${({ theme, isActive, isOnSwitch }) => (isActive ? (isOnSwitch ? theme.text6 : theme.text4) : 'none')};
+  color: ${({ theme, isActive, isOnSwitch }) => (isActive ? (isOnSwitch ? theme.text1 : theme.text2) : theme.text2)};
   font-size: 1rem;
   font-weight: ${({ isOnSwitch }) => (isOnSwitch ? '500' : '400')};
   :hover {
     user-select: ${({ isOnSwitch }) => (isOnSwitch ? 'none' : 'initial')};
-    background: ${({ theme, isActive, isOnSwitch }) =>
-      isActive ? (isOnSwitch ? theme.primary1 : theme.text3) : 'none'};
-    color: ${({ theme, isActive, isOnSwitch }) => (isActive ? (isOnSwitch ? theme.white : theme.text2) : theme.text3)};
+    background: ${({ theme, isActive, isOnSwitch }) => (isActive ? (isOnSwitch ? theme.text6 : theme.text3) : 'none')};
+    color: ${({ theme, isActive, isOnSwitch }) => (isActive ? (isOnSwitch ? theme.text1 : theme.text2) : theme.text3)};
   }
 `
 
@@ -34,7 +33,7 @@ const StyledPngToggle = styled.button<{ isActive?: boolean; activeElement?: bool
   outline: none;
   padding: 0;
   height: 100%;
-  /* background-color: transparent; */
+  padding: 1px;
 `
 
 export interface PngToggleProps {
@@ -48,10 +47,10 @@ export interface PngToggleProps {
 export default function PngToggle({ id, isActive, toggle, leftLabel, rightLabel }: PngToggleProps) {
   return (
     <StyledPngToggle id={id} isActive={isActive} onClick={() => toggle(!isActive)}>
-      <PngToggleElement isActive={isActive} isOnSwitch={true}>
+      <PngToggleElement isActive={isActive} isOnSwitch={false}>
         {leftLabel}
       </PngToggleElement>
-      <PngToggleElement isActive={!isActive} isOnSwitch={false}>
+      <PngToggleElement isActive={!isActive} isOnSwitch={true}>
         {rightLabel}
       </PngToggleElement>
     </StyledPngToggle>
