@@ -76,9 +76,10 @@ enum SortingType {
 export interface EarnProps {
   version: string
   stakingInfos: DoubleSideStakingInfo[]
+  poolMap?: { [key: string]: number }
 }
 
-const Earn: React.FC<EarnProps> = ({ version, stakingInfos }) => {
+const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
 
@@ -190,8 +191,10 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos }) => {
           })
           // TODO: update here api call without staking reward address
           .map(stakingInfo => {
-            if (Number(version) < 2) {
-              return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+            if (poolMap) {
+              return fetch(
+                `https://api.pangolin.exchange/pangolin/apr2/${poolMap[stakingInfo.totalStakedAmount.token.address]}`
+              )
                 .then(res => res.json())
                 .then(res => ({
                   swapFeeApr: Number(res.swapFeeApr),
@@ -200,7 +203,14 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos }) => {
                   ...stakingInfo
                 }))
             } else {
-              return stakingInfo
+              return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+                .then(res => res.json())
+                .then(res => ({
+                  swapFeeApr: Number(res.swapFeeApr),
+                  stakingApr: Number(res.stakingApr),
+                  combinedApr: Number(res.combinedApr),
+                  ...stakingInfo
+                }))
             }
           })
       ).then(updatedStakingInfos => {
