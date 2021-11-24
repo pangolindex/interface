@@ -16,10 +16,19 @@ import {
   ContainerRight,
   ClaimButton,
   XStakeButton,
-  CustomizePools
+  CustomizePools,
+  AddNewCoinButton,
+  TokenChart,
+  TokenList,
+  TokenRow,
+  TokenName,
+  TokenValue,
+  TokenPrice,
+  TokenDiff
 } from './styleds'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { LineChart, Line } from 'recharts'
 import TradingViewChart from './TradingViewChart'
 import PngToggle from './PngToggle'
 import { useDarkModeManager } from '../../state/user/hooks'
@@ -36,6 +45,18 @@ const Dashboard = () => {
   }
 
   const [isDark] = useDarkModeManager()
+
+  const data = []
+
+  const rand = 300
+  for (let i = 0; i < 20; i += 1) {
+    const d = {
+      key: 2000 + i,
+      value: Math.random() * (rand + 50) + 100
+    }
+
+    data.push(d)
+  }
 
   return (
     <PageWrapper>
@@ -84,8 +105,45 @@ const Dashboard = () => {
           </TopContainerWrapper>
           <BottomContainerWrapper>
             <Card>
-              <CardHeader>{t('dashboardPage.coins')}</CardHeader>
-              <CardBody></CardBody>
+              <CardHeader>
+                {t('dashboardPage.coins')}
+                <AddNewCoinButton>
+                  + <span>Add New Coin</span>
+                </AddNewCoinButton>
+              </CardHeader>
+              <CardBody>
+                <FlexWrapper>
+                  <TokenChart></TokenChart>
+                  <TokenList>
+                    <TokenRow>
+                      <img width={'28px'} src={Logo} alt={'png'} />
+                      <TokenName>Png</TokenName>
+                      <div>
+                        <LineChart width={82} height={18} data={data}>
+                          <Line type="monotone" dataKey="value" stroke="#16C79A" dot={false} />
+                        </LineChart>
+                      </div>
+                      <TokenValue>
+                        <TokenPrice>${'122.74'}</TokenPrice>
+                        <TokenDiff>{'+1.68'}%</TokenDiff>
+                      </TokenValue>
+                    </TokenRow>
+                    <TokenRow>
+                      <img width={'28px'} src={Logo} alt={'png'} />
+                      <TokenName>Png</TokenName>
+                      <div>
+                        <LineChart width={82} height={18} data={data}>
+                          <Line type="monotone" dataKey="value" stroke="#16C79A" dot={false} />
+                        </LineChart>
+                      </div>
+                      <TokenValue>
+                        <TokenPrice>${'122.74'}</TokenPrice>
+                        <TokenDiff>{'+1.68'}%</TokenDiff>
+                      </TokenValue>
+                    </TokenRow>
+                  </TokenList>
+                </FlexWrapper>
+              </CardBody>
             </Card>
           </BottomContainerWrapper>
         </ContainerRight>
