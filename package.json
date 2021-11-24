@@ -93,6 +93,7 @@
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.5",
     "rebass": "^4.0.7",
+    "recharts": "^2.1.6",
     "redux-localstorage-simple": "^2.3.1",
     "serve": "^11.3.0",
     "start-server-and-test": "^1.11.0",

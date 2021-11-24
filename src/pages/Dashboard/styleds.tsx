@@ -73,6 +73,7 @@ export const CardBody = styled(Box)`
   color: ${({ theme }) => theme.text7};
 `
 
+// earned section
 export const Label = styled(Box)`
   font-size: 14px;
   line-height: 21px;
@@ -118,4 +119,68 @@ export const CustomizePools = styled(Box)`
   a {
     color: ${({ theme }) => theme.text8};
   }
+`
+
+// coins section
+export const AddNewCoinButton = styled(ButtonPrimary)`
+  width: 166px;
+  height: 23px;
+  background: #717171;
+
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+
+  border-radius: 4px;
+
+  span {
+    margin-left: 16px;
+  }
+`
+
+export const TokenChart = styled(Box)`
+  width: 100%;
+`
+
+export const TokenList = styled(Box)`
+  width: 100%;
+`
+
+export const TokenRow = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:hover {
+    background: #1c1c1c;
+    border-radius: 8px;
+  }
+
+  padding: 12px;
+  border-bottom: 1px solid #282828;
+`
+
+export const TokenName = styled(Box)`
+  font-size: 20px;
+  line-height: 30px;
+
+  color: #e6e9ec;
+`
+
+export const TokenValue = styled(Box)`
+  text-align: right;
+`
+
+export const TokenPrice = styled(Box)`
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #e6e9ec;
+`
+
+export const TokenDiff = styled(Box)`
+  font-size: 10px;
+  line-height: 15px;
+
+  color: #e84142;
 `
