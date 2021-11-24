@@ -742,7 +742,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const { chainId, account } = useActiveWeb3React()
   const minichefContract = useStakingContract(MINICHEF_ADDRESS)
   const poolMap = useMinichefPools()
-  const png = chainId ? PNG[chainId] : PNG[ChainId.AVALANCHE]
+  const png = PNG[chainId || ChainId.AVALANCHE]
 
   let info = useMemo(
     () =>
@@ -768,7 +768,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
   const balances = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'balanceOf', [MINICHEF_ADDRESS])
 
-  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[ChainId.AVALANCHE], png)
+  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[chainId || ChainId.AVALANCHE], png)
 
   const poolIdArray = useMemo(() => {
     if (!pairAddresses || !poolMap) return []
