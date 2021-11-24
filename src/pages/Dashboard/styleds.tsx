@@ -76,15 +76,28 @@ export const CardBody = styled(Box)`
 export const Label = styled(Box)`
   font-size: 14px;
   line-height: 21px;
-
   color: #717171;
+  margin-top: 12px;
 `
 
 export const Value = styled(Box)`
   font-size: 24px;
   line-height: 36px;
+
+  color: ${({ theme }) => theme.text7};
+  display: flex;
+  align-items: center;
+
+  img {
+    margin-left: 9px;
+  }
+`
+
+export const ValueWithInfo = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 12px;
-  color: #e6e9ec;
 `
 
 export const XStakeButton = styled(ButtonOutlined)`
@@ -101,4 +114,8 @@ export const CustomizePools = styled(Box)`
   display: flex;
   justify-content: center;
   margin-top: 8.5px;
+
+  a {
+    color: ${({ theme }) => theme.text8};
+  }
 `
