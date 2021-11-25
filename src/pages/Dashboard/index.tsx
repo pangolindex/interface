@@ -19,10 +19,13 @@ import {
   CustomizePools,
   AddNewCoinButton,
   TokenChart,
+  DateRangeSelect,
+  DateRangeItem,
   TokenList
 } from './styleds'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { LineChart, Line } from 'recharts'
 
 import TradingViewChart from './TradingViewChart'
 import PngToggle from './PngToggle'
@@ -53,6 +56,12 @@ const Dashboard = () => {
     }
 
     data.push(d)
+  }
+
+  const [coinsToken, setCoinsToken] = useState<string>('PNG')
+  const handleToken = (tokenName: string) => {
+    console.log(tokenName)
+    setCoinsToken(tokenName)
   }
 
   return (
@@ -101,8 +110,8 @@ const Dashboard = () => {
             </Card>
           </TopContainerWrapper>
           <BottomContainerWrapper>
-            <Card>
-              <CardHeader>
+            <Card style={{ paddingRight: '0px' }}>
+              <CardHeader style={{ paddingRight: '30px' }}>
                 {t('dashboardPage.coins')}
                 <AddNewCoinButton>
                   + <span>Add New Coin</span>
@@ -110,14 +119,31 @@ const Dashboard = () => {
               </CardHeader>
               <CardBody>
                 <FlexWrapper>
-                  <TokenChart></TokenChart>
+                  <TokenChart>
+                    <LineChart width={380} height={200} data={data}>
+                      <Line
+                        type="monotone"
+                        dataKey="value"
+                        stroke={coinsToken === 'PNG' ? '#18C145' : '#E84142'}
+                        dot={false}
+                      />
+                    </LineChart>
+                    <DateRangeSelect>
+                      <DateRangeItem>1H</DateRangeItem>
+                      <DateRangeItem className="active">1D</DateRangeItem>
+                      <DateRangeItem>1W</DateRangeItem>
+                      <DateRangeItem>1M</DateRangeItem>
+                      <DateRangeItem>1Y</DateRangeItem>
+                      <DateRangeItem>ALL</DateRangeItem>
+                    </DateRangeSelect>
+                  </TokenChart>
                   <TokenList>
-                    <TokenRow />
-                    <TokenRow name="AVAX" />
-                    <TokenRow name="ETH.e" />
-                    <TokenRow name="LINK.e" />
-                    <TokenRow name="USDT.e" />
-                    <TokenRow name="XAVA" />
+                    <TokenRow onClick={() => handleToken('PNG')} />
+                    <TokenRow name="AVAX" onClick={() => handleToken('AVAX')} />
+                    <TokenRow name="ETH.e" diffPercent={-1.5} onClick={() => handleToken('ETH')} />
+                    <TokenRow name="LINK.e" onClick={() => handleToken('LINK.e')} />
+                    <TokenRow name="USDT.e" onClick={() => handleToken('USDT.e')} />
+                    <TokenRow name="XAVA" onClick={() => handleToken('XAVA')} />
                   </TokenList>
                 </FlexWrapper>
               </CardBody>

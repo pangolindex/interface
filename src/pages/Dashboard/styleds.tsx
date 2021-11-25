@@ -140,12 +140,30 @@ export const AddNewCoinButton = styled(ButtonPrimary)`
 
 export const TokenChart = styled(Box)`
   width: 100%;
+  padding-right: 28px;
+`
+
+export const DateRangeSelect = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+`
+
+export const DateRangeItem = styled(Box)`
+  color: ${({ theme }) => theme.text8};
+  font-size: 16px;
+  line-height: 24px;
+
+  &.active {
+    color: ${({ theme }) => theme.text7};
+  }
 `
 
 export const TokenList = styled(Box)`
   width: 100%;
   max-height: 300px;
   overflow-y: scroll;
+  padding-right: 26px;
 
   &::-webkit-scrollbar {
     width: 4px;
