@@ -19,18 +19,15 @@ import {
   CustomizePools,
   AddNewCoinButton,
   TokenChart,
-  TokenList,
-  TokenRow,
-  TokenName,
-  TokenValue,
-  TokenPrice,
-  TokenDiff
+  TokenList
 } from './styleds'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { LineChart, Line } from 'recharts'
+
 import TradingViewChart from './TradingViewChart'
 import PngToggle from './PngToggle'
+import TokenRow from './TokenRow'
+
 import { useDarkModeManager } from '../../state/user/hooks'
 import Logo from '../../assets/svg/icon.svg'
 import LogoDark from '../../assets/svg/icon.svg'
@@ -115,32 +112,12 @@ const Dashboard = () => {
                 <FlexWrapper>
                   <TokenChart></TokenChart>
                   <TokenList>
-                    <TokenRow>
-                      <img width={'28px'} src={Logo} alt={'png'} />
-                      <TokenName>Png</TokenName>
-                      <div>
-                        <LineChart width={82} height={18} data={data}>
-                          <Line type="monotone" dataKey="value" stroke="#16C79A" dot={false} />
-                        </LineChart>
-                      </div>
-                      <TokenValue>
-                        <TokenPrice>${'122.74'}</TokenPrice>
-                        <TokenDiff>{'+1.68'}%</TokenDiff>
-                      </TokenValue>
-                    </TokenRow>
-                    <TokenRow>
-                      <img width={'28px'} src={Logo} alt={'png'} />
-                      <TokenName>Png</TokenName>
-                      <div>
-                        <LineChart width={82} height={18} data={data}>
-                          <Line type="monotone" dataKey="value" stroke="#16C79A" dot={false} />
-                        </LineChart>
-                      </div>
-                      <TokenValue>
-                        <TokenPrice>${'122.74'}</TokenPrice>
-                        <TokenDiff>{'+1.68'}%</TokenDiff>
-                      </TokenValue>
-                    </TokenRow>
+                    <TokenRow />
+                    <TokenRow name="AVAX" />
+                    <TokenRow name="ETH.e" />
+                    <TokenRow name="LINK.e" />
+                    <TokenRow name="USDT.e" />
+                    <TokenRow name="XAVA" />
                   </TokenList>
                 </FlexWrapper>
               </CardBody>

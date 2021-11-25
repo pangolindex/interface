@@ -144,43 +144,19 @@ export const TokenChart = styled(Box)`
 
 export const TokenList = styled(Box)`
   width: 100%;
-`
+  max-height: 300px;
+  overflow-y: scroll;
 
-export const TokenRow = styled(Box)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  &:hover {
-    background: #1c1c1c;
-    border-radius: 8px;
+  &::-webkit-scrollbar {
+    width: 4px;
   }
 
-  padding: 12px;
-  border-bottom: 1px solid #282828;
-`
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
-export const TokenName = styled(Box)`
-  font-size: 20px;
-  line-height: 30px;
-
-  color: #e6e9ec;
-`
-
-export const TokenValue = styled(Box)`
-  text-align: right;
-`
-
-export const TokenPrice = styled(Box)`
-  font-size: 16px;
-  line-height: 24px;
-
-  color: #e6e9ec;
-`
-
-export const TokenDiff = styled(Box)`
-  font-size: 10px;
-  line-height: 15px;
-
-  color: #e84142;
+  &::-webkit-scrollbar-thumb {
+    background: #464646;
+    border-radius: 2px;
+  }
 `
