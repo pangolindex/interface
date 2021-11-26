@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState /*, useRef*/ } from 'react'
 import {
   PageTitle,
   PageDescription,
@@ -21,11 +21,18 @@ import {
   TokenChart,
   DateRangeSelect,
   DateRangeItem,
-  TokenList
+  TokenList,
+  NewsSection,
+  NewsTitle,
+  NewsContent,
+  NewsDate,
+  SlickNext
 } from './styleds'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { LineChart, Line } from 'recharts'
+import Slider from 'react-slick'
+import { ArrowRight } from 'react-feather'
 
 import TradingViewChart from './TradingViewChart'
 import PngToggle from './PngToggle'
@@ -35,6 +42,19 @@ import { useDarkModeManager } from '../../state/user/hooks'
 import Logo from '../../assets/svg/icon.svg'
 import LogoDark from '../../assets/svg/icon.svg'
 import Info from '../../assets/svg/info.svg'
+import Earth from '../../assets/images/earth.png'
+
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+
+const NewsFeedSettings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  arrows: false
+}
 
 const Dashboard = () => {
   const { t } = useTranslation()
@@ -64,6 +84,11 @@ const Dashboard = () => {
     setCoinsToken(tokenName)
   }
 
+  // let sliderRef = useRef()
+  const handleNewsNext = () => {
+    // sliderRef.current.slickNext()
+  }
+
   return (
     <PageWrapper>
       <PageTitle>{t('dashboardPage.dashboard')}</PageTitle>
@@ -79,35 +104,62 @@ const Dashboard = () => {
         </ContainerLeft>
         <ContainerRight>
           <TopContainerWrapper>
-            <Card>
-              <CardHeader>News</CardHeader>
-            </Card>
-            <Card>
-              <CardHeader>
-                <div>{t('dashboardPage.earned')}</div>
-                <PngToggle isActive={earnedCurrency} toggle={handleEarnedCurrency} leftLabel="USD" rightLabel="PNG" />
-              </CardHeader>
-              <CardBody>
-                <Label>{t('dashboardPage.earned_dailyIncome')}</Label>
-                <Value>
-                  2.400021 <img width={'24px'} src={isDark ? LogoDark : Logo} alt="logo" />
-                </Value>
-                <Label>{t('dashboardPage.earned_totalEarned')}</Label>
-                <ValueWithInfo>
+            <ContainerLeft>
+              <NewsSection img={Earth}>
+                <NewsTitle>News</NewsTitle>
+                <SlickNext onClick={handleNewsNext}>
+                  <ArrowRight size={20} style={{ minWidth: 24 }} />
+                </SlickNext>
+                <Slider /*ref={sliderRef}*/ {...NewsFeedSettings}>
+                  <div>
+                    <NewsContent>
+                      AVAX has been forming a harmonic pattern, and currently retracing a major Fibonacci level.
+                    </NewsContent>
+                    <NewsDate>7:00 PM IST, 14-OCT-21</NewsDate>
+                  </div>
+                  <div>
+                    <NewsContent>
+                      AVAX has been forming a harmonic pattern, and currently retracing a major Fibonacci level.
+                    </NewsContent>
+                    <NewsDate>7:00 PM IST, 14-OCT-21</NewsDate>
+                  </div>
+                  <div>
+                    <NewsContent>
+                      AVAX has been forming a harmonic pattern, and currently retracing a major Fibonacci level.
+                    </NewsContent>
+                    <NewsDate>7:00 PM IST, 14-OCT-21</NewsDate>
+                  </div>
+                </Slider>
+              </NewsSection>
+            </ContainerLeft>
+            <ContainerRight>
+              <Card>
+                <CardHeader>
+                  <div>{t('dashboardPage.earned')}</div>
+                  <PngToggle isActive={earnedCurrency} toggle={handleEarnedCurrency} leftLabel="USD" rightLabel="PNG" />
+                </CardHeader>
+                <CardBody>
+                  <Label>{t('dashboardPage.earned_dailyIncome')}</Label>
                   <Value>
                     2.400021 <img width={'24px'} src={isDark ? LogoDark : Logo} alt="logo" />
                   </Value>
-                  <img width={'24px'} src={Info} alt="logo" />
-                </ValueWithInfo>
-                <FlexWrapper>
-                  <XStakeButton variant="primary">xStake</XStakeButton>
-                  <ClaimButton variant="primary">{t('dashboardPage.earned_claim')}</ClaimButton>
-                </FlexWrapper>
-                <CustomizePools>
-                  <Link to="/">Customize Pools</Link>
-                </CustomizePools>
-              </CardBody>
-            </Card>
+                  <Label>{t('dashboardPage.earned_totalEarned')}</Label>
+                  <ValueWithInfo>
+                    <Value>
+                      2.400021 <img width={'24px'} src={isDark ? LogoDark : Logo} alt="logo" />
+                    </Value>
+                    <img width={'24px'} src={Info} alt="logo" />
+                  </ValueWithInfo>
+                  <FlexWrapper>
+                    <XStakeButton variant="primary">xStake</XStakeButton>
+                    <ClaimButton variant="primary">{t('dashboardPage.earned_claim')}</ClaimButton>
+                  </FlexWrapper>
+                  <CustomizePools>
+                    <Link to="/">Customize Pools</Link>
+                  </CustomizePools>
+                </CardBody>
+              </Card>
+            </ContainerRight>
           </TopContainerWrapper>
           <BottomContainerWrapper>
             <Card style={{ paddingRight: '0px' }}>
