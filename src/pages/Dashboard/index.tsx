@@ -1,4 +1,4 @@
-import React, { useState /*, useRef*/ } from 'react'
+import React, { useState, useRef } from 'react'
 import {
   PageTitle,
   PageDescription,
@@ -8,30 +8,41 @@ import {
   Card,
   CardHeader,
   CardBody,
+  FlexWrapper,
+  // Portfolio
+  PortfolioToken,
+  PortfolioInfo,
+  // Earned
   Label,
   Value,
   ValueWithInfo,
-  FlexWrapper,
   ContainerLeft,
   ContainerRight,
   ClaimButton,
   XStakeButton,
   CustomizePools,
+  // Tokens
   AddNewCoinButton,
   TokenChart,
   DateRangeSelect,
   DateRangeItem,
   TokenList,
+  // News
   NewsSection,
   NewsTitle,
   NewsContent,
   NewsDate,
-  SlickNext
+  SlickNext,
+  // Followed Wallets
+  WalletProfile,
+  WalletTokens,
+  WalletAddresses,
+  Row
 } from './styleds'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { LineChart, Line } from 'recharts'
-import Slider from 'react-slick'
+import Slider, { Settings } from 'react-slick'
 import { ArrowRight } from 'react-feather'
 
 import TradingViewChart from './TradingViewChart'
@@ -47,7 +58,7 @@ import Earth from '../../assets/images/earth.png'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-const NewsFeedSettings = {
+const NewsFeedSettings: Settings = {
   dots: true,
   infinite: true,
   speed: 500,
@@ -84,9 +95,10 @@ const Dashboard = () => {
     setCoinsToken(tokenName)
   }
 
-  // let sliderRef = useRef()
+  const sliderRef = useRef<Slider | null>(null)
   const handleNewsNext = () => {
-    // sliderRef.current.slickNext()
+    console.log('next screen')
+    sliderRef?.current?.slickNext()
   }
 
   return (
@@ -99,6 +111,8 @@ const Dashboard = () => {
             <CardHeader>{t('dashboardPage.portfolioValue')}</CardHeader>
             <CardBody>
               <TradingViewChart />
+              <PortfolioToken>3028.28</PortfolioToken>
+              <PortfolioInfo>Includes coin, pools, and unclaimed rewards worth in all followed wallets</PortfolioInfo>
             </CardBody>
           </Card>
         </ContainerLeft>
@@ -110,7 +124,7 @@ const Dashboard = () => {
                 <SlickNext onClick={handleNewsNext}>
                   <ArrowRight size={20} style={{ minWidth: 24 }} />
                 </SlickNext>
-                <Slider /*ref={sliderRef}*/ {...NewsFeedSettings}>
+                <Slider ref={sliderRef} {...NewsFeedSettings}>
                   <div>
                     <NewsContent>
                       AVAX has been forming a harmonic pattern, and currently retracing a major Fibonacci level.
@@ -205,8 +219,55 @@ const Dashboard = () => {
       </TopContainerWrapper>
       <BottomContainerWrapper>
         <Card>
-          <CardHeader>{t('dashboardPage.followedWallets')}</CardHeader>
-          <CardBody></CardBody>
+          <CardHeader>
+            {t('dashboardPage.followedWallets')}
+            <AddNewCoinButton>
+              + <span>Add New Address</span>
+            </AddNewCoinButton>
+          </CardHeader>
+          <CardBody>
+            <FlexWrapper>
+              <ContainerLeft>
+                <WalletProfile>207,542$</WalletProfile>
+                <WalletTokens>
+                  <Row>
+                    <div>Coin</div>
+                    <div>Avax</div>
+                    <div>207,542$</div>
+                  </Row>
+                  <Row>
+                    <div>Coin</div>
+                    <div>Avax</div>
+                    <div>207,542$</div>
+                  </Row>
+                  <Row>
+                    <div>Coin</div>
+                    <div>Avax</div>
+                    <div>207,542$</div>
+                  </Row>
+                </WalletTokens>
+              </ContainerLeft>
+              <ContainerRight>
+                <WalletAddresses>
+                  <Row>
+                    <div>0x372E6…A63B4</div>
+                    <div>251,235.25$</div>
+                    <div>follow/unfollow</div>
+                  </Row>
+                  <Row>
+                    <div>0x372E6…A63B4</div>
+                    <div>251,235.25$</div>
+                    <div>follow/unfollow</div>
+                  </Row>
+                  <Row>
+                    <div>0x372E6…A63B4</div>
+                    <div>251,235.25$</div>
+                    <div>follow/unfollow</div>
+                  </Row>
+                </WalletAddresses>
+              </ContainerRight>
+            </FlexWrapper>
+          </CardBody>
         </Card>
       </BottomContainerWrapper>
     </PageWrapper>

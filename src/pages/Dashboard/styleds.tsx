@@ -73,6 +73,21 @@ export const CardBody = styled(Box)`
   color: ${({ theme }) => theme.text7};
 `
 
+// portfolio section
+export const PortfolioToken = styled(Box)`
+  font-size: 64px;
+  line-height: 97px;
+  color: ${({ theme }) => theme.text7};
+  margin-top: 28px;
+`
+
+export const PortfolioInfo = styled(Box)`
+  font-size: 16px;
+  line-height: 24px;
+
+  color: ${({ theme }) => theme.text8};
+`
+
 // news section
 export const NewsSection = styled(Box)<{ img: string }>`
   position: relative;
@@ -122,7 +137,7 @@ export const NewsDate = styled(Box)`
   margin-top: 15px;
 `
 
-export const SlickNext = styled(Box)`
+export const SlickNext = styled(Box)<{ onClick: () => void }>`
   background: #f08b43;
   width: 32px;
   height: 32px;
@@ -137,6 +152,7 @@ export const SlickNext = styled(Box)`
   &:hover {
     cursor: pointer;
   }
+  z-index: 9999;
 `
 
 // earned section
@@ -227,7 +243,7 @@ export const DateRangeItem = styled(Box)`
 
 export const TokenList = styled(Box)`
   width: 100%;
-  max-height: 300px;
+  max-height: 240px;
   overflow-y: scroll;
   padding-right: 26px;
 
@@ -243,4 +259,24 @@ export const TokenList = styled(Box)`
     background: #464646;
     border-radius: 2px;
   }
+`
+
+// followed wallets
+export const WalletProfile = styled(Box)`
+  width: 100%;
+  color: ${({ theme }) => theme.text7};
+`
+
+export const WalletTokens = styled(Box)`
+  width: 100%;
+`
+
+export const WalletAddresses = styled(Box)`
+  width: 100%;
+`
+export const Row = styled(Box)`
+  width: 100%;
+  color: ${({ theme }) => theme.text7};
+  display: flex;
+  justify-content: space-between;
 `
