@@ -31,6 +31,7 @@ import { useTotalSupply } from '../../data/TotalSupply'
 import { useStakingContract } from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
+import { ZERO_ADDRESS } from '../../constants'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -670,13 +671,18 @@ export function useGetStakingDataWithAPR(version: number) {
 }
 
 export function useGetPairDataFromPair(pair: Pair) {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
-  const usdPriceCurrency0 = useUSDCPrice(pair.token0)
-  const usdPriceCurrency1 = useUSDCPrice(pair.token1)
+  const dummyToken = new Token(chainId || ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'PNG', 'Pangolin')
 
-  const zeroTokenAmount0 = new TokenAmount(pair.token0, '0')
-  const zeroTokenAmount1 = new TokenAmount(pair.token1, '0')
+  const token0 = pair?.token0 || dummyToken
+  const token1 = pair?.token1 || dummyToken
+
+  const usdPriceCurrency0 = useUSDCPrice(token0)
+  const usdPriceCurrency1 = useUSDCPrice(token1)
+
+  const zeroTokenAmount0 = new TokenAmount(token0, '0')
+  const zeroTokenAmount1 = new TokenAmount(token1, '0')
 
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
   const totalPoolTokens = useTotalSupply(pair.liquidityToken)
