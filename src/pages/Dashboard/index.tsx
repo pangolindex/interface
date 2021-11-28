@@ -11,6 +11,7 @@ import {
   FlexWrapper,
   // Portfolio
   PortfolioToken,
+  PortfolioTokenPercent,
   PortfolioInfo,
   // Earned
   Label,
@@ -35,15 +36,19 @@ import {
   SlickNext,
   // Followed Wallets
   WalletProfile,
+  WalletProfileAddress,
+  WalletProfileChain,
   WalletTokens,
   WalletAddresses,
-  Row
+  Row,
+  FollowButton
 } from './styleds'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { LineChart, Line } from 'recharts'
 import Slider, { Settings } from 'react-slick'
 import { ArrowRight } from 'react-feather'
+import makeBlockie from 'ethereum-blockies-base64'
 
 import TradingViewChart from './TradingViewChart'
 import PngToggle from './PngToggle'
@@ -53,6 +58,8 @@ import { useDarkModeManager } from '../../state/user/hooks'
 import Logo from '../../assets/svg/icon.svg'
 import LogoDark from '../../assets/svg/icon.svg'
 import Info from '../../assets/svg/info.svg'
+import Info2 from '../../assets/svg/info2.svg'
+import DeleteIcon from '../../assets/svg/delete.svg'
 import Earth from '../../assets/images/earth.png'
 
 import 'slick-carousel/slick/slick.css'
@@ -67,16 +74,26 @@ const NewsFeedSettings: Settings = {
   arrows: false
 }
 
+enum DateRangeType {
+  hour = '1H',
+  day = '1D',
+  week = '1W',
+  month = '1M',
+  year = '1Y',
+  all = 'ALL'
+}
+
 const Dashboard = () => {
   const { t } = useTranslation()
+  const [isDark] = useDarkModeManager()
 
+  // earned
   const [earnedCurrency, setEarnedCurrency] = useState<boolean>(false)
   const handleEarnedCurrency = (currency: boolean) => {
     setEarnedCurrency(currency)
   }
 
-  const [isDark] = useDarkModeManager()
-
+  // coins
   const data = []
 
   const rand = 300
@@ -95,9 +112,14 @@ const Dashboard = () => {
     setCoinsToken(tokenName)
   }
 
+  const [tokenDateRange, setTokenDateRange] = useState<string>('1D')
+  const handleTokenDateRange = (dateRange: string) => {
+    setTokenDateRange(dateRange)
+  }
+
+  // news
   const sliderRef = useRef<Slider | null>(null)
   const handleNewsNext = () => {
-    console.log('next screen')
     sliderRef?.current?.slickNext()
   }
 
@@ -111,8 +133,13 @@ const Dashboard = () => {
             <CardHeader>{t('dashboardPage.portfolioValue')}</CardHeader>
             <CardBody>
               <TradingViewChart />
-              <PortfolioToken>3028.28</PortfolioToken>
-              <PortfolioInfo>Includes coin, pools, and unclaimed rewards worth in all followed wallets</PortfolioInfo>
+              <PortfolioToken>
+                3028.28 <PortfolioTokenPercent>23.3%</PortfolioTokenPercent>
+              </PortfolioToken>
+              <PortfolioInfo>
+                <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards worth
+                in all followed wallets
+              </PortfolioInfo>
             </CardBody>
           </Card>
         </ContainerLeft>
@@ -195,12 +222,15 @@ const Dashboard = () => {
                       />
                     </LineChart>
                     <DateRangeSelect>
-                      <DateRangeItem>1H</DateRangeItem>
-                      <DateRangeItem className="active">1D</DateRangeItem>
-                      <DateRangeItem>1W</DateRangeItem>
-                      <DateRangeItem>1M</DateRangeItem>
-                      <DateRangeItem>1Y</DateRangeItem>
-                      <DateRangeItem>ALL</DateRangeItem>
+                      {Object.values(DateRangeType).map((dateValue: string) => (
+                        <DateRangeItem
+                          key={dateValue}
+                          className={tokenDateRange === dateValue ? 'active' : ''}
+                          onClick={() => handleTokenDateRange(dateValue)}
+                        >
+                          {dateValue}
+                        </DateRangeItem>
+                      ))}
                     </DateRangeSelect>
                   </TokenChart>
                   <TokenList>
@@ -221,15 +251,30 @@ const Dashboard = () => {
         <Card>
           <CardHeader>
             {t('dashboardPage.followedWallets')}
-            <AddNewCoinButton>
+            <AddNewCoinButton style={{ width: '200px' }}>
               + <span>Add New Address</span>
             </AddNewCoinButton>
           </CardHeader>
           <CardBody>
             <FlexWrapper>
               <ContainerLeft>
-                <WalletProfile>207,542$</WalletProfile>
+                <WalletProfile>
+                  <img
+                    width={56}
+                    src={makeBlockie('0x7cB57B5A97eAbe94205C07890BE4c1aD31E486A8')}
+                    style={{ marginRight: '12px' }}
+                  />
+                  <div>
+                    <WalletProfileAddress>0x372E6…A63B4</WalletProfileAddress>
+                    <WalletProfileChain>C-Chain Wallet</WalletProfileChain>
+                  </div>
+                </WalletProfile>
                 <WalletTokens>
+                  <Row>
+                    <div>Type</div>
+                    <div>Name</div>
+                    <div>Worth</div>
+                  </Row>
                   <Row>
                     <div>Coin</div>
                     <div>Avax</div>
@@ -250,19 +295,49 @@ const Dashboard = () => {
               <ContainerRight>
                 <WalletAddresses>
                   <Row>
-                    <div>0x372E6…A63B4</div>
-                    <div>251,235.25$</div>
-                    <div>follow/unfollow</div>
+                    <div>Address</div>
+                    <div>Worth</div>
+                    <div>Interact</div>
                   </Row>
                   <Row>
                     <div>0x372E6…A63B4</div>
                     <div>251,235.25$</div>
-                    <div>follow/unfollow</div>
+                    <FlexWrapper>
+                      <FollowButton>Follow</FollowButton>
+                      <FollowButton>
+                        <img width={'15px'} src={DeleteIcon} alt="delete" />
+                      </FollowButton>
+                    </FlexWrapper>
                   </Row>
                   <Row>
                     <div>0x372E6…A63B4</div>
                     <div>251,235.25$</div>
-                    <div>follow/unfollow</div>
+                    <FlexWrapper>
+                      <FollowButton>Follow</FollowButton>
+                      <FollowButton>
+                        <img width={'15px'} src={DeleteIcon} alt="delete" />
+                      </FollowButton>
+                    </FlexWrapper>
+                  </Row>
+                  <Row>
+                    <div>0x372E6…A63B4</div>
+                    <div>251,235.25$</div>
+                    <FlexWrapper>
+                      <FollowButton>Follow</FollowButton>
+                      <FollowButton>
+                        <img width={'15px'} src={DeleteIcon} alt="delete" />
+                      </FollowButton>
+                    </FlexWrapper>
+                  </Row>
+                  <Row>
+                    <div>0x372E6…A63B4</div>
+                    <div>251,235.25$</div>
+                    <FlexWrapper>
+                      <FollowButton>Follow</FollowButton>
+                      <FollowButton>
+                        <img width={'15px'} src={DeleteIcon} alt="delete" />
+                      </FollowButton>
+                    </FlexWrapper>
                   </Row>
                 </WalletAddresses>
               </ContainerRight>
