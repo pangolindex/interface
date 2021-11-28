@@ -75,13 +75,28 @@ export const CardBody = styled(Box)`
 
 // portfolio section
 export const PortfolioToken = styled(Box)`
+  display: flex;
+  align-items: center;
   font-size: 64px;
   line-height: 97px;
   color: ${({ theme }) => theme.text7};
   margin-top: 28px;
 `
 
+export const PortfolioTokenPercent = styled(Box)`
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #18c145;
+  background: #063312;
+  border-radius: 8px;
+  margin-left: 26px;
+  padding: 5px 14px;
+`
+
 export const PortfolioInfo = styled(Box)`
+  display: flex;
+  align-items: center;
   font-size: 16px;
   line-height: 24px;
 
@@ -239,6 +254,10 @@ export const DateRangeItem = styled(Box)`
   &.active {
     color: ${({ theme }) => theme.text7};
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 export const TokenList = styled(Box)`
@@ -263,20 +282,50 @@ export const TokenList = styled(Box)`
 
 // followed wallets
 export const WalletProfile = styled(Box)`
-  width: 100%;
+  display: flex;
+  align-items: center;
+  color: ${({ theme }) => theme.text7};
+
+  img {
+    border-radius: 100px;
+  }
+`
+
+export const WalletProfileAddress = styled(Box)`
+  font-size: 18px;
+  line-height: 27px;
+
+  color: ${({ theme }) => theme.text7};
+`
+
+export const WalletProfileChain = styled(Box)`
+  font-size: 14px;
+  line-height: 21px;
+
   color: ${({ theme }) => theme.text7};
 `
 
 export const WalletTokens = styled(Box)`
   width: 100%;
+  margin-top: 25px;
 `
 
 export const WalletAddresses = styled(Box)`
   width: 100%;
+  margin-top: 25px;
 `
 export const Row = styled(Box)`
   width: 100%;
   color: ${({ theme }) => theme.text7};
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid ${({ theme }) => theme.text5};
+  padding: 10px 0;
+`
+
+export const FollowButton = styled(ButtonPrimary)`
+  height: 24px;
+  background: #464646;
+  margin-left: 8px;
 `

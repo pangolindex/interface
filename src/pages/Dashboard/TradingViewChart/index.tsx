@@ -3,7 +3,7 @@ import { createChart, IChartApi } from 'lightweight-charts'
 import styled from 'styled-components'
 
 const WIDTH = 700
-const HEIGHT = 400
+const HEIGHT = 450
 const data = [
   { time: '2021-11-07', value: 6.59 },
   { time: '2021-11-08', value: 11.59 },
