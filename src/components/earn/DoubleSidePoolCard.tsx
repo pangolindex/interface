@@ -6,7 +6,7 @@ import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
 import { CAVAX, Token } from '@pangolindex/sdk'
 import { ButtonPrimary } from '../Button'
-import { DoubleSideStaking, DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks'
+import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
 import { Break, CardNoise, CardBGImage } from './styled'
@@ -80,13 +80,11 @@ const BottomSection = styled.div<{ showBackground: boolean }>`
 
 export default function DoubleSidePoolCard({
   stakingInfo,
-  migration,
   version,
   swapFeeApr,
   stakingApr
 }: {
   stakingInfo: DoubleSideStakingInfo
-  migration?: DoubleSideStaking
   version: string
   swapFeeApr: number
   stakingApr: number
@@ -116,7 +114,7 @@ export default function DoubleSidePoolCard({
 
   const totalStakedInUsd = stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
 
-  let pairAddress = stakingInfo?.stakedAmount?.token?.address
+  const pairAddress = stakingInfo?.stakedAmount?.token?.address
 
   return (
     <Wrapper showBackground={isStaking} bgColor={backgroundColor}>
@@ -131,24 +129,8 @@ export default function DoubleSidePoolCard({
           </TYPE.white>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          {/* Legacy AEB Migration */}
-          {isStaking && Number(version) <= 1 && migration ? (
-            <StyledInternalLink
-              to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${Number(version)}/${currencyId(
-                migration.tokens[0]
-              )}/${currencyId(migration.tokens[1])}/${migration?.version}`}
-              style={{ marginRight: '10px' }}
-            >
-              <ButtonPrimary padding="8px" borderRadius="8px">
-                Migrate
-              </ButtonPrimary>
-            </StyledInternalLink>
-          ) : (
-            <span></span>
-          )}
-
           {/* Beta Migration */}
-          {isStaking && Number(version) === 1 && !migration && poolMap.hasOwnProperty(pairAddress) ? (
+          {isStaking && Number(version) === 1 && poolMap.hasOwnProperty(pairAddress) ? (
             <StyledInternalLink to={`/beta/migrate/${version}`} style={{ marginRight: '10px' }}>
               <ButtonPrimary padding="8px" borderRadius="8px">
                 Migrate

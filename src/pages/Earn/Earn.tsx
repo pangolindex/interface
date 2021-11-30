@@ -3,7 +3,7 @@ import { AutoColumn } from '../../components/Column'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import styled from 'styled-components'
 import { DoubleSideStakingInfo } from '../../state/stake/hooks'
-import { MIGRATIONS, DOUBLE_SIDE_STAKING_REWARDS_INFO } from '../../state/stake/doubleSideConfig'
+import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from '../../state/stake/doubleSideConfig'
 import { TYPE, ExternalLink } from '../../theme'
 import DoubleSidePoolCard from '../../components/earn/DoubleSidePoolCard'
 import { NavLink } from 'react-router-dom'
@@ -139,9 +139,6 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
             stakingApr={stakingInfo.stakingApr}
             key={index}
             stakingInfo={stakingInfo}
-            migration={
-              MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)?.to
-            }
             version={version}
           />
         )
@@ -175,18 +172,6 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
             // only the second is being staked, so we should bring the first down
             if (!info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && info_b.stakedAmount.greaterThan(BIG_INT_ZERO))
               return 1
-            return 0
-          })
-          .sort(function(info_a, info_b) {
-            // Bring pools that require migration to the top
-            const aCanMigrate =
-              MIGRATIONS.some(migration => migration.from.stakingRewardAddress === info_a.stakingRewardAddress) &&
-              info_a.stakedAmount.greaterThan(BIG_INT_ZERO)
-            const bCanMigrate =
-              MIGRATIONS.some(migration => migration.from.stakingRewardAddress === info_b.stakingRewardAddress) &&
-              info_b.stakedAmount.greaterThan(BIG_INT_ZERO)
-            if (aCanMigrate && !bCanMigrate) return -1
-            if (!aCanMigrate && bCanMigrate) return 1
             return 0
           })
           // TODO: update here api call without staking reward address
@@ -223,10 +208,6 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
               stakingApr={stakingInfo.stakingApr}
               key={index}
               stakingInfo={stakingInfo}
-              migration={
-                MIGRATIONS.find(migration => migration.from.stakingRewardAddress === stakingInfo.stakingRewardAddress)
-                  ?.to
-              }
               version={version}
             />
           )
