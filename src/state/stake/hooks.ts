@@ -1,17 +1,6 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent } from '@pangolindex/sdk'
 import { useMemo, useEffect, useState } from 'react'
-import {
-  PNG,
-  USDTe,
-  USDCe,
-  DAIe,
-  MINICHEF_ADDRESS,
-  BIG_INT_ZERO,
-  BIG_INT_TWO,
-  BIG_INT_ONE,
-  BIG_INT_EIGHTEEN,
-  BIG_INT_TEN
-} from '../../constants'
+import { PNG, USDTe, USDCe, DAIe, MINICHEF_ADDRESS, BIG_INT_ZERO, BIG_INT_TWO, BIG_INT_ONE } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
@@ -750,7 +739,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const poolMap = useMinichefPools()
   const png = PNG[chainId || ChainId.AVALANCHE]
 
-  let info = useMemo(
+  const info = useMemo(
     () =>
       chainId
         ? DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(item =>
@@ -803,9 +792,6 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
   const rewardsExpiration = useSingleCallResult(minichefContract, 'rewardsExpiration', []).result
   const usdPrice = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
-  const avaxPrice = usdPrice?.quote(
-    new TokenAmount(WAVAX[chainId ? chainId : ChainId.AVALANCHE], JSBI.exponentiate(BIG_INT_TEN, BIG_INT_EIGHTEEN))
-  )
 
   const arr = useMemo(() => {
     if (!chainId || !png) return []
@@ -959,7 +945,6 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     rewardsExpiration,
     balances,
     usdPrice,
-    avaxPrice,
     pairAddresses
   ])
 
