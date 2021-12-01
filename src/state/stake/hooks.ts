@@ -33,7 +33,7 @@ export interface DoubleSideStaking {
   tokens: [Token, Token]
   stakingRewardAddress: string
   version: number
-  multiplier: number
+  multiplier?: number
 }
 
 export interface Migration {
@@ -91,9 +91,9 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
 }
 
 export interface StakingInfo extends DoubleSideStakingInfo {
-  swapFeeApr?: Number
-  stakingApr?: Number
-  combinedApr?: Number
+  swapFeeApr?: number
+  stakingApr?: number
+  combinedApr?: number
 }
 
 const calculateTotalStakedAmountInAvaxFromPng = function(
@@ -334,7 +334,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
           totalStakedAmount: totalStakedAmount,
           totalStakedInWavax: totalStakedInWavax,
           totalStakedInUsd: totalStakedInUsd,
-          multiplier: JSBI.BigInt(multiplier),
+          multiplier: JSBI.BigInt(multiplier ?? 0),
           getHypotheticalRewardRate
         })
       }
