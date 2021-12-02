@@ -88,7 +88,8 @@ import {
   CRAFT,
   MAXI,
   AVAI,
-  ORCA
+  ORCA,
+  JEWEL
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1156,6 +1157,11 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   WAVAX_ORCA_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], ORCA[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_JEWEL_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], JEWEL[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   }

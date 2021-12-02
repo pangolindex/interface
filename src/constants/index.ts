@@ -714,6 +714,11 @@ export const ORCA: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x8B1d98A91F853218ddbb066F20b8c63E782e2430', 18, 'ORCA', 'OrcaDAO')
 }
 
+export const JEWEL: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'JEWEL', 'Jewels'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x4f60a160D8C2DDdaAfe16FCC57566dB84D674BD6', 18, 'JEWEL', 'Jewels')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
