@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { getVersionUpgrade, VersionUpgrade } from '@pangolindex/token-lists'
 import { TokenList } from '@pangolindex/token-lists/dist/types'
-import { DEFAULT_LIST_OF_LISTS, DEFAULT_TOKEN_LIST_URL, STABLECOIN_TOKEN_LIST } from '../../constants/lists'
+import { DEFAULT_TOKEN_LISTS, DEFAULT_TOKEN_LISTS_SELECTED } from '../../constants/lists'
 import { updateVersion } from '../global/actions'
 import { acceptListUpdate, addList, fetchTokenList, removeList, selectList } from './actions'
 
@@ -31,14 +31,14 @@ const NEW_LIST_STATE: ListState = {
 type Mutable<T> = { -readonly [P in keyof T]: T[P] extends ReadonlyArray<infer U> ? U[] : T[P] }
 
 const initialState: ListsState = {
-  lastInitializedDefaultListOfLists: DEFAULT_LIST_OF_LISTS,
+  lastInitializedDefaultListOfLists: DEFAULT_TOKEN_LISTS,
   byUrl: {
-    ...DEFAULT_LIST_OF_LISTS.reduce<Mutable<ListsState['byUrl']>>((memo, listUrl) => {
+    ...DEFAULT_TOKEN_LISTS.reduce<Mutable<ListsState['byUrl']>>((memo, listUrl) => {
       memo[listUrl] = NEW_LIST_STATE
       return memo
     }, {})
   },
-  selectedListUrl: [DEFAULT_TOKEN_LIST_URL]
+  selectedListUrl: DEFAULT_TOKEN_LISTS_SELECTED
 }
 
 export default createReducer(initialState, builder =>
@@ -100,15 +100,12 @@ export default createReducer(initialState, builder =>
         existingSelectedListUrl.push(url)
         state.selectedListUrl = existingSelectedListUrl
       } else {
-        let index = existingSelectedListUrl.indexOf(url)
+        const index = existingSelectedListUrl.indexOf(url)
 
         if (index !== -1) {
           if (existingSelectedListUrl?.length === 1) {
             // if user want to deselect the list and if there is only one item in the list
-            // and user is trying to unselect default list then select stable coin list ( because we always want to keep atleast one list selected )
-            // otherwise select default list url
-            const newSelectedListUrl = url === DEFAULT_TOKEN_LIST_URL ? STABLECOIN_TOKEN_LIST : DEFAULT_TOKEN_LIST_URL
-            state.selectedListUrl = [newSelectedListUrl]
+            state.selectedListUrl = DEFAULT_TOKEN_LISTS_SELECTED
           } else {
             existingSelectedListUrl.splice(index, 1)
             state.selectedListUrl = existingSelectedListUrl
@@ -132,16 +129,12 @@ export default createReducer(initialState, builder =>
       }
 
       const existingList = ([] as string[]).concat(state.selectedListUrl || [])
-      let index = existingList.indexOf(url)
+      const index = existingList.indexOf(url)
 
       if (index !== -1) {
         if (existingList?.length === 1) {
           // if user want to remove the list and if there is only one item in the selected list
-          // and user is trying to remove default list then select first list from all lists ( because we always want to keep atleast one list selected )
-          // otherwise select default list url
-          const newSelectedListUrl =
-            url === DEFAULT_TOKEN_LIST_URL ? Object.keys(state.byUrl)[0] : DEFAULT_TOKEN_LIST_URL
-          state.selectedListUrl = [newSelectedListUrl]
+          state.selectedListUrl = DEFAULT_TOKEN_LISTS_SELECTED
         } else {
           existingList.splice(index, 1)
           state.selectedListUrl = existingList
@@ -162,15 +155,15 @@ export default createReducer(initialState, builder =>
       // state loaded from localStorage, but new lists have never been initialized
       if (!state.lastInitializedDefaultListOfLists) {
         state.byUrl = initialState.byUrl
-        state.selectedListUrl = [DEFAULT_TOKEN_LIST_URL]
+        state.selectedListUrl = DEFAULT_TOKEN_LISTS_SELECTED
       } else if (state.lastInitializedDefaultListOfLists) {
         const lastInitializedSet = state.lastInitializedDefaultListOfLists.reduce<Set<string>>(
           (s, l) => s.add(l),
           new Set()
         )
-        const newListOfListsSet = DEFAULT_LIST_OF_LISTS.reduce<Set<string>>((s, l) => s.add(l), new Set())
+        const newListOfListsSet = DEFAULT_TOKEN_LISTS.reduce<Set<string>>((s, l) => s.add(l), new Set())
 
-        DEFAULT_LIST_OF_LISTS.forEach(listUrl => {
+        DEFAULT_TOKEN_LISTS.forEach(listUrl => {
           if (!lastInitializedSet.has(listUrl)) {
             state.byUrl[listUrl] = NEW_LIST_STATE
           }
@@ -183,13 +176,15 @@ export default createReducer(initialState, builder =>
         })
       }
 
-      state.lastInitializedDefaultListOfLists = DEFAULT_LIST_OF_LISTS
+      state.lastInitializedDefaultListOfLists = DEFAULT_TOKEN_LISTS
 
       if (!state.selectedListUrl) {
-        state.selectedListUrl = [DEFAULT_TOKEN_LIST_URL]
-        if (!state.byUrl[DEFAULT_TOKEN_LIST_URL]) {
-          state.byUrl[DEFAULT_TOKEN_LIST_URL] = NEW_LIST_STATE
-        }
+        state.selectedListUrl = DEFAULT_TOKEN_LISTS_SELECTED
+        DEFAULT_TOKEN_LISTS.forEach(listUrl => {
+          if (!state.byUrl[listUrl]) {
+            state.byUrl[listUrl] = NEW_LIST_STATE
+          }
+        })
       }
     })
 )
