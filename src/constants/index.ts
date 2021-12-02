@@ -667,6 +667,53 @@ export const KLO: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xb27c8941a7Df8958A1778c0259f76D1F8B711C35', 9, 'KLO', 'Kalao Token')
 }
 
+export const MIM: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'MIM', 'Magic Internet Money'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x130966628846BFd36ff31a822705796e8cb8C18D',
+    18,
+    'MIM',
+    'Magic Internet Money'
+  )
+}
+
+export const gOHM: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'gOHM', 'Governance OHM'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x321E7092a180BB43555132ec53AaA65a5bF84251',
+    18,
+    'gOHM',
+    'Governance OHM'
+  )
+}
+
+export const CRA: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'CRA', 'Crabada'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xA32608e873F9DdEF944B24798db69d80Bbb4d1ed', 18, 'CRA', 'Crabada')
+}
+
+export const CRAFT: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'CRAFT', 'CRAFT'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x8aE8be25C23833e0A01Aa200403e826F611f9CD2', 18, 'CRAFT', 'CRAFT')
+}
+
+export const MAXI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'MAXI', 'Maximus'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x885d748C00A279B67A7749EC6b03301700dd0455', 18, 'MAXI', 'Maximus')
+}
+
+export const AVAI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'AVAI', 'AVAI'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x346A59146b9b4a77100D369a3d18E8007A9F46a6', 18, 'AVAI', 'AVAI')
+}
+
+export const ORCA: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ORCA', 'OrcaDAO'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x8B1d98A91F853218ddbb066F20b8c63E782e2430', 18, 'ORCA', 'OrcaDAO')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
