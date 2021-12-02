@@ -41,7 +41,9 @@ import {
   WalletTokens,
   WalletAddresses,
   Row,
-  FollowButton
+  FollowButton,
+  DeleteButton,
+  ContainerLeftFollowed
 } from './styleds'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
@@ -257,7 +259,7 @@ const Dashboard = () => {
           </CardHeader>
           <CardBody>
             <FlexWrapper>
-              <ContainerLeft>
+              <ContainerLeftFollowed>
                 <WalletProfile>
                   <img
                     width={56}
@@ -270,7 +272,7 @@ const Dashboard = () => {
                   </div>
                 </WalletProfile>
                 <WalletTokens>
-                  <Row>
+                  <Row type="th">
                     <div>Type</div>
                     <div>Name</div>
                     <div>Worth</div>
@@ -291,10 +293,10 @@ const Dashboard = () => {
                     <div>207,542$</div>
                   </Row>
                 </WalletTokens>
-              </ContainerLeft>
+              </ContainerLeftFollowed>
               <ContainerRight>
                 <WalletAddresses>
-                  <Row>
+                  <Row type="th">
                     <div>Address</div>
                     <div>Worth</div>
                     <div>Interact</div>
@@ -303,40 +305,36 @@ const Dashboard = () => {
                     <div>0x372E6…A63B4</div>
                     <div>251,235.25$</div>
                     <FlexWrapper>
-                      <FollowButton>Follow</FollowButton>
-                      <FollowButton>
-                        <img width={'15px'} src={DeleteIcon} alt="delete" />
+                      <FollowButton variant="primary" follow={false}>
+                        Unfollow
                       </FollowButton>
+                      <DeleteButton variant="secondary">
+                        <img width={'15px'} src={DeleteIcon} alt="delete" />
+                      </DeleteButton>
                     </FlexWrapper>
                   </Row>
                   <Row>
                     <div>0x372E6…A63B4</div>
                     <div>251,235.25$</div>
                     <FlexWrapper>
-                      <FollowButton>Follow</FollowButton>
-                      <FollowButton>
-                        <img width={'15px'} src={DeleteIcon} alt="delete" />
+                      <FollowButton variant="primary" follow={true}>
+                        Follow
                       </FollowButton>
+                      <DeleteButton variant="secondary">
+                        <img width={'15px'} src={DeleteIcon} alt="delete" />
+                      </DeleteButton>
                     </FlexWrapper>
                   </Row>
                   <Row>
                     <div>0x372E6…A63B4</div>
                     <div>251,235.25$</div>
                     <FlexWrapper>
-                      <FollowButton>Follow</FollowButton>
-                      <FollowButton>
-                        <img width={'15px'} src={DeleteIcon} alt="delete" />
+                      <FollowButton variant="primary" follow={false}>
+                        Unfollow
                       </FollowButton>
-                    </FlexWrapper>
-                  </Row>
-                  <Row>
-                    <div>0x372E6…A63B4</div>
-                    <div>251,235.25$</div>
-                    <FlexWrapper>
-                      <FollowButton>Follow</FollowButton>
-                      <FollowButton>
+                      <DeleteButton variant="secondary">
                         <img width={'15px'} src={DeleteIcon} alt="delete" />
-                      </FollowButton>
+                      </DeleteButton>
                     </FlexWrapper>
                   </Row>
                 </WalletAddresses>
