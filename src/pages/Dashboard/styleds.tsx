@@ -1,4 +1,4 @@
-import { Box } from '@pangolindex/components'
+import { Box, Button } from '@pangolindex/components'
 import { ButtonPrimary, ButtonOutlined } from '../../components/Button'
 import styled from 'styled-components'
 
@@ -281,6 +281,13 @@ export const TokenList = styled(Box)`
 `
 
 // followed wallets
+export const ContainerLeftFollowed = styled(Box)`
+  width: 50%;
+  margin-right: 35px;
+  padding-right: 30px;
+  border-right: 1px solid ${({ theme }) => theme.text8};
+`
+
 export const WalletProfile = styled(Box)`
   display: flex;
   align-items: center;
@@ -295,14 +302,14 @@ export const WalletProfileAddress = styled(Box)`
   font-size: 18px;
   line-height: 27px;
 
-  color: ${({ theme }) => theme.text7};
+  color: ${({ theme }) => theme.text9};
 `
 
 export const WalletProfileChain = styled(Box)`
   font-size: 14px;
   line-height: 21px;
 
-  color: ${({ theme }) => theme.text7};
+  color: ${({ theme }) => theme.text8};
 `
 
 export const WalletTokens = styled(Box)`
@@ -314,18 +321,35 @@ export const WalletAddresses = styled(Box)`
   width: 100%;
   margin-top: 25px;
 `
-export const Row = styled(Box)`
+export const Row = styled(Box)<{ type?: string }>`
   width: 100%;
-  color: ${({ theme }) => theme.text7};
+  color: ${props => (props.type === 'th' ? ({ theme }) => theme.text8 : ({ theme }) => theme.text9)};
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.text5};
   padding: 10px 0;
+
+  & div {
+    width: 40%;
+
+    &:last-child {
+      width: 20%;
+      text-align: right;
+    }
+  }
 `
 
-export const FollowButton = styled(ButtonPrimary)`
+export const FollowButton = styled(Button)<{ follow: boolean }>`
   height: 24px;
-  background: #464646;
+  background: ${props => (props.follow ? '#18c145' : '#717171')} !important;
+  margin-left: 8px;
+`
+
+export const DeleteButton = styled(Button)`
+  height: 24px;
+  background-color: rgba(113, 113, 113, 0.5) !important;
+  padding: 18px 10px !important;
+  width: auto !important;
   margin-left: 8px;
 `
