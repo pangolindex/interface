@@ -29,7 +29,9 @@ export enum ApplicationModal {
   VOTE,
   LANGUAGE,
   MIGRATION,
-  FARM
+  FARM,
+  PORTFOLIO_TOKEN,
+  PORTFOLIO_DATE
 }
 
 export const updateBlockNumber = createAction<{ chainId: number; blockNumber: number }>('application/updateBlockNumber')
