@@ -1,5 +1,5 @@
 import { createStore, Store } from 'redux'
-import { DEFAULT_LIST_OF_LISTS, DEFAULT_TOKEN_LIST_URL } from '../../constants/lists'
+import { DEFAULT_TOKEN_LISTS, DEFAULT_TOKEN_LISTS_SELECTED } from '../../constants/lists'
 import { updateVersion } from '../global/actions'
 import { fetchTokenList, acceptListUpdate, addList, removeList, selectList } from './actions'
 import reducer, { ListsState } from './reducer'
@@ -302,7 +302,7 @@ describe('list reducer', () => {
       store.dispatch(removeList('fake-url'))
       expect(store.getState()).toEqual({
         byUrl: {},
-        selectedListUrl: [DEFAULT_TOKEN_LIST_URL]
+        selectedListUrl: DEFAULT_TOKEN_LISTS_SELECTED
       })
     })
     it('selects the default list if removed list was selected', () => {
@@ -320,7 +320,7 @@ describe('list reducer', () => {
       store.dispatch(removeList('fake-url'))
       expect(store.getState()).toEqual({
         byUrl: {},
-        selectedListUrl: [DEFAULT_TOKEN_LIST_URL]
+        selectedListUrl: DEFAULT_TOKEN_LISTS_SELECTED
       })
     })
   })
@@ -440,40 +440,33 @@ describe('list reducer', () => {
       })
 
       it.skip('puts in all the new lists', () => {
-        expect(Object.keys(store.getState().byUrl)).toEqual(DEFAULT_LIST_OF_LISTS)
+        expect(Object.keys(store.getState().byUrl)).toEqual(DEFAULT_TOKEN_LISTS)
       })
       it('all lists are empty', () => {
         const s = store.getState()
         Object.keys(s.byUrl).forEach(url => {
-          if (url === DEFAULT_TOKEN_LIST_URL) {
-            expect(s.byUrl[url]).toEqual({
-              error: null,
-              current: null,
-              loadingRequestId: null,
-              pendingUpdate: null
-            })
-          } else {
-            expect(s.byUrl[url]).toEqual({
-              error: null,
-              current: null,
-              loadingRequestId: null,
-              pendingUpdate: null
-            })
-          }
+          expect(s.byUrl[url]).toEqual({
+            error: null,
+            current: null,
+            loadingRequestId: null,
+            pendingUpdate: null
+          })
         })
       })
       it('sets initialized lists', () => {
-        expect(store.getState().lastInitializedDefaultListOfLists).toEqual(DEFAULT_LIST_OF_LISTS)
+        expect(store.getState().lastInitializedDefaultListOfLists).toEqual(DEFAULT_TOKEN_LISTS)
       })
       it('sets selected list', () => {
-        expect(store.getState().selectedListUrl).toEqual([DEFAULT_TOKEN_LIST_URL])
+        expect(store.getState().selectedListUrl).toEqual(DEFAULT_TOKEN_LISTS_SELECTED)
       })
       it('default list is initialized', () => {
-        expect(store.getState().byUrl[DEFAULT_TOKEN_LIST_URL]).toEqual({
-          error: null,
-          current: null,
-          loadingRequestId: null,
-          pendingUpdate: null
+        DEFAULT_TOKEN_LISTS_SELECTED.forEach(listUrl => {
+          expect(store.getState().byUrl[listUrl]).toEqual({
+            error: null,
+            current: null,
+            loadingRequestId: null,
+            pendingUpdate: null
+          })
         })
       })
     })
@@ -515,7 +508,9 @@ describe('list reducer', () => {
       })
 
       it('adds all the lists in the default list of lists', () => {
-        expect(Object.keys(store.getState().byUrl)).toContain(DEFAULT_TOKEN_LIST_URL)
+        DEFAULT_TOKEN_LISTS_SELECTED.forEach(listUrl => {
+          expect(Object.keys(store.getState().byUrl)).toContain(listUrl)
+        })
       })
 
       it('each of those initialized lists is empty', () => {
@@ -535,17 +530,19 @@ describe('list reducer', () => {
       })
 
       it('sets initialized lists', () => {
-        expect(store.getState().lastInitializedDefaultListOfLists).toEqual(DEFAULT_LIST_OF_LISTS)
+        expect(store.getState().lastInitializedDefaultListOfLists).toEqual(DEFAULT_TOKEN_LISTS)
       })
       it('sets default list to selected list', () => {
-        expect(store.getState().selectedListUrl).toEqual([DEFAULT_TOKEN_LIST_URL])
+        expect(store.getState().selectedListUrl).toEqual(DEFAULT_TOKEN_LISTS_SELECTED)
       })
       it('default list is initialized', () => {
-        expect(store.getState().byUrl[DEFAULT_TOKEN_LIST_URL]).toEqual({
-          error: null,
-          current: null,
-          loadingRequestId: null,
-          pendingUpdate: null
+        DEFAULT_TOKEN_LISTS_SELECTED.forEach(listUrl => {
+          expect(store.getState().byUrl[listUrl]).toEqual({
+            error: null,
+            current: null,
+            loadingRequestId: null,
+            pendingUpdate: null
+          })
         })
       })
     })

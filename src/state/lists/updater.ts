@@ -9,7 +9,7 @@ import ReactGA from 'react-ga'
 import { addPopup } from '../application/actions'
 import { AppDispatch, AppState } from '../index'
 import { acceptListUpdate } from './actions'
-import { DEFAULT_LIST_OF_LISTS } from '../../constants/lists'
+import { DEFAULT_TOKEN_LISTS } from '../../constants/lists'
 
 export default function Updater(): null {
   const { library } = useActiveWeb3React()
@@ -47,7 +47,7 @@ export default function Updater(): null {
       const list = lists[listUrl]
       if (list.current && list.pendingUpdate) {
         const bump = getVersionUpgrade(list.current.version, list.pendingUpdate.version)
-        const isDefaultList = DEFAULT_LIST_OF_LISTS.includes(listUrl)
+        const isDefaultList = DEFAULT_TOKEN_LISTS.includes(listUrl)
         switch (bump) {
           case VersionUpgrade.NONE:
             throw new Error('unexpected no version bump')
