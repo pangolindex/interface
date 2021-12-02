@@ -74,6 +74,10 @@ export const CardBody = styled(Box)`
 `
 
 // portfolio section
+export const HeaderDropdowns = styled(Box)`
+  display: flex;
+`
+
 export const PortfolioToken = styled(Box)`
   display: flex;
   align-items: center;

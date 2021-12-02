@@ -13,6 +13,7 @@ import {
   PortfolioToken,
   PortfolioTokenPercent,
   PortfolioInfo,
+  HeaderDropdowns,
   // Earned
   Label,
   Value,
@@ -57,6 +58,8 @@ import makeBlockie from 'ethereum-blockies-base64'
 import TradingViewChart from './TradingViewChart'
 import PngToggle from './PngToggle'
 import TokenRow from './TokenRow'
+import TokenDropdown from './TokenDropdown'
+import DateDropdown from './DateDropdown'
 
 import { useDarkModeManager } from '../../state/user/hooks'
 import Logo from '../../assets/svg/icon.svg'
@@ -135,11 +138,18 @@ const Dashboard = () => {
       <TopContainerWrapper>
         <ContainerLeft>
           <Card>
-            <CardHeader>{t('dashboardPage.portfolioValue')}</CardHeader>
+            <CardHeader>
+              {t('dashboardPage.portfolioValue')}
+              <HeaderDropdowns>
+                <TokenDropdown></TokenDropdown>
+                <DateDropdown></DateDropdown>
+              </HeaderDropdowns>
+            </CardHeader>
             <CardBody>
               <TradingViewChart />
               <PortfolioToken>
-                3028.28 <PortfolioTokenPercent>23.3%</PortfolioTokenPercent>
+                3028.28 <img width={'50px'} src={Logo} alt={'PNG'} style={{ marginLeft: '12px' }} />
+                <PortfolioTokenPercent>23.3%</PortfolioTokenPercent>
               </PortfolioToken>
               <PortfolioInfo>
                 <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards worth
