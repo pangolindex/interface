@@ -4,19 +4,24 @@ import { LineChart, Line } from 'recharts'
 import { Box } from '@pangolindex/components'
 import Logo from '../../../assets/svg/icon.svg'
 
+export const RowContainer = styled(Box)`
+  padding: 12px;
+  padding-bottom: 0px;
+
+  &:hover {
+    background: ${({ theme }) => theme.bg6};
+    border-radius: 8px;
+    cursor: pointer;
+  }
+`
+
 export const Row = styled(Box)`
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  &:hover {
-    background: #1c1c1c;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-
-  padding: 12px;
-  border-bottom: 1px solid #282828;
+  padding-bottom: 12px;
+  border-bottom: 1px solid ${({ theme }) => theme.bg6};
 `
 
 export const TokenName = styled(Box)`
@@ -75,23 +80,25 @@ export default function TokenRow({ name = 'PNG', diffPercent = 1.68, onClick }: 
   }
 
   return (
-    <Row onClick={onClick}>
-      <TokenName>
-        <img width={'28px'} src={Logo} alt={name} />
-        <span>{name}</span>
-      </TokenName>
-      <TokenMiniChart>
-        <LineChart width={82} height={18} data={data}>
-          <Line type="monotone" dataKey="value" stroke={diffPercent >= 0 ? '#18C145' : '#E84142'} dot={false} />
-        </LineChart>
-      </TokenMiniChart>
-      <TokenValue>
-        <TokenPrice>${'122.74'}</TokenPrice>
-        <TokenDiff isPositive={diffPercent >= 0}>
-          {diffPercent >= 0 && '+'}
-          {diffPercent}%
-        </TokenDiff>
-      </TokenValue>
-    </Row>
+    <RowContainer>
+      <Row onClick={onClick}>
+        <TokenName>
+          <img width={'28px'} src={Logo} alt={name} />
+          <span>{name}</span>
+        </TokenName>
+        <TokenMiniChart>
+          <LineChart width={82} height={18} data={data}>
+            <Line type="monotone" dataKey="value" stroke={diffPercent >= 0 ? '#18C145' : '#E84142'} dot={false} />
+          </LineChart>
+        </TokenMiniChart>
+        <TokenValue>
+          <TokenPrice>${'122.74'}</TokenPrice>
+          <TokenDiff isPositive={diffPercent >= 0}>
+            {diffPercent >= 0 && '+'}
+            {diffPercent}%
+          </TokenDiff>
+        </TokenValue>
+      </Row>
+    </RowContainer>
   )
 }

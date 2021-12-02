@@ -238,6 +238,7 @@ export const AddNewCoinButton = styled(ButtonPrimary)`
 export const TokenChart = styled(Box)`
   width: 100%;
   padding-right: 28px;
+  position: relative;
 `
 
 export const DateRangeSelect = styled(Box)`
@@ -277,6 +278,41 @@ export const TokenList = styled(Box)`
   &::-webkit-scrollbar-thumb {
     background: #464646;
     border-radius: 2px;
+  }
+`
+
+export const CoinDetail = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: calc(100% - 28px);
+
+  .buttons {
+    display: flex;
+  }
+`
+
+export const CoinDetailToken = styled(Box)`
+  display: flex;
+  img {
+    margin-right: 12px;
+  }
+
+  .token {
+    font-size: 24px;
+    line-height: 36px;
+
+    color: ${({ theme }) => theme.text7};
+  }
+
+  .price {
+    font-size: 16px;
+    line-height: 24px;
+
+    color: #18c145;
   }
 `
 
@@ -346,7 +382,7 @@ export const FollowButton = styled(Button)<{ follow: boolean }>`
   margin-left: 8px;
 `
 
-export const DeleteButton = styled(Button)`
+export const IconButton = styled(Button)`
   height: 24px;
   background-color: rgba(113, 113, 113, 0.5) !important;
   padding: 18px 10px !important;

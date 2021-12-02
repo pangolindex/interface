@@ -28,6 +28,8 @@ import {
   DateRangeSelect,
   DateRangeItem,
   TokenList,
+  CoinDetail,
+  CoinDetailToken,
   // News
   NewsSection,
   NewsTitle,
@@ -42,7 +44,7 @@ import {
   WalletAddresses,
   Row,
   FollowButton,
-  DeleteButton,
+  IconButton,
   ContainerLeftFollowed
 } from './styleds'
 import { useTranslation } from 'react-i18next'
@@ -61,6 +63,7 @@ import Logo from '../../assets/svg/icon.svg'
 import LogoDark from '../../assets/svg/icon.svg'
 import Info from '../../assets/svg/info.svg'
 import Info2 from '../../assets/svg/info2.svg'
+import LinkIcon from '../../assets/svg/link.svg'
 import DeleteIcon from '../../assets/svg/delete.svg'
 import Earth from '../../assets/images/earth.png'
 
@@ -215,6 +218,23 @@ const Dashboard = () => {
               <CardBody>
                 <FlexWrapper>
                   <TokenChart>
+                    <CoinDetail>
+                      <CoinDetailToken>
+                        <img width={'56px'} src={Logo} alt={'token'} />
+                        <div>
+                          <div className="token">Avax</div>
+                          <div className="price">122.74$</div>
+                        </div>
+                      </CoinDetailToken>
+                      <div className="buttons">
+                        <IconButton variant="secondary">
+                          <img width={'15px'} src={LinkIcon} alt="link" />
+                        </IconButton>
+                        <FollowButton variant="primary" follow={true}>
+                          Trade
+                        </FollowButton>
+                      </div>
+                    </CoinDetail>
                     <LineChart width={380} height={200} data={data}>
                       <Line
                         type="monotone"
@@ -308,9 +328,9 @@ const Dashboard = () => {
                       <FollowButton variant="primary" follow={false}>
                         Unfollow
                       </FollowButton>
-                      <DeleteButton variant="secondary">
+                      <IconButton variant="secondary">
                         <img width={'15px'} src={DeleteIcon} alt="delete" />
-                      </DeleteButton>
+                      </IconButton>
                     </FlexWrapper>
                   </Row>
                   <Row>
@@ -320,9 +340,9 @@ const Dashboard = () => {
                       <FollowButton variant="primary" follow={true}>
                         Follow
                       </FollowButton>
-                      <DeleteButton variant="secondary">
+                      <IconButton variant="secondary">
                         <img width={'15px'} src={DeleteIcon} alt="delete" />
-                      </DeleteButton>
+                      </IconButton>
                     </FlexWrapper>
                   </Row>
                   <Row>
@@ -332,9 +352,9 @@ const Dashboard = () => {
                       <FollowButton variant="primary" follow={false}>
                         Unfollow
                       </FollowButton>
-                      <DeleteButton variant="secondary">
+                      <IconButton variant="secondary">
                         <img width={'15px'} src={DeleteIcon} alt="delete" />
-                      </DeleteButton>
+                      </IconButton>
                     </FlexWrapper>
                   </Row>
                 </WalletAddresses>
