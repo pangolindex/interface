@@ -85,7 +85,6 @@ import {
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
-
 export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   WAVAX_ETH_V0: {
     tokens: [WAVAX[ChainId.AVALANCHE], ETH[ChainId.AVALANCHE]],
@@ -923,265 +922,200 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     multiplier: 0
   },
 
-
-
-
-
-
-
-
-
-
-
-
   WAVAX_PNG_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 30
+    version: 2
   },
   PNG_USDCe_V2: {
     tokens: [PNG[ChainId.AVALANCHE], USDCe[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 30
+    version: 2
   },
   USDTe_USDCe_V2: {
     tokens: [USDTe[ChainId.AVALANCHE], USDCe[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 20
+    version: 2
   },
   WAVAX_SPELL_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], SPELL[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 20
+    version: 2
   },
   WAVAX_TIME_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], TIME[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 20
+    version: 2
   },
   WAVAX_WBTCe_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], WBTCe[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 20
+    version: 2
   },
   WAVAX_DAIe_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], DAIe[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 20
+    version: 2
   },
   WAVAX_USDTe_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], USDTe[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 20
+    version: 2
   },
   WAVAX_WETHe_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], WETHe[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 20
+    version: 2
   },
   WAVAX_USDCe_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], USDCe[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 20
+    version: 2
   },
   WAVAX_LINKe_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], LINKe[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 10
+    version: 2
   },
   USDCe_DAIe_V2: {
     tokens: [USDCe[ChainId.AVALANCHE], DAIe[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 10
+    version: 2
   },
   WAVAX_KLO_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], KLO[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 10
+    version: 2
   },
   WAVAX_WALBT_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], WALBT[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 10
+    version: 2
   },
   WAVAX_JOE_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], JOE[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 10
+    version: 2
   },
   WAVAX_YAK_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], YAK[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 10
+    version: 2
   },
   WAVAX_APEIN_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], APEIN[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 10
+    version: 2
   },
   WAVAX_ROCO_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], ROCO[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 10
+    version: 2
   },
   WAVAX_XAVA_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], XAVA[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 10
+    version: 2
   },
   WAVAX_QI_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], QI[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 10
+    version: 2
   },
   WAVAX_FRAX_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], FRAX[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 10
+    version: 2
+  },
+  WAVAX_FRAXV2_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], FRAXV2[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
   },
   WAVAX_AMPL_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], AMPL[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 10
+    version: 2
   },
   WAVAX_SNOB_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], SNOB[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 5
+    version: 2
   },
   WAVAX_PEFI_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], PEFI[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 5
+    version: 2
   },
   WAVAX_OOE_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], OOE[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 5
+    version: 2
   },
   WAVAX_TUSD_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], TUSD[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 5
+    version: 2
   },
   WAVAX_HUSKY_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], HUSKY[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 5
+    version: 2
   },
   WAVAX_TEDDY_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], TEDDY[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 5
+    version: 2
   },
   WAVAX_DYP_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], DYP[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 5
+    version: 2
   },
   WAVAX_SPORE_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], SPORE[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 5
+    version: 2
   },
   WAVAX_YAY_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], YAY[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 5
+    version: 2
   },
   WAVAX_VEE_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], VEE[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 5
+    version: 2
   },
   WAVAX_WOW_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], WOW[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 5
+    version: 2
   },
   WAVAX_HCT_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], HCT[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 5
+    version: 2
   },
   WAVAX_IMX_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], IMX[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 5
+    version: 2
   },
   WAVAX_INSUR_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], INSUR[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 3
+    version: 2
   },
   WAVAX_ORBS_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], ORBS[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2,
-    multiplier: 2
+    version: 2
   }
 }
 
 // The first mapping in the list takes priority if multiple migrations exist from the same pool
 export const MIGRATIONS: Migration[] = [
-  // From v0 (WAVAX)
-  { from: DOUBLE_SIDE_STAKING.WAVAX_PNG_V0, to: DOUBLE_SIDE_STAKING.WAVAX_PNG_V1 },
-  { from: DOUBLE_SIDE_STAKING.WAVAX_ETH_V0, to: DOUBLE_SIDE_STAKING.WAVAX_WETHe_V1 },
-  { from: DOUBLE_SIDE_STAKING.WAVAX_USDT_V0, to: DOUBLE_SIDE_STAKING.WAVAX_USDTe_V1 },
-  { from: DOUBLE_SIDE_STAKING.WAVAX_WBTC_V0, to: DOUBLE_SIDE_STAKING.WAVAX_WBTCe_V1 },
-  { from: DOUBLE_SIDE_STAKING.WAVAX_LINK_V0, to: DOUBLE_SIDE_STAKING.WAVAX_LINKe_V1 },
-  { from: DOUBLE_SIDE_STAKING.WAVAX_DAI_V0, to: DOUBLE_SIDE_STAKING.WAVAX_DAIe_V1 },
-  { from: DOUBLE_SIDE_STAKING.WAVAX_UNI_V0, to: DOUBLE_SIDE_STAKING.WAVAX_UNIe_V1 },
-  { from: DOUBLE_SIDE_STAKING.WAVAX_SUSHI_V0, to: DOUBLE_SIDE_STAKING.WAVAX_SUSHIe_V1 },
-  { from: DOUBLE_SIDE_STAKING.WAVAX_AAVE_V0, to: DOUBLE_SIDE_STAKING.WAVAX_AAVEe_V1 },
-  { from: DOUBLE_SIDE_STAKING.WAVAX_YFI_V0, to: DOUBLE_SIDE_STAKING.WAVAX_YFIe_V1 },
-  // From v0 (PNG)
-  { from: DOUBLE_SIDE_STAKING.PNG_ETH_V0, to: DOUBLE_SIDE_STAKING.PNG_WETHe_V1 },
-  { from: DOUBLE_SIDE_STAKING.PNG_USDT_V0, to: DOUBLE_SIDE_STAKING.PNG_USDTe_V1 },
-  { from: DOUBLE_SIDE_STAKING.PNG_WBTC_V0, to: DOUBLE_SIDE_STAKING.PNG_WBTCe_V1 },
-  { from: DOUBLE_SIDE_STAKING.PNG_LINK_V0, to: DOUBLE_SIDE_STAKING.PNG_LINKe_V1 },
-  { from: DOUBLE_SIDE_STAKING.PNG_DAI_V0, to: DOUBLE_SIDE_STAKING.PNG_DAIe_V1 },
-  { from: DOUBLE_SIDE_STAKING.PNG_UNI_V0, to: DOUBLE_SIDE_STAKING.PNG_UNIe_V1 },
-  { from: DOUBLE_SIDE_STAKING.PNG_SUSHI_V0, to: DOUBLE_SIDE_STAKING.PNG_SUSHIe_V1 },
-  { from: DOUBLE_SIDE_STAKING.PNG_AAVE_V0, to: DOUBLE_SIDE_STAKING.PNG_AAVEe_V1 },
-  { from: DOUBLE_SIDE_STAKING.PNG_YFI_V0, to: DOUBLE_SIDE_STAKING.PNG_YFIe_V1 },
-
   // From v1 (WAVAX)
   { from: DOUBLE_SIDE_STAKING.WAVAX_ETH_V1, to: DOUBLE_SIDE_STAKING.WAVAX_WETHe_V1 },
   { from: DOUBLE_SIDE_STAKING.WAVAX_USDT_V1, to: DOUBLE_SIDE_STAKING.WAVAX_USDTe_V1 },
@@ -1215,7 +1149,6 @@ export const BRIDGE_MIGRATORS: BridgeMigrator[] = [
   { aeb: '0x8cE2Dee54bB9921a2AE0A63dBb2DF8eD88B91dD9', ab: '0x63a72806098Bd3D9520cC43356dD78afe5D386D9' }, // AAVE
   { aeb: '0x99519AcB025a0e0d44c3875A4BbF03af65933627', ab: '0x9eAaC1B23d935365bD7b542Fe22cEEe2922f52dc' } // YFI
 ]
-
 
 export const DOUBLE_SIDE_STAKING_V0: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING).filter(
   staking => staking.version === 0

@@ -316,7 +316,7 @@
     "depositPangolinStaking": "Deposit and stake your PNG tokens to earn more tokens.",
     "currentOpportunities": "Current opportunities",
     "readMoreAboutPng": "Read more about PNG",
-    "getInsuranceCoverage": "Get Insurance Coverage",
+    "getInsuranceCoverage": "Get cover on InsurAce.io",
     "getCoverNexusMutual": "Get cover on Nexus Mutual",
     "importantUpdate": "IMPORTANT UPDATE",
     "pangolinGovernanceProposalResult": "As a result of Pangolin governance proposal 1, Pangolin is changing staking contracts! After approximately 08:59 UTC on 4/19, all staking rewards will be distributed to the new staking contracts. Before the switch, all rewards will still be distributed to the old contracts. To avoid interruptions to yield farming rewards, you need to unstake your liquidity from the old contracts and restake in the new contracts. You do not need to remove liquidity from your pools or alter your positions.",

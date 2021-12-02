@@ -1,17 +1,6 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent } from '@pangolindex/sdk'
 import { useMemo, useEffect, useState } from 'react'
-import {
-  PNG,
-  USDTe,
-  USDCe,
-  DAIe,
-  MINICHEF_ADDRESS,
-  BIG_INT_ZERO,
-  BIG_INT_TWO,
-  BIG_INT_ONE,
-  BIG_INT_EIGHTEEN,
-  BIG_INT_TEN
-} from '../../constants'
+import { PNG, USDTe, USDCe, DAIe, MINICHEF_ADDRESS, BIG_INT_ZERO, BIG_INT_TWO, BIG_INT_ONE } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
@@ -31,6 +20,7 @@ import { useTotalSupply } from '../../data/TotalSupply'
 import { useStakingContract } from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
+import { ZERO_ADDRESS } from '../../constants'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -43,7 +33,7 @@ export interface DoubleSideStaking {
   tokens: [Token, Token]
   stakingRewardAddress: string
   version: number
-  multiplier: number
+  multiplier?: number
 }
 
 export interface Migration {
@@ -101,9 +91,9 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
 }
 
 export interface StakingInfo extends DoubleSideStakingInfo {
-  swapFeeApr?: Number
-  stakingApr?: Number
-  combinedApr?: Number
+  swapFeeApr?: number
+  stakingApr?: number
+  combinedApr?: number
 }
 
 const calculateTotalStakedAmountInAvaxFromPng = function(
@@ -344,7 +334,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
           totalStakedAmount: totalStakedAmount,
           totalStakedInWavax: totalStakedInWavax,
           totalStakedInUsd: totalStakedInUsd,
-          multiplier: JSBI.BigInt(multiplier),
+          multiplier: JSBI.BigInt(multiplier ?? 0),
           getHypotheticalRewardRate
         })
       }
@@ -670,13 +660,18 @@ export function useGetStakingDataWithAPR(version: number) {
 }
 
 export function useGetPairDataFromPair(pair: Pair) {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
-  const usdPriceCurrency0 = useUSDCPrice(pair.token0)
-  const usdPriceCurrency1 = useUSDCPrice(pair.token1)
+  const dummyToken = new Token(chainId || ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'PNG', 'Pangolin')
 
-  const zeroTokenAmount0 = new TokenAmount(pair.token0, '0')
-  const zeroTokenAmount1 = new TokenAmount(pair.token1, '0')
+  const token0 = pair?.token0 || dummyToken
+  const token1 = pair?.token1 || dummyToken
+
+  const usdPriceCurrency0 = useUSDCPrice(token0)
+  const usdPriceCurrency1 = useUSDCPrice(token1)
+
+  const zeroTokenAmount0 = new TokenAmount(token0, '0')
+  const zeroTokenAmount1 = new TokenAmount(token1, '0')
 
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
   const totalPoolTokens = useTotalSupply(pair.liquidityToken)
@@ -742,9 +737,9 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const { chainId, account } = useActiveWeb3React()
   const minichefContract = useStakingContract(MINICHEF_ADDRESS)
   const poolMap = useMinichefPools()
-  const png = chainId ? PNG[chainId] : PNG[ChainId.AVALANCHE]
+  const png = PNG[chainId || ChainId.AVALANCHE]
 
-  let info = useMemo(
+  const info = useMemo(
     () =>
       chainId
         ? DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(item =>
@@ -768,7 +763,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
   const balances = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'balanceOf', [MINICHEF_ADDRESS])
 
-  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[ChainId.AVALANCHE], png)
+  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[chainId || ChainId.AVALANCHE], png)
 
   const poolIdArray = useMemo(() => {
     if (!pairAddresses || !poolMap) return []
@@ -797,9 +792,6 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
   const rewardsExpiration = useSingleCallResult(minichefContract, 'rewardsExpiration', []).result
   const usdPrice = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
-  const avaxPrice = usdPrice?.quote(
-    new TokenAmount(WAVAX[chainId ? chainId : ChainId.AVALANCHE], JSBI.exponentiate(BIG_INT_TEN, BIG_INT_EIGHTEEN))
-  )
 
   const arr = useMemo(() => {
     if (!chainId || !png) return []
@@ -953,7 +945,6 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     rewardsExpiration,
     balances,
     usdPrice,
-    avaxPrice,
     pairAddresses
   ])
 
