@@ -700,8 +700,8 @@ export const CRAFT: { [chainId in ChainId]: Token } = {
 }
 
 export const MAXI: { [chainId in ChainId]: Token } = {
-  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'MAXI', 'Maximus'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x885d748C00A279B67A7749EC6b03301700dd0455', 18, 'MAXI', 'Maximus')
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 9, 'MAXI', 'Maximizer'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7C08413cbf02202a1c13643dB173f2694e0F73f0', 9, 'MAXI', 'Maximizer')
 }
 
 export const AVAI: { [chainId in ChainId]: Token } = {
