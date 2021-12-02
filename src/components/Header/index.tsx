@@ -365,6 +365,9 @@ export default function Header() {
           >
             {t('header.stake')}
           </StyledNavLink>
+          <StyledExternalLink id={`vote-nav-link`} href={'https://pro.olympusdao.finance/'}>
+            Bond <span style={{ fontSize: '11px' }}>↗</span>
+          </StyledExternalLink>
           <StyledNavLink id={`vote-nav-link`} to={'/vote'}>
             {t('header.vote')}
           </StyledNavLink>
