@@ -81,7 +81,15 @@ import {
   ORBS,
   SPELL,
   KLO,
-  MINICHEF_ADDRESS
+  MINICHEF_ADDRESS,
+  MIM,
+  gOHM,
+  CRA,
+  CRAFT,
+  MAXI,
+  AVAI,
+  ORCA,
+  JEWEL
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1109,6 +1117,51 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   WAVAX_ORBS_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], ORBS[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  MIM_USDCe_V2: {
+    tokens: [MIM[ChainId.AVALANCHE], USDCe[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_gOHM_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], gOHM[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_CRA_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], CRA[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_CRAFT_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], CRAFT[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_MAXI_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], MAXI[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  TUSD_DAIe_V2: {
+    tokens: [TUSD[ChainId.AVALANCHE], DAIe[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_AVAI_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], AVAI[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_ORCA_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], ORCA[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_JEWEL_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], JEWEL[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   }
