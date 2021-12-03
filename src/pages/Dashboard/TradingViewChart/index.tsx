@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react'
 import { createChart, IChartApi } from 'lightweight-charts'
 import styled from 'styled-components'
+import { useDarkModeManager } from '../../../state/user/hooks'
 
-const WIDTH = 700
-const HEIGHT = 450
+const WIDTH = 740
+const HEIGHT = 415
 const data = [
-  { time: '2021-11-07', value: 6.59 },
-  { time: '2021-11-08', value: 11.59 },
-  { time: '2021-11-09', value: 8.59 },
-  { time: '2021-11-10', value: 10.59 },
-  { time: '2021-11-11', value: 12.59 }
+  { time: '2021-11-07', value: 1000 },
+  { time: '2021-11-08', value: 2000 },
+  { time: '2021-11-09', value: 3000 },
+  { time: '2021-11-10', value: 2000 },
+  { time: '2021-11-11', value: 3000 },
+  { time: '2021-11-12', value: 1000 },
+  { time: '2021-11-13', value: 2000 },
+  { time: '2021-11-14', value: 3000 },
+  { time: '2021-11-15', value: 1000 },
+  { time: '2021-11-16', value: 4000 }
 ]
 
 const Wrapper = styled.div`
   position: relative;
+  margin-top: 48px;
 `
 
 export default function TradingViewChart() {
@@ -22,6 +29,8 @@ export default function TradingViewChart() {
 
   // pointer to the chart object
   const [chartCreated, setChartCreated] = useState<IChartApi>()
+  const [isDark] = useDarkModeManager()
+
   const formattedData = data
 
   // if no chart created yet, create one with options and add to DOM manually
@@ -34,13 +43,19 @@ export default function TradingViewChart() {
         height: HEIGHT,
         layout: {
           backgroundColor: 'transparent',
-          textColor: 'white'
+          textColor: '#707070',
+          fontSize: 24
         },
-        rightPriceScale: {
+        leftPriceScale: {
           scaleMargins: {
             top: 0.32,
-            bottom: 0
+            bottom: 0.2
           },
+          visible: true,
+          borderVisible: false
+        },
+        rightPriceScale: {
+          visible: false,
           borderVisible: false
         },
         timeScale: {
@@ -48,11 +63,12 @@ export default function TradingViewChart() {
         },
         grid: {
           horzLines: {
-            color: 'rgba(197, 203, 206, 0.5)',
-            visible: false
+            color: '#707070',
+            visible: true,
+            style: 3
           },
           vertLines: {
-            color: 'rgba(197, 203, 206, 0.5)',
+            color: '#707070',
             visible: false
           }
         },
@@ -72,10 +88,13 @@ export default function TradingViewChart() {
       })
 
       let series = chart.addAreaSeries({
-        topColor: '#FF6B00',
-        bottomColor: 'rgba(232, 65, 66, 0)',
-        lineColor: '#FF6B00',
-        lineWidth: 3
+        topColor: 'transparent',
+        bottomColor: 'transparent',
+        lineColor: '#E67826',
+        lineWidth: 3,
+        crosshairMarkerVisible: false,
+        lastValueVisible: false,
+        priceLineVisible: false
       })
 
       series.setData(formattedData)
@@ -93,6 +112,16 @@ export default function TradingViewChart() {
       setChartCreated(chart)
     }
   }, [chartCreated, formattedData])
+
+  useEffect(() => {
+    if (chartCreated) {
+      chartCreated.applyOptions({
+        layout: {
+          textColor: isDark ? '#707070' : 'black'
+        }
+      })
+    }
+  }, [isDark, chartCreated])
   return (
     <Wrapper>
       <div id={'chart-container-id'} />
