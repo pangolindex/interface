@@ -5,11 +5,15 @@ import { useOnClickOutside } from '../../../hooks/useOnClickOutside'
 import { ApplicationModal } from '../../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../../state/application/hooks'
 
-import { StyledMenu, StyledMenuButton, MenuFlyout /*MenuItem, MenuNavItem*/ } from '../../../components/StyledMenu'
+import { StyledMenuButton } from '../DateDropdown'
+import { StyledMenu, MenuFlyout /*MenuItem, MenuNavItem*/ } from '../../../components/StyledMenu'
+import PolygonIcon from '../../../assets/svg/Polygon.svg'
 
 const NarrowMenuFlyout = styled(MenuFlyout)`
   min-width: 8.125rem;
   background-color: ${({ theme }) => theme.bg6};
+  top: 3rem;
+
   ${({ theme }) => theme.mediaWidth.upToMedium`
     top: -17.25rem;
   `};
@@ -29,7 +33,9 @@ export default function TokenDropdown() {
 
   return (
     <StyledMenu ref={node as any}>
-      <StyledMenuButton onClick={toggle}>Avax</StyledMenuButton>
+      <StyledMenuButton onClick={toggle}>
+        Avax <img src={PolygonIcon} alt="polygon" style={{ marginLeft: '26px' }} />
+      </StyledMenuButton>
 
       {open && (
         <NarrowMenuFlyout>

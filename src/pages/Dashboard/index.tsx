@@ -295,6 +295,7 @@ const Dashboard = () => {
                     width={56}
                     src={makeBlockie('0x7cB57B5A97eAbe94205C07890BE4c1aD31E486A8')}
                     style={{ marginRight: '12px' }}
+                    alt="0x7cB57B5A97eAbe94205C07890BE4c1aD31E486A8"
                   />
                   <div>
                     <WalletProfileAddress>0x372E6…A63B4</WalletProfileAddress>
