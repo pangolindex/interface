@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { MessageCircle, Send, Info, Twitter, GitHub, Book, Calendar } from 'react-feather'
+import { MessageCircle, Send, Info, Twitter, GitHub, Book, Calendar, MessageSquare, CheckSquare } from 'react-feather'
 import styled from 'styled-components'
 import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg'
 import { LANDING_PAGE } from '../../constants'
@@ -62,6 +62,14 @@ export default function Menu() {
             <MessageCircle size={14} />
             {t('menu.discord')}
           </MenuItem>
+          <MenuItem id="link" href="https://gov.pangolin.exchange">
+            <MessageSquare size={14} />
+            {t('header.forum')}
+          </MenuItem>
+          <MenuNavItem id="link" to={'/vote'}>
+            <CheckSquare size={14} />
+            {t('header.vote')}
+          </MenuNavItem>
           <MenuItem id="link" href="https://twitter.com/pangolindex">
             <Twitter size={14} />
             {t('menu.twitter')}
