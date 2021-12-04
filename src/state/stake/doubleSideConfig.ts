@@ -89,8 +89,7 @@ import {
   MAXI,
   AVAI,
   ORCA,
-  JEWEL,
-  NFTD
+  JEWEL
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1163,11 +1162,6 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   WAVAX_JEWEL_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], JEWEL[ChainId.AVALANCHE]],
-    stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2
-  },
-  NFTD_USDTe_V2: {
-    tokens: [NFTD[ChainId.AVALANCHE], USDTe[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   }

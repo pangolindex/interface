@@ -719,17 +719,6 @@ export const JEWEL: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x4f60a160D8C2DDdaAfe16FCC57566dB84D674BD6', 18, 'JEWEL', 'Jewels')
 }
 
-export const NFTD: { [chainId in ChainId]: Token } = {
-  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'NFTD', 'NFTrade Token'),
-  [ChainId.AVALANCHE]: new Token(
-    ChainId.AVALANCHE,
-    '0x9E3Ca00f2d4A9E5d4f0add0900de5f15050812cF',
-    18,
-    'NFTD',
-    'NFTrade Token'
-  )
-}
-
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
