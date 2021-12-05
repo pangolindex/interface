@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { PanelWrapper } from './styleds'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { ChainId, Token } from '@pangolindex/sdk'
-import Stat from '../../../../components/Stat'
+import Stat from 'src/components/Stat'
 import { ThemeContext } from 'styled-components'
 
 const PairStat = () => {
@@ -11,7 +11,7 @@ const PairStat = () => {
   const theme = useContext(ThemeContext)
   return (
     <PanelWrapper>
-      <Box borderRight={`1px solid ${theme.text2}`} padding={10} display="flex" alignItems="center">
+      <Box borderRight={`1px solid ${theme.text2}`} padding={"10px 20px"} display="flex" alignItems="center" height="100%">
         <DoubleCurrencyLogo size={24} currency0={currency0} currency1={currency1} />
         <Text color="text1" fontSize={24} fontWeight={500} lineHeight="55px" marginLeft={10}>
           AVAX/PNG
@@ -42,7 +42,7 @@ const PairStat = () => {
       <Box padding={10}>
         <Stat
           title="AVAX/PNG"
-          stat="80.06$"
+          stat="80"
           titlePosition="top"
           titleFontSize={16}
           statFontSize={26}
@@ -53,7 +53,7 @@ const PairStat = () => {
       <Box padding={10}>
         <Stat
           title="PNG/AVAX"
-          stat="80.06$"
+          stat="0.1"
           titlePosition="top"
           titleFontSize={16}
           statFontSize={26}
@@ -64,7 +64,7 @@ const PairStat = () => {
       <Box padding={10}>
         <Stat
           title="24H Change"
-          stat="80.06$"
+          stat="25%"
           titlePosition="top"
           titleFontSize={16}
           statFontSize={26}

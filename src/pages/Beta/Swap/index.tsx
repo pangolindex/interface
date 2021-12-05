@@ -1,5 +1,5 @@
 import React from 'react'
-import { PageWrapper, ChartWrapper, GridContainer } from './styleds'
+import { PageWrapper, ChartWrapper, GridContainer, TopContainer, StatsWrapper } from './styleds'
 import MyPortfolio from './MyPortfolio'
 import WatchList from './WatchList'
 import PairStat from './PairStat'
@@ -8,11 +8,13 @@ import Swap from './Swap'
 const SwapUI = () => {
   return (
     <PageWrapper>
-      <GridContainer>
-        <PairStat />
+      <TopContainer>
+        <StatsWrapper>
+          <PairStat />
+          <ChartWrapper>Chart</ChartWrapper>
+        </StatsWrapper>
         <Swap />
-        <ChartWrapper>Chart</ChartWrapper>
-      </GridContainer>
+      </TopContainer>
       <GridContainer>
         <MyPortfolio />
         <WatchList />

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useCallback } from 'react'
 import {
   SwapWrapper,
   SwapAlertBox,
@@ -8,18 +8,35 @@ import {
   GridContainer,
   ContentBox,
   DataBox,
-  ArrowWrapper,
-  Divider
-} from './styleds'
+  ArrowWrapper
+} from './styled'
 import { RefreshCcw, ChevronDown } from 'react-feather'
 import { Text, Box, Button, ToggleButtons } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
-import Drawer from './Drawer'
+import RetryDrawer from '../RetryDrawer'
+import SelectTokenDrawer from '../SelectTokenDrawer'
+import { useDerivedSwapInfo, useSwapActionHandlers } from 'src/state/swap/hooks'
+import { Field } from 'src/state/swap/actions'
 
 const Swap = () => {
   const theme = useContext(ThemeContext)
   const [swapType, setSwapType] = useState('MARKET' as string)
-  const [isDrawerCollapsed, setIsDrawerCollapsed] = useState(false)
+  const [isRetryDrawerOpen, setIsRetryDrawerOpen] = useState(false)
+  const [isTokenDrawerOpen, setIsTokenDrawerOpen] = useState(false)
+  const [tokenDrawerType, setTokenDrawerType] = useState(Field.INPUT)
+
+  const { onCurrencySelection, onSwitchTokens } = useSwapActionHandlers()
+  const {
+    // v1Trade,
+    // v2Trade,
+    // currencyBalances,
+    // parsedAmount,
+    currencies
+    // inputError: swapInputError
+  } = useDerivedSwapInfo()
+
+  const inputCurrency = currencies[Field.INPUT]
+  const outputCurrency = currencies[Field.OUTPUT]
 
   const renderSwapInfoRow = (label: string, value: string) => {
     return (
@@ -34,6 +51,13 @@ const Swap = () => {
       </DataBox>
     )
   }
+
+  const onCurrencySelect = useCallback(
+    currency => {
+      onCurrencySelection(tokenDrawerType, currency)
+    },
+    [tokenDrawerType]
+  )
 
   return (
     <SwapWrapper>
@@ -57,19 +81,24 @@ const Swap = () => {
           <CurrencyInputTextBox
             value={''}
             onChange={(value: any) => {}}
+            onTokenClick={() => {
+              setTokenDrawerType(Field.INPUT)
+              setIsTokenDrawerOpen(true)
+            }}
+            currency={inputCurrency}
             fontSize={24}
             isNumeric={true}
             placeholder="0.00"
             label="From"
           />
 
-          <Box width="100%" textAlign="center" display="flex" justifyContent="center">
+          <Box width="100%" textAlign="center" display="flex" justifyContent="center" mt={10}>
             <ArrowWrapper clickable>
               <RefreshCcw
                 size="16"
                 onClick={() => {
                   // setApprovalSubmitted(false) // reset 2 step UI for approvals
-                  // onSwitchTokens()
+                  onSwitchTokens()
                 }}
                 color={theme.text4}
               />
@@ -79,6 +108,11 @@ const Swap = () => {
           <CurrencyInputTextBox
             value={''}
             onChange={(value: any) => {}}
+            onTokenClick={() => {
+              setTokenDrawerType(Field.OUTPUT)
+              setIsTokenDrawerOpen(true)
+            }}
+            currency={outputCurrency}
             fontSize={24}
             isNumeric={true}
             placeholder="0.00"
@@ -92,10 +126,10 @@ const Swap = () => {
 
                 <ReTriesWrapper
                   onClick={() => {
-                    setIsDrawerCollapsed(true)
+                    setIsRetryDrawerOpen(true)
                   }}
                 >
-                  1{' '}
+                  1
                   <Box ml={10}>
                     <ChevronDown size={14} color={theme.text4} />
                   </Box>
@@ -129,14 +163,16 @@ const Swap = () => {
           </Box>
         </Box>
       </Box>
-      <Drawer title="Re-tries" collapsed={isDrawerCollapsed} onCollapsed={value => setIsDrawerCollapsed(value)}>
-        <Box>
-          <Text color="text1" fontSize={16} fontWeight={500} marginLeft={10}>
-            1
-          </Text>
-          <Divider />
-        </Box>
-      </Drawer>
+      {/* Retries Drawer */}
+      <RetryDrawer isOpen={isRetryDrawerOpen} onClose={() => setIsRetryDrawerOpen(false)} />
+      {/* Token Drawer */}
+      <SelectTokenDrawer
+        isOpen={isTokenDrawerOpen}
+        onClose={() => setIsTokenDrawerOpen(false)}
+        onCurrencySelect={onCurrencySelect}
+        selectedCurrency={tokenDrawerType === Field.INPUT ? inputCurrency : outputCurrency}
+        otherSelectedCurrency={tokenDrawerType === Field.INPUT ? outputCurrency : inputCurrency}
+      />
     </SwapWrapper>
   )
 }

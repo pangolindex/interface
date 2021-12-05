@@ -15,7 +15,7 @@ const WatchList = () => {
         <Text color="text1" fontSize={32} fontWeight={500}>
           WatchList
         </Text>
-        <Box bgColor={theme.bg5} p={"5px"}>
+        <Box bgColor={theme.bg5 as any} p={"5px"}>
           <Plus size={12} color={theme.text1} />
         </Box>
       </Box>

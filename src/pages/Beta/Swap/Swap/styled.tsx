@@ -1,5 +1,5 @@
 import { Box, CurrencyInput, TextInput } from '@pangolindex/components'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 export const SwapWrapper = styled(Box)`
   border-radius: 10px;
@@ -7,6 +7,7 @@ export const SwapWrapper = styled(Box)`
   min-width: 360px;
   background-color: ${({ theme }) => theme.bg2};
   position: relative;
+  overflow: hidden;
 `
 
 export const SwapAlertBox = styled(Box)`
@@ -34,7 +35,7 @@ export const ReTriesWrapper = styled(Box)`
   width: 100%;
   min-width: 180px;
   justify-content: space-between;
-  font-size: ${props => (props?.fontSize ? `${props?.fontSize}px` : '18px')};
+  font-size: 18px;
   color: ${({ theme }) => theme.text4};
   cursor: pointer;
 `
@@ -63,24 +64,17 @@ export const DataBox = styled(Box)`
   margin: 5px 0px 5px 0px;
 `
 export const ArrowWrapper = styled.div<{ clickable: boolean }>`
-  padding: 2px;
   background-color: ${({ theme }) => theme.bg6};
-  width: 25px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   text-align: center;
-  ${({ clickable }) =>
-    clickable
-      ? css`
-          :hover {
-            cursor: pointer;
-            opacity: 0.8;
-          }
-        `
-      : null}
-`
-export const Divider = styled(Box)`
-  height: 1px;
-  background-color: ${({ theme }) => theme.bg7};
-  margin: 10px 0px 10px 0px;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
 `

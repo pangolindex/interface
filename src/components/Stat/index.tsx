@@ -1,12 +1,13 @@
 import React from 'react'
 import { Text, Box } from '@pangolindex/components'
+import { Colors } from 'src/theme/styled'
 
 export interface StatProps {
   title?: React.ReactNode
   titlePosition: 'top' | 'bottom'
   stat?: any
-  titleColor?: string
-  statColor?: string
+  titleColor?: keyof Colors
+  statColor?: keyof Colors
   titleFontSize?: number
   statFontSize?: number
 }
