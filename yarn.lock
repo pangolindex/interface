@@ -2431,10 +2431,12 @@
     web3-eth-contract "1.2.2"
     web3-utils "1.2.2"
 
-"@pangolindex/components@1.0.7-rc.0":
-  version "1.0.7-rc.0"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-1.0.7-rc.0.tgz#c3030d2307dd6a0a6f8d4af207dd0c89a5f588dc"
-  integrity sha512-gqB5/J+B3DhVYV53qIrd5PWT20C/CTV+u3KM/UVL51V2+0L8BzqY+Oxy1//4t6nbJRaUAg7d2lt/LC34bc9oIg==
+"@pangolindex/components@1.0.7-rc.3":
+  version "1.0.7-rc.3"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-1.0.7-rc.3.tgz#f6c8e15b85dcc994fe86bf76089672703d2fc837"
+  integrity sha512-68HRWHQsX3DcVHZnrXCdNQPDDbzUzzGmUpug3xOtGsXcRiEQXmQy7MHr+/4XeXM7bwIIF5c5hngEJa7cVem+Bw==
+  dependencies:
+    react-switch "^6.0.0"
 
 "@pangolindex/exchange-contracts@1.0.2", "@pangolindex/exchange-contracts@^1.0.1":
   version "1.0.2"
@@ -15770,6 +15772,13 @@ react-style-singleton@^2.1.0:
     get-nonce "^1.0.0"
     invariant "^2.2.4"
     tslib "^1.0.0"
+
+react-switch@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/react-switch/-/react-switch-6.0.0.tgz#bd4a2dea08f211b8a32e55e8314fd44bc1ec947e"
+  integrity sha512-QV3/6eRK5/5epdQzIqvDAHRoGLbCv/wDpHUi6yBMXY1Xco5XGuIZxvB49PHoV1v/SpEgOCJLD/Zo43iic+aEIw==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-transition-group@2.9.0:
   version "2.9.0"

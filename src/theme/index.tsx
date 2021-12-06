@@ -8,7 +8,7 @@ import styled, {
 } from 'styled-components'
 import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
-import { Colors } from './styled'
+import { BetaColors, Colors } from './styled'
 import { useIsBetaUI } from '../hooks/useLocation'
 
 export * from './components'
@@ -131,7 +131,7 @@ export function theme(darkMode: boolean): DefaultTheme {
   }
 }
 
-export function betaColors(darkMode: boolean): Colors {
+export function betaColors(darkMode: boolean): BetaColors {
   return {
     ...colors(darkMode),
 
@@ -164,7 +164,13 @@ export function betaColors(darkMode: boolean): Colors {
     secondary2: darkMode ? '#17000b26' : '#F6DDE8',
     secondary3: darkMode ? '#17000b26' : '#FDEAF1',
 
-    yellow2: '#FF6B00'
+    yellow2: '#FF6B00',
+
+    switch: {
+      onColor: '#FF6B00',
+      offColor: '#CED0D9',
+      backgroundColor: '#717171'
+    }
   }
 }
 
