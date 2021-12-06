@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Échanger",
     "buy": "Acheter",
     "pool": "Pool",
@@ -317,7 +318,7 @@
     "depositPangolinStaking": "Déposez vos PNG pour gagner plus de tokens parmi les opportunités présentées.",
     "currentOpportunities": "Opportunités actuelles",
     "readMoreAboutPng": "En savoir plus sur PNG",
-    "getInsuranceCoverage": "Obtenez une couverture sur InsurAce.io",
+    "getInsuranceCoverage": "Obtenez une couverture d'assurance",
     "getCoverNexusMutual": "Obtenez une couverture sur Nexus Mutual",
     "importantUpdate": "IMPORTANTE MISE À JOUR",
     "pangolinGovernanceProposalResult": "Suite à la proposition de gouvernance 1 de Pangolin, Pangolin change de contrat de staking ! Après environ 08:59 UTC le 19 avril, toutes les récompenses de staking seront distribuées aux nouveaux contrats de staking. Avant le changement, toutes les récompenses seront encore distribuées aux anciens contrats. Pour éviter toute interruption des récompenses du yield farming, vous devez retirer vos liquidités des anciens contrats et les remettre dans les nouveaux contrats. Vous n'avez pas besoin de retirer des liquidités de vos pools ou de modifier vos positions.",
@@ -527,5 +528,20 @@
     "submittingTransaction": "Soumission de la transaction",
     "moveYourTokensToNewContractsDescription" :"Dans le cadre du déploiement de Pangolin vers de nouveaux contrats améliorés, vous devrez migrer vos fermes. Si vous avez besoin d'aide ou de conseils, veuillez cliquer sur le bouton « Apprendre ».",
     "migrateModalHeading": "Migration {{ current }} de la {{ total }} ferme"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
   }
 }

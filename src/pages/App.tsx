@@ -23,6 +23,7 @@ import Buy from './Buy'
 import PoolFinder from './PoolFinder'
 import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
+import Dashboard from './Dashboard'
 import Swap from './Swap'
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 import Airdrop from './Airdrop'
@@ -130,6 +131,7 @@ export default function App() {
                 component={Migrate}
               />
 
+              <CustomRoute exact path="/beta/dashboard" component={Dashboard} layout={Layout} />
               <CustomRoute exact path="/beta/migrate/:version" component={MigrateV2} layout={Layout} />
 
               <CustomRoute exact path="/beta/swap/" component={SwapV2} layout={Layout} />

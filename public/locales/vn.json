@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Hoán đổi",
     "buy": "Mua",
     "pool": "Bể",
@@ -42,7 +43,7 @@
   },
   "addressInputPanel": {
     "recipient": "Người nhận",
-    "viewExplorer": "(Xem trong trình khám phá chuỗi Snowtrace Avalanche)",
+    "viewExplorer": "(Xem trong trình khám phá chuỗi Snowtrace Avanlanche)",
     "walletAddress": "Địa chỉ ví"
   },
   "currencyInputPanel": {
@@ -119,7 +120,7 @@
   "popups": {
     "tokenListUpdated": "Danh sách mã token \" {{oldList}} \" đã được cập nhật đến ",
     "updateAvailable": "Bản cập nhật khả dụng cho danh sách token\" {{oldList}} \"",
-    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avalanche",
+    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avanlanche",
     "hash": "Băm:",
     "added": "thêm",
     "removed": "loại bỏ",
@@ -211,13 +212,13 @@
     "purchaseArbitraryWarning": "Nếu bạn mua một mã token tùy chỉnh, <strong>bạn có thể không bán lại được.</strong>",
     "understand": "Tôi hiểu",
     "continue": "Tiếp tục",
-    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avalanche"
+    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avanlanche"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "Đang chờ xác nhận",
     "confirmTransaction": "Xác nhận giao dịch này trong ví của bạn",
     "transactionSubmitted": "Giao dịch đã được gửi đi",
-    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avalanche",
+    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avanlanche",
     "close": "Đóng",
     "error": "Lỗi",
     "dismiss": "Bỏ qua"
@@ -250,7 +251,7 @@
     "votes": "những phiếu bầu",
     "submittingVote": "Đang gửi phiếu bầu",
     "confirmTransaction": "Xác nhận giao dịch này trên ví của bạn",
-    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avalanche"
+    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avanlanche"
   },
   "walletModal": {
     "wrongNetwork": "Sai mạng lưới",
@@ -317,7 +318,7 @@
     "depositPangolinStaking": "Gửi và đặt cổ phần mã token PNG của bạn để nhận được nhiều token hơn.",
     "currentOpportunities": "Cơ hội hiện tại",
     "readMoreAboutPng": "Tìm hiểu nhiều hơn về PNG",
-    "getInsuranceCoverage": "Nhận trang bìa trên InsurAce.io",
+    "getInsuranceCoverage": "Nhận bảo hiểm",
     "getCoverNexusMutual": "Nhận trang bìa trên Nexus Mutual",
     "importantUpdate": "CẬP NHẬT QUAN TRỌNG",
     "pangolinGovernanceProposalResult": "Theo kết quả của đề xuất quản trị Pangolin 1, Pangolin đang thay đổi các hợp đồng đặt cổ phần! Sau khoảng 08:59 UTC vào ngày 19 tháng 4, tất cả phần thưởng đặt cổ phần sẽ được phân phối cho các hợp đồng đặt cổ phần mới. Trước khi chuyển đổi, tất cả phần thưởng sẽ vẫn được phân phối cho các hợp đồng cũ. Để tránh bị gián đoạn việc kiếm phần thưởng farming, bạn cần loại bỏ thanh khoản của mình khỏi các hợp đồng cũ và thực hiện lại các hợp đồng mới. Bạn không cần phải xóa thanh khoản khỏi bể của mình hoặc thay đổi vị thế của mình. ",
@@ -527,5 +528,20 @@
     "submittingTransaction": "Gửi giao dịch",
     "moveYourTokensToNewContractsDescription" :"Là một phần trong kế hoạch triển khai các hợp đồng cải tiến mới của Pangolin, bạn sẽ cần phải di chuyển Trang trại của mình. Nếu bạn cần bất kỳ trợ giúp hoặc hướng dẫn nào, vui lòng nhấp vào nút “Tìm hiểu”.",
     "migrateModalHeading": "Di cư {{ current }} của {{ total }} trang trại"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
   }
 }

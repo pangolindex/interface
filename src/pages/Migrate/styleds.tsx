@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box, Button } from '@pangolindex/components'
 import styled from 'styled-components'
 import { RowFixed } from '../../components/Row'
@@ -34,7 +33,7 @@ export const ResponsiveButtonPrimary = styled(Button)`
   `};
 `
 
-export const ResponsiveButtonOutline = styled(props => <Button {...props} as="a" />)`
+export const ResponsiveButtonOutline = styled(Button)`
   width: fit-content;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     width: 48%;

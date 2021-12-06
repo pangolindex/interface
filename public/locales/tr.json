@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Takas",
     "buy": "Satın Al",
     "pool": "Havuz",
@@ -317,7 +318,7 @@
     "depositPangolinStaking": "Ödül kazanmak için PNG tokenlerinizi yatırın ve stake edin.",
     "currentOpportunities": "Mevcut Fırsatlar",
     "readMoreAboutPng": "PNG hakkında daha fazla bilgi edinin",
-    "getInsuranceCoverage": "InsurAce.io'da kapak alın",
+    "getInsuranceCoverage": "Sigorta Kapsamı Alın",
     "getCoverNexusMutual": "Nexus Mutual'da siper alın",
     "importantUpdate": "ÖNEMLİ GÜNCELLEME",
     "pangolinGovernanceProposalResult": "Pangolin yönetiminin 1. önergesinin oylama sonucuna göre: Pangolin, yatırma işlemlerinde kullanılan sözleşmelerini değiştirmiştir. 19/04/2021 tarihinde saat 08:59’dan sonra (UTC saat dilimi), likidite sağlama karşılığında verilen tüm ödüller, yeni sözleşmelerine dağıtılacaktır. Geçişten önce ise, tüm ödüller eski sözleşmelere dağıtılmaya devam edecektir. Yield farming ödüllerinin kesintiye uğramasını önlemek adına likiditenizi eski sözleşmelerden kaldırmanız ve yeni sözleşmelere geçiş sağlamanız gerekmektedir. Bununla birlikte havuzlardaki likiditenizi çekmenize veya pozisyonlarınızı değiştirmenize gerek yoktur.",
@@ -527,5 +528,20 @@
     "submittingTransaction": "işlem gönderme",
     "moveYourTokensToNewContractsDescription" :"Pangolin'in yeni geliştirilmiş sözleşmelere geçişinin bir parçası olarak, Çiftliklerinizi taşımanız gerekecek. Herhangi bir yardıma veya rehberliğe ihtiyacınız varsa, lütfen “Öğren” düğmesine tıklayın.",
     "migrateModalHeading": "Göç {{ current }} of {{ total }} Çiftlik"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
   }
 }

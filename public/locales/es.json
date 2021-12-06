@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Intercambio",
     "buy": "Comprar",
     "pool": "Pool",
@@ -119,7 +120,7 @@
   "popups": {
     "tokenListUpdated": "la lista de Tokens \" {{oldList}} \" se ha actualizado a ",
     "updateAvailable": "Hay una actualización disponible para la lista de Tokens \" {{oldList}} \"",
-    "viewExplorer": "Ver en el Explorador Snowtrace",
+    "viewExplorer": "View on the Snowtrace Explorer",
     "hash": "Hash: ",
     "added": "añadido",
     "removed": "retirado",
@@ -316,7 +317,7 @@
     "depositPangolinStaking": "Deposit and stake your PNG tokens to earn more tokens.",
     "currentOpportunities": "Current opportunities",
     "readMoreAboutPng": "Leer más sobre PNG",
-    "getInsuranceCoverage": "Obtenga cobertura en InsurAce.io",
+    "getInsuranceCoverage": "Obtenga cobertura de seguro",
     "getCoverNexusMutual": "Ponte a cubierto en Nexus Mutual",
     "importantUpdate": "ACTUALIZACIÓN IMPORTANTE",
     "pangolinGovernanceProposalResult": "Como resultado de la primera proposición de governanza de Pangolin, este está cambiando sus contratos de staking! Después de aproximadamente 08:59 UTC el 4/19, todas las recompensas serán distribuidas a los nuevos contratos. Antes del cambio, todas las recompensas serán distribuidas a los viejos contratos. para evitar interrupciones en las recompensas, necesita retirar su liquidez de los viejos contratos y depositarla en los nuevos. No necesita retirar su liquidez de sus pools ni alterar sus posiciones.",
@@ -526,5 +527,20 @@
     "submittingTransaction": "Enviar transacción",
     "moveYourTokensToNewContractsDescription" :"Como parte del lanzamiento de Pangolin a nuevos contratos mejorados, deberá migrar sus granjas. Si necesita ayuda u orientación, haga clic en el botón 'Aprender'",
     "migrateModalHeading": "Migrar {{ current }} de {{ total }} granja"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
   }
 }
