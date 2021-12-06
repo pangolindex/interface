@@ -39,7 +39,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
   const theme = useContext(ThemeContext)
   const mainLinks = [
     {
-      link: '/swap',
+      link: '/beta/swap',
       icon: Swap,
       title: t('header.swap'),
       id: 'swap',

@@ -113,6 +113,7 @@ export function useSelectedListInfo(): {
   pending: TokenList | null
   loading: boolean
   multipleSelected: boolean
+  selectedCount: number
 } {
   const selectedListUrl = useSelectedListUrl()
   const firstSelectedUrl = (selectedListUrl || [])?.[0]
@@ -122,7 +123,8 @@ export function useSelectedListInfo(): {
     current: list?.current ?? null,
     pending: list?.pendingUpdate ?? null,
     loading: list?.loadingRequestId !== null,
-    multipleSelected: (selectedListUrl || [])?.length > 1
+    multipleSelected: (selectedListUrl || [])?.length > 1,
+    selectedCount: (selectedListUrl || [])?.length
   }
 }
 
