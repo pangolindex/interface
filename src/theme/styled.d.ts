@@ -60,6 +60,14 @@ export interface Colors {
   color3: Color
 }
 
+export interface BetaColors extends Colors {
+  switch?: {
+    onColor: Color
+    offColor: Color
+    backgroundColor: Color
+  }
+}
+
 export interface Grids {
   sm: number
   md: number
@@ -67,7 +75,7 @@ export interface Grids {
 }
 
 declare module 'styled-components' {
-  export interface DefaultTheme extends Colors {
+  export interface DefaultTheme extends Colors, BetaColors {
     grids: Grids
 
     // shadows
