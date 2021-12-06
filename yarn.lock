@@ -2431,10 +2431,10 @@
     web3-eth-contract "1.2.2"
     web3-utils "1.2.2"
 
-"@pangolindex/components@1.0.7-rc.1":
-  version "1.0.7-rc.1"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-1.0.7-rc.1.tgz#a07202f97f14ba3625a85f87de9d223b5c2e23da"
-  integrity sha512-XJ6tbLn4SvEBNZb93zC/guGX/aWjxqqF/yiTUh8Oi4yIvfdpYMToU4/KY0qwIScShuH/CAGgz94OxBEKPKQPCg==
+"@pangolindex/components@1.0.7-rc.3":
+  version "1.0.7-rc.3"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-1.0.7-rc.3.tgz#f6c8e15b85dcc994fe86bf76089672703d2fc837"
+  integrity sha512-68HRWHQsX3DcVHZnrXCdNQPDDbzUzzGmUpug3xOtGsXcRiEQXmQy7MHr+/4XeXM7bwIIF5c5hngEJa7cVem+Bw==
   dependencies:
     react-switch "^6.0.0"
 
