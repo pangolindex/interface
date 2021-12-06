@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Tauschen",
     "buy": "Kaufen",
     "pool": "Pool",
@@ -127,7 +128,7 @@
     "acceptUpdate": "Update bestätigen",
     "dismiss": "Abbruch"
   },
-  "positionCard":{
+  "positionCard": {
     "add": "Hinzufügen",
     "remove": "Entfernen",
     "poolShare": "Dein Anteil am Pool:",
@@ -163,8 +164,7 @@
     "select": "auswählen",
     "manageTokenLists": "Tokenlisten verwalten"
   },
-  "settings":
-  {
+  "settings": {
     "areYouSure": "Bist du dir sicher?",
     "expertInfo": "Der Expertenmodus deaktiviert die Aufforderung zur Transaktionsbestätigung und erlaubt Trades mit hoher Slippage, welche oft zu schlechten Tauschraten und unwiderruflich verlorenen Mitteln führen.",
     "expertWarningCAPS": "BENUTZE DIESEN MODUS NUR, WENN DU GENAU WEISST, WAS DU TUST.",
@@ -497,13 +497,13 @@
     "startMigratingNowDescription": "Unten finden Sie alle Farmen, die Sie für die Migration zu Pangolins V2-Verträgen benötigen",
     "seeMore": "MEHR SEHEN",
     "migrateWithEase": "MIT EINFACHEM MIGRIEREN",
-    "migrateWithDescription":"Wir haben einen eleganten Assistenten entwickelt, der Sie durch den Migrationsprozess Ihrer Farmen führt",
+    "migrateWithDescription": "Wir haben einen eleganten Assistenten entwickelt, der Sie durch den Migrationsprozess Ihrer Farmen führt",
     "alreadyMigrate": "bereits migriert",
     "walletMigrate": "Brieftasche migriert",
     "alreadyEarned": "Bereits verdienen",
     "migrateNow": "JETZT MIGIEREN",
     "learn": "LERNEN",
-    "moveYourTokensToNewContracts" :"Migrieren Sie Ihre Farmen zu Pangolin V2",
+    "moveYourTokensToNewContracts": "Migrieren Sie Ihre Farmen zu Pangolin V2",
     "readyToMigrate": "Bereit zur Migration",
     "apr": "APR:",
     "totalValueLocked": "Gesamtwert gesperrt",
@@ -525,7 +525,22 @@
     "back": "Zurück",
     "availableToUnstake": "Verfügbar zum Abnehmen: ",
     "submittingTransaction": "Übermittlung der Transaktion",
-    "moveYourTokensToNewContractsDescription" :"Als Teil der Einführung von Pangolin zu neuen verbesserten Verträgen müssen Sie Ihre Farmen migrieren. Wenn Sie Hilfe oder Anleitung benötigen, klicken Sie bitte auf die Schaltfläche „Lernen“.",
+    "moveYourTokensToNewContractsDescription": "Als Teil der Einführung von Pangolin zu neuen verbesserten Verträgen müssen Sie Ihre Farmen migrieren. Wenn Sie Hilfe oder Anleitung benötigen, klicken Sie bitte auf die Schaltfläche „Lernen“.",
     "migrateModalHeading": "Migration {{ current }} der {{ total }} Farm"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
   }
 }

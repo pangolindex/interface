@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Swap",
     "buy": "Buy",
     "pool": "Pool",
@@ -496,13 +497,13 @@
     "startMigratingNowDescription": "Below you will find all the Farms you will need to migrate to Pangolin's V2 Contracts",
     "seeMore": "SEE MORE",
     "migrateWithEase": "MIGRATE WITH EASE",
-    "migrateWithDescription":"We have designed an elegant wizard, which will help guide you through the process of migrating your Farms",
+    "migrateWithDescription": "We have designed an elegant wizard, which will help guide you through the process of migrating your Farms",
     "alreadyMigrate": "already migrated",
     "walletMigrate": "wallet migrated",
     "alreadyEarned": "already earned",
     "migrateNow": "MIGRATE NOW",
     "learn": "LEARN",
-    "moveYourTokensToNewContracts" :"Migrate your Farms to Pangolin V2",
+    "moveYourTokensToNewContracts": "Migrate your Farms to Pangolin V2",
     "readyToMigrate": "Ready to migrate",
     "apr": "APR:",
     "totalValueLocked": "Total Value Locked",
@@ -524,7 +525,22 @@
     "back": "Back",
     "availableToUnstake": "Available to unstake: ",
     "submittingTransaction": "Submitting transaction",
-    "moveYourTokensToNewContractsDescription" :"As part of Pangolin's roll out to new improved contracts, you will need to migrate your Farms. If you need any help or guidance, please click on the “Learn” button.",
+    "moveYourTokensToNewContractsDescription": "As part of Pangolin's roll out to new improved contracts, you will need to migrate your Farms. If you need any help or guidance, please click on the “Learn” button.",
     "migrateModalHeading": "Migrate {{ current }} of {{ total }} Farms"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
   }
 }
