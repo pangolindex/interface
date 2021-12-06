@@ -28,6 +28,7 @@ import { useTranslation } from 'react-i18next'
 import Toggle from '../../components/Toggle'
 import { useIsSelectedAEBTokenList } from '../../state/lists/hooks'
 import { DeprecatedWarning } from '../../components/Warning'
+import TokenListOrigin from '../TokenListOrigin'
 
 const UnpaddedLinkStyledButton = styled(LinkStyledButton)`
   padding: 0;
@@ -74,24 +75,6 @@ const StyledListUrlText = styled.div`
 const WarningWrapper = styled.div`
   padding: 10px;
 `
-
-function ListOrigin({ listUrl }: { listUrl: string }) {
-  const ensName = useMemo(() => parseENSAddress(listUrl)?.ensName, [listUrl])
-  const host = useMemo(() => {
-    if (ensName) return undefined
-    const lowerListUrl = listUrl.toLowerCase()
-    if (lowerListUrl.startsWith('ipfs://') || lowerListUrl.startsWith('ipns://')) {
-      return listUrl
-    }
-    try {
-      const url = new URL(listUrl)
-      return url.host
-    } catch (error) {
-      return undefined
-    }
-  }, [listUrl, ensName])
-  return <>{ensName ?? host}</>
-}
 
 function listUrlRowHTMLId(listUrl: string) {
   return `list-row-${listUrl.replace(/\./g, '-')}`
@@ -182,7 +165,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
           }}
         >
           <StyledListUrlText title={listUrl}>
-            <ListOrigin listUrl={listUrl} />
+            <TokenListOrigin listUrl={listUrl} />
           </StyledListUrlText>
         </Row>
       </Column>

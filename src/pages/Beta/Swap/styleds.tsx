@@ -7,7 +7,7 @@ export const PageWrapper = styled(Box)`
 
 export const TopContainer = styled(Box)`
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto minmax(auto, 400px);
   grid-gap: 12px;
 `
 
