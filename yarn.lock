@@ -2431,10 +2431,10 @@
     web3-eth-contract "1.2.2"
     web3-utils "1.2.2"
 
-"@pangolindex/components@1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-1.0.6.tgz#b95874196eebf88ef858e9746861d56211f13a7e"
-  integrity sha512-Gpzn3xXJukBkOEIKdALu+QzgKWvAwE94hrWqWjGLnstoO6xZh8U1w+LuaYLsZaKSpugcDCo9nJpDqmN1j+3c8A==
+"@pangolindex/components@1.0.7-rc.0":
+  version "1.0.7-rc.0"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-1.0.7-rc.0.tgz#c3030d2307dd6a0a6f8d4af207dd0c89a5f588dc"
+  integrity sha512-gqB5/J+B3DhVYV53qIrd5PWT20C/CTV+u3KM/UVL51V2+0L8BzqY+Oxy1//4t6nbJRaUAg7d2lt/LC34bc9oIg==
 
 "@pangolindex/exchange-contracts@1.0.2", "@pangolindex/exchange-contracts@^1.0.1":
   version "1.0.2"
@@ -4843,6 +4843,16 @@ babel-plugin-polyfill-regenerator@^0.2.3:
   dependencies:
     "@babel/helper-annotate-as-pure" "^7.15.4"
     "@babel/helper-module-imports" "^7.15.4"
+    babel-plugin-syntax-jsx "^6.18.0"
+    lodash "^4.17.11"
+
+babel-plugin-styled-components@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-styled-components/-/babel-plugin-styled-components-2.0.2.tgz#0fac11402dc9db73698b55847ab1dc73f5197c54"
+  integrity sha512-7eG5NE8rChnNTDxa6LQfynwgHTVOYYaHJbUYSlOhk8QBXIQiMBKq4gyfHBBKPrxUcVBXVJL61ihduCpCQbuNbw==
+  dependencies:
+    "@babel/helper-annotate-as-pure" "^7.16.0"
+    "@babel/helper-module-imports" "^7.16.0"
     babel-plugin-syntax-jsx "^6.18.0"
     lodash "^4.17.11"
 

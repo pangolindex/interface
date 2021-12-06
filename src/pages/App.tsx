@@ -38,6 +38,8 @@ import { useIsBetaUI } from '../hooks/useLocation'
 import CustomRoute from './Route'
 import Layout from '../layout'
 
+import SwapV2 from './Beta/Swap'
+
 const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;
@@ -129,6 +131,8 @@ export default function App() {
               />
 
               <CustomRoute exact path="/beta/migrate/:version" component={MigrateV2} layout={Layout} />
+
+              <CustomRoute exact path="/beta/swap/" component={SwapV2} layout={Layout} />
 
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
 
