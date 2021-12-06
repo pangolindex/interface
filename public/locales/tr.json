@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Takas",
     "buy": "Satın Al",
     "pool": "Havuz",
@@ -127,7 +128,7 @@
     "acceptUpdate": "Güncellemeyi kabul et",
     "dismiss": "Yoksay"
   },
-  "positionCard":{
+  "positionCard": {
     "add": "Ekle",
     "remove": "Çıkar",
     "poolShare": "Havuz payınız:",
@@ -163,8 +164,7 @@
     "select": "Seç",
     "manageTokenLists": "Token Listelerini Yönet"
   },
-  "settings":
-  {
+  "settings": {
     "areYouSure": "Emin misiniz?",
     "expertInfo": "Uzman modu, işlemi onayla istemini kapatır ve genellikle düşük oranlara ve para kaybına neden olan yüksek slipajlı işlemlere izin verir.",
     "expertWarningCAPS": "BU MODU SADECE NE YAPTIĞINIZI BİLİYORSANIZ KULLANIN.",
@@ -497,13 +497,13 @@
     "startMigratingNowDescription": "Aşağıda Pangolin'in V2 Sözleşmelerine geçmek için ihtiyaç duyacağınız tüm Çiftlikleri bulacaksınız.",
     "seeMore": "DAHA FAZLA GÖR",
     "migrateWithEase": "KOLAYLIKLA TAŞIYIN",
-    "migrateWithDescription":"Çiftliklerinizi taşıma sürecinde size rehberlik edecek zarif bir sihirbaz tasarladık.",
+    "migrateWithDescription": "Çiftliklerinizi taşıma sürecinde size rehberlik edecek zarif bir sihirbaz tasarladık.",
     "alreadyMigrate": "zaten taşındı",
     "walletMigrate": "cüzdan taşındı",
     "alreadyEarned": "zaten kazanılmış",
     "migrateNow": "ŞİMDİ TAŞI",
     "learn": "ÖĞRENMEK",
-    "moveYourTokensToNewContracts" :"Çiftliklerinizi Pangolin V2'ye Taşıyın",
+    "moveYourTokensToNewContracts": "Çiftliklerinizi Pangolin V2'ye Taşıyın",
     "readyToMigrate": "Taşımaya hazır",
     "apr": "APR:",
     "totalValueLocked": "Toplam Değer Kilitli",
@@ -525,7 +525,22 @@
     "back": "Geri",
     "availableToUnstake": "Kaldırılabilir: ",
     "submittingTransaction": "işlem gönderme",
-    "moveYourTokensToNewContractsDescription" :"Pangolin'in yeni geliştirilmiş sözleşmelere geçişinin bir parçası olarak, Çiftliklerinizi taşımanız gerekecek. Herhangi bir yardıma veya rehberliğe ihtiyacınız varsa, lütfen “Öğren” düğmesine tıklayın.",
+    "moveYourTokensToNewContractsDescription": "Pangolin'in yeni geliştirilmiş sözleşmelere geçişinin bir parçası olarak, Çiftliklerinizi taşımanız gerekecek. Herhangi bir yardıma veya rehberliğe ihtiyacınız varsa, lütfen “Öğren” düğmesine tıklayın.",
     "migrateModalHeading": "Göç {{ current }} of {{ total }} Çiftlik"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
   }
 }

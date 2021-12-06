@@ -1,5 +1,6 @@
 {
     "header": {
+        "dashboard": "Dashboard",
         "swap": "Swap",
         "buy": "Comprar",
         "pool": "Pool",
@@ -527,5 +528,20 @@
         "submittingTransaction": "Enviando transação",
         "moveYourTokensToNewContractsDescription" :"Como parte da implementação do Pangolin para novos contratos aprimorados, você precisará migrar suas Fazendas. Se precisar de ajuda ou orientação, clique no botão “Aprender”.",
         "migrateModalHeading": "Migrar {{ current }} de {{ total }} Fazenda"
+      },
+      "dashboardPage": {
+        "dashboard": "Dashboard",
+        "greetings": "Greetings kind ser! Let’s ape in today…",
+        "portfolioValue": "Portfolio Value",
+        "earned": "Earned",
+        "coins": "Coins",
+        "followedWallets": "Followed Wallets",
+        "earned_dailyIncome": "Daily Income",
+        "earned_totalEarned": "Total Earned",
+        "earned_claim": "Claim",
+        "earned_customizePools": "Customize Pools",
+        "followed_address": "Address",
+        "followed_worth": "Worth",
+        "followed_interact": "Interact"
       }
 }

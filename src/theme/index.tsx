@@ -48,6 +48,9 @@ export function colors(darkMode: boolean): Colors {
     text4: darkMode ? '#565A69' : '#C3C5CB',
     text5: darkMode ? '#2C2F36' : '#EDEEF2',
     text6: darkMode ? '#111111' : '#EDEEF2',
+    text7: darkMode ? '#e6e9ec' : '#000000',
+    text8: darkMode ? '#707070' : '#565A69',
+    text9: darkMode ? '#A3A3A3' : '#000000',
 
     // backgrounds / greys
     bg1: darkMode ? '#212429' : '#FFFFFF',
@@ -131,6 +134,10 @@ export function theme(darkMode: boolean): DefaultTheme {
 export function betaColors(darkMode: boolean): Colors {
   return {
     ...colors(darkMode),
+
+    // text
+    text7: darkMode ? '#e6e9ec' : '#000000',
+    text8: darkMode ? '#707070' : '#565A69',
 
     // backgrounds / greys
     bg1: darkMode ? '#212429' : '#FFFFFF',

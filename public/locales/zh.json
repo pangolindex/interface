@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "兌換",
     "buy": "购买",
     "pool": "矿池",
@@ -496,13 +497,13 @@
     "startMigratingNowDescription": "您将在下方找到您需要迁移到的所有农场 Pangolin's V2 合同",
     "seeMore": "查看更多",
     "migrateWithEase": "轻松迁移",
-    "migrateWithDescription":"我们设计了一个优雅的向导，它将帮助指导您完成迁移农场的过程",
+    "migrateWithDescription": "我们设计了一个优雅的向导，它将帮助指导您完成迁移农场的过程",
     "alreadyMigrate": "已经迁移",
     "walletMigrate": "钱包迁移",
     "alreadyEarned": "已经赚了",
     "migrateNow": "立即迁移",
     "learn": "学习",
-    "moveYourTokensToNewContracts" :"将您的农场迁移到 Pangolin V2",
+    "moveYourTokensToNewContracts": "将您的农场迁移到 Pangolin V2",
     "readyToMigrate": "准备迁移",
     "apr": "APR:",
     "totalValueLocked": "总价值锁定",
@@ -524,7 +525,22 @@
     "back": "后退",
     "availableToUnstake": "可取消抵押: ",
     "submittingTransaction": "提交交易",
-    "moveYourTokensToNewContractsDescription" :"作为...的一部分 Pangolin's 推出新的改进合同，您将需要迁移您的农场。如果您需要任何帮助或指导，请单击“学习”按钮。",
+    "moveYourTokensToNewContractsDescription": "作为...的一部分 Pangolin's 推出新的改进合同，您将需要迁移您的农场。如果您需要任何帮助或指导，请单击“学习”按钮。",
     "migrateModalHeading": "迁移 {{ current }} 的 {{ total }} 农场"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
   }
 }
