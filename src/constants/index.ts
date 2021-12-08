@@ -730,6 +730,28 @@ export const NFTD: { [chainId in ChainId]: Token } = {
   )
 }
 
+export const CLY: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'CLY', 'Colony Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xec3492a2508DDf4FDc0cD76F31f340b30d1793e6',
+    18,
+    'CLY',
+    'Colony Token'
+  )
+}
+
+export const COOK: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'COOK', 'Cook Finance'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x637afeff75ca669fF92e4570B14D6399A658902f',
+    18,
+    'COOK',
+    'Cook Finance'
+  )
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
