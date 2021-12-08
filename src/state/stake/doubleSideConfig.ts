@@ -92,7 +92,8 @@ import {
   JEWEL,
   NFTD,
   CLY,
-  COOK
+  COOK,
+  SKILL
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1180,6 +1181,11 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   WAVAX_COOK_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], COOK[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  USDTe_SKILL_V2: {
+    tokens: [USDTe[ChainId.AVALANCHE], SKILL[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   }

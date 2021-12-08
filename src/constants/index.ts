@@ -752,6 +752,17 @@ export const COOK: { [chainId in ChainId]: Token } = {
   )
 }
 
+export const SKILL: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'SKILL', 'Skill Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x483416eB3aFA601B9C6385f63CeC0C82B6aBf1fb',
+    18,
+    'SKILL',
+    'Skill Token'
+  )
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
