@@ -5,7 +5,7 @@ import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { abi as IPangolinRouterABI } from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-periphery/interfaces/IPangolinRouter.sol/IPangolinRouter.json'
 import { ROUTER_ADDRESS } from '../constants'
-import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, CAVAX } from '@pangolindex/sdk'
+import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, CAVAX, currencyEquals, Trade } from '@pangolindex/sdk'
 import { TokenAddressMap } from '../state/lists/hooks'
 
 // returns the checksummed address if the address is valid, otherwise returns false
@@ -111,4 +111,19 @@ export function escapeRegExp(string: string): string {
 export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currency): boolean {
   if (currency === CAVAX) return true
   return Boolean(currency instanceof Token && defaultTokens[currency.chainId]?.[currency.address])
+}
+
+/**
+ * Returns true if the trade requires a confirmation of details before we can submit it
+ * @param tradeA trade A
+ * @param tradeB trade B
+ */
+export function tradeMeaningfullyDiffers(tradeA: Trade, tradeB: Trade): boolean {
+  return (
+    tradeA.tradeType !== tradeB.tradeType ||
+    !currencyEquals(tradeA.inputAmount.currency, tradeB.inputAmount.currency) ||
+    !tradeA.inputAmount.equalTo(tradeB.inputAmount) ||
+    !currencyEquals(tradeA.outputAmount.currency, tradeB.outputAmount.currency) ||
+    !tradeA.outputAmount.equalTo(tradeB.outputAmount)
+  )
 }

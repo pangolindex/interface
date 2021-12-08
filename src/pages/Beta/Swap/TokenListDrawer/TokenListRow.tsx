@@ -66,7 +66,7 @@ const TokenListRow: React.FC<Props> = ({ listUrl }) => {
       })
       dispatch(removeList(listUrl))
     }
-  }, [dispatch, removeList, listUrl, t])
+  }, [dispatch, listUrl, t])
 
   if (!list) return null
 
