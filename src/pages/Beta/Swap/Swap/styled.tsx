@@ -1,5 +1,12 @@
-import { Box, CurrencyInput, TextInput } from '@pangolindex/components'
+import { Box, CurrencyInput, Text, TextInput } from '@pangolindex/components'
 import styled from 'styled-components'
+
+export const Root = styled(Box)`
+  width: 100%;
+  min-width: 360px;
+  position: relative;
+  overflow: hidden;
+`
 
 export const SwapWrapper = styled(Box)`
   border-radius: 10px;
@@ -52,18 +59,8 @@ export const GridContainer = styled(Box)`
   grid-template-columns: auto auto;
   grid-gap: 12px;
 `
-export const ContentBox = styled(Box)`
-  background-color: ${({ theme }) => theme.bg6};
-  padding: 15px;
-  border-radius: 4px;
-`
-export const DataBox = styled(Box)`
-  align-items: center;
-  justify-content: space-between;
-  display: flex;
-  margin: 5px 0px 5px 0px;
-`
-export const ArrowWrapper = styled.div<{ clickable: boolean }>`
+
+export const ArrowWrapper = styled.div`
   background-color: ${({ theme }) => theme.bg6};
   width: 30px;
   height: 30px;
@@ -77,4 +74,8 @@ export const ArrowWrapper = styled.div<{ clickable: boolean }>`
     cursor: pointer;
     opacity: 0.8;
   }
+`
+
+export const AddARecipient = styled(Text)`
+  cursor: pointer;
 `
