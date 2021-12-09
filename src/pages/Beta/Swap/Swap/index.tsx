@@ -355,8 +355,6 @@ const Swap = () => {
       <Button
         variant="primary"
         onClick={() => {
-          console.log('in swap', isExpertMode)
-
           if (isExpertMode) {
             handleSwap()
           } else {
@@ -371,6 +369,7 @@ const Swap = () => {
         }}
         id="swap-button"
         isDisabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError || !!swapInputError}
+        backgroundColor={isValid && priceImpactSeverity > 2 ? 'red1' : undefined}
       >
         {swapInputError
           ? swapInputError
