@@ -1,4 +1,4 @@
-import { TokenAmount, WAVAX, JSBI } from '@pangolindex/sdk'
+import { TokenAmount, JSBI } from '@pangolindex/sdk'
 import React, { useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
@@ -14,8 +14,8 @@ import { StyledInternalLink, TYPE, PngTokenAnimated } from '../../theme'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
 import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../earn/styled'
-import { usePair } from '../../data/Reserves'
 import { useTranslation } from 'react-i18next'
+import useUSDCPrice from '../../utils/useUSDCPrice'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -69,17 +69,15 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const totalSupply: TokenAmount | undefined = useTotalSupply(png)
 
   // Determine PNG price in AVAX
-  const wavax = WAVAX[chainId ? chainId : 43114]
-  const [, avaxPngTokenPair] = usePair(wavax, png)
   const oneToken = JSBI.BigInt(1000000000000000000)
   const { t } = useTranslation()
-  let pngPrice: number | undefined
-  if (avaxPngTokenPair && png) {
-    const avaxPngRatio = JSBI.divide(
-      JSBI.multiply(oneToken, avaxPngTokenPair.reserveOf(wavax).raw),
-      avaxPngTokenPair.reserveOf(png).raw
-    )
-    pngPrice = JSBI.toNumber(avaxPngRatio) / 1000000000000000000
+
+  const usdcPrice = useUSDCPrice(png)
+
+  let pngPrice
+
+  if (usdcPrice && png) {
+    pngPrice = usdcPrice.quote(new TokenAmount(png, oneToken))
   }
 
   const [circulation, setCirculation] = useState(totalSupply)
@@ -139,15 +137,15 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
           <AutoColumn gap="md">
             <RowBetween>
               <TYPE.white color="white">{t('header.pngPrice')}</TYPE.white>
-              <TYPE.white color="white">{pngPrice?.toFixed(5) ?? '-'} AVAX</TYPE.white>
+              <TYPE.white color="white">${pngPrice?.toFixed(2, { groupSeparator: ',' }) ?? '-'}</TYPE.white>
             </RowBetween>
             <RowBetween>
               <TYPE.white color="white">{t('header.pngCirculation')}</TYPE.white>
-              <TYPE.white color="white">{circulation?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>
+              <TYPE.white color="white">{circulation?.toFixed(0, { groupSeparator: ',' }) ?? '-'}</TYPE.white>
             </RowBetween>
             <RowBetween>
               <TYPE.white color="white">{t('header.totalSupply')}</TYPE.white>
-              <TYPE.white color="white">{totalSupply?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>
+              <TYPE.white color="white">{totalSupply?.toFixed(0, { groupSeparator: ',' }) ?? '-'}</TYPE.white>
             </RowBetween>
           </AutoColumn>
         </CardSection>
