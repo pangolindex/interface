@@ -21,7 +21,7 @@ export const GridContainer = styled(Box)`
   display: grid;
   grid-template-columns: auto auto;
   grid-gap: 12px;
-  padding: 10px;
+  padding: 10px 0px;
 `
 
 export const ChartWrapper = styled(Box)`
