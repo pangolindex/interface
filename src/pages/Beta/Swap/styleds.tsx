@@ -19,7 +19,7 @@ export const StatsWrapper = styled(Box)`
 
 export const GridContainer = styled(Box)`
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
   grid-gap: 12px;
   padding: 10px 0px;
 `

@@ -35,7 +35,7 @@ export const CoinList = styled(Box)`
 export const RowWrapper = styled(Box)`
   padding: 15px 10px;
   display: grid;
-  grid-template-columns: 100px minmax(auto, calc(100% - 15px)) 50px;
+  grid-template-columns: 100px minmax(auto, calc(100% - 150px)) 50px;
   align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.text9};
   cursor: pointer;
