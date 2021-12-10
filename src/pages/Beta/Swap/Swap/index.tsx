@@ -2,7 +2,7 @@ import React, { useState, useContext, useCallback, useMemo, useEffect } from 're
 import ReactGA from 'react-ga'
 import { RefreshCcw, ChevronDown } from 'react-feather'
 import { Text, Box, Button, ToggleButtons } from '@pangolindex/components'
-import { Token, Trade, JSBI } from '@pangolindex/sdk'
+import { Token, Trade, JSBI, CurrencyAmount, TokenAmount } from '@pangolindex/sdk'
 import { ThemeContext } from 'styled-components'
 import RetryDrawer from '../RetryDrawer'
 import SelectTokenDrawer from '../SelectTokenDrawer'
@@ -18,7 +18,7 @@ import { ApprovalState, useApproveCallbackFromTrade } from 'src/hooks/useApprove
 import { useActiveWeb3React } from 'src/hooks'
 import { useWalletModalToggle } from 'src/state/application/hooks'
 import { useExpertModeManager, useUserSlippageTolerance } from 'src/state/user/hooks'
-// import { maxAmountSpend } from 'src/utils/maxAmountSpend'
+import { maxAmountSpend } from 'src/utils/maxAmountSpend'
 import { useSwapCallback } from 'src/hooks/useSwapCallback'
 import { computeTradePriceBreakdown, warningSeverity } from 'src/utils/prices'
 import confirmPriceImpactWithoutFee from 'src/components/swap/confirmPriceImpactWithoutFee'
@@ -38,8 +38,9 @@ import {
   ReTriesWrapper,
   InputText,
   GridContainer,
-  ArrowWrapper
+  ArrowWrapper,
   // AddARecipient
+  PValue
 } from './styled'
 import { RowBetween } from 'src/components/Row'
 
@@ -47,7 +48,10 @@ const Swap = () => {
   const [swapType, setSwapType] = useState('MARKET' as string)
   const [isRetryDrawerOpen, setIsRetryDrawerOpen] = useState(false)
   const [isTokenDrawerOpen, setIsTokenDrawerOpen] = useState(false)
+  const [selectedPercentage, setSelectedPercentage] = useState(0)
   const [tokenDrawerType, setTokenDrawerType] = useState(Field.INPUT)
+
+  const percentageValue = [25, 50, 75, 100]
 
   const loadedUrlParams = useDefaultsFromURLSearch()
   const { t } = useTranslation()
@@ -84,7 +88,7 @@ const Swap = () => {
   const {
     v1Trade,
     v2Trade,
-    // currencyBalances,
+    currencyBalances,
     parsedAmount,
     currencies,
     inputError: swapInputError
@@ -178,7 +182,7 @@ const Swap = () => {
     }
   }, [approval, approvalSubmitted])
 
-  // const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
+  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
 
   // the callback to execute the swap
   const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(trade, allowedSlippage, recipient)
@@ -380,6 +384,29 @@ const Swap = () => {
     )
   }
 
+  const renderPercentage = () => {
+    return (
+      <Box display="flex" pb="5px">
+        {percentageValue.map((value, index) => (
+          <PValue
+            key={index}
+            isActive={selectedPercentage === value}
+            onClick={() => {
+              setSelectedPercentage(value)
+              const newAmount = (maxAmountInput as TokenAmount)
+                .multiply(JSBI.BigInt(value))
+                .divide(JSBI.BigInt(100)) as TokenAmount
+
+              onUserInput(Field.INPUT, newAmount.toSignificant(6))
+            }}
+          >
+            {value}%
+          </PValue>
+        ))}
+      </Box>
+    )
+  }
+
   return (
     <Root>
       {/* <ConfirmSwapModal
@@ -424,7 +451,10 @@ const Swap = () => {
               independentField === Field.OUTPUT && !showWrap && trade ? t('swapPage.fromEstimated') : t('swapPage.from')
             }
             value={formattedAmounts[Field.INPUT]}
-            onChange={handleTypeInput as any}
+            onChange={value => {
+              setSelectedPercentage(0)
+              handleTypeInput(value as any)
+            }}
             onTokenClick={() => {
               setTokenDrawerType(Field.INPUT)
               setIsTokenDrawerOpen(true)
@@ -434,6 +464,7 @@ const Swap = () => {
             isNumeric={true}
             placeholder="0.00"
             id="swap-currency-input"
+            addonLabel={renderPercentage()}
           />
 
           <Box width="100%" textAlign="center" alignItems="center" display="flex" justifyContent={'center'} mt={10}>
@@ -452,7 +483,10 @@ const Swap = () => {
               independentField === Field.INPUT && !showWrap && trade ? t('swapPage.toEstimated') : t('swapPage.to')
             }
             value={formattedAmounts[Field.OUTPUT]}
-            onChange={handleTypeOutput as any}
+            onChange={value => {
+              setSelectedPercentage(0)
+              handleTypeOutput(value as any)
+            }}
             onTokenClick={() => {
               setTokenDrawerType(Field.OUTPUT)
               setIsTokenDrawerOpen(true)

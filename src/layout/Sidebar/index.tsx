@@ -50,7 +50,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       icon: Swap,
       title: t('header.swap'),
       id: 'swap',
-      isActive: location?.pathname?.startsWith('/swap')
+      isActive: location?.pathname?.startsWith('/beta/swap')
     },
     {
       link: '/buy',
