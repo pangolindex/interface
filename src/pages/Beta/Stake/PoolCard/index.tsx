@@ -1,48 +1,51 @@
 import React from 'react'
-import { Card, CardHeader, CardStats, CardButtons, TokenName, Label, Value, DetailButton, StakeButton } from './styleds'
+import { Text } from '@pangolindex/components'
+import { JSBI } from '@pangolindex/sdk'
+import { useTranslation } from 'react-i18next'
+import { Card, CardHeader, CardStats, CardButtons, TokenName, DetailButton, StakeButton } from './styleds'
+import { SingleSideStaking, SingleSideStakingInfo } from '../../../../state/stake/hooks'
+import CurrencyLogo from 'src/components/CurrencyLogo'
 
 export interface PoolCardProps {
-  token: string
+  stakingInfo: SingleSideStakingInfo
+  migration?: SingleSideStaking
+  version: string
 }
 
-const tokens = {
-  Wavax: {
-    address: '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7'
-  },
-  Apein: {
-    address: '0x938FE3788222A74924E062120E7BFac829c719Fb'
-  },
-  Orbs: {
-    address: '0x340fE1D898ECCAad394e2ba0fC1F93d27c7b717A'
-  }
-}
-
-const PoolCard = ({ token }: PoolCardProps) => {
-  const imagePath = `https://raw.githubusercontent.com/pangolindex/tokens/main/assets/${
-    (tokens as any)[token].address
-  }/logo.png`
+const PoolCard = ({ stakingInfo, version }: PoolCardProps) => {
+  const { t } = useTranslation()
 
   return (
     <Card>
       <CardHeader>
-        <TokenName>Earn {token}</TokenName>
+        <TokenName>{t('stakePage.earn', { symbol: stakingInfo.rewardToken.symbol })}</TokenName>
         <div>
-          <img src={imagePath} width="58" alt={`${token} logo`} />
+          <CurrencyLogo size="58px" currency={stakingInfo.rewardToken} />
         </div>
       </CardHeader>
       <CardStats>
         <div>
-          <Label>Total Staked</Label>
-          <Value>$25.5K</Value>
+          <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
+            {t('stakePage.totalStaked')}
+          </Text>
+          <Text fontSize={31} fontWeight={500} lineHeight="47px" color="text1">
+            {`${stakingInfo.totalStakedInPng.toSignificant(4, { groupSeparator: ',' }) ?? '-'} PNG`}
+          </Text>
         </div>
         <div>
-          <Label>Annual Percentage Rate</Label>
-          <Value>75.23%</Value>
+          <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
+            {t('stakePage.apr')}
+          </Text>
+          <Text fontSize={31} fontWeight={500} lineHeight="47px" color="text1">
+            {JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0)) && !stakingInfo.isPeriodFinished
+              ? `${stakingInfo.apr.toLocaleString()}%`
+              : ' - '}
+          </Text>
         </div>
       </CardStats>
       <CardButtons>
-        <DetailButton variant="outline">SEE DETAILS</DetailButton>
-        <StakeButton variant="primary">STAKE</StakeButton>
+        <DetailButton variant="outline"> {t('stakePage.seeDetails')}</DetailButton>
+        <StakeButton variant="primary"> {t('stakePage.stake')}</StakeButton>
       </CardButtons>
     </Card>
   )

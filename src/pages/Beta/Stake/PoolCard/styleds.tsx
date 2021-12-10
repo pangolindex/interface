@@ -55,22 +55,8 @@ export const TokenName = styled(Box)`
   color: ${({ theme }) => theme.text10};
 `
 
-export const Label = styled(Box)`
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
-  color: ${({ theme }) => theme.text1};
-`
-
-export const Value = styled(Box)`
-  font-weight: 500;
-  font-size: 31px;
-  line-height: 47px;
-  color: ${({ theme }) => theme.text1};
-`
-
 export const StakeButton = styled(Button)`
-  background-color: #212427 !important;
+  background-color: ${({ theme }) => theme.bg8} !important;
   height: 46px;
   border-radius: 4px !important;
 `
