@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react'
+import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react'
 import { TextInput, Box, Text } from '@pangolindex/components'
 import Drawer from '../Drawer'
 import { useAllTokens, useToken } from 'src/hooks/Tokens'
@@ -13,6 +13,7 @@ import CurrencyRow from './CurrencyRow'
 import { useSelectedListInfo } from 'src/state/lists/hooks'
 import BaseRow, { RowBetween } from 'src/components/Row'
 import TokenListDrawer from '../TokenListDrawer'
+import usePrevious from 'src/hooks/usePrevious'
 
 interface Props {
   isOpen: boolean
@@ -37,9 +38,27 @@ const SelectTokenDrawer: React.FC<Props> = ({
   const [isTokenListOpen, setIsTokenListOpen] = useState<boolean>(false)
   const [invertSearchOrder] = useState<boolean>(false)
 
+  const inputRef = useRef<HTMLInputElement>(null)
+  const lastOpen = usePrevious(isOpen)
+
+  useEffect(() => {
+    if (isOpen && !lastOpen) {
+      setSearchQuery('')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen])
+
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current?.focus()
+      }, 500)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen])
+
   const allTokens = useAllTokens()
   const selectedListInfo = useSelectedListInfo()
-  console.log(selectedListInfo)
 
   const isAddressSearch = isAddress(searchQuery)
   const searchToken = useToken(searchQuery)
@@ -90,6 +109,7 @@ const SelectTokenDrawer: React.FC<Props> = ({
         />
       ) : null
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [selectedCurrency, otherSelectedCurrency, onCurrencySelect]
   )
 
@@ -102,6 +122,8 @@ const SelectTokenDrawer: React.FC<Props> = ({
           onChange={(value: any) => {
             setSearchQuery(value as string)
           }}
+          value={searchQuery}
+          getRef={(ref: HTMLInputElement) => ((inputRef as any).current = ref)}
         />
       </Box>
       {/* Render All Selected Tokens */}

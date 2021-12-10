@@ -139,6 +139,7 @@ export function betaColors(darkMode: boolean): BetaColors {
     // text
     text7: darkMode ? '#e6e9ec' : '#000000',
     text8: darkMode ? '#707070' : '#565A69',
+    text9: darkMode ? '#282828' : '#282828',
 
     // backgrounds / greys
     bg1: darkMode ? '#212429' : '#FFFFFF',
