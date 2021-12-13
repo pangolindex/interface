@@ -1,6 +1,6 @@
 import React, { useState, useContext, useCallback, useMemo, useEffect } from 'react'
 import ReactGA from 'react-ga'
-import { RefreshCcw, ChevronDown } from 'react-feather'
+import { RefreshCcw } from 'react-feather'
 import { Text, Box, Button } from '@pangolindex/components'
 import { Token, Trade, JSBI, CurrencyAmount, TokenAmount } from '@pangolindex/sdk'
 import { ThemeContext } from 'styled-components'
@@ -34,16 +34,13 @@ import {
   Root,
   SwapWrapper,
   CurrencyInputTextBox,
-  ReTriesWrapper,
-  InputText,
-  GridContainer,
   ArrowWrapper,
   // AddARecipient
   PValue
 } from './styled'
 import { RowBetween } from 'src/components/Row'
 
-const LimitOrder = () => {
+const MarketOrder = () => {
   const [isRetryDrawerOpen, setIsRetryDrawerOpen] = useState(false)
   const [isTokenDrawerOpen, setIsTokenDrawerOpen] = useState(false)
   const [selectedPercentage, setSelectedPercentage] = useState(0)
@@ -434,7 +431,7 @@ const LimitOrder = () => {
               independentField === Field.OUTPUT && !showWrap && trade ? t('swapPage.fromEstimated') : t('swapPage.from')
             }
             value={formattedAmounts[Field.INPUT]}
-            onChange={value => {
+            onChange={(value: any) => {
               setSelectedPercentage(0)
               handleTypeInput(value as any)
             }}
@@ -466,7 +463,7 @@ const LimitOrder = () => {
               independentField === Field.INPUT && !showWrap && trade ? t('swapPage.toEstimated') : t('swapPage.to')
             }
             value={formattedAmounts[Field.OUTPUT]}
-            onChange={value => {
+            onChange={(value: any) => {
               setSelectedPercentage(0)
               handleTypeOutput(value as any)
             }}
@@ -487,33 +484,6 @@ const LimitOrder = () => {
               )
             }
           />
-
-          <GridContainer>
-            <Box>
-              <Text color="text4">Re-tries</Text>
-
-              <ReTriesWrapper
-                onClick={() => {
-                  setIsRetryDrawerOpen(true)
-                }}
-              >
-                1
-                <Box ml={10}>
-                  <ChevronDown size={14} color={theme.text4} />
-                </Box>
-              </ReTriesWrapper>
-            </Box>
-            <Box>
-              <InputText
-                value={''}
-                onChange={(value: any) => {}}
-                fontSize={24}
-                isNumeric={true}
-                placeholder="0.10%"
-                label="Slippage"
-              />
-            </Box>
-          </GridContainer>
 
           {trade && <SwapDetailInfo trade={trade} />}
 
@@ -552,4 +522,4 @@ const LimitOrder = () => {
     </Root>
   )
 }
-export default LimitOrder
+export default MarketOrder

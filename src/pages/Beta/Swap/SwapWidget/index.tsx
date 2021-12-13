@@ -4,7 +4,7 @@ import { Root, SwapWrapper, SwapAlertBox } from './styled'
 import MarketOrder from './MarketOrder'
 import LimitOrder from './LimitOrder'
 
-const Swap = () => {
+const SwapWidget = () => {
   const [swapType, setSwapType] = useState('MARKET' as string)
 
   return (
@@ -32,4 +32,4 @@ const Swap = () => {
     </Root>
   )
 }
-export default Swap
+export default SwapWidget

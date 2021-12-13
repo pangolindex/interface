@@ -3,7 +3,7 @@ import { PageWrapper, GridContainer, TopContainer, StatsWrapper } from './styled
 import MyPortfolio from './MyPortfolio'
 import WatchList from './WatchList'
 import PairStat from './PairStat'
-import Swap from './Swap'
+import SwapWidget from './SwapWidget'
 import PairChart from './PairChart'
 
 const SwapUI = () => {
@@ -14,7 +14,7 @@ const SwapUI = () => {
           <PairStat />
           <PairChart />
         </StatsWrapper>
-        <Swap />
+        <SwapWidget />
       </TopContainer>
       <GridContainer>
         <MyPortfolio />

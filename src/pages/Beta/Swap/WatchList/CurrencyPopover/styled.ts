@@ -33,7 +33,7 @@ export const PopoverContainer = styled(Box)`
     content: '';
     position: absolute;
     top: -14px;
-    left: 175px;
+    left: 320px;
     border-style: solid;
     border-width: 0px 15px 15px;
     border-color: ${({ theme }) => theme.bg6} transparent;
