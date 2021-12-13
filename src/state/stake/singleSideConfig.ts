@@ -1,5 +1,5 @@
 import { ChainId, WAVAX } from '@pangolindex/sdk'
-import { OOE, APEIN, ORBS } from '../../constants'
+import { OOE, APEIN, ORBS, PNG } from '../../constants'
 import { SingleSideStaking } from './hooks'
 
 export const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
@@ -25,6 +25,12 @@ export const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
     rewardToken: ORBS[ChainId.AVALANCHE],
     conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
     stakingRewardAddress: '0x78d4BFb3b50E5895932073DC5Eb4713eb532941B',
+    version: 0
+  },
+  PNG_V0: {
+    rewardToken: PNG[ChainId.AVALANCHE],
+    conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: '0x88afdaE1a9F58Da3E68584421937E5F564A0135b',
     version: 0
   }
 }
