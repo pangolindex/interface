@@ -26,11 +26,11 @@ const MyPortfolio = () => {
         <Text color="text1" fontSize={32} fontWeight={500}>
           Your Portfolio
         </Text>
-        <Box bgColor={theme.bg5 as any} p={'5px'}>
+        {/* <Box bgColor={theme.bg5 as any} p={'5px'}>
           <Button variant="primary" backgroundColor="text8" color="text1" width={'32px'} height={'32px'} padding="0px">
             <Plus size={12} color={theme.text1} />
           </Button>
-        </Box>
+        </Box> */}
       </Box>
       <GridContainer>
         <Box>
