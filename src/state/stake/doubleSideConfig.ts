@@ -1188,6 +1188,11 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [USDTe[ChainId.AVALANCHE], SKILL[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
+  },
+  MIM_WAVAX_V2: {
+    tokens: [MIM[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
   }
 }
 
