@@ -1,18 +1,23 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
 import { PageWrapper, PageTitle, PoolsWrapper } from './styleds'
-import { SINGLE_SIDE_STAKING_REWARDS_INFO } from '../../../state/stake/singleSideConfig'
-import { useActiveWeb3React } from '../../../hooks'
-import Loader from '../../../components/Loader'
-import { useSingleSideStakingInfo } from '../../../state/stake/hooks'
-import { BIG_INT_ZERO } from '../../../constants'
+import { useActiveWeb3React } from 'src/hooks'
+import Loader from 'src/components/Loader'
+import { SINGLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/singleSideConfig'
+import { useSingleSideStakingInfo } from 'src/state/stake/hooks'
+import { BIG_INT_ZERO } from 'src/constants'
 import PoolCard from './PoolCard'
 
+interface RouteParams {
+  version: string
+}
+
 const StakeUI = () => {
-  const version = '0'
+  const params = useParams<RouteParams>()
   const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
-  const stakingInfos = useSingleSideStakingInfo(Number(version))
+  const stakingInfos = useSingleSideStakingInfo(Number(params.version))
   const [stakingInfoResults, setStakingInfoResults] = useState<any[]>()
 
   useMemo(() => {
@@ -61,7 +66,7 @@ const StakeUI = () => {
           t('earnPage.noActiveRewards')
         ) : (
           stakingInfoResults?.map(stakingInfo => (
-            <PoolCard key={stakingInfo.stakingRewardAddress} stakingInfo={stakingInfo} version={version} />
+            <PoolCard key={stakingInfo.stakingRewardAddress} stakingInfo={stakingInfo} version={params.version} />
           ))
         )}
       </PoolsWrapper>

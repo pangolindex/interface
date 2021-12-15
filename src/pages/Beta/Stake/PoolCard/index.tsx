@@ -3,7 +3,7 @@ import { Text } from '@pangolindex/components'
 import { JSBI } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 import { Card, CardHeader, CardStats, CardButtons, TokenName, DetailButton, StakeButton } from './styleds'
-import { SingleSideStaking, SingleSideStakingInfo } from '../../../../state/stake/hooks'
+import { SingleSideStaking, SingleSideStakingInfo } from 'src/state/stake/hooks'
 import CurrencyLogo from 'src/components/CurrencyLogo'
 
 export interface PoolCardProps {

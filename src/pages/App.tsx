@@ -136,7 +136,7 @@ export default function App() {
               <CustomRoute exact path="/beta/migrate/:version" component={MigrateV2} layout={Layout} />
 
               <CustomRoute exact path="/beta/swap/" component={SwapV2} layout={Layout} />
-              <CustomRoute exact path="/beta/stake/" component={StakeV2} layout={Layout} />
+              <CustomRoute exact path="/beta/stake/:version" component={StakeV2} layout={Layout} />
 
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
 

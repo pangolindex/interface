@@ -81,7 +81,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
     },
 
     {
-      link: '/beta/stake',
+      link: '/beta/stake/0',
       icon: Stake,
       title: t('header.stake'),
       id: 'stake',
