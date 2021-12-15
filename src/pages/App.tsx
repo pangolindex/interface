@@ -41,6 +41,7 @@ import Layout from '../layout'
 
 import SwapV2 from './Beta/Swap'
 import StakeV2 from './Beta/Stake'
+import GovernanceV2 from './Beta/Governance'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -137,6 +138,7 @@ export default function App() {
 
               <CustomRoute exact path="/beta/swap/" component={SwapV2} layout={Layout} />
               <CustomRoute exact path="/beta/stake/:version" component={StakeV2} layout={Layout} />
+              <CustomRoute exact path="/beta/governance" component={GovernanceV2} layout={Layout} />
 
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
 

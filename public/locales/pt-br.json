@@ -550,5 +550,10 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
+  },
+  "governancePage": {
+    "pangolinGovernance": "Pangolin Governance",
+    "about": "About",
+    "details": "Details"
   }
 }
