@@ -89,6 +89,7 @@ class MiniRpcProvider implements AsyncSendable {
         reject,
         request: { method }
       } = byKey[result.id]
+      // @ts-ignore
       if (resolve && reject) {
         if ('error' in result) {
           reject(new RequestError(result?.error?.message, result?.error?.code, result?.error?.data))

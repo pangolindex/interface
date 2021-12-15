@@ -6,4 +6,5 @@ export const ChartWrapper = styled(Box)`
   padding: 10px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.bg2};
+  height: 100%;
 `
