@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const Root = styled(Box)`
   width: 100%;
-  min-width: 360px;
+  min-width: 400px;
   position: relative;
   overflow: hidden;
 `
@@ -11,7 +11,7 @@ export const Root = styled(Box)`
 export const SwapWrapper = styled(Box)`
   border-radius: 10px;
   width: 100%;
-  min-width: 360px;
+  min-width: 400px;
   background-color: ${({ theme }) => theme.bg2};
   position: relative;
   overflow: hidden;
