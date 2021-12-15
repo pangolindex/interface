@@ -117,7 +117,7 @@ export default function PairChart() {
       width,
       height
     })
-  }, [width, height])
+  }, [width, height, chartCreated])
 
   return (
     <ChartWrapper>
