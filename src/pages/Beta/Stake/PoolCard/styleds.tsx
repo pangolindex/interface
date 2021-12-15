@@ -30,6 +30,10 @@ export const CardHeader = styled(Box)`
   border-bottom: 1px solid ${({ theme }) => theme.text8};
 `
 
+export const CardColumn = styled(Box)<{ width?: string }>`
+  width: ${props => (props.width ? props.width : '48%')};
+`
+
 export const CardStats = styled(Box)`
   display: flex;
   justify-content: space-between;

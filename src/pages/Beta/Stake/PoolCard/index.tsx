@@ -2,7 +2,7 @@ import React from 'react'
 import { Text } from '@pangolindex/components'
 import { JSBI } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
-import { Card, CardHeader, CardStats, CardButtons, TokenName, DetailButton, StakeButton } from './styleds'
+import { Card, CardHeader, CardColumn, CardStats, CardButtons, TokenName, DetailButton, StakeButton } from './styleds'
 import { SingleSideStaking, SingleSideStakingInfo } from 'src/state/stake/hooks'
 import CurrencyLogo from 'src/components/CurrencyLogo'
 
@@ -24,15 +24,15 @@ const PoolCard = ({ stakingInfo, version }: PoolCardProps) => {
         </div>
       </CardHeader>
       <CardStats>
-        <div>
+        <CardColumn width="40%">
           <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
             {t('stakePage.totalStaked')}
           </Text>
           <Text fontSize={31} fontWeight={500} lineHeight="47px" color="text1">
             {`${stakingInfo.totalStakedInPng.toSignificant(4, { groupSeparator: ',' }) ?? '-'} PNG`}
           </Text>
-        </div>
-        <div>
+        </CardColumn>
+        <CardColumn>
           <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
             {t('stakePage.apr')}
           </Text>
@@ -41,7 +41,7 @@ const PoolCard = ({ stakingInfo, version }: PoolCardProps) => {
               ? `${stakingInfo.apr.toLocaleString()}%`
               : ' - '}
           </Text>
-        </div>
+        </CardColumn>
       </CardStats>
       <CardButtons>
         <DetailButton variant="outline"> {t('stakePage.seeDetails')}</DetailButton>
