@@ -1,13 +1,13 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
 
-import { useOnClickOutside } from '../../../hooks/useOnClickOutside'
-import { ApplicationModal } from '../../../state/application/actions'
-import { useModalOpen, useToggleModal } from '../../../state/application/hooks'
+import { useOnClickOutside } from 'src/hooks/useOnClickOutside'
+import { ApplicationModal } from 'src/state/application/actions'
+import { useModalOpen, useToggleModal } from 'src/state/application/hooks'
 
 import { StyledMenuButton } from '../DateDropdown'
-import { StyledMenu, MenuFlyout /*MenuItem, MenuNavItem*/ } from '../../../components/StyledMenu'
-import PolygonIcon from '../../../assets/svg/Polygon.svg'
+import { StyledMenu, MenuFlyout } from 'src/components/StyledMenu'
+import PolygonIcon from 'src/assets/svg/Polygon.svg'
 
 const NarrowMenuFlyout = styled(MenuFlyout)`
   min-width: 8.125rem;

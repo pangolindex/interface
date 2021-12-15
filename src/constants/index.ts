@@ -721,6 +721,50 @@ export const JEWEL: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x4f60a160D8C2DDdaAfe16FCC57566dB84D674BD6', 18, 'JEWEL', 'Jewels')
 }
 
+export const NFTD: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'NFTD', 'NFTrade Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x9E3Ca00f2d4A9E5d4f0add0900de5f15050812cF',
+    18,
+    'NFTD',
+    'NFTrade Token'
+  )
+}
+
+export const CLY: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'CLY', 'Colony Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xec3492a2508DDf4FDc0cD76F31f340b30d1793e6',
+    18,
+    'CLY',
+    'Colony Token'
+  )
+}
+
+export const COOK: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'COOK', 'Cook Finance'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x637afeff75ca669fF92e4570B14D6399A658902f',
+    18,
+    'COOK',
+    'Cook Finance'
+  )
+}
+
+export const SKILL: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'SKILL', 'Skill Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x483416eB3aFA601B9C6385f63CeC0C82B6aBf1fb',
+    18,
+    'SKILL',
+    'Skill Token'
+  )
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'

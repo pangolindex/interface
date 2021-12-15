@@ -94,6 +94,7 @@
     "react-scripts": "^3.4.1",
     "react-slick": "^0.28.1",
     "react-spring": "^8.0.27",
+    "react-use": "^15.3.8",
     "react-use-gesture": "^6.0.14",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.5",

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { createChart, IChartApi } from 'lightweight-charts'
+import { createChart, CrosshairMode, IChartApi } from 'lightweight-charts'
+import { useMeasure } from 'react-use'
 import { useDarkModeManager } from 'src/state/user/hooks'
 import { ChartWrapper } from './styleds'
 
-const WIDTH = 740
-const HEIGHT = 415
 const data = [
   { time: '2021-11-07', value: 1000 },
   { time: '2021-11-08', value: 2000 },
@@ -19,8 +18,7 @@ const data = [
 ]
 
 export default function PairChart() {
-  // reference for DOM element to create with chart
-  // const ref = useRef()
+  const [ref, { width, height }] = useMeasure()
 
   // pointer to the chart object
   const [chartCreated, setChartCreated] = useState<IChartApi>()
@@ -34,60 +32,56 @@ export default function PairChart() {
     if (!chartCreated) {
       const htmlElement = document.getElementById('chart-container-id')!
       chart = createChart(htmlElement, {
-        width: WIDTH,
-        height: HEIGHT,
         layout: {
           backgroundColor: 'transparent',
-          textColor: '#707070',
-          fontSize: 24
+          textColor: '#fff',
+          fontSize: 12,
+          fontFamily: "'Poppins',sans-serif"
         },
         leftPriceScale: {
-          scaleMargins: {
-            top: 0.32,
-            bottom: 0.2
-          },
-          visible: true,
-          borderVisible: false
+          visible: true
         },
         rightPriceScale: {
           visible: false,
           borderVisible: false
         },
         timeScale: {
-          borderVisible: false
+          borderVisible: true
         },
         grid: {
           horzLines: {
             color: '#707070',
             visible: true,
-            style: 3
+            style: 2
           },
           vertLines: {
             color: '#707070',
-            visible: false
+            visible: true,
+            style: 2
           }
         },
         crosshair: {
+          mode: CrosshairMode.Normal,
           horzLine: {
-            visible: false,
-            labelVisible: false
+            visible: true,
+            labelVisible: true
           },
           vertLine: {
             visible: true,
-            style: 0,
+            style: 1,
             width: 2,
-            color: 'rgba(32, 38, 46, 0.1)',
-            labelVisible: false
+            color: 'rgba(32, 38, 46, 0.5)',
+            labelVisible: true
           }
         }
       })
 
       let series = chart.addAreaSeries({
-        topColor: 'transparent',
+        topColor: '#E67826',
         bottomColor: 'transparent',
         lineColor: '#E67826',
-        lineWidth: 3,
-        crosshairMarkerVisible: false,
+        lineWidth: 1,
+        crosshairMarkerVisible: true,
         lastValueVisible: false,
         priceLineVisible: false
       })
@@ -97,7 +91,7 @@ export default function PairChart() {
       toolTip.setAttribute('id', 'tooltip-id')
       if (htmlElement) htmlElement.appendChild(toolTip)
       toolTip.style.display = 'block'
-      toolTip.style.fontWeight = '500'
+      toolTip.style.fontWeight = '400'
       toolTip.style.left = -4 + 'px'
       toolTip.style.top = '-' + 8 + 'px'
       toolTip.style.backgroundColor = 'transparent'
@@ -117,9 +111,17 @@ export default function PairChart() {
       })
     }
   }, [isDark, chartCreated])
+
+  useEffect(() => {
+    chartCreated?.applyOptions({
+      width,
+      height
+    })
+  }, [width, height, chartCreated])
+
   return (
     <ChartWrapper>
-      <div id={'chart-container-id'} />
+      <div id={'chart-container-id'} ref={ref as any} style={{ height: '100%' }} />
     </ChartWrapper>
   )
 }

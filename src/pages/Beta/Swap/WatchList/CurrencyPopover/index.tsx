@@ -47,7 +47,7 @@ const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins }) => {
                 </Text>
               </Box>
               <Box ml={'10px'} textAlign="right">
-                <Button variant="secondary" backgroundColor="bg8" color="text6" padding={'0px'}>
+                <Button variant="secondary" backgroundColor="bg9" color="text6" padding={'0px'}>
                   Add
                 </Button>
               </Box>

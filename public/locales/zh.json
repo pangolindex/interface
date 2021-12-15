@@ -542,5 +542,13 @@
     "followed_address": "Address",
     "followed_worth": "Worth",
     "followed_interact": "Interact"
+  },
+  "stakePage": {
+    "totalStaked": "Total Staked",
+    "apr": "Annual Percentage Rate",
+    "seeDetails": "SEE DETAILS",
+    "stake": "STAKE",
+    "earn": "Earn {{symbol}}",
+    "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
   }
 }
