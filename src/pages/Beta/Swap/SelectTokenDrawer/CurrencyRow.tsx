@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Text, CurrencyLogo } from '@pangolindex/components'
 import { CurrencyRowRoot, Balance } from './styled'
 import { Currency } from '@pangolindex/sdk'
@@ -14,12 +14,13 @@ import Loader from 'src/components/Loader'
 interface Props {
   currency: Currency
   style: any
-  onSelect: () => void
+  onSelect: (currency: Currency) => void
   isSelected: boolean
   otherSelected: boolean
 }
 
-const CurrencyRow: React.FC<Props> = ({ currency, style, onSelect, isSelected, otherSelected }) => {
+const CurrencyRow: React.FC<Props> = props => {
+  const { currency, style, onSelect, isSelected, otherSelected } = props
   const { account } = useActiveWeb3React()
   // const selectedTokenList = useSelectedTokenList()
   // const isOnSelectedList = isTokenOnList(selectedTokenList, currency)
@@ -32,8 +33,12 @@ const CurrencyRow: React.FC<Props> = ({ currency, style, onSelect, isSelected, o
 
   // console.log(currency.symbol, balance)
 
+  const handleSelect = useCallback(() => {
+    onSelect(currency)
+  }, [onSelect, currency])
+
   return (
-    <CurrencyRowRoot style={style} onClick={onSelect} disabled={isSelected} selected={otherSelected}>
+    <CurrencyRowRoot style={style} onClick={handleSelect} disabled={isSelected} selected={otherSelected}>
       <CurrencyLogo currency={currency} size={'24px'} />
       <Text color="text1" fontSize={14} title={currency?.name}>
         {currency?.symbol}
