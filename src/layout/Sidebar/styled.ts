@@ -81,14 +81,14 @@ export const MenuLink = styled(NavLink).attrs({
   margin: 0 8px;
   align-items: center;
   font-weight: 500;
-
+  width: 100%;
   &.${activeClassName} {
-    border-radius: 12px;
     color: ${({ theme }) => theme.white};
   }
 
   :hover,
   :focus {
+    width: 100%;
     color: ${({ theme }) => darken(0.1, theme.text1)};
   }
 `
@@ -107,9 +107,11 @@ export const MenuExternalLink = styled(ExternalLink).attrs({
   font-weight: 500;
   overflow-y: hidden;
   white-space: nowrap;
+  width: 100%;
 
   :hover,
   :focus {
+    width: 100%;
     text-decoration: none;
     color: ${({ theme }) => darken(0.1, theme.text1)};
   }
@@ -122,7 +124,7 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
   cursor: pointer;
   text-decoration: none;
   color: ${({ theme, isActive }) => (isActive ? theme.text1 : theme.text2)};
-  width: '100%';
+  width: 100%;
   font-weight: 500;
   line-height: 24px;
   padding: 8px;
@@ -135,6 +137,7 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
 
   :hover,
   :focus {
+    width: 100%;
     color: ${({ theme }) => darken(0.1, theme.text1)};
     background-color: ${({ theme, isActive }) => (!isActive ? theme.bg7 : darken(0.2, theme.color1))};
   }

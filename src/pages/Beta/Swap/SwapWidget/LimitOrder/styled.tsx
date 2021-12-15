@@ -17,15 +17,6 @@ export const SwapWrapper = styled(Box)`
   overflow: hidden;
 `
 
-export const SwapAlertBox = styled(Box)`
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  background-color: ${({ theme }) => theme.avaxRed};
-  padding: 7px;
-  font-size: 12px;
-  color: ${({ theme }) => theme.white};
-`
-
 export const CurrencyInputTextBox = styled(CurrencyInput)`
   background-color: ${({ theme }) => theme.bg6};
   padding: 15px;
@@ -78,4 +69,18 @@ export const ArrowWrapper = styled.div`
 
 export const AddARecipient = styled(Text)`
   cursor: pointer;
+`
+export const PValue = styled(Box)<{ isActive: boolean }>`
+  margin-left: 10px;
+  margin-right: 10px;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  font-size: 16px;
+  color: ${({ theme, isActive }) => (isActive ? theme.text1 : theme.text4)};
+  border-bottom: ${({ theme, isActive }) => (isActive ? `1px solid ${theme.text1}` : 0)};
+  cursor: pointer;
+  &:hover {
+    color: ${({ theme }) => theme.text1};
+  }
 `
