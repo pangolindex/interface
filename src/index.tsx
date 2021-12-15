@@ -20,6 +20,8 @@ import { ThemeProvider as NewThemeProvider } from '@pangolindex/components'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
 import { useIsBetaUI } from './hooks/useLocation'
+import { GelatoProvider } from '@gelatonetwork/limit-orders-react'
+import { useActiveWeb3React } from './hooks'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
@@ -56,6 +58,15 @@ function Updaters() {
   )
 }
 
+const Gelato = ({ children }: { children?: React.ReactNode }) => {
+  const { library, chainId, account } = useActiveWeb3React()
+  return (
+    <GelatoProvider library={library} chainId={chainId} account={account ?? undefined}>
+      {children}
+    </GelatoProvider>
+  )
+}
+
 const ComponentThemeProvider = () => {
   const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
@@ -65,7 +76,9 @@ const ComponentThemeProvider = () => {
       <FixedGlobalStyle isBeta={isBeta} />
       <ThemedGlobalStyle isBeta={isBeta} />
       <HashRouter>
-        <App />
+        <Gelato>
+          <App />
+        </Gelato>
       </HashRouter>
     </NewThemeProvider>
   )

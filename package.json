@@ -8,6 +8,7 @@
   "private": true,
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
+    "@gelatonetwork/limit-orders-react": "^2.1.0",
     "@pangolindex/components": "1.0.7-rc.5",
     "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.2.0",

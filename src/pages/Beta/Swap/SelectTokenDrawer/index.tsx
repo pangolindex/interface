@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react'
+import React, { useMemo, useState, useCallback, useEffect, useRef, memo } from 'react'
 import { TextInput, Box, Text } from '@pangolindex/components'
 import Drawer from '../Drawer'
 import { useAllTokens, useToken } from 'src/hooks/Tokens'
@@ -177,4 +177,4 @@ const SelectTokenDrawer: React.FC<Props> = ({
     </Drawer>
   )
 }
-export default SelectTokenDrawer
+export default memo(SelectTokenDrawer)

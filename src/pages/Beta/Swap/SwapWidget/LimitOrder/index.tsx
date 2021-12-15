@@ -1,24 +1,29 @@
 import React, { useState, useContext, useCallback, useMemo, useEffect } from 'react'
+import { useGelatoLimitOrders } from '@gelatonetwork/limit-orders-react'
 import ReactGA from 'react-ga'
-import { RefreshCcw, ChevronDown } from 'react-feather'
-import { Text, Box, Button } from '@pangolindex/components'
-import { Token, Trade, JSBI, CurrencyAmount, TokenAmount } from '@pangolindex/sdk'
+import { RefreshCcw, ChevronDown, Divide, X } from 'react-feather'
+import { Text, Box, Button, ToggleButtons } from '@pangolindex/components'
+import { Token, Trade, JSBI, CurrencyAmount, TokenAmount, TradeType, Currency } from '@pangolindex/sdk'
 import { ThemeContext } from 'styled-components'
 import RetryDrawer from '../../RetryDrawer'
 import SelectTokenDrawer from '../../SelectTokenDrawer'
 import ConfirmSwapDrawer from '../../ConfirmSwapDrawer'
 import { useDerivedSwapInfo, useSwapActionHandlers, useSwapState, useDefaultsFromURLSearch } from 'src/state/swap/hooks'
-import { Field } from 'src/state/swap/actions'
+import { LimitField, Field, LimitNewField } from 'src/state/swap/actions'
 import { useCurrency } from 'src/hooks/Tokens'
 import useWrapCallback, { WrapType } from 'src/hooks/useWrapCallback'
 import useENS from 'src/hooks/useENS'
 import useToggledVersion, { Version } from 'src/hooks/useToggledVersion'
 import { useTranslation } from 'react-i18next'
-import { ApprovalState, useApproveCallbackFromTrade } from 'src/hooks/useApproveCallback'
+import {
+  ApprovalState,
+  useApproveCallbackFromTrade,
+  useApproveCallbackFromInputCurrencyAmount
+} from 'src/hooks/useApproveCallback'
 import { useActiveWeb3React } from 'src/hooks'
 import { useWalletModalToggle } from 'src/state/application/hooks'
 import { useExpertModeManager, useUserSlippageTolerance } from 'src/state/user/hooks'
-import { maxAmountSpend } from 'src/utils/maxAmountSpend'
+import { maxAmountSpend, galetoMaxAmountSpend } from 'src/utils/maxAmountSpend'
 import { useSwapCallback } from 'src/hooks/useSwapCallback'
 import { computeTradePriceBreakdown, warningSeverity } from 'src/utils/prices'
 import confirmPriceImpactWithoutFee from 'src/components/swap/confirmPriceImpactWithoutFee'
@@ -42,17 +47,53 @@ import {
   PValue
 } from './styled'
 import { RowBetween } from 'src/components/Row'
+import { NATIVE } from 'src/constants'
+
+enum Rate {
+  DIV = 'DIV',
+  MUL = 'MUL'
+}
 
 const LimitOrder = () => {
   const [isRetryDrawerOpen, setIsRetryDrawerOpen] = useState(false)
   const [isTokenDrawerOpen, setIsTokenDrawerOpen] = useState(false)
   const [selectedPercentage, setSelectedPercentage] = useState(0)
   const [tokenDrawerType, setTokenDrawerType] = useState(Field.INPUT)
-
+  const [activeTab, setActiveTab] = useState<'sell' | 'buy'>('sell')
   const percentageValue = [25, 50, 75, 100]
 
   const loadedUrlParams = useDefaultsFromURLSearch()
   const { t } = useTranslation()
+  console.log('tokenDrawerType0', tokenDrawerType)
+  const {
+    handlers: {
+      handleInput: onUserInput,
+      handleRateType,
+      handleCurrencySelection: onCurrencySelection,
+      handleSwitchTokens: onSwitchTokens,
+      handleLimitOrderSubmission
+    },
+    derivedOrderInfo: {
+      parsedAmounts,
+      currencies,
+      currencyBalances,
+      trade,
+      formattedAmounts,
+      inputError: swapInputError,
+      rawAmounts,
+      price
+    },
+    orderState: { independentField, rateType }
+  } = useGelatoLimitOrders()
+
+  console.log('trade', trade)
+
+  const handleActiveTab = (tab: 'sell' | 'buy') => {
+    if (activeTab === tab) return
+
+    handleRateType(rateType, price)
+    setActiveTab(tab)
+  }
 
   // token warning stuff
   const [loadedInputCurrency, loadedOutputCurrency] = [
@@ -82,58 +123,69 @@ const LimitOrder = () => {
   const [allowedSlippage] = useUserSlippageTolerance()
 
   // swap state
-  const { independentField, typedValue, recipient } = useSwapState()
-  const {
-    v1Trade,
-    v2Trade,
-    currencyBalances,
-    parsedAmount,
-    currencies,
-    inputError: swapInputError
-  } = useDerivedSwapInfo()
-  const { wrapType, execute: onWrap, inputError: wrapInputError } = useWrapCallback(
-    currencies[Field.INPUT],
-    currencies[Field.OUTPUT],
-    typedValue
-  )
-  const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
-  const { address: recipientAddress } = useENS(recipient)
-  const toggledVersion = useToggledVersion()
-  const tradesByVersion = {
-    [Version.v1]: v1Trade,
-    [Version.v2]: v2Trade
-  }
-  const trade = showWrap ? undefined : tradesByVersion[toggledVersion]
+  const { typedValue, recipient } = useSwapState()
+  // const {
+  //   v1Trade,
+  //   v2Trade
+  //   //currencyBalances
+  //   //parsedAmount,
+  //   //currencies,
+  //   //inputError: swapInputError
+  // } = useDerivedSwapInfo()
+
+  // const { wrapType, execute: onWrap, inputError: wrapInputError } = useWrapCallback(
+  //   currencies[LimitField.INPUT],
+  //   currencies[LimitField.OUTPUT],
+  //   typedValue
+  // )
+  // const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
+  // // const { address: recipientAddress } = useENS(recipient)
+  // const toggledVersion = useToggledVersion()
+  // const tradesByVersion = {
+  //   [Version.v1]: v1Trade,
+  //   [Version.v2]: v2Trade
+  // }
+  // const trade = showWrap ? undefined : tradesByVersion[toggledVersion]
   // const defaultTrade = showWrap ? undefined : tradesByVersion[DEFAULT_VERSION]
 
   // const betterTradeLinkVersion: Version | undefined = undefined
 
-  const parsedAmounts = showWrap
-    ? {
-        [Field.INPUT]: parsedAmount,
-        [Field.OUTPUT]: parsedAmount
-      }
-    : {
-        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount
-      }
+  // const parsedAmounts = showWrap
+  //   ? {
+  //       [LimitNewField.INPUT]: parsedAmount,
+  //       [LimitNewField.OUTPUT]: parsedAmount
+  //     }
+  //   : {
+  //       [LimitNewField.INPUT]: independentField === LimitNewField.INPUT ? parsedAmount : trade?.inputAmount,
+  //       [LimitNewField.OUTPUT]: independentField === LimitNewField.OUTPUT ? parsedAmount : trade?.outputAmount
+  //     }
 
-  const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers()
+  ///const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers()
   const isValid = !swapInputError
-  const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
+  // const dependentField: LimitField = independentField === LimitField.INPUT ? LimitField.OUTPUT : LimitField.INPUT
 
-  const inputCurrency = currencies[Field.INPUT]
-  const outputCurrency = currencies[Field.OUTPUT]
+  const inputCurrency = currencies[LimitField.INPUT]
+  const outputCurrency = currencies[LimitField.OUTPUT]
+
+  console.log('inputCurrency', inputCurrency)
+  console.log('outputCurrency', outputCurrency)
 
   const handleTypeInput = useCallback(
     (value: string) => {
-      onUserInput(Field.INPUT, value)
+      onUserInput(LimitNewField.INPUT as any, value)
     },
     [onUserInput]
   )
   const handleTypeOutput = useCallback(
     (value: string) => {
-      onUserInput(Field.OUTPUT, value)
+      onUserInput(LimitNewField.OUTPUT as any, value)
+    },
+    [onUserInput]
+  )
+
+  const handleTypeDesiredRate = useCallback(
+    (value: string) => {
+      onUserInput(LimitNewField.PRICE as any, value)
     },
     [onUserInput]
   )
@@ -153,22 +205,41 @@ const LimitOrder = () => {
     txHash: undefined
   })
 
-  const formattedAmounts = {
-    [independentField]: typedValue,
-    [dependentField]: showWrap
-      ? parsedAmounts[independentField]?.toExact() ?? ''
-      : parsedAmounts[dependentField]?.toSignificant(6) ?? ''
-  }
+  // modal and loading
+  // const [{ showConfirm, tradeToConfirm, swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
+  //   showConfirm: boolean
+  //   tradeToConfirm: Trade<Currency, Currency, TradeType> | undefined
+  //   attemptingTxn: boolean
+  //   swapErrorMessage: string | undefined
+  //   txHash: string | undefined
+  // }>({
+  //   showConfirm: false,
+  //   tradeToConfirm: undefined,
+  //   attemptingTxn: false,
+  //   swapErrorMessage: undefined,
+  //   txHash: undefined
+  // })
 
-  const route = trade?.route
+  // const formattedAmounts = {
+  //   [independentField]: typedValue,
+  //   [dependentField]: showWrap
+  //     ? parsedAmounts[independentField]?.toExact() ?? ''
+  //     : parsedAmounts[dependentField]?.toSignificant(6) ?? ''
+  // }
+
+  // const route = trade?.route
   const tradePrice = trade?.executionPrice
-  const userHasSpecifiedInputOutput = Boolean(
-    currencies[Field.INPUT] && currencies[Field.OUTPUT] && parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
-  )
-  const noRoute = !route
+  // const userHasSpecifiedInputOutput = Boolean(
+  //   currencies[LimitField.INPUT] &&
+  //     currencies[LimitField.OUTPUT] &&
+  //     parsedAmounts[independentField.toLowerCase()]?.greaterThan(JSBI.BigInt(0))
+  // )
+  // const noRoute = !route
 
   // check whether the user has approved the router on the input token
-  const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
+  //const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
+
+  const [approval, approveCallback] = useApproveCallbackFromInputCurrencyAmount(parsedAmounts.input)
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
@@ -180,46 +251,132 @@ const LimitOrder = () => {
     }
   }, [approval, approvalSubmitted])
 
-  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
+  const maxAmountInput: CurrencyAmount | undefined = galetoMaxAmountSpend(currencyBalances[LimitField.INPUT])
 
   // the callback to execute the swap
-  const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(trade, allowedSlippage, recipient)
+  // const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(trade, allowedSlippage, recipient)
 
-  const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
+  const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade as any)
 
+  // for
   const handleSwap = useCallback(() => {
-    if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee)) {
+    if (!handleLimitOrderSubmission) {
       return
     }
-    if (!swapCallback) {
-      return
-    }
-    setSwapState({ attemptingTxn: true, tradeToConfirm, showConfirm, swapErrorMessage: undefined, txHash: undefined })
-    swapCallback()
-      .then(hash => {
-        setSwapState({ attemptingTxn: false, tradeToConfirm, showConfirm, swapErrorMessage: undefined, txHash: hash })
 
-        ReactGA.event({
-          category: 'Swap',
-          action:
-            recipient === null
-              ? 'Swap w/o Send'
-              : (recipientAddress ?? recipient) === account
-              ? 'Swap w/o Send + recipient'
-              : 'Swap w/ Send',
-          label: [trade?.inputAmount?.currency?.symbol, trade?.outputAmount?.currency?.symbol, Version.v2].join('/')
-        })
+    setSwapState({
+      attemptingTxn: true,
+      tradeToConfirm,
+      showConfirm,
+      swapErrorMessage: undefined,
+      txHash: undefined
+    })
+
+    try {
+      if (!currencies.input?.wrapped.address) {
+        throw new Error('Invalid input currency')
+      }
+
+      if (!currencies.output?.wrapped.address) {
+        throw new Error('Invalid output currency')
+      }
+
+      if (!rawAmounts.input) {
+        throw new Error('Invalid input amount')
+      }
+
+      if (!rawAmounts.output) {
+        throw new Error('Invalid output amount')
+      }
+
+      if (!account) {
+        throw new Error('No account')
+      }
+
+      handleLimitOrderSubmission({
+        inputToken: currencies.input?.isNative ? NATIVE : currencies.input?.wrapped.address,
+        outputToken: currencies.output?.isNative ? NATIVE : currencies.output?.wrapped.address,
+        inputAmount: rawAmounts.input,
+        outputAmount: rawAmounts.output,
+        owner: account
       })
-      .catch(error => {
-        setSwapState({
-          attemptingTxn: false,
-          tradeToConfirm,
-          showConfirm,
-          swapErrorMessage: error.message,
-          txHash: undefined
+        .then(({ hash }) => {
+          setSwapState({
+            attemptingTxn: false,
+            tradeToConfirm,
+            showConfirm,
+            swapErrorMessage: undefined,
+            txHash: hash
+          })
         })
+        .catch(error => {
+          setSwapState({
+            attemptingTxn: false,
+            tradeToConfirm,
+            showConfirm,
+            swapErrorMessage: error.message,
+            txHash: undefined
+          })
+        })
+    } catch (error) {
+      setSwapState({
+        attemptingTxn: false,
+        tradeToConfirm,
+        showConfirm,
+        swapErrorMessage: (error as any).message,
+        txHash: undefined
       })
-  }, [tradeToConfirm, account, priceImpactWithoutFee, recipient, recipientAddress, showConfirm, swapCallback, trade])
+    }
+  }, [
+    handleLimitOrderSubmission,
+    tradeToConfirm,
+    showConfirm,
+    currencies.input?.wrapped.address,
+    currencies.input?.isNative,
+    currencies.output?.wrapped.address,
+    currencies.output?.isNative,
+    rawAmounts.input,
+    rawAmounts.output,
+    account
+  ])
+
+  const handleSelectTokenDrawerClose = useCallback(() => {
+    setIsTokenDrawerOpen(false)
+  }, [isTokenDrawerOpen])
+
+  // const handleSwap = useCallback(() => {
+  //   if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee)) {
+  //     return
+  //   }
+  //   if (!swapCallback) {
+  //     return
+  //   }
+  //   setSwapState({ attemptingTxn: true, tradeToConfirm, showConfirm, swapErrorMessage: undefined, txHash: undefined })
+  //   swapCallback()
+  //     .then(hash => {
+  //       setSwapState({ attemptingTxn: false, tradeToConfirm, showConfirm, swapErrorMessage: undefined, txHash: hash })
+
+  //       ReactGA.event({
+  //         category: 'Swap',
+  //         action:
+  //           recipient === null
+  //             ? 'Swap w/o Send'
+  //             : (recipientAddress ?? recipient) === account
+  //             ? 'Swap w/o Send + recipient'
+  //             : 'Swap w/ Send',
+  //         label: [trade?.inputAmount?.currency?.symbol, trade?.outputAmount?.currency?.symbol, Version.v2].join('/')
+  //       })
+  //     })
+  //     .catch(error => {
+  //       setSwapState({
+  //         attemptingTxn: false,
+  //         tradeToConfirm,
+  //         showConfirm,
+  //         swapErrorMessage: error.message,
+  //         txHash: undefined
+  //       })
+  //     })
+  // }, [tradeToConfirm, account, priceImpactWithoutFee, recipient, recipientAddress, showConfirm, swapCallback, trade])
 
   // errors
   // const [showInverted, setShowInverted] = useState<boolean>(false)
@@ -240,24 +397,25 @@ const LimitOrder = () => {
     setSwapState({ showConfirm: false, tradeToConfirm, attemptingTxn, swapErrorMessage, txHash })
     // if there was a tx hash, we want to clear the input
     if (txHash) {
-      onUserInput(Field.INPUT, '')
+      onUserInput(LimitNewField.INPUT as any, '')
     }
   }, [attemptingTxn, onUserInput, swapErrorMessage, tradeToConfirm, txHash])
 
   const handleAcceptChanges = useCallback(() => {
-    setSwapState({ tradeToConfirm: trade, swapErrorMessage, txHash, attemptingTxn, showConfirm })
+    setSwapState({ tradeToConfirm: trade as any, swapErrorMessage, txHash, attemptingTxn, showConfirm })
   }, [attemptingTxn, showConfirm, swapErrorMessage, trade, txHash])
 
   // const handleMaxInput = useCallback(() => {
-  //   maxAmountInput && onUserInput(Field.INPUT, maxAmountInput.toExact())
+  //   maxAmountInput && onUserInput(LimitNewField.INPUT, maxAmountInput.toExact())
   // }, [maxAmountInput, onUserInput])
 
   const onCurrencySelect = useCallback(
     currency => {
-      if (tokenDrawerType === Field.INPUT) {
+      console.log('123')
+      if (tokenDrawerType === (LimitNewField.INPUT as any)) {
         setApprovalSubmitted(false) // reset 2 step UI for approvals
       }
-      onCurrencySelection(tokenDrawerType, currency)
+      onCurrencySelection(tokenDrawerType as any, currency)
     },
     [tokenDrawerType, onCurrencySelection]
   )
@@ -279,7 +437,7 @@ const LimitOrder = () => {
     [chainId, selectedTokens, whitelistedTokens]
   )
 
-  const showRoute = Boolean(trade && trade?.route?.path?.length > 2)
+  // const showRoute = Boolean(trade && trade?.route?.path?.length > 2)
 
   const renderButton = () => {
     if (!account) {
@@ -289,25 +447,25 @@ const LimitOrder = () => {
         </Button>
       )
     }
-    if (showWrap) {
-      return (
-        <Button variant="primary" isDisabled={Boolean(wrapInputError)} onClick={onWrap}>
-          {wrapInputError ??
-            (wrapType === WrapType.WRAP
-              ? t('swapPage.wrap')
-              : wrapType === WrapType.UNWRAP
-              ? t('swapPage.unwrap')
-              : null)}
-        </Button>
-      )
-    }
-    if (noRoute && userHasSpecifiedInputOutput) {
-      return (
-        <Button variant="primary" isDisabled>
-          {t('swapPage.insufficientLiquidity')}
-        </Button>
-      )
-    }
+    // if (showWrap) {
+    //   return (
+    //     <Button variant="primary" isDisabled={Boolean(wrapInputError)} onClick={onWrap}>
+    //       {wrapInputError ??
+    //         (wrapType === WrapType.WRAP
+    //           ? t('swapPage.wrap')
+    //           : wrapType === WrapType.UNWRAP
+    //           ? t('swapPage.unwrap')
+    //           : null)}
+    //     </Button>
+    //   )
+    // }
+    // if (noRoute && userHasSpecifiedInputOutput) {
+    //   return (
+    //     <Button variant="primary" isDisabled>
+    //       {t('swapPage.insufficientLiquidity')}
+    //     </Button>
+    //   )
+    // }
 
     if (showApproveFlow) {
       return (
@@ -322,7 +480,7 @@ const LimitOrder = () => {
             >
               {approvalSubmitted && approval === ApprovalState.APPROVED
                 ? t('swapPage.approved')
-                : t('swapPage.approve') + currencies[Field.INPUT]?.symbol}
+                : t('swapPage.approve') + currencies[LimitField.INPUT]?.symbol}
             </Button>
           </Box>
 
@@ -333,7 +491,7 @@ const LimitOrder = () => {
                 handleSwap()
               } else {
                 setSwapState({
-                  tradeToConfirm: trade,
+                  tradeToConfirm: trade as any,
                   attemptingTxn: false,
                   swapErrorMessage: undefined,
                   showConfirm: true,
@@ -361,7 +519,7 @@ const LimitOrder = () => {
             handleSwap()
           } else {
             setSwapState({
-              tradeToConfirm: trade,
+              tradeToConfirm: trade as any,
               attemptingTxn: false,
               swapErrorMessage: undefined,
               showConfirm: true,
@@ -370,7 +528,7 @@ const LimitOrder = () => {
           }
         }}
         id="swap-button"
-        isDisabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError || !!swapInputError}
+        isDisabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapInputError}
         backgroundColor={isValid && priceImpactSeverity > 2 ? 'red1' : undefined}
       >
         {swapInputError
@@ -395,7 +553,7 @@ const LimitOrder = () => {
                 .multiply(JSBI.BigInt(value))
                 .divide(JSBI.BigInt(100)) as TokenAmount
 
-              onUserInput(Field.INPUT, newAmount.toExact())
+              onUserInput(LimitNewField.INPUT as any, newAmount.toExact())
             }}
           >
             {value}%
@@ -425,21 +583,32 @@ const LimitOrder = () => {
         tokens={urlLoadedTokens}
         onConfirm={handleConfirmTokenWarning}
       />
+      <Box textAlign="center" width="100%">
+        <ToggleButtons
+          options={['sell', 'buy']}
+          value={activeTab}
+          onChange={value => {
+            handleActiveTab(value)
+          }}
+        />
+      </Box>
       <SwapWrapper>
         <Box p={10}>
           {isAEBToken && <DeprecatedWarning />}
 
           <CurrencyInputTextBox
             label={
-              independentField === Field.OUTPUT && !showWrap && trade ? t('swapPage.fromEstimated') : t('swapPage.from')
+              independentField === (LimitNewField.OUTPUT as any) && trade
+                ? t('swapPage.fromEstimated')
+                : t('swapPage.from')
             }
-            value={formattedAmounts[Field.INPUT]}
+            value={formattedAmounts[LimitField.INPUT]}
             onChange={(value: any) => {
               setSelectedPercentage(0)
               handleTypeInput(value as any)
             }}
             onTokenClick={() => {
-              setTokenDrawerType(Field.INPUT)
+              setTokenDrawerType(LimitNewField.INPUT as any)
               setIsTokenDrawerOpen(true)
             }}
             currency={inputCurrency}
@@ -451,6 +620,26 @@ const LimitOrder = () => {
           />
 
           <Box width="100%" textAlign="center" alignItems="center" display="flex" justifyContent={'center'} mt={10}>
+            <ArrowWrapper>
+              {rateType === Rate.MUL ? (
+                <X size="16" color={currencies.input && currencies.output ? theme.text1 : theme.text3} />
+              ) : (
+                <Divide size="16" color={currencies.input && currencies.output ? theme.text1 : theme.text3} />
+              )}
+            </ArrowWrapper>
+          </Box>
+
+          <Box>
+            <InputText
+              value={formattedAmounts[LimitField.PRICE]}
+              onChange={(value: any) => handleTypeDesiredRate(value as any)}
+              fontSize={24}
+              isNumeric={true}
+              placeholder="0.00"
+              label="Price"
+            />
+          </Box>
+          <Box width="100%" textAlign="center" alignItems="center" display="flex" justifyContent={'center'} mt={10}>
             <ArrowWrapper
               onClick={() => {
                 setApprovalSubmitted(false) // reset 2 step UI for approvals
@@ -460,18 +649,17 @@ const LimitOrder = () => {
               <RefreshCcw size="16" color={theme.text4} />
             </ArrowWrapper>
           </Box>
-
           <CurrencyInputTextBox
             label={
-              independentField === Field.INPUT && !showWrap && trade ? t('swapPage.toEstimated') : t('swapPage.to')
+              independentField === (LimitNewField.INPUT as any) && trade ? t('swapPage.toEstimated') : t('swapPage.to')
             }
-            value={formattedAmounts[Field.OUTPUT]}
+            value={formattedAmounts[LimitField.OUTPUT]}
             onChange={(value: any) => {
               setSelectedPercentage(0)
               handleTypeOutput(value as any)
             }}
             onTokenClick={() => {
-              setTokenDrawerType(Field.OUTPUT)
+              setTokenDrawerType(LimitNewField.OUTPUT as any)
               setIsTokenDrawerOpen(true)
             }}
             currency={outputCurrency}
@@ -488,7 +676,7 @@ const LimitOrder = () => {
             }
           />
 
-          <GridContainer>
+          {/* <GridContainer>
             <Box>
               <Text color="text4">Re-tries</Text>
 
@@ -513,31 +701,33 @@ const LimitOrder = () => {
                 label="Slippage"
               />
             </Box>
-          </GridContainer>
+          </GridContainer> */}
 
-          {trade && <SwapDetailInfo trade={trade} />}
+          {/* {trade && <SwapDetailInfo trade={trade} />} */}
 
           <Box width="100%" mt={10}>
             {renderButton()}
           </Box>
         </Box>
       </SwapWrapper>
-      {trade && showRoute && <SwapRoute trade={trade} />}
+      {/* {trade && showRoute && <SwapRoute trade={trade} />} */}
       {/* Retries Drawer */}
-      <RetryDrawer isOpen={isRetryDrawerOpen} onClose={() => setIsRetryDrawerOpen(false)} />
+      {/* <RetryDrawer isOpen={isRetryDrawerOpen} onClose={() => setIsRetryDrawerOpen(false)} /> */}
       {/* Token Drawer */}
+
       <SelectTokenDrawer
         isOpen={isTokenDrawerOpen}
-        onClose={() => setIsTokenDrawerOpen(false)}
+        onClose={handleSelectTokenDrawerClose}
         onCurrencySelect={onCurrencySelect}
-        selectedCurrency={tokenDrawerType === Field.INPUT ? inputCurrency : outputCurrency}
-        otherSelectedCurrency={tokenDrawerType === Field.INPUT ? outputCurrency : inputCurrency}
+        selectedCurrency={tokenDrawerType === (LimitNewField.INPUT as any) ? inputCurrency : outputCurrency}
+        otherSelectedCurrency={tokenDrawerType === (LimitNewField.INPUT as any) ? outputCurrency : inputCurrency}
       />
+
       {/* Confirm Swap Drawer */}
       {trade && (
         <ConfirmSwapDrawer
           isOpen={showConfirm}
-          trade={trade}
+          trade={trade as any}
           originalTrade={tradeToConfirm}
           onAcceptChanges={handleAcceptChanges}
           attemptingTxn={attemptingTxn}

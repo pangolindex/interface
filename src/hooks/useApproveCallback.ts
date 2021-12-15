@@ -1,6 +1,6 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Trade, TokenAmount, CurrencyAmount, CAVAX, ChainId } from '@pangolindex/sdk'
+import { Trade, TokenAmount, CurrencyAmount, CAVAX, ChainId, Currency } from '@pangolindex/sdk'
 import { useCallback, useMemo } from 'react'
 import { ROUTER_ADDRESS } from '../constants'
 import { useTokenAllowance } from '../data/Allowances'
@@ -10,6 +10,7 @@ import { computeSlippageAdjustedAmounts } from '../utils/prices'
 import { calculateGasMargin } from '../utils'
 import { useTokenContract } from './useContract'
 import { useActiveWeb3React } from './index'
+import { useGelatoLimitOrdersLib } from '@gelatonetwork/limit-orders-react'
 
 export enum ApprovalState {
   UNKNOWN,
@@ -105,4 +106,11 @@ export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) 
     [trade, allowedSlippage]
   )
   return useApproveCallback(amountToApprove, chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE])
+}
+
+// wraps useApproveCallback in the context of a swap
+export function useApproveCallbackFromInputCurrencyAmount(currencyAmountIn: any | undefined) {
+  const gelatoLibrary = useGelatoLimitOrdersLib()
+
+  return useApproveCallback(currencyAmountIn, gelatoLibrary?.erc20OrderRouter.address ?? undefined)
 }

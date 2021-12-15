@@ -1,4 +1,4 @@
-import { CurrencyAmount, CAVAX, JSBI } from '@pangolindex/sdk'
+import { CurrencyAmount, CAVAX, JSBI, Currency } from '@pangolindex/sdk'
 import { MIN_ETH } from '../constants'
 
 /**
@@ -9,6 +9,18 @@ export function maxAmountSpend(currencyAmount?: CurrencyAmount): CurrencyAmount 
   if (!currencyAmount) return undefined
   if (currencyAmount.currency === CAVAX) {
     if (JSBI.greaterThan(currencyAmount.raw, MIN_ETH)) {
+      return CurrencyAmount.ether(JSBI.subtract(currencyAmount.raw, MIN_ETH))
+    } else {
+      return CurrencyAmount.ether(JSBI.BigInt(0))
+    }
+  }
+  return currencyAmount
+}
+
+export function galetoMaxAmountSpend(currencyAmount?: any): any | undefined {
+  if (!currencyAmount) return undefined
+  if (currencyAmount.currency === CAVAX) {
+    if (JSBI.greaterThan(currencyAmount, MIN_ETH)) {
       return CurrencyAmount.ether(JSBI.subtract(currencyAmount.raw, MIN_ETH))
     } else {
       return CurrencyAmount.ether(JSBI.BigInt(0))

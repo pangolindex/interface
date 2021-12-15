@@ -218,6 +218,11 @@ const MarketOrder = () => {
       })
   }, [tradeToConfirm, account, priceImpactWithoutFee, recipient, recipientAddress, showConfirm, swapCallback, trade])
 
+
+  const handleSelectTokenDrawerClose = useCallback(() => {
+    setIsTokenDrawerOpen(false)
+  }, [setIsTokenDrawerOpen])
+
   // errors
   // const [showInverted, setShowInverted] = useState<boolean>(false)
 
@@ -498,7 +503,7 @@ const MarketOrder = () => {
       {/* Token Drawer */}
       <SelectTokenDrawer
         isOpen={isTokenDrawerOpen}
-        onClose={() => setIsTokenDrawerOpen(false)}
+        onClose={handleSelectTokenDrawerClose}
         onCurrencySelect={onCurrencySelect}
         selectedCurrency={tokenDrawerType === Field.INPUT ? inputCurrency : outputCurrency}
         otherSelectedCurrency={tokenDrawerType === Field.INPUT ? outputCurrency : inputCurrency}
