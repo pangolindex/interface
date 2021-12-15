@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { createChart, IChartApi } from 'lightweight-charts'
 import styled from 'styled-components'
-import { useDarkModeManager } from '../../../state/user/hooks'
+import { useDarkModeManager } from 'src/state/user/hooks'
 
 const WIDTH = 740
 const HEIGHT = 415
