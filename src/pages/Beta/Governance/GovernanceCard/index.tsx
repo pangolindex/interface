@@ -6,7 +6,7 @@ import { Card, CardTitle, CardButtons, DetailsButton, VoteButton } from './style
 export interface GovernanceCardProps {
   title?: string
   detailLink?: string
-  voteStatus?: string
+  voteStatus: string
   voteLink?: string
 }
 
@@ -25,7 +25,9 @@ const GovernanceCard = ({ title, detailLink, voteStatus, voteLink }: GovernanceC
       </CardTitle>
       <CardButtons>
         <DetailsButton variant="outline">{t('governancePage.details')}</DetailsButton>
-        <VoteButton variant="primary">Vote</VoteButton>
+        <VoteButton variant="primary" bg={voteStatus}>
+          {voteStatus}
+        </VoteButton>
       </CardButtons>
     </Card>
   )

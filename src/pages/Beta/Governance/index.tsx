@@ -23,12 +23,12 @@ const GovernanceUI = () => {
             risus pretium, vestibulum nulla ut
           </Text>
         </About>
-        <GovernanceCard />
-        <GovernanceCard />
-        <GovernanceCard />
-        <GovernanceCard />
-        <GovernanceCard />
-        <GovernanceCard />
+        <GovernanceCard voteStatus="Vote" />
+        <GovernanceCard voteStatus="Vote" />
+        <GovernanceCard voteStatus="Executed" />
+        <GovernanceCard voteStatus="Executed" />
+        <GovernanceCard voteStatus="Rejected" />
+        <GovernanceCard voteStatus="Executed" />
       </ContentWrapper>
     </PageWrapper>
   )
