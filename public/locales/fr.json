@@ -416,7 +416,18 @@
     "velox": "Définissez un ordre limité sur <1>Velox</1>",
     "marginSwap": "Tradez avec levier sur <1>MarginSwap</1>",
     "wowSwap": " ou <1>WOWswap</1>",
-    "veeFinance": " ou <1>Vee Finance</1>"
+    "veeFinance": " ou <1>Vee Finance</1>",
+    "gelatoFee": "Gelato Frais",
+    "placeOrder": "Passer la commande",
+    "confirmOrder": "Confirmer la commande",
+    "for" : "pour",
+    "submittingOrderToSwap": "Soumission de la commande pour échanger",
+    "limitPrice": "Prix ​​limite",
+    "outputWillBeSentTo": "La sortie sera envoyée à",
+    "sell": "vendre",
+    "buy": "acheter",
+    "betaRelease": "Ceci est une version BETA et doit être utilisé à vos risques et périls !",
+    "trade": "Échanger"
   },
   "buyPage": {
     "buyAvaxInfo": "Achetez AVAX avec monnaie fiat chez notre partenaire Wyre.",

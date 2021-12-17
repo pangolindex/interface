@@ -9,7 +9,8 @@ export const Root = styled(Box)`
 `
 
 export const SwapWrapper = styled(Box)`
-  border-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   width: 100%;
   min-width: 360px;
   background-color: ${({ theme }) => theme.bg2};
