@@ -81,13 +81,15 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
       ? CAVAX
       : inputTokenInfo && inputTokenInfo.symbol === CAVAX.symbol
       ? CAVAX
-      : new Token(
+      : inputTokenInfo
+      ? new Token(
           inputTokenInfo?.chainId,
           inputTokenInfo?.address,
           inputTokenInfo?.decimals,
           inputTokenInfo?.symbol,
           inputTokenInfo?.name
         )
+      : undefined
 
   const outputCurrency =
     gelatoOutputCurrency && gelatoOutputCurrency?.symbol === CAVAX.symbol
