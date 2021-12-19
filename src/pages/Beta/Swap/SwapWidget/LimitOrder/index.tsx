@@ -70,14 +70,14 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const recipient = account ?? null
   const isValid = !swapInputError
 
-  const inputCurrency1 = currencies[LimitField.INPUT] as any
-  const outputCurrency1 = currencies[LimitField.OUTPUT] as any
+  const gelatoInputCurrency = currencies[LimitField.INPUT] as any
+  const gelatoOutputCurrency = currencies[LimitField.OUTPUT] as any
 
-  const inputTokenInfo = inputCurrency1?.tokenInfo
-  const outputTokenInfo = outputCurrency1?.tokenInfo
+  const inputTokenInfo = gelatoInputCurrency?.tokenInfo
+  const outputTokenInfo = gelatoOutputCurrency?.tokenInfo
 
   const inputCurrency =
-    inputCurrency1 && inputCurrency1?.symbol === CAVAX.symbol
+    gelatoInputCurrency && gelatoInputCurrency?.symbol === CAVAX.symbol
       ? CAVAX
       : inputTokenInfo && inputTokenInfo.symbol === CAVAX.symbol
       ? CAVAX
@@ -90,7 +90,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
         )
 
   const outputCurrency =
-    outputCurrency1 && outputCurrency1?.symbol === CAVAX.symbol
+    gelatoOutputCurrency && gelatoOutputCurrency?.symbol === CAVAX.symbol
       ? CAVAX
       : outputTokenInfo && outputTokenInfo?.symbol === CAVAX.symbol
       ? CAVAX
