@@ -16,3 +16,15 @@ export function maxAmountSpend(currencyAmount?: CurrencyAmount): CurrencyAmount 
   }
   return currencyAmount
 }
+
+export function galetoMaxAmountSpend(currencyAmount?: any): any | undefined {
+  if (!currencyAmount) return undefined
+  if (currencyAmount.currency === CAVAX) {
+    if (JSBI.greaterThan(currencyAmount, MIN_ETH)) {
+      return CurrencyAmount.ether(JSBI.subtract(currencyAmount.raw, MIN_ETH))
+    } else {
+      return CurrencyAmount.ether(JSBI.BigInt(0))
+    }
+  }
+  return currencyAmount
+}

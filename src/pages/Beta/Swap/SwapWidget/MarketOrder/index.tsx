@@ -39,8 +39,14 @@ import {
   PValue
 } from './styled'
 import { RowBetween } from 'src/components/Row'
+import TradeOption from '../TradeOption'
 
-const MarketOrder = () => {
+interface Props {
+  swapType: string
+  setSwapType: (value: string) => void
+}
+
+const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const [isRetryDrawerOpen, setIsRetryDrawerOpen] = useState(false)
   const [isTokenDrawerOpen, setIsTokenDrawerOpen] = useState(false)
   const [selectedPercentage, setSelectedPercentage] = useState(0)
@@ -217,6 +223,10 @@ const MarketOrder = () => {
         })
       })
   }, [tradeToConfirm, account, priceImpactWithoutFee, recipient, recipientAddress, showConfirm, swapCallback, trade])
+
+  const handleSelectTokenDrawerClose = useCallback(() => {
+    setIsTokenDrawerOpen(false)
+  }, [setIsTokenDrawerOpen])
 
   // errors
   // const [showInverted, setShowInverted] = useState<boolean>(false)
@@ -404,19 +414,7 @@ const MarketOrder = () => {
 
   return (
     <Root>
-      {/* <ConfirmSwapModal
-        isOpen={showConfirm}
-        trade={trade}
-        originalTrade={tradeToConfirm}
-        onAcceptChanges={handleAcceptChanges}
-        attemptingTxn={attemptingTxn}
-        txHash={txHash}
-        recipient={recipient}
-        allowedSlippage={allowedSlippage}
-        onConfirm={handleSwap}
-        swapErrorMessage={swapErrorMessage}
-        onDismiss={handleConfirmDismiss}
-      /> */}
+      <TradeOption swapType={swapType} setSwapType={setSwapType} />
       <TokenWarningModal
         isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning && !urlLoadedTokens.every(isTrustedToken)}
         tokens={urlLoadedTokens}
@@ -479,7 +477,7 @@ const MarketOrder = () => {
             addonLabel={
               tradePrice && (
                 <Text color="text4" fontSize={16}>
-                  Price: {tradePrice?.toSignificant(6)} {tradePrice?.quoteCurrency?.symbol}
+                  {t('swapPage.price')}: {tradePrice?.toSignificant(6)} {tradePrice?.quoteCurrency?.symbol}
                 </Text>
               )
             }
@@ -498,7 +496,7 @@ const MarketOrder = () => {
       {/* Token Drawer */}
       <SelectTokenDrawer
         isOpen={isTokenDrawerOpen}
-        onClose={() => setIsTokenDrawerOpen(false)}
+        onClose={handleSelectTokenDrawerClose}
         onCurrencySelect={onCurrencySelect}
         selectedCurrency={tokenDrawerType === Field.INPUT ? inputCurrency : outputCurrency}
         otherSelectedCurrency={tokenDrawerType === Field.INPUT ? outputCurrency : inputCurrency}
