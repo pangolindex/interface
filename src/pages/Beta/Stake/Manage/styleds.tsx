@@ -2,9 +2,9 @@ import { Box, Button } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const Card = styled(Box)`
-  width: 480px;
-  padding: 25px;
-  border-radius: 10px;
+  width: 550px;
+  padding: 20px 35px 30px;
+  border-radius: 20px;
   background: ${({ theme }) => theme.bg2};
   margin-right: 22px;
 
@@ -27,7 +27,6 @@ export const CardHeader = styled(Box)`
   justify-content: space-between;
   align-items: center;
   padding-bottom: 30px;
-  border-bottom: 1px solid ${({ theme }) => theme.text8};
 `
 
 export const CardColumn = styled(Box)<{ width?: string }>`
@@ -67,7 +66,7 @@ export const StakeButton = styled(Button)`
 
 export const DetailButton = styled(Button)`
   border: solid 1px ${({ theme }) => theme.text1} !important;
-  margin-right: 22px;
+  margin-left: 10px;
   height: 46px;
   border-radius: 4px !important;
 `

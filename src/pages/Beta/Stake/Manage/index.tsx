@@ -15,6 +15,7 @@ import { useCurrency } from 'src/hooks/Tokens'
 // import usePrevious from 'src/hooks/usePrevious'
 import { wrappedCurrency } from 'src/utils/wrappedCurrency'
 import { PNG } from 'src/constants'
+import TokenAmount from '../TokenAmount'
 
 export interface PoolManageProps {
   rewardCurrencyId: string
@@ -59,36 +60,43 @@ const PoolManage = () => {
   // }, [account, toggleWalletModal])
 
   return (
-    <Card>
-      <CardHeader>
-        <CurrencyLogo size="58px" currency={png} />
-        <CurrencyLogo size="58px" currency={stakingInfo.rewardToken} />
-      </CardHeader>
-      <CardStats>
-        <CardColumn width="40%">
-          <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
-            {t('stakePage.totalStaked')}
-          </Text>
-          <Text fontSize={31} fontWeight={500} lineHeight="47px" color="text1">
-            {`${stakingInfo.totalStakedInPng.toSignificant(4, { groupSeparator: ',' }) ?? '-'} PNG`}
-          </Text>
-        </CardColumn>
-        <CardColumn>
-          <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
-            {t('stakePage.apr')}
-          </Text>
-          <Text fontSize={31} fontWeight={500} lineHeight="47px" color="text1">
-            {JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0)) && !stakingInfo.isPeriodFinished
-              ? `${stakingInfo.apr.toLocaleString()}%`
-              : ' - '}
-          </Text>
-        </CardColumn>
-      </CardStats>
-      <CardButtons>
-        <StakeButton variant="primary">{t('earnPage.stake', { symbol: 'PNG' })}</StakeButton>
-        <DetailButton variant="outline">{t('earnPage.unstake')}</DetailButton>
-      </CardButtons>
-    </Card>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+      <Text fontSize={32} fontWeight={600} lineHeight="48px" color="text1" style={{ padding: '20px' }}>
+        {t('earnPage.pngStaking')}
+      </Text>
+      <Card>
+        <CardHeader>
+          <CurrencyLogo size="40px" currency={png} />
+          <CurrencyLogo size="40px" currency={stakingInfo.rewardToken} />
+        </CardHeader>
+        <CardStats>
+          <CardColumn width="40%">
+            <Text fontSize={16} fontWeight={600} lineHeight="24px" color="text1">
+              {t('stakePage.totalStaked')}
+            </Text>
+            <Text fontSize={24} fontWeight={400} lineHeight="36px" color="text1">
+              {`${stakingInfo.totalStakedInPng.toSignificant(4, { groupSeparator: ',' }) ?? '-'} PNG`}
+            </Text>
+          </CardColumn>
+          <CardColumn>
+            <Text fontSize={16} fontWeight={600} lineHeight="24px" color="text1">
+              {t('stakePage.apr')}
+            </Text>
+            <Text fontSize={24} fontWeight={400} lineHeight="36px" color="text1">
+              {JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0)) && !stakingInfo.isPeriodFinished
+                ? `${stakingInfo.apr.toLocaleString()}%`
+                : ' - '}
+            </Text>
+          </CardColumn>
+        </CardStats>
+        <TokenAmount label="Your staked PNG" symbol="PNG" amount={8849.11} />
+        <TokenAmount label="Your unclaimed ORBS" symbol="ORBS" amount={8849.11} cycle="Week" cycleReward={526.2} />
+        <CardButtons>
+          <StakeButton variant="primary">{t('earnPage.stake', { symbol: 'PNG' })}</StakeButton>
+          <DetailButton variant="outline">{t('earnPage.unstake')}</DetailButton>
+        </CardButtons>
+      </Card>
+    </div>
   )
 }
 export default PoolManage
