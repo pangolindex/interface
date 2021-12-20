@@ -1,9 +1,10 @@
 import React from 'react'
-import { PageWrapper, ChartWrapper, GridContainer, TopContainer, StatsWrapper } from './styleds'
+import { PageWrapper, GridContainer, TopContainer, StatsWrapper } from './styleds'
 import MyPortfolio from './MyPortfolio'
 import WatchList from './WatchList'
 import PairStat from './PairStat'
-import Swap from './Swap'
+import SwapWidget from './SwapWidget'
+import PairChart from './PairChart'
 
 const SwapUI = () => {
   return (
@@ -11,9 +12,9 @@ const SwapUI = () => {
       <TopContainer>
         <StatsWrapper>
           <PairStat />
-          <ChartWrapper>Chart</ChartWrapper>
+          <PairChart />
         </StatsWrapper>
-        <Swap />
+        <SwapWidget />
       </TopContainer>
       <GridContainer>
         <MyPortfolio />

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react'
+import React, { useMemo, useState, useCallback, useEffect, useRef, memo } from 'react'
 import { TextInput, Box, Text } from '@pangolindex/components'
 import Drawer from '../Drawer'
 import { useAllTokens, useToken } from 'src/hooks/Tokens'
@@ -27,13 +27,8 @@ const currencyKey = (currency: Currency): string => {
   return currency instanceof Token ? currency.address : currency === CAVAX ? 'AVAX' : ''
 }
 
-const SelectTokenDrawer: React.FC<Props> = ({
-  isOpen,
-  onClose,
-  onCurrencySelect,
-  otherSelectedCurrency,
-  selectedCurrency
-}) => {
+const SelectTokenDrawer: React.FC<Props> = props => {
+  const { isOpen, onClose, onCurrencySelect, otherSelectedCurrency, selectedCurrency } = props
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [isTokenListOpen, setIsTokenListOpen] = useState<boolean>(false)
   const [invertSearchOrder] = useState<boolean>(false)
@@ -89,28 +84,32 @@ const SelectTokenDrawer: React.FC<Props> = ({
 
   const currencies = useMemo(() => [Currency.CAVAX, ...filteredSortedTokens], [filteredSortedTokens])
 
+  const onSelect = useCallback(
+    currency => {
+      onCurrencySelect(currency)
+      onClose()
+    },
+    [onCurrencySelect, onClose]
+  )
+
   const Row = useCallback(
     ({ data, index, style }) => {
       const currency: Currency = data?.[index]
-
       const isSelected = Boolean(selectedCurrency && currencyEquals(selectedCurrency, currency))
       const otherSelected = Boolean(otherSelectedCurrency && currencyEquals(otherSelectedCurrency, currency))
-      const handleSelect = () => onCurrencySelect(currency)
+
       return currency ? (
         <CurrencyRow
           style={style}
           currency={currency}
           isSelected={isSelected}
-          onSelect={() => {
-            handleSelect()
-            onClose()
-          }}
+          onSelect={onSelect}
           otherSelected={otherSelected}
         />
       ) : null
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selectedCurrency, otherSelectedCurrency, onCurrencySelect]
+    [selectedCurrency, otherSelectedCurrency, onCurrencySelect, onClose]
   )
 
   return (
@@ -177,4 +176,16 @@ const SelectTokenDrawer: React.FC<Props> = ({
     </Drawer>
   )
 }
-export default SelectTokenDrawer
+export default memo(SelectTokenDrawer, (prevProps, nextProps) => {
+  const isEqual =
+    prevProps.isOpen === nextProps.isOpen &&
+    prevProps.onClose === nextProps.onClose &&
+    prevProps.onCurrencySelect === nextProps.onCurrencySelect &&
+    (!!prevProps.selectedCurrency && !!nextProps.selectedCurrency
+      ? prevProps.selectedCurrency.symbol === nextProps.selectedCurrency.symbol
+      : true) &&
+    (!!prevProps.otherSelectedCurrency && !!nextProps.otherSelectedCurrency
+      ? prevProps.otherSelectedCurrency.symbol === nextProps.otherSelectedCurrency.symbol
+      : true)
+  return isEqual
+})

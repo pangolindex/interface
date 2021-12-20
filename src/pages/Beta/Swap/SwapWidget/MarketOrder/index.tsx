@@ -1,12 +1,12 @@
 import React, { useState, useContext, useCallback, useMemo, useEffect } from 'react'
 import ReactGA from 'react-ga'
-import { RefreshCcw, ChevronDown } from 'react-feather'
-import { Text, Box, Button, ToggleButtons } from '@pangolindex/components'
-import { Token, Trade, JSBI } from '@pangolindex/sdk'
+import { RefreshCcw } from 'react-feather'
+import { Text, Box, Button } from '@pangolindex/components'
+import { Token, Trade, JSBI, CurrencyAmount, TokenAmount } from '@pangolindex/sdk'
 import { ThemeContext } from 'styled-components'
-import RetryDrawer from '../RetryDrawer'
-import SelectTokenDrawer from '../SelectTokenDrawer'
-import ConfirmSwapDrawer from '../ConfirmSwapDrawer'
+import RetryDrawer from '../../RetryDrawer'
+import SelectTokenDrawer from '../../SelectTokenDrawer'
+import ConfirmSwapDrawer from '../../ConfirmSwapDrawer'
 import { useDerivedSwapInfo, useSwapActionHandlers, useSwapState, useDefaultsFromURLSearch } from 'src/state/swap/hooks'
 import { Field } from 'src/state/swap/actions'
 import { useCurrency } from 'src/hooks/Tokens'
@@ -18,7 +18,7 @@ import { ApprovalState, useApproveCallbackFromTrade } from 'src/hooks/useApprove
 import { useActiveWeb3React } from 'src/hooks'
 import { useWalletModalToggle } from 'src/state/application/hooks'
 import { useExpertModeManager, useUserSlippageTolerance } from 'src/state/user/hooks'
-// import { maxAmountSpend } from 'src/utils/maxAmountSpend'
+import { maxAmountSpend } from 'src/utils/maxAmountSpend'
 import { useSwapCallback } from 'src/hooks/useSwapCallback'
 import { computeTradePriceBreakdown, warningSeverity } from 'src/utils/prices'
 import confirmPriceImpactWithoutFee from 'src/components/swap/confirmPriceImpactWithoutFee'
@@ -28,26 +28,31 @@ import { TRUSTED_TOKEN_ADDRESSES } from 'src/constants'
 import { isTokenOnList } from 'src/utils'
 import TokenWarningModal from 'src/components/TokenWarningModal'
 import { DeprecatedWarning } from 'src/components/Warning'
-import SwapDetailInfo from '../SwapDetailInfo'
-import SwapRoute from '../SwapRoute'
+import SwapDetailInfo from '../../SwapDetailInfo'
+import SwapRoute from '../../SwapRoute'
 import {
   Root,
   SwapWrapper,
-  SwapAlertBox,
   CurrencyInputTextBox,
-  ReTriesWrapper,
-  InputText,
-  GridContainer,
-  ArrowWrapper
+  ArrowWrapper,
   // AddARecipient
+  PValue
 } from './styled'
 import { RowBetween } from 'src/components/Row'
+import TradeOption from '../TradeOption'
 
-const Swap = () => {
-  const [swapType, setSwapType] = useState('MARKET' as string)
+interface Props {
+  swapType: string
+  setSwapType: (value: string) => void
+}
+
+const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const [isRetryDrawerOpen, setIsRetryDrawerOpen] = useState(false)
   const [isTokenDrawerOpen, setIsTokenDrawerOpen] = useState(false)
+  const [selectedPercentage, setSelectedPercentage] = useState(0)
   const [tokenDrawerType, setTokenDrawerType] = useState(Field.INPUT)
+
+  const percentageValue = [25, 50, 75, 100]
 
   const loadedUrlParams = useDefaultsFromURLSearch()
   const { t } = useTranslation()
@@ -84,7 +89,7 @@ const Swap = () => {
   const {
     v1Trade,
     v2Trade,
-    // currencyBalances,
+    currencyBalances,
     parsedAmount,
     currencies,
     inputError: swapInputError
@@ -178,7 +183,7 @@ const Swap = () => {
     }
   }, [approval, approvalSubmitted])
 
-  // const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
+  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
 
   // the callback to execute the swap
   const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(trade, allowedSlippage, recipient)
@@ -218,6 +223,10 @@ const Swap = () => {
         })
       })
   }, [tradeToConfirm, account, priceImpactWithoutFee, recipient, recipientAddress, showConfirm, swapCallback, trade])
+
+  const handleSelectTokenDrawerClose = useCallback(() => {
+    setIsTokenDrawerOpen(false)
+  }, [setIsTokenDrawerOpen])
 
   // errors
   // const [showInverted, setShowInverted] = useState<boolean>(false)
@@ -380,43 +389,39 @@ const Swap = () => {
     )
   }
 
+  const renderPercentage = () => {
+    return (
+      <Box display="flex" pb="5px">
+        {percentageValue.map((value, index) => (
+          <PValue
+            key={index}
+            isActive={selectedPercentage === value}
+            onClick={() => {
+              setSelectedPercentage(value)
+              const newAmount = (maxAmountInput as TokenAmount)
+                .multiply(JSBI.BigInt(value))
+                .divide(JSBI.BigInt(100)) as TokenAmount
+
+              onUserInput(Field.INPUT, newAmount.toExact())
+            }}
+          >
+            {value}%
+          </PValue>
+        ))}
+      </Box>
+    )
+  }
+
   return (
     <Root>
-      {/* <ConfirmSwapModal
-        isOpen={showConfirm}
-        trade={trade}
-        originalTrade={tradeToConfirm}
-        onAcceptChanges={handleAcceptChanges}
-        attemptingTxn={attemptingTxn}
-        txHash={txHash}
-        recipient={recipient}
-        allowedSlippage={allowedSlippage}
-        onConfirm={handleSwap}
-        swapErrorMessage={swapErrorMessage}
-        onDismiss={handleConfirmDismiss}
-      /> */}
+      <TradeOption swapType={swapType} setSwapType={setSwapType} />
       <TokenWarningModal
         isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning && !urlLoadedTokens.every(isTrustedToken)}
         tokens={urlLoadedTokens}
         onConfirm={handleConfirmTokenWarning}
       />
       <SwapWrapper>
-        <SwapAlertBox>This is a BETA release and should be used at your own risk!</SwapAlertBox>
-
         <Box p={10}>
-          <Box display="flex" alignItems="center" justifyContent="space-between">
-            <Text color="text1" fontSize={24} fontWeight={500}>
-              Trade
-            </Text>
-            <ToggleButtons
-              options={['MARKET', 'LIMIT']}
-              value={swapType}
-              onChange={value => {
-                setSwapType(value)
-              }}
-            />
-          </Box>
-
           {isAEBToken && <DeprecatedWarning />}
 
           <CurrencyInputTextBox
@@ -424,7 +429,10 @@ const Swap = () => {
               independentField === Field.OUTPUT && !showWrap && trade ? t('swapPage.fromEstimated') : t('swapPage.from')
             }
             value={formattedAmounts[Field.INPUT]}
-            onChange={handleTypeInput as any}
+            onChange={(value: any) => {
+              setSelectedPercentage(0)
+              handleTypeInput(value as any)
+            }}
             onTokenClick={() => {
               setTokenDrawerType(Field.INPUT)
               setIsTokenDrawerOpen(true)
@@ -434,6 +442,7 @@ const Swap = () => {
             isNumeric={true}
             placeholder="0.00"
             id="swap-currency-input"
+            addonLabel={renderPercentage()}
           />
 
           <Box width="100%" textAlign="center" alignItems="center" display="flex" justifyContent={'center'} mt={10}>
@@ -452,7 +461,10 @@ const Swap = () => {
               independentField === Field.INPUT && !showWrap && trade ? t('swapPage.toEstimated') : t('swapPage.to')
             }
             value={formattedAmounts[Field.OUTPUT]}
-            onChange={handleTypeOutput as any}
+            onChange={(value: any) => {
+              setSelectedPercentage(0)
+              handleTypeOutput(value as any)
+            }}
             onTokenClick={() => {
               setTokenDrawerType(Field.OUTPUT)
               setIsTokenDrawerOpen(true)
@@ -465,40 +477,11 @@ const Swap = () => {
             addonLabel={
               tradePrice && (
                 <Text color="text4" fontSize={16}>
-                  Price: {tradePrice?.toSignificant(6)} {tradePrice?.quoteCurrency?.symbol}
+                  {t('swapPage.price')}: {tradePrice?.toSignificant(6)} {tradePrice?.quoteCurrency?.symbol}
                 </Text>
               )
             }
           />
-
-          {swapType === 'LIMIT' && (
-            <GridContainer>
-              <Box>
-                <Text color="text4">Re-tries</Text>
-
-                <ReTriesWrapper
-                  onClick={() => {
-                    setIsRetryDrawerOpen(true)
-                  }}
-                >
-                  1
-                  <Box ml={10}>
-                    <ChevronDown size={14} color={theme.text4} />
-                  </Box>
-                </ReTriesWrapper>
-              </Box>
-              <Box>
-                <InputText
-                  value={''}
-                  onChange={(value: any) => {}}
-                  fontSize={24}
-                  isNumeric={true}
-                  placeholder="0.10%"
-                  label="Slippage"
-                />
-              </Box>
-            </GridContainer>
-          )}
 
           {trade && <SwapDetailInfo trade={trade} />}
 
@@ -513,7 +496,7 @@ const Swap = () => {
       {/* Token Drawer */}
       <SelectTokenDrawer
         isOpen={isTokenDrawerOpen}
-        onClose={() => setIsTokenDrawerOpen(false)}
+        onClose={handleSelectTokenDrawerClose}
         onCurrencySelect={onCurrencySelect}
         selectedCurrency={tokenDrawerType === Field.INPUT ? inputCurrency : outputCurrency}
         otherSelectedCurrency={tokenDrawerType === Field.INPUT ? outputCurrency : inputCurrency}
@@ -537,4 +520,4 @@ const Swap = () => {
     </Root>
   )
 }
-export default Swap
+export default MarketOrder

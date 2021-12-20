@@ -416,7 +416,18 @@
     "velox": "<1>Velox</1>'da limit emriyle al-sat",
     "marginSwap": "<1>MarginSwap</1>",
     "wowSwap": " veya <1>WOWswap</1>'de kaldıraçla işlem yapın",
-    "veeFinance": " veya <1>Vee Finance</1>'de kaldıraçla işlem yapın"
+    "veeFinance": " veya <1>Vee Finance</1>'de kaldıraçla işlem yapın",
+    "gelatoFee": "Gelato Ücret",
+    "placeOrder": "Sipariş Vermek",
+    "confirmOrder": "Sipariş onaylamak",
+    "for" : "için",
+    "submittingOrderToSwap": "Takas için sipariş gönderiliyor",
+    "limitPrice": "Limit Fiyatı",
+    "outputWillBeSentTo": "çıktı gönderilecek",
+    "sell": "satmak",
+    "buy": "satın almak",
+    "betaRelease": "Bu bir BETA sürümüdür ve riski size ait olmak üzere kullanılmalıdır!",
+    "trade": "Ticaret"
   },
   "buyPage": {
     "buyAvaxInfo": "Ortağımız Wyre aracılığıyla AVAX satın alın.",

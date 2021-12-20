@@ -416,7 +416,18 @@
     "velox": "Đặt lệnh giới hạn trên  <1>Velox</1>",
     "marginSwap": "Hoán đổi với đòn bẩy trên <1>MarginSwap</1>",
     "wowSwap": " hoặc <1>WOWswap</1>",
-    "veeFinance": " hoặc <1>Vee Finance</1>"
+    "veeFinance": " hoặc <1>Vee Finance</1>",
+    "gelatoFee": "Gelato Học phí",
+    "placeOrder": "Đặt hàng",
+    "confirmOrder": "Xác nhận đơn hàng",
+    "for" : "vì",
+    "submittingOrderToSwap": "Gửi đơn đặt hàng để hoán đổi",
+    "limitPrice": "Giá giới hạn",
+    "outputWillBeSentTo": "Đầu ra sẽ được gửi đến",
+    "sell": "sell",
+    "buy": "mua",
+    "betaRelease": "Đây là bản phát hành BETA và bạn nên tự chịu rủi ro khi sử dụng!",
+    "trade": "Buôn bán"
   },
   "buyPage": {
     "buyAvaxInfo": "Mua AVAX bằng fiat từ đối tác Wyre của chúng tôi.",

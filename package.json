@@ -8,7 +8,8 @@
   "private": true,
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
-    "@pangolindex/components": "1.0.7-rc.5",
+    "@gelatonetwork/limit-orders-react": "^2.1.0",
+    "@pangolindex/components": "1.0.7-rc.7",
     "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.2.0",
     "@pangolindex/sdk": "1.1.0",
@@ -93,6 +94,7 @@
     "react-scripts": "^3.4.1",
     "react-slick": "^0.28.1",
     "react-spring": "^8.0.27",
+    "react-use": "^15.3.8",
     "react-use-gesture": "^6.0.14",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.5",
