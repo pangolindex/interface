@@ -554,6 +554,9 @@
   "governancePage": {
     "pangolinGovernance": "Pangolin Governance",
     "about": "About",
-    "details": "Details"
+    "details": "Details",
+    "vote": "Vote",
+    "executed": "Executed",
+    "rejected": "Rejected"
   }
 }

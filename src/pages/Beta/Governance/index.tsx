@@ -9,7 +9,7 @@ const GovernanceUI = () => {
 
   return (
     <PageWrapper>
-      <PageTitle>Pangolin Governance</PageTitle>
+      <PageTitle>{t('governancePage.pangolinGovernance')}</PageTitle>
       <ContentWrapper>
         <About>
           <Text fontSize={28} fontWeight={800} lineHeight="33px" color="text1" style={{ marginBottom: '14px' }}>
@@ -23,12 +23,10 @@ const GovernanceUI = () => {
             risus pretium, vestibulum nulla ut
           </Text>
         </About>
-        <GovernanceCard voteStatus="Vote" />
-        <GovernanceCard voteStatus="Vote" />
-        <GovernanceCard voteStatus="Executed" />
-        <GovernanceCard voteStatus="Executed" />
-        <GovernanceCard voteStatus="Rejected" />
-        <GovernanceCard voteStatus="Executed" />
+        <GovernanceCard voteStatus={t('governancePage.vote')} />
+        <GovernanceCard voteStatus={t('governancePage.vote')} />
+        <GovernanceCard voteStatus={t('governancePage.rejected')} />
+        <GovernanceCard voteStatus={t('governancePage.executed')} />
       </ContentWrapper>
     </PageWrapper>
   )

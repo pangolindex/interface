@@ -36,7 +36,7 @@ export const VoteButton = styled(Button)<{ bg: string }>`
   // border: solid 1px ${({ theme }) => theme.text1} !important;
   background-color: ${props => {
     if (props.bg === 'Vote') {
-      return 'rgba(230, 120, 38, 0.3)'
+      return '#E67826'
     } else if (props.bg === 'Executed') {
       return 'rgba(24, 193, 69, 0.3)'
     } else if (props.bg === 'Rejected') {
