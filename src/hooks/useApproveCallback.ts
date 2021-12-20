@@ -25,6 +25,7 @@ export function useApproveCallback(
   spender?: string
 ): [ApprovalState, () => Promise<void>] {
   const { account } = useActiveWeb3React()
+
   const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined
   const currentAllowance = useTokenAllowance(token, account ?? undefined, spender)
   const pendingApproval = useHasPendingApproval(token?.address, spender)
@@ -112,5 +113,9 @@ export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) 
 export function useApproveCallbackFromInputCurrencyAmount(currencyAmountIn: any | undefined) {
   const gelatoLibrary = useGelatoLimitOrdersLib()
 
-  return useApproveCallback(currencyAmountIn, gelatoLibrary?.erc20OrderRouter.address ?? undefined)
+  const newCurrencyAmountIn = currencyAmountIn
+    ? new TokenAmount(currencyAmountIn?.currency, currencyAmountIn?.numerator)
+    : undefined
+
+  return useApproveCallback(newCurrencyAmountIn, gelatoLibrary?.erc20OrderRouter.address ?? undefined)
 }

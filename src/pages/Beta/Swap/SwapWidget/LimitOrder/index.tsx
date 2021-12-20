@@ -35,7 +35,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const [isTokenDrawerOpen, setIsTokenDrawerOpen] = useState(false)
   const [selectedPercentage, setSelectedPercentage] = useState(0)
   const [tokenDrawerType, setTokenDrawerType] = useState(LimitNewField.INPUT)
-  const [activeTab, setActiveTab] = useState<'sell' | 'buy'>('sell')
+  const [activeTab, setActiveTab] = useState<'SELL' | 'BUY'>('SELL')
 
   const { account } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
@@ -106,7 +106,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
         )
       : undefined
 
-  const handleActiveTab = (tab: 'sell' | 'buy') => {
+  const handleActiveTab = (tab: 'SELL' | 'BUY') => {
     if (activeTab === tab) return
 
     handleRateType(rateType, price)
@@ -257,6 +257,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
 
   // show approve flow when: no error on inputs, not approved or pending, or approved in current session
   // never show if price impact is above threshold in non expert mode
+
   const showApproveFlow =
     !swapInputError &&
     (approval === ApprovalState.NOT_APPROVED ||
@@ -280,9 +281,16 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
       if (tokenDrawerType === (LimitNewField.INPUT as any)) {
         setApprovalSubmitted(false) // reset 2 step UI for approvals
       }
+
       // here need to add isToken because in Galato hook require this variable to select currency
-      currency.isToken = true
-      onCurrencySelection(tokenDrawerType as any, currency)
+      const newCurrency = { ...currency }
+      if (currency?.symbol === CAVAX.symbol) {
+        newCurrency.isNative = true
+      } else {
+        newCurrency.isToken = true
+      }
+
+      onCurrencySelection(tokenDrawerType as any, newCurrency)
     },
     [tokenDrawerType, onCurrencySelection]
   )
