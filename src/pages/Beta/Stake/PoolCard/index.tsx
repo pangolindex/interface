@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { Card, CardHeader, CardColumn, CardStats, CardButtons, TokenName, DetailButton, StakeButton } from './styleds'
 import { SingleSideStaking, SingleSideStakingInfo } from 'src/state/stake/hooks'
 import CurrencyLogo from 'src/components/CurrencyLogo'
+import { StyledInternalLink } from 'src/theme'
+import { currencyId } from 'src/utils/currencyId'
 
 export interface PoolCardProps {
   stakingInfo: SingleSideStakingInfo
@@ -45,7 +47,12 @@ const PoolCard = ({ stakingInfo, version }: PoolCardProps) => {
       </CardStats>
       <CardButtons>
         <DetailButton variant="outline"> {t('stakePage.seeDetails')}</DetailButton>
-        <StakeButton variant="primary"> {t('stakePage.stake')}</StakeButton>
+        <StyledInternalLink
+          to={`${version}/${currencyId(stakingInfo.rewardToken)}`}
+          style={{ width: '100%', textDecoration: 'none' }}
+        >
+          <StakeButton variant="primary"> {t('stakePage.stake')}</StakeButton>
+        </StyledInternalLink>
       </CardButtons>
     </Card>
   )

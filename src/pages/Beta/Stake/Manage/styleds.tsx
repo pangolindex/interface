@@ -63,7 +63,6 @@ export const StakeButton = styled(Button)`
   background-color: ${({ theme }) => theme.bg8} !important;
   height: 46px;
   border-radius: 4px !important;
-  font-size: 16px;
 `
 
 export const DetailButton = styled(Button)`
@@ -71,5 +70,4 @@ export const DetailButton = styled(Button)`
   margin-right: 22px;
   height: 46px;
   border-radius: 4px !important;
-  font-size: 16px;
 `
