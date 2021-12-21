@@ -36,7 +36,7 @@ export const CardColumn = styled(Box)<{ width?: string }>`
 export const CardStats = styled(Box)`
   display: flex;
   justify-content: space-between;
-  padding: 19px 0;
+  padding: 5px 0 40px;
 
   ${({ theme }) => theme.mediaWidth.upToLarge`
     flex-direction: column;
@@ -62,6 +62,7 @@ export const StakeButton = styled(Button)`
   background-color: ${({ theme }) => theme.bg8} !important;
   height: 46px;
   border-radius: 4px !important;
+  font-size: 16px;
 `
 
 export const DetailButton = styled(Button)`
@@ -69,4 +70,5 @@ export const DetailButton = styled(Button)`
   margin-left: 10px;
   height: 46px;
   border-radius: 4px !important;
+  font-size: 16px;
 `

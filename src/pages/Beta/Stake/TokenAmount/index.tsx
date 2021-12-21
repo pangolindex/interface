@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text } from '@pangolindex/components'
 import { Bar, BarRight } from './styleds'
+import RewardIcon from 'src/assets/svg/thunder.svg'
 
 export interface TokenAmountProps {
   label: string
@@ -20,7 +21,16 @@ export default function TokenAmount({ label, symbol, amount, cycle, cycleReward 
         <Text fontSize={24} fontWeight={400} lineHeight="36px" color="text1">
           {amount}
         </Text>
-        <BarRight>{!cycleReward ? symbol : `${cycleReward} ${symbol} / ${cycle}`}</BarRight>
+        <BarRight>
+          {!cycleReward ? (
+            symbol
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {cycleReward && <img src={RewardIcon} alt="reward" style={{ marginRight: '10px' }} />}
+              {`${cycleReward} ${symbol} / ${cycle}`}
+            </div>
+          )}
+        </BarRight>
       </Bar>
     </div>
   )
