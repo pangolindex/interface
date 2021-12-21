@@ -3,7 +3,8 @@ import { Text, Box, Button } from '@pangolindex/components'
 import { ChainId } from '@pangolindex/sdk'
 import { Plus } from 'react-feather'
 import { ThemeContext } from 'styled-components'
-import { LINK, PNG, TIME, AAVEe, APEIN, BIFI, PEFI } from 'src/constants'
+// import { LINK, PNG, TIME, AAVEe, APEIN, BIFI, PEFI } from 'src/constants'
+import { COIN_LISTS } from 'src/constants/coinLists'
 import { useActiveWeb3React } from 'src/hooks'
 import WatchlistRow from './WatchlistRow'
 import { WatchListRoot, GridContainer } from './styleds'
@@ -13,10 +14,12 @@ import CurrencyPopover from './CurrencyPopover'
 // import { usePopper } from 'react-popper'
 import { useOnClickOutside } from 'src/hooks/useOnClickOutside'
 import useToggle from 'src/hooks/useToggle'
+import { useSelectedCurrencyLists } from 'src/state/watchlists/hooks'
 
 const WatchList = () => {
   const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
-  const coins = [PNG, LINK, TIME, AAVEe, APEIN, BIFI, PEFI].map(coin => coin[chainId])
+  const coins = COIN_LISTS.map(coin => coin[chainId])
+  const watchListCurrencies = useSelectedCurrencyLists()
   const theme = useContext(ThemeContext)
   const [selectedToken, setSelectedToken] = useState(coins[0])
 
@@ -55,7 +58,11 @@ const WatchList = () => {
           </Box>
 
           {open && (
-            <CurrencyPopover getRef={(ref: HTMLInputElement) => ((popoverRef as any).current = ref)} coins={coins} />
+            <CurrencyPopover
+              getRef={(ref: HTMLInputElement) => ((popoverRef as any).current = ref)}
+              coins={coins}
+              isOpen={open}
+            />
           )}
         </Box>
       </Box>
@@ -63,7 +70,7 @@ const WatchList = () => {
         <CoinChart coin={selectedToken} />
         <Box>
           <Scrollbars>
-            {coins.map(coin => (
+            {(watchListCurrencies || []).map(coin => (
               <WatchlistRow coin={coin} key={coin.address} onClick={() => setSelectedToken(coin)} />
             ))}
           </Scrollbars>
