@@ -424,8 +424,8 @@
     "submittingOrderToSwap": "Submitting order to swap",
     "limitPrice": "Limit Price",
     "outputWillBeSentTo": "Output will be sent to",
-    "sell": "sell",
-    "buy": "buy",
+    "sell": "SELL",
+    "buy": "BUY",
     "betaRelease": "This is a BETA release and should be used at your own risk!",
     "trade": "Trade"
   },

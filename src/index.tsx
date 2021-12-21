@@ -61,7 +61,13 @@ function Updaters() {
 const Gelato = ({ children }: { children?: React.ReactNode }) => {
   const { library, chainId, account } = useActiveWeb3React()
   return (
-    <GelatoProvider library={library} chainId={chainId} account={account ?? undefined} useDefaultTheme={false}>
+    <GelatoProvider
+      library={library}
+      chainId={chainId}
+      account={account ?? undefined}
+      useDefaultTheme={false}
+      handler={'pangolin'}
+    >
       {children}
     </GelatoProvider>
   )
