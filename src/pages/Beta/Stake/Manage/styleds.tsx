@@ -58,15 +58,17 @@ export const TokenName = styled(Box)`
   color: ${({ theme }) => theme.text10};
 `
 
-export const StakeButton = styled(Button)`
-  background-color: ${({ theme }) => theme.bg8} !important;
+export const PrimaryButton = styled(Button)`
+  background-color: #ffc800 !important;
+  color: #ffffff;
   height: 46px;
   border-radius: 4px !important;
   font-size: 16px;
 `
 
-export const DetailButton = styled(Button)`
-  border: solid 1px ${({ theme }) => theme.text1} !important;
+export const OutlineButton = styled(Button)`
+  border: solid 1px #ffc800 !important;
+  color: #ffc800 !important;
   margin-left: 10px;
   height: 46px;
   border-radius: 4px !important;

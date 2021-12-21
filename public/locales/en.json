@@ -372,7 +372,7 @@
     "selectToken": "Select a Token",
     "poolFound": "Pool Found!",
     "managePool": "Manage this pool.",
-    "noLiquidityYet": "You don’t have liquidity in this pool yet.",
+    "noLiquidityYet": "You don't have liquidity in this pool yet.",
     "noPoolFound": "No pool found.",
     "addLiquidity": "Add liquidity.",
     "createPool": "Create pool.",
@@ -541,7 +541,7 @@
   },
   "dashboardPage": {
     "dashboard": "Dashboard",
-    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "greetings": "Greetings kind ser! Let's ape in today…",
     "portfolioValue": "Portfolio Value",
     "earned": "Earned",
     "coins": "Coins",

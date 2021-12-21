@@ -5,21 +5,22 @@ import RewardIcon from 'src/assets/svg/thunder.svg'
 
 export interface TokenAmountProps {
   label: string
-  symbol: string
-  amount: string | number
+  symbol?: string
+  amount?: string | number
   cycle?: string
   cycleReward?: string | number
+  children?: React.ReactNode
 }
 
-export default function TokenAmount({ label, symbol, amount, cycle, cycleReward }: TokenAmountProps) {
+export default function TokenAmount({ label, symbol, amount, cycle, cycleReward, children }: TokenAmountProps) {
   return (
     <div>
       <Text fontSize={16} fontWeight={600} lineHeight="24px" color="text1" style={{ marginBottom: '5px' }}>
-        {label}
+        {label} {symbol}
       </Text>
       <Bar>
         <Text fontSize={24} fontWeight={400} lineHeight="36px" color="text1">
-          {amount}
+          {amount ? amount : children}
         </Text>
         <BarRight>
           {!cycleReward ? (

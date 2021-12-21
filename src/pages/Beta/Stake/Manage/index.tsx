@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Text } from '@pangolindex/components'
 import { ChainId, JSBI } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
-import { Card, CardHeader, CardColumn, CardStats, CardButtons, DetailButton, StakeButton } from './styleds'
+import { Card, CardHeader, CardColumn, CardStats, CardButtons, OutlineButton, PrimaryButton } from './styleds'
 
 import CurrencyLogo from 'src/components/CurrencyLogo'
 import { useWalletModalToggle } from 'src/state/application/hooks'
@@ -11,8 +11,8 @@ import { useSingleSideStakingInfo } from 'src/state/stake/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { useCurrency } from 'src/hooks/Tokens'
-// import { useColor } from 'src/hooks/useColor'
-// import usePrevious from 'src/hooks/usePrevious'
+import usePrevious from 'src/hooks/usePrevious'
+import { CountUp } from 'use-count-up'
 import StakingModalSingleSide from 'src/components/earn/StakingModalSingleSide'
 import UnstakingModalSingleSide from 'src/components/earn/UnstakingModalSingleSide'
 import ClaimRewardModalSingleSide from 'src/components/earn/ClaimRewardModalSingleSide'
@@ -51,8 +51,8 @@ const PoolManage = () => {
   const [showUnstakingModal, setShowUnstakingModal] = useState(false)
   const [showClaimRewardModal, setShowClaimRewardModal] = useState(false)
 
-  // const countUpAmount = stakingInfo?.earnedAmount?.toFixed(6) ?? '0'
-  // const countUpAmountPrevious = usePrevious(countUpAmount) ?? '0'
+  const countUpAmount = stakingInfo?.earnedAmount?.toFixed(6) ?? '0'
+  const countUpAmountPrevious = usePrevious(countUpAmount) ?? '0'
 
   const toggleWalletModal = useWalletModalToggle()
 
@@ -104,36 +104,49 @@ const PoolManage = () => {
             </Text>
           </CardColumn>
         </CardStats>
-        <TokenAmount label="Your staked PNG" symbol="PNG" amount={8849.11} />
-        <TokenAmount label="Your unclaimed ORBS" symbol="ORBS" amount={8849.11} cycle="Week" cycleReward={526.2} />
+        <TokenAmount label="Your staked" symbol="PNG" amount={stakingInfo?.stakedAmount?.toSignificant(6) ?? '-'} />
+        <TokenAmount
+          label="Your unclaimed"
+          symbol={stakingInfo?.rewardToken?.symbol}
+          cycle="Week"
+          cycleReward={
+            stakingInfo?.rewardRate
+              ?.multiply((60 * 60 * 24 * 7).toString())
+              ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'
+          }
+        >
+          <CountUp
+            key={countUpAmount}
+            isCounting
+            decimalPlaces={4}
+            start={parseFloat(countUpAmountPrevious)}
+            end={parseFloat(countUpAmount)}
+            thousandsSeparator={','}
+            duration={1}
+          />
+        </TokenAmount>
         <CardButtons>
           {userPngUnstaked?.greaterThan('0') ? (
             <>
-              <StakeButton variant="primary" padding="10px" borderRadius="8px" width="auto" onClick={handleStakeClick}>
+              <PrimaryButton variant="primary" onClick={handleStakeClick}>
                 {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0))
-                  ? t('earnPage.stake', { symbol: 'PNG' })
+                  ? t('earnPage.stake')
                   : t('earnPage.stakeStakingTokens', { symbol: 'PNG' })}
-              </StakeButton>
+              </PrimaryButton>
             </>
           ) : (
             <StyledInternalLink
               to={`/swap?inputCurrency=${ZERO_ADDRESS}&outputCurrency=${png.address}`}
               style={{ width: '100%', textDecoration: 'none' }}
             >
-              <StakeButton variant="primary">{t('earnPage.getToken', { symbol: 'PNG' })}</StakeButton>
+              <PrimaryButton variant="primary">{t('earnPage.getToken', { symbol: 'PNG' })}</PrimaryButton>
             </StyledInternalLink>
           )}
 
           {stakingInfo?.stakedAmount?.greaterThan('0') && (
-            <DetailButton
-              variant="outline"
-              padding="10px"
-              borderRadius="8px"
-              width="auto"
-              onClick={() => setShowUnstakingModal(true)}
-            >
+            <OutlineButton variant="outline" onClick={() => setShowUnstakingModal(true)}>
               {t('earnPage.unstake')}
-            </DetailButton>
+            </OutlineButton>
           )}
         </CardButtons>
 
