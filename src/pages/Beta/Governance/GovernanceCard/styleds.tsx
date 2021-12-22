@@ -17,8 +17,8 @@ export const CardTitle = styled(Box)`
 `
 
 export const CardButtons = styled(Box)`
-  display: flex;
-  justify-content: space-between;
+  display: -webkit-box;
+  // justify-content: space-between;
 `
 
 export const DetailsButton = styled(Button)`

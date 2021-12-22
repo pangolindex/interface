@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 import { ArrowLeft } from 'react-feather'
 import { DateTime } from 'luxon'
@@ -8,91 +7,31 @@ import { useTranslation } from 'react-i18next'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
 import { Text } from '@pangolindex/components'
 
+import {
+  PageWrapper,
+  CardWrapper,
+  ProposalInfo,
+  ArrowWrapper,
+  StyledDataCard,
+  WrapSmall,
+  ProgressWrapper,
+  Progress,
+  DetailText,
+  MarkDownWrapper
+} from './styleds'
 import { ProposalStatus } from 'src/pages/Vote/styled'
 import { RowFixed, RowBetween } from 'src/components/Row'
 import { AutoColumn } from 'src/components/Column'
-import { CardSection, DataCard } from 'src/components/earn/styled'
+import { CardSection } from 'src/components/earn/styled'
 import { ButtonPrimary } from 'src/components/Button'
 import VoteModal from 'src/components/vote/VoteModal'
+import Loader from 'src/components/Loader'
 import { useProposalData, useUserVotes, useUserDelegatee, ProposalData } from 'src/state/governance/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
-import { TYPE, StyledInternalLink, ExternalLink } from 'src/theme'
+import { ExternalLink } from 'src/theme'
 import { PNG, ZERO_ADDRESS } from 'src/constants'
 import { isAddress, getEtherscanLink } from 'src/utils'
-
-const PageWrapper = styled(AutoColumn)`
-  width: 100%;
-`
-
-const ProposalInfo = styled(AutoColumn)`
-  border-radius: 12px;
-  padding: 1.5rem;
-  position: relative;
-  max-width: 960px;
-  width: 100%;
-`
-const ArrowWrapper = styled(StyledInternalLink)`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 24px;
-  color: ${({ theme }) => theme.text1};
-  a {
-    color: ${({ theme }) => theme.text1};
-    text-decoration: none;
-  }
-  :hover {
-    text-decoration: none;
-  }
-`
-const CardWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  width: 100%;
-`
-
-const StyledDataCard = styled(DataCard)`
-  width: 100%;
-  background: none;
-  background-color: ${({ theme }) => theme.bg2};
-  color: ${({ theme }) => theme.text1};
-  height: fit-content;
-  z-index: 2;
-`
-
-const ProgressWrapper = styled.div`
-  width: 100%;
-  margin-top: 1rem;
-  height: 4px;
-  border-radius: 4px;
-  background-color: ${({ theme }) => theme.bg3};
-  position: relative;
-`
-
-const Progress = styled.div<{ status: 'for' | 'against'; percentageString?: string }>`
-  height: 4px;
-  border-radius: 4px;
-  background-color: ${({ theme, status }) => (status === 'for' ? theme.green1 : theme.red1)};
-  width: ${({ percentageString }) => percentageString};
-`
-
-const MarkDownWrapper = styled.div`
-  max-width: 640px;
-  overflow: hidden;
-`
-
-const WrapSmall = styled(RowBetween)`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    align-items: flex-start;
-    flex-direction: column;
-  `};
-`
-
-const DetailText = styled.div`
-  word-break: break-all;
-`
 
 export interface VoteDetailPageProps {
   id: string
@@ -113,7 +52,6 @@ export default function VoteDetailPage() {
   const [showModal, setShowModal] = useState<boolean>(false)
 
   // get and format date from data
-  // const startTimestamp: number | undefined = useTimestampFromBlock(proposalData?.startBlock)
   const startTimestamp: number | undefined = proposalData?.startTime
   const endTimestamp: number | undefined = proposalData?.endTime
   const startDate: DateTime | undefined = startTimestamp ? DateTime.fromSeconds(startTimestamp) : undefined
@@ -153,7 +91,7 @@ export default function VoteDetailPage() {
       />
       <ProposalInfo gap="lg" justify="start">
         <RowBetween style={{ width: '100%' }}>
-          <ArrowWrapper to="/vote">
+          <ArrowWrapper to="/beta/vote">
             <ArrowLeft size={20} /> {t('votePage.backToProposals')}
           </ArrowWrapper>
           {proposalData && <ProposalStatus status={proposalData?.status ?? ''}>{proposalData?.status}</ProposalStatus>}
@@ -162,24 +100,6 @@ export default function VoteDetailPage() {
           <Text fontSize={44} lineHeight="52px" color="text1" style={{ marginBottom: '.5rem' }}>
             {proposalData?.title}
           </Text>
-          {/* <RowBetween>
-            <TYPE.main>
-              {startDate && startDate <= now
-                ? t('votePage.votingStarted') + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
-                : proposalData
-                ? t('votePage.votingStarts') + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
-                : ''}
-            </TYPE.main>
-          </RowBetween>
-          <RowBetween>
-            <TYPE.main>
-              {endDate && endDate < now
-                ? t('votePage.votingEnded') + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
-                : proposalData
-                ? t('votePage.votingEnds') + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
-                : ''}
-            </TYPE.main>
-          </RowBetween> */}
         </AutoColumn>
         {!showUnlockVoting &&
         availableVotes &&
@@ -218,10 +138,12 @@ export default function VoteDetailPage() {
             <CardSection>
               <AutoColumn gap="md">
                 <WrapSmall>
-                  <TYPE.black fontWeight={600}>{t('votePage.for')}</TYPE.black>
-                  <TYPE.black fontWeight={600}>
+                  <Text fontWeight={500} fontSize={16} lineHeight="24px" color="text1">
+                    {t('votePage.for')}
+                  </Text>
+                  <Text fontWeight={500} fontSize={16} lineHeight="24px" color="text11">
                     {proposalData?.forCount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                  </TYPE.black>
+                  </Text>
                 </WrapSmall>
               </AutoColumn>
               <ProgressWrapper>
@@ -233,10 +155,12 @@ export default function VoteDetailPage() {
             <CardSection>
               <AutoColumn gap="md">
                 <WrapSmall>
-                  <TYPE.black fontWeight={600}>{t('votePage.against')}</TYPE.black>
-                  <TYPE.black fontWeight={600}>
+                  <Text fontWeight={500} fontSize={16} lineHeight="24px" color="text1">
+                    {t('votePage.against')}
+                  </Text>
+                  <Text fontWeight={500} fontSize={16} lineHeight="24px" color="text12">
                     {proposalData?.againstCount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                  </TYPE.black>
+                  </Text>
                 </WrapSmall>
               </AutoColumn>
               <ProgressWrapper>
@@ -268,25 +192,37 @@ export default function VoteDetailPage() {
                 )
               })}
             </AutoColumn>
-            <AutoColumn gap="md">
-              <Text fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
-                {t('votePage.overview')}
-              </Text>
-              <MarkDownWrapper>
-                <ReactMarkdown source={proposalData?.description} />
-              </MarkDownWrapper>
+            <AutoColumn gap="md" style={{ marginTop: '30px' }}>
+              {proposalData?.description ? (
+                <>
+                  <Text fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
+                    {t('votePage.overview')}
+                  </Text>
+                  <MarkDownWrapper>
+                    <ReactMarkdown source={proposalData?.description} />
+                  </MarkDownWrapper>
+                </>
+              ) : (
+                <Loader />
+              )}
             </AutoColumn>
             <AutoColumn gap="md">
-              <Text fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
-                {t('votePage.proposer')}
-              </Text>
-              <ExternalLink
-                href={
-                  proposalData?.proposer && chainId ? getEtherscanLink(chainId, proposalData?.proposer, 'address') : ''
-                }
-              >
-                <ReactMarkdown source={proposalData?.proposer} />
-              </ExternalLink>
+              {proposalData?.proposer && (
+                <>
+                  <Text fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
+                    {t('votePage.proposer')}
+                  </Text>
+                  <ExternalLink
+                    href={
+                      proposalData?.proposer && chainId
+                        ? getEtherscanLink(chainId, proposalData?.proposer, 'address')
+                        : ''
+                    }
+                  >
+                    <ReactMarkdown source={proposalData?.proposer} />
+                  </ExternalLink>
+                </>
+              )}
             </AutoColumn>
           </CardSection>
         </StyledDataCard>
