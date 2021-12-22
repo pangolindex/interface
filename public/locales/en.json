@@ -446,6 +446,7 @@
     "governanceVotes": "Governance votes are decided by simple majority. There is no quorum threshold.",
     "proposals": "Proposals",
     "allProposals": "All Proposals",
+    "backToProposals": "Back to Proposals",
     "unlockVoting": "Unlock voting",
     "votes": " Votes",
     "delegatedTo": "Delegated to:",
