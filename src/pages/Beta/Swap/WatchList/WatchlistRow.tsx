@@ -5,6 +5,7 @@ import { Token } from '@pangolindex/sdk'
 import { RowWrapper } from './styleds'
 import { coinData } from './mock'
 import { ThemeContext } from 'styled-components'
+import useUSDCPrice from 'src/utils/useUSDCPrice'
 
 type Props = {
   coin: Token
@@ -15,7 +16,7 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick }) => {
   const diffPercent = Math.random() < 0.5 ? -1 : 1
 
   const theme = useContext(ThemeContext)
-
+  const usdcPrice = useUSDCPrice(coin)
   return (
     <RowWrapper onClick={onClick}>
       <Box display="flex" alignItems="center">
@@ -33,7 +34,7 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick }) => {
       </Box>
       <Box ml={'10px'} textAlign="right">
         <Text color="text1" fontSize={16} fontWeight={500}>
-          $120
+          ${usdcPrice ? usdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}
         </Text>
         <Text color={diffPercent > 0 ? 'green1' : 'red1'} fontSize={'8px'} fontWeight={500}>
           +10.5%

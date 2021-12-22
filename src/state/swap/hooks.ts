@@ -16,7 +16,7 @@ import { SwapState } from './reducer'
 import useToggledVersion from '../../hooks/useToggledVersion'
 import { useUserSlippageTolerance } from '../user/hooks'
 import { computeSlippageAdjustedAmounts } from '../../utils/prices'
-import { ROUTER_ADDRESS } from '../../constants'
+import { ROUTER_ADDRESS , SWAP_DEFAULT_CURRENCY} from '../../constants'
 import { useTranslation } from 'react-i18next'
 
 export function useSwapState(): AppState['swap'] {
@@ -291,8 +291,8 @@ export function useDefaultsFromURLSearch():
       replaceSwapState({
         typedValue: parsed.typedValue,
         field: parsed.independentField,
-        inputCurrencyId: parsed[Field.INPUT].currencyId,
-        outputCurrencyId: parsed[Field.OUTPUT].currencyId,
+        inputCurrencyId: parsed[Field.INPUT].currencyId || SWAP_DEFAULT_CURRENCY[chainId]?.inputCurrency,
+        outputCurrencyId: parsed[Field.OUTPUT].currencyId || SWAP_DEFAULT_CURRENCY[chainId]?.outputCurrnecy,
         recipient: parsed.recipient
       })
     )

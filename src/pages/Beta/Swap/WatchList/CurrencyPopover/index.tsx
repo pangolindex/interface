@@ -81,8 +81,8 @@ const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen }) 
   const dispatch = useDispatch<AppDispatch>()
 
   const onCurrencySelection = useCallback(
-    (currency: Token) => {
-      dispatch(addCurrency(currency))
+    (address: string) => {
+      dispatch(addCurrency(address))
     },
     [dispatch]
   )
@@ -95,8 +95,8 @@ const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen }) 
         <CurrencyRow
           key={index}
           currency={currency}
-          onSelect={currency => {
-            onCurrencySelection(currency)
+          onSelect={address => {
+            onCurrencySelection(address)
           }}
         />
       ) : null

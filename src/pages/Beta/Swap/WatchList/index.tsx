@@ -1,9 +1,9 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useRef, useState, useMemo, useEffect } from 'react'
 import { Text, Box, Button } from '@pangolindex/components'
-import { ChainId } from '@pangolindex/sdk'
+import { ChainId, Token } from '@pangolindex/sdk'
 import { Plus } from 'react-feather'
 import { ThemeContext } from 'styled-components'
-// import { LINK, PNG, TIME, AAVEe, APEIN, BIFI, PEFI } from 'src/constants'
+import { PNG } from 'src/constants'
 import { COIN_LISTS } from 'src/constants/coinLists'
 import { useActiveWeb3React } from 'src/hooks'
 import WatchlistRow from './WatchlistRow'
@@ -18,10 +18,10 @@ import { useSelectedCurrencyLists } from 'src/state/watchlists/hooks'
 
 const WatchList = () => {
   const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
-  const coins = COIN_LISTS.map(coin => coin[chainId])
+  const coins = COIN_LISTS.map(coin => coin[chainId]).filter(coin => !!coin)
   const watchListCurrencies = useSelectedCurrencyLists()
   const theme = useContext(ThemeContext)
-  const [selectedToken, setSelectedToken] = useState(coins[0])
+  const [selectedToken, setSelectedToken] = useState(coins?.[0])
 
   const [open, toggle] = useToggle(false)
   const node = useRef<HTMLDivElement>()
@@ -34,6 +34,18 @@ const WatchList = () => {
   //   strategy: 'fixed',
   //   modifiers: [{ name: 'offset', options: { offset: [8, 8] } }]
   // })
+
+  const currencies = useMemo(
+    () => ((watchListCurrencies || []).length === 0 ? ([PNG[chainId]] as Token[]) : (watchListCurrencies as Token[])),
+
+    [chainId, watchListCurrencies]
+  )
+
+  useEffect(() => {
+    if (currencies) {
+      setSelectedToken(currencies[currencies.length - 1])
+    }
+  }, [currencies])
 
   useOnClickOutside(node, open ? toggle : undefined)
 
@@ -70,7 +82,7 @@ const WatchList = () => {
         <CoinChart coin={selectedToken} />
         <Box>
           <Scrollbars>
-            {(watchListCurrencies || []).map(coin => (
+            {(currencies || []).map(coin => (
               <WatchlistRow coin={coin} key={coin.address} onClick={() => setSelectedToken(coin)} />
             ))}
           </Scrollbars>

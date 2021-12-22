@@ -1,15 +1,26 @@
 import { useSelector } from 'react-redux'
+import { ChainId, Token } from '@pangolindex/sdk'
 import { AppState } from '../index'
-import { Token } from '@pangolindex/sdk'
+import { COIN_LISTS } from 'src/constants/coinLists'
+import { useActiveWeb3React } from 'src/hooks'
 
 export function useSelectedCurrencyLists(): Token[] | undefined {
-  return useSelector<AppState, AppState['watchlists']['currencies']>(state =>
-    ([] as Token[]).concat(state?.watchlists?.currencies || [])
+  const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
+  const coins = COIN_LISTS.map(coin => coin[chainId]).filter(coin => !!coin)
+
+  const addresses = useSelector<AppState, AppState['watchlists']['currencies']>(state =>
+    ([] as string[]).concat(state?.watchlists?.currencies || [])
   )
+
+  const currencies = coins.filter(coin => (addresses || []).includes(coin.address))
+
+  return currencies
 }
 
-export function useIsSelectedCurrency(currency: Token): Boolean {
-  const currencies = useSelectedCurrencyLists()
-  const isSelected = (currencies || []).includes(currency)
+export function useIsSelectedCurrency(address: string): Boolean {
+  const addresses = useSelector<AppState, AppState['watchlists']['currencies']>(state =>
+    ([] as string[]).concat(state?.watchlists?.currencies || [])
+  )
+  const isSelected = (addresses || []).includes(address)
   return isSelected
 }

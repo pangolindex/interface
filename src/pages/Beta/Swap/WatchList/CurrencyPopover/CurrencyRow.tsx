@@ -7,15 +7,15 @@ import { useIsSelectedCurrency } from 'src/state/watchlists/hooks'
 
 type Props = {
   currency: Token
-  onSelect: (currency: Token) => void
+  onSelect: (address: string) => void
 }
 
 const WatchlistRow: React.FC<Props> = ({ currency, onSelect }) => {
   const usdcPrice = useUSDCPrice(currency)
-  const isSelected = useIsSelectedCurrency(currency)
+  const isSelected = useIsSelectedCurrency(currency?.address)
 
   const handleSelect = useCallback(() => {
-    onSelect(currency)
+    onSelect(currency?.address)
   }, [onSelect, currency])
 
   return (

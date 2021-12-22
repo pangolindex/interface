@@ -21,7 +21,7 @@ export const BRIDGE_MIGRATOR_ADDRESS = '0x4b23Aa72A1214d0E4fd3f2c8Da7C6ba660F748
 
 export const MINICHEF_ADDRESS = '0x1f806f7C8dED893fd3caE279191ad7Aa3798E928'
 
-export const NATIVE = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
+export const NATIVE = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -531,12 +531,24 @@ export const YAY: { [chainId in ChainId]: Token } = {
 
 export const STORM: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'STORM', 'STORM Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x6AFD5A1ea4b793CC1526d6Dc7e99A608b356eF7b', 18, 'STORM', 'STORM Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x6AFD5A1ea4b793CC1526d6Dc7e99A608b356eF7b',
+    18,
+    'STORM',
+    'STORM Token'
+  )
 }
 
 export const OOE: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OOE', 'OpenOcean'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x0ebd9537A25f56713E34c45b38F421A1e7191469', 18, 'OOE', 'OpenOcean')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x0ebd9537A25f56713E34c45b38F421A1e7191469',
+    18,
+    'OOE',
+    'OpenOcean'
+  )
 }
 
 export const VEE: { [chainId in ChainId]: Token } = {
@@ -551,7 +563,13 @@ export const AVXT: { [chainId in ChainId]: Token } = {
 
 export const OLIVE: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OLIVE', 'Olive Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x617724974218A18769020A70162165A539c07E8a', 18, 'OLIVE', 'Olive Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x617724974218A18769020A70162165A539c07E8a',
+    18,
+    'OLIVE',
+    'Olive Token'
+  )
 }
 
 export const APEIN: { [chainId in ChainId]: Token } = {
@@ -561,7 +579,13 @@ export const APEIN: { [chainId in ChainId]: Token } = {
 
 export const GB: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 9, 'GB', 'Good Bridging'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x90842eb834cFD2A1DB0b1512B254a18E4D396215', 9, 'GB', 'Good Bridging')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x90842eb834cFD2A1DB0b1512B254a18E4D396215',
+    9,
+    'GB',
+    'Good Bridging'
+  )
 }
 
 export const CNR: { [chainId in ChainId]: Token } = {
@@ -576,7 +600,13 @@ export const CYCLE: { [chainId in ChainId]: Token } = {
 
 export const IronICE: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'IronICE', 'Iron Finance ICE'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xfC108f21931576a21D0b4b301935DAc80d9E5086', 18, 'IronICE', 'Iron Finance ICE')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xfC108f21931576a21D0b4b301935DAc80d9E5086',
+    18,
+    'IronICE',
+    'Iron Finance ICE'
+  )
 }
 
 export const MYAK: { [chainId in ChainId]: Token } = {
@@ -596,27 +626,57 @@ export const TEDDY: { [chainId in ChainId]: Token } = {
 
 export const TSD: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'TSD', 'TSD Stablecoin'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x4fbf0429599460D327BD5F55625E30E4fC066095', 18, 'TSD', 'TSD Stablecoin')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x4fbf0429599460D327BD5F55625E30E4fC066095',
+    18,
+    'TSD',
+    'TSD Stablecoin'
+  )
 }
 
 export const EVRT: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'EVRT', 'Everest Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x3ACa5545e76746A3Fe13eA66B24BC0eBcC51E6b4', 18, 'EVRT', 'Everest Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x3ACa5545e76746A3Fe13eA66B24BC0eBcC51E6b4',
+    18,
+    'EVRT',
+    'Everest Token'
+  )
 }
 
 export const RAI: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'RAI', 'Rai Reflex Index'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x97Cd1CFE2ed5712660bb6c14053C0EcB031Bff7d', 18, 'RAI', 'Rai Reflex Index')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x97Cd1CFE2ed5712660bb6c14053C0EcB031Bff7d',
+    18,
+    'RAI',
+    'Rai Reflex Index'
+  )
 }
 
 export const AAVAXB: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'aAVAXb', 'Ankr AVAX Bond'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929', 18, 'aAVAXb', 'Ankr AVAX Bond')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929',
+    18,
+    'aAVAXb',
+    'Ankr AVAX Bond'
+  )
 }
 
 export const INSUR: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'INSUR', 'InsurAce Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x544c42fBB96B39B21DF61cf322b5EDC285EE7429', 18, 'INSUR', 'InsurAce Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x544c42fBB96B39B21DF61cf322b5EDC285EE7429',
+    18,
+    'INSUR',
+    'InsurAce Token'
+  )
 }
 
 export const AVME: { [chainId in ChainId]: Token } = {
@@ -631,7 +691,13 @@ export const TIME: { [chainId in ChainId]: Token } = {
 
 export const HCT: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HCT', 'Hurricane Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x45C13620B55C35A5f539d26E88247011Eb10fDbd', 18, 'HCT', 'Hurricane Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x45C13620B55C35A5f539d26E88247011Eb10fDbd',
+    18,
+    'HCT',
+    'Hurricane Token'
+  )
 }
 
 export const FRAXV2: { [chainId in ChainId]: Token } = {
@@ -651,7 +717,13 @@ export const IMX: { [chainId in ChainId]: Token } = {
 
 export const AMPL: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 9, 'AMPL', 'Ampleforth'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x027dbcA046ca156De9622cD1e2D907d375e53aa7', 9, 'AMPL', 'Ampleforth')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x027dbcA046ca156De9622cD1e2D907d375e53aa7',
+    9,
+    'AMPL',
+    'Ampleforth'
+  )
 }
 
 export const ORBS: { [chainId in ChainId]: Token } = {
@@ -661,12 +733,24 @@ export const ORBS: { [chainId in ChainId]: Token } = {
 
 export const SPELL: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'SPELL', 'Spell Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xCE1bFFBD5374Dac86a2893119683F4911a2F7814', 18, 'SPELL', 'Spell Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xCE1bFFBD5374Dac86a2893119683F4911a2F7814',
+    18,
+    'SPELL',
+    'Spell Token'
+  )
 }
 
 export const KLO: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'KLO', 'Kalao Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xb27c8941a7Df8958A1778c0259f76D1F8B711C35', 9, 'KLO', 'Kalao Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xb27c8941a7Df8958A1778c0259f76D1F8B711C35',
+    9,
+    'KLO',
+    'Kalao Token'
+  )
 }
 
 export const MIM: { [chainId in ChainId]: Token } = {
@@ -703,7 +787,13 @@ export const CRAFT: { [chainId in ChainId]: Token } = {
 
 export const MAXI: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 9, 'MAXI', 'Maximizer'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7C08413cbf02202a1c13643dB173f2694e0F73f0', 9, 'MAXI', 'Maximizer')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x7C08413cbf02202a1c13643dB173f2694e0F73f0',
+    9,
+    'MAXI',
+    'Maximizer'
+  )
 }
 
 export const AVAI: { [chainId in ChainId]: Token } = {
@@ -783,7 +873,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     PNG[ChainId.AVALANCHE],
     USDTe[ChainId.AVALANCHE],
     DAIe[ChainId.AVALANCHE],
-    USDCe[ChainId.AVALANCHE],
+    USDCe[ChainId.AVALANCHE]
   ]
 }
 
@@ -813,6 +903,17 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
 export const TRUSTED_TOKEN_ADDRESSES: { readonly [chainId in ChainId]: string[] } = {
   [ChainId.FUJI]: [],
   [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE].address, PNG[ChainId.AVALANCHE].address]
+}
+
+export const SWAP_DEFAULT_CURRENCY = {
+  [ChainId.AVALANCHE]: {
+    inputCurrency: 'AVAX',
+    outputCurrnecy: USDCe[ChainId.AVALANCHE].address
+  },
+  [ChainId.FUJI]: {
+    inputCurrency: '',
+    outputCurrnecy: ''
+  }
 }
 
 export interface WalletInfo {
@@ -851,7 +952,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     iconName: 'coinbaseWalletIcon.svg',
     description: 'Use Coinbase Wallet app on mobile device',
     href: null,
-    color: '#315CF5',
+    color: '#315CF5'
   },
   WALLET_CONNECT: {
     connector: walletconnect,
@@ -859,8 +960,8 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     iconName: 'walletConnectIcon.svg',
     description: 'Use Wallet Connect',
     href: null,
-    color: '#315CF5',
-  },
+    color: '#315CF5'
+  }
 }
 
 export const NetworkContextName = 'NETWORK'
