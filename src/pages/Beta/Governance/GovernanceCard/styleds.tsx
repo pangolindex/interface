@@ -8,6 +8,7 @@ export const Card = styled(Box)`
   padding: 30px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 22px;
 `
 
@@ -39,4 +40,5 @@ export const VoteButton = styled(Button)`
   border-radius: 8px !important;
   width: 157px !important;
   height: 46px !important;
+  text-transform: capitalize;
 `
