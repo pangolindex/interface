@@ -32,30 +32,7 @@ export const DetailsButton = styled(Button)`
   height: 46px !important;
 `
 
-export const VoteButton = styled(Button)<{ bg: string }>`
-  // border: solid 1px ${({ theme }) => theme.text1} !important;
-  background-color: ${props => {
-    if (props.bg === 'Vote') {
-      return '#E67826'
-    } else if (props.bg === 'Executed') {
-      return 'rgba(24, 193, 69, 0.3)'
-    } else if (props.bg === 'Rejected') {
-      return 'rgba(232, 65, 66, 0.3)'
-    } else {
-      return 'rgba(230, 120, 38, 0.3)'
-    }
-  }} !important;
-  color: ${props => {
-    if (props.bg === 'Vote') {
-      return '#E6E9EC'
-    } else if (props.bg === 'Executed') {
-      return '#18C145'
-    } else if (props.bg === 'Rejected') {
-      return '#E84142'
-    } else {
-      return '#E6E9EC'
-    }
-  }} !important;
+export const VoteButton = styled(Button)`
   font-size: 21px;
   font-weight: normal !important;
   line-height: 25px;

@@ -25,6 +25,6 @@ export const ContentWrapper = styled(Box)`
 `
 
 export const About = styled(Box)`
-  padding: 18px 30px;
-  background: #111111;
+  padding: 18px 30px 32px;
+  background: ${({ theme }) => theme.bg2};
 `
