@@ -1,7 +1,7 @@
 import { ChainId, JSBI, Percent, Token, WAVAX } from '@pangolindex/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
-import { injected, walletlink, walletconnect } from '../connectors'
+import { gnosisSafe, injected, walletlink, walletconnect } from '../connectors'
 
 export const GAS_PRICE = 225
 
@@ -828,6 +828,14 @@ export interface WalletInfo {
 }
 
 export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
+  GNOSISSAFE: {
+    connector: gnosisSafe,
+    name: 'Gnosis Safe',
+    iconName: 'gnosis_safe.png',
+    description: 'Gnosis Safe Multisig Wallet.',
+    href: null,
+    color: '#010101',
+  },
   INJECTED: {
     connector: injected,
     name: 'Injected',
@@ -911,3 +919,5 @@ export const WYRE_API_URL = 'https://api.sendwyre.com'
 export const WYRE_QUOTE_API_ENDPOINT = '/v3/orders/quote/partner'
 export const WYRE_RESERVE_API_ENDPOINT = '/v3/orders/reserve'
 export const WYRE_CALLBACK_URL = 'https://app.pangolin.exchange/'
+
+export const IS_IN_IFRAME = window.parent !== window

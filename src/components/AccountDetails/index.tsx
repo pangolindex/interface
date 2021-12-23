@@ -11,10 +11,11 @@ import Transaction from './Transaction'
 
 import { SUPPORTED_WALLETS } from '../../constants'
 import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
+import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { getEtherscanLink } from '../../utils'
-import { injected, walletconnect, walletlink } from '../../connectors'
+import { gnosisSafe, injected, walletconnect, walletlink } from '../../connectors'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
@@ -244,6 +245,12 @@ export default function AccountDetails({
           <Identicon />
         </IconWrapper>
       )
+    } else if (connector === gnosisSafe) {
+      return (
+        <IconWrapper size={16}>
+          <img src={GnosisSafeIcon} alt={'Gnosis Safe logo'} />
+        </IconWrapper>
+      )
     } else if (connector === walletlink) {
       return (
         <IconWrapper size={16}>
@@ -371,14 +378,21 @@ export default function AccountDetails({
         <LowerSection>
           <AutoRow mb={'1rem'} style={{ justifyContent: 'space-between' }}>
             <TYPE.body>{t('accountDetails.recentTransactions')}</TYPE.body>
-            <LinkStyledButton onClick={clearAllTransactionsCallback}>{t('accountDetails.clearAll')}</LinkStyledButton>
+            <LinkStyledButton onClick={clearAllTransactionsCallback}>{t('accountDetails.clearAll')}
+            </LinkStyledButton>
           </AutoRow>
           {renderTransactions(pendingTransactions)}
           {renderTransactions(confirmedTransactions)}
+          {connector === gnosisSafe && (
+            <TYPE.body style={{marginTop: 15}} color={theme.text1}>These are the Safe Tx hash for more details look at transactions on the Gnosis Interface</TYPE.body>
+          )}
         </LowerSection>
       ) : (
         <LowerSection>
           <TYPE.body color={theme.text1}>{t('accountDetails.transactionAppear')}</TYPE.body>
+          {connector === gnosisSafe && (
+            <TYPE.body color={theme.text1}>See more details on the Gnosis interface</TYPE.body>
+          )}
         </LowerSection>
       )}
     </>
