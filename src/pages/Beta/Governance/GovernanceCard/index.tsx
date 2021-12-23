@@ -50,7 +50,7 @@ const GovernanceCard = ({ id, title, to, status }: GovernanceCardProps) => {
       </CardTitle>
       <CardButtons>
         <StyledInternalLink to={to} style={{ width: '100%', textDecoration: 'none' }}>
-          <DetailsButton variant="outline">{t('governancePage.details')}</DetailsButton>
+          <DetailsButton variant="outline">{t('votePage.details')}</DetailsButton>
         </StyledInternalLink>
         <VoteButton variant="primary" color={(btnColors as any)[status]} backgroundColor={(bgColors as any)[status]}>
           {status}

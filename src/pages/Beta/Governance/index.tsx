@@ -19,7 +19,7 @@ const GovernanceUI = () => {
       <ContentWrapper>
         <About>
           <Text fontSize={28} fontWeight={800} lineHeight="33px" color="text1" style={{ marginBottom: '14px' }}>
-            {t('governancePage.about')}
+            {t('votePage.about')}
           </Text>
           <Text fontSize={16} lineHeight="24px" color="text1">
             {t('votePage.earnedPngTokens')}

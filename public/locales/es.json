@@ -464,7 +464,11 @@
     "for": "A favor",
     "details": "Detalles",
     "overview": "Resumen",
-    "proposer": "Proponente"
+    "proposer": "Proponente",
+    "about": "Acerca de",
+    "vote": "Votar",
+    "executed": "Ejecutado",
+    "rejected": "Rechazado"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -562,13 +566,5 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
-  },
-  "governancePage": {
-    "pangolinGovernance": "Pangolin Governance",
-    "about": "About",
-    "details": "Details",
-    "vote": "Vote",
-    "executed": "Executed",
-    "rejected": "Rejected"
   }
 }

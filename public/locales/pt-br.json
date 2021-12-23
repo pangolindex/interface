@@ -420,7 +420,7 @@
     "gelatoFee": "Gelato Taxa",
     "placeOrder": "Faça a encomenda",
     "confirmOrder": "Confirmar pedido",
-    "for" : "por",
+    "for": "por",
     "submittingOrderToSwap": "Enviando pedido de troca",
     "limitPrice": "Preço Limite",
     "outputWillBeSentTo": "A saída será enviada para",
@@ -464,7 +464,11 @@
     "for": "A favor",
     "details": "Detalhes",
     "overview": "Visão geral",
-    "proposer": "Quem fez a proposta"
+    "proposer": "Quem fez a proposta",
+    "about": "Cerca de",
+    "vote": "Voto",
+    "executed": "Executado",
+    "rejected": "Rejeitado"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -562,13 +566,5 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
-  },
-  "governancePage": {
-    "pangolinGovernance": "Pangolin Governance",
-    "about": "About",
-    "details": "Details",
-    "vote": "Vote",
-    "executed": "Executed",
-    "rejected": "Rejected"
   }
 }

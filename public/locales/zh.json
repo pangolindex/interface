@@ -464,7 +464,11 @@
     "for": "給",
     "details": "细节",
     "overview": "概述",
-    "proposer": "建议"
+    "proposer": "建议",
+    "about": "关于",
+    "vote": "投票",
+    "executed": "已执行",
+    "rejected": "拒绝"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -562,13 +566,5 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
-  },
-  "governancePage": {
-    "pangolinGovernance": "Pangolin Governance",
-    "about": "About",
-    "details": "Details",
-    "vote": "Vote",
-    "executed": "Executed",
-    "rejected": "Rejected"
   }
 }
