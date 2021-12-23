@@ -446,6 +446,7 @@
     "governanceVotes": "Abstimmungen zur Governance werden mit einfacher Mehrheit entschieden. Es gibt keine Mindestwahlbeteiligung.",
     "proposals": "Anträge",
     "allProposals": "Alle Anträge",
+    "backToProposals": "Zurück zu Vorschläge",
     "unlockVoting": "Stimmabgabe freischalten",
     "votes": " Stimmen",
     "delegatedTo": "Delegiert an:",

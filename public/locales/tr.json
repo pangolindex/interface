@@ -446,6 +446,7 @@
     "governanceVotes": "Yönetimin sunduğu önergeler, basit çoğunlukla kararlaştırılır. Ulaşılması veya geçilmesi gereken bir çoğunluk eşiği yoktur.",
     "proposals": "Önergeler",
     "allProposals": "Tüm Önergeler",
+    "backToProposals": "Tekliflere Geri Dön",
     "unlockVoting": "Oylamanın kilidini kaldır",
     "votes": " Oylar",
     "delegatedTo": "Yetki ver:",

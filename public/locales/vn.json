@@ -446,6 +446,7 @@
     "governanceVotes": "Các phiếu bầu quản trị được quyết định theo đa số. Không có ngưỡng đại biểu. ",
     "proposals": "Đề xuất",
     "allProposals": "Tất cả đề xuất",
+    "backToProposals": "Quay lại Đề xuất",
     "unlockVoting": "Mở khóa biểu quyết",
     "votes": " Phiếu bầu",
     "delegatedTo": "Ủy quyền cho:",

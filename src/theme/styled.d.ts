@@ -54,11 +54,14 @@ export interface Colors {
   red1: Color
   red2: Color
   red3: Color
+  red3Gradient: Color
   green1: Color
   green2: Color
+  green2Gradient: Color
   yellow1: Color
   yellow2: Color
   blue1: Color
+  orange1: Color
 
   avaxRed: Color
 

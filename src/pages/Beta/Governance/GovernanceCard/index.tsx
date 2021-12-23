@@ -2,7 +2,8 @@ import React from 'react'
 import { Text } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import { Card, CardTitle, CardButtons, DetailsButton, VoteButton } from './styleds'
-import { StyledInternalLink } from 'src/theme'
+import { StyledInternalLink, colors } from 'src/theme'
+import { useDarkModeManager } from 'src/state/user/hooks'
 
 export type proposalStates =
   | 'pending'
@@ -21,20 +22,21 @@ export interface GovernanceCardProps {
   status: proposalStates
 }
 
-const bgColors = {
-  vote: '#E67826',
-  executed: 'rgba(24, 193, 69, 0.3)',
-  defeated: 'rgba(232, 65, 66, 0.3)'
-}
-
-const btnColors = {
-  vote: '#E6E9EC',
-  executed: '#18C145',
-  defeated: '#E84142'
-}
-
 const GovernanceCard = ({ id, title, to, status }: GovernanceCardProps) => {
   const { t } = useTranslation()
+  const [isDark] = useDarkModeManager()
+
+  const bgColors = {
+    vote: colors(isDark).color1,
+    executed: colors(isDark).green2Gradient,
+    defeated: colors(isDark).red3Gradient
+  }
+
+  const btnColors = {
+    vote: colors(isDark).orange1,
+    executed: colors(isDark).green2,
+    defeated: colors(isDark).red3
+  }
 
   return (
     <Card>

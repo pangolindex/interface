@@ -91,10 +91,13 @@ export function colors(darkMode: boolean): Colors {
     red1: '#FF6871',
     red2: '#F82D3A',
     red3: '#E84142',
+    red3Gradient: 'rgba(232, 65, 66, 0.3)',
     green1: '#27AE60',
     green2: '#18C145',
+    green2Gradient: ' rgba(24, 193, 69, 0.3)',
     yellow1: '#FFE270',
     yellow2: '#F3841E',
+    orange1: '#E6E9EC',
     blue1: '#2172E5',
 
     avaxRed: '#E84142',

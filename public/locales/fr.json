@@ -446,6 +446,7 @@
     "governanceVotes": "Les votes de gouvernance sont décidés à la majorité simple. Il n'y a pas de seuil de quorum.",
     "proposals": "Propositions",
     "allProposals": "Toutes les propositions",
+    "backToProposals": "Retour aux propositions",
     "unlockVoting": "Déverrouiller le vote",
     "votes": " Votes",
     "delegatedTo": "Délégué à:",

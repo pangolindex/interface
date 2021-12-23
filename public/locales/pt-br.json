@@ -446,6 +446,7 @@
     "governanceVotes": "Votações de governança são decididas por maioria simples. Não há quórum necessário.",
     "proposals": "Propostas",
     "allProposals": "Todas as propostas",
+    "backToProposals": "Voltar para propostas",
     "unlockVoting": "Desbloquear votação ",
     "votes": " Votos",
     "delegatedTo": "Delegar para:",
