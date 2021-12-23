@@ -5,7 +5,7 @@ import { Card, CardTitle, CardButtons, DetailsButton, VoteButton } from './style
 import { StyledInternalLink, colors } from 'src/theme'
 import { useDarkModeManager } from 'src/state/user/hooks'
 
-export type proposalStates =
+export type ProposalStates =
   | 'pending'
   | 'active'
   | 'canceled'
@@ -19,7 +19,7 @@ export interface GovernanceCardProps {
   id: string
   title: string
   to: string
-  status: proposalStates
+  status: ProposalStates
 }
 
 const GovernanceCard = ({ id, title, to, status }: GovernanceCardProps) => {

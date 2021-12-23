@@ -42,7 +42,7 @@ import Layout from '../layout'
 import SwapV2 from './Beta/Swap'
 import StakeV2 from './Beta/Stake'
 import GovernanceV2 from './Beta/Governance'
-import GovernanceDetailV2 from './Beta/Governance/GovernanceDetail'
+import GovernanceDetailV2 from './Beta/GovernanceDetail'
 
 const AppWrapper = styled.div`
   display: flex;

@@ -33,12 +33,12 @@ import { ExternalLink } from 'src/theme'
 import { PNG, ZERO_ADDRESS } from 'src/constants'
 import { isAddress, getEtherscanLink } from 'src/utils'
 
-export interface VoteDetailPageProps {
+export interface GovernanceDetailProps {
   id: string
 }
 
-export default function VoteDetailPage() {
-  const params = useParams<VoteDetailPageProps>()
+export default function GovernanceDetail() {
+  const params = useParams<GovernanceDetailProps>()
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
 
