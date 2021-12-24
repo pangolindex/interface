@@ -9,6 +9,7 @@ import { ExternalLink } from 'src/theme'
 import { ANALYTICS_PAGE } from 'src/constants'
 import { useSwapActionHandlers } from 'src/state/swap/hooks'
 import { Field } from 'src/state/swap/actions'
+import { useTokenChartData } from 'src/state/token/hooks'
 
 type Props = {
   coin: Token
@@ -37,6 +38,8 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
     },
     [onCurrencySelection]
   )
+
+  let chartData = useTokenChartData(coin?.address)
 
   return (
     <Box>

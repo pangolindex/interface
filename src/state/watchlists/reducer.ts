@@ -14,10 +14,6 @@ export default createReducer(initialState, builder =>
     .addCase(getAllSelectedCurrency, state => {
       const existingSelectedListUrl = ([] as string[]).concat(state.currencies || [])
       state.currencies = existingSelectedListUrl
-
-      // return {
-      //   ...state
-      // }
     })
     .addCase(addCurrency, (state, { payload: address }) => {
       const existingSelectedListUrl = ([] as string[]).concat(state.currencies || [])
@@ -35,10 +31,6 @@ export default createReducer(initialState, builder =>
         existingSelectedListUrl.push(address)
         state.currencies = existingSelectedListUrl
       }
-
-      // return {
-      //   ...state
-      // }
     })
     .addCase(removeCurrency, (state, { payload: address }) => {
       const existingList = ([] as string[]).concat(state.currencies || [])

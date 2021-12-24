@@ -138,7 +138,7 @@ const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen }) 
                 height={height}
                 width="100%"
                 itemCount={currencies.length}
-                itemSize={56}
+                itemSize={4}
                 itemData={currencies}
                 itemKey={(index, data) => currencyKey(data[index])}
               >

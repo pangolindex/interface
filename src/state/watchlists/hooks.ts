@@ -12,9 +12,15 @@ export function useSelectedCurrencyLists(): Token[] | undefined {
     ([] as string[]).concat(state?.watchlists?.currencies || [])
   )
 
-  const currencies = coins.filter(coin => (addresses || []).includes(coin.address))
+  let allSelectedToken = [] as Token[]
 
-  return currencies
+  addresses.forEach(address => {
+    const filterTokens = coins.filter(coin => address === coin.address)
+
+    allSelectedToken = [...allSelectedToken, ...filterTokens]
+  })
+
+  return allSelectedToken
 }
 
 export function useIsSelectedCurrency(address: string): Boolean {
