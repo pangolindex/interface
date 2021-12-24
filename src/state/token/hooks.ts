@@ -32,7 +32,7 @@ export function useTokenChartData(tokenAddress: string) {
 }
 
 const getTokenChartData = async (tokenAddress: string) => {
-  let data = []
+  let data = [] as Array<{ id: string; priceUSD: number; date: string }>
 
   try {
     const result = await client.query({
@@ -47,6 +47,6 @@ const getTokenChartData = async (tokenAddress: string) => {
   } catch (e) {
     console.log(e)
   }
-  data = data.sort((a : any, b:any) => (parseInt(a.date) > parseInt(b.date) ? 1 : -1))
+  data = data.sort((a, b) => (parseInt(a.date) > parseInt(b.date) ? 1 : -1))
   return data
 }

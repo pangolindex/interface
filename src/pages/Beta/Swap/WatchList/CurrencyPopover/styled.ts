@@ -50,6 +50,7 @@ export const RowWrapper = styled.div<{ disabled: Boolean }>`
   align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.text9};
   border-radius: 4px;
+  height: 45px;
 
   cursor: ${({ disabled }) => !disabled && 'pointer'};
   pointer-events: ${({ disabled }) => disabled && 'none'};

@@ -6,7 +6,6 @@ import { useTokenComparator } from 'src/components/SearchModal/sorting'
 import { Currency, Token, CAVAX } from '@pangolindex/sdk'
 import { filterTokens } from 'src/components/SearchModal/filtering'
 import { AddInputWrapper, PopoverContainer, CurrencyList } from './styled'
-import Scrollbars from 'react-custom-scrollbars'
 import CurrencyRow from './CurrencyRow'
 import usePrevious from 'src/hooks/usePrevious'
 import { isAddress } from 'src/utils'
@@ -122,8 +121,7 @@ const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen }) 
       </Box>
 
       <CurrencyList>
-        <Scrollbars>
-          {/* {currencies.map((currency, index) => (
+        {/* {currencies.map((currency, index) => (
             <CurrencyRow
               key={index}
               currency={currency}
@@ -132,21 +130,20 @@ const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen }) 
               }}
             />
           ))} */}
-          <AutoSizer disableWidth>
-            {({ height }) => (
-              <FixedSizeList
-                height={height}
-                width="100%"
-                itemCount={currencies.length}
-                itemSize={4}
-                itemData={currencies}
-                itemKey={(index, data) => currencyKey(data[index])}
-              >
-                {Row}
-              </FixedSizeList>
-            )}
-          </AutoSizer>
-        </Scrollbars>
+        <AutoSizer disableWidth>
+          {({ height }) => (
+            <FixedSizeList
+              height={height}
+              width="100%"
+              itemCount={currencies.length}
+              itemSize={10}
+              itemData={currencies}
+              itemKey={(index, data) => currencyKey(data[index])}
+            >
+              {Row}
+            </FixedSizeList>
+          )}
+        </AutoSizer>
       </CurrencyList>
     </PopoverContainer>
   )

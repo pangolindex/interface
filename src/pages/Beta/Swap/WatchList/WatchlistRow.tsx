@@ -48,9 +48,11 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick }) => {
         <Text color="text1" fontSize={16} fontWeight={500}>
           ${usdcPrice ? usdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}
         </Text>
-        <Text color={diffPercent > 0 ? 'green1' : 'red1'} fontSize={'8px'} fontWeight={500}>
-          {perc.toFixed(3)}%
-        </Text>
+        {perc && (
+          <Text color={diffPercent > 0 ? 'green1' : 'red1'} fontSize={'8px'} fontWeight={500}>
+            {perc.toFixed(3)}%
+          </Text>
+        )}
       </Box>
     </RowWrapper>
   )
