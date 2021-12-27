@@ -34,7 +34,7 @@ const PairStat = () => {
       </Box>
       <Box padding={10}>
         <Stat
-          title="AVAX Price"
+          title={`${inputCurrency?.symbol} Price`}
           stat="80.06$"
           titlePosition="top"
           titleFontSize={16}
@@ -45,7 +45,7 @@ const PairStat = () => {
 
       <Box padding={10}>
         <Stat
-          title="PNG Price"
+          title={`${outputCurrency?.symbol} Price`}
           stat="80.06$"
           titlePosition="top"
           titleFontSize={16}
@@ -55,11 +55,25 @@ const PairStat = () => {
       </Box>
 
       <Box padding={10}>
-        <Stat title="AVAX/PNG" stat="80" titlePosition="top" titleFontSize={16} statFontSize={26} titleColor="text2" />
+        <Stat
+          title={`${inputCurrency?.symbol}/${outputCurrency?.symbol}`}
+          stat="80"
+          titlePosition="top"
+          titleFontSize={16}
+          statFontSize={26}
+          titleColor="text2"
+        />
       </Box>
 
       <Box padding={10}>
-        <Stat title="PNG/AVAX" stat="0.1" titlePosition="top" titleFontSize={16} statFontSize={26} titleColor="text2" />
+        <Stat
+          title={`${outputCurrency?.symbol}/${inputCurrency?.symbol}`}
+          stat="0.1"
+          titlePosition="top"
+          titleFontSize={16}
+          statFontSize={26}
+          titleColor="text2"
+        />
       </Box>
 
       <Box padding={10}>

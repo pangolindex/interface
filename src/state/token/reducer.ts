@@ -1,18 +1,17 @@
 import { createReducer } from '@reduxjs/toolkit'
-import {
-  updateTokenWeeklyPriceChartData,
-  // getAllTokenWeeklyPriceChartData,
-  // getAllTokenPriceChartData,
-  updateTokenPriceChartData
-} from './actions'
+import { updateTokenWeeklyPriceChartData, updateTokenPriceChartData } from './actions'
+
+interface weeklyState {
+  [address: string]: Array<{ priceUSD: number; date: string }>
+}
+
+interface chartState {
+  [address: string]: Array<{ priceUSD: number; timestamp: string }>
+}
 
 export interface TokenChartState {
-  readonly weekly: {
-    [address: string]: Array<{ priceUSD: number; date: string }>
-  }
-  readonly tokenPrices: {
-    [address: string]: Array<{ priceUSD: number; timestamp: string }>
-  }
+  readonly weekly: weeklyState
+  readonly tokenPrices: chartState
 }
 
 const initialState: TokenChartState = {
@@ -22,14 +21,9 @@ const initialState: TokenChartState = {
 
 export default createReducer(initialState, builder =>
   builder
-    // .addCase(getAllTokenWeeklyPriceChartData, state => {
-    //   const existingChartData = { ...(state.weekly || {}) }
-
-    //   state.weekly = existingChartData
-    // })
 
     .addCase(updateTokenWeeklyPriceChartData, (state, { payload: { address, chartData } }) => {
-      let container = {} as { [address: string]: Array<{ priceUSD: number; date: string }> }
+      let container = {} as weeklyState
       container[address] = chartData
       const existingChartData = {
         ...(state.weekly || {}),
@@ -38,14 +32,8 @@ export default createReducer(initialState, builder =>
       state.weekly = existingChartData
     })
 
-    // .addCase(getAllTokenPriceChartData, state => {
-    //   const existingChartData = { ...(state.tokenPrices || {}) }
-
-    //   state.tokenPrices = existingChartData
-    // })
-
     .addCase(updateTokenPriceChartData, (state, { payload: { address, chartData } }) => {
-      let container = {} as { [address: string]: Array<{ priceUSD: number; timestamp: string }> }
+      let container = {} as chartState
       container[address] = chartData
       const existingChartData = {
         ...(state.tokenPrices || {}),
