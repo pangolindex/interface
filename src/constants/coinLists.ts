@@ -93,8 +93,10 @@ import {
   COOK,
   SKILL
 } from 'src/constants'
+import { WAVAX } from '@pangolindex/sdk'
 
 export const COIN_LISTS = [
+  WAVAX,
   PNG,
   ETH,
   WETHe,

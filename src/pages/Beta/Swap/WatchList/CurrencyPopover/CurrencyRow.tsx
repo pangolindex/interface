@@ -4,6 +4,7 @@ import { Token } from '@pangolindex/sdk'
 import { RowWrapper } from './styled'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { useIsSelectedCurrency } from 'src/state/watchlists/hooks'
+import { unwrappedToken } from 'src/utils/wrappedCurrency'
 
 type Props = {
   currency: Token
@@ -18,12 +19,14 @@ const WatchlistRow: React.FC<Props> = ({ currency, onSelect }) => {
     onSelect(currency?.address)
   }, [onSelect, currency])
 
+  const token = unwrappedToken(currency)
+
   return (
     <RowWrapper disabled={isSelected}>
       <Box display="flex" alignItems="center">
-        <CurrencyLogo size={'28px'} currency={currency} />
+        <CurrencyLogo size={'28px'} currency={token} />
         <Text color="text1" fontSize={20} fontWeight={500} marginLeft={'6px'}>
-          {currency?.symbol}
+          {token?.symbol}
         </Text>
       </Box>
 

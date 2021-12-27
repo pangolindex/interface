@@ -18,13 +18,14 @@ interface Props {
   getRef?: (ref: any) => void
   coins: Array<Token>
   isOpen: boolean
+  onSelectCurrency: (currency: Token) => void
 }
 
 const currencyKey = (currency: Currency): string => {
   return currency instanceof Token ? currency.address : currency === CAVAX ? 'AVAX' : ''
 }
 
-const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen }) => {
+const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen, onSelectCurrency }) => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [invertSearchOrder] = useState<boolean>(false)
 
@@ -75,7 +76,7 @@ const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen }) 
     ]
   }, [filteredTokens, searchQuery, searchToken, tokenComparator])
 
-  const currencies = useMemo(() => [Currency.CAVAX, ...filteredSortedTokens] as Token[], [filteredSortedTokens])
+  const currencies = filteredSortedTokens
 
   const dispatch = useDispatch<AppDispatch>()
 
@@ -95,6 +96,7 @@ const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen }) 
           key={index}
           currency={currency}
           onSelect={address => {
+            onSelectCurrency(currency)
             onCurrencySelection(address)
           }}
         />

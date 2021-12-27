@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Text, Box, CurrencyLogo, Button } from '@pangolindex/components'
 import { Link } from 'react-feather'
-import { LineChart, Line, ResponsiveContainer } from 'recharts'
+import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts'
 import { Token } from '@pangolindex/sdk'
 import { SelectedCoinInfo, TrackIcons, DurationBtns } from './styleds'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
@@ -9,25 +9,29 @@ import { ExternalLink } from 'src/theme'
 import { ANALYTICS_PAGE } from 'src/constants'
 import { useSwapActionHandlers } from 'src/state/swap/hooks'
 import { Field } from 'src/state/swap/actions'
-import { useTokenChartData } from 'src/state/token/hooks'
+import { useTokenPriceData } from 'src/state/token/hooks'
+import { TIMEFRAME } from 'src/constants'
+import { formattedNum, toNiceDateYear } from 'src/utils/charts'
+import { useTranslation } from 'react-i18next'
+import { unwrappedToken } from 'src/utils/wrappedCurrency'
 
 type Props = {
   coin: Token
 }
 
 const CoinChart: React.FC<Props> = ({ coin }) => {
-  const data = []
-  const durationButtons = ['1H', '1D', '1W', '1M', '1Y', 'ALL']
+  const { t } = useTranslation()
+  let weekFrame = TIMEFRAME.find(t => t.label === '1W')
 
-  const rand = 300
-  for (let i = 0; i < 20; i += 1) {
-    const d = {
-      key: 2000 + i,
-      value: Math.random() * (rand + 50) + 100
-    }
-
-    data.push(d)
-  }
+  const [timeWindow, setTimeWindow] = useState(
+    weekFrame ||
+      ({} as {
+        description: string
+        label: string
+        interval: number
+        momentIdentifier: string
+      })
+  )
 
   const usdcPrice = useUSDCPrice(coin)
 
@@ -39,15 +43,23 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
     [onCurrencySelection]
   )
 
-  let chartData = useTokenChartData(coin?.address)
+  const priceChart =
+    useTokenPriceData(
+      coin?.address.toLowerCase(),
+      timeWindow?.momentIdentifier,
+      timeWindow?.interval,
+      timeWindow?.label
+    ) || []
+
+  const token = unwrappedToken(coin)
 
   return (
     <Box>
       <SelectedCoinInfo>
-        <CurrencyLogo currency={coin} size="56px" />
+        <CurrencyLogo currency={token} size="56px" />
         <Box>
           <Text color="text1" fontSize="24px">
-            {coin.symbol}
+            {token.symbol}
           </Text>
           <Text color="green1" fontSize="16px">
             ${usdcPrice ? usdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}
@@ -75,19 +87,37 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
               onCurrencySelect(coin)
             }}
           >
-            Trade
+            {t('swapPage.trade')}
           </Button>
         </TrackIcons>
       </SelectedCoinInfo>
       <ResponsiveContainer height={150} width={'100%'}>
-        <LineChart data={data}>
-          <Line type="monotone" dataKey="value" stroke={'#18C145'} dot={false} />
+        <LineChart data={priceChart}>
+          <Line type="monotone" dataKey="priceUSD" stroke={'#18C145'} dot={false} />
+          <Tooltip
+            cursor={true}
+            formatter={(priceUSD: number, name: any, props: any) => {
+              return [`${formattedNum(priceUSD, true)}`, 'USD']
+            }}
+            labelFormatter={(val, data) => {
+              return toNiceDateYear(data?.[0]?.payload?.timestamp)
+            }}
+            labelStyle={{ paddingTop: 4 }}
+            wrapperStyle={{ top: -70, left: -10 }}
+          />
         </LineChart>
       </ResponsiveContainer>
       <DurationBtns>
-        {durationButtons.map(btn => (
-          <Button variant="plain" key={btn} padding="0px" width="auto" color="text1">
-            {btn}
+        {TIMEFRAME.map(btn => (
+          <Button
+            variant="plain"
+            key={btn?.label}
+            padding="0px"
+            width="auto"
+            color={timeWindow.label === btn.label ? 'color1' : 'text1'}
+            onClick={() => setTimeWindow(btn)}
+          >
+            {btn?.label}
           </Button>
         ))}
       </DurationBtns>

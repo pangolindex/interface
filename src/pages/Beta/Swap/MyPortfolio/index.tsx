@@ -1,6 +1,7 @@
 import React from 'react'
 import { PageWrapper } from './styleds'
 import { Text, Box } from '@pangolindex/components'
+import { useTranslation } from 'react-i18next'
 // import { ChainId, JSBI, Pair, Token, TokenAmount, WAVAX } from '@pangolindex/sdk'
 // import { LINK, PNG } from 'src/constants'
 // import PortfolioChart from './PortfolioChart'
@@ -9,7 +10,7 @@ import { Text, Box } from '@pangolindex/components'
 
 const MyPortfolio = () => {
   // const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
-
+  const { t } = useTranslation()
   // const dummyPair = new Pair(
   //   new TokenAmount(PNG[chainId], JSBI.BigInt(10)),
   //   new TokenAmount(WAVAX[chainId], JSBI.BigInt(10)),
@@ -21,13 +22,13 @@ const MyPortfolio = () => {
     <PageWrapper>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Text color="text1" fontSize={32} fontWeight={500}>
-          Your Portfolio
+          {t('swapPage.yourPortFolio')}
         </Text>
       </Box>
 
       <Box display="flex" alignItems="center" justifyContent="center" pt={80}>
         <Text color="text1" fontSize={32} fontWeight={500}>
-          Coming Soon...
+          {`${t('swapPage.comingSoon')}...`}
         </Text>
       </Box>
       {/* <GridContainer>

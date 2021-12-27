@@ -5,18 +5,20 @@ import { Token } from '@pangolindex/sdk'
 import { RowWrapper } from './styleds'
 import { ThemeContext } from 'styled-components'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
-import { useTokenChartData } from 'src/state/token/hooks'
+import { useTokenWeeklyChartData } from 'src/state/token/hooks'
+import { unwrappedToken } from 'src/utils/wrappedCurrency'
 
 type Props = {
   coin: Token
   onClick: () => void
+  isSelected: boolean
 }
 
-const WatchlistRow: React.FC<Props> = ({ coin, onClick }) => {
+const WatchlistRow: React.FC<Props> = ({ coin, onClick, isSelected }) => {
   const theme = useContext(ThemeContext)
   const usdcPrice = useUSDCPrice(coin)
 
-  let chartData = useTokenChartData(coin?.address?.toLowerCase())
+  let chartData = useTokenWeeklyChartData(coin?.address?.toLowerCase())
 
   let currentUSDPrice = chartData?.[(chartData || []).length - 1]?.priceUSD || 0
   let previousUSDPrice = chartData?.[0]?.priceUSD || 0
@@ -24,12 +26,14 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick }) => {
   var decreaseValue = currentUSDPrice - previousUSDPrice
   let perc = (decreaseValue / previousUSDPrice) * 100
 
+  const token = unwrappedToken(coin)
+
   return (
-    <RowWrapper onClick={onClick}>
+    <RowWrapper onClick={onClick} isSelected={isSelected}>
       <Box display="flex" alignItems="center">
-        <CurrencyLogo size={'28px'} currency={coin} />
+        <CurrencyLogo size={'28px'} currency={token} />
         <Text color="text1" fontSize={20} fontWeight={500} marginLeft={'6px'}>
-          {coin.symbol}
+          {token.symbol}
         </Text>
       </Box>
       <Box px="15px">

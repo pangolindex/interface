@@ -1012,3 +1012,42 @@ export const WYRE_API_URL = 'https://api.sendwyre.com'
 export const WYRE_QUOTE_API_ENDPOINT = '/v3/orders/quote/partner'
 export const WYRE_RESERVE_API_ENDPOINT = '/v3/orders/reserve'
 export const WYRE_CALLBACK_URL = 'https://app.pangolin.exchange/'
+
+export const TIMEFRAME = [
+  {
+    description: 'HOUR',
+    label: '1H',
+    interval: 60,
+    momentIdentifier: 'hour'
+  },
+  {
+    description: 'DAY',
+    label: '1D',
+    interval: 3600,
+    momentIdentifier: 'day'
+  },
+  {
+    description: 'WEEK',
+    label: '1W',
+    interval: 86400,
+    momentIdentifier: 'week'
+  },
+  {
+    description: 'MONTH',
+    label: '1M',
+    interval: 604800,
+    momentIdentifier: 'month'
+  },
+  {
+    description: 'YEAR',
+    label: '1Y',
+    interval: 2629746,
+    momentIdentifier: 'year'
+  },
+  {
+    description: 'ALL',
+    label: 'ALL',
+    interval: 2629746,
+    momentIdentifier: ''
+  }
+]

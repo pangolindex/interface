@@ -427,7 +427,10 @@
     "sell": "sell",
     "buy": "mua",
     "betaRelease": "Đây là bản phát hành BETA và bạn nên tự chịu rủi ro khi sử dụng!",
-    "trade": "Buôn bán"
+    "trade": "Buôn bán",
+    "watchList": "WatchList",
+    "yourPortFolio":"Danh mục đầu tư của bạn",
+    "comingSoon":"Sắp có"
   },
   "buyPage": {
     "buyAvaxInfo": "Mua AVAX bằng fiat từ đối tác Wyre của chúng tôi.",

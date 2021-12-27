@@ -31,8 +31,7 @@ export const CoinList = styled(Box)`
 `
 
 // WatchList Row Styles
-
-export const RowWrapper = styled(Box)`
+export const RowWrapper = styled(Box)<{ isSelected: boolean }>`
   padding: 15px 10px;
   display: grid;
   grid-template-columns: 100px minmax(auto, calc(100% - 150px)) 50px;
@@ -40,6 +39,7 @@ export const RowWrapper = styled(Box)`
   border-bottom: 1px solid ${({ theme }) => theme.text9};
   cursor: pointer;
   border-radius: 4px;
+  background-color: ${({ theme, isSelected }) => (isSelected ? theme.bg6 : theme.bg2)};
 
   &:hover {
     background-color: ${({ theme }) => theme.bg6};
