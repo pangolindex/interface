@@ -9,7 +9,8 @@ import {
   WrapSmall,
   AddressButton,
   TextButton,
-  StyledExternalLink
+  StyledExternalLink,
+  DefaultButton
   // EmptyProposals
 } from './styleds'
 import GovernanceCard, { ProposalStates } from './GovernanceCard'
@@ -26,7 +27,6 @@ import FormattedCurrencyAmount from 'src/components/FormattedCurrencyAmount'
 
 import { TYPE } from 'src/theme'
 import { RowBetween, RowFixed } from 'src/components/Row'
-import { ButtonPrimary } from 'src/components/Button'
 
 import { useModalOpen, useToggleDelegateModal } from 'src/state/application/hooks'
 import { ApplicationModal } from 'src/state/application/actions'
@@ -77,14 +77,9 @@ const GovernanceUI = () => {
         </About>
         <WrapSmall style={{ justifyContent: 'flex-end', marginTop: '8px' }}>
           {showUnlockVoting ? (
-            <ButtonPrimary
-              style={{ width: 'fit-content' }}
-              padding="8px"
-              borderRadius="8px"
-              onClick={toggleDelegateModal}
-            >
+            <DefaultButton variant="primary" onClick={toggleDelegateModal}>
               {t('votePage.unlockVoting')}
-            </ButtonPrimary>
+            </DefaultButton>
           ) : availableVotes && JSBI.notEqual(JSBI.BigInt(0), availableVotes?.raw) ? (
             <TYPE.body fontWeight={500} mr="6px">
               <FormattedCurrencyAmount currencyAmount={availableVotes} /> {t('votePage.votes')}

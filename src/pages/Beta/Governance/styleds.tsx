@@ -1,4 +1,4 @@
-import { Box } from '@pangolindex/components'
+import { Box, Button } from '@pangolindex/components'
 import styled from 'styled-components'
 import { RowBetween } from 'src/components/Row'
 import { TYPE, ExternalLink } from 'src/theme'
@@ -66,4 +66,14 @@ export const EmptyProposals = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`
+
+export const DefaultButton = styled(Button)`
+  font-size: 18px;
+  font-weight: normal !important;
+  line-height: 25px;
+  border-radius: 8px !important;
+  width: 200px !important;
+  height: 46px !important;
+  margin-top: 16px;
 `
