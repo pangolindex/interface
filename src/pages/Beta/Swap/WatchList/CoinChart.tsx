@@ -5,7 +5,6 @@ import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts'
 import { Token } from '@pangolindex/sdk'
 import { SelectedCoinInfo, TrackIcons, DurationBtns } from './styleds'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
-import { ExternalLink } from 'src/theme'
 import { ANALYTICS_PAGE } from 'src/constants'
 import { useSwapActionHandlers } from 'src/state/swap/hooks'
 import { Field } from 'src/state/swap/actions'
@@ -66,18 +65,20 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
           </Text>
         </Box>
         <TrackIcons>
-          <ExternalLink href={`${ANALYTICS_PAGE}#/token/${coin.address}`}>
-            <Button
-              variant="primary"
-              backgroundColor="text8"
-              color="text1"
-              width={'32px'}
-              height={'32px'}
-              padding="0px"
-            >
-              <Link size={12} />
-            </Button>
-          </ExternalLink>
+          <Button
+            variant="primary"
+            backgroundColor="text8"
+            color="text1"
+            width={'32px'}
+            height={'32px'}
+            padding="0px"
+            href={`${ANALYTICS_PAGE}#/token/${coin.address}`}
+            target="_blank"
+            as="a"
+          >
+            <Link size={12} />
+          </Button>
+
           <Button
             variant="plain"
             backgroundColor="green1"

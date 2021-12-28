@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { addCurrency, removeCurrency, getAllSelectedCurrency } from './actions'
+import { addCurrency, removeCurrency } from './actions'
 
 export interface WatchlistState {
   readonly currencies: string[]
@@ -11,10 +11,6 @@ const initialState: WatchlistState = {
 
 export default createReducer(initialState, builder =>
   builder
-    .addCase(getAllSelectedCurrency, state => {
-      const existingSelectedListUrl = ([] as string[]).concat(state.currencies || [])
-      state.currencies = existingSelectedListUrl
-    })
     .addCase(addCurrency, (state, { payload: address }) => {
       const existingSelectedListUrl = ([] as string[]).concat(state.currencies || [])
 

@@ -1,17 +1,17 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { updateTokenWeeklyPriceChartData, updateTokenPriceChartData } from './actions'
 
-interface weeklyState {
+interface WeeklyState {
   [address: string]: Array<{ priceUSD: number; date: string }>
 }
 
-interface chartState {
+interface ChartState {
   [address: string]: Array<{ priceUSD: number; timestamp: string }>
 }
 
 export interface TokenChartState {
-  readonly weekly: weeklyState
-  readonly tokenPrices: chartState
+  readonly weekly: WeeklyState
+  readonly tokenPrices: ChartState
 }
 
 const initialState: TokenChartState = {
@@ -23,7 +23,7 @@ export default createReducer(initialState, builder =>
   builder
 
     .addCase(updateTokenWeeklyPriceChartData, (state, { payload: { address, chartData } }) => {
-      let container = {} as weeklyState
+      let container = {} as WeeklyState
       container[address] = chartData
       const existingChartData = {
         ...(state.weekly || {}),
@@ -33,7 +33,7 @@ export default createReducer(initialState, builder =>
     })
 
     .addCase(updateTokenPriceChartData, (state, { payload: { address, chartData } }) => {
-      let container = {} as chartState
+      let container = {} as ChartState
       container[address] = chartData
       const existingChartData = {
         ...(state.tokenPrices || {}),
