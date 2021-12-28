@@ -1,36 +1,41 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useRef, useState, useMemo } from 'react'
 import { Text, Box, Button } from '@pangolindex/components'
-import { ChainId } from '@pangolindex/sdk'
+import { ChainId, Token } from '@pangolindex/sdk'
 import { Plus } from 'react-feather'
 import { ThemeContext } from 'styled-components'
-import { LINK, PNG, TIME, AAVEe, APEIN, BIFI, PEFI } from 'src/constants'
+import { PNG } from 'src/constants'
+import { COIN_LISTS } from 'src/constants/coinLists'
 import { useActiveWeb3React } from 'src/hooks'
 import WatchlistRow from './WatchlistRow'
 import { WatchListRoot, GridContainer } from './styleds'
 import Scrollbars from 'react-custom-scrollbars'
 import CoinChart from './CoinChart'
 import CurrencyPopover from './CurrencyPopover'
-// import { usePopper } from 'react-popper'
 import { useOnClickOutside } from 'src/hooks/useOnClickOutside'
 import useToggle from 'src/hooks/useToggle'
+import { useSelectedCurrencyLists } from 'src/state/watchlists/hooks'
+import { useTranslation } from 'react-i18next'
 
 const WatchList = () => {
   const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
-  const coins = [PNG, LINK, TIME, AAVEe, APEIN, BIFI, PEFI].map(coin => coin[chainId])
+  const { t } = useTranslation()
+
+  const coins = COIN_LISTS.map(coin => coin[chainId]).filter(coin => !!coin)
+  const watchListCurrencies = useSelectedCurrencyLists()
   const theme = useContext(ThemeContext)
-  const [selectedToken, setSelectedToken] = useState(coins[0])
+  const [selectedToken, setSelectedToken] = useState(watchListCurrencies?.[0] || ({} as Token))
 
   const [open, toggle] = useToggle(false)
   const node = useRef<HTMLDivElement>()
-  //  const [referenceElement, setReferenceElement] = useState<HTMLDivElement>()
-  // const [popperElement, setPopperElement] = useState<HTMLDivElement>()
+
   const popoverRef = useRef<HTMLInputElement>(null)
   const referenceElement = useRef<HTMLInputElement>(null)
-  // const { styles, attributes } = usePopper(referenceElement, popperElement, {
-  //   placement: 'auto',
-  //   strategy: 'fixed',
-  //   modifiers: [{ name: 'offset', options: { offset: [8, 8] } }]
-  // })
+
+  const currencies = useMemo(
+    () => ((watchListCurrencies || []).length === 0 ? ([PNG[chainId]] as Token[]) : (watchListCurrencies as Token[])),
+
+    [chainId, watchListCurrencies]
+  )
 
   useOnClickOutside(node, open ? toggle : undefined)
 
@@ -38,7 +43,7 @@ const WatchList = () => {
     <WatchListRoot>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Text color="text1" fontSize={32} fontWeight={500}>
-          WatchList
+          {t('swapPage.watchList')}
         </Text>
         <Box bgColor={theme.bg5 as any} p={'5px'} ref={node as any}>
           <Box ref={referenceElement} onClick={toggle}>
@@ -55,7 +60,12 @@ const WatchList = () => {
           </Box>
 
           {open && (
-            <CurrencyPopover getRef={(ref: HTMLInputElement) => ((popoverRef as any).current = ref)} coins={coins} />
+            <CurrencyPopover
+              getRef={(ref: HTMLInputElement) => ((popoverRef as any).current = ref)}
+              coins={coins}
+              isOpen={open}
+              onSelectCurrency={(currency: Token) => setSelectedToken(currency)}
+            />
           )}
         </Box>
       </Box>
@@ -63,8 +73,13 @@ const WatchList = () => {
         <CoinChart coin={selectedToken} />
         <Box>
           <Scrollbars>
-            {coins.map(coin => (
-              <WatchlistRow coin={coin} key={coin.address} onClick={() => setSelectedToken(coin)} />
+            {(currencies || []).map(coin => (
+              <WatchlistRow
+                coin={coin}
+                key={coin.address}
+                onClick={() => setSelectedToken(coin)}
+                isSelected={coin?.address === selectedToken?.address}
+              />
             ))}
           </Scrollbars>
         </Box>

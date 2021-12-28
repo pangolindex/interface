@@ -55,6 +55,7 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const percentageValue = [25, 50, 75, 100]
 
   const loadedUrlParams = useDefaultsFromURLSearch()
+
   const { t } = useTranslation()
 
   // token warning stuff
@@ -94,6 +95,7 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
     currencies,
     inputError: swapInputError
   } = useDerivedSwapInfo()
+
   const { wrapType, execute: onWrap, inputError: wrapInputError } = useWrapCallback(
     currencies[Field.INPUT],
     currencies[Field.OUTPUT],
@@ -110,7 +112,6 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   // const defaultTrade = showWrap ? undefined : tradesByVersion[DEFAULT_VERSION]
 
   // const betterTradeLinkVersion: Version | undefined = undefined
-
   const parsedAmounts = showWrap
     ? {
         [Field.INPUT]: parsedAmount,

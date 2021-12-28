@@ -1,6 +1,5 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { save, load } from 'redux-localstorage-simple'
-
 import application from './application/reducer'
 import { updateVersion } from './global/actions'
 import user from './user/reducer'
@@ -11,9 +10,11 @@ import lists from './lists/reducer'
 import burn from './burn/reducer'
 import multicall from './multicall/reducer'
 import wyre from './wyre/reducer'
+import watchlists from './watchlists/reducer'
+import token from './token/reducer'
 import { gelatoReducers, GELATO_PERSISTED_KEYS } from '@gelatonetwork/limit-orders-react'
 
-const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', ...GELATO_PERSISTED_KEYS]
+const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'watchlists', ...GELATO_PERSISTED_KEYS]
 
 const store = configureStore({
   reducer: {
@@ -26,6 +27,8 @@ const store = configureStore({
     multicall,
     wyre,
     lists,
+    watchlists,
+    token,
     ...gelatoReducers
   },
   middleware: [...getDefaultMiddleware({ thunk: false }), save({ states: PERSISTED_KEYS })],
