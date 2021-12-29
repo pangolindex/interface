@@ -36,7 +36,7 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, isSelected }) => {
           {token.symbol}
         </Text>
       </Box>
-      <Box px="15px">
+      <Box px="7px">
         <ResponsiveContainer height={20} width={'100%'}>
           <LineChart data={chartData}>
             <Line
@@ -48,8 +48,8 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, isSelected }) => {
           </LineChart>
         </ResponsiveContainer>
       </Box>
-      <Box ml={'10px'} textAlign="right">
-        <Text color="text1" fontSize={16} fontWeight={500}>
+      <Box textAlign="right">
+        <Text color="text1" fontSize={14} fontWeight={500}>
           ${usdcPrice ? usdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}
         </Text>
         {perc && (

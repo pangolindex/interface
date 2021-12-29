@@ -64,7 +64,10 @@ const WatchList = () => {
               getRef={(ref: HTMLInputElement) => ((popoverRef as any).current = ref)}
               coins={coins}
               isOpen={open}
-              onSelectCurrency={(currency: Token) => setSelectedToken(currency)}
+              onSelectCurrency={(currency: Token) => {
+                setSelectedToken(currency)
+                toggle()
+              }}
             />
           )}
         </Box>

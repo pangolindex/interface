@@ -1,30 +1,42 @@
 import React, { useState, useEffect } from 'react'
-import { createChart, CrosshairMode, IChartApi } from 'lightweight-charts'
+import { Pair, Token } from '@pangolindex/sdk'
+import { createChart, CrosshairMode, IChartApi, ISeriesApi } from 'lightweight-charts'
 import { useMeasure } from 'react-use'
 import { useDarkModeManager } from 'src/state/user/hooks'
 import { ChartWrapper } from './styleds'
+import { TIMEFRAME } from 'src/constants'
+import { useHourlyRateData } from 'src/state/pair/hooks'
+import { CustomLightSpinner } from 'src/theme'
+import Circle from 'src/assets/images/blue-loader.svg'
+import { Box } from '@pangolindex/components'
 
-const data = [
-  { time: '2021-11-07', value: 1000 },
-  { time: '2021-11-08', value: 2000 },
-  { time: '2021-11-09', value: 3000 },
-  { time: '2021-11-10', value: 2000 },
-  { time: '2021-11-11', value: 3000 },
-  { time: '2021-11-12', value: 1000 },
-  { time: '2021-11-13', value: 2000 },
-  { time: '2021-11-14', value: 3000 },
-  { time: '2021-11-15', value: 1000 },
-  { time: '2021-11-16', value: 4000 }
-]
+type Props = { pair?: Pair | null; tokenB?: Token }
 
-export default function PairChart() {
+const PairChart: React.FC<Props> = ({ pair, tokenB }) => {
   const [ref, { width, height }] = useMeasure()
 
   // pointer to the chart object
   const [chartCreated, setChartCreated] = useState<IChartApi>()
+  const [chartSeries, setChartSeries] = useState<ISeriesApi<'Area'>>()
   const [isDark] = useDarkModeManager()
 
-  const formattedData = data
+  let timeWindow =
+    TIMEFRAME.find(t => t.label === '1Y') ||
+    ({} as {
+      description: string
+      label: string
+      interval: number
+      momentIdentifier: string
+    })
+
+  const pairChartData = useHourlyRateData(
+    (pair?.liquidityToken?.address || '').toLowerCase(),
+    timeWindow?.momentIdentifier,
+    86400
+  )
+  const chartData = pairChartData && pair?.token0 === tokenB ? pairChartData[0] : pairChartData ? pairChartData[1] : []
+
+  const formattedData = chartData
 
   // if no chart created yet, create one with options and add to DOM manually
   useEffect(() => {
@@ -47,6 +59,8 @@ export default function PairChart() {
         },
         timeScale: {
           borderVisible: true
+          // timeVisible: true,
+          // secondsVisible: false
         },
         grid: {
           horzLines: {
@@ -73,6 +87,9 @@ export default function PairChart() {
             color: 'rgba(32, 38, 46, 0.5)',
             labelVisible: true
           }
+        },
+        localization: {
+          dateFormat: 'yyyy-MM-dd'
         }
       })
 
@@ -86,7 +103,9 @@ export default function PairChart() {
         priceLineVisible: false
       })
 
-      series.setData(formattedData)
+      series.setData([...formattedData])
+      setChartSeries(series)
+
       let toolTip = document.createElement('div')
       toolTip.setAttribute('id', 'tooltip-id')
       if (htmlElement) htmlElement.appendChild(toolTip)
@@ -101,6 +120,12 @@ export default function PairChart() {
       setChartCreated(chart)
     }
   }, [chartCreated, formattedData])
+
+  useEffect(() => {
+    if (chartCreated && formattedData) {
+      chartSeries?.setData([...formattedData])
+    }
+  }, [formattedData, chartCreated, chartSeries])
 
   useEffect(() => {
     if (chartCreated) {
@@ -121,7 +146,21 @@ export default function PairChart() {
 
   return (
     <ChartWrapper>
-      <div id={'chart-container-id'} ref={ref as any} style={{ height: '100%' }} />
+      {/* {(formattedData || []).length > 0 ? ( */}
+      <div id={'chart-container-id'} ref={ref as any} style={{ height: '100%' }}>
+        {(formattedData || []).length === 0 && (
+          <Box position={'fixed'} top="40%" left="40%" width={50} height={50}>
+            <CustomLightSpinner src={Circle} alt="loader" size={'50px'} />
+          </Box>
+        )}
+      </div>
+      {/* ) : (
+        <Box mb={'15px'}>
+          <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
+        </Box>
+      )} */}
     </ChartWrapper>
   )
 }
+
+export default PairChart
