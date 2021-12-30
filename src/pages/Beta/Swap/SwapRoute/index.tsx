@@ -17,7 +17,7 @@ const SwapRoute: React.FC<Props> = ({ trade }) => {
         const isLastItem = i === path.length - 1
 
         return (
-          <div key={i}>
+          <Box key={i} display="flex" alignItems="center">
             <Box display="flex" alignItems="center" my={'5px'}>
               <CurrencyLogo currency={token} size="1.5rem" />
               <Box ml={'10px'}>
@@ -27,7 +27,7 @@ const SwapRoute: React.FC<Props> = ({ trade }) => {
               </Box>
             </Box>
             {isLastItem ? null : <ChevronRight color={theme.text2} />}
-          </div>
+          </Box>
         )
       })}
     </SwapRouteWrapper>

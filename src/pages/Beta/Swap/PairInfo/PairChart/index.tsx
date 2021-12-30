@@ -146,19 +146,22 @@ const PairChart: React.FC<Props> = ({ pair, tokenB }) => {
 
   return (
     <ChartWrapper>
-      {/* {(formattedData || []).length > 0 ? ( */}
-      <div id={'chart-container-id'} ref={ref as any} style={{ height: '100%' }}>
+      <div id={'chart-container-id'} ref={ref as any} style={{ height: '100%', position: 'relative' }}>
         {(formattedData || []).length === 0 && (
-          <Box position={'fixed'} top="40%" left="40%" width={50} height={50}>
+          <Box
+            position={'absolute'}
+            top={0}
+            left={0}
+            bottom={0}
+            right={0}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
             <CustomLightSpinner src={Circle} alt="loader" size={'50px'} />
           </Box>
         )}
       </div>
-      {/* ) : (
-        <Box mb={'15px'}>
-          <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
-        </Box>
-      )} */}
     </ChartWrapper>
   )
 }

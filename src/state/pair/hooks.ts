@@ -31,7 +31,7 @@ export function useHourlyRateData(pairAddress: string, timeWindow: string, inter
     // February 8th 2021 - Pangolin Factory is created
     const startTime =
       type === 'ALL'
-        ? dayjs('2021-02-08')
+        ? dayjs('2021-02-11')
             .startOf('hour')
             .unix()
         : currentTime

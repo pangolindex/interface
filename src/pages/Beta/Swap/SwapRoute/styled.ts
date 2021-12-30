@@ -5,7 +5,7 @@ export const SwapRouteWrapper = styled(Box)`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  width: 85%;
+  width: 100%;
   margin: 0px auto;
   background-color: ${({ theme }) => theme.bg2};
   padding: 10px;
