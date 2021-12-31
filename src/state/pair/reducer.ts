@@ -3,7 +3,7 @@ import { updatePairTokenChartData } from './actions'
 import { Time } from 'lightweight-charts'
 
 export interface ChartState {
-  [address: string]: Array<Array<{ value: number; time: Time }>>
+  [address: string]: Array<Array<{ open: number; close: number; high: number; low: number; time: Time }>>
 }
 
 export interface TokenChartState {

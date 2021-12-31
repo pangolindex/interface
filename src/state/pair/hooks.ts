@@ -93,7 +93,7 @@ export const getHourlyRateData = async (
       let timestamp = row.split('t')[1]
 
       const year = dayjs.utc(dayjs.unix(Number(timestamp))).get('year')
-      const month = dayjs.utc(dayjs.unix(Number(timestamp))).get('month')
+      const month = dayjs.utc(dayjs.unix(Number(timestamp))).get('month') + 1
       const day = dayjs.utc(dayjs.unix(Number(timestamp))).get('date')
 
       if (timestamp) {
@@ -110,17 +110,25 @@ export const getHourlyRateData = async (
 
     // for each hour, construct the open and close price
     for (let i = 0; i < values.length - 1; i++) {
-      formattedHistoryRate0.push({
-        time: values[i].timestamp,
-        value: parseFloat(values[i].rate0) || 0
-        // close: parseFloat(values[i + 1].rate0),
-      })
+      if (values[i].rate0 !== 0) {
+        formattedHistoryRate0.push({
+          time: values[i].timestamp,
+          open: parseFloat(values[i].rate0 || 0),
+          close: parseFloat(values[i + 1].rate0 || 0),
+          low: parseFloat(values[i].rate0 || 0),
+          high: parseFloat(values[i + 1].rate0 || 0)
+        })
+      }
 
-      formattedHistoryRate1.push({
-        time: values[i].timestamp,
-        value: parseFloat(values[i].rate1) || 0
-        // close: parseFloat(values[i + 1].rate1),
-      })
+      if (values[i].rate1 !== 0) {
+        formattedHistoryRate1.push({
+          time: values[i].timestamp,
+          open: parseFloat(values[i].rate1 || 0),
+          close: parseFloat(values[i + 1].rate1 || 0),
+          low: parseFloat(values[i].rate1 || 0),
+          high: parseFloat(values[i + 1].rate1 || 0)
+        })
+      }
     }
 
     return [formattedHistoryRate0, formattedHistoryRate1]

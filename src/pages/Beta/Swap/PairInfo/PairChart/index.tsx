@@ -17,7 +17,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenB }) => {
 
   // pointer to the chart object
   const [chartCreated, setChartCreated] = useState<IChartApi>()
-  const [chartSeries, setChartSeries] = useState<ISeriesApi<'Area'>>()
+  const [chartSeries, setChartSeries] = useState<ISeriesApi<'Candlestick'>>()
   const [isDark] = useDarkModeManager()
 
   let timeWindow =
@@ -93,14 +93,13 @@ const PairChart: React.FC<Props> = ({ pair, tokenB }) => {
         }
       })
 
-      let series = chart.addAreaSeries({
-        topColor: '#E67826',
-        bottomColor: 'transparent',
-        lineColor: '#E67826',
-        lineWidth: 1,
-        crosshairMarkerVisible: true,
-        lastValueVisible: false,
-        priceLineVisible: false
+      const series = chart.addCandlestickSeries({
+        upColor: '#4bffb5',
+        downColor: '#ff4976',
+        borderDownColor: '#ff4976',
+        borderUpColor: '#4bffb5',
+        wickDownColor: '#838ca1',
+        wickUpColor: '#838ca1'
       })
 
       series.setData([...formattedData])

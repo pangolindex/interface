@@ -28,8 +28,8 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency }) => {
 
   const pairChart = allTokenChart?.[(pair?.liquidityToken?.address || '').toLowerCase()] || []
 
-  const currentPair0UsdcPrice = pairChart?.[0]?.[(pairChart[0] || []).length - 1]?.value || 0
-  const lastDaypair0UsdcPrice = pairChart?.[0]?.[(pairChart[0] || []).length - 2]?.value || 0
+  const currentPair0UsdcPrice = pairChart?.[0]?.[(pairChart[0] || []).length - 1]?.open || 0
+  const lastDaypair0UsdcPrice = pairChart?.[0]?.[(pairChart[0] || []).length - 2]?.open || 0
 
   var decreaseValue = currentPair0UsdcPrice - lastDaypair0UsdcPrice
   let perc = decreaseValue && lastDaypair0UsdcPrice ? (decreaseValue / lastDaypair0UsdcPrice) * 100 : 0

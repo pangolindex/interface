@@ -3,5 +3,5 @@ import { Time } from 'lightweight-charts'
 
 export const updatePairTokenChartData = createAction<{
   address: string
-  chartData: Array<Array<{ value: number; time: Time }>>
+  chartData: Array<Array<{ open: number; close: number; high: number; low: number; time: Time }>>
 }>('pair/updatePairTokenChartData')
