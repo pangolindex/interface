@@ -104,7 +104,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
               return toNiceDateYear(data?.[0]?.payload?.timestamp)
             }}
             labelStyle={{ paddingTop: 4 }}
-            wrapperStyle={{ top: -70, left: -10 }}
+            wrapperStyle={{ top: -70, left: -10, zIndex: 9999 }}
           />
         </LineChart>
       </ResponsiveContainer>

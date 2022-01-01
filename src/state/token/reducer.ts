@@ -1,11 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { updateTokenWeeklyPriceChartData, updateTokenPriceChartData } from './actions'
 
-interface WeeklyState {
+export interface WeeklyState {
   [address: string]: Array<{ priceUSD: number; date: string }>
 }
 
-interface ChartState {
+export interface ChartState {
   [address: string]: Array<{ priceUSD: number; timestamp: string }>
 }
 

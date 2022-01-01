@@ -5,23 +5,20 @@ import { GET_BLOCKS, PRICES_BY_BLOCK } from '../../apollo/block'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, AppState } from '../index'
 import { updateTokenWeeklyPriceChartData, updateTokenPriceChartData } from 'src/state/token/actions'
-import { splitQuery } from 'src/utils/splitQuery'
+import { splitQuery } from 'src/utils/query'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
+import { ChartState, WeeklyState } from './reducer'
 
 dayjs.extend(utc)
 
-export function useAllTokenWeeklyPriceChartData():
-  | { [address: string]: Array<{ priceUSD: number; date: string }> }
-  | undefined {
+export function useAllTokenWeeklyPriceChartData(): WeeklyState | undefined {
   const allTokenCharts = useSelector<AppState, AppState['token']['weekly']>(state => state?.token?.weekly || {})
 
   return allTokenCharts
 }
 
-export function useAllTokenPricesChartData():
-  | { [address: string]: Array<{ priceUSD: number; timestamp: string }> }
-  | undefined {
+export function useAllTokenPricesChartData(): ChartState | undefined {
   const allTokenCharts = useSelector<AppState, AppState['token']['tokenPrices']>(
     state => state?.token?.tokenPrices || {}
   )
@@ -70,7 +67,7 @@ const getTokenWeeklyChartData = async (tokenAddress: string) => {
   return data
 }
 
-export function useTokenPriceData(tokenAddress: string, timeWindow: string, interval = 3600, type: string) {
+export function useTokenPriceData(tokenAddress: string, timeWindow: string, interval = 3600, type = 'ALL') {
   const data1 = useAllTokenPricesChartData()
 
   const chartData = data1?.[tokenAddress]
@@ -82,8 +79,8 @@ export function useTokenPriceData(tokenAddress: string, timeWindow: string, inte
 
     // February 8th 2021 - Pangolin Factory is created
     const startTime =
-      type === 'ALL' || type === '1Y'
-        ? dayjs('2021-02-08')
+      type === 'ALL'
+        ? dayjs('2021-02-11')
             .startOf('hour')
             .unix()
         : currentTime
