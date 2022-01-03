@@ -27,7 +27,9 @@
     "bridge": "Bridge",
     "ourPartners": "Our Partners",
     "usefulLinks": "USEFUL LINKS",
-    "comeAndJoinUs": "Come & Join Us"
+    "comeAndJoinUs": "Come & Join Us",
+    "tryOurNewBetaSite": "Try our new beta site",
+    "returnToLegacySite": "Return to legacy site"
   },
   "accountDetails": {
     "connectedWith": "Connected with ",

@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { Pair, Token } from '@pangolindex/sdk'
 import { client } from '../../apollo/client'
 import { HOURLY_PAIR_RATES } from '../../apollo/pair'
 import { PRICES_BY_BLOCK } from '../../apollo/block'
@@ -305,8 +304,8 @@ export const getHourlyPairTokensChartData = async (
         }
       }
     } else {
-      for (var row in values0) {
-        let timestamp = values0[row]?.timestamp
+      for (var row1 in values0) {
+        let timestamp = values0[row1]?.timestamp
         let dayjsTimestamp = dayjs.utc(dayjs.unix(Number(timestamp)))
         const year = dayjsTimestamp.get('year')
         const month = dayjsTimestamp.get('month') + 1

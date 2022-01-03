@@ -27,7 +27,9 @@
     "bridge": "Pont",
     "ourPartners": "Nos partenaires",
     "usefulLinks": "LIENS UTILES",
-    "comeAndJoinUs": "Venez nous rejoindre"
+    "comeAndJoinUs": "Venez nous rejoindre",
+    "tryOurNewBetaSite": "Essayez notre nouveau site bêta",
+    "returnToLegacySite": "Retour à l'ancien site"
   },
   "accountDetails": {
     "connectedWith": "Connecté avec ",
