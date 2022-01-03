@@ -22,8 +22,8 @@ const PairInfo = () => {
 
   return (
     <>
-      <PairStat pair={tokenPair} inputCurrency={token0} outputCurrency={token1} />
-      <PairChart pair={tokenPair} tokenB={tokenB} />
+      <PairStat pair={tokenPair} inputCurrency={token0} outputCurrency={token1} tokenA={tokenA} tokenB={tokenB} />
+      <PairChart pair={tokenPair} tokenA={tokenA} tokenB={tokenB} />
     </>
   )
 }

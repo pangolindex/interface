@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { updatePairTokenChartData } from './actions'
+import { updatePairChartData, updatePairTokensChartData } from './actions'
 import { Time } from 'lightweight-charts'
 
 export interface ChartState {
@@ -8,20 +8,33 @@ export interface ChartState {
 
 export interface TokenChartState {
   readonly pairData: ChartState
+  readonly tokenPairData: ChartState
 }
 
 const initialState: TokenChartState = {
-  pairData: {}
+  pairData: {},
+  tokenPairData: {}
 }
 
 export default createReducer(initialState, builder =>
-  builder.addCase(updatePairTokenChartData, (state, { payload: { address, chartData } }) => {
-    let container = {} as ChartState
-    container[address] = chartData
-    const existingChartData = {
-      ...(state.pairData || {}),
-      ...container
-    }
-    state.pairData = existingChartData
-  })
+  builder
+    .addCase(updatePairChartData, (state, { payload: { address, chartData } }) => {
+      let container = {} as ChartState
+      container[address] = chartData
+      const existingChartData = {
+        ...(state.pairData || {}),
+        ...container
+      }
+      state.pairData = existingChartData
+    })
+
+    .addCase(updatePairTokensChartData, (state, { payload: { address, chartData } }) => {
+      let container = {} as ChartState
+      container[address] = chartData
+      const existingChartData = {
+        ...(state.tokenPairData || {}),
+        ...container
+      }
+      state.tokenPairData = existingChartData
+    })
 )
