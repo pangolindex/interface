@@ -8,6 +8,7 @@
   "private": true,
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
+    "@gnosis.pm/safe-apps-web3-react": "^0.6.7",
     "@pangolindex/components": "1.0.6",
     "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.2.0",
