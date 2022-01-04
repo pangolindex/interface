@@ -97,7 +97,7 @@ export default function GovernanceDetail() {
           {proposalData && <ProposalStatus status={proposalData?.status ?? ''}>{proposalData?.status}</ProposalStatus>}
         </RowBetween>
         <AutoColumn gap="10px" style={{ width: '100%' }}>
-          <Text fontFamily={'Raleway'} fontSize={44} lineHeight="52px" color="text1" style={{ marginBottom: '.5rem' }}>
+          <Text fontSize={44} lineHeight="52px" color="text1" style={{ marginBottom: '.5rem' }}>
             {proposalData?.title}
           </Text>
         </AutoColumn>
@@ -172,7 +172,7 @@ export default function GovernanceDetail() {
         <StyledDataCard style={{ borderRadius: '0px' }}>
           <CardSection style={{ padding: '25px 30px' }}>
             <AutoColumn gap="md">
-              <Text fontFamily={'Raleway'} fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
+              <Text fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
                 {t('votePage.details')}
               </Text>
               {proposalData?.details?.map((d, i) => {
@@ -195,7 +195,7 @@ export default function GovernanceDetail() {
             <AutoColumn gap="md" style={{ marginTop: '30px' }}>
               {proposalData?.description ? (
                 <>
-                  <Text fontFamily={'Raleway'} fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
+                  <Text fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
                     {t('votePage.overview')}
                   </Text>
                   <MarkDownWrapper>
@@ -209,7 +209,7 @@ export default function GovernanceDetail() {
             <AutoColumn gap="md">
               {proposalData?.proposer && (
                 <>
-                  <Text fontFamily={'Raleway'} fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
+                  <Text fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
                     {t('votePage.proposer')}
                   </Text>
                   <ExternalLink
