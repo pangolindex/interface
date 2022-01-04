@@ -79,7 +79,7 @@ export default function Header({ onCollapsed }: HeaderProps) {
       <HeaderControls>
         <HeaderElement>
           <Button variant="primary" height={36} padding="4px 6px" href="/" as="a">
-            {t('header.returnToLegacySite')}
+            <span style={{ whiteSpace: 'nowrap' }}>{t('header.returnToLegacySite')}</span>
           </Button>
           <HideSmall>
             {chainId && NETWORK_LABELS[chainId] && (
