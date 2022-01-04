@@ -18,13 +18,11 @@ export const PopoverContainer = styled(Box)`
   color: ${({ theme }) => theme.text2};
   border-radius: 0.5rem;
   padding: 5px;
-  display: grid;
-  grid-template-rows: 1fr;
-  grid-gap: 8px;
+  display: flex;
+  flex-direction: column;
   font-size: 1rem;
   text-align: left;
-  min-height: 200px;
-  max-height: 200px;
+  height: 200px;
   position: absolute;
   min-width: 20.125rem;
   right: 1.5rem;
@@ -65,6 +63,6 @@ export const CurrencyList = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  min-height: 133px;
   position: relative;
+  overflow-y: auto;
 `

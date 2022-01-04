@@ -27,7 +27,9 @@
     "bridge": "Köprü",
     "ourPartners": "Bizim ortaklarımız",
     "usefulLinks": "KULLANIŞLI BAĞLANTILAR",
-    "comeAndJoinUs": "Gelip bize katıl"
+    "comeAndJoinUs": "Gelip bize katıl",
+    "tryOurNewBetaSite": "Yeni beta sitemizi deneyin",
+    "returnToLegacySite": "Eski siteye dön"
   },
   "accountDetails": {
     "connectedWith": "Neye Bağlı: ",

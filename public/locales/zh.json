@@ -27,7 +27,9 @@
     "bridge": "桥",
     "ourPartners": "我们的伙伴",
     "usefulLinks": "有用的链接",
-    "comeAndJoinUs": "来加入我们"
+    "comeAndJoinUs": "来加入我们",
+    "tryOurNewBetaSite": "试试我们的新测试版网站",
+    "returnToLegacySite": "返回旧网站"
   },
   "accountDetails": {
     "connectedWith": "与连结 ",

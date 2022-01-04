@@ -3,14 +3,14 @@ import { PanelWrapper } from './styleds'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import Stat from 'src/components/Stat'
 import { ThemeContext } from 'styled-components'
-import { Pair, Currency } from '@pangolindex/sdk'
+import { Pair, Currency, Token } from '@pangolindex/sdk'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
-import { useAllTokenPairChartData } from 'src/state/pair/hooks'
+import { useAllPairChartData, useAllPairTokensChartData } from 'src/state/pair/hooks'
 import { useTranslation } from 'react-i18next'
 
-type Props = { pair?: Pair | null; inputCurrency?: Currency; outputCurrency?: Currency }
+type Props = { pair?: Pair | null; inputCurrency?: Currency; outputCurrency?: Currency; tokenB?: Token; tokenA?: Token }
 
-const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency }) => {
+const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA, tokenB }) => {
   const { t } = useTranslation()
 
   const theme = useContext(ThemeContext)
@@ -23,13 +23,23 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency }) => {
 
   const Pair1UsdcPrice =
     inputUsdcPrice && outputUsdcPrice ? Number(outputUsdcPrice.toFixed()) / Number(inputUsdcPrice.toFixed()) : 0
+  const allPairChart = useAllPairChartData()
 
-  const allTokenChart = useAllTokenPairChartData()
+  const pairChart = allPairChart?.[(pair?.liquidityToken?.address || '').toLowerCase()] || []
+  const tokensPairAddress = `${tokenA?.address?.toLowerCase()}_${tokenB?.address?.toLowerCase()}`
 
-  const pairChart = allTokenChart?.[(pair?.liquidityToken?.address || '').toLowerCase()] || []
+  const allPairTokensChart = useAllPairTokensChartData()
 
-  const currentPair0UsdcPrice = pairChart?.[0]?.[(pairChart[0] || []).length - 1]?.open || 0
-  const lastDaypair0UsdcPrice = pairChart?.[0]?.[(pairChart[0] || []).length - 2]?.open || 0
+  const tokensPairChart = allPairTokensChart?.[(tokensPairAddress || '').toLowerCase()] || []
+
+  const currentPair0UsdcPrice =
+    (pairChart[0] || []).length > 0
+      ? pairChart?.[0]?.[(pairChart[0] || []).length - 1]?.open || 0
+      : tokensPairChart?.[0]?.[(tokensPairChart[0] || []).length - 1]?.open || 0
+  const lastDaypair0UsdcPrice =
+    (pairChart[0] || []).length > 0
+      ? pairChart?.[0]?.[(pairChart[0] || []).length - 2]?.open || 0
+      : tokensPairChart?.[0]?.[(tokensPairChart[0] || []).length - 2]?.open || 0
 
   var decreaseValue = currentPair0UsdcPrice - lastDaypair0UsdcPrice
   let perc = decreaseValue && lastDaypair0UsdcPrice ? (decreaseValue / lastDaypair0UsdcPrice) * 100 : 0

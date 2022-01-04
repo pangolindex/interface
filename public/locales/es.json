@@ -27,7 +27,9 @@
     "bridge": "Puente",
     "ourPartners": "Nuestros compañeros",
     "usefulLinks": "ENLACES ÚTILES",
-    "comeAndJoinUs": "Ven y únete a nosotras"
+    "comeAndJoinUs": "Ven y únete a nosotras",
+    "tryOurNewBetaSite": "Prueba nuestro nuevo sitio beta",
+    "returnToLegacySite": "Regresar al sitio heredado"
   },
   "accountDetails": {
     "connectedWith": "Connectado con ",
