@@ -420,7 +420,7 @@
     "gelatoFee": "Gelato Học phí",
     "placeOrder": "Đặt hàng",
     "confirmOrder": "Xác nhận đơn hàng",
-    "for" : "vì",
+    "for": "vì",
     "submittingOrderToSwap": "Gửi đơn đặt hàng để hoán đổi",
     "limitPrice": "Giá giới hạn",
     "outputWillBeSentTo": "Đầu ra sẽ được gửi đến",
@@ -449,6 +449,7 @@
     "governanceVotes": "Các phiếu bầu quản trị được quyết định theo đa số. Không có ngưỡng đại biểu. ",
     "proposals": "Đề xuất",
     "allProposals": "Tất cả đề xuất",
+    "backToProposals": "Quay lại Đề xuất",
     "unlockVoting": "Mở khóa biểu quyết",
     "votes": " Phiếu bầu",
     "delegatedTo": "Ủy quyền cho:",
@@ -466,7 +467,11 @@
     "for": "Cho",
     "details": "Chi tiết",
     "overview": "Tổng quan",
-    "proposer": "Người đề xuất"
+    "proposer": "Người đề xuất",
+    "about": "Về",
+    "vote": "Bầu cử",
+    "executed": "Thực thi",
+    "rejected": "Bác bỏ"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",

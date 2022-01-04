@@ -420,7 +420,7 @@
     "gelatoFee": "Gelato Taxa",
     "placeOrder": "Faça a encomenda",
     "confirmOrder": "Confirmar pedido",
-    "for" : "por",
+    "for": "por",
     "submittingOrderToSwap": "Enviando pedido de troca",
     "limitPrice": "Preço Limite",
     "outputWillBeSentTo": "A saída será enviada para",
@@ -449,6 +449,7 @@
     "governanceVotes": "Votações de governança são decididas por maioria simples. Não há quórum necessário.",
     "proposals": "Propostas",
     "allProposals": "Todas as propostas",
+    "backToProposals": "Voltar para propostas",
     "unlockVoting": "Desbloquear votação ",
     "votes": " Votos",
     "delegatedTo": "Delegar para:",
@@ -466,7 +467,11 @@
     "for": "A favor",
     "details": "Detalhes",
     "overview": "Visão geral",
-    "proposer": "Quem fez a proposta"
+    "proposer": "Quem fez a proposta",
+    "about": "Cerca de",
+    "vote": "Voto",
+    "executed": "Executado",
+    "rejected": "Rejeitado"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",

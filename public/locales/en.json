@@ -420,7 +420,7 @@
     "gelatoFee": "Gelato Fee",
     "placeOrder": "Place Order",
     "confirmOrder": "Confirm Order",
-    "for" : "for",
+    "for": "for",
     "submittingOrderToSwap": "Submitting order to swap",
     "limitPrice": "Limit Price",
     "outputWillBeSentTo": "Output will be sent to",
@@ -449,6 +449,7 @@
     "governanceVotes": "Governance votes are decided by simple majority. There is no quorum threshold.",
     "proposals": "Proposals",
     "allProposals": "All Proposals",
+    "backToProposals": "Back to Proposals",
     "unlockVoting": "Unlock voting",
     "votes": " Votes",
     "delegatedTo": "Delegated to:",
@@ -466,7 +467,11 @@
     "for": "For",
     "details": "Details",
     "overview": "Overview",
-    "proposer": "Proposer"
+    "proposer": "Proposer",
+    "about": "About",
+    "vote": "Vote",
+    "executed": "Executed",
+    "rejected": "Rejected"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
