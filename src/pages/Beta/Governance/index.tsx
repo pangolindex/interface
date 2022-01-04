@@ -62,16 +62,23 @@ const GovernanceUI = () => {
       <PageTitle>{t('votePage.pangolinGovernance')}</PageTitle>
       <ContentWrapper>
         <About>
-          <Text fontSize={28} fontWeight={800} lineHeight="33px" color="text1" style={{ marginBottom: '14px' }}>
+          <Text
+            fontFamily={'Raleway'}
+            fontSize={28}
+            fontWeight={800}
+            lineHeight="33px"
+            color="text10"
+            style={{ marginBottom: '14px' }}
+          >
             {t('votePage.about')}
           </Text>
-          <Text fontSize={16} lineHeight="24px" color="text1">
+          <Text fontSize={16} lineHeight="24px" color="text10">
             {t('votePage.earnedPngTokens')}
           </Text>
-          <Text fontSize={16} lineHeight="24px" color="text1">
+          <Text fontSize={16} lineHeight="24px" color="text10">
             {t('votePage.eligibleToVote')}
           </Text>
-          <Text fontSize={16} lineHeight="24px" color="text1">
+          <Text fontSize={16} lineHeight="24px" color="text10">
             {t('votePage.governanceVotes')}
           </Text>
         </About>

@@ -51,7 +51,7 @@ export function colors(darkMode: boolean): Colors {
     text7: darkMode ? '#e6e9ec' : '#000000',
     text8: darkMode ? '#707070' : '#565A69',
     text9: darkMode ? '#A3A3A3' : '#000000',
-    text10: darkMode ? '#E6E9EC' : '#000000',
+    text10: darkMode ? '#FAF9FD' : '#000000',
     text11: darkMode ? '#18C145' : '#18C145',
     text12: darkMode ? '#E84142' : '#E84142',
 
@@ -260,6 +260,10 @@ export const TYPE = {
 }
 
 export const FixedGlobalStyle = createGlobalStyle<{ isBeta: boolean }>`
+* {
+  @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+}
+
 html, input, textarea, button {
   font-family: ${({ isBeta }) => (isBeta ? "'Poppins', sans-serif" : "'Inter', sans-serif")};
   font-display: fallback;
