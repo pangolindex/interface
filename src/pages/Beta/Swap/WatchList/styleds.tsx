@@ -12,8 +12,8 @@ export const WatchListRoot = styled(Box)`
 
 export const GridContainer = styled(Box)`
   display: grid;
-  grid-template-columns: minmax(auto, 60%) 40%;
-  grid-gap: 12px;
+  grid-template-columns: minmax(auto, 50%) 50%;
+  grid-gap: 8px;
   padding: 10px 0px;
   flex: 1;
 `
@@ -31,15 +31,15 @@ export const CoinList = styled(Box)`
 `
 
 // WatchList Row Styles
-
-export const RowWrapper = styled(Box)`
+export const RowWrapper = styled(Box)<{ isSelected: boolean }>`
   padding: 15px 10px;
   display: grid;
-  grid-template-columns: 100px minmax(auto, calc(100% - 150px)) 50px;
+  grid-template-columns: 100px minmax(auto, calc(100% - 190px)) 130px;
   align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.text9};
   cursor: pointer;
   border-radius: 4px;
+  background-color: ${({ theme, isSelected }) => (isSelected ? theme.bg6 : theme.bg2)};
 
   &:hover {
     background-color: ${({ theme }) => theme.bg6};
@@ -51,7 +51,7 @@ export const RowWrapper = styled(Box)`
 export const SelectedCoinInfo = styled(Box)`
   display: grid;
   grid-template-columns: max-content auto max-content;
-  grid-gap: 15px;
+  grid-gap: 8px;
   align-items: center;
 `
 

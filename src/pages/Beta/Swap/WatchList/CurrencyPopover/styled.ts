@@ -42,16 +42,29 @@ export const PopoverContainer = styled(Box)`
     z-index: 1;
   }
 `
-export const RowWrapper = styled(Box)`
+
+export const RowWrapper = styled.div<{ disabled: Boolean }>`
   padding: 5px 5px;
   display: grid;
   grid-template-columns: 100px minmax(auto, calc(100% - 150px)) 50px;
   align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.text9};
-  cursor: pointer;
   border-radius: 4px;
+  height: 45px;
+
+  cursor: ${({ disabled }) => !disabled && 'pointer'};
+  pointer-events: ${({ disabled }) => disabled && 'none'};
 
   &:hover {
-    background-color: ${({ theme }) => theme.bg6};
+    background-color: ${({ theme, disabled }) => !disabled && theme.bg3};
   }
+
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
+`
+export const CurrencyList = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 133px;
+  position: relative;
 `

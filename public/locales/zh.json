@@ -427,7 +427,10 @@
     "sell": "卖",
     "buy": "买",
     "betaRelease": "这是一个 BETA 版本，使用时应自担风险",
-    "trade": "贸易"
+    "trade": "贸易",
+    "watchList": "观察名单",
+    "yourPortFolio": "您的投资组合",
+    "comingSoon": "即将推出"
   },
   "buyPage": {
     "buyAvaxInfo": "用我们的合作伙伴怀尔的法定资金购买 AVAX。",

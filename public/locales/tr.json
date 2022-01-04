@@ -427,7 +427,10 @@
     "sell": "satmak",
     "buy": "satın almak",
     "betaRelease": "Bu bir BETA sürümüdür ve riski size ait olmak üzere kullanılmalıdır!",
-    "trade": "Ticaret"
+    "trade": "Ticaret",
+    "watchList": "İzlenecekler listesi",
+    "yourPortFolio":"Portföyünüz",
+    "comingSoon":"Çok yakında"
   },
   "buyPage": {
     "buyAvaxInfo": "Ortağımız Wyre aracılığıyla AVAX satın alın.",

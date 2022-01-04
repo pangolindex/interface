@@ -427,7 +427,10 @@
     "sell": "SELL",
     "buy": "BUY",
     "betaRelease": "This is a BETA release and should be used at your own risk!",
-    "trade": "Trade"
+    "trade": "Trade",
+    "watchList": "WatchList",
+    "yourPortFolio":"Your Portfolio",
+    "comingSoon":"Coming Soon"
   },
   "buyPage": {
     "buyAvaxInfo": "Buy AVAX with fiat from our partner Wyre.",

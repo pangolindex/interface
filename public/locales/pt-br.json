@@ -427,7 +427,10 @@
     "sell": "vender",
     "buy": "Comprar",
     "betaRelease": "Esta é uma versão BETA e deve ser usada por sua própria conta e risco!",
-    "trade": "Troca"
+    "trade": "Troca",
+    "watchList": "WatchList",
+    "yourPortFolio":"Seu Portfólio",
+    "comingSoon":"Em breve"
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX com moeda fiduciária do nosso parceiro Wyre.",
