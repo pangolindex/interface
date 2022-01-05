@@ -88,12 +88,13 @@ const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen, on
   )
 
   const Row = useCallback(
-    ({ data, index }) => {
+    ({ data, index, style }) => {
       const currency: Token = data?.[index]
 
       return currency ? (
         <CurrencyRow
           key={index}
+          style={style}
           currency={currency}
           onSelect={address => {
             onSelectCurrency(currency)
@@ -138,7 +139,7 @@ const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen, on
               height={height}
               width="100%"
               itemCount={currencies.length}
-              itemSize={10}
+              itemSize={45}
               itemData={currencies}
               itemKey={(index, data) => currencyKey(data[index])}
             >

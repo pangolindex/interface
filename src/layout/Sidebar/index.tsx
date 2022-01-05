@@ -85,15 +85,15 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       icon: Stake,
       title: t('header.stake'),
       id: 'stake',
-      isActive: location?.pathname?.startsWith('/stake')
+      isActive: location?.pathname?.startsWith('/beta/stake')
     },
 
     {
-      link: '/vote',
+      link: '/beta/vote',
       icon: Vote,
       title: t('header.vote'),
       id: 'vote',
-      isActive: location?.pathname?.startsWith('/vote')
+      isActive: location?.pathname?.startsWith('/beta/vote')
     },
 
     {

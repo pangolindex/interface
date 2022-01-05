@@ -135,12 +135,6 @@ export const getIntervalTokenData = async (
       return []
     }
 
-    // if (latestBlock) {
-    //   blocks = blocks.filter(b => {
-    //     return parseFloat(b.number) <= parseFloat(latestBlock)
-    //   })
-    // }
-
     let result: any = await splitQuery(PRICES_BY_BLOCK, client, [tokenAddress], blocks, 50)
 
     // format token ETH price results

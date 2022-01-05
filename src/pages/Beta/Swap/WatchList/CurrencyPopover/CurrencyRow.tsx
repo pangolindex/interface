@@ -9,9 +9,10 @@ import { unwrappedToken } from 'src/utils/wrappedCurrency'
 type Props = {
   currency: Token
   onSelect: (address: string) => void
+  style: any
 }
 
-const WatchlistRow: React.FC<Props> = ({ currency, onSelect }) => {
+const WatchlistCurrencyRow: React.FC<Props> = ({ currency, onSelect, style }) => {
   const usdcPrice = useUSDCPrice(currency)
   const isSelected = useIsSelectedCurrency(currency?.address)
 
@@ -22,7 +23,7 @@ const WatchlistRow: React.FC<Props> = ({ currency, onSelect }) => {
   const token = unwrappedToken(currency)
 
   return (
-    <RowWrapper disabled={isSelected}>
+    <RowWrapper disabled={isSelected} style={style}>
       <Box display="flex" alignItems="center">
         <CurrencyLogo size={'28px'} currency={token} />
         <Text color="text1" fontSize={20} fontWeight={500} marginLeft={'6px'}>
@@ -44,4 +45,4 @@ const WatchlistRow: React.FC<Props> = ({ currency, onSelect }) => {
   )
 }
 
-export default WatchlistRow
+export default WatchlistCurrencyRow

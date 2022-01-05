@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Text, Box, CurrencyLogo } from '@pangolindex/components'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { Token } from '@pangolindex/sdk'
@@ -15,6 +15,7 @@ type Props = {
 }
 
 const WatchlistRow: React.FC<Props> = ({ coin, onClick, isSelected }) => {
+  const [showChart, setShowChart] = useState(false)
   const theme = useContext(ThemeContext)
   const usdcPrice = useUSDCPrice(coin)
 
@@ -28,6 +29,15 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, isSelected }) => {
 
   const token = unwrappedToken(coin)
 
+  useEffect(() => {
+    if (usdcPrice) {
+      setTimeout(() => {
+        // show chart only after price of token comes to display chart in visible space
+        setShowChart(true)
+      })
+    }
+  }, [usdcPrice, setShowChart])
+
   return (
     <RowWrapper onClick={onClick} isSelected={isSelected}>
       <Box display="flex" alignItems="center">
@@ -37,22 +47,25 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, isSelected }) => {
         </Text>
       </Box>
       <Box px="7px">
-        <ResponsiveContainer height={20} width={'100%'}>
-          <LineChart data={chartData}>
-            <Line
-              type="monotone"
-              dataKey="priceUSD"
-              stroke={diffPercent >= 0 ? theme.green1 : theme.red1}
-              dot={false}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        {/* show chart only after price of token comes to display chart in visible space */}
+        {showChart && (
+          <ResponsiveContainer height={20} width={'100%'}>
+            <LineChart data={chartData}>
+              <Line
+                type="monotone"
+                dataKey="priceUSD"
+                stroke={diffPercent >= 0 ? theme.green1 : theme.red1}
+                dot={false}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
       </Box>
       <Box textAlign="right">
         <Text color="text1" fontSize={14} fontWeight={500}>
-          ${usdcPrice ? usdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}
+          {usdcPrice ? `$${usdcPrice?.toSignificant(4, { groupSeparator: ',' })}` : '-'}
         </Text>
-        {perc && (
+        {!isNaN(perc) && (
           <Text color={diffPercent > 0 ? 'green1' : 'red1'} fontSize={'8px'} fontWeight={500}>
             {perc.toFixed(3)}%
           </Text>

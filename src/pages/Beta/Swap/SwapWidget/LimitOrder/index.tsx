@@ -20,6 +20,7 @@ import { RowBetween } from 'src/components/Row'
 import { NATIVE } from 'src/constants'
 import LimitOrderDetailInfo from '../../LimitOrderDetailInfo'
 import TradeOption from '../TradeOption'
+import { wrappedCurrency } from 'src/utils/wrappedCurrency'
 
 enum Rate {
   DIV = 'DIV',
@@ -36,8 +37,8 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const [selectedPercentage, setSelectedPercentage] = useState(0)
   const [tokenDrawerType, setTokenDrawerType] = useState(LimitNewField.INPUT)
   const [activeTab, setActiveTab] = useState<'SELL' | 'BUY'>('SELL')
+  const { account, chainId } = useActiveWeb3React()
 
-  const { account } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
 
   const percentageValue = [25, 50, 75, 100]
@@ -378,11 +379,15 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
             isActive={selectedPercentage === value}
             onClick={() => {
               setSelectedPercentage(value)
-              const newAmount = (maxAmountInput as TokenAmount)
-                .multiply(JSBI.BigInt(value))
-                .divide(JSBI.BigInt(100)) as TokenAmount
 
-              onUserInput(LimitNewField.INPUT as any, newAmount.toExact())
+              if (maxAmountInput) {
+                const multipyAmount = JSBI.multiply(maxAmountInput?.raw, JSBI.BigInt(value))
+                const divideAmount = JSBI.divide(multipyAmount, JSBI.BigInt(100))
+                const token = wrappedCurrency(maxAmountInput?.currency ?? undefined, chainId) as Token
+                const newFinalAmount = new TokenAmount(token, divideAmount)
+
+                onUserInput(LimitNewField.INPUT as any, newFinalAmount.toExact())
+              }
             }}
           >
             {value}%

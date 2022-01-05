@@ -3,19 +3,18 @@ import { Pair, Token } from '@pangolindex/sdk'
 import { createChart, CrosshairMode, IChartApi, ISeriesApi } from 'lightweight-charts'
 import { useMeasure } from 'react-use'
 import { useDarkModeManager } from 'src/state/user/hooks'
-import { ChartWrapper } from './styleds'
 import { TIMEFRAME } from 'src/constants'
-import { useHourlyRateData } from 'src/state/pair/hooks'
+import { usePairHourlyRateData, useHourlyPairTokensChartData } from 'src/state/pair/hooks'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
 import { Box } from '@pangolindex/components'
+import { ChartWrapper, ChartContainer } from './styleds'
 
-type Props = { pair?: Pair | null; tokenB?: Token }
+type Props = { pair?: Pair | null; tokenB?: Token; tokenA?: Token }
 
-const PairChart: React.FC<Props> = ({ pair, tokenB }) => {
+const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
   const [ref, { width, height }] = useMeasure()
 
-  // pointer to the chart object
   const [chartCreated, setChartCreated] = useState<IChartApi>()
   const [chartSeries, setChartSeries] = useState<ISeriesApi<'Candlestick'>>()
   const [isDark] = useDarkModeManager()
@@ -29,14 +28,28 @@ const PairChart: React.FC<Props> = ({ pair, tokenB }) => {
       momentIdentifier: string
     })
 
-  const pairChartData = useHourlyRateData(
+  const pairChartData = usePairHourlyRateData(
     (pair?.liquidityToken?.address || '').toLowerCase(),
     timeWindow?.momentIdentifier,
     86400
   )
   const chartData = pairChartData && pair?.token0 === tokenB ? pairChartData[0] : pairChartData ? pairChartData[1] : []
 
-  const formattedData = chartData
+  const pairTokensChartData = useHourlyPairTokensChartData(
+    tokenA?.address || '',
+    tokenB?.address || '',
+    timeWindow?.momentIdentifier,
+    86400
+  )
+
+  const chartData1 =
+    pairTokensChartData && pair?.token0 === tokenB
+      ? pairTokensChartData[0]
+      : pairTokensChartData
+      ? pairTokensChartData[1]
+      : []
+
+  const formattedData = (chartData || []).length > 0 ? chartData : chartData1
 
   // if no chart created yet, create one with options and add to DOM manually
   useEffect(() => {
@@ -145,7 +158,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenB }) => {
 
   return (
     <ChartWrapper>
-      <div id={'chart-container-id'} ref={ref as any} style={{ height: '100%', position: 'relative' }}>
+      <ChartContainer id="chart-container-id" ref={ref as any}>
         {(formattedData || []).length === 0 && (
           <Box
             position={'absolute'}
@@ -160,7 +173,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenB }) => {
             <CustomLightSpinner src={Circle} alt="loader" size={'50px'} />
           </Box>
         )}
-      </div>
+      </ChartContainer>
     </ChartWrapper>
   )
 }
