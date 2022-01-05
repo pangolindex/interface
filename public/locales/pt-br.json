@@ -27,7 +27,9 @@
     "bridge": "Ponte",
     "ourPartners": "Nossos Parceiros",
     "usefulLinks": "LINKS ÚTEIS",
-    "comeAndJoinUs": "Junte-se a nós"
+    "comeAndJoinUs": "Junte-se a nós",
+    "tryOurNewBetaSite": "Experimente nosso novo site beta",
+    "returnToLegacySite": "Retornar ao site legado"
   },
   "accountDetails": {
     "connectedWith": "Conectado com ",
@@ -420,14 +422,17 @@
     "gelatoFee": "Gelato Taxa",
     "placeOrder": "Faça a encomenda",
     "confirmOrder": "Confirmar pedido",
-    "for" : "por",
+    "for": "por",
     "submittingOrderToSwap": "Enviando pedido de troca",
     "limitPrice": "Preço Limite",
     "outputWillBeSentTo": "A saída será enviada para",
     "sell": "vender",
     "buy": "Comprar",
     "betaRelease": "Esta é uma versão BETA e deve ser usada por sua própria conta e risco!",
-    "trade": "Troca"
+    "trade": "Troca",
+    "watchList": "WatchList",
+    "yourPortFolio":"Seu Portfólio",
+    "comingSoon":"Em breve"
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX com moeda fiduciária do nosso parceiro Wyre.",
@@ -446,6 +451,7 @@
     "governanceVotes": "Votações de governança são decididas por maioria simples. Não há quórum necessário.",
     "proposals": "Propostas",
     "allProposals": "Todas as propostas",
+    "backToProposals": "Voltar para propostas",
     "unlockVoting": "Desbloquear votação ",
     "votes": " Votos",
     "delegatedTo": "Delegar para:",
@@ -463,7 +469,11 @@
     "for": "A favor",
     "details": "Detalhes",
     "overview": "Visão geral",
-    "proposer": "Quem fez a proposta"
+    "proposer": "Quem fez a proposta",
+    "about": "Cerca de",
+    "vote": "Voto",
+    "executed": "Executado",
+    "rejected": "Rejeitado"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",

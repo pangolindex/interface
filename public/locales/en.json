@@ -27,7 +27,9 @@
     "bridge": "Bridge",
     "ourPartners": "Our Partners",
     "usefulLinks": "USEFUL LINKS",
-    "comeAndJoinUs": "Come & Join Us"
+    "comeAndJoinUs": "Come & Join Us",
+    "tryOurNewBetaSite": "Try our new beta site",
+    "returnToLegacySite": "Return to legacy site"
   },
   "accountDetails": {
     "connectedWith": "Connected with ",
@@ -420,14 +422,17 @@
     "gelatoFee": "Gelato Fee",
     "placeOrder": "Place Order",
     "confirmOrder": "Confirm Order",
-    "for" : "for",
+    "for": "for",
     "submittingOrderToSwap": "Submitting order to swap",
     "limitPrice": "Limit Price",
     "outputWillBeSentTo": "Output will be sent to",
     "sell": "SELL",
     "buy": "BUY",
     "betaRelease": "This is a BETA release and should be used at your own risk!",
-    "trade": "Trade"
+    "trade": "Trade",
+    "watchList": "WatchList",
+    "yourPortFolio":"Your Portfolio",
+    "comingSoon":"Coming Soon"
   },
   "buyPage": {
     "buyAvaxInfo": "Buy AVAX with fiat from our partner Wyre.",
@@ -446,6 +451,7 @@
     "governanceVotes": "Governance votes are decided by simple majority. There is no quorum threshold.",
     "proposals": "Proposals",
     "allProposals": "All Proposals",
+    "backToProposals": "Back to Proposals",
     "unlockVoting": "Unlock voting",
     "votes": " Votes",
     "delegatedTo": "Delegated to:",
@@ -463,7 +469,11 @@
     "for": "For",
     "details": "Details",
     "overview": "Overview",
-    "proposer": "Proposer"
+    "proposer": "Proposer",
+    "about": "About",
+    "vote": "Vote",
+    "executed": "Executed",
+    "rejected": "Rejected"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",

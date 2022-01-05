@@ -27,7 +27,9 @@
     "bridge": "Köprü",
     "ourPartners": "Bizim ortaklarımız",
     "usefulLinks": "KULLANIŞLI BAĞLANTILAR",
-    "comeAndJoinUs": "Gelip bize katıl"
+    "comeAndJoinUs": "Gelip bize katıl",
+    "tryOurNewBetaSite": "Yeni beta sitemizi deneyin",
+    "returnToLegacySite": "Eski siteye dön"
   },
   "accountDetails": {
     "connectedWith": "Neye Bağlı: ",
@@ -420,14 +422,17 @@
     "gelatoFee": "Gelato Ücret",
     "placeOrder": "Sipariş Vermek",
     "confirmOrder": "Sipariş onaylamak",
-    "for" : "için",
+    "for": "için",
     "submittingOrderToSwap": "Takas için sipariş gönderiliyor",
     "limitPrice": "Limit Fiyatı",
     "outputWillBeSentTo": "çıktı gönderilecek",
     "sell": "satmak",
     "buy": "satın almak",
     "betaRelease": "Bu bir BETA sürümüdür ve riski size ait olmak üzere kullanılmalıdır!",
-    "trade": "Ticaret"
+    "trade": "Ticaret",
+    "watchList": "İzlenecekler listesi",
+    "yourPortFolio":"Portföyünüz",
+    "comingSoon":"Çok yakında"
   },
   "buyPage": {
     "buyAvaxInfo": "Ortağımız Wyre aracılığıyla AVAX satın alın.",
@@ -446,6 +451,7 @@
     "governanceVotes": "Yönetimin sunduğu önergeler, basit çoğunlukla kararlaştırılır. Ulaşılması veya geçilmesi gereken bir çoğunluk eşiği yoktur.",
     "proposals": "Önergeler",
     "allProposals": "Tüm Önergeler",
+    "backToProposals": "Tekliflere Geri Dön",
     "unlockVoting": "Oylamanın kilidini kaldır",
     "votes": " Oylar",
     "delegatedTo": "Yetki ver:",
@@ -463,7 +469,11 @@
     "for": "Destekleyen",
     "details": "Detaylar",
     "overview": "Genel Bakış",
-    "proposer": "Teklif eden"
+    "proposer": "Teklif eden",
+    "about": "Hakkında",
+    "vote": "Oy",
+    "executed": "Uygulanmış",
+    "rejected": "Reddedildi"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",

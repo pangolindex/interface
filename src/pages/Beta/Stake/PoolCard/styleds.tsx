@@ -56,7 +56,7 @@ export const TokenName = styled(Box)`
   font-weight: 800;
   font-size: 28px;
   line-height: 33px;
-  color: ${({ theme }) => theme.text10};
+  color: ${({ theme }) => theme.text7};
 `
 
 export const StakeButton = styled(Button)`

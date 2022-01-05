@@ -27,7 +27,9 @@
     "bridge": "桥",
     "ourPartners": "我们的伙伴",
     "usefulLinks": "有用的链接",
-    "comeAndJoinUs": "来加入我们"
+    "comeAndJoinUs": "来加入我们",
+    "tryOurNewBetaSite": "试试我们的新测试版网站",
+    "returnToLegacySite": "返回旧网站"
   },
   "accountDetails": {
     "connectedWith": "与连结 ",
@@ -420,14 +422,17 @@
     "gelatoFee": "Gelato 费用",
     "placeOrder": "下订单",
     "confirmOrder": "确认订单",
-    "for" : "为了",
+    "for": "为了",
     "submittingOrderToSwap": "提交订单交换",
     "limitPrice": "限价",
     "outputWillBeSentTo": "输出将被发送到",
     "sell": "卖",
     "buy": "买",
     "betaRelease": "这是一个 BETA 版本，使用时应自担风险",
-    "trade": "贸易"
+    "trade": "贸易",
+    "watchList": "观察名单",
+    "yourPortFolio": "您的投资组合",
+    "comingSoon": "即将推出"
   },
   "buyPage": {
     "buyAvaxInfo": "用我们的合作伙伴怀尔的法定资金购买 AVAX。",
@@ -446,6 +451,7 @@
     "governanceVotes": "治理投票由简单多数决定。没有法定人数阈值。",
     "proposals": "提案",
     "allProposals": "所有提案",
+    "backToProposals": "回到提案",
     "unlockVoting": "解锁投票",
     "votes": " 投票 ",
     "delegatedTo": "委托给：",
@@ -463,7 +469,11 @@
     "for": "給",
     "details": "细节",
     "overview": "概述",
-    "proposer": "建议"
+    "proposer": "建议",
+    "about": "关于",
+    "vote": "投票",
+    "executed": "已执行",
+    "rejected": "拒绝"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",

@@ -27,7 +27,9 @@
     "bridge": "Cầu",
     "ourPartners": "Những cộng sự của chúng ta",
     "usefulLinks": "LIÊN KẾT HỮU ÍCH",
-    "comeAndJoinUs": "Hãy đến và tham gia cùng chúng tôi"
+    "comeAndJoinUs": "Hãy đến và tham gia cùng chúng tôi",
+    "tryOurNewBetaSite": "Hãy thử trang web beta mới của chúng tôi",
+    "returnToLegacySite": "Quay lại trang web cũ"
   },
   "accountDetails": {
     "connectedWith": "Kết nối với",
@@ -420,14 +422,17 @@
     "gelatoFee": "Gelato Học phí",
     "placeOrder": "Đặt hàng",
     "confirmOrder": "Xác nhận đơn hàng",
-    "for" : "vì",
+    "for": "vì",
     "submittingOrderToSwap": "Gửi đơn đặt hàng để hoán đổi",
     "limitPrice": "Giá giới hạn",
     "outputWillBeSentTo": "Đầu ra sẽ được gửi đến",
     "sell": "sell",
     "buy": "mua",
     "betaRelease": "Đây là bản phát hành BETA và bạn nên tự chịu rủi ro khi sử dụng!",
-    "trade": "Buôn bán"
+    "trade": "Buôn bán",
+    "watchList": "WatchList",
+    "yourPortFolio":"Danh mục đầu tư của bạn",
+    "comingSoon":"Sắp có"
   },
   "buyPage": {
     "buyAvaxInfo": "Mua AVAX bằng fiat từ đối tác Wyre của chúng tôi.",
@@ -446,6 +451,7 @@
     "governanceVotes": "Các phiếu bầu quản trị được quyết định theo đa số. Không có ngưỡng đại biểu. ",
     "proposals": "Đề xuất",
     "allProposals": "Tất cả đề xuất",
+    "backToProposals": "Quay lại Đề xuất",
     "unlockVoting": "Mở khóa biểu quyết",
     "votes": " Phiếu bầu",
     "delegatedTo": "Ủy quyền cho:",
@@ -463,7 +469,11 @@
     "for": "Cho",
     "details": "Chi tiết",
     "overview": "Tổng quan",
-    "proposer": "Người đề xuất"
+    "proposer": "Người đề xuất",
+    "about": "Về",
+    "vote": "Bầu cử",
+    "executed": "Thực thi",
+    "rejected": "Bác bỏ"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",

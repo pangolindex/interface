@@ -40,6 +40,7 @@ import {
 } from './styled'
 import { RowBetween } from 'src/components/Row'
 import TradeOption from '../TradeOption'
+import { wrappedCurrency } from 'src/utils/wrappedCurrency'
 
 interface Props {
   swapType: string
@@ -55,6 +56,7 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const percentageValue = [25, 50, 75, 100]
 
   const loadedUrlParams = useDefaultsFromURLSearch()
+
   const { t } = useTranslation()
 
   // token warning stuff
@@ -94,6 +96,7 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
     currencies,
     inputError: swapInputError
   } = useDerivedSwapInfo()
+
   const { wrapType, execute: onWrap, inputError: wrapInputError } = useWrapCallback(
     currencies[Field.INPUT],
     currencies[Field.OUTPUT],
@@ -110,7 +113,6 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   // const defaultTrade = showWrap ? undefined : tradesByVersion[DEFAULT_VERSION]
 
   // const betterTradeLinkVersion: Version | undefined = undefined
-
   const parsedAmounts = showWrap
     ? {
         [Field.INPUT]: parsedAmount,
@@ -398,11 +400,15 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
             isActive={selectedPercentage === value}
             onClick={() => {
               setSelectedPercentage(value)
-              const newAmount = (maxAmountInput as TokenAmount)
-                .multiply(JSBI.BigInt(value))
-                .divide(JSBI.BigInt(100)) as TokenAmount
 
-              onUserInput(Field.INPUT, newAmount.toExact())
+              if (maxAmountInput) {
+                const multipyAmount = JSBI.multiply(maxAmountInput?.raw, JSBI.BigInt(value))
+                const divideAmount = JSBI.divide(multipyAmount, JSBI.BigInt(100))
+                const token = wrappedCurrency(maxAmountInput?.currency ?? undefined, chainId) as Token
+                const newFinalAmount = new TokenAmount(token, divideAmount)
+
+                onUserInput(Field.INPUT, newFinalAmount.toExact())
+              }
             }}
           >
             {value}%
