@@ -364,7 +364,8 @@
     "uniswapV1Found": "Uniswap V1 liquidity found!",
     "noSeePoolJoined": "Don't see a pool you joined?",
     "migrateNow": "Migrate now.",
-    "importIt": "Import it."
+    "importIt": "Import it.",
+    "seeDetails":"SEE DETAILS"
   },
   "poolFinder": {
     "connectToFind": "Connect to a wallet to find pools",

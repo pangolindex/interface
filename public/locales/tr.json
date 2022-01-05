@@ -364,7 +364,8 @@
     "uniswapV1Found": "Uniswap V1 likiditesi bulundu!",
     "noSeePoolJoined": "Katıldığınız bir havuzu görmüyor musunuz?",
     "migrateNow": "Şimdi taşı.",
-    "importIt": "Dışarıdan ekle."
+    "importIt": "Dışarıdan ekle.",
+    "seeDetails":"SEE DETAILS"
   },
   "poolFinder": {
     "connectToFind": "Havuzları bulmak için bir cüzdana bağlanın",

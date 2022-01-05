@@ -364,7 +364,8 @@
     "uniswapV1Found": "“Uniswap V1 发现流动性!",
     "noSeePoolJoined": "看不到您加入的矿池?",
     "migrateNow": "立即迁移。",
-    "importIt": "导入它。"
+    "importIt": "导入它。",
+    "seeDetails":"SEE DETAILS"
   },
   "poolFinder": {
     "connectToFind": "连接到钱包以查找矿池",

@@ -364,7 +364,8 @@
     "uniswapV1Found": "Thanh khoản uniswap V1 được tìm thấy",
     "noSeePoolJoined": "Bạn không tìm thấy bể mà bạn đã tham gia?",
     "migrateNow": "Chuyển đổi ngay bây giờ.",
-    "importIt": "Nhập."
+    "importIt": "Nhập.",
+    "seeDetails":"SEE DETAILS"
   },
   "poolFinder": {
     "connectToFind": "Kêt nối với một ví để nhìn thấy bể",
