@@ -54,6 +54,7 @@ export function colors(darkMode: boolean): Colors {
     text10: darkMode ? '#FAF9FD' : '#000000',
     text11: darkMode ? '#18C145' : '#18C145',
     text12: darkMode ? '#E84142' : '#E84142',
+    text13: darkMode ? '#A3A3A3' : '#000000',
 
     // backgrounds / greys
     bg1: darkMode ? '#212429' : '#FFFFFF',
@@ -63,7 +64,7 @@ export function colors(darkMode: boolean): Colors {
     bg5: darkMode ? '#6C7284' : '#888D9B',
     bg6: darkMode ? '#1c1c1c' : '#F7F8FA',
     bg7: darkMode ? '#2C2D33' : '#F7F8FA',
-    bg8: darkMode ? '#212427' : '#212427',
+    bg8: darkMode ? '#212427' : '#FFFFFF',
     bg9: darkMode ? '#ffffff' : '#000000',
 
     //specialty colors
@@ -158,7 +159,7 @@ export function betaColors(darkMode: boolean): BetaColors {
     bg5: darkMode ? '#6C7284' : '#888D9B',
     bg6: darkMode ? '#1c1c1c' : '#FFFFFF',
     bg7: darkMode ? '#2C2D33' : '#FFFFFF',
-    bg8: darkMode ? '#212427' : '#212427',
+    bg8: darkMode ? '#212427' : '#FFFFFF',
 
     //primary colors
     primary1: darkMode ? '#FF6B00' : '#FF6B00',

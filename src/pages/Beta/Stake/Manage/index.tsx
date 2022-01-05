@@ -76,10 +76,10 @@ const PoolManage = () => {
         </CardHeader>
         <CardStats>
           <CardColumn width="40%">
-            <Text fontSize={16} fontWeight={600} lineHeight="24px" color="text1">
+            <Text fontSize={16} fontWeight={600} lineHeight="24px" color="text13">
               {t('stakePage.totalStaked')}
             </Text>
-            <Text fontSize={24} fontWeight={400} lineHeight="36px" color="text1">
+            <Text fontSize={24} fontWeight={400} lineHeight="36px" color="text10">
               {stakingInfo ? (
                 `${stakingInfo.totalStakedInPng?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} PNG`
               ) : (
@@ -88,10 +88,10 @@ const PoolManage = () => {
             </Text>
           </CardColumn>
           <CardColumn>
-            <Text fontSize={16} fontWeight={600} lineHeight="24px" color="text1">
+            <Text fontSize={16} fontWeight={600} lineHeight="24px" color="text13">
               {t('stakePage.apr')}
             </Text>
-            <Text fontSize={24} fontWeight={400} lineHeight="36px" color="text1">
+            <Text fontSize={24} fontWeight={400} lineHeight="36px" color="text10">
               {stakingInfo ? (
                 JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0)) && !stakingInfo.isPeriodFinished ? (
                   `${stakingInfo.apr.toLocaleString()}%`

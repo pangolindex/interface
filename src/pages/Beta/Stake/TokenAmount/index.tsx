@@ -15,11 +15,11 @@ export interface TokenAmountProps {
 export default function TokenAmount({ label, symbol, amount, cycle, cycleReward, children }: TokenAmountProps) {
   return (
     <div>
-      <Text fontSize={16} fontWeight={600} lineHeight="24px" color="text1" style={{ marginBottom: '5px' }}>
+      <Text fontSize={16} fontWeight={600} lineHeight="24px" color="text10" style={{ marginBottom: '5px' }}>
         {label} {symbol}
       </Text>
       <Bar>
-        <Text fontSize={24} fontWeight={400} lineHeight="36px" color="text1">
+        <Text fontSize={24} fontWeight={400} lineHeight="36px" color="text13">
           {amount ? amount : children}
         </Text>
         <BarRight>
