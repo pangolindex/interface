@@ -4,9 +4,10 @@ import { Text } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 
 export enum MenuType {
-  poolV1 = 'totalStakedInUsd',
-  poolV2 = 'multiplier',
-  yourPool = 'your-pool',
+  allPoolV1 = 'allPoolV1',
+  allPoolV2 = 'allPoolV2',
+  yourPoolV1 = 'yourPoolV1',
+  yourPoolV2 = 'yourPoolV2',
   yourWallet = 'your-wallet'
 }
 
@@ -21,15 +22,19 @@ const Sidebar = ({ setMenu, activeMenu }: MenuProps) => {
   const mainLinks = [
     {
       title: 'All Pools (V1)',
-      value: MenuType.poolV1
+      value: MenuType.allPoolV1
     },
     {
       title: 'All Pools (V2)',
-      value: MenuType.poolV2
+      value: MenuType.allPoolV2
     },
     {
-      title: 'Your Pools',
-      value: MenuType.yourPool
+      title: 'Your Pools (V1)',
+      value: MenuType.yourPoolV1
+    },
+    {
+      title: 'Your Pools (V2)',
+      value: MenuType.yourPoolV2
     },
     {
       title: 'Your Wallet',

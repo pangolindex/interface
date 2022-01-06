@@ -9,11 +9,11 @@ import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { StakingInfo } from 'src/state/stake/hooks'
 
-export interface StatProps {
+export interface PoolCardProps {
   stakingInfo: StakingInfo
 }
 
-const PoolCard = ({ stakingInfo }: StatProps) => {
+const PoolCard = ({ stakingInfo }: PoolCardProps) => {
   const { t } = useTranslation()
 
   const token0 = stakingInfo.tokens[0]
@@ -23,6 +23,13 @@ const PoolCard = ({ stakingInfo }: StatProps) => {
   const currency1 = unwrappedToken(token1)
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
+
+  // totalStakedAmount -> totalStakedInUsd
+  // stakedAmount -> ?
+
+  let yourStackedInUsd = stakingInfo?.totalStakedInUsd
+    .multiply(stakingInfo?.stakedAmount)
+    .divide(stakingInfo?.totalStakedAmount)
 
   return (
     <Panel>
@@ -41,11 +48,20 @@ const PoolCard = ({ stakingInfo }: StatProps) => {
       <Divider />
 
       <AutoRow gap="20px">
-        <Stat
-          title={t('earnPage.totalStaked')}
-          stat={numeral((stakingInfo?.totalStakedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}
-          titlePosition="top"
-        />
+        {isStaking ? (
+          <Stat
+            title={t('stakePage.yourStaked')}
+            stat={numeral((yourStackedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}
+            titlePosition="top"
+          />
+        ) : (
+          <Stat
+            title={t('earnPage.totalStaked')}
+            stat={numeral((stakingInfo?.totalStakedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}
+            titlePosition="top"
+          />
+        )}
+
         <Stat
           title={t('migratePage.apr')}
           stat={stakingInfo?.combinedApr ? `${stakingInfo?.combinedApr}%` : '-'}

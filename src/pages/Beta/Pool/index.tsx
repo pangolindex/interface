@@ -3,19 +3,34 @@ import { Box } from '@pangolindex/components'
 import { PageWrapper, GridContainer } from './styleds'
 import Sidebar from './Sidebar'
 import AllPoolList from './AllPoolList'
+import Wallet from './Wallet'
 import { MenuType } from './Sidebar'
 
+export enum PoolType {
+  own = 'own',
+  all = 'all'
+}
+
 const PoolUI = () => {
-  const [activeMenu, setMenu] = useState<string>(MenuType.poolV2)
+  const [activeMenu, setMenu] = useState<string>(MenuType.allPoolV2)
 
   return (
     <PageWrapper>
       <GridContainer>
         <Box display="flex">
           <Sidebar activeMenu={activeMenu} setMenu={(value: string) => setMenu(value)} />
-          {(activeMenu === MenuType.poolV1 || activeMenu === MenuType.poolV2) && (
-            <AllPoolList version={activeMenu === MenuType.poolV1 ? 1 : 2} />
+          {(activeMenu === MenuType.allPoolV1 ||
+            activeMenu === MenuType.allPoolV2 ||
+            activeMenu === MenuType.yourPoolV2 ||
+            activeMenu === MenuType.yourPoolV1) && (
+            <AllPoolList
+              type={
+                activeMenu === MenuType.allPoolV1 || activeMenu === MenuType.allPoolV2 ? PoolType.all : PoolType.own
+              }
+              version={activeMenu === MenuType.allPoolV1 || activeMenu === MenuType.yourPoolV1 ? 1 : 2}
+            />
           )}
+          {activeMenu === MenuType.yourWallet && <Wallet />}
         </Box>
 
         <div></div>
