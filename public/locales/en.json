@@ -135,7 +135,7 @@
     "remove": "Remove",
     "poolShare": "Your pool share:",
     "pooled": "Pooled",
-    "poolTokens": "Your pool tokens:",
+    "poolTokens": "Your pool tokens",
     "manage": "Manage",
     "loading": "Loading",
     "yourPosition": "Your position",
@@ -367,7 +367,12 @@
     "noSeePoolJoined": "Don't see a pool you joined?",
     "migrateNow": "Migrate now.",
     "importIt": "Import it.",
-    "seeDetails":"SEE DETAILS"
+    "seeDetails":"SEE DETAILS",
+    "totalLockedValue": "Total Locked Value",
+    "yourLockedValue": "Your Locked Value",
+    "allPools": "All Pools",
+    "yourPools": "Your Pools",
+    "yourWallet": "Your Wallet"
   },
   "poolFinder": {
     "connectToFind": "Connect to a wallet to find pools",
@@ -571,7 +576,6 @@
     "seeDetails": "SEE DETAILS",
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
-    "stakeAndEarn": "Stake Your PNG and Earn Rewards!",
-    "yourStaked": "Your Staked"
+    "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
   }
 }

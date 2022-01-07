@@ -367,7 +367,12 @@
     "noSeePoolJoined": "Katıldığınız bir havuzu görmüyor musunuz?",
     "migrateNow": "Şimdi taşı.",
     "importIt": "Dışarıdan ekle.",
-    "seeDetails":"SEE DETAILS"
+    "seeDetails":"AYRINTILARA BAKINIZ",
+    "totalLockedValue": "Toplam Kilitli Değer",
+    "yourLockedValue": "Kilitli Değeriniz",
+    "allPools": "Tüm Havuzlar",
+    "yourPools": "Havuzlarınız",
+    "yourWallet": "Cüzdanın"
   },
   "poolFinder": {
     "connectToFind": "Havuzları bulmak için bir cüzdana bağlanın",
@@ -571,7 +576,6 @@
     "seeDetails": "SEE DETAILS",
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
-    "stakeAndEarn": "Stake Your PNG and Earn Rewards!",
-    "yourStaked": "Your Staked"
+    "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
   }
 }

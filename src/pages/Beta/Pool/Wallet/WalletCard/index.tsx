@@ -4,7 +4,6 @@ import { Panel, Divider, ActionButon, InnerWrapper, DetailButton } from './style
 import Stat from 'src/components/Stat'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
-import { AutoRow } from 'src/components/Row'
 import { useTranslation } from 'react-i18next'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
@@ -40,15 +39,23 @@ const WalletCard = ({ pair }: WalletCardProps) => {
       </Box>
       <Divider />
 
-      <AutoRow gap="20px">
+      <InnerWrapper>
         <Stat
           title={t('pool.yourLiquidity')}
           stat={`${multipyAmount ? `$${multipyAmount?.toFixed(4)}` : '-'}`}
           titlePosition="top"
+          titleFontSize={16}
+          statFontSize={24}
         />
 
-        <Stat title={`Your PGL`} stat={userPoolBalance ? userPoolBalance.toSignificant(4) : '-'} titlePosition="top" />
-      </AutoRow>
+        <Stat
+          title={t('positionCard.poolTokens')}
+          stat={userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
+          titlePosition="top"
+          titleFontSize={16}
+          statFontSize={24}
+        />
+      </InnerWrapper>
 
       <InnerWrapper>
         <Box>

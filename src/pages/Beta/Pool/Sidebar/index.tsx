@@ -21,23 +21,23 @@ const Sidebar = ({ setMenu, activeMenu }: MenuProps) => {
 
   const mainLinks = [
     {
-      title: 'All Pools (V1)',
+      title: `${t('pool.allPools')} (V1)`,
       value: MenuType.allPoolV1
     },
     {
-      title: 'All Pools (V2)',
+      title: `${t('pool.allPools')} (V2)`,
       value: MenuType.allPoolV2
     },
     {
-      title: 'Your Pools (V1)',
+      title: `${t('pool.yourPools')} (V1)`,
       value: MenuType.yourPoolV1
     },
     {
-      title: 'Your Pools (V2)',
+      title: `${t('pool.yourPools')} (V2)`,
       value: MenuType.yourPoolV2
     },
     {
-      title: 'Your Wallet',
+      title: `${t('pool.yourWallet')}`,
       value: MenuType.yourWallet
     }
   ]

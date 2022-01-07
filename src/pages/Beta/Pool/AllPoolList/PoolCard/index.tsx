@@ -3,7 +3,6 @@ import { Fraction } from '@pangolindex/sdk'
 import { Panel, OptionButton, OptionsWrapper, Divider, ActionButon, InnerWrapper, DetailButton } from './styleds'
 import Stat from 'src/components/Stat'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
-import { AutoRow } from 'src/components/Row'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
@@ -23,9 +22,6 @@ const PoolCard = ({ stakingInfo }: PoolCardProps) => {
   const currency1 = unwrappedToken(token1)
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
-
-  // totalStakedAmount -> totalStakedInUsd
-  // stakedAmount -> ?
 
   let yourStackedInUsd = stakingInfo?.totalStakedInUsd
     .multiply(stakingInfo?.stakedAmount)
@@ -47,27 +43,33 @@ const PoolCard = ({ stakingInfo }: PoolCardProps) => {
       </Box>
       <Divider />
 
-      <AutoRow gap="20px">
+      <InnerWrapper>
         {isStaking ? (
           <Stat
-            title={t('stakePage.yourStaked')}
+            title={t('pool.yourLockedValue')}
             stat={numeral((yourStackedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}
             titlePosition="top"
+            titleFontSize={16}
+            statFontSize={24}
           />
         ) : (
           <Stat
-            title={t('earnPage.totalStaked')}
+            title={t('pool.totalLockedValue')}
             stat={numeral((stakingInfo?.totalStakedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}
             titlePosition="top"
+            titleFontSize={16}
+            statFontSize={24}
           />
         )}
 
         <Stat
-          title={t('migratePage.apr')}
+          title={t('stakePage.apr')}
           stat={stakingInfo?.combinedApr ? `${stakingInfo?.combinedApr}%` : '-'}
           titlePosition="top"
+          titleFontSize={16}
+          statFontSize={24}
         />
-      </AutoRow>
+      </InnerWrapper>
 
       <InnerWrapper>
         <Box>

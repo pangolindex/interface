@@ -367,7 +367,12 @@
     "noSeePoolJoined": "Bạn không tìm thấy bể mà bạn đã tham gia?",
     "migrateNow": "Chuyển đổi ngay bây giờ.",
     "importIt": "Nhập.",
-    "seeDetails":"SEE DETAILS"
+    "seeDetails":"XEM CHI TIẾT",
+    "totalLockedValue": "Tổng giá trị đã khóa",
+    "yourLockedValue": "Giá trị đã khóa của bạn",
+    "allPools": "Tất cả các hồ bơi",
+    "yourPools": "Hồ bơi của bạn",
+    "yourWallet": "Ví của bạn"
   },
   "poolFinder": {
     "connectToFind": "Kêt nối với một ví để nhìn thấy bể",
@@ -571,7 +576,6 @@
     "seeDetails": "SEE DETAILS",
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
-    "stakeAndEarn": "Stake Your PNG and Earn Rewards!",
-    "yourStaked": "Your Staked"
+    "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
   }
 }

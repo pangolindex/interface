@@ -367,7 +367,12 @@
     "noSeePoolJoined": "Siehst du den Pool, dem Du beigetreten bist nicht?",
     "migrateNow": "Jetzt migrieren.",
     "importIt": "Importiere ihn.",
-    "seeDetails":"SEE DETAILS"
+    "seeDetails":"SIEHE EINZELHEITEN",
+    "totalLockedValue": "Gesperrter Gesamtwert",
+    "yourLockedValue": "Ihr gesperrter Wert",
+    "allPools": "Alle Pools",
+    "yourPools": "Ihre Pools",
+    "yourWallet": "Deine Geldbörse"
   },
   "poolFinder": {
     "connectToFind": "Verbinde mit einer Wallet, um Pools zu finden",
@@ -571,7 +576,6 @@
     "seeDetails": "SEE DETAILS",
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
-    "stakeAndEarn": "Stake Your PNG and Earn Rewards!",
-    "yourStaked": "Your Staked"
+    "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
   }
 }

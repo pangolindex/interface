@@ -64,8 +64,8 @@ export const DetailButton = styled(Button)`
 `
 
 export const InnerWrapper = styled(Box)`
-  display: inline-flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
+  grid-gap: 12px;
   margin-top: 10px;
 `
