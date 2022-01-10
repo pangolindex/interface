@@ -32,7 +32,8 @@ export enum ApplicationModal {
   FARM,
   PORTFOLIO_TOKEN,
   PORTFOLIO_DATE,
-  POOL_SORT_OPTIONS
+  POOL_SORT_OPTIONS,
+  POOL_DETAIL
 }
 
 export const updateBlockNumber = createAction<{ chainId: number; blockNumber: number }>('application/updateBlockNumber')

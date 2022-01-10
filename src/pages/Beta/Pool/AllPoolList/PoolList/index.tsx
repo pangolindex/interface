@@ -14,6 +14,9 @@ import { BIG_INT_ZERO } from 'src/constants'
 import Scrollbars from 'react-custom-scrollbars'
 import { PageWrapper, PanelWrapper } from './styleds'
 import SortOptions from '../SortOptions'
+import { StakingInfo } from 'src/state/stake/hooks'
+import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
+import DetailModal from '../../DetailModal'
 
 export enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
@@ -27,7 +30,7 @@ export interface EarnProps {
   poolMap?: { [key: string]: number }
 }
 
-const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
+const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
@@ -38,6 +41,10 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const [sortBy, setSortBy] = useState<any>({ field: '', desc: true })
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
   const [stakingInfoData, setStakingInfoData] = useState<any[]>(stakingInfos)
+
+  const [selectedPool, setSelectedPool] = useState({} as StakingInfo)
+
+  const togglePoolDetailModal = usePoolDetailnModalToggle()
 
   const handleSearch = useCallback(value => {
     setSearchQuery(value.trim().toUpperCase())
@@ -82,7 +89,18 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
       })
     ).then(stakingInfoData => {
       const poolCards = stakingInfoData.map((stakingInfo, index) => {
-        return <PoolCard key={index} stakingInfo={stakingInfo} />
+        return (
+          <PoolCard
+            key={index}
+            stakingInfo={stakingInfo}
+            onClickViewDetail={() => {
+              // let container = {} as { [address: string]: { staking: StakingInfo } }
+              // container[stakingInfo.stakingRewardAddress] = stakingInfo
+              setSelectedPool(stakingInfo)
+              togglePoolDetailModal()
+            }}
+          />
+        )
       })
       setPoolCards(poolCards)
     })
@@ -142,7 +160,18 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
           })
       ).then(updatedStakingInfos => {
         const poolCards = updatedStakingInfos.map((stakingInfo, index) => {
-          return <PoolCard key={index} stakingInfo={stakingInfo} />
+          return (
+            <PoolCard
+              key={index}
+              stakingInfo={stakingInfo}
+              onClickViewDetail={() => {
+                // let container = {} as { [address: string]: { staking: StakingInfo } }
+                // container[stakingInfo.stakingRewardAddress] = { staking: stakingInfo }
+                setSelectedPool(stakingInfo)
+                togglePoolDetailModal()
+              }}
+            />
+          )
         })
 
         setStakingInfoData(updatedStakingInfos)
@@ -184,8 +213,10 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
           </Scrollbars>
         </>
       )}
+
+      <DetailModal selectedPool={selectedPool} />
     </PageWrapper>
   )
 }
 
-export default Earn
+export default PoolList

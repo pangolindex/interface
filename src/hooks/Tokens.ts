@@ -1,13 +1,16 @@
+import { useMemo, useEffect, useState } from 'react'
 import { parseBytes32String } from '@ethersproject/strings'
 import { Currency, CAVAX, Token, currencyEquals } from '@pangolindex/sdk'
-import { useMemo } from 'react'
 import { useSelectedTokenList } from '../state/lists/hooks'
 import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks'
 import { useUserAddedTokens } from '../state/user/hooks'
 import { isAddress } from '../utils'
-
 import { useActiveWeb3React } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
+import { COIN_ID_OVERRIDE } from 'src/constants'
+import CoinGecko from 'coingecko-api'
+
+const CoinGeckoClient = new CoinGecko()
 
 export function useAllTokens(): { [address: string]: Token } {
   const { chainId } = useActiveWeb3React()
@@ -105,4 +108,55 @@ export function useCurrency(currencyId: string | undefined): Currency | null | u
   const isAVAX = currencyId?.toUpperCase() === 'AVAX'
   const token = useToken(isAVAX ? undefined : currencyId)
   return isAVAX ? CAVAX : token
+}
+
+export function useCoinGeckoTokenData(symbol?: string, name?: string) {
+  const [result, setResult] = useState({} as { coinId: string; homePage: string; description: string })
+
+  useEffect(() => {
+    let data = {} as { coinId: string; homePage: string; description: string }
+
+    let getCoinData = async () => {
+      try {
+        let newSymbol = (symbol || '')?.split('.')[0]
+        const isWrappedToken = (name || '')?.split(' ')[0].toLowerCase() === 'wrapped'
+        if (isWrappedToken) {
+          if (newSymbol?.charAt(0)?.toLocaleLowerCase() === 'w') {
+            newSymbol = newSymbol?.substring(1)
+          }
+        }
+        newSymbol = newSymbol?.toUpperCase()
+
+        const coins = await CoinGeckoClient.coins.all()
+
+        const coinId =
+          newSymbol in COIN_ID_OVERRIDE // here we are checking existance of key instead of value of key, because value of key might be undefined
+            ? undefined
+            : coins.data.find((data: any) => data?.symbol?.toUpperCase() === newSymbol)?.id
+
+        if (!!coinId) {
+          let coin = (await CoinGeckoClient.coins.fetch(coinId, {
+            tickers: false,
+            community_data: false,
+            developer_data: false,
+            localization: false,
+            sparkline: false
+          })) as any
+
+          data.coinId = coinId
+          data.homePage = coin?.data?.links?.homepage?.[0]
+          data.description = coin?.data?.description?.en
+        }
+
+        setResult(data)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    if (symbol && name) {
+      getCoinData()
+    }
+  }, [symbol, name])
+
+  return result
 }

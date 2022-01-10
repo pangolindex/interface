@@ -7,12 +7,12 @@ import Card from 'src/components/Card'
 import { useActiveWeb3React } from 'src/hooks'
 import { usePairs } from 'src/data/Reserves'
 import { toV2LiquidityToken, useTrackedTokenPairs } from 'src/state/user/hooks'
-import { Dots } from 'src/components/swap/styleds'
 import { ChainId } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 import { PageWrapper, EmptyProposals, PanelWrapper } from './styleds'
 import WalletCard from './WalletCard'
 import Scrollbars from 'react-custom-scrollbars'
+import Loader from 'src/components/Loader'
 
 export default function Wallet() {
   const theme = useContext(ThemeContext)
@@ -61,11 +61,7 @@ export default function Wallet() {
           </TYPE.body>
         </Card>
       ) : v2IsLoading ? (
-        <EmptyProposals>
-          <TYPE.body color={theme.text3} textAlign="center">
-            <Dots>{t('pool.loading')}</Dots>
-          </TYPE.body>
-        </EmptyProposals>
+        <Loader style={{ margin: 'auto' }} />
       ) : allV2PairsWithLiquidity?.length > 0 ? (
         <Scrollbars>
           <PanelWrapper>

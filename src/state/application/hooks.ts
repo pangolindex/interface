@@ -39,6 +39,10 @@ export function useMigrationModalToggle(): () => void {
   return useToggleModal(ApplicationModal.MIGRATION)
 }
 
+export function usePoolDetailnModalToggle(): () => void {
+  return useToggleModal(ApplicationModal.POOL_DETAIL)
+}
+
 export function useToggleSettingsMenu(): () => void {
   return useToggleModal(ApplicationModal.SETTINGS)
 }
