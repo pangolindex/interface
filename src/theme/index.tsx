@@ -55,6 +55,8 @@ export function colors(darkMode: boolean): Colors {
     text11: darkMode ? '#18C145' : '#18C145',
     text12: darkMode ? '#E84142' : '#E84142',
     text13: darkMode ? '#A3A3A3' : '#000000',
+    text14: darkMode ? '#8C8D93' : '#000000',
+    text15: darkMode ? '#FFC800' : '#000000',
 
     // backgrounds / greys
     bg1: darkMode ? '#212429' : '#FFFFFF',
@@ -98,6 +100,7 @@ export function colors(darkMode: boolean): Colors {
     green2Gradient: ' rgba(24, 193, 69, 0.3)',
     yellow1: '#FFE270',
     yellow2: '#F3841E',
+    yellow3: '#FFC800',
     orange1: '#E6E9EC',
     blue1: '#2172E5',
 

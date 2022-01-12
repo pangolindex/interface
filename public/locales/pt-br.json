@@ -93,7 +93,8 @@
     "withdrawAndClaim": "Retirar & resgatar",
     "withdrewStakingToken": "Retirar {{ symbol }}!",
     "approve": "Aprovar",
-    "poolWeight": "Peso da piscina"
+    "poolWeight": "Peso da piscina",
+    "withdraw": "Retirar"
   },
   "menu": {
     "code": "Código",
@@ -431,8 +432,8 @@
     "betaRelease": "Esta é uma versão BETA e deve ser usada por sua própria conta e risco!",
     "trade": "Troca",
     "watchList": "WatchList",
-    "yourPortFolio":"Seu Portfólio",
-    "comingSoon":"Em breve"
+    "yourPortFolio": "Seu Portfólio",
+    "comingSoon": "Em breve"
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX com moeda fiduciária do nosso parceiro Wyre.",

@@ -9,7 +9,7 @@ import { useGesture } from 'react-use-gesture'
 
 const AnimatedDialogOverlay = animated(DialogOverlay)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StyledDialogOverlay = styled(AnimatedDialogOverlay)<{ background?: string }>`
+const StyledDialogOverlay = styled(AnimatedDialogOverlay)<{ background?: string; isBeta?: boolean }>`
   &[data-reach-dialog-overlay] {
     z-index: 2;
     background-color: transparent;
@@ -20,6 +20,8 @@ const StyledDialogOverlay = styled(AnimatedDialogOverlay)<{ background?: string 
     justify-content: center;
 
     background-color: ${({ theme, background }) => (background ? background : theme.modalBG)};
+    margin-top: ${({ isBeta }) => (isBeta ? '60px' : '0px')};
+    margin-left: ${({ isBeta }) => (isBeta ? '52px' : '0px')};
   }
 `
 
@@ -82,6 +84,7 @@ interface ModalProps {
   initialFocusRef?: React.RefObject<any>
   children?: React.ReactNode
   overlayBG?: string
+  isBeta?: boolean
 }
 
 export default function Modal({
@@ -91,7 +94,8 @@ export default function Modal({
   maxHeight = 90,
   initialFocusRef,
   children,
-  overlayBG
+  overlayBG,
+  isBeta = false
 }: ModalProps) {
   const fadeTransition = useTransition(isOpen, null, {
     config: { duration: 200 },
@@ -123,6 +127,7 @@ export default function Modal({
               onDismiss={onDismiss}
               initialFocusRef={initialFocusRef}
               background={overlayBG}
+              isBeta={isBeta}
             >
               <StyledDialogContent
                 {...(isMobile

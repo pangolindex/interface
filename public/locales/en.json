@@ -93,7 +93,8 @@
     "withdrawAndClaim": "Withdraw & Claim",
     "withdrewStakingToken": "Withdrew {{ symbol }}!",
     "approve": "Approve",
-    "poolWeight": "Pool Weight"
+    "poolWeight": "Pool Weight",
+    "withdraw": "Withdraw"
   },
   "menu": {
     "code": "Code",
@@ -431,8 +432,8 @@
     "betaRelease": "This is a BETA release and should be used at your own risk!",
     "trade": "Trade",
     "watchList": "WatchList",
-    "yourPortFolio":"Your Portfolio",
-    "comingSoon":"Coming Soon"
+    "yourPortFolio": "Your Portfolio",
+    "comingSoon": "Coming Soon"
   },
   "buyPage": {
     "buyAvaxInfo": "Buy AVAX with fiat from our partner Wyre.",

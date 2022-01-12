@@ -59,7 +59,7 @@ export const TokenName = styled(Box)`
 `
 
 export const PrimaryButton = styled(Button)`
-  background-color: #ffc800 !important;
+  background-color: ${({ theme }) => theme.yellow3} !important;
   color: #ffffff;
   height: 46px;
   border-radius: 4px !important;
@@ -67,8 +67,8 @@ export const PrimaryButton = styled(Button)`
 `
 
 export const OutlineButton = styled(Button)`
-  border: solid 1px #ffc800 !important;
-  color: #ffc800 !important;
+  border: solid 1px ${({ theme }) => theme.yellow3} !important;
+  color: ${({ theme }) => theme.yellow3} !important;
   margin-left: 10px;
   height: 46px;
   border-radius: 4px !important;

@@ -14,7 +14,7 @@ import { useCurrency } from 'src/hooks/Tokens'
 import usePrevious from 'src/hooks/usePrevious'
 import { CountUp } from 'use-count-up'
 import StakingModalSingleSide from 'src/components/earn/StakingModalSingleSide'
-import UnstakingModalSingleSide from 'src/components/earn/UnstakingModalSingleSide'
+import UnstakingModalSingleSide from 'src/components/earn/Beta/UnstakingModalSingleSide'
 import ClaimRewardModalSingleSide from 'src/components/earn/ClaimRewardModalSingleSide'
 import { wrappedCurrency } from 'src/utils/wrappedCurrency'
 import { PNG, ZERO_ADDRESS } from 'src/constants'
@@ -155,7 +155,7 @@ const PoolManage = () => {
             fontSize={18}
             fontWeight={400}
             lineHeight="27px"
-            color="text1"
+            color="text8"
             style={{ marginTop: '30px', textAlign: 'center' }}
           >
             {userPngUnstaked.toSignificant(6)} {t('earnPage.stakingTokensAvailable', { symbol: 'PNG' })}

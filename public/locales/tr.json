@@ -93,7 +93,8 @@
     "withdrawAndClaim": "Çek & Ödülü Talep Et",
     "withdrewStakingToken": "{{ symbol }} çekildi!",
     "approve": "Onayla",
-    "poolWeight": "Havuz Ağırlığı"
+    "poolWeight": "Havuz Ağırlığı",
+    "withdraw": "Geri çekilmek"
   },
   "menu": {
     "code": "Kod",
@@ -431,8 +432,8 @@
     "betaRelease": "Bu bir BETA sürümüdür ve riski size ait olmak üzere kullanılmalıdır!",
     "trade": "Ticaret",
     "watchList": "İzlenecekler listesi",
-    "yourPortFolio":"Portföyünüz",
-    "comingSoon":"Çok yakında"
+    "yourPortFolio": "Portföyünüz",
+    "comingSoon": "Çok yakında"
   },
   "buyPage": {
     "buyAvaxInfo": "Ortağımız Wyre aracılığıyla AVAX satın alın.",
