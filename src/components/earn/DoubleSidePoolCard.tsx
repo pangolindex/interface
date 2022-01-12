@@ -13,6 +13,8 @@ import { Break, CardNoise, CardBGImage } from './styled'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 import { PNG } from '../../constants'
 import { useTranslation } from 'react-i18next'
+import RewardTokens from '../RewardTokens'
+import { Box } from '@pangolindex/components'
 
 const StatContainer = styled.div`
   display: flex;
@@ -129,6 +131,10 @@ export default function DoubleSidePoolCard({
           </TYPE.white>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Box mr={10}>
+            <RewardTokens size={24}/>
+          </Box>
+
           {/* Beta Migration */}
           {isStaking && Number(version) === 1 && poolMap.hasOwnProperty(pairAddress) ? (
             <StyledInternalLink to={`/beta/migrate/${version}`} style={{ marginRight: '10px' }}>

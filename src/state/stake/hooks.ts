@@ -13,6 +13,7 @@ import {
 import { tryParseAmount } from '../swap/hooks'
 import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
+// import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../../constants/abis/rewarderViaMultiplier'
 import useUSDCPrice from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
 import { useTokenBalance } from '../../state/wallet/hooks'
@@ -778,7 +779,10 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     if (!poolIdArray) return []
     return poolIdArray.map(pid => [pid])
   }, [poolIdArray])
+
   const poolInfos = useSingleContractMultipleData(minichefContract, 'poolInfo', poolsIdInput ?? [])
+
+  // const rewarders = useSingleContractMultipleData(minichefContract, 'rewarder', poolsIdInput ?? [])
 
   const userInfoInput = useMemo(() => {
     if (!poolIdArray || !account) return []
@@ -787,6 +791,26 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const userInfos = useSingleContractMultipleData(minichefContract, 'userInfo', userInfoInput ?? [])
 
   const pendingRewards = useSingleContractMultipleData(minichefContract, 'pendingReward', userInfoInput ?? [])
+
+  // const rewardsAddresses = useMemo(() => {
+  //   if ((rewarders || []).length === 0) return []
+  //   if (rewarders.some(item => item.loading)) return []
+  //   return rewarders.map(reward => reward?.result?.[0])
+  // }, [rewarders])
+
+  // const pendingTokensInfoInput = useMemo(() => {
+  //   if ((rewarders || []).length === 0 || (rewarders || []).length === 0) return [undefined]
+  //   if (rewarders.some(item => item.loading)) return [undefined]
+  //   if (pendingRewards.some(item => item.loading)) return [undefined]
+  //   return rewarders.map((reward, index) => [index, reward?.result?.[0], pendingRewards?.[index]?.result?.[0]])
+  // }, [rewarders, pendingRewards])
+
+  // const rewardTokens = useMultipleContractSingleData(
+  //   rewardsAddresses,
+  //   REWARDER_VIA_MULTIPLIER_INTERFACE,
+  //   'pendingTokens',
+  //   pendingTokensInfoInput
+  // )
 
   const rewardPerSecond = useSingleCallResult(minichefContract, 'rewardPerSecond', []).result
   const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result

@@ -253,6 +253,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
               </AutoColumn>
             </CardSection>
           </StyledDataCard>
+          {/* // copy */}
           <StyledBottomCard dim={stakingInfo?.stakedAmount?.equalTo(BIG_INT_ZERO)}>
             <CardBGImage desaturate />
             <CardNoise />
@@ -296,6 +297,8 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
               </RowBetween>
             </AutoColumn>
           </StyledBottomCard>
+
+          
         </BottomSection>
         <TYPE.main style={{ textAlign: 'center' }} fontSize={14}>
           <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>

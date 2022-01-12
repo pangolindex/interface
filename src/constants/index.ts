@@ -763,6 +763,28 @@ export const SKILL: { [chainId in ChainId]: Token } = {
   )
 }
 
+export const LOOT: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'LOOT', 'LOOT Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x7f041ce89a2079873693207653b24c15b5e6a293',
+    18,
+    'LOOT',
+    'LOOT Token'
+  )
+}
+
+export const ISA: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ISA', 'Islander'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x3eefb18003d033661f84e48360ebecd181a84709',
+    18,
+    'ISA',
+    'Islander'
+  )
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'

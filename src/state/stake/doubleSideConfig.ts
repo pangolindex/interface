@@ -93,7 +93,9 @@ import {
   NFTD,
   CLY,
   COOK,
-  SKILL
+  SKILL,
+  LOOT,
+  ISA
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1191,6 +1193,16 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   MIM_WAVAX_V2: {
     tokens: [MIM[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  LOOT_WAVAX_V2: {
+    tokens: [LOOT[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  ISA_WAVAX_V2: {
+    tokens: [ISA[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   }
