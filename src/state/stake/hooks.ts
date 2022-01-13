@@ -804,6 +804,13 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     return rewardsAddresses.map((reward, index) => [index, account as any, pendingRewards?.[index]?.result?.[0]])
   }, [rewardsAddresses, pendingRewards, account])
 
+  const rewardTokens = useMultipleContractSingleData(
+    rewardsAddresses,
+    REWARDER_VIA_MULTIPLIER_INTERFACE,
+    'getRewardTokens',
+    []
+  )
+
   const rewardTokenAmounts = useMultipleContractSingleData(
     rewardsAddresses,
     REWARDER_VIA_MULTIPLIER_INTERFACE,
@@ -811,9 +818,9 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     pendingTokensInfoInput
   )
 
-  console.log('rewarders', rewarders)
-  console.log('pendingTokensInfoInput', pendingTokensInfoInput)
-  console.log('rewardTokenAmounts', rewardTokenAmounts)
+  console.log('rewardTokens', rewardTokens)
+  console.log('pendingTokensNew input', pendingTokensInfoInput)
+  console.log('pendingTokensNew', rewardTokenAmounts)
 
   const rewardPerSecond = useSingleCallResult(minichefContract, 'rewardPerSecond', []).result
   const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
