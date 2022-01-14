@@ -132,7 +132,7 @@ export default function DoubleSidePoolCard({
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Box mr={10}>
-            <RewardTokens size={24}/>
+            <RewardTokens rewardTokens={stakingInfo?.rewardTokensAddress} size={24} />
           </Box>
 
           {/* Beta Migration */}

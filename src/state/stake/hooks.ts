@@ -89,6 +89,8 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
   // total staked AVAX in the pool
   totalStakedInWavax: TokenAmount
   totalStakedInUsd: TokenAmount
+  rewardTokensAddress?: Array<string>
+  rewardsAddress?: string
 }
 
 export interface StakingInfo extends DoubleSideStakingInfo {
@@ -798,29 +800,12 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     return rewarders.map(reward => reward?.result?.[0])
   }, [rewarders])
 
-  const pendingTokensInfoInput = useMemo(() => {
-    if ((rewardsAddresses || []).length === 0 || (pendingRewards || []).length === 0 || !account) return [undefined]
-    if (pendingRewards.some(item => item.loading)) return [undefined]
-    return rewardsAddresses.map((reward, index) => [index, account as any, pendingRewards?.[index]?.result?.[0]])
-  }, [rewardsAddresses, pendingRewards, account])
-
-  const rewardTokens = useMultipleContractSingleData(
+  const rewardTokensAddresses = useMultipleContractSingleData(
     rewardsAddresses,
     REWARDER_VIA_MULTIPLIER_INTERFACE,
     'getRewardTokens',
     []
   )
-
-  const rewardTokenAmounts = useMultipleContractSingleData(
-    rewardsAddresses,
-    REWARDER_VIA_MULTIPLIER_INTERFACE,
-    'pendingTokens',
-    pendingTokensInfoInput
-  )
-
-  console.log('rewardTokens', rewardTokens)
-  console.log('pendingTokensNew input', pendingTokensInfoInput)
-  console.log('pendingTokensNew', rewardTokenAmounts)
 
   const rewardPerSecond = useSingleCallResult(minichefContract, 'rewardPerSecond', []).result
   const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
@@ -837,6 +822,8 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
       const userPoolInfo = userInfos[index]
       const [pairState, pair] = pairs[index]
       const pendingRewardInfo = pendingRewards[index]
+      const rewardTokensAddress = rewardTokensAddresses[index]
+      const rewardsAddress = rewardsAddresses[index]
 
       if (
         pairTotalSupplyState?.loading === false &&
@@ -848,7 +835,8 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
         avaxPngPairState !== PairState.LOADING &&
         rewardPerSecond &&
         totalAllocPoint &&
-        rewardsExpiration?.[0]
+        rewardsExpiration?.[0] &&
+        rewardTokensAddress?.loading === false
       ) {
         if (
           balanceState?.error ||
@@ -958,7 +946,9 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           multiplier: JSBI.divide(multiplier, JSBI.BigInt(100)),
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
           isPeriodFinished,
-          getHypotheticalRewardRate
+          getHypotheticalRewardRate,
+          rewardTokensAddress: rewardTokensAddress?.result?.[0],
+          rewardsAddress
         })
       }
 
@@ -979,7 +969,9 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     rewardsExpiration,
     balances,
     usdPrice,
-    pairAddresses
+    pairAddresses,
+    rewardTokensAddresses,
+    rewardsAddresses
   ])
 
   return arr
