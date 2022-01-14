@@ -6,7 +6,7 @@ import { Text } from '@pangolindex/components'
 
 import { RowBetween } from '../../Row'
 import { ButtonError } from '../../Button'
-import { SubmittedView, LoadingView } from '../../ModalViews'
+import { SubmittedView, LoadingView } from '../../Beta/ModalViews'
 import FormattedCurrencyAmount from '../../FormattedCurrencyAmount'
 import Modal from '../../Modal'
 import { AutoColumn } from '../../Column'
@@ -119,18 +119,18 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
       {attempting && !hash && (
         <LoadingView onDismiss={wrappedOnDismiss}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.body fontSize={20}>
+            <Text fontSize={18} lineHeight={'27px'} fontWeight={600} color="text10">
               {t('earn.withdrawingLiquidity', {
                 amount: stakingInfo?.stakedAmount?.toSignificant(4),
                 symbol: 'PNG'
               })}
-            </TYPE.body>
-            <TYPE.body fontSize={20}>
+            </Text>
+            <Text fontSize={16} lineHeight={'24px'} fontWeight={400} color="text10">
               {t('earn.claimingReward', {
                 amount: stakingInfo?.earnedAmount?.toSignificant(4),
                 symbol: stakingInfo?.rewardToken?.symbol
               })}
-            </TYPE.body>
+            </Text>
           </AutoColumn>
         </LoadingView>
       )}

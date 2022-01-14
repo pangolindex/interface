@@ -28,7 +28,7 @@ const StyledDialogOverlay = styled(AnimatedDialogOverlay)<{ background?: string;
 const AnimatedDialogContent = animated(DialogContent)
 // destructure to not pass custom props to Dialog DOM element
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...rest }) => (
+const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isBeta, ...rest }) => (
   <AnimatedDialogContent {...rest} />
 )).attrs({
   'aria-label': 'dialog'
@@ -37,7 +37,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...r
 
   &[data-reach-dialog-content] {
     margin: 0 0 2rem 0;
-    background-color: ${({ theme }) => theme.bg1};
+    background-color: ${({ theme, isBeta }) => (isBeta ? theme.bg2 : theme.bg1)};
     box-shadow: 0 4px 8px 0 ${({ theme }) => transparentize(0.95, theme.shadow1)};
     padding: 0px;
     width: 50vw;
@@ -140,6 +140,7 @@ export default function Modal({
                 minHeight={minHeight}
                 maxHeight={maxHeight}
                 mobile={isMobile}
+                isBeta={isBeta}
               >
                 {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
                 {!initialFocusRef && isMobile ? <div tabIndex={1} /> : null}
