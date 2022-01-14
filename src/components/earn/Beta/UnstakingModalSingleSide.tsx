@@ -15,8 +15,7 @@ import { useStakingContract } from 'src/hooks/useContract'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { TYPE } from 'src/theme'
 import { useActiveWeb3React } from 'src/hooks'
-
-import CrossIcon from 'src/assets/svg/cross.svg'
+import { BetaCloseIcon } from 'src/theme/components'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -35,7 +34,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
 
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()
-  const [hash, setHash] = useState<string | undefined>()
+  const [hash, setHash] = useState<string | undefined>('asdf')
   const [attempting, setAttempting] = useState(false)
 
   function wrappedOnDismiss() {
@@ -80,7 +79,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
             <Text fontSize={18} fontWeight={600} lineHeight={'27px'} color="text10">
               {t('earn.withdraw')}
             </Text>
-            <img src={CrossIcon} onClick={wrappedOnDismiss} alt="cross icon" style={{ cursor: 'pointer' }} />
+            <BetaCloseIcon onDismiss={wrappedOnDismiss} />
           </RowBetween>
           {stakingInfo?.stakedAmount && (
             <AutoColumn justify="center" gap="md">
@@ -137,9 +136,15 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
       {hash && (
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{t('earn.withdrewStakingToken', { symbol: 'PNG' })}</TYPE.body>
-            <TYPE.body fontSize={20}>{t('earn.claimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}</TYPE.body>
+            <Text fontSize={18} fontWeight={600} lineHeight={'27px'} color="text10">
+              {t('earn.transactionSubmitted')}
+            </Text>
+            <Text fontSize={16} fontWeight={400} lineHeight={'24px'} color="text10">
+              {t('earn.withdrewStakingToken', { symbol: 'PNG' })}
+            </Text>
+            <Text fontSize={16} fontWeight={400} lineHeight={'24px'} color="text10">
+              {t('earn.claimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}
+            </Text>
           </AutoColumn>
         </SubmittedView>
       )}

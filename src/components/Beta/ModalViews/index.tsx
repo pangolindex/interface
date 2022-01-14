@@ -1,18 +1,19 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import styled, { ThemeContext } from 'styled-components'
-import { ArrowUpCircle } from 'react-feather'
+import styled from 'styled-components'
+// import { ArrowUpCircle } from 'react-feather'
 import { Text, Box } from '@pangolindex/components'
 
 import { AutoColumn, ColumnCenter } from '../../Column'
 import { RowBetween } from '../../Row'
-import { TYPE, CloseIcon, CustomLightSpinner } from 'src/theme'
-import { ExternalLink } from 'src/theme/components'
+import { CustomLightSpinner } from 'src/theme'
+import { ExternalLink, BetaCloseIcon } from 'src/theme/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { getEtherscanLink } from 'src/utils'
 
 import Logo from 'src/assets/images/logo.svg'
 import Circle from 'src/assets/images/orange-loader.svg'
+import ArrowCheckCircle from 'src/assets/images/arrow-check-circle.svg'
 
 const ConfirmOrLoadingWrapper = styled.div`
   width: 100%;
@@ -59,7 +60,7 @@ export function SubmittedView({
   onDismiss: () => void
   hash: string | undefined
 }) {
-  const theme = useContext(ThemeContext)
+  // const theme = useContext(ThemeContext)
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
 
@@ -67,16 +68,19 @@ export function SubmittedView({
     <ConfirmOrLoadingWrapper>
       <RowBetween>
         <div />
-        <CloseIcon onClick={onDismiss} />
+        <BetaCloseIcon onDismiss={onDismiss} />
       </RowBetween>
-      <ConfirmedIcon>
-        <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary1} />
+      <ConfirmedIcon style={{ padding: '3px 0px 50px' }}>
+        <img src={ArrowCheckCircle} alt="arrow check circle" />
+        {/* <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary1} /> */}
       </ConfirmedIcon>
-      <AutoColumn gap="100px" justify={'center'}>
+      <AutoColumn gap="45px" justify={'center'}>
         {children}
         {chainId && hash && (
           <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')} style={{ marginLeft: '4px' }}>
-            <TYPE.subHeader>{t('modalView.viewTransaction')}</TYPE.subHeader>
+            <Text fontSize={12} fontWeight={500} lineHeight={'18px'} color="text15">
+              {t('modalView.viewTransaction')}
+            </Text>
           </ExternalLink>
         )}
       </AutoColumn>
