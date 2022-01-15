@@ -763,6 +763,87 @@ export const SKILL: { [chainId in ChainId]: Token } = {
   )
 }
 
+export const TUS: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'TUS', 'Treasure Under Sea'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xf693248F96Fe03422FEa95aC0aFbBBc4a8FdD172',
+    18,
+    'TUS',
+    'Treasure Under Sea'
+  )
+}
+
+export const USDC: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'USDC', 'USD Coin'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E', 6, 'USDC', 'USD Coin')
+}
+
+export const HSHARES: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HSHARES', 'HERMES Shares'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xfa4B6db72A650601E7Bd50a0A9f537c9E98311B2',
+    18,
+    'HSHARES',
+    'HERMES Shares'
+  )
+}
+
+export const HERMES: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HERMES', 'HERMES'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xB15f02F9Da8CD1f99E9dd375F21dc96D25ddd82C',
+    18,
+    'HERMES',
+    'HERMES'
+  )
+}
+
+export const PTP: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'PTP', 'Platypus'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x22d4002028f537599bE9f666d1c4Fa138522f9c8', 18, 'PTP', 'Platypus')
+}
+
+export const ISA: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ISA', 'Islander'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x3EeFb18003D033661f84e48360eBeCD181A84709', 18, 'ISA', 'Islander')
+}
+
+export const ICE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ICE', 'Ice Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xe0Ce60AF0850bF54072635e66E79Df17082A1109',
+    18,
+    'ICE',
+    'Ice Token'
+  )
+}
+
+export const iDYP: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'iDYP', 'iDefi Yield Protocol'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xBD100d061E120b2c67A24453CF6368E63f1Be056',
+    18,
+    'iDYP',
+    'iDefi Yield Protocol'
+  )
+}
+
+export const BOOFI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'BOOFI', 'Boo Finance Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xB00F1ad977a949a3CCc389Ca1D1282A2946963b0',
+    18,
+    'BOOFI',
+    'Boo Finance Token'
+  )
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
