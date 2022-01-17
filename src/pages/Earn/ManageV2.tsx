@@ -8,7 +8,7 @@ import { useCurrency, useTokens } from '../../hooks/Tokens'
 import { useActiveWeb3React } from '../../hooks'
 import { useSingleContractMultipleData } from '../../state/multicall/hooks'
 import { useRewardViaMultiplierContract } from '../../hooks/useContract'
-import { Token, TokenAmount } from '@pangolindex/sdk'
+import { JSBI, Token, TokenAmount } from '@pangolindex/sdk'
 
 const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB: string }>> = ({
   match: {
@@ -24,12 +24,17 @@ const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB:
 
   const [, stakingTokenPair] = usePair(tokenA, tokenB)
   const miniChefStaking = useMinichefStakingInfos(2, stakingTokenPair)?.[0]
+
   const rewardAddress = miniChefStaking?.rewardsAddress
 
   const rewardContract = useRewardViaMultiplierContract(rewardAddress)
 
+  const earnedAmount = miniChefStaking?.earnedAmount
+    ? JSBI.BigInt(miniChefStaking?.earnedAmount?.raw).toString()
+    : JSBI.BigInt(0).toString()
+
   const rewardTokenAmounts = useSingleContractMultipleData(rewardContract, 'pendingTokens', [
-    [0, account as string, '1000000000000'] // TODO:
+    [0, account as string, earnedAmount] // TODO:
   ])
   const rewardTokens = useTokens(rewardTokenAmounts?.[0]?.result?.tokens)
   const rewardAmounts = rewardTokenAmounts?.[0]?.result?.amounts
@@ -39,9 +44,15 @@ const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB:
     return rewardTokens.map((rewardToken, index) => new TokenAmount(rewardToken as Token, rewardAmounts[index]))
   }, [rewardAmounts, rewardTokens])
 
-  console.log(rewardTokensAmount)
-
-  return <Manage version="2" stakingInfo={miniChefStaking} currencyA={currencyA} currencyB={currencyB} />
+  return (
+    <Manage
+      version="2"
+      stakingInfo={miniChefStaking}
+      currencyA={currencyA}
+      currencyB={currencyB}
+      rewardTokensAmount={rewardTokensAmount}
+    />
+  )
 }
 
 export default ManageV2

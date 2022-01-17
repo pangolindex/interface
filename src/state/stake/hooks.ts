@@ -91,6 +91,7 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
   totalStakedInUsd: TokenAmount
   rewardTokensAddress?: Array<string>
   rewardsAddress?: string
+  rewardTokensMultiplier?: Array<JSBI>
 }
 
 export interface StakingInfo extends DoubleSideStakingInfo {
@@ -807,6 +808,13 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     []
   )
 
+  const rewardTokensMultipliers = useMultipleContractSingleData(
+    rewardsAddresses,
+    REWARDER_VIA_MULTIPLIER_INTERFACE,
+    'getRewardMultipliers',
+    []
+  )
+
   const rewardPerSecond = useSingleCallResult(minichefContract, 'rewardPerSecond', []).result
   const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
   const rewardsExpiration = useSingleCallResult(minichefContract, 'rewardsExpiration', []).result
@@ -823,6 +831,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
       const [pairState, pair] = pairs[index]
       const pendingRewardInfo = pendingRewards[index]
       const rewardTokensAddress = rewardTokensAddresses[index]
+      const rewardTokensMultiplier = rewardTokensMultipliers[index]
       const rewardsAddress = rewardsAddresses[index]
 
       if (
@@ -921,7 +930,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
           totalStakedAmount: TokenAmount,
-          totalRewardRate: TokenAmount
+          totalRewardRate: TokenAmount,
         ): TokenAmount => {
           return new TokenAmount(
             png,
@@ -948,6 +957,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           isPeriodFinished,
           getHypotheticalRewardRate,
           rewardTokensAddress: rewardTokensAddress?.result?.[0],
+          rewardTokensMultiplier: rewardTokensMultiplier?.result?.[0],
           rewardsAddress
         })
       }
