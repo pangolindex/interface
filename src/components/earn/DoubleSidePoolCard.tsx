@@ -206,12 +206,12 @@ export default function DoubleSidePoolCard({
               </TYPE.black>
             </BottomSection>
 
-            <BottomSection showBackground={true}>
-              <TYPE.black color={'white'} fontWeight={500}>
-                <span>{t('earn.extraReward')}</span>
-              </TYPE.black>
+            {(stakingInfo?.rewardTokensAddress || []).length > 0 && (rewardTokens || []).length > 0 && (
+              <BottomSection showBackground={true}>
+                <TYPE.black color={'white'} fontWeight={500}>
+                  <span>{t('earn.extraReward')}</span>
+                </TYPE.black>
 
-              {(stakingInfo?.rewardTokensAddress || []).length > 0 && (rewardTokens || []).length > 0 && (
                 <AutoColumn gap="sm">
                   {(rewardTokens || []).map((token, index) => {
                     const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
@@ -235,8 +235,8 @@ export default function DoubleSidePoolCard({
                     )
                   })}
                 </AutoColumn>
-              )}
-            </BottomSection>
+              </BottomSection>
+            )}
           </Box>
         </>
       )}
