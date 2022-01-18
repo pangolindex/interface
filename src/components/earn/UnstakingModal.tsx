@@ -114,8 +114,8 @@ export default function UnstakingModal({
             </AutoColumn>
           )}
           {isSuperFarm &&
-            extraRewardTokensAmount?.map(rewardAmount => (
-              <AutoColumn justify="center" gap="md">
+            extraRewardTokensAmount?.map((rewardAmount, i) => (
+              <AutoColumn justify="center" gap="md" key={i}>
                 <TYPE.body fontWeight={600} fontSize={36}>
                   {<FormattedCurrencyAmount currencyAmount={rewardAmount} />}
                 </TYPE.body>
@@ -142,6 +142,16 @@ export default function UnstakingModal({
                 amount: stakingInfo?.earnedAmount?.toSignificant(4),
                 symbol: 'PNG'
               })}
+
+              {isSuperFarm &&
+                extraRewardTokensAmount?.map((rewardAmount, i) => (
+                  <TYPE.body fontSize={20} key={i}>
+                    {t('earn.claimingReward', {
+                      amount: rewardAmount?.toSignificant(6),
+                      symbol: rewardAmount?.token?.symbol
+                    })}
+                  </TYPE.body>
+                ))}
             </TYPE.body>
           </AutoColumn>
         </LoadingView>

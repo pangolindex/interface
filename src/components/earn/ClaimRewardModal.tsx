@@ -97,8 +97,8 @@ export default function ClaimRewardModal({
             </AutoColumn>
           )}
           {isSuperFarm &&
-            extraRewardTokensAmount?.map(rewardAmount => (
-              <AutoColumn justify="center" gap="md">
+            extraRewardTokensAmount?.map((rewardAmount, i) => (
+              <AutoColumn justify="center" gap="md" key={i}>
                 <TYPE.body fontWeight={600} fontSize={36}>
                   {rewardAmount?.toSignificant(6)}
                 </TYPE.body>
@@ -120,6 +120,16 @@ export default function ClaimRewardModal({
                 symbol: 'PNG'
               })}
             </TYPE.body>
+
+            {isSuperFarm &&
+              extraRewardTokensAmount?.map((rewardAmount, i) => (
+                <TYPE.body fontSize={20} key={i}>
+                  {t('earn.claimingReward', {
+                    amount: rewardAmount?.toSignificant(6),
+                    symbol: rewardAmount?.token?.symbol
+                  })}
+                </TYPE.body>
+              ))}
           </AutoColumn>
         </LoadingView>
       )}

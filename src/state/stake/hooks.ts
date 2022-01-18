@@ -92,6 +92,7 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
   rewardTokensAddress?: Array<string>
   rewardsAddress?: string
   rewardTokensMultiplier?: Array<JSBI>
+  getExtraTokensRewardRate?: (rewardRate: TokenAmount, token: Token, tokenMultiplier: JSBI | undefined) => TokenAmount
 }
 
 export interface StakingInfo extends DoubleSideStakingInfo {
@@ -930,7 +931,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
           totalStakedAmount: TokenAmount,
-          totalRewardRate: TokenAmount,
+          totalRewardRate: TokenAmount
         ): TokenAmount => {
           return new TokenAmount(
             png,
@@ -938,6 +939,14 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
               ? JSBI.divide(JSBI.multiply(totalRewardRate.raw, stakedAmount.raw), totalStakedAmount.raw)
               : JSBI.BigInt(0)
           )
+        }
+
+        const getExtraTokensRewardRate = (rewardRate: TokenAmount, token: Token, tokenMultiplier: JSBI | undefined) => {
+          const TEN_EIGHTEEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
+          const rewardMultiplier = JSBI.BigInt(tokenMultiplier || 1) || JSBI.BigInt(1)
+          const finalReward = JSBI.divide(JSBI.multiply(rewardMultiplier, rewardRate?.raw), TEN_EIGHTEEN)
+          const userRewardRate = new TokenAmount(token, finalReward)
+          return userRewardRate
         }
 
         const userRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
@@ -956,6 +965,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
           isPeriodFinished,
           getHypotheticalRewardRate,
+          getExtraTokensRewardRate,
           rewardTokensAddress: rewardTokensAddress?.result?.[0],
           rewardTokensMultiplier: rewardTokensMultiplier?.result?.[0],
           rewardsAddress

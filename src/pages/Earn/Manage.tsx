@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { JSBI, Token, Currency, TokenAmount } from '@pangolindex/sdk'
+import { Token, Currency, TokenAmount } from '@pangolindex/sdk'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { TYPE } from '../../theme'
@@ -124,14 +124,6 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
   let pairAddress = stakingInfo?.stakedAmount?.token?.address
   let isSuperFarm = (extraRewardTokensAmount || [])?.length > 0
 
-  const getUserRewardRate = (rewardRate: TokenAmount, token: Token, tokenMultiplier: JSBI | undefined) => {
-    const TEN_EIGHTEEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
-    const rewardMultiplier = JSBI.BigInt(tokenMultiplier || 1) || JSBI.BigInt(1)
-    const finalReward = JSBI.divide(JSBI.multiply(rewardMultiplier, rewardRate?.raw), TEN_EIGHTEEN)
-    const userRewardRate = new TokenAmount(token, finalReward)
-    return userRewardRate
-  }
-
   return (
     <PageWrapper gap="lg" justify="center">
       <RowBetween style={{ gap: '24px' }}>
@@ -165,7 +157,9 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
               <>
                 {(extraRewardTokensAmount || []).map((reward, index) => {
                   const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
-                  let totalRewardRate = getUserRewardRate(stakingInfo?.totalRewardRate, reward?.token, tokenMultiplier)
+                  let totalRewardRate =
+                    stakingInfo?.getExtraTokensRewardRate &&
+                    stakingInfo?.getExtraTokensRewardRate(stakingInfo?.totalRewardRate, reward?.token, tokenMultiplier)
 
                   return (
                     <TYPE.body fontSize={18} fontWeight={500} key={index}>
@@ -303,7 +297,10 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
                 )
 
                 const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
-                let rewardRate = getUserRewardRate(userRewardRate, reward?.token, tokenMultiplier)
+
+                let rewardRate =
+                  stakingInfo?.getExtraTokensRewardRate &&
+                  (stakingInfo?.getExtraTokensRewardRate(userRewardRate, reward?.token, tokenMultiplier) as TokenAmount)
 
                 return (
                   <RewardCard

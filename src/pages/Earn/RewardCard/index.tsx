@@ -23,7 +23,7 @@ const StyledBottomCard = styled(DataCard)<{ dim: any; isOverlay: boolean }>`
 export interface ManageProps {
   stakedAmount: TokenAmount
   earnedAmount: TokenAmount
-  rewardRate: TokenAmount
+  rewardRate?: TokenAmount | undefined
   currency?: Currency | null | undefined
   setShowClaimRewardModal: () => void
   isOverlay: boolean
