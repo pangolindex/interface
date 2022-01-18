@@ -12,6 +12,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
+import { TokenAmount } from '@pangolindex/sdk'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -23,9 +24,16 @@ interface StakingModalProps {
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
   version: number
+  extraRewardTokensAmount?: Array<TokenAmount>
 }
 
-export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo, version }: StakingModalProps) {
+export default function ClaimRewardModal({
+  isOpen,
+  onDismiss,
+  stakingInfo,
+  version,
+  extraRewardTokensAmount
+}: StakingModalProps) {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
 
@@ -42,17 +50,15 @@ export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo, versi
 
   const poolMap = useMinichefPools()
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const isSuperFarm = extraRewardTokensAmount && extraRewardTokensAmount?.length > 0
 
   async function onClaimReward() {
     if (stakingContract && poolMap && stakingInfo?.stakedAmount) {
       setAttempting(true)
       const method = version < 2 ? 'getReward' : 'harvest'
-      const args = version < 2
-        ? []
-        : [poolMap[stakingInfo.stakedAmount.token.address], account]
+      const args = version < 2 ? [] : [poolMap[stakingInfo.stakedAmount.token.address], account]
 
-      await stakingContract
-        [method](...args)
+      await stakingContract[method](...args)
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.claimAccumulated', { symbol: 'PNG' })
@@ -90,11 +96,18 @@ export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo, versi
               <TYPE.body>{t('earn.unclaimedReward', { symbol: 'PNG' })}</TYPE.body>
             </AutoColumn>
           )}
-          <TYPE.subHeader style={{ textAlign: 'center' }}>
-            {t('earn.liquidityRemainsPool')}
-          </TYPE.subHeader>
+          {isSuperFarm &&
+            extraRewardTokensAmount?.map(rewardAmount => (
+              <AutoColumn justify="center" gap="md">
+                <TYPE.body fontWeight={600} fontSize={36}>
+                  {rewardAmount?.toSignificant(6)}
+                </TYPE.body>
+                <TYPE.body>{t('earn.unclaimedReward', { symbol: rewardAmount?.token?.symbol })}</TYPE.body>
+              </AutoColumn>
+            ))}
+          <TYPE.subHeader style={{ textAlign: 'center' }}>{t('earn.liquidityRemainsPool')}</TYPE.subHeader>
           <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onClaimReward}>
-            {error ?? t('earn.claimReward', { symbol: 'PNG' })}
+            {error ? error : isSuperFarm ? t('earn.claim') : t('earn.claimReward', { symbol: 'PNG' })}
           </ButtonError>
         </ContentWrapper>
       )}

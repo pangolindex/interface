@@ -25,7 +25,7 @@ export interface ManageProps {
   earnedAmount: TokenAmount
   rewardRate: TokenAmount
   currency?: Currency | null | undefined
-  showClaimRewardModal: () => void
+  setShowClaimRewardModal: () => void
   isOverlay: boolean
   isSuperFarm?: boolean
 }
@@ -35,7 +35,7 @@ const RewardCard: React.FC<ManageProps> = ({
   earnedAmount,
   rewardRate,
   currency,
-  showClaimRewardModal,
+  setShowClaimRewardModal,
   isOverlay,
   isSuperFarm = true
 }) => {
@@ -54,7 +54,7 @@ const RewardCard: React.FC<ManageProps> = ({
             <TYPE.black>{t('earnPage.unclaimedReward', { symbol: currency ? currency?.symbol : 'PNG' })}</TYPE.black>
           </div>
           {!isSuperFarm && earnedAmount && JSBI.notEqual(BIG_INT_ZERO, earnedAmount?.raw) && (
-            <ButtonEmpty padding="8px" borderRadius="8px" width="fit-content" onClick={() => showClaimRewardModal()}>
+            <ButtonEmpty padding="8px" borderRadius="8px" width="fit-content" onClick={() => setShowClaimRewardModal()}>
               {t('earnPage.claim')}
             </ButtonEmpty>
           )}

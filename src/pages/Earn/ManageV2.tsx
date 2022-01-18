@@ -50,7 +50,7 @@ const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB:
       stakingInfo={miniChefStaking}
       currencyA={currencyA}
       currencyB={currencyB}
-      rewardTokensAmount={rewardTokensAmount}
+      extraRewardTokensAmount={rewardTokensAmount}
     />
   )
 }

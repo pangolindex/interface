@@ -85,10 +85,10 @@ export interface ManageProps {
   stakingInfo: DoubleSideStakingInfo
   currencyA: Currency | null | undefined
   currencyB: Currency | null | undefined
-  rewardTokensAmount?: Array<TokenAmount>
+  extraRewardTokensAmount?: Array<TokenAmount>
 }
 
-const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, currencyB, rewardTokensAmount }) => {
+const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, currencyB, extraRewardTokensAmount }) => {
   const { account } = useActiveWeb3React()
 
   let backgroundColor: string
@@ -122,14 +122,13 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
 
   const poolMap = useMinichefPools()
   let pairAddress = stakingInfo?.stakedAmount?.token?.address
+  let isSuperFarm = (extraRewardTokensAmount || [])?.length > 0
 
-  const getUserRewardRate = (rewardRate: TokenAmount, token: Token, index: any) => {
-    let TENEIGHTEEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
-    let rewardMultiplier = JSBI.BigInt(stakingInfo?.rewardTokensMultiplier?.[index] || 1) || JSBI.BigInt(1)
-
-    let multiplyRewardPoints = JSBI.divide(JSBI.multiply(rewardMultiplier, rewardRate?.raw), TENEIGHTEEN)
-
-    let userRewardRate = new TokenAmount(token, multiplyRewardPoints)
+  const getUserRewardRate = (rewardRate: TokenAmount, token: Token, tokenMultiplier: JSBI | undefined) => {
+    const TEN_EIGHTEEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
+    const rewardMultiplier = JSBI.BigInt(tokenMultiplier || 1) || JSBI.BigInt(1)
+    const finalReward = JSBI.divide(JSBI.multiply(rewardMultiplier, rewardRate?.raw), TEN_EIGHTEEN)
+    const userRewardRate = new TokenAmount(token, finalReward)
     return userRewardRate
   }
 
@@ -155,19 +154,18 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
           <AutoColumn gap="sm">
             <TYPE.body style={{ margin: 0 }}>{t('earnPage.poolRate')}</TYPE.body>
 
-            {(rewardTokensAmount || [])?.length === 0 && (
-              <TYPE.body fontSize={24} fontWeight={500}>
-                {stakingInfo?.totalRewardRate
-                  ?.multiply((60 * 60 * 24 * 7).toString())
-                  ?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
-                {t('earnPage.rewardPerWeek', { symbol: 'PNG' })}
-              </TYPE.body>
-            )}
+            <TYPE.body fontSize={isSuperFarm ? 18 : 24} fontWeight={500}>
+              {stakingInfo?.totalRewardRate
+                ?.multiply((60 * 60 * 24 * 7).toString())
+                ?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
+              {t('earnPage.rewardPerWeek', { symbol: 'PNG' })}
+            </TYPE.body>
 
-            {(rewardTokensAmount || [])?.length > 0 && stakingInfo?.totalRewardRate && (
+            {isSuperFarm && stakingInfo?.totalRewardRate && (
               <>
-                {(rewardTokensAmount || []).map((reward, index) => {
-                  let totalRewardRate = getUserRewardRate(stakingInfo?.totalRewardRate, reward?.token, index)
+                {(extraRewardTokensAmount || []).map((reward, index) => {
+                  const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
+                  let totalRewardRate = getUserRewardRate(stakingInfo?.totalRewardRate, reward?.token, tokenMultiplier)
 
                   return (
                     <TYPE.body fontSize={18} fontWeight={500} key={index}>
@@ -251,12 +249,14 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
             onDismiss={() => setShowUnstakingModal(false)}
             stakingInfo={stakingInfo}
             version={Number(version)}
+            extraRewardTokensAmount={extraRewardTokensAmount}
           />
           <ClaimRewardModal
             isOpen={showClaimRewardModal}
             onDismiss={() => setShowClaimRewardModal(false)}
             stakingInfo={stakingInfo}
             version={Number(version)}
+            extraRewardTokensAmount={extraRewardTokensAmount}
           />
         </>
       )}
@@ -284,36 +284,35 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
           </StyledDataCard>
           {/* // copy */}
 
-          {(rewardTokensAmount || [])?.length === 0 && (
-            <RewardCard
-              stakedAmount={stakingInfo?.stakedAmount}
-              earnedAmount={stakingInfo?.earnedAmount}
-              rewardRate={stakingInfo?.rewardRate}
-              showClaimRewardModal={() => setShowClaimRewardModal(true)}
-              isOverlay={true}
-              isSuperFarm={false}
-            />
-          )}
+          <RewardCard
+            stakedAmount={stakingInfo?.stakedAmount}
+            earnedAmount={stakingInfo?.earnedAmount}
+            rewardRate={stakingInfo?.rewardRate}
+            setShowClaimRewardModal={() => setShowClaimRewardModal(true)}
+            isOverlay={true}
+            isSuperFarm={isSuperFarm}
+          />
 
-          {(rewardTokensAmount || [])?.length > 0 && (
+          {isSuperFarm && (
             <>
-              {(rewardTokensAmount || []).map((reward, index) => {
+              {(extraRewardTokensAmount || []).map((reward, index) => {
                 const userRewardRate = stakingInfo?.getHypotheticalRewardRate(
                   stakingInfo?.stakedAmount,
                   stakingInfo?.totalStakedAmount,
                   stakingInfo?.totalRewardRate
                 )
 
-                let rewardRate = getUserRewardRate(userRewardRate, reward?.token, index)
+                const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
+                let rewardRate = getUserRewardRate(userRewardRate, reward?.token, tokenMultiplier)
 
                 return (
                   <RewardCard
                     stakedAmount={stakingInfo?.stakedAmount}
                     earnedAmount={reward}
                     rewardRate={rewardRate}
-                    showClaimRewardModal={() => setShowClaimRewardModal(true)}
+                    setShowClaimRewardModal={() => setShowClaimRewardModal(true)}
                     currency={reward?.token}
-                    isOverlay={index === 0}
+                    isOverlay={false}
                     key={index}
                   />
                 )
@@ -335,6 +334,19 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
                 ? t('earnPage.deposit')
                 : t('earnPage.depositStakingTokens', { symbol: 'PGL' })}
             </ButtonPrimary>
+
+            {isSuperFarm && stakingInfo?.earnedAmount?.greaterThan(BIG_INT_ZERO) && (
+              <>
+                <ButtonPrimary
+                  padding="8px"
+                  borderRadius="8px"
+                  width="160px"
+                  onClick={() => setShowClaimRewardModal(true)}
+                >
+                  {t('earnPage.claim')}
+                </ButtonPrimary>
+              </>
+            )}
 
             {stakingInfo?.stakedAmount?.greaterThan(BIG_INT_ZERO) && (
               <>
