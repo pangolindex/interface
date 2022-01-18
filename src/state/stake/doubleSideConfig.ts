@@ -94,8 +94,16 @@ import {
   CLY,
   COOK,
   SKILL,
-  LOOT,
-  ISA
+  TUS,
+  USDC,
+  HSHARES,
+  HERMES,
+  PTP,
+  ISA,
+  ICE,
+  iDYP,
+  BOOFI,
+  LOOT
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1196,13 +1204,68 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   },
-  LOOT_WAVAX_V2: {
-    tokens: [LOOT[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+  WAVAX_TUS_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TUS[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   },
-  ISA_WAVAX_V2: {
-    tokens: [ISA[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+  USDCe_USDC_V2: {
+    tokens: [USDCe[ChainId.AVALANCHE], USDC[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_USDC_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], USDC[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_HSHARES_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], HSHARES[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_HERMES_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], HERMES[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_PTP_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], PTP[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_ISA_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], ISA[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_ICE_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], ICE[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_AVE_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], AVE[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_IDYP_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], iDYP[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_BOOFI_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], BOOFI[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_VSO_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], VSO[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  LOOT_WAVAX_V2: {
+    tokens: [LOOT[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   }

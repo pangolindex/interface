@@ -529,12 +529,24 @@ export const YAY: { [chainId in ChainId]: Token } = {
 
 export const STORM: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'STORM', 'STORM Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x6AFD5A1ea4b793CC1526d6Dc7e99A608b356eF7b', 18, 'STORM', 'STORM Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x6AFD5A1ea4b793CC1526d6Dc7e99A608b356eF7b',
+    18,
+    'STORM',
+    'STORM Token'
+  )
 }
 
 export const OOE: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OOE', 'OpenOcean'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x0ebd9537A25f56713E34c45b38F421A1e7191469', 18, 'OOE', 'OpenOcean')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x0ebd9537A25f56713E34c45b38F421A1e7191469',
+    18,
+    'OOE',
+    'OpenOcean'
+  )
 }
 
 export const VEE: { [chainId in ChainId]: Token } = {
@@ -549,7 +561,13 @@ export const AVXT: { [chainId in ChainId]: Token } = {
 
 export const OLIVE: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OLIVE', 'Olive Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x617724974218A18769020A70162165A539c07E8a', 18, 'OLIVE', 'Olive Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x617724974218A18769020A70162165A539c07E8a',
+    18,
+    'OLIVE',
+    'Olive Token'
+  )
 }
 
 export const APEIN: { [chainId in ChainId]: Token } = {
@@ -559,7 +577,13 @@ export const APEIN: { [chainId in ChainId]: Token } = {
 
 export const GB: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 9, 'GB', 'Good Bridging'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x90842eb834cFD2A1DB0b1512B254a18E4D396215', 9, 'GB', 'Good Bridging')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x90842eb834cFD2A1DB0b1512B254a18E4D396215',
+    9,
+    'GB',
+    'Good Bridging'
+  )
 }
 
 export const CNR: { [chainId in ChainId]: Token } = {
@@ -574,7 +598,13 @@ export const CYCLE: { [chainId in ChainId]: Token } = {
 
 export const IronICE: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'IronICE', 'Iron Finance ICE'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xfC108f21931576a21D0b4b301935DAc80d9E5086', 18, 'IronICE', 'Iron Finance ICE')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xfC108f21931576a21D0b4b301935DAc80d9E5086',
+    18,
+    'IronICE',
+    'Iron Finance ICE'
+  )
 }
 
 export const MYAK: { [chainId in ChainId]: Token } = {
@@ -594,27 +624,57 @@ export const TEDDY: { [chainId in ChainId]: Token } = {
 
 export const TSD: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'TSD', 'TSD Stablecoin'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x4fbf0429599460D327BD5F55625E30E4fC066095', 18, 'TSD', 'TSD Stablecoin')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x4fbf0429599460D327BD5F55625E30E4fC066095',
+    18,
+    'TSD',
+    'TSD Stablecoin'
+  )
 }
 
 export const EVRT: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'EVRT', 'Everest Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x3ACa5545e76746A3Fe13eA66B24BC0eBcC51E6b4', 18, 'EVRT', 'Everest Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x3ACa5545e76746A3Fe13eA66B24BC0eBcC51E6b4',
+    18,
+    'EVRT',
+    'Everest Token'
+  )
 }
 
 export const RAI: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'RAI', 'Rai Reflex Index'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x97Cd1CFE2ed5712660bb6c14053C0EcB031Bff7d', 18, 'RAI', 'Rai Reflex Index')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x97Cd1CFE2ed5712660bb6c14053C0EcB031Bff7d',
+    18,
+    'RAI',
+    'Rai Reflex Index'
+  )
 }
 
 export const AAVAXB: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'aAVAXb', 'Ankr AVAX Bond'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929', 18, 'aAVAXb', 'Ankr AVAX Bond')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929',
+    18,
+    'aAVAXb',
+    'Ankr AVAX Bond'
+  )
 }
 
 export const INSUR: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'INSUR', 'InsurAce Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x544c42fBB96B39B21DF61cf322b5EDC285EE7429', 18, 'INSUR', 'InsurAce Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x544c42fBB96B39B21DF61cf322b5EDC285EE7429',
+    18,
+    'INSUR',
+    'InsurAce Token'
+  )
 }
 
 export const AVME: { [chainId in ChainId]: Token } = {
@@ -629,7 +689,13 @@ export const TIME: { [chainId in ChainId]: Token } = {
 
 export const HCT: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HCT', 'Hurricane Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x45C13620B55C35A5f539d26E88247011Eb10fDbd', 18, 'HCT', 'Hurricane Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x45C13620B55C35A5f539d26E88247011Eb10fDbd',
+    18,
+    'HCT',
+    'Hurricane Token'
+  )
 }
 
 export const FRAXV2: { [chainId in ChainId]: Token } = {
@@ -649,7 +715,13 @@ export const IMX: { [chainId in ChainId]: Token } = {
 
 export const AMPL: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 9, 'AMPL', 'Ampleforth'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x027dbcA046ca156De9622cD1e2D907d375e53aa7', 9, 'AMPL', 'Ampleforth')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x027dbcA046ca156De9622cD1e2D907d375e53aa7',
+    9,
+    'AMPL',
+    'Ampleforth'
+  )
 }
 
 export const ORBS: { [chainId in ChainId]: Token } = {
@@ -659,12 +731,24 @@ export const ORBS: { [chainId in ChainId]: Token } = {
 
 export const SPELL: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'SPELL', 'Spell Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xCE1bFFBD5374Dac86a2893119683F4911a2F7814', 18, 'SPELL', 'Spell Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xCE1bFFBD5374Dac86a2893119683F4911a2F7814',
+    18,
+    'SPELL',
+    'Spell Token'
+  )
 }
 
 export const KLO: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'KLO', 'Kalao Token'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xb27c8941a7Df8958A1778c0259f76D1F8B711C35', 9, 'KLO', 'Kalao Token')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xb27c8941a7Df8958A1778c0259f76D1F8B711C35',
+    9,
+    'KLO',
+    'Kalao Token'
+  )
 }
 
 export const MIM: { [chainId in ChainId]: Token } = {
@@ -701,7 +785,13 @@ export const CRAFT: { [chainId in ChainId]: Token } = {
 
 export const MAXI: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 9, 'MAXI', 'Maximizer'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7C08413cbf02202a1c13643dB173f2694e0F73f0', 9, 'MAXI', 'Maximizer')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x7C08413cbf02202a1c13643dB173f2694e0F73f0',
+    9,
+    'MAXI',
+    'Maximizer'
+  )
 }
 
 export const AVAI: { [chainId in ChainId]: Token } = {
@@ -763,6 +853,87 @@ export const SKILL: { [chainId in ChainId]: Token } = {
   )
 }
 
+export const TUS: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'TUS', 'Treasure Under Sea'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xf693248F96Fe03422FEa95aC0aFbBBc4a8FdD172',
+    18,
+    'TUS',
+    'Treasure Under Sea'
+  )
+}
+
+export const USDC: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'USDC', 'USD Coin'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E', 6, 'USDC', 'USD Coin')
+}
+
+export const HSHARES: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HSHARES', 'HERMES Shares'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xfa4B6db72A650601E7Bd50a0A9f537c9E98311B2',
+    18,
+    'HSHARES',
+    'HERMES Shares'
+  )
+}
+
+export const HERMES: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HERMES', 'HERMES'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xB15f02F9Da8CD1f99E9dd375F21dc96D25ddd82C',
+    18,
+    'HERMES',
+    'HERMES'
+  )
+}
+
+export const PTP: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'PTP', 'Platypus'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x22d4002028f537599bE9f666d1c4Fa138522f9c8', 18, 'PTP', 'Platypus')
+}
+
+export const ISA: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ISA', 'Islander'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x3EeFb18003D033661f84e48360eBeCD181A84709', 18, 'ISA', 'Islander')
+}
+
+export const ICE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ICE', 'Ice Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xe0Ce60AF0850bF54072635e66E79Df17082A1109',
+    18,
+    'ICE',
+    'Ice Token'
+  )
+}
+
+export const iDYP: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'iDYP', 'iDefi Yield Protocol'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xBD100d061E120b2c67A24453CF6368E63f1Be056',
+    18,
+    'iDYP',
+    'iDefi Yield Protocol'
+  )
+}
+
+export const BOOFI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'BOOFI', 'Boo Finance Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xB00F1ad977a949a3CCc389Ca1D1282A2946963b0',
+    18,
+    'BOOFI',
+    'Boo Finance Token'
+  )
+}
+
 export const LOOT: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'LOOT', 'LOOT Token'),
   [ChainId.AVALANCHE]: new Token(
@@ -771,17 +942,6 @@ export const LOOT: { [chainId in ChainId]: Token } = {
     18,
     'LOOT',
     'LOOT Token'
-  )
-}
-
-export const ISA: { [chainId in ChainId]: Token } = {
-  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ISA', 'Islander'),
-  [ChainId.AVALANCHE]: new Token(
-    ChainId.AVALANCHE,
-    '0x3eefb18003d033661f84e48360ebecd181a84709',
-    18,
-    'ISA',
-    'Islander'
   )
 }
 
@@ -803,7 +963,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     PNG[ChainId.AVALANCHE],
     USDTe[ChainId.AVALANCHE],
     DAIe[ChainId.AVALANCHE],
-    USDCe[ChainId.AVALANCHE],
+    USDCe[ChainId.AVALANCHE]
   ]
 }
 
@@ -871,7 +1031,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     iconName: 'gnosis_safe.png',
     description: 'Gnosis Safe Multisig Wallet.',
     href: null,
-    color: '#010101',
+    color: '#010101'
   },
   WALLET_LINK: {
     connector: walletlink,
@@ -879,7 +1039,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     iconName: 'coinbaseWalletIcon.svg',
     description: 'Use Coinbase Wallet app on mobile device',
     href: null,
-    color: '#315CF5',
+    color: '#315CF5'
   },
   WALLET_CONNECT: {
     connector: walletconnect,
@@ -887,8 +1047,8 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     iconName: 'walletConnectIcon.svg',
     description: 'Use Wallet Connect',
     href: null,
-    color: '#315CF5',
-  },
+    color: '#315CF5'
+  }
 }
 
 export const NetworkContextName = 'NETWORK'
@@ -940,4 +1100,4 @@ export const WYRE_QUOTE_API_ENDPOINT = '/v3/orders/quote/partner'
 export const WYRE_RESERVE_API_ENDPOINT = '/v3/orders/reserve'
 export const WYRE_CALLBACK_URL = 'https://app.pangolin.exchange/'
 
-export const IS_IN_IFRAME = window.parent !== window 
+export const IS_IN_IFRAME = window.parent !== window
