@@ -45,6 +45,7 @@ export const EarnWrapper = styled(Box)`
   min-width: 30%;
   max-width: 30%;
   overflow: hidden;
+  padding: 10px;
 `
 
 export const DetailContainer = styled(Box)`

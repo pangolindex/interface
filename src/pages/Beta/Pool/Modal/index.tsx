@@ -4,7 +4,7 @@ import '@reach/dialog/styles.css'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDialogOverlay = styled.div<{ background?: string; isOpen: boolean }>`
-    z-index: 2;
+    z-index: 999;
     background-color: transparent;
     overflow: hidden;
     display:${({ isOpen }) => (!isOpen ? 'none' : 'flex')};

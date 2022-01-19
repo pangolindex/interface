@@ -5,6 +5,7 @@ import Sidebar from './Sidebar'
 import AllPoolList from './AllPoolList'
 import Wallet from './Wallet'
 import { MenuType } from './Sidebar'
+import Migration from './Migration'
 
 export enum PoolType {
   own = 'own',
@@ -33,7 +34,9 @@ const PoolUI = () => {
           {activeMenu === MenuType.yourWallet && <Wallet />}
         </Box>
 
-        <div></div>
+        <Box>
+          <Migration />
+        </Box>
       </GridContainer>
     </PageWrapper>
   )

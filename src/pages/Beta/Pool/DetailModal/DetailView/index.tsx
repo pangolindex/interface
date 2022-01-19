@@ -14,6 +14,7 @@ import CoinInfo from '../CoinInfo'
 import StatDetail from '../StatDetail'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
+import EarnWidget from '../../EarnWidget'
 
 export interface PoolDetailProps {
   onDismiss: () => void
@@ -168,7 +169,9 @@ const DetailView = ({ selectedPool, onDismiss }: PoolDetailProps) => {
           </DetailContainer>
         </Box>
 
-        <EarnWrapper />
+        <EarnWrapper>
+          <EarnWidget currencyA={currency0} currencyB={currency1} />
+        </EarnWrapper>
       </Box>
     </Wrapper>
   )
