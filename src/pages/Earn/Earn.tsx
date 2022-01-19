@@ -73,9 +73,11 @@ enum SortingType {
   totalApr = 'totalApr'
 }
 
+type ExtendedDoubleSideStakingInfo = DoubleSideStakingInfo & { stakingApr: number; swapFeeApr: number }
+
 export interface EarnProps {
   version: string
-  stakingInfos: DoubleSideStakingInfo[]
+  stakingInfos: Array<DoubleSideStakingInfo>
   poolMap?: { [key: string]: number }
 }
 
@@ -89,7 +91,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [sortBy, setSortBy] = useState<any>({ field: '', desc: true })
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
-  const [stakingInfoData, setStakingInfoData] = useState<any[]>(stakingInfos)
+  const [stakingInfoData, setStakingInfoData] = useState(stakingInfos as ExtendedDoubleSideStakingInfo[])
 
   const handleSearch = useCallback(event => {
     setSearchQuery(event.target.value.trim().toUpperCase())
@@ -106,6 +108,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   }, [poolCards, debouncedSearchQuery])
 
   useEffect(() => {
+    console.log('loading farms...')
     Promise.all(
       stakingInfoData.sort(function(info_a, info_b) {
         if (sortBy.field === SortingType.totalStakedInUsd) {

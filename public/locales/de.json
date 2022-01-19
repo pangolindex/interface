@@ -93,7 +93,8 @@
     "withdrawAndClaim": "Abbuchen & Beanspruchen",
     "withdrewStakingToken": "{{ symbol }} abgebucht!",
     "approve": "Bestätigen",
-    "poolWeight": "Beckengewicht"
+    "poolWeight": "Beckengewicht",
+    "extraReward": "Zusätzliche Belohnung"
   },
   "menu": {
     "code": "Code",
