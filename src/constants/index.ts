@@ -945,6 +945,17 @@ export const LOOT: { [chainId in ChainId]: Token } = {
   )
 }
 
+export const HEC: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HeC', 'HeroesChained'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xc7f4debc8072e23fe9259a5c0398326d8efb7f5c',
+    18,
+    'HeC',
+    'HeroesChained'
+  )
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
