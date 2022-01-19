@@ -945,6 +945,60 @@ export const LOOT: { [chainId in ChainId]: Token } = {
   )
 }
 
+export const FEED: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'FEED', 'Chikn feed'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xab592d197acc575d16c3346f4eb70c703f308d1e',
+    18,
+    'FEED',
+    'Chikn feed'
+  )
+}
+
+export const DCAU: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'DCAU', 'Dragon Crypto Aurum'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x100cc3a819dd3e8573fd2e46d1e66ee866068f30',
+    18,
+    'DCAU',
+    'Dragon Crypto Aurum'
+  )
+}
+
+export const agEUR: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'agEUR', 'agEUR'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x6fefd97f328342a8a840546a55fdcfee7542f9a8', 18, 'agEUR', 'agEUR')
+}
+
+export const MAGE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'MAGE', 'MetaBrands'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x921f99719eb6c01b4b8f0ba7973a7c24891e740a',
+    18,
+    'MAGE',
+    'MetaBrands'
+  )
+}
+
+export const HTZ: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HTZ', 'Hertz Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x9C8E99eb130AED653Ef90fED709D9C3E9cC8b269',
+    18,
+    'HTZ',
+    'Hertz Token'
+  )
+}
+
+export const PLN: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'PLN', 'Pollen'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7b2b702706d9b361dfe3f00bd138c0cfda7fb2cf', 18, 'PLN', 'Pollen')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'

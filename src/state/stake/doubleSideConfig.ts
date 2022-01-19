@@ -103,7 +103,13 @@ import {
   ICE,
   iDYP,
   BOOFI,
-  // LOOT
+  LOOT,
+  FEED,
+  DCAU,
+  agEUR,
+  MAGE,
+  HTZ,
+  PLN
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1264,11 +1270,41 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   },
-  // LOOT_WAVAX_V2: {
-  //   tokens: [LOOT[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
-  //   stakingRewardAddress: MINICHEF_ADDRESS,
-  //   version: 2
-  // }
+  LOOT_WAVAX_V2: {
+    tokens: [LOOT[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  FEED_WAVAX_V2: {
+    tokens: [FEED[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  DCAU_WAVAX_V2: {
+    tokens: [DCAU[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  AGEUR_WAVAX_V2: {
+    tokens: [agEUR[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  MAGE_WAVAX_V2: {
+    tokens: [MAGE[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  HTZ_WAVAX_V2: {
+    tokens: [HTZ[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  PLN_WAVAX_V2: {
+    tokens: [PLN[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  }
 }
 
 // The first mapping in the list takes priority if multiple migrations exist from the same pool

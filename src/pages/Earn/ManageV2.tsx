@@ -33,15 +33,17 @@ const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB:
     ? JSBI.BigInt(miniChefStaking?.earnedAmount?.raw).toString()
     : JSBI.BigInt(0).toString()
 
-  const rewardTokenAmounts = useSingleContractMultipleData(rewardContract, 'pendingTokens', [
-    [0, account as string, earnedAmount] // TODO:
-  ])
-  const rewardTokens = useTokens(rewardTokenAmounts?.[0]?.result?.tokens)
-  const rewardAmounts = rewardTokenAmounts?.[0]?.result?.amounts
+  const rewardTokenAmounts = useSingleContractMultipleData(
+    rewardContract,
+    'pendingTokens',
+    account ? [[0, account as string, earnedAmount]] : []
+  )
+  const rewardTokens = useTokens(miniChefStaking?.rewardTokensAddress)
+  const rewardAmounts = rewardTokenAmounts?.[0]?.result?.amounts || []
 
   const rewardTokensAmount = useMemo(() => {
     if (!rewardTokens) return []
-    return rewardTokens.map((rewardToken, index) => new TokenAmount(rewardToken as Token, rewardAmounts[index]))
+    return rewardTokens.map((rewardToken, index) => new TokenAmount(rewardToken as Token, rewardAmounts[index] || 0))
   }, [rewardAmounts, rewardTokens])
 
   return (
