@@ -109,7 +109,9 @@ import {
   agEUR,
   MAGE,
   HTZ,
-  PLN
+  PLN,
+  HEC,
+  RACEX
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1302,6 +1304,16 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   PLN_WAVAX_V2: {
     tokens: [PLN[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  HEC_WAVAX_V2: {
+    tokens: [HEC[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_RACEX_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], RACEX[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   }
