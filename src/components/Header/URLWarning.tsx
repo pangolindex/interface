@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import { Text } from '@pangolindex/components'
 import { AlertTriangle, X } from 'react-feather'
 import { useURLWarningToggle, useURLWarningVisible } from '../../state/user/hooks'
 import { isMobile } from 'react-device-detect'
@@ -33,6 +33,11 @@ export default function URLWarning() {
       <div style={{ display: 'flex' }}>
         <AlertTriangle style={{ marginRight: 6 }} size={12} /> {t('header.makeSureURLWarning')}
         <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>app.pangolin.exchange</code>
+        <Text as="a" href="/beta/swap">
+          <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>
+            {t('header.tryOurNewBetaSite')}
+          </code>
+        </Text>
       </div>
       <StyledClose size={12} onClick={toggleURLWarning} />
     </PhishAlert>
@@ -42,6 +47,11 @@ export default function URLWarning() {
         <AlertTriangle style={{ marginRight: 6 }} size={12} /> {t('header.alwaysMakeSureWarning')}
         <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>app.pangolin.exchange</code> -
         {t('header.bookmarkIt')}
+        <Text as="a" href="/beta/swap">
+          <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>
+            {t('header.tryOurNewBetaSite')}
+          </code>
+        </Text>
       </div>
       <StyledClose size={12} onClick={toggleURLWarning} />
     </PhishAlert>

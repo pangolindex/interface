@@ -18,7 +18,7 @@ import {
 } from './styled'
 import Backward from '../../assets/svg/backward.svg'
 import Forward from '../../assets/svg/forward.svg'
-import { Swap, Stake, Pool, Farm, Buy, Vote, Migration } from '../../components/Icons'
+import { Dashboard, Swap, Stake, Pool, Farm, Buy, Vote, Migration } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import Partners from '../../assets/svg/menu/partners.svg'
 import { ANALYTICS_PAGE } from '../../constants'
@@ -39,11 +39,18 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
   const theme = useContext(ThemeContext)
   const mainLinks = [
     {
-      link: '/swap',
+      link: '/beta/dashboard',
+      icon: Dashboard,
+      title: t('header.dashboard'),
+      id: 'dashboard',
+      isActive: location?.pathname?.startsWith('/beta/dashboard')
+    },
+    {
+      link: '/beta/swap',
       icon: Swap,
       title: t('header.swap'),
       id: 'swap',
-      isActive: location?.pathname?.startsWith('/swap')
+      isActive: location?.pathname?.startsWith('/beta/swap')
     },
     {
       link: '/buy',
@@ -74,19 +81,19 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
     },
 
     {
-      link: '/stake/0',
+      link: '/beta/stake/0',
       icon: Stake,
       title: t('header.stake'),
       id: 'stake',
-      isActive: location?.pathname?.startsWith('/stake')
+      isActive: location?.pathname?.startsWith('/beta/stake')
     },
 
     {
-      link: '/vote',
+      link: '/beta/vote',
       icon: Vote,
       title: t('header.vote'),
       id: 'vote',
-      isActive: location?.pathname?.startsWith('/vote')
+      isActive: location?.pathname?.startsWith('/beta/vote')
     },
 
     {

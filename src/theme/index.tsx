@@ -8,7 +8,7 @@ import styled, {
 } from 'styled-components'
 import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
-import { Colors } from './styled'
+import { BetaColors, Colors } from './styled'
 import { useIsBetaUI } from '../hooks/useLocation'
 
 export * from './components'
@@ -48,6 +48,12 @@ export function colors(darkMode: boolean): Colors {
     text4: darkMode ? '#565A69' : '#C3C5CB',
     text5: darkMode ? '#2C2F36' : '#EDEEF2',
     text6: darkMode ? '#111111' : '#EDEEF2',
+    text7: darkMode ? '#e6e9ec' : '#000000',
+    text8: darkMode ? '#707070' : '#565A69',
+    text9: darkMode ? '#A3A3A3' : '#000000',
+    text10: darkMode ? '#FAF9FD' : '#000000',
+    text11: darkMode ? '#18C145' : '#18C145',
+    text12: darkMode ? '#E84142' : '#E84142',
 
     // backgrounds / greys
     bg1: darkMode ? '#212429' : '#FFFFFF',
@@ -57,6 +63,8 @@ export function colors(darkMode: boolean): Colors {
     bg5: darkMode ? '#6C7284' : '#888D9B',
     bg6: darkMode ? '#1c1c1c' : '#F7F8FA',
     bg7: darkMode ? '#2C2D33' : '#F7F8FA',
+    bg8: darkMode ? '#212427' : '#212427',
+    bg9: darkMode ? '#ffffff' : '#000000',
 
     //specialty colors
     modalBG: darkMode ? 'rgba(0,0,0,.425)' : 'rgba(0,0,0,0.3)',
@@ -82,9 +90,14 @@ export function colors(darkMode: boolean): Colors {
     // other
     red1: '#FF6871',
     red2: '#F82D3A',
+    red3: '#E84142',
+    red3Gradient: 'rgba(232, 65, 66, 0.3)',
     green1: '#27AE60',
+    green2: '#18C145',
+    green2Gradient: ' rgba(24, 193, 69, 0.3)',
     yellow1: '#FFE270',
     yellow2: '#F3841E',
+    orange1: '#E6E9EC',
     blue1: '#2172E5',
 
     avaxRed: '#E84142',
@@ -128,9 +141,14 @@ export function theme(darkMode: boolean): DefaultTheme {
   }
 }
 
-export function betaColors(darkMode: boolean): Colors {
+export function betaColors(darkMode: boolean): BetaColors {
   return {
     ...colors(darkMode),
+
+    // text
+    text7: darkMode ? '#e6e9ec' : '#000000',
+    text8: darkMode ? '#707070' : '#565A69',
+    text9: darkMode ? '#282828' : '#282828',
 
     // backgrounds / greys
     bg1: darkMode ? '#212429' : '#FFFFFF',
@@ -140,6 +158,7 @@ export function betaColors(darkMode: boolean): Colors {
     bg5: darkMode ? '#6C7284' : '#888D9B',
     bg6: darkMode ? '#1c1c1c' : '#FFFFFF',
     bg7: darkMode ? '#2C2D33' : '#FFFFFF',
+    bg8: darkMode ? '#212427' : '#212427',
 
     //primary colors
     primary1: darkMode ? '#FF6B00' : '#FF6B00',
@@ -157,7 +176,13 @@ export function betaColors(darkMode: boolean): Colors {
     secondary2: darkMode ? '#17000b26' : '#F6DDE8',
     secondary3: darkMode ? '#17000b26' : '#FDEAF1',
 
-    yellow2: '#FF6B00'
+    yellow2: '#FF6B00',
+
+    switch: {
+      onColor: '#FF6B00',
+      offColor: '#CED0D9',
+      backgroundColor: '#717171'
+    }
   }
 }
 

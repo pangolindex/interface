@@ -10,6 +10,7 @@ import { computeSlippageAdjustedAmounts } from '../utils/prices'
 import { calculateGasMargin } from '../utils'
 import { useTokenContract } from './useContract'
 import { useActiveWeb3React } from './index'
+import { useGelatoLimitOrdersLib } from '@gelatonetwork/limit-orders-react'
 
 export enum ApprovalState {
   UNKNOWN,
@@ -24,6 +25,7 @@ export function useApproveCallback(
   spender?: string
 ): [ApprovalState, () => Promise<void>] {
   const { account } = useActiveWeb3React()
+
   const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined
   const currentAllowance = useTokenAllowance(token, account ?? undefined, spender)
   const pendingApproval = useHasPendingApproval(token?.address, spender)
@@ -105,4 +107,15 @@ export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) 
     [trade, allowedSlippage]
   )
   return useApproveCallback(amountToApprove, chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE])
+}
+
+// wraps useApproveCallback in the context of a swap
+export function useApproveCallbackFromInputCurrencyAmount(currencyAmountIn: any | undefined) {
+  const gelatoLibrary = useGelatoLimitOrdersLib()
+
+  const newCurrencyAmountIn = currencyAmountIn
+    ? new TokenAmount(currencyAmountIn?.currency, currencyAmountIn?.numerator)
+    : undefined
+
+  return useApproveCallback(newCurrencyAmountIn, gelatoLibrary?.erc20OrderRouter.address ?? undefined)
 }

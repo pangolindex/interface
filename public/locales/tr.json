@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Takas",
     "buy": "Satın Al",
     "pool": "Havuz",
@@ -26,7 +27,9 @@
     "bridge": "Köprü",
     "ourPartners": "Ortaklarımız",
     "usefulLinks": "Faydalı Linkler",
-    "comeAndJoinUs": "Gel ve bize katıl"
+    "comeAndJoinUs": "Gel ve bize katıl",
+    "tryOurNewBetaSite": "Yeni beta sitemizi deneyin",
+    "returnToLegacySite": "Eski siteye dön"
   },
   "accountDetails": {
     "connectedWith": "Neye Bağlı: ",
@@ -128,7 +131,7 @@
     "acceptUpdate": "Güncellemeyi kabul et",
     "dismiss": "Yoksay"
   },
-  "positionCard":{
+  "positionCard": {
     "add": "Ekle",
     "remove": "Çıkar",
     "poolShare": "Havuz payınız:",
@@ -164,8 +167,7 @@
     "select": "Seç",
     "manageTokenLists": "Token Listelerini Yönet"
   },
-  "settings":
-  {
+  "settings": {
     "areYouSure": "Emin misiniz?",
     "expertInfo": "Uzman modu, işlemi onayla istemini kapatır ve genellikle düşük oranlara ve para kaybına neden olan yüksek slipajlı işlemlere izin verir.",
     "expertWarningCAPS": "BU MODU SADECE NE YAPTIĞINIZI BİLİYORSANIZ KULLANIN.",
@@ -417,7 +419,21 @@
     "velox": "<1>Velox</1> üzerinden limit emriyle al-sat yapın",
     "marginSwap": "<1>MarginSwap</1>",
     "wowSwap": " veya <1>WOWswap</1> üzerinden kaldıraçlı işlem yapın",
-    "veeFinance": " veya <1>Vee Finance</1> üzerinden kaldıraçlı işlem yapın"
+    "veeFinance": " veya <1>Vee Finance</1> üzerinden kaldıraçlı işlem yapın",
+    "gelatoFee": "Gelato Ücret",
+    "placeOrder": "Sipariş Vermek",
+    "confirmOrder": "Sipariş onaylamak",
+    "for": "için",
+    "submittingOrderToSwap": "Takas için sipariş gönderiliyor",
+    "limitPrice": "Limit Fiyatı",
+    "outputWillBeSentTo": "çıktı gönderilecek",
+    "sell": "satmak",
+    "buy": "satın almak",
+    "betaRelease": "Bu bir BETA sürümüdür ve riski size ait olmak üzere kullanılmalıdır!",
+    "trade": "Ticaret",
+    "watchList": "İzlenecekler listesi",
+    "yourPortFolio":"Portföyünüz",
+    "comingSoon":"Çok yakında"
   },
   "buyPage": {
     "buyAvaxInfo": "Partnerimiz Wyre aracılığıyla AVAX satın alın.",
@@ -436,6 +452,7 @@
     "governanceVotes": "Yönetişimin sunduğu önergeler, basit çoğunlukla kararlaştırılır. Ulaşılması veya geçilmesi gereken bir çoğunluk eşiği yoktur.",
     "proposals": "Önergeler",
     "allProposals": "Tüm Önergeler",
+    "backToProposals": "Tekliflere Geri Dön",
     "unlockVoting": "Oylamanın kilidini kaldır",
     "votes": " Oylar",
     "delegatedTo": "Yetki ver:",
@@ -453,7 +470,11 @@
     "for": "Destekleyen",
     "details": "Detaylar",
     "overview": "Genel Bakış",
-    "proposer": "Teklif eden"
+    "proposer": "Teklif eden",
+    "about": "Hakkında",
+    "vote": "Oy",
+    "executed": "Uygulanmış",
+    "rejected": "Reddedildi"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -528,5 +549,28 @@
     "submittingTransaction": "İşlem gönderiliyor",
     "moveYourTokensToNewContractsDescription" :"Pangolin'in yeni geliştirilmiş sözleşmelerine geçişin bir parçası olarak, farmlarınızı taşımanız gerekiyor. Herhangi bir yardıma veya rehberliğe ihtiyacınız varsa, lütfen “Öğren” tuşuna tıklayın",
     "migrateModalHeading": "{{ total }} farmlar içinden {{ current }}'i taşı"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
+  },
+  "stakePage": {
+    "totalStaked": "Total Staked",
+    "apr": "Annual Percentage Rate",
+    "seeDetails": "SEE DETAILS",
+    "stake": "STAKE",
+    "earn": "Earn {{symbol}}",
+    "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
   }
 }

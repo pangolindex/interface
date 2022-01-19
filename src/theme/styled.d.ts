@@ -13,6 +13,12 @@ export interface Colors {
   text4: Color
   text5: Color
   text6: Color
+  text7: Color
+  text8: Color
+  text9: Color
+  text10: Color
+  text11: Color
+  text12: Color
 
   // backgrounds / greys
   bg1: Color
@@ -22,6 +28,8 @@ export interface Colors {
   bg5: Color
   bg6: Color
   bg7: Color
+  bg8: Color
+  bg9: Color
 
   modalBG: Color
   modalBG2: Color
@@ -45,16 +53,29 @@ export interface Colors {
   // other
   red1: Color
   red2: Color
+  red3: Color
+  red3Gradient: Color
   green1: Color
+  green2: Color
+  green2Gradient: Color
   yellow1: Color
   yellow2: Color
   blue1: Color
+  orange1: Color
 
   avaxRed: Color
 
   color1: Color
   color2: Color
   color3: Color
+}
+
+export interface BetaColors extends Colors {
+  switch?: {
+    onColor: Color
+    offColor: Color
+    backgroundColor: Color
+  }
 }
 
 export interface Grids {
@@ -64,7 +85,7 @@ export interface Grids {
 }
 
 declare module 'styled-components' {
-  export interface DefaultTheme extends Colors {
+  export interface DefaultTheme extends Colors, BetaColors {
     grids: Grids
 
     // shadows

@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "兌換",
     "buy": "购买",
     "pool": "矿池",
@@ -26,7 +27,9 @@
     "bridge": "桥",
     "ourPartners": "我们的伙伴",
     "usefulLinks": "有用的链接",
-    "comeAndJoinUs": "来加入我们"
+    "comeAndJoinUs": "来加入我们",
+    "tryOurNewBetaSite": "试试我们的新测试版网站",
+    "returnToLegacySite": "返回旧网站"
   },
   "accountDetails": {
     "connectedWith": "与连结 ",
@@ -416,7 +419,21 @@
     "velox": "在 <1>Velox</1> 上设置限价单",
     "marginSwap": "通过 <1>Marginswap</1>",
     "wowSwap": " 或 <1>WOWswap</1> 使用保证金交易",
-    "veeFinance": " 或 <1>Vee Finance</1> 使用保证金交易"
+    "veeFinance": " 或 <1>Vee Finance</1> 使用保证金交易",
+    "gelatoFee": "Gelato 费用",
+    "placeOrder": "下订单",
+    "confirmOrder": "确认订单",
+    "for": "为了",
+    "submittingOrderToSwap": "提交订单交换",
+    "limitPrice": "限价",
+    "outputWillBeSentTo": "输出将被发送到",
+    "sell": "卖",
+    "buy": "买",
+    "betaRelease": "这是一个 BETA 版本，使用时应自担风险",
+    "trade": "贸易",
+    "watchList": "观察名单",
+    "yourPortFolio": "您的投资组合",
+    "comingSoon": "即将推出"
   },
   "buyPage": {
     "buyAvaxInfo": "用我们的合作伙伴怀尔的法定资金购买 AVAX。",
@@ -435,6 +452,7 @@
     "governanceVotes": "治理投票由简单多数决定。没有法定人数阈值。",
     "proposals": "提案",
     "allProposals": "所有提案",
+    "backToProposals": "回到提案",
     "unlockVoting": "解锁投票",
     "votes": " 投票 ",
     "delegatedTo": "委托给：",
@@ -452,7 +470,11 @@
     "for": "給",
     "details": "细节",
     "overview": "概述",
-    "proposer": "建议"
+    "proposer": "建议",
+    "about": "关于",
+    "vote": "投票",
+    "executed": "已执行",
+    "rejected": "拒绝"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -497,13 +519,13 @@
     "startMigratingNowDescription": "您将在下方找到您需要迁移到的所有农场 Pangolin's V2 合同",
     "seeMore": "查看更多",
     "migrateWithEase": "轻松迁移",
-    "migrateWithDescription":"我们设计了一个优雅的向导，它将帮助指导您完成迁移农场的过程",
+    "migrateWithDescription": "我们设计了一个优雅的向导，它将帮助指导您完成迁移农场的过程",
     "alreadyMigrate": "已经迁移",
     "walletMigrate": "钱包迁移",
     "alreadyEarned": "已经赚了",
     "migrateNow": "立即迁移",
     "learn": "学习",
-    "moveYourTokensToNewContracts" :"将您的农场迁移到 Pangolin V2",
+    "moveYourTokensToNewContracts": "将您的农场迁移到 Pangolin V2",
     "readyToMigrate": "准备迁移",
     "apr": "APR:",
     "totalValueLocked": "总价值锁定",
@@ -525,7 +547,30 @@
     "back": "后退",
     "availableToUnstake": "可取消抵押: ",
     "submittingTransaction": "提交交易",
-    "moveYourTokensToNewContractsDescription" :"作为...的一部分 Pangolin's 推出新的改进合同，您将需要迁移您的农场。如果您需要任何帮助或指导，请单击“学习”按钮。",
+    "moveYourTokensToNewContractsDescription": "作为...的一部分 Pangolin's 推出新的改进合同，您将需要迁移您的农场。如果您需要任何帮助或指导，请单击“学习”按钮。",
     "migrateModalHeading": "迁移 {{ current }} 的 {{ total }} 农场"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
+  },
+  "stakePage": {
+    "totalStaked": "Total Staked",
+    "apr": "Annual Percentage Rate",
+    "seeDetails": "SEE DETAILS",
+    "stake": "STAKE",
+    "earn": "Earn {{symbol}}",
+    "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
   }
 }

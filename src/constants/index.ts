@@ -21,6 +21,8 @@ export const BRIDGE_MIGRATOR_ADDRESS = '0x4b23Aa72A1214d0E4fd3f2c8Da7C6ba660F748
 
 export const MINICHEF_ADDRESS = '0x1f806f7C8dED893fd3caE279191ad7Aa3798E928'
 
+export const NATIVE = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
@@ -1049,6 +1051,17 @@ export const TRUSTED_TOKEN_ADDRESSES: { readonly [chainId in ChainId]: string[] 
   [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE].address, PNG[ChainId.AVALANCHE].address]
 }
 
+export const SWAP_DEFAULT_CURRENCY = {
+  [ChainId.AVALANCHE]: {
+    inputCurrency: 'AVAX',
+    outputCurrnecy: USDCe[ChainId.AVALANCHE].address
+  },
+  [ChainId.FUJI]: {
+    inputCurrency: '',
+    outputCurrnecy: ''
+  }
+}
+
 export interface WalletInfo {
   connector?: AbstractConnector
   name: string
@@ -1155,3 +1168,41 @@ export const WYRE_RESERVE_API_ENDPOINT = '/v3/orders/reserve'
 export const WYRE_CALLBACK_URL = 'https://app.pangolin.exchange/'
 
 export const IS_IN_IFRAME = window.parent !== window
+export const TIMEFRAME = [
+  {
+    description: 'HOUR',
+    label: '1H',
+    interval: 60,
+    momentIdentifier: 'hour'
+  },
+  {
+    description: 'DAY',
+    label: '1D',
+    interval: 3600,
+    momentIdentifier: 'day'
+  },
+  {
+    description: 'WEEK',
+    label: '1W',
+    interval: 86400,
+    momentIdentifier: 'week'
+  },
+  {
+    description: 'MONTH',
+    label: '1M',
+    interval: 604800,
+    momentIdentifier: 'month'
+  },
+  {
+    description: 'YEAR',
+    label: '1Y',
+    interval: 2629746,
+    momentIdentifier: 'year'
+  },
+  {
+    description: 'ALL',
+    label: 'ALL',
+    interval: 2629746,
+    momentIdentifier: ''
+  }
+]

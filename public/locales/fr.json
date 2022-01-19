@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Échanger",
     "buy": "Acheter",
     "pool": "Pool",
@@ -26,7 +27,9 @@
     "bridge": "Pont",
     "ourPartners": "Nos partenaires",
     "usefulLinks": "LIENS UTILES",
-    "comeAndJoinUs": "Venez nous rejoindre"
+    "comeAndJoinUs": "Venez nous rejoindre",
+    "tryOurNewBetaSite": "Essayez notre nouveau site bêta",
+    "returnToLegacySite": "Retour à l'ancien site"
   },
   "accountDetails": {
     "connectedWith": "Connecté avec ",
@@ -128,7 +131,7 @@
     "acceptUpdate": "Accepter la mise à jour",
     "dismiss": "Rejeter"
   },
-  "positionCard":{
+  "positionCard": {
     "add": "Ajouter",
     "remove": "Retirer",
     "poolShare": "Votre part de la pool:",
@@ -164,8 +167,7 @@
     "select": "Sélectionner",
     "manageTokenLists": "Gérer les listes de jetons"
   },
-  "settings":
-  {
+  "settings": {
     "areYouSure": "Vous êtes sûr ?",
     "expertInfo": "Le mode expert désactive l'invite de confirmation de la transaction et autorise les transactions à fort slippage qui entraînent souvent de mauvais taux et des pertes de fonds.",
     "expertWarningCAPS": "N'UTILISEZ CE MODE QUE SI VOUS SAVEZ CE QUE VOUS FAITES.",
@@ -417,7 +419,21 @@
     "velox": "Définissez un ordre limité sur <1>Velox</1>",
     "marginSwap": "Tradez avec levier sur <1>MarginSwap</1>",
     "wowSwap": " ou <1>WOWswap</1>",
-    "veeFinance": " ou <1>Vee Finance</1>"
+    "veeFinance": " ou <1>Vee Finance</1>",
+    "gelatoFee": "Gelato Frais",
+    "placeOrder": "Passer la commande",
+    "confirmOrder": "Confirmer la commande",
+    "for": "pour",
+    "submittingOrderToSwap": "Soumission de la commande pour échanger",
+    "limitPrice": "Prix ​​limite",
+    "outputWillBeSentTo": "La sortie sera envoyée à",
+    "sell": "vendre",
+    "buy": "acheter",
+    "betaRelease": "Ceci est une version BETA et doit être utilisé à vos risques et périls !",
+    "trade": "Échanger",
+    "watchList": "Liste de surveillance",
+    "yourPortFolio":"Votre portefeuille",
+    "comingSoon":"À venir"
   },
   "buyPage": {
     "buyAvaxInfo": "Achetez AVAX avec monnaie fiat chez notre partenaire Wyre.",
@@ -436,6 +452,7 @@
     "governanceVotes": "Les votes de gouvernance sont décidés à la majorité simple. Il n'y a pas de seuil de quorum.",
     "proposals": "Propositions",
     "allProposals": "Toutes les propositions",
+    "backToProposals": "Retour aux propositions",
     "unlockVoting": "Déverrouiller le vote",
     "votes": " Votes",
     "delegatedTo": "Délégué à:",
@@ -453,7 +470,11 @@
     "for": "Pour",
     "details": "Détails",
     "overview": "Vue d'ensemble",
-    "proposer": "Auteur"
+    "proposer": "Auteur",
+    "about": "Sur",
+    "vote": "Voter",
+    "executed": "Réalisé",
+    "rejected": "Rejeté"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -498,13 +519,13 @@
     "startMigratingNowDescription": "Vous trouverez ci-dessous toutes les fermes dont vous aurez besoin pour migrer vers les contrats V2 de Pangolin",
     "seeMore": "VOIR PLUS",
     "migrateWithEase": "MIGRER FACILEMENT",
-    "migrateWithDescription":"Nous avons conçu un assistant élégant qui vous guidera tout au long du processus de migration de vos fermes.",
+    "migrateWithDescription": "Nous avons conçu un assistant élégant qui vous guidera tout au long du processus de migration de vos fermes.",
     "alreadyMigrate": "déjà migré",
     "walletMigrate": "portefeuille migré",
     "alreadyEarned": "déjà gagné",
     "migrateNow": "MIGRER MAINTENANT",
     "learn": "APPRENDRE",
-    "moveYourTokensToNewContracts" :"Migrer vos fermes vers Pangolin V2",
+    "moveYourTokensToNewContracts": "Migrer vos fermes vers Pangolin V2",
     "readyToMigrate": "Prêt à migrer",
     "apr": "APR:",
     "totalValueLocked": "Valeur totale verrouillée",
@@ -526,7 +547,30 @@
     "back": "Arrière",
     "availableToUnstake": "Disponible à démêler: ",
     "submittingTransaction": "Soumission de la transaction",
-    "moveYourTokensToNewContractsDescription" :"Dans le cadre du déploiement de Pangolin vers de nouveaux contrats améliorés, vous devrez migrer vos fermes. Si vous avez besoin d'aide ou de conseils, veuillez cliquer sur le bouton « Apprendre ».",
+    "moveYourTokensToNewContractsDescription": "Dans le cadre du déploiement de Pangolin vers de nouveaux contrats améliorés, vous devrez migrer vos fermes. Si vous avez besoin d'aide ou de conseils, veuillez cliquer sur le bouton « Apprendre ».",
     "migrateModalHeading": "Migration {{ current }} de la {{ total }} ferme"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
+  },
+  "stakePage": {
+    "totalStaked": "Total Staked",
+    "apr": "Annual Percentage Rate",
+    "seeDetails": "SEE DETAILS",
+    "stake": "STAKE",
+    "earn": "Earn {{symbol}}",
+    "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
   }
 }
