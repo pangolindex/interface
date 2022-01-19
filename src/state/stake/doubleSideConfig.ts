@@ -102,7 +102,8 @@ import {
   ISA,
   ICE,
   iDYP,
-  BOOFI
+  BOOFI,
+  // LOOT
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1262,7 +1263,12 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], VSO[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
-  }
+  },
+  // LOOT_WAVAX_V2: {
+  //   tokens: [LOOT[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
+  //   stakingRewardAddress: MINICHEF_ADDRESS,
+  //   version: 2
+  // }
 }
 
 // The first mapping in the list takes priority if multiple migrations exist from the same pool
