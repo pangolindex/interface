@@ -106,6 +106,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   }, [poolCards, debouncedSearchQuery])
 
   useEffect(() => {
+    console.log('loading farms...')
     Promise.all(
       stakingInfoData.sort(function(info_a, info_b) {
         if (sortBy.field === SortingType.totalStakedInUsd) {
