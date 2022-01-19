@@ -134,9 +134,11 @@ export default function DoubleSidePoolCard({
           </TYPE.white>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Box mr={10}>
-            <RewardTokens rewardTokens={stakingInfo?.rewardTokensAddress} size={24} />
-          </Box>
+          {(rewardTokens || [])?.length > 0 && (
+            <Box mr={10}>
+              <RewardTokens rewardTokens={rewardTokens} size={24} />
+            </Box>
+          )}
 
           {/* Beta Migration */}
           {isStaking && Number(version) === 1 && poolMap.hasOwnProperty(pairAddress) ? (
