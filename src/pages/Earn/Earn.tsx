@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import useDebounce from '../../hooks/useDebounce'
 import { BIG_INT_ZERO } from '../../constants'
+import Toggle from '../../components/Toggle'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -67,6 +68,25 @@ const SortFieldContainer = styled.div`
  `};
 `
 
+const Actions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   flex-direction: column;
+ `};
+`
+
+const SuperFarmToggle = styled.div`
+  display: flex;
+  align-items: center;
+
+  .title {
+    margin-right: 10px;
+  }
+`
+
 enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
   multiplier = 'multiplier',
@@ -91,6 +111,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [sortBy, setSortBy] = useState<any>({ field: '', desc: true })
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
+  const [showSuperFarm, setShowSuperFarm] = useState(false)
   const [stakingInfoData, setStakingInfoData] = useState(stakingInfos as ExtendedDoubleSideStakingInfo[])
 
   const handleSearch = useCallback(event => {
@@ -98,11 +119,16 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   }, [])
 
   useEffect(() => {
-    const filtered = poolCards?.filter(
+    let filtered = poolCards?.filter(
       card =>
         card.props.stakingInfo.tokens[0].symbol.toUpperCase().includes(debouncedSearchQuery) ||
         card.props.stakingInfo.tokens[1].symbol.toUpperCase().includes(debouncedSearchQuery)
     )
+    if (showSuperFarm) {
+      filtered = poolCards?.filter(card => {
+        return card?.props?.stakingInfo?.rewardTokensMultiplier > 0
+      })
+    }
     setFilteredPoolCards(filtered)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [poolCards, debouncedSearchQuery])
@@ -242,6 +268,20 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
     )
   }
 
+  const toggleSuperFarm = () => {
+    if (showSuperFarm) {
+      // if already showing then dont filter
+      setFilteredPoolCards(poolCards)
+    } else {
+      // if not showing, then show only superfarm
+      const filtered = poolCards?.filter(card => {
+        return card?.props?.stakingInfo?.rewardTokensMultiplier > 0
+      })
+      setFilteredPoolCards(filtered)
+    }
+    setShowSuperFarm(prev => !prev)
+  }
+
   return (
     <PageWrapper gap="lg" justify="center">
       <TopSection gap="md">
@@ -327,14 +367,20 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 value={searchQuery}
                 onChange={handleSearch}
               />
-              <SortSection>
-                Sort by :{' '}
-                <SortFieldContainer>
-                  {getSortField('Liquidity', SortingType.totalStakedInUsd, sortBy, setSortBy)} |{' '}
-                  {getSortField('Pool Weight', SortingType.multiplier, sortBy, setSortBy)} |{' '}
-                </SortFieldContainer>
-                {getSortField('APR', SortingType.totalApr, sortBy, setSortBy)}
-              </SortSection>
+              <Actions>
+                <SortSection>
+                  Sort by :{' '}
+                  <SortFieldContainer>
+                    {getSortField('Liquidity', SortingType.totalStakedInUsd, sortBy, setSortBy)} |{' '}
+                    {getSortField('Pool Weight', SortingType.multiplier, sortBy, setSortBy)} |{' '}
+                  </SortFieldContainer>
+                  {getSortField('APR', SortingType.totalApr, sortBy, setSortBy)}
+                </SortSection>
+                <SuperFarmToggle>
+                  <span className="title">Super Farms</span>
+                  <Toggle id="toggle-expert-mode-button" isActive={showSuperFarm} toggle={toggleSuperFarm} />
+                </SuperFarmToggle>
+              </Actions>
 
               {filteredPoolCards}
             </>
