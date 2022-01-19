@@ -126,7 +126,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
     )
     if (showSuperFarm) {
       filtered = poolCards?.filter(card => {
-        return card?.props?.stakingInfo?.rewardTokensMultiplier > 0
+        return card?.props?.stakingInfo?.rewardTokensMultiplier?.length > 0
       })
     }
     setFilteredPoolCards(filtered)
@@ -275,7 +275,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
     } else {
       // if not showing, then show only superfarm
       const filtered = poolCards?.filter(card => {
-        return card?.props?.stakingInfo?.rewardTokensMultiplier > 0
+        return card?.props?.stakingInfo?.rewardTokensMultiplier?.length > 0
       })
       setFilteredPoolCards(filtered)
     }
