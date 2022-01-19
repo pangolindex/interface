@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import useDebounce from '../../hooks/useDebounce'
 import { BIG_INT_ZERO } from '../../constants'
+import Toggle from '../../components/Toggle'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -67,6 +68,25 @@ const SortFieldContainer = styled.div`
  `};
 `
 
+const Actions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   flex-direction: column;
+ `};
+`
+
+const SuperFarmToggle = styled.div`
+  display: flex;
+  align-items: center;
+
+  .title {
+    margin-right: 10px;
+  }
+`
+
 enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
   multiplier = 'multiplier',
@@ -91,6 +111,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [sortBy, setSortBy] = useState<any>({ field: '', desc: true })
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
+  const [showSuperFarm, setShowSuperFarm] = useState(false)
   const [stakingInfoData, setStakingInfoData] = useState(stakingInfos as ExtendedDoubleSideStakingInfo[])
 
   const handleSearch = useCallback(event => {
@@ -98,7 +119,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   }, [])
 
   useEffect(() => {
-    const filtered = poolCards?.filter(
+    let filtered = poolCards?.filter(
       card =>
         card.props.stakingInfo.tokens[0].symbol.toUpperCase().includes(debouncedSearchQuery) ||
         card.props.stakingInfo.tokens[1].symbol.toUpperCase().includes(debouncedSearchQuery)
@@ -110,30 +131,38 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   useEffect(() => {
     console.log('loading farms...')
     Promise.all(
-      stakingInfoData.sort(function(info_a, info_b) {
-        if (sortBy.field === SortingType.totalStakedInUsd) {
-          if (sortBy.desc) {
-            return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-          } else {
-            return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
+      stakingInfoData
+        .sort(function(info_a, info_b) {
+          if (sortBy.field === SortingType.totalStakedInUsd) {
+            if (sortBy.desc) {
+              return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
+            } else {
+              return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
+            }
           }
-        }
-        if (sortBy.field === SortingType.multiplier) {
-          if (sortBy.desc) {
-            return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
-          } else {
-            return JSBI.lessThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
+          if (sortBy.field === SortingType.multiplier) {
+            if (sortBy.desc) {
+              return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
+            } else {
+              return JSBI.lessThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
+            }
           }
-        }
-        if (sortBy.field === SortingType.totalApr) {
-          if (sortBy.desc) {
-            return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
-          } else {
-            return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
+          if (sortBy.field === SortingType.totalApr) {
+            if (sortBy.desc) {
+              return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
+            } else {
+              return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
+            }
           }
-        }
-        return 0
-      })
+          return 0
+        })
+        .sort((info_a, info_b) => {
+          if (showSuperFarm) {
+            // if superfarm is toggled on then show superfarm on top
+            return (info_a.rewardTokensAddress?.length || 0) > (info_b.rewardTokensAddress?.length || 0) ? -1 : 1
+          }
+          return 0
+        })
     ).then(stakingInfoData => {
       const poolCards = stakingInfoData.map((stakingInfo, index) => {
         return (
@@ -149,7 +178,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
       setPoolCards(poolCards)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy?.field, sortBy?.desc])
+  }, [sortBy?.field, sortBy?.desc, showSuperFarm])
 
   useEffect(() => {
     setPoolCardsLoading(true)
@@ -242,6 +271,10 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
     )
   }
 
+  const toggleSuperFarm = () => {
+    setShowSuperFarm(prev => !prev)
+  }
+
   return (
     <PageWrapper gap="lg" justify="center">
       <TopSection gap="md">
@@ -327,14 +360,20 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 value={searchQuery}
                 onChange={handleSearch}
               />
-              <SortSection>
-                Sort by :{' '}
-                <SortFieldContainer>
-                  {getSortField('Liquidity', SortingType.totalStakedInUsd, sortBy, setSortBy)} |{' '}
-                  {getSortField('Pool Weight', SortingType.multiplier, sortBy, setSortBy)} |{' '}
-                </SortFieldContainer>
-                {getSortField('APR', SortingType.totalApr, sortBy, setSortBy)}
-              </SortSection>
+              <Actions>
+                <SortSection>
+                  Sort by :{' '}
+                  <SortFieldContainer>
+                    {getSortField('Liquidity', SortingType.totalStakedInUsd, sortBy, setSortBy)} |{' '}
+                    {getSortField('Pool Weight', SortingType.multiplier, sortBy, setSortBy)} |{' '}
+                  </SortFieldContainer>
+                  {getSortField('APR', SortingType.totalApr, sortBy, setSortBy)}
+                </SortSection>
+                <SuperFarmToggle>
+                  <span className="title">Super Farms</span>
+                  <Toggle id="toggle-expert-mode-button" isActive={showSuperFarm} toggle={toggleSuperFarm} />
+                </SuperFarmToggle>
+              </Actions>
 
               {filteredPoolCards}
             </>
