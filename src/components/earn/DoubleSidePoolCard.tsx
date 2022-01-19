@@ -13,6 +13,9 @@ import { Break, CardNoise, CardBGImage } from './styled'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 import { PNG } from '../../constants'
 import { useTranslation } from 'react-i18next'
+import RewardTokens from '../RewardTokens'
+import { Box } from '@pangolindex/components'
+import { useTokens } from '../../hooks/Tokens'
 
 const StatContainer = styled.div`
   display: flex;
@@ -116,6 +119,8 @@ export default function DoubleSidePoolCard({
 
   const pairAddress = stakingInfo?.stakedAmount?.token?.address
 
+  const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
+
   return (
     <Wrapper showBackground={isStaking} bgColor={backgroundColor}>
       <CardBGImage desaturate />
@@ -129,6 +134,10 @@ export default function DoubleSidePoolCard({
           </TYPE.white>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Box mr={10}>
+            <RewardTokens rewardTokens={stakingInfo?.rewardTokensAddress} size={24} />
+          </Box>
+
           {/* Beta Migration */}
           {isStaking && Number(version) === 1 && poolMap.hasOwnProperty(pairAddress) ? (
             <StyledInternalLink to={`/beta/migrate/${version}`} style={{ marginRight: '10px' }}>
@@ -181,20 +190,54 @@ export default function DoubleSidePoolCard({
       {isStaking && (
         <>
           <Break />
-          <BottomSection showBackground={true}>
-            <TYPE.black color={'white'} fontWeight={500}>
-              <span>{t('earn.yourRate')}</span>
-            </TYPE.black>
+          <Box>
+            <BottomSection showBackground={true}>
+              <TYPE.black color={'white'} fontWeight={500}>
+                <span>{t('earn.yourRate')}</span>
+              </TYPE.black>
 
-            <TYPE.black style={{ textAlign: 'right' }} color={'white'} fontWeight={500}>
-              <span role="img" aria-label="wizard-icon" style={{ marginRight: '0.5rem' }}>
-                ⚡
-              </span>
-              {`${stakingInfo.rewardRate
-                ?.multiply(`${60 * 60 * 24 * 7}`)
-                ?.toSignificant(4, { groupSeparator: ',' })} PNG / week`}
-            </TYPE.black>
-          </BottomSection>
+              <TYPE.black style={{ textAlign: 'right' }} color={'white'} fontWeight={500}>
+                <span role="img" aria-label="wizard-icon" style={{ marginRight: '0.5rem' }}>
+                  ⚡
+                </span>
+                {`${stakingInfo.rewardRate
+                  ?.multiply(`${60 * 60 * 24 * 7}`)
+                  ?.toSignificant(4, { groupSeparator: ',' })} PNG / week`}
+              </TYPE.black>
+            </BottomSection>
+
+            {(stakingInfo?.rewardTokensAddress || []).length > 0 && (rewardTokens || []).length > 0 && (
+              <BottomSection showBackground={true}>
+                <TYPE.black color={'white'} fontWeight={500}>
+                  <span>{t('earn.extraReward')}</span>
+                </TYPE.black>
+
+                <AutoColumn gap="sm">
+                  {(rewardTokens || []).map((token, index) => {
+                    const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
+                    let totalRewardRate =
+                      stakingInfo?.getExtraTokensRewardRate &&
+                      stakingInfo?.getExtraTokensRewardRate(
+                        stakingInfo?.totalRewardRate,
+                        token as Token,
+                        tokenMultiplier
+                      )
+
+                    return (
+                      <TYPE.black style={{ textAlign: 'right' }} color={'white'} fontWeight={500} key={index}>
+                        <span role="img" aria-label="wizard-icon" style={{ marginRight: '0.5rem' }}>
+                          ⚡
+                        </span>
+                        {`${totalRewardRate
+                          ?.multiply(`${60 * 60 * 24 * 7}`)
+                          ?.toSignificant(4, { groupSeparator: ',' })} ${token?.symbol} / week`}
+                      </TYPE.black>
+                    )
+                  })}
+                </AutoColumn>
+              </BottomSection>
+            )}
+          </Box>
         </>
       )}
     </Wrapper>

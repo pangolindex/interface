@@ -90,7 +90,8 @@
         "withdrawAndClaim": "Retirar & resgatar",
         "withdrewStakingToken": "Retirar {{ symbol }}!",
         "approve": "Aprovar",
-        "poolWeight": "Peso da piscina"
+        "poolWeight": "Peso da piscina",
+        "extraReward": "Recompensa Extra"
     },
     "menu": {
         "code": "Código",

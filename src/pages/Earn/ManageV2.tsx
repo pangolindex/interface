@@ -1,18 +1,21 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useMinichefStakingInfos } from '../../state/stake/hooks'
 import { RouteComponentProps } from 'react-router-dom'
 import Manage from './Manage'
 import { usePair } from '../../data/Reserves'
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
-import { useCurrency } from '../../hooks/Tokens'
+import { useCurrency, useTokens } from '../../hooks/Tokens'
 import { useActiveWeb3React } from '../../hooks'
+import { useSingleContractMultipleData } from '../../state/multicall/hooks'
+import { useRewardViaMultiplierContract } from '../../hooks/useContract'
+import { JSBI, Token, TokenAmount } from '@pangolindex/sdk'
 
-const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB: string; }>> = ({
+const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB: string }>> = ({
   match: {
-    params: { currencyIdA, currencyIdB  }
+    params: { currencyIdA, currencyIdB }
   }
 }) => {
-  const { chainId } = useActiveWeb3React()
+  const { chainId, account } = useActiveWeb3React()
 
   // get currencies and pair
   const [currencyA, currencyB] = [useCurrency(currencyIdA), useCurrency(currencyIdB)]
@@ -22,7 +25,34 @@ const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB:
   const [, stakingTokenPair] = usePair(tokenA, tokenB)
   const miniChefStaking = useMinichefStakingInfos(2, stakingTokenPair)?.[0]
 
-  return <Manage version="2" stakingInfo={miniChefStaking} currencyA={currencyA} currencyB={currencyB} />
+  const rewardAddress = miniChefStaking?.rewardsAddress
+
+  const rewardContract = useRewardViaMultiplierContract(rewardAddress)
+
+  const earnedAmount = miniChefStaking?.earnedAmount
+    ? JSBI.BigInt(miniChefStaking?.earnedAmount?.raw).toString()
+    : JSBI.BigInt(0).toString()
+
+  const rewardTokenAmounts = useSingleContractMultipleData(rewardContract, 'pendingTokens', [
+    [0, account as string, earnedAmount] // TODO:
+  ])
+  const rewardTokens = useTokens(rewardTokenAmounts?.[0]?.result?.tokens)
+  const rewardAmounts = rewardTokenAmounts?.[0]?.result?.amounts
+
+  const rewardTokensAmount = useMemo(() => {
+    if (!rewardTokens) return []
+    return rewardTokens.map((rewardToken, index) => new TokenAmount(rewardToken as Token, rewardAmounts[index]))
+  }, [rewardAmounts, rewardTokens])
+
+  return (
+    <Manage
+      version="2"
+      stakingInfo={miniChefStaking}
+      currencyA={currencyA}
+      currencyB={currencyB}
+      extraRewardTokensAmount={rewardTokensAmount}
+    />
+  )
 }
 
 export default ManageV2
