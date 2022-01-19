@@ -999,6 +999,17 @@ export const PLN: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7b2b702706d9b361dfe3f00bd138c0cfda7fb2cf', 18, 'PLN', 'Pollen')
 }
 
+export const HEC: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HeC', 'HeroesChained'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xc7f4debc8072e23fe9259a5c0398326d8efb7f5c',
+    18,
+    'HeC',
+    'HeroesChained'
+  )
+}
+
 export const RACEX: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'RACEX', 'RaceX'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7086e045b78e1e72f741f25231c08d238812cf8a', 18, 'RACEX', 'RaceX')
