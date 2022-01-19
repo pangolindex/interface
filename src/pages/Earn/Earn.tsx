@@ -124,11 +124,6 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
         card.props.stakingInfo.tokens[0].symbol.toUpperCase().includes(debouncedSearchQuery) ||
         card.props.stakingInfo.tokens[1].symbol.toUpperCase().includes(debouncedSearchQuery)
     )
-    if (showSuperFarm) {
-      filtered = poolCards?.filter(card => {
-        return card?.props?.stakingInfo?.rewardTokensMultiplier?.length > 0
-      })
-    }
     setFilteredPoolCards(filtered)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [poolCards, debouncedSearchQuery])
@@ -136,30 +131,38 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   useEffect(() => {
     console.log('loading farms...')
     Promise.all(
-      stakingInfoData.sort(function(info_a, info_b) {
-        if (sortBy.field === SortingType.totalStakedInUsd) {
-          if (sortBy.desc) {
-            return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-          } else {
-            return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
+      stakingInfoData
+        .sort(function(info_a, info_b) {
+          if (sortBy.field === SortingType.totalStakedInUsd) {
+            if (sortBy.desc) {
+              return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
+            } else {
+              return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
+            }
           }
-        }
-        if (sortBy.field === SortingType.multiplier) {
-          if (sortBy.desc) {
-            return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
-          } else {
-            return JSBI.lessThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
+          if (sortBy.field === SortingType.multiplier) {
+            if (sortBy.desc) {
+              return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
+            } else {
+              return JSBI.lessThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
+            }
           }
-        }
-        if (sortBy.field === SortingType.totalApr) {
-          if (sortBy.desc) {
-            return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
-          } else {
-            return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
+          if (sortBy.field === SortingType.totalApr) {
+            if (sortBy.desc) {
+              return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
+            } else {
+              return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
+            }
           }
-        }
-        return 0
-      })
+          return 0
+        })
+        .sort((info_a, info_b) => {
+          if (showSuperFarm) {
+            // if superfarm is toggled on then show superfarm on top
+            return (info_a.rewardTokensAddress?.length || 0) > (info_b.rewardTokensAddress?.length || 0) ? -1 : 1
+          }
+          return 0
+        })
     ).then(stakingInfoData => {
       const poolCards = stakingInfoData.map((stakingInfo, index) => {
         return (
@@ -175,7 +178,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
       setPoolCards(poolCards)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy?.field, sortBy?.desc])
+  }, [sortBy?.field, sortBy?.desc, showSuperFarm])
 
   useEffect(() => {
     setPoolCardsLoading(true)
@@ -269,16 +272,6 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   }
 
   const toggleSuperFarm = () => {
-    if (showSuperFarm) {
-      // if already showing then dont filter
-      setFilteredPoolCards(poolCards)
-    } else {
-      // if not showing, then show only superfarm
-      const filtered = poolCards?.filter(card => {
-        return card?.props?.stakingInfo?.rewardTokensMultiplier?.length > 0
-      })
-      setFilteredPoolCards(filtered)
-    }
     setShowSuperFarm(prev => !prev)
   }
 
