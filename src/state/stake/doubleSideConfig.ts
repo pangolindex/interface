@@ -103,6 +103,7 @@ import {
   ICE,
   iDYP,
   BOOFI,
+  HEC,
   RACEX
   // LOOT
 } from '../../constants'
@@ -1262,6 +1263,11 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   WAVAX_VSO_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], VSO[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  HEC_WAVAX_V2: {
+    tokens: [HEC[ChainId.AVALANCHE], WAVAX[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   },
