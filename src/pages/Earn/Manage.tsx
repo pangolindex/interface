@@ -237,6 +237,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
             stakingInfo={stakingInfo}
             userLiquidityUnstaked={userLiquidityUnstaked}
             version={Number(version)}
+            extraRewardTokensAmount={extraRewardTokensAmount}
           />
           <UnstakingModal
             isOpen={showUnstakingModal}
