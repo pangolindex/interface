@@ -111,7 +111,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [sortBy, setSortBy] = useState<any>({ field: '', desc: true })
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
-  const [showSuperFarm, setShowSuperFarm] = useState(false)
+  const [showSuperFarm, setShowSuperFarm] = useState(true)
   const [stakingInfoData, setStakingInfoData] = useState(stakingInfos as ExtendedDoubleSideStakingInfo[])
 
   const handleSearch = useCallback(event => {
@@ -130,55 +130,51 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
 
   useEffect(() => {
     console.log('loading farms...')
-    Promise.all(
-      stakingInfoData
-        .sort(function(info_a, info_b) {
-          if (sortBy.field === SortingType.totalStakedInUsd) {
-            if (sortBy.desc) {
-              return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-            } else {
-              return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-            }
-          }
-          if (sortBy.field === SortingType.multiplier) {
-            if (sortBy.desc) {
-              return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
-            } else {
-              return JSBI.lessThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
-            }
-          }
-          if (sortBy.field === SortingType.totalApr) {
-            if (sortBy.desc) {
-              return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
-            } else {
-              return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
-            }
-          }
-          return 0
-        })
-        .sort((info_a, info_b) => {
-          if (showSuperFarm) {
-            // if superfarm is toggled on then show superfarm on top
-            return (info_a.rewardTokensAddress?.length || 0) > (info_b.rewardTokensAddress?.length || 0) ? -1 : 1
-          }
-          return 0
-        })
-    ).then(stakingInfoData => {
-      const poolCards = stakingInfoData.map((stakingInfo, index) => {
-        return (
-          <DoubleSidePoolCard
-            swapFeeApr={stakingInfo.swapFeeApr}
-            stakingApr={stakingInfo.stakingApr}
-            key={index}
-            stakingInfo={stakingInfo}
-            version={version}
-          />
-        )
-      })
-      setPoolCards(poolCards)
+    const sortedFarms = stakingInfoData.sort(function(info_a, info_b) {
+      if (sortBy.field === SortingType.totalStakedInUsd) {
+        if (sortBy.desc) {
+          return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
+        } else {
+          return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
+        }
+      }
+      if (sortBy.field === SortingType.multiplier) {
+        if (sortBy.desc) {
+          return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
+        } else {
+          return JSBI.lessThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
+        }
+      }
+      if (sortBy.field === SortingType.totalApr) {
+        if (sortBy.desc) {
+          return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
+        } else {
+          return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
+        }
+      }
+      return 0
     })
+    let finalFarms = sortedFarms
+    if (showSuperFarm) {
+      // if super farms toggled on then keep all super farms on top
+      let nonSuperFarms = sortedFarms.filter(item => !item.rewardTokensAddress?.length)
+      let superFarms = sortedFarms.filter(item => (item?.rewardTokensAddress?.length || 0) > 0)
+      finalFarms = [...superFarms, ...nonSuperFarms]
+    }
+    const poolCards = finalFarms.map((stakingInfo, index) => {
+      return (
+        <DoubleSidePoolCard
+          swapFeeApr={stakingInfo.swapFeeApr}
+          stakingApr={stakingInfo.stakingApr}
+          key={index}
+          stakingInfo={stakingInfo}
+          version={version}
+        />
+      )
+    })
+    setPoolCards(poolCards)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy?.field, sortBy?.desc, showSuperFarm])
+  }, [sortBy?.field, sortBy?.desc, showSuperFarm, stakingInfoData])
 
   useEffect(() => {
     setPoolCardsLoading(true)
