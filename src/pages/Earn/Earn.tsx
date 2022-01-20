@@ -157,9 +157,14 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
     let finalFarms = sortedFarms
     if (showSuperFarm) {
       // if super farms toggled on then keep all super farms on top
-      let nonSuperFarms = sortedFarms.filter(item => !item.rewardTokensAddress?.length)
-      let superFarms = sortedFarms.filter(item => (item?.rewardTokensAddress?.length || 0) > 0)
-      finalFarms = [...superFarms, ...nonSuperFarms]
+      let nonSuperFarms = sortedFarms.filter(
+        item => !item.rewardTokensAddress?.length && !item.stakedAmount.greaterThan(BIG_INT_ZERO)
+      )
+      let stakedFarms = sortedFarms.filter(item => item.stakedAmount.greaterThan(BIG_INT_ZERO))
+      let superFarms = sortedFarms.filter(
+        item => (item?.rewardTokensAddress?.length || 0) > 0 && !item.stakedAmount.greaterThan(BIG_INT_ZERO)
+      )
+      finalFarms = [...stakedFarms, ...superFarms, ...nonSuperFarms]
     }
     const poolCards = finalFarms.map((stakingInfo, index) => {
       return (
