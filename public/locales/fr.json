@@ -432,7 +432,7 @@
     "trade": "Échanger",
     "watchList": "Liste de surveillance",
     "yourPortFolio":"Votre portefeuille",
-    "comingSoon":"À venir"
+    "connectWalletViewPortFolio": "Connectez-vous à un portefeuille pour afficher votre portefeuille ."
   },
   "buyPage": {
     "buyAvaxInfo": "Achetez AVAX avec monnaie fiat chez notre partenaire Wyre.",

@@ -2,6 +2,7 @@ import React from 'react'
 import { Text, Box, Button, ToggleButtons } from '@pangolindex/components'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { BalanceInfo, DurationBtns } from './styleds'
+import { useGetChainBalance } from 'src/state/portifolio/hooks'
 
 type Props = {}
 
@@ -19,11 +20,13 @@ const PortfolioChart: React.FC<Props> = () => {
     data.push(d)
   }
 
+  const balance = useGetChainBalance()
+
   return (
     <Box>
       <BalanceInfo>
         <Text color="text1" fontSize="24px">
-          $122k
+          ${balance.toLocaleString()}
         </Text>
         <Text color="green1" fontSize="15px">
           +10.50%

@@ -432,7 +432,7 @@
     "trade": "Comercio",
     "watchList": "WatchList",
     "yourPortFolio":"Su portafolio",
-    "comingSoon":"Próximamente"
+    "connectWalletViewPortFolio": "Conéctese a una cartera para ver su portafolio ."
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX con fiat de nuestro socio Wyre.",

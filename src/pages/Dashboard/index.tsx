@@ -58,8 +58,7 @@ import makeBlockie from 'ethereum-blockies-base64'
 import TradingViewChart from './TradingViewChart'
 import PngToggle from './PngToggle'
 import TokenRow from './TokenRow'
-import TokenDropdown from './TokenDropdown'
-import DateDropdown from './DateDropdown'
+import ChainDropdown from './ChainDropdown'
 
 import { useDarkModeManager } from 'src/state/user/hooks'
 import Logo from 'src/assets/svg/icon.svg'
@@ -72,6 +71,8 @@ import Earth from 'src/assets/images/earth.png'
 
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { CHAIN } from 'src/constants/chains'
+import { useGetChainsBalances } from 'src/state/portifolio/hooks'
 
 const NewsFeedSettings: Settings = {
   dots: true,
@@ -131,6 +132,13 @@ const Dashboard = () => {
     sliderRef?.current?.slickNext()
   }
 
+  // portifolio
+  const [selectChain, setselectChain] = useState<CHAIN>({name: "All Chains", symbol: "All", logo: Logo})
+  const handleSelectChain = (newChain: CHAIN) =>{
+    setselectChain(newChain)
+  }
+  const balances: any = useGetChainsBalances()
+
   return (
     <PageWrapper>
       <PageTitle>{t('dashboardPage.dashboard')}</PageTitle>
@@ -139,21 +147,20 @@ const Dashboard = () => {
         <ContainerLeft>
           <Card>
             <CardHeader>
-              {t('dashboardPage.portfolioValue')}
+              {t('dashboardPage.portfolioValue') + " in "+ selectChain.name}
               <HeaderDropdowns>
-                <TokenDropdown></TokenDropdown>
-                <DateDropdown></DateDropdown>
+                <ChainDropdown selectChain={selectChain} handleSelectChain={handleSelectChain}></ChainDropdown>
               </HeaderDropdowns>
             </CardHeader>
             <CardBody>
               <TradingViewChart />
               <PortfolioToken>
-                3028.28 <img width={'50px'} src={Logo} alt={'PNG'} style={{ marginLeft: '12px' }} />
+                ${!!balances ? balances[selectChain.symbol.toLowerCase()].toLocaleString() : 0}<img width={'50px'} src={selectChain.logo} alt={'PNG'} style={{ marginLeft: '12px' }} />
                 <PortfolioTokenPercent>23.3%</PortfolioTokenPercent>
               </PortfolioToken>
               <PortfolioInfo>
                 <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards worth
-                in all followed wallets
+                in current wallet
               </PortfolioInfo>
             </CardBody>
           </Card>
