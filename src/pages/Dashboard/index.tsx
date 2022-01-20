@@ -73,6 +73,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { CHAIN } from 'src/constants/chains'
 import { useGetChainsBalances } from 'src/state/portifolio/hooks'
+import { News, useGetNews } from 'src/state/news/hooks'
 
 const NewsFeedSettings: Settings = {
   dots: true,
@@ -131,6 +132,7 @@ const Dashboard = () => {
   const handleNewsNext = () => {
     sliderRef?.current?.slickNext()
   }
+  const news = useGetNews()
 
   // portifolio
   const [selectChain, setselectChain] = useState<CHAIN>({name: "All Chains", symbol: "All", logo: Logo})
@@ -174,24 +176,18 @@ const Dashboard = () => {
                   <ArrowRight size={20} style={{ minWidth: 24 }} />
                 </SlickNext>
                 <Slider ref={sliderRef} {...NewsFeedSettings}>
-                  <div>
-                    <NewsContent>
-                      AVAX has been forming a harmonic pattern, and currently retracing a major Fibonacci level.
-                    </NewsContent>
-                    <NewsDate>7:00 PM IST, 14-OCT-21</NewsDate>
-                  </div>
-                  <div>
-                    <NewsContent>
-                      AVAX has been forming a harmonic pattern, and currently retracing a major Fibonacci level.
-                    </NewsContent>
-                    <NewsDate>7:00 PM IST, 14-OCT-21</NewsDate>
-                  </div>
-                  <div>
-                    <NewsContent>
-                      AVAX has been forming a harmonic pattern, and currently retracing a major Fibonacci level.
-                    </NewsContent>
-                    <NewsDate>7:00 PM IST, 14-OCT-21</NewsDate>
-                  </div>
+                  {
+                    news && news.map((element: News) =>{
+                      return (
+                        <div key={element.id}>
+                          <NewsContent>
+                            {element.content}
+                          </NewsContent>
+                          <NewsDate>{element.publishedAt.toLocaleTimeString()}, {element.publishedAt.toLocaleDateString()}</NewsDate>
+                        </div>
+                      )
+                    })
+                  }
                 </Slider>
               </NewsSection>
             </ContainerLeft>
