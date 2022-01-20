@@ -217,10 +217,10 @@ export default function DoubleSidePoolCard({
                 <AutoColumn gap="sm">
                   {(rewardTokens || []).map((token, index) => {
                     const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
-                    let totalRewardRate =
+                    let extraRewardRate =
                       stakingInfo?.getExtraTokensRewardRate &&
                       stakingInfo?.getExtraTokensRewardRate(
-                        stakingInfo?.totalRewardRate,
+                        stakingInfo?.rewardRate,
                         token as Token,
                         tokenMultiplier
                       )
@@ -230,7 +230,7 @@ export default function DoubleSidePoolCard({
                         <span role="img" aria-label="wizard-icon" style={{ marginRight: '0.5rem' }}>
                           ⚡
                         </span>
-                        {`${totalRewardRate
+                        {`${extraRewardRate
                           ?.multiply(`${60 * 60 * 24 * 7}`)
                           ?.toSignificant(4, { groupSeparator: ',' })} ${token?.symbol} / week`}
                       </TYPE.black>
