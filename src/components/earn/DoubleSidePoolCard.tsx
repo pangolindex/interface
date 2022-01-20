@@ -174,7 +174,7 @@ export default function DoubleSidePoolCard({
           <TYPE.white>{swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr}%` : '-'}</TYPE.white>
         </RowBetween>
         <RowBetween>
-          <TYPE.white>PNG Rewards APR</TYPE.white>
+          <TYPE.white>{(rewardTokens || [])?.length === 0 ? 'Farming APR' : 'Super Farm APR'}</TYPE.white>
           <TYPE.white>{stakingApr && !stakingInfo.isPeriodFinished ? `${stakingApr}%` : '-'}</TYPE.white>
         </RowBetween>
         <RowBetween>
