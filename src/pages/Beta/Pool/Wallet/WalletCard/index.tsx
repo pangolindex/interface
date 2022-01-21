@@ -2,12 +2,10 @@ import React from 'react'
 import { Pair } from '@pangolindex/sdk'
 import { Panel, Divider, ActionButon, InnerWrapper, DetailButton } from './styleds'
 import Stat from 'src/components/Stat'
-import { useTokenBalance } from 'src/state/wallet/hooks'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
-import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { useActiveWeb3React } from 'src/hooks'
+import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 
 export interface WalletCardProps {
   pair: Pair
@@ -16,15 +14,10 @@ export interface WalletCardProps {
 const WalletCard = ({ pair }: WalletCardProps) => {
   const { t } = useTranslation()
 
-  const { account } = useActiveWeb3React()
-
   const currency0 = unwrappedToken(pair.token0)
   const currency1 = unwrappedToken(pair.token1)
 
-  const currency0Price = useUSDCPrice(currency0)
-  const multipyAmount = currency0Price ? Number(currency0Price.toFixed()) * 2 : 0
-
-  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
+  const { userPgl, yourLiquidityAmount } = useGetPoolDollerWorth(pair)
 
   return (
     <Panel>
@@ -42,7 +35,7 @@ const WalletCard = ({ pair }: WalletCardProps) => {
       <InnerWrapper>
         <Stat
           title={t('pool.yourLiquidity')}
-          stat={`${multipyAmount ? `$${multipyAmount?.toFixed(4)}` : '-'}`}
+          stat={`${yourLiquidityAmount ? `$${yourLiquidityAmount?.toFixed(4)}` : '-'}`}
           titlePosition="top"
           titleFontSize={16}
           statFontSize={24}
@@ -50,7 +43,7 @@ const WalletCard = ({ pair }: WalletCardProps) => {
 
         <Stat
           title={t('positionCard.poolTokens')}
-          stat={userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
+          stat={userPgl ? userPgl.toSignificant(4) : '-'}
           titlePosition="top"
           titleFontSize={16}
           statFontSize={24}
