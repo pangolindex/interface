@@ -214,7 +214,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
         </>
       )}
 
-      <DetailModal selectedPool={selectedPool} />
+      <DetailModal selectedPool={selectedPool} version={version} />
     </PageWrapper>
   )
 }

@@ -3,26 +3,24 @@ import { ThemeContext } from 'styled-components'
 import { Wrapper, PanelWrapper, HeaderGridContainer, EarnWrapper, DetailContainer, TabView } from './styleds'
 import { Fraction } from '@pangolindex/sdk'
 import { CloseIcon } from 'src/theme/components'
-import { StakingInfo } from 'src/state/stake/hooks'
+import { StakingInfo, useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import Stat from 'src/components/Stat'
 import numeral from 'numeral'
-import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { usePair } from 'src/data/Reserves'
 import CoinInfo from '../CoinInfo'
 import StatDetail from '../StatDetail'
-import { useActiveWeb3React } from 'src/hooks'
-import { useTokenBalance } from 'src/state/wallet/hooks'
 import EarnWidget from '../../EarnWidget'
 
 export interface PoolDetailProps {
   onDismiss: () => void
   selectedPool: StakingInfo
+  version: string
 }
 
-const DetailView = ({ selectedPool, onDismiss }: PoolDetailProps) => {
-  const { account } = useActiveWeb3React()
+const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
+  // const { account } = useActiveWeb3React()
 
   const theme = useContext(ThemeContext)
 
@@ -41,13 +39,8 @@ const DetailView = ({ selectedPool, onDismiss }: PoolDetailProps) => {
     .divide(selectedPool?.totalStakedAmount)
 
   const [, stakingTokenPair] = usePair(token0, token1)
-
   const pair = stakingTokenPair
-
-  const currency0Price = useUSDCPrice(currency0)
-  const yourLiquidityAmount = currency0Price ? Number(currency0Price.toFixed()) * 2 : 0
-
-  const userPgl = useTokenBalance(account ?? undefined, pair?.liquidityToken)
+  const { userPgl, yourLiquidityAmount } = useGetPoolDollerWorth(pair)
 
   return (
     <Wrapper>
@@ -170,7 +163,7 @@ const DetailView = ({ selectedPool, onDismiss }: PoolDetailProps) => {
         </Box>
 
         <EarnWrapper>
-          <EarnWidget currencyA={currency0} currencyB={currency1} />
+          <EarnWidget currencyA={currency0} currencyB={currency1} version={version} pair={pair} />
         </EarnWrapper>
       </Box>
     </Wrapper>

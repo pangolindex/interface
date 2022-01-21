@@ -26,6 +26,7 @@ import { AutoColumn } from 'src/components/Column'
 import PoolPriceBar from './PoolPriceBar'
 import { PairState } from 'src/data/Reserves'
 import ConfirmPoolDrawer from './ConfirmPoolDrawer'
+import { useCurrencyBalance } from 'src/state/wallet/hooks'
 
 interface AddLiquidityProps {
   currencyA: Currency
@@ -217,6 +218,9 @@ const AddLiquidity = ({ currencyA, currencyB }: AddLiquidityProps) => {
   // toggle wallet when disconnected
   const toggleWalletModal = useWalletModalToggle()
 
+  const selectedCurrencyBalanceA = useCurrencyBalance(account ?? undefined, currencyA ?? undefined)
+  const selectedCurrencyBalanceB = useCurrencyBalance(account ?? undefined, currencyB ?? undefined)
+
   const renderButton = () => {
     if (!account) {
       return (
@@ -294,6 +298,15 @@ const AddLiquidity = ({ currencyA, currencyB }: AddLiquidityProps) => {
         fontSize={24}
         isNumeric={true}
         placeholder="0.00"
+        addonLabel={
+          account && (
+            <Text color="text2" fontWeight={500} fontSize={14}>
+              {!!currencyA && selectedCurrencyBalanceA
+                ? t('currencyInputPanel.balance') + selectedCurrencyBalanceA?.toSignificant(6)
+                : ' -'}
+            </Text>
+          )
+        }
       />
 
       <Box width="100%" textAlign="center" alignItems="center" display="flex" justifyContent={'center'} mt={10}>
@@ -320,6 +333,15 @@ const AddLiquidity = ({ currencyA, currencyB }: AddLiquidityProps) => {
         fontSize={24}
         isNumeric={true}
         placeholder="0.00"
+        addonLabel={
+          account && (
+            <Text color="text2" fontWeight={500} fontSize={14}>
+              {!!currencyB && selectedCurrencyBalanceB
+                ? t('currencyInputPanel.balance') + selectedCurrencyBalanceB?.toSignificant(6)
+                : ' -'}
+            </Text>
+          )
+        }
       />
 
       {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
