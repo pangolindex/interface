@@ -1,7 +1,7 @@
 import React from 'react'
 import { Divider } from './styled'
 import { Text, Box } from '@pangolindex/components'
-import Drawer from '../Drawer'
+import Drawer from '../../components/Drawer'
 
 interface Props {
   isOpen: boolean

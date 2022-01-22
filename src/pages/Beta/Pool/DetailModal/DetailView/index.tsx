@@ -12,6 +12,7 @@ import { usePair } from 'src/data/Reserves'
 import CoinInfo from '../CoinInfo'
 import StatDetail from '../StatDetail'
 import EarnWidget from '../../EarnWidget'
+import EarnDetail from '../EarnDetail'
 
 export interface PoolDetailProps {
   onDismiss: () => void
@@ -164,6 +165,7 @@ const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
 
         <EarnWrapper>
           <EarnWidget currencyA={currency0} currencyB={currency1} version={version} pair={pair} />
+          {isStaking && <EarnDetail stakingInfo={selectedPool} version={Number(version)} />}
         </EarnWrapper>
       </Box>
     </Wrapper>

@@ -93,7 +93,8 @@
     "withdrawAndClaim": "提取 & 收成",
     "withdrewStakingToken": "提取 {{ symbol }}!",
     "approve": "批准",
-    "poolWeight": "泳池重量"
+    "poolWeight": "泳池重量",
+    "withdraw": "提取"
   },
   "menu": {
     "code": "Code",

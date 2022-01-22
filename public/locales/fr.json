@@ -93,7 +93,8 @@
     "withdrawAndClaim": "Retirer & réclamer",
     "withdrewStakingToken": "{{ symbol }} Retiré!",
     "approve": "Approuver",
-    "poolWeight": "Poids de la piscine"
+    "poolWeight": "Poids de la piscine",
+    "withdraw": "Retirer"
   },
   "menu": {
     "code": "Code",

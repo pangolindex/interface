@@ -29,15 +29,3 @@ export const Balance = styled(Text)`
   justify-self: flex-end;
   white-space: nowrap;
 `
-
-export const ManageList = styled.div`
-  background-color: ${({ theme }) => theme.bg1};
-  padding: 10px;
-  cursor: pointer;
-`
-
-export const ListLogo = styled.img<{ size: number }>`
-  width: ${({ size }) => `${size}px`};
-  height: ${({ size }) => `${size}px`};
-  margin-right: 10px;
-`

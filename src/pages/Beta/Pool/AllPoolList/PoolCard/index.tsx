@@ -64,7 +64,7 @@ const PoolCard = ({ stakingInfo, onClickViewDetail }: PoolCardProps) => {
         )}
 
         <Stat
-          title={t('stakePage.apr')}
+          title={`APR`}
           stat={stakingInfo?.combinedApr ? `${stakingInfo?.combinedApr}%` : '-'}
           titlePosition="top"
           titleFontSize={16}

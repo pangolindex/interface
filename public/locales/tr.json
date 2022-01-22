@@ -93,7 +93,8 @@
     "withdrawAndClaim": "Çek & Ödülü Talep Et",
     "withdrewStakingToken": "{{ symbol }} çekildi!",
     "approve": "Onayla",
-    "poolWeight": "Havuz Ağırlığı"
+    "poolWeight": "Havuz Ağırlığı",
+    "withdraw": "Geri çekilmek"
   },
   "menu": {
     "code": "Kod",

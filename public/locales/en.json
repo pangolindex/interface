@@ -93,7 +93,8 @@
     "withdrawAndClaim": "Withdraw & Claim",
     "withdrewStakingToken": "Withdrew {{ symbol }}!",
     "approve": "Approve",
-    "poolWeight": "Pool Weight"
+    "poolWeight": "Pool Weight",
+    "withdraw": "Withdraw"
   },
   "menu": {
     "code": "Code",
