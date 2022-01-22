@@ -26,7 +26,7 @@ const MyPortfolio = () => {
         </Text>
       </Box>
 
-      {!!!account ? ( 
+      {!account ? ( 
         <Box display="flex" alignItems="center" justifyContent="center" pt={80}>
           <Text color="text1" fontSize={24} fontWeight={500}>
             {`${t('swapPage.connectWalletViewPortFolio')}`}

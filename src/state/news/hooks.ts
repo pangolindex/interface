@@ -18,7 +18,7 @@ export interface News {
 }
 
 
-// Get the USD balance of address of connected chain
+// Get News in Pangolin Strapi api
 export function useGetNews() {
     const [news, setNews] = useState<News[]>()
 
@@ -41,18 +41,18 @@ export function useGetNews() {
         const getNews = async () => {
             const response = await fetch(`https://cms.api.pango.elasticboard.io/api/articles?${query}`)
             const data = await response.json()
-            const request_news: News[] = data.data.map((element: any) => {
+            const requestNews: News[] = data.data.map((element: any) => {
                 return {
-                    id: element.id,
-                    title: element.attributes.title,
-                    content: element.attributes.content,
-                    createdAt: new Date(element.attributes.createdAt),
-                    updatedAt: new Date(element.attributes.updatedAt),
-                    publishedAt: new Date(element.attributes.publishedAt),
-                    type: TypeNews[element.attributes.Type]
+                    id: element?.id,
+                    title: element?.attributes?.title,
+                    content: element?.attributes?.content,
+                    createdAt: new Date(element?.attributes?.createdAt),
+                    updatedAt: new Date(element?.attributes?.updatedAt),
+                    publishedAt: new Date(element?.attributes?.publishedAt),
+                    type: TypeNews[element?.attributes?.Type]
                 }
             })
-            setNews(request_news)
+            setNews(requestNews)
         }
 
         getNews()

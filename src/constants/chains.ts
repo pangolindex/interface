@@ -1,3 +1,5 @@
+import Logo from 'src/assets/svg/icon.svg'
+
 export interface CHAIN{
     name: string,
     symbol: string,
@@ -5,6 +7,7 @@ export interface CHAIN{
 }
 
 export enum ChainsId {
+    All = 0,
     AVAX = 43114,
     ETH = 1,
     BSC = 56,
@@ -26,6 +29,11 @@ export enum ChainsId {
 }
 
 export const CHAINS = {
+    [ChainsId.All]: {
+        name: "All Chains", 
+        symbol: "All", 
+        logo: Logo 
+    },
     [ChainsId.AVAX]: {
         name: "Avalanche",
         symbol: "AVAX",

@@ -1,30 +1,40 @@
 import { ChainId } from '@pangolindex/sdk'
 import { useEffect, useState } from 'react'
-import { CHAINS } from 'src/constants/chains'
+import { CHAINS, ChainsId } from 'src/constants/chains'
 import { useActiveWeb3React } from 'src/hooks'
 
-interface ResponseChain {
-  id: string
+export type ChainBalances = {
+  [chainID in ChainsId]: number
+}
+
+interface ChainList {
+  community_id: number
   usd_value: Number
+}
+
+interface Data {
+  total_usd_value: number,
+  chain_list: ChainList[]
 }
 
 // Get the USD balance of address of all chains (supported by Debank)
 export function useGetChainsBalances() {
-  const [balances, setBalances] = useState<{}>()
+  const [balances, setBalances] = useState<ChainBalances>({} as ChainBalances)
 
   const { account } = useActiveWeb3React()
 
   useEffect(() => {
     const getBalances = async () => {
       const response = await fetch(`https://openapi.debank.com/v1/user/total_balance?id=${account}`)
-      const data = await response.json()
+      const data: Data = await response.json()
       let chainbalances: any = {
-        all: data.total_usd_value
+        0: data?.total_usd_value
       }
 
-      data.chain_list.forEach((chain: ResponseChain) => {
-        chainbalances[chain.id] = chain.usd_value
+      data.chain_list.forEach((chain: ChainList) => {
+        chainbalances[chain?.community_id] = chain?.usd_value
       });
+
       setBalances(chainbalances)
     }
     if (!!account) {

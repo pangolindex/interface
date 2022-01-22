@@ -3381,6 +3381,13 @@
     "@types/htmlparser2" "*"
     "@types/react" "*"
 
+"@types/react-linkify@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/react-linkify/-/react-linkify-1.0.1.tgz#4ece351faef22bfde1280b6d9ace5e88683a74d4"
+  integrity sha512-qPxYwjB41ezoKdLXs0MrQ1FnhF3apyyxf3J7WVQQCBu/GyZQAW7Y3TY4317jdh0450QJ4fLqj0rnhIJvFZOamQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-redux@^7.1.20", "@types/react-redux@^7.1.8":
   version "7.1.20"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.20.tgz#42f0e61ababb621e12c66c96dda94c58423bd7df"

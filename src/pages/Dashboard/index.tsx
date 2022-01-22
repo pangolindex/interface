@@ -53,6 +53,7 @@ import { Link } from 'react-router-dom'
 import { LineChart, Line } from 'recharts'
 import Slider, { Settings } from 'react-slick'
 import { ArrowRight } from 'react-feather'
+import Linkify from 'react-linkify';
 import makeBlockie from 'ethereum-blockies-base64'
 
 import TradingViewChart from './TradingViewChart'
@@ -71,7 +72,7 @@ import Earth from 'src/assets/images/earth.png'
 
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { CHAIN } from 'src/constants/chains'
+import { CHAIN, CHAINS, ChainsId } from 'src/constants/chains'
 import { useGetChainsBalances } from 'src/state/portifolio/hooks'
 import { News, useGetNews } from 'src/state/news/hooks'
 
@@ -135,11 +136,11 @@ const Dashboard = () => {
   const news = useGetNews()
 
   // portifolio
-  const [selectChain, setselectChain] = useState<CHAIN>({name: "All Chains", symbol: "All", logo: Logo})
-  const handleSelectChain = (newChain: CHAIN) =>{
-    setselectChain(newChain)
+  const [selectChain, setSelectChain] = useState<CHAIN>(CHAINS[ChainsId.All])
+  const handleSelectChain = (newChain: CHAIN) => {
+    setSelectChain(newChain)
   }
-  const balances: any = useGetChainsBalances()
+  const balances = useGetChainsBalances()
 
   return (
     <PageWrapper>
@@ -149,7 +150,7 @@ const Dashboard = () => {
         <ContainerLeft>
           <Card>
             <CardHeader>
-              {t('dashboardPage.portfolioValue') + " in "+ selectChain.name}
+              {t('dashboardPage.portfolioValue') + " in " + selectChain.name}
               <HeaderDropdowns>
                 <ChainDropdown selectChain={selectChain} handleSelectChain={handleSelectChain}></ChainDropdown>
               </HeaderDropdowns>
@@ -157,7 +158,12 @@ const Dashboard = () => {
             <CardBody>
               <TradingViewChart />
               <PortfolioToken>
-                ${!!balances ? balances[selectChain.symbol.toLowerCase()].toLocaleString() : 0}<img width={'50px'} src={selectChain.logo} alt={'PNG'} style={{ marginLeft: '12px' }} />
+                ${
+                  !!balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]]
+                    ? balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]].toLocaleString()
+                    : 0
+                }
+                <img width={'50px'} src={selectChain.logo} alt={'Chain logo'} style={{ marginLeft: '12px' }} />
                 <PortfolioTokenPercent>23.3%</PortfolioTokenPercent>
               </PortfolioToken>
               <PortfolioInfo>
@@ -177,13 +183,13 @@ const Dashboard = () => {
                 </SlickNext>
                 <Slider ref={sliderRef} {...NewsFeedSettings}>
                   {
-                    news && news.map((element: News) =>{
+                    news && news.map((element: News) => {
                       return (
                         <div key={element.id}>
                           <NewsContent>
-                            {element.content}
+                            <Linkify>{element?.content}</Linkify>                            
                           </NewsContent>
-                          <NewsDate>{element.publishedAt.toLocaleTimeString()}, {element.publishedAt.toLocaleDateString()}</NewsDate>
+                          <NewsDate>{element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}</NewsDate>
                         </div>
                       )
                     })
