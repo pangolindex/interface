@@ -1,12 +1,13 @@
 import styled from 'styled-components'
 import { Box, TextInput } from '@pangolindex/components'
 
-export const PageWrapper = styled(Box)`
+export const PoolsWrapper = styled(Box)`
   width: 100%;
   background-color: ${({ theme }) => theme.bg2};
   padding: 10px;
-  border-radius: 0px 10px 10px 0px;
+  border-radius: 0px;
   overflow: hidden;
+  color: ${({ theme }) => theme.text7};
 `
 
 export const PanelWrapper = styled.div`

@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.bg8};
   max-width: 1080px;
   max-height: 500px;
-  overflow-y: scroll;
+  overflow-y: auto;
   border-radius: 10px;
 `
 export const PanelWrapper = styled.div`

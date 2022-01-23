@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react'
 import { Box } from '@pangolindex/components'
 import { PageWrapper, GridContainer } from './styleds'
@@ -18,7 +19,7 @@ const PoolUI = () => {
   return (
     <PageWrapper>
       <GridContainer>
-        <Box display="flex">
+        <Box display="flex" height="100%">
           <Sidebar activeMenu={activeMenu} setMenu={(value: string) => setMenu(value)} />
           {(activeMenu === MenuType.allPoolV1 ||
             activeMenu === MenuType.allPoolV2 ||

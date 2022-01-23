@@ -284,9 +284,11 @@ const AddLiquidity = ({ currencyA, currencyB }: AddLiquidityProps) => {
         value={formattedAmounts[Field.CURRENCY_A]}
         addonAfter={
           !atMaxAmounts[Field.CURRENCY_A] ? (
-            <StyledBalanceMax onClick={() => onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')}>
-              {t('currencyInputPanel.max')}
-            </StyledBalanceMax>
+            <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
+              <StyledBalanceMax onClick={() => onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')}>
+                {t('currencyInputPanel.max')}
+              </StyledBalanceMax>
+            </Box>
           ) : (
             ''
           )
@@ -319,9 +321,11 @@ const AddLiquidity = ({ currencyA, currencyB }: AddLiquidityProps) => {
         value={formattedAmounts[Field.CURRENCY_B]}
         addonAfter={
           !atMaxAmounts[Field.CURRENCY_B] ? (
-            <StyledBalanceMax onClick={() => onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')}>
-              {t('currencyInputPanel.max')}
-            </StyledBalanceMax>
+            <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
+              <StyledBalanceMax onClick={() => onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')}>
+                {t('currencyInputPanel.max')}
+              </StyledBalanceMax>
+            </Box>
           ) : (
             ''
           )

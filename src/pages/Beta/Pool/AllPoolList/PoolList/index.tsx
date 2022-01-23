@@ -12,7 +12,7 @@ import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
 import { BIG_INT_ZERO } from 'src/constants'
 import Scrollbars from 'react-custom-scrollbars'
-import { PageWrapper, PanelWrapper } from './styleds'
+import { PoolsWrapper, PanelWrapper } from './styleds'
 import SortOptions from '../SortOptions'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
@@ -105,7 +105,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
       setPoolCards(poolCards)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy?.field, sortBy?.desc])
+  }, [sortBy?.field, sortBy?.desc, stakingInfoData])
 
   useEffect(() => {
     setPoolCardsLoading(true)
@@ -113,10 +113,10 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
     if (stakingInfos?.length > 0) {
       Promise.all(
         stakingInfos
-          // .filter(function(info) {
-          //   // Only include pools that are live or require a migration
-          //   return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
-          // })
+          .filter(function(info) {
+            // Only include pools that are live or require a migration
+            return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+          })
           .sort(function(info_a, info_b) {
             // only first has ended
             if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
@@ -188,7 +188,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   )
 
   return (
-    <PageWrapper>
+    <PoolsWrapper>
       {(stakingRewardsExist && stakingInfos?.length === 0) || poolCardsLoading ? (
         <Loader style={{ margin: 'auto' }} />
       ) : (!stakingRewardsExist || poolCards?.length === 0) && !poolCardsLoading ? (
@@ -215,7 +215,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
       )}
 
       <DetailModal selectedPool={selectedPool} version={version} />
-    </PageWrapper>
+    </PoolsWrapper>
   )
 }
 

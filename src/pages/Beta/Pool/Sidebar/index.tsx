@@ -1,5 +1,5 @@
 import React from 'react'
-import { PageWrapper, Menu, MenuLink, MenuName, MenuItem, Circle } from './styleds'
+import { SidebarWrapper, Menu, MenuLink, MenuName, MenuItem, Circle } from './styleds'
 import { Text } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 
@@ -42,7 +42,7 @@ const Sidebar = ({ setMenu, activeMenu }: MenuProps) => {
     }
   ]
   return (
-    <PageWrapper>
+    <SidebarWrapper>
       <Text color="text1" fontSize={32} fontWeight={500} ml={20} mt={10}>
         {t('header.pool')}
       </Text>
@@ -59,7 +59,7 @@ const Sidebar = ({ setMenu, activeMenu }: MenuProps) => {
           )
         })}
       </Menu>
-    </PageWrapper>
+    </SidebarWrapper>
   )
 }
 export default Sidebar

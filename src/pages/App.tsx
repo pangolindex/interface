@@ -69,6 +69,7 @@ const BodyWrapper = styled.div<{ isBeta: boolean }>`
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 10;
+  min-height: 100vh;
 
   ${({ theme, isBeta }) => theme.mediaWidth.upToSmall`
     padding: ${isBeta ? '0px' : '16px'};
@@ -148,7 +149,7 @@ export default function App() {
               <Route component={RedirectPathToSwapOnly} />
             </Switch>
           </Web3ReactManager>
-          <Marginer />
+          {!isBeta && <Marginer />}
         </BodyWrapper>
       </AppWrapper>
     </Suspense>

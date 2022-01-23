@@ -111,7 +111,7 @@ const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
       </HeaderGridContainer>
 
       <Box display="flex">
-        <Box borderRight={`1px solid ${theme.text9}`}>
+        <Box borderRight={`1px solid ${theme.text9}`} flex={1}>
           <TabView>
             <Text color="text10" fontSize={18}>
               Details

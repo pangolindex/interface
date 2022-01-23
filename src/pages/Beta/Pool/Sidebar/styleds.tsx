@@ -3,12 +3,12 @@ import styled from 'styled-components'
 import { darken } from 'polished'
 import { Text } from '@pangolindex/components'
 
-export const PageWrapper = styled(Box)`
+export const SidebarWrapper = styled(Box)`
   width: 100%;
   background-color: ${({ theme }) => theme.bg8};
-  border-radius: 10px 0px 0px 10px;
+  border-radius: 0px;
   height: auto;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   max-width: 200px;
   overflow: hidden;
 `
