@@ -23,7 +23,7 @@ export const OptionButton = styled.div<{ active?: boolean; disabled?: boolean }>
   font-weight: 500;
   width: fit-content;
   white-space: nowrap;
-  padding: 6px;
+  padding: 0px 6px;
   border-radius: 6px;
   border: 1px solid ${({ theme }) => theme.bg4};
   background-color: ${({ active, theme }) => (active ? theme.yellow2 : theme.bg7)};

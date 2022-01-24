@@ -1,12 +1,13 @@
 // @ts-nocheck
 import React, { useState } from 'react'
 import { Box } from '@pangolindex/components'
-import { PageWrapper, GridContainer } from './styleds'
+import { PageWrapper, GridContainer, ExternalLink } from './styleds'
 import Sidebar from './Sidebar'
 import AllPoolList from './AllPoolList'
 import Wallet from './Wallet'
 import { MenuType } from './Sidebar'
 import Migration from './Migration'
+import { useTranslation } from 'react-i18next'
 
 export enum PoolType {
   own = 'own',
@@ -15,6 +16,7 @@ export enum PoolType {
 
 const PoolUI = () => {
   const [activeMenu, setMenu] = useState<string>(MenuType.allPoolV2)
+  const { t } = useTranslation()
 
   return (
     <PageWrapper>
@@ -36,7 +38,19 @@ const PoolUI = () => {
         </Box>
 
         <Box>
-          <Migration />
+          <ExternalLink
+            href="https://app.nexusmutual.io/cover/buy/get-quote?address=0xefa94DE7a4656D787667C749f7E1223D71E9FD88"
+            target="_blank"
+          >
+            {t('earnPage.getCoverNexusMutual')}
+          </ExternalLink>
+          <ExternalLink
+            href="https://app.insurace.io/Insurance/BuyCovers?referrer=565928487188065888397039055593264600345483712698"
+            target="_blank"
+          >
+            {t('earnPage.getInsuranceCoverage')}
+          </ExternalLink>
+          {/* <Migration /> */}
         </Box>
       </GridContainer>
     </PageWrapper>

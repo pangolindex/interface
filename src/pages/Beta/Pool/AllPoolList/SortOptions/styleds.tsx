@@ -39,4 +39,5 @@ export const SortField = styled.div`
   cursor: pointer;
   display: flex;
   line-height: 20px;
+  padding: 5px 0px;
 `

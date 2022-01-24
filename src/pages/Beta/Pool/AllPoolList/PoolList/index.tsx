@@ -12,7 +12,7 @@ import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
 import { BIG_INT_ZERO } from 'src/constants'
 import Scrollbars from 'react-custom-scrollbars'
-import { PoolsWrapper, PanelWrapper } from './styleds'
+import { PoolsWrapper, PanelWrapper, LoadingWrapper } from './styleds'
 import SortOptions from '../SortOptions'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { usePoolDetailnModalToggle, useAddLiquiditynModalToggle, useModalOpen } from 'src/state/application/hooks'
@@ -202,7 +202,9 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   return (
     <PoolsWrapper>
       {(stakingRewardsExist && stakingInfos?.length === 0) || poolCardsLoading ? (
-        <Loader style={{ margin: 'auto' }} />
+        <LoadingWrapper>
+          <Loader style={{ margin: 'auto' }} size='35px' />
+        </LoadingWrapper>
       ) : (!stakingRewardsExist || poolCards?.length === 0) && !poolCardsLoading ? (
         t('earnPage.noActiveRewards')
       ) : (

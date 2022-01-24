@@ -6,6 +6,7 @@ export const Wrapper = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.bg8};
   max-width: 1080px;
+  width: 1080px;
   /* max-height: 500px; */
   overflow-y: auto;
   border-radius: 10px;

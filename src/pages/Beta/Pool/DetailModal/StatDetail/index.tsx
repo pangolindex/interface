@@ -37,7 +37,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
 
       <StateContainer>
         <Stat
-          title={`Total Stake`}
+          title={title}
           stat={`${totalAmount ? `${totalAmount}` : '-'}`}
           titlePosition="top"
           titleFontSize={16}

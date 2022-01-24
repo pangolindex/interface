@@ -36,9 +36,8 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
         <Stat
           title={t('dashboardPage.earned_dailyIncome')}
           stat={`${stakingInfo?.rewardRate
-            ?.multiply((60 * 60 * 24 * 7).toString())
-            ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
-          ${t('earnPage.rewardPerWeek', { symbol: 'PNG' })}`}
+            ?.multiply((60 * 60 * 24).toString())
+            ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} PNG`}
           titlePosition="top"
           titleFontSize={14}
           statFontSize={24}

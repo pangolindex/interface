@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import { AlertTriangle, ArrowUpCircle } from 'react-feather'
+import { ArrowUpCircle } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import { CurrencyAmount } from '@pangolindex/sdk'
 import { Text, Box, Button } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import Drawer from '../../../../components/Drawer'
-import { PendingWrapper, ErrorWrapper, ErrorBox, SubmittedWrapper } from './styled'
+import { PendingWrapper, SubmittedWrapper } from './styled'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
 
@@ -19,7 +19,7 @@ interface Props {
 }
 
 const ConfirmStakeDrawer: React.FC<Props> = props => {
-  const { isOpen, onClose, attemptingTxn, txHash, parsedAmount, stakeErrorMessage } = props
+  const { isOpen, onClose, attemptingTxn, txHash, parsedAmount } = props
 
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
@@ -36,20 +36,6 @@ const ConfirmStakeDrawer: React.FC<Props> = props => {
         {parsedAmount?.toSignificant(4)} PGL
       </Text>
     </PendingWrapper>
-  )
-
-  const ErroContent = (
-    <ErrorWrapper>
-      <ErrorBox>
-        <AlertTriangle color={theme.red1} style={{ strokeWidth: 1.5 }} size={64} />
-        <Text fontWeight={500} fontSize={16} color={'red1'} style={{ textAlign: 'center', width: '85%' }}>
-          {stakeErrorMessage}
-        </Text>
-      </ErrorBox>
-      <Button variant="primary" onClick={onClose}>
-        {t('transactionConfirmation.dismiss')}
-      </Button>
-    </ErrorWrapper>
   )
 
   const SubmittedContent = (
@@ -73,7 +59,8 @@ const ConfirmStakeDrawer: React.FC<Props> = props => {
 
   return (
     <Drawer title={t('earnPage.pngStaking')} isOpen={isOpen} onClose={onClose}>
-      {attemptingTxn ? PendingContent : txHash ? SubmittedContent : ErroContent}
+      {attemptingTxn && !txHash && PendingContent}
+      {attemptingTxn && txHash && SubmittedContent}
     </Drawer>
   )
 }

@@ -110,8 +110,21 @@ export function useCurrency(currencyId: string | undefined): Currency | null | u
   return isAVAX ? CAVAX : token
 }
 
+export const useCoinGeckoAllCoins = () => {
+  const [coins, setCoins] = useState([] as any[])
+
+  useEffect(() => {
+    fetch(`https://api.coingecko.com/api/v3/coins/list`)
+      .then(res => res.json())
+      .then(val => setCoins(val))
+  }, [])
+
+  return coins
+}
+
 export function useCoinGeckoTokenData(symbol?: string, name?: string) {
   const [result, setResult] = useState({} as { coinId: string; homePage: string; description: string })
+  const allCoins = useCoinGeckoAllCoins()
 
   useEffect(() => {
     let data = {} as { coinId: string; homePage: string; description: string }
@@ -127,12 +140,10 @@ export function useCoinGeckoTokenData(symbol?: string, name?: string) {
         }
         newSymbol = newSymbol?.toUpperCase()
 
-        const coins = await CoinGeckoClient.coins.all()
-
         const coinId =
           newSymbol in COIN_ID_OVERRIDE // here we are checking existance of key instead of value of key, because value of key might be undefined
             ? undefined
-            : coins.data.find((data: any) => data?.symbol?.toUpperCase() === newSymbol)?.id
+            : allCoins.find((data: any) => data?.symbol?.toUpperCase() === newSymbol)?.id
 
         if (!!coinId) {
           let coin = (await CoinGeckoClient.coins.fetch(coinId, {
@@ -156,7 +167,7 @@ export function useCoinGeckoTokenData(symbol?: string, name?: string) {
     if (symbol && name) {
       getCoinData()
     }
-  }, [symbol, name])
+  }, [symbol, name, allCoins])
 
   return result
 }

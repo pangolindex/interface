@@ -41,8 +41,8 @@ export default function DateDropdown({ setSortBy, sortBy }: SortProps) {
 
       {open && (
         <NarrowMenuFlyout>
-          {getSortField('Liquidity', SortingType?.totalStakedInUsd, sortBy, setSortBy)} |{' '}
-          {getSortField('Pool Weight', SortingType?.multiplier, sortBy, setSortBy)} |{' '}
+          {getSortField('Liquidity', SortingType?.totalStakedInUsd, sortBy, setSortBy)}
+          {getSortField('Pool Weight', SortingType?.multiplier, sortBy, setSortBy)}
           {getSortField('APR', SortingType?.totalApr, sortBy, setSortBy)}
         </NarrowMenuFlyout>
       )}

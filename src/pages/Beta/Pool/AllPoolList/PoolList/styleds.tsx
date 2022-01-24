@@ -10,6 +10,13 @@ export const PoolsWrapper = styled(Box)`
   color: ${({ theme }) => theme.text7};
 `
 
+export const LoadingWrapper = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`
+
 export const PanelWrapper = styled.div`
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: max-content;
