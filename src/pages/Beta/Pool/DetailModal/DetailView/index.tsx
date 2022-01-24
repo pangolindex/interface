@@ -17,27 +17,29 @@ import { useWindowSize } from 'react-use'
 
 export interface PoolDetailProps {
   onDismiss: () => void
-  selectedPool: StakingInfo
-  version: string
+  stakingInfo: StakingInfo
+  version: number
+  onOpenClaimModal: () => void
+  onOpenWithdrawModal: () => void
 }
 
-const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
+const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenWithdrawModal }: PoolDetailProps) => {
   const theme = useContext(ThemeContext)
   const { height } = useWindowSize()
 
-  const token0 = selectedPool?.tokens[0]
-  const token1 = selectedPool?.tokens[1]
+  const token0 = stakingInfo?.tokens[0]
+  const token1 = stakingInfo?.tokens[1]
 
   const currency0 = unwrappedToken(token0)
   const currency1 = unwrappedToken(token1)
 
-  const totalStakedInUsd = numeral(selectedPool.totalStakedInUsd.toSignificant(4)).format('$0.00a')
+  const totalStakedInUsd = numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a')
 
-  const isStaking = Boolean(selectedPool.stakedAmount.greaterThan('0'))
+  const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  let yourStackedInUsd = selectedPool?.totalStakedInUsd
-    .multiply(selectedPool?.stakedAmount)
-    .divide(selectedPool?.totalStakedAmount)
+  let yourStackedInUsd = stakingInfo?.totalStakedInUsd
+    .multiply(stakingInfo?.stakedAmount)
+    .divide(stakingInfo?.totalStakedAmount)
 
   const [, stakingTokenPair] = usePair(token0, token1)
   const pair = stakingTokenPair
@@ -56,9 +58,7 @@ const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
           <Box padding="10px 6px">
             <Stat
               title={`Swap fee APR:`}
-              stat={`${
-                selectedPool?.swapFeeApr && !selectedPool.isPeriodFinished ? `${selectedPool?.swapFeeApr}%` : '-'
-              }`}
+              stat={`${stakingInfo?.swapFeeApr && !stakingInfo.isPeriodFinished ? `${stakingInfo?.swapFeeApr}%` : '-'}`}
               titlePosition="top"
               titleFontSize={14}
               statFontSize={24}
@@ -69,9 +69,7 @@ const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
           <Box padding="10px 6px">
             <Stat
               title={`Reward APR:`}
-              stat={`${
-                selectedPool?.stakingApr && !selectedPool.isPeriodFinished ? `${selectedPool?.stakingApr}%` : '-'
-              }`}
+              stat={`${stakingInfo?.stakingApr && !stakingInfo.isPeriodFinished ? `${stakingInfo?.stakingApr}%` : '-'}`}
               titlePosition="top"
               titleFontSize={14}
               statFontSize={24}
@@ -83,8 +81,8 @@ const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
             <Stat
               title={`Total APR:`}
               stat={`${
-                selectedPool?.swapFeeApr && !selectedPool.isPeriodFinished
-                  ? `${selectedPool?.swapFeeApr + (selectedPool?.stakingApr || 0)}%`
+                stakingInfo?.swapFeeApr && !stakingInfo.isPeriodFinished
+                  ? `${stakingInfo?.swapFeeApr + (stakingInfo?.stakingApr || 0)}%`
                   : '-'
               }`}
               titlePosition="top"
@@ -97,7 +95,7 @@ const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
           <Box padding="10px 6px">
             <Stat
               title={`Pool Weight`}
-              stat={`${selectedPool?.multiplier}X`}
+              stat={`${stakingInfo?.multiplier}X`}
               titlePosition="top"
               titleFontSize={14}
               statFontSize={24}
@@ -124,7 +122,7 @@ const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
               currency1={currency1}
               pair={pair}
               totalAmount={`${totalStakedInUsd}`}
-              pgl={selectedPool?.totalStakedAmount}
+              pgl={stakingInfo?.totalStakedAmount}
             />
 
             {Number(yourLiquidityAmount?.toFixed(4)) > 0 && (
@@ -148,7 +146,7 @@ const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
                   currency1={currency1}
                   pair={pair}
                   totalAmount={`${numeral((yourStackedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}`}
-                  pgl={selectedPool?.stakedAmount}
+                  pgl={stakingInfo?.stakedAmount}
                 />
               </Box>
             )}
@@ -165,7 +163,13 @@ const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
 
         <EarnWrapper>
           <EarnWidget currencyA={currency0} currencyB={currency1} version={version} pair={pair} />
-          {isStaking && <EarnDetail stakingInfo={selectedPool} version={Number(version)} />}
+          {isStaking && (
+            <EarnDetail
+              stakingInfo={stakingInfo}
+              onOpenClaimModal={onOpenClaimModal}
+              onOpenWithdrawModal={onOpenWithdrawModal}
+            />
+          )}
         </EarnWrapper>
       </Box>
     </Wrapper>

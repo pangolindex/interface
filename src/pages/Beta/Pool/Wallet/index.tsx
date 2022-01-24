@@ -1,5 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { ThemeContext } from 'styled-components'
+import { Token } from '@pangolindex/sdk'
 import { TYPE } from 'src/theme'
 import Card from 'src/components/Card'
 import { useActiveWeb3React } from 'src/hooks'
@@ -9,12 +10,20 @@ import WalletCard from './WalletCard'
 import Scrollbars from 'react-custom-scrollbars'
 import Loader from 'src/components/Loader'
 import { useGetUserLP } from 'src/state/migrate/hooks'
+import { useAddLiquiditynModalToggle, useModalOpen } from 'src/state/application/hooks'
+import { ApplicationModal } from 'src/state/application/actions'
+import AddLiquidityModal from '../AddLiquidityModal'
 
 export default function Wallet() {
   const theme = useContext(ThemeContext)
   const { account } = useActiveWeb3React()
   let { v2IsLoading, allV2PairsWithLiquidity } = useGetUserLP()
   // fetch the user's balances of all tracked V2 LP tokens
+
+  const [clickedLpTokens, setClickedLpTokens] = useState([] as Token[])
+
+  const toggleAddLiquidityModal = useAddLiquiditynModalToggle()
+  const addLiquidityModalOpen = useModalOpen(ApplicationModal.ADD_LIQUIDITY)
 
   const { t } = useTranslation()
 
@@ -32,7 +41,14 @@ export default function Wallet() {
         <Scrollbars>
           <PanelWrapper>
             {allV2PairsWithLiquidity.map(v2Pair => (
-              <WalletCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
+              <WalletCard
+                key={v2Pair.liquidityToken.address}
+                pair={v2Pair}
+                onClickAddLiquidity={() => {
+                  setClickedLpTokens([v2Pair?.token0, v2Pair?.token1])
+                  toggleAddLiquidityModal()
+                }}
+              />
             ))}
           </PanelWrapper>
         </Scrollbars>
@@ -43,6 +59,8 @@ export default function Wallet() {
           </TYPE.body>
         </EmptyProposals>
       )}
+
+      {addLiquidityModalOpen && <AddLiquidityModal clickedLpTokens={clickedLpTokens} />}
     </PageWrapper>
   )
 }

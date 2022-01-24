@@ -9,7 +9,7 @@ interface EarnWidgetProps {
   currencyA: Currency
   currencyB: Currency
   pair: Pair | null
-  version: string
+  version: number
 }
 
 const EarnWidget = ({ currencyA, currencyB, pair, version }: EarnWidgetProps) => {
@@ -21,7 +21,7 @@ const EarnWidget = ({ currencyA, currencyB, pair, version }: EarnWidgetProps) =>
       {type === 'EARN' ? (
         <AddLiquidity currencyA={currencyA} currencyB={currencyB} />
       ) : (
-        <Stake pair={pair} version={Number(version)} />
+        <Stake pair={pair} version={version} />
       )}
     </Root>
   )

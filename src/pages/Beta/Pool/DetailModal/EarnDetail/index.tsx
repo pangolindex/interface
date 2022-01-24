@@ -1,30 +1,19 @@
-import React, { useState, useCallback } from 'react'
+import React from 'react'
 import { Wrapper } from './styleds'
 import { Text, Box, Button } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import Stat from 'src/components/Stat'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { RowBetween } from 'src/components/Row'
-import ClaimRewardDrawer from '../ClaimRewardDrawer'
-import WithdrawDrawer from '../WithdrawDrawer'
 
 export interface EarnDetailProps {
   stakingInfo: StakingInfo
-  version: number
+  onOpenClaimModal: () => void
+  onOpenWithdrawModal: () => void
 }
 
-const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
+const EarnDetail = ({ stakingInfo, onOpenClaimModal, onOpenWithdrawModal }: EarnDetailProps) => {
   const { t } = useTranslation()
-  const [isClaimRewardDrawerOpen, setIsClaimRewardDrawerOpen] = useState(false)
-  const [isWithdrawDrawerOpen, setIsWithdrawDrawerOpen] = useState(false)
-
-  const handleClaimRewardDrawerClose = useCallback(() => {
-    setIsClaimRewardDrawerOpen(false)
-  }, [setIsClaimRewardDrawerOpen])
-
-  const handleWithdrawDrawerClose = useCallback(() => {
-    setIsWithdrawDrawerOpen(false)
-  }, [setIsWithdrawDrawerOpen])
 
   return (
     <Wrapper>
@@ -59,32 +48,18 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
       <Box mt={10}>
         <RowBetween>
           <Box mr="5px" width="100%">
-            <Button variant={'primary'} onClick={() => setIsWithdrawDrawerOpen(true)}>
+            <Button variant={'primary'} onClick={() => onOpenWithdrawModal()}>
               {t('earn.withdraw')}
             </Button>
           </Box>
 
           <Box width="100%">
-            <Button variant="primary" onClick={() => setIsClaimRewardDrawerOpen(true)}>
+            <Button variant="primary" onClick={() => onOpenClaimModal()}>
               {t('earnPage.claim')}
             </Button>
           </Box>
         </RowBetween>
       </Box>
-
-      <ClaimRewardDrawer
-        isOpen={isClaimRewardDrawerOpen}
-        onClose={handleClaimRewardDrawerClose}
-        version={version}
-        stakingInfo={stakingInfo}
-      />
-
-      <WithdrawDrawer
-        isOpen={isWithdrawDrawerOpen}
-        onClose={handleWithdrawDrawerClose}
-        version={version}
-        stakingInfo={stakingInfo}
-      />
     </Wrapper>
   )
 }

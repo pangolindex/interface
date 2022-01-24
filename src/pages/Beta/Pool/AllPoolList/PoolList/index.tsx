@@ -6,7 +6,7 @@ import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConf
 import PoolCard from '../PoolCard'
 import Loader from 'src/components/Loader'
 import { useActiveWeb3React } from 'src/hooks'
-import { JSBI } from '@pangolindex/sdk'
+import { JSBI, Token } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
@@ -19,6 +19,8 @@ import { usePoolDetailnModalToggle, useAddLiquiditynModalToggle, useModalOpen } 
 import { ApplicationModal } from 'src/state/application/actions'
 import DetailModal from '../../DetailModal'
 import AddLiquidityModal from '../../AddLiquidityModal'
+import ClaimRewardModal from '../../ClaimRewardModal'
+import WithdrawModal from '../../WithdrawModal'
 
 export enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
@@ -46,10 +48,23 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
 
   const [selectedPool, setSelectedPool] = useState({} as StakingInfo)
 
+  const [clickedLpTokens, setClickedLpTokens] = useState([] as Token[])
+
   const togglePoolDetailModal = usePoolDetailnModalToggle()
   const toggleAddLiquidityModal = useAddLiquiditynModalToggle()
   const addLiquidityModalOpen = useModalOpen(ApplicationModal.ADD_LIQUIDITY)
-  
+
+  const [isClaimRewardDrawerOpen, setIsClaimRewardDrawerOpen] = useState(false)
+  const [isWithdrawDrawerOpen, setIsWithdrawDrawerOpen] = useState(false)
+
+  const handleClaimRewardDrawerClose = useCallback(() => {
+    setIsClaimRewardDrawerOpen(false)
+  }, [setIsClaimRewardDrawerOpen])
+
+  const handleWithdrawDrawerClose = useCallback(() => {
+    setIsWithdrawDrawerOpen(false)
+  }, [setIsWithdrawDrawerOpen])
+
   const handleSearch = useCallback(value => {
     setSearchQuery(value.trim().toUpperCase())
   }, [])
@@ -106,6 +121,10 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
             onClickAddLiquidity={() => {
               setSelectedPool(stakingInfo)
               toggleAddLiquidityModal()
+            }}
+            onClickClaim={() => {
+              setSelectedPool(stakingInfo)
+              setIsClaimRewardDrawerOpen(true)
             }}
           />
         )
@@ -182,6 +201,10 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 setSelectedPool(stakingInfo)
                 toggleAddLiquidityModal()
               }}
+              onClickClaim={() => {
+                setClickedLpTokens(stakingInfo.tokens)
+                setIsClaimRewardDrawerOpen(true)
+              }}
             />
           )
         })
@@ -203,7 +226,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
     <PoolsWrapper>
       {(stakingRewardsExist && stakingInfos?.length === 0) || poolCardsLoading ? (
         <LoadingWrapper>
-          <Loader style={{ margin: 'auto' }} size='35px' />
+          <Loader style={{ margin: 'auto' }} size="35px" />
         </LoadingWrapper>
       ) : (!stakingRewardsExist || poolCards?.length === 0) && !poolCardsLoading ? (
         t('earnPage.noActiveRewards')
@@ -228,9 +251,28 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
         </>
       )}
 
-      <DetailModal selectedPool={selectedPool} version={version} />
+      <DetailModal
+        stakingInfo={selectedPool}
+        version={Number(version)}
+        onOpenClaimModal={() => setIsClaimRewardDrawerOpen(true)}
+        onOpenWithdrawModal={() => setIsWithdrawDrawerOpen(true)}
+      />
 
-      {addLiquidityModalOpen && <AddLiquidityModal selectedPool={selectedPool} />}
+      {addLiquidityModalOpen && <AddLiquidityModal clickedLpTokens={clickedLpTokens} />}
+
+      <ClaimRewardModal
+        isOpen={isClaimRewardDrawerOpen}
+        onClose={handleClaimRewardDrawerClose}
+        stakingInfo={selectedPool}
+        version={Number(version)}
+      />
+
+      <WithdrawModal
+        isOpen={isWithdrawDrawerOpen}
+        onClose={handleWithdrawDrawerClose}
+        version={Number(version)}
+        stakingInfo={selectedPool}
+      />
     </PoolsWrapper>
   )
 }

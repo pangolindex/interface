@@ -12,9 +12,10 @@ export interface PoolCardProps {
   stakingInfo: StakingInfo
   onClickViewDetail: () => void
   onClickAddLiquidity: () => void
+  onClickClaim: () => void
 }
 
-const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity }: PoolCardProps) => {
+const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity, onClickClaim }: PoolCardProps) => {
   const { t } = useTranslation()
 
   const token0 = stakingInfo.tokens[0]
@@ -81,7 +82,13 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity }: PoolC
         </Box>
         <Box>
           {isStaking ? (
-            <ActionButon variant="plain" onClick={() => {}} backgroundColor="bg2" color="text1" height="45px">
+            <ActionButon
+              variant="plain"
+              onClick={() => onClickClaim()}
+              backgroundColor="bg2"
+              color="text1"
+              height="45px"
+            >
               {t('earnPage.claim')}
             </ActionButon>
           ) : (

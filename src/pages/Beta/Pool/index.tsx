@@ -6,7 +6,6 @@ import Sidebar from './Sidebar'
 import AllPoolList from './AllPoolList'
 import Wallet from './Wallet'
 import { MenuType } from './Sidebar'
-import Migration from './Migration'
 import { useTranslation } from 'react-i18next'
 
 export enum PoolType {

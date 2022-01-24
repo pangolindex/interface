@@ -9,9 +9,10 @@ import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 
 export interface WalletCardProps {
   pair: Pair
+  onClickAddLiquidity: () => void
 }
 
-const WalletCard = ({ pair }: WalletCardProps) => {
+const WalletCard = ({ pair, onClickAddLiquidity }: WalletCardProps) => {
   const { t } = useTranslation()
 
   const currency0 = unwrappedToken(pair.token0)
@@ -52,7 +53,7 @@ const WalletCard = ({ pair }: WalletCardProps) => {
 
       <InnerWrapper>
         <Box>
-          <DetailButton variant="plain" onClick={() => {}} color="text1" height="45px">
+          <DetailButton variant="plain" onClick={() => onClickAddLiquidity()} color="text1" height="45px">
             {t('positionCard.add')}
           </DetailButton>
         </Box>

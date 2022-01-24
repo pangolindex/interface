@@ -7,22 +7,22 @@ import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import Modal from '../Modal'
 import { ThemeContext } from 'styled-components'
 import AddLiquidity from '../EarnWidget/AddLiquidity'
-import { StakingInfo } from 'src/state/stake/hooks'
+import { Token } from '@pangolindex/sdk'
 import { CloseIcon } from 'src/theme/components'
 import { useTranslation } from 'react-i18next'
 
 interface AddLiquidityModalProps {
-  selectedPool: StakingInfo
+  clickedLpTokens: Array<Token>
 }
 
-const AddLiquidityModal = ({ selectedPool }: AddLiquidityModalProps) => {
+const AddLiquidityModal = ({ clickedLpTokens }: AddLiquidityModalProps) => {
   const addLiquidityModalOpen = useModalOpen(ApplicationModal.ADD_LIQUIDITY)
   const toggleAddLiquidityModal = useAddLiquiditynModalToggle()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
-  const token0 = selectedPool?.tokens[0]
-  const token1 = selectedPool?.tokens[1]
+  const token0 = clickedLpTokens?.[0]
+  const token1 = clickedLpTokens?.[1]
 
   const currencyA = unwrappedToken(token0)
   const currencyB = unwrappedToken(token1)
