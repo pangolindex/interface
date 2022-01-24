@@ -24,7 +24,7 @@ export const DropdownItem = styled.div`
     margin-left: 10px !important;
   };
 
-  :hover {
+  &:hover {
     cursor: pointer;
     background-color: #ff6b00
   }

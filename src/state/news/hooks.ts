@@ -41,7 +41,7 @@ export function useGetNews() {
         const getNews = async () => {
             const response = await fetch(`https://cms.api.pango.elasticboard.io/api/articles?${query}`)
             const data = await response.json()
-            const requestNews: News[] = data.data.map((element: any) => {
+            const requestNews: News[] = data?.data?.map((element: any) => {
                 return {
                     id: element?.id,
                     title: element?.attributes?.title,

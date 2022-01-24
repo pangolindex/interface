@@ -30,7 +30,6 @@
     "@types/react-custom-scrollbars": "^4.0.9",
     "@types/react-dom": "^16.9.7",
     "@types/react-html-parser": "^2.0.2",
-    "@types/react-linkify": "^1.0.1",
     "@types/react-redux": "^7.1.8",
     "@types/react-router-dom": "^5.0.0",
     "@types/react-slick": "^0.23.7",
@@ -144,6 +143,7 @@
   "dependencies": {
     "@types/crypto-js": "^4.0.2",
     "crypto-js": "^4.0.0",
-    "lightweight-charts": "^3.7.0"
+    "lightweight-charts": "^3.7.0",
+    "react-linkify": "^1.0.0-alpha"
   }
 }

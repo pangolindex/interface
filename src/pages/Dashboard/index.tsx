@@ -160,7 +160,12 @@ const Dashboard = () => {
               <PortfolioToken>
                 ${
                   !!balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]]
-                    ? balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]].toLocaleString()
+                    ? balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]].toLocaleString(
+                      undefined, 
+                      {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                      })
                     : 0
                 }
                 <img width={'50px'} src={selectChain.logo} alt={'Chain logo'} style={{ marginLeft: '12px' }} />
@@ -187,7 +192,7 @@ const Dashboard = () => {
                       return (
                         <div key={element.id}>
                           <NewsContent>
-                            <Linkify>{element?.content}</Linkify>                            
+                            <Linkify>{element?.content}</Linkify>
                           </NewsContent>
                           <NewsDate>{element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}</NewsDate>
                         </div>
