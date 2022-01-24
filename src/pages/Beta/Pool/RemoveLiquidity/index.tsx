@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react'
+// @ts-nocheck
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { PageWrapper, InputText, ContentBox, DataBox } from './styleds'
 import { Box, Text, Button, Steps, Step } from '@pangolindex/components'
-import { useTokenBalance } from 'src/state/wallet/hooks'
+import ReactGA from 'react-ga'
 import { useActiveWeb3React } from 'src/hooks'
-import { TokenAmount, Currency, ChainId, JSBI } from '@pangolindex/sdk'
+import { TokenAmount, Currency, ChainId, JSBI, Percent, CAVAX } from '@pangolindex/sdk'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -16,6 +17,12 @@ import { ROUTER_ADDRESS } from 'src/constants'
 import { useWalletModalToggle } from 'src/state/application/hooks'
 import { useBurnActionHandlers } from 'src/state/burn/hooks'
 import { useDerivedBurnInfo, useBurnState } from 'src/state/burn/hooks'
+import { wrappedCurrency } from 'src/utils/wrappedCurrency'
+import { useUserSlippageTolerance } from 'src/state/user/hooks'
+import { Field } from 'src/state/burn/actions'
+import { BigNumber, Contract } from 'ethers'
+import { usePairContract } from 'src/hooks/useContract'
+import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from 'src/utils'
 
 interface RemoveLiquidityProps {
   currencyA: Currency
@@ -25,35 +32,47 @@ interface RemoveLiquidityProps {
 const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
   const { account, chainId, library } = useActiveWeb3React()
 
+  const [tokenA, tokenB] = useMemo(() => [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)], [
+    currencyA,
+    currencyB,
+    chainId
+  ])
+
   // toggle wallet when disconnected
   const toggleWalletModal = useWalletModalToggle()
 
-  const { independentField } = useBurnState()
+  const { independentField, typedValue } = useBurnState()
   const { pair, parsedAmounts, error } = useDerivedBurnInfo(currencyA ?? undefined, currencyB ?? undefined)
   const { onUserInput: _onUserInput } = useBurnActionHandlers()
   const isValid = !error
 
-  // const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
-
-  // track and parse user input
-  const [typedValue, setTypedValue] = useState('')
-  // const { parsedAmount, error } = useDerivedStakeInfo(
-  //   typedValue,
-  //   stakingInfo?.stakedAmount?.token,
-  //   userLiquidityUnstaked
-  // )
-  // const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
-
-  // state for pending and submitted txn views
-
-  const [attempting, setAttempting] = useState<boolean>(false)
-  const [hash, setHash] = useState<string | undefined>()
+  // sub modal and loading
   const [showConfirm, setShowConfirm] = useState<boolean>(false)
+  const [showDetailed, setShowDetailed] = useState<boolean>(false)
+  const [attemptingTxn, setAttemptingTxn] = useState(false) // clicked confirm
 
-  // approval data for stake
+  // txn values
+  const [txHash, setTxHash] = useState<string>('')
   const deadline = useTransactionDeadline()
-  const { t } = useTranslation()
-  const [stepIndex, setStepIndex] = useState(4)
+  const [allowedSlippage] = useUserSlippageTolerance()
+
+  const formattedAmounts = {
+    [Field.LIQUIDITY_PERCENT]: parsedAmounts[Field.LIQUIDITY_PERCENT].equalTo('0')
+      ? '0'
+      : parsedAmounts[Field.LIQUIDITY_PERCENT].lessThan(new Percent('1', '100'))
+      ? '<1'
+      : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
+    [Field.LIQUIDITY]:
+      independentField === Field.LIQUIDITY ? typedValue : parsedAmounts[Field.LIQUIDITY]?.toSignificant(6) ?? '',
+    [Field.CURRENCY_A]:
+      independentField === Field.CURRENCY_A ? typedValue : parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) ?? '',
+    [Field.CURRENCY_B]:
+      independentField === Field.CURRENCY_B ? typedValue : parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) ?? ''
+  }
+
+  // pair contract
+  const pairContract: Contract | null = usePairContract(pair?.liquidityToken?.address)
+
   // allowance handling
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
@@ -61,17 +80,25 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
     chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
   )
 
+  // state for pending and submitted txn views
+
+  const [attempting, setAttempting] = useState<boolean>(false)
+  const [hash, setHash] = useState<string | undefined>()
+
+  const { t } = useTranslation()
+  const [stepIndex, setStepIndex] = useState(4)
+
   const isArgentWallet = false
 
-  async function onAttemptToApprove() {
-    // TODO: Translate using i18n
-    if (!pairContract || !pair || !library || !deadline || !chainId || !account) throw new Error('missing dependencies')
-    const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
-    if (!liquidityAmount) throw new Error('missing liquidity amount')
+  useEffect(() => {
+    _onUserInput(Field.LIQUIDITY_PERCENT, `100`)
+  }, [])
 
-    if (isArgentWallet) {
-      return approveCallback()
-    }
+  async function onAttemptToApprove() {
+    if (!pairContract || !pair || !library || !deadline || !chainId || !account)
+      throw new Error(t('earn.missingDependencies'))
+    const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
+    if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
 
     // try to gather a signature for permission
     const nonce = await pairContract.nonces(account)
@@ -133,23 +160,16 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
 
   const onChangeDot = (value: number) => {
     setStepIndex(value)
-    if (value === 4) {
-      setTypedValue((userLiquidityUnstaked as TokenAmount).toExact())
-    } else {
-      const newAmount = (userLiquidityUnstaked as TokenAmount)
-        .multiply(JSBI.BigInt(value * 25))
-        .divide(JSBI.BigInt(100)) as TokenAmount
-      setTypedValue(newAmount.toSignificant(6))
-    }
+    _onUserInput(Field.LIQUIDITY_PERCENT, `${value * 25}`)
   }
 
   // wrapped onUserInput to clear signatures
   const onUserInput = useCallback((typedValue: string) => {
     setSignatureData(null)
-    setTypedValue(typedValue)
+    _onUserInput(Field.LIQUIDITY, typedValue)
   }, [])
 
-  const renderPoolDataRow = (label: string, value: string) => {
+  const renderPoolDataRow = (label?: string, value?: string) => {
     return (
       <DataBox key={label}>
         <Text color="text4" fontSize={16}>
@@ -165,13 +185,15 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
 
   const handleDismissConfirmation = useCallback(() => {
     setShowConfirm(false)
+    setSignatureData(null) // important that we clear signature data to avoid bad sigs
     // if there was a tx hash, we want to clear the input
     if (hash) {
-      setTypedValue('')
+      _onUserInput(Field.LIQUIDITY_PERCENT, '0')
     }
     setHash('')
-  }, [setTypedValue, hash])
+  }, [_onUserInput, hash])
 
+  // tx sending
   const addTransaction = useTransactionAdder()
   async function onRemove() {
     if (!chainId || !library || !account || !deadline) throw new Error('missing dependencies')
@@ -192,8 +214,8 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
 
-    const currencyBIsETH = currencyB === CAVAX
-    const oneCurrencyIsETH = currencyA === CAVAX || currencyBIsETH
+    const currencyBIsAVAX = currencyB === CAVAX
+    const oneCurrencyIsAVAX = currencyA === CAVAX || currencyBIsAVAX
 
     // TODO: Translate using i18n
     if (!tokenA || !tokenB) throw new Error('could not wrap')
@@ -202,13 +224,13 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
     // we have approval, use normal remove liquidity
     if (approval === ApprovalState.APPROVED) {
       // removeLiquidityAVAX
-      if (oneCurrencyIsETH) {
+      if (oneCurrencyIsAVAX) {
         methodNames = ['removeLiquidityAVAX', 'removeLiquidityAVAXSupportingFeeOnTransferTokens']
         args = [
-          currencyBIsETH ? tokenA.address : tokenB.address,
+          currencyBIsAVAX ? tokenA.address : tokenB.address,
           liquidityAmount.raw.toString(),
-          amountsMin[currencyBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
-          amountsMin[currencyBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
+          amountsMin[currencyBIsAVAX ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
+          amountsMin[currencyBIsAVAX ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
           account,
           deadline.toHexString()
         ]
@@ -227,16 +249,16 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
         ]
       }
     }
-    // we have a signataure, use permit versions of remove liquidity
+    // we have a signature, use permit versions of remove liquidity
     else if (signatureData !== null) {
       // removeLiquidityAVAXWithPermit
-      if (oneCurrencyIsETH) {
+      if (oneCurrencyIsAVAX) {
         methodNames = ['removeLiquidityAVAXWithPermit', 'removeLiquidityAVAXWithPermitSupportingFeeOnTransferTokens']
         args = [
-          currencyBIsETH ? tokenA.address : tokenB.address,
+          currencyBIsAVAX ? tokenA.address : tokenB.address,
           liquidityAmount.raw.toString(),
-          amountsMin[currencyBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
-          amountsMin[currencyBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
+          amountsMin[currencyBIsAVAX ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
+          amountsMin[currencyBIsAVAX ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
           account,
           signatureData.deadline,
           false,
@@ -330,7 +352,7 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
     <PageWrapper>
       <Box mt={10}>
         <InputText
-          value={typedValue}
+          value={parsedAmounts[Field.LIQUIDITY]?.toExact() || ''}
           addonAfter={
             <Box display="flex" alignItems="center">
               <Text color="text4" fontSize={24}>
@@ -371,21 +393,13 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
           <Step />
         </Steps>
       </Box>
-      {/* 
+
       <Box>
         <ContentBox>
-          {renderPoolDataRow(
-            t('migratePage.dollarWorth'),
-            `${yourLiquidityAmount ? `$${yourLiquidityAmount?.toFixed(4)}` : '-'}`
-          )}
-          {renderPoolDataRow(
-            `${t('dashboardPage.earned_dailyIncome')}`,
-            `${hypotheticalRewardRate
-              .multiply((60 * 60 * 24).toString())
-              .toSignificant(4, { groupSeparator: ',' })} PNG`
-          )}
+          {renderPoolDataRow(tokenA?.symbol, formattedAmounts[Field.CURRENCY_A] || '-')}
+          {renderPoolDataRow(tokenB?.symbol, formattedAmounts[Field.CURRENCY_B] || '-')}
         </ContentBox>
-      </Box> */}
+      </Box>
       <Box mt={10}>
         {!account ? (
           <Button
@@ -432,7 +446,7 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
         )}
       </Box>
 
-      {showConfirm && (
+      {/* {showConfirm && (
         <ConfirmRemoveDrawer
           isOpen={showConfirm}
           stakeErrorMessage={error}
@@ -441,7 +455,7 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
           txHash={hash}
           onClose={handleDismissConfirmation}
         />
-      )}
+      )} */}
     </PageWrapper>
   )
 }
