@@ -45,7 +45,7 @@ const AddLiquidity = ({ currencyA, currencyB }: AddLiquidityProps) => {
   const {
     dependentField,
     currencies,
-    pair,
+    // pair,
     pairState,
     currencyBalances,
     parsedAmounts,
@@ -350,9 +350,9 @@ const AddLiquidity = ({ currencyA, currencyB }: AddLiquidityProps) => {
 
       {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
         <LightCard padding="0px">
-          <Text fontWeight={500} fontSize={14} color="text1">
+          {/* <Text fontWeight={500} fontSize={14} color="text1">
             {noLiquidity ? t('addLiquidity.initialPrices') : t('addLiquidity.prices')} {t('addLiquidity.poolShare')}
-          </Text>
+          </Text> */}
 
           <PoolPriceBar
             currencies={currencies}
@@ -387,7 +387,7 @@ const AddLiquidity = ({ currencyA, currencyB }: AddLiquidityProps) => {
         />
       )}
 
-      {pair && !noLiquidity && pairState !== PairState.INVALID ? (
+      {/* {pair && !noLiquidity && pairState !== PairState.INVALID ? (
         <LightCard>
           <Text fontSize={12} color="text1" style={{ textAlign: 'center' }}>
             <span role="img" aria-label="wizard-icon">
@@ -396,7 +396,7 @@ const AddLiquidity = ({ currencyA, currencyB }: AddLiquidityProps) => {
             {t('positionCard.byAddingLiquidityInfo')}
           </Text>
         </LightCard>
-      ) : null}
+      ) : null} */}
     </PageWrapper>
   )
 }

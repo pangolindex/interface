@@ -7,9 +7,8 @@ import { Box, Text, Button, Steps, Step, DoubleCurrencyLogo } from '@pangolindex
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { TokenAmount, Pair, ChainId, JSBI, Token } from '@pangolindex/sdk'
-import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { useMinichefStakingInfos } from 'src/state/stake/hooks'
+import { useGetPoolDollerWorth, useMinichefStakingInfos } from 'src/state/stake/hooks'
 import { usePairContract, useStakingContract } from 'src/hooks/useContract'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
@@ -18,7 +17,6 @@ import { wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useTranslation } from 'react-i18next'
-import { useCurrencyBalance } from 'src/state/wallet/hooks'
 import ConfirmStakeDrawer from './ConfirmStakeDrawer'
 import SelectPoolDrawer from './SelectPoolDrawer'
 
@@ -36,6 +34,7 @@ const Stake = ({ pair, version }: StakeProps) => {
 
   const theme = useContext(ThemeContext)
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
+  const { yourLiquidityAmount } = useGetPoolDollerWorth(selectedPair)
 
   const [isPoolDrawerOpen, setIsPoolDrawerOpen] = useState(false)
 
@@ -78,6 +77,9 @@ const Stake = ({ pair, version }: StakeProps) => {
   const [approval, approveCallback] = useApproveCallback(parsedAmount, stakingInfo?.stakingRewardAddress)
 
   const stakingContract = useStakingContract(stakingInfo?.stakingRewardAddress)
+  const currency0 = unwrappedToken(selectedPair?.token0 as Token)
+  const currency1 = unwrappedToken(selectedPair?.token1 as Token)
+  const poolMap = useMinichefPools()
 
   const onChangeDot = (value: number) => {
     setStepIndex(value)
@@ -90,8 +92,6 @@ const Stake = ({ pair, version }: StakeProps) => {
       setTypedValue(newAmount.toSignificant(6))
     }
   }
-
-  const poolMap = useMinichefPools()
 
   async function onStake() {
     if (stakingContract && poolMap && parsedAmount && deadline) {
@@ -244,8 +244,6 @@ const Stake = ({ pair, version }: StakeProps) => {
     )
   }
 
-  const availableToDeposit = useCurrencyBalance(account ?? undefined, stakingInfo?.stakedAmount?.token ?? undefined)
-
   const handleDismissConfirmation = useCallback(() => {
     setShowConfirm(false)
     // if there was a tx hash, we want to clear the input
@@ -255,34 +253,27 @@ const Stake = ({ pair, version }: StakeProps) => {
     setHash('')
   }, [setTypedValue, hash])
 
-  const currency0 = unwrappedToken(selectedPair?.token0 as Token)
-  const currency1 = unwrappedToken(selectedPair?.token1 as Token)
-
-  const currency0Price = useUSDCPrice(currency0)
-
   const handleSelectPoolDrawerClose = useCallback(() => {
     setIsPoolDrawerOpen(false)
   }, [setIsPoolDrawerOpen])
 
   useEffect(() => {
-    if (availableToDeposit) {
-      setTypedValue(availableToDeposit?.toSignificant(6))
+    if (userLiquidityUnstaked) {
+      setTypedValue(userLiquidityUnstaked?.toExact())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [availableToDeposit?.toSignificant(6)])
+  }, [userLiquidityUnstaked?.toExact()])
 
   const onPoolSelect = useCallback(
     pair => {
       setSelectedPair(pair)
 
-      if (availableToDeposit) {
-        setTypedValue(availableToDeposit?.toSignificant(6))
+      if (userLiquidityUnstaked) {
+        setTypedValue(userLiquidityUnstaked?.toExact())
       }
     },
-    [availableToDeposit, setTypedValue, setSelectedPair]
+    [userLiquidityUnstaked, setTypedValue, setSelectedPair]
   )
-
-  const yourLiquidityAmount = currency0Price ? Number(currency0Price.toFixed()) * 2 * Number(typedValue) : 0
 
   return (
     <PageWrapper>
@@ -314,8 +305,8 @@ const Stake = ({ pair, version }: StakeProps) => {
           addonLabel={
             account && (
               <Text color="text2" fontWeight={500} fontSize={14}>
-                {!!stakingInfo?.stakedAmount?.token && availableToDeposit
-                  ? t('earn.availableToDeposit') + availableToDeposit?.toSignificant(6)
+                {!!stakingInfo?.stakedAmount?.token && userLiquidityUnstaked
+                  ? t('earn.availableToDeposit') + userLiquidityUnstaked?.toSignificant(6)
                   : ' -'}
               </Text>
             )
@@ -347,8 +338,9 @@ const Stake = ({ pair, version }: StakeProps) => {
           )}
           {renderPoolDataRow(
             `${t('dashboardPage.earned_dailyIncome')}`,
-            `${hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toSignificant(4, { groupSeparator: ',' })}
-              ${t('earn.rewardPerWeek', { symbol: 'PNG' })}`
+            `${hypotheticalRewardRate
+              .multiply((60 * 60 * 24).toString())
+              .toSignificant(4, { groupSeparator: ',' })} PNG`
           )}
         </ContentBox>
       </Box>
@@ -358,7 +350,7 @@ const Stake = ({ pair, version }: StakeProps) => {
           variant={approval === ApprovalState.APPROVED || signatureData !== null ? 'confirm' : 'primary'}
           onClick={onAttemptToApprove}
           isDisabled={approval !== ApprovalState.NOT_APPROVED || signatureData !== null}
-          loading={attempting}
+          loading={attempting && !hash}
           loadingText={t('migratePage.loading')}
         >
           {t('earn.approve')}
@@ -373,7 +365,7 @@ const Stake = ({ pair, version }: StakeProps) => {
             setShowConfirm(true)
             onStake()
           }}
-          loading={attempting}
+          loading={attempting && !hash}
           loadingText={t('migratePage.loading')}
         >
           {error ?? t('earn.deposit')}
