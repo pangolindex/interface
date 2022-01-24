@@ -15,12 +15,18 @@ import Scrollbars from 'react-custom-scrollbars'
 import { PoolsWrapper, PanelWrapper, LoadingWrapper } from './styleds'
 import SortOptions from '../SortOptions'
 import { StakingInfo } from 'src/state/stake/hooks'
-import { usePoolDetailnModalToggle, useAddLiquiditynModalToggle, useModalOpen } from 'src/state/application/hooks'
+import {
+  usePoolDetailnModalToggle,
+  useAddLiquiditynModalToggle,
+  useStakeModalToggle,
+  useModalOpen
+} from 'src/state/application/hooks'
 import { ApplicationModal } from 'src/state/application/actions'
 import DetailModal from '../../DetailModal'
 import AddLiquidityModal from '../../AddLiquidityModal'
 import ClaimRewardModal from '../../ClaimRewardModal'
 import WithdrawModal from '../../WithdrawModal'
+import StakeModal from '../../StakeModal'
 
 export enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
@@ -53,6 +59,9 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const togglePoolDetailModal = usePoolDetailnModalToggle()
   const toggleAddLiquidityModal = useAddLiquiditynModalToggle()
   const addLiquidityModalOpen = useModalOpen(ApplicationModal.ADD_LIQUIDITY)
+
+  const toggleStakeModal = useStakeModalToggle()
+  const stakeModalOpen = useModalOpen(ApplicationModal.STAKE)
 
   const [isClaimRewardDrawerOpen, setIsClaimRewardDrawerOpen] = useState(false)
   const [isWithdrawDrawerOpen, setIsWithdrawDrawerOpen] = useState(false)
@@ -123,8 +132,12 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
               toggleAddLiquidityModal()
             }}
             onClickClaim={() => {
-              setSelectedPool(stakingInfo)
+              setClickedLpTokens(stakingInfo.tokens)
               setIsClaimRewardDrawerOpen(true)
+            }}
+            onClickStake={() => {
+              setClickedLpTokens(stakingInfo.tokens)
+              toggleStakeModal()
             }}
           />
         )
@@ -205,6 +218,10 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 setClickedLpTokens(stakingInfo.tokens)
                 setIsClaimRewardDrawerOpen(true)
               }}
+              onClickStake={() => {
+                setClickedLpTokens(stakingInfo.tokens)
+                toggleStakeModal()
+              }}
             />
           )
         })
@@ -273,6 +290,8 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
         version={Number(version)}
         stakingInfo={selectedPool}
       />
+
+      {stakeModalOpen && <StakeModal clickedLpTokens={clickedLpTokens} version={Number(version)} />}
     </PoolsWrapper>
   )
 }

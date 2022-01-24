@@ -7,15 +7,24 @@ import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { StakingInfo } from 'src/state/stake/hooks'
+import { usePair } from 'src/data/Reserves'
+import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 
 export interface PoolCardProps {
   stakingInfo: StakingInfo
   onClickViewDetail: () => void
   onClickAddLiquidity: () => void
   onClickClaim: () => void
+  onClickStake: () => void
 }
 
-const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity, onClickClaim }: PoolCardProps) => {
+const PoolCard = ({
+  stakingInfo,
+  onClickViewDetail,
+  onClickAddLiquidity,
+  onClickClaim,
+  onClickStake
+}: PoolCardProps) => {
   const { t } = useTranslation()
 
   const token0 = stakingInfo.tokens[0]
@@ -24,11 +33,17 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity, onClick
   const currency0 = unwrappedToken(token0)
   const currency1 = unwrappedToken(token1)
 
+  const [, stakingTokenPair] = usePair(token0, token1)
+
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
   let yourStackedInUsd = stakingInfo?.totalStakedInUsd
     .multiply(stakingInfo?.stakedAmount)
     .divide(stakingInfo?.totalStakedAmount)
+
+  const { userPgl } = useGetPoolDollerWorth(stakingTokenPair)
+
+  const isLiquidity = Boolean(userPgl?.greaterThan('0'))
 
   return (
     <Panel>
@@ -90,6 +105,16 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity, onClick
               height="45px"
             >
               {t('earnPage.claim')}
+            </ActionButon>
+          ) : isLiquidity ? (
+            <ActionButon
+              variant="plain"
+              onClick={() => onClickStake()}
+              backgroundColor="bg2"
+              color="text1"
+              height="45px"
+            >
+              {t('earnPage.stake')}
             </ActionButon>
           ) : (
             <ActionButon
