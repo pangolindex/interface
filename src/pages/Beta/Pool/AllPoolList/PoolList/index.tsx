@@ -15,8 +15,10 @@ import Scrollbars from 'react-custom-scrollbars'
 import { PoolsWrapper, PanelWrapper } from './styleds'
 import SortOptions from '../SortOptions'
 import { StakingInfo } from 'src/state/stake/hooks'
-import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
+import { usePoolDetailnModalToggle, useAddLiquiditynModalToggle, useModalOpen } from 'src/state/application/hooks'
+import { ApplicationModal } from 'src/state/application/actions'
 import DetailModal from '../../DetailModal'
+import AddLiquidityModal from '../../AddLiquidityModal'
 
 export enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
@@ -45,7 +47,9 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const [selectedPool, setSelectedPool] = useState({} as StakingInfo)
 
   const togglePoolDetailModal = usePoolDetailnModalToggle()
-
+  const toggleAddLiquidityModal = useAddLiquiditynModalToggle()
+  const addLiquidityModalOpen = useModalOpen(ApplicationModal.ADD_LIQUIDITY)
+  
   const handleSearch = useCallback(value => {
     setSearchQuery(value.trim().toUpperCase())
   }, [])
@@ -98,6 +102,10 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
               // container[stakingInfo.stakingRewardAddress] = stakingInfo
               setSelectedPool(stakingInfo)
               togglePoolDetailModal()
+            }}
+            onClickAddLiquidity={() => {
+              setSelectedPool(stakingInfo)
+              toggleAddLiquidityModal()
             }}
           />
         )
@@ -170,6 +178,10 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 setSelectedPool(stakingInfo)
                 togglePoolDetailModal()
               }}
+              onClickAddLiquidity={() => {
+                setSelectedPool(stakingInfo)
+                toggleAddLiquidityModal()
+              }}
             />
           )
         })
@@ -215,6 +227,8 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
       )}
 
       <DetailModal selectedPool={selectedPool} version={version} />
+
+      {addLiquidityModalOpen && <AddLiquidityModal selectedPool={selectedPool} />}
     </PoolsWrapper>
   )
 }

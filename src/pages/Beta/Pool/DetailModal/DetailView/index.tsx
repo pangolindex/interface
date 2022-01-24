@@ -22,8 +22,6 @@ export interface PoolDetailProps {
 }
 
 const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
-  // const { account } = useActiveWeb3React()
-
   const theme = useContext(ThemeContext)
   const { height } = useWindowSize()
 

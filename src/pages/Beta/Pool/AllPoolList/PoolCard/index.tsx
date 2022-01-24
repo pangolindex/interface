@@ -11,9 +11,10 @@ import { StakingInfo } from 'src/state/stake/hooks'
 export interface PoolCardProps {
   stakingInfo: StakingInfo
   onClickViewDetail: () => void
+  onClickAddLiquidity: () => void
 }
 
-const PoolCard = ({ stakingInfo, onClickViewDetail }: PoolCardProps) => {
+const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity }: PoolCardProps) => {
   const { t } = useTranslation()
 
   const token0 = stakingInfo.tokens[0]
@@ -84,7 +85,13 @@ const PoolCard = ({ stakingInfo, onClickViewDetail }: PoolCardProps) => {
               {t('earnPage.claim')}
             </ActionButon>
           ) : (
-            <ActionButon variant="plain" onClick={() => {}} backgroundColor="bg2" color="text1" height="45px">
+            <ActionButon
+              variant="plain"
+              onClick={() => onClickAddLiquidity()}
+              backgroundColor="bg2"
+              color="text1"
+              height="45px"
+            >
               {t('pool.addLiquidity')}
             </ActionButon>
           )}
