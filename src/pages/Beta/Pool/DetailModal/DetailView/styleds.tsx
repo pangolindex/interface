@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.bg8};
   max-width: 1080px;
-  max-height: 500px;
+  /* max-height: 500px; */
   overflow-y: auto;
   border-radius: 10px;
 `
@@ -53,6 +53,7 @@ export const DetailContainer = styled(Box)`
   width: 100%;
   background-color: ${({ theme }) => theme.bg2};
   padding: 40px;
+  flex: 1;
 `
 
 export const TabView = styled(Box)`

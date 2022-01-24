@@ -13,6 +13,7 @@ import CoinInfo from '../CoinInfo'
 import StatDetail from '../StatDetail'
 import EarnWidget from '../../EarnWidget'
 import EarnDetail from '../EarnDetail'
+import { useWindowSize } from 'react-use'
 
 export interface PoolDetailProps {
   onDismiss: () => void
@@ -24,6 +25,7 @@ const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
   // const { account } = useActiveWeb3React()
 
   const theme = useContext(ThemeContext)
+  const { height } = useWindowSize()
 
   const token0 = selectedPool?.tokens[0]
   const token1 = selectedPool?.tokens[1]
@@ -44,7 +46,7 @@ const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
   const { userPgl, yourLiquidityAmount } = useGetPoolDollerWorth(pair)
 
   return (
-    <Wrapper>
+    <Wrapper style={{ maxHeight: height - 150 }}>
       <HeaderGridContainer>
         <Box padding={'0px 50px'} display="flex" alignItems="center">
           <DoubleCurrencyLogo size={24} currency0={currency0} currency1={currency1} />
@@ -111,7 +113,7 @@ const DetailView = ({ selectedPool, onDismiss, version }: PoolDetailProps) => {
       </HeaderGridContainer>
 
       <Box display="flex">
-        <Box borderRight={`1px solid ${theme.text9}`} flex={1}>
+        <Box borderRight={`1px solid ${theme.text9}`} flex={1} display="flex" flexDirection="column">
           <TabView>
             <Text color="text10" fontSize={18}>
               Details
