@@ -10,9 +10,10 @@ import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 export interface WalletCardProps {
   pair: Pair
   onClickAddLiquidity: () => void
+  onClickRemoveLiquidity: () => void
 }
 
-const WalletCard = ({ pair, onClickAddLiquidity }: WalletCardProps) => {
+const WalletCard = ({ pair, onClickAddLiquidity, onClickRemoveLiquidity }: WalletCardProps) => {
   const { t } = useTranslation()
 
   const currency0 = unwrappedToken(pair.token0)
@@ -58,7 +59,13 @@ const WalletCard = ({ pair, onClickAddLiquidity }: WalletCardProps) => {
           </DetailButton>
         </Box>
         <Box>
-          <ActionButon variant="plain" onClick={() => {}} backgroundColor="bg2" color="text1" height="45px">
+          <ActionButon
+            variant="plain"
+            onClick={() => onClickRemoveLiquidity()}
+            backgroundColor="bg2"
+            color="text1"
+            height="45px"
+          >
             {t('positionCard.remove')}
           </ActionButon>
         </Box>

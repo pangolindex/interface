@@ -75,6 +75,10 @@ export function useStakeModalToggle(): () => void {
   return useToggleModal(ApplicationModal.STAKE)
 }
 
+export function useRemoveLiquiditynModalToggle(): () => void {
+  return useToggleModal(ApplicationModal.REMOVE_LIQUIDITY)
+}
+
 // returns a function that allows adding a popup
 export function useAddPopup(): (content: PopupContent, key?: string) => void {
   const dispatch = useDispatch()
