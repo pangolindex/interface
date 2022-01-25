@@ -35,7 +35,7 @@ const RemoveLiquidityModal = ({ clickedLpTokens }: RemoveLiquidityModalProps) =>
           </Text>
           <CloseIcon onClick={() => toggleRemoveLiquidityModal()} color={theme.text1} />
         </Box>
-        <RemoveLiquidity currencyA={currencyA} currencyB={currencyB} />
+        <RemoveLiquidity currencyA={currencyA} currencyB={currencyB} onClose={() => toggleRemoveLiquidityModal()} />
       </Wrapper>
     </Modal>
   )

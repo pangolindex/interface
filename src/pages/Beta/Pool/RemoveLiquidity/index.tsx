@@ -1,11 +1,10 @@
-// @ts-nocheck
 import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { PageWrapper, InputText, ContentBox, DataBox } from './styleds'
 import { Box, Text, Button, Steps, Step } from '@pangolindex/components'
 import ReactGA from 'react-ga'
 import { useActiveWeb3React } from 'src/hooks'
-import { TokenAmount, Currency, ChainId, JSBI, Percent, CAVAX } from '@pangolindex/sdk'
+import { Currency, ChainId, Percent, CAVAX } from '@pangolindex/sdk'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -27,9 +26,10 @@ import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from '
 interface RemoveLiquidityProps {
   currencyA: Currency
   currencyB: Currency
+  onClose: () => void
 }
 
-const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
+const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps) => {
   const { account, chainId, library } = useActiveWeb3React()
 
   const [tokenA, tokenB] = useMemo(() => [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)], [
@@ -42,17 +42,18 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
   const toggleWalletModal = useWalletModalToggle()
 
   const { independentField, typedValue } = useBurnState()
-  const { pair, parsedAmounts, error } = useDerivedBurnInfo(currencyA ?? undefined, currencyB ?? undefined)
+  const { pair, parsedAmounts, error, userLiquidity } = useDerivedBurnInfo(
+    currencyA ?? undefined,
+    currencyB ?? undefined
+  )
   const { onUserInput: _onUserInput } = useBurnActionHandlers()
   const isValid = !error
 
   // sub modal and loading
   const [showConfirm, setShowConfirm] = useState<boolean>(false)
-  const [showDetailed, setShowDetailed] = useState<boolean>(false)
-  const [attemptingTxn, setAttemptingTxn] = useState(false) // clicked confirm
-
-  // txn values
-  const [txHash, setTxHash] = useState<string>('')
+  // state for pending and submitted txn views
+  const [attempting, setAttempting] = useState<boolean>(false)
+  const [hash, setHash] = useState<string | undefined>()
   const deadline = useTransactionDeadline()
   const [allowedSlippage] = useUserSlippageTolerance()
 
@@ -80,19 +81,12 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
     chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
   )
 
-  // state for pending and submitted txn views
-
-  const [attempting, setAttempting] = useState<boolean>(false)
-  const [hash, setHash] = useState<string | undefined>()
-
   const { t } = useTranslation()
   const [stepIndex, setStepIndex] = useState(4)
 
-  const isArgentWallet = false
-
   useEffect(() => {
     _onUserInput(Field.LIQUIDITY_PERCENT, `100`)
-  }, [])
+  }, [_onUserInput])
 
   async function onAttemptToApprove() {
     if (!pairContract || !pair || !library || !deadline || !chainId || !account)
@@ -167,7 +161,7 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
   const onUserInput = useCallback((typedValue: string) => {
     setSignatureData(null)
     _onUserInput(Field.LIQUIDITY, typedValue)
-  }, [])
+  }, [_onUserInput])
 
   const renderPoolDataRow = (label?: string, value?: string) => {
     return (
@@ -311,13 +305,11 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
       const methodName = methodNames[indexOfSuccessfulEstimation]
       const safeGasEstimate = safeGasEstimates[indexOfSuccessfulEstimation]
 
-      setAttemptingTxn(true)
+      setAttempting(true)
       await router[methodName](...args, {
         gasLimit: safeGasEstimate
       })
         .then((response: TransactionResponse) => {
-          setAttemptingTxn(false)
-
           // TODO: Translate using i18n
           addTransaction(response, {
             summary:
@@ -332,7 +324,7 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
               currencyB?.symbol
           })
 
-          setTxHash(response.hash)
+          setHash(response.hash)
 
           ReactGA.event({
             category: 'Liquidity',
@@ -341,7 +333,7 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
           })
         })
         .catch((error: Error) => {
-          setAttemptingTxn(false)
+          setAttempting(false)
           // we only care if the error is something _other_ than the user rejected the tx
           console.error(error)
         })
@@ -366,15 +358,13 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
           fontSize={24}
           isNumeric={true}
           placeholder="0.00"
-          // addonLabel={
-          //   account && (
-          //     <Text color="text2" fontWeight={500} fontSize={14}>
-          //       {!!stakingInfo?.stakedAmount?.token && userLiquidityUnstaked
-          //         ? t('earn.availableToDeposit') + userLiquidityUnstaked?.toSignificant(6)
-          //         : ' -'}
-          //     </Text>
-          //   )
-          // }
+          addonLabel={
+            account && (
+              <Text color="text2" fontWeight={500} fontSize={14}>
+                {!!userLiquidity ? t('earn.availableToDeposit') + userLiquidity?.toSignificant(6) : ' -'}
+              </Text>
+            )
+          }
         />
       </Box>
 
@@ -434,7 +424,7 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
                 isDisabled={!isValid || (signatureData === null && approval !== ApprovalState.APPROVED)}
                 onClick={() => {
                   setShowConfirm(true)
-                  onRemove()
+                  // onRemove()
                 }}
                 loading={attempting && !hash}
                 loadingText={t('migratePage.loading')}
@@ -446,16 +436,21 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
         )}
       </Box>
 
-      {/* {showConfirm && (
+      {showConfirm && (
         <ConfirmRemoveDrawer
           isOpen={showConfirm}
-          stakeErrorMessage={error}
-          parsedAmount={parsedAmount}
+          parsedAmounts={parsedAmounts}
           attemptingTxn={attempting}
           txHash={hash}
           onClose={handleDismissConfirmation}
+          allowedSlippage={allowedSlippage}
+          pair={pair}
+          currencyA={currencyA}
+          currencyB={currencyB}
+          onConfirm={onRemove}
+          onComplete={onClose}
         />
-      )} */}
+      )}
     </PageWrapper>
   )
 }
