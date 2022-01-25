@@ -94,7 +94,8 @@
     "withdrewStakingToken": "{{ symbol }} abgebucht!",
     "approve": "Bestätigen",
     "poolWeight": "Beckengewicht",
-    "withdraw": "Abheben"
+    "withdraw": "Abheben",
+    "extraReward": "Zusätzliche Belohnung"
   },
   "menu": {
     "code": "Code",
@@ -439,7 +440,7 @@
     "trade": "Handeln",
     "watchList": "Beobachtungsliste",
     "yourPortFolio":"Ihr Portfolio",
-    "comingSoon":"Kommt bald"
+    "connectWalletViewPortFolio": "Stellen Sie eine Verbindung zu einem Wallet her, um Ihr Portfolio anzuzeigen."
   },
   "buyPage": {
     "buyAvaxInfo": "Kaufen Sie AVAX mit Fiatgeld von unserem Partner Wyre.",

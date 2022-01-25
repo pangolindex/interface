@@ -1,4 +1,5 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
+import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import React, { useEffect, useState } from 'react'
@@ -7,8 +8,8 @@ import ReactGA from 'react-ga'
 import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { injected } from '../../connectors'
-import { LANDING_PAGE, SUPPORTED_WALLETS, AVALANCHE_CHAIN_PARAMS } from '../../constants'
+import { gnosisSafe, injected } from '../../connectors'
+import { LANDING_PAGE, SUPPORTED_WALLETS, AVALANCHE_CHAIN_PARAMS, IS_IN_IFRAME } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useWalletModalToggle } from '../../state/application/hooks'
@@ -150,6 +151,8 @@ export default function WalletModal({
 
   const [pendingError, setPendingError] = useState<boolean>()
 
+  const [triedSafe, setTriedSafe] = useState<boolean>(!IS_IN_IFRAME)
+
   const walletModalOpen = useModalOpen(ApplicationModal.WALLET)
   const toggleWalletModal = useWalletModalToggle()
 
@@ -180,7 +183,7 @@ export default function WalletModal({
     }
   }, [setWalletView, active, error, connector, walletModalOpen, activePrevious, connectorPrevious])
 
-  const tryActivation = async (connector: AbstractConnector | undefined) => {
+  const tryActivation = async (connector: AbstractConnector | SafeAppConnector | undefined) => {
     let name = ''
     Object.keys(SUPPORTED_WALLETS).map(key => {
       if (connector === SUPPORTED_WALLETS[key].connector) {
@@ -202,23 +205,35 @@ export default function WalletModal({
       connector.walletConnectProvider = undefined
     }
 
-    connector &&
-      activate(connector, undefined, true)
-        .then(() => {
-          const isCbWalletDappBrowser = window?.ethereum?.isCoinbaseWallet
-          const isWalletlink = !!window?.WalletLinkProvider || !!window?.walletLinkExtension
-          const isCbWallet = isCbWalletDappBrowser || isWalletlink
-          if (isCbWallet) {
-            addAvalancheNetwork()
-          }
-        })
-        .catch(error => {
-          if (error instanceof UnsupportedChainIdError) {
-            activate(connector) // a little janky...can't use setError because the connector isn't set
-          } else {
-            setPendingError(true)
-          }
-        })
+    if(!triedSafe && connector instanceof SafeAppConnector){
+      connector.isSafeApp().then((loadedInSafe) => {
+        if (loadedInSafe) {
+          activate(connector, undefined, true).catch(() => {
+            setTriedSafe(true)
+          })
+        } else {
+          setTriedSafe(true)
+        }
+      })
+    } else {
+      connector &&
+        activate(connector, undefined, true)
+          .then(() => {
+            const isCbWalletDappBrowser = window?.ethereum?.isCoinbaseWallet
+            const isWalletlink = !!window?.WalletLinkProvider || !!window?.walletLinkExtension
+            const isCbWallet = isCbWalletDappBrowser || isWalletlink
+            if (isCbWallet) {
+              addAvalancheNetwork()
+            }
+          })
+          .catch(error => {
+            if (error instanceof UnsupportedChainIdError) {
+              activate(connector) // a little janky...can't use setError because the connector isn't set
+            } else {
+              setPendingError(true)
+            }
+          })
+    }
   }
 
   // get wallets user can switch too, depending on device/browser
@@ -276,6 +291,11 @@ export default function WalletModal({
         else if (option.name === 'Injected' && isMetamask) {
           return null
         }
+      }
+
+      // Not show Gnosis Safe option without Gnosis Interface
+      if (option.connector === gnosisSafe && !IS_IN_IFRAME) {
+        return null
       }
 
       // return rest of options

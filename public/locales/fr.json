@@ -94,7 +94,8 @@
     "withdrewStakingToken": "{{ symbol }} Retiré!",
     "approve": "Approuver",
     "poolWeight": "Poids de la piscine",
-    "withdraw": "Retirer"
+    "withdraw": "Retirer",
+    "extraReward": "Récompense supplémentaire"
   },
   "menu": {
     "code": "Code",
@@ -439,7 +440,7 @@
     "trade": "Échanger",
     "watchList": "Liste de surveillance",
     "yourPortFolio":"Votre portefeuille",
-    "comingSoon":"À venir"
+    "connectWalletViewPortFolio": "Connectez-vous à un portefeuille pour afficher votre portefeuille ."
   },
   "buyPage": {
     "buyAvaxInfo": "Achetez AVAX avec monnaie fiat chez notre partenaire Wyre.",

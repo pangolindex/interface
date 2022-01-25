@@ -20,6 +20,7 @@ import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
 import { AIRDROP_ADDRESS, BRIDGE_MIGRATOR_ADDRESS, MINICHEF_ADDRESS } from '../constants'
 import { GOVERNANCE_ADDRESS, PNG } from '../constants'
+import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../constants/abis/rewarderViaMultiplier'
 
 // returns null on errors
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
@@ -98,6 +99,10 @@ export function usePngContract(): Contract | null {
 
 export function useStakingContract(stakingAddress?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(stakingAddress, stakingAddress === MINICHEF_ADDRESS ? MINICHEF_ABI : STAKING_REWARDS_ABI, withSignerIfPossible)
+}
+
+export function useRewardViaMultiplierContract(address?: string, withSignerIfPossible?: boolean): Contract | null {
+  return useContract(address, REWARDER_VIA_MULTIPLIER_INTERFACE, withSignerIfPossible)
 }
 
 export function useAirdropContract(): Contract | null {

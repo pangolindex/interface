@@ -439,7 +439,7 @@
     "trade": "Troca",
     "watchList": "WatchList",
     "yourPortFolio":"Seu Portfólio",
-    "comingSoon":"Em breve"
+    "connectWalletViewPortFolio": "Conecte-se a uma carteira para ver seu portfólio."
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX com moeda fiduciária do nosso parceiro Wyre.",

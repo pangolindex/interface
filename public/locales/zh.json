@@ -94,7 +94,8 @@
     "withdrewStakingToken": "提取 {{ symbol }}!",
     "approve": "批准",
     "poolWeight": "泳池重量",
-    "withdraw": "提取"
+    "withdraw": "提取",
+    "extraReward": "额外奖励"
   },
   "menu": {
     "code": "Code",
@@ -439,7 +440,7 @@
     "trade": "贸易",
     "watchList": "观察名单",
     "yourPortFolio": "您的投资组合",
-    "comingSoon": "即将推出"
+    "connectWalletViewPortFolio": "连接到钱包以检查您的投资组合."
   },
   "buyPage": {
     "buyAvaxInfo": "用我们的合作伙伴怀尔的法定资金购买 AVAX。",
