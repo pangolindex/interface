@@ -30,6 +30,7 @@ interface Props {
   liquidityMinted?: TokenAmount
   poolErrorMessage: string | undefined
   onClose: () => void
+  onComplete?: () => void
   noLiquidity?: boolean
   price?: Fraction
   currencies: { [field in Field]?: Currency }
@@ -52,7 +53,8 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
     currencies,
     parsedAmounts,
     poolTokenPercentage,
-    onAdd
+    onAdd,
+    onComplete = () => {}
   } = props
 
   const { chainId } = useActiveWeb3React()
@@ -218,7 +220,13 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
           </Link>
         )}
       </Box>
-      <Button variant="primary" onClick={onClose}>
+      <Button
+        variant="primary"
+        onClick={() => {
+          onClose()
+          onComplete()
+        }}
+      >
         {t('transactionConfirmation.close')}
       </Button>
     </SubmittedWrapper>

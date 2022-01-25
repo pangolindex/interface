@@ -128,11 +128,11 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
               togglePoolDetailModal()
             }}
             onClickAddLiquidity={() => {
-              setSelectedPool(stakingInfo)
+              setClickedLpTokens(stakingInfo.tokens)
               toggleAddLiquidityModal()
             }}
             onClickClaim={() => {
-              setClickedLpTokens(stakingInfo.tokens)
+              setSelectedPool(stakingInfo)
               setIsClaimRewardDrawerOpen(true)
             }}
             onClickStake={() => {
@@ -211,11 +211,11 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 togglePoolDetailModal()
               }}
               onClickAddLiquidity={() => {
-                setSelectedPool(stakingInfo)
+                setClickedLpTokens(stakingInfo.tokens)
                 toggleAddLiquidityModal()
               }}
               onClickClaim={() => {
-                setClickedLpTokens(stakingInfo.tokens)
+                setSelectedPool(stakingInfo)
                 setIsClaimRewardDrawerOpen(true)
               }}
               onClickStake={() => {

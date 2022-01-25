@@ -96,7 +96,7 @@ const PoolCard = ({
           </DetailButton>
         </Box>
         <Box>
-          {isStaking ? (
+          {isStaking && Boolean(stakingInfo.earnedAmount.greaterThan('0')) ? (
             <ActionButon
               variant="plain"
               onClick={() => onClickClaim()}

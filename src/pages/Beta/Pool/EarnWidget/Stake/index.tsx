@@ -23,9 +23,10 @@ import SelectPoolDrawer from './SelectPoolDrawer'
 interface StakeProps {
   pair: Pair | null
   version: Number
+  onComplete?: () => void
 }
 
-const Stake = ({ pair, version }: StakeProps) => {
+const Stake = ({ pair, version, onComplete }: StakeProps) => {
   const { account, chainId, library } = useActiveWeb3React()
 
   const [selectedPair, setSelectedPair] = useState<Pair | null>(pair)
@@ -380,6 +381,7 @@ const Stake = ({ pair, version }: StakeProps) => {
           attemptingTxn={attempting}
           txHash={hash}
           onClose={handleDismissConfirmation}
+          onComplete={onComplete}
         />
       )}
 

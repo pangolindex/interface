@@ -31,9 +31,10 @@ import { useCurrencyBalance } from 'src/state/wallet/hooks'
 interface AddLiquidityProps {
   currencyA: Currency
   currencyB: Currency
+  onComplete?: () => void
 }
 
-const AddLiquidity = ({ currencyA, currencyB }: AddLiquidityProps) => {
+const AddLiquidity = ({ currencyA, currencyB, onComplete }: AddLiquidityProps) => {
   const { account, chainId, library } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
@@ -384,6 +385,7 @@ const AddLiquidity = ({ currencyA, currencyB }: AddLiquidityProps) => {
           attemptingTxn={attemptingTxn}
           txHash={txHash}
           onClose={handleDismissConfirmation}
+          onComplete={onComplete}
         />
       )}
 

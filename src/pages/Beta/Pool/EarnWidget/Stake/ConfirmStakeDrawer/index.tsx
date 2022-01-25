@@ -16,10 +16,11 @@ interface Props {
   onClose: () => void
   parsedAmount: CurrencyAmount | undefined
   stakeErrorMessage: string | undefined
+  onComplete?: () => void
 }
 
 const ConfirmStakeDrawer: React.FC<Props> = props => {
-  const { isOpen, onClose, attemptingTxn, txHash, parsedAmount } = props
+  const { isOpen, onClose, attemptingTxn, txHash, parsedAmount, onComplete = () => {} } = props
 
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
@@ -51,7 +52,13 @@ const ConfirmStakeDrawer: React.FC<Props> = props => {
           {t('earn.deposited')} {parsedAmount?.toSignificant(4)} PGL
         </Text>
       </Box>
-      <Button variant="primary" onClick={onClose}>
+      <Button
+        variant="primary"
+        onClick={() => {
+          onClose()
+          onComplete()
+        }}
+      >
         {t('transactionConfirmation.close')}
       </Button>
     </SubmittedWrapper>

@@ -24,8 +24,8 @@ const AddLiquidityModal = ({ clickedLpTokens }: AddLiquidityModalProps) => {
   const token0 = clickedLpTokens?.[0]
   const token1 = clickedLpTokens?.[1]
 
-  const currencyA = unwrappedToken(token0)
-  const currencyB = unwrappedToken(token1)
+  const currencyA = token0 && unwrappedToken(token0)
+  const currencyB = token1 && unwrappedToken(token1)
 
   return (
     <Modal isOpen={addLiquidityModalOpen} onDismiss={toggleAddLiquidityModal} overlayBG={theme.modalBG2}>
@@ -36,7 +36,7 @@ const AddLiquidityModal = ({ clickedLpTokens }: AddLiquidityModalProps) => {
           </Text>
           <CloseIcon onClick={() => toggleAddLiquidityModal()} color={theme.text1} />
         </Box>
-        <AddLiquidity currencyA={currencyA} currencyB={currencyB} />
+        <AddLiquidity currencyA={currencyA} currencyB={currencyB} onComplete={toggleAddLiquidityModal} />
       </Wrapper>
     </Modal>
   )
