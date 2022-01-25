@@ -7,6 +7,8 @@ import ReactGA from 'react-ga'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { NetworkContextName } from './constants'
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
 import './i18n'
 import App from './pages/App'
 import store from './state'
@@ -23,10 +25,19 @@ import { useIsBetaUI } from './hooks/useLocation'
 import { GelatoProvider } from '@gelatonetwork/limit-orders-react'
 import { useActiveWeb3React } from './hooks'
 
+Sentry.init({
+  dsn: "https://ff9ffce9712f415f8ad4c2a80123c984@o1080468.ingest.sentry.io/6086371",
+  integrations: [new Integrations.BrowserTracing()],
+
+  // We recommend adjusting this value in production, or using tracesSampler
+  // for finer control
+  tracesSampleRate: 0.4,
+});
+
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
 if ('ethereum' in window) {
-  ;(window.ethereum as any).autoRefreshOnNetworkChange = false
+  ; (window.ethereum as any).autoRefreshOnNetworkChange = false
 }
 
 const GOOGLE_ANALYTICS_ID: string | undefined = process.env.REACT_APP_GOOGLE_ANALYTICS_ID
