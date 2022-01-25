@@ -94,6 +94,7 @@
     "withdrewStakingToken": "{{ symbol }} Retiré!",
     "approve": "Approuver",
     "poolWeight": "Poids de la piscine",
+    "withdraw": "Retirer",
     "extraReward": "Récompense supplémentaire"
   },
   "menu": {
@@ -367,7 +368,13 @@
     "uniswapV1Found": "Liquidité Uniswap V1 trouvé !",
     "noSeePoolJoined": "Vous ne voyez pas une pool que vous avez rejointe ?",
     "migrateNow": "Migrer maintenant.",
-    "importIt": "Importez-le."
+    "importIt": "Importez-le.",
+    "seeDetails":"VOIR LES DÉTAILS",
+    "totalLockedValue": "Valeur totale verrouillée",
+    "yourLockedValue": "Votre valeur verrouillée",
+    "allPools": "Toutes les Pools",
+    "yourPools": "Vos Pools",
+    "yourWallet": "Ton portefeuille"
   },
   "poolFinder": {
     "connectToFind": "Se connecter à un portefeuille pour trouver des pools",

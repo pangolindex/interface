@@ -19,7 +19,7 @@ import Loader from '../Loader'
 export interface StepProps {
   selectedPool?: { [address: string]: { pair: Pair; staking: StakingInfo } }
   version: number
-  onDismiss: () => void
+  onDismiss?: () => void
 }
 
 const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
@@ -109,7 +109,7 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
         <>
           <RowBetween>
             <div />
-            <CloseIcon onClick={onDismiss} />
+            <CloseIcon onClick={() => onDismiss && onDismiss()} />
           </RowBetween>
 
           <Text color="text1" fontSize={32}>

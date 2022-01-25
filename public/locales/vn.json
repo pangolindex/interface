@@ -94,6 +94,7 @@
     "withdrewStakingToken": "Đã rút!{{ symbol }}",
     "approve": "Chấp nhận",
     "poolWeight": "Khối lượng bể",
+    "withdraw": "Rút",
     "extraReward": "Phần thưởng bổ sung"
   },
   "menu": {
@@ -367,7 +368,13 @@
     "uniswapV1Found": "Thanh khoản uniswap V1 được tìm thấy",
     "noSeePoolJoined": "Bạn không tìm thấy bể mà bạn đã tham gia?",
     "migrateNow": "Chuyển đổi ngay bây giờ.",
-    "importIt": "Nhập."
+    "importIt": "Nhập.",
+    "seeDetails":"XEM CHI TIẾT",
+    "totalLockedValue": "Tổng giá trị đã khóa",
+    "yourLockedValue": "Giá trị đã khóa của bạn",
+    "allPools": "Tất cả các hồ bơi",
+    "yourPools": "Hồ bơi của bạn",
+    "yourWallet": "Ví của bạn"
   },
   "poolFinder": {
     "connectToFind": "Kêt nối với một ví để nhìn thấy bể",

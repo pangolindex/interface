@@ -94,6 +94,7 @@
     "withdrewStakingToken": "Withdrew {{ symbol }}!",
     "approve": "Approve",
     "poolWeight": "Pool Weight",
+    "withdraw": "Withdraw",
     "extraReward": "Extra Reward"
   },
   "menu": {
@@ -136,7 +137,7 @@
     "remove": "Remove",
     "poolShare": "Your pool share:",
     "pooled": "Pooled",
-    "poolTokens": "Your pool tokens:",
+    "poolTokens": "Your pool tokens",
     "manage": "Manage",
     "loading": "Loading",
     "yourPosition": "Your position",
@@ -367,7 +368,13 @@
     "uniswapV1Found": "Uniswap V1 liquidity found!",
     "noSeePoolJoined": "Don't see a pool you joined?",
     "migrateNow": "Migrate now.",
-    "importIt": "Import it."
+    "importIt": "Import it.",
+    "seeDetails":"SEE DETAILS",
+    "totalLockedValue": "Total Locked Value",
+    "yourLockedValue": "Your Locked Value",
+    "allPools": "All Pools",
+    "yourPools": "Your Pools",
+    "yourWallet": "Your Wallet"
   },
   "poolFinder": {
     "connectToFind": "Connect to a wallet to find pools",

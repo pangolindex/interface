@@ -94,6 +94,7 @@
     "withdrewStakingToken": "{{ symbol }} abgebucht!",
     "approve": "Bestätigen",
     "poolWeight": "Beckengewicht",
+    "withdraw": "Abheben",
     "extraReward": "Zusätzliche Belohnung"
   },
   "menu": {
@@ -367,7 +368,13 @@
     "uniswapV1Found": "Uniswap V1-Liquidität gefunden!",
     "noSeePoolJoined": "Siehst du den Pool, dem Du beigetreten bist nicht?",
     "migrateNow": "Jetzt migrieren.",
-    "importIt": "Importiere ihn."
+    "importIt": "Importiere ihn.",
+    "seeDetails":"SIEHE EINZELHEITEN",
+    "totalLockedValue": "Gesperrter Gesamtwert",
+    "yourLockedValue": "Ihr gesperrter Wert",
+    "allPools": "Alle Pools",
+    "yourPools": "Ihre Pools",
+    "yourWallet": "Deine Geldbörse"
   },
   "poolFinder": {
     "connectToFind": "Verbinde mit einer Wallet, um Pools zu finden",

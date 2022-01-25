@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 export const PageWrapper = styled(Box)`
   width: 100%;
+  padding-top: 50px;
 `
 
 export const TopContainer = styled(Box)`

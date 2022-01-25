@@ -68,7 +68,7 @@ export function colors(darkMode: boolean): Colors {
 
     //specialty colors
     modalBG: darkMode ? 'rgba(0,0,0,.425)' : 'rgba(0,0,0,0.3)',
-    modalBG2: darkMode ? 'rgba(0,0,0,.6)' : 'rgba(0,0,0,0.6)',
+    modalBG2: darkMode ? 'rgba(0,0,0,.8)' : 'rgba(0,0,0,0.8)',
     advancedBG: darkMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.6)',
 
     //primary colors
@@ -158,7 +158,7 @@ export function betaColors(darkMode: boolean): BetaColors {
     bg5: darkMode ? '#6C7284' : '#888D9B',
     bg6: darkMode ? '#1c1c1c' : '#FFFFFF',
     bg7: darkMode ? '#2C2D33' : '#FFFFFF',
-    bg8: darkMode ? '#212427' : '#212427',
+    bg8: darkMode ? '#212427' : '#F7F8FA',
 
     //primary colors
     primary1: darkMode ? '#FF6B00' : '#FF6B00',

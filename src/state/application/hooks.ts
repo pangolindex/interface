@@ -39,6 +39,10 @@ export function useMigrationModalToggle(): () => void {
   return useToggleModal(ApplicationModal.MIGRATION)
 }
 
+export function usePoolDetailnModalToggle(): () => void {
+  return useToggleModal(ApplicationModal.POOL_DETAIL)
+}
+
 export function useToggleSettingsMenu(): () => void {
   return useToggleModal(ApplicationModal.SETTINGS)
 }
@@ -61,6 +65,18 @@ export function useToggleDelegateModal(): () => void {
 
 export function useToggleVoteModal(): () => void {
   return useToggleModal(ApplicationModal.VOTE)
+}
+
+export function useAddLiquiditynModalToggle(): () => void {
+  return useToggleModal(ApplicationModal.ADD_LIQUIDITY)
+}
+
+export function useStakeModalToggle(): () => void {
+  return useToggleModal(ApplicationModal.STAKE)
+}
+
+export function useRemoveLiquiditynModalToggle(): () => void {
+  return useToggleModal(ApplicationModal.REMOVE_LIQUIDITY)
 }
 
 // returns a function that allows adding a popup
