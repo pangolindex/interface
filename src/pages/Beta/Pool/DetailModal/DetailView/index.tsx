@@ -43,7 +43,7 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
 
   const [, stakingTokenPair] = usePair(token0, token1)
   const pair = stakingTokenPair
-  const { userPgl, yourLiquidityAmount } = useGetPoolDollerWorth(pair)
+  const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)
 
   return (
     <Wrapper style={{ maxHeight: height - 150 }}>
@@ -125,14 +125,14 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
               pgl={stakingInfo?.totalStakedAmount}
             />
 
-            {Number(yourLiquidityAmount?.toFixed(4)) > 0 && (
+            {Number(liquidityInUSD?.toFixed(4)) > 0 && (
               <Box mt={25}>
                 <StatDetail
                   title={`Your Liquidity`}
                   currency0={currency0}
                   currency1={currency1}
                   pair={pair}
-                  totalAmount={`${yourLiquidityAmount ? `$${yourLiquidityAmount?.toFixed(4)}` : '-'}`}
+                  totalAmount={`${liquidityInUSD ? `$${liquidityInUSD?.toFixed(4)}` : '-'}`}
                   pgl={userPgl}
                 />
               </Box>

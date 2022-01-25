@@ -1021,13 +1021,13 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
         ]
       : [undefined, undefined]
 
-  const yourLiquidityAmount =
+  const liquidityInUSD =
     currency0Price && token0Deposited
       ? Number(currency0Price.toFixed()) * 2 * Number(token0Deposited?.toSignificant(6))
       : 0
 
   return {
     userPgl,
-    yourLiquidityAmount
+    liquidityInUSD
   }
 }

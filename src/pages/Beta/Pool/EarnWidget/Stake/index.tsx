@@ -35,7 +35,7 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
 
   const theme = useContext(ThemeContext)
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
-  const { yourLiquidityAmount } = useGetPoolDollerWorth(selectedPair)
+  const { liquidityInUSD } = useGetPoolDollerWorth(selectedPair)
 
   const [isPoolDrawerOpen, setIsPoolDrawerOpen] = useState(false)
 
@@ -335,7 +335,7 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
         <ContentBox>
           {renderPoolDataRow(
             t('migratePage.dollarWorth'),
-            `${yourLiquidityAmount ? `$${yourLiquidityAmount?.toFixed(4)}` : '-'}`
+            `${liquidityInUSD ? `$${liquidityInUSD?.toFixed(4)}` : '-'}`
           )}
           {renderPoolDataRow(
             `${t('dashboardPage.earned_dailyIncome')}`,

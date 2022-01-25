@@ -19,7 +19,7 @@ const WalletCard = ({ pair, onClickAddLiquidity, onClickRemoveLiquidity }: Walle
   const currency0 = unwrappedToken(pair.token0)
   const currency1 = unwrappedToken(pair.token1)
 
-  const { userPgl, yourLiquidityAmount } = useGetPoolDollerWorth(pair)
+  const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)
 
   return (
     <Panel>
@@ -37,7 +37,7 @@ const WalletCard = ({ pair, onClickAddLiquidity, onClickRemoveLiquidity }: Walle
       <InnerWrapper>
         <Stat
           title={t('pool.yourLiquidity')}
-          stat={`${yourLiquidityAmount ? `$${yourLiquidityAmount?.toFixed(4)}` : '-'}`}
+          stat={`${liquidityInUSD ? `$${liquidityInUSD?.toFixed(4)}` : '-'}`}
           titlePosition="top"
           titleFontSize={16}
           statFontSize={24}
