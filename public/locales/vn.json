@@ -433,7 +433,7 @@
     "trade": "Buôn bán",
     "watchList": "WatchList",
     "yourPortFolio":"Danh mục đầu tư của bạn",
-    "comingSoon":"Sắp có"
+    "connectWalletViewPortFolio": "Kết nối với ví để xem danh mục đầu tư của bạn."
   },
   "buyPage": {
     "buyAvaxInfo": "Mua AVAX bằng fiat từ đối tác Wyre của chúng tôi.",

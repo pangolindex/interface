@@ -53,17 +53,17 @@ import { Link } from 'react-router-dom'
 import { LineChart, Line } from 'recharts'
 import Slider, { Settings } from 'react-slick'
 import { ArrowRight } from 'react-feather'
+import Linkify from 'react-linkify'
 import makeBlockie from 'ethereum-blockies-base64'
 
 import TradingViewChart from './TradingViewChart'
 import PngToggle from './PngToggle'
 import TokenRow from './TokenRow'
-import TokenDropdown from './TokenDropdown'
-import DateDropdown from './DateDropdown'
+import ChainDropdown from './ChainDropdown'
 
 import { useDarkModeManager } from 'src/state/user/hooks'
-import Logo from 'src/assets/svg/icon.svg'
-import LogoDark from 'src/assets/svg/icon.svg'
+import Logo from 'src/assets/images/logo.png'
+import LogoDark from 'src/assets/images/logo.png'
 import Info from 'src/assets/svg/info.svg'
 import Info2 from 'src/assets/svg/info2.svg'
 import LinkIcon from 'src/assets/svg/link.svg'
@@ -72,6 +72,9 @@ import Earth from 'src/assets/images/earth.png'
 
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { CHAIN, CHAINS, ChainsId } from 'src/constants/chains'
+import { useGetChainsBalances } from 'src/state/portifolio/hooks'
+import { News, useGetNews } from 'src/state/news/hooks'
 
 const NewsFeedSettings: Settings = {
   dots: true,
@@ -130,6 +133,14 @@ const Dashboard = () => {
   const handleNewsNext = () => {
     sliderRef?.current?.slickNext()
   }
+  const news = useGetNews()
+
+  // portifolio
+  const [selectChain, setSelectChain] = useState<CHAIN>(CHAINS[ChainsId.All])
+  const handleSelectChain = (newChain: CHAIN) => {
+    setSelectChain(newChain)
+  }
+  const balances = useGetChainsBalances()
 
   return (
     <PageWrapper>
@@ -139,21 +150,27 @@ const Dashboard = () => {
         <ContainerLeft>
           <Card>
             <CardHeader>
-              {t('dashboardPage.portfolioValue')}
+              {t('dashboardPage.portfolioValue') + ' in ' + selectChain.name}
               <HeaderDropdowns>
-                <TokenDropdown></TokenDropdown>
-                <DateDropdown></DateDropdown>
+                <ChainDropdown selectChain={selectChain} handleSelectChain={handleSelectChain}></ChainDropdown>
               </HeaderDropdowns>
             </CardHeader>
             <CardBody>
               <TradingViewChart />
               <PortfolioToken>
-                3028.28 <img width={'50px'} src={Logo} alt={'PNG'} style={{ marginLeft: '12px' }} />
+                $
+                {!!balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]]
+                  ? balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]].toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    })
+                  : 0}
+                <img width={'50px'} src={selectChain.logo} alt={'Chain logo'} style={{ marginLeft: '12px' }} />
                 <PortfolioTokenPercent>23.3%</PortfolioTokenPercent>
               </PortfolioToken>
               <PortfolioInfo>
                 <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards worth
-                in all followed wallets
+                in current wallet
               </PortfolioInfo>
             </CardBody>
           </Card>
@@ -167,24 +184,19 @@ const Dashboard = () => {
                   <ArrowRight size={20} style={{ minWidth: 24 }} />
                 </SlickNext>
                 <Slider ref={sliderRef} {...NewsFeedSettings}>
-                  <div>
-                    <NewsContent>
-                      AVAX has been forming a harmonic pattern, and currently retracing a major Fibonacci level.
-                    </NewsContent>
-                    <NewsDate>7:00 PM IST, 14-OCT-21</NewsDate>
-                  </div>
-                  <div>
-                    <NewsContent>
-                      AVAX has been forming a harmonic pattern, and currently retracing a major Fibonacci level.
-                    </NewsContent>
-                    <NewsDate>7:00 PM IST, 14-OCT-21</NewsDate>
-                  </div>
-                  <div>
-                    <NewsContent>
-                      AVAX has been forming a harmonic pattern, and currently retracing a major Fibonacci level.
-                    </NewsContent>
-                    <NewsDate>7:00 PM IST, 14-OCT-21</NewsDate>
-                  </div>
+                  {news &&
+                    news.map((element: News) => {
+                      return (
+                        <div key={element.id}>
+                          <NewsContent>
+                            <Linkify>{element?.content}</Linkify>
+                          </NewsContent>
+                          <NewsDate>
+                            {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
+                          </NewsDate>
+                        </div>
+                      )
+                    })}
                 </Slider>
               </NewsSection>
             </ContainerLeft>

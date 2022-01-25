@@ -433,7 +433,7 @@
     "trade": "Handeln",
     "watchList": "Beobachtungsliste",
     "yourPortFolio":"Ihr Portfolio",
-    "comingSoon":"Kommt bald"
+    "connectWalletViewPortFolio": "Stellen Sie eine Verbindung zu einem Wallet her, um Ihr Portfolio anzuzeigen."
   },
   "buyPage": {
     "buyAvaxInfo": "Kaufen Sie AVAX mit Fiatgeld von unserem Partner Wyre.",

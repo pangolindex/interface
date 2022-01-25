@@ -27,7 +27,7 @@ export const Divider = styled(Box)`
 export const RowWrapper = styled(Box)`
   padding: 15px 10px;
   display: grid;
-  grid-template-columns: auto 50px;
+  grid-template-columns: auto auto;
   align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.text9};
   cursor: pointer;

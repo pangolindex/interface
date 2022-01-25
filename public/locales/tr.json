@@ -433,7 +433,7 @@
     "trade": "Ticaret",
     "watchList": "İzlenecekler listesi",
     "yourPortFolio":"Portföyünüz",
-    "comingSoon":"Çok yakında"
+    "connectWalletViewPortFolio": "Portföyünüzü kontrol etmek için bir cüzdana bağlanın."
   },
   "buyPage": {
     "buyAvaxInfo": "Partnerimiz Wyre aracılığıyla AVAX satın alın.",
