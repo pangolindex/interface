@@ -1,14 +1,13 @@
 import React from 'react'
-import { useStakingInfo } from 'src/state/stake/hooks'
+import { DoubleSideStakingInfo } from 'src/state/stake/hooks'
 import PoolList from './PoolList'
 import { PoolType } from '../index'
 interface Props {
   type: string
+  stakingInfos: DoubleSideStakingInfo[]
 }
 
-const PoolV1: React.FC<Props> = ({ type }) => {
-  let stakingInfos = useStakingInfo(1)
-
+const PoolV1: React.FC<Props> = ({ type, stakingInfos }) => {
   if (type === PoolType.own) {
     stakingInfos = (stakingInfos || []).filter(stakingInfo => {
       return Boolean(stakingInfo.stakedAmount.greaterThan('0'))

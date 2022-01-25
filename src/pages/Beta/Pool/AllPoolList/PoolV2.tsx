@@ -1,14 +1,14 @@
 import React from 'react'
-import { useMinichefPools, useMinichefStakingInfos } from 'src/state/stake/hooks'
+import { DoubleSideStakingInfo, useMinichefPools } from 'src/state/stake/hooks'
 import PoolList from './PoolList'
 import { PoolType } from '../index'
 
 interface Props {
   type: string
+  stakingInfos: DoubleSideStakingInfo[]
 }
 
-const PoolV2: React.FC<Props> = ({ type }) => {
-  let stakingInfos = useMinichefStakingInfos(2)
+const PoolV2: React.FC<Props> = ({ type, stakingInfos }) => {
   const poolMap = useMinichefPools()
 
   if (type === PoolType.own) {
