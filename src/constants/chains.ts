@@ -1,4 +1,4 @@
-import Logo from 'src/assets/svg/icon.svg'
+import Logo from 'src/assets/images/logo.png'
 
 export interface CHAIN{
     name: string,
