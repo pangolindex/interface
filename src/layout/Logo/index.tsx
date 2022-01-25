@@ -3,7 +3,7 @@ import { Text, Box } from '@pangolindex/components'
 import { useDarkModeManager } from '../../state/user/hooks'
 import Logo from 'src/assets/images/logo.png'
 import LogoDark from 'src/assets/images/logo.png'
-import { Title, PngIcon, LogoWrapper } from './styled'
+import { Title, LogoWrapper } from './styled'
 
 interface LogoProps {
   collapsed: boolean
@@ -16,9 +16,7 @@ export default function LogoIcon({ collapsed }: LogoProps) {
     <LogoWrapper collapsed={collapsed}>
       <Box>
         <Title href=".">
-          <PngIcon>
-            <img width={'28px'} src={isDark ? LogoDark : Logo} alt="logo" />
-          </PngIcon>
+          <img width={'28px'} src={isDark ? LogoDark : Logo} alt="logo" />
         </Title>
       </Box>
       {!collapsed && (
