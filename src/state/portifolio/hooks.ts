@@ -14,31 +14,31 @@ interface ChainList {
 }
 
 interface Data {
-  total_usd_value: number,
+  total_usd_value: number
   chain_list: ChainList[]
 }
 
 export class TokenDataUser {
-  token: Currency | Token;
-  price: number;
-  amount: number;
+  token: Currency | Token
+  price: number
+  amount: number
 
   constructor(token: Token | Currency, price: number, amount: number) {
-    this.token = token;
-    this.price = price;
-    this.amount = amount;
+    this.token = token
+    this.price = price
+    this.amount = amount
   }
 }
 
 export class PairDataUser {
-  pair: Pair;
-  price: number;
-  amount: number;
+  pair: Pair
+  price: number
+  amount: number
 
   constructor(pair: Pair, price: number, amount: number) {
-    this.pair = pair;
-    this.price = price;
-    this.amount = amount;
+    this.pair = pair
+    this.price = price
+    this.amount = amount
   }
 }
 
@@ -58,7 +58,7 @@ export function useGetChainsBalances() {
 
       data?.chain_list?.forEach((chain: ChainList) => {
         chainbalances[chain?.community_id] = chain?.usd_value
-      });
+      })
 
       setBalances(chainbalances)
     }
@@ -83,7 +83,9 @@ export function useGetChainBalance() {
   const chain = CHAINS[chainId]
   useEffect(() => {
     const getBalance = async () => {
-      const response = await fetch(`https://openapi.debank.com/v1/user/chain_balance?id=${account}&chain_id=${chain.symbol.toLowerCase()}`)
+      const response = await fetch(
+        `https://openapi.debank.com/v1/user/chain_balance?id=${account}&chain_id=${chain.symbol.toLowerCase()}`
+      )
       const data = await response.json()
 
       setBalance(data?.usd_value)
@@ -92,7 +94,6 @@ export function useGetChainBalance() {
     if (!!account) {
       getBalance()
     }
-
   }, [account, chain, setBalance])
 
   return balance
@@ -112,26 +113,18 @@ export function useGetWalletChainTokens() {
 
   useEffect(() => {
     const getBalance = async () => {
-      const response = await fetch(`https://openapi.debank.com/v1/user/token_list?id=${account}&chain_id=${chain.symbol.toLowerCase()}`)
+      const response = await fetch(
+        `https://openapi.debank.com/v1/user/token_list?id=${account}&chain_id=${chain.symbol.toLowerCase()}`
+      )
       const data = await response.json()
 
       const requestTokens: TokenDataUser[] = data.map((token: any) => {
-        if (token?.id?.toLowerCase() === "avax") {
-          return new TokenDataUser(
-            CAVAX,
-            token?.price,
-            token?.amount
-          )
+        if (token?.id?.toLowerCase() === 'avax') {
+          return new TokenDataUser(CAVAX, token?.price, token?.amount)
         }
 
         return new TokenDataUser(
-          new Token(
-            chainId,
-            ethers.utils.getAddress(token?.id),
-            token?.decimals,
-            token?.symbol,
-            token?.name
-          ),
+          new Token(chainId, ethers.utils.getAddress(token?.id), token?.decimals, token?.symbol, token?.name),
           token?.price,
           token?.amount
         )
@@ -143,7 +136,6 @@ export function useGetWalletChainTokens() {
     if (!!account) {
       getBalance()
     }
-
   }, [account, chainId, chain, setTokens])
 
   return tokens

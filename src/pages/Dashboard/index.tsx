@@ -53,7 +53,7 @@ import { Link } from 'react-router-dom'
 import { LineChart, Line } from 'recharts'
 import Slider, { Settings } from 'react-slick'
 import { ArrowRight } from 'react-feather'
-import Linkify from 'react-linkify';
+import Linkify from 'react-linkify'
 import makeBlockie from 'ethereum-blockies-base64'
 
 import TradingViewChart from './TradingViewChart'
@@ -150,7 +150,7 @@ const Dashboard = () => {
         <ContainerLeft>
           <Card>
             <CardHeader>
-              {t('dashboardPage.portfolioValue') + " in " + selectChain.name}
+              {t('dashboardPage.portfolioValue') + ' in ' + selectChain.name}
               <HeaderDropdowns>
                 <ChainDropdown selectChain={selectChain} handleSelectChain={handleSelectChain}></ChainDropdown>
               </HeaderDropdowns>
@@ -158,16 +158,13 @@ const Dashboard = () => {
             <CardBody>
               <TradingViewChart />
               <PortfolioToken>
-                ${
-                  !!balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]]
-                    ? balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]].toLocaleString(
-                      undefined, 
-                      {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                      })
-                    : 0
-                }
+                $
+                {!!balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]]
+                  ? balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]].toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    })
+                  : 0}
                 <img width={'50px'} src={selectChain.logo} alt={'Chain logo'} style={{ marginLeft: '12px' }} />
                 <PortfolioTokenPercent>23.3%</PortfolioTokenPercent>
               </PortfolioToken>
@@ -187,18 +184,19 @@ const Dashboard = () => {
                   <ArrowRight size={20} style={{ minWidth: 24 }} />
                 </SlickNext>
                 <Slider ref={sliderRef} {...NewsFeedSettings}>
-                  {
-                    news && news.map((element: News) => {
+                  {news &&
+                    news.map((element: News) => {
                       return (
                         <div key={element.id}>
                           <NewsContent>
                             <Linkify>{element?.content}</Linkify>
                           </NewsContent>
-                          <NewsDate>{element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}</NewsDate>
+                          <NewsDate>
+                            {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
+                          </NewsDate>
                         </div>
                       )
-                    })
-                  }
+                    })}
                 </Slider>
               </NewsSection>
             </ContainerLeft>

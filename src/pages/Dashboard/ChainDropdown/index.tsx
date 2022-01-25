@@ -29,22 +29,21 @@ export default function ChainDropdown({ selectChain = CHAINS[ChainsId.All], hand
 
       {open && (
         <NarrowMenuFlyout>
-          {
-            Object.values(CHAINS).map((chain: CHAIN, index: number) => {
-              return (
-                <DropdownItem
-                  id="link" key={index}
-                  style={selectChain.symbol === chain.symbol ? { backgroundColor: "#ff6b00" } : {}}
-                  onClick={() => {
-                    handleSelectChain(chain)
-                    toggle()
-                  }}
-                >
-                  <span>{chain.symbol}</span>
-                </DropdownItem>
-              )
-            })
-          }
+          {Object.values(CHAINS).map((chain: CHAIN, index: number) => {
+            return (
+              <DropdownItem
+                id="link"
+                key={index}
+                style={selectChain.symbol === chain.symbol ? { backgroundColor: '#ff6b00' } : {}}
+                onClick={() => {
+                  handleSelectChain(chain)
+                  toggle()
+                }}
+              >
+                <span>{chain.symbol}</span>
+              </DropdownItem>
+            )
+          })}
         </NarrowMenuFlyout>
       )}
     </StyledMenu>
