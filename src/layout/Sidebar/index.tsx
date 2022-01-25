@@ -71,15 +71,6 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
         location?.pathname.startsWith('/create') ||
         location?.pathname.startsWith('/find')
     },
-
-    {
-      link: '/png/2',
-      icon: Farm,
-      title: t('header.farm'),
-      id: 'farm',
-      isActive: location?.pathname?.startsWith('/png')
-    },
-
     {
       link: '/beta/stake/0',
       icon: Stake,

@@ -10,11 +10,13 @@ export const Title = styled.a`
   `};
   :hover {
     cursor: pointer;
+    overflow: hidden !important;
   }
 `
 
 export const PngIcon = styled.div`
   transition: transform 0.3s ease;
+  overflow: hidden !important;
   :hover {
     transform: rotate(-5deg);
   }

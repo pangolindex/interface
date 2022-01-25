@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import Stat from 'src/components/Stat'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { RowBetween } from 'src/components/Row'
+import { BIG_INT_ZERO } from 'src/constants'
 
 export interface EarnDetailProps {
   stakingInfo: StakingInfo
@@ -52,12 +53,13 @@ const EarnDetail = ({ stakingInfo, onOpenClaimModal, onOpenWithdrawModal }: Earn
               {t('earn.withdraw')}
             </Button>
           </Box>
-
-          <Box width="100%">
-            <Button variant="primary" onClick={() => onOpenClaimModal()}>
-              {t('earnPage.claim')}
-            </Button>
-          </Box>
+          {Boolean(stakingInfo?.earnedAmount?.greaterThan(BIG_INT_ZERO)) && (
+            <Box width="100%">
+              <Button variant="primary" onClick={() => onOpenClaimModal()}>
+                {t('earnPage.claim')}
+              </Button>
+            </Box>
+          )}
         </RowBetween>
       </Box>
     </Wrapper>
