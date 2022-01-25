@@ -163,7 +163,7 @@ export function useTokens(tokensAddress: string[] = []): Array<Token | undefined
 
       return acc
     }, [])
-  }, [chainId, decimals, symbols, symbolsBytes32, tokensName, tokensNameBytes32])
+  }, [chainId, decimals, symbols, symbolsBytes32, tokensName, tokensNameBytes32, tokens, tokensAddress])
 }
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {

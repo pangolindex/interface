@@ -5,7 +5,7 @@ import { Currency, CurrencyAmount, Fraction, Percent, TokenAmount } from '@pango
 import { CurrencyLogo, DoubleCurrencyLogo, Text, Box, Button } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import { getEtherscanLink } from 'src/utils'
-import Drawer from '../../../../components/Drawer'
+import Drawer from 'src/components/Drawer'
 import { Field } from 'src/state/mint/actions'
 import {
   Header,

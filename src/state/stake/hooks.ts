@@ -992,7 +992,8 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     usdPrice,
     pairAddresses,
     rewardTokensAddresses,
-    rewardsAddresses
+    rewardsAddresses,
+    rewardTokensMultipliers
   ])
 
   return arr

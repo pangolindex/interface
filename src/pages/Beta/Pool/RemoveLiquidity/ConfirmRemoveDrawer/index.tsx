@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Currency, CurrencyAmount, Pair, Percent, TokenAmount } from '@pangolindex/sdk'
 import { Text, Box, Button, CurrencyLogo, DoubleCurrencyLogo } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
-import Drawer from '../../../components/Drawer'
+import Drawer from 'src/components/Drawer'
 import {
   PendingWrapper,
   SubmittedWrapper,
