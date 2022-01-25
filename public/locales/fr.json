@@ -94,7 +94,8 @@
     "withdrewStakingToken": "{{ symbol }} Retiré!",
     "approve": "Approuver",
     "poolWeight": "Poids de la piscine",
-    "withdraw": "Retirer"
+    "withdraw": "Retirer",
+    "extraReward": "Récompense supplémentaire"
   },
   "menu": {
     "code": "Code",

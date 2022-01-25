@@ -94,7 +94,8 @@
     "withdrewStakingToken": "Withdrew {{ symbol }}!",
     "approve": "Approve",
     "poolWeight": "Pool Weight",
-    "withdraw": "Withdraw"
+    "withdraw": "Withdraw",
+    "extraReward": "Extra Reward"
   },
   "menu": {
     "code": "Code",

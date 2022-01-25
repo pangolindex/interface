@@ -41,9 +41,17 @@ interface StakingModalProps {
   stakingInfo: DoubleSideStakingInfo
   userLiquidityUnstaked: TokenAmount | undefined
   version: number
+  extraRewardTokensAmount?: Array<TokenAmount>
 }
 
-export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiquidityUnstaked, version }: StakingModalProps) {
+export default function StakingModal({
+  isOpen,
+  onDismiss,
+  stakingInfo,
+  userLiquidityUnstaked,
+  version,
+  extraRewardTokensAmount
+}: StakingModalProps) {
   const { account, chainId, library } = useActiveWeb3React()
 
   // track and parse user input
@@ -87,36 +95,51 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   const poolMap = useMinichefPools()
+  const isSuperFarm = (extraRewardTokensAmount || [])?.length > 0
 
   async function onStake() {
     if (stakingContract && poolMap && parsedAmount && deadline) {
       setAttempting(true)
       const method = version < 2 ? 'stake' : 'deposit'
-      const args = version < 2
-        ? [`0x${parsedAmount.raw.toString(16)}`]
-        : [poolMap[stakingInfo.stakedAmount.token.address], `0x${parsedAmount.raw.toString(16)}`, account]
+      const args =
+        version < 2
+          ? [`0x${parsedAmount.raw.toString(16)}`]
+          : [poolMap[stakingInfo.stakedAmount.token.address], `0x${parsedAmount.raw.toString(16)}`, account]
 
       if (approval === ApprovalState.APPROVED) {
-        stakingContract
-          [method](...args)
+        stakingContract[method](...args)
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-              summary: t("earn.depositLiquidity")
-            });
-            setHash(response.hash);
+              summary: t('earn.depositLiquidity')
+            })
+            setHash(response.hash)
           })
           .catch((error: any) => {
-            setAttempting(false);
-            console.error(error);
+            setAttempting(false)
+            console.error(error)
           })
       } else if (signatureData) {
         const permitMethod = version < 2 ? 'stakeWithPermit' : 'depositWithPermit'
-        const permitArgs = version < 2
-          ? [`0x${parsedAmount.raw.toString(16)}`, signatureData.deadline, signatureData.v, signatureData.r, signatureData.s]
-          : [poolMap[stakingInfo.stakedAmount.token.address], `0x${parsedAmount.raw.toString(16)}`, account, signatureData.deadline, signatureData.v, signatureData.r, signatureData.s]
+        const permitArgs =
+          version < 2
+            ? [
+                `0x${parsedAmount.raw.toString(16)}`,
+                signatureData.deadline,
+                signatureData.v,
+                signatureData.r,
+                signatureData.s
+              ]
+            : [
+                poolMap[stakingInfo.stakedAmount.token.address],
+                `0x${parsedAmount.raw.toString(16)}`,
+                account,
+                signatureData.deadline,
+                signatureData.v,
+                signatureData.r,
+                signatureData.s
+              ]
 
-        stakingContract
-          [permitMethod](...permitArgs)
+        stakingContract[permitMethod](...permitArgs)
           .then((response: TransactionResponse) => {
             addTransaction(response, {
               summary: t('earn.depositLiquidity')
@@ -243,6 +266,36 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
             </TYPE.black>
           </HypotheticalRewardRate>
 
+          {isSuperFarm && (
+            <HypotheticalRewardRate dim={!hypotheticalRewardRate.greaterThan('0')}>
+              <div>
+                <TYPE.black fontWeight={600}>{t('earn.extraReward')}</TYPE.black>
+              </div>
+
+              <TYPE.black>
+                {extraRewardTokensAmount?.map((reward, index) => {
+                  const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
+                  const extraRewardRate = stakingInfo?.getExtraTokensRewardRate?.(
+                    hypotheticalRewardRate,
+                    reward?.token,
+                    tokenMultiplier
+                  )
+                  if (extraRewardRate) {
+                    return (
+                      <>
+                        {extraRewardRate
+                          .multiply((60 * 60 * 24 * 7).toString())
+                          .toSignificant(4, { groupSeparator: ',' })}{' '}
+                        {t('earn.rewardPerWeek', { symbol: reward?.token?.symbol })}
+                      </>
+                    )
+                  }
+                  return null
+                })}
+              </TYPE.black>
+            </HypotheticalRewardRate>
+          )}
+
           <RowBetween>
             <ButtonConfirmed
               mr="0.5rem"
@@ -275,7 +328,9 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{t('earn.deposited')} {parsedAmount?.toSignificant(4)} PGL</TYPE.body>
+            <TYPE.body fontSize={20}>
+              {t('earn.deposited')} {parsedAmount?.toSignificant(4)} PGL
+            </TYPE.body>
           </AutoColumn>
         </SubmittedView>
       )}

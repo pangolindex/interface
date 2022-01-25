@@ -1,7 +1,7 @@
 import { ChainId, JSBI, Percent, Token, WAVAX } from '@pangolindex/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
-import { injected, walletlink, walletconnect } from '../connectors'
+import { gnosisSafe, injected, walletlink, walletconnect } from '../connectors'
 
 export const GAS_PRICE = 225
 
@@ -855,6 +855,168 @@ export const SKILL: { [chainId in ChainId]: Token } = {
   )
 }
 
+export const TUS: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'TUS', 'Treasure Under Sea'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xf693248F96Fe03422FEa95aC0aFbBBc4a8FdD172',
+    18,
+    'TUS',
+    'Treasure Under Sea'
+  )
+}
+
+export const USDC: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'USDC', 'USD Coin'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E', 6, 'USDC', 'USD Coin')
+}
+
+export const HSHARES: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HSHARES', 'HERMES Shares'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xfa4B6db72A650601E7Bd50a0A9f537c9E98311B2',
+    18,
+    'HSHARES',
+    'HERMES Shares'
+  )
+}
+
+export const HERMES: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HERMES', 'HERMES'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xB15f02F9Da8CD1f99E9dd375F21dc96D25ddd82C',
+    18,
+    'HERMES',
+    'HERMES'
+  )
+}
+
+export const PTP: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'PTP', 'Platypus'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x22d4002028f537599bE9f666d1c4Fa138522f9c8', 18, 'PTP', 'Platypus')
+}
+
+export const ISA: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ISA', 'Islander'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x3EeFb18003D033661f84e48360eBeCD181A84709', 18, 'ISA', 'Islander')
+}
+
+export const ICE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ICE', 'Ice Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xe0Ce60AF0850bF54072635e66E79Df17082A1109',
+    18,
+    'ICE',
+    'Ice Token'
+  )
+}
+
+export const iDYP: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'iDYP', 'iDefi Yield Protocol'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xBD100d061E120b2c67A24453CF6368E63f1Be056',
+    18,
+    'iDYP',
+    'iDefi Yield Protocol'
+  )
+}
+
+export const BOOFI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'BOOFI', 'Boo Finance Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xB00F1ad977a949a3CCc389Ca1D1282A2946963b0',
+    18,
+    'BOOFI',
+    'Boo Finance Token'
+  )
+}
+
+export const LOOT: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'LOOT', 'LOOT Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x7f041ce89a2079873693207653b24c15b5e6a293',
+    18,
+    'LOOT',
+    'LOOT Token'
+  )
+}
+
+export const FEED: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'FEED', 'Chikn feed'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xab592d197acc575d16c3346f4eb70c703f308d1e',
+    18,
+    'FEED',
+    'Chikn feed'
+  )
+}
+
+export const DCAU: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'DCAU', 'Dragon Crypto Aurum'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x100cc3a819dd3e8573fd2e46d1e66ee866068f30',
+    18,
+    'DCAU',
+    'Dragon Crypto Aurum'
+  )
+}
+
+export const agEUR: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'agEUR', 'agEUR'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x6fefd97f328342a8a840546a55fdcfee7542f9a8', 18, 'agEUR', 'agEUR')
+}
+
+export const MAGE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'MAGE', 'MetaBrands'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x921f99719eb6c01b4b8f0ba7973a7c24891e740a',
+    18,
+    'MAGE',
+    'MetaBrands'
+  )
+}
+
+export const HTZ: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HTZ', 'Hertz Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x9C8E99eb130AED653Ef90fED709D9C3E9cC8b269',
+    18,
+    'HTZ',
+    'Hertz Token'
+  )
+}
+
+export const PLN: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'PLN', 'Pollen'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7b2b702706d9b361dfe3f00bd138c0cfda7fb2cf', 18, 'PLN', 'Pollen')
+}
+
+export const HEC: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HeC', 'HeroesChained'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xc7f4debc8072e23fe9259a5c0398326d8efb7f5c',
+    18,
+    'HeC',
+    'HeroesChained'
+  )
+}
+
+export const RACEX: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'RACEX', 'RaceX'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7086e045b78e1e72f741f25231c08d238812cf8a', 18, 'RACEX', 'RaceX')
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
@@ -946,6 +1108,14 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     href: null,
     color: '#E8831D'
   },
+  GNOSISSAFE: {
+    connector: gnosisSafe,
+    name: 'Gnosis Safe',
+    iconName: 'gnosis_safe.png',
+    description: 'Gnosis Safe Multisig Wallet.',
+    href: null,
+    color: '#010101'
+  },
   WALLET_LINK: {
     connector: walletlink,
     name: 'Coinbase Wallet',
@@ -1013,6 +1183,7 @@ export const WYRE_QUOTE_API_ENDPOINT = '/v3/orders/quote/partner'
 export const WYRE_RESERVE_API_ENDPOINT = '/v3/orders/reserve'
 export const WYRE_CALLBACK_URL = 'https://app.pangolin.exchange/'
 
+export const IS_IN_IFRAME = window.parent !== window
 export const TIMEFRAME = [
   {
     description: 'HOUR',

@@ -94,7 +94,8 @@
     "withdrewStakingToken": "Đã rút!{{ symbol }}",
     "approve": "Chấp nhận",
     "poolWeight": "Khối lượng bể",
-    "withdraw": "Rút"
+    "withdraw": "Rút",
+    "extraReward": "Phần thưởng bổ sung"
   },
   "menu": {
     "code": "Mã",

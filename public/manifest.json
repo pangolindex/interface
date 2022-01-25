@@ -1,6 +1,8 @@
 {
   "short_name": "Pangolin",
   "name": "Pangolin",
+  "description": "Swap or provide liquidity on the Pangolin Exchange",
+  "iconPath": "./images/384x384_App_Icon.png",
   "icons": [
     {
       "src": "./images/192x192_App_Icon.png",
@@ -15,6 +17,7 @@
       "purpose": "any maskable"
     }
   ],
+  "start_url": ".",
   "orientation": "portrait",
   "display": "standalone",
   "theme_color": "#FF6B00",

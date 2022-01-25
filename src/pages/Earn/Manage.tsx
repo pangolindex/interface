@@ -2,13 +2,13 @@ import React, { useCallback, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { JSBI, Token, Currency } from '@pangolindex/sdk'
+import { Token, Currency, TokenAmount } from '@pangolindex/sdk'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { TYPE } from '../../theme'
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
-import { ButtonPrimary, ButtonEmpty } from '../../components/Button'
+import { ButtonPrimary } from '../../components/Button'
 import StakingModal from '../../components/earn/StakingModal'
 import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks'
 import UnstakingModal from '../../components/earn/UnstakingModal'
@@ -16,11 +16,10 @@ import ClaimRewardModal from '../../components/earn/ClaimRewardModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { useColor } from '../../hooks/useColor'
-import { CountUp } from 'use-count-up'
 import { currencyId } from '../../utils/currencyId'
-import usePrevious from '../../hooks/usePrevious'
 import { BIG_INT_ZERO } from '../../constants'
 import { useTranslation } from 'react-i18next'
+import RewardCard from './RewardCard'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -48,15 +47,6 @@ const StyledDataCard = styled(DataCard)<{ bgColor?: any; showBackground?: any }>
     `radial-gradient(91.85% 100% at 1.84% 0%, ${bgColor} 0%,  ${showBackground ? theme.black : theme.bg5} 100%) `};
 `
 
-const StyledBottomCard = styled(DataCard)<{ dim: any }>`
-  background: ${({ theme }) => theme.bg3};
-  opacity: ${({ dim }) => (dim ? 0.4 : 1)};
-  margin-top: -40px;
-  padding: 0 1.25rem 1rem 1.25rem;
-  padding-top: 32px;
-  z-index: 1;
-`
-
 const PoolData = styled(DataCard)`
   background: none;
   border: 1px solid ${({ theme }) => theme.bg4};
@@ -79,14 +69,26 @@ const DataRow = styled(RowBetween)`
    `};
 `
 
+const MainDataRow = styled(RowBetween)`
+  justify-content: start;
+  align-items: start;
+  gap: 12px;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+     flex-direction: column;
+     gap: 12px;
+   `};
+`
+
 export interface ManageProps {
   version: string
   stakingInfo: DoubleSideStakingInfo
   currencyA: Currency | null | undefined
   currencyB: Currency | null | undefined
+  extraRewardTokensAmount?: Array<TokenAmount>
 }
 
-const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, currencyB }) => {
+const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, currencyB, extraRewardTokensAmount }) => {
   const { account } = useActiveWeb3React()
 
   let backgroundColor: string
@@ -107,9 +109,6 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
   // fade cards if nothing staked or nothing earned yet
   const disableTop = !stakingInfo?.stakedAmount || stakingInfo.stakedAmount.equalTo(BIG_INT_ZERO)
 
-  const countUpAmount = stakingInfo?.earnedAmount?.toFixed(6) ?? '0'
-  const countUpAmountPrevious = usePrevious(countUpAmount) ?? '0'
-
   const toggleWalletModal = useWalletModalToggle()
   const { t } = useTranslation()
 
@@ -123,6 +122,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
 
   const poolMap = useMinichefPools()
   let pairAddress = stakingInfo?.stakedAmount?.token?.address
+  let isSuperFarm = (extraRewardTokensAmount || [])?.length > 0
 
   return (
     <PageWrapper gap="lg" justify="center">
@@ -133,7 +133,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
         <DoubleCurrencyLogo currency0={currencyA ?? undefined} currency1={currencyB ?? undefined} size={24} />
       </RowBetween>
 
-      <DataRow style={{ gap: '24px' }}>
+      <MainDataRow style={{ gap: '24px' }}>
         <PoolData>
           <AutoColumn gap="sm">
             <TYPE.body style={{ margin: 0 }}>{t('earnPage.totalStaked')}</TYPE.body>
@@ -145,15 +145,36 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
         <PoolData>
           <AutoColumn gap="sm">
             <TYPE.body style={{ margin: 0 }}>{t('earnPage.poolRate')}</TYPE.body>
-            <TYPE.body fontSize={24} fontWeight={500}>
+
+            <TYPE.body fontSize={isSuperFarm ? 18 : 24} fontWeight={500}>
               {stakingInfo?.totalRewardRate
                 ?.multiply((60 * 60 * 24 * 7).toString())
                 ?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
               {t('earnPage.rewardPerWeek', { symbol: 'PNG' })}
             </TYPE.body>
+
+            {isSuperFarm && stakingInfo?.totalRewardRate && (
+              <>
+                {(extraRewardTokensAmount || []).map((reward, index) => {
+                  const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
+                  let totalRewardRate =
+                    stakingInfo?.getExtraTokensRewardRate &&
+                    stakingInfo?.getExtraTokensRewardRate(stakingInfo?.totalRewardRate, reward?.token, tokenMultiplier)
+
+                  return (
+                    <TYPE.body fontSize={18} fontWeight={500} key={index}>
+                      {totalRewardRate?.multiply((60 * 60 * 24 * 7).toString())?.toFixed(0, { groupSeparator: ',' }) ??
+                        '-'}
+
+                      {t('earnPage.rewardPerWeek', { symbol: reward?.token.symbol })}
+                    </TYPE.body>
+                  )
+                })}
+              </>
+            )}
           </AutoColumn>
         </PoolData>
-      </DataRow>
+      </MainDataRow>
 
       {version === '1' &&
       stakingInfo?.stakedAmount?.greaterThan(BIG_INT_ZERO) &&
@@ -216,18 +237,21 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
             stakingInfo={stakingInfo}
             userLiquidityUnstaked={userLiquidityUnstaked}
             version={Number(version)}
+            extraRewardTokensAmount={extraRewardTokensAmount}
           />
           <UnstakingModal
             isOpen={showUnstakingModal}
             onDismiss={() => setShowUnstakingModal(false)}
             stakingInfo={stakingInfo}
             version={Number(version)}
+            extraRewardTokensAmount={extraRewardTokensAmount}
           />
           <ClaimRewardModal
             isOpen={showClaimRewardModal}
             onDismiss={() => setShowClaimRewardModal(false)}
             stakingInfo={stakingInfo}
             version={Number(version)}
+            extraRewardTokensAmount={extraRewardTokensAmount}
           />
         </>
       )}
@@ -253,49 +277,46 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
               </AutoColumn>
             </CardSection>
           </StyledDataCard>
-          <StyledBottomCard dim={stakingInfo?.stakedAmount?.equalTo(BIG_INT_ZERO)}>
-            <CardBGImage desaturate />
-            <CardNoise />
-            <AutoColumn gap="sm">
-              <RowBetween>
-                <div>
-                  <TYPE.black>{t('earnPage.unclaimedReward', { symbol: 'PNG' })}</TYPE.black>
-                </div>
-                {stakingInfo?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, stakingInfo?.earnedAmount?.raw) && (
-                  <ButtonEmpty
-                    padding="8px"
-                    borderRadius="8px"
-                    width="fit-content"
-                    onClick={() => setShowClaimRewardModal(true)}
-                  >
-                    {t('earnPage.claim')}
-                  </ButtonEmpty>
-                )}
-              </RowBetween>
-              <RowBetween style={{ alignItems: 'baseline' }}>
-                <TYPE.largeHeader fontSize={36} fontWeight={600}>
-                  <CountUp
-                    key={countUpAmount}
-                    isCounting
-                    decimalPlaces={4}
-                    start={parseFloat(countUpAmountPrevious)}
-                    end={parseFloat(countUpAmount)}
-                    thousandsSeparator={','}
-                    duration={1}
+          {/* // copy */}
+
+          <RewardCard
+            stakedAmount={stakingInfo?.stakedAmount}
+            earnedAmount={stakingInfo?.earnedAmount}
+            rewardRate={stakingInfo?.rewardRate}
+            setShowClaimRewardModal={() => setShowClaimRewardModal(true)}
+            isOverlay={true}
+            isSuperFarm={isSuperFarm}
+          />
+
+          {isSuperFarm && (
+            <>
+              {(extraRewardTokensAmount || []).map((reward, index) => {
+                const userRewardRate = stakingInfo?.getHypotheticalRewardRate(
+                  stakingInfo?.stakedAmount,
+                  stakingInfo?.totalStakedAmount,
+                  stakingInfo?.totalRewardRate
+                )
+
+                const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
+
+                let rewardRate =
+                  stakingInfo?.getExtraTokensRewardRate &&
+                  (stakingInfo?.getExtraTokensRewardRate(userRewardRate, reward?.token, tokenMultiplier) as TokenAmount)
+
+                return (
+                  <RewardCard
+                    stakedAmount={stakingInfo?.stakedAmount}
+                    earnedAmount={reward}
+                    rewardRate={rewardRate}
+                    setShowClaimRewardModal={() => setShowClaimRewardModal(true)}
+                    currency={reward?.token}
+                    isOverlay={false}
+                    key={index}
                   />
-                </TYPE.largeHeader>
-                <TYPE.black fontSize={16} fontWeight={500}>
-                  <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px ' }}>
-                    ⚡
-                  </span>
-                  {stakingInfo?.rewardRate
-                    ?.multiply((60 * 60 * 24 * 7).toString())
-                    ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
-                  {t('earnPage.rewardPerWeek', { symbol: 'PNG' })}
-                </TYPE.black>
-              </RowBetween>
-            </AutoColumn>
-          </StyledBottomCard>
+                )
+              })}
+            </>
+          )}
         </BottomSection>
         <TYPE.main style={{ textAlign: 'center' }} fontSize={14}>
           <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>
@@ -311,6 +332,19 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
                 ? t('earnPage.deposit')
                 : t('earnPage.depositStakingTokens', { symbol: 'PGL' })}
             </ButtonPrimary>
+
+            {isSuperFarm && stakingInfo?.earnedAmount?.greaterThan(BIG_INT_ZERO) && (
+              <>
+                <ButtonPrimary
+                  padding="8px"
+                  borderRadius="8px"
+                  width="160px"
+                  onClick={() => setShowClaimRewardModal(true)}
+                >
+                  {t('earnPage.claim')}
+                </ButtonPrimary>
+              </>
+            )}
 
             {stakingInfo?.stakedAmount?.greaterThan(BIG_INT_ZERO) && (
               <>

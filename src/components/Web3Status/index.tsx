@@ -6,8 +6,9 @@ import { Activity } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
 import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
+import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
-import { injected, walletlink, walletconnect } from '../../connectors'
+import { gnosisSafe, injected, walletlink, walletconnect } from '../../connectors'
 import { NetworkContextName } from '../../constants'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
@@ -125,6 +126,12 @@ function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
 function StatusIcon({ connector }: { connector: AbstractConnector }) {
   if (connector === injected) {
     return <Identicon />
+  } else if (connector === gnosisSafe) {
+    return(
+      <IconWrapper size={16}>
+        <img src={GnosisSafeIcon} alt={'GnosisSafeIcon'} />
+      </IconWrapper>
+    )
   } else if (connector === walletlink) {
     return (
       <IconWrapper size={16}>

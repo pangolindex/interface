@@ -94,7 +94,8 @@
     "withdrewStakingToken": "{{ symbol }} abgebucht!",
     "approve": "Bestätigen",
     "poolWeight": "Beckengewicht",
-    "withdraw": "Abheben"
+    "withdraw": "Abheben",
+    "extraReward": "Zusätzliche Belohnung"
   },
   "menu": {
     "code": "Code",
