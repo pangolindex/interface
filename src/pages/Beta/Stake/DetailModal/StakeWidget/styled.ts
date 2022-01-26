@@ -5,6 +5,8 @@ export const Root = styled(Box)`
   padding: 20px;
   background-color: ${({ theme }) => theme.bg2};
   border-radius: 10px;
+  position: relative;
+  overflow: hidden;
 `
 
 export const StakedAmount = styled(Box)`
@@ -31,8 +33,8 @@ export const TokenSymbol = styled(Box)`
 
 export const Buttons = styled(Box)`
   display: grid;
-  grid-auto-columns: minmax(0, 1fr);
-  grid-auto-flow: column;
+  grid-auto-rows: minmax(0, 1fr);
+  grid-auto-flow: row;
   grid-gap: 10px;
   margin-top: 15px;
 `

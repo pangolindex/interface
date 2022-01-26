@@ -1,11 +1,12 @@
 import { Button, Text } from '@pangolindex/components'
 import { ChainId, JSBI } from '@pangolindex/sdk'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PNG, ZERO_ADDRESS } from 'src/constants'
 import { useActiveWeb3React } from 'src/hooks'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
+import UnstakeDrawer from '../UnstakeDrawer'
 import { Root, StakedAmount, TokenSymbol, Buttons, UnstakeButton } from './styled'
 
 type Props = {
@@ -15,6 +16,7 @@ type Props = {
 const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
   const { t } = useTranslation()
   const { account, chainId } = useActiveWeb3React()
+  const [isUnstakeDrawerVisible, setShowUnstakeDrawer] = useState(false)
 
   const png = PNG[chainId ? chainId : ChainId.AVALANCHE]
   // detect existing unstaked position to show purchase button if none found
@@ -24,7 +26,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
 
   return (
     <Root>
-      <Text color="text10" fontSize={20} fontWeight={500} mb={30}>
+      <Text color="text10" fontSize={20} fontWeight={500} mb={20}>
         Stake PNG
       </Text>
 
@@ -38,12 +40,10 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
       </StakedAmount>
 
       {/* show png unstaked balance */}
-      {userPngUnstaked?.greaterThan('0') && (
-        <Text color="text8" fontSize={12} mt={15} textAlign="center">
-          {userPngUnstaked.toSignificant(6, { groupSeparator: ',' })}{' '}
-          {t('earnPage.stakingTokensAvailable', { symbol: stakeToken })}
-        </Text>
-      )}
+      <Text color="text8" fontSize={12} mt={15} textAlign="center">
+        {userPngUnstaked?.toSignificant(6, { groupSeparator: ',' }) || '0.00'}{' '}
+        {t('earnPage.stakingTokensAvailable', { symbol: stakeToken })}
+      </Text>
 
       <Buttons>
         {/* show staked or get png button */}
@@ -66,9 +66,19 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
 
         {/* show unstak button */}
         {stakingInfo?.stakedAmount?.greaterThan('0') && (
-          <UnstakeButton variant="outline">{t('earnPage.unstake')}</UnstakeButton>
+          <UnstakeButton variant="outline" onClick={() => setShowUnstakeDrawer(true)}>
+            {t('earnPage.unstake')}
+          </UnstakeButton>
         )}
       </Buttons>
+
+      <UnstakeDrawer
+        isOpen={isUnstakeDrawerVisible}
+        onClose={() => {
+          setShowUnstakeDrawer(false)
+        }}
+        stakingInfo={stakingInfo}
+      />
     </Root>
   )
 }

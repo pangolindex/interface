@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Box, Text, Button } from '@pangolindex/components'
-import { WidgetWrapper, PendingWrapper, SubmittedWrapper, Root, Link } from './styleds'
-import { ArrowUpCircle } from 'react-feather'
+import { WidgetWrapper, PendingWrapper, Root } from './styled'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
@@ -10,8 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { useStakingContract } from 'src/hooks/useContract'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
-import { getEtherscanLink } from 'src/utils'
-import { ThemeContext } from 'styled-components'
+import TransactionSubmitted from 'src/components/Beta/TransactionSubmitted'
 
 interface ClaimProps {
   stakingInfo: SingleSideStakingInfo
@@ -19,9 +17,8 @@ interface ClaimProps {
 }
 
 const ClaimWidget = ({ stakingInfo, onClose }: ClaimProps) => {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const { t } = useTranslation()
-  const theme = useContext(ThemeContext)
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()
   const [hash, setHash] = useState<string | undefined>()
@@ -102,32 +99,7 @@ const ClaimWidget = ({ stakingInfo, onClose }: ClaimProps) => {
           </Text>
         </PendingWrapper>
       )}
-      {hash && (
-        <SubmittedWrapper>
-          <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" paddingY={'20px'}>
-            <Box flex="1" display="flex" alignItems="center">
-              <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary1} />
-            </Box>
-            <Text fontWeight={500} fontSize={20} color="text1">
-              {t('earn.transactionSubmitted')}
-            </Text>
-            {chainId && hash && (
-              <Link
-                as="a"
-                fontWeight={500}
-                fontSize={14}
-                color={'primary1'}
-                href={getEtherscanLink(chainId, hash, 'transaction')}
-              >
-                {t('transactionConfirmation.viewExplorer')}
-              </Link>
-            )}
-          </Box>
-          <Button variant="primary" onClick={() => wrappedOnDismiss()}>
-            {t('transactionConfirmation.close')}
-          </Button>
-        </SubmittedWrapper>
-      )}
+      {hash && <TransactionSubmitted hash={hash} onClose={wrappedOnDismiss} />}
     </WidgetWrapper>
   )
 }

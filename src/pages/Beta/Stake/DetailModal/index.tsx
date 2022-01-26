@@ -9,6 +9,7 @@ import Header from './Header'
 import Details from './Details'
 import StakeWidget from './StakeWidget'
 import EarnedWidget from './EarnedWidget'
+import { useWindowSize } from 'react-use'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
@@ -17,13 +18,14 @@ type Props = {
 }
 
 const DetailModal: React.FC<Props> = ({ stakingInfo, onClose, onClaimClick }) => {
+  const { height } = useWindowSize()
   const isDetailModalOpen = useModalOpen(ApplicationModal.SINGLE_SIDE_STAKE_DETAIL)
   const toggleModal = useSingleSideStakingDetailnModalToggle()
   const theme = useContext(ThemeContext)
 
   return (
     <Modal isOpen={isDetailModalOpen} onDismiss={toggleModal} overlayBG={theme.modalBG2}>
-      <Wrapper>
+      <Wrapper style={{ maxHeight: height - 150 }}>
         <Header stakingInfo={stakingInfo} onClose={onClose} />
         <DetailsWrapper>
           <LeftSection>

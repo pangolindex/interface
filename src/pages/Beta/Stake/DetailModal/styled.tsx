@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 export const Wrapper = styled(Box)`
   width: 1080px;
+  overflow: auto;
 `
 
 export const LeftSection = styled(Box)`
