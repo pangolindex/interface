@@ -2,6 +2,7 @@ import React from 'react'
 import { Text } from '@pangolindex/components'
 import { JSBI } from '@pangolindex/sdk'
 import numeral from 'numeral'
+import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { Card, CardHeader, Stats, CardStats, TokenName, DetailButton, StakeButton } from './styleds'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
@@ -16,6 +17,7 @@ export interface PoolCardProps {
 
 const PoolCard = ({ stakingInfo, onViewDetailsClick, onClaimClick, onDepositClick }: PoolCardProps) => {
   const { t } = useTranslation()
+  const { account } = useActiveWeb3React()
 
   const showClaimButton = stakingInfo?.earnedAmount?.greaterThan('0')
 
@@ -62,14 +64,18 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick, onClaimClick, onDepositClic
         <DetailButton variant="outline" onClick={onViewDetailsClick}>
           {t('stakePage.seeDetails')}
         </DetailButton>
-        {showClaimButton ? (
-          <StakeButton variant="primary" onClick={onClaimClick}>
-            {t('earnPage.claim')}
-          </StakeButton>
-        ) : (
-          <StakeButton variant="primary" onClick={onDepositClick}>
-            {t('earnPage.stake')}
-          </StakeButton>
+        {!!account && (
+          <>
+            {showClaimButton ? (
+              <StakeButton variant="primary" onClick={onClaimClick}>
+                {t('earnPage.claim')}
+              </StakeButton>
+            ) : (
+              <StakeButton variant="primary" onClick={onDepositClick}>
+                {t('earnPage.stake')}
+              </StakeButton>
+            )}
+          </>
         )}
       </CardStats>
     </Card>
