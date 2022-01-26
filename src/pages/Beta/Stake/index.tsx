@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
-import { PageWrapper, PageTitle, PoolsWrapper } from './styleds'
+import { PageWrapper, PageTitle, PoolsWrapper, PoolCards } from './styleds'
 import { useActiveWeb3React } from 'src/hooks'
 import Loader from 'src/components/Loader'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/singleSideConfig'
@@ -65,9 +65,11 @@ const StakeUI = () => {
         ) : !stakingRewardsExist ? (
           t('earnPage.noActiveRewards')
         ) : (
-          stakingInfoResults?.map(stakingInfo => (
-            <PoolCard key={stakingInfo.stakingRewardAddress} stakingInfo={stakingInfo} version={params.version} />
-          ))
+          <PoolCards>
+            {stakingInfoResults?.map(stakingInfo => (
+              <PoolCard key={stakingInfo.stakingRewardAddress} stakingInfo={stakingInfo} version={params.version} />
+            ))}
+          </PoolCards>
         )}
       </PoolsWrapper>
     </PageWrapper>

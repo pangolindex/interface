@@ -1,12 +1,11 @@
 import React from 'react'
 import { Text } from '@pangolindex/components'
 import { JSBI } from '@pangolindex/sdk'
+import numeral from 'numeral'
 import { useTranslation } from 'react-i18next'
-import { Card, CardHeader, CardColumn, CardStats, CardButtons, TokenName, DetailButton, StakeButton } from './styleds'
+import { Card, CardHeader, Stats, CardStats, TokenName, DetailButton, StakeButton } from './styleds'
 import { SingleSideStaking, SingleSideStakingInfo } from 'src/state/stake/hooks'
 import CurrencyLogo from 'src/components/CurrencyLogo'
-import { StyledInternalLink } from 'src/theme'
-import { currencyId } from 'src/utils/currencyId'
 
 export interface PoolCardProps {
   stakingInfo: SingleSideStakingInfo
@@ -26,34 +25,29 @@ const PoolCard = ({ stakingInfo, version }: PoolCardProps) => {
         </div>
       </CardHeader>
       <CardStats>
-        <CardColumn width="40%">
+        <Stats>
           <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
             {t('stakePage.totalStaked')}
           </Text>
-          <Text fontSize={31} fontWeight={500} lineHeight="47px" color="text1">
-            {`${stakingInfo.totalStakedInPng.toSignificant(4, { groupSeparator: ',' }) ?? '-'} PNG`}
+          <Text fontSize={28} fontWeight={500} lineHeight="47px" color="text1">
+            {numeral(Number(stakingInfo.totalStakedInPng.toExact())?.toFixed(2)).format('0.00a')} PNG
           </Text>
-        </CardColumn>
-        <CardColumn>
+        </Stats>
+        <Stats>
           <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
-            {t('stakePage.apr')}
+            APR
           </Text>
-          <Text fontSize={31} fontWeight={500} lineHeight="47px" color="text1">
+          <Text fontSize={28} fontWeight={500} lineHeight="47px" color="text1">
             {JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0)) && !stakingInfo.isPeriodFinished
               ? `${stakingInfo.apr.toLocaleString()}%`
               : ' - '}
           </Text>
-        </CardColumn>
+        </Stats>
       </CardStats>
-      <CardButtons>
+      <CardStats>
         <DetailButton variant="outline"> {t('stakePage.seeDetails')}</DetailButton>
-        <StyledInternalLink
-          to={`${version}/${currencyId(stakingInfo.rewardToken)}`}
-          style={{ width: '100%', textDecoration: 'none' }}
-        >
-          <StakeButton variant="primary"> {t('stakePage.stake')}</StakeButton>
-        </StyledInternalLink>
-      </CardButtons>
+        <StakeButton variant="primary">{t('stakePage.stake')}</StakeButton>
+      </CardStats>
     </Card>
   )
 }
