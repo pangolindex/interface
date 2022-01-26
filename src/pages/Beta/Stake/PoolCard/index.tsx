@@ -4,16 +4,15 @@ import { JSBI } from '@pangolindex/sdk'
 import numeral from 'numeral'
 import { useTranslation } from 'react-i18next'
 import { Card, CardHeader, Stats, CardStats, TokenName, DetailButton, StakeButton } from './styleds'
-import { SingleSideStaking, SingleSideStakingInfo } from 'src/state/stake/hooks'
+import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import CurrencyLogo from 'src/components/CurrencyLogo'
 
 export interface PoolCardProps {
   stakingInfo: SingleSideStakingInfo
-  migration?: SingleSideStaking
-  version: string
+  onViewDetailsClick: () => void
 }
 
-const PoolCard = ({ stakingInfo, version }: PoolCardProps) => {
+const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
   const { t } = useTranslation()
 
   return (
@@ -25,14 +24,25 @@ const PoolCard = ({ stakingInfo, version }: PoolCardProps) => {
         </div>
       </CardHeader>
       <CardStats>
-        <Stats>
-          <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
-            {t('stakePage.totalStaked')}
-          </Text>
-          <Text fontSize={28} fontWeight={500} lineHeight="47px" color="text1">
-            {numeral(Number(stakingInfo.totalStakedInPng.toExact())?.toFixed(2)).format('0.00a')} PNG
-          </Text>
-        </Stats>
+        {stakingInfo.stakedAmount.greaterThan('0') ? (
+          <Stats>
+            <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
+              Your staked
+            </Text>
+            <Text fontSize={28} fontWeight={500} lineHeight="47px" color="text1">
+              {numeral(Number(stakingInfo.stakedAmount.toExact())?.toFixed(2)).format('0.00a')} PNG
+            </Text>
+          </Stats>
+        ) : (
+          <Stats>
+            <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
+              {t('stakePage.totalStaked')}
+            </Text>
+            <Text fontSize={28} fontWeight={500} lineHeight="47px" color="text1">
+              {numeral(Number(stakingInfo.totalStakedInPng.toExact())?.toFixed(2)).format('0.00a')} PNG
+            </Text>
+          </Stats>
+        )}
         <Stats>
           <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
             APR
@@ -45,7 +55,9 @@ const PoolCard = ({ stakingInfo, version }: PoolCardProps) => {
         </Stats>
       </CardStats>
       <CardStats>
-        <DetailButton variant="outline"> {t('stakePage.seeDetails')}</DetailButton>
+        <DetailButton variant="outline" onClick={onViewDetailsClick}>
+          {t('stakePage.seeDetails')}
+        </DetailButton>
         <StakeButton variant="primary">{t('stakePage.stake')}</StakeButton>
       </CardStats>
     </Card>

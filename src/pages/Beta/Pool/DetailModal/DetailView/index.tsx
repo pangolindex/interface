@@ -9,7 +9,7 @@ import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import Stat from 'src/components/Stat'
 import numeral from 'numeral'
 import { usePair } from 'src/data/Reserves'
-import CoinInfo from '../CoinInfo'
+import CoinDescription from 'src/components/Beta/CoinDescription'
 import StatDetail from '../StatDetail'
 import EarnWidget from '../../EarnWidget'
 import EarnDetail from '../EarnDetail'
@@ -152,11 +152,11 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
             )}
 
             <Box mt={20}>
-              <CoinInfo coin={currency0} />
+              <CoinDescription coin={currency0} />
             </Box>
 
             <Box mt={20}>
-              <CoinInfo coin={currency1} />
+              <CoinDescription coin={currency1} />
             </Box>
           </DetailContainer>
         </Box>

@@ -1,13 +1,15 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { PageWrapper, PageTitle, PoolsWrapper, PoolCards } from './styleds'
 import { useActiveWeb3React } from 'src/hooks'
 import Loader from 'src/components/Loader'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/singleSideConfig'
-import { useSingleSideStakingInfo } from 'src/state/stake/hooks'
+import { SingleSideStakingInfo, useSingleSideStakingInfo } from 'src/state/stake/hooks'
 import { BIG_INT_ZERO } from 'src/constants'
 import PoolCard from './PoolCard'
+import { useSingleSideStakingDetailnModalToggle } from 'src/state/application/hooks'
+import DetailModal from './DetailModal'
 
 interface RouteParams {
   version: string
@@ -18,7 +20,9 @@ const StakeUI = () => {
   const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
   const stakingInfos = useSingleSideStakingInfo(Number(params.version))
-  const [stakingInfoResults, setStakingInfoResults] = useState<any[]>()
+  const [stakingInfoResults, setStakingInfoResults] = useState<SingleSideStakingInfo[]>()
+  const [selectedStakingInfo, setSelectedStakingInfo] = useState<SingleSideStakingInfo>()
+  const toggleDetailModal = useSingleSideStakingDetailnModalToggle()
 
   useMemo(() => {
     Promise.all(
@@ -56,6 +60,14 @@ const StakeUI = () => {
     typeof chainId === 'number' && (SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0
   )
 
+  const onViewDetailClick = useCallback(
+    (stakingInfo: SingleSideStakingInfo) => {
+      setSelectedStakingInfo(stakingInfo)
+      toggleDetailModal()
+    },
+    [toggleDetailModal, setSelectedStakingInfo]
+  )
+
   return (
     <PageWrapper>
       <PageTitle>{t('stakePage.stakeAndEarn')}</PageTitle>
@@ -67,11 +79,17 @@ const StakeUI = () => {
         ) : (
           <PoolCards>
             {stakingInfoResults?.map(stakingInfo => (
-              <PoolCard key={stakingInfo.stakingRewardAddress} stakingInfo={stakingInfo} version={params.version} />
+              <PoolCard
+                key={stakingInfo.stakingRewardAddress}
+                stakingInfo={stakingInfo}
+                onViewDetailsClick={() => onViewDetailClick(stakingInfo)}
+              />
             ))}
           </PoolCards>
         )}
       </PoolsWrapper>
+
+      {selectedStakingInfo && <DetailModal stakingInfo={selectedStakingInfo} onClose={toggleDetailModal} />}
     </PageWrapper>
   )
 }

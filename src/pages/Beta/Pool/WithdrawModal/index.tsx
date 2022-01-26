@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Text, Box } from '@pangolindex/components'
 import { Wrapper } from './styleds'
-import Modal from '../Modal'
+import Modal from 'src/components/Beta/Modal'
 import { ThemeContext } from 'styled-components'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { CloseIcon } from 'src/theme/components'
