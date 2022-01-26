@@ -2,19 +2,24 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Text, Box, CurrencyLogo } from '@pangolindex/components'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { Token } from '@pangolindex/sdk'
-import { RowWrapper } from './styleds'
+import { DeleteButton, RowWrapper } from './styleds'
 import { ThemeContext } from 'styled-components'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { useTokenWeeklyChartData } from 'src/state/token/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
+import { X } from 'react-feather'
+import { removeCurrency } from 'src/state/watchlists/actions'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from 'src/state'
 
 type Props = {
   coin: Token
   onClick: () => void
+  onRemove: () => void
   isSelected: boolean
 }
 
-const WatchlistRow: React.FC<Props> = ({ coin, onClick, isSelected }) => {
+const WatchlistRow: React.FC<Props> = ({ coin, onClick, onRemove, isSelected }) => {
   const [showChart, setShowChart] = useState(false)
   const theme = useContext(ThemeContext)
   const usdcPrice = useUSDCPrice(coin)
@@ -29,6 +34,13 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, isSelected }) => {
 
   const token = unwrappedToken(coin)
 
+  const dispatch = useDispatch<AppDispatch>()
+
+  const removeToken = () => {
+    onRemove()
+    dispatch(removeCurrency(coin?.address))
+  }
+
   useEffect(() => {
     if (usdcPrice) {
       setTimeout(() => {
@@ -39,14 +51,14 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, isSelected }) => {
   }, [usdcPrice, setShowChart])
 
   return (
-    <RowWrapper onClick={onClick} isSelected={isSelected}>
-      <Box display="flex" alignItems="center">
+    <RowWrapper isSelected={isSelected}>
+      <Box display="flex" alignItems="center" height={"100%"} onClick={onClick}>
         <CurrencyLogo size={'28px'} currency={token} />
         <Text color="text1" fontSize={20} fontWeight={500} marginLeft={'6px'}>
           {token.symbol}
         </Text>
       </Box>
-      <Box px="7px">
+      <Box px="7px" onClick={onClick} >
         {/* show chart only after price of token comes to display chart in visible space */}
         {showChart && (
           <ResponsiveContainer height={20} width={'100%'}>
@@ -61,7 +73,7 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, isSelected }) => {
           </ResponsiveContainer>
         )}
       </Box>
-      <Box textAlign="right">
+      <Box textAlign="right" onClick={onClick}>
         <Text color="text1" fontSize={14} fontWeight={500}>
           {usdcPrice ? `$${usdcPrice?.toSignificant(4, { groupSeparator: ',' })}` : '-'}
         </Text>
@@ -71,7 +83,12 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, isSelected }) => {
           </Text>
         )}
       </Box>
-    </RowWrapper>
+      <Box height={"100%"} onClick={removeToken}>
+        <DeleteButton>
+          <X fontSize={16} fontWeight={600} />
+        </DeleteButton>
+      </Box>
+    </RowWrapper >
   )
 }
 

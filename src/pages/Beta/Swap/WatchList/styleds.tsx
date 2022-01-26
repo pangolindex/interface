@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 export const WatchListRoot = styled(Box)`
   width: 100%;
+  height: 100%;
   border-radius: 10px;
   padding: 20px;
   background-color: ${({ theme }) => theme.bg2};
@@ -31,19 +32,45 @@ export const CoinList = styled(Box)`
 `
 
 // WatchList Row Styles
-export const RowWrapper = styled(Box)<{ isSelected: boolean }>`
-  padding: 15px 10px;
+export const RowWrapper = styled(Box) <{ isSelected: boolean }>`
+  padding: 0px 10px;
   display: grid;
-  grid-template-columns: 100px minmax(auto, 1fr) max-content;
+  grid-template-columns: 100px minmax(auto, 1fr) auto auto;
   align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.text9};
   cursor: pointer;
   border-radius: 4px;
   background-color: ${({ theme, isSelected }) => (isSelected ? theme.bg6 : theme.bg2)};
 
+  height: 64px;
+
   &:hover {
     background-color: ${({ theme }) => theme.bg6};
+
+    button {
+      opacity: 1;
+      transition: 0.4s;
+      visibility: visible;
+      z-index: 1;
+      display: block;
+      position: relative;
+      right: 54px;
+    }
+
   }
+`
+export const DeleteButton = styled.button`
+  background-image: linear-gradient(to right, rgba(255,0,0,0), ${({ theme }) => theme.bg6});
+  background-color: transparent;
+  border: 0px;
+  color: ${({ theme }) => theme.text1};
+  cursor: pointer;
+  display: none;
+  height: 100%; 
+  width: 64px;
+  opacity: 0;
+  transition: 0.4s;
+  visibility: hidden;
 `
 
 // Coin Chart Styles

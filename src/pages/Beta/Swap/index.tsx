@@ -4,6 +4,7 @@ import MyPortfolio from './MyPortfolio'
 import WatchList from './WatchList'
 import PairInfo from './PairInfo'
 import SwapWidget from './SwapWidget'
+import { RedirectContext } from './WatchList/CoinChart'
 
 const SwapUI = () => {
   return (
@@ -16,7 +17,9 @@ const SwapUI = () => {
       </TopContainer>
       <GridContainer>
         <MyPortfolio />
-        <WatchList />
+        <RedirectContext.Provider value={false}>
+          <WatchList />
+        </RedirectContext.Provider>
       </GridContainer>
     </PageWrapper>
   )

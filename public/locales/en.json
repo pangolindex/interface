@@ -29,7 +29,8 @@
     "usefulLinks": "USEFUL LINKS",
     "comeAndJoinUs": "Come & Join Us",
     "tryOurNewBetaSite": "Try our new beta site",
-    "returnToLegacySite": "Return to legacy site"
+    "returnToLegacySite": "Return to legacy site",
+    "switchToNewUI": "Switch to new UI"
   },
   "accountDetails": {
     "connectedWith": "Connected with ",

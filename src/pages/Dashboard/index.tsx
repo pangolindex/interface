@@ -11,7 +11,6 @@ import {
   FlexWrapper,
   // Portfolio
   PortfolioToken,
-  PortfolioTokenPercent,
   PortfolioInfo,
   HeaderDropdowns,
   // Earned
@@ -25,12 +24,6 @@ import {
   CustomizePools,
   // Tokens
   AddNewCoinButton,
-  TokenChart,
-  DateRangeSelect,
-  DateRangeItem,
-  TokenList,
-  CoinDetail,
-  CoinDetailToken,
   // News
   NewsSection,
   NewsTitle,
@@ -50,7 +43,6 @@ import {
 } from './styleds'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { LineChart, Line } from 'recharts'
 import Slider, { Settings } from 'react-slick'
 import { ArrowRight } from 'react-feather'
 import Linkify from 'react-linkify'
@@ -58,7 +50,6 @@ import makeBlockie from 'ethereum-blockies-base64'
 
 import TradingViewChart from './TradingViewChart'
 import PngToggle from './PngToggle'
-import TokenRow from './TokenRow'
 import ChainDropdown from './ChainDropdown'
 
 import { useDarkModeManager } from 'src/state/user/hooks'
@@ -66,7 +57,6 @@ import Logo from 'src/assets/images/logo.png'
 import LogoDark from 'src/assets/images/logo.png'
 import Info from 'src/assets/svg/info.svg'
 import Info2 from 'src/assets/svg/info2.svg'
-import LinkIcon from 'src/assets/svg/link.svg'
 import DeleteIcon from 'src/assets/svg/delete.svg'
 import Earth from 'src/assets/images/earth.png'
 
@@ -75,6 +65,8 @@ import 'slick-carousel/slick/slick-theme.css'
 import { CHAIN, CHAINS, ChainsId } from 'src/constants/chains'
 import { useGetChainsBalances } from 'src/state/portifolio/hooks'
 import { News, useGetNews } from 'src/state/news/hooks'
+import WatchList from '../Beta/Swap/WatchList'
+import { RedirectContext } from '../Beta/Swap/WatchList/CoinChart'
 
 const NewsFeedSettings: Settings = {
   dots: true,
@@ -83,15 +75,6 @@ const NewsFeedSettings: Settings = {
   slidesToShow: 1,
   slidesToScroll: 1,
   arrows: false
-}
-
-enum DateRangeType {
-  hour = '1H',
-  day = '1D',
-  week = '1W',
-  month = '1M',
-  year = '1Y',
-  all = 'ALL'
 }
 
 const Dashboard = () => {
@@ -115,17 +98,6 @@ const Dashboard = () => {
     }
 
     data.push(d)
-  }
-
-  const [coinsToken, setCoinsToken] = useState<string>('PNG')
-  const handleToken = (tokenName: string) => {
-    console.log(tokenName)
-    setCoinsToken(tokenName)
-  }
-
-  const [tokenDateRange, setTokenDateRange] = useState<string>('1D')
-  const handleTokenDateRange = (dateRange: string) => {
-    setTokenDateRange(dateRange)
   }
 
   // news
@@ -166,7 +138,7 @@ const Dashboard = () => {
                     })
                   : 0}
                 <img width={'50px'} src={selectChain.logo} alt={'Chain logo'} style={{ marginLeft: '12px' }} />
-                <PortfolioTokenPercent>23.3%</PortfolioTokenPercent>
+                {/* <PortfolioTokenPercent>23.3%</PortfolioTokenPercent> */}
               </PortfolioToken>
               <PortfolioInfo>
                 <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards worth
@@ -175,7 +147,7 @@ const Dashboard = () => {
             </CardBody>
           </Card>
         </ContainerLeft>
-        <ContainerRight>
+        <ContainerRight style={{display: "flex", flexDirection: "column"}}>
           <TopContainerWrapper>
             <ContainerLeft>
               <NewsSection img={Earth}>
@@ -229,65 +201,10 @@ const Dashboard = () => {
               </Card>
             </ContainerRight>
           </TopContainerWrapper>
-          <BottomContainerWrapper>
-            <Card style={{ paddingRight: '0px' }}>
-              <CardHeader style={{ paddingRight: '30px' }}>
-                {t('dashboardPage.coins')}
-                <AddNewCoinButton>
-                  + <span>Add New Coin</span>
-                </AddNewCoinButton>
-              </CardHeader>
-              <CardBody>
-                <FlexWrapper>
-                  <TokenChart>
-                    <CoinDetail>
-                      <CoinDetailToken>
-                        <img width={'56px'} src={Logo} alt={'token'} />
-                        <div>
-                          <div className="token">Avax</div>
-                          <div className="price">122.74$</div>
-                        </div>
-                      </CoinDetailToken>
-                      <div className="buttons">
-                        <IconButton variant="secondary">
-                          <img width={'15px'} src={LinkIcon} alt="link" />
-                        </IconButton>
-                        <FollowButton variant="primary" follow={true}>
-                          Trade
-                        </FollowButton>
-                      </div>
-                    </CoinDetail>
-                    <LineChart width={380} height={200} data={data}>
-                      <Line
-                        type="monotone"
-                        dataKey="value"
-                        stroke={coinsToken === 'PNG' ? '#18C145' : '#E84142'}
-                        dot={false}
-                      />
-                    </LineChart>
-                    <DateRangeSelect>
-                      {Object.values(DateRangeType).map((dateValue: string) => (
-                        <DateRangeItem
-                          key={dateValue}
-                          className={tokenDateRange === dateValue ? 'active' : ''}
-                          onClick={() => handleTokenDateRange(dateValue)}
-                        >
-                          {dateValue}
-                        </DateRangeItem>
-                      ))}
-                    </DateRangeSelect>
-                  </TokenChart>
-                  <TokenList>
-                    <TokenRow onClick={() => handleToken('PNG')} />
-                    <TokenRow name="AVAX" onClick={() => handleToken('AVAX')} />
-                    <TokenRow name="ETH.e" diffPercent={-1.5} onClick={() => handleToken('ETH')} />
-                    <TokenRow name="LINK.e" onClick={() => handleToken('LINK.e')} />
-                    <TokenRow name="USDT.e" onClick={() => handleToken('USDT.e')} />
-                    <TokenRow name="XAVA" onClick={() => handleToken('XAVA')} />
-                  </TokenList>
-                </FlexWrapper>
-              </CardBody>
-            </Card>
+          <BottomContainerWrapper style={{flexGrow: 1}}>
+            <RedirectContext.Provider value={true}>
+              <WatchList />
+            </RedirectContext.Provider>
           </BottomContainerWrapper>
         </ContainerRight>
       </TopContainerWrapper>
