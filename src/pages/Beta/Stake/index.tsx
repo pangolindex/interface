@@ -12,7 +12,7 @@ import { useModalOpen, useSingleSideStakingDetailnModalToggle } from 'src/state/
 import DetailModal from './DetailModal'
 import ClaimModal from './ClaimModal'
 import { ApplicationModal } from 'src/state/application/actions'
-import DepositModal from './DetailModal/DepositModal'
+import DepositModal from './DepositModal'
 
 interface RouteParams {
   version: string

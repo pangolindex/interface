@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Drawer from 'src/components/Drawer'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
-import DepositWidget from '../DepositWidget'
+import DepositWidget from '../../DepositWidget'
 
 type Props = {
   isOpen: boolean
