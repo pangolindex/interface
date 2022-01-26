@@ -368,7 +368,13 @@
     "uniswapV1Found": "Thanh khoản uniswap V1 được tìm thấy",
     "noSeePoolJoined": "Bạn không tìm thấy bể mà bạn đã tham gia?",
     "migrateNow": "Chuyển đổi ngay bây giờ.",
-    "importIt": "Nhập."
+    "importIt": "Nhập.",
+    "seeDetails":"XEM CHI TIẾT",
+    "totalLockedValue": "Tổng giá trị đã khóa",
+    "yourLockedValue": "Giá trị đã khóa của bạn",
+    "allPools": "Tất cả các hồ bơi",
+    "yourPools": "Hồ bơi của bạn",
+    "yourWallet": "Ví của bạn"
   },
   "poolFinder": {
     "connectToFind": "Kêt nối với một ví để nhìn thấy bể",
@@ -434,7 +440,8 @@
     "trade": "Buôn bán",
     "watchList": "WatchList",
     "yourPortFolio": "Danh mục đầu tư của bạn",
-    "comingSoon": "Sắp có"
+    "comingSoon": "Sắp có",
+    "connectWalletViewPortFolio": "Kết nối với ví để xem danh mục đầu tư của bạn."
   },
   "buyPage": {
     "buyAvaxInfo": "Mua AVAX bằng fiat từ đối tác Wyre của chúng tôi.",

@@ -368,7 +368,13 @@
     "uniswapV1Found": "Uniswap V1 likiditesi bulundu!",
     "noSeePoolJoined": "Katıldığınız bir havuzu görmüyor musunuz?",
     "migrateNow": "Şimdi taşı.",
-    "importIt": "Dışarıdan ekle."
+    "importIt": "Dışarıdan ekle.",
+    "seeDetails":"AYRINTILARA BAKINIZ",
+    "totalLockedValue": "Toplam Kilitli Değer",
+    "yourLockedValue": "Kilitli Değeriniz",
+    "allPools": "Tüm Havuzlar",
+    "yourPools": "Havuzlarınız",
+    "yourWallet": "Cüzdanın"
   },
   "poolFinder": {
     "connectToFind": "Havuzları bulmak için bir cüzdana bağlanın",
@@ -434,7 +440,8 @@
     "trade": "Ticaret",
     "watchList": "İzlenecekler listesi",
     "yourPortFolio": "Portföyünüz",
-    "comingSoon": "Çok yakında"
+    "comingSoon": "Çok yakında",
+    "connectWalletViewPortFolio": "Portföyünüzü kontrol etmek için bir cüzdana bağlanın."
   },
   "buyPage": {
     "buyAvaxInfo": "Partnerimiz Wyre aracılığıyla AVAX satın alın.",

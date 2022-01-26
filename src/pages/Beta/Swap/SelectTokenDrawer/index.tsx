@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useCallback, useEffect, useRef, memo } from 'react'
 import { TextInput, Box, Text } from '@pangolindex/components'
-import Drawer from '../Drawer'
+import Drawer from 'src/components/Drawer'
 import { useAllTokens, useToken } from 'src/hooks/Tokens'
 import { useTokenComparator } from 'src/components/SearchModal/sorting'
 import { CAVAX, Currency, currencyEquals, Token } from '@pangolindex/sdk'

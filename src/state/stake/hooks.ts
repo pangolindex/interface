@@ -22,6 +22,7 @@ import { useStakingContract } from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
 import { ZERO_ADDRESS } from '../../constants'
+import { unwrappedToken } from 'src/utils/wrappedCurrency'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -991,8 +992,42 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     usdPrice,
     pairAddresses,
     rewardTokensAddresses,
-    rewardsAddresses
+    rewardsAddresses,
+    rewardTokensMultipliers
   ])
 
   return arr
+}
+
+export function useGetPoolDollerWorth(pair: Pair | null) {
+  const { account } = useActiveWeb3React()
+  const token0 = pair?.token0
+  const currency0 = unwrappedToken(token0 as Token)
+
+  const currency0Price = useUSDCPrice(currency0)
+
+  const userPgl = useTokenBalance(account ?? undefined, pair?.liquidityToken)
+  const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
+
+  const [token0Deposited] =
+    !!pair &&
+    !!totalPoolTokens &&
+    !!userPgl &&
+    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPgl.raw)
+      ? [
+          pair.getLiquidityValue(pair.token0, totalPoolTokens, userPgl, false),
+          pair.getLiquidityValue(pair.token1, totalPoolTokens, userPgl, false)
+        ]
+      : [undefined, undefined]
+
+  const liquidityInUSD =
+    currency0Price && token0Deposited
+      ? Number(currency0Price.toFixed()) * 2 * Number(token0Deposited?.toSignificant(6))
+      : 0
+
+  return {
+    userPgl,
+    liquidityInUSD
+  }
 }

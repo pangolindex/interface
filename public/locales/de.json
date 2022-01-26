@@ -368,7 +368,13 @@
     "uniswapV1Found": "Uniswap V1-Liquidität gefunden!",
     "noSeePoolJoined": "Siehst du den Pool, dem Du beigetreten bist nicht?",
     "migrateNow": "Jetzt migrieren.",
-    "importIt": "Importiere ihn."
+    "importIt": "Importiere ihn.",
+    "seeDetails":"SIEHE EINZELHEITEN",
+    "totalLockedValue": "Gesperrter Gesamtwert",
+    "yourLockedValue": "Ihr gesperrter Wert",
+    "allPools": "Alle Pools",
+    "yourPools": "Ihre Pools",
+    "yourWallet": "Deine Geldbörse"
   },
   "poolFinder": {
     "connectToFind": "Verbinde mit einer Wallet, um Pools zu finden",
@@ -434,7 +440,8 @@
     "trade": "Handeln",
     "watchList": "Beobachtungsliste",
     "yourPortFolio": "Ihr Portfolio",
-    "comingSoon": "Kommt bald"
+    "comingSoon": "Kommt bald",
+    "connectWalletViewPortFolio": "Stellen Sie eine Verbindung zu einem Wallet her, um Ihr Portfolio anzuzeigen."
   },
   "buyPage": {
     "buyAvaxInfo": "Kaufen Sie AVAX mit Fiatgeld von unserem Partner Wyre.",

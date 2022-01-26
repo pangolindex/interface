@@ -137,7 +137,7 @@
     "remove": "Remove",
     "poolShare": "Your pool share:",
     "pooled": "Pooled",
-    "poolTokens": "Your pool tokens:",
+    "poolTokens": "Your pool tokens",
     "manage": "Manage",
     "loading": "Loading",
     "yourPosition": "Your position",
@@ -368,7 +368,13 @@
     "uniswapV1Found": "Uniswap V1 liquidity found!",
     "noSeePoolJoined": "Don't see a pool you joined?",
     "migrateNow": "Migrate now.",
-    "importIt": "Import it."
+    "importIt": "Import it.",
+    "seeDetails":"SEE DETAILS",
+    "totalLockedValue": "Total Locked Value",
+    "yourLockedValue": "Your Locked Value",
+    "allPools": "All Pools",
+    "yourPools": "Your Pools",
+    "yourWallet": "Your Wallet"
   },
   "poolFinder": {
     "connectToFind": "Connect to a wallet to find pools",
@@ -434,7 +440,8 @@
     "trade": "Trade",
     "watchList": "WatchList",
     "yourPortFolio": "Your Portfolio",
-    "comingSoon": "Coming Soon"
+    "comingSoon": "Coming Soon",
+    "connectWalletViewPortFolio": "Connect to a wallet to check your portfolio."
   },
   "buyPage": {
     "buyAvaxInfo": "Buy AVAX with fiat from our partner Wyre.",

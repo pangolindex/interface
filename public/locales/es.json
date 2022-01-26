@@ -368,7 +368,13 @@
     "uniswapV1Found": "Liquidez Uniswap V1 encontrada!",
     "noSeePoolJoined": "No ves un pool a la que te has unido?",
     "migrateNow": "Mirgrar ahora.",
-    "importIt": "Importar."
+    "importIt": "Importar.",
+    "seeDetails":"VER DETALLES",
+    "totalLockedValue": "Valor bloqueado total",
+    "yourLockedValue": "Su valor bloqueado",
+    "allPools": "Todos los Pools",
+    "yourPools": "Tus Pools",
+    "yourWallet": "tu billetera"
   },
   "poolFinder": {
     "connectToFind": "Conecte la cartera para encontrar pools",
@@ -434,7 +440,8 @@
     "trade": "Comercio",
     "watchList": "WatchList",
     "yourPortFolio": "Su portafolio",
-    "comingSoon": "Próximamente"
+    "comingSoon": "Próximamente",
+    "connectWalletViewPortFolio": "Conéctese a una cartera para ver su portafolio ."
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX con fiat de nuestro socio Wyre.",
