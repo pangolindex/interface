@@ -43,6 +43,10 @@ export function usePoolDetailnModalToggle(): () => void {
   return useToggleModal(ApplicationModal.POOL_DETAIL)
 }
 
+export function useSingleSideStakingDetailnModalToggle(): () => void {
+  return useToggleModal(ApplicationModal.SINGLE_SIDE_STAKE_DETAIL)
+}
+
 export function useToggleSettingsMenu(): () => void {
   return useToggleModal(ApplicationModal.SETTINGS)
 }

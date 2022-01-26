@@ -438,7 +438,8 @@
     "betaRelease": "Esta é uma versão BETA e deve ser usada por sua própria conta e risco!",
     "trade": "Troca",
     "watchList": "WatchList",
-    "yourPortFolio":"Seu Portfólio",
+    "yourPortFolio": "Seu Portfólio",
+    "comingSoon": "Em breve",
     "connectWalletViewPortFolio": "Conecte-se a uma carteira para ver seu portfólio."
   },
   "buyPage": {

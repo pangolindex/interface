@@ -439,7 +439,8 @@
     "betaRelease": "Esta es una versión BETA y debe usarse bajo su propio riesgo.",
     "trade": "Comercio",
     "watchList": "WatchList",
-    "yourPortFolio":"Su portafolio",
+    "yourPortFolio": "Su portafolio",
+    "comingSoon": "Próximamente",
     "connectWalletViewPortFolio": "Conéctese a una cartera para ver su portafolio ."
   },
   "buyPage": {

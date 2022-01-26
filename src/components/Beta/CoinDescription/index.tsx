@@ -9,13 +9,13 @@ interface Props {
   coin: Currency
 }
 
-export default function CoinInfo({ coin }: Props) {
+export default function CoinDescription({ coin }: Props) {
   const { homePage, description } = useCoinGeckoTokenData(coin?.symbol, coin?.name)
   return (
     <>
       {(description || homePage) && (
         <Box>
-          <Text color="text1" fontSize={16}>
+          <Text color="text1" fontSize={16} fontWeight="bold" mb="15px">
             {coin?.name}
           </Text>
 

@@ -382,7 +382,7 @@
     "selectToken": "Select a Token",
     "poolFound": "Pool Found!",
     "managePool": "Manage this pool.",
-    "noLiquidityYet": "You don’t have liquidity in this pool yet.",
+    "noLiquidityYet": "You don't have liquidity in this pool yet.",
     "noPoolFound": "No pool found.",
     "addLiquidity": "Add liquidity.",
     "createPool": "Create pool.",
@@ -439,7 +439,8 @@
     "betaRelease": "This is a BETA release and should be used at your own risk!",
     "trade": "Trade",
     "watchList": "WatchList",
-    "yourPortFolio":"Your Portfolio",
+    "yourPortFolio": "Your Portfolio",
+    "comingSoon": "Coming Soon",
     "connectWalletViewPortFolio": "Connect to a wallet to check your portfolio."
   },
   "buyPage": {
@@ -559,7 +560,7 @@
   },
   "dashboardPage": {
     "dashboard": "Dashboard",
-    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "greetings": "Greetings kind ser! Let's ape in today…",
     "portfolioValue": "Portfolio Value",
     "earned": "Earned",
     "coins": "Coins",

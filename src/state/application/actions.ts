@@ -36,7 +36,8 @@ export enum ApplicationModal {
   POOL_DETAIL,
   ADD_LIQUIDITY,
   STAKE,
-  REMOVE_LIQUIDITY
+  REMOVE_LIQUIDITY,
+  SINGLE_SIDE_STAKE_DETAIL
 }
 
 export const updateBlockNumber = createAction<{ chainId: number; blockNumber: number }>('application/updateBlockNumber')

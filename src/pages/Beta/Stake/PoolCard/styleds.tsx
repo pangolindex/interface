@@ -2,15 +2,11 @@ import { Box, Button } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const Card = styled(Box)`
-  width: 480px;
+  /* width: 480px; */
   padding: 25px;
+  box-sizing: border-box;
   border-radius: 10px;
   background: ${({ theme }) => theme.bg2};
-  margin-right: 22px;
-
-  &:last-child {
-    margin-right: 0px;
-  }
 
   & img {
     border-radius: 100px;
@@ -26,30 +22,18 @@ export const CardHeader = styled(Box)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 30px;
+  padding-bottom: 25px;
   border-bottom: 1px solid ${({ theme }) => theme.text8};
 `
 
-export const CardColumn = styled(Box)<{ width?: string }>`
-  width: ${props => (props.width ? props.width : '48%')};
-`
+export const Stats = styled(Box)``
 
 export const CardStats = styled(Box)`
-  display: flex;
-  justify-content: space-between;
-  padding: 19px 0;
-
-  ${({ theme }) => theme.mediaWidth.upToLarge`
-    flex-direction: column;
-  `};
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    flex-direction: row;
-  `};
-`
-
-export const CardButtons = styled(Box)`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  grid-gap: 20px;
+  padding: 20px 0 0px;
 `
 
 export const TokenName = styled(Box)`
@@ -63,11 +47,12 @@ export const StakeButton = styled(Button)`
   background-color: ${({ theme }) => theme.bg8} !important;
   height: 46px;
   border-radius: 4px !important;
+  font-size: 16px;
 `
 
 export const DetailButton = styled(Button)`
   border: solid 1px ${({ theme }) => theme.text1} !important;
-  margin-right: 22px;
   height: 46px;
   border-radius: 4px !important;
+  font-size: 16px;
 `
