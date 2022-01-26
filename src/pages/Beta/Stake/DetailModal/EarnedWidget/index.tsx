@@ -10,6 +10,7 @@ import { Root } from './styled'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
+  onClaimClick: () => void
 }
 
 enum SHOW_TYPE {
@@ -17,12 +18,13 @@ enum SHOW_TYPE {
   USD
 }
 
-const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
+const EarnedWidget: React.FC<Props> = ({ stakingInfo, onClaimClick }) => {
   const { t } = useTranslation()
   const [showType, setShowType] = useState(SHOW_TYPE.TOKEN)
 
-  const earnedToken = stakingInfo?.earnedAmount?.token?.symbol || ''
-  const usdcPrice = useUSDCPrice(stakingInfo?.earnedAmount?.token)
+  const rewardTokenSymbol = stakingInfo?.rewardToken?.symbol || ''
+  const rewardToken = stakingInfo?.rewardToken
+  const usdcPrice = useUSDCPrice(rewardToken)
 
   const dailyRewardInToken = stakingInfo?.rewardRate?.multiply((60 * 60 * 24).toString()).toSignificant(4)
   const unclaimedAmountInToken = stakingInfo?.earnedAmount.toSignificant(4)
@@ -31,7 +33,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
   const unclaimedAmountInUSD = Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6))
 
   const dailyReward = showType === SHOW_TYPE.TOKEN ? dailyRewardInToken : numeral(dailyRewardUSD).format('$0.00a')
-  const tokenToDisplay = showType === SHOW_TYPE.TOKEN ? earnedToken : ''
+  const tokenToDisplay = showType === SHOW_TYPE.TOKEN ? rewardTokenSymbol : ''
   const unclaimedAmount =
     showType === SHOW_TYPE.TOKEN ? unclaimedAmountInToken : numeral(unclaimedAmountInUSD).format('$0.00a')
 
@@ -42,8 +44,8 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
           Earned
         </Text>
         <ToggleButtons
-          options={['USD', earnedToken]}
-          value={showType === SHOW_TYPE.TOKEN ? earnedToken : 'USD'}
+          options={['USD', rewardTokenSymbol]}
+          value={showType === SHOW_TYPE.TOKEN ? rewardTokenSymbol : 'USD'}
           onChange={value => {
             setShowType(value === 'USD' ? SHOW_TYPE.USD : SHOW_TYPE.TOKEN)
           }}
@@ -58,7 +60,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
           titleFontSize={14}
           statFontSize={24}
           titleColor="text2"
-          currency={showType === SHOW_TYPE.TOKEN ? stakingInfo?.earnedAmount?.token : undefined}
+          currency={showType === SHOW_TYPE.TOKEN ? rewardToken : undefined}
         />
       </Box>
 
@@ -70,13 +72,13 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
           titleFontSize={14}
           statFontSize={24}
           titleColor="text2"
-          currency={showType === SHOW_TYPE.TOKEN ? stakingInfo?.earnedAmount?.token : undefined}
+          currency={showType === SHOW_TYPE.TOKEN ? rewardToken : undefined}
         />
       </Box>
 
       {stakingInfo?.earnedAmount?.greaterThan(JSBI.BigInt(0)) && (
         <Box mt={15}>
-          <Button padding="15px 18px" variant="primary">
+          <Button padding="15px 18px" variant="primary" onClick={onClaimClick}>
             {t('earnPage.claim')}
           </Button>
         </Box>
@@ -85,4 +87,4 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
   )
 }
 
-export default StakeWidget
+export default EarnedWidget

@@ -13,9 +13,10 @@ import EarnedWidget from './EarnedWidget'
 type Props = {
   stakingInfo: SingleSideStakingInfo
   onClose: () => void
+  onClaimClick: () => void
 }
 
-const DetailModal: React.FC<Props> = ({ stakingInfo, onClose }) => {
+const DetailModal: React.FC<Props> = ({ stakingInfo, onClose, onClaimClick }) => {
   const isDetailModalOpen = useModalOpen(ApplicationModal.SINGLE_SIDE_STAKE_DETAIL)
   const toggleModal = useSingleSideStakingDetailnModalToggle()
   const theme = useContext(ThemeContext)
@@ -33,7 +34,7 @@ const DetailModal: React.FC<Props> = ({ stakingInfo, onClose }) => {
           </LeftSection>
           <RightSection>
             <StakeWidget stakingInfo={stakingInfo} />
-            <EarnedWidget stakingInfo={stakingInfo} />
+            <EarnedWidget stakingInfo={stakingInfo} onClaimClick={onClaimClick} />
           </RightSection>
         </DetailsWrapper>
       </Wrapper>

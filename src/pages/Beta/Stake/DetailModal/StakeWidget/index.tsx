@@ -58,7 +58,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
             padding="15px 18px"
             variant="primary"
             as="a"
-            href={`/swap?inputCurrency=${ZERO_ADDRESS}&outputCurrency=${png.address}`}
+            href={`/#/beta/swap?inputCurrency=${ZERO_ADDRESS}&outputCurrency=${png.address}`}
           >
             {t('earnPage.getToken', { symbol: stakeToken })}
           </Button>

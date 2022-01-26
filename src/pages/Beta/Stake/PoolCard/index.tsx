@@ -10,10 +10,13 @@ import CurrencyLogo from 'src/components/CurrencyLogo'
 export interface PoolCardProps {
   stakingInfo: SingleSideStakingInfo
   onViewDetailsClick: () => void
+  onClaimClick: () => void
 }
 
-const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
+const PoolCard = ({ stakingInfo, onViewDetailsClick, onClaimClick }: PoolCardProps) => {
   const { t } = useTranslation()
+
+  const showClaimButton = stakingInfo?.earnedAmount?.greaterThan('0')
 
   return (
     <Card>
@@ -58,7 +61,13 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
         <DetailButton variant="outline" onClick={onViewDetailsClick}>
           {t('stakePage.seeDetails')}
         </DetailButton>
-        <StakeButton variant="primary">{t('stakePage.stake')}</StakeButton>
+        {showClaimButton ? (
+          <StakeButton variant="primary" onClick={onClaimClick}>
+            {t('earnPage.claim')}
+          </StakeButton>
+        ) : (
+          <StakeButton variant="primary">{t('earnPage.stake')}</StakeButton>
+        )}
       </CardStats>
     </Card>
   )
