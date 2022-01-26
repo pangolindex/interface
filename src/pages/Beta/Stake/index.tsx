@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { PageWrapper, PageTitle, PoolsWrapper, PoolCards } from './styleds'
@@ -12,6 +12,7 @@ import { useModalOpen, useSingleSideStakingDetailnModalToggle } from 'src/state/
 import DetailModal from './DetailModal'
 import ClaimModal from './ClaimModal'
 import { ApplicationModal } from 'src/state/application/actions'
+import DepositModal from './DetailModal/DepositModal'
 
 interface RouteParams {
   version: string
@@ -23,8 +24,9 @@ const StakeUI = () => {
   const { chainId } = useActiveWeb3React()
   const stakingInfos = useSingleSideStakingInfo(Number(params.version))
   const [stakingInfoResults, setStakingInfoResults] = useState<SingleSideStakingInfo[]>()
-  const [selectedStakingInfo, setSelectedStakingInfo] = useState<SingleSideStakingInfo>()
+  const [selectedStakingInfoIndex, setSelectedStakingInfoIndex] = useState<number>(-1)
   const [showClaimModal, setShowClaimModal] = useState(false)
+  const [showDepositModal, setShowDepositModal] = useState(false)
   const toggleDetailModal = useSingleSideStakingDetailnModalToggle()
   const isDetailModalOpen = useModalOpen(ApplicationModal.SINGLE_SIDE_STAKE_DETAIL)
 
@@ -55,27 +57,40 @@ const StakeUI = () => {
       })
     setStakingInfoResults(sorted)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stakingInfos?.length])
+  }, [stakingInfos])
 
   const stakingRewardsExist = Boolean(
     typeof chainId === 'number' && (SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0
   )
 
   const onViewDetailClick = useCallback(
-    (stakingInfo: SingleSideStakingInfo) => {
-      setSelectedStakingInfo(stakingInfo)
+    (index: number) => {
+      setSelectedStakingInfoIndex(index)
       toggleDetailModal()
     },
-    [toggleDetailModal, setSelectedStakingInfo]
+    [toggleDetailModal, setSelectedStakingInfoIndex]
   )
 
   const onClaimClick = useCallback(
-    (stakingInfo: SingleSideStakingInfo) => {
-      setSelectedStakingInfo(stakingInfo)
+    (index: number) => {
+      setSelectedStakingInfoIndex(index)
       setShowClaimModal(true)
     },
-    [setSelectedStakingInfo, setShowClaimModal]
+    [setSelectedStakingInfoIndex, setShowClaimModal]
   )
+
+  const onDepositClick = useCallback(
+    (index: number) => {
+      setSelectedStakingInfoIndex(index)
+      setShowDepositModal(true)
+    },
+    [setSelectedStakingInfoIndex, setShowDepositModal]
+  )
+
+  const selectedStakingInfo = useMemo(() => stakingInfoResults?.[selectedStakingInfoIndex], [
+    stakingInfoResults,
+    selectedStakingInfoIndex
+  ])
 
   return (
     <PageWrapper>
@@ -87,13 +102,16 @@ const StakeUI = () => {
           t('earnPage.noActiveRewards')
         ) : (
           <PoolCards>
-            {stakingInfoResults?.map(stakingInfo => (
+            {stakingInfoResults?.map((stakingInfo, index) => (
               <PoolCard
                 key={stakingInfo.stakingRewardAddress}
                 stakingInfo={stakingInfo}
-                onViewDetailsClick={() => onViewDetailClick(stakingInfo)}
+                onViewDetailsClick={() => onViewDetailClick(index)}
                 onClaimClick={() => {
-                  onClaimClick(stakingInfo)
+                  onClaimClick(index)
+                }}
+                onDepositClick={() => {
+                  onDepositClick(index)
                 }}
               />
             ))}
@@ -106,8 +124,18 @@ const StakeUI = () => {
           stakingInfo={selectedStakingInfo}
           onClose={toggleDetailModal}
           onClaimClick={() => {
-            setSelectedStakingInfo(selectedStakingInfo)
+            setSelectedStakingInfoIndex(selectedStakingInfoIndex)
             setShowClaimModal(true)
+          }}
+        />
+      )}
+
+      {selectedStakingInfo && showDepositModal && (
+        <DepositModal
+          isOpen={showDepositModal}
+          stakingInfo={selectedStakingInfo}
+          onClose={() => {
+            setShowDepositModal(false)
           }}
         />
       )}

@@ -11,9 +11,10 @@ export interface PoolCardProps {
   stakingInfo: SingleSideStakingInfo
   onViewDetailsClick: () => void
   onClaimClick: () => void
+  onDepositClick: () => void
 }
 
-const PoolCard = ({ stakingInfo, onViewDetailsClick, onClaimClick }: PoolCardProps) => {
+const PoolCard = ({ stakingInfo, onViewDetailsClick, onClaimClick, onDepositClick }: PoolCardProps) => {
   const { t } = useTranslation()
 
   const showClaimButton = stakingInfo?.earnedAmount?.greaterThan('0')
@@ -66,7 +67,9 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick, onClaimClick }: PoolCardPro
             {t('earnPage.claim')}
           </StakeButton>
         ) : (
-          <StakeButton variant="primary">{t('earnPage.stake')}</StakeButton>
+          <StakeButton variant="primary" onClick={onDepositClick}>
+            {t('earnPage.stake')}
+          </StakeButton>
         )}
       </CardStats>
     </Card>

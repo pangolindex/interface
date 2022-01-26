@@ -6,6 +6,7 @@ import { PNG, ZERO_ADDRESS } from 'src/constants'
 import { useActiveWeb3React } from 'src/hooks'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
+import DepositDrawer from '../DepositDrawer'
 import UnstakeDrawer from '../UnstakeDrawer'
 import { Root, StakedAmount, TokenSymbol, Buttons, UnstakeButton } from './styled'
 
@@ -17,6 +18,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
   const { t } = useTranslation()
   const { account, chainId } = useActiveWeb3React()
   const [isUnstakeDrawerVisible, setShowUnstakeDrawer] = useState(false)
+  const [isDepositDrawerVisible, setShowDepositDrawer] = useState(false)
 
   const png = PNG[chainId ? chainId : ChainId.AVALANCHE]
   // detect existing unstaked position to show purchase button if none found
@@ -48,7 +50,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
       <Buttons>
         {/* show staked or get png button */}
         {userPngUnstaked?.greaterThan('0') ? (
-          <Button padding="15px 18px" variant="primary">
+          <Button padding="15px 18px" variant="primary" onClick={() => setShowDepositDrawer(true)}>
             {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0))
               ? t('earnPage.stake')
               : t('earnPage.stakeStakingTokens', { symbol: stakeToken })}
@@ -72,6 +74,16 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
         )}
       </Buttons>
 
+      {/* Deposit Drawer */}
+      <DepositDrawer
+        isOpen={isDepositDrawerVisible}
+        onClose={() => {
+          setShowDepositDrawer(false)
+        }}
+        stakingInfo={stakingInfo}
+      />
+
+      {/* Unstake Drawer */}
       <UnstakeDrawer
         isOpen={isUnstakeDrawerVisible}
         onClose={() => {

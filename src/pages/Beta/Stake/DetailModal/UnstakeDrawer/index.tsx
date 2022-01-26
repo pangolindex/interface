@@ -67,22 +67,28 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
       <Wrapper>
         {!attempting && !hash && (
           <ConfirmWrapper>
-            <Text fontSize="26px" fontWeight={500} color="text1">
-              {stakingInfo.stakedAmount?.toSignificant(6)}
+            <Box display="flex" alignItems="center">
+              <Box width="50%">
+                <Text fontSize="26px" fontWeight={500} color="text1">
+                  {stakingInfo.stakedAmount?.toSignificant(6)}
+                </Text>
+                <Text fontSize="16px" fontWeight={500} color="text1">
+                  {t('earn.depositedToken', { symbol: 'PNG' })}
+                </Text>
+              </Box>
+              <Box width="50%">
+                <Text fontSize="26px" fontWeight={500} color="text1">
+                  {stakingInfo.earnedAmount?.toSignificant(6)}
+                </Text>
+                <Text fontSize="16px" fontWeight={500} color="text1">
+                  {t('earn.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}
+                </Text>
+              </Box>
+            </Box>
+            <Text fontSize="14px" color="text2" mt={20}>
+              {t('earn.whenYouWithdrawSingleSideWarning', { symbol: stakingInfo?.rewardToken?.symbol })}
             </Text>
-            <Text fontSize="16px" fontWeight={500} color="text1">
-              {t('earn.depositedToken', { symbol: 'PNG' })}
-            </Text>
-
-            <Text fontSize="26px" fontWeight={500} color="text1" mt={10}>
-              {stakingInfo.earnedAmount?.toSignificant(6)}
-            </Text>
-            <Text fontSize="16px" fontWeight={500} color="text1">
-              {t('earn.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}
-            </Text>
-
             <Box flex={1} />
-
             <Box mt={'10px'}>
               <Button variant="primary" isDisabled={!!error} onClick={onWithdraw}>
                 {error ?? t('earn.withdrawAndClaim')}
