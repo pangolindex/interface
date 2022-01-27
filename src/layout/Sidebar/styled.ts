@@ -29,9 +29,11 @@ export const Sider = styled.div<{ collapsed: boolean }>`
 `
 
 export const BottomBar = styled.div`
-  /* position: fixed; */
+  position: absolute;
   bottom: 0;
   z-index: 1;
+  display: flex;
+  width: 100%;
 `
 
 export const CollapseBar = styled.div`
