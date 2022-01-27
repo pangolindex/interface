@@ -28,9 +28,8 @@ import { useActiveWeb3React } from './hooks'
 Sentry.init({
   dsn: "https://ff9ffce9712f415f8ad4c2a80123c984@o1080468.ingest.sentry.io/6086371",
   integrations: [new Integrations.BrowserTracing()],
-
-  // We recommend adjusting this value in production, or using tracesSampler
-  // for finer control
+  release: "pangolin-interface@2.0.0", //manual for now
+  dist: "1",
   tracesSampleRate: 0.4,
   enabled: process.env.NODE_ENV === "production"
 });
