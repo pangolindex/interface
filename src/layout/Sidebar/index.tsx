@@ -53,11 +53,11 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       isActive: location?.pathname?.startsWith('/beta/swap')
     },
     {
-      link: '/buy',
+      link: '/beta/buy',
       icon: Buy,
       title: t('header.buy'),
       id: 'buy',
-      isActive: location?.pathname?.startsWith('/buy')
+      isActive: location?.pathname?.startsWith('/beta/buy')
     },
     {
       link: '/beta/pool',
