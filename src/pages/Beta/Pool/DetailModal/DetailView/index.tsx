@@ -91,8 +91,6 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
               titleColor="text2"
             />
           </Box>
-
-         
         </PanelWrapper>
         <Box mt={20}>
           <CloseIcon onClick={onDismiss} color={theme.text3} />
@@ -141,14 +139,17 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
                 />
               </Box>
             )}
+            {currency0?.symbol !== 'AVAX' && (
+              <Box mt={20}>
+                <CoinDescription coin={currency0} />
+              </Box>
+            )}
 
-            <Box mt={20}>
-              <CoinDescription coin={currency0} />
-            </Box>
-
-            <Box mt={20}>
-              <CoinDescription coin={currency1} />
-            </Box>
+            {currency1?.symbol !== 'AVAX' && (
+              <Box mt={20}>
+                <CoinDescription coin={currency1} />
+              </Box>
+            )}
           </DetailContainer>
         </Box>
 
