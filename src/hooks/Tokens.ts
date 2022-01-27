@@ -207,7 +207,7 @@ export function useCoinGeckoTokenData(symbol?: string, name?: string) {
             ? undefined
             : allCoins.find((data: any) => data?.symbol?.toUpperCase() === newSymbol)?.id
 
-        if (!!coinId) {
+        if (!!coinId && symbol !== 'AVAX') {
           let coin = (await CoinGeckoClient.coins.fetch(coinId, {
             tickers: false,
             community_data: false,
