@@ -19,26 +19,6 @@ export const ContentWrapper = styled.div`
   flex-direction: row;
   grid-column-gap: 40px;
 `
-export const OptionButton = styled.div<{ active?: boolean; disabled?: boolean }>`
-  font-weight: 500;
-  width: fit-content;
-  white-space: nowrap;
-  padding: 0px 6px;
-  border-radius: 6px;
-  border: 1px solid ${({ theme }) => theme.bg4};
-  background-color: ${({ active, theme }) => (active ? theme.yellow2 : theme.bg7)};
-  color: ${({ theme }) => theme.text1};
-
-  :hover {
-    cursor: ${({ disabled }) => !disabled && 'pointer'};
-  }
-`
-
-export const OptionsWrapper = styled.div`
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  grid-gap: 10px;
-`
 
 export const Divider = styled(Box)`
   height: 1px;

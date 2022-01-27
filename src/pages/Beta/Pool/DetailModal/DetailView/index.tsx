@@ -92,16 +92,7 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
             />
           </Box>
 
-          <Box padding="10px 6px">
-            <Stat
-              title={`Pool Weight`}
-              stat={`${stakingInfo?.multiplier}X`}
-              titlePosition="top"
-              titleFontSize={14}
-              statFontSize={24}
-              titleColor="text2"
-            />
-          </Box>
+         
         </PanelWrapper>
         <Box mt={20}>
           <CloseIcon onClick={onDismiss} color={theme.text3} />
