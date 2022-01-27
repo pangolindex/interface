@@ -32,6 +32,7 @@ Sentry.init({
   // We recommend adjusting this value in production, or using tracesSampler
   // for finer control
   tracesSampleRate: 0.4,
+  enabled: process.env.NODE_ENV === "production"
 });
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
