@@ -18,7 +18,7 @@ import {
 } from './styled'
 import Backward from '../../assets/svg/backward.svg'
 import Forward from '../../assets/svg/forward.svg'
-import { Dashboard, Swap, Stake, Pool, Farm, Buy, Vote, Migration } from '../../components/Icons'
+import { Dashboard, Swap, Stake, Pool, Buy, Vote, Migration } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import Partners from '../../assets/svg/menu/partners.svg'
 import { ANALYTICS_PAGE } from '../../constants'
@@ -60,26 +60,17 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       isActive: location?.pathname?.startsWith('/beta/buy')
     },
     {
-      link: '/pool',
+      link: '/beta/pool',
       icon: Pool,
       title: t('header.pool'),
       id: 'buy',
       isActive:
-        location?.pathname?.startsWith('/buy') ||
+        location?.pathname?.startsWith('/beta/pool') ||
         location?.pathname.startsWith('/add') ||
         location?.pathname.startsWith('/remove') ||
         location?.pathname.startsWith('/create') ||
         location?.pathname.startsWith('/find')
     },
-
-    {
-      link: '/png/2',
-      icon: Farm,
-      title: t('header.farm'),
-      id: 'farm',
-      isActive: location?.pathname?.startsWith('/png')
-    },
-
     {
       link: '/beta/stake/0',
       icon: Stake,

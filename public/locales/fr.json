@@ -93,7 +93,9 @@
     "withdrawAndClaim": "Retirer & réclamer",
     "withdrewStakingToken": "{{ symbol }} Retiré!",
     "approve": "Approuver",
-    "poolWeight": "Poids de la piscine"
+    "poolWeight": "Poids de la piscine",
+    "withdraw": "Retirer",
+    "extraReward": "Récompense supplémentaire"
   },
   "menu": {
     "code": "Code",
@@ -366,7 +368,13 @@
     "uniswapV1Found": "Liquidité Uniswap V1 trouvé !",
     "noSeePoolJoined": "Vous ne voyez pas une pool que vous avez rejointe ?",
     "migrateNow": "Migrer maintenant.",
-    "importIt": "Importez-le."
+    "importIt": "Importez-le.",
+    "seeDetails":"VOIR LES DÉTAILS",
+    "totalLockedValue": "Valeur totale verrouillée",
+    "yourLockedValue": "Votre valeur verrouillée",
+    "allPools": "Toutes les Pools",
+    "yourPools": "Vos Pools",
+    "yourWallet": "Ton portefeuille"
   },
   "poolFinder": {
     "connectToFind": "Se connecter à un portefeuille pour trouver des pools",
@@ -431,8 +439,9 @@
     "betaRelease": "Ceci est une version BETA et doit être utilisé à vos risques et périls !",
     "trade": "Échanger",
     "watchList": "Liste de surveillance",
-    "yourPortFolio":"Votre portefeuille",
-    "comingSoon":"À venir"
+    "yourPortFolio": "Votre portefeuille",
+    "comingSoon": "À venir",
+    "connectWalletViewPortFolio": "Connectez-vous à un portefeuille pour afficher votre portefeuille ."
   },
   "buyPage": {
     "buyAvaxInfo": "Achetez AVAX avec monnaie fiat chez notre partenaire Wyre.",

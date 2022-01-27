@@ -4,8 +4,8 @@ import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
-import { injected } from '../connectors'
-import { NetworkContextName } from '../constants'
+import { gnosisSafe, injected } from '../connectors'
+import { IS_IN_IFRAME, NetworkContextName } from '../constants'
 
 export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & { chainId?: ChainId } {
   const context = useWeb3ReactCore<Web3Provider>()
@@ -16,24 +16,38 @@ export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & 
 export function useEagerConnect() {
   const { activate, active } = useWeb3ReactCore() // specifically using useWeb3ReactCore because of what this hook does
   const [tried, setTried] = useState(false)
+  const [triedSafe, setTriedSafe] = useState<boolean>(!IS_IN_IFRAME)
+
 
   useEffect(() => {
-    injected.isAuthorized().then(isAuthorized => {
-      if (isAuthorized) {
-        activate(injected, undefined, true).catch(() => {
-          setTried(true)
-        })
-      } else {
-        if (isMobile && window.ethereum) {
+    if (!triedSafe){
+      gnosisSafe.isSafeApp().then((loadedInSafe) => {
+        if (loadedInSafe) {
+          activate(gnosisSafe, undefined, true).catch(() => {
+            setTriedSafe(true)
+          })
+        } else {
+          setTriedSafe(true)
+        }
+      })
+    } else {
+      injected.isAuthorized().then(isAuthorized => {
+        if (isAuthorized) {
           activate(injected, undefined, true).catch(() => {
             setTried(true)
           })
         } else {
-          setTried(true)
+          if (isMobile && window.ethereum) {
+            activate(injected, undefined, true).catch(() => {
+              setTried(true)
+            })
+          } else {
+            setTried(true)
+          }
         }
-      }
-    })
-  }, [activate]) // intentionally only running on mount (make sure it's only mounted once :))
+      })
+    }
+  }, [activate, triedSafe, setTriedSafe]) // intentionally only running on mount (make sure it's only mounted once :))
 
   // if the connection worked, wait until we get confirmation of that to flip the flag
   useEffect(() => {

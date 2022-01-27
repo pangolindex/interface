@@ -38,19 +38,22 @@ const Base = styled(RebassButton)<{
   }
 `
 
-export const ButtonPrimary = styled(Base)`
-  background-color: ${({ theme }) => theme.primary1};
+export const ButtonPrimary = styled(Base)<{ isBeta?: boolean }>`
+  background-color: ${({ theme, isBeta }) => (isBeta ? theme.yellow3 : theme.primary1)};
+  border-radius: ${({ isBeta }) => (isBeta ? '4px' : '12px')} !important;
   color: white;
   &:focus {
-    box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
-    background-color: ${({ theme }) => darken(0.05, theme.primary1)};
+    box-shadow: 0 0 0 1pt
+      ${({ theme, isBeta }) => (isBeta ? darken(0.05, theme.yellow3) : darken(0.05, theme.primary1))};
+    background-color: ${({ theme, isBeta }) => (isBeta ? darken(0.05, theme.yellow3) : darken(0.05, theme.primary1))};
   }
   &:hover {
-    background-color: ${({ theme }) => darken(0.05, theme.primary1)};
+    background-color: ${({ theme, isBeta }) => (isBeta ? darken(0.05, theme.yellow3) : darken(0.05, theme.primary1))};
   }
   &:active {
-    box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.1, theme.primary1)};
-    background-color: ${({ theme }) => darken(0.1, theme.primary1)};
+    box-shadow: 0 0 0 1pt
+      ${({ theme, isBeta }) => (isBeta ? darken(0.01, theme.yellow3) : darken(0.01, theme.primary1))};
+    background-color: ${({ theme, isBeta }) => (isBeta ? darken(0.01, theme.yellow3) : darken(0.01, theme.primary1))};
   }
   &:disabled {
     background-color: ${({ theme, altDisabledStyle }) => (altDisabledStyle ? theme.primary1 : theme.bg3)};
@@ -233,9 +236,10 @@ const ButtonConfirmedStyle = styled(Base)`
   }
 `
 
-const ButtonErrorStyle = styled(Base)`
+const ButtonErrorStyle = styled(Base)<{ isBeta?: boolean }>`
   background-color: ${({ theme }) => theme.red1};
   border: 1px solid ${({ theme }) => theme.red1};
+  border-radius: ${({ isBeta }) => (isBeta ? '4px' : '12px')} !important;
 
   &:focus {
     box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.red1)};
@@ -269,11 +273,11 @@ export function ButtonConfirmed({
   }
 }
 
-export function ButtonError({ error, ...rest }: { error?: boolean } & ButtonProps) {
+export function ButtonError({ error, isBeta = false, ...rest }: { error?: boolean; isBeta?: boolean } & ButtonProps) {
   if (error) {
     return <ButtonErrorStyle {...rest} />
   } else {
-    return <ButtonPrimary {...rest} />
+    return <ButtonPrimary isBeta={isBeta} {...rest} />
   }
 }
 

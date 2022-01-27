@@ -13,6 +13,7 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import FormattedCurrencyAmount from '../FormattedCurrencyAmount'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
+import { TokenAmount } from '@pangolindex/sdk'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -24,9 +25,16 @@ interface StakingModalProps {
   onDismiss: () => void
   stakingInfo: DoubleSideStakingInfo
   version: number
+  extraRewardTokensAmount?: Array<TokenAmount>
 }
 
-export default function UnstakingModal({ isOpen, onDismiss, stakingInfo, version }: StakingModalProps) {
+export default function UnstakingModal({
+  isOpen,
+  onDismiss,
+  stakingInfo,
+  version,
+  extraRewardTokensAmount
+}: StakingModalProps) {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
 
@@ -43,18 +51,23 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo, version
 
   const poolMap = useMinichefPools()
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const isSuperFarm = extraRewardTokensAmount && extraRewardTokensAmount?.length > 0
 
   async function onWithdraw() {
     if (stakingContract && poolMap && stakingInfo?.stakedAmount) {
       setAttempting(true)
       const method = version < 2 ? 'exit' : 'withdrawAndHarvest'
-      const args = version < 2
-        ? []
-        : [poolMap[stakingInfo.stakedAmount.token.address], `0x${stakingInfo.stakedAmount?.raw.toString(16)}`, account]
+      const args =
+        version < 2
+          ? []
+          : [
+              poolMap[stakingInfo.stakedAmount.token.address],
+              `0x${stakingInfo.stakedAmount?.raw.toString(16)}`,
+              account
+            ]
 
       // TODO: Support withdrawing partial amounts for v2+
-      await stakingContract
-        [method](...args)
+      await stakingContract[method](...args)
         .then((response: TransactionResponse) => {
           addTransaction(response, {
             summary: t('earn.withdrawDepositedLiquidity')
@@ -100,9 +113,16 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo, version
               <TYPE.body>{t('earn.unclaimedReward', { symbol: 'PNG' })}</TYPE.body>
             </AutoColumn>
           )}
-          <TYPE.subHeader style={{ textAlign: 'center' }}>
-            {t('earn.whenYouWithdrawWarning')}
-          </TYPE.subHeader>
+          {isSuperFarm &&
+            extraRewardTokensAmount?.map((rewardAmount, i) => (
+              <AutoColumn justify="center" gap="md" key={i}>
+                <TYPE.body fontWeight={600} fontSize={36}>
+                  {<FormattedCurrencyAmount currencyAmount={rewardAmount} />}
+                </TYPE.body>
+                <TYPE.body>{t('earn.unclaimedReward', { symbol: rewardAmount?.token?.symbol })}</TYPE.body>
+              </AutoColumn>
+            ))}
+          <TYPE.subHeader style={{ textAlign: 'center' }}>{t('earn.whenYouWithdrawWarning')}</TYPE.subHeader>
           <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onWithdraw}>
             {error ?? t('earn.withdrawAndClaim')}
           </ButtonError>
@@ -122,6 +142,16 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo, version
                 amount: stakingInfo?.earnedAmount?.toSignificant(4),
                 symbol: 'PNG'
               })}
+
+              {isSuperFarm &&
+                extraRewardTokensAmount?.map((rewardAmount, i) => (
+                  <TYPE.body fontSize={20} key={i}>
+                    {t('earn.claimingReward', {
+                      amount: rewardAmount?.toSignificant(6),
+                      symbol: rewardAmount?.token?.symbol
+                    })}
+                  </TYPE.body>
+                ))}
             </TYPE.body>
           </AutoColumn>
         </LoadingView>

@@ -13,6 +13,7 @@ import {
 import { tryParseAmount } from '../swap/hooks'
 import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
+import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../../constants/abis/rewarderViaMultiplier'
 import useUSDCPrice from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
 import { useTokenBalance } from '../../state/wallet/hooks'
@@ -21,6 +22,7 @@ import { useStakingContract } from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
 import { ZERO_ADDRESS } from '../../constants'
+import { unwrappedToken } from 'src/utils/wrappedCurrency'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -88,6 +90,10 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
   // total staked AVAX in the pool
   totalStakedInWavax: TokenAmount
   totalStakedInUsd: TokenAmount
+  rewardTokensAddress?: Array<string>
+  rewardsAddress?: string
+  rewardTokensMultiplier?: Array<JSBI>
+  getExtraTokensRewardRate?: (rewardRate: TokenAmount, token: Token, tokenMultiplier: JSBI | undefined) => TokenAmount
 }
 
 export interface StakingInfo extends DoubleSideStakingInfo {
@@ -778,7 +784,10 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     if (!poolIdArray) return []
     return poolIdArray.map(pid => [pid])
   }, [poolIdArray])
+
   const poolInfos = useSingleContractMultipleData(minichefContract, 'poolInfo', poolsIdInput ?? [])
+
+  const rewarders = useSingleContractMultipleData(minichefContract, 'rewarder', poolsIdInput ?? [])
 
   const userInfoInput = useMemo(() => {
     if (!poolIdArray || !account) return []
@@ -787,6 +796,26 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const userInfos = useSingleContractMultipleData(minichefContract, 'userInfo', userInfoInput ?? [])
 
   const pendingRewards = useSingleContractMultipleData(minichefContract, 'pendingReward', userInfoInput ?? [])
+
+  const rewardsAddresses = useMemo(() => {
+    if ((rewarders || []).length === 0) return []
+    if (rewarders.some(item => item.loading)) return []
+    return rewarders.map(reward => reward?.result?.[0])
+  }, [rewarders])
+
+  const rewardTokensAddresses = useMultipleContractSingleData(
+    rewardsAddresses,
+    REWARDER_VIA_MULTIPLIER_INTERFACE,
+    'getRewardTokens',
+    []
+  )
+
+  const rewardTokensMultipliers = useMultipleContractSingleData(
+    rewardsAddresses,
+    REWARDER_VIA_MULTIPLIER_INTERFACE,
+    'getRewardMultipliers',
+    []
+  )
 
   const rewardPerSecond = useSingleCallResult(minichefContract, 'rewardPerSecond', []).result
   const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
@@ -803,6 +832,9 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
       const userPoolInfo = userInfos[index]
       const [pairState, pair] = pairs[index]
       const pendingRewardInfo = pendingRewards[index]
+      const rewardTokensAddress = rewardTokensAddresses[index]
+      const rewardTokensMultiplier = rewardTokensMultipliers[index]
+      const rewardsAddress = rewardsAddresses[index]
 
       if (
         pairTotalSupplyState?.loading === false &&
@@ -814,7 +846,8 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
         avaxPngPairState !== PairState.LOADING &&
         rewardPerSecond &&
         totalAllocPoint &&
-        rewardsExpiration?.[0]
+        rewardsExpiration?.[0] &&
+        rewardTokensAddress?.loading === false
       ) {
         if (
           balanceState?.error ||
@@ -909,6 +942,14 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           )
         }
 
+        const getExtraTokensRewardRate = (rewardRate: TokenAmount, token: Token, tokenMultiplier: JSBI | undefined) => {
+          const TEN_EIGHTEEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
+          const rewardMultiplier = JSBI.BigInt(tokenMultiplier || 1) || JSBI.BigInt(1)
+          const finalReward = JSBI.divide(JSBI.multiply(rewardMultiplier, rewardRate?.raw), TEN_EIGHTEEN)
+          const userRewardRate = new TokenAmount(token, finalReward)
+          return userRewardRate
+        }
+
         const userRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
 
         memo.push({
@@ -924,7 +965,11 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           multiplier: JSBI.divide(multiplier, JSBI.BigInt(100)),
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
           isPeriodFinished,
-          getHypotheticalRewardRate
+          getHypotheticalRewardRate,
+          getExtraTokensRewardRate,
+          rewardTokensAddress: rewardTokensAddress?.result?.[0],
+          rewardTokensMultiplier: rewardTokensMultiplier?.result?.[0],
+          rewardsAddress
         })
       }
 
@@ -945,8 +990,44 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     rewardsExpiration,
     balances,
     usdPrice,
-    pairAddresses
+    pairAddresses,
+    rewardTokensAddresses,
+    rewardsAddresses,
+    rewardTokensMultipliers
   ])
 
   return arr
+}
+
+export function useGetPoolDollerWorth(pair: Pair | null) {
+  const { account } = useActiveWeb3React()
+  const token0 = pair?.token0
+  const currency0 = unwrappedToken(token0 as Token)
+
+  const currency0Price = useUSDCPrice(currency0)
+
+  const userPgl = useTokenBalance(account ?? undefined, pair?.liquidityToken)
+  const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
+
+  const [token0Deposited] =
+    !!pair &&
+    !!totalPoolTokens &&
+    !!userPgl &&
+    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPgl.raw)
+      ? [
+          pair.getLiquidityValue(pair.token0, totalPoolTokens, userPgl, false),
+          pair.getLiquidityValue(pair.token1, totalPoolTokens, userPgl, false)
+        ]
+      : [undefined, undefined]
+
+  const liquidityInUSD =
+    currency0Price && token0Deposited
+      ? Number(currency0Price.toFixed()) * 2 * Number(token0Deposited?.toSignificant(6))
+      : 0
+
+  return {
+    userPgl,
+    liquidityInUSD
+  }
 }

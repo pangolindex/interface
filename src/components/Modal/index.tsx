@@ -9,7 +9,7 @@ import { useGesture } from 'react-use-gesture'
 
 const AnimatedDialogOverlay = animated(DialogOverlay)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StyledDialogOverlay = styled(AnimatedDialogOverlay)<{ background?: string }>`
+const StyledDialogOverlay = styled(AnimatedDialogOverlay)<{ background?: string; isBeta?: boolean }>`
   &[data-reach-dialog-overlay] {
     z-index: 2;
     background-color: transparent;
@@ -20,13 +20,15 @@ const StyledDialogOverlay = styled(AnimatedDialogOverlay)<{ background?: string 
     justify-content: center;
 
     background-color: ${({ theme, background }) => (background ? background : theme.modalBG)};
+    margin-top: ${({ isBeta }) => (isBeta ? '60px' : '0px')};
+    margin-left: ${({ isBeta }) => (isBeta ? '52px' : '0px')};
   }
 `
 
 const AnimatedDialogContent = animated(DialogContent)
 // destructure to not pass custom props to Dialog DOM element
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...rest }) => (
+const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isBeta, ...rest }) => (
   <AnimatedDialogContent {...rest} />
 )).attrs({
   'aria-label': 'dialog'
@@ -35,7 +37,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...r
 
   &[data-reach-dialog-content] {
     margin: 0 0 2rem 0;
-    background-color: ${({ theme }) => theme.bg1};
+    background-color: ${({ theme, isBeta }) => (isBeta ? theme.bg2 : theme.bg1)};
     box-shadow: 0 4px 8px 0 ${({ theme }) => transparentize(0.95, theme.shadow1)};
     padding: 0px;
     width: 50vw;
@@ -82,6 +84,7 @@ interface ModalProps {
   initialFocusRef?: React.RefObject<any>
   children?: React.ReactNode
   overlayBG?: string
+  isBeta?: boolean
 }
 
 export default function Modal({
@@ -91,7 +94,8 @@ export default function Modal({
   maxHeight = 90,
   initialFocusRef,
   children,
-  overlayBG
+  overlayBG,
+  isBeta = false
 }: ModalProps) {
   const fadeTransition = useTransition(isOpen, null, {
     config: { duration: 200 },
@@ -123,6 +127,7 @@ export default function Modal({
               onDismiss={onDismiss}
               initialFocusRef={initialFocusRef}
               background={overlayBG}
+              isBeta={isBeta}
             >
               <StyledDialogContent
                 {...(isMobile
@@ -135,6 +140,7 @@ export default function Modal({
                 minHeight={minHeight}
                 maxHeight={maxHeight}
                 mobile={isMobile}
+                isBeta={isBeta}
               >
                 {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
                 {!initialFocusRef && isMobile ? <div tabIndex={1} /> : null}
