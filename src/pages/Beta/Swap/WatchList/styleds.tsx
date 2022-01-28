@@ -35,7 +35,7 @@ export const CoinList = styled(Box)`
 export const RowWrapper = styled(Box) <{ isSelected: boolean }>`
   padding: 0px 10px;
   display: grid;
-  grid-template-columns: 100px minmax(auto, 1fr) auto auto;
+  grid-template-columns: 100px minmax(auto, 1fr) max-content;
   align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.text9};
   cursor: pointer;
@@ -46,17 +46,6 @@ export const RowWrapper = styled(Box) <{ isSelected: boolean }>`
 
   &:hover {
     background-color: ${({ theme }) => theme.bg6};
-
-    button {
-      opacity: 1;
-      transition: 0.4s;
-      visibility: visible;
-      z-index: 1;
-      display: block;
-      position: relative;
-      right: 54px;
-    }
-
   }
 `
 export const DeleteButton = styled.button`
@@ -65,12 +54,10 @@ export const DeleteButton = styled.button`
   border: 0px;
   color: ${({ theme }) => theme.text1};
   cursor: pointer;
-  display: none;
-  height: 100%; 
-  width: 64px;
-  opacity: 0;
-  transition: 0.4s;
-  visibility: hidden;
+  display: block;
+  height: 64px; 
+  width: 100%;
+  position: absolute;
 `
 
 // Coin Chart Styles
