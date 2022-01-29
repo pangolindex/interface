@@ -1,17 +1,19 @@
 import React from 'react'
 import { GridContainer, PageWrapper } from './styleds'
 import { Text, Box } from '@pangolindex/components'
+import { Scrollbars } from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
 import PortfolioChart from './PortfolioChart'
 import PortfolioRow from './PortfolioRow'
 import { PairDataUser, TokenDataUser, useGetWalletChainTokens } from 'src/state/portifolio/hooks'
 import { useActiveWeb3React } from 'src/hooks'
+import Loader from 'src/components/Loader'
 
 const MyPortfolio = () => {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
 
-  const data = useGetWalletChainTokens()
+  const [data, loading] = useGetWalletChainTokens()
 
   return (
     <PageWrapper>
@@ -32,14 +34,29 @@ const MyPortfolio = () => {
           <Box>
             <PortfolioChart />
           </Box>
-          <Box>
-            {data.map((item, index) => (
-              <PortfolioRow
-                coin={item instanceof TokenDataUser ? item : undefined}
-                pair={item instanceof PairDataUser ? item : undefined}
-                key={index}
-              />
-            ))}
+          <Box display={'flex'} alignItems={"center"}>
+            {
+              loading ? (
+                <Loader 
+                  size="40%" 
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    display: 'block'
+                  }}
+                />
+              ): (
+                <Scrollbars>
+                  {data.map((item, index) => (
+                    <PortfolioRow
+                      coin={item instanceof TokenDataUser ? item : undefined}
+                      pair={item instanceof PairDataUser ? item : undefined}
+                      key={index}
+                    />
+                  ))}
+                </Scrollbars>
+              )
+            }
           </Box>
         </GridContainer>
       )}
