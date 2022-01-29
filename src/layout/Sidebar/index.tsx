@@ -119,6 +119,12 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       id: 'bridge'
     },
     {
+      link: 'https://satellite.axelar.network/',
+      icon: Bridge,
+      title: `Satellite ${t('header.bridge')}`,
+      id: 'satellite-bridge'
+    },
+    {
       link: 'https://pangolin.exchange',
       icon: Partners,
       title: t('header.ourPartners'),

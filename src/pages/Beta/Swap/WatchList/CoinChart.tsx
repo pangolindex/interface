@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { Text, Box, CurrencyLogo, Button } from '@pangolindex/components'
 import { Link } from 'react-feather'
 import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts'
@@ -18,10 +18,12 @@ type Props = {
   coin: Token
 }
 
+export const RedirectContext = React.createContext<boolean>(false);
+
 const CoinChart: React.FC<Props> = ({ coin }) => {
   const { t } = useTranslation()
   let weekFrame = TIMEFRAME.find(t => t.label === '1W')
-
+  
   const [timeWindow, setTimeWindow] = useState(
     weekFrame ||
       ({} as {
@@ -31,6 +33,8 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
         momentIdentifier: string
       })
   )
+  
+  const redirect = useContext(RedirectContext);
 
   const usdcPrice = useUSDCPrice(coin)
 
@@ -78,18 +82,33 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
           >
             <Link size={12} />
           </Button>
-
-          <Button
-            variant="plain"
-            backgroundColor="green1"
-            color="text1"
-            padding="5px 10px"
-            onClick={() => {
-              onCurrencySelect(coin)
-            }}
-          >
-            {t('swapPage.trade')}
-          </Button>
+          {
+            redirect ? (
+              <Button
+                variant="plain"
+                backgroundColor="green1"
+                color="text1"
+                padding="5px 10px"
+                href={`/#/beta/swap?inputCurrency=${coin.address}`}
+                target=""
+                as="a"
+              >
+                {t('swapPage.trade')}
+              </Button>
+            ) : (
+              <Button
+                variant="plain"
+                backgroundColor="green1"
+                color="text1"
+                padding="5px 10px"
+                onClick={() => {
+                  onCurrencySelect(coin)
+                }}
+              >
+                {t('swapPage.trade')}
+              </Button>
+            )
+          }
         </TrackIcons>
       </SelectedCoinInfo>
       <ResponsiveContainer height={150} width={'100%'}>
