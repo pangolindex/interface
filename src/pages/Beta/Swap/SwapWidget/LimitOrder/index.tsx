@@ -295,6 +295,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
       }
 
       onCurrencySelection(tokenDrawerType as any, newCurrency)
+      // this is to update tokens on chart on token selection
       onSwapCurrencySelection(tokenDrawerType as any, currency)
     },
     [tokenDrawerType, onCurrencySelection, onSwapCurrencySelection]

@@ -142,7 +142,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
       <Scrollbars
         autoHeight
-        autoHeightMax={height ? height - 200 : window.innerHeight - 200}
+        autoHeightMax={height ? height - 150 : window.innerHeight - 150}
         autoHide
         style={{ flex: 1, overflowX: 'hidden' }}
       >

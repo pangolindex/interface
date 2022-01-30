@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { Wrapper, PanelWrapper, HeaderGridContainer, EarnWrapper, DetailContainer, TabView } from './styleds'
-import { Fraction } from '@pangolindex/sdk'
+import { CAVAX, Fraction } from '@pangolindex/sdk'
 import { CloseIcon } from 'src/theme/components'
 import { StakingInfo, useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
@@ -139,13 +139,13 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
                 />
               </Box>
             )}
-            {currency0?.symbol !== 'AVAX' && (
+            {currency0 !== CAVAX && (
               <Box mt={20}>
                 <CoinDescription coin={currency0} />
               </Box>
             )}
 
-            {currency1?.symbol !== 'AVAX' && (
+            {currency1 !== CAVAX && (
               <Box mt={20}>
                 <CoinDescription coin={currency1} />
               </Box>
