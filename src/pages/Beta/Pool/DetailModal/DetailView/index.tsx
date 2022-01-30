@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { Wrapper, PanelWrapper, HeaderGridContainer, EarnWrapper, DetailContainer, TabView } from './styleds'
-import { Fraction } from '@pangolindex/sdk'
+import { CAVAX, Fraction } from '@pangolindex/sdk'
 import { CloseIcon } from 'src/theme/components'
 import { StakingInfo, useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
@@ -91,17 +91,6 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
               titleColor="text2"
             />
           </Box>
-
-          <Box padding="10px 6px">
-            <Stat
-              title={`Pool Weight`}
-              stat={`${stakingInfo?.multiplier}X`}
-              titlePosition="top"
-              titleFontSize={14}
-              statFontSize={24}
-              titleColor="text2"
-            />
-          </Box>
         </PanelWrapper>
         <Box mt={20}>
           <CloseIcon onClick={onDismiss} color={theme.text3} />
@@ -150,14 +139,17 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
                 />
               </Box>
             )}
+            {currency0 !== CAVAX && (
+              <Box mt={20}>
+                <CoinDescription coin={currency0} />
+              </Box>
+            )}
 
-            <Box mt={20}>
-              <CoinDescription coin={currency0} />
-            </Box>
-
-            <Box mt={20}>
-              <CoinDescription coin={currency1} />
-            </Box>
+            {currency1 !== CAVAX && (
+              <Box mt={20}>
+                <CoinDescription coin={currency1} />
+              </Box>
+            )}
           </DetailContainer>
         </Box>
 
