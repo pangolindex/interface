@@ -18,25 +18,38 @@ interface Data {
   chain_list: ChainList[]
 }
 
+export interface Protocol {
+  id: string
+  name: string
+  url: string
+  logo: string
+}
+
 export class TokenDataUser {
   token: Currency | Token
   price: number
   amount: number
+  usdValue: number
+  protocol?: Protocol
 
-  constructor(token: Token | Currency, price: number, amount: number) {
+  constructor(token: Token | Currency, price: number, amount: number, protocol?: Protocol) {
     this.token = token
     this.price = price
     this.amount = amount
+    this.usdValue = price * amount
+    this.protocol = protocol
   }
 }
 
 export class PairDataUser {
   pair: Pair
   usdValue: number
+  protocol?: Protocol
 
-  constructor(pair: Pair, usdValue: number) {
+  constructor(pair: Pair, usdValue: number, protocol?: Protocol) {
     this.pair = pair
     this.usdValue = usdValue
+    this.protocol = protocol
   }
 }
 
@@ -164,7 +177,7 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
               ethers.utils.getAddress(token1?.id),
               token1?.decimals,
               token1?.symbol,
-              token1?.name,
+              `${token1?.name} - Staked`,
             ),
             token1?.price,
             token1?.amount
