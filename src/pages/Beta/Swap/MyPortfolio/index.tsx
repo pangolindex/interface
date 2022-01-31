@@ -47,12 +47,14 @@ const MyPortfolio = () => {
                 />
               ): (
                 <Scrollbars>
-                  {data.map((item, index) => (
-                    <PortfolioRow
-                      coin={item instanceof TokenDataUser ? item : undefined}
-                      pair={item instanceof PairDataUser ? item : undefined}
-                      key={index}
-                    />
+                  {data.map((item: (TokenDataUser | PairDataUser), index) => (
+                    item.usdValue >= 1 && (
+                      <PortfolioRow
+                        coin={item instanceof TokenDataUser ? item : undefined}
+                        pair={item instanceof PairDataUser ? item : undefined}
+                        key={index}
+                      />
+                    )
                   ))}
                 </Scrollbars>
               )

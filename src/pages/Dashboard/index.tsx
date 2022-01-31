@@ -8,22 +8,22 @@ import {
   Card,
   CardHeader,
   CardBody,
-  FlexWrapper,
+  //FlexWrapper,
   // Portfolio
   PortfolioToken,
   PortfolioInfo,
   HeaderDropdowns,
   // Earned
-  Label,
-  Value,
-  ValueWithInfo,
+  // Label,
+  // Value,
+  // ValueWithInfo,
   ContainerLeft,
   ContainerRight,
-  ClaimButton,
-  XStakeButton,
-  CustomizePools,
+  // ClaimButton,
+  // XStakeButton,
+  // CustomizePools,
   // Tokens
-  AddNewCoinButton,
+  //AddNewCoinButton,
   // News
   NewsSection,
   NewsTitle,
@@ -31,33 +31,33 @@ import {
   NewsDate,
   SlickNext,
   // Followed Wallets
-  WalletProfile,
-  WalletProfileAddress,
-  WalletProfileChain,
-  WalletTokens,
-  WalletAddresses,
-  Row,
-  FollowButton,
-  IconButton,
-  ContainerLeftFollowed
+  // WalletProfile,
+  // WalletProfileAddress,
+  // WalletProfileChain,
+  // WalletTokens,
+  // WalletAddresses,
+  // Row,
+  // FollowButton,
+  // IconButton,
+  // ContainerLeftFollowed
 } from './styleds'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
 import Slider, { Settings } from 'react-slick'
 import { ArrowRight } from 'react-feather'
-import Linkify from 'react-linkify'
-import makeBlockie from 'ethereum-blockies-base64'
+//import makeBlockie from 'ethereum-blockies-base64'
+import ReactMarkdown from 'react-markdown'
 
-import TradingViewChart from './TradingViewChart'
-import PngToggle from './PngToggle'
+//import TradingViewChart from './TradingViewChart'
+//import PngToggle from './PngToggle'
 import ChainDropdown from './ChainDropdown'
 
-import { useDarkModeManager } from 'src/state/user/hooks'
-import Logo from 'src/assets/images/logo.png'
-import LogoDark from 'src/assets/images/logo.png'
-import Info from 'src/assets/svg/info.svg'
+//import { useDarkModeManager } from 'src/state/user/hooks'
+// import Logo from 'src/assets/images/logo.png'
+// import LogoDark from 'src/assets/images/logo.png'
+// import Info from 'src/assets/svg/info.svg'
 import Info2 from 'src/assets/svg/info2.svg'
-import DeleteIcon from 'src/assets/svg/delete.svg'
+//import DeleteIcon from 'src/assets/svg/delete.svg'
 import Earth from 'src/assets/images/earth.png'
 
 import 'slick-carousel/slick/slick.css'
@@ -79,13 +79,13 @@ const NewsFeedSettings: Settings = {
 
 const Dashboard = () => {
   const { t } = useTranslation()
-  const [isDark] = useDarkModeManager()
+  // const [isDark] = useDarkModeManager()
 
-  // earned
-  const [earnedCurrency, setEarnedCurrency] = useState<boolean>(false)
-  const handleEarnedCurrency = (currency: boolean) => {
-    setEarnedCurrency(currency)
-  }
+  // // earned
+  // const [earnedCurrency, setEarnedCurrency] = useState<boolean>(false)
+  // const handleEarnedCurrency = (currency: boolean) => {
+  //   setEarnedCurrency(currency)
+  // }
 
   // coins
   const data = []
@@ -106,6 +106,7 @@ const Dashboard = () => {
     sliderRef?.current?.slickNext()
   }
   const news = useGetNews()
+  window.setInterval(handleNewsNext, 10000);
 
   // portifolio
   const [selectChain, setSelectChain] = useState<CHAIN>(CHAINS[ChainsId.All])
@@ -120,59 +121,64 @@ const Dashboard = () => {
       <PageDescription>{t('dashboardPage.greetings')}</PageDescription>
       <TopContainerWrapper>
         <ContainerLeft>
-          <Card>
-            <CardHeader>
-              {t('dashboardPage.portfolioValue') + ' in ' + selectChain.name}
-              <HeaderDropdowns>
-                <ChainDropdown selectChain={selectChain} handleSelectChain={handleSelectChain}></ChainDropdown>
-              </HeaderDropdowns>
-            </CardHeader>
-            <CardBody>
-              <TradingViewChart />
-              <PortfolioToken>
-                $
-                {!!balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]]
-                  ? balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]].toLocaleString(undefined, {
+          <TopContainerWrapper>
+            <Card>
+              <CardHeader>
+                {t('dashboardPage.portfolioValue') + ' in ' + selectChain.name}
+                <HeaderDropdowns>
+                  <ChainDropdown selectChain={selectChain} handleSelectChain={handleSelectChain}></ChainDropdown>
+                </HeaderDropdowns>
+              </CardHeader>
+              <CardBody>
+                {/* <TradingViewChart /> */}
+                <PortfolioToken>
+                  $
+                  {!!balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]]
+                    ? balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]].toLocaleString(undefined, {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2
                     })
-                  : 0}
-                <img width={'50px'} src={selectChain.logo} alt={'Chain logo'} style={{ marginLeft: '12px' }} />
-                {/* <PortfolioTokenPercent>23.3%</PortfolioTokenPercent> */}
-              </PortfolioToken>
-              <PortfolioInfo>
-                <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards worth
-                in current wallet
-              </PortfolioInfo>
-            </CardBody>
-          </Card>
+                    : 0}
+                  <img width={'50px'} src={selectChain.logo} alt={'Chain logo'} style={{ marginLeft: '12px' }} />
+                  {/* <PortfolioTokenPercent>23.3%</PortfolioTokenPercent> */}
+                </PortfolioToken>
+                <PortfolioInfo>
+                  <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards worth
+                  in current wallet
+                </PortfolioInfo>
+              </CardBody>
+            </Card>
+          </TopContainerWrapper>
+          <BottomContainerWrapper>
+            <RedirectContext.Provider value={true}>
+              <WatchList />
+            </RedirectContext.Provider>
+          </BottomContainerWrapper>
         </ContainerLeft>
-        <ContainerRight style={{display: "flex", flexDirection: "column"}}>
-          <TopContainerWrapper>
-            <ContainerLeft>
-              <NewsSection img={Earth}>
-                <NewsTitle>News</NewsTitle>
-                <SlickNext onClick={handleNewsNext}>
-                  <ArrowRight size={20} style={{ minWidth: 24 }} />
-                </SlickNext>
-                <Slider ref={sliderRef} {...NewsFeedSettings}>
-                  {news &&
-                    news.map((element: News) => {
-                      return (
-                        <div key={element.id}>
-                          <NewsContent>
-                            <Linkify>{element?.content}</Linkify>
-                          </NewsContent>
-                          <NewsDate>
-                            {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
-                          </NewsDate>
-                        </div>
-                      )
-                    })}
-                </Slider>
-              </NewsSection>
-            </ContainerLeft>
-            <ContainerRight>
+        <ContainerRight>
+          <NewsSection img={Earth}>
+            <NewsTitle>News</NewsTitle>
+            <SlickNext onClick={handleNewsNext}>
+              <ArrowRight size={20} style={{ minWidth: 24 }} />
+            </SlickNext>
+            <Slider ref={sliderRef} {...NewsFeedSettings}>
+              {news &&
+                news.map((element: News) => {
+                  return (
+                    <div key={element.id}>
+                      <NewsContent>
+                        <ReactMarkdown>{element?.content}</ReactMarkdown>
+                      </NewsContent>
+                      <NewsDate>
+                        {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
+                      </NewsDate>
+                    </div>
+                  )
+                })}
+            </Slider>
+          </NewsSection>
+          {/* EARNED WIDGET */}
+          {/* <ContainerRight>
               <Card>
                 <CardHeader>
                   <div>{t('dashboardPage.earned')}</div>
@@ -199,16 +205,10 @@ const Dashboard = () => {
                   </CustomizePools>
                 </CardBody>
               </Card>
-            </ContainerRight>
-          </TopContainerWrapper>
-          <BottomContainerWrapper style={{flexGrow: 1}}>
-            <RedirectContext.Provider value={true}>
-              <WatchList />
-            </RedirectContext.Provider>
-          </BottomContainerWrapper>
+            </ContainerRight> */}
         </ContainerRight>
       </TopContainerWrapper>
-      <BottomContainerWrapper>
+      {/* <BottomContainerWrapper>
         <Card>
           <CardHeader>
             {t('dashboardPage.followedWallets')}
@@ -302,7 +302,7 @@ const Dashboard = () => {
             </FlexWrapper>
           </CardBody>
         </Card>
-      </BottomContainerWrapper>
+      </BottomContainerWrapper> */}
     </PageWrapper>
   )
 }
