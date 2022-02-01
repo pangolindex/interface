@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useRef } from 'react'
 import {
   PageTitle,
   PageDescription,
@@ -12,7 +12,7 @@ import {
   // Portfolio
   PortfolioToken,
   PortfolioInfo,
-  HeaderDropdowns,
+  //HeaderDropdowns,
   // Earned
   // Label,
   // Value,
@@ -47,10 +47,11 @@ import Slider, { Settings } from 'react-slick'
 import { ArrowRight } from 'react-feather'
 //import makeBlockie from 'ethereum-blockies-base64'
 import ReactMarkdown from 'react-markdown'
+import Scrollbars from 'react-custom-scrollbars'
 
 //import TradingViewChart from './TradingViewChart'
 //import PngToggle from './PngToggle'
-import ChainDropdown from './ChainDropdown'
+//import ChainDropdown from './ChainDropdown'
 
 //import { useDarkModeManager } from 'src/state/user/hooks'
 // import Logo from 'src/assets/images/logo.png'
@@ -62,7 +63,7 @@ import Earth from 'src/assets/images/earth.png'
 
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { CHAIN, CHAINS, ChainsId } from 'src/constants/chains'
+import { CHAINS, ChainsId } from 'src/constants/chains'
 import { useGetChainsBalances } from 'src/state/portifolio/hooks'
 import { News, useGetNews } from 'src/state/news/hooks'
 import WatchList from '../Beta/Swap/WatchList'
@@ -74,7 +75,9 @@ const NewsFeedSettings: Settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: false
+  arrows: false,
+  autoplay: true,
+  autoplaySpeed: 10000
 }
 
 const Dashboard = () => {
@@ -106,13 +109,12 @@ const Dashboard = () => {
     sliderRef?.current?.slickNext()
   }
   const news = useGetNews()
-  window.setInterval(handleNewsNext, 10000);
 
   // portifolio
-  const [selectChain, setSelectChain] = useState<CHAIN>(CHAINS[ChainsId.All])
-  const handleSelectChain = (newChain: CHAIN) => {
-    setSelectChain(newChain)
-  }
+  // const [selectChain, setSelectChain] = useState<CHAIN>(CHAINS[ChainsId.All])
+  // const handleSelectChain = (newChain: CHAIN) => {
+  //   setSelectChain(newChain)
+  // }
   const balances = useGetChainsBalances()
 
   return (
@@ -124,24 +126,41 @@ const Dashboard = () => {
           <TopContainerWrapper>
             <Card>
               <CardHeader>
-                {t('dashboardPage.portfolioValue') + ' in ' + selectChain.name}
-                <HeaderDropdowns>
+                {t('dashboardPage.portfolioValue') + ' in All Chains'}
+                {/* <HeaderDropdowns>
                   <ChainDropdown selectChain={selectChain} handleSelectChain={handleSelectChain}></ChainDropdown>
-                </HeaderDropdowns>
+                </HeaderDropdowns> */}
               </CardHeader>
               <CardBody>
                 {/* <TradingViewChart /> */}
-                <PortfolioToken>
-                  $
-                  {!!balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]]
-                    ? balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]].toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2
-                    })
-                    : 0}
-                  <img width={'50px'} src={selectChain.logo} alt={'Chain logo'} style={{ marginLeft: '12px' }} />
-                  {/* <PortfolioTokenPercent>23.3%</PortfolioTokenPercent> */}
-                </PortfolioToken>
+                <Scrollbars style={{ height: 190 }}>
+                  {
+                    Object.keys(ChainsId).map((key, index) => (
+                      (
+                        isNaN(parseInt(key)) &&
+                        key !== "All" &&
+                        !!balances[ChainsId[key as keyof typeof ChainsId]] &&
+                        balances[ChainsId[key as keyof typeof ChainsId]] >= 1
+                      ) && (
+                        <PortfolioToken key={index} height={50}>
+                          $
+                          {!!balances[ChainsId[key as keyof typeof ChainsId]]
+                            ? balances[ChainsId[key as keyof typeof ChainsId]].toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2
+                            })
+                            : 0
+                          }
+                          <img
+                            width={'50px'}
+                            src={CHAINS[ChainsId[key as keyof typeof ChainsId]].logo}
+                            alt={'Chain logo'} style={{ marginLeft: '12px' }}
+                          />
+                        </PortfolioToken>
+                      )
+                    ))
+                  }
+                </Scrollbars>
                 <PortfolioInfo>
                   <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards worth
                   in current wallet
@@ -167,8 +186,8 @@ const Dashboard = () => {
                   return (
                     <div key={element.id}>
                       <NewsContent>
-                        <ReactMarkdown 
-                          renderers={{link: props => <a href={props.href} rel='nofollow noreferrer noopener' target="_blank">{props.children}</a>}}
+                        <ReactMarkdown
+                          renderers={{ link: props => <a href={props.href} rel='nofollow noreferrer noopener' target="_blank">{props.children}</a> }}
                         >{element?.content}</ReactMarkdown>
                       </NewsContent>
                       <NewsDate>
@@ -209,7 +228,7 @@ const Dashboard = () => {
               </Card>
             </ContainerRight> */}
         </ContainerRight>
-      </TopContainerWrapper>
+      </TopContainerWrapper >
       {/* <BottomContainerWrapper>
         <Card>
           <CardHeader>
@@ -305,7 +324,7 @@ const Dashboard = () => {
           </CardBody>
         </Card>
       </BottomContainerWrapper> */}
-    </PageWrapper>
+    </PageWrapper >
   )
 }
 

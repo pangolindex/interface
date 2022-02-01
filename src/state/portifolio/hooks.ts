@@ -176,8 +176,8 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
               chainId,
               ethers.utils.getAddress(token1?.id),
               token1?.decimals,
-              token1?.symbol,
-              `${token1?.name} - Staked`,
+              `${token1?.symbol} - Staked`,
+              token1?.name,
             ),
             token1?.price,
             token1?.amount
