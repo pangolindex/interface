@@ -11,7 +11,7 @@ export const Sider = styled.div<{ collapsed: boolean }>`
   z-index: 99;
   left: 0;
   transition: width 350ms ease;
-  background-color: ${({ theme }) => theme.bg2};
+  background-color: ${({ theme }) => theme.color2};
   width: ${({ collapsed }) => (collapsed ? '70px' : '220px')};
   padding: 10px;
   display: flex;
@@ -75,7 +75,7 @@ export const MenuLink = styled(NavLink).attrs({
   outline: none;
   cursor: pointer;
   text-decoration: none;
-  color: ${({ theme }) => theme.color2};
+  color: ${({ theme }) => theme.color22};
   font-size: 1rem;
   width: fit-content;
   margin: 0 8px;
@@ -100,7 +100,7 @@ export const MenuExternalLink = styled(ExternalLink).attrs({
 
   cursor: pointer;
   text-decoration: none;
-  color: ${({ theme }) => theme.color2};
+  color: ${({ theme }) => theme.color22};
   font-size: 1rem;
   width: fit-content;
   margin: 0 8px;
@@ -129,7 +129,7 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
   line-height: 24px;
   padding: 8px;
   height: 50px;
-  background-color: ${({ theme, isActive }) => (isActive ? darken(0.2, theme.color1) : 'transparent')};
+  background-color: ${({ theme, isActive }) => (isActive ? theme.primary : 'transparent')};
   border-radius: 9px;
   margin-bottom: 5px;
   overflow-y: hidden;
@@ -139,7 +139,7 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
   :focus {
     width: 100%;
     color: ${({ theme }) => darken(0.1, theme.text1)};
-    background-color: ${({ theme, isActive }) => (!isActive ? theme.bg7 : darken(0.2, theme.color1))};
+    background-color: ${({ theme, isActive }) => (!isActive ? theme.bg7 : theme.primary)};
   }
 `
 

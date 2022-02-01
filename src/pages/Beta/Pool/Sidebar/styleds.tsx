@@ -5,7 +5,7 @@ import { Text } from '@pangolindex/components'
 
 export const SidebarWrapper = styled(Box)`
   width: 100%;
-  background-color: ${({ theme }) => theme.bg8};
+  background-color: ${({ theme }) => theme.color7};
   border-radius: 0px;
   height: auto;
   /* min-height: 100vh; */
@@ -33,12 +33,12 @@ export const MenuLink = styled.div<{ isActive?: boolean }>`
   align-items: center;
   font-weight: 500;
   width: 100%;
-  color: ${({ theme, isActive }) => (isActive ? theme.color1 : theme.color2)};
+  color: ${({ theme, isActive }) => (isActive ? theme.primary : theme.color22)};
 
   :hover,
   :focus {
     width: 100%;
-    color: ${({ theme }) => theme.color1};
+    color: ${({ theme }) => theme.primary};
   }
 `
 export const MenuItem = styled.div<{ isActive?: boolean }>`
@@ -47,7 +47,7 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
   align-items: center;
   cursor: pointer;
   text-decoration: none;
-  color: ${({ theme, isActive }) => (isActive ? darken(0.2, theme.color1) : theme.text2)};
+  color: ${({ theme, isActive }) => (isActive ? darken(0.2, theme.primary) : theme.text2)};
   width: 100%;
   font-weight: 500;
   line-height: 24px;
@@ -68,7 +68,7 @@ export const Circle = styled.div`
   position: absolute;
   height: 10px;
   width: 10px;
-  background-color: ${({ theme }) => theme.color1};
+  background-color: ${({ theme }) => theme.primary};
   border-radius: 0px 10px 10px 0px;
   left: -5px;
   overflow: hidden;

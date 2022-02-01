@@ -67,8 +67,8 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
         <TrackIcons>
           <Button
             variant="primary"
-            backgroundColor="text8"
-            color="text1"
+            backgroundColor="primary"
+            color="white"
             width={'32px'}
             height={'32px'}
             padding="0px"
@@ -81,12 +81,13 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
 
           <Button
             variant="plain"
-            backgroundColor="green1"
-            color="text1"
+            backgroundColor="oceanBlue"
+            color="white"
             padding="5px 10px"
             onClick={() => {
               onCurrencySelect(coin)
             }}
+            height={`32px`}
           >
             {t('swapPage.trade')}
           </Button>
@@ -115,7 +116,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
             key={btn?.label}
             padding="0px"
             width="auto"
-            color={timeWindow.label === btn.label ? 'color1' : 'text1'}
+            color={timeWindow.label === btn.label ? 'mustardYellow' : 'text1'}
             onClick={() => setTimeWindow(btn)}
           >
             {btn?.label}

@@ -243,7 +243,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
     <PoolsWrapper>
       {(stakingRewardsExist && stakingInfos?.length === 0) || poolCardsLoading ? (
         <LoadingWrapper>
-          <Loader style={{ margin: 'auto' }} size="35px" />
+          <Loader style={{ margin: 'auto' }} size="35px" stroke={theme.primary} />
         </LoadingWrapper>
       ) : (!stakingRewardsExist || poolCards?.length === 0) && !poolCardsLoading ? (
         t('earnPage.noActiveRewards')

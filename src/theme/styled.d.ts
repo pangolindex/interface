@@ -69,9 +69,29 @@ export interface Colors {
 
   avaxRed: Color
 
-  color1: Color
+  color11: Color
+  color22: Color
+  color33: Color
+
+  primary: Color
+  mustardYellow: Color
+  eerieBlack: Color
+  ghostWhite: Color
+  ghostWhite1: Color
+  chineseBlack: Color
+  darkGunmetal: Color
+  platinum: Color
+  darkSilver: Color
+  venetianRed: Color
+  oceanBlue: Color
+
   color2: Color
   color3: Color
+  color4: Color
+  color5: color
+  color6: color
+  color7: Color
+  color8: Color
 }
 
 export interface BetaColors extends Colors {
@@ -79,6 +99,37 @@ export interface BetaColors extends Colors {
     onColor: Color
     offColor: Color
     backgroundColor: Color
+  }
+  toggleButton?: {
+    backgroundColor?: Color
+    selectedColor?: Color
+    fontColor?: Color
+  }
+  button?: {
+    primary?: {
+      background?: Color
+      color?: Color
+    }
+    secondary?: {
+      background?: Color
+      color?: Color
+    }
+    outline?: {
+      borderColor?: Color
+      color?: Color
+    }
+    plain?: {
+      color?: Color
+    }
+    disable?: {
+      background?: Color
+      color?: Color
+    }
+    confirmed?: {
+      background?: Color
+      color?: Color
+      borderColor?: Color
+    }
   }
 }
 

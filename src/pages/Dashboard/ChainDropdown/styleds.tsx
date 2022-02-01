@@ -26,6 +26,6 @@ export const DropdownItem = styled.div`
 
   &:hover {
     cursor: pointer;
-    background-color: #ff6b00
+    background-color:${({ theme }) => theme.primary};
   }
 `

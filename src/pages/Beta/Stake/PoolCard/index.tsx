@@ -61,17 +61,17 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick, onClaimClick, onDepositClic
         </Stats>
       </CardStats>
       <CardStats>
-        <DetailButton variant="outline" onClick={onViewDetailsClick}>
+        <DetailButton variant="outline" color="color4" backgroundColor='color2' onClick={onViewDetailsClick}>
           {t('stakePage.seeDetails')}
         </DetailButton>
         {!!account && (
           <>
             {showClaimButton ? (
-              <StakeButton variant="primary" onClick={onClaimClick}>
+              <StakeButton variant="primary" color="color4" onClick={onClaimClick}>
                 {t('earnPage.claim')}
               </StakeButton>
             ) : (
-              <StakeButton variant="primary" onClick={onDepositClick}>
+              <StakeButton variant="primary" color="color4" onClick={onDepositClick}>
                 {t('earnPage.stake')}
               </StakeButton>
             )}

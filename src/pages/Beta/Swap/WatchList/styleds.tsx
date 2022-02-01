@@ -5,7 +5,7 @@ export const WatchListRoot = styled(Box)`
   width: 100%;
   border-radius: 10px;
   padding: 20px;
-  background-color: ${({ theme }) => theme.bg2};
+  background-color: ${({ theme }) => theme.color2};
   display: flex;
   flex-direction: column;
 `
@@ -39,10 +39,10 @@ export const RowWrapper = styled(Box)<{ isSelected: boolean }>`
   border-bottom: 1px solid ${({ theme }) => theme.text9};
   cursor: pointer;
   border-radius: 4px;
-  background-color: ${({ theme, isSelected }) => (isSelected ? theme.bg6 : theme.bg2)};
+  background-color: ${({ theme, isSelected }) => (isSelected ? theme.color3 : theme.color2)};
 
   &:hover {
-    background-color: ${({ theme }) => theme.bg6};
+    background-color: ${({ theme }) => theme.color3};
   }
 `
 

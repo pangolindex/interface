@@ -136,7 +136,7 @@ export const NewsTitle = styled(Box)`
   font-size: 32px;
   line-height: 48px;
   padding: 20px;
-  background: linear-gradient(0deg, #f08b43, #f08b43);
+  background: linear-gradient(0deg, #FFC800, #FFC800);
   border-radius: 5px 0px 5px 0px;
 `
 
@@ -161,7 +161,7 @@ export const NewsDate = styled(Box)`
 `
 
 export const SlickNext = styled(Box)<{ onClick: () => void }>`
-  background: #f08b43;
+  background: ${({ theme }) => theme.primary};
   width: 32px;
   height: 32px;
   border-radius: 16px;
@@ -206,14 +206,15 @@ export const ValueWithInfo = styled(Box)`
   margin-bottom: 12px;
 `
 
-export const XStakeButton = styled(ButtonOutlined)`
+export const XStakeButton = styled(Button)`
   height: 46px;
   margin-right: 8.5px;
   box-shadow: 0 0 0 1px ${({ theme }) => theme.bg4};
 `
 
-export const ClaimButton = styled(ButtonPrimary)`
+export const ClaimButton = styled(Button)`
   height: 46px;
+  
 `
 
 export const CustomizePools = styled(Box)`
@@ -385,15 +386,16 @@ export const Row = styled(Box)<{ type?: string }>`
 `
 
 export const FollowButton = styled(Button)<{ follow: boolean }>`
-  height: 24px;
+  height: 24px !important;
   background: ${props => (props.follow ? '#18c145' : '#717171')} !important;
   margin-left: 8px;
+  padding: 5px !important;
 `
 
 export const IconButton = styled(Button)`
-  height: 24px;
+  height: 24px !important;
   background-color: rgba(113, 113, 113, 0.5) !important;
-  padding: 18px 10px !important;
+  padding: 5px !important;
   width: auto !important;
   margin-left: 8px;
 `

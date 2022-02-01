@@ -40,7 +40,7 @@ export default function Wallet() {
           </TYPE.body>
         </Card>
       ) : v2IsLoading ? (
-        <Loader style={{ margin: 'auto' }} />
+        <Loader style={{ margin: 'auto' }} stroke={theme.primary} />
       ) : allV2PairsWithLiquidity?.length > 0 ? (
         <Scrollbars>
           <PanelWrapper>

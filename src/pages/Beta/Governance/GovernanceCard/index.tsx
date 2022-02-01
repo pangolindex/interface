@@ -27,7 +27,7 @@ const GovernanceCard = ({ id, title, to, status }: GovernanceCardProps) => {
   const [isDark] = useDarkModeManager()
 
   const bgColors = {
-    vote: colors(isDark).color1,
+    vote: colors(isDark).color11,
     executed: colors(isDark).green2Gradient,
     defeated: colors(isDark).red3Gradient
   }

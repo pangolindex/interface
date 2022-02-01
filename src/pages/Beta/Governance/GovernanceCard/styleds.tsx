@@ -22,8 +22,9 @@ export const CardButtons = styled(Box)`
 `
 
 export const DetailsButton = styled(Button)`
-  background-color: ${({ theme }) => theme.bg2} !important;
-  border: solid 1px ${({ theme }) => theme.text1} !important;
+  background-color: ${({ theme }) => theme.color2} !important;
+  border: solid 1px ${({ theme }) => theme.color4} !important;
+  color: ${({ theme }) => theme.color4} !important;
   font-size: 21px;
   font-weight: normal !important;
   line-height: 25px;
