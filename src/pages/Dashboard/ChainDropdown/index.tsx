@@ -34,7 +34,7 @@ export default function ChainDropdown({ selectChain = CHAINS[ChainsId.All], hand
               <DropdownItem
                 id="link"
                 key={index}
-                style={selectChain.symbol === chain.symbol ? { backgroundColor: '#ff6b00' } : {}}
+                style={selectChain.symbol === chain.symbol ? { backgroundColor: '#FFC800' } : {}}
                 onClick={() => {
                   handleSelectChain(chain)
                   toggle()

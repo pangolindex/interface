@@ -5,7 +5,7 @@ export const PageWrapper = styled(Box)`
   width: 100%;
   border-radius: 10px;
   padding: 20px;
-  background-color: ${({ theme }) => theme.bg2};
+  background-color: ${({ theme }) => theme.color2};
 `
 
 export const GridContainer = styled(Box)`
@@ -34,7 +34,7 @@ export const RowWrapper = styled(Box)`
   border-radius: 4px;
 
   &:hover {
-    background-color: ${({ theme }) => theme.bg6};
+    background-color: ${({ theme }) => theme.color3};
   }
 `
 

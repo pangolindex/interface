@@ -160,7 +160,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
               return (
                 <MenuItem isActive={x.isActive} key={index}>
                   <MenuLink id={x.id} to={x.link}>
-                    <Icon size={16} fillColor={x.isActive ? theme.color3 : theme.color2} />
+                    <Icon size={16} fillColor={x.isActive ? theme.white : theme.color22} />
                     {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
                   </MenuLink>
                 </MenuItem>
@@ -171,7 +171,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
           <Box mt={collapsed ? '0px' : '10px'} overflowY="hidden">
             {!collapsed && (
               <Box height={35} overflowY="hidden">
-                <Text color="color2" fontSize={12}>
+                <Text color="color22" fontSize={12}>
                   PANGOLIN LINKS{' '}
                 </Text>
               </Box>
@@ -192,7 +192,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
           <Box mt={collapsed ? '0px' : '10px'}>
             {!collapsed && (
               <Box height={35} overflowY="hidden">
-                <Text color="color2" fontSize={12}>
+                <Text color="color22" fontSize={12}>
                   {t('header.usefulLinks')}
                 </Text>
               </Box>

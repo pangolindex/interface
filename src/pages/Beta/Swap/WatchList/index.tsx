@@ -49,13 +49,13 @@ const WatchList = () => {
           <Box ref={referenceElement} onClick={toggle}>
             <Button
               variant="primary"
-              backgroundColor="text8"
-              color="text1"
+              backgroundColor="primary"
+              color="white"
               width={'32px'}
               height={'32px'}
               padding="0px"
             >
-              <Plus size={12} color={theme.text1} />
+              <Plus size={12} color={theme.white} />
             </Button>
           </Box>
 

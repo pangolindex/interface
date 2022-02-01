@@ -105,7 +105,7 @@ const TokenListDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
             onKeyDown={handleEnterKey}
             value={listUrlInput}
           />
-          <Button variant="outline" padding={'0px'} isDisabled={!validUrl} onClick={handleAddList}>
+          <Button variant="outline" padding={'0px'} isDisabled={!validUrl} onClick={handleAddList} height="50px">
             Add
           </Button>
         </AddInputWrapper>

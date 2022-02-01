@@ -218,7 +218,7 @@ const Dashboard = () => {
                     <img width={'24px'} src={Info} alt="logo" />
                   </ValueWithInfo>
                   <FlexWrapper>
-                    <XStakeButton variant="primary">xStake</XStakeButton>
+                    <XStakeButton variant="outline">xStake</XStakeButton>
                     <ClaimButton variant="primary">{t('dashboardPage.earned_claim')}</ClaimButton>
                   </FlexWrapper>
                   <CustomizePools>
@@ -310,11 +310,11 @@ const Dashboard = () => {
                     <div>0x372E6…A63B4</div>
                     <div>251,235.25$</div>
                     <FlexWrapper>
-                      <FollowButton variant="primary" follow={false}>
+                      <FollowButton variant="primary" follow={false} height="24px">
                         Unfollow
                       </FollowButton>
                       <IconButton variant="secondary">
-                        <img width={'15px'} src={DeleteIcon} alt="delete" />
+                        <img width={'15px'} src={DeleteIcon} alt="delete" height="24px" />
                       </IconButton>
                     </FlexWrapper>
                   </Row>

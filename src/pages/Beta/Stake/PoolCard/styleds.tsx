@@ -6,7 +6,7 @@ export const Card = styled(Box)`
   padding: 25px;
   box-sizing: border-box;
   border-radius: 10px;
-  background: ${({ theme }) => theme.bg2};
+  background: ${({ theme }) => theme.color2};
 
   & img {
     border-radius: 100px;
@@ -44,14 +44,14 @@ export const TokenName = styled(Box)`
 `
 
 export const StakeButton = styled(Button)`
-  background-color: ${({ theme }) => theme.bg8} !important;
+  background-color: ${({ theme }) => theme.color5} !important;
   height: 46px;
   border-radius: 4px !important;
   font-size: 16px;
 `
 
 export const DetailButton = styled(Button)`
-  border: solid 1px ${({ theme }) => theme.text1} !important;
+  border: solid 1px ${({ theme }) => theme.color4} !important;
   height: 46px;
   border-radius: 4px !important;
   font-size: 16px;

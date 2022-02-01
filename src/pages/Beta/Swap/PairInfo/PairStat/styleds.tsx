@@ -8,7 +8,7 @@ export const PanelWrapper = styled.div`
   width: 100%;
   align-items: start;
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.bg2};
+  background-color: ${({ theme }) => theme.color2};
   @media screen and (max-width: 1024px) {
     grid-template-columns: 1fr;
     align-items: stretch;
