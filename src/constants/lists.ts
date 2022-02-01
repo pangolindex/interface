@@ -5,7 +5,7 @@ export const DEFI_TOKEN_LIST = 'https://raw.githubusercontent.com/pangolindex/to
 export const STABLECOIN_TOKEN_LIST = 'https://raw.githubusercontent.com/pangolindex/tokenlists/main/stablecoin.tokenlist.json'
 export const AVAX_BRIDGE_LIST = 'https://raw.githubusercontent.com/pangolindex/tokenlists/main/ab.tokenlist.json'
 
-export const DEFAULT_TOKEN_LISTS_SELECTED: string[] = [AVAX_BRIDGE_LIST, DEFI_TOKEN_LIST]
+export const DEFAULT_TOKEN_LISTS_SELECTED: string[] = [AVAX_BRIDGE_LIST, DEFI_TOKEN_LIST, STABLECOIN_TOKEN_LIST]
 
 export const DEFAULT_TOKEN_LISTS: string[] = [
   TOP_15_TOKEN_LIST,
