@@ -167,7 +167,9 @@ const Dashboard = () => {
                   return (
                     <div key={element.id}>
                       <NewsContent>
-                        <ReactMarkdown>{element?.content}</ReactMarkdown>
+                        <ReactMarkdown 
+                          renderers={{link: props => <a href={props.href} rel='nofollow noreferrer noopener' target="_blank">{props.children}</a>}}
+                        >{element?.content}</ReactMarkdown>
                       </NewsContent>
                       <NewsDate>
                         {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
