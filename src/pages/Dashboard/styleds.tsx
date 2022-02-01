@@ -1,5 +1,5 @@
 import { Box, Button } from '@pangolindex/components'
-import { ButtonPrimary, ButtonOutlined } from '../../components/Button'
+import { ButtonPrimary } from '../../components/Button'
 import styled from 'styled-components'
 
 export const FlexWrapper = styled(Box)`
@@ -136,7 +136,7 @@ export const NewsTitle = styled(Box)`
   font-size: 32px;
   line-height: 48px;
   padding: 20px;
-  background: linear-gradient(0deg, #FFC800, #FFC800);
+  background: linear-gradient(0deg, #ffc800, #ffc800);
   border-radius: 5px 0px 5px 0px;
 `
 
@@ -145,7 +145,7 @@ export const NewsContent = styled(Box)`
   font-weight: 500;
   font-size: 18px;
   line-height: 27px;
-  
+
   & a {
     color: ${({ theme }) => theme.text7};
   }
@@ -214,7 +214,6 @@ export const XStakeButton = styled(Button)`
 
 export const ClaimButton = styled(Button)`
   height: 46px;
-  
 `
 
 export const CustomizePools = styled(Box)`
