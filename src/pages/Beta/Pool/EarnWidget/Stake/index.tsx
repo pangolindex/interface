@@ -8,7 +8,7 @@ import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { TokenAmount, Pair, ChainId, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { useGetPoolDollerWorth, useMinichefStakingInfos } from 'src/state/stake/hooks'
+import { useGetPoolDollerWorth, useMinichefStakingInfos, useMinichefPendingRewards } from 'src/state/stake/hooks'
 import { usePairContract, useStakingContract } from 'src/hooks/useContract'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
@@ -56,6 +56,10 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
       stakingInfo?.totalRewardRate
     )
   }
+
+  const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
+
+  let isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
   // state for pending and submitted txn views
   const addTransaction = useTransactionAdder()
@@ -252,6 +256,7 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
       setTypedValue('')
     }
     setHash('')
+    setAttempting(false)
   }, [setTypedValue, hash])
 
   const handleSelectPoolDrawerClose = useCallback(() => {
@@ -342,6 +347,32 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
             `${hypotheticalRewardRate
               .multiply((60 * 60 * 24).toString())
               .toSignificant(4, { groupSeparator: ',' })} PNG`
+          )}
+
+          {isSuperFarm && (
+            <DataBox key="extra-reward">
+              <Text color="text4" fontSize={16}>
+                {t('earn.extraReward')}
+              </Text>
+
+              {rewardTokensAmount?.map((reward, index) => {
+                const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
+                const extraRewardRate = stakingInfo?.getExtraTokensRewardRate?.(
+                  hypotheticalRewardRate,
+                  reward?.token,
+                  tokenMultiplier
+                )
+                if (extraRewardRate) {
+                  return (
+                    <Text color="text4" fontSize={16} key={index}>
+                      {extraRewardRate.multiply((60 * 60 * 24).toString()).toSignificant(4, { groupSeparator: ',' })}{' '}
+                      {reward?.token?.symbol}
+                    </Text>
+                  )
+                }
+                return null
+              })}
+            </DataBox>
           )}
         </ContentBox>
       </Box>

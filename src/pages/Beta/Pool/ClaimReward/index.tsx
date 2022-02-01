@@ -33,6 +33,10 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
   const poolMap = useMinichefPools()
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
+  // const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
+
+  // let isSuperFarm = (rewardTokensAmount || [])?.length > 0
+
   async function onClaimReward() {
     if (stakingContract && poolMap && stakingInfo?.stakedAmount) {
       setAttempting(true)
@@ -76,6 +80,19 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
                   {t('earn.unclaimedReward', { symbol: 'PNG' })}
                 </Text>
               </Box>
+
+              {/* {isSuperFarm &&
+                rewardTokensAmount?.map((rewardAmount, i) => (
+                  <Box textAlign="center" key={i}>
+                    <Text fontSize="26px" fontWeight={500} lineHeight="42px" marginRight={10} color="text1">
+                      {rewardAmount?.toSignificant(6)}
+                    </Text>
+
+                    <Text fontSize="16px" color="text1" lineHeight="40px">
+                      {t('earn.unclaimedReward', { symbol: rewardAmount?.token?.symbol })}
+                    </Text>
+                  </Box>
+                ))} */}
 
               <Text fontSize="14px" color="text2">
                 {t('earn.liquidityRemainsPool')}

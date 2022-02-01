@@ -23,6 +23,8 @@ import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
 import { ZERO_ADDRESS } from '../../constants'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
+import { useTokens } from '../../hooks/Tokens'
+import { useRewardViaMultiplierContract } from '../../hooks/useContract'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -1029,5 +1031,34 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
   return {
     userPgl,
     liquidityInUSD
+  }
+}
+
+export function useMinichefPendingRewards(miniChefStaking: DoubleSideStakingInfo | null) {
+  const { account } = useActiveWeb3React()
+
+  const rewardAddress = miniChefStaking?.rewardsAddress
+
+  const rewardContract = useRewardViaMultiplierContract(rewardAddress)
+
+  const earnedAmount = miniChefStaking?.earnedAmount
+    ? JSBI.BigInt(miniChefStaking?.earnedAmount?.raw).toString()
+    : JSBI.BigInt(0).toString()
+
+  const rewardTokenAmounts = useSingleContractMultipleData(
+    rewardContract,
+    'pendingTokens',
+    account ? [[0, account as string, earnedAmount]] : []
+  )
+  const rewardTokens = useTokens(miniChefStaking?.rewardTokensAddress)
+  const rewardAmounts = rewardTokenAmounts?.[0]?.result?.amounts || []
+
+  const rewardTokensAmount = useMemo(() => {
+    if (!rewardTokens) return []
+    return rewardTokens.map((rewardToken, index) => new TokenAmount(rewardToken as Token, rewardAmounts[index] || 0))
+  }, [rewardAmounts, rewardTokens])
+
+  return {
+    rewardTokensAmount
   }
 }

@@ -16,6 +16,10 @@ const PoolV2: React.FC<Props> = ({ type, stakingInfos }) => {
       return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
     })
   }
+
+  if (type === PoolType.superFarms) {
+    stakingInfos = (stakingInfos || []).filter(item => (item?.rewardTokensAddress?.length || 0) > 0)
+  }
   return <PoolList version="2" stakingInfos={stakingInfos} poolMap={poolMap} />
 }
 

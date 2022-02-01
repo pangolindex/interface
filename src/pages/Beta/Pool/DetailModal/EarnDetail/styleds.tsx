@@ -10,3 +10,10 @@ export const Wrapper = styled(Box)`
   margin-top: 10px;
   padding: 10px;
 `
+
+export const InnerWrapper = styled(Box)`
+  display: grid;
+  grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
+  grid-gap: 12px;
+  margin-top: 10px;
+`

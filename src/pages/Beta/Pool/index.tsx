@@ -11,7 +11,8 @@ import { BIG_INT_ZERO } from 'src/constants'
 
 export enum PoolType {
   own = 'own',
-  all = 'all'
+  all = 'all',
+  superFarms = 'superFarms'
 }
 
 const PoolUI = () => {
@@ -35,6 +36,8 @@ const PoolUI = () => {
   let ownStakingInfoV2 = (stakingInfoV2 || []).filter(stakingInfo => {
     return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
   })
+
+  let superFarms = stakingInfoV2.filter(item => (item?.rewardTokensAddress?.length || 0) > 0)
 
   let menuItems: Array<{ title: string; value: string }> = []
 
@@ -66,6 +69,13 @@ const PoolUI = () => {
       value: MenuType.yourPoolV2
     })
   }
+  // add superfarm
+  if (superFarms.length > 0) {
+    menuItems.push({
+      title: 'Super Farms',
+      value: MenuType.superFarm
+    })
+  }
 
   if (menuItems.length > 0) {
     // add wallet
@@ -83,10 +93,15 @@ const PoolUI = () => {
           {(activeMenu === MenuType.allPoolV1 ||
             activeMenu === MenuType.allPoolV2 ||
             activeMenu === MenuType.yourPoolV2 ||
-            activeMenu === MenuType.yourPoolV1) && (
+            activeMenu === MenuType.yourPoolV1 ||
+            activeMenu === MenuType.superFarm) && (
             <AllPoolList
               type={
-                activeMenu === MenuType.allPoolV1 || activeMenu === MenuType.allPoolV2 ? PoolType.all : PoolType.own
+                activeMenu === MenuType.allPoolV1 || activeMenu === MenuType.allPoolV2
+                  ? PoolType.all
+                  : activeMenu === MenuType.superFarm
+                  ? PoolType.superFarms
+                  : PoolType.own
               }
               version={activeMenu === MenuType.allPoolV1 || activeMenu === MenuType.yourPoolV1 ? 1 : 2}
               stakingInfoV1={stakingInfoV1}

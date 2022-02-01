@@ -49,3 +49,29 @@ export const InnerWrapper = styled(Box)`
   grid-gap: 12px;
   margin-top: 10px;
 `
+export const StatWrapper = styled(Box)`
+  display: grid;
+  grid-template-columns: minmax(auto, 33%) minmax(auto, 33%) minmax(auto, 33%);
+  grid-gap: 12px;
+  margin-top: 10px;
+`
+export const OptionButton = styled.div<{ active?: boolean; disabled?: boolean }>`
+  font-weight: 500;
+  width: fit-content;
+  white-space: nowrap;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid ${({ theme }) => theme.bg4};
+  background-color: ${({ active, theme }) => (active ? theme.yellow2 : theme.bg7)};
+  color: ${({ theme }) => theme.text1};
+
+  :hover {
+    cursor: ${({ disabled }) => !disabled && 'pointer'};
+  }
+`
+
+export const OptionsWrapper = styled.div`
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 10px;
+`

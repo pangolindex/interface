@@ -96,7 +96,9 @@
     "approve": "Bestätigen",
     "poolWeight": "Beckengewicht",
     "withdraw": "Abheben",
-    "extraReward": "Zusätzliche Belohnung"
+    "extraReward": "Zusätzliche Belohnung",
+    "poolRewards": "Pool-Belohnungen",
+    "rewardsIn": "Belohnungen ein"
   },
   "menu": {
     "code": "Code",

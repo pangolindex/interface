@@ -96,7 +96,9 @@
     "approve": "Onayla",
     "poolWeight": "Havuz Ağırlığı",
     "withdraw": "Geri çekilmek",
-    "extraReward": "Ekstra Ödül"
+    "extraReward": "Ekstra Ödül",
+    "poolRewards": "Havuz Ödülleri",
+    "rewardsIn": "Ödüller"
   },
   "menu": {
     "code": "Kod",

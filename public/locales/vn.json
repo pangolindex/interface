@@ -96,7 +96,9 @@
     "approve": "Chấp nhận",
     "poolWeight": "Khối lượng bể",
     "withdraw": "Rút",
-    "extraReward": "Phần thưởng bổ sung"
+    "extraReward": "Phần thưởng bổ sung",
+    "poolRewards": "Phần thưởng hồ bơi",
+    "rewardsIn": "Phần thưởng trong"
   },
   "menu": {
     "code": "Mã",

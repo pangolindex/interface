@@ -96,7 +96,9 @@
     "approve": "批准",
     "poolWeight": "泳池重量",
     "withdraw": "提取",
-    "extraReward": "额外奖励"
+    "extraReward": "额外奖励",
+    "poolRewards": "矿池奖励",
+    "rewardsIn": "奖励在"
   },
   "menu": {
     "code": "Code",

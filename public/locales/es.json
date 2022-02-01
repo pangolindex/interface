@@ -96,7 +96,9 @@
     "approve": "Aprobar",
     "poolWeight": "Peso de la piscina",
     "withdraw": "Retirar",
-    "extraReward": "Recompensa adicional"
+    "extraReward": "Recompensa adicional",
+    "poolRewards": "Recompensas de la piscina",
+    "rewardsIn": "Recompensas en"
   },
   "menu": {
     "code": "Código",
