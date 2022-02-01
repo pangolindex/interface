@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useRef } from 'react'
 import {
   PageTitle,
   PageDescription,
@@ -8,29 +8,22 @@ import {
   Card,
   CardHeader,
   CardBody,
-  FlexWrapper,
+  //FlexWrapper,
   // Portfolio
   PortfolioToken,
-  PortfolioTokenPercent,
   PortfolioInfo,
-  HeaderDropdowns,
+  //HeaderDropdowns,
   // Earned
-  Label,
-  Value,
-  ValueWithInfo,
+  // Label,
+  // Value,
+  // ValueWithInfo,
   ContainerLeft,
   ContainerRight,
-  ClaimButton,
-  XStakeButton,
-  CustomizePools,
+  // ClaimButton,
+  // XStakeButton,
+  // CustomizePools,
   // Tokens
-  AddNewCoinButton,
-  TokenChart,
-  DateRangeSelect,
-  DateRangeItem,
-  TokenList,
-  CoinDetail,
-  CoinDetailToken,
+  //AddNewCoinButton,
   // News
   NewsSection,
   NewsTitle,
@@ -38,43 +31,43 @@ import {
   NewsDate,
   SlickNext,
   // Followed Wallets
-  WalletProfile,
-  WalletProfileAddress,
-  WalletProfileChain,
-  WalletTokens,
-  WalletAddresses,
-  Row,
-  FollowButton,
-  IconButton,
-  ContainerLeftFollowed
+  // WalletProfile,
+  // WalletProfileAddress,
+  // WalletProfileChain,
+  // WalletTokens,
+  // WalletAddresses,
+  // Row,
+  // FollowButton,
+  // IconButton,
+  // ContainerLeftFollowed
 } from './styleds'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
-import { LineChart, Line } from 'recharts'
+//import { Link } from 'react-router-dom'
 import Slider, { Settings } from 'react-slick'
 import { ArrowRight } from 'react-feather'
-import Linkify from 'react-linkify'
-import makeBlockie from 'ethereum-blockies-base64'
+//import makeBlockie from 'ethereum-blockies-base64'
+import ReactMarkdown from 'react-markdown'
+import Scrollbars from 'react-custom-scrollbars'
 
-import TradingViewChart from './TradingViewChart'
-import PngToggle from './PngToggle'
-import TokenRow from './TokenRow'
-import ChainDropdown from './ChainDropdown'
+//import TradingViewChart from './TradingViewChart'
+//import PngToggle from './PngToggle'
+//import ChainDropdown from './ChainDropdown'
 
-import { useDarkModeManager } from 'src/state/user/hooks'
-import Logo from 'src/assets/images/logo.png'
-import LogoDark from 'src/assets/images/logo.png'
-import Info from 'src/assets/svg/info.svg'
+//import { useDarkModeManager } from 'src/state/user/hooks'
+// import Logo from 'src/assets/images/logo.png'
+// import LogoDark from 'src/assets/images/logo.png'
+// import Info from 'src/assets/svg/info.svg'
 import Info2 from 'src/assets/svg/info2.svg'
-import LinkIcon from 'src/assets/svg/link.svg'
-import DeleteIcon from 'src/assets/svg/delete.svg'
+//import DeleteIcon from 'src/assets/svg/delete.svg'
 import Earth from 'src/assets/images/earth.png'
 
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { CHAIN, CHAINS, ChainsId } from 'src/constants/chains'
+import { CHAINS, ChainsId } from 'src/constants/chains'
 import { useGetChainsBalances } from 'src/state/portifolio/hooks'
 import { News, useGetNews } from 'src/state/news/hooks'
+import WatchList from '../Beta/Swap/WatchList'
+import { RedirectContext } from '../Beta/Swap/WatchList/CoinChart'
 
 const NewsFeedSettings: Settings = {
   dots: true,
@@ -82,27 +75,20 @@ const NewsFeedSettings: Settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: false
-}
-
-enum DateRangeType {
-  hour = '1H',
-  day = '1D',
-  week = '1W',
-  month = '1M',
-  year = '1Y',
-  all = 'ALL'
+  arrows: false,
+  autoplay: true,
+  autoplaySpeed: 10000
 }
 
 const Dashboard = () => {
   const { t } = useTranslation()
-  const [isDark] = useDarkModeManager()
+  // const [isDark] = useDarkModeManager()
 
-  // earned
-  const [earnedCurrency, setEarnedCurrency] = useState<boolean>(false)
-  const handleEarnedCurrency = (currency: boolean) => {
-    setEarnedCurrency(currency)
-  }
+  // // earned
+  // const [earnedCurrency, setEarnedCurrency] = useState<boolean>(false)
+  // const handleEarnedCurrency = (currency: boolean) => {
+  //   setEarnedCurrency(currency)
+  // }
 
   // coins
   const data = []
@@ -117,17 +103,6 @@ const Dashboard = () => {
     data.push(d)
   }
 
-  const [coinsToken, setCoinsToken] = useState<string>('PNG')
-  const handleToken = (tokenName: string) => {
-    console.log(tokenName)
-    setCoinsToken(tokenName)
-  }
-
-  const [tokenDateRange, setTokenDateRange] = useState<string>('1D')
-  const handleTokenDateRange = (dateRange: string) => {
-    setTokenDateRange(dateRange)
-  }
-
   // news
   const sliderRef = useRef<Slider | null>(null)
   const handleNewsNext = () => {
@@ -136,10 +111,10 @@ const Dashboard = () => {
   const news = useGetNews()
 
   // portifolio
-  const [selectChain, setSelectChain] = useState<CHAIN>(CHAINS[ChainsId.All])
-  const handleSelectChain = (newChain: CHAIN) => {
-    setSelectChain(newChain)
-  }
+  // const [selectChain, setSelectChain] = useState<CHAIN>(CHAINS[ChainsId.All])
+  // const handleSelectChain = (newChain: CHAIN) => {
+  //   setSelectChain(newChain)
+  // }
   const balances = useGetChainsBalances()
 
   return (
@@ -148,59 +123,83 @@ const Dashboard = () => {
       <PageDescription>{t('dashboardPage.greetings')}</PageDescription>
       <TopContainerWrapper>
         <ContainerLeft>
-          <Card>
-            <CardHeader>
-              {t('dashboardPage.portfolioValue') + ' in ' + selectChain.name}
-              <HeaderDropdowns>
-                <ChainDropdown selectChain={selectChain} handleSelectChain={handleSelectChain}></ChainDropdown>
-              </HeaderDropdowns>
-            </CardHeader>
-            <CardBody>
-              <TradingViewChart />
-              <PortfolioToken>
-                $
-                {!!balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]]
-                  ? balances[ChainsId[selectChain.symbol as keyof typeof ChainsId]].toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2
-                    })
-                  : 0}
-                <img width={'50px'} src={selectChain.logo} alt={'Chain logo'} style={{ marginLeft: '12px' }} />
-                <PortfolioTokenPercent>23.3%</PortfolioTokenPercent>
-              </PortfolioToken>
-              <PortfolioInfo>
-                <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards worth
-                in current wallet
-              </PortfolioInfo>
-            </CardBody>
-          </Card>
+          <TopContainerWrapper>
+            <Card>
+              <CardHeader>
+                {t('dashboardPage.portfolioValue') + ' in All Chains'}
+                {/* <HeaderDropdowns>
+                  <ChainDropdown selectChain={selectChain} handleSelectChain={handleSelectChain}></ChainDropdown>
+                </HeaderDropdowns> */}
+              </CardHeader>
+              <CardBody>
+                {/* <TradingViewChart /> */}
+                <Scrollbars style={{ height: 190 }}>
+                  {
+                    Object.keys(ChainsId).map((key, index) => (
+                      (
+                        isNaN(parseInt(key)) &&
+                        key !== "All" &&
+                        !!balances[ChainsId[key as keyof typeof ChainsId]] &&
+                        balances[ChainsId[key as keyof typeof ChainsId]] >= 1
+                      ) && (
+                        <PortfolioToken key={index} height={50}>
+                          $
+                          {!!balances[ChainsId[key as keyof typeof ChainsId]]
+                            ? balances[ChainsId[key as keyof typeof ChainsId]].toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2
+                            })
+                            : 0
+                          }
+                          <img
+                            width={'50px'}
+                            src={CHAINS[ChainsId[key as keyof typeof ChainsId]].logo}
+                            alt={'Chain logo'} style={{ marginLeft: '12px' }}
+                          />
+                        </PortfolioToken>
+                      )
+                    ))
+                  }
+                </Scrollbars>
+                <PortfolioInfo>
+                  <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards worth
+                  in current wallet
+                </PortfolioInfo>
+              </CardBody>
+            </Card>
+          </TopContainerWrapper>
+          <BottomContainerWrapper>
+            <RedirectContext.Provider value={true}>
+              <WatchList />
+            </RedirectContext.Provider>
+          </BottomContainerWrapper>
         </ContainerLeft>
         <ContainerRight>
-          <TopContainerWrapper>
-            <ContainerLeft>
-              <NewsSection img={Earth}>
-                <NewsTitle>News</NewsTitle>
-                <SlickNext onClick={handleNewsNext}>
-                  <ArrowRight size={20} style={{ minWidth: 24 }} />
-                </SlickNext>
-                <Slider ref={sliderRef} {...NewsFeedSettings}>
-                  {news &&
-                    news.map((element: News) => {
-                      return (
-                        <div key={element.id}>
-                          <NewsContent>
-                            <Linkify>{element?.content}</Linkify>
-                          </NewsContent>
-                          <NewsDate>
-                            {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
-                          </NewsDate>
-                        </div>
-                      )
-                    })}
-                </Slider>
-              </NewsSection>
-            </ContainerLeft>
-            <ContainerRight>
+          <NewsSection img={Earth}>
+            <NewsTitle>News</NewsTitle>
+            <SlickNext onClick={handleNewsNext}>
+              <ArrowRight size={20} style={{ minWidth: 24 }} />
+            </SlickNext>
+            <Slider ref={sliderRef} {...NewsFeedSettings}>
+              {news &&
+                news.map((element: News) => {
+                  return (
+                    <div key={element.id}>
+                      <NewsContent>
+                        <ReactMarkdown
+                          renderers={{ link: props => <a href={props.href} rel='nofollow noreferrer noopener' target="_blank">{props.children}</a> }}
+                        >{element?.content}</ReactMarkdown>
+                      </NewsContent>
+                      <NewsDate>
+                        {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
+                      </NewsDate>
+                    </div>
+                  )
+                })}
+            </Slider>
+          </NewsSection>
+          {/* EARNED WIDGET */}
+          {/* <ContainerRight>
               <Card>
                 <CardHeader>
                   <div>{t('dashboardPage.earned')}</div>
@@ -227,71 +226,10 @@ const Dashboard = () => {
                   </CustomizePools>
                 </CardBody>
               </Card>
-            </ContainerRight>
-          </TopContainerWrapper>
-          <BottomContainerWrapper>
-            <Card style={{ paddingRight: '0px' }}>
-              <CardHeader style={{ paddingRight: '30px' }}>
-                {t('dashboardPage.coins')}
-                <AddNewCoinButton>
-                  + <span>Add New Coin</span>
-                </AddNewCoinButton>
-              </CardHeader>
-              <CardBody>
-                <FlexWrapper>
-                  <TokenChart>
-                    <CoinDetail>
-                      <CoinDetailToken>
-                        <img width={'56px'} src={Logo} alt={'token'} />
-                        <div>
-                          <div className="token">Avax</div>
-                          <div className="price">122.74$</div>
-                        </div>
-                      </CoinDetailToken>
-                      <div className="buttons">
-                        <IconButton variant="secondary">
-                          <img width={'15px'} src={LinkIcon} alt="link" />
-                        </IconButton>
-                        <FollowButton variant="primary" follow={true}>
-                          Trade
-                        </FollowButton>
-                      </div>
-                    </CoinDetail>
-                    <LineChart width={380} height={200} data={data}>
-                      <Line
-                        type="monotone"
-                        dataKey="value"
-                        stroke={coinsToken === 'PNG' ? '#18C145' : '#E84142'}
-                        dot={false}
-                      />
-                    </LineChart>
-                    <DateRangeSelect>
-                      {Object.values(DateRangeType).map((dateValue: string) => (
-                        <DateRangeItem
-                          key={dateValue}
-                          className={tokenDateRange === dateValue ? 'active' : ''}
-                          onClick={() => handleTokenDateRange(dateValue)}
-                        >
-                          {dateValue}
-                        </DateRangeItem>
-                      ))}
-                    </DateRangeSelect>
-                  </TokenChart>
-                  <TokenList>
-                    <TokenRow onClick={() => handleToken('PNG')} />
-                    <TokenRow name="AVAX" onClick={() => handleToken('AVAX')} />
-                    <TokenRow name="ETH.e" diffPercent={-1.5} onClick={() => handleToken('ETH')} />
-                    <TokenRow name="LINK.e" onClick={() => handleToken('LINK.e')} />
-                    <TokenRow name="USDT.e" onClick={() => handleToken('USDT.e')} />
-                    <TokenRow name="XAVA" onClick={() => handleToken('XAVA')} />
-                  </TokenList>
-                </FlexWrapper>
-              </CardBody>
-            </Card>
-          </BottomContainerWrapper>
+            </ContainerRight> */}
         </ContainerRight>
-      </TopContainerWrapper>
-      <BottomContainerWrapper>
+      </TopContainerWrapper >
+      {/* <BottomContainerWrapper>
         <Card>
           <CardHeader>
             {t('dashboardPage.followedWallets')}
@@ -385,8 +323,8 @@ const Dashboard = () => {
             </FlexWrapper>
           </CardBody>
         </Card>
-      </BottomContainerWrapper>
-    </PageWrapper>
+      </BottomContainerWrapper> */}
+    </PageWrapper >
   )
 }
 

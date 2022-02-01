@@ -6,7 +6,7 @@ import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConf
 import PoolCard from '../PoolCard'
 import Loader from 'src/components/Loader'
 import { useActiveWeb3React } from 'src/hooks'
-import { JSBI, Token } from '@pangolindex/sdk'
+import { Token } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
@@ -30,7 +30,6 @@ import StakeModal from '../../StakeModal'
 
 export enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
-  multiplier = 'multiplier',
   totalApr = 'totalApr'
 }
 
@@ -99,13 +98,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
             return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
           }
         }
-        if (sortBy.field === SortingType.multiplier) {
-          if (sortBy.desc) {
-            return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
-          } else {
-            return JSBI.lessThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
-          }
-        }
+
         if (sortBy.field === SortingType.totalApr) {
           if (sortBy.desc) {
             return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1

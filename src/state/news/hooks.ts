@@ -10,7 +10,7 @@ enum TypeNews {
 export interface News {
   id: number
   title: string
-  content: number
+  content: string
   createdAt: Date
   updatedAt: Date
   publishedAt: Date

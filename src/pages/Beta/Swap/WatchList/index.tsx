@@ -81,6 +81,7 @@ const WatchList = () => {
                 coin={coin}
                 key={coin.address}
                 onClick={() => setSelectedToken(coin)}
+                onRemove={() => setSelectedToken(PNG[chainId])}
                 isSelected={coin?.address === selectedToken?.address}
               />
             ))}

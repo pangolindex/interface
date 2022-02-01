@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
   border-radius: 10px;
 `
 export const PanelWrapper = styled.div`
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: max-content;
   gap: 12px;
   display: inline-grid;
@@ -23,7 +23,7 @@ export const PanelWrapper = styled.div`
     grid-template-columns: 1fr;
     align-items: stretch;
     > * {
-      grid-column: 1 / 4;
+      grid-column: 1 / 3;
     }
 
     > * {

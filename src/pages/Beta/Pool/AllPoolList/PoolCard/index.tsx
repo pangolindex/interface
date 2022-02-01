@@ -1,6 +1,6 @@
 import React from 'react'
 import { Fraction } from '@pangolindex/sdk'
-import { Panel, OptionButton, OptionsWrapper, Divider, ActionButon, InnerWrapper, DetailButton } from './styleds'
+import { Panel, Divider, ActionButon, InnerWrapper, DetailButton } from './styleds'
 import Stat from 'src/components/Stat'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
@@ -52,9 +52,6 @@ const PoolCard = ({
           <Text color="text1" fontSize={24} fontWeight={500}>
             {currency0.symbol}-{currency1.symbol}
           </Text>
-          <OptionsWrapper>
-            <OptionButton active={true}>{stakingInfo?.multiplier ? `${stakingInfo?.multiplier}X` : '-'}</OptionButton>
-          </OptionsWrapper>
         </Box>
 
         <DoubleCurrencyLogo size={55} currency0={currency0} currency1={currency1} />

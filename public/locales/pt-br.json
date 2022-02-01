@@ -29,7 +29,8 @@
     "usefulLinks": "LINKS ÚTEIS",
     "comeAndJoinUs": "Junte-se a nós",
     "tryOurNewBetaSite": "Experimente nosso novo site beta",
-    "returnToLegacySite": "Retornar ao site legado"
+    "returnToLegacySite": "Retornar ao site legado",
+    "switchToNewUI": "Mudar para nova UI"
   },
   "accountDetails": {
     "connectedWith": "Conectado com ",
