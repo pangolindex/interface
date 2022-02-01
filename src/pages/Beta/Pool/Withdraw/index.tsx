@@ -8,7 +8,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
-import { useMinichefPools } from 'src/state/stake/hooks'
+import { useMinichefPools, useMinichefPendingRewards } from 'src/state/stake/hooks'
 import { useStakingContract } from 'src/hooks/useContract'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
@@ -33,6 +33,10 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
 
   const poolMap = useMinichefPools()
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+
+  const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
+
+  let isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
   async function onWithdraw() {
     if (stakingContract && poolMap && stakingInfo?.stakedAmount) {
@@ -97,6 +101,18 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
                 </Box>
               )}
 
+              {isSuperFarm &&
+                rewardTokensAmount?.map((rewardAmount, i) => (
+                  <Box textAlign="center" key={i}>
+                    <Text fontSize="26px" fontWeight={500} marginRight={10} color="text1">
+                      {<FormattedCurrencyAmount currencyAmount={rewardAmount} />}
+                    </Text>
+                    <Text fontSize="16px" color="text1" lineHeight="40px">
+                      {t('earn.unclaimedReward', { symbol: rewardAmount?.token?.symbol })}
+                    </Text>
+                  </Box>
+                ))}
+
               <Text fontSize="14px" color="text2">
                 {t('earn.whenYouWithdrawWarning')}
               </Text>
@@ -139,7 +155,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
         <SubmittedWrapper>
           <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" paddingY={'20px'}>
             <Box flex="1" display="flex" alignItems="center">
-              <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary1} />
+              <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary} />
             </Box>
             <Text fontWeight={500} fontSize={20} color="text1">
               {t('earn.transactionSubmitted')}
@@ -158,7 +174,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
                 as="a"
                 fontWeight={500}
                 fontSize={14}
-                color={'primary1'}
+                color={'primary'}
                 href={getEtherscanLink(chainId, hash, 'transaction')}
               >
                 {t('transactionConfirmation.viewExplorer')}

@@ -25,10 +25,10 @@ export const StyledBalanceMax = styled.button`
   margin-right: 0.5rem;
   color: ${({ theme }) => theme.text2};
   :hover {
-    border: 1px solid ${({ theme }) => theme.primary1};
+    border: 1px solid ${({ theme }) => theme.primary};
   }
   :focus {
-    border: 1px solid ${({ theme }) => theme.primary1};
+    border: 1px solid ${({ theme }) => theme.primary};
     outline: none;
   }
 

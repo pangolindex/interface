@@ -43,7 +43,7 @@ const ConfirmStakeDrawer: React.FC<Props> = props => {
     <SubmittedWrapper>
       <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" paddingY={'20px'}>
         <Box flex="1" display="flex" alignItems="center">
-          <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary1} />
+          <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary} />
         </Box>
         <Text fontWeight={500} fontSize={20} color="text1">
           {t('earn.transactionSubmitted')}
