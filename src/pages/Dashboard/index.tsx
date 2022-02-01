@@ -29,7 +29,7 @@ import {
   NewsTitle,
   NewsContent,
   NewsDate,
-  SlickNext,
+  SlickNext
   // Followed Wallets
   // WalletProfile,
   // WalletProfileAddress,
@@ -44,7 +44,7 @@ import {
 import { useTranslation } from 'react-i18next'
 //import { Link } from 'react-router-dom'
 import Slider, { Settings } from 'react-slick'
-import { ArrowRight } from 'react-feather'
+import { ArrowLeft, ArrowRight } from 'react-feather'
 //import makeBlockie from 'ethereum-blockies-base64'
 import ReactMarkdown from 'react-markdown'
 import Scrollbars from 'react-custom-scrollbars'
@@ -108,6 +108,9 @@ const Dashboard = () => {
   const handleNewsNext = () => {
     sliderRef?.current?.slickNext()
   }
+  const handleNewsBack = () => {
+    sliderRef?.current?.slickPrev()
+  }
   const news = useGetNews()
 
   // portifolio
@@ -134,36 +137,33 @@ const Dashboard = () => {
               <CardBody>
                 {/* <TradingViewChart /> */}
                 <Scrollbars style={{ height: 190 }}>
-                  {
-                    Object.keys(ChainsId).map((key, index) => (
-                      (
-                        isNaN(parseInt(key)) &&
-                        key !== "All" &&
-                        !!balances[ChainsId[key as keyof typeof ChainsId]] &&
-                        balances[ChainsId[key as keyof typeof ChainsId]] >= 1
-                      ) && (
+                  {Object.keys(ChainsId).map(
+                    (key, index) =>
+                      isNaN(parseInt(key)) &&
+                      key !== 'All' &&
+                      !!balances[ChainsId[key as keyof typeof ChainsId]] &&
+                      balances[ChainsId[key as keyof typeof ChainsId]] >= 1 && (
                         <PortfolioToken key={index} height={50}>
                           $
                           {!!balances[ChainsId[key as keyof typeof ChainsId]]
                             ? balances[ChainsId[key as keyof typeof ChainsId]].toLocaleString(undefined, {
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 2
-                            })
-                            : 0
-                          }
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                              })
+                            : 0}
                           <img
                             width={'50px'}
                             src={CHAINS[ChainsId[key as keyof typeof ChainsId]].logo}
-                            alt={'Chain logo'} style={{ marginLeft: '12px' }}
+                            alt={'Chain logo'}
+                            style={{ marginLeft: '12px' }}
                           />
                         </PortfolioToken>
                       )
-                    ))
-                  }
+                  )}
                 </Scrollbars>
                 <PortfolioInfo>
-                  <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards worth
-                  in current wallet
+                  <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards
+                  worth in current wallet
                 </PortfolioInfo>
               </CardBody>
             </Card>
@@ -177,6 +177,9 @@ const Dashboard = () => {
         <ContainerRight>
           <NewsSection img={Earth}>
             <NewsTitle>News</NewsTitle>
+            <SlickNext onClick={handleNewsBack} style={{ right: 60 }}>
+              <ArrowLeft size={20} style={{ minWidth: 24 }} />
+            </SlickNext>
             <SlickNext onClick={handleNewsNext}>
               <ArrowRight size={20} style={{ minWidth: 24 }} />
             </SlickNext>
@@ -187,8 +190,16 @@ const Dashboard = () => {
                     <div key={element.id}>
                       <NewsContent>
                         <ReactMarkdown
-                          renderers={{ link: props => <a href={props.href} rel='nofollow noreferrer noopener' target="_blank">{props.children}</a> }}
-                        >{element?.content}</ReactMarkdown>
+                          renderers={{
+                            link: props => (
+                              <a href={props.href} rel="nofollow noreferrer noopener" target="_blank">
+                                {props.children}
+                              </a>
+                            )
+                          }}
+                        >
+                          {element?.content}
+                        </ReactMarkdown>
                       </NewsContent>
                       <NewsDate>
                         {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
@@ -228,7 +239,7 @@ const Dashboard = () => {
               </Card>
             </ContainerRight> */}
         </ContainerRight>
-      </TopContainerWrapper >
+      </TopContainerWrapper>
       {/* <BottomContainerWrapper>
         <Card>
           <CardHeader>
@@ -324,7 +335,7 @@ const Dashboard = () => {
           </CardBody>
         </Card>
       </BottomContainerWrapper> */}
-    </PageWrapper >
+    </PageWrapper>
   )
 }
 
