@@ -47,45 +47,86 @@ const Web3StatusError = styled(Web3StatusGeneric)`
 `
 
 const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean; isBeta: boolean }>`
-  background-color: ${({ theme }) => theme.primary4};
+  background-color: ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
   border: none;
   color: ${({ theme, isBeta }) => (isBeta ? theme.white : theme.primaryText1)};
   font-weight: 500;
   padding: ${({ isBeta }) => (isBeta ? '0.35rem' : '0.5rem')};
 
   :hover,
-  :focus {
-    border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
+  :focus,
+  :active {
+    border: 1px solid ${({ theme, isBeta }) => darken(0.05, isBeta ? theme.primary : theme.primary4)};
     color: ${({ theme, isBeta }) => (isBeta ? theme.white : theme.primaryText1)};
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 1pt ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
+    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+  }
+  &:hover {
+    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+  }
+  &:active {
+    box-shadow: 0 0 0 1pt ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
+    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
   }
 
   ${({ faded, isBeta }) =>
     faded &&
     css`
-      background-color: ${({ theme }) => theme.primary5};
-      border: 1px solid ${({ theme }) => theme.primary5};
+      background-color: ${({ theme }) => (isBeta ? theme.primary : theme.primary5)};
+      border: 1px solid ${({ theme }) => (isBeta ? theme.primary : theme.primary5)};
       color: ${({ theme }) => (isBeta ? theme.white : theme.primaryText1)};
 
       :hover,
       :focus {
-        border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
+        border: 1px solid ${({ theme }) => darken(0.05, isBeta ? theme.primary : theme.primary4)};
         color: ${({ theme }) => darken(0.05, isBeta ? theme.white : theme.primaryText1)};
       }
     `}
 `
 
-const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
-  background-color: ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg2)};
-  border: 1px solid ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg3)};
+const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean; isBeta: boolean }>`
+  background-color: ${({ pending, theme, isBeta }) =>
+    pending && isBeta ? theme.primary : pending && !isBeta ? theme.primary1 : theme.bg2};
+  border: 1px solid
+    ${({ pending, theme, isBeta }) =>
+      pending && isBeta ? theme.primary : pending && !isBeta ? theme.primary1 : theme.bg3};
   color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
   font-weight: 500;
   :hover,
   :focus {
-    background-color: ${({ pending, theme }) => (pending ? darken(0.05, theme.primary1) : lighten(0.05, theme.bg2))};
+    background-color: ${({ pending, theme, isBeta }) =>
+      pending && isBeta
+        ? darken(0.05, theme.primary)
+        : pending && !isBeta
+        ? darken(0.05, theme.primary1)
+        : lighten(0.05, theme.bg2)};
 
     :focus {
-      border: 1px solid ${({ pending, theme }) => (pending ? darken(0.1, theme.primary1) : darken(0.1, theme.bg3))};
+      border: 1px solid
+        ${({ pending, theme, isBeta }) =>
+          pending && isBeta
+            ? darken(0.1, theme.primary)
+            : pending && !isBeta
+            ? darken(0.1, theme.primary1)
+            : darken(0.1, theme.bg3)};
     }
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 1pt ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
+    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+  }
+
+  &:hover {
+    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+  }
+
+  &:active {
+    box-shadow: 0 0 0 1pt ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
+    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
   }
 `
 
@@ -127,7 +168,7 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
   if (connector === injected) {
     return <Identicon />
   } else if (connector === gnosisSafe) {
-    return(
+    return (
       <IconWrapper size={16}>
         <img src={GnosisSafeIcon} alt={'GnosisSafeIcon'} />
       </IconWrapper>
@@ -168,7 +209,12 @@ function Web3StatusInner() {
 
   if (account) {
     return (
-      <Web3StatusConnected id="web3-status-connected" onClick={toggleWalletModal} pending={hasPendingTransactions}>
+      <Web3StatusConnected
+        id="web3-status-connected"
+        onClick={toggleWalletModal}
+        pending={hasPendingTransactions}
+        isBeta={isBeta}
+      >
         {hasPendingTransactions ? (
           <RowBetween>
             <Text>
