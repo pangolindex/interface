@@ -21,7 +21,7 @@ const WatchList = () => {
   const { t } = useTranslation()
 
   const allTokens = useAllTokens()
-  const coins = Object.values(allTokens)
+  const coins = Object.values(allTokens || {})
 
   const watchListCurrencies = useSelectedCurrencyLists()
   const theme = useContext(ThemeContext)
