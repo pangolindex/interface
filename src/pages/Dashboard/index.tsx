@@ -41,6 +41,7 @@ import {
   // IconButton,
   // ContainerLeftFollowed
 } from './styleds'
+import { Box, Text } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 //import { Link } from 'react-router-dom'
 import Slider, { Settings } from 'react-slick'
@@ -68,6 +69,8 @@ import { useGetChainsBalances } from 'src/state/portifolio/hooks'
 import { News, useGetNews } from 'src/state/news/hooks'
 import WatchList from '../Beta/Swap/WatchList'
 import { RedirectContext } from '../Beta/Swap/WatchList/CoinChart'
+import { useActiveWeb3React } from 'src/hooks'
+import Loader from 'src/components/Loader'
 
 const NewsFeedSettings: Settings = {
   dots: true,
@@ -83,6 +86,8 @@ const NewsFeedSettings: Settings = {
 const Dashboard = () => {
   const { t } = useTranslation()
   // const [isDark] = useDarkModeManager()
+
+  const { account } = useActiveWeb3React()
 
   // // earned
   // const [earnedCurrency, setEarnedCurrency] = useState<boolean>(false)
@@ -118,7 +123,7 @@ const Dashboard = () => {
   // const handleSelectChain = (newChain: CHAIN) => {
   //   setSelectChain(newChain)
   // }
-  const balances = useGetChainsBalances()
+  const [balances, loading] = useGetChainsBalances()
 
   return (
     <PageWrapper>
@@ -136,31 +141,51 @@ const Dashboard = () => {
               </CardHeader>
               <CardBody>
                 {/* <TradingViewChart /> */}
-                <Scrollbars style={{ height: 190 }}>
-                  {Object.keys(ChainsId).map(
-                    (key, index) =>
-                      isNaN(parseInt(key)) &&
-                      key !== 'All' &&
-                      !!balances[ChainsId[key as keyof typeof ChainsId]] &&
-                      balances[ChainsId[key as keyof typeof ChainsId]] >= 1 && (
-                        <PortfolioToken key={index} height={50}>
-                          $
-                          {!!balances[ChainsId[key as keyof typeof ChainsId]]
-                            ? balances[ChainsId[key as keyof typeof ChainsId]].toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2
-                              })
-                            : 0}
-                          <img
-                            width={'50px'}
-                            src={CHAINS[ChainsId[key as keyof typeof ChainsId]].logo}
-                            alt={'Chain logo'}
-                            style={{ marginLeft: '12px' }}
-                          />
-                        </PortfolioToken>
-                      )
-                  )}
-                </Scrollbars>
+                {!!account ? (
+                  loading ? (
+                    <Loader
+                      size="10%"
+                      stroke="#f5bb00"
+                      style={{
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                        display: 'block'
+                      }}
+                    />
+                  ) : (
+                    <Scrollbars style={{ height: 190 }}>
+                      {Object.keys(ChainsId).map(
+                        (key, index) =>
+                          isNaN(parseInt(key)) &&
+                          key !== 'All' &&
+                          !!balances[ChainsId[key as keyof typeof ChainsId]] &&
+                          balances[ChainsId[key as keyof typeof ChainsId]] >= 1 && (
+                            <PortfolioToken key={index} height={50}>
+                              $
+                              {!!balances[ChainsId[key as keyof typeof ChainsId]]
+                                ? balances[ChainsId[key as keyof typeof ChainsId]].toLocaleString(undefined, {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                  })
+                                : 0}
+                              <img
+                                width={'50px'}
+                                src={CHAINS[ChainsId[key as keyof typeof ChainsId]].logo}
+                                alt={'Chain logo'}
+                                style={{ marginLeft: '12px' }}
+                              />
+                            </PortfolioToken>
+                          )
+                      )}
+                    </Scrollbars>
+                  )
+                ) : (
+                  <Box display="flex" alignItems="center" justifyContent="center">
+                    <Text color="text1" fontSize={24} fontWeight={500}>
+                      {`${t('swapPage.connectWalletViewPortFolio')}`}
+                    </Text>
+                  </Box>
+                )}
                 <PortfolioInfo>
                   <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards
                   worth in current wallet
