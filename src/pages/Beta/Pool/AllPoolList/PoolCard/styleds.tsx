@@ -49,3 +49,25 @@ export const InnerWrapper = styled(Box)`
   grid-gap: 12px;
   margin-top: 10px;
 `
+export const StatWrapper = styled(Box)`
+  display: grid;
+  grid-template-columns: minmax(auto, 33%) minmax(auto, 33%) minmax(auto, 33%);
+  grid-gap: 12px;
+  margin-top: 10px;
+`
+export const OptionButton = styled.div`
+  font-weight: 500;
+  width: fit-content;
+  white-space: nowrap;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background-color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.text1};
+  font-size: 13px;
+`
+
+export const OptionsWrapper = styled.div`
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 10px;
+`

@@ -15,7 +15,7 @@ interface ClaimRewardModalProps {
   stakingInfo: StakingInfo
 }
 
-const ClaimRewardModal = ({ version, stakingInfo, isOpen, onClose }: ClaimRewardModalProps) => {
+const WithdrawModal = ({ version, stakingInfo, isOpen, onClose }: ClaimRewardModalProps) => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
@@ -24,7 +24,7 @@ const ClaimRewardModal = ({ version, stakingInfo, isOpen, onClose }: ClaimReward
       <Wrapper>
         <Box p={10} display="flex" justifyContent="space-between" alignItems="center" width="100%">
           <Text color="text1" fontSize={24} fontWeight={500}>
-            {t('earn.claim')}
+            {t('earn.withdrawAndClaim')}
           </Text>
           <CloseIcon onClick={() => onClose()} color={theme.text1} />
         </Box>
@@ -33,4 +33,4 @@ const ClaimRewardModal = ({ version, stakingInfo, isOpen, onClose }: ClaimReward
     </Modal>
   )
 }
-export default ClaimRewardModal
+export default WithdrawModal

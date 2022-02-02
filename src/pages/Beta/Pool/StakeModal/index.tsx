@@ -34,7 +34,7 @@ const StakeModal = ({ clickedLpTokens, version }: StakeModalProps) => {
       <Wrapper>
         <Box p={10} display="flex" justifyContent="space-between" alignItems="center" width="100%">
           <Text color="text1" fontSize={24} fontWeight={500}>
-            {t('header.stake')}
+            {t('earn.deposit')}
           </Text>
           <CloseIcon onClick={() => toggleStakeModal()} color={theme.text1} />
         </Box>

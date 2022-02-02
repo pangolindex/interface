@@ -87,7 +87,8 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
               variant="plain"
               backgroundColor="oceanBlue"
               color="white"
-              padding="5px 10px"
+              padding="0px 10px"
+              height="32px"
               href={`/#/beta/swap?inputCurrency=${coin.address}`}
               target=""
               as="a"
@@ -99,7 +100,8 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
               variant="plain"
               backgroundColor="oceanBlue"
               color="white"
-              padding="5px 10px"
+              padding="0px 10px"
+              height="32px"
               onClick={() => {
                 onCurrencySelect(coin)
               }}

@@ -36,7 +36,7 @@ const SelectPoolDrawer: React.FC<Props> = props => {
       return pair ? <PoolRow style={style} pair={pair} isSelected={isSelected} onSelect={onSelect} /> : null
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selectedPair, onPoolSelect, onClose]
+    [selectedPair, onPoolSelect, onClose, onSelect]
   )
 
   return (

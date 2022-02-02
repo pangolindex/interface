@@ -1,11 +1,15 @@
 import React from 'react'
-import { Wrapper } from './styleds'
+import { Wrapper, InnerWrapper } from './styleds'
+import { TokenAmount, ChainId } from '@pangolindex/sdk'
 import { Text, Box, Button } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import Stat from 'src/components/Stat'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { RowBetween } from 'src/components/Row'
 import { BIG_INT_ZERO } from 'src/constants'
+import { useMinichefPendingRewards } from 'src/state/stake/hooks'
+import { PNG } from 'src/constants'
+import { useActiveWeb3React } from 'src/hooks'
 
 export interface EarnDetailProps {
   stakingInfo: StakingInfo
@@ -14,37 +18,83 @@ export interface EarnDetailProps {
 }
 
 const EarnDetail = ({ stakingInfo, onOpenClaimModal, onOpenWithdrawModal }: EarnDetailProps) => {
+  const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
+  const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 
+  let isSuperFarm = (rewardTokensAmount || [])?.length > 0
+
+  const png = PNG[chainId || ChainId.AVALANCHE] // add PNG as default reward
   return (
     <Wrapper>
       <Text color="text1" fontSize={24} fontWeight={500}>
         {t('dashboardPage.earned')}
       </Text>
+      <InnerWrapper>
+        <Box>
+          <Stat
+            title={t('dashboardPage.earned_dailyIncome')}
+            stat={`${stakingInfo?.rewardRate
+              ?.multiply((60 * 60 * 24).toString())
+              ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}`}
+            titlePosition="top"
+            titleFontSize={14}
+            statFontSize={20}
+            titleColor="text2"
+            currency={png}
+          />
+        </Box>
 
-      <Box>
-        <Stat
-          title={t('dashboardPage.earned_dailyIncome')}
-          stat={`${stakingInfo?.rewardRate
-            ?.multiply((60 * 60 * 24).toString())
-            ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} PNG`}
-          titlePosition="top"
-          titleFontSize={14}
-          statFontSize={24}
-          titleColor="text2"
-        />
-      </Box>
+        <Box>
+          <Stat
+            title={t('dashboardPage.earned_totalEarned')}
+            stat={`${stakingInfo?.earnedAmount?.toFixed(6) ?? '0'}`}
+            titlePosition="top"
+            titleFontSize={14}
+            statFontSize={20}
+            titleColor="text2"
+            currency={png}
+          />
+        </Box>
+      </InnerWrapper>
 
-      <Box mt={10}>
-        <Stat
-          title={t('dashboardPage.earned_totalEarned')}
-          stat={`${stakingInfo?.earnedAmount?.toFixed(6) ?? '0'}`}
-          titlePosition="top"
-          titleFontSize={14}
-          statFontSize={24}
-          titleColor="text2"
-        />
-      </Box>
+      {isSuperFarm && (
+        <>
+          {(rewardTokensAmount || []).map((reward, index) => {
+            const userRewardRate = stakingInfo?.getHypotheticalRewardRate(
+              stakingInfo?.stakedAmount,
+              stakingInfo?.totalStakedAmount,
+              stakingInfo?.totalRewardRate
+            )
+
+            const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
+
+            let rewardRate = stakingInfo?.getExtraTokensRewardRate?.(
+              userRewardRate,
+              reward?.token,
+              tokenMultiplier
+            ) as TokenAmount
+
+            return (
+              <InnerWrapper key={index}>
+                <Box>
+                  <Stat
+                    stat={`${rewardRate
+                      ?.multiply((60 * 60 * 24).toString())
+                      ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} `}
+                    statFontSize={20}
+                    currency={reward?.token}
+                  />
+                </Box>
+
+                <Box>
+                  <Stat stat={`${reward?.toFixed(6) ?? '0'}`} statFontSize={20} currency={reward?.token} />
+                </Box>
+              </InnerWrapper>
+            )
+          })}
+        </>
+      )}
 
       <Box mt={10}>
         <RowBetween>

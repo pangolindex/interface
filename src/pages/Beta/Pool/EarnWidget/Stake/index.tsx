@@ -4,11 +4,10 @@ import { ChevronDown } from 'react-feather'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { PageWrapper, InputText, ContentBox, DataBox, PoolSelectWrapper } from './styleds'
 import { Box, Text, Button, Steps, Step, DoubleCurrencyLogo } from '@pangolindex/components'
-import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { TokenAmount, Pair, ChainId, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { useGetPoolDollerWorth, useMinichefStakingInfos } from 'src/state/stake/hooks'
+import { useGetPoolDollerWorth, useMinichefStakingInfos, useMinichefPendingRewards } from 'src/state/stake/hooks'
 import { usePairContract, useStakingContract } from 'src/hooks/useContract'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
@@ -34,8 +33,8 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
   const stakingInfo = useMinichefStakingInfos(2, selectedPair)?.[0]
 
   const theme = useContext(ThemeContext)
-  const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
-  const { liquidityInUSD } = useGetPoolDollerWorth(selectedPair)
+
+  const { liquidityInUSD, userPgl: userLiquidityUnstaked } = useGetPoolDollerWorth(selectedPair)
 
   const [isPoolDrawerOpen, setIsPoolDrawerOpen] = useState(false)
 
@@ -56,6 +55,10 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
       stakingInfo?.totalRewardRate
     )
   }
+
+  const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
+
+  let isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
   // state for pending and submitted txn views
   const addTransaction = useTransactionAdder()
@@ -252,6 +255,8 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
       setTypedValue('')
     }
     setHash('')
+    setSignatureData(null)
+    setAttempting(false)
   }, [setTypedValue, hash])
 
   const handleSelectPoolDrawerClose = useCallback(() => {
@@ -268,13 +273,15 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
   const onPoolSelect = useCallback(
     pair => {
       setSelectedPair(pair)
-
-      if (userLiquidityUnstaked) {
-        setTypedValue(userLiquidityUnstaked?.toExact())
-      }
     },
-    [userLiquidityUnstaked, setTypedValue, setSelectedPair]
+    [setSelectedPair]
   )
+
+  // userLiquidityUnstaked?.toExact() -> liquidityInUSD
+  // typedValue -> ?
+  const finalUsd = userLiquidityUnstaked?.greaterThan('0')
+    ? (Number(typedValue) * liquidityInUSD) / Number(userLiquidityUnstaked?.toExact())
+    : undefined
 
   return (
     <PageWrapper>
@@ -333,15 +340,38 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
 
       <Box>
         <ContentBox>
-          {renderPoolDataRow(
-            t('migratePage.dollarWorth'),
-            `${liquidityInUSD ? `$${liquidityInUSD?.toFixed(4)}` : '-'}`
-          )}
+          {renderPoolDataRow(t('migratePage.dollarWorth'), `${finalUsd ? `$${Number(finalUsd).toFixed(2)}` : '-'}`)}
           {renderPoolDataRow(
             `${t('dashboardPage.earned_dailyIncome')}`,
             `${hypotheticalRewardRate
               .multiply((60 * 60 * 24).toString())
               .toSignificant(4, { groupSeparator: ',' })} PNG`
+          )}
+
+          {isSuperFarm && (
+            <DataBox key="extra-reward">
+              <Text color="text4" fontSize={16}>
+                {t('earn.extraReward')}
+              </Text>
+
+              {rewardTokensAmount?.map((reward, index) => {
+                const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
+                const extraRewardRate = stakingInfo?.getExtraTokensRewardRate?.(
+                  hypotheticalRewardRate,
+                  reward?.token,
+                  tokenMultiplier
+                )
+                if (extraRewardRate) {
+                  return (
+                    <Text color="text4" fontSize={16} key={index}>
+                      {extraRewardRate.multiply((60 * 60 * 24).toString()).toSignificant(4, { groupSeparator: ',' })}{' '}
+                      {reward?.token?.symbol}
+                    </Text>
+                  )
+                }
+                return null
+              })}
+            </DataBox>
           )}
         </ContentBox>
       </Box>

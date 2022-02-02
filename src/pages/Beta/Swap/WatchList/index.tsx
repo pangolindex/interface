@@ -45,7 +45,7 @@ const WatchList = () => {
         <Text color="text1" fontSize={32} fontWeight={500}>
           {t('swapPage.watchList')}
         </Text>
-        <Box bgColor={theme.bg5 as any} p={'5px'} ref={node as any}>
+        <Box bgColor={theme.bg5 as any} position="relative" p={'5px'} ref={node as any}>
           <Box ref={referenceElement} onClick={toggle}>
             <Button
               variant="primary"

@@ -96,7 +96,9 @@
     "approve": "Approve",
     "poolWeight": "Pool Weight",
     "withdraw": "Withdraw",
-    "extraReward": "Extra Reward"
+    "extraReward": "Extra Reward",
+    "poolRewards": "Pool Rewards",
+    "rewardsIn": "Rewards in"
   },
   "menu": {
     "code": "Code",

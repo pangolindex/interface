@@ -5,7 +5,7 @@ import { Colors } from 'src/theme/styled'
 
 export interface StatProps {
   title?: React.ReactNode
-  titlePosition: 'top' | 'bottom'
+  titlePosition?: 'top' | 'bottom'
   stat?: any
   titleColor?: keyof Colors
   statColor?: keyof Colors
@@ -26,7 +26,7 @@ const Stat = ({
 }: StatProps) => {
   return (
     <Box display="inline-block">
-      {titlePosition === 'top' && (
+      {titlePosition === 'top' && title && (
         <Text color={titleColor || 'text1'} fontSize={titleFontSize || 20}>
           {title}
         </Text>
@@ -43,7 +43,7 @@ const Stat = ({
         )}
       </Box>
 
-      {titlePosition === 'bottom' && (
+      {titlePosition === 'bottom' && title && (
         <Text color={titleColor || 'text1'} fontSize={titleFontSize || 16}>
           {title}
         </Text>

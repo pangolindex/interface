@@ -185,6 +185,7 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
       _onUserInput(Field.LIQUIDITY_PERCENT, '0')
     }
     setHash('')
+    setAttempting(false)
   }, [_onUserInput, hash])
 
   // tx sending

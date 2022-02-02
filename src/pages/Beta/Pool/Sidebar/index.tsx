@@ -8,6 +8,7 @@ export enum MenuType {
   allPoolV2 = 'allPoolV2',
   yourPoolV1 = 'yourPoolV1',
   yourPoolV2 = 'yourPoolV2',
+  superFarm = 'superFarm',
   yourWallet = 'your-wallet'
 }
 

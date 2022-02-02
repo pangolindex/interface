@@ -3,7 +3,7 @@ import { Box, Text, Button } from '@pangolindex/components'
 import { PageWrapper, PendingWrapper, SubmittedWrapper, Root, Footer, Header, Link } from './styleds'
 import { ArrowUpCircle } from 'react-feather'
 import { ThemeContext } from 'styled-components'
-import { StakingInfo } from 'src/state/stake/hooks'
+import { StakingInfo, useMinichefPendingRewards } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useActiveWeb3React } from 'src/hooks'
@@ -32,6 +32,10 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
 
   const poolMap = useMinichefPools()
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+
+  const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
+
+  let isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
   async function onClaimReward() {
     if (stakingContract && poolMap && stakingInfo?.stakedAmount) {
@@ -68,7 +72,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
           <Header>
             <Box>
               <Box textAlign="center">
-                <Text fontSize="26px" fontWeight={500} lineHeight="42px" marginRight={10} color="text1">
+                <Text fontSize="26px" fontWeight={500} lineHeight="42px" color="text1">
                   {stakingInfo?.earnedAmount?.toSignificant(6)}
                 </Text>
 
@@ -77,7 +81,20 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
                 </Text>
               </Box>
 
-              <Text fontSize="14px" color="text2">
+              {isSuperFarm &&
+                rewardTokensAmount?.map((rewardAmount, i) => (
+                  <Box textAlign="center" key={i}>
+                    <Text fontSize="26px" fontWeight={500} lineHeight="42px" color="text1">
+                      {rewardAmount?.toSignificant(6)}
+                    </Text>
+
+                    <Text fontSize="16px" color="text1" lineHeight="40px">
+                      {t('earn.unclaimedReward', { symbol: rewardAmount?.token?.symbol })}
+                    </Text>
+                  </Box>
+                ))}
+
+              <Text fontSize="14px" color="text2" textAlign="center">
                 {t('earn.liquidityRemainsPool')}
               </Text>
             </Box>
@@ -106,13 +123,22 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
               symbol: 'PNG'
             })}
           </Text>
+          {isSuperFarm &&
+            rewardTokensAmount?.map((rewardAmount, i) => (
+              <Text fontWeight={600} fontSize={14} color="text1" textAlign="center" key={i}>
+                {t('earn.claimingReward', {
+                  amount: rewardAmount?.toSignificant(6),
+                  symbol: rewardAmount?.token?.symbol
+                })}
+              </Text>
+            ))}
         </PendingWrapper>
       )}
       {hash && (
         <SubmittedWrapper>
           <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" paddingY={'20px'}>
             <Box flex="1" display="flex" alignItems="center">
-              <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary1} />
+              <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary} />
             </Box>
             <Text fontWeight={500} fontSize={20} color="text1">
               {t('earn.transactionSubmitted')}
@@ -122,7 +148,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
                 as="a"
                 fontWeight={500}
                 fontSize={14}
-                color={'primary1'}
+                color={'primary'}
                 href={getEtherscanLink(chainId, hash, 'transaction')}
               >
                 {t('transactionConfirmation.viewExplorer')}

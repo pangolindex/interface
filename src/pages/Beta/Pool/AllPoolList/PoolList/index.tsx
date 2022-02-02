@@ -14,7 +14,6 @@ import { BIG_INT_ZERO } from 'src/constants'
 import Scrollbars from 'react-custom-scrollbars'
 import { PoolsWrapper, PanelWrapper, LoadingWrapper } from './styleds'
 import SortOptions from '../SortOptions'
-import { StakingInfo } from 'src/state/stake/hooks'
 import {
   usePoolDetailnModalToggle,
   useAddLiquiditynModalToggle,
@@ -51,7 +50,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
   const [stakingInfoData, setStakingInfoData] = useState<any[]>(stakingInfos)
 
-  const [selectedPool, setSelectedPool] = useState({} as StakingInfo)
+  const [selectedPoolIndex, setSelectedPoolIndex] = useState(-1)
 
   const [clickedLpTokens, setClickedLpTokens] = useState([] as Token[])
 
@@ -117,7 +116,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
             onClickViewDetail={() => {
               // let container = {} as { [address: string]: { staking: StakingInfo } }
               // container[stakingInfo.stakingRewardAddress] = stakingInfo
-              setSelectedPool(stakingInfo)
+              setSelectedPoolIndex(index)
               togglePoolDetailModal()
             }}
             onClickAddLiquidity={() => {
@@ -125,7 +124,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
               toggleAddLiquidityModal()
             }}
             onClickClaim={() => {
-              setSelectedPool(stakingInfo)
+              setSelectedPoolIndex(index)
               setIsClaimRewardDrawerOpen(true)
             }}
             onClickStake={() => {
@@ -200,7 +199,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
               onClickViewDetail={() => {
                 // let container = {} as { [address: string]: { staking: StakingInfo } }
                 // container[stakingInfo.stakingRewardAddress] = { staking: stakingInfo }
-                setSelectedPool(stakingInfo)
+                setSelectedPoolIndex(index)
                 togglePoolDetailModal()
               }}
               onClickAddLiquidity={() => {
@@ -208,7 +207,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 toggleAddLiquidityModal()
               }}
               onClickClaim={() => {
-                setSelectedPool(stakingInfo)
+                setSelectedPoolIndex(index)
                 setIsClaimRewardDrawerOpen(true)
               }}
               onClickStake={() => {
@@ -231,6 +230,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const stakingRewardsExist = Boolean(
     typeof chainId === 'number' && (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0
   )
+  const selectedPool: DoubleSideStakingInfo = selectedPoolIndex !== -1 ? stakingInfoData[selectedPoolIndex] : undefined
 
   return (
     <PoolsWrapper>

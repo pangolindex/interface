@@ -3,6 +3,7 @@ import { ThemeContext } from 'styled-components'
 import { Wrapper, PanelWrapper, HeaderGridContainer, EarnWrapper, DetailContainer, TabView } from './styleds'
 import { CAVAX, Fraction } from '@pangolindex/sdk'
 import { CloseIcon } from 'src/theme/components'
+import { useTranslation } from 'react-i18next'
 import { StakingInfo, useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
@@ -14,6 +15,8 @@ import StatDetail from '../StatDetail'
 import EarnWidget from '../../EarnWidget'
 import EarnDetail from '../EarnDetail'
 import { useWindowSize } from 'react-use'
+import { useTokens } from 'src/hooks/Tokens'
+import RewardTokens from 'src/components/RewardTokens'
 
 export interface PoolDetailProps {
   onDismiss: () => void
@@ -26,7 +29,7 @@ export interface PoolDetailProps {
 const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenWithdrawModal }: PoolDetailProps) => {
   const theme = useContext(ThemeContext)
   const { height } = useWindowSize()
-
+  const { t } = useTranslation()
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
 
@@ -45,6 +48,8 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
   const pair = stakingTokenPair
   const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)
 
+  const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
+
   return (
     <Wrapper style={{ maxHeight: height - 150 }}>
       <HeaderGridContainer>
@@ -55,6 +60,16 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
           </Text>
         </Box>
         <PanelWrapper>
+          <Box display="inline-block" padding="10px 6px">
+            <Text color="text2" fontSize={14}>
+              {t('earn.poolRewards')}
+            </Text>
+
+            <Box display="flex" alignItems="center" mt="5px">
+              <RewardTokens rewardTokens={rewardTokens} size={24} />
+            </Box>
+          </Box>
+
           <Box padding="10px 6px">
             <Stat
               title={`Swap fee APR:`}

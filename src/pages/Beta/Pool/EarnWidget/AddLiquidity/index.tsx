@@ -201,6 +201,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete }: AddLiquidityProps) =
       onFieldAInput('')
     }
     setTxHash('')
+    setAttemptingTxn(false)
   }, [onFieldAInput, txHash])
 
   const handleTypeInput = useCallback(
