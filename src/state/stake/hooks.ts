@@ -1028,10 +1028,13 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
       ? Number(currency0Price.toFixed()) * 2 * Number(token0Deposited?.toSignificant(6))
       : 0
 
-  return {
-    userPgl,
-    liquidityInUSD
-  }
+  return useMemo(
+    () => ({
+      userPgl,
+      liquidityInUSD
+    }),
+    [userPgl, liquidityInUSD]
+  )
 }
 
 export function useMinichefPendingRewards(miniChefStaking: DoubleSideStakingInfo | null) {
@@ -1039,7 +1042,7 @@ export function useMinichefPendingRewards(miniChefStaking: DoubleSideStakingInfo
 
   const rewardAddress = miniChefStaking?.rewardsAddress
 
-  const rewardContract = useRewardViaMultiplierContract(rewardAddress)
+  const rewardContract = useRewardViaMultiplierContract(rewardAddress !== ZERO_ADDRESS ? rewardAddress : undefined)
 
   const earnedAmount = miniChefStaking?.earnedAmount
     ? JSBI.BigInt(miniChefStaking?.earnedAmount?.raw).toString()
@@ -1058,7 +1061,10 @@ export function useMinichefPendingRewards(miniChefStaking: DoubleSideStakingInfo
     return rewardTokens.map((rewardToken, index) => new TokenAmount(rewardToken as Token, rewardAmounts[index] || 0))
   }, [rewardAmounts, rewardTokens])
 
-  return {
-    rewardTokensAmount
-  }
+  return useMemo(
+    () => ({
+      rewardTokensAmount
+    }),
+    [rewardTokensAmount]
+  )
 }

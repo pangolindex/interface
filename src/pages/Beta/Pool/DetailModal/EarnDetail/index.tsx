@@ -36,11 +36,12 @@ const EarnDetail = ({ stakingInfo, onOpenClaimModal, onOpenWithdrawModal }: Earn
             title={t('dashboardPage.earned_dailyIncome')}
             stat={`${stakingInfo?.rewardRate
               ?.multiply((60 * 60 * 24).toString())
-              ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} PNG`}
+              ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}`}
             titlePosition="top"
             titleFontSize={14}
             statFontSize={20}
             titleColor="text2"
+            currency={png}
           />
         </Box>
 
@@ -68,9 +69,11 @@ const EarnDetail = ({ stakingInfo, onOpenClaimModal, onOpenWithdrawModal }: Earn
 
             const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
 
-            let rewardRate =
-              stakingInfo?.getExtraTokensRewardRate &&
-              (stakingInfo?.getExtraTokensRewardRate(userRewardRate, reward?.token, tokenMultiplier) as TokenAmount)
+            let rewardRate = stakingInfo?.getExtraTokensRewardRate?.(
+              userRewardRate,
+              reward?.token,
+              tokenMultiplier
+            ) as TokenAmount
 
             return (
               <InnerWrapper key={index}>
@@ -78,9 +81,9 @@ const EarnDetail = ({ stakingInfo, onOpenClaimModal, onOpenWithdrawModal }: Earn
                   <Stat
                     stat={`${rewardRate
                       ?.multiply((60 * 60 * 24).toString())
-                      ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} 
-                    `}
+                      ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} `}
                     statFontSize={20}
+                    currency={reward?.token}
                   />
                 </Box>
 

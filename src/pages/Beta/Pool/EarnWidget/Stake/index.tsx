@@ -4,7 +4,6 @@ import { ChevronDown } from 'react-feather'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { PageWrapper, InputText, ContentBox, DataBox, PoolSelectWrapper } from './styleds'
 import { Box, Text, Button, Steps, Step, DoubleCurrencyLogo } from '@pangolindex/components'
-import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { TokenAmount, Pair, ChainId, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
@@ -34,8 +33,8 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
   const stakingInfo = useMinichefStakingInfos(2, selectedPair)?.[0]
 
   const theme = useContext(ThemeContext)
-  const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
-  const { liquidityInUSD } = useGetPoolDollerWorth(selectedPair)
+
+  const { liquidityInUSD, userPgl: userLiquidityUnstaked } = useGetPoolDollerWorth(selectedPair)
 
   const [isPoolDrawerOpen, setIsPoolDrawerOpen] = useState(false)
 
@@ -256,6 +255,7 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
       setTypedValue('')
     }
     setHash('')
+    setSignatureData(null)
     setAttempting(false)
   }, [setTypedValue, hash])
 
@@ -273,13 +273,15 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
   const onPoolSelect = useCallback(
     pair => {
       setSelectedPair(pair)
-
-      if (userLiquidityUnstaked) {
-        setTypedValue(userLiquidityUnstaked?.toExact())
-      }
     },
-    [userLiquidityUnstaked, setTypedValue, setSelectedPair]
+    [setSelectedPair]
   )
+
+  // userLiquidityUnstaked?.toExact() -> liquidityInUSD
+  // typedValue -> ?
+  const finalUsd = userLiquidityUnstaked?.greaterThan('0')
+    ? (Number(typedValue) * liquidityInUSD) / Number(userLiquidityUnstaked?.toExact())
+    : undefined
 
   return (
     <PageWrapper>
@@ -338,10 +340,7 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
 
       <Box>
         <ContentBox>
-          {renderPoolDataRow(
-            t('migratePage.dollarWorth'),
-            `${liquidityInUSD ? `$${liquidityInUSD?.toFixed(4)}` : '-'}`
-          )}
+          {renderPoolDataRow(t('migratePage.dollarWorth'), `${finalUsd ? `$${Number(finalUsd).toFixed(2)}` : '-'}`)}
           {renderPoolDataRow(
             `${t('dashboardPage.earned_dailyIncome')}`,
             `${hypotheticalRewardRate

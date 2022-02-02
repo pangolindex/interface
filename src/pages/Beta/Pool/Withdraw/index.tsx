@@ -82,7 +82,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
             <Box>
               {stakingInfo?.stakedAmount && (
                 <Box textAlign="center">
-                  <Text fontSize="26px" fontWeight={500} marginRight={10} color="text1">
+                  <Text fontSize="26px" fontWeight={500} color="text1">
                     {<FormattedCurrencyAmount currencyAmount={stakingInfo.stakedAmount} />}
                   </Text>
                   <Text fontSize="16px" color="text1" lineHeight="40px">
@@ -92,7 +92,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
               )}
               {stakingInfo?.earnedAmount && (
                 <Box textAlign="center">
-                  <Text fontSize="26px" fontWeight={500} marginRight={10} color="text1">
+                  <Text fontSize="26px" fontWeight={500} color="text1">
                     {<FormattedCurrencyAmount currencyAmount={stakingInfo.earnedAmount} />}
                   </Text>
                   <Text fontSize="16px" color="text1" lineHeight="40px">
@@ -104,7 +104,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
               {isSuperFarm &&
                 rewardTokensAmount?.map((rewardAmount, i) => (
                   <Box textAlign="center" key={i}>
-                    <Text fontSize="26px" fontWeight={500} marginRight={10} color="text1">
+                    <Text fontSize="26px" fontWeight={500} color="text1">
                       {<FormattedCurrencyAmount currencyAmount={rewardAmount} />}
                     </Text>
                     <Text fontSize="16px" color="text1" lineHeight="40px">
@@ -113,7 +113,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
                   </Box>
                 ))}
 
-              <Text fontSize="14px" color="text2">
+              <Text fontSize="14px" color="text2" textAlign="center">
                 {t('earn.whenYouWithdrawWarning')}
               </Text>
             </Box>
@@ -149,6 +149,16 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
               symbol: 'PNG'
             })}
           </Text>
+
+          {isSuperFarm &&
+            rewardTokensAmount?.map((rewardAmount, i) => (
+              <Text fontWeight={600} fontSize={14} color="text1" textAlign="center" key={i}>
+                {t('earn.claimingReward', {
+                  amount: rewardAmount?.toSignificant(6),
+                  symbol: rewardAmount?.token?.symbol
+                })}
+              </Text>
+            ))}
         </PendingWrapper>
       )}
       {hash && (

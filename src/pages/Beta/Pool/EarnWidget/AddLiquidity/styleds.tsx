@@ -24,13 +24,6 @@ export const StyledBalanceMax = styled.button`
   cursor: pointer;
   margin-right: 0.5rem;
   color: ${({ theme }) => theme.text2};
-  :hover {
-    border: 1px solid ${({ theme }) => theme.primary};
-  }
-  :focus {
-    border: 1px solid ${({ theme }) => theme.primary};
-    outline: none;
-  }
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     margin-right: 0.5rem;

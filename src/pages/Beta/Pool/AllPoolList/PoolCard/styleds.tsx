@@ -55,19 +55,15 @@ export const StatWrapper = styled(Box)`
   grid-gap: 12px;
   margin-top: 10px;
 `
-export const OptionButton = styled.div<{ active?: boolean; disabled?: boolean }>`
+export const OptionButton = styled.div`
   font-weight: 500;
   width: fit-content;
   white-space: nowrap;
-  padding: 6px;
+  padding: 2px 6px;
   border-radius: 6px;
-  border: 1px solid ${({ theme }) => theme.bg4};
-  background-color: ${({ active, theme }) => (active ? theme.yellow2 : theme.bg7)};
+  background-color: ${({ theme }) => theme.primary};
   color: ${({ theme }) => theme.text1};
-
-  :hover {
-    cursor: ${({ disabled }) => !disabled && 'pointer'};
-  }
+  font-size: 13px;
 `
 
 export const OptionsWrapper = styled.div`

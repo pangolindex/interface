@@ -20,7 +20,6 @@ import { usePair } from 'src/data/Reserves'
 import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
-import { useMinichefStakingInfos } from 'src/state/stake/hooks'
 
 export interface PoolCardProps {
   stakingInfo: StakingInfo
@@ -47,9 +46,7 @@ const PoolCard = ({
 
   const [, stakingTokenPair] = usePair(token0, token1)
 
-  const miniChefStaking = useMinichefStakingInfos(2, stakingTokenPair)?.[0]
-
-  const rewardTokens = useTokens(miniChefStaking?.rewardTokensAddress)
+  const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
@@ -61,7 +58,7 @@ const PoolCard = ({
 
   const isLiquidity = Boolean(userPgl?.greaterThan('0'))
 
-  let isSuperFarm = (miniChefStaking?.rewardTokensAddress || [])?.length > 0
+  let isSuperFarm = (stakingInfo?.rewardTokensAddress || [])?.length > 0
 
   return (
     <Panel>
@@ -73,7 +70,7 @@ const PoolCard = ({
 
           {isSuperFarm && (
             <OptionsWrapper>
-              <OptionButton active={true}>Super farm</OptionButton>
+              <OptionButton>Super farm</OptionButton>
             </OptionsWrapper>
           )}
         </Box>

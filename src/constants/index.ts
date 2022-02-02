@@ -1158,6 +1158,7 @@ export const BIG_INT_ONE = JSBI.BigInt(1)
 export const BIG_INT_TWO = JSBI.BigInt(2)
 export const BIG_INT_TEN = JSBI.BigInt(10)
 export const BIG_INT_EIGHTEEN = JSBI.BigInt(18)
+export const ONE_TOKEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
 
 // one basis point
 export const ONE_BIPS = new Percent(JSBI.BigInt(1), JSBI.BigInt(10000))
