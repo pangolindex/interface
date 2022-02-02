@@ -21,6 +21,7 @@ import Modal from '../Modal'
 import Option from './Option'
 import PendingView from './PendingView'
 import { useTranslation } from 'react-i18next'
+import { useIsBetaUI } from 'src/hooks/useLocation'
 
 const WALLET_TUTORIAL = LANDING_PAGE + 'tutorials/getting-started/#set-up-metamask'
 
@@ -47,11 +48,12 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
-const HeaderRow = styled.div`
+const HeaderRow = styled.div<{ isBeta: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap};
   padding: 1rem 1rem;
   font-weight: 500;
-  color: ${props => (props.color === 'blue' ? ({ theme }) => theme.primary1 : 'inherit')};
+  color: ${props =>
+    props.color === 'blue' ? ({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary1) : 'inherit'};
   ${({ theme }) => theme.mediaWidth.upToMedium`
     padding: 1rem;
   `};
@@ -158,7 +160,7 @@ export default function WalletModal({
 
   const previousAccount = usePrevious(account)
   const { t } = useTranslation()
-
+  const isBeta = useIsBetaUI()
   // close on connection, when logged out before
   useEffect(() => {
     if (account && !previousAccount && walletModalOpen) {
@@ -205,8 +207,8 @@ export default function WalletModal({
       connector.walletConnectProvider = undefined
     }
 
-    if(!triedSafe && connector instanceof SafeAppConnector){
-      connector.isSafeApp().then((loadedInSafe) => {
+    if (!triedSafe && connector instanceof SafeAppConnector) {
+      connector.isSafeApp().then(loadedInSafe => {
         if (loadedInSafe) {
           activate(connector, undefined, true).catch(() => {
             setTriedSafe(true)
@@ -334,7 +336,7 @@ export default function WalletModal({
           <CloseIcon onClick={toggleWalletModal}>
             <CloseColor />
           </CloseIcon>
-          <HeaderRow>
+          <HeaderRow isBeta={isBeta}>
             {error instanceof UnsupportedChainIdError
               ? t('walletModal.wrongNetwork')
               : t('walletModal.errorConnecting')}
@@ -371,7 +373,7 @@ export default function WalletModal({
           <CloseColor />
         </CloseIcon>
         {walletView !== WALLET_VIEWS.ACCOUNT ? (
-          <HeaderRow color="blue">
+          <HeaderRow color="blue" isBeta={isBeta}>
             <HoverText
               onClick={() => {
                 setPendingError(false)
@@ -382,7 +384,7 @@ export default function WalletModal({
             </HoverText>
           </HeaderRow>
         ) : (
-          <HeaderRow>
+          <HeaderRow isBeta={isBeta}>
             <HoverText>{t('walletModal.connectToWallet')}</HoverText>
           </HeaderRow>
         )}
