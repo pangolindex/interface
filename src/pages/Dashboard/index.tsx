@@ -208,31 +208,46 @@ const Dashboard = () => {
             <SlickNext onClick={handleNewsNext}>
               <ArrowRight size={20} style={{ minWidth: 24 }} />
             </SlickNext>
-            <Slider ref={sliderRef} {...NewsFeedSettings}>
-              {news &&
-                news.map((element: News) => {
-                  return (
-                    <div key={element.id}>
-                      <NewsContent>
-                        <ReactMarkdown
-                          renderers={{
-                            link: props => (
-                              <a href={props.href} rel="nofollow noreferrer noopener" target="_blank">
-                                {props.children}
-                              </a>
-                            )
-                          }}
-                        >
-                          {element?.content}
-                        </ReactMarkdown>
-                      </NewsContent>
-                      <NewsDate>
-                        {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
-                      </NewsDate>
-                    </div>
-                  )
-                })}
-            </Slider>
+            {!!news ? (
+              <Slider ref={sliderRef} {...NewsFeedSettings}>
+                {news &&
+                  news.map((element: News) => {
+                    return (
+                      <div key={element.id}>
+                        <NewsContent>
+                          <ReactMarkdown
+                            renderers={{
+                              link: props => (
+                                <a href={props.href} rel="nofollow noreferrer noopener" target="_blank">
+                                  {props.children}
+                                </a>
+                              )
+                            }}
+                          >
+                            {element?.content}
+                          </ReactMarkdown>
+                        </NewsContent>
+                        <NewsDate>
+                          {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
+                        </NewsDate>
+                      </div>
+                    )
+                  })}
+              </Slider>
+            ) : (
+              <Box display="flex" alignItems="center" justifyContent="center" height="100%">
+                <Loader
+                  size="10%"
+                  stroke="#f5bb00"
+                  style={{
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    display: 'block'
+                  }}
+                />
+              </Box>
+    
+            )}
           </NewsSection>
           {/* EARNED WIDGET */}
           {/* <ContainerRight>
