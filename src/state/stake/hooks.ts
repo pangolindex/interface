@@ -1,6 +1,17 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent } from '@pangolindex/sdk'
 import { useMemo, useEffect, useState } from 'react'
-import { PNG, USDTe, USDCe, DAIe, MINICHEF_ADDRESS, BIG_INT_ZERO, BIG_INT_TWO, BIG_INT_ONE } from '../../constants'
+import {
+  PNG,
+  USDTe,
+  USDCe,
+  DAIe,
+  MINICHEF_ADDRESS,
+  BIG_INT_ZERO,
+  BIG_INT_TWO,
+  BIG_INT_ONE,
+  USDC,
+  UST
+} from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
@@ -906,6 +917,14 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           const pairValueInUSDC = JSBI.multiply(pair.reserveOf(USDCe[chainId]).raw, BIG_INT_TWO)
           const stakedValueInUSDC = JSBI.divide(JSBI.multiply(pairValueInUSDC, totalSupplyStaked), totalSupplyAvailable)
           totalStakedInUsd = new TokenAmount(USDCe[chainId], stakedValueInUSDC)
+        } else if (pair.involvesToken(USDC[chainId])) {
+          const pairValueInUSDC = JSBI.multiply(pair.reserveOf(USDC[chainId]).raw, BIG_INT_TWO)
+          const stakedValueInUSDC = JSBI.divide(JSBI.multiply(pairValueInUSDC, totalSupplyStaked), totalSupplyAvailable)
+          totalStakedInUsd = new TokenAmount(USDC[chainId], stakedValueInUSDC)
+        } else if (pair.involvesToken(UST[chainId])) {
+          const pairValueInUST = JSBI.multiply(pair.reserveOf(UST[chainId]).raw, BIG_INT_TWO)
+          const stakedValueInUST = JSBI.divide(JSBI.multiply(pairValueInUST, totalSupplyStaked), totalSupplyAvailable)
+          totalStakedInUsd = new TokenAmount(UST[chainId], stakedValueInUST)
         } else if (pair.involvesToken(USDTe[chainId])) {
           const pairValueInUSDT = JSBI.multiply(pair.reserveOf(USDTe[chainId]).raw, BIG_INT_TWO)
           const stakedValueInUSDT = JSBI.divide(JSBI.multiply(pairValueInUSDT, totalSupplyStaked), totalSupplyAvailable)
