@@ -444,7 +444,20 @@
     "watchList": "WatchList",
     "yourPortFolio": "Su portafolio",
     "comingSoon": "Próximamente",
-    "connectWalletViewPortFolio": "Conéctese a una cartera para ver su portafolio ."
+    "connectWalletViewPortFolio": "Conéctese a una cartera para ver su portafolio .",
+    "limitOrders": "Límite de órdenes",
+    "cancelOrder" : "Cancelar orden",
+    "all": "TODA",
+    "open": "ABIERTA",
+    "executed": "EJECUTADA",
+    "cancelled": "CANCELADA",
+    "inputAmount": "Importe de entrada",
+    "outputAmount": "Cantidad de salida",
+    "status": "Estado",
+    "noLimitOrder": "No {{ orderType }} Pedido",
+    "cancellingOrder": "Cancelando pedido...",
+    "cancelLimitOrder": "Comprar {{ outputCurrency }} con {{ inputCurrency }}",
+    "executionPrice": "Precio de ejecución"
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX con fiat de nuestro socio Wyre.",

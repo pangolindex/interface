@@ -11,9 +11,9 @@ export const WatchListRoot = styled(Box)`
   flex-direction: column;
 `
 
-export const GridContainer = styled(Box)<{ isLimitOrders?: boolean }>`
+export const GridContainer = styled(Box)`
   display: grid;
-  grid-template-columns: ${({ isLimitOrders }) => (isLimitOrders ? `100%` : `minmax(auto, 50%) 50%`)};
+  grid-template-columns: minmax(auto, 50%) 50%;
   grid-gap: 8px;
   padding: 10px 0px;
   flex: 1;
@@ -34,8 +34,10 @@ export const CoinList = styled(Box)`
 // WatchList Row Styles
 export const RowWrapper = styled(Box)<{ isSelected: boolean }>`
   padding: 0px 10px;
-  display: grid;
-  grid-template-columns: 100px minmax(auto, 1fr) max-content;
+  /* display: grid;
+  grid-template-columns: 100px minmax(auto, 1fr) max-content; */
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.text9};
   cursor: pointer;
@@ -69,15 +71,14 @@ export const SelectedCoinInfo = styled(Box)`
   align-items: center;
 `
 
-export const TrackIcons = styled(Box)`
-  display: grid;
-  grid-template-columns: max-content max-content;
-  grid-gap: 15px;
-  align-items: center;
-`
-
 export const DurationBtns = styled(Box)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`
+export const StatWrapper = styled(Box)`
+  display: grid;
+  grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
+  grid-gap: 12px;
+  margin-top: 10px;
 `

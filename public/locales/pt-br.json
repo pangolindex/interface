@@ -443,7 +443,20 @@
     "watchList": "WatchList",
     "yourPortFolio": "Seu Portfólio",
     "comingSoon": "Em breve",
-    "connectWalletViewPortFolio": "Conecte-se a uma carteira para ver seu portfólio."
+    "connectWalletViewPortFolio": "Conecte-se a uma carteira para ver seu portfólio.",
+    "limitOrders": "Limite de pedidos",
+    "cancelOrder" : "Cancelar pedido",
+    "all": "TUDO",
+    "open": "ABRIR",
+    "executed": "EXECUTADA",
+    "cancelled": "CANCELADA",
+    "inputAmount": "Valor de entrada",
+    "outputAmount": "Quantidade de saída",
+    "status": "Status",
+    "noLimitOrder": "Não {{ orderType }} Pedida",
+    "cancellingOrder": "Cancelando pedido...",
+    "cancelLimitOrder": "Comprar {{ outputCurrency }} com {{ inputCurrency }}",
+    "executionPrice": "Preço de execução"
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX com moeda fiduciária do nosso parceiro Wyre.",

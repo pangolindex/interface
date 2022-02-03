@@ -16,7 +16,11 @@ import useToggle from 'src/hooks/useToggle'
 import { useSelectedCurrencyLists } from 'src/state/watchlists/hooks'
 import { useTranslation } from 'react-i18next'
 
-const WatchList = () => {
+type Props = {
+  isLimitOrders?: boolean
+}
+
+const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
   const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
   const { t } = useTranslation()
 
@@ -72,8 +76,9 @@ const WatchList = () => {
           )}
         </Box>
       </Box>
-      <GridContainer>
-        <CoinChart coin={selectedToken} />
+      <GridContainer isLimitOrders={isLimitOrders}>
+        {!isLimitOrders && <CoinChart coin={selectedToken} />}
+
         <Box>
           <Scrollbars>
             {(currencies || []).map(coin => (

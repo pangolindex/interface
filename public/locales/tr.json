@@ -444,7 +444,20 @@
     "watchList": "İzlenecekler listesi",
     "yourPortFolio": "Portföyünüz",
     "comingSoon": "Çok yakında",
-    "connectWalletViewPortFolio": "Portföyünüzü kontrol etmek için bir cüzdana bağlanın."
+    "connectWalletViewPortFolio": "Portföyünüzü kontrol etmek için bir cüzdana bağlanın.",
+    "limitOrders": "Limit Emirleri",
+    "cancelOrder" : "Siparişi iptal et",
+    "all": "TÜMÜ",
+    "open": "AÇIK",
+    "executed": "UYGULANMIŞ",
+    "cancelled": "İPTAL EDİLDİ",
+    "inputAmount": "Girilen Tutar",
+    "outputAmount": "Çıkış Miktarı",
+    "status": "Durum",
+    "noLimitOrder": "Numara {{ orderType }} Emir",
+    "cancellingOrder": "sipariş iptal...",
+    "cancelLimitOrder": "Satın almak {{ outputCurrency }} ile {{ inputCurrency }}",
+    "executionPrice": "Yürütme Fiyatı"
   },
   "buyPage": {
     "buyAvaxInfo": "Partnerimiz Wyre aracılığıyla AVAX satın alın.",

@@ -444,7 +444,20 @@
     "watchList": "Liste de surveillance",
     "yourPortFolio": "Votre portefeuille",
     "comingSoon": "À venir",
-    "connectWalletViewPortFolio": "Connectez-vous à un portefeuille pour afficher votre portefeuille ."
+    "connectWalletViewPortFolio": "Connectez-vous à un portefeuille pour afficher votre portefeuille .",
+    "limitOrders": "Ordres à cours limité",
+    "cancelOrder" : "annuler la commande",
+    "all": "TOUTE",
+    "open": "OUVERTE",
+    "executed": "RÉALISÉ",
+    "cancelled": "ANNULÉ",
+    "inputAmount": "Montant d'entrée",
+    "outputAmount": "Montant de sortie",
+    "status": "Statut",
+    "noLimitOrder": "Non {{ orderType }} Commander",
+    "cancellingOrder": "Annuler la commande...",
+    "cancelLimitOrder": "Acheter {{ outputCurrency }} avec {{ inputCurrency }}",
+    "executionPrice": "Prix ​​d'exécution"
   },
   "buyPage": {
     "buyAvaxInfo": "Achetez AVAX avec monnaie fiat chez notre partenaire Wyre.",

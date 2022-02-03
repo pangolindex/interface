@@ -8,9 +8,9 @@ export const PageWrapper = styled(Box)`
   background-color: ${({ theme }) => theme.color2};
 `
 
-export const GridContainer = styled(Box)`
+export const GridContainer = styled(Box)<{ isLimitOrders?: boolean }>`
   display: grid;
-  grid-template-columns: minmax(auto, 60%) 40%;
+  grid-template-columns: ${({ isLimitOrders }) => (isLimitOrders ? `100%` : `minmax(auto, 60%) 40%`)};
   grid-gap: 12px;
   padding: 10px;
   margin-top: 20px;

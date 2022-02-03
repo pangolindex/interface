@@ -444,7 +444,20 @@
     "watchList": "WatchList",
     "yourPortFolio": "Your Portfolio",
     "comingSoon": "Coming Soon",
-    "connectWalletViewPortFolio": "Connect to a wallet to check your portfolio."
+    "connectWalletViewPortFolio": "Connect to a wallet to check your portfolio.",
+    "limitOrders": "Limit Orders",
+    "cancelOrder" : "Cancel Order",
+    "all": "ALL",
+    "open": "OPEN",
+    "executed": "EXECUTED",
+    "cancelled": "CANCELLED",
+    "inputAmount": "Input Amount",
+    "outputAmount": "Output Amount",
+    "status": "Status",
+    "noLimitOrder": "No {{ orderType }} Order",
+    "cancellingOrder": "Cancelling order...",
+    "cancelLimitOrder": "Buy {{ outputCurrency }} with {{ inputCurrency }}",
+    "executionPrice": "Execution Price"
   },
   "buyPage": {
     "buyAvaxInfo": "Buy AVAX with fiat from our partner Wyre.",

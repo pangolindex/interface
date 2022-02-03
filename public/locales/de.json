@@ -444,7 +444,20 @@
     "watchList": "Beobachtungsliste",
     "yourPortFolio": "Ihr Portfolio",
     "comingSoon": "Kommt bald",
-    "connectWalletViewPortFolio": "Stellen Sie eine Verbindung zu einem Wallet her, um Ihr Portfolio anzuzeigen."
+    "connectWalletViewPortFolio": "Stellen Sie eine Verbindung zu einem Wallet her, um Ihr Portfolio anzuzeigen.",
+    "limitOrders": "Limitaufträge",
+    "cancelOrder" : "Bestellung stornieren",
+    "all": "ALLE",
+    "open": "OFFEN",
+    "executed": "HINGERICHTET",
+    "cancelled": "STORNIERT",
+    "inputAmount": "Betrag eingeben",
+    "outputAmount": "Ausgabebetrag",
+    "status": "Status",
+    "noLimitOrder": "Nein {{ orderType }} Befehl",
+    "cancellingOrder": "Bestellung stornieren...",
+    "cancelLimitOrder": "Besorgen {{ outputCurrency }} mit {{ inputCurrency }}",
+    "executionPrice": "Ausführungspreis"
   },
   "buyPage": {
     "buyAvaxInfo": "Kaufen Sie AVAX mit Fiatgeld von unserem Partner Wyre.",

@@ -9,7 +9,11 @@ import { PairDataUser, TokenDataUser, useGetWalletChainTokens } from 'src/state/
 import { useActiveWeb3React } from 'src/hooks'
 import Loader from 'src/components/Loader'
 
-const MyPortfolio = () => {
+type Props = {
+  isLimitOrders: boolean
+}
+
+const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
 
@@ -30,24 +34,27 @@ const MyPortfolio = () => {
           </Text>
         </Box>
       ) : (
-        <GridContainer>
-          <Box>
-            <PortfolioChart />
-          </Box>
-          <Box display={'flex'} alignItems={"center"}>
-            {
-              loading ? (
-                <Loader 
-                  size="40%" 
-                  style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    display: 'block'
-                  }}
-                />
-              ): (
-                <Scrollbars>
-                  {data.map((item: (TokenDataUser | PairDataUser), index) => (
+        <GridContainer isLimitOrders={isLimitOrders}>
+          {!isLimitOrders && (
+            <Box>
+              <PortfolioChart />
+            </Box>
+          )}
+
+          <Box display={'flex'} alignItems={'center'}>
+            {loading ? (
+              <Loader
+                size="40%"
+                style={{
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  display: 'block'
+                }}
+              />
+            ) : (
+              <Scrollbars>
+                {data.map(
+                  (item: TokenDataUser | PairDataUser, index) =>
                     item.usdValue >= 1 && (
                       <PortfolioRow
                         coin={item instanceof TokenDataUser ? item : undefined}
@@ -55,14 +62,12 @@ const MyPortfolio = () => {
                         key={index}
                       />
                     )
-                  ))}
-                </Scrollbars>
-              )
-            }
+                )}
+              </Scrollbars>
+            )}
           </Box>
         </GridContainer>
       )}
-
     </PageWrapper>
   )
 }

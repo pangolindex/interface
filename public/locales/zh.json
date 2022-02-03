@@ -443,7 +443,20 @@
     "trade": "贸易",
     "watchList": "观察名单",
     "yourPortFolio": "您的投资组合",
-    "connectWalletViewPortFolio": "连接到钱包以检查您的投资组合."
+    "connectWalletViewPortFolio": "连接到钱包以检查您的投资组合.",
+    "limitOrders": "限价单",
+    "cancelOrder" : "取消订单",
+    "all": "全部",
+    "open": "打开",
+    "executed": "已执行",
+    "cancelled": "取消",
+    "inputAmount": "输入金额",
+    "outputAmount": "输出量",
+    "status": "地位",
+    "noLimitOrder": "不 {{ orderType }} 命令",
+    "cancellingOrder": "取消订单...",
+    "cancelLimitOrder": "买 {{ outputCurrency }} 和 {{ inputCurrency }}",
+    "executionPrice": "执行价格"
   },
   "buyPage": {
     "buyAvaxInfo": "用我们的合作伙伴怀尔的法定资金购买 AVAX。",
