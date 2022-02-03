@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
+import { Box } from '@pangolindex/components'
 import Modal from '../Modal'
 import { AutoColumn } from '../Column'
 import styled from 'styled-components'
@@ -272,7 +273,7 @@ export default function StakingModal({
                 <TYPE.black fontWeight={600}>{t('earn.extraReward')}</TYPE.black>
               </div>
 
-              <TYPE.black>
+              <Box>
                 {extraRewardTokensAmount?.map((reward, index) => {
                   const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
                   const extraRewardRate = stakingInfo?.getExtraTokensRewardRate?.(
@@ -282,17 +283,17 @@ export default function StakingModal({
                   )
                   if (extraRewardRate) {
                     return (
-                      <>
+                      <TYPE.black key={index}>
                         {extraRewardRate
                           .multiply((60 * 60 * 24 * 7).toString())
                           .toSignificant(4, { groupSeparator: ',' })}{' '}
                         {t('earn.rewardPerWeek', { symbol: reward?.token?.symbol })}
-                      </>
+                      </TYPE.black>
                     )
                   }
                   return null
                 })}
-              </TYPE.black>
+              </Box>
             </HypotheticalRewardRate>
           )}
 
