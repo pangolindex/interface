@@ -13,12 +13,12 @@ interface EarnWidgetProps {
 }
 
 const EarnWidget = ({ currencyA, currencyB, pair, version }: EarnWidgetProps) => {
-  const [type, setType] = useState('EARN' as string)
+  const [type, setType] = useState('Pool' as string)
 
   return (
     <Root>
       <EarnOption type={type} setType={setType} />
-      {type === 'EARN' ? (
+      {type === 'Pool' ? (
         <AddLiquidity currencyA={currencyA} currencyB={currencyB} />
       ) : (
         <Stake pair={pair} version={version} />

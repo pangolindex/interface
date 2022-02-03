@@ -14,11 +14,16 @@ const TradeOption: React.FC<Props> = ({ type, setType }) => {
     <EarnWrapper>
       <Box p={10}>
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Text color="text1" fontSize={24} fontWeight={500}>
-            {type === 'EARN' ? t('stakePage.earn') : t('header.stake')}
+          <Text
+            color="text1"
+            fontSize={20}
+            fontWeight={500}
+            style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+          >
+            {type === 'Pool' ? t('pool.addLiquidity') : t('header.farm')}
           </Text>
           <ToggleButtons
-            options={['EARN', 'STAKE']}
+            options={['Pool', 'Farm']}
             value={type}
             onChange={value => {
               setType(value)

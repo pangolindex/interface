@@ -46,7 +46,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
         />
         <Stat
           title={`Underlying ${currency0?.symbol}`}
-          stat={`${token0Deposited ? token0Deposited?.toSignificant(6) : '-'}`}
+          stat={`${token0Deposited ? parseFloat(token0Deposited?.toSignificant(6)).toLocaleString() : '-'}`}
           titlePosition="top"
           titleFontSize={16}
           statFontSize={24}
@@ -55,7 +55,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
         />
         <Stat
           title={`Underlying ${currency1?.symbol}`}
-          stat={`${token1Deposited ? token1Deposited?.toSignificant(6) : '-'}`}
+          stat={`${token1Deposited ? parseFloat(token1Deposited?.toSignificant(6)).toLocaleString() : '-'}`}
           titlePosition="top"
           titleFontSize={16}
           statFontSize={24}

@@ -34,20 +34,21 @@ const MyPortfolio = () => {
           <Box>
             <PortfolioChart />
           </Box>
-          <Box display={'flex'} alignItems={"center"}>
-            {
-              loading ? (
-                <Loader 
-                  size="40%" 
-                  style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    display: 'block'
-                  }}
-                />
-              ): (
-                <Scrollbars>
-                  {data.map((item: (TokenDataUser | PairDataUser), index) => (
+          <Box display="flex" alignItems="center">
+            {loading ? (
+              <Loader
+                size="40%"
+                stroke="#f5bb00"
+                style={{
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  display: 'block'
+                }}
+              />
+            ) : (
+              <Scrollbars>
+                {data.map(
+                  (item: TokenDataUser | PairDataUser, index) =>
                     item.usdValue >= 1 && (
                       <PortfolioRow
                         coin={item instanceof TokenDataUser ? item : undefined}
@@ -55,14 +56,12 @@ const MyPortfolio = () => {
                         key={index}
                       />
                     )
-                  ))}
-                </Scrollbars>
-              )
-            }
+                )}
+              </Scrollbars>
+            )}
           </Box>
         </GridContainer>
       )}
-
     </PageWrapper>
   )
 }

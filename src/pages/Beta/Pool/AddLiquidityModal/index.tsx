@@ -32,7 +32,7 @@ const AddLiquidityModal = ({ clickedLpTokens }: AddLiquidityModalProps) => {
       <Wrapper>
         <Box p={10} display="flex" justifyContent="space-between" alignItems="center" width="100%">
           <Text color="text1" fontSize={24} fontWeight={500}>
-            {t('stakePage.earn')}
+            {t('pool.addLiquidity')}
           </Text>
           <CloseIcon onClick={() => toggleAddLiquidityModal()} color={theme.text1} />
         </Box>

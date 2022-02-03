@@ -54,9 +54,9 @@ export class PairDataUser {
 }
 
 // Get the USD balance of address of all chains (supported by Debank)
-export function useGetChainsBalances() {
+export function useGetChainsBalances(): [ChainBalances, boolean] {
   const [balances, setBalances] = useState<ChainBalances>({} as ChainBalances)
-
+  const [loading, setLoading] = useState(false)
   const { account } = useActiveWeb3React()
 
   useEffect(() => {
@@ -72,13 +72,15 @@ export function useGetChainsBalances() {
       })
 
       setBalances(chainbalances)
+      setLoading(false)
     }
     if (!!account) {
+      setLoading(true)
       getBalances()
     }
-  }, [account, setBalances])
+  }, [account, setBalances, setLoading])
 
-  return balances
+  return [balances, loading]
 }
 
 // Get the USD balance of address of connected chain
@@ -137,13 +139,7 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
         }
 
         return new TokenDataUser(
-          new Token(
-            chainId,
-            ethers.utils.getAddress(token?.id),
-            token?.decimals,
-            token?.symbol,
-            token?.name
-          ),
+          new Token(chainId, ethers.utils.getAddress(token?.id), token?.decimals, token?.symbol, token?.name),
           token?.price,
           token?.amount
         )
@@ -153,13 +149,13 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
         const pairs = await getPangolinPairs()
         const tokens = [...requestTokens, ...pairs]
         setTokens(tokens)
-        return; 
+        return
       }
 
       setTokens(requestTokens)
     }
 
-    // This functions is temporary for Pangolin birthday 
+    // This functions is temporary for Pangolin birthday
     const getPangolinPairs = async () => {
       const response = await fetch(
         `https://openapi.debank.com/v1/user/protocol?id=${account}&protocol_id=avax_pangolin`
@@ -170,14 +166,14 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
         const token1 = pair?.detail?.supply_token_list[0]
         const token2 = pair?.detail?.supply_token_list[1]
         // If token2 does not exist its because this pair is not a pair but a single staking
-        if (!token2){
+        if (!token2) {
           return new TokenDataUser(
             new Token(
               chainId,
               ethers.utils.getAddress(token1?.id),
               token1?.decimals,
               `${token1?.symbol} - Staked`,
-              token1?.name,
+              token1?.name
             ),
             token1?.price,
             token1?.amount
@@ -185,36 +181,20 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
         }
 
         const tokenA = new TokenAmount(
-          new Token(
-            chainId,
-            ethers.utils.getAddress(token1?.id),
-            token1?.decimals,
-            token1?.symbol,
-            token1?.name,
-          ),
+          new Token(chainId, ethers.utils.getAddress(token1?.id), token1?.decimals, token1?.symbol, token1?.name),
           token1?.amount.toString().replace('.', '')
         )
 
         const tokenB = new TokenAmount(
-          new Token(
-            chainId,
-            ethers.utils.getAddress(token2?.id),
-            token2?.decimals,
-            token2?.symbol,
-            token2?.name,
-          ),
+          new Token(chainId, ethers.utils.getAddress(token2?.id), token2?.decimals, token2?.symbol, token2?.name),
           token2?.amount.toString().replace('.', '')
         )
 
-        return new PairDataUser(
-          new Pair(tokenA, tokenB, chainId),
-          pair?.stats?.net_usd_value
-        )
+        return new PairDataUser(new Pair(tokenA, tokenB, chainId), pair?.stats?.net_usd_value)
       })
       setLoading(false)
       return requestPairs
     }
-
 
     if (!!account) {
       getBalance(chainId)
