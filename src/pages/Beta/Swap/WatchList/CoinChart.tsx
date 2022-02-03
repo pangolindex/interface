@@ -46,7 +46,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
     [onCurrencySelection]
   )
 
-  const priceChart =
+  const priceData =
     useTokenPriceData(
       coin?.address.toLowerCase(),
       timeWindow?.momentIdentifier,
@@ -55,6 +55,17 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
     ) || []
 
   const token = unwrappedToken(coin)
+
+  let priceChart = [...priceData]
+  // add current price in chart
+  if (priceChart.length > 0 && usdcPrice) {
+    const timestampnow = Math.floor(Date.now() / 1000)
+    
+    priceChart.push({
+      priceUSD: parseFloat(usdcPrice?.toSignificant(4)),
+      timestamp: `${timestampnow}`
+    }) 
+  }
 
   return (
     <Box>
