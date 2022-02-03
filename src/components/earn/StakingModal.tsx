@@ -273,7 +273,7 @@ export default function StakingModal({
                 <TYPE.black fontWeight={600}>{t('earn.extraReward')}</TYPE.black>
               </div>
 
-              <Box>
+              <Box textAlign="right">
                 {extraRewardTokensAmount?.map((reward, index) => {
                   const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
                   const extraRewardRate = stakingInfo?.getExtraTokensRewardRate?.(
