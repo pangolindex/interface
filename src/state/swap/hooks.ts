@@ -16,7 +16,7 @@ import { SwapState } from './reducer'
 import useToggledVersion from '../../hooks/useToggledVersion'
 import { useUserSlippageTolerance } from '../user/hooks'
 import { computeSlippageAdjustedAmounts } from '../../utils/prices'
-import { ROUTER_ADDRESS } from '../../constants'
+import { DEFAULT_SWAP_TOKEN_ADDRESS, ROUTER_ADDRESS } from '../../constants'
 import { useTranslation } from 'react-i18next'
 
 export function useSwapState(): AppState['swap'] {
@@ -246,14 +246,14 @@ function validatedRecipient(recipient: any): string | null {
   return null
 }
 
-export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
+export function queryParametersToSwapState(parsedQs: ParsedQs, chainId: ChainId): SwapState {
   let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
   let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency)
   if (inputCurrency === outputCurrency) {
     if (typeof parsedQs.outputCurrency === 'string') {
-      inputCurrency = ''
+      inputCurrency = DEFAULT_SWAP_TOKEN_ADDRESS[chainId]
     } else {
-      outputCurrency = ''
+      outputCurrency = DEFAULT_SWAP_TOKEN_ADDRESS[chainId]
     }
   }
 
@@ -285,7 +285,7 @@ export function useDefaultsFromURLSearch():
 
   useEffect(() => {
     if (!chainId) return
-    const parsed = queryParametersToSwapState(parsedQs)
+    const parsed = queryParametersToSwapState(parsedQs, chainId)
 
     dispatch(
       replaceSwapState({

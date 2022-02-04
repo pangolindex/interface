@@ -1088,6 +1088,11 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ]
 }
 
+export const DEFAULT_SWAP_TOKEN_ADDRESS: { [chainId in ChainId]: string } = {
+  [ChainId.FUJI]: '',
+  [ChainId.AVALANCHE]: UST[ChainId.AVALANCHE].address
+}
+
 /**
  * Some tokens can only be swapped via certain pairs, so we override the list of bases that are considered for these
  * tokens.
