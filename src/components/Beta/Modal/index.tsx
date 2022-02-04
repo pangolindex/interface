@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import '@reach/dialog/styles.css'
+import { Portal } from 'react-portal'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDialogOverlay = styled.div<{ background?: string; isOpen: boolean }>`
@@ -33,8 +34,10 @@ interface ModalProps {
 
 export default function Modal({ isOpen, onDismiss, children, overlayBG }: ModalProps) {
   return (
-    <StyledDialogOverlay isOpen={isOpen} background={overlayBG} id="test">
-      {isOpen && <Container>{children}</Container>}
-    </StyledDialogOverlay>
+    <Portal>
+      <StyledDialogOverlay isOpen={isOpen} background={overlayBG} id="test">
+        {isOpen && <Container>{children}</Container>}
+      </StyledDialogOverlay>
+    </Portal>
   )
 }
