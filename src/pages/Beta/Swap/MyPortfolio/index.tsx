@@ -9,7 +9,11 @@ import { PairDataUser, TokenDataUser, useGetWalletChainTokens } from 'src/state/
 import { useActiveWeb3React } from 'src/hooks'
 import Loader from 'src/components/Loader'
 
-const MyPortfolio = () => {
+type Props = {
+  isLimitOrders: boolean
+}
+
+const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
 
@@ -30,15 +34,17 @@ const MyPortfolio = () => {
           </Text>
         </Box>
       ) : (
-        <GridContainer>
-          <Box>
-            <PortfolioChart />
-          </Box>
-          <Box display="flex" alignItems="center">
+        <GridContainer isLimitOrders={isLimitOrders}>
+          {!isLimitOrders && (
+            <Box>
+              <PortfolioChart />
+            </Box>
+          )}
+
+          <Box display={'flex'} alignItems={'center'}>
             {loading ? (
               <Loader
                 size="40%"
-                stroke="#f5bb00"
                 style={{
                   marginLeft: 'auto',
                   marginRight: 'auto',

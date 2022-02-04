@@ -10,7 +10,7 @@ const StyledDialogOverlay = styled.div<{ background?: string; isOpen: boolean }>
   display: ${({ isOpen }) => (!isOpen ? 'none' : 'flex')};
   align-items: center;
   justify-content: center;
-  position: absolute;
+  position: fixed;
   top: 0px;
   right: 0px;
   bottom: 0px;
