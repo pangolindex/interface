@@ -6,6 +6,8 @@ export const PageWrapper = styled(Box)`
   border-radius: 10px;
   padding: 20px;
   background-color: ${({ theme }) => theme.color2};
+  display: flex;
+  flex-direction: column;
 `
 
 export const GridContainer = styled(Box)<{ isLimitOrders?: boolean }>`
@@ -14,6 +16,7 @@ export const GridContainer = styled(Box)<{ isLimitOrders?: boolean }>`
   grid-gap: 12px;
   padding: 10px;
   margin-top: 20px;
+  height: 100%;
 `
 export const Divider = styled(Box)`
   height: 1px;
