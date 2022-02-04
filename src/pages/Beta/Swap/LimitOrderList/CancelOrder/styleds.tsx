@@ -1,7 +1,7 @@
 import { Box, Text } from '@pangolindex/components'
 import styled from 'styled-components'
 
-export const PageWrapper = styled(Box)`
+export const CancelOrderRoot = styled(Box)`
   width: 100%;
 `
 

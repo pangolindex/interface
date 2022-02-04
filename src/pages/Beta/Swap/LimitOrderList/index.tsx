@@ -37,7 +37,7 @@ const LimitOrderList = () => {
     displayOrders = allOpenOrders
   } else if (activeTab === TabType.cancelled) {
     displayOrders = allCancelledOrders
-  } else if (activeTab === TabType.cancelled) {
+  } else if (activeTab === TabType.executed) {
     displayOrders = executed
   } else {
     displayOrders = allOrders

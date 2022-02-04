@@ -368,7 +368,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
         }}
         id="swap-button"
         isDisabled={!isValid || !!swapInputError}
-        backgroundColor={isValid ? 'red1' : undefined}
+        backgroundColor={isValid ? 'primary' : undefined}
       >
         {swapInputError ? swapInputError : t('swapPage.placeOrder')}
       </Button>

@@ -374,10 +374,6 @@ export function useGelatoLimitOrderDetail(order: Order) {
 export function useGelatoLimitOrderList() {
   const { open, executed, cancelled } = useGelatoLimitOrdersHistory()
 
-  console.log('executed', executed)
-  console.log('open', open)
-  console.log('cancelled', cancelled)
-
   const allOrders = useMemo(
     () => [...cancelled.pending, ...open.pending, ...open.confirmed, ...cancelled.confirmed, ...executed],
     [open.pending, cancelled.pending, open.confirmed, cancelled.confirmed, executed]

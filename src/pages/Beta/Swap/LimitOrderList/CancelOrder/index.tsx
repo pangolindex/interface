@@ -1,15 +1,13 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Box, Text, Button } from '@pangolindex/components'
-import { PageWrapper, PendingWrapper, SubmittedWrapper, Root, Footer, Header, Link } from './styleds'
-import { ArrowUpCircle } from 'react-feather'
-import { ThemeContext } from 'styled-components'
+import { CancelOrderRoot, PendingWrapper, Root, Footer, Header } from './styleds'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
-import { getEtherscanLink } from 'src/utils'
 import { Order, useGelatoLimitOrdersHandlers } from '@gelatonetwork/limit-orders-react'
 import { useGelatoLimitOrderDetail } from 'src/state/swap/hooks'
+import TransactionSubmitted from 'src/components/Beta/TransactionSubmitted'
 
 interface ClaimProps {
   order: Order
@@ -17,8 +15,7 @@ interface ClaimProps {
 }
 const CancelOrder = ({ order, onClose }: ClaimProps) => {
   const { t } = useTranslation()
-  const theme = useContext(ThemeContext)
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
 
   const { handleLimitOrderCancellation } = useGelatoLimitOrdersHandlers()
 
@@ -87,7 +84,7 @@ const CancelOrder = ({ order, onClose }: ClaimProps) => {
   }, [handleLimitOrderCancellation, currency0, currency1, inputAmount, outputAmount, order])
 
   return (
-    <PageWrapper>
+    <CancelOrderRoot>
       {!attemptingTxn && !txHash && (
         <Root>
           <Header>
@@ -95,8 +92,8 @@ const CancelOrder = ({ order, onClose }: ClaimProps) => {
               <Box textAlign="center">
                 <Text fontSize="20px" fontWeight={500} lineHeight="42px" color="text1">
                   {t('swapPage.cancelLimitOrder', {
-                    outputCurrency: `${currency1?.symbol} ${outputAmount ? outputAmount.toSignificant(4) : '-'}`,
-                    inputCurrency: `${currency0?.symbol} ${inputAmount ? inputAmount.toSignificant(4) : '-'}`
+                    outputCurrency: `${outputAmount ? outputAmount.toSignificant(4) : '-'} ${currency1?.symbol}`,
+                    inputCurrency: `${inputAmount ? inputAmount.toSignificant(4) : '-'} ${currency0?.symbol}`
                   })}
                 </Text>
               </Box>
@@ -132,33 +129,8 @@ const CancelOrder = ({ order, onClose }: ClaimProps) => {
           </Text>
         </PendingWrapper>
       )}
-      {txHash && (
-        <SubmittedWrapper>
-          <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" paddingY={'20px'}>
-            <Box flex="1" display="flex" alignItems="center">
-              <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary} />
-            </Box>
-            <Text fontWeight={500} fontSize={20} color="text1">
-              {t('earn.transactionSubmitted')}
-            </Text>
-            {chainId && txHash && (
-              <Link
-                as="a"
-                fontWeight={500}
-                fontSize={14}
-                color={'primary'}
-                href={getEtherscanLink(chainId, txHash, 'transaction')}
-              >
-                {t('transactionConfirmation.viewExplorer')}
-              </Link>
-            )}
-          </Box>
-          <Button variant="primary" onClick={() => handleConfirmDismiss()}>
-            {t('transactionConfirmation.close')}
-          </Button>
-        </SubmittedWrapper>
-      )}
-    </PageWrapper>
+      {txHash && <TransactionSubmitted onClose={handleConfirmDismiss} hash={txHash} />}
+    </CancelOrderRoot>
   )
 }
 export default CancelOrder
