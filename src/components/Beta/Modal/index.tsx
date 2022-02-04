@@ -35,7 +35,7 @@ interface ModalProps {
 export default function Modal({ isOpen, onDismiss, children, overlayBG }: ModalProps) {
   return (
     <Portal>
-      <StyledDialogOverlay isOpen={isOpen} background={overlayBG} id="test">
+      <StyledDialogOverlay isOpen={isOpen} background={overlayBG}>
         {isOpen && <Container>{children}</Container>}
       </StyledDialogOverlay>
     </Portal>
