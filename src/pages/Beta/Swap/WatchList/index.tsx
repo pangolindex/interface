@@ -4,7 +4,6 @@ import { ChainId, Token } from '@pangolindex/sdk'
 import { Plus } from 'react-feather'
 import { ThemeContext } from 'styled-components'
 import { PNG } from 'src/constants'
-import { COIN_LISTS } from 'src/constants/coinLists'
 import { useActiveWeb3React } from 'src/hooks'
 import WatchlistRow from './WatchlistRow'
 import { WatchListRoot, GridContainer } from './styleds'
@@ -15,6 +14,7 @@ import { useOnClickOutside } from 'src/hooks/useOnClickOutside'
 import useToggle from 'src/hooks/useToggle'
 import { useSelectedCurrencyLists } from 'src/state/watchlists/hooks'
 import { useTranslation } from 'react-i18next'
+import { useAllTokens } from 'src/hooks/Tokens'
 
 type Props = {
   isLimitOrders?: boolean
@@ -24,7 +24,9 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
   const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
   const { t } = useTranslation()
 
-  const coins = COIN_LISTS.map(coin => coin[chainId]).filter(coin => !!coin)
+  const allTokens = useAllTokens()
+  const coins = Object.values(allTokens || {})
+
   const watchListCurrencies = useSelectedCurrencyLists()
   const theme = useContext(ThemeContext)
   const [selectedToken, setSelectedToken] = useState(watchListCurrencies?.[0] || ({} as Token))

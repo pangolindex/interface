@@ -87,6 +87,10 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
 
   const onChangeDot = (value: number) => {
     setStepIndex(value)
+    if (!userLiquidityUnstaked) {
+      setTypedValue('0')
+      return
+    }
     if (value === 4) {
       setTypedValue((userLiquidityUnstaked as TokenAmount).toExact())
     } else {

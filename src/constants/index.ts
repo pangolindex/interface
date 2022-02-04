@@ -1012,6 +1012,55 @@ export const HEC: { [chainId in ChainId]: Token } = {
   )
 }
 
+export const UST: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'UST', 'Axelar Wrapped UST'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x260Bbf5698121EB85e7a74f2E45E16Ce762EbE11',
+    6,
+    'UST',
+    'Axelar Wrapped UST'
+  )
+}
+
+export const LUNA: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'LUNA', 'Axelar Wrapped LUNA'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x120AD3e5A7c796349e591F1570D9f7980F4eA9cb',
+    6,
+    'LUNA',
+    'Axelar Wrapped LUNA'
+  )
+}
+
+export const IME: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'IME', 'Imperium Empires Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xF891214fdcF9cDaa5fdC42369eE4F27F226AdaD6',
+    18,
+    'IME',
+    'Imperium Empires Token'
+  )
+}
+
+export const MONEY: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'MONEY', 'Moremoney USD'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x0f577433Bf59560Ef2a79c124E9Ff99fCa258948',
+    18,
+    'MONEY',
+    'Moremoney USD'
+  )
+}
+
+export const YDR: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'YDR', 'YDragon'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xf03Dccaec9A28200A6708c686cf0b8BF26dDc356', 18, 'YDR', 'YDragon')
+}
+
 export const RACEX: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'RACEX', 'RaceX'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7086e045b78e1e72f741f25231c08d238812cf8a', 18, 'RACEX', 'RaceX')
