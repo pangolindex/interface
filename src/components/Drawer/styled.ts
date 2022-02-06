@@ -4,7 +4,7 @@ export const DrawerRoot = styled.div<{ isOpen: boolean }>`
   overflow: hidden;
   height: 100vh;
   position: absolute;
-  z-index: 1;
+  z-index: 99;
   transition: all 350ms ease;
   background-color: ${({ theme }) => theme.bg2};
   transform: ${({ isOpen }) => (!isOpen ? 'translate(100%, 0px)' : 'translate(0px, 0px)')};

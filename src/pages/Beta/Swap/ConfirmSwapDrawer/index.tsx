@@ -5,7 +5,7 @@ import { Trade, TradeType } from '@pangolindex/sdk'
 import { CurrencyLogo, Text, Box, Button } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import { getEtherscanLink, tradeMeaningfullyDiffers } from 'src/utils'
-import Drawer from '../Drawer'
+import Drawer from 'src/components/Drawer'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown, warningSeverity } from 'src/utils/prices'
 import { Field } from 'src/state/swap/actions'
 import {

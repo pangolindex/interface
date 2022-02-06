@@ -24,3 +24,15 @@ export const PoolsWrapper = styled(Box)`
     flex-direction: column;
   `};
 `
+
+export const PoolCards = styled(Box)`
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  grid-gap: 20px;
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    grid-auto-columns:  minmax(0, 1fr);
+    grid-auto-flow: row;
+  `};
+`

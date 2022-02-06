@@ -3,16 +3,17 @@ import styled from 'styled-components'
 
 export const WatchListRoot = styled(Box)`
   width: 100%;
+  height: 100%;
   border-radius: 10px;
   padding: 20px;
-  background-color: ${({ theme }) => theme.bg2};
+  background-color: ${({ theme }) => theme.color2};
   display: flex;
   flex-direction: column;
 `
 
-export const GridContainer = styled(Box)`
+export const GridContainer = styled(Box)<{ isLimitOrders?: boolean }>`
   display: grid;
-  grid-template-columns: minmax(auto, 50%) 50%;
+  grid-template-columns: ${({ isLimitOrders }) => (isLimitOrders ? `100%` : `minmax(auto, 50%) 50%`)};
   grid-gap: 8px;
   padding: 10px 0px;
   flex: 1;
@@ -32,18 +33,31 @@ export const CoinList = styled(Box)`
 
 // WatchList Row Styles
 export const RowWrapper = styled(Box)<{ isSelected: boolean }>`
-  padding: 15px 10px;
+  padding: 0px 10px;
   display: grid;
   grid-template-columns: 100px minmax(auto, 1fr) max-content;
   align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.text9};
   cursor: pointer;
   border-radius: 4px;
-  background-color: ${({ theme, isSelected }) => (isSelected ? theme.bg6 : theme.bg2)};
+  background-color: ${({ theme, isSelected }) => (isSelected ? theme.color3 : theme.color2)};
+
+  height: 64px;
 
   &:hover {
-    background-color: ${({ theme }) => theme.bg6};
+    background-color: ${({ theme }) => theme.color3};
   }
+`
+export const DeleteButton = styled.button`
+  background-image: linear-gradient(to right, rgba(255, 0, 0, 0), ${({ theme }) => theme.bg6});
+  background-color: transparent;
+  border: 0px;
+  color: ${({ theme }) => theme.text1};
+  cursor: pointer;
+  display: block;
+  height: 64px;
+  width: 100%;
+  position: absolute;
 `
 
 // Coin Chart Styles

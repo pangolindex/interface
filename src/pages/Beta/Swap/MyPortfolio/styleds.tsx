@@ -5,15 +5,18 @@ export const PageWrapper = styled(Box)`
   width: 100%;
   border-radius: 10px;
   padding: 20px;
-  background-color: ${({ theme }) => theme.bg2};
+  background-color: ${({ theme }) => theme.color2};
+  display: flex;
+  flex-direction: column;
 `
 
-export const GridContainer = styled(Box)`
+export const GridContainer = styled(Box)<{ isLimitOrders?: boolean }>`
   display: grid;
-  grid-template-columns: minmax(auto, 60%) 40%;
+  grid-template-columns: ${({ isLimitOrders }) => (isLimitOrders ? `100%` : `minmax(auto, 60%) 40%`)};
   grid-gap: 12px;
   padding: 10px;
   margin-top: 20px;
+  height: 100%;
 `
 export const Divider = styled(Box)`
   height: 1px;
@@ -27,14 +30,14 @@ export const Divider = styled(Box)`
 export const RowWrapper = styled(Box)`
   padding: 15px 10px;
   display: grid;
-  grid-template-columns: auto 50px;
+  grid-template-columns: auto auto;
   align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.text9};
   cursor: pointer;
   border-radius: 4px;
 
   &:hover {
-    background-color: ${({ theme }) => theme.bg6};
+    background-color: ${({ theme }) => theme.color3};
   }
 `
 

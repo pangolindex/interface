@@ -5,7 +5,7 @@ import { Token, Trade, TradeType, CAVAX } from '@pangolindex/sdk'
 import { CurrencyLogo, Text, Box, Button } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import { getEtherscanLink } from 'src/utils'
-import Drawer from '../Drawer'
+import Drawer from 'src/components/Drawer'
 import {
   TokenRow,
   Header,

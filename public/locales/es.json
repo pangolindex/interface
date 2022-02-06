@@ -29,7 +29,8 @@
     "usefulLinks": "ENLACES ÚTILES",
     "comeAndJoinUs": "Ven y únete a nosotras",
     "tryOurNewBetaSite": "Prueba nuestro nuevo sitio beta",
-    "returnToLegacySite": "Regresar al sitio heredado"
+    "returnToLegacySite": "Regresar al sitio heredado",
+    "switchToNewUI": "Cambiar a la nueva IU"
   },
   "accountDetails": {
     "connectedWith": "Connectado con ",
@@ -94,7 +95,10 @@
     "withdrewStakingToken": "{{ symbol }} retirados!",
     "approve": "Aprobar",
     "poolWeight": "Peso de la piscina",
-    "extraReward": "Recompensa adicional"
+    "withdraw": "Retirar",
+    "extraReward": "Recompensa adicional",
+    "poolRewards": "Recompensas de la piscina",
+    "rewardsIn": "Recompensas en"
   },
   "menu": {
     "code": "Código",
@@ -367,7 +371,13 @@
     "uniswapV1Found": "Liquidez Uniswap V1 encontrada!",
     "noSeePoolJoined": "No ves un pool a la que te has unido?",
     "migrateNow": "Mirgrar ahora.",
-    "importIt": "Importar."
+    "importIt": "Importar.",
+    "seeDetails":"VER DETALLES",
+    "totalLockedValue": "Valor bloqueado total",
+    "yourLockedValue": "Su valor bloqueado",
+    "allPools": "Todos los Pools",
+    "yourPools": "Tus Pools",
+    "yourWallet": "tu billetera"
   },
   "poolFinder": {
     "connectToFind": "Conecte la cartera para encontrar pools",
@@ -432,8 +442,22 @@
     "betaRelease": "Esta es una versión BETA y debe usarse bajo su propio riesgo.",
     "trade": "Comercio",
     "watchList": "WatchList",
-    "yourPortFolio":"Su portafolio",
-    "comingSoon":"Próximamente"
+    "yourPortFolio": "Su portafolio",
+    "comingSoon": "Próximamente",
+    "connectWalletViewPortFolio": "Conéctese a una cartera para ver su portafolio .",
+    "limitOrders": "Límite de órdenes",
+    "cancelOrder" : "Cancelar orden",
+    "all": "TODA",
+    "open": "ABIERTA",
+    "executed": "EJECUTADA",
+    "cancelled": "CANCELADA",
+    "inputAmount": "Importe de entrada",
+    "outputAmount": "Cantidad de salida",
+    "status": "Estado",
+    "noLimitOrder": "No {{ orderType }} Pedido",
+    "cancellingOrder": "Cancelando pedido...",
+    "cancelLimitOrder": "Comprar {{ outputCurrency }} con {{ inputCurrency }}",
+    "executionPrice": "Precio de ejecución"
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX con fiat de nuestro socio Wyre.",

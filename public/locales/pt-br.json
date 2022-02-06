@@ -29,7 +29,8 @@
     "usefulLinks": "LINKS ÚTEIS",
     "comeAndJoinUs": "Junte-se a nós",
     "tryOurNewBetaSite": "Experimente nosso novo site beta",
-    "returnToLegacySite": "Retornar ao site legado"
+    "returnToLegacySite": "Retornar ao site legado",
+    "switchToNewUI": "Mudar para nova UI"
   },
   "accountDetails": {
     "connectedWith": "Conectado com ",
@@ -93,7 +94,10 @@
     "withdrawAndClaim": "Retirar & resgatar",
     "withdrewStakingToken": "Retirar {{ symbol }}!",
     "approve": "Aprovar",
-    "poolWeight": "Peso da piscina"
+    "poolWeight": "Peso da piscina",
+    "withdraw": "Retirar",
+    "poolRewards": "Recompensas de pool",
+    "rewardsIn": "Recompensas em"
   },
   "menu": {
     "code": "Código",
@@ -281,7 +285,7 @@
   },
   "addLiquidity": {
     "deposited": "Depositado",
-    "shareOfPool": "Participação na Pool",
+    "shareOfPool": "Sua participação",
     "createPoolSupply": "Criar Pool & Supply",
     "confirmSupply": "Confirmar Supply",
     "outputEstimated": "A saída é estimada. Se o preço alterar em mais de {{efetiveslippage}}% sua transação será revertida.",
@@ -366,7 +370,13 @@
     "uniswapV1Found": "Liquidez da Uniswap V1 encontrada!",
     "noSeePoolJoined": "Não vê uma pool da qual participa?",
     "migrateNow": "Migre-a.",
-    "importIt": "Importe-a."
+    "importIt": "Importe-a.",
+    "seeDetails":"VEJA DETALHES",
+    "totalLockedValue": "Valor total bloqueado",
+    "yourLockedValue": "Seu valor bloqueado",
+    "allPools": "Todos os pools",
+    "yourPools": "Seus pools",
+    "yourWallet": "Sua carteira"
   },
   "poolFinder": {
     "connectToFind": "Conecte-se a uma carteira para encontrar suas pools",
@@ -431,8 +441,22 @@
     "betaRelease": "Esta é uma versão BETA e deve ser usada por sua própria conta e risco!",
     "trade": "Troca",
     "watchList": "WatchList",
-    "yourPortFolio":"Seu Portfólio",
-    "comingSoon":"Em breve"
+    "yourPortFolio": "Seu Portfólio",
+    "comingSoon": "Em breve",
+    "connectWalletViewPortFolio": "Conecte-se a uma carteira para ver seu portfólio.",
+    "limitOrders": "Limite de pedidos",
+    "cancelOrder" : "Cancelar pedido",
+    "all": "TUDO",
+    "open": "ABRIR",
+    "executed": "EXECUTADA",
+    "cancelled": "CANCELADA",
+    "inputAmount": "Valor de entrada",
+    "outputAmount": "Quantidade de saída",
+    "status": "Status",
+    "noLimitOrder": "Não {{ orderType }} Pedida",
+    "cancellingOrder": "Cancelando pedido...",
+    "cancelLimitOrder": "Comprar {{ outputCurrency }} com {{ inputCurrency }}",
+    "executionPrice": "Preço de execução"
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX com moeda fiduciária do nosso parceiro Wyre.",
@@ -538,8 +562,8 @@
     "poolInfoDescription": "Agora que você escolheu sua piscina, vamos desamarrá-lo dela.",
     "dollarWorth": "Valor em dólar: ",
     "yourRate": "Sua taxa: ",
-    "unclaimedPng": "PNG não reclamado: ",
-    "shareOfPool": "Participação na piscina: ",
+    "unclaimedPng": "PNG não reivindicado: ",
+    "shareOfPool": "Participação na Pool: ",
     "choose": "ESCOLHER",
     "selectAll": "Selecionar tudo",
     "loading": "Carregando",

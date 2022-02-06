@@ -174,7 +174,7 @@ export default function DoubleSidePoolCard({
           <TYPE.white>{swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr}%` : '-'}</TYPE.white>
         </RowBetween>
         <RowBetween>
-          <TYPE.white>PNG Rewards APR</TYPE.white>
+          <TYPE.white>{(rewardTokens || [])?.length === 0 ? 'Farming APR' : 'Super Farm APR'}</TYPE.white>
           <TYPE.white>{stakingApr && !stakingInfo.isPeriodFinished ? `${stakingApr}%` : '-'}</TYPE.white>
         </RowBetween>
         <RowBetween>
@@ -182,12 +182,6 @@ export default function DoubleSidePoolCard({
           <TYPE.white>{swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr + stakingApr}%` : '-'}</TYPE.white>
         </RowBetween>
       </AprContainer>
-      <StatContainer>
-        <RowBetween>
-          <TYPE.white> {t('earn.poolWeight')} </TYPE.white>
-          <TYPE.white>{`${stakingInfo.multiplier}X`}</TYPE.white>
-        </RowBetween>
-      </StatContainer>
 
       {isStaking && (
         <>
@@ -217,20 +211,16 @@ export default function DoubleSidePoolCard({
                 <AutoColumn gap="sm">
                   {(rewardTokens || []).map((token, index) => {
                     const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
-                    let totalRewardRate =
+                    let extraRewardRate =
                       stakingInfo?.getExtraTokensRewardRate &&
-                      stakingInfo?.getExtraTokensRewardRate(
-                        stakingInfo?.totalRewardRate,
-                        token as Token,
-                        tokenMultiplier
-                      )
+                      stakingInfo?.getExtraTokensRewardRate(stakingInfo?.rewardRate, token as Token, tokenMultiplier)
 
                     return (
                       <TYPE.black style={{ textAlign: 'right' }} color={'white'} fontWeight={500} key={index}>
                         <span role="img" aria-label="wizard-icon" style={{ marginRight: '0.5rem' }}>
                           ⚡
                         </span>
-                        {`${totalRewardRate
+                        {`${extraRewardRate
                           ?.multiply(`${60 * 60 * 24 * 7}`)
                           ?.toSignificant(4, { groupSeparator: ',' })} ${token?.symbol} / week`}
                       </TYPE.black>

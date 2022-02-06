@@ -29,7 +29,8 @@
     "usefulLinks": "LIÊN KẾT HỮU ÍCH",
     "comeAndJoinUs": "Hãy đến và tham gia cùng chúng tôi",
     "tryOurNewBetaSite": "Hãy thử trang web beta mới của chúng tôi",
-    "returnToLegacySite": "Quay lại trang web cũ"
+    "returnToLegacySite": "Quay lại trang web cũ",
+    "switchToNewUI": "Chuyển sang giao diện người dùng mới"
   },
   "accountDetails": {
     "connectedWith": "Kết nối với",
@@ -94,7 +95,10 @@
     "withdrewStakingToken": "Đã rút!{{ symbol }}",
     "approve": "Chấp nhận",
     "poolWeight": "Khối lượng bể",
-    "extraReward": "Phần thưởng bổ sung"
+    "withdraw": "Rút",
+    "extraReward": "Phần thưởng bổ sung",
+    "poolRewards": "Phần thưởng hồ bơi",
+    "rewardsIn": "Phần thưởng trong"
   },
   "menu": {
     "code": "Mã",
@@ -367,7 +371,13 @@
     "uniswapV1Found": "Thanh khoản uniswap V1 được tìm thấy",
     "noSeePoolJoined": "Bạn không tìm thấy bể mà bạn đã tham gia?",
     "migrateNow": "Chuyển đổi ngay bây giờ.",
-    "importIt": "Nhập."
+    "importIt": "Nhập.",
+    "seeDetails":"XEM CHI TIẾT",
+    "totalLockedValue": "Tổng giá trị đã khóa",
+    "yourLockedValue": "Giá trị đã khóa của bạn",
+    "allPools": "Tất cả các hồ bơi",
+    "yourPools": "Hồ bơi của bạn",
+    "yourWallet": "Ví của bạn"
   },
   "poolFinder": {
     "connectToFind": "Kêt nối với một ví để nhìn thấy bể",
@@ -432,8 +442,22 @@
     "betaRelease": "Đây là bản phát hành BETA và bạn nên tự chịu rủi ro khi sử dụng!",
     "trade": "Buôn bán",
     "watchList": "WatchList",
-    "yourPortFolio":"Danh mục đầu tư của bạn",
-    "comingSoon":"Sắp có"
+    "yourPortFolio": "Danh mục đầu tư của bạn",
+    "comingSoon": "Sắp có",
+    "connectWalletViewPortFolio": "Kết nối với ví để xem danh mục đầu tư của bạn.",
+    "limitOrders": "Đơn hàng giới hạn",
+    "cancelOrder" : "Hủy đơn hàng",
+    "all": "TẤT CẢ",
+    "open": "MỞ",
+    "executed": "THỰC THI",
+    "cancelled": "HỦY",
+    "inputAmount": "Số lượng đầu vào",
+    "outputAmount": "Số lượng đầu ra",
+    "status": "Trạng thái",
+    "noLimitOrder": "Không {{ orderType }} Gọi món",
+    "cancellingOrder": "Đang hủy đơn đặt hàng...",
+    "cancelLimitOrder": "Mua {{ outputCurrency }} với {{ inputCurrency }}",
+    "executionPrice": "Giá thực hiện"
   },
   "buyPage": {
     "buyAvaxInfo": "Mua AVAX bằng fiat từ đối tác Wyre của chúng tôi.",

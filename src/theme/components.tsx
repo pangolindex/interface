@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
 import { darken } from 'polished'
 import { ArrowLeft, X } from 'react-feather'
+import CrossIcon from 'src/assets/svg/cross.svg'
+import { useIsBetaUI } from 'src/hooks/useLocation'
 
 export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColor: string }>(({ warning, theme }) => ({
   backgroundColor: warning ? theme.red1 : theme.primary1
@@ -35,18 +37,22 @@ export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColo
   }
 `
 
-export const CloseIcon = styled(X) <{ onClick: () => void }>`
+export const CloseIcon = styled(X)<{ onClick: () => void }>`
   cursor: pointer;
 `
 
+export const BetaCloseIcon = ({ onDismiss }: { onDismiss: () => void }) => {
+  return <img src={CrossIcon} onClick={onDismiss} alt="cross icon" style={{ cursor: 'pointer' }} />
+}
+
 // A button that triggers some onClick result, but looks like a link.
-export const LinkStyledButton = styled.button<{ disabled?: boolean }>`
+export const LinkStyledButton = styled.button<{ disabled?: boolean; isBeta?: boolean }>`
   border: none;
   text-decoration: none;
   background: none;
 
   cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
-  color: ${({ theme, disabled }) => (disabled ? theme.text2 : theme.primary1)};
+  color: ${({ theme, disabled, isBeta }) => (disabled ? theme.text2 : isBeta ? theme.primary : theme.primary1)};
   font-weight: 500;
 
   :hover {
@@ -84,10 +90,10 @@ export const StyledInternalLink = styled(Link)`
   }
 `
 
-const StyledLink = styled.a`
+const StyledLink = styled.a<{ isBeta: boolean }>`
   text-decoration: none;
   cursor: pointer;
-  color: ${({ theme }) => theme.primary1};
+  color: ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary1)};
   font-weight: 500;
 
   :hover {
@@ -129,6 +135,8 @@ export function ExternalLink({
   rel = 'noopener noreferrer',
   ...rest
 }: Omit<HTMLProps<HTMLAnchorElement>, 'as' | 'ref' | 'onClick'> & { href: string }) {
+  const isBeta = useIsBetaUI()
+
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement>) => {
       // don't prevent default, don't redirect if it's a new tab
@@ -146,7 +154,7 @@ export function ExternalLink({
     },
     [href, target]
   )
-  return <StyledLink target={target} rel={rel} href={href} onClick={handleClick} {...rest} />
+  return <StyledLink target={target} rel={rel} href={href} onClick={handleClick} {...rest} isBeta={isBeta} />
 }
 
 const rotate = keyframes`
@@ -175,7 +183,7 @@ export function BackArrow({ to }: { to: string }) {
   )
 }
 
-export const CustomLightSpinner = styled(Spinner) <{ size: string }>`
+export const CustomLightSpinner = styled(Spinner)<{ size: string }>`
   height: ${({ size }) => size};
   width: ${({ size }) => size};
 `

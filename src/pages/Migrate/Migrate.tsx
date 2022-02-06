@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {
   PageWrapper,
   ResponsiveButtonPrimary,
@@ -28,13 +28,14 @@ import { StakingInfo } from '../../state/stake/hooks'
 import MigrationVector from '../../assets/images/migration_vector.png'
 import Stake from '../../assets/svg/stake.svg'
 import Unstake from '../../assets/svg/unstake.svg'
+import { ThemeContext } from 'styled-components'
 
 const MigrateUI = () => {
   const below1080 = false
   const { t } = useTranslation()
   const params: any = useParams()
   const [selectedPool, setSelectedPool] = useState({} as { [address: string]: { pair: Pair; staking: StakingInfo } })
-
+  const theme = useContext(ThemeContext)
   const { account } = useActiveWeb3React()
   const toggleMigrationModal = useMigrationModalToggle()
 
@@ -64,6 +65,7 @@ const MigrateUI = () => {
             </ResponsiveButtonPrimary>
             <ResponsiveButtonOutline
               variant="outline"
+              color={theme.color4}
               href="https://docs.pangolin.exchange/learn-how-to/migrate-to-v2-farms"
             >
               {t('migratePage.learn')}

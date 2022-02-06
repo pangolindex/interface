@@ -52,6 +52,11 @@ export function useIsDarkMode(): boolean {
     shallowEqual
   )
 
+  if (userDarkMode === null && !matchesDarkMode) {
+    // by default we want to show dark mode
+    return true
+  }
+
   return userDarkMode === null ? matchesDarkMode : userDarkMode
 }
 

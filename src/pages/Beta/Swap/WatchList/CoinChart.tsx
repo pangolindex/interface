@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { Text, Box, CurrencyLogo, Button } from '@pangolindex/components'
 import { Link } from 'react-feather'
 import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts'
@@ -18,6 +18,8 @@ type Props = {
   coin: Token
 }
 
+export const RedirectContext = React.createContext<boolean>(false)
+
 const CoinChart: React.FC<Props> = ({ coin }) => {
   const { t } = useTranslation()
   let weekFrame = TIMEFRAME.find(t => t.label === '1W')
@@ -32,6 +34,8 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
       })
   )
 
+  const redirect = useContext(RedirectContext)
+
   const usdcPrice = useUSDCPrice(coin)
 
   const { onCurrencySelection } = useSwapActionHandlers()
@@ -42,7 +46,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
     [onCurrencySelection]
   )
 
-  const priceChart =
+  const priceData =
     useTokenPriceData(
       coin?.address.toLowerCase(),
       timeWindow?.momentIdentifier,
@@ -51,6 +55,17 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
     ) || []
 
   const token = unwrappedToken(coin)
+
+  let priceChart = [...priceData]
+  // add current price in chart
+  if (priceChart.length > 0 && usdcPrice) {
+    const timestampnow = Math.floor(Date.now() / 1000)
+    
+    priceChart.push({
+      priceUSD: parseFloat(usdcPrice?.toSignificant(4)),
+      timestamp: `${timestampnow}`
+    }) 
+  }
 
   return (
     <Box>
@@ -67,8 +82,8 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
         <TrackIcons>
           <Button
             variant="primary"
-            backgroundColor="text8"
-            color="text1"
+            backgroundColor="primary"
+            color="white"
             width={'32px'}
             height={'32px'}
             padding="0px"
@@ -78,18 +93,33 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
           >
             <Link size={12} />
           </Button>
-
-          <Button
-            variant="plain"
-            backgroundColor="green1"
-            color="text1"
-            padding="5px 10px"
-            onClick={() => {
-              onCurrencySelect(coin)
-            }}
-          >
-            {t('swapPage.trade')}
-          </Button>
+          {redirect ? (
+            <Button
+              variant="plain"
+              backgroundColor="oceanBlue"
+              color="white"
+              padding="0px 10px"
+              height="32px"
+              href={`/#/beta/swap?inputCurrency=${coin.address}`}
+              target=""
+              as="a"
+            >
+              {t('swapPage.trade')}
+            </Button>
+          ) : (
+            <Button
+              variant="plain"
+              backgroundColor="oceanBlue"
+              color="white"
+              padding="0px 10px"
+              height="32px"
+              onClick={() => {
+                onCurrencySelect(coin)
+              }}
+            >
+              {t('swapPage.trade')}
+            </Button>
+          )}
         </TrackIcons>
       </SelectedCoinInfo>
       <ResponsiveContainer height={150} width={'100%'}>
@@ -115,7 +145,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
             key={btn?.label}
             padding="0px"
             width="auto"
-            color={timeWindow.label === btn.label ? 'color1' : 'text1'}
+            color={timeWindow.label === btn.label ? 'mustardYellow' : 'text1'}
             onClick={() => setTimeWindow(btn)}
           >
             {btn?.label}

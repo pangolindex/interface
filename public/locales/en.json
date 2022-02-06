@@ -29,7 +29,8 @@
     "usefulLinks": "USEFUL LINKS",
     "comeAndJoinUs": "Come & Join Us",
     "tryOurNewBetaSite": "Try our new beta site",
-    "returnToLegacySite": "Return to legacy site"
+    "returnToLegacySite": "Return to legacy site",
+    "switchToNewUI": "Switch to new UI"
   },
   "accountDetails": {
     "connectedWith": "Connected with ",
@@ -94,7 +95,10 @@
     "withdrewStakingToken": "Withdrew {{ symbol }}!",
     "approve": "Approve",
     "poolWeight": "Pool Weight",
-    "extraReward": "Extra Reward"
+    "withdraw": "Withdraw",
+    "extraReward": "Extra Reward",
+    "poolRewards": "Pool Rewards",
+    "rewardsIn": "Rewards in"
   },
   "menu": {
     "code": "Code",
@@ -136,7 +140,7 @@
     "remove": "Remove",
     "poolShare": "Your pool share:",
     "pooled": "Pooled",
-    "poolTokens": "Your pool tokens:",
+    "poolTokens": "Your pool tokens",
     "manage": "Manage",
     "loading": "Loading",
     "yourPosition": "Your position",
@@ -367,7 +371,13 @@
     "uniswapV1Found": "Uniswap V1 liquidity found!",
     "noSeePoolJoined": "Don't see a pool you joined?",
     "migrateNow": "Migrate now.",
-    "importIt": "Import it."
+    "importIt": "Import it.",
+    "seeDetails":"SEE DETAILS",
+    "totalLockedValue": "Total Locked Value",
+    "yourLockedValue": "Your Locked Value",
+    "allPools": "All Pools",
+    "yourPools": "Your Pools",
+    "yourWallet": "Your Wallet"
   },
   "poolFinder": {
     "connectToFind": "Connect to a wallet to find pools",
@@ -375,7 +385,7 @@
     "selectToken": "Select a Token",
     "poolFound": "Pool Found!",
     "managePool": "Manage this pool.",
-    "noLiquidityYet": "You don’t have liquidity in this pool yet.",
+    "noLiquidityYet": "You don't have liquidity in this pool yet.",
     "noPoolFound": "No pool found.",
     "addLiquidity": "Add liquidity.",
     "createPool": "Create pool.",
@@ -432,8 +442,22 @@
     "betaRelease": "This is a BETA release and should be used at your own risk!",
     "trade": "Trade",
     "watchList": "WatchList",
-    "yourPortFolio":"Your Portfolio",
-    "comingSoon":"Coming Soon"
+    "yourPortFolio": "Your Portfolio",
+    "comingSoon": "Coming Soon",
+    "connectWalletViewPortFolio": "Connect to a wallet to check your portfolio.",
+    "limitOrders": "Limit Orders",
+    "cancelOrder" : "Cancel Order",
+    "all": "ALL",
+    "open": "OPEN",
+    "executed": "EXECUTED",
+    "cancelled": "CANCELLED",
+    "inputAmount": "Input Amount",
+    "outputAmount": "Output Amount",
+    "status": "Status",
+    "noLimitOrder": "No {{ orderType }} Order",
+    "cancellingOrder": "Cancelling order...",
+    "cancelLimitOrder": "Buy {{ outputCurrency }} with {{ inputCurrency }}",
+    "executionPrice": "Execution Price"
   },
   "buyPage": {
     "buyAvaxInfo": "Buy AVAX with fiat from our partner Wyre.",
@@ -552,7 +576,7 @@
   },
   "dashboardPage": {
     "dashboard": "Dashboard",
-    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "greetings": "Greetings kind ser! Let's ape in today…",
     "portfolioValue": "Portfolio Value",
     "earned": "Earned",
     "coins": "Coins",

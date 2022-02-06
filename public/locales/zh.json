@@ -29,7 +29,8 @@
     "usefulLinks": "有用的链接",
     "comeAndJoinUs": "来加入我们",
     "tryOurNewBetaSite": "试试我们的新测试版网站",
-    "returnToLegacySite": "返回旧网站"
+    "returnToLegacySite": "返回旧网站",
+    "switchToNewUI": "切换到新用户界面"
   },
   "accountDetails": {
     "connectedWith": "与连结 ",
@@ -94,7 +95,10 @@
     "withdrewStakingToken": "提取 {{ symbol }}!",
     "approve": "批准",
     "poolWeight": "泳池重量",
-    "extraReward": "额外奖励"
+    "withdraw": "提取",
+    "extraReward": "额外奖励",
+    "poolRewards": "矿池奖励",
+    "rewardsIn": "奖励在"
   },
   "menu": {
     "code": "Code",
@@ -367,7 +371,13 @@
     "uniswapV1Found": "“Uniswap V1 发现流动性!",
     "noSeePoolJoined": "看不到您加入的矿池?",
     "migrateNow": "立即迁移。",
-    "importIt": "导入它。"
+    "importIt": "导入它。",
+    "seeDetails":"阅读详情",
+    "totalLockedValue": "总锁定值",
+    "yourLockedValue": "您的锁定值",
+    "allPools": "所有池",
+    "yourPools": "你的游泳池",
+    "yourWallet": "你的钱包"
   },
   "poolFinder": {
     "connectToFind": "连接到钱包以查找矿池",
@@ -433,7 +443,20 @@
     "trade": "贸易",
     "watchList": "观察名单",
     "yourPortFolio": "您的投资组合",
-    "comingSoon": "即将推出"
+    "connectWalletViewPortFolio": "连接到钱包以检查您的投资组合.",
+    "limitOrders": "限价单",
+    "cancelOrder" : "取消订单",
+    "all": "全部",
+    "open": "打开",
+    "executed": "已执行",
+    "cancelled": "取消",
+    "inputAmount": "输入金额",
+    "outputAmount": "输出量",
+    "status": "地位",
+    "noLimitOrder": "不 {{ orderType }} 命令",
+    "cancellingOrder": "取消订单...",
+    "cancelLimitOrder": "买 {{ outputCurrency }} 和 {{ inputCurrency }}",
+    "executionPrice": "执行价格"
   },
   "buyPage": {
     "buyAvaxInfo": "用我们的合作伙伴怀尔的法定资金购买 AVAX。",

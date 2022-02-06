@@ -21,6 +21,7 @@ import { NATIVE } from 'src/constants'
 import LimitOrderDetailInfo from '../../LimitOrderDetailInfo'
 import TradeOption from '../TradeOption'
 import { wrappedCurrency } from 'src/utils/wrappedCurrency'
+import { useSwapActionHandlers } from 'src/state/swap/hooks'
 
 enum Rate {
   DIV = 'DIV',
@@ -65,6 +66,8 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
     },
     orderState: { independentField, rateType }
   } = useGelatoLimitOrders()
+
+  const { onCurrencySelection: onSwapCurrencySelection } = useSwapActionHandlers()
 
   // get custom setting values for user
   const [allowedSlippage] = useUserSlippageTolerance()
@@ -292,8 +295,10 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
       }
 
       onCurrencySelection(tokenDrawerType as any, newCurrency)
+      // this is to update tokens on chart on token selection
+      onSwapCurrencySelection(tokenDrawerType as any, currency)
     },
-    [tokenDrawerType, onCurrencySelection]
+    [tokenDrawerType, onCurrencySelection, onSwapCurrencySelection]
   )
 
   const handleApprove = useCallback(async () => {
@@ -363,7 +368,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
         }}
         id="swap-button"
         isDisabled={!isValid || !!swapInputError}
-        backgroundColor={isValid ? 'red1' : undefined}
+        backgroundColor={isValid ? 'primary' : undefined}
       >
         {swapInputError ? swapInputError : t('swapPage.placeOrder')}
       </Button>

@@ -18,7 +18,7 @@ import {
 } from './styled'
 import Backward from '../../assets/svg/backward.svg'
 import Forward from '../../assets/svg/forward.svg'
-import { Dashboard, Swap, Stake, Pool, Farm, Buy, Vote, Migration } from '../../components/Icons'
+import { Dashboard, Swap, Stake, Pool, Buy, Vote, Migration } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import Partners from '../../assets/svg/menu/partners.svg'
 import { ANALYTICS_PAGE } from '../../constants'
@@ -53,33 +53,24 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       isActive: location?.pathname?.startsWith('/beta/swap')
     },
     {
-      link: '/buy',
+      link: '/beta/buy',
       icon: Buy,
       title: t('header.buy'),
       id: 'buy',
-      isActive: location?.pathname?.startsWith('/buy')
+      isActive: location?.pathname?.startsWith('/beta/buy')
     },
     {
-      link: '/pool',
+      link: '/beta/pool',
       icon: Pool,
       title: t('header.pool'),
       id: 'buy',
       isActive:
-        location?.pathname?.startsWith('/buy') ||
+        location?.pathname?.startsWith('/beta/pool') ||
         location?.pathname.startsWith('/add') ||
         location?.pathname.startsWith('/remove') ||
         location?.pathname.startsWith('/create') ||
         location?.pathname.startsWith('/find')
     },
-
-    {
-      link: '/png/2',
-      icon: Farm,
-      title: t('header.farm'),
-      id: 'farm',
-      isActive: location?.pathname?.startsWith('/png')
-    },
-
     {
       link: '/beta/stake/0',
       icon: Stake,
@@ -128,6 +119,12 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       id: 'bridge'
     },
     {
+      link: 'https://satellite.axelar.network/',
+      icon: Bridge,
+      title: `Satellite ${t('header.bridge')}`,
+      id: 'satellite-bridge'
+    },
+    {
       link: 'https://pangolin.exchange',
       icon: Partners,
       title: t('header.ourPartners'),
@@ -151,7 +148,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
       <Scrollbars
         autoHeight
-        autoHeightMax={height ? height - 200 : window.innerHeight - 200}
+        autoHeightMax={height ? height - 150 : window.innerHeight - 150}
         autoHide
         style={{ flex: 1, overflowX: 'hidden' }}
       >
@@ -163,7 +160,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
               return (
                 <MenuItem isActive={x.isActive} key={index}>
                   <MenuLink id={x.id} to={x.link}>
-                    <Icon size={16} fillColor={x.isActive ? theme.color3 : theme.color2} />
+                    <Icon size={16} fillColor={x.isActive ? theme.white : theme.color22} />
                     {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
                   </MenuLink>
                 </MenuItem>
@@ -174,7 +171,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
           <Box mt={collapsed ? '0px' : '10px'} overflowY="hidden">
             {!collapsed && (
               <Box height={35} overflowY="hidden">
-                <Text color="color2" fontSize={12}>
+                <Text color="color22" fontSize={12}>
                   PANGOLIN LINKS{' '}
                 </Text>
               </Box>
@@ -195,7 +192,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
           <Box mt={collapsed ? '0px' : '10px'}>
             {!collapsed && (
               <Box height={35} overflowY="hidden">
-                <Text color="color2" fontSize={12}>
+                <Text color="color22" fontSize={12}>
                   {t('header.usefulLinks')}
                 </Text>
               </Box>

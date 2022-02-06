@@ -29,7 +29,8 @@
     "usefulLinks": "NÜTZLICHE LINKS",
     "comeAndJoinUs": "Komm, schließe dich uns an",
     "tryOurNewBetaSite": "Testen Sie unsere neue Beta-Site",
-    "returnToLegacySite": "Zurück zur alten Website"
+    "returnToLegacySite": "Zurück zur alten Website",
+    "switchToNewUI": "Wechseln Sie zur neuen Benutzeroberfläche "
   },
   "accountDetails": {
     "connectedWith": "Verbunden mit ",
@@ -94,7 +95,10 @@
     "withdrewStakingToken": "{{ symbol }} abgebucht!",
     "approve": "Bestätigen",
     "poolWeight": "Beckengewicht",
-    "extraReward": "Zusätzliche Belohnung"
+    "withdraw": "Abheben",
+    "extraReward": "Zusätzliche Belohnung",
+    "poolRewards": "Pool-Belohnungen",
+    "rewardsIn": "Belohnungen ein"
   },
   "menu": {
     "code": "Code",
@@ -367,7 +371,13 @@
     "uniswapV1Found": "Uniswap V1-Liquidität gefunden!",
     "noSeePoolJoined": "Siehst du den Pool, dem Du beigetreten bist nicht?",
     "migrateNow": "Jetzt migrieren.",
-    "importIt": "Importiere ihn."
+    "importIt": "Importiere ihn.",
+    "seeDetails":"SIEHE EINZELHEITEN",
+    "totalLockedValue": "Gesperrter Gesamtwert",
+    "yourLockedValue": "Ihr gesperrter Wert",
+    "allPools": "Alle Pools",
+    "yourPools": "Ihre Pools",
+    "yourWallet": "Deine Geldbörse"
   },
   "poolFinder": {
     "connectToFind": "Verbinde mit einer Wallet, um Pools zu finden",
@@ -432,8 +442,22 @@
     "betaRelease": "Dies ist eine BETA-Version und sollte auf eigene Gefahr verwendet werden!",
     "trade": "Handeln",
     "watchList": "Beobachtungsliste",
-    "yourPortFolio":"Ihr Portfolio",
-    "comingSoon":"Kommt bald"
+    "yourPortFolio": "Ihr Portfolio",
+    "comingSoon": "Kommt bald",
+    "connectWalletViewPortFolio": "Stellen Sie eine Verbindung zu einem Wallet her, um Ihr Portfolio anzuzeigen.",
+    "limitOrders": "Limitaufträge",
+    "cancelOrder" : "Bestellung stornieren",
+    "all": "ALLE",
+    "open": "OFFEN",
+    "executed": "HINGERICHTET",
+    "cancelled": "STORNIERT",
+    "inputAmount": "Betrag eingeben",
+    "outputAmount": "Ausgabebetrag",
+    "status": "Status",
+    "noLimitOrder": "Nein {{ orderType }} Befehl",
+    "cancellingOrder": "Bestellung stornieren...",
+    "cancelLimitOrder": "Besorgen {{ outputCurrency }} mit {{ inputCurrency }}",
+    "executionPrice": "Ausführungspreis"
   },
   "buyPage": {
     "buyAvaxInfo": "Kaufen Sie AVAX mit Fiatgeld von unserem Partner Wyre.",
