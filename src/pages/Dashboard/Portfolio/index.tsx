@@ -78,8 +78,7 @@ export default function PortfolioWidget() {
           </Box>
         )}
         <PortfolioInfo>
-          <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coin, pools, and unclaimed rewards worth in
-          current wallet
+          <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coins, pools and other holdings in your current wallet
         </PortfolioInfo>
       </CardBody>
     </Card>
