@@ -83,7 +83,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
           <Button
             variant="primary"
             backgroundColor="primary"
-            color="white"
+            color="black"
             width={'32px'}
             height={'32px'}
             padding="0px"
