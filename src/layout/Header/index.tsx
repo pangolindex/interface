@@ -79,7 +79,7 @@ export default function Header({ onCollapsed }: HeaderProps) {
       <HeaderControls>
         <HeaderElement>
           <Button variant="primary" height={36} padding="4px 6px" href="/" as="a">
-            <span style={{ whiteSpace: 'nowrap' }}>{t('header.returnToLegacySite')}</span>
+            <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
           </Button>
           <HideSmall>
             {chainId && NETWORK_LABELS[chainId] && (
@@ -91,7 +91,7 @@ export default function Header({ onCollapsed }: HeaderProps) {
               <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
                 {account && (
                   <HideSmall>
-                    <TYPE.white
+                    <TYPE.black
                       style={{
                         paddingRight: '.4rem'
                       }}
@@ -104,7 +104,7 @@ export default function Header({ onCollapsed }: HeaderProps) {
                         thousandsSeparator={','}
                         duration={1}
                       />
-                    </TYPE.white>
+                    </TYPE.black>
                   </HideSmall>
                 )}
                 PNG

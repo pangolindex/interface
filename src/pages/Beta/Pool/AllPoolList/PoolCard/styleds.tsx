@@ -62,7 +62,6 @@ export const OptionButton = styled.div`
   padding: 2px 6px;
   border-radius: 6px;
   background-color: ${({ theme }) => theme.primary};
-  color: ${({ theme }) => theme.text1};
   font-size: 13px;
 `
 
