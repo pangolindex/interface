@@ -62,8 +62,8 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
     {
       link: '/beta/pool',
       icon: Pool,
-      title: t('header.pool'),
-      id: 'buy',
+      title: `${t('header.pool')} & ${t('header.farm')}`,
+      id: 'pool',
       isActive:
         location?.pathname?.startsWith('/beta/pool') ||
         location?.pathname.startsWith('/add') ||
