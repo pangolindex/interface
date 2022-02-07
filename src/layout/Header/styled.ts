@@ -88,7 +88,6 @@ export const AccountElement = styled.div<{ active: boolean }>`
 `
 
 export const PNGAmount = styled(AccountElement)`
-  color: white;
   padding: 4px 8px;
   height: 36px;
   font-weight: 500;
