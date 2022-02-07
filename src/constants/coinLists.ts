@@ -91,7 +91,8 @@ import {
   NFTD,
   CLY,
   COOK,
-  SKILL
+  SKILL,
+  TUS
 } from 'src/constants'
 import { WAVAX } from '@pangolindex/sdk'
 
@@ -189,5 +190,6 @@ export const COIN_LISTS = [
   NFTD,
   CLY,
   COOK,
-  SKILL
+  SKILL,
+  TUS
 ]
