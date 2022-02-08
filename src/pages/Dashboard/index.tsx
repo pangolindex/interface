@@ -39,7 +39,7 @@ const Dashboard = () => {
         <ContainerRight>
           <NewsWidget />
         </ContainerRight>
-      </TopContainerWrapper>s
+      </TopContainerWrapper>
     </PageWrapper>
   )
 }
