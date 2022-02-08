@@ -22,9 +22,17 @@ interface ClaimProps {
   currency1?: Currency
   openTokenDrawer: () => void
   setActiveField: (params: Fields) => void
+  onManagePoolsClick: () => void
 }
 
-const PoolImport = ({ onClose, currency0, currency1, openTokenDrawer, setActiveField }: ClaimProps) => {
+const PoolImport = ({
+  onClose,
+  currency0,
+  currency1,
+  openTokenDrawer,
+  setActiveField,
+  onManagePoolsClick
+}: ClaimProps) => {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
@@ -105,7 +113,7 @@ const PoolImport = ({ onClose, currency0, currency1, openTokenDrawer, setActiveF
       {currency0 && currency1 ? (
         pairState === PairState.EXISTS ? (
           hasPosition && pair ? (
-            <PositionCard pair={pair} />
+            <PositionCard pair={pair} onManagePoolsClick={onManagePoolsClick} />
           ) : (
             <LightCard>
               <Box display="flex" flexDirection="column" alignItems="center">
@@ -140,7 +148,7 @@ const PoolImport = ({ onClose, currency0, currency1, openTokenDrawer, setActiveF
         ) : pairState === PairState.LOADING ? (
           <LightCard>
             <Box textAlign="center">
-              <Text textAlign="center" color='white'>
+              <Text textAlign="center" color="white">
                 {t('poolFinder.loading')}
                 <Dots />
               </Text>

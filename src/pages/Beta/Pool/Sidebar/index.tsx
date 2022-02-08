@@ -17,9 +17,10 @@ interface MenuProps {
   setMenu: (value: string) => void
   activeMenu: string
   menuItems: Array<{ title: string; value: string }>
+  onManagePoolsClick: () => void
 }
 
-const Sidebar = ({ setMenu, activeMenu, menuItems }: MenuProps) => {
+const Sidebar = ({ setMenu, activeMenu, menuItems, onManagePoolsClick }: MenuProps) => {
   const { t } = useTranslation()
   const [isPoolImportModalOpen, setIsPoolImportModalOpen] = useState(false)
 
@@ -55,7 +56,14 @@ const Sidebar = ({ setMenu, activeMenu, menuItems }: MenuProps) => {
         </Text>
       </Box>
 
-      <PoolImportModal isOpen={isPoolImportModalOpen} onClose={handlePoolImportModalClose} />
+      <PoolImportModal
+        isOpen={isPoolImportModalOpen}
+        onClose={handlePoolImportModalClose}
+        onManagePoolsClick={() => {
+          setIsPoolImportModalOpen(false)
+          onManagePoolsClick()
+        }}
+      />
     </SidebarWrapper>
   )
 }

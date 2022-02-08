@@ -14,12 +14,13 @@ enum Fields {
   TOKEN1 = 1
 }
 
-interface ClaimRewardModalProps {
+interface ImportPoolModalProps {
   isOpen: boolean
   onClose: () => void
+  onManagePoolsClick: () => void
 }
 
-const PoolImportModal = ({ isOpen, onClose }: ClaimRewardModalProps) => {
+const PoolImportModal = ({ isOpen, onClose, onManagePoolsClick }: ImportPoolModalProps) => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
@@ -58,6 +59,7 @@ const PoolImportModal = ({ isOpen, onClose }: ClaimRewardModalProps) => {
           currency1={currency1}
           openTokenDrawer={() => setShowSearch(true)}
           setActiveField={setActiveField}
+          onManagePoolsClick={onManagePoolsClick}
         />
 
         <SelectTokenDrawer

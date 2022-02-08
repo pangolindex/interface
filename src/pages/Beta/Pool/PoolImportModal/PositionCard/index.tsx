@@ -11,9 +11,10 @@ import { useTotalSupply } from 'src/data/TotalSupply'
 
 export interface PositionCardProps {
   pair: Pair
+  onManagePoolsClick: () => void
 }
 
-const PositionCard = ({ pair }: PositionCardProps) => {
+const PositionCard = ({ pair, onManagePoolsClick }: PositionCardProps) => {
   const { account } = useActiveWeb3React()
 
   const currency0 = unwrappedToken(pair?.token0)
@@ -112,7 +113,7 @@ const PositionCard = ({ pair }: PositionCardProps) => {
 
       <Box mt={10}>
         <Box mr="5px" width="100%">
-          <Button variant={'primary'} onClick={() => {}}>
+          <Button variant={'primary'} onClick={onManagePoolsClick}>
             {t('positionCard.manage')}
           </Button>
         </Box>
