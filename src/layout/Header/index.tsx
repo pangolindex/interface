@@ -1,6 +1,7 @@
 import { ChainId, TokenAmount } from '@pangolindex/sdk'
 import { Button } from '@pangolindex/components'
-import React, { useState, useRef } from 'react'
+import React, { useContext, useState, useRef } from 'react'
+import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { useETHBalances, useAggregatePngBalance } from '../../state/wallet/hooks'
 import { CardNoise } from '../../components/earn/styled'
@@ -30,12 +31,13 @@ import {
   BalanceText,
   ThemeMode,
   MobileHeader,
-  StyledMenuIcon,
+  FooterMobileControls,
   MobileLogoWrapper,
   LegacyButtonWrapper
 } from './styled'
-import Logo from '../Logo'
 import { useTranslation } from 'react-i18next'
+import MobileFooter from '../MobileFooter'
+import { Logo } from '../../components/Icons'
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: 'Fuji',
@@ -49,6 +51,7 @@ interface HeaderProps {
 export default function Header({ onCollapsed }: HeaderProps) {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
+  const theme = useContext(ThemeContext)
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
 
   const aggregateBalance: TokenAmount | undefined = useAggregatePngBalance()
@@ -71,11 +74,16 @@ export default function Header({ onCollapsed }: HeaderProps) {
       </Modal>
 
       <MobileHeader>
-        <StyledMenuIcon onClick={() => onCollapsed()} />
         <MobileLogoWrapper>
-          <Logo collapsed={false} />
+          <Logo height={30} width={140} fillColor={theme.color6} />
         </MobileLogoWrapper>
+
+        <Web3Status />
       </MobileHeader>
+
+      <FooterMobileControls>
+        <MobileFooter />
+      </FooterMobileControls>
 
       <HeaderControls>
         <HeaderElement>
