@@ -120,9 +120,9 @@ const PoolImport = ({
                 <Text color="color6" fontSize={14} textAlign="center">
                   {t('poolFinder.noLiquidityYet')}
                 </Text>
-                <Text color="primary" fontSize={14} textAlign="center" onClick={() => {}} cursor="pointer">
+                {/* <Text color="primary" fontSize={14} textAlign="center" onClick={() => {}} cursor="pointer">
                   {t('poolFinder.addLiquidity')}
-                </Text>
+                </Text> */}
               </Box>
             </LightCard>
           )
@@ -132,9 +132,9 @@ const PoolImport = ({
               <Text color="color6" fontSize={14} textAlign="center">
                 {t('poolFinder.noPoolFound')}
               </Text>
-              <Text color="primary" fontSize={14} textAlign="center" onClick={() => {}} cursor="pointer">
+              {/* <Text color="primary" fontSize={14} textAlign="center" onClick={() => {}} cursor="pointer">
                 {t('poolFinder.createPool')}
-              </Text>
+              </Text> */}
             </Box>
           </LightCard>
         ) : pairState === PairState.INVALID ? (
