@@ -1,7 +1,7 @@
 import { Box } from '@pangolindex/components'
 import styled from 'styled-components'
 
-export const WatchListRoot = styled(Box)`
+export const DesktopLimitOrderList = styled(Box)`
   width: 100%;
   height: 100%;
   border-radius: 10px;
@@ -9,6 +9,9 @@ export const WatchListRoot = styled(Box)`
   background-color: ${({ theme }) => theme.color2};
   display: flex;
   flex-direction: column;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
 `
 
 export const GridContainer = styled(Box)`
@@ -32,7 +35,7 @@ export const CoinList = styled(Box)`
 `
 
 // WatchList Row Styles
-export const RowWrapper = styled(Box)<{ isSelected: boolean }>`
+export const DesktopRowWrapper = styled(Box)<{ isSelected: boolean }>`
   padding: 0px 10px;
   /* display: grid;
   grid-template-columns: 100px minmax(auto, 1fr) max-content; */
@@ -49,6 +52,10 @@ export const RowWrapper = styled(Box)<{ isSelected: boolean }>`
   &:hover {
     background-color: ${({ theme }) => theme.color3};
   }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
 `
 export const DeleteButton = styled.button`
   background-image: linear-gradient(to right, rgba(255, 0, 0, 0), ${({ theme }) => theme.bg6});
@@ -81,4 +88,28 @@ export const StatWrapper = styled(Box)`
   grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
   grid-gap: 12px;
   margin-top: 10px;
+`
+
+export const MobileLimitOrderList = styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: ${({ theme }) => theme.color2};
+  display: none;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+  display: block;
+`};
+`
+
+export const MobileRowWrapper = styled(Box)<{ isSelected: boolean }>`
+  padding: 10px 10px;
+  border-bottom: 1px solid ${({ theme }) => theme.text9};
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: ${({ theme, isSelected }) => (isSelected ? theme.color3 : theme.color2)};
+  display: none;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: block;
+  `};
 `

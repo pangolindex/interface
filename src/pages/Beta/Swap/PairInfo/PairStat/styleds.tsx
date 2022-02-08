@@ -22,4 +22,20 @@ export const PanelWrapper = styled.div`
       }
     }
   }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
+`
+
+export const MobileStat = styled.div`
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.color2};
+  display: none;
+  padding: 10px;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`};
 `

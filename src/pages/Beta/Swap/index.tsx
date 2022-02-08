@@ -20,6 +20,7 @@ const SwapUI = () => {
         </StatsWrapper>
         <SwapWidget />
       </TopContainer>
+
       <GridContainer isLimitOrders={isLimitOrders}>
         {isLimitOrders && <LimitOrderList />}
 

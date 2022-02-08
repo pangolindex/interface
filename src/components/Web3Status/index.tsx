@@ -1,4 +1,5 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
+import { Box } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken, lighten } from 'polished'
 import React, { useMemo } from 'react'
@@ -46,88 +47,113 @@ const Web3StatusError = styled(Web3StatusGeneric)`
   }
 `
 
-const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean; isBeta: boolean }>`
-  background-color: ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
+const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
+  background-color: ${({ theme }) => theme.primary4};
   border: none;
-  color: ${({ theme, isBeta }) => (isBeta ? theme.black : theme.primaryText1)};
+  color: ${({ theme }) => theme.primaryText1};
   font-weight: 500;
-  padding: ${({ isBeta }) => (isBeta ? '0.35rem' : '0.5rem')};
+  padding: 0.5rem;
 
   :hover,
   :focus,
   :active {
-    border: 1px solid ${({ theme, isBeta }) => darken(0.05, isBeta ? theme.primary : theme.primary4)};
-    color: ${({ theme, isBeta }) => (isBeta ? theme.black : theme.primaryText1)};
+    border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
+    color: ${({ theme }) => theme.primaryText1};
   }
 
   &:focus {
-    box-shadow: 0 0 0 1pt ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
-    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
+    border: 1px solid ${({ theme }) => theme.primary3};
   }
   &:hover {
-    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+    border: 1px solid ${({ theme }) => theme.primary3};
   }
   &:active {
-    box-shadow: 0 0 0 1pt ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
-    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
+    border: 1px solid ${({ theme }) => theme.primary3};
   }
 
-  ${({ faded, isBeta }) =>
+  ${({ faded }) =>
     faded &&
     css`
-      background-color: ${({ theme }) => (isBeta ? theme.primary : theme.primary5)};
-      border: 1px solid ${({ theme }) => (isBeta ? theme.primary : theme.primary5)};
-      color: ${({ theme }) => (isBeta ? theme.black : theme.primaryText1)};
+      background-color: ${({ theme }) => theme.primary5};
+      border: 1px solid ${({ theme }) => theme.primary5};
+      color: ${({ theme }) => theme.primaryText1};
 
       :hover,
       :focus {
-        border: 1px solid ${({ theme }) => darken(0.05, isBeta ? theme.primary : theme.primary4)};
-        color: ${({ theme }) => darken(0.05, isBeta ? theme.black : theme.primaryText1)};
+        border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
+        color: ${({ theme }) => darken(0.05, theme.primaryText1)};
       }
     `}
 `
 
-const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean; isBeta: boolean }>`
-  background-color: ${({ pending, theme, isBeta }) =>
-    pending && isBeta ? theme.primary : pending && !isBeta ? theme.primary1 : theme.bg2};
-  border: 1px solid
-    ${({ pending, theme, isBeta }) =>
-      pending && isBeta ? theme.primary : pending && !isBeta ? theme.primary1 : theme.bg3};
+const Web3StatusConnectBeta = styled(Box)<{ faded?: boolean }>`
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  user-select: none;
+  background-color: ${({ theme }) => theme.primary};
+  border: none;
+  color: ${({ theme }) => theme.black};
+  font-weight: 500;
+  padding: 0.35rem;
+  :focus {
+    outline: none;
+  }
+`
+
+const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
+  background-color: ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg2)};
+  border: 1px solid ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg3)};
   color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
   font-weight: 500;
   :hover,
   :focus {
-    background-color: ${({ pending, theme, isBeta }) =>
-      pending && isBeta
-        ? darken(0.05, theme.primary)
-        : pending && !isBeta
-        ? darken(0.05, theme.primary1)
-        : lighten(0.05, theme.bg2)};
+    background-color: ${({ pending, theme }) => (pending ? darken(0.05, theme.primary1) : lighten(0.05, theme.bg2))};
 
     :focus {
-      border: 1px solid
-        ${({ pending, theme, isBeta }) =>
-          pending && isBeta
-            ? darken(0.1, theme.primary)
-            : pending && !isBeta
-            ? darken(0.1, theme.primary1)
-            : darken(0.1, theme.bg3)};
+      border: 1px solid ${({ pending, theme }) => (pending ? darken(0.1, theme.primary1) : darken(0.1, theme.bg3))};
     }
   }
 
   &:focus {
-    box-shadow: 0 0 0 1pt ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
-    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
+    border: 1px solid ${({ theme }) => theme.primary3};
   }
 
   &:hover {
-    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+    border: 1px solid ${({ theme }) => theme.primary3};
   }
 
   &:active {
-    box-shadow: 0 0 0 1pt ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
-    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
+    border: 1px solid ${({ theme }) => theme.primary3};
   }
+`
+
+const Web3StatusConnectedBeta = styled(Box)<{ pending?: boolean }>`
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  font-size: 16px;
+  padding: 0.35rem;
+  border: 1px solid ${({ pending, theme }) => (pending ? theme.primary : theme.bg3)};
+  background-color: ${({ pending, theme }) => (pending ? theme.primary : theme.color2)};
+  color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
+  font-weight: 500;
+  :focus {
+    outline: none;
+  }
+
+  ${({ theme, pending }) => theme.mediaWidth.upToSmall`
+    padding: 10px;
+    border: none;
+    background-color: ${({ theme }) => (pending ? theme.primary : theme.color7)};
+  `};
 `
 
 const Text = styled.p`
@@ -207,14 +233,11 @@ function Web3StatusInner() {
 
   const isBeta = useIsBetaUI()
 
+  const StatusConnected: any = isBeta ? Web3StatusConnectedBeta : Web3StatusConnected
+  const StatusConnect: any = isBeta ? Web3StatusConnectBeta : Web3StatusConnect
   if (account) {
     return (
-      <Web3StatusConnected
-        id="web3-status-connected"
-        onClick={toggleWalletModal}
-        pending={hasPendingTransactions}
-        isBeta={isBeta}
-      >
+      <StatusConnected id="web3-status-connected" onClick={toggleWalletModal} pending={hasPendingTransactions}>
         {hasPendingTransactions ? (
           <RowBetween>
             <Text>
@@ -228,7 +251,7 @@ function Web3StatusInner() {
           </>
         )}
         {!hasPendingTransactions && connector && <StatusIcon connector={connector} />}
-      </Web3StatusConnected>
+      </StatusConnected>
     )
   } else if (error) {
     return (
@@ -239,9 +262,9 @@ function Web3StatusInner() {
     )
   } else {
     return (
-      <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account} isBeta={isBeta}>
+      <StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
         <Text>{t('web3Status.connectToWallet')}</Text>
-      </Web3StatusConnect>
+      </StatusConnect>
     )
   }
 }

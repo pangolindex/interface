@@ -457,7 +457,9 @@
     "noLimitOrder": "Numara {{ orderType }} Emir",
     "cancellingOrder": "sipariş iptal...",
     "cancelLimitOrder": "Satın almak {{ outputCurrency }} ile {{ inputCurrency }}",
-    "executionPrice": "Yürütme Fiyatı"
+    "executionPrice": "Yürütme Fiyatı",
+    "seeMore": "Daha fazla gör",
+    "seeLess": "Daha Az Gör"
   },
   "buyPage": {
     "buyAvaxInfo": "Partnerimiz Wyre aracılığıyla AVAX satın alın.",

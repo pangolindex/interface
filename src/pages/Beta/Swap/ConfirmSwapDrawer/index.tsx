@@ -83,7 +83,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
           <Text
             fontSize={24}
             fontWeight={500}
-            color={showAcceptChanges && trade.tradeType === TradeType.EXACT_OUTPUT ? 'primary1' : 'text1'}
+            color={showAcceptChanges && trade.tradeType === TradeType.EXACT_OUTPUT ? 'primary' : 'text1'}
             style={{ marginLeft: '12px' }}
           >
             {trade.inputAmount.toSignificant(6)}
@@ -103,7 +103,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
               priceImpactSeverity > 2
                 ? 'red1'
                 : showAcceptChanges && trade.tradeType === TradeType.EXACT_INPUT
-                ? 'primary1'
+                ? 'primary'
                 : 'text1'
             }
           >
@@ -189,7 +189,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
     <SubmittedWrapper>
       <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" paddingY={'20px'}>
         <Box flex="1" display="flex" alignItems="center">
-          <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary1} />
+          <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary} />
         </Box>
         <Text fontWeight={500} fontSize={20} color="text1">
           {t('transactionConfirmation.transactionSubmitted')}
@@ -199,7 +199,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
             as="a"
             fontWeight={500}
             fontSize={14}
-            color={'primary1'}
+            color={'primary'}
             href={getEtherscanLink(chainId, txHash, 'transaction')}
           >
             {t('transactionConfirmation.viewExplorer')}

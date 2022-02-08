@@ -51,6 +51,29 @@ export const HeaderControls = styled.div`
     border-radius: 12px 12px 0 0;
     background-color: ${({ theme }) => theme.bg1};
   `};
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
+`
+
+export const FooterMobileControls = styled.div`
+  display: none;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    flex-direction: row;
+    display: flex;
+    width: 100%
+    justify-content: flex-end;
+    justify-self: center;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    z-index: 99;
+    height: 72px;
+    border-radius: 12px 12px 0 0;
+    background-color: ${({ theme }) => theme.bg1};
+  `};
 `
 
 export const HeaderElement = styled.div`
@@ -92,7 +115,7 @@ export const PNGAmount = styled(AccountElement)`
   height: 36px;
   font-weight: 500;
   background-color: ${({ theme }) => theme.bg3};
-  background: radial-gradient(174.47% 188.91% at 1.84% 0%, #FFC800 0%, #E1AA00 100%), #edeef2;
+  background: radial-gradient(174.47% 188.91% at 1.84% 0%, #ffc800 0%, #e1aa00 100%), #edeef2;
 `
 
 export const PNGWrapper = styled.span`
@@ -173,4 +196,11 @@ export const StyledMenuIcon = styled(MenuIcon)`
 
 export const MobileLogoWrapper = styled.div`
   flex: 1;
+`
+
+export const LegacyButtonWrapper = styled.div`
+  display: block;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
 `
