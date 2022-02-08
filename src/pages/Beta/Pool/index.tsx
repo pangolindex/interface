@@ -89,7 +89,14 @@ const PoolUI = () => {
     <PageWrapper>
       <GridContainer>
         <Box display="flex" height="100%">
-          <Sidebar activeMenu={activeMenu} setMenu={(value: string) => setMenu(value)} menuItems={menuItems} />
+          <Sidebar
+            activeMenu={activeMenu}
+            setMenu={(value: string) => setMenu(value)}
+            menuItems={menuItems}
+            onManagePoolsClick={() => {
+              setMenu(MenuType.yourWallet)
+            }}
+          />
           {(activeMenu === MenuType.allPoolV1 ||
             activeMenu === MenuType.allPoolV2 ||
             activeMenu === MenuType.yourPoolV2 ||
