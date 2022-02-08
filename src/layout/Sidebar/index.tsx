@@ -20,7 +20,6 @@ import Backward from '../../assets/svg/backward.svg'
 import Forward from '../../assets/svg/forward.svg'
 import { Dashboard, Swap, Stake, Pool, Buy, Vote, Migration } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
-import Partners from '../../assets/svg/menu/partners.svg'
 import { ANALYTICS_PAGE } from '../../constants'
 import Bridge from '../../assets/svg/menu/bridge.svg'
 import Governance from '../../assets/svg/menu/governance.svg'
@@ -123,12 +122,6 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       icon: Bridge,
       title: `Satellite ${t('header.bridge')}`,
       id: 'satellite-bridge'
-    },
-    {
-      link: 'https://pangolin.exchange',
-      icon: Partners,
-      title: t('header.ourPartners'),
-      id: 'our-partners'
     }
   ]
 
@@ -160,8 +153,12 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
               return (
                 <MenuItem isActive={x.isActive} key={index}>
                   <MenuLink id={x.id} to={x.link}>
-                    <Icon size={16} fillColor={x.isActive ? theme.black : theme.color22}/>
-                    {!collapsed && <MenuName fontSize={16} color={x.isActive && 'black'}>{x.title}</MenuName>}
+                    <Icon size={16} fillColor={x.isActive ? theme.black : theme.color22} />
+                    {!collapsed && (
+                      <MenuName fontSize={16} color={x.isActive && 'black'}>
+                        {x.title}
+                      </MenuName>
+                    )}
                   </MenuLink>
                 </MenuItem>
               )
@@ -188,7 +185,6 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
               )
             })}
           </Box>
-
           <Box mt={collapsed ? '0px' : '10px'}>
             {!collapsed && (
               <Box height={35} overflowY="hidden">
