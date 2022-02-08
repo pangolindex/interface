@@ -8,4 +8,6 @@ export const Wrapper = styled.div`
   max-width: 420px;
   min-width: 420px;
   padding: 10px;
+  position: relative;
+  overflow: hidden;
 `

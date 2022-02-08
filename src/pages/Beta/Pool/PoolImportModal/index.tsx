@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { Text, Box } from '@pangolindex/components'
 import { Wrapper } from './styleds'
 import Modal from 'src/components/Beta/Modal'
@@ -6,6 +6,13 @@ import { ThemeContext } from 'styled-components'
 import { CloseIcon } from 'src/theme/components'
 import { useTranslation } from 'react-i18next'
 import PoolImport from './PoolImport'
+import { CAVAX, Currency } from '@pangolindex/sdk'
+import SelectTokenDrawer from '../../Swap/SelectTokenDrawer'
+
+enum Fields {
+  TOKEN0 = 0,
+  TOKEN1 = 1
+}
 
 interface ClaimRewardModalProps {
   isOpen: boolean
@@ -16,6 +23,26 @@ const PoolImportModal = ({ isOpen, onClose }: ClaimRewardModalProps) => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
+  const [currency0, setCurrency0] = useState<Currency | undefined>(CAVAX)
+  const [currency1, setCurrency1] = useState<Currency | undefined>(undefined)
+  const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
+  const [showSearch, setShowSearch] = useState<boolean>(false)
+
+  const handleCurrencySelect = useCallback(
+    (currency: Currency) => {
+      if (activeField === Fields.TOKEN0) {
+        setCurrency0(currency)
+      } else {
+        setCurrency1(currency)
+      }
+    },
+    [activeField]
+  )
+
+  const handleSearchDismiss = useCallback(() => {
+    setShowSearch(false)
+  }, [setShowSearch])
+
   return (
     <Modal isOpen={isOpen} onDismiss={onClose} overlayBG={theme.modalBG2}>
       <Wrapper>
@@ -25,7 +52,21 @@ const PoolImportModal = ({ isOpen, onClose }: ClaimRewardModalProps) => {
           </Text>
           <CloseIcon onClick={() => onClose()} color={theme.text1} />
         </Box>
-        <PoolImport onClose={() => onClose()} />
+        <PoolImport
+          onClose={() => onClose()}
+          currency0={currency0}
+          currency1={currency1}
+          openTokenDrawer={() => setShowSearch(true)}
+          setActiveField={setActiveField}
+        />
+
+        <SelectTokenDrawer
+          isOpen={showSearch}
+          onClose={handleSearchDismiss}
+          onCurrencySelect={handleCurrencySelect}
+          selectedCurrency={activeField === Fields.TOKEN0 ? currency0 : currency1}
+          otherSelectedCurrency={activeField === Fields.TOKEN0 ? currency1 : currency0}
+        />
       </Wrapper>
     </Modal>
   )

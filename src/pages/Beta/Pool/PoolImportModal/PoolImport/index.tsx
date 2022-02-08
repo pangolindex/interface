@@ -1,7 +1,7 @@
-import React, { useContext, useCallback, useEffect, useState } from 'react'
-import { Currency, CAVAX, JSBI, TokenAmount } from '@pangolindex/sdk'
+import React, { useContext, useEffect } from 'react'
+import { Currency, JSBI, TokenAmount } from '@pangolindex/sdk'
 import { Box, Text, CurrencyLogo } from '@pangolindex/components'
-import { PageWrapper, ArrowWrapper, CurrencySelectWrapper, LightCard, Dots } from './styleds'
+import { PoolImportWrapper, ArrowWrapper, CurrencySelectWrapper, LightCard, Dots } from './styleds'
 import { Plus, ChevronDown } from 'react-feather'
 import { ThemeContext } from 'styled-components'
 import { useTranslation } from 'react-i18next'
@@ -9,7 +9,6 @@ import { PairState, usePair } from 'src/data/Reserves'
 import { useActiveWeb3React } from 'src/hooks'
 import { usePairAdder } from 'src/state/user/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
-import SelectTokenDrawer from '../../../Swap/SelectTokenDrawer'
 import PositionCard from '../PositionCard'
 
 enum Fields {
@@ -19,16 +18,16 @@ enum Fields {
 
 interface ClaimProps {
   onClose: () => void
+  currency0?: Currency
+  currency1?: Currency
+  openTokenDrawer: () => void
+  setActiveField: (params: Fields) => void
 }
-const PoolImport = ({ onClose }: ClaimProps) => {
+
+const PoolImport = ({ onClose, currency0, currency1, openTokenDrawer, setActiveField }: ClaimProps) => {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
-  const [showSearch, setShowSearch] = useState<boolean>(false)
-  const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
-
-  const [currency0, setCurrency0] = useState<Currency | undefined>(CAVAX)
-  const [currency1, setCurrency1] = useState<Currency | undefined>(undefined)
 
   const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
   const addPair = usePairAdder()
@@ -50,21 +49,6 @@ const PoolImport = ({ onClose }: ClaimProps) => {
   const position: TokenAmount | undefined = useTokenBalance(account ?? undefined, pair?.liquidityToken)
   const hasPosition = Boolean(position && JSBI.greaterThan(position.raw, JSBI.BigInt(0)))
 
-  const handleCurrencySelect = useCallback(
-    (currency: Currency) => {
-      if (activeField === Fields.TOKEN0) {
-        setCurrency0(currency)
-      } else {
-        setCurrency1(currency)
-      }
-    },
-    [activeField]
-  )
-
-  const handleSearchDismiss = useCallback(() => {
-    setShowSearch(false)
-  }, [setShowSearch])
-
   const prerequisiteMessage = (
     <LightCard>
       <Text textAlign="center" color="color6" fontSize={14}>
@@ -74,10 +58,10 @@ const PoolImport = ({ onClose }: ClaimProps) => {
   )
 
   return (
-    <PageWrapper>
+    <PoolImportWrapper>
       <CurrencySelectWrapper
         onClick={() => {
-          setShowSearch(true)
+          openTokenDrawer()
           setActiveField(Fields.TOKEN0)
         }}
       >
@@ -98,7 +82,7 @@ const PoolImport = ({ onClose }: ClaimProps) => {
 
       <CurrencySelectWrapper
         onClick={() => {
-          setShowSearch(true)
+          openTokenDrawer()
           setActiveField(Fields.TOKEN1)
         }}
       >
@@ -156,7 +140,7 @@ const PoolImport = ({ onClose }: ClaimProps) => {
         ) : pairState === PairState.LOADING ? (
           <LightCard>
             <Box textAlign="center">
-              <Text textAlign="center">
+              <Text textAlign="center" color='white'>
                 {t('poolFinder.loading')}
                 <Dots />
               </Text>
@@ -166,15 +150,7 @@ const PoolImport = ({ onClose }: ClaimProps) => {
       ) : (
         prerequisiteMessage
       )}
-
-      <SelectTokenDrawer
-        isOpen={showSearch}
-        onClose={handleSearchDismiss}
-        onCurrencySelect={handleCurrencySelect}
-        selectedCurrency={activeField === Fields.TOKEN0 ? currency0 : currency1}
-        otherSelectedCurrency={activeField === Fields.TOKEN0 ? currency1 : currency0}
-      />
-    </PageWrapper>
+    </PoolImportWrapper>
   )
 }
 export default PoolImport
