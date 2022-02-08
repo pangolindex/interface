@@ -231,7 +231,7 @@ export function betaColors(darkMode: boolean): BetaColors {
     button: {
       primary: {
         background: philippineYellow,
-        color: white
+        color: black
       },
       secondary: {
         background: chineseBlack,
