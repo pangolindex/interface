@@ -31,6 +31,7 @@ Sentry.init({
   integrations: [new Integrations.BrowserTracing()],
   release: `pangolin-interface@${version}`, //manual for now
   tracesSampleRate: 0.4,
+  allowUrls: ['https://app.pangolin.exchange', 'https://beta-app.pangolin.exchange'],
   enabled: process.env.NODE_ENV === 'production'
 })
 
