@@ -49,7 +49,7 @@ const Web3StatusError = styled(Web3StatusGeneric)`
 const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean; isBeta: boolean }>`
   background-color: ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
   border: none;
-  color: ${({ theme, isBeta }) => (isBeta ? theme.white : theme.primaryText1)};
+  color: ${({ theme, isBeta }) => (isBeta ? theme.black : theme.primaryText1)};
   font-weight: 500;
   padding: ${({ isBeta }) => (isBeta ? '0.35rem' : '0.5rem')};
 
@@ -57,7 +57,7 @@ const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean; isBeta: b
   :focus,
   :active {
     border: 1px solid ${({ theme, isBeta }) => darken(0.05, isBeta ? theme.primary : theme.primary4)};
-    color: ${({ theme, isBeta }) => (isBeta ? theme.white : theme.primaryText1)};
+    color: ${({ theme, isBeta }) => (isBeta ? theme.black : theme.primaryText1)};
   }
 
   &:focus {
@@ -77,12 +77,12 @@ const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean; isBeta: b
     css`
       background-color: ${({ theme }) => (isBeta ? theme.primary : theme.primary5)};
       border: 1px solid ${({ theme }) => (isBeta ? theme.primary : theme.primary5)};
-      color: ${({ theme }) => (isBeta ? theme.white : theme.primaryText1)};
+      color: ${({ theme }) => (isBeta ? theme.black : theme.primaryText1)};
 
       :hover,
       :focus {
         border: 1px solid ${({ theme }) => darken(0.05, isBeta ? theme.primary : theme.primary4)};
-        color: ${({ theme }) => darken(0.05, isBeta ? theme.white : theme.primaryText1)};
+        color: ${({ theme }) => darken(0.05, isBeta ? theme.black : theme.primaryText1)};
       }
     `}
 `

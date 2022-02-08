@@ -60,7 +60,7 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
               height={'32px'}
               padding="0px"
             >
-              <Plus size={12} color={theme.white} />
+              <Plus size={12} color={'black'} />
             </Button>
           </Box>
 

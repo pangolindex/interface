@@ -201,5 +201,7 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
     }
   }, [account, chainId, chain, setTokens])
 
+  tokens.sort((a, b) => b.usdValue - a.usdValue)
+
   return [tokens, loading]
 }

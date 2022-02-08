@@ -6,8 +6,8 @@ import { useDarkModeManager } from 'src/state/user/hooks'
 
 import { ClaimButton, CustomizePools, Label, Value, ValueWithInfo, XStakeButton } from './styleds'
 import { Card, CardHeader, CardBody, FlexWrapper } from '../styleds'
-import Logo from 'src/assets/images/logo.png'
-import LogoDark from 'src/assets/images/logo.png'
+import Logo from 'src/assets/images/logo_light.svg'
+import LogoDark from 'src/assets/images/logo_dark.svg'
 import Info from 'src/assets/svg/info.svg'
 
 import PngToggle from './PngToggle'

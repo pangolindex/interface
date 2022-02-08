@@ -30,7 +30,7 @@
     "comeAndJoinUs": "Come & Join Us",
     "tryOurNewBetaSite": "Try our new beta site",
     "returnToLegacySite": "Return to legacy site",
-    "switchToNewUI": "Switch to new UI"
+    "switchToNewUI": "Switch to beta UI"
   },
   "accountDetails": {
     "connectedWith": "Connected with ",
@@ -578,7 +578,7 @@
   },
   "dashboardPage": {
     "dashboard": "Dashboard",
-    "greetings": "Greetings kind ser! Let's ape in today…",
+    "greetings": "Greetings kind guests! Let's ape in today…",
     "portfolioValue": "Portfolio Value",
     "earned": "Earned",
     "coins": "Coins",

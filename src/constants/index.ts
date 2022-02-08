@@ -1084,7 +1084,9 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     PNG[ChainId.AVALANCHE],
     USDTe[ChainId.AVALANCHE],
     DAIe[ChainId.AVALANCHE],
-    USDCe[ChainId.AVALANCHE]
+    USDCe[ChainId.AVALANCHE],
+    UST[ChainId.AVALANCHE],
+    USDC[ChainId.AVALANCHE]
   ]
 }
 
@@ -1119,7 +1121,7 @@ export const TRUSTED_TOKEN_ADDRESSES: { readonly [chainId in ChainId]: string[] 
 export const SWAP_DEFAULT_CURRENCY = {
   [ChainId.AVALANCHE]: {
     inputCurrency: 'AVAX',
-    outputCurrnecy: USDCe[ChainId.AVALANCHE].address
+    outputCurrnecy: UST[ChainId.AVALANCHE].address
   },
   [ChainId.FUJI]: {
     inputCurrency: '',
@@ -1273,12 +1275,11 @@ export const TIMEFRAME = [
   }
 ]
 
-
 /*
  * Mapping between symbol (uppercase string) and CoinGecko coin id (string)
  * Using CoinGecko API: https://api.coingecko.com/api/v3/coins/list
  */
 export const COIN_ID_OVERRIDE = {
   NEKO: undefined,
-  VEE: undefined,
+  VEE: undefined
 }

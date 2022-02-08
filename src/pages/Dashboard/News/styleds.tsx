@@ -22,7 +22,6 @@ export const NewsSection = styled(Box)<{ img: string }>`
 `
 
 export const NewsTitle = styled(Box)`
-  color: ${({ theme }) => theme.text7};
   position: absolute;
   top: 0px;
   left: 0px;
