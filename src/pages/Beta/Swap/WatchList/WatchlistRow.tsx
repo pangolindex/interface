@@ -68,8 +68,10 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, onRemove, isSelected }) 
       </Box>
       <Box px="7px" display="flex" alignItems="center" height={'100%'} onClick={onClick}>
         {/* show chart only after price of token comes to display chart in visible space */}
+        {/* rechart hase responsive container in mobile view when add 3rd row its gradually increase width so if we set width 99% then its resolved */}
+        {/* ref: https://github.com/recharts/recharts/issues/172#issuecomment-307858843 */}
         {showChart && (
-          <ResponsiveContainer height={20} width={'100%'}>
+          <ResponsiveContainer height={20} width={'99%'}>
             <LineChart data={chartData}>
               <Line
                 type="monotone"
