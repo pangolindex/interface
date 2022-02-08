@@ -46,7 +46,7 @@ const Sidebar = ({ setMenu, activeMenu, menuItems, onManagePoolsClick }: MenuPro
         })}
       </Menu>
 
-      <Box padding="8px" mb={10}>
+      <Box padding="8px" mb={10} ml="12px">
         <Text color="color6" fontSize={14}>
           {t('pool.noSeePoolJoined')}
         </Text>
