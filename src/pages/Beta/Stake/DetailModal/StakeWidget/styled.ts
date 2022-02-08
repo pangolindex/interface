@@ -42,4 +42,5 @@ export const Buttons = styled(Box)`
 export const UnstakeButton = styled(Button)`
   padding: 15px 18px !important;
   border: 1px solid ${({ theme }) => theme.bg9} !important;
+  color: ${({ theme }) => theme.text1} !important; 
 `

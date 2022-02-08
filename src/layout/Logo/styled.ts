@@ -13,7 +13,7 @@ export const Title = styled.a`
 
 export const LogoWrapper = styled.div<{ collapsed: boolean }>`
   display: flex;
-  justify-content: center;
   align-items: center;
   height: 50px;
+  padding: 10px;
 `

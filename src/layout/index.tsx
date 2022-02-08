@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Header from './Header'
 import Sidebar from './Sidebar'
 import { Wrapper, MainContent, AppContent } from './styled'
-import Logo from 'src/assets/images/logo.png'
+import Logo from 'src/assets/images/logo.svg'
 
 const Layout: React.FC<{}> = ({ children }) => {
   const [isDrawerCollapsed, setIsDrawerCollapsed] = useState(true)
