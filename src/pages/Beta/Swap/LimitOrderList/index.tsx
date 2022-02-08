@@ -99,7 +99,7 @@ const LimitOrderList = () => {
                     />
                   ))}
 
-              <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />
+              {displayOrders.length > 3 && <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />}
             </>
           ) : (
             <Text color="text1" fontSize={18} fontWeight={500} marginLeft={'6px'} textAlign="center">

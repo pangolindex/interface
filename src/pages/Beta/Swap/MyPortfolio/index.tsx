@@ -96,7 +96,7 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
                       />
                     ))}
 
-                <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />
+                {data.length > 3 && <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />}
               </>
             )}
           </MobilePortfolioList>

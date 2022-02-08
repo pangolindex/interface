@@ -121,7 +121,7 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
                 />
               ))}
 
-          <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />
+          {currencies.length > 3 && <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />}
         </MobileWatchList>
       </GridContainer>
     </WatchListRoot>
