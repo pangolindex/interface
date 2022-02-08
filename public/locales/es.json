@@ -457,7 +457,9 @@
     "noLimitOrder": "No {{ orderType }} Pedido",
     "cancellingOrder": "Cancelando pedido...",
     "cancelLimitOrder": "Comprar {{ outputCurrency }} con {{ inputCurrency }}",
-    "executionPrice": "Precio de ejecución"
+    "executionPrice": "Precio de ejecución",
+    "seeMore": "Ver más",
+    "seeLess": "Ver menos"
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX con fiat de nuestro socio Wyre.",

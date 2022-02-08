@@ -456,7 +456,9 @@
     "noLimitOrder": "不 {{ orderType }} 命令",
     "cancellingOrder": "取消订单...",
     "cancelLimitOrder": "买 {{ outputCurrency }} 和 {{ inputCurrency }}",
-    "executionPrice": "执行价格"
+    "executionPrice": "执行价格",
+    "seeMore": "查看更多",
+    "seeLess": "少看"
   },
   "buyPage": {
     "buyAvaxInfo": "用我们的合作伙伴怀尔的法定资金购买 AVAX。",

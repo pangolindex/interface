@@ -457,7 +457,9 @@
     "noLimitOrder": "Non {{ orderType }} Commander",
     "cancellingOrder": "Annuler la commande...",
     "cancelLimitOrder": "Acheter {{ outputCurrency }} avec {{ inputCurrency }}",
-    "executionPrice": "Prix ​​d'exécution"
+    "executionPrice": "Prix ​​d'exécution",
+    "seeMore": "Voir plus",
+    "seeLess": "Voir moins"
   },
   "buyPage": {
     "buyAvaxInfo": "Achetez AVAX avec monnaie fiat chez notre partenaire Wyre.",

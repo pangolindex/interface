@@ -1,12 +1,12 @@
 import React, { useContext, useRef, useState, useMemo } from 'react'
-import { Text, Box, Button } from '@pangolindex/components'
+import { Box, Button } from '@pangolindex/components'
 import { ChainId, Token } from '@pangolindex/sdk'
 import { Plus } from 'react-feather'
 import { ThemeContext } from 'styled-components'
 import { PNG } from 'src/constants'
 import { useActiveWeb3React } from 'src/hooks'
 import WatchlistRow from './WatchlistRow'
-import { WatchListRoot, GridContainer } from './styleds'
+import { WatchListRoot, GridContainer, HideSmall, Title, DesktopWatchList, MobileWatchList } from './styleds'
 import Scrollbars from 'react-custom-scrollbars'
 import CoinChart from './CoinChart'
 import CurrencyPopover from './CurrencyPopover'
@@ -15,6 +15,7 @@ import useToggle from 'src/hooks/useToggle'
 import { useSelectedCurrencyLists } from 'src/state/watchlists/hooks'
 import { useTranslation } from 'react-i18next'
 import { useAllTokens } from 'src/hooks/Tokens'
+import ShowMore from 'src/components/Beta/ShowMore'
 
 type Props = {
   isLimitOrders?: boolean
@@ -23,7 +24,7 @@ type Props = {
 const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
   const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
   const { t } = useTranslation()
-
+  const [showMore, setShowMore] = useState(false as boolean)
   const allTokens = useAllTokens()
   const coins = Object.values(allTokens || {})
 
@@ -48,9 +49,7 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
   return (
     <WatchListRoot>
       <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Text color="text1" fontSize={32} fontWeight={500}>
-          {t('swapPage.watchList')}
-        </Text>
+        <Title>{t('swapPage.watchList')}</Title>
         <Box bgColor={theme.bg5 as any} position="relative" p={'5px'} ref={node as any}>
           <Box ref={referenceElement} onClick={toggle}>
             <Button
@@ -79,9 +78,13 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
         </Box>
       </Box>
       <GridContainer isLimitOrders={isLimitOrders}>
-        {!isLimitOrders && <CoinChart coin={selectedToken} />}
+        {!isLimitOrders && (
+          <HideSmall>
+            <CoinChart coin={selectedToken} />
+          </HideSmall>
+        )}
 
-        <Box>
+        <DesktopWatchList>
           <Scrollbars>
             {(currencies || []).map(coin => (
               <WatchlistRow
@@ -93,7 +96,33 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
               />
             ))}
           </Scrollbars>
-        </Box>
+        </DesktopWatchList>
+        <MobileWatchList>
+          {(currencies || []).slice(0, 3).map(coin => (
+            <WatchlistRow
+              coin={coin}
+              key={coin.address}
+              onClick={() => setSelectedToken(coin)}
+              onRemove={() => setSelectedToken(PNG[chainId])}
+              isSelected={coin?.address === selectedToken?.address}
+            />
+          ))}
+
+          {showMore &&
+            (currencies || [])
+              .slice(3)
+              .map(coin => (
+                <WatchlistRow
+                  coin={coin}
+                  key={coin.address}
+                  onClick={() => setSelectedToken(coin)}
+                  onRemove={() => setSelectedToken(PNG[chainId])}
+                  isSelected={coin?.address === selectedToken?.address}
+                />
+              ))}
+
+          <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />
+        </MobileWatchList>
       </GridContainer>
     </WatchListRoot>
   )

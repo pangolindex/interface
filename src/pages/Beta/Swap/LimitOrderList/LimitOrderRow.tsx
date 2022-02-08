@@ -1,14 +1,13 @@
 import React from 'react'
 import { Text, Box } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
-import { RowWrapper } from './styleds'
+import { DesktopRowWrapper } from './styleds'
 import { Order } from '@gelatonetwork/limit-orders-react'
 import { useGelatoLimitOrderDetail } from 'src/state/swap/hooks'
 
 type Props = {
   order: Order
   onClick: () => void
-
   isSelected: boolean
 }
 
@@ -17,7 +16,7 @@ const LimitOrderRow: React.FC<Props> = ({ order, onClick, isSelected }) => {
   const { currency0, currency1, inputAmount, outputAmount } = useGelatoLimitOrderDetail(order)
 
   return (
-    <RowWrapper isSelected={isSelected} onClick={onClick}>
+    <DesktopRowWrapper isSelected={isSelected} onClick={onClick}>
       <Text color="text1" fontSize={18} fontWeight={500} marginLeft={'6px'}>
         {t('swapPage.cancelLimitOrder', {
           outputCurrency: currency1?.symbol,
@@ -36,7 +35,7 @@ const LimitOrderRow: React.FC<Props> = ({ order, onClick, isSelected }) => {
           </Text>
         </Box>
       </Box>
-    </RowWrapper>
+    </DesktopRowWrapper>
   )
 }
 

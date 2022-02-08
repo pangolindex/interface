@@ -6,6 +6,9 @@ export const ChartWrapper = styled.div`
   border-radius: 10px;
   background-color: ${({ theme }) => theme.color2};
   position: relative;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
 `
 
 export const ChartContainer = styled.div`
