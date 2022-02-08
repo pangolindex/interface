@@ -1,8 +1,19 @@
 import { Version } from '../../hooks/useToggledVersion'
 import { parseUnits } from '@ethersproject/units'
-import { Currency, CurrencyAmount, CAVAX, JSBI, Token, TokenAmount, Trade, FACTORY_ADDRESS, ChainId } from '@pangolindex/sdk'
+import {
+  Currency,
+  CurrencyAmount,
+  CAVAX,
+  JSBI,
+  Token,
+  TokenAmount,
+  Trade,
+  FACTORY_ADDRESS,
+  ChainId,
+  Price
+} from '@pangolindex/sdk'
 import { ParsedQs } from 'qs'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
@@ -16,8 +27,11 @@ import { SwapState } from './reducer'
 import useToggledVersion from '../../hooks/useToggledVersion'
 import { useUserSlippageTolerance } from '../user/hooks'
 import { computeSlippageAdjustedAmounts } from '../../utils/prices'
-import { DEFAULT_SWAP_TOKEN_ADDRESS, ROUTER_ADDRESS } from '../../constants'
+import { ROUTER_ADDRESS, SWAP_DEFAULT_CURRENCY } from '../../constants'
 import { useTranslation } from 'react-i18next'
+import { NATIVE } from 'src/constants'
+import { wrappedCurrency } from 'src/utils/wrappedCurrency'
+import { Order, useGelatoLimitOrdersLib, useGelatoLimitOrdersHistory } from '@gelatonetwork/limit-orders-react'
 
 export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>(state => state.swap)
@@ -246,14 +260,14 @@ function validatedRecipient(recipient: any): string | null {
   return null
 }
 
-export function queryParametersToSwapState(parsedQs: ParsedQs, chainId: ChainId): SwapState {
+export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
   let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
   let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency)
   if (inputCurrency === outputCurrency) {
     if (typeof parsedQs.outputCurrency === 'string') {
-      inputCurrency = DEFAULT_SWAP_TOKEN_ADDRESS[chainId]
+      inputCurrency = ''
     } else {
-      outputCurrency = DEFAULT_SWAP_TOKEN_ADDRESS[chainId]
+      outputCurrency = ''
     }
   }
 
@@ -285,14 +299,14 @@ export function useDefaultsFromURLSearch():
 
   useEffect(() => {
     if (!chainId) return
-    const parsed = queryParametersToSwapState(parsedQs, chainId)
+    const parsed = queryParametersToSwapState(parsedQs)
 
     dispatch(
       replaceSwapState({
         typedValue: parsed.typedValue,
         field: parsed.independentField,
-        inputCurrencyId: parsed[Field.INPUT].currencyId,
-        outputCurrencyId: parsed[Field.OUTPUT].currencyId,
+        inputCurrencyId: parsed[Field.INPUT].currencyId || SWAP_DEFAULT_CURRENCY[chainId]?.inputCurrency,
+        outputCurrencyId: parsed[Field.OUTPUT].currencyId || SWAP_DEFAULT_CURRENCY[chainId]?.outputCurrnecy,
         recipient: parsed.recipient
       })
     )
@@ -302,4 +316,84 @@ export function useDefaultsFromURLSearch():
   }, [dispatch, chainId])
 
   return result
+}
+
+export function useGelatoLimitOrderDetail(order: Order) {
+  const { chainId } = useActiveWeb3React()
+  const gelatoLibrary = useGelatoLimitOrdersLib()
+
+  const inputCurrency = order.inputToken === NATIVE && chainId ? 'AVAX' : order.inputToken
+  const outputCurrency = order.outputToken === NATIVE && chainId ? 'AVAX' : order.outputToken
+
+  const currency0 = useCurrency(inputCurrency)
+  const currency1 = useCurrency(outputCurrency)
+
+  const inputToken = currency0 ? wrappedCurrency(currency0, chainId) : undefined
+  const outputToken = currency1 ? wrappedCurrency(currency1, chainId) : undefined
+
+  const inputAmount = useMemo(
+    () => (inputToken && order.inputAmount ? new TokenAmount(inputToken, order.inputAmount) : undefined),
+    [inputToken, order.inputAmount]
+  )
+
+  const rawMinReturn = useMemo(
+    () =>
+      order.adjustedMinReturn
+        ? order.adjustedMinReturn
+        : gelatoLibrary && chainId && order.minReturn
+        ? gelatoLibrary.getAdjustedMinReturn(order.minReturn)
+        : undefined,
+    [chainId, gelatoLibrary, order.adjustedMinReturn, order.minReturn]
+  )
+
+  const outputAmount = useMemo(
+    () => (outputToken && rawMinReturn ? new TokenAmount(outputToken, rawMinReturn) : undefined),
+    [outputToken, rawMinReturn]
+  )
+
+  const executionPrice = useMemo(
+    () =>
+      outputAmount && outputAmount.greaterThan('0') && inputAmount && currency0 && currency1
+        ? new Price(currency0, currency1, inputAmount?.raw, outputAmount?.raw)
+        : undefined,
+    [currency0, currency1, inputAmount, outputAmount]
+  )
+
+  return useMemo(
+    () => ({
+      currency0,
+      currency1,
+      inputAmount,
+      outputAmount,
+      executionPrice
+    }),
+    [currency0, currency1, inputAmount, outputAmount, executionPrice]
+  )
+}
+
+export function useGelatoLimitOrderList() {
+  const { open, executed, cancelled } = useGelatoLimitOrdersHistory()
+
+  const allOrders = useMemo(
+    () => [...cancelled.pending, ...open.pending, ...open.confirmed, ...cancelled.confirmed, ...executed],
+    [open.pending, cancelled.pending, open.confirmed, cancelled.confirmed, executed]
+  )
+
+  const allOpenOrders = useMemo(() => [...cancelled.pending, ...open.pending, ...open.confirmed], [
+    open.pending,
+    cancelled.pending,
+    open.confirmed
+  ])
+
+  const allCancelledOrders = useMemo(() => cancelled.confirmed, [cancelled.confirmed])
+
+  return useMemo(
+    () => ({
+      allOrders,
+      allOpenOrders,
+      allCancelledOrders,
+      executed
+    }),
+    [allOrders, allOpenOrders, allCancelledOrders, executed]
+  )
 }

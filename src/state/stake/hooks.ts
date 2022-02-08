@@ -33,6 +33,9 @@ import { useStakingContract } from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
 import { ZERO_ADDRESS } from '../../constants'
+import { unwrappedToken } from 'src/utils/wrappedCurrency'
+import { useTokens } from '../../hooks/Tokens'
+import { useRewardViaMultiplierContract } from '../../hooks/useContract'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -1010,8 +1013,77 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     usdPrice,
     pairAddresses,
     rewardTokensAddresses,
-    rewardsAddresses
+    rewardsAddresses,
+    rewardTokensMultipliers
   ])
 
   return arr
+}
+
+export function useGetPoolDollerWorth(pair: Pair | null) {
+  const { account } = useActiveWeb3React()
+  const token0 = pair?.token0
+  const currency0 = unwrappedToken(token0 as Token)
+
+  const currency0Price = useUSDCPrice(currency0)
+
+  const userPgl = useTokenBalance(account ?? undefined, pair?.liquidityToken)
+  const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
+
+  const [token0Deposited] =
+    !!pair &&
+    !!totalPoolTokens &&
+    !!userPgl &&
+    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPgl.raw)
+      ? [
+          pair.getLiquidityValue(pair.token0, totalPoolTokens, userPgl, false),
+          pair.getLiquidityValue(pair.token1, totalPoolTokens, userPgl, false)
+        ]
+      : [undefined, undefined]
+
+  const liquidityInUSD =
+    currency0Price && token0Deposited
+      ? Number(currency0Price.toFixed()) * 2 * Number(token0Deposited?.toSignificant(6))
+      : 0
+
+  return useMemo(
+    () => ({
+      userPgl,
+      liquidityInUSD
+    }),
+    [userPgl, liquidityInUSD]
+  )
+}
+
+export function useMinichefPendingRewards(miniChefStaking: DoubleSideStakingInfo | null) {
+  const { account } = useActiveWeb3React()
+
+  const rewardAddress = miniChefStaking?.rewardsAddress
+
+  const rewardContract = useRewardViaMultiplierContract(rewardAddress !== ZERO_ADDRESS ? rewardAddress : undefined)
+
+  const earnedAmount = miniChefStaking?.earnedAmount
+    ? JSBI.BigInt(miniChefStaking?.earnedAmount?.raw).toString()
+    : JSBI.BigInt(0).toString()
+
+  const rewardTokenAmounts = useSingleContractMultipleData(
+    rewardContract,
+    'pendingTokens',
+    account ? [[0, account as string, earnedAmount]] : []
+  )
+  const rewardTokens = useTokens(miniChefStaking?.rewardTokensAddress)
+  const rewardAmounts = rewardTokenAmounts?.[0]?.result?.amounts || []
+
+  const rewardTokensAmount = useMemo(() => {
+    if (!rewardTokens) return []
+    return rewardTokens.map((rewardToken, index) => new TokenAmount(rewardToken as Token, rewardAmounts[index] || 0))
+  }, [rewardAmounts, rewardTokens])
+
+  return useMemo(
+    () => ({
+      rewardTokensAmount
+    }),
+    [rewardTokensAmount]
+  )
 }

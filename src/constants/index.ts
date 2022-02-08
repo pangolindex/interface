@@ -21,6 +21,8 @@ export const BRIDGE_MIGRATOR_ADDRESS = '0x4b23Aa72A1214d0E4fd3f2c8Da7C6ba660F748
 
 export const MINICHEF_ADDRESS = '0x1f806f7C8dED893fd3caE279191ad7Aa3798E928'
 
+export const NATIVE = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
@@ -1088,11 +1090,6 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ]
 }
 
-export const DEFAULT_SWAP_TOKEN_ADDRESS: { [chainId in ChainId]: string } = {
-  [ChainId.FUJI]: '',
-  [ChainId.AVALANCHE]: UST[ChainId.AVALANCHE].address
-}
-
 /**
  * Some tokens can only be swapped via certain pairs, so we override the list of bases that are considered for these
  * tokens.
@@ -1119,6 +1116,17 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
 export const TRUSTED_TOKEN_ADDRESSES: { readonly [chainId in ChainId]: string[] } = {
   [ChainId.FUJI]: [],
   [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE].address, PNG[ChainId.AVALANCHE].address]
+}
+
+export const SWAP_DEFAULT_CURRENCY = {
+  [ChainId.AVALANCHE]: {
+    inputCurrency: 'AVAX',
+    outputCurrnecy: UST[ChainId.AVALANCHE].address
+  },
+  [ChainId.FUJI]: {
+    inputCurrency: '',
+    outputCurrnecy: ''
+  }
 }
 
 export interface WalletInfo {
@@ -1201,6 +1209,7 @@ export const BIG_INT_ONE = JSBI.BigInt(1)
 export const BIG_INT_TWO = JSBI.BigInt(2)
 export const BIG_INT_TEN = JSBI.BigInt(10)
 export const BIG_INT_EIGHTEEN = JSBI.BigInt(18)
+export const ONE_TOKEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
 
 // one basis point
 export const ONE_BIPS = new Percent(JSBI.BigInt(1), JSBI.BigInt(10000))
@@ -1227,3 +1236,50 @@ export const WYRE_RESERVE_API_ENDPOINT = '/v3/orders/reserve'
 export const WYRE_CALLBACK_URL = 'https://app.pangolin.exchange/'
 
 export const IS_IN_IFRAME = window.parent !== window
+export const TIMEFRAME = [
+  {
+    description: 'HOUR',
+    label: '1H',
+    interval: 60,
+    momentIdentifier: 'hour'
+  },
+  {
+    description: 'DAY',
+    label: '1D',
+    interval: 3600,
+    momentIdentifier: 'day'
+  },
+  {
+    description: 'WEEK',
+    label: '1W',
+    interval: 86400,
+    momentIdentifier: 'week'
+  },
+  {
+    description: 'MONTH',
+    label: '1M',
+    interval: 604800,
+    momentIdentifier: 'month'
+  },
+  {
+    description: 'YEAR',
+    label: '1Y',
+    interval: 2629746,
+    momentIdentifier: 'year'
+  },
+  {
+    description: 'ALL',
+    label: 'ALL',
+    interval: 2629746,
+    momentIdentifier: ''
+  }
+]
+
+/*
+ * Mapping between symbol (uppercase string) and CoinGecko coin id (string)
+ * Using CoinGecko API: https://api.coingecko.com/api/v3/coins/list
+ */
+export const COIN_ID_OVERRIDE = {
+  NEKO: undefined,
+  VEE: undefined
+}

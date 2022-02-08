@@ -23,6 +23,7 @@ import Buy from './Buy'
 import PoolFinder from './PoolFinder'
 import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
+import Dashboard from './Dashboard'
 import Swap from './Swap'
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 import Airdrop from './Airdrop'
@@ -37,6 +38,14 @@ import MigrateV2 from './Migrate'
 import { useIsBetaUI } from '../hooks/useLocation'
 import CustomRoute from './Route'
 import Layout from '../layout'
+
+import SwapV2 from './Beta/Swap'
+import StakeV2 from './Beta/Stake'
+
+import GovernanceV2 from './Beta/Governance'
+import GovernanceDetailV2 from './Beta/GovernanceDetail'
+import BuyV2 from './Beta/Buy'
+import PoolV2 from './Beta/Pool'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -62,6 +71,7 @@ const BodyWrapper = styled.div<{ isBeta: boolean }>`
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 10;
+  min-height: 100vh;
 
   ${({ theme, isBeta }) => theme.mediaWidth.upToSmall`
     padding: ${isBeta ? '0px' : '16px'};
@@ -128,14 +138,28 @@ export default function App() {
                 component={Migrate}
               />
 
+              <CustomRoute exact path="/beta/dashboard" component={Dashboard} layout={Layout} />
               <CustomRoute exact path="/beta/migrate/:version" component={MigrateV2} layout={Layout} />
 
+              <CustomRoute exact path="/beta/swap/" component={SwapV2} layout={Layout} />
+              <CustomRoute exact strict path="/beta/stake/:version" component={StakeV2} layout={Layout} />
+              {/* <CustomRoute
+                exact
+                strict
+                path="/beta/stake/:version/:rewardCurrencyId"
+                component={ManageStakeV2}
+                layout={Layout}
+              /> */}
+              <CustomRoute exact path="/beta/vote" component={GovernanceV2} layout={Layout} />
+              <CustomRoute exact strict path="/beta/vote/:id" component={GovernanceDetailV2} layout={Layout} />
+              <CustomRoute exact strict path="/beta/buy" component={BuyV2} layout={Layout} />
+              <CustomRoute exact path="/beta/pool/" component={PoolV2} layout={Layout} />
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
 
               <Route component={RedirectPathToSwapOnly} />
             </Switch>
           </Web3ReactManager>
-          <Marginer />
+          {!isBeta && <Marginer />}
         </BodyWrapper>
       </AppWrapper>
     </Suspense>

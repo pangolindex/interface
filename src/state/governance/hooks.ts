@@ -10,7 +10,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../transactions/hooks'
 import { useState, useEffect, useCallback } from 'react'
 import { abi as GOV_ABI } from '@pangolindex/governance/artifacts/contracts/GovernorAlpha.sol/GovernorAlpha.json'
-import { GET_BLOCK } from '../../apollo/queries'
+import { GET_BLOCK } from '../../apollo/block'
 import { blockClient } from '../../apollo/client'
 
 interface ProposalDetail {

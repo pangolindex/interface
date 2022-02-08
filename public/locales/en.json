@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Swap",
     "buy": "Buy",
     "pool": "Pool",
@@ -26,7 +27,10 @@
     "bridge": "Bridge",
     "ourPartners": "Our Partners",
     "usefulLinks": "USEFUL LINKS",
-    "comeAndJoinUs": "Come & Join Us"
+    "comeAndJoinUs": "Come & Join Us",
+    "tryOurNewBetaSite": "Try our new beta site",
+    "returnToLegacySite": "Return to legacy site",
+    "switchToNewUI": "Switch to beta UI"
   },
   "accountDetails": {
     "connectedWith": "Connected with ",
@@ -91,7 +95,10 @@
     "withdrewStakingToken": "Withdrew {{ symbol }}!",
     "approve": "Approve",
     "poolWeight": "Pool Weight",
-    "extraReward": "Extra Reward"
+    "withdraw": "Withdraw",
+    "extraReward": "Extra Reward",
+    "poolRewards": "Pool Rewards",
+    "rewardsIn": "Rewards in"
   },
   "menu": {
     "code": "Code",
@@ -133,7 +140,7 @@
     "remove": "Remove",
     "poolShare": "Your pool share:",
     "pooled": "Pooled",
-    "poolTokens": "Your pool tokens:",
+    "poolTokens": "Your pool tokens",
     "manage": "Manage",
     "loading": "Loading",
     "yourPosition": "Your position",
@@ -364,7 +371,13 @@
     "uniswapV1Found": "Uniswap V1 liquidity found!",
     "noSeePoolJoined": "Don't see a pool you joined?",
     "migrateNow": "Migrate now.",
-    "importIt": "Import it."
+    "importIt": "Import it.",
+    "seeDetails":"SEE DETAILS",
+    "totalLockedValue": "Total Locked Value",
+    "yourLockedValue": "Your Locked Value",
+    "allPools": "All Pools",
+    "yourPools": "Your Pools",
+    "yourWallet": "Your Wallet"
   },
   "poolFinder": {
     "connectToFind": "Connect to a wallet to find pools",
@@ -372,7 +385,7 @@
     "selectToken": "Select a Token",
     "poolFound": "Pool Found!",
     "managePool": "Manage this pool.",
-    "noLiquidityYet": "You don’t have liquidity in this pool yet.",
+    "noLiquidityYet": "You don't have liquidity in this pool yet.",
     "noPoolFound": "No pool found.",
     "addLiquidity": "Add liquidity.",
     "createPool": "Create pool.",
@@ -416,7 +429,35 @@
     "velox": "Set a limit order on <1>Velox</1>",
     "marginSwap": "Trade with leverage on <1>MarginSwap</1>",
     "wowSwap": " or <1>WOWswap</1>",
-    "veeFinance": " or <1>Vee Finance</1>"
+    "veeFinance": " or <1>Vee Finance</1>",
+    "gelatoFee": "Gelato Fee",
+    "placeOrder": "Place Order",
+    "confirmOrder": "Confirm Order",
+    "for": "for",
+    "submittingOrderToSwap": "Submitting order to swap",
+    "limitPrice": "Limit Price",
+    "outputWillBeSentTo": "Output will be sent to",
+    "sell": "SELL",
+    "buy": "BUY",
+    "betaRelease": "This is a BETA release and should be used at your own risk!",
+    "trade": "Trade",
+    "watchList": "WatchList",
+    "yourPortFolio": "Your Portfolio",
+    "comingSoon": "Coming Soon",
+    "connectWalletViewPortFolio": "Connect to a wallet to check your portfolio.",
+    "limitOrders": "Limit Orders",
+    "cancelOrder" : "Cancel Order",
+    "all": "ALL",
+    "open": "OPEN",
+    "executed": "EXECUTED",
+    "cancelled": "CANCELLED",
+    "inputAmount": "Input Amount",
+    "outputAmount": "Output Amount",
+    "status": "Status",
+    "noLimitOrder": "No {{ orderType }} Order",
+    "cancellingOrder": "Cancelling order...",
+    "cancelLimitOrder": "Buy {{ outputCurrency }} with {{ inputCurrency }}",
+    "executionPrice": "Execution Price"
   },
   "buyPage": {
     "buyAvaxInfo": "Buy AVAX with fiat from our partner Wyre.",
@@ -435,6 +476,7 @@
     "governanceVotes": "Governance votes are decided by simple majority. There is no quorum threshold.",
     "proposals": "Proposals",
     "allProposals": "All Proposals",
+    "backToProposals": "Back to Proposals",
     "unlockVoting": "Unlock voting",
     "votes": " Votes",
     "delegatedTo": "Delegated to:",
@@ -452,7 +494,11 @@
     "for": "For",
     "details": "Details",
     "overview": "Overview",
-    "proposer": "Proposer"
+    "proposer": "Proposer",
+    "about": "About",
+    "vote": "Vote",
+    "executed": "Executed",
+    "rejected": "Rejected"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -497,13 +543,13 @@
     "startMigratingNowDescription": "Below you will find all the Farms you will need to migrate to Pangolin's V2 Contracts",
     "seeMore": "SEE MORE",
     "migrateWithEase": "MIGRATE WITH EASE",
-    "migrateWithDescription":"We have designed an elegant wizard, which will help guide you through the process of migrating your Farms",
+    "migrateWithDescription": "We have designed an elegant wizard, which will help guide you through the process of migrating your Farms",
     "alreadyMigrate": "already migrated",
     "walletMigrate": "wallet migrated",
     "alreadyEarned": "already earned",
     "migrateNow": "MIGRATE NOW",
     "learn": "LEARN",
-    "moveYourTokensToNewContracts" :"Migrate your Farms to Pangolin V2",
+    "moveYourTokensToNewContracts": "Migrate your Farms to Pangolin V2",
     "readyToMigrate": "Ready to migrate",
     "apr": "APR:",
     "totalValueLocked": "Total Value Locked",
@@ -525,7 +571,30 @@
     "back": "Back",
     "availableToUnstake": "Available to unstake: ",
     "submittingTransaction": "Submitting transaction",
-    "moveYourTokensToNewContractsDescription" :"As part of Pangolin's roll out to new improved contracts, you will need to migrate your Farms. If you need any help or guidance, please click on the “Learn” button.",
+    "moveYourTokensToNewContractsDescription": "As part of Pangolin's roll out to new improved contracts, you will need to migrate your Farms. If you need any help or guidance, please click on the “Learn” button.",
     "migrateModalHeading": "Migrate {{ current }} of {{ total }} Farms"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind guests! Let's ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
+  },
+  "stakePage": {
+    "totalStaked": "Total Staked",
+    "apr": "Annual Percentage Rate",
+    "seeDetails": "SEE DETAILS",
+    "stake": "STAKE",
+    "earn": "Earn {{symbol}}",
+    "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
   }
 }

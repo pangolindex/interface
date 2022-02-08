@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Intercambio",
     "buy": "Comprar",
     "pool": "Pool",
@@ -26,7 +27,10 @@
     "bridge": "Puente",
     "ourPartners": "Nuestros compañeros",
     "usefulLinks": "ENLACES ÚTILES",
-    "comeAndJoinUs": "Ven y únete a nosotras"
+    "comeAndJoinUs": "Ven y únete a nosotras",
+    "tryOurNewBetaSite": "Prueba nuestro nuevo sitio beta",
+    "returnToLegacySite": "Regresar al sitio heredado",
+    "switchToNewUI": "Cambiar a la nueva IU"
   },
   "accountDetails": {
     "connectedWith": "Connectado con ",
@@ -91,7 +95,10 @@
     "withdrewStakingToken": "{{ symbol }} retirados!",
     "approve": "Aprobar",
     "poolWeight": "Peso de la piscina",
-    "extraReward": "Recompensa adicional"
+    "withdraw": "Retirar",
+    "extraReward": "Recompensa adicional",
+    "poolRewards": "Recompensas de la piscina",
+    "rewardsIn": "Recompensas en"
   },
   "menu": {
     "code": "Código",
@@ -364,7 +371,13 @@
     "uniswapV1Found": "Liquidez Uniswap V1 encontrada!",
     "noSeePoolJoined": "No ves un pool a la que te has unido?",
     "migrateNow": "Mirgrar ahora.",
-    "importIt": "Importar."
+    "importIt": "Importar.",
+    "seeDetails":"VER DETALLES",
+    "totalLockedValue": "Valor bloqueado total",
+    "yourLockedValue": "Su valor bloqueado",
+    "allPools": "Todos los Pools",
+    "yourPools": "Tus Pools",
+    "yourWallet": "tu billetera"
   },
   "poolFinder": {
     "connectToFind": "Conecte la cartera para encontrar pools",
@@ -416,7 +429,35 @@
     "velox": "Pon una orden límite en <1>Velox</1>",
     "marginSwap": "Opere con apalancamiento en <1>MarginSwap</1>",
     "wowSwap": " o <1>WOWswap</1>",
-    "veeFinance": " o <1>Vee Finance</1>"
+    "veeFinance": " o <1>Vee Finance</1>",
+    "gelatoFee": "Gelato Tarifa",
+    "placeOrder": "Realizar pedido",
+    "confirmOrder": "Confirmar pedido",
+    "for": "por",
+    "submittingOrderToSwap": "Enviando orden para canje",
+    "limitPrice": "Precio límite",
+    "outputWillBeSentTo": "La salida se enviará a",
+    "sell": "vender",
+    "buy": "comprar",
+    "betaRelease": "Esta es una versión BETA y debe usarse bajo su propio riesgo.",
+    "trade": "Comercio",
+    "watchList": "WatchList",
+    "yourPortFolio": "Su portafolio",
+    "comingSoon": "Próximamente",
+    "connectWalletViewPortFolio": "Conéctese a una cartera para ver su portafolio .",
+    "limitOrders": "Límite de órdenes",
+    "cancelOrder" : "Cancelar orden",
+    "all": "TODA",
+    "open": "ABIERTA",
+    "executed": "EJECUTADA",
+    "cancelled": "CANCELADA",
+    "inputAmount": "Importe de entrada",
+    "outputAmount": "Cantidad de salida",
+    "status": "Estado",
+    "noLimitOrder": "No {{ orderType }} Pedido",
+    "cancellingOrder": "Cancelando pedido...",
+    "cancelLimitOrder": "Comprar {{ outputCurrency }} con {{ inputCurrency }}",
+    "executionPrice": "Precio de ejecución"
   },
   "buyPage": {
     "buyAvaxInfo": "Compre AVAX con fiat de nuestro socio Wyre.",
@@ -435,6 +476,7 @@
     "governanceVotes": "Los votos de la governanza se deciden por mayoría. No hay un límite de quorum.",
     "proposals": "Proposiciones",
     "allProposals": "Todas las proposiciones",
+    "backToProposals": "Volver a Propuestas",
     "unlockVoting": "Desbloquear votación",
     "votes": " Votos",
     "delegatedTo": "Delegados a:",
@@ -452,7 +494,11 @@
     "for": "A favor",
     "details": "Detalles",
     "overview": "Resumen",
-    "proposer": "Proponente"
+    "proposer": "Proponente",
+    "about": "Acerca de",
+    "vote": "Votar",
+    "executed": "Ejecutado",
+    "rejected": "Rechazado"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -497,13 +543,13 @@
     "startMigratingNowDescription": "A continuación encontrará todas las granjas que necesitará para migrar a los contratos V2 de Pangolin",
     "seeMore": "VER MÁS",
     "migrateWithEase": "MIGRA CON FACILIDAD",
-    "migrateWithDescription":"Hemos diseñado un asistente elegante, que lo guiará a través del proceso de migración de sus Fincas.",
+    "migrateWithDescription": "Hemos diseñado un asistente elegante, que lo guiará a través del proceso de migración de sus Fincas.",
     "alreadyMigrate": "Ya migrada",
     "walletMigrate": "billetera migrada",
     "alreadyEarned": "ya gana",
     "migrateNow": "MIGRA AHORA",
     "learn": "APRENDER",
-    "moveYourTokensToNewContracts" :"Migre sus granjas a Pangolin V2",
+    "moveYourTokensToNewContracts": "Migre sus granjas a Pangolin V2",
     "readyToMigrate": "Lista para migrar",
     "apr": "APR:",
     "totalValueLocked": "Valor total bloqueado",
@@ -525,7 +571,30 @@
     "back": "atrás",
     "availableToUnstake": "Disponible para desaplicar: ",
     "submittingTransaction": "Enviar transacción",
-    "moveYourTokensToNewContractsDescription" :"Como parte del lanzamiento de Pangolin a nuevos contratos mejorados, deberá migrar sus granjas. Si necesita ayuda u orientación, haga clic en el botón 'Aprender'",
+    "moveYourTokensToNewContractsDescription": "Como parte del lanzamiento de Pangolin a nuevos contratos mejorados, deberá migrar sus granjas. Si necesita ayuda u orientación, haga clic en el botón 'Aprender'",
     "migrateModalHeading": "Migrar {{ current }} de {{ total }} granja"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind guests! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
+  },
+  "stakePage": {
+    "totalStaked": "Total Staked",
+    "apr": "Annual Percentage Rate",
+    "seeDetails": "SEE DETAILS",
+    "stake": "STAKE",
+    "earn": "Earn {{symbol}}",
+    "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
   }
 }

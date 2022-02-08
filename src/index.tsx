@@ -7,6 +7,8 @@ import ReactGA from 'react-ga'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { NetworkContextName } from './constants'
+import * as Sentry from '@sentry/react'
+import { Integrations } from '@sentry/tracing'
 import './i18n'
 import App from './pages/App'
 import store from './state'
@@ -20,6 +22,18 @@ import { ThemeProvider as NewThemeProvider } from '@pangolindex/components'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
 import { useIsBetaUI } from './hooks/useLocation'
+import { GelatoProvider } from '@gelatonetwork/limit-orders-react'
+import { useActiveWeb3React } from './hooks'
+import { version } from '../package.json'
+
+Sentry.init({
+  dsn: 'https://ff9ffce9712f415f8ad4c2a80123c984@o1080468.ingest.sentry.io/6086371',
+  integrations: [new Integrations.BrowserTracing()],
+  release: `pangolin-interface@${version}`, //manual for now
+  tracesSampleRate: 0.4,
+  allowUrls: ['https://app.pangolin.exchange', 'https://beta-app.pangolin.exchange'],
+  enabled: process.env.NODE_ENV === 'production'
+})
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
@@ -56,6 +70,21 @@ function Updaters() {
   )
 }
 
+const Gelato = ({ children }: { children?: React.ReactNode }) => {
+  const { library, chainId, account } = useActiveWeb3React()
+  return (
+    <GelatoProvider
+      library={library}
+      chainId={chainId}
+      account={account ?? undefined}
+      useDefaultTheme={false}
+      handler={'pangolin'}
+    >
+      {children}
+    </GelatoProvider>
+  )
+}
+
 const ComponentThemeProvider = () => {
   const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
@@ -65,7 +94,9 @@ const ComponentThemeProvider = () => {
       <FixedGlobalStyle isBeta={isBeta} />
       <ThemedGlobalStyle isBeta={isBeta} />
       <HashRouter>
-        <App />
+        <Gelato>
+          <App />
+        </Gelato>
       </HashRouter>
     </NewThemeProvider>
   )

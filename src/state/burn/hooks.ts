@@ -28,6 +28,7 @@ export function useDerivedBurnInfo(
     [Field.CURRENCY_B]?: CurrencyAmount
   }
   error?: string
+  userLiquidity?: TokenAmount | undefined
 } {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
@@ -128,7 +129,7 @@ export function useDerivedBurnInfo(
     error = error ?? t('burnHooks.enterAmount')
   }
 
-  return { pair, parsedAmounts, error }
+  return { pair, parsedAmounts, error, userLiquidity }
 }
 
 export function useBurnActionHandlers(): {

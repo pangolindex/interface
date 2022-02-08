@@ -1,5 +1,6 @@
 {
   "header": {
+    "dashboard": "Dashboard",
     "swap": "Hoán đổi",
     "buy": "Mua",
     "pool": "Bể",
@@ -26,7 +27,10 @@
     "bridge": "Cầu",
     "ourPartners": "Những cộng sự của chúng ta",
     "usefulLinks": "LIÊN KẾT HỮU ÍCH",
-    "comeAndJoinUs": "Hãy đến và tham gia cùng chúng tôi"
+    "comeAndJoinUs": "Hãy đến và tham gia cùng chúng tôi",
+    "tryOurNewBetaSite": "Hãy thử trang web beta mới của chúng tôi",
+    "returnToLegacySite": "Quay lại trang web cũ",
+    "switchToNewUI": "Chuyển sang giao diện người dùng mới"
   },
   "accountDetails": {
     "connectedWith": "Kết nối với",
@@ -91,7 +95,10 @@
     "withdrewStakingToken": "Đã rút!{{ symbol }}",
     "approve": "Chấp nhận",
     "poolWeight": "Khối lượng bể",
-    "extraReward": "Phần thưởng bổ sung"
+    "withdraw": "Rút",
+    "extraReward": "Phần thưởng bổ sung",
+    "poolRewards": "Phần thưởng hồ bơi",
+    "rewardsIn": "Phần thưởng trong"
   },
   "menu": {
     "code": "Mã",
@@ -128,7 +135,7 @@
     "acceptUpdate": "Chấp nhận cập nhật",
     "dismiss": "Bỏ qua"
   },
-  "positionCard":{
+  "positionCard": {
     "add": "Thêm",
     "remove": "Loại bỏ",
     "poolShare": "Cổ phần của bạn trong bể:",
@@ -164,8 +171,7 @@
     "select": "Chọn",
     "manageTokenLists": "Quản lý danh sách token"
   },
-  "settings":
-  {
+  "settings": {
     "areYouSure": "Bạn chắc chắn chứ?",
     "expertInfo": "Chế độ chuyên gia tắt lời nhắc xác nhận giao dịch và cho phép các giao dịch trượt giá cao thường dẫn đến tỷ giá xấu và mất tiền.",
     "expertWarningCAPS": "CHỈ SỬ DỤNG CHẾ ĐỘ NÀY NẾU BẠN BIẾT BẠN ĐANG LÀM GÌ.",
@@ -365,7 +371,13 @@
     "uniswapV1Found": "Thanh khoản uniswap V1 được tìm thấy",
     "noSeePoolJoined": "Bạn không tìm thấy bể mà bạn đã tham gia?",
     "migrateNow": "Chuyển đổi ngay bây giờ.",
-    "importIt": "Nhập."
+    "importIt": "Nhập.",
+    "seeDetails":"XEM CHI TIẾT",
+    "totalLockedValue": "Tổng giá trị đã khóa",
+    "yourLockedValue": "Giá trị đã khóa của bạn",
+    "allPools": "Tất cả các hồ bơi",
+    "yourPools": "Hồ bơi của bạn",
+    "yourWallet": "Ví của bạn"
   },
   "poolFinder": {
     "connectToFind": "Kêt nối với một ví để nhìn thấy bể",
@@ -417,7 +429,35 @@
     "velox": "Đặt lệnh giới hạn trên  <1>Velox</1>",
     "marginSwap": "Hoán đổi với đòn bẩy trên <1>MarginSwap</1>",
     "wowSwap": " hoặc <1>WOWswap</1>",
-    "veeFinance": " hoặc <1>Vee Finance</1>"
+    "veeFinance": " hoặc <1>Vee Finance</1>",
+    "gelatoFee": "Gelato Học phí",
+    "placeOrder": "Đặt hàng",
+    "confirmOrder": "Xác nhận đơn hàng",
+    "for": "vì",
+    "submittingOrderToSwap": "Gửi đơn đặt hàng để hoán đổi",
+    "limitPrice": "Giá giới hạn",
+    "outputWillBeSentTo": "Đầu ra sẽ được gửi đến",
+    "sell": "sell",
+    "buy": "mua",
+    "betaRelease": "Đây là bản phát hành BETA và bạn nên tự chịu rủi ro khi sử dụng!",
+    "trade": "Buôn bán",
+    "watchList": "WatchList",
+    "yourPortFolio": "Danh mục đầu tư của bạn",
+    "comingSoon": "Sắp có",
+    "connectWalletViewPortFolio": "Kết nối với ví để xem danh mục đầu tư của bạn.",
+    "limitOrders": "Đơn hàng giới hạn",
+    "cancelOrder" : "Hủy đơn hàng",
+    "all": "TẤT CẢ",
+    "open": "MỞ",
+    "executed": "THỰC THI",
+    "cancelled": "HỦY",
+    "inputAmount": "Số lượng đầu vào",
+    "outputAmount": "Số lượng đầu ra",
+    "status": "Trạng thái",
+    "noLimitOrder": "Không {{ orderType }} Gọi món",
+    "cancellingOrder": "Đang hủy đơn đặt hàng...",
+    "cancelLimitOrder": "Mua {{ outputCurrency }} với {{ inputCurrency }}",
+    "executionPrice": "Giá thực hiện"
   },
   "buyPage": {
     "buyAvaxInfo": "Mua AVAX bằng fiat từ đối tác Wyre của chúng tôi.",
@@ -436,6 +476,7 @@
     "governanceVotes": "Các phiếu bầu quản trị được quyết định theo đa số. Không có ngưỡng đại biểu. ",
     "proposals": "Đề xuất",
     "allProposals": "Tất cả đề xuất",
+    "backToProposals": "Quay lại Đề xuất",
     "unlockVoting": "Mở khóa biểu quyết",
     "votes": " Phiếu bầu",
     "delegatedTo": "Ủy quyền cho:",
@@ -453,7 +494,11 @@
     "for": "Cho",
     "details": "Chi tiết",
     "overview": "Tổng quan",
-    "proposer": "Người đề xuất"
+    "proposer": "Người đề xuất",
+    "about": "Về",
+    "vote": "Bầu cử",
+    "executed": "Thực thi",
+    "rejected": "Bác bỏ"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -487,7 +532,7 @@
   },
   "burnHooks": {
     "connectWallet": "Kết nối ví",
-    "enterAmount": "Nhập số lượng" 
+    "enterAmount": "Nhập số lượng"
   },
   "migratePage": {
     "stake": "CỔ PHẦN",
@@ -498,13 +543,13 @@
     "startMigratingNowDescription": "Dưới đây, bạn sẽ tìm thấy tất cả các Trang trại mà bạn sẽ cần để di chuyển sang Hợp đồng V2 của Pangolin",
     "seeMore": "XEM THÊM",
     "migrateWithEase": "DI CHUYỂN VỚI EASE",
-    "migrateWithDescription":"Chúng tôi đã thiết kế một trình hướng dẫn thanh lịch, sẽ giúp hướng dẫn bạn trong quá trình di chuyển Trang trại của bạn",
+    "migrateWithDescription": "Chúng tôi đã thiết kế một trình hướng dẫn thanh lịch, sẽ giúp hướng dẫn bạn trong quá trình di chuyển Trang trại của bạn",
     "alreadyMigrate": "đã di cư",
     "walletMigrate": "ví đã di chuyển",
     "alreadyEarned": "đã kiếm được",
     "migrateNow": "DI TRÚ NGAY BÂY GIỜ",
     "learn": "HỌC",
-    "moveYourTokensToNewContracts" :"Di chuyển trang trại của bạn sang Pangolin V2",
+    "moveYourTokensToNewContracts": "Di chuyển trang trại của bạn sang Pangolin V2",
     "readyToMigrate": "Sẵn sàng di chuyển",
     "apr": "APR:",
     "totalValueLocked": "Tổng giá trị đã khóa",
@@ -526,7 +571,30 @@
     "back": "Mặt sau",
     "availableToUnstake": "Có sẵn để hủy bỏ: ",
     "submittingTransaction": "Gửi giao dịch",
-    "moveYourTokensToNewContractsDescription" :"Là một phần trong kế hoạch triển khai các hợp đồng cải tiến mới của Pangolin, bạn sẽ cần phải di chuyển Trang trại của mình. Nếu bạn cần bất kỳ trợ giúp hoặc hướng dẫn nào, vui lòng nhấp vào nút “Tìm hiểu”.",
+    "moveYourTokensToNewContractsDescription": "Là một phần trong kế hoạch triển khai các hợp đồng cải tiến mới của Pangolin, bạn sẽ cần phải di chuyển Trang trại của mình. Nếu bạn cần bất kỳ trợ giúp hoặc hướng dẫn nào, vui lòng nhấp vào nút “Tìm hiểu”.",
     "migrateModalHeading": "Di cư {{ current }} của {{ total }} trang trại"
+  },
+  "dashboardPage": {
+    "dashboard": "Dashboard",
+    "greetings": "Greetings kind guests! Let’s ape in today…",
+    "portfolioValue": "Portfolio Value",
+    "earned": "Earned",
+    "coins": "Coins",
+    "followedWallets": "Followed Wallets",
+    "earned_dailyIncome": "Daily Income",
+    "earned_totalEarned": "Total Earned",
+    "earned_claim": "Claim",
+    "earned_customizePools": "Customize Pools",
+    "followed_address": "Address",
+    "followed_worth": "Worth",
+    "followed_interact": "Interact"
+  },
+  "stakePage": {
+    "totalStaked": "Total Staked",
+    "apr": "Annual Percentage Rate",
+    "seeDetails": "SEE DETAILS",
+    "stake": "STAKE",
+    "earn": "Earn {{symbol}}",
+    "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
   }
 }
