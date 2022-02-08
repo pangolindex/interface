@@ -11,11 +11,14 @@ export const SidebarWrapper = styled(Box)`
   /* min-height: 100vh; */
   max-width: 200px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 `
 
 export const Menu = styled.div`
   position: relative;
   margin-top: 100px;
+  flex: 1;
 `
 
 export const MenuName = styled(Text)`

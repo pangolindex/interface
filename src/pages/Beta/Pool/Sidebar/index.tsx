@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import { SidebarWrapper, Menu, MenuLink, MenuName, MenuItem, Circle } from './styleds'
-import { Text } from '@pangolindex/components'
+import { Text, Box } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
+import PoolImportModal from '../PoolImportModal'
 
 export enum MenuType {
   allPoolV1 = 'allPoolV1',
@@ -20,7 +21,11 @@ interface MenuProps {
 
 const Sidebar = ({ setMenu, activeMenu, menuItems }: MenuProps) => {
   const { t } = useTranslation()
+  const [isPoolImportModalOpen, setIsPoolImportModalOpen] = useState(false)
 
+  const handlePoolImportModalClose = useCallback(() => {
+    setIsPoolImportModalOpen(false)
+  }, [setIsPoolImportModalOpen])
   return (
     <SidebarWrapper>
       <Text color="text1" fontSize={32} fontWeight={500} ml={20} mt={10}>
@@ -39,6 +44,18 @@ const Sidebar = ({ setMenu, activeMenu, menuItems }: MenuProps) => {
           )
         })}
       </Menu>
+
+      <Box padding="8px" mb={10}>
+        <Text color="color6" fontSize={14}>
+          {t('pool.noSeePoolJoined')}
+        </Text>
+
+        <Text fontSize={14} color="primary" onClick={() => setIsPoolImportModalOpen(true)} cursor="pointer">
+          {t('pool.importIt')}
+        </Text>
+      </Box>
+
+      <PoolImportModal isOpen={isPoolImportModalOpen} onClose={handlePoolImportModalClose} />
     </SidebarWrapper>
   )
 }
