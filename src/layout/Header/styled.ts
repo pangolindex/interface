@@ -92,7 +92,7 @@ export const PNGAmount = styled(AccountElement)`
   height: 36px;
   font-weight: 500;
   background-color: ${({ theme }) => theme.bg3};
-  background: radial-gradient(174.47% 188.91% at 1.84% 0%, #FFC800 0%, #E1AA00 100%), #edeef2;
+  background: radial-gradient(174.47% 188.91% at 1.84% 0%, #ffc800 0%, #e1aa00 100%), #edeef2;
 `
 
 export const PNGWrapper = styled.span`
@@ -173,4 +173,11 @@ export const StyledMenuIcon = styled(MenuIcon)`
 
 export const MobileLogoWrapper = styled.div`
   flex: 1;
+`
+
+export const LegacyButtonWrapper = styled.div`
+  display: block;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
 `

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const PageWrapper = styled(Box)`
   width: 100%;
-  padding-top: 50px;
+  padding-top: 25px;
 `
 
 export const TopContainer = styled(Box)`
@@ -33,5 +33,6 @@ export const GridContainer = styled(Box)<{ isLimitOrders: boolean }>`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     grid-template-columns: none;
     grid-template-rows: max-content;
+    padding-bottom: 70px;
   `};
 `

@@ -31,7 +31,8 @@ import {
   ThemeMode,
   MobileHeader,
   StyledMenuIcon,
-  MobileLogoWrapper
+  MobileLogoWrapper,
+  LegacyButtonWrapper
 } from './styled'
 import Logo from '../Logo'
 import { useTranslation } from 'react-i18next'
@@ -78,9 +79,11 @@ export default function Header({ onCollapsed }: HeaderProps) {
 
       <HeaderControls>
         <HeaderElement>
-          <Button variant="primary" height={36} padding="4px 6px" href="/" as="a">
-            <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
-          </Button>
+          <LegacyButtonWrapper>
+            <Button variant="primary" height={36} padding="4px 6px" href="/" as="a">
+              <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
+            </Button>
+          </LegacyButtonWrapper>
           <HideSmall>
             {chainId && NETWORK_LABELS[chainId] && (
               <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
