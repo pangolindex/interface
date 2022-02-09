@@ -13,6 +13,7 @@ import { TIMEFRAME } from 'src/constants'
 import { formattedNum, toNiceDateYear } from 'src/utils/charts'
 import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
+import { BETA_MENU_LINK } from 'src/constants'
 
 type Props = {
   coin: Token
@@ -60,11 +61,11 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
   // add current price in chart
   if (priceChart.length > 0 && usdcPrice) {
     const timestampnow = Math.floor(Date.now() / 1000)
-    
+
     priceChart.push({
       priceUSD: parseFloat(usdcPrice?.toSignificant(4)),
       timestamp: `${timestampnow}`
-    }) 
+    })
   }
 
   return (
@@ -100,7 +101,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
               color="white"
               padding="0px 10px"
               height="32px"
-              href={`/#/beta/swap?inputCurrency=${coin?.address}`}
+              href={`/#${BETA_MENU_LINK.swap}?inputCurrency=${coin?.address}`}
               target=""
               as="a"
             >

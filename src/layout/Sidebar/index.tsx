@@ -25,6 +25,7 @@ import Bridge from '../../assets/svg/menu/bridge.svg'
 import Governance from '../../assets/svg/menu/governance.svg'
 import { Scrollbars } from 'react-custom-scrollbars'
 import Logo from '../Logo'
+import { BETA_MENU_LINK } from 'src/constants'
 
 interface SidebarProps {
   collapsed: boolean
@@ -38,60 +39,55 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
   const theme = useContext(ThemeContext)
   const mainLinks = [
     {
-      link: '/beta/dashboard',
+      link: BETA_MENU_LINK.dashboard,
       icon: Dashboard,
       title: t('header.dashboard'),
       id: 'dashboard',
-      isActive: location?.pathname?.startsWith('/beta/dashboard')
+      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.dashboard)
     },
     {
-      link: '/beta/swap',
+      link: BETA_MENU_LINK.swap,
       icon: Swap,
       title: t('header.swap'),
       id: 'swap',
-      isActive: location?.pathname?.startsWith('/beta/swap')
+      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.swap)
     },
     {
-      link: '/beta/buy',
+      link: BETA_MENU_LINK.buy,
       icon: Buy,
       title: t('header.buy'),
       id: 'buy',
-      isActive: location?.pathname?.startsWith('/beta/buy')
+      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.buy)
     },
     {
-      link: '/beta/pool',
+      link: BETA_MENU_LINK.pool,
       icon: Pool,
       title: `${t('header.pool')} & ${t('header.farm')}`,
       id: 'pool',
-      isActive:
-        location?.pathname?.startsWith('/beta/pool') ||
-        location?.pathname.startsWith('/add') ||
-        location?.pathname.startsWith('/remove') ||
-        location?.pathname.startsWith('/create') ||
-        location?.pathname.startsWith('/find')
+      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.pool)
     },
     {
-      link: '/beta/stake/0',
+      link: `${BETA_MENU_LINK.stake}/0`,
       icon: Stake,
       title: t('header.stake'),
       id: 'stake',
-      isActive: location?.pathname?.startsWith('/beta/stake')
+      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.stake)
     },
 
     {
-      link: '/beta/vote',
+      link: BETA_MENU_LINK.vote,
       icon: Vote,
       title: t('header.vote'),
       id: 'vote',
-      isActive: location?.pathname?.startsWith('/beta/vote')
+      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.vote)
     },
 
     {
-      link: '/beta/migrate/1',
+      link: `${BETA_MENU_LINK.migrate}/1`,
       icon: Migration,
       title: 'Migrate',
       id: 'migrate',
-      isActive: location?.pathname?.startsWith('/beta/migrate/')
+      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.migrate)
     }
   ]
 
