@@ -100,7 +100,27 @@ export default function GovernanceDetail() {
           <Text fontSize={44} lineHeight="52px" color="text1" style={{ marginBottom: '.5rem' }}>
             {proposalData?.title}
           </Text>
+
+          <RowBetween>
+            <Text fontSize={18} color="text1">
+              {startDate && startDate <= now
+                ? t('votePage.votingStarted') + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
+                : proposalData
+                ? t('votePage.votingStarts') + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
+                : ''}
+            </Text>
+          </RowBetween>
+          <RowBetween>
+            <Text fontSize={18} color="text1">
+              {endDate && endDate < now
+                ? t('votePage.votingEnded') + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
+                : proposalData
+                ? t('votePage.votingEnds') + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
+                : ''}
+            </Text>
+          </RowBetween>
         </AutoColumn>
+
         {!showUnlockVoting &&
         availableVotes &&
         JSBI.greaterThan(availableVotes?.raw, JSBI.BigInt(0)) &&
