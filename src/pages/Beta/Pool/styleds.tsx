@@ -4,6 +4,7 @@ import styled from 'styled-components'
 export const PageWrapper = styled(Box)`
   width: 100%;
   height: calc(100vh - 76px);
+  padding-bottom: 10px;
 `
 
 export const GridContainer = styled(Box)`
