@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const SwapWrapper = styled(Box)`
   width: 100%;
-  min-width: 400px;
+  /* min-width: 400px; */
   background-color: ${({ theme }) => theme.color2};
   position: relative;
   overflow: hidden;

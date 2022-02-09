@@ -18,11 +18,11 @@ export const DrawerRoot = styled.div<{ isOpen: boolean }>`
   border-radius: 10px;
   height: 100%;
 
-  ${({ theme, isOpen }) => theme.mediaWidth.upToSmall`
+  /* ${({ theme, isOpen }) => theme.mediaWidth.upToSmall`
     display: ${isOpen ? 'none' : 'flex'};
     width: 100%;
     height: 100%
-  `};
+  `}; */
 `
 
 export const DrawerContent = styled.div`

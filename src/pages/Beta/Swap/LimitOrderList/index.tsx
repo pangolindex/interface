@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Text, Box, ToggleButtons } from '@pangolindex/components'
 import LimitOrderRow from './LimitOrderRow'
-import { WatchListRoot, GridContainer } from './styleds'
+import { DesktopLimitOrderList, GridContainer, MobileLimitOrderList } from './styleds'
 import Scrollbars from 'react-custom-scrollbars'
 import LimitOrderDetail from './LimitOrderDetail'
 import { useTranslation } from 'react-i18next'
 import { Order } from '@gelatonetwork/limit-orders-react'
 import CancelOrderModal from './CancelOrderModal'
 import { useGelatoLimitOrderList } from 'src/state/swap/hooks'
+import OrderTypeDropDown from './OrderTypeDropdown'
+import MobileLimitOrderRow from './MobileLimitOrderRow'
+import ShowMore from 'src/components/Beta/ShowMore'
 
 export enum TabType {
   all = 'ALL',
@@ -20,6 +23,8 @@ const LimitOrderList = () => {
   const { t } = useTranslation()
 
   const [activeTab, setActiveTab] = useState(TabType.all as string)
+
+  const [showMore, setShowMore] = useState(false as boolean)
 
   const { allOrders, allOpenOrders, allCancelledOrders, executed } = useGelatoLimitOrderList()
 
@@ -51,36 +56,51 @@ const LimitOrderList = () => {
   }, [displayOrders])
 
   return (
-    <WatchListRoot>
-      <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Text color="text1" fontSize={32} fontWeight={500}>
-          {t('swapPage.limitOrders')}
-        </Text>
+    <Box>
+      <MobileLimitOrderList>
+        <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
+          <Text color="text1" fontSize={24} fontWeight={500}>
+            {t('swapPage.limitOrders')}
+          </Text>
 
-        <Box>
-          <ToggleButtons
-            options={[t('swapPage.all'), t('swapPage.open'), t('swapPage.executed'), t('swapPage.cancelled')]}
-            value={activeTab}
-            onChange={value => {
-              setActiveTab(value)
-            }}
-          />
+          <Box>
+            <OrderTypeDropDown
+              activeTab={activeTab}
+              onChange={value => {
+                setActiveTab(value)
+              }}
+            />
+          </Box>
         </Box>
-      </Box>
-      <GridContainer>
-        <LimitOrderDetail order={selectedOrder} onClickCancelOrder={() => setIsCancelLimitOrderModalOpen(true)} />
-        <Box>
+
+        <Box mt={10}>
           {(displayOrders || []).length > 0 ? (
-            <Scrollbars>
-              {(displayOrders || []).map(order => (
-                <LimitOrderRow
+            <>
+              {(displayOrders || []).slice(0, 3).map(order => (
+                <MobileLimitOrderRow
                   order={order}
                   key={order.id}
                   onClick={() => setSelectedOrder(order)}
                   isSelected={order?.id === selectedOrder?.id}
+                  onClickCancelOrder={() => setIsCancelLimitOrderModalOpen(true)}
                 />
               ))}
-            </Scrollbars>
+
+              {showMore &&
+                (displayOrders || [])
+                  .slice(3)
+                  .map(order => (
+                    <MobileLimitOrderRow
+                      order={order}
+                      key={order.id}
+                      onClick={() => setSelectedOrder(order)}
+                      isSelected={order?.id === selectedOrder?.id}
+                      onClickCancelOrder={() => setIsCancelLimitOrderModalOpen(true)}
+                    />
+                  ))}
+
+              {displayOrders.length > 3 && <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />}
+            </>
           ) : (
             <Text color="text1" fontSize={18} fontWeight={500} marginLeft={'6px'} textAlign="center">
               {t('swapPage.noLimitOrder', {
@@ -89,14 +109,54 @@ const LimitOrderList = () => {
             </Text>
           )}
         </Box>
-      </GridContainer>
+      </MobileLimitOrderList>
+      <DesktopLimitOrderList>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Text color="text1" fontSize={32} fontWeight={500}>
+            {t('swapPage.limitOrders')}
+          </Text>
 
-      <CancelOrderModal
-        isOpen={isCancelLimitOrderModalOpen}
-        onClose={handleCancelLimitOrderModal}
-        order={selectedOrder}
-      />
-    </WatchListRoot>
+          <Box>
+            <ToggleButtons
+              options={[t('swapPage.all'), t('swapPage.open'), t('swapPage.executed'), t('swapPage.cancelled')]}
+              value={activeTab}
+              onChange={value => {
+                setActiveTab(value)
+              }}
+            />
+          </Box>
+        </Box>
+        <GridContainer>
+          <LimitOrderDetail order={selectedOrder} onClickCancelOrder={() => setIsCancelLimitOrderModalOpen(true)} />
+          <Box>
+            {(displayOrders || []).length > 0 ? (
+              <Scrollbars>
+                {(displayOrders || []).map(order => (
+                  <LimitOrderRow
+                    order={order}
+                    key={order.id}
+                    onClick={() => setSelectedOrder(order)}
+                    isSelected={order?.id === selectedOrder?.id}
+                  />
+                ))}
+              </Scrollbars>
+            ) : (
+              <Text color="text1" fontSize={18} fontWeight={500} marginLeft={'6px'} textAlign="center">
+                {t('swapPage.noLimitOrder', {
+                  orderType: activeTab
+                })}
+              </Text>
+            )}
+          </Box>
+        </GridContainer>
+
+        <CancelOrderModal
+          isOpen={isCancelLimitOrderModalOpen}
+          onClose={handleCancelLimitOrderModal}
+          order={selectedOrder}
+        />
+      </DesktopLimitOrderList>
+    </Box>
   )
 }
 export default LimitOrderList

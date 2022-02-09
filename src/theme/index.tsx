@@ -141,7 +141,7 @@ export function colors(darkMode: boolean): Colors {
     darkSilver,
     venetianRed,
     oceanBlue,
-
+ 
     color2: darkMode ? chineseBlack : ghostWhite,
     color3: darkMode ? eerieBlack : platinum,
     color4: darkMode ? ghostWhite1 : chineseBlack,

@@ -1,5 +1,5 @@
-import React from 'react'
-import { GridContainer, PageWrapper } from './styleds'
+import React, { useState } from 'react'
+import { GridContainer, PageWrapper, HideSmall, Title, DesktopPortfolioList, MobilePortfolioList } from './styleds'
 import { Text, Box } from '@pangolindex/components'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
@@ -8,6 +8,7 @@ import PortfolioRow from './PortfolioRow'
 import { PairDataUser, TokenDataUser, useGetWalletChainTokens } from 'src/state/portifolio/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import Loader from 'src/components/Loader'
+import ShowMore from 'src/components/Beta/ShowMore'
 
 type Props = {
   isLimitOrders: boolean
@@ -16,15 +17,13 @@ type Props = {
 const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
-
+  const [showMore, setShowMore] = useState(false as boolean)
   const [data, loading] = useGetWalletChainTokens()
 
   return (
     <PageWrapper>
       <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Text color="text1" fontSize={32} fontWeight={500}>
-          {t('swapPage.yourPortFolio')}
-        </Text>
+        <Title>{t('swapPage.yourPortFolio')}</Title>
       </Box>
 
       {!account ? (
@@ -36,12 +35,11 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
       ) : (
         <GridContainer isLimitOrders={isLimitOrders}>
           {!isLimitOrders && (
-            <Box>
+            <HideSmall>
               <PortfolioChart />
-            </Box>
+            </HideSmall>
           )}
-
-          <Box display={'flex'} alignItems={'center'}>
+          <DesktopPortfolioList>
             {loading ? (
               <Loader
                 size="40%"
@@ -65,7 +63,43 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
                 )}
               </Scrollbars>
             )}
-          </Box>
+          </DesktopPortfolioList>
+
+          <MobilePortfolioList>
+            {loading ? (
+              <Loader
+                size="40%"
+                style={{
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  display: 'block'
+                }}
+              />
+            ) : (
+              <>
+                {(data || []).slice(0, 3).map((item: TokenDataUser | PairDataUser, index) => (
+                  <PortfolioRow
+                    coin={item instanceof TokenDataUser ? item : undefined}
+                    pair={item instanceof PairDataUser ? item : undefined}
+                    key={index}
+                  />
+                ))}
+
+                {showMore &&
+                  (data || [])
+                    .slice(3)
+                    .map((item: TokenDataUser | PairDataUser, index) => (
+                      <PortfolioRow
+                        coin={item instanceof TokenDataUser ? item : undefined}
+                        pair={item instanceof PairDataUser ? item : undefined}
+                        key={index}
+                      />
+                    ))}
+
+                {data.length > 3 && <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />}
+              </>
+            )}
+          </MobilePortfolioList>
         </GridContainer>
       )}
     </PageWrapper>

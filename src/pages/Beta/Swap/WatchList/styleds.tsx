@@ -1,4 +1,4 @@
-import { Box } from '@pangolindex/components'
+import { Box, Text } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const WatchListRoot = styled(Box)`
@@ -10,13 +10,30 @@ export const WatchListRoot = styled(Box)`
   display: flex;
   flex-direction: column;
 `
+export const DesktopWatchList = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
+`
+
+export const MobileWatchList = styled.div`
+  display: none;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+  display: block;
+`};
+`
 
 export const GridContainer = styled(Box)<{ isLimitOrders?: boolean }>`
   display: grid;
   grid-template-columns: ${({ isLimitOrders }) => (isLimitOrders ? `100%` : `minmax(auto, 50%) 50%`)};
   grid-gap: 8px;
-  padding: 10px 0px;
   flex: 1;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    grid-template-columns: none;
+    grid-template-rows: max-content;
+  `};
 `
 
 export const Divider = styled(Box)`
@@ -80,4 +97,19 @@ export const DurationBtns = styled(Box)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`
+export const HideSmall = styled(Box)`
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
+`
+
+export const Title = styled(Text)`
+  font-size: 32px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text1};
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    font-size: 24px
+  `};
 `

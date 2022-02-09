@@ -42,4 +42,4 @@ Note that the interface only works on testnets where both
 The interface will not work on other networks.
 
 ## Attribution
-This code was adapted from this Uniswap repo: [uniswap-interface](https://github.com/Uniswap/uniswap-interface).
+This code was adapted from this Uniswap repo: [uniswap-interface](https://github.com/Uniswap/uniswap-interface)
