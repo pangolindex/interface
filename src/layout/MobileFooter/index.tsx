@@ -58,7 +58,7 @@ export default function MobileFooter() {
               <MenuLink id={x.id} to={x.link}>
                 <Icon size={16} fillColor={x.isActive ? theme.black : theme.color22} />
 
-                <Text fontSize={14} color={x.isActive && 'black'}>
+                <Text fontSize={14} color={x.isActive ? 'black' : 'color22'}>
                   {x.title}
                 </Text>
               </MenuLink>
