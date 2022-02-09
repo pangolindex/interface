@@ -30,6 +30,7 @@ import { RowBetween, RowFixed } from 'src/components/Row'
 
 import { useModalOpen, useToggleDelegateModal } from 'src/state/application/hooks'
 import { ApplicationModal } from 'src/state/application/actions'
+import { BETA_MENU_LINK } from 'src/constants'
 
 const GovernanceUI = () => {
   const { account, chainId } = useActiveWeb3React()
@@ -139,7 +140,7 @@ const GovernanceUI = () => {
               id={p.id}
               title={p.title}
               status={p.status as ProposalStates}
-              to={'/beta/vote/' + p.id}
+              to={`${BETA_MENU_LINK.vote}/${p.id}`}
               key={p.id}
             />
           )

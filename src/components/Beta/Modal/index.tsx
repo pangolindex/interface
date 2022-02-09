@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import '@reach/dialog/styles.css'
 import { Portal } from 'react-portal'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDialogOverlay = styled.div<{ background?: string; isOpen: boolean }>`
@@ -36,7 +37,15 @@ export default function Modal({ isOpen, onDismiss, children, overlayBG }: ModalP
   return (
     <Portal>
       <StyledDialogOverlay isOpen={isOpen} background={overlayBG}>
-        {isOpen && <Container>{children}</Container>}
+        {isOpen && (
+          <OutsideClickHandler
+            onOutsideClick={() => {
+              onDismiss()
+            }}
+          >
+            <Container>{children}</Container>{' '}
+          </OutsideClickHandler>
+        )}
       </StyledDialogOverlay>
     </Portal>
   )

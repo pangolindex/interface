@@ -9,6 +9,7 @@ import { useTokenBalance } from 'src/state/wallet/hooks'
 import DepositDrawer from '../DepositDrawer'
 import UnstakeDrawer from '../UnstakeDrawer'
 import { Root, StakedAmount, TokenSymbol, Buttons, UnstakeButton } from './styled'
+import { BETA_MENU_LINK } from 'src/constants'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
@@ -60,7 +61,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
             padding="15px 18px"
             variant="primary"
             as="a"
-            href={`/#/beta/swap?inputCurrency=${ZERO_ADDRESS}&outputCurrency=${png.address}`}
+            href={`/#${BETA_MENU_LINK.swap}?inputCurrency=${ZERO_ADDRESS}&outputCurrency=${png.address}`}
           >
             {t('earnPage.getToken', { symbol: stakeToken })}
           </Button>

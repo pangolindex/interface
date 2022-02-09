@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 import RewardTokens from '../RewardTokens'
 import { Box } from '@pangolindex/components'
 import { useTokens } from '../../hooks/Tokens'
+import { BETA_MENU_LINK } from 'src/constants'
 
 const StatContainer = styled.div`
   display: flex;
@@ -142,7 +143,7 @@ export default function DoubleSidePoolCard({
 
           {/* Beta Migration */}
           {isStaking && Number(version) === 1 && poolMap.hasOwnProperty(pairAddress) ? (
-            <StyledInternalLink to={`/beta/migrate/${version}`} style={{ marginRight: '10px' }}>
+            <StyledInternalLink to={`${BETA_MENU_LINK.migrate}/${version}`} style={{ marginRight: '10px' }}>
               <ButtonPrimary padding="8px" borderRadius="8px">
                 Migrate
               </ButtonPrimary>

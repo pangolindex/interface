@@ -1283,3 +1283,13 @@ export const COIN_ID_OVERRIDE = {
   NEKO: undefined,
   VEE: undefined
 }
+
+export enum BETA_MENU_LINK {
+  dashboard = '/beta/dashboard',
+  swap = '/beta/swap',
+  buy = '/beta/buy',
+  pool = '/beta/pool',
+  stake = '/beta/stake',
+  vote = '/beta/vote',
+  migrate = '/beta/migrate'
+}

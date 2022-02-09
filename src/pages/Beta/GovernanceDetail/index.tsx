@@ -32,6 +32,7 @@ import { useActiveWeb3React } from 'src/hooks'
 import { ExternalLink } from 'src/theme'
 import { PNG, ZERO_ADDRESS } from 'src/constants'
 import { isAddress, getEtherscanLink } from 'src/utils'
+import { BETA_MENU_LINK } from 'src/constants'
 
 export interface GovernanceDetailProps {
   id: string
@@ -91,7 +92,7 @@ export default function GovernanceDetail() {
       />
       <ProposalInfo gap="lg" justify="start">
         <RowBetween style={{ width: '100%' }}>
-          <ArrowWrapper to="/beta/vote">
+          <ArrowWrapper to={BETA_MENU_LINK.vote}>
             <ArrowLeft size={20} /> {t('votePage.backToProposals')}
           </ArrowWrapper>
           {proposalData && <ProposalStatus status={proposalData?.status ?? ''}>{proposalData?.status}</ProposalStatus>}
