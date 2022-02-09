@@ -14,6 +14,13 @@ export const PageTitle = styled(Box)`
   margin-bottom: 92px;
   display: flex;
   justify-content: center;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+      font-size: 32px;
+      text-align: center;
+      lie-height: 35px;
+      margin-top: 30px;
+      margin-bottom: 30px;
+  `};
 `
 
 export const PoolsWrapper = styled(Box)`
