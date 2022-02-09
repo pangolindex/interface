@@ -26,6 +26,7 @@ import Governance from '../../assets/svg/menu/governance.svg'
 import { Scrollbars } from 'react-custom-scrollbars'
 import Logo from '../Logo'
 import { BETA_MENU_LINK } from 'src/constants'
+import { useGetMigrationData } from 'src/state/migrate/hooks'
 
 interface SidebarProps {
   collapsed: boolean
@@ -37,6 +38,9 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
   const { t } = useTranslation()
   const location: any = useLocation()
   const theme = useContext(ThemeContext)
+
+  const { allPool } = useGetMigrationData(1)
+
   const mainLinks = [
     {
       link: BETA_MENU_LINK.dashboard,
@@ -80,16 +84,19 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       title: t('header.vote'),
       id: 'vote',
       isActive: location?.pathname?.startsWith(BETA_MENU_LINK.vote)
-    },
+    }
+  ]
 
-    {
+  // add v1
+  if (Object.keys(allPool)?.length > 0) {
+    mainLinks.push({
       link: `${BETA_MENU_LINK.migrate}/1`,
       icon: Migration,
       title: 'Migrate',
       id: 'migrate',
       isActive: location?.pathname?.startsWith(BETA_MENU_LINK.migrate)
-    }
-  ]
+    })
+  }
 
   const pangolinLinks = [
     {
