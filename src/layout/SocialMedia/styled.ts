@@ -3,7 +3,7 @@ import { ExternalLink } from '../../theme'
 
 export const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.bg2};
-  width: '100%';
+  width: 100%;
   padding: 10px;
   color: ${({ theme }) => theme.text2};
   text-align: center;

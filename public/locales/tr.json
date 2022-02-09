@@ -29,7 +29,8 @@
     "usefulLinks": "Faydalı Linkler",
     "comeAndJoinUs": "Gel ve bize katıl",
     "tryOurNewBetaSite": "Yeni beta sitemizi deneyin",
-    "returnToLegacySite": "Eski siteye dön"
+    "returnToLegacySite": "Eski siteye dön",
+    "switchToNewUI": "Yeni kullanıcı arayüzüne geç"
   },
   "accountDetails": {
     "connectedWith": "Neye Bağlı: ",
@@ -94,7 +95,10 @@
     "withdrewStakingToken": "{{ symbol }} çekildi!",
     "approve": "Onayla",
     "poolWeight": "Havuz Ağırlığı",
-    "extraReward": "Ekstra Ödül"
+    "withdraw": "Geri çekilmek",
+    "extraReward": "Ekstra Ödül",
+    "poolRewards": "Havuz Ödülleri",
+    "rewardsIn": "Ödüller"
   },
   "menu": {
     "code": "Kod",
@@ -367,7 +371,13 @@
     "uniswapV1Found": "Uniswap V1 likiditesi bulundu!",
     "noSeePoolJoined": "Katıldığınız bir havuzu görmüyor musunuz?",
     "migrateNow": "Şimdi taşı.",
-    "importIt": "Dışarıdan ekle."
+    "importIt": "Dışarıdan ekle.",
+    "seeDetails":"AYRINTILARA BAKINIZ",
+    "totalLockedValue": "Toplam Kilitli Değer",
+    "yourLockedValue": "Kilitli Değeriniz",
+    "allPools": "Tüm Havuzlar",
+    "yourPools": "Havuzlarınız",
+    "yourWallet": "Cüzdanın"
   },
   "poolFinder": {
     "connectToFind": "Havuzları bulmak için bir cüzdana bağlanın",
@@ -432,8 +442,24 @@
     "betaRelease": "Bu bir BETA sürümüdür ve riski size ait olmak üzere kullanılmalıdır!",
     "trade": "Ticaret",
     "watchList": "İzlenecekler listesi",
-    "yourPortFolio":"Portföyünüz",
-    "comingSoon":"Çok yakında"
+    "yourPortFolio": "Portföyünüz",
+    "comingSoon": "Çok yakında",
+    "connectWalletViewPortFolio": "Portföyünüzü kontrol etmek için bir cüzdana bağlanın.",
+    "limitOrders": "Limit Emirleri",
+    "cancelOrder" : "Siparişi iptal et",
+    "all": "TÜMÜ",
+    "open": "AÇIK",
+    "executed": "UYGULANMIŞ",
+    "cancelled": "İPTAL EDİLDİ",
+    "inputAmount": "Girilen Tutar",
+    "outputAmount": "Çıkış Miktarı",
+    "status": "Durum",
+    "noLimitOrder": "Numara {{ orderType }} Emir",
+    "cancellingOrder": "sipariş iptal...",
+    "cancelLimitOrder": "Satın almak {{ outputCurrency }} ile {{ inputCurrency }}",
+    "executionPrice": "Yürütme Fiyatı",
+    "seeMore": "Daha fazla gör",
+    "seeLess": "Daha Az Gör"
   },
   "buyPage": {
     "buyAvaxInfo": "Partnerimiz Wyre aracılığıyla AVAX satın alın.",
@@ -552,7 +578,7 @@
   },
   "dashboardPage": {
     "dashboard": "Dashboard",
-    "greetings": "Greetings kind ser! Let’s ape in today…",
+    "greetings": "Greetings kind guests! Let’s ape in today…",
     "portfolioValue": "Portfolio Value",
     "earned": "Earned",
     "coins": "Coins",

@@ -1,4 +1,5 @@
 import { ChainId, TokenAmount } from '@pangolindex/sdk'
+import { Button } from '@pangolindex/components'
 import React, { useState, useRef } from 'react'
 import { Text } from 'rebass'
 import { NavLink } from 'react-router-dom'
@@ -29,6 +30,7 @@ import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { MenuFlyout, MenuNavItem } from '../StyledMenu'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
+import { BETA_MENU_LINK } from 'src/constants'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -375,6 +377,19 @@ export default function Header() {
       </HeaderRow>
       <HeaderControls>
         <HeaderElement>
+          <HideSmall>
+            <Button
+              variant="primary"
+              height={36}
+              padding="4px 6px"
+              href={`#${BETA_MENU_LINK.dashboard}`}
+              backgroundColor={'#f05629'}
+              as="a"
+              target=""
+            >
+              <span style={{ whiteSpace: 'nowrap' }}>{t('header.switchToNewUI')}</span>
+            </Button>
+          </HideSmall>
           <HideSmall>
             {chainId && NETWORK_LABELS[chainId] && (
               <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>

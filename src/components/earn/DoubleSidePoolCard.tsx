@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 import RewardTokens from '../RewardTokens'
 import { Box } from '@pangolindex/components'
 import { useTokens } from '../../hooks/Tokens'
+import { BETA_MENU_LINK } from 'src/constants'
 
 const StatContainer = styled.div`
   display: flex;
@@ -142,7 +143,7 @@ export default function DoubleSidePoolCard({
 
           {/* Beta Migration */}
           {isStaking && Number(version) === 1 && poolMap.hasOwnProperty(pairAddress) ? (
-            <StyledInternalLink to={`/beta/migrate/${version}`} style={{ marginRight: '10px' }}>
+            <StyledInternalLink to={`${BETA_MENU_LINK.migrate}/${version}`} style={{ marginRight: '10px' }}>
               <ButtonPrimary padding="8px" borderRadius="8px">
                 Migrate
               </ButtonPrimary>
@@ -174,7 +175,7 @@ export default function DoubleSidePoolCard({
           <TYPE.white>{swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr}%` : '-'}</TYPE.white>
         </RowBetween>
         <RowBetween>
-          <TYPE.white>PNG Rewards APR</TYPE.white>
+          <TYPE.white>{(rewardTokens || [])?.length === 0 ? 'Farming APR' : 'Super Farm APR'}</TYPE.white>
           <TYPE.white>{stakingApr && !stakingInfo.isPeriodFinished ? `${stakingApr}%` : '-'}</TYPE.white>
         </RowBetween>
         <RowBetween>
@@ -182,12 +183,6 @@ export default function DoubleSidePoolCard({
           <TYPE.white>{swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr + stakingApr}%` : '-'}</TYPE.white>
         </RowBetween>
       </AprContainer>
-      <StatContainer>
-        <RowBetween>
-          <TYPE.white> {t('earn.poolWeight')} </TYPE.white>
-          <TYPE.white>{`${stakingInfo.multiplier}X`}</TYPE.white>
-        </RowBetween>
-      </StatContainer>
 
       {isStaking && (
         <>
@@ -219,11 +214,7 @@ export default function DoubleSidePoolCard({
                     const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
                     let extraRewardRate =
                       stakingInfo?.getExtraTokensRewardRate &&
-                      stakingInfo?.getExtraTokensRewardRate(
-                        stakingInfo?.rewardRate,
-                        token as Token,
-                        tokenMultiplier
-                      )
+                      stakingInfo?.getExtraTokensRewardRate(stakingInfo?.rewardRate, token as Token, tokenMultiplier)
 
                     return (
                       <TYPE.black style={{ textAlign: 'right' }} color={'white'} fontWeight={500} key={index}>

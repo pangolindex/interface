@@ -1012,6 +1012,55 @@ export const HEC: { [chainId in ChainId]: Token } = {
   )
 }
 
+export const UST: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'UST', 'Axelar Wrapped UST'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x260Bbf5698121EB85e7a74f2E45E16Ce762EbE11',
+    6,
+    'UST',
+    'Axelar Wrapped UST'
+  )
+}
+
+export const LUNA: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'LUNA', 'Axelar Wrapped LUNA'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x120AD3e5A7c796349e591F1570D9f7980F4eA9cb',
+    6,
+    'LUNA',
+    'Axelar Wrapped LUNA'
+  )
+}
+
+export const IME: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'IME', 'Imperium Empires Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xF891214fdcF9cDaa5fdC42369eE4F27F226AdaD6',
+    18,
+    'IME',
+    'Imperium Empires Token'
+  )
+}
+
+export const MONEY: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'MONEY', 'Moremoney USD'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x0f577433Bf59560Ef2a79c124E9Ff99fCa258948',
+    18,
+    'MONEY',
+    'Moremoney USD'
+  )
+}
+
+export const YDR: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'YDR', 'YDragon'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xf03Dccaec9A28200A6708c686cf0b8BF26dDc356', 18, 'YDR', 'YDragon')
+}
+
 export const RACEX: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'RACEX', 'RaceX'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7086e045b78e1e72f741f25231c08d238812cf8a', 18, 'RACEX', 'RaceX')
@@ -1035,7 +1084,9 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     PNG[ChainId.AVALANCHE],
     USDTe[ChainId.AVALANCHE],
     DAIe[ChainId.AVALANCHE],
-    USDCe[ChainId.AVALANCHE]
+    USDCe[ChainId.AVALANCHE],
+    UST[ChainId.AVALANCHE],
+    USDC[ChainId.AVALANCHE]
   ]
 }
 
@@ -1070,7 +1121,7 @@ export const TRUSTED_TOKEN_ADDRESSES: { readonly [chainId in ChainId]: string[] 
 export const SWAP_DEFAULT_CURRENCY = {
   [ChainId.AVALANCHE]: {
     inputCurrency: 'AVAX',
-    outputCurrnecy: USDCe[ChainId.AVALANCHE].address
+    outputCurrnecy: UST[ChainId.AVALANCHE].address
   },
   [ChainId.FUJI]: {
     inputCurrency: '',
@@ -1158,6 +1209,7 @@ export const BIG_INT_ONE = JSBI.BigInt(1)
 export const BIG_INT_TWO = JSBI.BigInt(2)
 export const BIG_INT_TEN = JSBI.BigInt(10)
 export const BIG_INT_EIGHTEEN = JSBI.BigInt(18)
+export const ONE_TOKEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
 
 // one basis point
 export const ONE_BIPS = new Percent(JSBI.BigInt(1), JSBI.BigInt(10000))
@@ -1222,3 +1274,22 @@ export const TIMEFRAME = [
     momentIdentifier: ''
   }
 ]
+
+/*
+ * Mapping between symbol (uppercase string) and CoinGecko coin id (string)
+ * Using CoinGecko API: https://api.coingecko.com/api/v3/coins/list
+ */
+export const COIN_ID_OVERRIDE = {
+  NEKO: undefined,
+  VEE: undefined
+}
+
+export enum BETA_MENU_LINK {
+  dashboard = '/beta/dashboard',
+  swap = '/beta/swap',
+  buy = '/beta/buy',
+  pool = '/beta/pool',
+  stake = '/beta/stake',
+  vote = '/beta/vote',
+  migrate = '/beta/migrate'
+}

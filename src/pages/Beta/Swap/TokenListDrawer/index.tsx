@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, AppState } from 'src/state'
 import { useIsSelectedAEBTokenList } from 'src/state/lists/hooks'
 import { DeprecatedWarning } from 'src/components/Warning'
-import Drawer from '../Drawer'
+import Drawer from 'src/components/Drawer'
 import TokenListRow from './TokenListRow'
 import { Warning, List, AddInputWrapper } from './styled'
 import Scrollbars from 'react-custom-scrollbars'
@@ -105,7 +105,7 @@ const TokenListDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
             onKeyDown={handleEnterKey}
             value={listUrlInput}
           />
-          <Button variant="outline" padding={'0px'} isDisabled={!validUrl} onClick={handleAddList}>
+          <Button variant="outline" padding={'0px'} isDisabled={!validUrl} onClick={handleAddList} height="50px">
             Add
           </Button>
         </AddInputWrapper>

@@ -46,20 +46,34 @@ export function useGetUserLP() {
 
   //const liquidityTokensWithBalances = tokenPairsWithLiquidityTokens
 
-  const v2Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
+  const lpTokensWithBalances = useMemo(() => liquidityTokensWithBalances.map(({ tokens }) => tokens), [
+    liquidityTokensWithBalances
+  ])
+  const v2Pairs = usePairs(lpTokensWithBalances)
 
   const v2IsLoading =
     fetchingV2PairBalances || v2Pairs?.length < liquidityTokensWithBalances.length || v2Pairs?.some(V2Pair => !V2Pair)
 
-  const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
+  const allV2PairsWithLiquidity = useMemo(
+    () => v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair)),
+    [v2Pairs]
+  )
 
-  const v2AllPairs = usePairs(tokenPairsWithLiquidityTokens.map(({ tokens }) => tokens))
+  const pairWithLpTokens = useMemo(() => tokenPairsWithLiquidityTokens.map(({ tokens }) => tokens), [
+    tokenPairsWithLiquidityTokens
+  ])
+  const v2AllPairs = usePairs(pairWithLpTokens)
 
-  const allV2AllPairsWithLiquidity = v2AllPairs
-    .map(([, pair]) => pair)
-    .filter((v2AllPairs): v2AllPairs is Pair => Boolean(v2AllPairs))
+  const allV2AllPairsWithLiquidity = useMemo(
+    () => v2AllPairs.map(([, pair]) => pair).filter((v2AllPairs): v2AllPairs is Pair => Boolean(v2AllPairs)),
+    [v2AllPairs]
+  )
 
-  return { v2IsLoading, allV2PairsWithLiquidity, allPairs: allV2AllPairsWithLiquidity }
+  return useMemo(() => ({ v2IsLoading, allV2PairsWithLiquidity, allPairs: allV2AllPairsWithLiquidity }), [
+    v2IsLoading,
+    allV2PairsWithLiquidity,
+    allV2AllPairsWithLiquidity
+  ])
 }
 
 export function useGetMigrationData(version: number) {
@@ -97,5 +111,8 @@ export function useGetMigrationData(version: number) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [(stakingInfos || []).length])
 
-  return { allPool, v2IsLoading: v2IsLoading || stakingInfos.length === 0, allV2PairsWithLiquidity, allPairs }
+  return useMemo(
+    () => ({ allPool, v2IsLoading: v2IsLoading || stakingInfos.length === 0, allV2PairsWithLiquidity, allPairs }),
+    [allPool, v2IsLoading, stakingInfos, allV2PairsWithLiquidity, allPairs]
+  )
 }

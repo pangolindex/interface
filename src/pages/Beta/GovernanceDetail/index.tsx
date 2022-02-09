@@ -32,6 +32,7 @@ import { useActiveWeb3React } from 'src/hooks'
 import { ExternalLink } from 'src/theme'
 import { PNG, ZERO_ADDRESS } from 'src/constants'
 import { isAddress, getEtherscanLink } from 'src/utils'
+import { BETA_MENU_LINK } from 'src/constants'
 
 export interface GovernanceDetailProps {
   id: string
@@ -91,7 +92,7 @@ export default function GovernanceDetail() {
       />
       <ProposalInfo gap="lg" justify="start">
         <RowBetween style={{ width: '100%' }}>
-          <ArrowWrapper to="/beta/vote">
+          <ArrowWrapper to={BETA_MENU_LINK.vote}>
             <ArrowLeft size={20} /> {t('votePage.backToProposals')}
           </ArrowWrapper>
           {proposalData && <ProposalStatus status={proposalData?.status ?? ''}>{proposalData?.status}</ProposalStatus>}
@@ -100,7 +101,27 @@ export default function GovernanceDetail() {
           <Text fontSize={44} lineHeight="52px" color="text1" style={{ marginBottom: '.5rem' }}>
             {proposalData?.title}
           </Text>
+
+          <RowBetween>
+            <Text fontSize={18} color="text1">
+              {startDate && startDate <= now
+                ? t('votePage.votingStarted') + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
+                : proposalData
+                ? t('votePage.votingStarts') + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
+                : ''}
+            </Text>
+          </RowBetween>
+          <RowBetween>
+            <Text fontSize={18} color="text1">
+              {endDate && endDate < now
+                ? t('votePage.votingEnded') + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
+                : proposalData
+                ? t('votePage.votingEnds') + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
+                : ''}
+            </Text>
+          </RowBetween>
         </AutoColumn>
+
         {!showUnlockVoting &&
         availableVotes &&
         JSBI.greaterThan(availableVotes?.raw, JSBI.BigInt(0)) &&

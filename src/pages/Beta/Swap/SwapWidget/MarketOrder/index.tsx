@@ -23,7 +23,7 @@ import { useSwapCallback } from 'src/hooks/useSwapCallback'
 import { computeTradePriceBreakdown, warningSeverity } from 'src/utils/prices'
 import confirmPriceImpactWithoutFee from 'src/components/swap/confirmPriceImpactWithoutFee'
 import { useIsSelectedAEBToken, useSelectedTokenList, useTokenList } from 'src/state/lists/hooks'
-import { AVAX_BRIDGE_LIST, DEFI_TOKEN_LIST } from 'src/constants/lists'
+import { AVAX_BRIDGE_LIST, DEFI_TOKEN_LIST, STABLECOIN_TOKEN_LIST } from 'src/constants/lists'
 import { TRUSTED_TOKEN_ADDRESSES } from 'src/constants'
 import { isTokenOnList } from 'src/utils'
 import TokenWarningModal from 'src/components/TokenWarningModal'
@@ -274,7 +274,7 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const isAEBToken = useIsSelectedAEBToken()
 
   const selectedTokens = useSelectedTokenList()
-  const whitelistedTokens = useTokenList([DEFI_TOKEN_LIST, AVAX_BRIDGE_LIST])
+  const whitelistedTokens = useTokenList([DEFI_TOKEN_LIST, AVAX_BRIDGE_LIST, STABLECOIN_TOKEN_LIST])
 
   const isTrustedToken = useCallback(
     (token: Token) => {
@@ -380,7 +380,8 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
         }}
         id="swap-button"
         isDisabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError || !!swapInputError}
-        backgroundColor={isValid && priceImpactSeverity > 2 ? 'red1' : undefined}
+        backgroundColor={isValid && priceImpactSeverity > 2 ? 'primary' : undefined}
+        color={isValid && priceImpactSeverity <= 2 ? 'black' : undefined}
       >
         {swapInputError
           ? swapInputError

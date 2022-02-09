@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { LineChart, Line } from 'recharts'
 import { Box } from '@pangolindex/components'
-import Logo from 'src/assets/svg/icon.svg'
+import Logo from 'src/assets/images/logo.svg'
 
 export const RowContainer = styled(Box)`
   padding: 12px;

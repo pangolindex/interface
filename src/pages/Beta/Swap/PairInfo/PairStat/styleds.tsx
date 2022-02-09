@@ -8,7 +8,7 @@ export const PanelWrapper = styled.div`
   width: 100%;
   align-items: start;
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.bg2};
+  background-color: ${({ theme }) => theme.color2};
   @media screen and (max-width: 1024px) {
     grid-template-columns: 1fr;
     align-items: stretch;
@@ -22,4 +22,20 @@ export const PanelWrapper = styled.div`
       }
     }
   }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
+`
+
+export const MobileStat = styled.div`
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.color2};
+  display: none;
+  padding: 10px;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`};
 `

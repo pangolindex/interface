@@ -2,7 +2,8 @@ import React, { useState, useContext, useCallback, useEffect } from 'react'
 import { useGelatoLimitOrders } from '@gelatonetwork/limit-orders-react'
 import { RefreshCcw, Divide, X } from 'react-feather'
 import { Text, Box, Button, ToggleButtons } from '@pangolindex/components'
-import { Token, Trade, JSBI, CurrencyAmount, TokenAmount, CAVAX } from '@pangolindex/sdk'
+import { Token, Trade, JSBI, TokenAmount, CAVAX } from '@pangolindex/sdk'
+import { CurrencyAmount, Currency as UniCurrency } from '@uniswap/sdk-core'
 import { ThemeContext } from 'styled-components'
 import SelectTokenDrawer from '../../SelectTokenDrawer'
 import ConfirmLimitOrderDrawer from '../../ConfirmLimitOrderDrawer'
@@ -20,7 +21,8 @@ import { RowBetween } from 'src/components/Row'
 import { NATIVE } from 'src/constants'
 import LimitOrderDetailInfo from '../../LimitOrderDetailInfo'
 import TradeOption from '../TradeOption'
-import { wrappedCurrency } from 'src/utils/wrappedCurrency'
+import { wrappedGelatoCurrency } from 'src/utils/wrappedCurrency'
+import { useSwapActionHandlers } from 'src/state/swap/hooks'
 
 enum Rate {
   DIV = 'DIV',
@@ -66,6 +68,8 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
     orderState: { independentField, rateType }
   } = useGelatoLimitOrders()
 
+  const { onCurrencySelection: onSwapCurrencySelection } = useSwapActionHandlers()
+
   // get custom setting values for user
   const [allowedSlippage] = useUserSlippageTolerance()
   const recipient = account ?? null
@@ -90,6 +94,14 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
           inputTokenInfo?.symbol,
           inputTokenInfo?.name
         )
+      : gelatoInputCurrency && gelatoInputCurrency.isToken
+      ? new Token(
+          gelatoInputCurrency?.chainId,
+          gelatoInputCurrency?.address,
+          gelatoInputCurrency?.decimals,
+          gelatoInputCurrency?.symbol,
+          gelatoInputCurrency?.name
+        )
       : undefined
 
   const outputCurrency =
@@ -104,6 +116,14 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
           outputTokenInfo?.decimals,
           outputTokenInfo?.symbol,
           outputTokenInfo?.name
+        )
+      : gelatoOutputCurrency && gelatoOutputCurrency.isToken
+      ? new Token(
+          gelatoOutputCurrency?.chainId,
+          gelatoOutputCurrency?.address,
+          gelatoOutputCurrency?.decimals,
+          gelatoOutputCurrency?.symbol,
+          gelatoOutputCurrency?.name
         )
       : undefined
 
@@ -170,7 +190,9 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
     }
   }, [approval, approvalSubmitted])
 
-  const maxAmountInput: CurrencyAmount | undefined = galetoMaxAmountSpend(currencyBalances[LimitField.INPUT])
+  const maxAmountInput: CurrencyAmount<UniCurrency> | undefined = galetoMaxAmountSpend(
+    currencyBalances[LimitField.INPUT]
+  )
 
   // for limit swap
   const handleSwap = useCallback(() => {
@@ -292,8 +314,10 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
       }
 
       onCurrencySelection(tokenDrawerType as any, newCurrency)
+      // this is to update tokens on chart on token selection
+      onSwapCurrencySelection(tokenDrawerType as any, currency)
     },
-    [tokenDrawerType, onCurrencySelection]
+    [tokenDrawerType, onCurrencySelection, onSwapCurrencySelection]
   )
 
   const handleApprove = useCallback(async () => {
@@ -363,7 +387,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
         }}
         id="swap-button"
         isDisabled={!isValid || !!swapInputError}
-        backgroundColor={isValid ? 'red1' : undefined}
+        backgroundColor={isValid ? 'primary' : undefined}
       >
         {swapInputError ? swapInputError : t('swapPage.placeOrder')}
       </Button>
@@ -381,9 +405,9 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
               setSelectedPercentage(value)
 
               if (maxAmountInput) {
-                const multipyAmount = JSBI.multiply(maxAmountInput?.raw, JSBI.BigInt(value))
+                const multipyAmount = JSBI.multiply(maxAmountInput?.numerator, JSBI.BigInt(value)) //Currency from uniswap sdk-core not contain raw function
                 const divideAmount = JSBI.divide(multipyAmount, JSBI.BigInt(100))
-                const token = wrappedCurrency(maxAmountInput?.currency ?? undefined, chainId) as Token
+                const token = wrappedGelatoCurrency(maxAmountInput?.currency ?? undefined, chainId) as Token
                 const newFinalAmount = new TokenAmount(token, divideAmount)
 
                 onUserInput(LimitNewField.INPUT as any, newFinalAmount.toExact())

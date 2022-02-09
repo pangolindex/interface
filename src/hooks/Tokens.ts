@@ -1,14 +1,17 @@
+import { useMemo, useEffect, useState } from 'react'
 import { parseBytes32String } from '@ethersproject/strings'
 import { Currency, CAVAX, Token, currencyEquals } from '@pangolindex/sdk'
-import { useMemo } from 'react'
 import ERC20_INTERFACE, { ERC20_BYTES32_INTERFACE } from '../constants/abis/erc20'
 import { useSelectedTokenList } from '../state/lists/hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../state/multicall/hooks'
 import { useUserAddedTokens } from '../state/user/hooks'
 import { isAddress } from '../utils'
-
 import { useActiveWeb3React } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
+import { COIN_ID_OVERRIDE } from 'src/constants'
+import CoinGecko from 'coingecko-api'
+
+const CoinGeckoClient = new CoinGecko()
 
 export function useAllTokens(): { [address: string]: Token } {
   const { chainId } = useActiveWeb3React()
@@ -160,11 +163,73 @@ export function useTokens(tokensAddress: string[] = []): Array<Token | undefined
 
       return acc
     }, [])
-  }, [chainId, decimals, symbols, symbolsBytes32, tokensName, tokensNameBytes32])
+  }, [chainId, decimals, symbols, symbolsBytes32, tokensName, tokensNameBytes32, tokens, tokensAddress])
 }
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
   const isAVAX = currencyId?.toUpperCase() === 'AVAX'
   const token = useToken(isAVAX ? undefined : currencyId)
   return isAVAX ? CAVAX : token
+}
+
+export const useCoinGeckoAllCoins = () => {
+  const [coins, setCoins] = useState([] as any[])
+
+  useEffect(() => {
+    fetch(`https://api.coingecko.com/api/v3/coins/list`)
+      .then(res => res.json())
+      .then(val => setCoins(val))
+  }, [])
+
+  return coins
+}
+
+export function useCoinGeckoTokenData(symbol?: string, name?: string) {
+  const [result, setResult] = useState({} as { coinId: string; homePage: string; description: string })
+  const allCoins = useCoinGeckoAllCoins()
+
+  useEffect(() => {
+    let data = {} as { coinId: string; homePage: string; description: string }
+
+    let getCoinData = async () => {
+      try {
+        let newSymbol = (symbol || '')?.split('.')[0]
+        const isWrappedToken = (name || '')?.split(' ')[0].toLowerCase() === 'wrapped'
+        if (isWrappedToken) {
+          if (newSymbol?.charAt(0)?.toLocaleLowerCase() === 'w') {
+            newSymbol = newSymbol?.substring(1)
+          }
+        }
+        newSymbol = newSymbol?.toUpperCase()
+
+        const coinId =
+          newSymbol in COIN_ID_OVERRIDE // here we are checking existance of key instead of value of key, because value of key might be undefined
+            ? undefined
+            : allCoins.find((data: any) => data?.symbol?.toUpperCase() === newSymbol)?.id
+
+        if (!!coinId) {
+          let coin = (await CoinGeckoClient.coins.fetch(coinId, {
+            tickers: false,
+            community_data: false,
+            developer_data: false,
+            localization: false,
+            sparkline: false
+          })) as any
+
+          data.coinId = coinId
+          data.homePage = coin?.data?.links?.homepage?.[0]
+          data.description = coin?.data?.description?.en
+        }
+
+        setResult(data)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    if (symbol && name) {
+      getCoinData()
+    }
+  }, [symbol, name, allCoins])
+
+  return result
 }

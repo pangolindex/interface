@@ -5,7 +5,7 @@ import { Token, Trade, TradeType, CAVAX } from '@pangolindex/sdk'
 import { CurrencyLogo, Text, Box, Button } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import { getEtherscanLink } from 'src/utils'
-import Drawer from '../Drawer'
+import Drawer from 'src/components/Drawer'
 import {
   TokenRow,
   Header,
@@ -93,13 +93,23 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
       ? CAVAX
       : inputTokenInfo && inputTokenInfo.symbol === CAVAX.symbol
       ? CAVAX
-      : new Token(
+      : inputTokenInfo
+      ? new Token(
           inputTokenInfo?.chainId,
           inputTokenInfo?.address,
           inputTokenInfo?.decimals,
           inputTokenInfo?.symbol,
           inputTokenInfo?.name
         )
+      : inputCurrency1
+      ? new Token(
+          inputCurrency1?.chainId,
+          inputCurrency1?.address,
+          inputCurrency1?.decimals,
+          inputCurrency1?.symbol,
+          inputCurrency1?.name
+        )
+      : undefined
 
   const outputCurrency =
     outputCurrency1 && outputCurrency1?.symbol === CAVAX.symbol
@@ -113,6 +123,14 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
           outputTokenInfo?.decimals,
           outputTokenInfo?.symbol,
           outputTokenInfo?.name
+        )
+      : outputCurrency1
+      ? new Token(
+          outputCurrency1.chainId,
+          outputCurrency1.address,
+          outputCurrency1.decimals,
+          outputCurrency1?.symbol,
+          outputCurrency1?.name
         )
       : undefined
 
@@ -134,7 +152,7 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
           <Text
             fontSize={24}
             fontWeight={500}
-            color={showAcceptChanges && trade.tradeType === TradeType.EXACT_OUTPUT ? 'primary1' : 'text1'}
+            color={showAcceptChanges && trade.tradeType === TradeType.EXACT_OUTPUT ? 'primary' : 'text1'}
             style={{ marginLeft: '12px' }}
           >
             {inputAmount.toSignificant(6)}
@@ -152,7 +170,7 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
               fontSize={24}
               fontWeight={500}
               style={{ marginLeft: '12px' }}
-              color={showAcceptChanges && trade.tradeType === TradeType.EXACT_INPUT ? 'primary1' : 'text1'}
+              color={showAcceptChanges && trade.tradeType === TradeType.EXACT_INPUT ? 'primary' : 'text1'}
             >
               {outputAmount.toSignificant(6)}
             </Text>
@@ -247,7 +265,7 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
     <SubmittedWrapper>
       <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" paddingY={'20px'}>
         <Box flex="1" display="flex" alignItems="center">
-          <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary1} />
+          <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary} />
         </Box>
         <Text fontWeight={500} fontSize={20} color="text1">
           {t('transactionConfirmation.transactionSubmitted')}
@@ -257,8 +275,9 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
             as="a"
             fontWeight={500}
             fontSize={14}
-            color={'primary1'}
+            color={'primary'}
             href={getEtherscanLink(chainId, txHash, 'transaction')}
+            target="_blank"
           >
             {t('transactionConfirmation.viewExplorer')}
           </Link>

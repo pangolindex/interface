@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { PanelWrapper } from './styleds'
+import { PanelWrapper, MobileStat } from './styleds'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import Stat from 'src/components/Stat'
 import { ThemeContext } from 'styled-components'
@@ -45,75 +45,88 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
   let perc = decreaseValue && lastDaypair0UsdcPrice ? (decreaseValue / lastDaypair0UsdcPrice) * 100 : 0
 
   return (
-    <PanelWrapper>
-      <Box
-        borderRight={`1px solid ${theme.text2}`}
-        padding={'10px 10px'}
-        display="flex"
-        alignItems="center"
-        height="100%"
-        minWidth={270}
-      >
-        <DoubleCurrencyLogo size={24} currency0={inputCurrency} currency1={outputCurrency} />
-        <Text color="text1" fontSize={24} fontWeight={500} lineHeight="55px" marginLeft={10}>
-          {inputCurrency?.symbol}/{outputCurrency?.symbol}
-        </Text>
-      </Box>
-      <Box padding="10px 6px">
-        <Stat
-          title={`${inputCurrency?.symbol} ${t('swap.price')}`}
-          stat={`$${inputUsdcPrice ? inputUsdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}`}
-          titlePosition="top"
-          titleFontSize={16}
-          statFontSize={24}
-          titleColor="text2"
-        />
-      </Box>
+    <Box>
+      <MobileStat>
+        <Box display="flex" alignItems="center">
+          <DoubleCurrencyLogo size={20} currency0={inputCurrency} currency1={outputCurrency} />
+          <Text color="text1" fontSize={20} fontWeight={500} lineHeight="55px" marginLeft={10}>
+            {inputCurrency?.symbol}/{outputCurrency?.symbol}
+          </Text>
+        </Box>
 
-      <Box padding="10px 6px">
-        <Stat
-          title={`${outputCurrency?.symbol} ${t('swap.price')}`}
-          stat={`$${outputUsdcPrice ? outputUsdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}`}
-          titlePosition="top"
-          titleFontSize={16}
-          statFontSize={24}
-          titleColor="text2"
-        />
-      </Box>
+        <Stat stat={`${Pair0UsdcPrice ? Pair0UsdcPrice?.toFixed(4) : '-'}`} statFontSize={20} />
+      </MobileStat>
 
-      <Box padding="10px 6px">
-        <Stat
-          title={`${inputCurrency?.symbol}/${outputCurrency?.symbol}`}
-          stat={`${Pair0UsdcPrice ? Pair0UsdcPrice?.toFixed(4) : '-'}`}
-          titlePosition="top"
-          titleFontSize={16}
-          statFontSize={24}
-          titleColor="text2"
-        />
-      </Box>
+      <PanelWrapper>
+        <Box
+          borderRight={`1px solid ${theme.text2}`}
+          padding={'10px 10px'}
+          display="flex"
+          alignItems="center"
+          height="100%"
+          minWidth={270}
+        >
+          <DoubleCurrencyLogo size={24} currency0={inputCurrency} currency1={outputCurrency} />
+          <Text color="text1" fontSize={24} fontWeight={500} lineHeight="55px" marginLeft={10}>
+            {inputCurrency?.symbol}/{outputCurrency?.symbol}
+          </Text>
+        </Box>
+        <Box padding="10px 6px">
+          <Stat
+            title={`${inputCurrency?.symbol} ${t('swap.price')}`}
+            stat={`$${inputUsdcPrice ? inputUsdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}`}
+            titlePosition="top"
+            titleFontSize={16}
+            statFontSize={24}
+            titleColor="text2"
+          />
+        </Box>
 
-      <Box padding="10px 6px">
-        <Stat
-          title={`${outputCurrency?.symbol}/${inputCurrency?.symbol}`}
-          stat={`${Pair1UsdcPrice ? Pair1UsdcPrice?.toFixed(4) : '-'}`}
-          titlePosition="top"
-          titleFontSize={16}
-          statFontSize={24}
-          titleColor="text2"
-        />
-      </Box>
+        <Box padding="10px 6px">
+          <Stat
+            title={`${outputCurrency?.symbol} ${t('swap.price')}`}
+            stat={`$${outputUsdcPrice ? outputUsdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}`}
+            titlePosition="top"
+            titleFontSize={16}
+            statFontSize={24}
+            titleColor="text2"
+          />
+        </Box>
 
-      <Box padding="10px 6px">
-        <Stat
-          title={`24H ${t('accountDetails.change')}`}
-          stat={perc ? `${perc.toFixed(3)}%` : '-'}
-          titlePosition="top"
-          titleFontSize={16}
-          statFontSize={24}
-          titleColor="text2"
-        />
-      </Box>
-    </PanelWrapper>
+        <Box padding="10px 6px">
+          <Stat
+            title={`${inputCurrency?.symbol}/${outputCurrency?.symbol}`}
+            stat={`${Pair0UsdcPrice ? Pair0UsdcPrice?.toFixed(4) : '-'}`}
+            titlePosition="top"
+            titleFontSize={16}
+            statFontSize={24}
+            titleColor="text2"
+          />
+        </Box>
+
+        <Box padding="10px 6px">
+          <Stat
+            title={`${outputCurrency?.symbol}/${inputCurrency?.symbol}`}
+            stat={`${Pair1UsdcPrice ? Pair1UsdcPrice?.toFixed(4) : '-'}`}
+            titlePosition="top"
+            titleFontSize={16}
+            statFontSize={24}
+            titleColor="text2"
+          />
+        </Box>
+
+        <Box padding="10px 6px">
+          <Stat
+            title={`24H ${t('accountDetails.change')}`}
+            stat={perc ? `${perc.toFixed(3)}%` : '-'}
+            titlePosition="top"
+            titleFontSize={16}
+            statFontSize={24}
+            titleColor="text2"
+          />
+        </Box>
+      </PanelWrapper>
+    </Box>
   )
 }
 export default PairStat

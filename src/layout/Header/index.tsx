@@ -1,6 +1,7 @@
 import { ChainId, TokenAmount } from '@pangolindex/sdk'
 import { Button } from '@pangolindex/components'
-import React, { useState, useRef } from 'react'
+import React, { useContext, useState, useRef } from 'react'
+import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { useETHBalances, useAggregatePngBalance } from '../../state/wallet/hooks'
 import { CardNoise } from '../../components/earn/styled'
@@ -30,11 +31,13 @@ import {
   BalanceText,
   ThemeMode,
   MobileHeader,
-  StyledMenuIcon,
-  MobileLogoWrapper
+  FooterMobileControls,
+  MobileLogoWrapper,
+  LegacyButtonWrapper
 } from './styled'
-import Logo from '../Logo'
 import { useTranslation } from 'react-i18next'
+import MobileFooter from '../MobileFooter'
+import { Logo } from '../../components/Icons'
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: 'Fuji',
@@ -48,6 +51,7 @@ interface HeaderProps {
 export default function Header({ onCollapsed }: HeaderProps) {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
+  const theme = useContext(ThemeContext)
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
 
   const aggregateBalance: TokenAmount | undefined = useAggregatePngBalance()
@@ -70,17 +74,24 @@ export default function Header({ onCollapsed }: HeaderProps) {
       </Modal>
 
       <MobileHeader>
-        <StyledMenuIcon onClick={() => onCollapsed()} />
         <MobileLogoWrapper>
-          <Logo collapsed={false} />
+          <Logo height={30} width={140} fillColor={theme.color6} />
         </MobileLogoWrapper>
+
+        <Web3Status />
       </MobileHeader>
+
+      <FooterMobileControls>
+        <MobileFooter />
+      </FooterMobileControls>
 
       <HeaderControls>
         <HeaderElement>
-          <Button variant="primary" height={36} padding="4px 6px" href="/" as="a">
-            <span style={{ whiteSpace: 'nowrap' }}>{t('header.returnToLegacySite')}</span>
-          </Button>
+          <LegacyButtonWrapper>
+            <Button variant="primary" height={36} padding="4px 6px" href="/" as="a">
+              <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
+            </Button>
+          </LegacyButtonWrapper>
           <HideSmall>
             {chainId && NETWORK_LABELS[chainId] && (
               <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
@@ -91,7 +102,7 @@ export default function Header({ onCollapsed }: HeaderProps) {
               <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
                 {account && (
                   <HideSmall>
-                    <TYPE.white
+                    <TYPE.black
                       style={{
                         paddingRight: '.4rem'
                       }}
@@ -104,7 +115,7 @@ export default function Header({ onCollapsed }: HeaderProps) {
                         thousandsSeparator={','}
                         duration={1}
                       />
-                    </TYPE.white>
+                    </TYPE.black>
                   </HideSmall>
                 )}
                 PNG

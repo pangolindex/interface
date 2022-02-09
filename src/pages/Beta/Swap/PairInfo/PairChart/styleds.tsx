@@ -4,8 +4,11 @@ export const ChartWrapper = styled.div`
   width: 100%;
   padding: 10px;
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.bg2};
+  background-color: ${({ theme }) => theme.color2};
   position: relative;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
 `
 
 export const ChartContainer = styled.div`

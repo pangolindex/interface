@@ -1,5 +1,6 @@
 import { CurrencyAmount, CAVAX, JSBI } from '@pangolindex/sdk'
 import { MIN_ETH } from '../constants'
+import { CurrencyAmount as UniCurrencyAmount, Currency } from "@uniswap/sdk-core"
 
 /**
  * Given some token amount, return the max that can be spent of it
@@ -17,11 +18,11 @@ export function maxAmountSpend(currencyAmount?: CurrencyAmount): CurrencyAmount 
   return currencyAmount
 }
 
-export function galetoMaxAmountSpend(currencyAmount?: any): any | undefined {
+export function galetoMaxAmountSpend(currencyAmount?: UniCurrencyAmount<Currency>): any | undefined {
   if (!currencyAmount) return undefined
-  if (currencyAmount.currency === CAVAX) {
-    if (JSBI.greaterThan(currencyAmount, MIN_ETH)) {
-      return CurrencyAmount.ether(JSBI.subtract(currencyAmount.raw, MIN_ETH))
+  if (!currencyAmount.currency.isToken) {
+    if (JSBI.greaterThan(currencyAmount.numerator, MIN_ETH)) {
+      return CurrencyAmount.ether(JSBI.subtract(currencyAmount.numerator, MIN_ETH))
     } else {
       return CurrencyAmount.ether(JSBI.BigInt(0))
     }

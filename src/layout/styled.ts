@@ -6,10 +6,12 @@ export const MainContent = styled.div<{ collapsed: boolean }>`
     min-height: 100vh;
     margin-left: 70px;
     width: calc(100% - 70px);
+    display: flex;
+    flex-direction: column;
 
     ${({ theme }) => theme.mediaWidth.upToSmall`
-    margin-left: 0;
-    width : 100%;
+      margin-left: 0;
+      width : 100%;
     `};
   }
 `
@@ -19,7 +21,7 @@ export const AppContent = styled.div`
   flex-direction: column;
   width: 100%;
   padding-top: 100px;
-  padding: 50px;
+  padding: 0px 50px;
   height: 100%;
   flex: 1;
   overflow-y: auto;
@@ -36,7 +38,5 @@ export const AppContent = styled.div`
 `
 
 export const Wrapper = styled(Box)`
-  &&& {
-    min-height: 100vh;
-  }
+  flex: 1;
 `

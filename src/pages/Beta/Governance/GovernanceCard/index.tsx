@@ -27,7 +27,7 @@ const GovernanceCard = ({ id, title, to, status }: GovernanceCardProps) => {
   const [isDark] = useDarkModeManager()
 
   const bgColors = {
-    vote: colors(isDark).color1,
+    vote: colors(isDark).color11,
     executed: colors(isDark).green2Gradient,
     defeated: colors(isDark).red3Gradient
   }
@@ -40,11 +40,16 @@ const GovernanceCard = ({ id, title, to, status }: GovernanceCardProps) => {
 
   return (
     <Card>
-      <CardTitle>
+      <CardTitle style={{maxWidth: '55%'}}>
         <Text fontSize={28} lineHeight="42px" color="text10" style={{ marginRight: '21px' }}>
           {id}.
         </Text>
-        <Text fontSize={28} lineHeight="42px" color="text10">
+        <Text
+          fontSize={28}
+          lineHeight="42px"
+          color="text10"
+          style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}
+        >
           {title}
         </Text>
       </CardTitle>

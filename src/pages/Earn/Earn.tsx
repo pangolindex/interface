@@ -11,7 +11,6 @@ import { AutoRow, RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
 import { useActiveWeb3React } from '../../hooks'
-import { JSBI } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import useDebounce from '../../hooks/useDebounce'
@@ -89,7 +88,6 @@ const SuperFarmToggle = styled.div`
 
 enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
-  multiplier = 'multiplier',
   totalApr = 'totalApr'
 }
 
@@ -138,13 +136,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
           return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
         }
       }
-      if (sortBy.field === SortingType.multiplier) {
-        if (sortBy.desc) {
-          return JSBI.greaterThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
-        } else {
-          return JSBI.lessThan(info_a.multiplier, info_b.multiplier) ? -1 : 1
-        }
-      }
+
       if (sortBy.field === SortingType.totalApr) {
         if (sortBy.desc) {
           return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
@@ -366,7 +358,6 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                   Sort by :{' '}
                   <SortFieldContainer>
                     {getSortField('Liquidity', SortingType.totalStakedInUsd, sortBy, setSortBy)} |{' '}
-                    {getSortField('Pool Weight', SortingType.multiplier, sortBy, setSortBy)} |{' '}
                   </SortFieldContainer>
                   {getSortField('APR', SortingType.totalApr, sortBy, setSortBy)}
                 </SortSection>
