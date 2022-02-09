@@ -13,7 +13,6 @@ import MobileLimitOrderRow from './MobileLimitOrderRow'
 import ShowMore from 'src/components/Beta/ShowMore'
 
 export enum TabType {
-  all = 'ALL',
   open = 'OPEN',
   executed = 'EXECUTED',
   cancelled = 'CANCELLED'
@@ -22,11 +21,11 @@ export enum TabType {
 const LimitOrderList = () => {
   const { t } = useTranslation()
 
-  const [activeTab, setActiveTab] = useState(TabType.all as string)
+  const [activeTab, setActiveTab] = useState(TabType.open as string)
 
   const [showMore, setShowMore] = useState(false as boolean)
 
-  const { allOrders, allOpenOrders, allCancelledOrders, executed } = useGelatoLimitOrderList()
+  const { allOpenOrders, allCancelledOrders, executed } = useGelatoLimitOrderList()
 
   const [isCancelLimitOrderModalOpen, setIsCancelLimitOrderModalOpen] = useState(false)
 
@@ -42,10 +41,8 @@ const LimitOrderList = () => {
     displayOrders = allOpenOrders
   } else if (activeTab === TabType.cancelled) {
     displayOrders = allCancelledOrders
-  } else if (activeTab === TabType.executed) {
-    displayOrders = executed
   } else {
-    displayOrders = allOrders
+    displayOrders = executed
   }
 
   useEffect(() => {
@@ -118,7 +115,7 @@ const LimitOrderList = () => {
 
           <Box>
             <ToggleButtons
-              options={[t('swapPage.all'), t('swapPage.open'), t('swapPage.executed'), t('swapPage.cancelled')]}
+              options={[t('swapPage.open'), t('swapPage.executed'), t('swapPage.cancelled')]}
               value={activeTab}
               onChange={value => {
                 setActiveTab(value)

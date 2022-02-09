@@ -27,7 +27,6 @@ const OrderTypeDropdown: React.FC<Props> = ({ activeTab, onChange }) => {
 
       {open && (
         <NarrowMenuFlyout>
-          <Link onClick={() => onChange(TabType.all)}>{TabType.all}</Link>
           <Link onClick={() => onChange(TabType.open)}>{TabType.open}</Link>
           <Link onClick={() => onChange(TabType.executed)}>{TabType.executed}</Link>
           <Link onClick={() => onChange(TabType.cancelled)}>{TabType.cancelled}</Link>
