@@ -116,7 +116,10 @@ import {
   LUNA,
   IME,
   MONEY,
-  YDR
+  YDR,
+  FIRE,
+  BAVA,
+  BRIBE
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1365,6 +1368,21 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   WAVAX_YDR_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], YDR[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_FIRE_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], FIRE[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_BAVA_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], BAVA[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_BRIBE_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], BRIBE[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   }
