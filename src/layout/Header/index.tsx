@@ -1,5 +1,5 @@
 import { ChainId, TokenAmount } from '@pangolindex/sdk'
-import { Button } from '@pangolindex/components'
+import { Button, Box } from '@pangolindex/components'
 import React, { useContext, useState, useRef } from 'react'
 import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
@@ -78,7 +78,17 @@ export default function Header({ onCollapsed }: HeaderProps) {
           <Logo height={30} width={140} fillColor={theme.color6} />
         </MobileLogoWrapper>
 
-        <Web3Status />
+        <Box display="flex" alignItems="center">
+          <Web3Status />
+
+          <ThemeMode onClick={() => toggleDarkMode()}>
+            {isDark ? (
+              <img width={'16px'} src={LightMode} alt={'Setting'} />
+            ) : (
+              <img width={'16px'} src={NightMode} alt={'NightMode'} />
+            )}
+          </ThemeMode>
+        </Box>
       </MobileHeader>
 
       <FooterMobileControls>

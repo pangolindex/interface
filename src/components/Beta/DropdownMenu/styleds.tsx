@@ -25,7 +25,6 @@ export const StyledMenuButton = styled.div<{ height?: string }>`
   border-radius: 8px;
   border: none;
   min-width: 120px;
-
   :hover,
   :focus {
     cursor: pointer;
@@ -36,9 +35,14 @@ export const StyledMenuButton = styled.div<{ height?: string }>`
 
 export const NarrowMenuFlyout = styled(MenuFlyout)`
   min-width: 8.125rem;
+  width: 100%;
   top: 3rem;
   background-color: ${({ theme }) => theme.color5};
   border-radius: 8px;
+  box-shadow: ${({
+    theme
+  }) => `0px 0px 1px ${theme.advancedBG}, 0px 4px 8px ${theme.advancedBG}, 0px 16px 24px ${theme.advancedBG},
+    0px 24px 32px ${theme.advancedBG}`};
 
   div {
     color: ${({ theme }) => theme.color6};

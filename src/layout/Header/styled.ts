@@ -170,6 +170,12 @@ export const ThemeMode = styled(BlackCard)`
     outline: none;
     background-color: ${({ theme }) => theme.bg4};
   }
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    padding: 10px;
+    border: none;
+    height: 45px;
+    background-color: ${({ theme }) => theme.color7};
+  `};
 `
 
 export const MobileHeader = styled.div`
