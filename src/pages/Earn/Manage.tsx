@@ -20,6 +20,7 @@ import { currencyId } from '../../utils/currencyId'
 import { BIG_INT_ZERO } from '../../constants'
 import { useTranslation } from 'react-i18next'
 import RewardCard from './RewardCard'
+import { BETA_MENU_LINK } from 'src/constants'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -190,7 +191,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
               <RowBetween style={{ marginBottom: '1rem' }}>
                 <TYPE.white fontSize={14}>{t('earnPage.migrateDescription')}</TYPE.white>
               </RowBetween>
-              <ButtonPrimary padding="8px" width={'fit-content'} as={Link} to={`/beta/migrate/1`}>
+              <ButtonPrimary padding="8px" width={'fit-content'} as={Link} to={`${BETA_MENU_LINK.migrate}/1`}>
                 {t('earnPage.migrate')}
               </ButtonPrimary>
             </AutoColumn>

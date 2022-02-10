@@ -30,6 +30,7 @@ import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { MenuFlyout, MenuNavItem } from '../StyledMenu'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
+import { BETA_MENU_LINK } from 'src/constants'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -377,7 +378,15 @@ export default function Header() {
       <HeaderControls>
         <HeaderElement>
           <HideSmall>
-            <Button variant="primary" height={36} padding="4px 6px" href="#/beta/dashboard" backgroundColor={"#f05629"} as="a" target=''>
+            <Button
+              variant="primary"
+              height={36}
+              padding="4px 6px"
+              href={`#${BETA_MENU_LINK.dashboard}`}
+              backgroundColor={'#f05629'}
+              as="a"
+              target=""
+            >
               <span style={{ whiteSpace: 'nowrap' }}>{t('header.switchToNewUI')}</span>
             </Button>
           </HideSmall>
