@@ -30,9 +30,3 @@ export const ExternalLink = styled.a`
   border-radius: 10px;
   margin-bottom: 15px;
 `
-
-export const HideSmall = styled.span`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
-  `};
-`

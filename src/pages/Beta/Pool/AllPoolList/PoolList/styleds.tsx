@@ -46,12 +46,6 @@ export const PanelWrapper = styled.div`
 export const SearchInput = styled(TextInput)`
   background-color: ${({ theme }) => theme.bg8};
 `
-export const HideSmall = styled.span`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
-  `};
-`
-
 export const MobileGridContainer = styled(Box)`
   display: none;
   ${({ theme }) => theme.mediaWidth.upToSmall`

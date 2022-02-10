@@ -130,12 +130,6 @@ export const PNGWrapper = styled.span`
   }
 `
 
-export const HideSmall = styled.span`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
-  `};
-`
-
 export const NetworkCard = styled(BlackCard)`
   border-radius: 12px;
   padding: 8px 12px;

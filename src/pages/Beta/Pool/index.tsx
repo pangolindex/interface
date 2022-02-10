@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Box } from '@pangolindex/components'
-import { PageWrapper, GridContainer, ExternalLink, HideSmall } from './styleds'
+import { PageWrapper, GridContainer, ExternalLink } from './styleds'
 import Sidebar from './Sidebar'
 import AllPoolList from './AllPoolList'
 import Wallet from './Wallet'
@@ -8,6 +8,7 @@ import { MenuType } from './Sidebar'
 import { useTranslation } from 'react-i18next'
 import { useMinichefStakingInfos, useStakingInfo } from 'src/state/stake/hooks'
 import { BIG_INT_ZERO } from 'src/constants'
+import { Hidden } from 'src/theme'
 
 export enum PoolType {
   own = 'own',
@@ -123,7 +124,7 @@ const PoolUI = () => {
           )}
         </Box>
 
-        <HideSmall>
+        <Hidden upToSmall={true}>
           <Box>
             <ExternalLink
               href="https://app.nexusmutual.io/cover/buy/get-quote?address=0xefa94DE7a4656D787667C749f7E1223D71E9FD88"
@@ -139,7 +140,7 @@ const PoolUI = () => {
             </ExternalLink>
             {/* <Migration /> */}
           </Box>
-        </HideSmall>
+        </Hidden>
       </GridContainer>
     </PageWrapper>
   )

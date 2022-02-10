@@ -12,7 +12,7 @@ import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
 import { BIG_INT_ZERO } from 'src/constants'
 import Scrollbars from 'react-custom-scrollbars'
-import { PoolsWrapper, PanelWrapper, LoadingWrapper, HideSmall, MobileGridContainer } from './styleds'
+import { PoolsWrapper, PanelWrapper, LoadingWrapper, MobileGridContainer } from './styleds'
 import {
   usePoolDetailnModalToggle,
   useAddLiquiditynModalToggle,
@@ -26,6 +26,7 @@ import ClaimRewardModal from '../../ClaimRewardModal'
 import WithdrawModal from '../../WithdrawModal'
 import StakeModal from '../../StakeModal'
 import DropdownMenu from 'src/components/Beta/DropdownMenu'
+import { Hidden } from 'src/theme'
 
 export enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
@@ -258,7 +259,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
                 addonAfter={<Search style={{ marginTop: '5px' }} color={theme.text2} size={20} />}
               />
             </Box>
-            <HideSmall>
+            <Hidden upToSmall={true}>
               <Box ml={10}>
                 <DropdownMenu
                   title="Sort by:"
@@ -270,7 +271,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
                   height="54px"
                 />
               </Box>
-            </HideSmall>
+            </Hidden>
           </Box>
           <MobileGridContainer>
             <DropdownMenu
