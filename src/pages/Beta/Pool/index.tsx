@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Box } from '@pangolindex/components'
-import { PageWrapper, GridContainer, ExternalLink } from './styleds'
+import { PageWrapper, GridContainer, ExternalLink, HideSmall } from './styleds'
 import Sidebar from './Sidebar'
 import AllPoolList from './AllPoolList'
 import Wallet from './Wallet'
@@ -39,40 +39,40 @@ const PoolUI = () => {
 
   let superFarms = stakingInfoV2.filter(item => (item?.rewardTokensAddress?.length || 0) > 0)
 
-  let menuItems: Array<{ title: string; value: string }> = []
+  let menuItems: Array<{ label: string; value: string }> = []
 
   // add v1
   if (stakingInfoV1.length > 0) {
     menuItems.push({
-      title: `${t('pool.allPools')} (V1)`,
+      label: `${t('pool.allPools')} (V1)`,
       value: MenuType.allPoolV1
     })
   }
   // add v2
   if (stakingInfoV2.length > 0) {
     menuItems.push({
-      title: stakingInfoV1.length > 0 ? `${t('pool.allPools')} (V2)` : `${t('pool.allPools')}`,
+      label: stakingInfoV1.length > 0 ? `${t('pool.allPools')} (V2)` : `${t('pool.allPools')}`,
       value: MenuType.allPoolV2
     })
   }
   // add own v1
   if (ownStakingInfoV1.length > 0) {
     menuItems.push({
-      title: `${t('pool.yourPools')} (V1)`,
+      label: `${t('pool.yourPools')} (V1)`,
       value: MenuType.yourPoolV1
     })
   }
   // add own v2
   if (ownStakingInfoV2.length > 0) {
     menuItems.push({
-      title: ownStakingInfoV1.length > 0 ? `${t('pool.yourPools')} (V2)` : `${t('pool.yourPools')}`,
+      label: ownStakingInfoV1.length > 0 ? `${t('pool.yourPools')} (V2)` : `${t('pool.yourPools')}`,
       value: MenuType.yourPoolV2
     })
   }
   // add superfarm
   if (superFarms.length > 0) {
     menuItems.push({
-      title: 'Super Farms',
+      label: 'Super Farms',
       value: MenuType.superFarm
     })
   }
@@ -80,7 +80,7 @@ const PoolUI = () => {
   if (menuItems.length > 0) {
     // add wallet
     menuItems.push({
-      title: `${t('pool.yourWallet')}`,
+      label: `${t('pool.yourWallet')}`,
       value: MenuType.yourWallet
     })
   }
@@ -113,26 +113,33 @@ const PoolUI = () => {
               version={activeMenu === MenuType.allPoolV1 || activeMenu === MenuType.yourPoolV1 ? 1 : 2}
               stakingInfoV1={stakingInfoV1}
               stakingInfoV2={stakingInfoV2}
+              activeMenu={activeMenu}
+              setMenu={(value: string) => setMenu(value)}
+              menuItems={menuItems}
             />
           )}
-          {activeMenu === MenuType.yourWallet && <Wallet />}
+          {activeMenu === MenuType.yourWallet && (
+            <Wallet activeMenu={activeMenu} setMenu={(value: string) => setMenu(value)} menuItems={menuItems} />
+          )}
         </Box>
 
-        <Box>
-          <ExternalLink
-            href="https://app.nexusmutual.io/cover/buy/get-quote?address=0xefa94DE7a4656D787667C749f7E1223D71E9FD88"
-            target="_blank"
-          >
-            {t('earnPage.getCoverNexusMutual')}
-          </ExternalLink>
-          <ExternalLink
-            href="https://app.insurace.io/Insurance/BuyCovers?referrer=565928487188065888397039055593264600345483712698"
-            target="_blank"
-          >
-            {t('earnPage.getInsuranceCoverage')}
-          </ExternalLink>
-          {/* <Migration /> */}
-        </Box>
+        <HideSmall>
+          <Box>
+            <ExternalLink
+              href="https://app.nexusmutual.io/cover/buy/get-quote?address=0xefa94DE7a4656D787667C749f7E1223D71E9FD88"
+              target="_blank"
+            >
+              {t('earnPage.getCoverNexusMutual')}
+            </ExternalLink>
+            <ExternalLink
+              href="https://app.insurace.io/Insurance/BuyCovers?referrer=565928487188065888397039055593264600345483712698"
+              target="_blank"
+            >
+              {t('earnPage.getInsuranceCoverage')}
+            </ExternalLink>
+            {/* <Migration /> */}
+          </Box>
+        </HideSmall>
       </GridContainer>
     </PageWrapper>
   )

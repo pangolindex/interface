@@ -13,6 +13,10 @@ export const GridContainer = styled(Box)`
   grid-gap: 12px;
   padding: 50px 0px 0px;
   height: 100%;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    padding: 10px 0px 0px;
+    grid-template-columns: 100%;
+  `};
 `
 
 export const ExternalLink = styled.a`
@@ -25,4 +29,10 @@ export const ExternalLink = styled.a`
   justify-content: center;
   border-radius: 10px;
   margin-bottom: 15px;
+`
+
+export const HideSmall = styled.span`
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
 `

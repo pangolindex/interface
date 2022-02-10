@@ -12,8 +12,7 @@ import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
 import { BIG_INT_ZERO } from 'src/constants'
 import Scrollbars from 'react-custom-scrollbars'
-import { PoolsWrapper, PanelWrapper, LoadingWrapper } from './styleds'
-import SortOptions from '../SortOptions'
+import { PoolsWrapper, PanelWrapper, LoadingWrapper, HideSmall, MobileGridContainer } from './styleds'
 import {
   usePoolDetailnModalToggle,
   useAddLiquiditynModalToggle,
@@ -26,19 +25,34 @@ import AddLiquidityModal from '../../AddLiquidityModal'
 import ClaimRewardModal from '../../ClaimRewardModal'
 import WithdrawModal from '../../WithdrawModal'
 import StakeModal from '../../StakeModal'
+import DropdownMenu from 'src/components/Beta/DropdownMenu'
 
 export enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
   totalApr = 'totalApr'
 }
 
+export const SortOptions = [
+  {
+    label: 'Liquidity',
+    value: SortingType.totalStakedInUsd
+  },
+  {
+    label: 'APR',
+    value: SortingType.totalApr
+  }
+]
+
 export interface EarnProps {
   version: string
   stakingInfos: DoubleSideStakingInfo[]
   poolMap?: { [key: string]: number }
+  setMenu: (value: string) => void
+  activeMenu: string
+  menuItems: Array<{ label: string; value: string }>
 }
 
-const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
+const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu, activeMenu, menuItems }) => {
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
@@ -46,7 +60,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const [poolCards, setPoolCards] = useState<any[]>()
   const [filteredPoolCards, setFilteredPoolCards] = useState<any[]>()
   const [searchQuery, setSearchQuery] = useState<string>('')
-  const [sortBy, setSortBy] = useState<any>({ field: '', desc: true })
+  const [sortBy, setSortBy] = useState<string>('')
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
   const [stakingInfoData, setStakingInfoData] = useState<any[]>(stakingInfos)
 
@@ -90,20 +104,12 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   useEffect(() => {
     Promise.all(
       stakingInfoData.sort(function(info_a, info_b) {
-        if (sortBy.field === SortingType.totalStakedInUsd) {
-          if (sortBy.desc) {
-            return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-          } else {
-            return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-          }
+        if (sortBy === SortingType.totalStakedInUsd) {
+          return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
         }
 
-        if (sortBy.field === SortingType.totalApr) {
-          if (sortBy.desc) {
-            return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
-          } else {
-            return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
-          }
+        if (sortBy === SortingType.totalApr) {
+          return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
         }
         return 0
       })
@@ -137,7 +143,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
       setPoolCards(poolCards)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy?.field, sortBy?.desc, stakingInfoData])
+  }, [sortBy, stakingInfoData])
 
   useEffect(() => {
     setPoolCardsLoading(true)
@@ -252,8 +258,37 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 addonAfter={<Search style={{ marginTop: '5px' }} color={theme.text2} size={20} />}
               />
             </Box>
-            <SortOptions sortBy={sortBy} setSortBy={setSortBy} />
+            <HideSmall>
+              <Box ml={10}>
+                <DropdownMenu
+                  title="Sort by:"
+                  options={SortOptions}
+                  value={sortBy}
+                  onSelect={value => {
+                    setSortBy(value)
+                  }}
+                  height="54px"
+                />
+              </Box>
+            </HideSmall>
           </Box>
+          <MobileGridContainer>
+            <DropdownMenu
+              options={menuItems}
+              value={activeMenu}
+              onSelect={value => {
+                setMenu(value)
+              }}
+            />
+            <DropdownMenu
+              title="Sort by:"
+              options={SortOptions}
+              value={sortBy}
+              onSelect={value => {
+                setSortBy(value)
+              }}
+            />
+          </MobileGridContainer>
 
           <Scrollbars>
             <PanelWrapper>{filteredPoolCards}</PanelWrapper>
