@@ -11,7 +11,7 @@ type Props = {
   height?: string
 }
 
-const OrderTypeDropdown: React.FC<Props> = ({ value, onSelect, title, options, height }) => {
+const DropdownMenu: React.FC<Props> = ({ value, onSelect, title, options, height }) => {
   const node = useRef<HTMLDivElement>()
 
   const [open, setOpen] = useState<boolean>(false)
@@ -51,4 +51,4 @@ const OrderTypeDropdown: React.FC<Props> = ({ value, onSelect, title, options, h
   )
 }
 
-export default OrderTypeDropdown
+export default DropdownMenu

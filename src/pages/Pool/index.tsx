@@ -6,7 +6,7 @@ import { SwapPoolTabs } from '../../components/NavigationTabs'
 
 import FullPositionCard from '../../components/PositionCard'
 import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks'
-import { StyledInternalLink, TYPE, HideSmall, ExternalLink } from '../../theme'
+import { StyledInternalLink, TYPE, Hidden, ExternalLink } from '../../theme'
 import { Text } from 'rebass'
 import Card from '../../components/Card'
 import { RowBetween, RowFixed } from '../../components/Row'
@@ -158,11 +158,11 @@ export default function Pool() {
         <AutoColumn gap="lg" justify="center">
           <AutoColumn gap="lg" style={{ width: '100%' }}>
             <TitleRow style={{ marginTop: '1rem' }} padding={'0'}>
-              <HideSmall>
+              <Hidden upToSmall={true}>
                 <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
                   {t('pool.yourLiquidity')}
                 </TYPE.mediumHeader>
-              </HideSmall>
+              </Hidden>
               <ButtonRow>
                 <ResponsiveButtonSecondary as={Link} padding="6px 8px" to="/create/AVAX">
                   {t('pool.createPair')}

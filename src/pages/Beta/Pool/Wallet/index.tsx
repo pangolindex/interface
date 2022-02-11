@@ -40,6 +40,16 @@ const Wallet: React.FC<Props> = ({ setMenu, activeMenu, menuItems }) => {
 
   return (
     <PageWrapper>
+      <MobileContainer>
+        <DropdownMenu
+          options={menuItems}
+          value={activeMenu}
+          onSelect={value => {
+            setMenu(value)
+          }}
+        />
+      </MobileContainer>
+
       {!account ? (
         <Card padding="40px">
           <TYPE.body color={theme.text3} textAlign="center">
@@ -50,16 +60,6 @@ const Wallet: React.FC<Props> = ({ setMenu, activeMenu, menuItems }) => {
         <Loader style={{ margin: 'auto' }} stroke={theme.primary} />
       ) : allV2PairsWithLiquidity?.length > 0 ? (
         <>
-          <MobileContainer>
-            <DropdownMenu
-              options={menuItems}
-              value={activeMenu}
-              onSelect={value => {
-                setMenu(value)
-              }}
-            />
-          </MobileContainer>
-
           <Scrollbars>
             <PanelWrapper>
               {allV2PairsWithLiquidity.map(v2Pair => (
