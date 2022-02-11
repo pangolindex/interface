@@ -1,4 +1,4 @@
-import { Box, Button } from '@pangolindex/components'
+import { Box, Button, Text } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const Card = styled(Box)`
@@ -27,6 +27,15 @@ export const CardHeader = styled(Box)`
 `
 
 export const Stats = styled(Box)``
+
+export const StatValue = styled(Text)`
+  font-size: 28px;
+  font-weight: 500;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    font-size: 22px;
+  `};
+`
 
 export const CardStats = styled(Box)`
   display: grid;
