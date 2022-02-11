@@ -33,6 +33,5 @@ export const GridContainer = styled(Box)<{ isLimitOrders: boolean }>`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     grid-template-columns: none;
     grid-template-rows: max-content;
-    padding-bottom: 70px;
   `};
 `

@@ -16,7 +16,7 @@ export enum MenuType {
 interface MenuProps {
   setMenu: (value: string) => void
   activeMenu: string
-  menuItems: Array<{ title: string; value: string }>
+  menuItems: Array<{ label: string; value: string }>
   onManagePoolsClick: () => void
 }
 
@@ -39,7 +39,7 @@ const Sidebar = ({ setMenu, activeMenu, menuItems, onManagePoolsClick }: MenuPro
             <MenuItem isActive={x.value === activeMenu} key={index}>
               <MenuLink isActive={x.value === activeMenu} id={x.value} onClick={() => setMenu(x.value)} key={index}>
                 {x.value === activeMenu && <Circle />}
-                <MenuName fontSize={16}>{x.title}</MenuName>
+                <MenuName fontSize={16}>{x.label}</MenuName>
               </MenuLink>
             </MenuItem>
           )

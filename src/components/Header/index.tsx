@@ -31,6 +31,7 @@ import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { MenuFlyout, MenuNavItem } from '../StyledMenu'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { BETA_MENU_LINK } from 'src/constants'
+import { Hidden } from 'src/theme'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -148,12 +149,6 @@ const PNGWrapper = styled.span`
   :active {
     opacity: 0.9;
   }
-`
-
-const HideSmall = styled.span`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
-  `};
 `
 
 const NetworkCard = styled(RedCard)`
@@ -377,7 +372,7 @@ export default function Header() {
       </HeaderRow>
       <HeaderControls>
         <HeaderElement>
-          <HideSmall>
+          <Hidden upToSmall={true}>
             <Button
               variant="primary"
               height={36}
@@ -389,17 +384,17 @@ export default function Header() {
             >
               <span style={{ whiteSpace: 'nowrap' }}>{t('header.switchToNewUI')}</span>
             </Button>
-          </HideSmall>
-          <HideSmall>
+          </Hidden>
+          <Hidden upToSmall={true}>
             {chainId && NETWORK_LABELS[chainId] && (
               <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
             )}
-          </HideSmall>
+          </Hidden>
           {aggregateBalance && (
             <PNGWrapper onClick={() => setShowPngBalanceModal(true)}>
               <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
                 {account && (
-                  <HideSmall>
+                  <Hidden upToSmall={true}>
                     <TYPE.white
                       style={{
                         paddingRight: '.4rem'
@@ -414,7 +409,7 @@ export default function Header() {
                         duration={1}
                       />
                     </TYPE.white>
-                  </HideSmall>
+                  </Hidden>
                 )}
                 PNG
               </PNGAmount>

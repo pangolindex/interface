@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { GridContainer, PageWrapper, HideSmall, Title, DesktopPortfolioList, MobilePortfolioList } from './styleds'
+import { GridContainer, PageWrapper, Title, DesktopPortfolioList, MobilePortfolioList } from './styleds'
 import { Text, Box } from '@pangolindex/components'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
@@ -9,6 +9,7 @@ import { PairDataUser, TokenDataUser, useGetWalletChainTokens } from 'src/state/
 import { useActiveWeb3React } from 'src/hooks'
 import Loader from 'src/components/Loader'
 import ShowMore from 'src/components/Beta/ShowMore'
+import { Hidden } from 'src/theme'
 
 type Props = {
   isLimitOrders: boolean
@@ -35,9 +36,9 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
       ) : (
         <GridContainer isLimitOrders={isLimitOrders}>
           {!isLimitOrders && (
-            <HideSmall>
+            <Hidden upToSmall={true}>
               <PortfolioChart />
-            </HideSmall>
+            </Hidden>
           )}
           <DesktopPortfolioList>
             {loading ? (

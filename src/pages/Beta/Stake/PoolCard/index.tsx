@@ -4,7 +4,7 @@ import { JSBI } from '@pangolindex/sdk'
 import numeral from 'numeral'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
-import { Card, CardHeader, Stats, CardStats, TokenName, DetailButton, StakeButton } from './styleds'
+import { Card, CardHeader, Stats, CardStats, TokenName, DetailButton, StakeButton, StatValue } from './styleds'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import CurrencyLogo from 'src/components/CurrencyLogo'
 
@@ -35,33 +35,33 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick, onClaimClick, onDepositClic
             <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
               Your staked
             </Text>
-            <Text fontSize={28} fontWeight={500} lineHeight="47px" color="text1">
+            <StatValue color="text1">
               {numeral(Number(stakingInfo.stakedAmount.toExact())?.toFixed(2)).format('0.00a')} PNG
-            </Text>
+            </StatValue>
           </Stats>
         ) : (
           <Stats>
             <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
               {t('stakePage.totalStaked')}
             </Text>
-            <Text fontSize={28} fontWeight={500} lineHeight="47px" color="text1">
+            <StatValue color="text1">
               {numeral(Number(stakingInfo.totalStakedInPng.toExact())?.toFixed(2)).format('0.00a')} PNG
-            </Text>
+            </StatValue>
           </Stats>
         )}
         <Stats>
           <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
             APR
           </Text>
-          <Text fontSize={28} fontWeight={500} lineHeight="47px" color="text1">
+          <StatValue color="text1">
             {JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0)) && !stakingInfo.isPeriodFinished
               ? `${stakingInfo.apr.toLocaleString()}%`
               : ' - '}
-          </Text>
+          </StatValue>
         </Stats>
       </CardStats>
       <CardStats>
-        <DetailButton variant="outline" color="color4" backgroundColor='color2' onClick={onViewDetailsClick}>
+        <DetailButton variant="outline" color="color4" backgroundColor="color2" onClick={onViewDetailsClick}>
           {t('stakePage.seeDetails')}
         </DetailButton>
         {!!account && (

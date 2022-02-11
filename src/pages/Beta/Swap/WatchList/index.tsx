@@ -6,7 +6,7 @@ import { ThemeContext } from 'styled-components'
 import { PNG } from 'src/constants'
 import { useActiveWeb3React } from 'src/hooks'
 import WatchlistRow from './WatchlistRow'
-import { WatchListRoot, GridContainer, HideSmall, Title, DesktopWatchList, MobileWatchList } from './styleds'
+import { WatchListRoot, GridContainer, Title, DesktopWatchList, MobileWatchList } from './styleds'
 import Scrollbars from 'react-custom-scrollbars'
 import CoinChart from './CoinChart'
 import CurrencyPopover from './CurrencyPopover'
@@ -16,6 +16,7 @@ import { useSelectedCurrencyLists } from 'src/state/watchlists/hooks'
 import { useTranslation } from 'react-i18next'
 import { useAllTokens } from 'src/hooks/Tokens'
 import ShowMore from 'src/components/Beta/ShowMore'
+import { Hidden } from 'src/theme'
 
 type Props = {
   isLimitOrders?: boolean
@@ -79,9 +80,9 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
       </Box>
       <GridContainer isLimitOrders={isLimitOrders}>
         {!isLimitOrders && (
-          <HideSmall>
+          <Hidden upToSmall={true}>
             <CoinChart coin={selectedToken} />
-          </HideSmall>
+          </Hidden>
         )}
 
         <DesktopWatchList>

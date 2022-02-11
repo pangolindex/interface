@@ -134,12 +134,3 @@ export const EmptyProposals = styled.div`
   align-items: center;
   margin-top: 10px;
 `
-export const HideSmall = styled.div`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
-  `};
-
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    display: none;
-  `};
-`
