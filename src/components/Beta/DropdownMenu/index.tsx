@@ -29,8 +29,7 @@ const DropdownMenu: React.FC<Props> = ({ value, onSelect, title, options, height
 
       setSelectedOption(matchOption?.label || '')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value])
+  }, [value, options])
 
   return (
     <StyledMenu ref={node as any}>
