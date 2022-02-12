@@ -20,13 +20,11 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
 
   const currency0 = unwrappedToken(stakingInfo?.totalStakedAmount?.token)
   const currency1 = unwrappedToken(stakingInfo?.rewardToken)
-  const totalRewardRate = stakingInfo?.totalRewardRate
+  const totalRewardRate = stakingInfo?.totalRewardRatePerSecond
     ?.multiply((60 * 60 * 24 * 7).toString())
     ?.toSignificant(4, { groupSeparator: ',' })
 
-  const userRewardRate = stakingInfo?.rewardRate
-    ?.multiply((60 * 60 * 24 * 7).toString())
-    ?.toSignificant(4, { groupSeparator: ',' })
+  const userRewardRate = stakingInfo?.rewardRatePerWeek?.toSignificant(4, { groupSeparator: ',' })
 
   return (
     <HeaderRoot>

@@ -75,9 +75,7 @@ const PoolInfo = ({
     parsedAmountWrapped ? totalPoolTokens?.add(parsedAmountWrapped).raw : totalPoolTokens?.raw
   )
 
-  const pngRate = stakingInfo?.rewardRate
-    ?.multiply((60 * 60 * 24 * 7).toString())
-    ?.toSignificant(4, { groupSeparator: ',' })
+  const pngRate = stakingInfo?.rewardRatePerWeek?.toSignificant(4, { groupSeparator: ',' })
 
   const currency0Row = {
     label: `${currency0.symbol} Amount:`,

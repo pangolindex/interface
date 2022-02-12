@@ -47,12 +47,12 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
   )
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  let hypotheticalRewardRate: TokenAmount = new TokenAmount(stakingInfo?.rewardRate?.token, '0')
+  let hypotheticalWeeklyRewardRate: TokenAmount = new TokenAmount(stakingInfo?.rewardRatePerWeek?.token, '0')
   if (parsedAmountWrapped?.greaterThan('0')) {
-    hypotheticalRewardRate = stakingInfo?.getHypotheticalRewardRate(
+    hypotheticalWeeklyRewardRate = stakingInfo?.getHypotheticalWeeklyRewardRate(
       stakingInfo?.stakedAmount.add(parsedAmountWrapped),
       stakingInfo?.totalStakedAmount.add(parsedAmountWrapped),
-      stakingInfo?.totalRewardRate
+      stakingInfo?.totalRewardRatePerSecond
     )
   }
 
@@ -347,9 +347,7 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
           {renderPoolDataRow(t('migratePage.dollarWorth'), `${finalUsd ? `$${Number(finalUsd).toFixed(2)}` : '-'}`)}
           {renderPoolDataRow(
             `${t('dashboardPage.earned_dailyIncome')}`,
-            `${hypotheticalRewardRate
-              .multiply((60 * 60 * 24).toString())
-              .toSignificant(4, { groupSeparator: ',' })} PNG`
+            `${hypotheticalWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })} PNG`
           )}
 
           {isSuperFarm && (
@@ -360,15 +358,15 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
 
               {rewardTokensAmount?.map((reward, index) => {
                 const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
-                const extraRewardRate = stakingInfo?.getExtraTokensRewardRate?.(
-                  hypotheticalRewardRate,
+                const extraTokenWeeklyRewardRate = stakingInfo?.getExtraTokensWeeklyRewardRate?.(
+                  hypotheticalWeeklyRewardRate,
                   reward?.token,
                   tokenMultiplier
                 )
-                if (extraRewardRate) {
+                if (extraTokenWeeklyRewardRate) {
                   return (
                     <Text color="text4" fontSize={16} key={index}>
-                      {extraRewardRate.multiply((60 * 60 * 24).toString()).toSignificant(4, { groupSeparator: ',' })}{' '}
+                      {extraTokenWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })}{' '}
                       {reward?.token?.symbol}
                     </Text>
                   )
