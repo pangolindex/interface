@@ -1275,15 +1275,6 @@ export const TIMEFRAME = [
   }
 ]
 
-/*
- * Mapping between symbol (uppercase string) and CoinGecko coin id (string)
- * Using CoinGecko API: https://api.coingecko.com/api/v3/coins/list
- */
-export const COIN_ID_OVERRIDE = {
-  NEKO: undefined,
-  VEE: undefined
-}
-
 export enum BETA_MENU_LINK {
   dashboard = '/beta/dashboard',
   swap = '/beta/swap',

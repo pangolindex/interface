@@ -8,10 +8,7 @@ import { useUserAddedTokens } from '../state/user/hooks'
 import { isAddress } from '../utils'
 import { useActiveWeb3React } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
-import { COIN_ID_OVERRIDE } from 'src/constants'
-import CoinGecko from 'coingecko-api'
-
-const CoinGeckoClient = new CoinGecko()
+import { CHAINS, ChainsId } from 'src/constants/chains'
 
 export function useAllTokens(): { [address: string]: Token } {
   const { chainId } = useActiveWeb3React()
@@ -172,64 +169,24 @@ export function useCurrency(currencyId: string | undefined): Currency | null | u
   return isAVAX ? CAVAX : token
 }
 
-export const useCoinGeckoAllCoins = () => {
-  const [coins, setCoins] = useState([] as any[])
-
-  useEffect(() => {
-    fetch(`https://api.coingecko.com/api/v3/coins/list`)
-      .then(res => res.json())
-      .then(val => setCoins(val))
-  }, [])
-
-  return coins
-}
-
-export function useCoinGeckoTokenData(symbol?: string, name?: string) {
+export function useCoinGeckoTokenData(coin: Token) {
   const [result, setResult] = useState({} as { coinId: string; homePage: string; description: string })
-  const allCoins = useCoinGeckoAllCoins()
 
   useEffect(() => {
-    let data = {} as { coinId: string; homePage: string; description: string }
-
     let getCoinData = async () => {
-      try {
-        let newSymbol = (symbol || '')?.split('.')[0]
-        const isWrappedToken = (name || '')?.split(' ')[0].toLowerCase() === 'wrapped'
-        if (isWrappedToken) {
-          if (newSymbol?.charAt(0)?.toLocaleLowerCase() === 'w') {
-            newSymbol = newSymbol?.substring(1)
-          }
-        }
-        newSymbol = newSymbol?.toUpperCase()
+      const chain = coin.chainId === 43113 ? CHAINS[ChainsId.AVAX] : CHAINS[coin.chainId ]
 
-        const coinId =
-          newSymbol in COIN_ID_OVERRIDE // here we are checking existance of key instead of value of key, because value of key might be undefined
-            ? undefined
-            : allCoins.find((data: any) => data?.symbol?.toUpperCase() === newSymbol)?.id
-
-        if (!!coinId) {
-          let coin = (await CoinGeckoClient.coins.fetch(coinId, {
-            tickers: false,
-            community_data: false,
-            developer_data: false,
-            localization: false,
-            sparkline: false
-          })) as any
-
-          data.coinId = coinId
-          data.homePage = coin?.data?.links?.homepage?.[0]
-          data.description = coin?.data?.description?.en
-        }
-
-        setResult(data)
-      } catch (e) {
-        console.log(e)
-      }
+      const response = await fetch(`https://api.coingecko.com/api/v3/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`) 
+      const data = await response.json()
+      console.log(data)
+      setResult({
+        coinId: data?.id,
+        homePage: data?.links?.homepage[0],
+        description: data?.description?.en
+      })
     }
-    if (symbol && name) {
-      getCoinData()
-    }
-  }, [symbol, name, allCoins])
+    getCoinData()
+  }, [coin])
 
   return result
 }
