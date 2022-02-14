@@ -1,12 +1,11 @@
-
 export const CookiePolicy = `
 # **Cookie Policy**
 
 **Updated 23 September 2021**
 
-**Your current state:** [**insert **** link to Cookie status****]**
+**Your current state:** [placeholder]
 
-**Link to change Cookie Preferences:** [**insert link to cookie preferences****]**
+**Link to change Cookie Preferences:** [placeholder]
 
 ___________________________________________________________________________
 
