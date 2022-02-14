@@ -47,6 +47,7 @@ const platinum = '#E5E5E5'
 const darkSilver = '#717171'
 const venetianRed = '#CC1512'
 const oceanBlue = '#18C145'
+const quickSilver = '#A3A3A3'
 
 // beta theme color
 
@@ -141,14 +142,16 @@ export function colors(darkMode: boolean): Colors {
     darkSilver,
     venetianRed,
     oceanBlue,
- 
+    quickSilver,
+
     color2: darkMode ? chineseBlack : ghostWhite,
     color3: darkMode ? eerieBlack : platinum,
     color4: darkMode ? ghostWhite1 : chineseBlack,
     color5: darkMode ? darkGunmetal : white,
     color6: darkMode ? white : chineseBlack,
-    color7: darkMode? darkGunmetal: ghostWhite,
-    color8: darkMode? chineseBlack: platinum
+    color7: darkMode ? darkGunmetal : ghostWhite,
+    color8: darkMode ? chineseBlack : platinum,
+    color9: darkMode ? darkSilver : quickSilver
   }
 }
 
@@ -364,6 +367,14 @@ html {
   font-feature-settings: 'ss01' on, 'ss02' on, 'cv01' on, 'cv03' on;
   
 }
+
+@keyframes spinners-react-dotted-shrink {
+  50% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+}
+
 `
 
 export const ThemedGlobalStyle = createGlobalStyle<{ isBeta: boolean }>`

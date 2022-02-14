@@ -1,4 +1,4 @@
-import { Box, DoubleCurrencyLogo, Text } from '@pangolindex/components'
+import { Box, DoubleCurrencyLogo, CurrencyLogo, Text } from '@pangolindex/components'
 import React, { useContext } from 'react'
 import { JSBI } from '@pangolindex/sdk'
 import Stat from 'src/components/Stat'
@@ -37,6 +37,16 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
         </Text>
       </Box>
       <StatsWrapper>
+        <Box display="inline-block" padding="10px 6px">
+          <Text color="text2" fontSize={14}>
+            {t('earn.poolRewards')}
+          </Text>
+
+          <Box display="flex" alignItems="center" mt="5px">
+            <CurrencyLogo currency={currency1} size={'18px'} />
+          </Box>
+        </Box>
+
         <Stat
           title={`Total APR`}
           stat={
@@ -51,25 +61,23 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
         />
         {stakingInfo.stakedAmount.greaterThan('0') && (
           <Stat
-            title={`Your Rate`}
-            stat={
-              userRewardRate ? `${userRewardRate} ${t('earnPage.rewardPerWeek', { symbol: currency1?.symbol })}` : '-'
-            }
+            title={`Your Weekly Rate`}
+            stat={userRewardRate ? `${userRewardRate}` : '-'}
             titlePosition="top"
             titleFontSize={14}
             statFontSize={20}
             titleColor="text2"
+            currency={currency1}
           />
         )}
         <Stat
-          title={`Pool Rate`}
-          stat={
-            totalRewardRate ? `${totalRewardRate} ${t('earnPage.rewardPerWeek', { symbol: currency1?.symbol })}` : '-'
-          }
+          title={`Weekly Pool Rate`}
+          stat={totalRewardRate ? `${totalRewardRate}` : '-'}
           titlePosition="top"
           titleFontSize={14}
           statFontSize={20}
           titleColor="text2"
+          currency={currency1}
         />
         <CloseIcon onClick={onClose} color={theme.text3} />
       </StatsWrapper>

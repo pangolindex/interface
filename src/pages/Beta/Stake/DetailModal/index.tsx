@@ -14,10 +14,9 @@ import { useWindowSize } from 'react-use'
 type Props = {
   stakingInfo: SingleSideStakingInfo
   onClose: () => void
-  onClaimClick: () => void
 }
 
-const DetailModal: React.FC<Props> = ({ stakingInfo, onClose, onClaimClick }) => {
+const DetailModal: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const { height } = useWindowSize()
   const isDetailModalOpen = useModalOpen(ApplicationModal.SINGLE_SIDE_STAKE_DETAIL)
   const toggleModal = useSingleSideStakingDetailnModalToggle()
@@ -36,7 +35,7 @@ const DetailModal: React.FC<Props> = ({ stakingInfo, onClose, onClaimClick }) =>
           </LeftSection>
           <RightSection>
             <StakeWidget stakingInfo={stakingInfo} />
-            <EarnedWidget stakingInfo={stakingInfo} onClaimClick={onClaimClick} />
+            <EarnedWidget stakingInfo={stakingInfo} />
           </RightSection>
         </DetailsWrapper>
       </Wrapper>

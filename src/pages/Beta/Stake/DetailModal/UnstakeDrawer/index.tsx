@@ -7,10 +7,9 @@ import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Box, Button, Text } from '@pangolindex/components'
-import { CustomLightSpinner } from 'src/theme'
-import Circle from 'src/assets/images/blue-loader.svg'
 import { ConfirmWrapper, PendingWrapper, Wrapper } from './styled'
-import TransactionSubmitted from 'src/components/Beta/TransactionSubmitted'
+import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
+import Loader from 'src/components/Beta/Loader'
 
 type Props = {
   isOpen: boolean
@@ -99,23 +98,11 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
         {attempting && !hash && (
           <PendingWrapper>
             <Box mb={'15px'}>
-              <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
+              <Loader size={100} label="Unstaking" />
             </Box>
-            <Text fontWeight={500} fontSize={20} color="text1" textAlign="center">
-              {t('earn.withdrawingLiquidity', {
-                amount: stakingInfo?.stakedAmount?.toSignificant(6),
-                symbol: 'PNG'
-              })}
-            </Text>
-            <Text fontWeight={600} fontSize={14} color="text1" textAlign="center">
-              {t('earn.claimingReward', {
-                amount: stakingInfo?.earnedAmount?.toSignificant(6),
-                symbol: stakingInfo?.rewardToken?.symbol
-              })}
-            </Text>
           </PendingWrapper>
         )}
-        {hash && <TransactionSubmitted hash={hash} onClose={wrappedOnDismiss} />}
+        {hash && <TransactionCompleted onClose={wrappedOnDismiss} submitText="Unstaked" />}
       </Wrapper>
     </Drawer>
   )

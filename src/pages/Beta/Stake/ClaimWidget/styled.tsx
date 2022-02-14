@@ -2,7 +2,11 @@ import { Box } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const WidgetWrapper = styled(Box)`
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: center;
+  padding: 20px;
 `
 
 export const PendingWrapper = styled(Box)`
