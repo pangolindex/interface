@@ -3,10 +3,6 @@ export const CookiePolicy = `
 
 **Updated 23 September 2021**
 
-**Your current state:** [placeholder]
-
-**Link to change Cookie Preferences:** [placeholder]
-
 ___________________________________________________________________________
 
 **About this cookie policy**
