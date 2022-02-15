@@ -161,10 +161,11 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
                   const weeklyRewardRate =
                     stakingInfo?.getExtraTokensWeeklyRewardRate &&
                     stakingInfo?.getExtraTokensWeeklyRewardRate(
-                      stakingInfo?.rewardRatePerWeek,
+                      stakingInfo?.totalRewardRatePerWeek,
                       reward?.token,
                       tokenMultiplier
                     )
+                    
 
                   return (
                     <TYPE.body fontSize={18} fontWeight={500} key={index}>

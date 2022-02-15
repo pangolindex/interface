@@ -2,7 +2,7 @@ import React, { useState, useCallback, useContext, useEffect } from 'react'
 import { ThemeContext } from 'styled-components'
 import { ChevronDown } from 'react-feather'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
-import { PageWrapper, InputText, ContentBox, DataBox, PoolSelectWrapper } from './styleds'
+import { PageWrapper, InputText, ContentBox, DataBox, PoolSelectWrapper, ExtraRewardDataBox } from './styleds'
 import { Box, Text, Button, Steps, Step, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { TokenAmount, Pair, ChainId, JSBI, Token } from '@pangolindex/sdk'
@@ -351,29 +351,30 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
           )}
 
           {isSuperFarm && (
-            <DataBox key="extra-reward">
+            <ExtraRewardDataBox key="extra-reward">
               <Text color="text4" fontSize={16}>
                 {t('earn.extraReward')}
               </Text>
 
-              {rewardTokensAmount?.map((reward, index) => {
-                const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
-                const extraTokenWeeklyRewardRate = stakingInfo?.getExtraTokensWeeklyRewardRate?.(
-                  hypotheticalWeeklyRewardRate,
-                  reward?.token,
-                  tokenMultiplier
-                )
-                if (extraTokenWeeklyRewardRate) {
-                  return (
-                    <Text color="text4" fontSize={16} key={index}>
-                      {extraTokenWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })}{' '}
-                      {reward?.token?.symbol}
-                    </Text>
+              <Box>
+                {rewardTokensAmount?.map((reward, index) => {
+                  const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
+                  const extraTokenWeeklyRewardRate = stakingInfo?.getExtraTokensWeeklyRewardRate?.(
+                    hypotheticalWeeklyRewardRate,
+                    reward?.token,
+                    tokenMultiplier
                   )
-                }
-                return null
-              })}
-            </DataBox>
+                  if (extraTokenWeeklyRewardRate) {
+                    return (
+                      <Text color="text4" fontSize={16} key={index}>
+                        {extraTokenWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })} {reward?.token?.symbol}
+                      </Text>
+                    )
+                  }
+                  return null
+                })}
+              </Box>
+            </ExtraRewardDataBox>
           )}
         </ContentBox>
       </Box>
