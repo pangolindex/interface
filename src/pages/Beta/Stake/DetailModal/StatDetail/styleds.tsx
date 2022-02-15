@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const StateContainer = styled.div`
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   display: grid;
   width: 100%;
@@ -12,4 +12,9 @@ export const StateContainer = styled.div`
     grid-template-columns: 1fr;
     align-items: stretch;
   }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    grid-template-columns: 50% 50%;
+    grid-gap: 8px;
+  `};
 `
