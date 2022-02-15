@@ -8,7 +8,9 @@ export const Root = styled(Box)`
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 400px;
+  min-height: 400px;
+  overflow-y: auto;
+  overflow: hidden;
 `
 
 export const UnstakeButton = styled(Button)`
