@@ -85,7 +85,8 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
               </Box>
             </Box>
             <Text fontSize="14px" color="text2" mt={20}>
-              {t('earn.whenYouWithdrawSingleSideWarning', { symbol: stakingInfo?.rewardToken?.symbol })}
+              {/* {t('earn.whenYouWithdrawSingleSideWarning', { symbol: stakingInfo?.rewardToken?.symbol })} */}
+              You can unstake your rewards.
             </Text>
             <Box flex={1} />
             <Box mt={'10px'}>

@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { PNG, ZERO_ADDRESS } from 'src/constants'
-import UnstakeDrawer from '../UnstakeDrawer'
-import { Root, Buttons, UnstakeButton, MaxButton, Balance, PendingWrapper, StakeWrapper, GridContainer } from './styled'
+import { Root, Buttons, MaxButton, Balance, PendingWrapper, StakeWrapper, GridContainer } from './styled'
 import { BETA_MENU_LINK } from 'src/constants'
 import { Box, Button, Text, TextInput, Steps, Step } from '@pangolindex/components'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
@@ -29,8 +28,6 @@ type Props = {
 const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
   const { t } = useTranslation()
   const { account, chainId, library } = useActiveWeb3React()
-  const [isUnstakeDrawerVisible, setShowUnstakeDrawer] = useState(false)
-  // const [isDepositDrawerVisible, setShowDepositDrawer] = useState(false)
 
   const png = PNG[chainId ? chainId : ChainId.AVALANCHE]
 
@@ -211,8 +208,6 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
       })
   }
 
-  console.log('isUnstakeDrawerVisible', isUnstakeDrawerVisible)
-
   const isDisabled = !userPngUnstaked?.greaterThan('0')
   return (
     <Root>
@@ -336,13 +331,6 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
                 {t('header.buy', { symbol: stakeToken })}
               </Button>
             )}
-
-            {/* show unstak button */}
-            {stakingInfo?.stakedAmount?.greaterThan('0') && (
-              <UnstakeButton variant="outline" onClick={() => setShowUnstakeDrawer(true)}>
-                {t('earnPage.unstake')}
-              </UnstakeButton>
-            )}
           </Buttons>
         </>
       )}
@@ -354,17 +342,6 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
         </PendingWrapper>
       )}
       {hash && <TransactionCompleted onClose={wrappedOnDismiss} submitText="Staked" showCloseIcon={true} />}
-
-      {/* Unstake Drawer */}
-      {isUnstakeDrawerVisible && (
-        <UnstakeDrawer
-          isOpen={isUnstakeDrawerVisible}
-          onClose={() => {
-            setShowUnstakeDrawer(false)
-          }}
-          stakingInfo={stakingInfo}
-        />
-      )}
     </Root>
   )
 }

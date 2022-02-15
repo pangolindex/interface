@@ -8,6 +8,7 @@ import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { Root, StatWrapper } from './styled'
 import ClaimDrawer from '../../ClaimDrawer'
+import UnstakeDrawer from '../UnstakeDrawer'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
@@ -16,6 +17,7 @@ type Props = {
 const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
   const { t } = useTranslation()
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
+  const [isUnstakeDrawerVisible, setShowUnstakeDrawer] = useState(false)
 
   const rewardToken = stakingInfo?.rewardToken
   const usdcPrice = useUSDCPrice(rewardToken)
@@ -28,10 +30,24 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
 
   return (
     <Root>
-      <Box>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
         <Text color="text10" fontSize={24} fontWeight={500}>
           Earned
         </Text>
+
+        {/* show unstak button */}
+        {stakingInfo?.stakedAmount?.greaterThan('0') && (
+          <Button
+            variant="primary"
+            backgroundColor="color9"
+            color="color4"
+            width="100px"
+            height="30px"
+            onClick={() => setShowUnstakeDrawer(true)}
+          >
+            {t('earnPage.unstake')}
+          </Button>
+        )}
       </Box>
 
       <StatWrapper>
@@ -97,6 +113,17 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
           isOpen={isClaimDrawerVisible}
           onClose={() => {
             setShowClaimDrawer(false)
+          }}
+          stakingInfo={stakingInfo}
+        />
+      )}
+
+      {/* Unstake Drawer */}
+      {isUnstakeDrawerVisible && (
+        <UnstakeDrawer
+          isOpen={isUnstakeDrawerVisible}
+          onClose={() => {
+            setShowUnstakeDrawer(false)
           }}
           stakingInfo={stakingInfo}
         />

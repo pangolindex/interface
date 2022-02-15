@@ -1,4 +1,4 @@
-import { Box, Button, Text } from '@pangolindex/components'
+import { Box, Text } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const Root = styled(Box)`
@@ -9,14 +9,6 @@ export const Root = styled(Box)`
   display: flex;
   flex-direction: column;
   min-height: 400px;
-  overflow-y: auto;
-  overflow: hidden;
-`
-
-export const UnstakeButton = styled(Button)`
-  padding: 15px 18px !important;
-  border: 1px solid ${({ theme }) => theme.bg9} !important;
-  color: ${({ theme }) => theme.text1} !important;
 `
 
 export const MaxButton = styled.button`
