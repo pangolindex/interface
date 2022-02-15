@@ -1,4 +1,4 @@
-import { currencyEquals, Trade } from '@pangolindex/sdk'
+import { ChainId, currencyEquals, Trade } from '@antiyro/sdk'
 import React, { useCallback, useMemo } from 'react'
 import TransactionConfirmationModal, {
   ConfirmationModalContent,
@@ -24,6 +24,7 @@ function tradeMeaningfullyDiffers(tradeA: Trade, tradeB: Trade): boolean {
 }
 
 export default function ConfirmSwapModal({
+  chainId,
   trade,
   originalTrade,
   onAcceptChanges,
@@ -37,6 +38,7 @@ export default function ConfirmSwapModal({
   txHash
 }: {
   isOpen: boolean
+  chainId: ChainId
   trade: Trade | undefined
   originalTrade: Trade | undefined
   attemptingTxn: boolean
@@ -57,6 +59,7 @@ export default function ConfirmSwapModal({
   const modalHeader = useCallback(() => {
     return trade ? (
       <SwapModalHeader
+        chainId={chainId}
         trade={trade}
         allowedSlippage={allowedSlippage}
         recipient={recipient}
@@ -64,7 +67,7 @@ export default function ConfirmSwapModal({
         onAcceptChanges={onAcceptChanges}
       />
     ) : null
-  }, [allowedSlippage, onAcceptChanges, recipient, showAcceptChanges, trade])
+  }, [chainId, allowedSlippage, onAcceptChanges, recipient, showAcceptChanges, trade])
 
   const modalBottom = useCallback(() => {
     return trade ? (

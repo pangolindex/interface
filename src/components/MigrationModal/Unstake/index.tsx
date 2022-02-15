@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Wrapper } from './styleds'
 import { Box, Button } from '@pangolindex/components'
-import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
+import { Pair, JSBI, TokenAmount, ChainId } from '@antiyro/sdk'
 import PoolInfo from '../PoolInfo'
 import { StakingInfo } from '../../../state/stake/hooks'
 import { tryParseAmount } from '../../../state/swap/hooks'
@@ -20,7 +20,7 @@ export interface UnstakeProps {
 }
 
 const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProps) => {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const [attempting, setAttempting] = useState(false as boolean)
   const [isValidAmount, setIsValidAmount] = useState(false as boolean)
@@ -40,7 +40,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
 
   useEffect(() => {
     let stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(unStakingAmount, stakingToken) as TokenAmount
+    const parsedInput = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, unStakingAmount, stakingToken) as TokenAmount
 
     if (parsedInput
       && stakingInfo?.stakedAmount

@@ -13,7 +13,7 @@ import {
   EmptyProposals,
   StatisticImage
 } from './styleds'
-import { Pair } from '@pangolindex/sdk'
+import { Pair } from '@antiyro/sdk'
 import { useParams } from 'react-router-dom'
 import { useActiveWeb3React } from '../../hooks'
 import { Dots } from '../../components/swap/styleds'

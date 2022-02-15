@@ -6,7 +6,7 @@ import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConf
 import PoolCard from '../PoolCard'
 import Loader from 'src/components/Loader'
 import { useActiveWeb3React } from 'src/hooks'
-import { Token } from '@pangolindex/sdk'
+import { Token } from '@antiyro/sdk'
 import { useTranslation } from 'react-i18next'
 import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'

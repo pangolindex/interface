@@ -11,7 +11,7 @@ import {
   FACTORY_ADDRESS,
   ChainId,
   Price
-} from '@pangolindex/sdk'
+} from '@antiyro/sdk'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -37,7 +37,7 @@ export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>(state => state.swap)
 }
 
-export function useSwapActionHandlers(): {
+export function useSwapActionHandlers(chainId: ChainId): {
   onCurrencySelection: (field: Field, currency: Currency) => void
   onSwitchTokens: () => void
   onUserInput: (field: Field, typedValue: string) => void
@@ -49,11 +49,11 @@ export function useSwapActionHandlers(): {
       dispatch(
         selectCurrency({
           field,
-          currencyId: currency instanceof Token ? currency.address : currency === CAVAX ? 'AVAX' : ''
+          currencyId: currency instanceof Token ? currency.address : chainId && currency === CAVAX[chainId] ? 'AVAX' : ''
         })
       )
     },
-    [dispatch]
+    [chainId, dispatch]
   )
 
   const onSwitchTokens = useCallback(() => {
@@ -83,7 +83,7 @@ export function useSwapActionHandlers(): {
 }
 
 // try to parse a user entered amount for a given token
-export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmount | undefined {
+export function tryParseAmount(chainId: ChainId, value?: string, currency?: Currency): CurrencyAmount | undefined {
   if (!value || !currency) {
     return undefined
   }
@@ -92,7 +92,7 @@ export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmo
     if (typedValueParsed !== '0') {
       return currency instanceof Token
         ? new TokenAmount(currency, JSBI.BigInt(typedValueParsed))
-        : CurrencyAmount.ether(JSBI.BigInt(typedValueParsed))
+        : CurrencyAmount.ether(JSBI.BigInt(typedValueParsed), chainId ? chainId : ChainId.AVALANCHE)
     }
   } catch (error) {
     // should fail if the user specifies too many decimal places of precision (or maybe exceed max uint?)
@@ -128,7 +128,7 @@ export function useDerivedSwapInfo(): {
   inputError?: string
   v1Trade: Trade | undefined
 } {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
 
   const toggledVersion = useToggledVersion()
@@ -146,13 +146,13 @@ export function useDerivedSwapInfo(): {
   const recipientAddress = isAddress(recipient)
   const to: string | null = (recipientAddress ? recipientAddress : account) ?? null
 
-  const relevantTokenBalances = useCurrencyBalances(account ?? undefined, [
+  const relevantTokenBalances = useCurrencyBalances(chainId || ChainId.AVALANCHE, account ?? undefined, [
     inputCurrency ?? undefined,
     outputCurrency ?? undefined
   ])
 
   const isExactIn: boolean = independentField === Field.INPUT
-  const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
+  const parsedAmount = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
 
   const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
   const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
@@ -200,10 +200,10 @@ export function useDerivedSwapInfo(): {
 
   const [allowedSlippage] = useUserSlippageTolerance()
 
-  const slippageAdjustedAmounts = v2Trade && allowedSlippage && computeSlippageAdjustedAmounts(v2Trade, allowedSlippage)
+  const slippageAdjustedAmounts = v2Trade && allowedSlippage && computeSlippageAdjustedAmounts(v2Trade, allowedSlippage, chainId? chainId : ChainId.AVALANCHE)
 
   const slippageAdjustedAmountsV1 =
-    v1Trade && allowedSlippage && computeSlippageAdjustedAmounts(v1Trade, allowedSlippage)
+    v1Trade && allowedSlippage && computeSlippageAdjustedAmounts(v1Trade, allowedSlippage, chainId? chainId : ChainId.AVALANCHE)
 
   // compare input balance to max input based on version
   const [balanceIn, amountIn] = [

@@ -1,5 +1,4 @@
 import React from 'react'
-import { MOONPAY_PK } from 'src/constants'
 import styled from 'styled-components'
 
 export default function BuyV2() {
@@ -10,8 +9,10 @@ export default function BuyV2() {
     right: 0;
     bottom: 0;
   `
+  // TODO: we can add this key in the env, it is not necessary to hide it because it's a public key
+  const MOONPAY_KEY = "pk_test_bHHrGHkNhDc0YXxbj0L1Yt9A0lOK64cD"
 
-  const url = `https://buy.moonpay.io?apiKey=${MOONPAY_PK}`
+  const url = `https://buy-staging.moonpay.io?apiKey=${MOONPAY_KEY}`
   return (
     <Iframe
       title="Buy"
@@ -22,5 +23,5 @@ export default function BuyV2() {
     >
       <p>Your browser does not support iframes.</p>
     </Iframe>
-  )
+    )
 }

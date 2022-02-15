@@ -1,5 +1,5 @@
 import React from 'react'
-import { JSBI, Pair, Percent, Currency } from '@pangolindex/sdk'
+import { JSBI, Pair, Percent, Currency, ChainId } from '@antiyro/sdk'
 import { Wrapper, InnerWrapper } from './styleds'
 import { Text, Box, Button, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
@@ -15,10 +15,10 @@ export interface PositionCardProps {
 }
 
 const PositionCard = ({ pair, onManagePoolsClick }: PositionCardProps) => {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
-  const currency0 = unwrappedToken(pair?.token0)
-  const currency1 = unwrappedToken(pair?.token1)
+  const currency0 = unwrappedToken(pair?.token0, chainId || ChainId.AVALANCHE)
+  const currency1 = unwrappedToken(pair?.token1, chainId || ChainId.AVALANCHE)
 
   const { t } = useTranslation()
 

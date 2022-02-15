@@ -1,5 +1,5 @@
 import React from 'react'
-import { Fraction } from '@pangolindex/sdk'
+import { Fraction, ChainId } from '@antiyro/sdk'
 import {
   Panel,
   Divider,
@@ -20,6 +20,7 @@ import { usePair } from 'src/data/Reserves'
 import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
+import { useActiveWeb3React } from 'src/hooks'
 
 export interface PoolCardProps {
   stakingInfo: StakingInfo
@@ -38,11 +39,13 @@ const PoolCard = ({
 }: PoolCardProps) => {
   const { t } = useTranslation()
 
+  const { chainId } = useActiveWeb3React()
+
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
+  const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
+  const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
 
   const [, stakingTokenPair] = usePair(token0, token1)
 

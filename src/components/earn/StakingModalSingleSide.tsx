@@ -8,7 +8,7 @@ import { TYPE, CloseIcon } from '../../theme'
 import { ButtonConfirmed, ButtonError } from '../Button'
 import ProgressCircles from '../ProgressSteps'
 import CurrencyInputPanel from '../CurrencyInputPanel'
-import { TokenAmount } from '@pangolindex/sdk'
+import { TokenAmount, ChainId } from '@antiyro/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { usePngContract, useStakingContract } from '../../hooks/useContract'
@@ -75,7 +75,7 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
   const deadline = useTransactionDeadline()
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, stakingInfo.stakingRewardAddress)
+  const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, stakingInfo.stakingRewardAddress)
 
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
@@ -128,7 +128,7 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
   }, [])
 
   // used for max input button
-  const maxAmountInput = maxAmountSpend(userLiquidityUnstaked)
+  const maxAmountInput = maxAmountSpend(chainId ? chainId : ChainId.AVALANCHE, userLiquidityUnstaked)
   const atMaxAmount = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
   const handleMax = useCallback(() => {
     maxAmountInput && onUserInput(maxAmountInput.toExact())

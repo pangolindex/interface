@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState } from 'react'
 import { Text, Box, CurrencyLogo, Button } from '@pangolindex/components'
 import { Link } from 'react-feather'
 import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts'
-import { Token } from '@pangolindex/sdk'
+import { Token, ChainId } from '@antiyro/sdk'
 import { SelectedCoinInfo, TrackIcons, DurationBtns } from './styleds'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { ANALYTICS_PAGE } from 'src/constants'
@@ -14,6 +14,7 @@ import { formattedNum, toNiceDateYear } from 'src/utils/charts'
 import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { BETA_MENU_LINK } from 'src/constants'
+import { useActiveWeb3React } from 'src/hooks'
 
 type Props = {
   coin: Token
@@ -22,6 +23,8 @@ type Props = {
 export const RedirectContext = React.createContext<boolean>(false)
 
 const CoinChart: React.FC<Props> = ({ coin }) => {
+  const { chainId } = useActiveWeb3React()
+
   const { t } = useTranslation()
   let weekFrame = TIMEFRAME.find(t => t.label === '1W')
 
@@ -39,7 +42,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
 
   const usdcPrice = useUSDCPrice(coin)
 
-  const { onCurrencySelection } = useSwapActionHandlers()
+  const { onCurrencySelection } = useSwapActionHandlers(chainId ? chainId : ChainId.AVALANCHE)
   const onCurrencySelect = useCallback(
     currency => {
       onCurrencySelection(Field.INPUT, currency)
@@ -55,7 +58,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
       timeWindow?.label
     ) || []
 
-  const token = unwrappedToken(coin)
+  const token = unwrappedToken(coin, chainId || ChainId.AVALANCHE)
 
   let priceChart = [...priceData]
   // add current price in chart

@@ -6,9 +6,10 @@ import { Wrapper } from './styleds'
 import Modal from 'src/components/Beta/Modal'
 import { ThemeContext } from 'styled-components'
 import RemoveLiquidity from '../RemoveLiquidity'
-import { Token } from '@pangolindex/sdk'
+import { Token, ChainId } from '@antiyro/sdk'
 import { CloseIcon } from 'src/theme/components'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
+import { useActiveWeb3React } from 'src/hooks'
 
 interface RemoveLiquidityModalProps {
   clickedLpTokens: Array<Token>
@@ -20,11 +21,13 @@ const RemoveLiquidityModal = ({ clickedLpTokens }: RemoveLiquidityModalProps) =>
 
   const theme = useContext(ThemeContext)
 
+  const { chainId } = useActiveWeb3React()
+
   const token0 = clickedLpTokens?.[0]
   const token1 = clickedLpTokens?.[1]
 
-  const currencyA = unwrappedToken(token0)
-  const currencyB = unwrappedToken(token1)
+  const currencyA = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
+  const currencyB = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
 
   return (
     <Modal isOpen={removeLiquidityModalOpen} onDismiss={toggleRemoveLiquidityModal} overlayBG={theme.modalBG2}>

@@ -1,4 +1,4 @@
-import { Currency, CAVAX, JSBI, TokenAmount } from '@pangolindex/sdk'
+import { Currency, CAVAX, JSBI, TokenAmount, ChainId } from '@antiyro/sdk'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Plus } from 'react-feather'
 import { Text } from 'rebass'
@@ -26,13 +26,13 @@ enum Fields {
 }
 
 export default function PoolFinder() {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
 
   const [showSearch, setShowSearch] = useState<boolean>(false)
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
 
-  const [currency0, setCurrency0] = useState<Currency | null>(CAVAX)
+  const [currency0, setCurrency0] = useState<Currency | null>(CAVAX[chainId || ChainId.AVALANCHE])
   const [currency1, setCurrency1] = useState<Currency | null>(null)
 
   const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
@@ -90,7 +90,7 @@ export default function PoolFinder() {
         >
           {currency0 ? (
             <Row>
-              <CurrencyLogo currency={currency0} />
+              {chainId && <CurrencyLogo currency={currency0} chainId={chainId} />}
               <Text fontWeight={500} fontSize={20} marginLeft={'12px'}>
                 {currency0.symbol}
               </Text>
@@ -114,7 +114,7 @@ export default function PoolFinder() {
         >
           {currency1 ? (
             <Row>
-              <CurrencyLogo currency={currency1} />
+              {chainId && <CurrencyLogo currency={currency1} chainId={chainId} />}
               <Text fontWeight={500} fontSize={20} marginLeft={'12px'}>
                 {currency1.symbol}
               </Text>
@@ -147,7 +147,7 @@ export default function PoolFinder() {
               <LightCard padding="45px 10px">
                 <AutoColumn gap="sm" justify="center">
                   <Text textAlign="center">{t('poolFinder.noLiquidityYet')}</Text>
-                  <StyledInternalLink to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}>
+                  <StyledInternalLink to={`/add/${currencyId(currency0, chainId || ChainId.AVALANCHE)}/${currencyId(currency1, chainId || ChainId.AVALANCHE)}`}>
                     <Text textAlign="center">{t('poolFinder.addLiquidity')}</Text>
                   </StyledInternalLink>
                 </AutoColumn>
@@ -157,7 +157,7 @@ export default function PoolFinder() {
             <LightCard padding="45px 10px">
               <AutoColumn gap="sm" justify="center">
                 <Text textAlign="center">{t('poolFinder.noPoolFound')}</Text>
-                <StyledInternalLink to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}>
+                <StyledInternalLink to={`/add/${currencyId(currency0, chainId || ChainId.AVALANCHE)}/${currencyId(currency1, chainId || ChainId.AVALANCHE)}`}>
                   {t('poolFinder.createPool')}
                 </StyledInternalLink>
               </AutoColumn>

@@ -5,7 +5,7 @@ import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { PageWrapper, InputText, ContentBox, DataBox, PoolSelectWrapper } from './styleds'
 import { Box, Text, Button, Steps, Step, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
-import { TokenAmount, Pair, ChainId, JSBI, Token } from '@pangolindex/sdk'
+import { TokenAmount, Pair, ChainId, JSBI, Token } from '@antiyro/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { useGetPoolDollerWorth, useMinichefStakingInfos, useMinichefPendingRewards } from 'src/state/stake/hooks'
 import { usePairContract, useStakingContract } from 'src/hooks/useContract'
@@ -78,11 +78,11 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
   const { t } = useTranslation()
   const [stepIndex, setStepIndex] = useState(4)
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, stakingInfo?.stakingRewardAddress)
+  const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, stakingInfo?.stakingRewardAddress)
 
   const stakingContract = useStakingContract(stakingInfo?.stakingRewardAddress)
-  const currency0 = unwrappedToken(selectedPair?.token0 as Token)
-  const currency1 = unwrappedToken(selectedPair?.token1 as Token)
+  const currency0 = unwrappedToken(selectedPair?.token0 as Token, chainId || ChainId.AVALANCHE)
+  const currency1 = unwrappedToken(selectedPair?.token1 as Token, chainId || ChainId.AVALANCHE)
   const poolMap = useMinichefPools()
 
   const onChangeDot = (value: number) => {

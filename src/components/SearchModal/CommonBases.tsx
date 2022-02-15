@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from 'rebass'
-import { ChainId, Currency, currencyEquals, CAVAX, Token } from '@pangolindex/sdk'
+import { ChainId, Currency, currencyEquals, CAVAX, Token } from '@antiyro/sdk'
 import styled from 'styled-components'
 
 import { SUGGESTED_BASES } from '../../constants'
@@ -47,13 +47,13 @@ export default function CommonBases({
       <AutoRow gap="4px">
         <BaseWrapper
           onClick={() => {
-            if (!selectedCurrency || !currencyEquals(selectedCurrency, CAVAX)) {
-              onSelect(CAVAX)
+            if (!selectedCurrency || !currencyEquals(selectedCurrency, CAVAX[chainId || ChainId.AVALANCHE])) {
+              onSelect(CAVAX[chainId || ChainId.AVALANCHE])
             }
           }}
-          disable={selectedCurrency === CAVAX}
+          disable={selectedCurrency === CAVAX[chainId || ChainId.AVALANCHE]}
         >
-          <CurrencyLogo currency={CAVAX} style={{ marginRight: 8 }} />
+          {chainId && <CurrencyLogo currency={chainId && CAVAX[chainId]} style={{ marginRight: 8 }} chainId={chainId}/>}
           <Text fontWeight={500} fontSize={16}>
             AVAX
           </Text>
@@ -62,7 +62,7 @@ export default function CommonBases({
           const selected = selectedCurrency instanceof Token && selectedCurrency.address === token.address
           return (
             <BaseWrapper onClick={() => !selected && onSelect(token)} disable={selected} key={token.address}>
-              <CurrencyLogo currency={token} style={{ marginRight: 8 }} />
+              {chainId && <CurrencyLogo currency={token} style={{ marginRight: 8 }} chainId={chainId}/>}
               <Text fontWeight={500} fontSize={16}>
                 {token.symbol}
               </Text>

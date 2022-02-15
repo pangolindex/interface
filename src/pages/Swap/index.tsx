@@ -1,4 +1,4 @@
-import { CurrencyAmount, JSBI, Token, Trade } from '@pangolindex/sdk'
+import { CurrencyAmount, JSBI, Token, Trade, ChainId } from '@antiyro/sdk'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -151,7 +151,7 @@ export default function Swap() {
         [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount
       }
 
-  const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
+  const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers(chainId ? chainId : ChainId.AVALANCHE)
   const isValid = !swapInputError
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
 
@@ -197,7 +197,7 @@ export default function Swap() {
   const noRoute = !route
 
   // check whether the user has approved the router on the input token
-  const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
+  const [approval, approveCallback] = useApproveCallbackFromTrade(chainId || ChainId.AVALANCHE, trade, allowedSlippage)
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
@@ -209,13 +209,13 @@ export default function Swap() {
     }
   }, [approval, approvalSubmitted])
 
-  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
+  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(chainId || ChainId.AVALANCHE, currencyBalances[Field.INPUT])
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
 
   // the callback to execute the swap
   const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(trade, allowedSlippage, recipient)
 
-  const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
+  const { priceImpactWithoutFee } = computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade)
 
   const handleSwap = useCallback(() => {
     if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee)) {
@@ -304,8 +304,8 @@ export default function Swap() {
       if (!chainId || !selectedTokens) return true // Assume trusted at first to avoid flashing a warning
       return (
         TRUSTED_TOKEN_ADDRESSES[chainId].includes(token.address) || // trust token from manually whitelisted token
-        isTokenOnList(selectedTokens, token) || // trust all tokens from selected token list by user
-        isTokenOnList(whitelistedTokens, token) // trust all defi + AB tokens
+        isTokenOnList(selectedTokens, chainId, token) || // trust all tokens from selected token list by user
+        isTokenOnList(whitelistedTokens, chainId, token) // trust all defi + AB tokens
       )
     },
     [chainId, selectedTokens, whitelistedTokens]
@@ -339,6 +339,7 @@ export default function Swap() {
         <Wrapper id="swap-page">
           <ConfirmSwapModal
             isOpen={showConfirm}
+            chainId={chainId || ChainId.AVALANCHE}
             trade={trade}
             originalTrade={tradeToConfirm}
             onAcceptChanges={handleAcceptChanges}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from '@pangolindex/components'
-import { JSBI } from '@pangolindex/sdk'
+import { JSBI } from '@antiyro/sdk'
 import numeral from 'numeral'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
@@ -17,7 +17,7 @@ export interface PoolCardProps {
 
 const PoolCard = ({ stakingInfo, onViewDetailsClick, onClaimClick, onDepositClick }: PoolCardProps) => {
   const { t } = useTranslation()
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
   const showClaimButton = stakingInfo?.earnedAmount?.greaterThan('0')
 
@@ -26,7 +26,7 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick, onClaimClick, onDepositClic
       <CardHeader>
         <TokenName>{t('stakePage.earn', { symbol: stakingInfo.rewardToken.symbol })}</TokenName>
         <div>
-          <CurrencyLogo size="58px" currency={stakingInfo.rewardToken} />
+          {chainId && <CurrencyLogo size="58px" currency={stakingInfo.rewardToken} chainId={chainId} />}
         </div>
       </CardHeader>
       <CardStats>

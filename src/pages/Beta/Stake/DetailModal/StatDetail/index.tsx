@@ -1,10 +1,11 @@
 import React from 'react'
 import { Text, Box } from '@pangolindex/components'
-import { Currency, TokenAmount } from '@pangolindex/sdk'
+import { ChainId, Currency, TokenAmount } from '@antiyro/sdk'
 import { StateContainer } from './styleds'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
+import { useActiveWeb3React } from 'src/hooks'
 
 interface Props {
   title: String
@@ -14,7 +15,8 @@ interface Props {
 
 const StatDetails: React.FC<Props> = ({ title, amountInPNG, currency0 }) => {
   const usdcPrice = useUSDCPrice(amountInPNG?.token)
-  const amountInUSD = numeral(usdcPrice?.quote(amountInPNG).toSignificant(6)).format('$0.00a')
+  const { chainId } = useActiveWeb3React()
+  const amountInUSD = numeral(usdcPrice?.quote(amountInPNG, chainId || ChainId.AVALANCHE).toSignificant(6)).format('$0.00a')
 
   return (
     <Box>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { CurrencyAmount, Fraction, JSBI } from '@pangolindex/sdk'
+import { CurrencyAmount, Fraction, JSBI } from '@antiyro/sdk'
 
 const CURRENCY_AMOUNT_MIN = new Fraction(JSBI.BigInt(1), JSBI.BigInt(1000000))
 

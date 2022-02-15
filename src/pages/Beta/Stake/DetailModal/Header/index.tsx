@@ -1,6 +1,6 @@
 import { Box, DoubleCurrencyLogo, Text } from '@pangolindex/components'
 import React, { useContext } from 'react'
-import { JSBI } from '@pangolindex/sdk'
+import { JSBI, ChainId } from '@antiyro/sdk'
 import Stat from 'src/components/Stat'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
@@ -8,6 +8,7 @@ import { ThemeContext } from 'styled-components'
 import { HeaderRoot, StatsWrapper } from './styled'
 import { useTranslation } from 'react-i18next'
 import { CloseIcon } from 'src/theme'
+import { useActiveWeb3React } from 'src/hooks'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
@@ -18,8 +19,10 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
-  const currency0 = unwrappedToken(stakingInfo?.totalStakedAmount?.token)
-  const currency1 = unwrappedToken(stakingInfo?.rewardToken)
+  const { chainId } = useActiveWeb3React()
+
+  const currency0 = unwrappedToken(stakingInfo?.totalStakedAmount?.token, chainId || ChainId.AVALANCHE)
+  const currency1 = unwrappedToken(stakingInfo?.rewardToken, chainId || ChainId.AVALANCHE)
   const totalRewardRate = stakingInfo?.totalRewardRate
     ?.multiply((60 * 60 * 24 * 7).toString())
     ?.toSignificant(4, { groupSeparator: ',' })

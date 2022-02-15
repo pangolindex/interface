@@ -1,4 +1,4 @@
-import { JSBI, Token, TokenAmount } from '@pangolindex/sdk'
+import { JSBI, Token, TokenAmount } from '@antiyro/sdk'
 import { BigNumber } from 'ethers'
 
 const TREASURY_VESTING_GENESIS = 1612899125

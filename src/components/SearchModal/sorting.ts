@@ -1,4 +1,4 @@
-import { Token, TokenAmount } from '@pangolindex/sdk'
+import { Token, TokenAmount } from '@antiyro/sdk'
 import { useMemo } from 'react'
 import { useAllTokenBalances } from '../../state/wallet/hooks'
 

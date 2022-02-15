@@ -1,4 +1,4 @@
-import { Currency, currencyEquals, CAVAX, WAVAX } from '@pangolindex/sdk'
+import { Currency, currencyEquals, CAVAX, WAVAX, ChainId } from '@antiyro/sdk'
 import { useMemo } from 'react'
 import { tryParseAmount } from '../state/swap/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
@@ -26,9 +26,9 @@ export default function useWrapCallback(
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
   const { chainId, account } = useActiveWeb3React()
   const wethContract = useWETHContract()
-  const balance = useCurrencyBalance(account ?? undefined, inputCurrency)
+  const balance = useCurrencyBalance(chainId || ChainId.AVALANCHE, account ?? undefined, inputCurrency)
   // we can always parse the amount typed as the input currency, since wrapping is 1:1
-  const inputAmount = useMemo(() => tryParseAmount(typedValue, inputCurrency), [inputCurrency, typedValue])
+  const inputAmount = useMemo(() => tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, typedValue, inputCurrency), [chainId, inputCurrency, typedValue])
   const addTransaction = useTransactionAdder()
 
   return useMemo(() => {
@@ -36,7 +36,7 @@ export default function useWrapCallback(
 
     const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount)
 
-    if (inputCurrency === CAVAX && currencyEquals(WAVAX[chainId], outputCurrency)) {
+    if (inputCurrency === CAVAX[chainId || ChainId.AVALANCHE] && currencyEquals(WAVAX[chainId], outputCurrency)) {
       return {
         wrapType: WrapType.WRAP,
         execute:
@@ -52,7 +52,7 @@ export default function useWrapCallback(
             : undefined,
         inputError: sufficientBalance ? undefined : 'Insufficient AVAX balance'
       }
-    } else if (currencyEquals(WAVAX[chainId], inputCurrency) && outputCurrency === CAVAX) {
+    } else if (currencyEquals(WAVAX[chainId], inputCurrency) && outputCurrency === CAVAX[chainId || ChainId.AVALANCHE]) {
       return {
         wrapType: WrapType.UNWRAP,
         execute:

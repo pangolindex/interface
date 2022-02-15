@@ -158,7 +158,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
                   <MenuLink id={x.id} to={x.link}>
                     <Icon size={16} fillColor={x.isActive ? theme.black : theme.color22} />
                     {!collapsed && (
-                      <MenuName fontSize={16} color={x.isActive ? 'black' : undefined}>
+                      <MenuName fontSize={16} color={x.isActive && 'black'}>
                         {x.title}
                       </MenuName>
                     )}

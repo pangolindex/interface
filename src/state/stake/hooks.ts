@@ -1,4 +1,4 @@
-import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent } from '@pangolindex/sdk'
+import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent } from '@antiyro/sdk'
 import { useMemo, useEffect, useState } from 'react'
 import {
   PNG,
@@ -120,10 +120,11 @@ const calculateTotalStakedAmountInAvaxFromPng = function(
   amountAvailable: JSBI,
   avaxPngPairReserveOfPng: JSBI,
   avaxPngPairReserveOfWavax: JSBI,
-  reserveInPng: JSBI
+  reserveInPng: JSBI,
+  chainId: ChainId
 ): TokenAmount {
   if (JSBI.EQ(amountAvailable, JSBI.BigInt(0))) {
-    return new TokenAmount(WAVAX[ChainId.AVALANCHE], JSBI.BigInt(0))
+    return new TokenAmount(WAVAX[chainId ? chainId : ChainId.AVALANCHE], JSBI.BigInt(0))
   }
 
   const oneToken = JSBI.BigInt(1000000000000000000)
@@ -131,7 +132,7 @@ const calculateTotalStakedAmountInAvaxFromPng = function(
   const valueOfPngInAvax = JSBI.divide(JSBI.multiply(reserveInPng, avaxPngRatio), oneToken)
 
   return new TokenAmount(
-    WAVAX[ChainId.AVALANCHE],
+    WAVAX[chainId ? chainId : ChainId.AVALANCHE],
     JSBI.divide(
       JSBI.multiply(
         JSBI.multiply(amountStaked, valueOfPngInAvax),
@@ -170,12 +171,13 @@ const calculateApr = function(rewardRatePerSecond: JSBI, totalSupply: JSBI): JSB
 const calculateTotalStakedAmountInAvax = function(
   amountStaked: JSBI,
   amountAvailable: JSBI,
-  reserveInWavax: JSBI
+  reserveInWavax: JSBI,
+  chainId: ChainId
 ): TokenAmount {
   if (JSBI.GT(amountAvailable, 0)) {
     // take the total amount of LP tokens staked, multiply by AVAX value of all LP tokens, divide by all LP tokens
     return new TokenAmount(
-      WAVAX[ChainId.AVALANCHE],
+      WAVAX[chainId ? chainId : ChainId.AVALANCHE],
       JSBI.divide(
         JSBI.multiply(
           JSBI.multiply(amountStaked, reserveInWavax),
@@ -185,7 +187,7 @@ const calculateTotalStakedAmountInAvax = function(
       )
     )
   } else {
-    return new TokenAmount(WAVAX[ChainId.AVALANCHE], JSBI.BigInt(0))
+    return new TokenAmount(WAVAX[chainId ? chainId : ChainId.AVALANCHE], JSBI.BigInt(0))
   }
 }
 
@@ -314,16 +316,17 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
 
         const isAvaxPool = tokens[0].equals(WAVAX[tokens[0].chainId])
         const totalStakedInWavax = isAvaxPool
-          ? calculateTotalStakedAmountInAvax(totalSupplyStaked, totalSupplyAvailable, pair.reserveOf(wavax).raw)
+          ? calculateTotalStakedAmountInAvax(totalSupplyStaked, totalSupplyAvailable, pair.reserveOf(wavax).raw, chainId)
           : calculateTotalStakedAmountInAvaxFromPng(
               totalSupplyStaked,
               totalSupplyAvailable,
               avaxPngPair.reserveOf(png).raw,
               avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
-              pair.reserveOf(png).raw
+              pair.reserveOf(png).raw,
+              chainId
             )
 
-        const totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax) as TokenAmount)
+        const totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount)
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
           totalStakedAmount: TokenAmount,
@@ -596,10 +599,10 @@ export function useDerivedStakeInfo(
   parsedAmount?: CurrencyAmount
   error?: string
 } {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
 
-  const parsedInput: CurrencyAmount | undefined = tryParseAmount(typedValue, stakingToken)
+  const parsedInput: CurrencyAmount | undefined = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, typedValue, stakingToken)
 
   const parsedAmount =
     parsedInput && userLiquidityUnstaked && JSBI.lessThanOrEqual(parsedInput.raw, userLiquidityUnstaked.raw)
@@ -628,10 +631,10 @@ export function useDerivedUnstakeInfo(
   parsedAmount?: CurrencyAmount
   error?: string
 } {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
 
-  const parsedInput: CurrencyAmount | undefined = tryParseAmount(typedValue, stakingAmount.token)
+  const parsedInput: CurrencyAmount | undefined = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, typedValue, stakingAmount.token)
 
   const parsedAmount = parsedInput && JSBI.lessThanOrEqual(parsedInput.raw, stakingAmount.raw) ? parsedInput : undefined
 
@@ -719,8 +722,8 @@ export function useGetPairDataFromPair(pair: Pair) {
         ]
       : [zeroTokenAmount0, zeroTokenAmount1]
 
-  const usdAmountCurrency0: CurrencyAmount = usdPriceCurrency0?.quote(token0Deposited) ?? zeroTokenAmount0
-  const usdAmountCurrency1: CurrencyAmount = usdPriceCurrency1?.quote(token1Deposited) ?? zeroTokenAmount1
+  const usdAmountCurrency0: CurrencyAmount = usdPriceCurrency0?.quote(token0Deposited, chainId ? chainId : ChainId.AVALANCHE) ?? zeroTokenAmount0
+  const usdAmountCurrency1: CurrencyAmount = usdPriceCurrency1?.quote(token1Deposited, chainId ? chainId : ChainId.AVALANCHE) ?? zeroTokenAmount1
 
   const totalAmountUsd: CurrencyAmount = usdAmountCurrency0?.add(usdAmountCurrency1)
 
@@ -737,7 +740,8 @@ export function useGetPairDataFromPair(pair: Pair) {
   }
 }
 export const useMinichefPools = (): { [key: string]: number } => {
-  const minichefContract = useStakingContract(MINICHEF_ADDRESS)
+  const { chainId } = useActiveWeb3React()
+  const minichefContract = useStakingContract(MINICHEF_ADDRESS[chainId ? chainId : ChainId.AVALANCHE])
   const lpTokens = useSingleCallResult(minichefContract, 'lpTokens', []).result
   const lpTokensArr = lpTokens?.[0]
 
@@ -754,7 +758,7 @@ export const useMinichefPools = (): { [key: string]: number } => {
 
 export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | null): DoubleSideStakingInfo[] => {
   const { chainId, account } = useActiveWeb3React()
-  const minichefContract = useStakingContract(MINICHEF_ADDRESS)
+  const minichefContract = useStakingContract(MINICHEF_ADDRESS[chainId ? chainId : ChainId.AVALANCHE])
   const poolMap = useMinichefPools()
   const png = PNG[chainId || ChainId.AVALANCHE]
 
@@ -780,7 +784,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   }, [pairs])
 
   const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
-  const balances = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'balanceOf', [MINICHEF_ADDRESS])
+  const balances = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'balanceOf', [MINICHEF_ADDRESS[chainId ? chainId : ChainId.AVALANCHE]])
 
   const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[chainId || ChainId.AVALANCHE], png)
 
@@ -933,18 +937,20 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           const totalStakedInWavax = calculateTotalStakedAmountInAvax(
             totalSupplyStaked,
             totalSupplyAvailable,
-            pair.reserveOf(WAVAX[chainId]).raw
+            pair.reserveOf(WAVAX[chainId]).raw,
+            chainId
           )
-          totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax) as TokenAmount)
+          totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount)
         } else if (isPngPool) {
           const totalStakedInWavax = calculateTotalStakedAmountInAvaxFromPng(
             totalSupplyStaked,
             totalSupplyAvailable,
             avaxPngPair.reserveOf(png).raw,
             avaxPngPair.reserveOf(WAVAX[chainId]).raw,
-            pair.reserveOf(png).raw
+            pair.reserveOf(png).raw,
+            chainId
           )
-          totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax) as TokenAmount)
+          totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount)
         } else {
           // Contains no stablecoin, WAVAX, nor PNG
           console.error(`Could not identify total staked value for pair ${pair.liquidityToken.address}`)
@@ -1021,9 +1027,9 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
 }
 
 export function useGetPoolDollerWorth(pair: Pair | null) {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const token0 = pair?.token0
-  const currency0 = unwrappedToken(token0 as Token)
+  const currency0 = unwrappedToken(token0 as Token, chainId || ChainId.AVALANCHE)
 
   const currency0Price = useUSDCPrice(currency0)
 

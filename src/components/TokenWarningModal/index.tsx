@@ -1,4 +1,4 @@
-import { Token } from '@pangolindex/sdk'
+import { Token } from '@antiyro/sdk'
 import { transparentize } from 'polished'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
@@ -66,7 +66,7 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
     <Wrapper error={duplicateNameOrSymbol}>
       <AutoRow gap="6px">
         <AutoColumn gap="24px">
-          <CurrencyLogo currency={token} size={'16px'} />
+          {chainId && <CurrencyLogo currency={token} size={'16px'} chainId={chainId} />}
           <div> </div>
         </AutoColumn>
         <AutoColumn gap="10px" justify="flex-start">

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useCallback } from 'react'
 import { ArrowDown, AlertTriangle, ArrowUpCircle } from 'react-feather'
 import { useTranslation } from 'react-i18next'
-import { Token, Trade, TradeType, CAVAX } from '@pangolindex/sdk'
+import { Token, Trade, TradeType, CAVAX, ChainId } from '@antiyro/sdk'
 import { CurrencyLogo, Text, Box, Button } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import { getEtherscanLink } from 'src/utils'
@@ -89,10 +89,10 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
   const outputTokenInfo = outputCurrency1?.tokenInfo
 
   const inputCurrency =
-    inputCurrency1 && inputCurrency1?.symbol === CAVAX.symbol
-      ? CAVAX
-      : inputTokenInfo && inputTokenInfo.symbol === CAVAX.symbol
-      ? CAVAX
+    inputCurrency1 && inputCurrency1?.symbol === CAVAX[chainId || ChainId.AVALANCHE].symbol
+      ? CAVAX[chainId || ChainId.AVALANCHE]
+      : inputTokenInfo && inputTokenInfo.symbol === CAVAX[chainId || ChainId.AVALANCHE].symbol
+      ? CAVAX[chainId || ChainId.AVALANCHE]
       : inputTokenInfo
       ? new Token(
           inputTokenInfo?.chainId,
@@ -112,10 +112,10 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
       : undefined
 
   const outputCurrency =
-    outputCurrency1 && outputCurrency1?.symbol === CAVAX.symbol
-      ? CAVAX
-      : outputTokenInfo && outputTokenInfo?.symbol === CAVAX.symbol
-      ? CAVAX
+    outputCurrency1 && outputCurrency1?.symbol === CAVAX[chainId || ChainId.AVALANCHE].symbol
+      ? CAVAX[chainId || ChainId.AVALANCHE]
+      : outputTokenInfo && outputTokenInfo?.symbol === CAVAX[chainId || ChainId.AVALANCHE].symbol
+      ? CAVAX[chainId || ChainId.AVALANCHE]
       : outputTokenInfo
       ? new Token(
           outputTokenInfo?.chainId,

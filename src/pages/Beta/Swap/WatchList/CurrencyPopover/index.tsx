@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Box, TextInput } from '@pangolindex/components'
 import { useToken } from 'src/hooks/Tokens'
 import { useTokenComparator } from 'src/components/SearchModal/sorting'
-import { Currency, Token, CAVAX } from '@pangolindex/sdk'
+import { Currency, Token, CAVAX, ChainId } from '@antiyro/sdk'
 import { filterTokens } from 'src/components/SearchModal/filtering'
 import { AddInputWrapper, PopoverContainer, CurrencyList } from './styled'
 import CurrencyRow from './CurrencyRow'
@@ -13,6 +13,7 @@ import { AppDispatch } from 'src/state'
 import { addCurrency } from 'src/state/watchlists/actions'
 import { FixedSizeList } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
+import { useActiveWeb3React } from 'src/hooks'
 
 interface Props {
   getRef?: (ref: any) => void
@@ -21,8 +22,8 @@ interface Props {
   onSelectCurrency: (currency: Token) => void
 }
 
-const currencyKey = (currency: Currency): string => {
-  return currency instanceof Token ? currency.address : currency === CAVAX ? 'AVAX' : ''
+const currencyKey = (currency: Currency, chainId: ChainId): string => {
+  return currency instanceof Token ? currency.address : currency === CAVAX[chainId || ChainId.AVALANCHE] ? 'AVAX' : ''
 }
 
 const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen, onSelectCurrency }) => {
@@ -106,6 +107,8 @@ const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen, on
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
+  
+  const { chainId } = useActiveWeb3React()
 
   return (
     <PopoverContainer ref={ref => getRef(ref)}>
@@ -141,7 +144,7 @@ const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen, on
               itemCount={currencies.length}
               itemSize={45}
               itemData={currencies}
-              itemKey={(index, data) => currencyKey(data[index])}
+              itemKey={(index, data) => currencyKey(data[index], chainId || ChainId.AVALANCHE)}
             >
               {Row}
             </FixedSizeList>

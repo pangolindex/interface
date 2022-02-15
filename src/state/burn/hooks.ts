@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, JSBI, Pair, Percent, TokenAmount } from '@pangolindex/sdk'
+import { Currency, CurrencyAmount, JSBI, Pair, Percent, TokenAmount, ChainId } from '@antiyro/sdk'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { usePair } from '../../data/Reserves'
@@ -82,7 +82,7 @@ export function useDerivedBurnInfo(
   // user specified a specific amount of liquidity tokens
   else if (independentField === Field.LIQUIDITY) {
     if (pair?.liquidityToken) {
-      const independentAmount = tryParseAmount(typedValue, pair.liquidityToken)
+      const independentAmount = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, typedValue, pair.liquidityToken)
       if (independentAmount && userLiquidity && !independentAmount.greaterThan(userLiquidity)) {
         percentToRemove = new Percent(independentAmount.raw, userLiquidity.raw)
       }
@@ -91,7 +91,7 @@ export function useDerivedBurnInfo(
   // user specified a specific amount of token a or b
   else {
     if (tokens[independentField]) {
-      const independentAmount = tryParseAmount(typedValue, tokens[independentField])
+      const independentAmount = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, typedValue, tokens[independentField])
       const liquidityValue = liquidityValues[independentField]
       if (independentAmount && liquidityValue && !independentAmount.greaterThan(liquidityValue)) {
         percentToRemove = new Percent(independentAmount.raw, liquidityValue.raw)

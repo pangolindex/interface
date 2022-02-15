@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@pangolindex/sdk'
+import { ChainId, Token } from '@antiyro/sdk'
 import React from 'react'
 import styled from 'styled-components'
 import { PNG } from '../../constants'
@@ -30,7 +30,7 @@ export default function RewardTokens({ rewardTokens = [], size = 16, margin = fa
   return (
     <Wrapper sizeraw={size} margin={margin}>
       {(tokens || []).map((token, i) => {
-        return <CoveredLogo key={i} currency={token as Token} size={size.toString() + 'px'} sizeraw={size} />
+        return <CoveredLogo key={i} currency={token as Token} size={size.toString() + 'px'} sizeraw={size} chainId={chainId || ChainId.AVALANCHE}/>
       })}
     </Wrapper>
   )

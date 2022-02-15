@@ -4,7 +4,7 @@ import { ArrowLeft } from 'react-feather'
 import { DateTime } from 'luxon'
 import ReactMarkdown from 'react-markdown'
 import { useTranslation } from 'react-i18next'
-import { TokenAmount, JSBI } from '@pangolindex/sdk'
+import { TokenAmount, JSBI } from '@antiyro/sdk'
 import { Text } from '@pangolindex/components'
 
 import {

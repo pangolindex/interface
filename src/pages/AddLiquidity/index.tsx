@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, CAVAX, TokenAmount, WAVAX } from '@pangolindex/sdk'
+import { Currency, currencyEquals, CAVAX, TokenAmount, WAVAX } from '@antiyro/sdk'
 import React, { useCallback, useContext, useState } from 'react'
 import { Plus } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -38,7 +38,7 @@ import { Dots, Wrapper } from '../Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { currencyId } from '../../utils/currencyId'
 import { PoolPriceBar } from './PoolPriceBar'
-import { ChainId } from '@pangolindex/sdk'
+import { ChainId } from '@antiyro/sdk'
 import { useTranslation } from 'react-i18next'
 
 export default function AddLiquidity({
@@ -103,7 +103,7 @@ export default function AddLiquidity({
     (accumulator, field) => {
       return {
         ...accumulator,
-        [field]: maxAmountSpend(currencyBalances[field])
+        [field]: maxAmountSpend(chainId ? chainId : ChainId.AVALANCHE, currencyBalances[field])
       }
     },
     {}
@@ -121,10 +121,12 @@ export default function AddLiquidity({
 
   // check whether the user has approved the router on the tokens
   const [approvalA, approveACallback] = useApproveCallback(
+    chainId ? chainId : ChainId.AVALANCHE,
     parsedAmounts[Field.CURRENCY_A],
     chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
   )
   const [approvalB, approveBCallback] = useApproveCallback(
+    chainId ? chainId : ChainId.AVALANCHE,
     parsedAmounts[Field.CURRENCY_B],
     chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
   )
@@ -149,8 +151,8 @@ export default function AddLiquidity({
       method: (...args: any) => Promise<TransactionResponse>,
       args: Array<string | string[] | number>,
       value: BigNumber | null
-    if (currencyA === CAVAX || currencyB === CAVAX) {
-      const tokenBIsETH = currencyB === CAVAX
+    if (currencyA === CAVAX[chainId || ChainId.AVALANCHE] || currencyB === CAVAX[chainId || ChainId.AVALANCHE]) {
+      const tokenBIsETH = currencyB === CAVAX[chainId || ChainId.AVALANCHE]
       estimate = router.estimateGas.addLiquidityAVAX
       method = router.addLiquidityAVAX
       args = [
@@ -276,18 +278,18 @@ export default function AddLiquidity({
 
   const handleCurrencyASelect = useCallback(
     (currencyA: Currency) => {
-      const newCurrencyIdA = currencyId(currencyA)
+      const newCurrencyIdA = currencyId(currencyA, chainId ? chainId : ChainId.AVALANCHE)
       if (newCurrencyIdA === currencyIdB) {
         history.push(`/add/${currencyIdB}/${currencyIdA}`)
       } else {
         history.push(`/add/${newCurrencyIdA}/${currencyIdB}`)
       }
     },
-    [currencyIdB, history, currencyIdA]
+    [chainId, currencyIdB, history, currencyIdA]
   )
   const handleCurrencyBSelect = useCallback(
     (currencyB: Currency) => {
-      const newCurrencyIdB = currencyId(currencyB)
+      const newCurrencyIdB = currencyId(currencyB, chainId ? chainId : ChainId.AVALANCHE)
       if (currencyIdA === newCurrencyIdB) {
         if (currencyIdB) {
           history.push(`/add/${currencyIdB}/${newCurrencyIdB}`)
@@ -298,7 +300,7 @@ export default function AddLiquidity({
         history.push(`/add/${currencyIdA ? currencyIdA : 'AVAX'}/${newCurrencyIdB}`)
       }
     },
-    [currencyIdA, history, currencyIdB]
+    [chainId, currencyIdA, history, currencyIdB]
   )
 
   const handleDismissConfirmation = useCallback(() => {

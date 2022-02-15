@@ -4,7 +4,7 @@ import { RowBetween } from '../Row'
 import styled from 'styled-components'
 import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
-import { CAVAX, Token } from '@pangolindex/sdk'
+import { CAVAX, Token, ChainId } from '@antiyro/sdk'
 import { ButtonPrimary } from '../Button'
 import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
@@ -17,6 +17,7 @@ import RewardTokens from '../RewardTokens'
 import { Box } from '@pangolindex/components'
 import { useTokens } from '../../hooks/Tokens'
 import { BETA_MENU_LINK } from 'src/constants'
+import { useActiveWeb3React } from 'src/hooks'
 
 const StatContainer = styled.div`
   display: flex;
@@ -93,11 +94,13 @@ export default function DoubleSidePoolCard({
   swapFeeApr: number
   stakingApr: number
 }) {
+  const { chainId } = useActiveWeb3React()
+
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
+  const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
+  const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
 
   const poolMap = useMinichefPools()
 
@@ -105,8 +108,8 @@ export default function DoubleSidePoolCard({
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
   const token: Token =
-    currency0 === CAVAX || currency1 === CAVAX
-      ? currency0 === CAVAX
+    currency0 === CAVAX[chainId || ChainId.AVALANCHE] || currency1 === CAVAX[chainId || ChainId.AVALANCHE]
+      ? currency0 === CAVAX[chainId || ChainId.AVALANCHE]
         ? token1
         : token0
       : token0.equals(PNG[token0.chainId])
@@ -152,7 +155,7 @@ export default function DoubleSidePoolCard({
 
           {(isStaking || !stakingInfo.isPeriodFinished) && (
             <StyledInternalLink
-              to={`/png/${currencyId(currency0)}/${currencyId(currency1)}/${version}`}
+              to={`/png/${currencyId(currency0, chainId ? chainId : ChainId.AVALANCHE)}/${currencyId(currency1, chainId ? chainId : ChainId.AVALANCHE)}/${version}`}
               style={{ width: '100%' }}
             >
               <ButtonPrimary padding="8px" borderRadius="8px">

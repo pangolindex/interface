@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import { ArrowDown, AlertTriangle, ArrowUpCircle } from 'react-feather'
 import { useTranslation } from 'react-i18next'
-import { Trade, TradeType } from '@pangolindex/sdk'
+import { Trade, TradeType, ChainId } from '@antiyro/sdk'
 import { CurrencyLogo, Text, Box, Button } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import { getEtherscanLink, tradeMeaningfullyDiffers } from 'src/utils'
@@ -58,11 +58,12 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
-  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage), [
+  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId? chainId : ChainId.AVALANCHE), [
     trade,
-    allowedSlippage
+    allowedSlippage,
+    chainId
   ])
-  const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
+  const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade), [chainId, trade])
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
   const showAcceptChanges = useMemo(

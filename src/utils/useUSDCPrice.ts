@@ -1,6 +1,6 @@
 // TODO: Actually calculate price
 
-import { ChainId, Currency, currencyEquals, JSBI, Price, WAVAX } from '@pangolindex/sdk'
+import { ChainId, Currency, currencyEquals, JSBI, Price, WAVAX } from '@antiyro/sdk'
 import { useMemo } from 'react'
 import { USDCe } from '../constants'
 import { PairState, usePairs } from '../data/Reserves'
@@ -48,7 +48,7 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
 
 		const avaxPairAVAXAmount = avaxPair?.reserveOf(WAVAX[chainId])
 		const avaxPairAVAXUSDCValue: JSBI =
-			avaxPairAVAXAmount && usdcAvaxPair ? usdcAvaxPair.priceOf(WAVAX[chainId]).quote(avaxPairAVAXAmount).raw : JSBI.BigInt(0)
+			avaxPairAVAXAmount && usdcAvaxPair ? usdcAvaxPair.priceOf(WAVAX[chainId]).quote(avaxPairAVAXAmount, chainId).raw : JSBI.BigInt(0)
 
 		// all other tokens
 		// first try the usdc pair

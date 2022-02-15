@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Text, Box, CurrencyLogo } from '@pangolindex/components'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
-import { ChainId, Token } from '@pangolindex/sdk'
+import { ChainId, Token } from '@antiyro/sdk'
 import { DeleteButton, RowWrapper } from './styleds'
 import { ThemeContext } from 'styled-components'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
@@ -22,7 +22,8 @@ type Props = {
 }
 
 const WatchlistRow: React.FC<Props> = ({ coin, onClick, onRemove, isSelected }) => {
-  const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
+  // const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
+  const { chainId } = useActiveWeb3React()
   const [showChart, setShowChart] = useState(false)
   const [showDeleteButton, setShowDeleteButton] = useState(false)
   const theme = useContext(ThemeContext)
@@ -36,7 +37,7 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, onRemove, isSelected }) 
   var decreaseValue = currentUSDPrice - previousUSDPrice
   let perc = (decreaseValue / previousUSDPrice) * 100
 
-  const token = unwrappedToken(coin)
+  const token = unwrappedToken(coin, chainId || ChainId.AVALANCHE)
 
   const dispatch = useDispatch<AppDispatch>()
 
@@ -84,7 +85,7 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, onRemove, isSelected }) 
         )}
       </Box>
       <Box textAlign="right" minWidth={30} height={'100%'}>
-        {showDeleteButton && coin.address !== PNG[chainId].address && (
+        {chainId && showDeleteButton && coin.address !== PNG[chainId].address && (
           <Box zIndex={2} position="relative">
             <DeleteButton onClick={removeToken}>
               <X fontSize={16} fontWeight={600} style={{ float: 'right' }} />

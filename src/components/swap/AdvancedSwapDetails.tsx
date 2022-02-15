@@ -1,4 +1,4 @@
-import { Trade, TradeType } from '@pangolindex/sdk'
+import { ChainId, Trade, TradeType } from '@antiyro/sdk'
 import React, { useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { Field } from '../../state/swap/actions'
@@ -12,12 +12,13 @@ import FormattedPriceImpact from './FormattedPriceImpact'
 import { SectionBreak } from './styleds'
 import SwapRoute from './SwapRoute'
 import { useTranslation } from 'react-i18next'
+import { useActiveWeb3React } from 'src/hooks'
 
-function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippage: number }) {
+function TradeSummary({ trade, allowedSlippage, chainId }: { trade: Trade; allowedSlippage: number; chainId: ChainId }) {
   const theme = useContext(ThemeContext)
-  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(trade)
+  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade)
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
-  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
+  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId? chainId : ChainId.AVALANCHE)
   const { t } = useTranslation()
 
   return (
@@ -74,15 +75,15 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
   const theme = useContext(ThemeContext)
 
   const [allowedSlippage] = useUserSlippageTolerance()
-
+  const { chainId } =useActiveWeb3React()
   const showRoute = Boolean(trade && trade.route.path.length > 2)
   const { t } = useTranslation()
 
   return (
     <AutoColumn gap="md">
-      {trade && (
+      {trade && chainId && (
         <>
-          <TradeSummary trade={trade} allowedSlippage={allowedSlippage} />
+          <TradeSummary trade={trade} allowedSlippage={allowedSlippage} chainId={chainId} />
           {showRoute && (
             <>
               <SectionBreak />
@@ -93,7 +94,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
                   </TYPE.black>
                   <QuestionHelper text={t('swap.routingHelper')} />
                 </RowFixed>
-                <SwapRoute trade={trade} />
+                <SwapRoute trade={trade} chainId={ chainId } />
               </AutoColumn>
             </>
           )}

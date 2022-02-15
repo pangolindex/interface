@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { Wrapper, PanelWrapper, HeaderGridContainer, EarnWrapper, DetailContainer, TabView } from './styleds'
-import { CAVAX, Fraction, Token } from '@pangolindex/sdk'
+import { CAVAX, Fraction, ChainId } from '@antiyro/sdk'
 import { CloseIcon } from 'src/theme/components'
 import { useTranslation } from 'react-i18next'
 import { StakingInfo, useGetPoolDollerWorth } from 'src/state/stake/hooks'
@@ -17,6 +17,7 @@ import EarnDetail from '../EarnDetail'
 import { useWindowSize } from 'react-use'
 import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
+import { useActiveWeb3React } from 'src/hooks'
 
 export interface PoolDetailProps {
   onDismiss: () => void
@@ -32,9 +33,10 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
   const { t } = useTranslation()
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
+  const { chainId } = useActiveWeb3React()
 
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
+  const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
+  const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
 
   const totalStakedInUsd = numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a')
 
@@ -47,7 +49,6 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
   const [, stakingTokenPair] = usePair(token0, token1)
   const pair = stakingTokenPair
   const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)
-
   const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
 
   return (
@@ -154,13 +155,13 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
                 />
               </Box>
             )}
-            {currency0 !== CAVAX && currency0 instanceof Token && (
+            {currency0 !== CAVAX[chainId || ChainId.AVALANCHE] && (
               <Box mt={20}>
                 <CoinDescription coin={currency0} />
               </Box>
             )}
 
-            {currency1 !== CAVAX && currency1 instanceof Token && (
+            {currency1 !== CAVAX[chainId || ChainId.AVALANCHE] && (
               <Box mt={20}>
                 <CoinDescription coin={currency1} />
               </Box>

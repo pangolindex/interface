@@ -1,6 +1,6 @@
 import { useMemo, useEffect, useState } from 'react'
 import { parseBytes32String } from '@ethersproject/strings'
-import { Currency, CAVAX, Token, currencyEquals } from '@pangolindex/sdk'
+import { Currency, CAVAX, Token, currencyEquals } from '@antiyro/sdk'
 import ERC20_INTERFACE, { ERC20_BYTES32_INTERFACE } from '../constants/abis/erc20'
 import { useSelectedTokenList } from '../state/lists/hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../state/multicall/hooks'
@@ -8,7 +8,10 @@ import { useUserAddedTokens } from '../state/user/hooks'
 import { isAddress } from '../utils'
 import { useActiveWeb3React } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
-import { CHAINS, ChainsId } from 'src/constants/chains'
+import { COIN_ID_OVERRIDE } from 'src/constants'
+import CoinGecko from 'coingecko-api'
+
+const CoinGeckoClient = new CoinGecko()
 
 export function useAllTokens(): { [address: string]: Token } {
   const { chainId } = useActiveWeb3React()
@@ -164,29 +167,70 @@ export function useTokens(tokensAddress: string[] = []): Array<Token | undefined
 }
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
+  const { chainId } = useActiveWeb3React()
   const isAVAX = currencyId?.toUpperCase() === 'AVAX'
   const token = useToken(isAVAX ? undefined : currencyId)
-  return isAVAX ? CAVAX : token
+  return isAVAX ? chainId && CAVAX[chainId] : token
 }
 
-export function useCoinGeckoTokenData(coin: Token) {
-  const [result, setResult] = useState({} as { coinId: string; homePage: string; description: string })
+export const useCoinGeckoAllCoins = () => {
+  const [coins, setCoins] = useState([] as any[])
 
   useEffect(() => {
-    let getCoinData = async () => {
-      const chain = coin.chainId === 43113 ? CHAINS[ChainsId.AVAX] : CHAINS[coin.chainId ]
+    fetch(`https://api.coingecko.com/api/v3/coins/list`)
+      .then(res => res.json())
+      .then(val => setCoins(val))
+  }, [])
 
-      const response = await fetch(`https://api.coingecko.com/api/v3/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`) 
-      const data = await response.json()
-      console.log(data)
-      setResult({
-        coinId: data?.id,
-        homePage: data?.links?.homepage[0],
-        description: data?.description?.en
-      })
+  return coins
+}
+
+export function useCoinGeckoTokenData(symbol?: string, name?: string) {
+  const [result, setResult] = useState({} as { coinId: string; homePage: string; description: string })
+  const allCoins = useCoinGeckoAllCoins()
+
+  useEffect(() => {
+    let data = {} as { coinId: string; homePage: string; description: string }
+
+    let getCoinData = async () => {
+      try {
+        let newSymbol = (symbol || '')?.split('.')[0]
+        const isWrappedToken = (name || '')?.split(' ')[0].toLowerCase() === 'wrapped'
+        if (isWrappedToken) {
+          if (newSymbol?.charAt(0)?.toLocaleLowerCase() === 'w') {
+            newSymbol = newSymbol?.substring(1)
+          }
+        }
+        newSymbol = newSymbol?.toUpperCase()
+
+        const coinId =
+          newSymbol in COIN_ID_OVERRIDE // here we are checking existance of key instead of value of key, because value of key might be undefined
+            ? undefined
+            : allCoins.find((data: any) => data?.symbol?.toUpperCase() === newSymbol)?.id
+
+        if (!!coinId) {
+          let coin = (await CoinGeckoClient.coins.fetch(coinId, {
+            tickers: false,
+            community_data: false,
+            developer_data: false,
+            localization: false,
+            sparkline: false
+          })) as any
+
+          data.coinId = coinId
+          data.homePage = coin?.data?.links?.homepage?.[0]
+          data.description = coin?.data?.description?.en
+        }
+
+        setResult(data)
+      } catch (e) {
+        console.log(e)
+      }
     }
-    getCoinData()
-  }, [coin])
+    if (symbol && name) {
+      getCoinData()
+    }
+  }, [symbol, name, allCoins])
 
   return result
 }

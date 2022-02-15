@@ -1,4 +1,4 @@
-import { TokenAmount, JSBI } from '@pangolindex/sdk'
+import { TokenAmount, JSBI } from '@antiyro/sdk'
 import React, { useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
@@ -76,8 +76,8 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
 
   let pngPrice
 
-  if (usdcPrice && png) {
-    pngPrice = usdcPrice.quote(new TokenAmount(png, oneToken))
+  if (chainId && usdcPrice && png) {
+    pngPrice = usdcPrice.quote(new TokenAmount(png, oneToken), chainId)
   }
 
   const [circulation, setCirculation] = useState(totalSupply)

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import Drawer from 'src/components/Drawer'
-import { Pair } from '@pangolindex/sdk'
+import { Pair } from '@antiyro/sdk'
 import { FixedSizeList } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { CurrencyList } from './styled'
