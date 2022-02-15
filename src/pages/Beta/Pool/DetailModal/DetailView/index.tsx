@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { Wrapper, PanelWrapper, HeaderGridContainer, EarnWrapper, DetailContainer, TabView } from './styleds'
-import { CAVAX, Fraction, ChainId } from '@antiyro/sdk'
+import { CAVAX, Fraction, ChainId, Token } from '@antiyro/sdk'
 import { CloseIcon } from 'src/theme/components'
 import { useTranslation } from 'react-i18next'
 import { StakingInfo, useGetPoolDollerWorth } from 'src/state/stake/hooks'
@@ -155,13 +155,12 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
                 />
               </Box>
             )}
-            {currency0 !== CAVAX[chainId || ChainId.AVALANCHE] && (
+            {currency0 !== CAVAX[chainId || ChainId.AVALANCHE] && currency0 instanceof Token && (
               <Box mt={20}>
                 <CoinDescription coin={currency0} />
               </Box>
             )}
-
-            {currency1 !== CAVAX[chainId || ChainId.AVALANCHE] && (
+            {currency1 !== CAVAX[chainId || ChainId.AVALANCHE]  && currency1 instanceof Token && (
               <Box mt={20}>
                 <CoinDescription coin={currency1} />
               </Box>

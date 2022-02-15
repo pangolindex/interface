@@ -28,7 +28,7 @@ export function wrappedCurrencyAmount(
   return token && currencyAmount ? new TokenAmount(token, currencyAmount.raw) : undefined
 }
 
-export function unwrappedToken(token: Token, chainId: ChainId): Currency {
+export function unwrappedToken(token: Token, chainId: ChainId): Currency | Token {
   if (token.equals(WAVAX[token.chainId])) return CAVAX[chainId]
   return token
 }
