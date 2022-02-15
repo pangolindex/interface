@@ -22,7 +22,8 @@ const TradeOption: React.FC<Props> = ({ swapType, setSwapType }) => {
           <Text color="text1" fontSize={24} fontWeight={500}>
             {t('swapPage.trade')}
           </Text>
-          {/* {chainId === ChainId.WAGMI && (
+          {/* ATTENTION ICI */}
+          {chainId === ChainId.WAGMI && (
           <ToggleButtons
             options={['MARKET']}
             value={swapType}
@@ -30,7 +31,6 @@ const TradeOption: React.FC<Props> = ({ swapType, setSwapType }) => {
               setSwapType(value)
             }}
           /> )}
-          
           {chainId === ChainId.AVALANCHE && (
           <ToggleButtons
             options={['MARKET', 'LIMIT']}
@@ -39,14 +39,7 @@ const TradeOption: React.FC<Props> = ({ swapType, setSwapType }) => {
               setSwapType(value)
             }}
           />
-          )} */}
-          <ToggleButtons
-            options={['MARKET', 'LIMIT']}
-            value={swapType}
-            onChange={value => {
-              setSwapType(value)
-            }}
-          />
+          )}
         </Box>
       </Box>
     </SwapWrapper>

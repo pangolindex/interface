@@ -8,7 +8,7 @@ import { useActiveWeb3React } from 'src/hooks'
 import WatchlistRow from './WatchlistRow'
 import { WatchListRoot, GridContainer, Title, DesktopWatchList, MobileWatchList } from './styleds'
 import Scrollbars from 'react-custom-scrollbars'
-import CoinChart from './CoinChart'
+// import CoinChart from './CoinChart'
 import CurrencyPopover from './CurrencyPopover'
 import { useOnClickOutside } from 'src/hooks/useOnClickOutside'
 import useToggle from 'src/hooks/useToggle'
@@ -82,7 +82,7 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
         {chainId === ChainId.AVALANCHE && !isLimitOrders && (
           <Hidden upToSmall={true}>
             {/* // ATTENTION ICI */}
-            <CoinChart coin={selectedToken} />
+            {/* <CoinChart coin={selectedToken} /> */}
           </Hidden>
         )}
 
