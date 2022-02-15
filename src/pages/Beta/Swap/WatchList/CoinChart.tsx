@@ -23,7 +23,7 @@ type Props = {
 export const RedirectContext = React.createContext<boolean>(false)
 
 const CoinChart: React.FC<Props> = ({ coin }) => {
-  const { chainId } = useActiveWeb3React()
+  const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
 
   const { t } = useTranslation()
   let weekFrame = TIMEFRAME.find(t => t.label === '1W')
