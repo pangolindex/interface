@@ -117,6 +117,9 @@ import {
   IME,
   MONEY,
   YDR,
+  FIRE,
+  BAVA,
+  BRIBE,
   OG,
   wWAGMI
 } from '../../constants'
@@ -1367,6 +1370,21 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   WAVAX_YDR_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], YDR[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  WAVAX_FIRE_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], FIRE[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  WAVAX_BAVA_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], BAVA[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  WAVAX_BRIBE_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], BRIBE[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
     version: 2
   }

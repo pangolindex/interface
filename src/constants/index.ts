@@ -1469,7 +1469,30 @@ export const RACEX: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'RACEX', 'RaceX'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7086e045b78e1e72f741f25231c08d238812cf8a', 18, 'RACEX', 'RaceX'),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'RACEX', 'RaceX')
+}
 
+export const FIRE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'FIRE', 'FIRE'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xfcc6CE74f4cd7eDEF0C5429bB99d38A3608043a5', 18, 'FIRE', 'FIRE'),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'FIRE', 'FIRE')
+}
+
+export const BAVA: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'BAVA', 'BavaToken'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xe19A1684873faB5Fb694CfD06607100A632fF21c',
+    18,
+    'BAVA',
+    'BavaToken'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'BAVA', 'BavaToken')
+}
+
+export const BRIBE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'BRIBE', 'BRIBE'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xCe2fbed816E320258161CeD52c2d0CEBcdFd8136', 18, 'BRIBE', 'BRIBE'),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'BRIBE', 'BRIBE')
 }
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
