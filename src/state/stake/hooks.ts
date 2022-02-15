@@ -9,6 +9,7 @@ import {
   BIG_INT_ZERO,
   BIG_INT_TWO,
   BIG_INT_ONE,
+  BIG_INT_SECONDS_IN_WEEK,
   USDC,
   UST
 } from '../../constants'
@@ -71,19 +72,20 @@ export interface StakingInfoBase {
   // the total amount of token staked in the contract
   totalStakedAmount: TokenAmount
   // the amount of token distributed per second to all LPs, constant
-  totalRewardRate: TokenAmount
-  // the current amount of token distributed to the active account per second.
-  // equivalent to percent of total supply * reward rate
-  rewardRate: TokenAmount
+  totalRewardRatePerSecond: TokenAmount
+  totalRewardRatePerWeek: TokenAmount
+  // the current amount of token distributed to the active account per week.
+  // equivalent to percent of total supply * reward rate * (60 * 60 * 24 * 7)
+  rewardRatePerWeek: TokenAmount
   // when the period ends
   periodFinish: Date | undefined
   // has the reward period expired
   isPeriodFinished: boolean
   // calculates a hypothetical amount of token distributed to the active account per second.
-  getHypotheticalRewardRate: (
+  getHypotheticalWeeklyRewardRate: (
     stakedAmount: TokenAmount,
     totalStakedAmount: TokenAmount,
-    totalRewardRate: TokenAmount
+    totalRewardRatePerSecond: TokenAmount
   ) => TokenAmount
 }
 
@@ -106,7 +108,11 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
   rewardTokensAddress?: Array<string>
   rewardsAddress?: string
   rewardTokensMultiplier?: Array<JSBI>
-  getExtraTokensRewardRate?: (rewardRate: TokenAmount, token: Token, tokenMultiplier: JSBI | undefined) => TokenAmount
+  getExtraTokensWeeklyRewardRate?: (
+    rewardRatePerWeek: TokenAmount,
+    token: Token,
+    tokenMultiplier: JSBI | undefined
+  ) => TokenAmount
 }
 
 export interface StakingInfo extends DoubleSideStakingInfo {
@@ -310,7 +316,15 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
 
         const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
         const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(totalSupplyStaked))
-        const totalRewardRate = new TokenAmount(png, JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0]))
+        const totalRewardRatePerSecond = new TokenAmount(
+          png,
+          JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0])
+        )
+
+        const totalRewardRatePerWeek = new TokenAmount(
+          png,
+          JSBI.multiply(totalRewardRatePerSecond.raw, BIG_INT_SECONDS_IN_WEEK)
+        )
 
         const isAvaxPool = tokens[0].equals(WAVAX[tokens[0].chainId])
         const totalStakedInWavax = isAvaxPool
@@ -324,20 +338,25 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
             )
 
         const totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax) as TokenAmount)
-        const getHypotheticalRewardRate = (
+
+        const getHypotheticalWeeklyRewardRate = (
           stakedAmount: TokenAmount,
           totalStakedAmount: TokenAmount,
-          totalRewardRate: TokenAmount
+          totalRewardRatePerSecond: TokenAmount
         ): TokenAmount => {
           return new TokenAmount(
             png,
             JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
-              ? JSBI.divide(JSBI.multiply(totalRewardRate.raw, stakedAmount.raw), totalStakedAmount.raw)
+              ? JSBI.divide(JSBI.multiply(totalRewardRatePerSecond.raw, stakedAmount.raw), totalStakedAmount.raw)
               : JSBI.BigInt(0)
           )
         }
 
-        const individualRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, totalRewardRate)
+        const individualRewardRatePerWeek = getHypotheticalWeeklyRewardRate(
+          stakedAmount,
+          totalStakedAmount,
+          totalRewardRatePerSecond
+        )
 
         const multiplier = info[index].multiplier
 
@@ -347,14 +366,15 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
           isPeriodFinished: isPeriodFinished,
           earnedAmount: new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
-          rewardRate: individualRewardRate,
-          totalRewardRate: totalRewardRate,
+          rewardRatePerWeek: individualRewardRatePerWeek,
+          totalRewardRatePerSecond: totalRewardRatePerSecond,
+          totalRewardRatePerWeek: totalRewardRatePerWeek,
           stakedAmount: stakedAmount,
           totalStakedAmount: totalStakedAmount,
           totalStakedInWavax: totalStakedInWavax,
           totalStakedInUsd: totalStakedInUsd,
           multiplier: JSBI.BigInt(multiplier ?? 0),
-          getHypotheticalRewardRate
+          getHypotheticalWeeklyRewardRate
         })
       }
       return memo
@@ -490,30 +510,43 @@ export function useSingleSideStakingInfo(
 
         const stakedAmount = new TokenAmount(png, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
         const totalStakedAmount = new TokenAmount(png, JSBI.BigInt(totalSupplyStaked))
-        const totalRewardRate = new TokenAmount(
+        const totalRewardRatePerSecond = new TokenAmount(
           rewardToken,
           JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0])
         )
+
+        const totalRewardRatePerWeek = new TokenAmount(
+          png,
+          JSBI.multiply(totalRewardRatePerSecond.raw, BIG_INT_SECONDS_IN_WEEK)
+        )
+
         const earnedAmount = new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0))
 
-        const rewardRateInPng = calculateRewardRateInPng(totalRewardRate.raw, valueOfPng)
+        const rewardRateInPng = calculateRewardRateInPng(totalRewardRatePerSecond.raw, valueOfPng)
 
         const apr = isPeriodFinished ? JSBI.BigInt(0) : calculateApr(rewardRateInPng, totalSupplyStaked)
 
-        const getHypotheticalRewardRate = (
+        const getHypotheticalWeeklyRewardRate = (
           stakedAmount: TokenAmount,
           totalStakedAmount: TokenAmount,
-          totalRewardRate: TokenAmount
+          totalRewardRatePerSecond: TokenAmount
         ): TokenAmount => {
           return new TokenAmount(
             rewardToken,
             JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
-              ? JSBI.divide(JSBI.multiply(totalRewardRate.raw, stakedAmount.raw), totalStakedAmount.raw)
+              ? JSBI.divide(
+                  JSBI.multiply(JSBI.multiply(totalRewardRatePerSecond.raw, stakedAmount.raw), BIG_INT_SECONDS_IN_WEEK),
+                  totalStakedAmount.raw
+                )
               : JSBI.BigInt(0)
           )
         }
 
-        const individualRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, totalRewardRate)
+        const individualWeeklyRewardRate = getHypotheticalWeeklyRewardRate(
+          stakedAmount,
+          totalStakedAmount,
+          totalRewardRatePerSecond
+        )
 
         memo.push({
           stakingRewardAddress: rewardsAddress,
@@ -521,12 +554,13 @@ export function useSingleSideStakingInfo(
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
           isPeriodFinished: isPeriodFinished,
           earnedAmount: earnedAmount,
-          rewardRate: individualRewardRate,
-          totalRewardRate: totalRewardRate,
+          rewardRatePerWeek: individualWeeklyRewardRate,
+          totalRewardRatePerSecond: totalRewardRatePerSecond,
+          totalRewardRatePerWeek: totalRewardRatePerWeek,
           stakedAmount: stakedAmount,
           totalStakedAmount: totalStakedAmount,
           totalStakedInPng: totalStakedAmount,
-          getHypotheticalRewardRate,
+          getHypotheticalWeeklyRewardRate,
           apr: apr
         })
       }
@@ -889,6 +923,8 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           JSBI.divide(JSBI.multiply(poolAllocPointAmount.raw, rewardRatePerSecAmount.raw), totalAllocPointAmount.raw)
         )
 
+        const totalRewardRatePerWeek = new TokenAmount(png, JSBI.multiply(poolRewardRate.raw, BIG_INT_SECONDS_IN_WEEK))
+
         const periodFinishMs = rewardsExpiration?.[0]?.mul(1000)?.toNumber()
         // periodFinish will be 0 immediately after a reward contract is initialized
         const isPeriodFinished =
@@ -950,35 +986,48 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           console.error(`Could not identify total staked value for pair ${pair.liquidityToken.address}`)
         }
 
-        const getHypotheticalRewardRate = (
+        const getHypotheticalWeeklyRewardRate = (
           stakedAmount: TokenAmount,
           totalStakedAmount: TokenAmount,
-          totalRewardRate: TokenAmount
+          totalRewardRatePerSecond: TokenAmount
         ): TokenAmount => {
           return new TokenAmount(
             png,
             JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
-              ? JSBI.divide(JSBI.multiply(totalRewardRate.raw, stakedAmount.raw), totalStakedAmount.raw)
+              ? JSBI.divide(
+                  JSBI.multiply(JSBI.multiply(totalRewardRatePerSecond.raw, stakedAmount.raw), BIG_INT_SECONDS_IN_WEEK),
+                  totalStakedAmount.raw
+                )
               : JSBI.BigInt(0)
           )
         }
 
-        const getExtraTokensRewardRate = (rewardRate: TokenAmount, token: Token, tokenMultiplier: JSBI | undefined) => {
+        const getExtraTokensWeeklyRewardRate = (
+          rewardRatePerWeek: TokenAmount,
+          token: Token,
+          tokenMultiplier: JSBI | undefined
+        ) => {
           const TEN_EIGHTEEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
-          const rewardMultiplier = JSBI.BigInt(tokenMultiplier || 1) || JSBI.BigInt(1)
-          const finalReward = JSBI.divide(JSBI.multiply(rewardMultiplier, rewardRate?.raw), TEN_EIGHTEEN)
-          const userRewardRate = new TokenAmount(token, finalReward)
-          return userRewardRate
+          // const secondToWeekConversion = JSBI.BigInt(60 * 60 * 24 * 7)
+          const rewardMultiplier = JSBI.BigInt(tokenMultiplier || 1)
+
+          const unadjustedRewardPerWeek = JSBI.multiply(rewardMultiplier, rewardRatePerWeek?.raw)
+
+          // const finalReward = JSBI.divide(JSBI.multiply(unadjustedRewardPerWeek, secondToWeekConversion), TEN_EIGHTEEN)
+          const finalReward = JSBI.divide(unadjustedRewardPerWeek, TEN_EIGHTEEN)
+
+          return new TokenAmount(token, finalReward)
         }
 
-        const userRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
+        const userRewardRatePerWeek = getHypotheticalWeeklyRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
 
         memo.push({
           stakingRewardAddress: MINICHEF_ADDRESS,
           tokens,
           earnedAmount,
-          rewardRate: userRewardRate,
-          totalRewardRate: poolRewardRate,
+          rewardRatePerWeek: userRewardRatePerWeek,
+          totalRewardRatePerSecond: poolRewardRate,
+          totalRewardRatePerWeek: totalRewardRatePerWeek,
           stakedAmount,
           totalStakedAmount,
           totalStakedInWavax,
@@ -986,8 +1035,8 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           multiplier: JSBI.divide(multiplier, JSBI.BigInt(100)),
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
           isPeriodFinished,
-          getHypotheticalRewardRate,
-          getExtraTokensRewardRate,
+          getHypotheticalWeeklyRewardRate,
+          getExtraTokensWeeklyRewardRate,
           rewardTokensAddress: rewardTokensAddress?.result?.[0],
           rewardTokensMultiplier: rewardTokensMultiplier?.result?.[0],
           rewardsAddress
