@@ -9,7 +9,7 @@ const Logo: React.FC<Props> = props => {
   const { height, width, fillColor } = props
   return (
     <svg width={width} height={height} viewBox="0 0 6300 1301" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g clip-path="url(#clip0_977_922)">
+      <g clipPath="url(#clip0_977_922)">
         <path
           d="M1303.06 0.302446L1109.83 0.151339L1167.13 176.818L803.112 440.873L1091.3 650.499L1433.4 402.319L1303.06 0.302446Z"
           fill="#FFC800"

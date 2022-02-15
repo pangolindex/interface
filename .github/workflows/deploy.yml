@@ -32,6 +32,7 @@ jobs:
           REACT_APP_WYRE_API_KEY: ${{ secrets.REACT_APP_WYRE_API_KEY }}
           REACT_APP_WYRE_ID: ${{ secrets.REACT_APP_WYRE_ID }}
           REACT_APP_WYRE_SECRET_KEY: ${{ secrets.REACT_APP_WYRE_SECRET_KEY }}
+          REACT_APP_MOONPAY_PK: ${{ secrets.REACT_APP_MOONPAY_PK }}
       - run: npx ipfs-deploy@8.0.1 ./build -p infura -p pinata -d cloudflare -O -C
         env:
           IPFS_DEPLOY_PINATA__API_KEY: ${{ secrets.PINATA_KEY }}

@@ -1,5 +1,5 @@
 import { ChainId, TokenAmount } from '@pangolindex/sdk'
-import { Button } from '@pangolindex/components'
+import { Button, Box } from '@pangolindex/components'
 import React, { useContext, useState, useRef } from 'react'
 import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
@@ -26,7 +26,6 @@ import {
   AccountElement,
   PNGAmount,
   PNGWrapper,
-  HideSmall,
   NetworkCard,
   BalanceText,
   ThemeMode,
@@ -38,6 +37,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import MobileFooter from '../MobileFooter'
 import { Logo } from '../../components/Icons'
+import { Hidden } from 'src/theme'
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: 'Fuji',
@@ -78,7 +78,17 @@ export default function Header({ onCollapsed }: HeaderProps) {
           <Logo height={30} width={140} fillColor={theme.color6} />
         </MobileLogoWrapper>
 
-        <Web3Status />
+        <Box display="flex" alignItems="center">
+          <Web3Status />
+
+          <ThemeMode onClick={() => toggleDarkMode()}>
+            {isDark ? (
+              <img width={'16px'} src={LightMode} alt={'Setting'} />
+            ) : (
+              <img width={'16px'} src={NightMode} alt={'NightMode'} />
+            )}
+          </ThemeMode>
+        </Box>
       </MobileHeader>
 
       <FooterMobileControls>
@@ -92,16 +102,16 @@ export default function Header({ onCollapsed }: HeaderProps) {
               <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
             </Button>
           </LegacyButtonWrapper>
-          <HideSmall>
+          <Hidden upToSmall={true}>
             {chainId && NETWORK_LABELS[chainId] && (
               <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
             )}
-          </HideSmall>
+          </Hidden>
           {aggregateBalance && (
             <PNGWrapper onClick={() => setShowPngBalanceModal(true)}>
               <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
                 {account && (
-                  <HideSmall>
+                  <Hidden upToSmall={true}>
                     <TYPE.black
                       style={{
                         paddingRight: '.4rem'
@@ -116,7 +126,7 @@ export default function Header({ onCollapsed }: HeaderProps) {
                         duration={1}
                       />
                     </TYPE.black>
-                  </HideSmall>
+                  </Hidden>
                 )}
                 PNG
               </PNGAmount>
