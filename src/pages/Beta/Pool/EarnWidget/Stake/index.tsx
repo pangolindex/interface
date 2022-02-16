@@ -346,7 +346,7 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
         <ContentBox>
           {renderPoolDataRow(t('migratePage.dollarWorth'), `${finalUsd ? `$${Number(finalUsd).toFixed(2)}` : '-'}`)}
           {renderPoolDataRow(
-            `${t('dashboardPage.earned_dailyIncome')}`,
+            `${t('dashboardPage.earned_weeklyIncome')}`,
             `${hypotheticalWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })} PNG`
           )}
 
