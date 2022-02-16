@@ -7,17 +7,29 @@ import SwapWidget from './SwapWidget'
 import { RedirectContext } from './WatchList/CoinChart'
 import LimitOrderList from './LimitOrderList'
 import { useGelatoLimitOrderList } from 'src/state/swap/hooks'
+import { Tooltip } from '@mui/material'
+import { useActiveWeb3React } from 'src/hooks'
 
+import { ChainId } from '@antiyro/sdk'
 const SwapUI = () => {
   const { allOrders } = useGelatoLimitOrderList()
+  const { chainId } = useActiveWeb3React()
 
   const isLimitOrders = (allOrders || []).length > 0
   return (
     <PageWrapper>
       <TopContainer>
-        <StatsWrapper>
-          <PairInfo />
-        </StatsWrapper>
+        {chainId === ChainId.WAGMI ? (
+        <Tooltip title="Not supported on this Chain" followCursor>
+          <StatsWrapper>
+            <PairInfo />
+          </StatsWrapper>
+        </Tooltip>
+        ) : (
+          <StatsWrapper>
+            <PairInfo />
+          </StatsWrapper>
+        )}
         <SwapWidget />
       </TopContainer>
 
