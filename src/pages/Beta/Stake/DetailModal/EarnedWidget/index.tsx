@@ -26,13 +26,13 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo, onClaimClick }) => {
   const rewardToken = stakingInfo?.rewardToken
   const usdcPrice = useUSDCPrice(rewardToken)
 
-  const dailyRewardInToken = stakingInfo?.rewardRatePerWeek.toSignificant(4)
+  const weeklyRewardInToken = stakingInfo?.rewardRatePerWeek.toSignificant(4)
   const unclaimedAmountInToken = stakingInfo?.earnedAmount.toSignificant(4)
 
-  const dailyRewardUSD = Number(dailyRewardInToken) * Number(usdcPrice?.toSignificant(6))
+  const weeklyRewardUSD = Number(weeklyRewardInToken) * Number(usdcPrice?.toSignificant(6))
   const unclaimedAmountInUSD = Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6))
 
-  const dailyReward = showType === SHOW_TYPE.TOKEN ? dailyRewardInToken : numeral(dailyRewardUSD).format('$0.00a')
+  const weeklyReward = showType === SHOW_TYPE.TOKEN ? weeklyRewardInToken : numeral(weeklyRewardUSD).format('$0.00a')
   const tokenToDisplay = showType === SHOW_TYPE.TOKEN ? rewardTokenSymbol : ''
   const unclaimedAmount =
     showType === SHOW_TYPE.TOKEN ? unclaimedAmountInToken : numeral(unclaimedAmountInUSD).format('$0.00a')
@@ -54,8 +54,8 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo, onClaimClick }) => {
 
       <Box mt={10}>
         <Stat
-          title={t('dashboardPage.earned_dailyIncome')}
-          stat={`${dailyReward || '-'} ${tokenToDisplay}`}
+          title={t('dashboardPage.earned_weeklyIncome')}
+          stat={`${weeklyReward || '-'} ${tokenToDisplay}`}
           titlePosition="top"
           titleFontSize={14}
           statFontSize={24}
