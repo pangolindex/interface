@@ -1,12 +1,11 @@
 import { ChainId, TokenAmount } from '@pangolindex/sdk'
-import { Button, Box } from '@pangolindex/components'
+import { Button, Box, Text } from '@pangolindex/components'
 import React, { useContext, useState, useRef } from 'react'
 import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { useETHBalances, useAggregatePngBalance } from '../../state/wallet/hooks'
 import { CardNoise } from '../../components/earn/styled'
 import { CountUp } from 'use-count-up'
-import { TYPE } from '../../theme'
 import Web3Status from '../../components/Web3Status'
 import Modal from '../../components/Modal'
 import PngBalanceContent from './PngBalanceContent'
@@ -111,8 +110,9 @@ export default function Header({ onCollapsed }: HeaderProps) {
             <PNGWrapper onClick={() => setShowPngBalanceModal(true)}>
               <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
                 {account && (
-                  <Hidden upToSmall={true}>
-                    <TYPE.black
+                  <Hidden upToSmall>
+                    <Text
+                      color="black"
                       style={{
                         paddingRight: '.4rem'
                       }}
@@ -125,7 +125,7 @@ export default function Header({ onCollapsed }: HeaderProps) {
                         thousandsSeparator={','}
                         duration={1}
                       />
-                    </TYPE.black>
+                    </Text>
                   </Hidden>
                 )}
                 PNG
