@@ -100,13 +100,16 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
         </Box>
       </StatWrapper>
 
-      {stakingInfo?.earnedAmount?.greaterThan(JSBI.BigInt(0)) && (
-        <Box mt={15}>
-          <Button padding="15px 18px" variant="primary" onClick={() => setShowClaimDrawer(true)}>
-            {t('earnPage.claim')}
-          </Button>
-        </Box>
-      )}
+      <Box mt={15}>
+        <Button
+          padding="15px 18px"
+          isDisabled={!stakingInfo?.earnedAmount?.greaterThan(JSBI.BigInt(0))}
+          variant="primary"
+          onClick={() => setShowClaimDrawer(true)}
+        >
+          {t('earnPage.claim')}
+        </Button>
+      </Box>
 
       {isClaimDrawerVisible && (
         <ClaimDrawer

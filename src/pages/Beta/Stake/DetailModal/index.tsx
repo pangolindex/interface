@@ -50,7 +50,7 @@ const DetailModal: React.FC<Props> = ({ stakingInfo, onClose }) => {
           </LeftSection>
           <RightSection>
             <StakeWidget stakingInfo={stakingInfo} />
-            <EarnedWidget stakingInfo={stakingInfo} />
+            {stakingInfo?.stakedAmount?.greaterThan('0') && <EarnedWidget stakingInfo={stakingInfo} />}
           </RightSection>
         </DetailsWrapper>
       </DesktopWrapper>

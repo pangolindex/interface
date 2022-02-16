@@ -62,6 +62,9 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
   const [attempting, setAttempting] = useState<boolean>(false)
   const [hash, setHash] = useState<string | undefined>()
   const wrappedOnDismiss = useCallback(() => {
+    setSignatureData(null)
+    setTypedValue('0')
+    setStepIndex(0)
     setHash(undefined)
     setAttempting(false)
   }, [])
@@ -125,10 +128,13 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
     }
     if (value === 4) {
       setTypedValue((userPngUnstaked as TokenAmount).toExact())
+    } else if (value === 0) {
+      setTypedValue('0')
     } else {
       const newAmount = (userPngUnstaked as TokenAmount)
         .multiply(JSBI.BigInt(value * 25))
         .divide(JSBI.BigInt(100)) as TokenAmount
+
       setTypedValue(newAmount.toSignificant(6))
     }
   }
@@ -209,6 +215,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
   }
 
   const isDisabled = !userPngUnstaked?.greaterThan('0')
+
   return (
     <Root>
       {/* <StakedAmount>
@@ -229,7 +236,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
             </Text>
           </Box>
           <TextInput
-            value={parsedAmount?.toExact()}
+            value={parsedAmount?.toExact() || '0'}
             addonAfter={
               <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
                 <MaxButton onClick={() => handleMax()}>PNG</MaxButton>
