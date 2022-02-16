@@ -7,9 +7,8 @@ import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { useStakingContract } from 'src/hooks/useContract'
-import { CustomLightSpinner } from 'src/theme'
-import Circle from 'src/assets/images/blue-loader.svg'
-import TransactionSubmitted from 'src/components/Beta/TransactionSubmitted'
+import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
+import Loader from 'src/components/Beta/Loader'
 
 interface ClaimProps {
   stakingInfo: SingleSideStakingInfo
@@ -72,12 +71,12 @@ const ClaimWidget = ({ stakingInfo, onClose }: ClaimProps) => {
             </Text>
 
             <Text fontSize="14px" color="text2" textAlign="center" mt={20}>
-              {t('earn.liquidityRemainsPool')}
+              Claim your rewards
             </Text>
           </Box>
           <Box mt={'10px'}>
-            <Button variant="primary" isDisabled={!!error} onClick={onClaimReward}>
-              {error ?? t('earn.claimReward', { symbol: stakingInfo?.rewardToken?.symbol })}
+            <Button variant="primary" isDisabled={!!error} onClick={onClaimReward} padding="15px 18px">
+              {error ?? t('earnPage.claim')}
             </Button>
           </Box>
         </Root>
@@ -86,20 +85,12 @@ const ClaimWidget = ({ stakingInfo, onClose }: ClaimProps) => {
       {attempting && !hash && (
         <PendingWrapper>
           <Box mb={'15px'}>
-            <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
+            <Loader size={100} label=" Claiming..." />
           </Box>
-          <Text fontWeight={500} fontSize={20} color="text1" textAlign="center">
-            {t('earn.claim')}
-          </Text>
-          <Text fontWeight={600} fontSize={14} color="text1" textAlign="center">
-            {t('earn.claimingReward', {
-              amount: stakingInfo?.earnedAmount?.toSignificant(6),
-              symbol: stakingInfo?.rewardToken?.symbol
-            })}
-          </Text>
         </PendingWrapper>
       )}
-      {hash && <TransactionSubmitted hash={hash} onClose={wrappedOnDismiss} />}
+
+      {hash && <TransactionCompleted onClose={wrappedOnDismiss} submitText="Your rewards claimed" />}
     </WidgetWrapper>
   )
 }

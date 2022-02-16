@@ -84,6 +84,7 @@ export interface Colors {
   darkSilver: Color
   venetianRed: Color
   oceanBlue: Color
+  quickSilver: Color
 
   color2: Color
   color3: Color
@@ -92,6 +93,7 @@ export interface Colors {
   color6: color
   color7: Color
   color8: Color
+  color9: Color
 }
 
 export interface BetaColors extends Colors {

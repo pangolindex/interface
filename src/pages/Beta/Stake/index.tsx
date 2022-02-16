@@ -120,14 +120,7 @@ const StakeUI = () => {
       </PoolsWrapper>
 
       {selectedStakingInfo && isDetailModalOpen && (
-        <DetailModal
-          stakingInfo={selectedStakingInfo}
-          onClose={toggleDetailModal}
-          onClaimClick={() => {
-            setSelectedStakingInfoIndex(selectedStakingInfoIndex)
-            setShowClaimModal(true)
-          }}
-        />
+        <DetailModal stakingInfo={selectedStakingInfo} onClose={toggleDetailModal} />
       )}
 
       {selectedStakingInfo && showDepositModal && (

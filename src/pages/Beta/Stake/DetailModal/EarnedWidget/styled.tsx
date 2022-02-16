@@ -6,4 +6,15 @@ export const Root = styled(Box)`
   background-color: ${({ theme }) => theme.bg2};
   border-radius: 10px;
   margin-top: 25px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  height: 280px;
+`
+
+export const StatWrapper = styled(Box)`
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-gap: 12px;
+  margin-top: 10px;
 `
