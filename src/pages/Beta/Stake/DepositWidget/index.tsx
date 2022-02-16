@@ -34,12 +34,12 @@ const DepositWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const { parsedAmount, error } = useDerivedStakeInfo(typedValue, stakingInfo.stakedAmount.token, userPngUnstaked)
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  let hypotheticalRewardRate: TokenAmount = new TokenAmount(stakingInfo.rewardRate.token, '0')
+  let hypotheticalWeeklyRewardRate: TokenAmount = new TokenAmount(stakingInfo.rewardRatePerWeek.token, '0')
   if (parsedAmountWrapped?.greaterThan('0')) {
-    hypotheticalRewardRate = stakingInfo.getHypotheticalRewardRate(
+    hypotheticalWeeklyRewardRate = stakingInfo.getHypotheticalWeeklyRewardRate(
       stakingInfo.stakedAmount.add(parsedAmountWrapped),
       stakingInfo.totalStakedAmount.add(parsedAmountWrapped),
-      stakingInfo.totalRewardRate
+      stakingInfo.totalRewardRatePerSecond
     )
   }
 
@@ -246,9 +246,7 @@ const DepositWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
               <Box>
                 <Stat
                   title={`${t('migratePage.dollarWorth')}`}
-                  stat={`${hypotheticalRewardRate
-                    .multiply((60 * 60 * 24 * 7).toString())
-                    .toSignificant(4, { groupSeparator: ',' })}
+                  stat={`${hypotheticalWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })}
                   ${t('earn.rewardPerWeek', { symbol: stakingInfo?.rewardToken?.symbol })}`}
                   titlePosition="top"
                   titleFontSize={14}
@@ -260,7 +258,7 @@ const DepositWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
               <Box>
                 <Stat
                   title={`${t('earn.weeklyRewards')}`}
-                  stat={`${hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toSignificant(4)}
+                  stat={`${hypotheticalWeeklyRewardRate.toSignificant(4)}
                 `}
                   titlePosition="top"
                   titleFontSize={14}

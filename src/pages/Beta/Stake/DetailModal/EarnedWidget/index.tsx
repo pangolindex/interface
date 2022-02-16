@@ -22,7 +22,7 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
   const rewardToken = stakingInfo?.rewardToken
   const usdcPrice = useUSDCPrice(rewardToken)
 
-  const dailyRewardInToken = stakingInfo?.rewardRate?.multiply((60 * 60 * 24).toString()).toSignificant(4)
+  const dailyRewardInToken = stakingInfo?.rewardRatePerWeek.toSignificant(4)
   const unclaimedAmountInToken = stakingInfo?.earnedAmount.toSignificant(4)
 
   const dailyRewardUSD = Number(dailyRewardInToken) * Number(usdcPrice?.toSignificant(6))

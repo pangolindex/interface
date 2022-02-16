@@ -10,7 +10,7 @@ import { currencyId } from '../../utils/currencyId'
 import { Break } from './styled'
 import { useTranslation } from 'react-i18next'
 import CurrencyLogo from '../CurrencyLogo'
-import { JSBI } from "@pangolindex/sdk";
+import { JSBI } from '@pangolindex/sdk'
 
 const StatContainer = styled.div`
   display: flex;
@@ -140,9 +140,9 @@ export default function SingleSidePoolCard({
               <span role="img" aria-label="wizard-icon" style={{ marginRight: '0.5rem' }}>
                 ⚡
               </span>
-              {`${stakingInfo.rewardRate
-                ?.multiply(`${60 * 60 * 24 * 7}`)
-                ?.toSignificant(4, { groupSeparator: ',' })} ${stakingInfo.rewardToken.symbol} / week`}
+              {`${stakingInfo.rewardRatePerWeek?.toSignificant(4, { groupSeparator: ',' })} ${
+                stakingInfo.rewardToken.symbol
+              } / week`}
             </TYPE.black>
           </BottomSection>
         </>

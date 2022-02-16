@@ -34,9 +34,7 @@ const EarnDetail = ({ stakingInfo, onOpenClaimModal, onOpenWithdrawModal }: Earn
         <Box>
           <Stat
             title={t('dashboardPage.earned_dailyIncome')}
-            stat={`${stakingInfo?.rewardRate
-              ?.multiply((60 * 60 * 24).toString())
-              ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}`}
+            stat={`${stakingInfo?.rewardRatePerWeek?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}`}
             titlePosition="top"
             titleFontSize={14}
             statFontSize={20}
@@ -61,16 +59,10 @@ const EarnDetail = ({ stakingInfo, onOpenClaimModal, onOpenWithdrawModal }: Earn
       {isSuperFarm && (
         <>
           {(rewardTokensAmount || []).map((reward, index) => {
-            const userRewardRate = stakingInfo?.getHypotheticalRewardRate(
-              stakingInfo?.stakedAmount,
-              stakingInfo?.totalStakedAmount,
-              stakingInfo?.totalRewardRate
-            )
-
             const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
 
-            let rewardRate = stakingInfo?.getExtraTokensRewardRate?.(
-              userRewardRate,
+            const extraTokenWeeklyRewardRate = stakingInfo?.getExtraTokensWeeklyRewardRate?.(
+              stakingInfo?.rewardRatePerWeek,
               reward?.token,
               tokenMultiplier
             ) as TokenAmount
@@ -79,9 +71,7 @@ const EarnDetail = ({ stakingInfo, onOpenClaimModal, onOpenWithdrawModal }: Earn
               <InnerWrapper key={index}>
                 <Box>
                   <Stat
-                    stat={`${rewardRate
-                      ?.multiply((60 * 60 * 24).toString())
-                      ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} `}
+                    stat={`${extraTokenWeeklyRewardRate?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} `}
                     statFontSize={20}
                     currency={reward?.token}
                   />
