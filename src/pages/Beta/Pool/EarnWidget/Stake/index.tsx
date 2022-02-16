@@ -2,7 +2,7 @@ import React, { useState, useCallback, useContext, useEffect } from 'react'
 import { ThemeContext } from 'styled-components'
 import { ChevronDown } from 'react-feather'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
-import { PageWrapper, InputText, ContentBox, DataBox, PoolSelectWrapper } from './styleds'
+import { PageWrapper, InputText, ContentBox, DataBox, PoolSelectWrapper, ExtraRewardDataBox } from './styleds'
 import { Box, Text, Button, Steps, Step, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { TokenAmount, Pair, ChainId, JSBI, Token } from '@pangolindex/sdk'
@@ -47,12 +47,12 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
   )
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  let hypotheticalRewardRate: TokenAmount = new TokenAmount(stakingInfo?.rewardRate?.token, '0')
+  let hypotheticalWeeklyRewardRate: TokenAmount = new TokenAmount(stakingInfo?.rewardRatePerWeek?.token, '0')
   if (parsedAmountWrapped?.greaterThan('0')) {
-    hypotheticalRewardRate = stakingInfo?.getHypotheticalRewardRate(
+    hypotheticalWeeklyRewardRate = stakingInfo?.getHypotheticalWeeklyRewardRate(
       stakingInfo?.stakedAmount.add(parsedAmountWrapped),
       stakingInfo?.totalStakedAmount.add(parsedAmountWrapped),
-      stakingInfo?.totalRewardRate
+      stakingInfo?.totalRewardRatePerSecond
     )
   }
 
@@ -347,35 +347,34 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
           {renderPoolDataRow(t('migratePage.dollarWorth'), `${finalUsd ? `$${Number(finalUsd).toFixed(2)}` : '-'}`)}
           {renderPoolDataRow(
             `${t('dashboardPage.earned_dailyIncome')}`,
-            `${hypotheticalRewardRate
-              .multiply((60 * 60 * 24).toString())
-              .toSignificant(4, { groupSeparator: ',' })} PNG`
+            `${hypotheticalWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })} PNG`
           )}
 
           {isSuperFarm && (
-            <DataBox key="extra-reward">
+            <ExtraRewardDataBox key="extra-reward">
               <Text color="text4" fontSize={16}>
                 {t('earn.extraReward')}
               </Text>
 
-              {rewardTokensAmount?.map((reward, index) => {
-                const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
-                const extraRewardRate = stakingInfo?.getExtraTokensRewardRate?.(
-                  hypotheticalRewardRate,
-                  reward?.token,
-                  tokenMultiplier
-                )
-                if (extraRewardRate) {
-                  return (
-                    <Text color="text4" fontSize={16} key={index}>
-                      {extraRewardRate.multiply((60 * 60 * 24).toString()).toSignificant(4, { groupSeparator: ',' })}{' '}
-                      {reward?.token?.symbol}
-                    </Text>
+              <Box>
+                {rewardTokensAmount?.map((reward, index) => {
+                  const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
+                  const extraTokenWeeklyRewardRate = stakingInfo?.getExtraTokensWeeklyRewardRate?.(
+                    hypotheticalWeeklyRewardRate,
+                    reward?.token,
+                    tokenMultiplier
                   )
-                }
-                return null
-              })}
-            </DataBox>
+                  if (extraTokenWeeklyRewardRate) {
+                    return (
+                      <Text color="text4" fontSize={16} key={index}>
+                        {extraTokenWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })} {reward?.token?.symbol}
+                      </Text>
+                    )
+                  }
+                  return null
+                })}
+              </Box>
+            </ExtraRewardDataBox>
           )}
         </ContentBox>
       </Box>

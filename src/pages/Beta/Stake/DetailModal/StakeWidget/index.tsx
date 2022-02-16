@@ -45,12 +45,12 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
   const { parsedAmount, error } = useDerivedStakeInfo(typedValue, stakingInfo.stakedAmount.token, userPngUnstaked)
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  let hypotheticalRewardRate: TokenAmount = new TokenAmount(stakingInfo.rewardRate.token, '0')
+  let hypotheticalRewardRatePerWeek: TokenAmount = new TokenAmount(stakingInfo.rewardRatePerWeek.token, '0')
   if (parsedAmountWrapped?.greaterThan('0')) {
-    hypotheticalRewardRate = stakingInfo.getHypotheticalRewardRate(
+    hypotheticalRewardRatePerWeek = stakingInfo.getHypotheticalWeeklyRewardRate(
       stakingInfo.stakedAmount.add(parsedAmountWrapped),
       stakingInfo.totalStakedAmount.add(parsedAmountWrapped),
-      stakingInfo.totalRewardRate
+      stakingInfo.totalRewardRatePerSecond
     )
   }
 
@@ -292,8 +292,8 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
                 <Stat
                   title={`${t('earn.weeklyRewards')}`}
                   stat={
-                    hypotheticalRewardRate
-                      ? `${hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toSignificant(4)}
+                    hypotheticalRewardRatePerWeek
+                      ? `${hypotheticalRewardRatePerWeek.toSignificant(4)}
                 `
                       : '-'
                   }
