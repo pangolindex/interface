@@ -1087,6 +1087,61 @@ export const BRIBE: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xCe2fbed816E320258161CeD52c2d0CEBcdFd8136', 18, 'BRIBE', 'BRIBE')
 }
 
+export const AGF: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'AGF', 'Augmented Finance'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xb67a9374Da03d4114a6FB8f0E7F2b82b5cB34ee3',
+    18,
+    'AGF',
+    'Augmented Finance'
+  )
+}
+
+export const ODDZ: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ODDZ', 'OddzToken'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xB0a6e056B587D0a85640b39b1cB44086F7a26A1E',
+    18,
+    'ODDZ',
+    'OddzToken'
+  )
+}
+
+export const DLAUNCH: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'DLAUNCH', 'DefiLaunch Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x0659133127749Cc0616Ed6632912ddF7cc8D7545',
+    18,
+    'DLAUNCH',
+    'DefiLaunch Token'
+  )
+}
+
+export const ACRE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ACRE', 'Arable Protocol'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x00EE200Df31b869a321B10400Da10b561F3ee60d',
+    18,
+    'ACRE',
+    'Arable Protocol'
+  )
+}
+
+export const sAVAX: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'sAVAX', 'Staked AVAX'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x2b2C81e08f1Af8835a78Bb2A90AE924ACE0eA4bE',
+    18,
+    'sAVAX',
+    'Staked AVAX'
+  )
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
