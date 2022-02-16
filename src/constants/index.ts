@@ -1249,6 +1249,7 @@ export const BLOCKED_PRICE_IMPACT_NON_EXPERT: Percent = new Percent(JSBI.BigInt(
 export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)) // .01 ETH
 export const BETTER_TRADE_LINK_THRESHOLD = new Percent(JSBI.BigInt(75), JSBI.BigInt(10000))
 
+export const MOONPAY_PK = process.env.REACT_APP_MOONPAY_PK || ''
 export const WYRE_API_KEY = process.env.REACT_APP_WYRE_API_KEY ? process.env.REACT_APP_WYRE_API_KEY : ''
 export const WYRE_SECRET_KEY = process.env.REACT_APP_WYRE_SECRET_KEY ? process.env.REACT_APP_WYRE_SECRET_KEY : ''
 export const WYRE_ID = process.env.REACT_APP_WYRE_ID ? process.env.REACT_APP_WYRE_ID : ''
@@ -1296,15 +1297,6 @@ export const TIMEFRAME = [
     momentIdentifier: ''
   }
 ]
-
-/*
- * Mapping between symbol (uppercase string) and CoinGecko coin id (string)
- * Using CoinGecko API: https://api.coingecko.com/api/v3/coins/list
- */
-export const COIN_ID_OVERRIDE = {
-  NEKO: undefined,
-  VEE: undefined
-}
 
 export enum BETA_MENU_LINK {
   dashboard = '/beta/dashboard',

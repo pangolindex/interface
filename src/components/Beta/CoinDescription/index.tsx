@@ -1,16 +1,16 @@
 import React from 'react'
 import { Text, Box } from '@pangolindex/components'
-import { Currency } from '@pangolindex/sdk'
+import { Token } from '@pangolindex/sdk'
 import { useCoinGeckoTokenData } from 'src/hooks/Tokens'
 import { ExternalLink } from 'src/theme'
 import ReactHtmlParser from 'react-html-parser'
 
 interface Props {
-  coin: Currency
+  coin: Token
 }
 
 export default function CoinDescription({ coin }: Props) {
-  const { homePage, description } = useCoinGeckoTokenData(coin?.symbol, coin?.name)
+  const { homePage, description } = useCoinGeckoTokenData(coin)
   return (
     <>
       {(description || homePage) && (

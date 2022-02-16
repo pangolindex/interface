@@ -11,8 +11,7 @@ import {
   ProcessWrapper,
   ArrowRight,
   EmptyProposals,
-  StatisticImage,
-  HideSmall
+  StatisticImage
 } from './styleds'
 import { Pair } from '@pangolindex/sdk'
 import { useParams } from 'react-router-dom'
@@ -29,6 +28,7 @@ import MigrationVector from '../../assets/images/migration_vector.png'
 import Stake from '../../assets/svg/stake.svg'
 import Unstake from '../../assets/svg/unstake.svg'
 import { ThemeContext } from 'styled-components'
+import { Hidden } from 'src/theme'
 
 const MigrateUI = () => {
   const below1080 = false
@@ -72,11 +72,11 @@ const MigrateUI = () => {
             </ResponsiveButtonOutline>
           </ButtonRow>
         </Box>
-        <HideSmall>
+        <Hidden upToSmall={true} upToMedium={true}>
           <Box pt={40}>
             <img src={MigrationVector} alt="Migration" />
           </Box>
-        </HideSmall>
+        </Hidden>
       </FirstWrapper>
 
       {/*<PanelWrapper style={{ marginTop: below1080 ? '0' : '50px' }}>*/}

@@ -98,11 +98,6 @@ export const DurationBtns = styled(Box)`
   justify-content: space-between;
   align-items: center;
 `
-export const HideSmall = styled(Box)`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
-  `};
-`
 
 export const Title = styled(Text)`
   font-size: 32px;
