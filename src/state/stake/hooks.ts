@@ -809,6 +809,10 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const tokens = useMemo(() => info.map(({ tokens }) => tokens), [info])
   const pairs = usePairs(tokens)
 
+  // @dev: If no farms load, you likely loaded an incorrect config from doubleSideConfig.js
+  // Enable this and look for an invalid pair
+  // console.log(pairs)
+
   const pairAddresses = useMemo(() => {
     return pairs.map(([state, pair]) => pair?.liquidityToken.address)
   }, [pairs])
