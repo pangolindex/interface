@@ -1401,8 +1401,8 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   },
-  WAVAX_DLAUNCH_V2: {
-    tokens: [WAVAX[ChainId.AVALANCHE], DLAUNCH[ChainId.AVALANCHE]],
+  UST_DLAUNCH_V2: {
+    tokens: [UST[ChainId.AVALANCHE], DLAUNCH[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   },
