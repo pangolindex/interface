@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ChainId, Pair, Token } from '@antiyro/sdk'
+import { Pair, Token } from '@antiyro/sdk'
 import { createChart, CrosshairMode, IChartApi, ISeriesApi } from 'lightweight-charts'
 import { useMeasure } from 'react-use'
 import { useDarkModeManager } from 'src/state/user/hooks'
@@ -10,6 +10,7 @@ import Circle from 'src/assets/images/blue-loader.svg'
 import { Box } from '@pangolindex/components'
 import { ChartWrapper, ChartContainer } from './styleds'
 import { useActiveWeb3React } from 'src/hooks'
+import { CHAINS } from 'src/constants/chains'
 
 type Props = { pair?: Pair | null; tokenB?: Token; tokenA?: Token }
 
@@ -161,7 +162,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
 
   return (
     <ChartWrapper>
-      {chainId !== ChainId.AVALANCHE ? (
+      {chainId && !CHAINS[chainId].tracked_by_debank ? (
       <ChartContainer id="chart-container-id" ref={ref as any}>
         {(formattedData || []).length === 0 && (
           <Box
@@ -174,7 +175,6 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
             alignItems="center"
             justifyContent="center"
           >
-            {/* <CustomLightSpinner src={Circle} alt="loader" size={'50px'} /> */}
             <h1>Not supported on this chain</h1>
           </Box>
         )}
