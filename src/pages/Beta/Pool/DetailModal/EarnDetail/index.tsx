@@ -33,7 +33,7 @@ const EarnDetail = ({ stakingInfo, onOpenClaimModal, onOpenWithdrawModal }: Earn
       <InnerWrapper>
         <Box>
           <Stat
-            title={t('dashboardPage.earned_dailyIncome')}
+            title={t('dashboardPage.earned_weeklyIncome')}
             stat={`${stakingInfo?.rewardRatePerWeek?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}`}
             titlePosition="top"
             titleFontSize={14}
