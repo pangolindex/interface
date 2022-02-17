@@ -9,7 +9,9 @@ import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'
 
 const getTokenLogoURL = (address: string) =>
-  `https://raw.githubusercontent.com/pangolindex/tokens/main/assets/${address}/logo.png`
+`https://raw.githubusercontent.com/pangolindex/tokens/main/assets/${address}/logo.png`
+// `https://raw.githubusercontent.com/jb1011/test/master/assets/${address}/logo.png`
+  
 
 export const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
