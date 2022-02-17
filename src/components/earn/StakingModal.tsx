@@ -117,7 +117,10 @@ export default function StakingModal({
           })
           .catch((error: any) => {
             setAttempting(false)
-            console.error(error)
+            // we only care if the error is something _other_ than the user rejected the tx
+            if (error?.code !== 4001) {
+              console.error(error)
+            }
           })
       } else if (signatureData) {
         const permitMethod = version < 2 ? 'stakeWithPermit' : 'depositWithPermit'
@@ -149,7 +152,10 @@ export default function StakingModal({
           })
           .catch((error: any) => {
             setAttempting(false)
-            console.error(error)
+            // we only care if the error is something _other_ than the user rejected the tx
+            if (error?.code !== 4001) {
+              console.error(error)
+            }
           })
       } else {
         setAttempting(false)

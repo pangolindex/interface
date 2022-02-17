@@ -52,7 +52,10 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
         })
         .catch((error: any) => {
           setAttempting(false)
-          console.log(error)
+          // we only care if the error is something _other_ than the user rejected the tx
+          if (error?.code !== 4001) {
+            console.error(error)
+          }
         })
     }
   }
