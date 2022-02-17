@@ -246,8 +246,9 @@ const DepositWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
               <Box>
                 <Stat
                   title={`${t('migratePage.dollarWorth')}`}
-                  stat={`${hypotheticalWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })}
-                  ${t('earn.rewardPerWeek', { symbol: stakingInfo?.rewardToken?.symbol })}`}
+                  stat={`${hypotheticalWeeklyRewardRate.toSignificant(4, {
+                    groupSeparator: ','
+                  })} ${t('earn.rewardPerWeek', { symbol: stakingInfo?.rewardToken?.symbol })}`}
                   titlePosition="top"
                   titleFontSize={14}
                   statFontSize={18}
@@ -258,8 +259,7 @@ const DepositWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
               <Box>
                 <Stat
                   title={`${t('earn.weeklyRewards')}`}
-                  stat={`${hypotheticalWeeklyRewardRate.toSignificant(4)}
-                `}
+                  stat={`${hypotheticalWeeklyRewardRate.toSignificant(4)}`}
                   titlePosition="top"
                   titleFontSize={14}
                   statFontSize={18}

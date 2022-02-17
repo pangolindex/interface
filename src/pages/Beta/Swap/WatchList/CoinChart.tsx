@@ -49,7 +49,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
 
   const priceData =
     useTokenPriceData(
-      coin?.address.toLowerCase(),
+      (coin?.address || '').toLowerCase(),
       timeWindow?.momentIdentifier,
       timeWindow?.interval,
       timeWindow?.label

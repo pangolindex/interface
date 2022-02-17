@@ -8,7 +8,7 @@ export const Root = styled(Box)`
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
+  height: 400px;
 `
 
 export const MaxButton = styled.button`

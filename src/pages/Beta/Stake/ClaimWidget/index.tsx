@@ -71,7 +71,7 @@ const ClaimWidget = ({ stakingInfo, onClose }: ClaimProps) => {
             </Text>
 
             <Text fontSize="14px" color="text2" textAlign="center" mt={20}>
-              Claim your rewards. Then we are going to invest it back to stake.
+              Claim your rewards
             </Text>
           </Box>
           <Box mt={'10px'}>
@@ -90,7 +90,7 @@ const ClaimWidget = ({ stakingInfo, onClose }: ClaimProps) => {
         </PendingWrapper>
       )}
 
-      {hash && <TransactionCompleted onClose={wrappedOnDismiss} submitText="Your rewards claimed. Now let’s stake" />}
+      {hash && <TransactionCompleted onClose={wrappedOnDismiss} submitText="Your rewards claimed" />}
     </WidgetWrapper>
   )
 }
