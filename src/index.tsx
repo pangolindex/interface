@@ -32,7 +32,8 @@ Sentry.init({
   release: `pangolin-interface@${version}`, //manual for now
   tracesSampleRate: 0.4,
   allowUrls: ['https://app.pangolin.exchange', 'https://beta-app.pangolin.exchange'],
-  enabled: process.env.NODE_ENV === 'production'
+  enabled: process.env.NODE_ENV === 'production',
+  ignoreErrors: ['ResizeObserver loop limit exceeded']
 })
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
