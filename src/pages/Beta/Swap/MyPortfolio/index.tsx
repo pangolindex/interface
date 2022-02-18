@@ -1,21 +1,26 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { GridContainer, PageWrapper, Title, DesktopPortfolioList, MobilePortfolioList } from './styleds'
 import { Text, Box } from '@pangolindex/components'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
-import PortfolioChart from './PortfolioChart'
-import PortfolioRow from './PortfolioRow'
+import { ThemeContext } from 'styled-components'
+
 import { PairDataUser, TokenDataUser, useGetWalletChainTokens } from 'src/state/portifolio/hooks'
 import { useActiveWeb3React } from 'src/hooks'
+
+import PortfolioChart from './PortfolioChart'
+import PortfolioRow from './PortfolioRow'
 import Loader from 'src/components/Loader'
 import ShowMore from 'src/components/Beta/ShowMore'
 import { Hidden } from 'src/theme'
+
 
 type Props = {
   isLimitOrders: boolean
 }
 
 const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
+  const theme = useContext(ThemeContext)
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
   const [showMore, setShowMore] = useState(false as boolean)
@@ -44,7 +49,7 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
             {loading ? (
               <Loader
                 size="40%"
-                stroke="#f5bb00"
+                stroke={theme.yellow3}
                 style={{
                   marginLeft: 'auto',
                   marginRight: 'auto',
@@ -70,7 +75,7 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
             {loading ? (
               <Loader
                 size="40%"
-                stroke="#f5bb00"
+                stroke={theme.yellow3}
                 style={{
                   marginLeft: 'auto',
                   marginRight: 'auto',

@@ -1,8 +1,10 @@
-import React, { useRef } from 'react'
+import React, { useContext, useRef } from 'react'
 import Slider, { Settings } from 'react-slick'
 import { ArrowLeft, ArrowRight } from 'react-feather'
 import ReactMarkdown from 'react-markdown'
 import { Box } from '@pangolindex/components'
+import Scrollbars from 'react-custom-scrollbars'
+import { ThemeContext } from 'styled-components'
 
 import { News, useGetNews } from 'src/state/news/hooks'
 
@@ -11,7 +13,7 @@ import { NewsSection, NewsTitle, NewsContent, NewsDate, SlickNext } from './styl
 import Loader from 'src/components/Loader'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import Scrollbars from 'react-custom-scrollbars'
+
 
 const NewsFeedSettings: Settings = {
   dots: true,
@@ -25,6 +27,7 @@ const NewsFeedSettings: Settings = {
 }
 
 export default function NewsWidget() {
+  const theme = useContext(ThemeContext)
   const sliderRef = useRef<Slider | null>(null)
   const handleNewsNext = () => {
     sliderRef?.current?.slickNext()
@@ -76,7 +79,7 @@ export default function NewsWidget() {
         <Box display="flex" alignItems="center" justifyContent="center" height="100%">
           <Loader
             size="10%"
-            stroke="#f5bb00"
+            stroke={theme.yellow3}
             style={{
               marginLeft: 'auto',
               marginRight: 'auto',

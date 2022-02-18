@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Box, Text } from '@pangolindex/components'
 import Scrollbars from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
+import { ThemeContext } from 'styled-components'
 
 import { CHAINS, ChainsId } from 'src/constants/chains'
 import { useActiveWeb3React } from 'src/hooks'
@@ -13,6 +14,7 @@ import Loader from 'src/components/Loader'
 import Info2 from 'src/assets/svg/info2.svg'
 
 export default function PortfolioWidget() {
+  const theme = useContext(ThemeContext)
   const { t } = useTranslation()
   const { account } = useActiveWeb3React()
   // portifolio
@@ -56,7 +58,7 @@ export default function PortfolioWidget() {
           loading ? (
             <Loader
               size="10%"
-              stroke="#f5bb00"
+              stroke={theme.yellow3}
               style={{
                 marginLeft: 'auto',
                 marginRight: 'auto',
