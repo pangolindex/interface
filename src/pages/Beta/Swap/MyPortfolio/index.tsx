@@ -44,25 +44,25 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
             {loading ? (
               <Loader
                 size="40%"
+                stroke="#f5bb00"
                 style={{
                   marginLeft: 'auto',
                   marginRight: 'auto',
                   display: 'block'
                 }}
               />
-            ) : (
+            ) : data.length > 0 ? (
               <Scrollbars>
-                {data.map(
-                  (item: TokenDataUser | PairDataUser, index) =>
-                    item.usdValue >= 1 && (
-                      <PortfolioRow
-                        coin={item instanceof TokenDataUser ? item : undefined}
-                        pair={item instanceof PairDataUser ? item : undefined}
-                        key={index}
-                      />
-                    )
-                )}
+                {data.map((item: TokenDataUser | PairDataUser, index) => (
+                  <PortfolioRow
+                    coin={item instanceof TokenDataUser ? item : undefined}
+                    pair={item instanceof PairDataUser ? item : undefined}
+                    key={index}
+                  />
+                ))}
               </Scrollbars>
+            ) : (
+              <Text color="text1">Not found Tokens</Text>
             )}
           </DesktopPortfolioList>
 
@@ -70,13 +70,14 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
             {loading ? (
               <Loader
                 size="40%"
+                stroke="#f5bb00"
                 style={{
                   marginLeft: 'auto',
                   marginRight: 'auto',
                   display: 'block'
                 }}
               />
-            ) : (
+            ) : data.length > 0 ? (
               <>
                 {(data || []).slice(0, 3).map((item: TokenDataUser | PairDataUser, index) => (
                   <PortfolioRow
@@ -99,6 +100,8 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
 
                 {data.length > 3 && <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />}
               </>
+            ) : (
+              <Text color="text1">Not found Tokens</Text>
             )}
           </MobilePortfolioList>
         </GridContainer>

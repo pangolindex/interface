@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Text } from '@pangolindex/components'
 import Scrollbars from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
@@ -21,6 +21,26 @@ export default function PortfolioWidget() {
   //   setSelectChain(newChain)
   // }
   const [balances, loading] = useGetChainsBalances()
+  const [availableBalances, setAvailableBalances] = useState<{ chainID: ChainsId; balance: number }[]>([])
+
+  useEffect(() => {
+    let availableBalance: { chainID: ChainsId; balance: number }[] = []
+    Object.keys(ChainsId)
+      .filter(k => typeof k === 'string')
+      .forEach(key => {
+        if (isNaN(parseInt(key)) && key.toLowerCase() !== "all") {
+          const chainid = ChainsId[key as keyof typeof ChainsId]
+          const balance = balances[chainid]
+          if (!!balance && balance >= 0.1) {
+            availableBalance.push({
+              chainID: chainid,
+              balance: balance
+            })
+          }
+        }
+      })
+    setAvailableBalances(availableBalance)
+  }, [balances])
 
   return (
     <Card>
@@ -43,32 +63,28 @@ export default function PortfolioWidget() {
                 display: 'block'
               }}
             />
-          ) : (
-            <Scrollbars style={{ height: 190 }}>
-              {Object.keys(ChainsId).map(
-                (key, index) =>
-                  isNaN(parseInt(key)) &&
-                  key !== 'All' &&
-                  !!balances[ChainsId[key as keyof typeof ChainsId]] &&
-                  balances[ChainsId[key as keyof typeof ChainsId]] >= 1 && (
-                    <PortfolioToken key={index} height={50}>
-                      $
-                      {!!balances[ChainsId[key as keyof typeof ChainsId]]
-                        ? balances[ChainsId[key as keyof typeof ChainsId]].toLocaleString(undefined, {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                          })
-                        : 0}
-                      <img
-                        width={'50px'}
-                        src={CHAINS[ChainsId[key as keyof typeof ChainsId]].logo}
-                        alt={'Chain logo'}
-                        style={{ marginLeft: '12px' }}
-                      />
-                    </PortfolioToken>
-                  )
-              )}
+          ) : availableBalances.length > 0 ? (
+            <Scrollbars style={{ height: 100 }}>
+              {availableBalances.map((chain, index) => (
+                <PortfolioToken key={index} height={50}>
+                  ${' '}
+                  {chain.balance.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  })}
+                  <img
+                    width={'50px'}
+                    src={CHAINS[chain.chainID].logo}
+                    alt={'Chain logo'}
+                    style={{ marginLeft: '12px' }}
+                  />
+                </PortfolioToken>
+              ))}
             </Scrollbars>
+          ) : (
+            <Box height={100}>
+              <Text color='text1' fontSize={50}>$ 0</Text>
+            </Box>
           )
         ) : (
           <Box display="flex" alignItems="center" justifyContent="center">
@@ -78,7 +94,8 @@ export default function PortfolioWidget() {
           </Box>
         )}
         <PortfolioInfo>
-          <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coins, pools and other holdings in your current wallet
+          <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coins, pools and other holdings in your
+          current wallet
         </PortfolioInfo>
       </CardBody>
     </Card>
