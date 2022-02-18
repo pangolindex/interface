@@ -11,6 +11,7 @@ import { NewsSection, NewsTitle, NewsContent, NewsDate, SlickNext } from './styl
 import Loader from 'src/components/Loader'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import Scrollbars from 'react-custom-scrollbars'
 
 const NewsFeedSettings: Settings = {
   dots: true,
@@ -19,7 +20,7 @@ const NewsFeedSettings: Settings = {
   slidesToShow: 1,
   slidesToScroll: 1,
   arrows: false,
-  autoplay: true,
+  autoplay: false,
   autoplaySpeed: 10000
 }
 
@@ -35,20 +36,23 @@ export default function NewsWidget() {
 
   return (
     <NewsSection img={Earth}>
-      <NewsTitle>News</NewsTitle>
-      <SlickNext onClick={handleNewsBack} style={{ right: 60 }}>
-        <ArrowLeft size={20} style={{ minWidth: 24 }} />
-      </SlickNext>
-      <SlickNext onClick={handleNewsNext}>
-        <ArrowRight size={20} style={{ minWidth: 24 }} />
-      </SlickNext>
+      <Box height="15%" display="flex">
+        <NewsTitle>News</NewsTitle>
+        <SlickNext onClick={handleNewsBack} style={{ right: 60 }}>
+          <ArrowLeft size={20} style={{ minWidth: 24 }} />
+        </SlickNext>
+        <SlickNext onClick={handleNewsNext}>
+          <ArrowRight size={20} style={{ minWidth: 24 }} />
+        </SlickNext>
+      </Box>
+      <Box height="90%" paddingTop="10px">
       {!!news ? (
         <Slider ref={sliderRef} {...NewsFeedSettings}>
           {news &&
-            news.map((element: News) => {
-              return (
-                <div key={element.id}>
-                  <NewsContent>
+            news.map((element: News) => (
+              <div key={element.id} style={{ height: '100%' }}>
+                <NewsContent>
+                  <Scrollbars style={{ height: '100%', padding: "0px 10px"}}>
                     <ReactMarkdown
                       renderers={{
                         link: props => (
@@ -60,13 +64,13 @@ export default function NewsWidget() {
                     >
                       {element.content}
                     </ReactMarkdown>
-                  </NewsContent>
-                  <NewsDate>
-                    {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
-                  </NewsDate>
-                </div>
-              )
-            })}
+                  </Scrollbars>
+                </NewsContent>
+                <NewsDate>
+                  {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
+                </NewsDate>
+              </div>
+            ))}
         </Slider>
       ) : (
         <Box display="flex" alignItems="center" justifyContent="center" height="100%">
@@ -81,6 +85,7 @@ export default function NewsWidget() {
           />
         </Box>
       )}
+      </Box>
     </NewsSection>
   )
 }
