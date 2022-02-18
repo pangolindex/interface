@@ -67,7 +67,7 @@ const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) =
     <WidgetWrapper>
       {!attempting && !hash && (
         <Root>
-          <Box textAlign="center">
+          <Box textAlign="center" display="flex" flexDirection="column" justifyContent="center">
             <Text fontSize="26px" fontWeight={500} color="text1">
               {stakingInfo?.earnedAmount?.toSignificant(6)}
             </Text>

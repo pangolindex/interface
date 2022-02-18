@@ -20,7 +20,7 @@ const Loader: React.FC<Props> = props => {
   const { size, label } = props
   return (
     <PendingWrapper>
-      <Box mb={'15px'} display="flex" alignItems="center" justifyContent="center" flexDirection="column">
+      <Box mb={'15px'} display="flex" alignItems="center" flexDirection="column">
         <Box width={size} height={size} position="relative" display="flex" alignItems="center" justifyContent="center">
           <Loading />
 

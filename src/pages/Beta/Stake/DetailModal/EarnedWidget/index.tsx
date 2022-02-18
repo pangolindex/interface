@@ -127,16 +127,13 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
         onClickRewardStake={() => setShowRewardStakeDrawer(true)}
       />
 
-      {/* Unstake Drawer */}
-      {isUnstakeDrawerVisible && (
-        <UnstakeDrawer
-          isOpen={isUnstakeDrawerVisible}
-          onClose={() => {
-            setShowUnstakeDrawer(false)
-          }}
-          stakingInfo={stakingInfo}
-        />
-      )}
+      <UnstakeDrawer
+        isOpen={isUnstakeDrawerVisible}
+        onClose={() => {
+          setShowUnstakeDrawer(false)
+        }}
+        stakingInfo={stakingInfo}
+      />
 
       <RewardStakeDrawer
         isOpen={isRewardStakeDrawerVisible}
