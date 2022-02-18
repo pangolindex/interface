@@ -33,7 +33,10 @@ Sentry.init({
   tracesSampleRate: 0.4,
   allowUrls: ['https://app.pangolin.exchange', 'https://beta-app.pangolin.exchange'],
   enabled: process.env.NODE_ENV === 'production',
-  ignoreErrors: ['ResizeObserver loop limit exceeded']
+  ignoreErrors: [
+    'ResizeObserver loop limit exceeded',
+    'Blocked a frame with origin "https://app.pangolin.exchange" from accessing a cross-origin frame.'
+  ]
 })
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
