@@ -1,4 +1,4 @@
-import { Box, Button, Text, TextInput, Steps, Step } from '@pangolindex/components'
+import { Box, Button, TextInput, Steps, Step } from '@pangolindex/components'
 import React, { useState, useCallback } from 'react'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
@@ -12,7 +12,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useTranslation } from 'react-i18next'
 import { splitSignature } from 'ethers/lib/utils'
-import { MaxButton, Root, Balance, Buttons, PendingWrapper, StakeWrapper, GridContainer } from './styled'
+import { MaxButton, Root, Balance, Buttons, StakeWrapper, GridContainer } from './styled'
 import TransactionSubmitted from 'src/components/Beta/TransactionSubmitted'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import Stat from 'src/components/Stat'
@@ -297,23 +297,7 @@ const DepositWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
           </Buttons>
         </>
       )}
-      {attempting && !hash && (
-        <PendingWrapper>
-          <Box mb={'15px'}>
-            <Loader size={100} />
-          </Box>
-          <Text fontWeight={600} fontSize={20} color="text1">
-            {t('earn.depositingToken', { symbol: 'PNG' })}
-          </Text>
-          <Text fontWeight={500} fontSize={14} color="text1">
-            {parsedAmount?.toSignificant(4)} PNG
-          </Text>
-          <Box flex={1} />
-          <Text color="text14" fontSize={12}>
-            {t('modalView.confirmTransaction')}
-          </Text>
-        </PendingWrapper>
-      )}
+      {attempting && !hash && <Loader size={100} label={'Staking'} />}
       {attempting && hash && <TransactionSubmitted onClose={wrappedOnDismiss} hash={hash} />}
     </Root>
   )

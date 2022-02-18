@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 export const DrawerRoot = styled.div<{ isOpen: boolean }>`
   overflow: hidden;
-  height: 100vh;
   position: absolute;
   z-index: 99;
   transition: all 350ms ease;

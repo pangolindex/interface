@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Box, Text, Button } from '@pangolindex/components'
-import { WidgetWrapper, PendingWrapper, Root } from './styled'
+import { WidgetWrapper, Root } from './styled'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
@@ -13,9 +13,10 @@ import Loader from 'src/components/Beta/Loader'
 interface ClaimProps {
   stakingInfo: SingleSideStakingInfo
   onClose: () => void
+  onClickRewardStake?: () => void
 }
 
-const ClaimWidget = ({ stakingInfo, onClose }: ClaimProps) => {
+const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) => {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
   // monitor call to help UI loading state
@@ -87,15 +88,17 @@ const ClaimWidget = ({ stakingInfo, onClose }: ClaimProps) => {
         </Root>
       )}
 
-      {attempting && !hash && (
-        <PendingWrapper>
-          <Box mb={'15px'}>
-            <Loader size={100} label=" Claiming..." />
-          </Box>
-        </PendingWrapper>
-      )}
+      {attempting && !hash && <Loader size={100} label=" Claiming..." />}
 
-      {hash && <TransactionCompleted onClose={wrappedOnDismiss} submitText="Your rewards claimed" />}
+      {hash && (
+        <TransactionCompleted
+          onClose={wrappedOnDismiss}
+          submitText="Your rewards claimed"
+          isShowButtton={true}
+          onButtonClick={() => onClickRewardStake && onClickRewardStake()}
+          buttonText="Stake"
+        />
+      )}
     </WidgetWrapper>
   )
 }

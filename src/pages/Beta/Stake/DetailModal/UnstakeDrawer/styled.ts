@@ -15,11 +15,3 @@ export const ConfirmWrapper = styled(Box)`
   height: 100%;
   text-align: center;
 `
-
-export const PendingWrapper = styled(Box)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100%;
-`

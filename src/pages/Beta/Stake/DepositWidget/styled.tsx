@@ -34,14 +34,6 @@ export const Buttons = styled(Box)`
   margin-top: 20px;
 `
 
-export const PendingWrapper = styled(Box)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100%;
-`
-
 export const StakeWrapper = styled(Box)`
   width: 100%;
   position: relative;
