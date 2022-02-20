@@ -8,7 +8,7 @@ export const GAS_PRICE = 225
 export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.FUJI]: '0x2D99ABD9008Dc933ff5c0CD271B88309593aB921',
   [ChainId.AVALANCHE]: '0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106',
-  [ChainId.WAGMI]: '0x45A4c0e431C283ee1f150765f4a3318017FaC9F9'
+  [ChainId.WAGMI]: '0x20DB5C9993F6A077688bcb5d9E9BDc878379dBd8'
 }
 
 export const LANDING_PAGE = 'https://pangolin.exchange/'
@@ -23,7 +23,7 @@ export const BRIDGE_MIGRATOR_ADDRESS = '0x4b23Aa72A1214d0E4fd3f2c8Da7C6ba660F748
 export const MINICHEF_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x1f806f7C8dED893fd3caE279191ad7Aa3798E928',
-  [ChainId.WAGMI]: '0x4Ed025E075d777F43571e32F5af0cD0003ba1C1d'
+  [ChainId.WAGMI]: '0xcB41a6BE83981e3d747EAffEFAF71A1AB04c095a'
 }
 
 export const NATIVE = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
@@ -36,23 +36,22 @@ type ChainTokenList = {
 export const PNG: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, '0x83080D4b5fC60e22dFFA8d14AD3BB41Dde48F199', 18, 'PNG', 'Pangolin'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x60781C2586D68229fde47564546784ab3fACA982', 18, 'PNG', 'Pangolin'),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, '0x424731d6FFFAD6BF4afBB1EEc60387E523747FC1', 18, 'wagmiPNG', 'Wagmi Pangolin')
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, '0xe0D49586C415fa477122C364e330931959865873', 18, 'wagmiPNG', 'Wagmi Pangolin')
 }
 
 export const OG: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OG', 'OG'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'OG', 'OG'),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, '0xf1db872E6454D553686b088c1Ea3889cF2FE3ABe', 18, 'OG', 'OG')
+  // [ChainId.WAGMI]: new Token(ChainId.WAGMI, '0xf312709A37D0563eabe651E54CA50c85D2F0c6Dd', 18, 'OG', 'OG')
   // [ChainId.WAGMI]: new Token(ChainId.WAGMI, '0x049d68029688eAbF473097a2fC38ef61633A3C7A', 18, 'OG', 'OG')
-
+  
 }
 
 export const wWAGMI: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OG', 'OG'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'OG', 'OG'),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, '0x3Ee7094DADda15810F191DD6AcF7E4FFa37571e4', 18, 'wWAGMI', 'Wrapped WAGMI')
-  // [ChainId.WAGMI]: new Token(ChainId.WAGMI, '0xcF664087a5bB0237a0BAd6742852ec6c8d69A27a', 18, 'wWAGMI', 'Wrapped WAGMI')
-
 }
 
 export const ETH: { [chainId in ChainId]: Token } = {
@@ -1498,7 +1497,7 @@ export const BRIBE: { [chainId in ChainId]: Token } = {
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9',
-  [ChainId.WAGMI]: '0xabe9E0384f265DA621afc86e82c875b80b5c8563'
+  [ChainId.WAGMI]: '0x0082D8E8eAEF17686f96ADbB13e2429a08a2c7c5'
 }
 
 const WAVAX_AND_PNG_ONLY: ChainTokenList = {

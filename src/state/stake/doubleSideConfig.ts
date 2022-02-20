@@ -1395,6 +1395,11 @@ export const DOUBLE_SIDE_STAKING_WAGMI: { [key: string]: DoubleSideStaking } = {
     tokens: [wWAGMI[ChainId.WAGMI], OG[ChainId.WAGMI]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.WAGMI],
     version: 2
+  },
+  wWAGMI_PNG_V2: {
+    tokens: [wWAGMI[ChainId.WAGMI], PNG[ChainId.WAGMI]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.WAGMI],
+    version: 2
   }
 }
 
@@ -1443,9 +1448,17 @@ export const DOUBLE_SIDE_STAKING_V1: DoubleSideStaking[] = Object.values(DOUBLE_
 export const DOUBLE_SIDE_STAKING_V2: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING).filter(
   staking => staking.version === 2
 )
+
+export const DOUBLE_SIDE_STAKING_WAGMI_V0: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING_WAGMI).filter(
+  staking => staking.version === 0
+)
+export const DOUBLE_SIDE_STAKING_WAGMI_V1: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING_WAGMI).filter(
+  staking => staking.version === 1
+)
 export const DOUBLE_SIDE_STAKING_WAGMI_V2: DoubleSideStaking[] = Object.values(DOUBLE_SIDE_STAKING_WAGMI).filter(
   staking => staking.version === 2
 )
+
 export const DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(
   ...Object.values(DOUBLE_SIDE_STAKING).map(staking => staking.version)
 )
@@ -1453,6 +1466,7 @@ export const DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(
 export const DOUBLE_SIDE_STAKING_REWARDS_INFO: {
   [chainId in ChainId]?: DoubleSideStaking[][]
 } = {
+  [ChainId.FUJI]: [],
   [ChainId.AVALANCHE]: [DOUBLE_SIDE_STAKING_V0, DOUBLE_SIDE_STAKING_V1, DOUBLE_SIDE_STAKING_V2],
-  // [ChainId.WAGMI]: [DOUBLE_SIDE_STAKING_WAGMI_V2]
+  [ChainId.WAGMI]: [DOUBLE_SIDE_STAKING_WAGMI_V0, DOUBLE_SIDE_STAKING_WAGMI_V1, DOUBLE_SIDE_STAKING_WAGMI_V2]
 }
