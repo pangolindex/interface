@@ -49,7 +49,7 @@ const BridgeUI = () => {
                     </ChainSelect>
                     <Separator />
                     <Button variant="primary" color='white'>
-                        BRIDGE
+                    <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>BRIDGE</span>
                     </Button>
                 </Box>
             </Ibridge>
