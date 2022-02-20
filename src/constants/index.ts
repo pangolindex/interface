@@ -1719,5 +1719,6 @@ export enum BETA_MENU_LINK {
   pool = '/beta/pool',
   stake = '/beta/stake',
   vote = '/beta/vote',
-  migrate = '/beta/migrate'
+  migrate = '/beta/migrate',
+  bridge = '/beta/bridge'
 }

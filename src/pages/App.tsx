@@ -46,6 +46,7 @@ import GovernanceV2 from './Beta/Governance'
 import GovernanceDetailV2 from './Beta/GovernanceDetail'
 import BuyV2 from './Beta/Buy'
 import PoolV2 from './Beta/Pool'
+import BridgeV2 from './Beta/Bridge'
 import { BETA_MENU_LINK } from 'src/constants'
 
 const AppWrapper = styled.div`
@@ -161,6 +162,8 @@ export default function App() {
               />
               <CustomRoute exact strict path={`${BETA_MENU_LINK.buy}`} component={BuyV2} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.pool}`} component={PoolV2} layout={Layout} />
+              <CustomRoute exact path={`${BETA_MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} />
+
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
 
               <Route component={RedirectPathToSwapOnly} />
