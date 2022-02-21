@@ -1,8 +1,8 @@
 import React from 'react'
 import { ZERO_ADDRESS } from 'src/constants'
-import { Root, Buttons, MaxButton, Balance, StakeWrapper, GridContainer } from './styled'
+import { Root, Buttons, MaxButton, StakeWrapper, GridContainer, InputText } from './styled'
 import { BETA_MENU_LINK } from 'src/constants'
-import { Box, Button, Text, TextInput, CurrencyLogo } from '@pangolindex/components'
+import { Box, Button } from '@pangolindex/components'
 import { ApprovalState } from 'src/hooks/useApproveCallback'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
 import { useTranslation } from 'react-i18next'
@@ -14,10 +14,9 @@ import Percentage from 'src/components/Beta/Percentage'
 type Props = {
   stakingInfo: SingleSideStakingInfo
   onClose?: () => void
-  isRewardStake?: boolean
 }
 
-const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) => {
+const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const { t } = useTranslation()
 
   const {
@@ -32,15 +31,14 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
     signatureData,
     error,
     approval,
-    account,
     png,
     onUserInput,
     onAttemptToApprove,
     wrappedOnDismiss,
     handleMax,
     onStake,
-    setStepIndex,
-    onChangePercentage
+    onChangePercentage,
+    setStepIndex
   } = useDerivedStakingProcess(stakingInfo)
 
   const isDisabled = !userPngUnstaked?.greaterThan('0')
@@ -49,34 +47,9 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
     <Root>
       {!attempting && !hash && (
         <>
-          {isRewardStake ? (
-            <Box textAlign="center" mt={20} flex={1}>
-              <Box display="flex" alignItems="center" justifyContent="center">
-                <Text fontSize="26px" fontWeight={500} color="text1">
-                  {parsedAmount?.toSignificant(6) || '0'}
-                </Text>
-                <Box ml={10} mt="8px">
-                  <CurrencyLogo currency={png} size={'18px'} />
-                </Box>
-              </Box>
-
-              <Text fontSize="14px" color="text2" textAlign="center" mt="15px" mb="15px">
-                Stake your rewards
-              </Text>
-            </Box>
-          ) : (
-            <Box>
-              <Box mb="5px">
-                <Text color="color4" fontSize={20} fontWeight={500} mb="5px">
-                  Stake
-                </Text>
-
-                {/* show already staked amount */}
-                <Text color="color9" fontSize={14}>
-                  Stake your PNG token to share platform fees
-                </Text>
-              </Box>
-              <TextInput
+          <Box>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <InputText
                 value={parsedAmount?.toExact() || '0'}
                 addonAfter={
                   <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
@@ -90,79 +63,72 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
                 fontSize={24}
                 isNumeric={true}
                 placeholder="0.00"
-                addonLabel={
-                  account && (
-                    <Balance>
-                      {!!userPngUnstaked ? t('currencyInputPanel.balance') + userPngUnstaked?.toSignificant(6) : ' -'}
-                    </Balance>
-                  )
-                }
                 disabled={isDisabled}
               />
 
-              <Box>
+              <Box ml="5px" mt="25px">
                 <Percentage
                   onChangePercentage={value => {
                     setStepIndex(value)
                     onChangePercentage(value * 25)
                   }}
                   currentValue={stepIndex}
-                  variant="step"
+                  variant="box"
                   isDisabled={isDisabled}
                 />
               </Box>
-
-              <StakeWrapper>
-                <GridContainer>
-                  <Box>
-                    <Stat
-                      title={`${t('migratePage.dollarWorth')}`}
-                      stat={`${dollerWorth ? `$${dollerWorth?.toFixed(4)}` : '-'}`}
-                      titlePosition="top"
-                      titleFontSize={14}
-                      statFontSize={18}
-                      titleColor="text2"
-                    />
-                  </Box>
-
-                  <Box>
-                    <Stat
-                      title={`${t('earn.weeklyRewards')}`}
-                      stat={
-                        hypotheticalRewardRatePerWeek
-                          ? `${hypotheticalRewardRatePerWeek.toSignificant(4)}
-      `
-                          : '-'
-                      }
-                      titlePosition="top"
-                      titleFontSize={14}
-                      statFontSize={18}
-                      titleColor="text2"
-                      currency={stakingInfo?.rewardToken}
-                    />
-                  </Box>
-                </GridContainer>
-              </StakeWrapper>
             </Box>
-          )}
+
+            <StakeWrapper>
+              <GridContainer>
+                <Box>
+                  <Stat
+                    title={`${t('migratePage.dollarWorth')}`}
+                    stat={`${dollerWorth ? `$${dollerWorth?.toFixed(4)}` : '-'}`}
+                    titlePosition="top"
+                    titleFontSize={14}
+                    statFontSize={18}
+                    titleColor="text2"
+                  />
+                </Box>
+
+                <Box>
+                  <Stat
+                    title={`${t('earn.weeklyRewards')}`}
+                    stat={
+                      hypotheticalRewardRatePerWeek
+                        ? `${hypotheticalRewardRatePerWeek.toSignificant(4)}
+      `
+                        : '-'
+                    }
+                    titlePosition="top"
+                    titleFontSize={14}
+                    statFontSize={18}
+                    titleColor="text2"
+                    currency={stakingInfo?.rewardToken}
+                  />
+                </Box>
+              </GridContainer>
+            </StakeWrapper>
+          </Box>
 
           <Buttons isStaked={userPngUnstaked?.greaterThan('0')}>
             {/* show staked or get png button */}
             {userPngUnstaked?.greaterThan('0') ? (
               <>
                 <Button
-                  padding="15px 18px"
                   variant={approval === ApprovalState.APPROVED || signatureData !== null ? 'confirm' : 'primary'}
                   isDisabled={approval !== ApprovalState.NOT_APPROVED || signatureData !== null}
                   onClick={onAttemptToApprove}
+                  height="46px"
                 >
                   {t('earn.approve')}
                 </Button>
                 <Button
-                  padding="15px 18px"
                   variant={'primary'}
                   isDisabled={!!error || (signatureData === null && approval !== ApprovalState.APPROVED)}
                   onClick={onStake}
+                  height="46px"
                 >
                   {error ?? t('earn.deposit')}
                 </Button>
@@ -180,15 +146,14 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
           </Buttons>
         </>
       )}
-      {attempting && !hash && <Loader size={100} label={isRewardStake ? 'Reward Staking' : 'Staking'} />}
+      {attempting && !hash && <Loader size={100} label={'Staking'} />}
       {hash && (
         <TransactionCompleted
           onClose={() => {
             wrappedOnDismiss()
             onClose && onClose()
           }}
-          submitText={isRewardStake ? 'Your rewards have been staked.' : 'Staked'}
-          showCloseIcon={isRewardStake ? false : true}
+          submitText={'Staked'}
         />
       )}
     </Root>

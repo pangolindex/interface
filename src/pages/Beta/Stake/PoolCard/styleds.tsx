@@ -7,7 +7,8 @@ export const Card = styled(Box)`
   box-sizing: border-box;
   border-radius: 10px;
   background: ${({ theme }) => theme.color2};
-
+  position: relative;
+  overflow: hidden;
   & img {
     border-radius: 100px;
   }
