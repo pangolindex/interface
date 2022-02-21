@@ -1,21 +1,26 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { GridContainer, PageWrapper, Title, DesktopPortfolioList, MobilePortfolioList } from './styleds'
 import { Text, Box } from '@pangolindex/components'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
-import PortfolioChart from './PortfolioChart'
-import PortfolioRow from './PortfolioRow'
+import { ThemeContext } from 'styled-components'
+
 import { PairDataUser, TokenDataUser, useGetWalletChainTokens } from 'src/state/portifolio/hooks'
 import { useActiveWeb3React } from 'src/hooks'
+
+import PortfolioChart from './PortfolioChart'
+import PortfolioRow from './PortfolioRow'
 import Loader from 'src/components/Loader'
 import ShowMore from 'src/components/Beta/ShowMore'
 import { Hidden } from 'src/theme'
+
 
 type Props = {
   isLimitOrders: boolean
 }
 
 const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
+  const theme = useContext(ThemeContext)
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
   const [showMore, setShowMore] = useState(false as boolean)
@@ -44,25 +49,25 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
             {loading ? (
               <Loader
                 size="40%"
+                stroke={theme.yellow3}
                 style={{
                   marginLeft: 'auto',
                   marginRight: 'auto',
                   display: 'block'
                 }}
               />
-            ) : (
+            ) : data.length > 0 ? (
               <Scrollbars>
-                {data.map(
-                  (item: TokenDataUser | PairDataUser, index) =>
-                    item.usdValue >= 1 && (
-                      <PortfolioRow
-                        coin={item instanceof TokenDataUser ? item : undefined}
-                        pair={item instanceof PairDataUser ? item : undefined}
-                        key={index}
-                      />
-                    )
-                )}
+                {data.map((item: TokenDataUser | PairDataUser, index) => (
+                  <PortfolioRow
+                    coin={item instanceof TokenDataUser ? item : undefined}
+                    pair={item instanceof PairDataUser ? item : undefined}
+                    key={index}
+                  />
+                ))}
               </Scrollbars>
+            ) : (
+              <Text color="text1">Not found Tokens</Text>
             )}
           </DesktopPortfolioList>
 
@@ -70,13 +75,14 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
             {loading ? (
               <Loader
                 size="40%"
+                stroke={theme.yellow3}
                 style={{
                   marginLeft: 'auto',
                   marginRight: 'auto',
                   display: 'block'
                 }}
               />
-            ) : (
+            ) : data.length > 0 ? (
               <>
                 {(data || []).slice(0, 3).map((item: TokenDataUser | PairDataUser, index) => (
                   <PortfolioRow
@@ -99,6 +105,8 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
 
                 {data.length > 3 && <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />}
               </>
+            ) : (
+              <Text color="text1">Not found Tokens</Text>
             )}
           </MobilePortfolioList>
         </GridContainer>
