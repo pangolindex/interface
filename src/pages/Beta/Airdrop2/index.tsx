@@ -1,4 +1,3 @@
-// import React from 'react'
 import React, { useState } from 'react'
 import { PageWrapper, ClaimBox, BoxWrapper, Separator, StyledLogo } from './styleds'
 import { Text, Box, Button } from '@0xkilo/components'
@@ -9,22 +8,30 @@ import { useWalletModalToggle } from 'src/state/application/hooks'
 import { CHAINS } from 'src/constants/chains'
 import { ChainId } from '@antiyro/sdk'
 
-// interface Iselect {
-//     amount: number;
-// }
-
-// const AirdropUI = (setSelected: Dispatch<Iselect>) => {
 const AirdropUI = () => {
     const { account, chainId } = useActiveWeb3React()
     const { t } = useTranslation()
     const toggleWalletModal = useWalletModalToggle()
     const [selected, setSelected] = useState<number>(0);
+    let amountAvax = 0;
 
     const selectAmount = (amount: number) => {
         setSelected(amount)
     }
-    console.log(selected)
 
+    const setAmountAvax = (selected: number) => {
+        if (selected === 0)
+            amountAvax = 0;
+        else if (selected === 1)
+            amountAvax = 0.1;
+        else if (selected === 2)
+            amountAvax = 0.5;
+        else if (selected === 3)
+            amountAvax = 1;
+    }
+    console.log(selected)
+    setAmountAvax(selected)
+    console.log("avax", amountAvax)
 
     const renderButton = () => {
         if (!account) {
