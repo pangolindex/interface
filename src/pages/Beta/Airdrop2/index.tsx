@@ -5,11 +5,15 @@ import FtmLogo from '../../../assets/images/ftm-logo.png'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { useWalletModalToggle } from 'src/state/application/hooks'
+import { CHAINS } from 'src/constants/chains'
+import { ChainId } from '@antiyro/sdk'
 
 const AirdropUI = () => {
-    const { account } = useActiveWeb3React()
+    const { account, chainId } = useActiveWeb3React()
     const { t } = useTranslation()
     const toggleWalletModal = useWalletModalToggle()
+
+    console.log(CHAINS[chainId || ChainId.AVALANCHE].airdrop_active)
 
     const renderButton = () => {
         if (!account) {
@@ -27,6 +31,75 @@ const AirdropUI = () => {
             )
         }
     }
+
+    const renderBox = () => {
+        if (!CHAINS[chainId || ChainId.AVALANCHE].airdrop_active) {
+            return (
+                <ClaimBox>
+                    <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
+                        <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
+                            Claim fanPNG
+                        </Text>
+                        <StyledLogo src={FtmLogo} size={"50px"}/>
+                    </span>
+                    <Separator />
+                    <span style={{padding: "20px"}}></span>
+                    <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
+                        Let's check if you are eligible!
+                    </Text>
+                    <span style={{padding: "20px"}}></span>
+
+
+                    {renderButton()}
+
+                    <span style={{textAlign: "center"}}>
+                        <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
+                            To be eligible or not to be eligible...
+                        </Text>
+                    </span>
+                </ClaimBox>
+            )
+            }
+            else {
+                return (
+                    <ClaimBox>
+                        <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
+                            <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
+                                You are eligible
+                            </Text>
+                            <StyledLogo src={FtmLogo} size={"50px"}/>
+                        </span>
+                        <Separator />
+                        {/* <span style={{padding: "1px"}}></span> */}
+                        <Text fontSize={12} fontWeight={500} lineHeight="18px" color="text10">
+                            You are going to need gas over there. Choose the amount you wish to spend:
+                        </Text>
+                        {/* <span style={{padding: "10px"}}></span> */}
+                        <BoxWrapper>
+                            <Button variant="primary" color='white'>
+                                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px', height: "10px" }}>0.1 AVAX</span>
+                            </Button>
+                            <Button variant="primary" color='white'>
+                                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>0.5 AVAX</span>
+                            </Button>
+                            <Button variant="primary" color='white'>
+                                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>1 AVAX</span>
+                            </Button>
+                        </BoxWrapper>
+
+                        {renderButton()}
+
+                        <span style={{textAlign: "center"}}>
+                            <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
+                                To be eligible or not to be eligible...
+                            </Text>
+                        </span>
+                    </ClaimBox>
+
+                )
+            }
+        
+        }
     
     return (
         <PageWrapper>
@@ -41,7 +114,8 @@ const AirdropUI = () => {
                 </span>
             </Box>
             <BoxWrapper>
-                <ClaimBox>
+                {/* FIRST BOX */}
+                {/* <ClaimBox>
                     <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
                         <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
                             Claim fanPNG
@@ -62,7 +136,11 @@ const AirdropUI = () => {
                             To be eligible or not to be eligible...
                         </Text>
                     </span>
-                </ClaimBox>
+                </ClaimBox> */}
+                {renderBox()}
+
+                {/* SECOND BOX */}
+
                 <ClaimBox>
                     <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
                         <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
@@ -80,6 +158,9 @@ const AirdropUI = () => {
                     {renderButton()}
 
                 </ClaimBox>
+
+                {/* THIRD BOX */}
+
                 <ClaimBox>
                     <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
                         <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
@@ -95,7 +176,7 @@ const AirdropUI = () => {
                     <span style={{padding: "20px"}}></span>
 
                     {renderButton()}
-                    
+
                 </ClaimBox>
             </BoxWrapper>
         </PageWrapper>

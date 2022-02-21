@@ -214,6 +214,6 @@ export const CHAINS = {
     tracked_by_debank: false,
     supported_by_gelato: false,
     coingecko_id: '',
-    airdrop_active: false
+    airdrop_active: true
   }
 }
