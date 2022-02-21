@@ -42,7 +42,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/avax/4d1649e8a0c7dec9de3491b81807d402.png',
     tracked_by_debank: true,
     supported_by_gelato: true,
-    coingecko_id: 'avalanche'
+    coingecko_id: 'avalanche',
+    airdrop_active: false
   },
   [ChainsId.FUJI]: {
     name: 'Avalanche-fuji',
@@ -50,7 +51,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/avax/4d1649e8a0c7dec9de3491b81807d402.png',
     tracked_by_debank: false,
     supported_by_gelato: true,
-    coingecko_id: 'avalanche'
+    coingecko_id: 'avalanche',
+    airdrop_active: false
   },
   [ChainsId.ETH]: {
     name: 'Ethereum',
@@ -58,7 +60,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/eth/42ba589cd077e7bdd97db6480b0ff61d.png',
     tracked_by_debank: true,
     supported_by_gelato: true,
-    coingecko_id: 'ethereum'
+    coingecko_id: 'ethereum',
+    airdrop_active: false
   },
   [ChainsId.BSC]: {
     name: 'Binance',
@@ -66,7 +69,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/bsc/7c87af7b52853145f6aa790d893763f1.png',
     tracked_by_debank: true,
     supported_by_gelato: true,
-    coingecko_id: 'binance-smart-chain'
+    coingecko_id: 'binance-smart-chain',
+    airdrop_active: false
   },
   [ChainsId.XDAI]: {
     name: 'Gnosis',
@@ -74,7 +78,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/xdai/8b5320523b30bd57a388d1bcc775acd5.png',
     tracked_by_debank: true,
     supported_by_gelato: true,
-    coingecko_id: 'xdai'
+    coingecko_id: 'xdai',
+    airdrop_active: false
   },
   [ChainsId.MATIC]: {
     name: 'Polygon',
@@ -82,7 +87,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/matic/d3d807aff1a13e9ba51a14ff153d6807.png',
     tracked_by_debank: true,
     supported_by_gelato: true,
-    coingecko_id: 'polygon-pos'
+    coingecko_id: 'polygon-pos',
+    airdrop_active: false
   },
   [ChainsId.FTM]: {
     name: 'Fantom',
@@ -90,7 +96,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/ftm/700fca32e0ee6811686d72b99cc67713.png',
     tracked_by_debank: true,
     supported_by_gelato: true,
-    coingecko_id: 'fantom'
+    coingecko_id: 'fantom',
+    airdrop_active: false
   },
   [ChainsId.OKT]: {
     name: 'OEC',
@@ -98,7 +105,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/okt/1228cd92320b3d33769bd08eecfb5391.png',
     tracked_by_debank: true,
     supported_by_gelato: false,
-    coingecko_id: 'okex-chain'
+    coingecko_id: 'okex-chain',
+    airdrop_active: false
   },
   [ChainsId.HECO]: {
     name: 'Heco',
@@ -106,7 +114,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/heco/db5152613c669e0cc8624d466d6c94ea.png',
     tracked_by_debank: true,
     supported_by_gelato: false,
-    coingecko_id: 'huobi-token'
+    coingecko_id: 'huobi-token',
+    airdrop_active: false
   },
   [ChainsId.OP]: {
     name: 'Optimism',
@@ -114,7 +123,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/op/01ae734fe781c9c2ae6a4cc7e9244056.png',
     tracked_by_debank: true,
     supported_by_gelato: false,
-    coingecko_id: 'optimistic-ethereum'
+    coingecko_id: 'optimistic-ethereum',
+    airdrop_active: false
   },
   [ChainsId.ARB]: {
     name: 'Arbitrum',
@@ -122,7 +132,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/arb/f6d1b236259654d531a1459b2bccaf64.png',
     tracked_by_debank: true,
     supported_by_gelato: true,
-    coingecko_id: 'arbitrum-one'
+    coingecko_id: 'arbitrum-one',
+    airdrop_active: false
   },
   [ChainsId.CELO]: {
     name: 'Celo',
@@ -130,7 +141,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/celo/41da5c1d3c0945ae822a1f85f02c76cf.png',
     tracked_by_debank: true,
     supported_by_gelato: false,
-    coingecko_id: 'celo'
+    coingecko_id: 'celo',
+    airdrop_active: false
   },
   [ChainsId.MOVR]: {
     name: 'Moonriver',
@@ -138,7 +150,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/movr/4b0de5a711b437f187c0d0f15cc0398b.png',
     tracked_by_debank: true,
     supported_by_gelato: false,
-    coingecko_id: 'moonriver'
+    coingecko_id: 'moonriver',
+    airdrop_active: false
   },
   [ChainsId.CRO]: {
     name: 'Cronos',
@@ -146,7 +159,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/cro/44f784a1f4c0ea7d26d00acabfdf0028.png',
     tracked_by_debank: true,
     supported_by_gelato: false,
-    coingecko_id: 'cronos'
+    coingecko_id: 'cronos',
+    airdrop_active: false
   },
   [ChainsId.BOBA]: {
     name: 'Boba',
@@ -154,7 +168,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/boba/e43d79cd8088ceb3ea3e4a240a75728f.png',
     tracked_by_debank: true,
     supported_by_gelato: true,
-    coingecko_id: 'boba'
+    coingecko_id: 'boba',
+    airdrop_active: false
   },
   [ChainsId.METIS]: {
     name: 'Metis',
@@ -162,7 +177,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/metis/b289da32db4d860ebf6fb46a6e41dcfc.png',
     tracked_by_debank: true,
     supported_by_gelato: false,
-    coingecko_id: 'metis-andromeda'
+    coingecko_id: 'metis-andromeda',
+    airdrop_active: false
   },
   [ChainsId.BTT]: {
     name: 'BitTorrent',
@@ -170,7 +186,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/btt/2130a8d57ff2a0f3d50a4ec9432897c6.png',
     tracked_by_debank: true,
     supported_by_gelato: false,
-    coingecko_id: ''
+    coingecko_id: '',
+    airdrop_active: false
   },
   [ChainsId.AURORA]: {
     name: 'Aurora',
@@ -178,7 +195,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/aurora/c7590fd2defb8e7d7dc071166838c33a.png',
     tracked_by_debank: false,
     supported_by_gelato: false,
-    coingecko_id: 'aurora'
+    coingecko_id: 'aurora',
+    airdrop_active: false
   },
   [ChainsId.MOBM]: {
     name: 'Moonbeam',
@@ -186,7 +204,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/mobm/a8442077d76b258297181c3e6eb8c9cc.png',
     tracked_by_debank: true,
     supported_by_gelato: false,
-    coingecko_id: 'moonbeam'
+    coingecko_id: 'moonbeam',
+    airdrop_active: false
   },
   [ChainsId.WAGMI]: {
     name: 'Wagmi',
@@ -194,6 +213,7 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/mobm/a8442077d76b258297181c3e6eb8c9cc.png',
     tracked_by_debank: false,
     supported_by_gelato: false,
-    coingecko_id: ''
+    coingecko_id: '',
+    airdrop_active: false
   }
 }

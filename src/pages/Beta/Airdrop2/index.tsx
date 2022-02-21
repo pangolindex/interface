@@ -2,8 +2,31 @@ import React from 'react'
 import { PageWrapper, ClaimBox, BoxWrapper, Separator, StyledLogo } from './styleds'
 import { Text, Box, Button } from '@pangolindex/components'
 import FtmLogo from '../../../assets/images/ftm-logo.png'
+import { useActiveWeb3React } from 'src/hooks'
+import { useTranslation } from 'react-i18next'
+import { useWalletModalToggle } from 'src/state/application/hooks'
 
 const AirdropUI = () => {
+    const { account } = useActiveWeb3React()
+    const { t } = useTranslation()
+    const toggleWalletModal = useWalletModalToggle()
+
+    const renderButton = () => {
+        if (!account) {
+          return (
+            <Button variant="primary" color='white' onClick={toggleWalletModal}>
+              <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>{t('swapPage.connectWallet')}</span>
+            </Button>
+          )
+        }
+        else {
+            return (
+                <Button variant="primary" color='white'>
+                    <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>CHECK IF ELIGIBLE</span>
+                </Button>
+            )
+        }
+    }
     
     return (
         <PageWrapper>
@@ -31,9 +54,9 @@ const AirdropUI = () => {
                         Let's check if you are eligible!
                     </Text>
                     <span style={{padding: "20px"}}></span>
-                    <Button variant="primary" color='white'>
-                        <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>CHECK IF ELIGIBLE</span>
-                    </Button>
+
+                    {renderButton()}
+
                     <span style={{textAlign: "center"}}>
                         <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
                             To be eligible or not to be eligible...
@@ -53,9 +76,9 @@ const AirdropUI = () => {
                         Let's check if you are eligible!
                     </Text>
                     <span style={{padding: "20px"}}></span>
-                    <Button variant="primary" color='white'>
-                        <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>CHECK IF ELIGIBLE</span>
-                    </Button>
+
+                    {renderButton()}
+
                 </ClaimBox>
                 <ClaimBox>
                     <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
@@ -70,9 +93,9 @@ const AirdropUI = () => {
                         Let's check if you are eligible!
                     </Text>
                     <span style={{padding: "20px"}}></span>
-                    <Button variant="primary" color='white'>
-                        <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>CHECK IF ELIGIBLE</span>
-                    </Button>
+
+                    {renderButton()}
+                    
                 </ClaimBox>
             </BoxWrapper>
         </PageWrapper>
