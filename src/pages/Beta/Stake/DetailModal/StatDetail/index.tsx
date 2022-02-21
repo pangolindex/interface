@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box } from '@0xkilo/components'
 import { ChainId, Currency, TokenAmount } from '@antiyro/sdk'
 import { StateContainer } from './styleds'
 import numeral from 'numeral'

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { PanelWrapper, MobileStat } from './styleds'
-import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo } from '@0xkilo/components'
 import Stat from 'src/components/Stat'
 import { ThemeContext } from 'styled-components'
 import { Pair, Currency, Token } from '@antiyro/sdk'

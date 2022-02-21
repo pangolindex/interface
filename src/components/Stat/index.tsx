@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box, CurrencyLogo } from '@pangolindex/components'
+import { Text, Box, CurrencyLogo } from '@0xkilo/components'
 import { Currency } from '@antiyro/sdk'
 import { Colors } from 'src/theme/styled'
 

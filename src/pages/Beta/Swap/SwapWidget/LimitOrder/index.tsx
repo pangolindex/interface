@@ -1,7 +1,7 @@
 import React, { useState, useContext, useCallback, useEffect } from 'react'
 import { useGelatoLimitOrders } from '@gelatonetwork/limit-orders-react'
 import { RefreshCcw, Divide, X } from 'react-feather'
-import { Text, Box, Button, ToggleButtons } from '@pangolindex/components'
+import { Text, Box, Button, ToggleButtons } from '@0xkilo/components'
 import { Token, Trade, JSBI, TokenAmount, CAVAX, ChainId } from '@antiyro/sdk'
 import { CurrencyAmount, Currency as UniCurrency } from '@uniswap/sdk-core'
 import { ThemeContext } from 'styled-components'

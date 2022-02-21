@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Box, Text, Button } from '@pangolindex/components'
+import { Box, Text, Button } from '@0xkilo/components'
 import { CancelOrderRoot, PendingWrapper, Root, Footer, Header } from './styleds'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'

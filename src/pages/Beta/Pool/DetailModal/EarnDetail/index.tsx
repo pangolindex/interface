@@ -1,7 +1,7 @@
 import React from 'react'
 import { Wrapper, InnerWrapper } from './styleds'
 import { TokenAmount, ChainId } from '@antiyro/sdk'
-import { Text, Box, Button } from '@pangolindex/components'
+import { Text, Box, Button } from '@0xkilo/components'
 import { useTranslation } from 'react-i18next'
 import Stat from 'src/components/Stat'
 import { StakingInfo } from 'src/state/stake/hooks'

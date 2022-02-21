@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Box, Text, Button } from '@pangolindex/components'
+import { Box, Text, Button } from '@0xkilo/components'
 import { PageWrapper, PendingWrapper, SubmittedWrapper, Root, Footer, Header, Link } from './styleds'
 import { ArrowUpCircle } from 'react-feather'
 import { ThemeContext } from 'styled-components'

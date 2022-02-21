@@ -1,5 +1,5 @@
 import { ChainId, TokenAmount } from '@antiyro/sdk'
-import { Button } from '@pangolindex/components'
+import { Button } from '@0xkilo/components'
 import React, { useState, useRef } from 'react'
 import { Text } from 'rebass'
 import { NavLink } from 'react-router-dom'

@@ -1,4 +1,4 @@
-import { Box, Button, Text, ToggleButtons } from '@pangolindex/components'
+import { Box, Button, Text, ToggleButtons } from '@0xkilo/components'
 import { JSBI } from '@antiyro/sdk'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'

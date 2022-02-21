@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box, Button } from '@pangolindex/components'
+import { Text, Box, Button } from '@0xkilo/components'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { BalanceInfo, DurationBtns } from './styleds'
 import { useGetChainBalance } from 'src/state/portifolio/hooks'

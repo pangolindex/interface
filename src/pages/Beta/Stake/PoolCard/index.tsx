@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text } from '@pangolindex/components'
+import { Text } from '@0xkilo/components'
 import { JSBI } from '@antiyro/sdk'
 import numeral from 'numeral'
 import { useActiveWeb3React } from 'src/hooks'

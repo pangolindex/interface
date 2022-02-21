@@ -1,6 +1,6 @@
 import React from 'react'
 import { Currency, Percent, Price, CurrencyAmount } from '@antiyro/sdk'
-import { Box } from '@pangolindex/components'
+import { Box } from '@0xkilo/components'
 import Stat from 'src/components/Stat'
 import { Root, GridContainer } from './styled'
 import { Field } from 'src/state/mint/actions'

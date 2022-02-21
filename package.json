@@ -143,6 +143,7 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@0xkilo/components": "^2.0.0",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/material": "^5.4.2",

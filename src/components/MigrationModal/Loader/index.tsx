@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text } from '@pangolindex/components'
+import { Text } from '@0xkilo/components'
 import Circle from '../../../assets/images/blue-loader.svg'
 import { CustomLightSpinner } from '../../../theme/components'
 import { Wrapper, ConfirmedIcon, Section } from './styleds'

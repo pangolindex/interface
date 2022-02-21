@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Text, CurrencyLogo } from '@pangolindex/components'
+import { Text, CurrencyLogo } from '@0xkilo/components'
 import { CurrencyRowRoot, Balance } from './styled'
 import { Currency, ChainId } from '@antiyro/sdk'
 import { useActiveWeb3React } from 'src/hooks'

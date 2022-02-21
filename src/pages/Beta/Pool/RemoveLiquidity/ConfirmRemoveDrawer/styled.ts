@@ -1,4 +1,4 @@
-import { Box, Text } from '@pangolindex/components'
+import { Box, Text } from '@0xkilo/components'
 import styled from 'styled-components'
 
 export const ConfirmWrapper = styled(Box)`

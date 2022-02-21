@@ -1,4 +1,4 @@
-import { Box } from '@pangolindex/components'
+import { Box } from '@0xkilo/components'
 import styled from 'styled-components'
 
 export const DataBox = styled(Box)`

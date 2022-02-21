@@ -1,4 +1,4 @@
-import { Box, Button, Text, TextInput } from '@pangolindex/components'
+import { Box, Button, Text, TextInput } from '@0xkilo/components'
 import React, { useState, useCallback } from 'react'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { TokenAmount, ChainId } from '@antiyro/sdk'
