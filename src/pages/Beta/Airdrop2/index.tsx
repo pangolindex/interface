@@ -1,5 +1,5 @@
-// import React, { useState, Dispatch } from 'react'
-import React from 'react'
+// import React from 'react'
+import React, { useState } from 'react'
 import { PageWrapper, ClaimBox, BoxWrapper, Separator, StyledLogo } from './styleds'
 import { Text, Box, Button } from '@0xkilo/components'
 import FtmLogo from '../../../assets/images/ftm-logo.png'
@@ -18,11 +18,12 @@ const AirdropUI = () => {
     const { account, chainId } = useActiveWeb3React()
     const { t } = useTranslation()
     const toggleWalletModal = useWalletModalToggle()
-    // const [selected, setSelected] = useState<Iselect>({amount: 0});
+    const [selected, setSelected] = useState<number>(0);
 
-    // const selectAmount = (stateSetter: Dispatch<Iselect>) => {
-    //     setSelected({amount: 1 })
-    // }
+    const selectAmount = (amount: number) => {
+        setSelected(amount)
+    }
+    console.log(selected)
 
 
     const renderButton = () => {
@@ -90,14 +91,14 @@ const AirdropUI = () => {
                         </Text>
                         {/* <span style={{marginBottom: "10px"}}></span> */}
                         <BoxWrapper>
-                            <Button variant="outline" color='white' height='39px' borderColor="white">
-                            {/* <Button variant="outline" color='white' height='39px' borderColor="white" onClick={() => {selectAmount(setSelected)}}> */}
+                            {/* <Button variant="outline" color='white' height='39px' borderColor="white"> */}
+                            <Button variant="outline" color='white' height='39px' borderColor="white" onClick={() => {selectAmount(1)}}>
                                 <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px'}}>0.1 AVAX</span>
                             </Button>
-                            <Button variant="outline" color='white' height='39px' borderColor="white">
+                            <Button variant="outline" color='white' height='39px' borderColor="white" onClick={() => {selectAmount(2)}}>
                                 <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>0.5 AVAX</span>
                             </Button>
-                            <Button variant="outline" color='white' height='39px' borderColor="white">
+                            <Button variant="outline" color='white' height='39px' borderColor="white" onClick={() => {selectAmount(3)}}>
                                 <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>1 AVAX</span>
                             </Button>
                         </BoxWrapper>
