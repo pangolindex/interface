@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { PNG, ZERO_ADDRESS } from 'src/constants'
-import { Root, Buttons, MaxButton, Balance, PendingWrapper, StakeWrapper, GridContainer } from './styled'
+import { Root, Buttons, MaxButton, Balance, StakeWrapper, GridContainer } from './styled'
 import { BETA_MENU_LINK } from 'src/constants'
 import { Box, Button, Text, TextInput, Steps, Step } from '@pangolindex/components'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
@@ -23,9 +23,11 @@ import useUSDCPrice from 'src/utils/useUSDCPrice'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
+  onClose?: () => void
+  isRewardStake?: boolean
 }
 
-const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
+const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) => {
   const { t } = useTranslation()
   const { account, chainId, library } = useActiveWeb3React()
 
@@ -67,7 +69,8 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
     setStepIndex(0)
     setHash(undefined)
     setAttempting(false)
-  }, [])
+    onClose && onClose()
+  }, [onClose])
 
   const stakingTokenContract = usePngContract()
 
@@ -231,87 +234,101 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
 
       {!attempting && !hash && (
         <>
-          <Box mb="5px">
-            <Text color="color4" fontSize={24} fontWeight={500} mb="5px">
-              Stake
-            </Text>
+          {isRewardStake ? (
+            <Box textAlign="center" mt={20}>
+              <Text fontSize="26px" fontWeight={500} color="text1">
+                {parsedAmount?.toSignificant(6) || '0'}
+              </Text>
 
-            {/* show already staked amount */}
-            <Text color="color9" fontSize={14}>
-              Stake your PNG token to share platform fees
-            </Text>
-          </Box>
-          <TextInput
-            value={parsedAmount?.toExact() || '0'}
-            addonAfter={
-              <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
-                <MaxButton onClick={() => handleMax()}>PNG</MaxButton>
+              <Text fontSize="14px" color="text2" textAlign="center" mt="15px" mb="15px">
+                Stake your rewards
+              </Text>
+            </Box>
+          ) : (
+            <Box>
+              <Box mb="5px">
+                <Text color="color4" fontSize={20} fontWeight={500} mb="5px">
+                  Stake
+                </Text>
+
+                {/* show already staked amount */}
+                <Text color="color9" fontSize={14}>
+                  Stake your PNG token to share platform fees
+                </Text>
               </Box>
-            }
-            onChange={(value: any) => {
-              onUserInput(value as any)
-            }}
-            label={`Enter PNG`}
-            fontSize={24}
-            isNumeric={true}
-            placeholder="0.00"
-            addonLabel={
-              account && (
-                <Balance>
-                  {!!userPngUnstaked ? t('currencyInputPanel.balance') + userPngUnstaked?.toSignificant(6) : ' -'}
-                </Balance>
-              )
-            }
-            disabled={isDisabled}
-          />
-
-          <Box>
-            <Steps
-              onChange={value => {
-                onChangeDot && onChangeDot(value)
-              }}
-              current={stepIndex}
-              progressDot={true}
-            >
-              <Step disabled={isDisabled} />
-              <Step disabled={isDisabled} />
-              <Step disabled={isDisabled} />
-              <Step disabled={isDisabled} />
-              <Step disabled={isDisabled} />
-            </Steps>
-          </Box>
-
-          <StakeWrapper>
-            <GridContainer>
-              <Box>
-                <Stat
-                  title={`${t('migratePage.dollarWorth')}`}
-                  stat={`${dollerWorth ? `$${dollerWorth?.toFixed(4)}` : '-'}`}
-                  titlePosition="top"
-                  titleFontSize={14}
-                  statFontSize={18}
-                  titleColor="text2"
-                />
-              </Box>
+              <TextInput
+                value={parsedAmount?.toExact() || '0'}
+                addonAfter={
+                  <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
+                    <MaxButton onClick={() => handleMax()}>PNG</MaxButton>
+                  </Box>
+                }
+                onChange={(value: any) => {
+                  onUserInput(value as any)
+                }}
+                label={`Enter PNG`}
+                fontSize={24}
+                isNumeric={true}
+                placeholder="0.00"
+                addonLabel={
+                  account && (
+                    <Balance>
+                      {!!userPngUnstaked ? t('currencyInputPanel.balance') + userPngUnstaked?.toSignificant(6) : ' -'}
+                    </Balance>
+                  )
+                }
+                disabled={isDisabled}
+              />
 
               <Box>
-                <Stat
-                  title={`${t('earn.weeklyRewards')}`}
-                  stat={
-                    hypotheticalRewardRatePerWeek
-                      ? `${hypotheticalRewardRatePerWeek.toSignificant(4)}
-                `
-                      : '-'
-                  }
-                  titlePosition="top"
-                  titleFontSize={14}
-                  statFontSize={18}
-                  titleColor="text2"
-                  currency={stakingInfo?.rewardToken}
-                />
+                <Steps
+                  onChange={value => {
+                    onChangeDot && onChangeDot(value)
+                  }}
+                  current={stepIndex}
+                  progressDot={true}
+                >
+                  <Step disabled={isDisabled} />
+                  <Step disabled={isDisabled} />
+                  <Step disabled={isDisabled} />
+                  <Step disabled={isDisabled} />
+                  <Step disabled={isDisabled} />
+                </Steps>
               </Box>
-            </GridContainer>
-          </StakeWrapper>
+
+              <StakeWrapper>
+                <GridContainer>
+                  <Box>
+                    <Stat
+                      title={`${t('migratePage.dollarWorth')}`}
+                      stat={`${dollerWorth ? `$${dollerWorth?.toFixed(4)}` : '-'}`}
+                      titlePosition="top"
+                      titleFontSize={14}
+                      statFontSize={18}
+                      titleColor="text2"
+                    />
+                  </Box>
+
+                  <Box>
+                    <Stat
+                      title={`${t('earn.weeklyRewards')}`}
+                      stat={
+                        hypotheticalRewardRatePerWeek
+                          ? `${hypotheticalRewardRatePerWeek.toSignificant(4)}
+      `
+                          : '-'
+                      }
+                      titlePosition="top"
+                      titleFontSize={14}
+                      statFontSize={18}
+                      titleColor="text2"
+                      currency={stakingInfo?.rewardToken}
+                    />
+                  </Box>
+                </GridContainer>
+              </StakeWrapper>
+            </Box>
+          )}
 
           <Buttons isStaked={userPngUnstaked?.greaterThan('0')}>
             {/* show staked or get png button */}
@@ -347,14 +364,14 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo }) => {
           </Buttons>
         </>
       )}
-      {attempting && !hash && (
-        <PendingWrapper>
-          <Box mb={'15px'}>
-            <Loader size={100} label="Staking" />
-          </Box>
-        </PendingWrapper>
+      {attempting && !hash && <Loader size={100} label={isRewardStake ? 'Reward Staking' : 'Staking'} />}
+      {hash && (
+        <TransactionCompleted
+          onClose={wrappedOnDismiss}
+          submitText={isRewardStake ? 'Your rewards have been staked.' : 'Staked'}
+          showCloseIcon={isRewardStake ? false : true}
+        />
       )}
-      {hash && <TransactionCompleted onClose={wrappedOnDismiss} submitText="Staked" showCloseIcon={true} />}
     </Root>
   )
 }

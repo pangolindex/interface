@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Box, Text } from '@pangolindex/components'
+import { Box, Text, Button } from '@pangolindex/components'
 import { Root } from './styled'
 import CircleTick from 'src/assets/svg/circleTick.svg'
 import { CloseIcon } from 'src/theme/components'
@@ -9,9 +9,19 @@ interface Props {
   onClose: () => void
   submitText?: string
   showCloseIcon?: boolean
+  isShowButtton?: boolean
+  onButtonClick?: () => void
+  buttonText?: string
 }
 
-const TransactionCompleted = ({ onClose, submitText, showCloseIcon }: Props) => {
+const TransactionCompleted = ({
+  onClose,
+  submitText,
+  showCloseIcon,
+  isShowButtton,
+  onButtonClick,
+  buttonText
+}: Props) => {
   const theme = useContext(ThemeContext)
   return (
     <Root>
@@ -26,11 +36,16 @@ const TransactionCompleted = ({ onClose, submitText, showCloseIcon }: Props) => 
           <img src={CircleTick} alt="circle-tick" />
         </Box>
         {submitText && (
-          <Text fontWeight={500} fontSize={20} color="text1">
+          <Text fontWeight={500} fontSize={16} color="text1">
             {submitText}
           </Text>
         )}
       </Box>
+      {isShowButtton && (
+        <Button variant="primary" onClick={onButtonClick}>
+          {buttonText}
+        </Button>
+      )}
     </Root>
   )
 }

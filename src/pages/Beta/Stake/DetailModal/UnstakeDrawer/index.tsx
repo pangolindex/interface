@@ -7,7 +7,7 @@ import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Box, Button, Text } from '@pangolindex/components'
-import { ConfirmWrapper, PendingWrapper, Wrapper } from './styled'
+import { ConfirmWrapper, Wrapper } from './styled'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 
@@ -99,13 +99,7 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
             </Box>
           </ConfirmWrapper>
         )}
-        {attempting && !hash && (
-          <PendingWrapper>
-            <Box mb={'15px'}>
-              <Loader size={100} label="Unstaking" />
-            </Box>
-          </PendingWrapper>
-        )}
+        {attempting && !hash && <Loader size={100} label="Unstaking" />}
         {hash && <TransactionCompleted onClose={wrappedOnDismiss} submitText="Unstaked" />}
       </Wrapper>
     </Drawer>
