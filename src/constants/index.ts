@@ -1277,8 +1277,8 @@ export const AVALANCHE_CHAIN_PARAMS = {
 
 // default allowed slippage, in bips
 export const INITIAL_ALLOWED_SLIPPAGE = 50
-// 60 minutes, denominated in seconds
-export const DEFAULT_DEADLINE_FROM_NOW = 60 * 60
+// 10 minutes, denominated in seconds
+export const DEFAULT_DEADLINE_FROM_NOW = 10 * 60
 
 export const BIG_INT_ZERO = JSBI.BigInt(0)
 export const BIG_INT_ONE = JSBI.BigInt(1)
