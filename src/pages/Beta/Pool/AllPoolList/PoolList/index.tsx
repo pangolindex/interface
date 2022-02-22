@@ -300,7 +300,6 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
       <DetailModal
         stakingInfo={selectedPool}
         version={Number(version)}
-        onOpenClaimModal={() => setIsClaimRewardDrawerOpen(true)}
         onOpenWithdrawModal={() => setIsWithdrawDrawerOpen(true)}
       />
 

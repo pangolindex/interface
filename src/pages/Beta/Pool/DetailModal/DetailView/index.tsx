@@ -22,11 +22,11 @@ export interface PoolDetailProps {
   onDismiss: () => void
   stakingInfo: StakingInfo
   version: number
-  onOpenClaimModal: () => void
+
   onOpenWithdrawModal: () => void
 }
 
-const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenWithdrawModal }: PoolDetailProps) => {
+const DetailView = ({ stakingInfo, onDismiss, version, onOpenWithdrawModal }: PoolDetailProps) => {
   const theme = useContext(ThemeContext)
   const { height } = useWindowSize()
   const { t } = useTranslation()
@@ -171,11 +171,7 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
         <EarnWrapper>
           <EarnWidget currencyA={currency0} currencyB={currency1} version={version} pair={pair} />
           {isStaking && (
-            <EarnDetail
-              stakingInfo={stakingInfo}
-              onOpenClaimModal={onOpenClaimModal}
-              onOpenWithdrawModal={onOpenWithdrawModal}
-            />
+            <EarnDetail stakingInfo={stakingInfo} onOpenWithdrawModal={onOpenWithdrawModal} version={version} />
           )}
         </EarnWrapper>
       </Box>
