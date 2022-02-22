@@ -3,16 +3,12 @@ import { PageWrapper, ClaimBox, BoxWrapper, Separator, StyledLogo } from './styl
 import { Text, Box, Button } from '@0xkilo/components'
 import FtmLogo from '../../../assets/images/ftm-logo.png'
 import { useActiveWeb3React } from 'src/hooks'
-import { useTranslation } from 'react-i18next'
-import { useWalletModalToggle } from 'src/state/application/hooks'
 import { CHAINS } from 'src/constants/chains'
 import { ChainId } from '@antiyro/sdk'
-import Web3 from 'web3';
+import { ButtonToConnect, ButtonBuyFTM, ButtonCheckEligibility, ButtonChangeChain } from './ButtonsType'
 
 const AirdropUI = () => {
     const { account, chainId } = useActiveWeb3React()
-    const { t } = useTranslation()
-    const toggleWalletModal = useWalletModalToggle()
     const [selected, setSelected] = useState<number>(0);
     const [button1, setButton1] = useState<any>("outline");
     const [button2, setButton2] = useState<any>("outline");
@@ -27,13 +23,13 @@ const AirdropUI = () => {
             setButton2("outline")
             setButton3("outline")
         }
-        if (amount === 0.5)
+        else if (amount === 0.5)
         {
             setButton1("outline")
             setButton2("primary")
             setButton3("outline")
         }
-        if (amount === 1)
+        else if (amount === 1)
         {
             setButton1("outline")
             setButton2("outline")
@@ -42,68 +38,6 @@ const AirdropUI = () => {
     }
     console.log(selected)
     
-    const switchNetworkFantom = async () => {
-        //@ts-ignore
-    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-    web3.eth.getAccounts().then(console.log);
-
-        try {
-            //@ts-ignore
-          await web3.currentProvider.request({
-            method: "wallet_switchEthereumChain",
-            params: [{ chainId: "0xFA" }],
-          });
-        } catch (error) {
-          if (error.code === 4902) {
-            try {
-                //@ts-ignore
-              await web3.currentProvider.request({
-                method: "wallet_addEthereumChain",
-                params: [
-                  {
-                    chainId: "0xFA",
-                    chainName: "Fantom Opera",
-                    rpcUrls: ["https://rpc.ftm.tools/"],
-                    nativeCurrency: {
-                      name: "FTM",
-                      symbol: "FTM",
-                      decimals: 18,
-                    },
-                    blockExplorerUrls: ["https://ftmscan.com/"],
-                  },
-                ],
-              });
-            } catch (error) {
-              alert(error.message);
-            }
-          }
-        }
-      }
-
-    const renderButton = () => {
-        if (!account) {
-          return (
-            <Button variant="primary" color='white' height='46px' onClick={toggleWalletModal}>
-              <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>{t('swapPage.connectWallet')}</span>
-            </Button>
-          )
-        }
-        if (account && CHAINS[chainId || ChainId.AVALANCHE].airdrop_active) {
-            return (
-              <Button variant="primary" color='white' height='46px'>
-                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>BUY FTM</span>
-              </Button>
-            )
-          }
-        else {
-            return (
-                <Button variant="primary" color='white' height='46px'>
-                    <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>CHECK IF ELIGIBLE</span>
-                </Button>
-            )
-        }
-    }
-
     const renderBox = () => {
         if (!CHAINS[chainId || ChainId.AVALANCHE].airdrop_active) {
             return (
@@ -120,7 +54,13 @@ const AirdropUI = () => {
                         Let's check if you are eligible!
                     </Text>
                     <span style={{padding: "20px"}}></span>
-                    {renderButton()}
+                    {/* {renderButton()} */}
+                    {!account ? (
+                        <ButtonToConnect />
+                    ) : (
+                        <ButtonCheckEligibility />
+                    )}
+                    
                     <span style={{textAlign: "center"}}>
                         <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
                             To be eligible or not to be eligible...
@@ -153,7 +93,8 @@ const AirdropUI = () => {
                                 <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>1 AVAX</span>
                             </Button>
                         </BoxWrapper>
-                        {renderButton()}
+                        <ButtonBuyFTM />
+                        {/* {renderButton()} */}
                         <span style={{textAlign: "center"}}>
                             <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
                                 To be eligible or not to be eligible...
@@ -164,14 +105,6 @@ const AirdropUI = () => {
                 )
             }
         
-        }
-
-        const renderButtonChangeChain = () => {
-            return (
-            <Button variant="primary" color='white' height='46px' onClick={switchNetworkFantom}>
-                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>GO TO FANTOM</span>
-            </Button>
-            )
         }
 
         const renderBoxChangeChain = () => {
@@ -189,7 +122,7 @@ const AirdropUI = () => {
                         Congratulations. You successfully bought FTM. Now let's go crosschain!
                     </Text>
                     <span style={{padding: "20px"}}></span>
-                    {renderButtonChangeChain()}
+                    <ButtonChangeChain />
                     <span style={{textAlign: "center"}}>
                         <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
                             To be eligible or not to be eligible...
@@ -214,14 +147,11 @@ const AirdropUI = () => {
             </Box>
             <BoxWrapper>
                 {/* FIRST BOX */}
-
-                    {/* {renderBox()} */}
                     {renderBoxChangeChain()}
                 {/* SECOND BOX */}
                     {renderBox()}
-                
                 {/* THIRD BOX */}
-                <ClaimBox>
+                {/* <ClaimBox>
                     <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
                         <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
                             Claim fanPNG
@@ -234,8 +164,8 @@ const AirdropUI = () => {
                         Let's check if you are eligible!
                     </Text>
                     <span style={{padding: "20px"}}></span>
-                    {renderButton()}
-                </ClaimBox>
+                    <ButtonCheckEligibility />
+                </ClaimBox> */}
             </BoxWrapper>
         </PageWrapper>
     )
