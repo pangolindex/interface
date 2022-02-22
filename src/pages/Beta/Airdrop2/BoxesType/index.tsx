@@ -122,7 +122,7 @@ export const BoxBuyFTM: React.FC<IBuy> = ({buyFTM}) => {
                 </Button>
             </BoxWrapper>
             <Button variant="primary" color='white' height='46px' onClick={buyFTM}>
-                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>BUY FTM</span>
+                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>BUY WGM</span>
             </Button>
             <span style={{textAlign: "center"}}>
                 <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
@@ -149,7 +149,7 @@ export const BoxGoToFTM: React.FC<IChangeChain> = ({changeChain}) => {
         //@ts-ignore
             await web3.currentProvider.request({
             method: "wallet_switchEthereumChain",
-            params: [{ chainId: "0xFA" }],
+            params: [{ chainId: "0x2B67" }],
             });
         } catch (error) {
             //@ts-ignore
@@ -160,15 +160,15 @@ export const BoxGoToFTM: React.FC<IChangeChain> = ({changeChain}) => {
                 method: "wallet_addEthereumChain",
                 params: [
                     {
-                    chainId: "0xFA",
-                    chainName: "Fantom Opera",
-                    rpcUrls: ["https://rpc.ftm.tools/"],
+                    chainId: "0x2B67",
+                    chainName: "WAGMI",
+                    rpcUrls: ["https://api.trywagmi.xyz/rpc"],
                     nativeCurrency: {
-                        name: "FTM",
-                        symbol: "FTM",
+                        name: "WGM",
+                        symbol: "WGM",
                         decimals: 18,
                     },
-                    blockExplorerUrls: ["https://ftmscan.com/"],
+                    blockExplorerUrls: [""],
                     },
                 ],
                 });
@@ -195,7 +195,7 @@ export const BoxGoToFTM: React.FC<IChangeChain> = ({changeChain}) => {
             </Text>
             <span style={{padding: "20px"}}></span>
             <Button variant="primary" color='white' height='46px' onClick={switchNetworkFantom}>
-                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>GO TO FANTOM</span>
+                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>GO TO WAGMI</span>
             </Button>
             <span style={{textAlign: "center"}}>
                 <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
