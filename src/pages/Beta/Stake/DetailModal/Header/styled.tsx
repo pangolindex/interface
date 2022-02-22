@@ -25,7 +25,7 @@ export const StatsWrapper = styled(Box)<{ isStake?: boolean }>`
     width: 100%;
     grid-gap: 10px;
     margin-top: 10px;
-    grid-template-columns: ${isStake ? '50% 50%' : 'repeat(3, auto)'};;
+    grid-template-columns: ${isStake ? '50% 50%' : 'repeat(3, auto)'};
 `};
 `
 

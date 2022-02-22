@@ -11,18 +11,19 @@ import { useMinichefPendingRewards } from 'src/state/stake/hooks'
 import { PNG } from 'src/constants'
 import { useActiveWeb3React } from 'src/hooks'
 import ClaimDrawer from '../../ClaimDrawer'
+import WithdrawDrawer from '../../WithdrawDrawer'
 
 export interface EarnDetailProps {
   stakingInfo: StakingInfo
-  onOpenWithdrawModal: () => void
   version: number
 }
 
-const EarnDetail = ({ stakingInfo, onOpenWithdrawModal, version }: EarnDetailProps) => {
+const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
 
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
+  const [isWithdrawDrawerVisible, setShowWithdrawDrawer] = useState(false)
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 
@@ -95,7 +96,7 @@ const EarnDetail = ({ stakingInfo, onOpenWithdrawModal, version }: EarnDetailPro
       <Box mt={10}>
         <RowBetween>
           <Box mr="5px" width="100%">
-            <Button variant={'primary'} onClick={() => onOpenWithdrawModal()}>
+            <Button variant={'primary'} onClick={() => setShowWithdrawDrawer(true)}>
               {t('earn.withdraw')}
             </Button>
           </Box>
@@ -113,6 +114,14 @@ const EarnDetail = ({ stakingInfo, onOpenWithdrawModal, version }: EarnDetailPro
         isOpen={isClaimDrawerVisible}
         onClose={() => {
           setShowClaimDrawer(false)
+        }}
+        stakingInfo={stakingInfo}
+        version={version}
+      />
+      <WithdrawDrawer
+        isOpen={isWithdrawDrawerVisible}
+        onClose={() => {
+          setShowWithdrawDrawer(false)
         }}
         stakingInfo={stakingInfo}
         version={version}

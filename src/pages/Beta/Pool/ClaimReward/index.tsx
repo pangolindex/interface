@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Box, Text, Button } from '@pangolindex/components'
-import { PageWrapper, Root, RewardWrapper } from './styleds'
+import { ClaimWrapper, Root, RewardWrapper, StatWrapper } from './styleds'
 import { StakingInfo, useMinichefPendingRewards } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
@@ -34,6 +34,12 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
 
   let isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
+  function wrappedOnDismiss() {
+    setHash(undefined)
+    setAttempting(false)
+    onClose()
+  }
+
   async function onClaimReward() {
     if (stakingContract && poolMap && stakingInfo?.stakedAmount) {
       setAttempting(true)
@@ -66,12 +72,12 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
   }
 
   return (
-    <PageWrapper>
+    <ClaimWrapper>
       {!attempting && !hash && (
         <Root>
-          <Box flex="1">
-            <RewardWrapper>
-              <Box textAlign="center">
+          <Box flex="1" display="flex" flexDirection="column" justifyContent="center">
+            <RewardWrapper isSuperFarm={isSuperFarm}>
+              <StatWrapper>
                 <Stat
                   title={t('earn.unclaimedReward', { symbol: 'PNG' })}
                   stat={stakingInfo?.earnedAmount?.toSignificant(6)}
@@ -79,12 +85,13 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
                   titleFontSize={12}
                   statFontSize={24}
                   titleColor="text1"
+                  statAlign="center"
                 />
-              </Box>
+              </StatWrapper>
 
               {isSuperFarm &&
                 rewardTokensAmount?.map((rewardAmount, i) => (
-                  <Box textAlign="center" key={i}>
+                  <StatWrapper key={i}>
                     <Stat
                       title={t('earn.unclaimedReward', { symbol: rewardAmount?.token?.symbol })}
                       stat={rewardAmount?.toSignificant(6)}
@@ -92,8 +99,9 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
                       titleFontSize={12}
                       statFontSize={24}
                       titleColor="text1"
+                      statAlign="center"
                     />
-                  </Box>
+                  </StatWrapper>
                 ))}
             </RewardWrapper>
 
@@ -112,8 +120,8 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
 
       {attempting && !hash && <Loader size={100} label=" Claiming..." />}
 
-      {hash && <TransactionCompleted onClose={onClose} submitText="Your rewards claimed" />}
-    </PageWrapper>
+      {hash && <TransactionCompleted onClose={wrappedOnDismiss} submitText="Your rewards claimed" />}
+    </ClaimWrapper>
   )
 }
 export default ClaimReward

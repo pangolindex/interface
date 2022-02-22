@@ -12,6 +12,7 @@ export interface StatProps {
   titleFontSize?: number
   statFontSize?: number
   currency?: Currency
+  statAlign?: 'center' | 'right' | 'left'
 }
 
 const Stat = ({
@@ -22,7 +23,8 @@ const Stat = ({
   titleFontSize,
   statColor,
   statFontSize,
-  currency
+  currency,
+  statAlign
 }: StatProps) => {
   return (
     <Box display="inline-block">
@@ -32,7 +34,11 @@ const Stat = ({
         </Text>
       )}
 
-      <Box display="flex" alignItems="center">
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent={statAlign === 'center' ? 'center' : statAlign === 'right' ? 'flex-end' : 'flex-start'}
+      >
         <Text color={statColor || 'text1'} fontSize={statFontSize || 16}>
           {stat}
         </Text>

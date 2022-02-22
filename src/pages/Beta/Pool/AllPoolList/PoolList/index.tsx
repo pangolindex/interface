@@ -297,11 +297,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
         </>
       )}
 
-      <DetailModal
-        stakingInfo={selectedPool}
-        version={Number(version)}
-        onOpenWithdrawModal={() => setIsWithdrawDrawerOpen(true)}
-      />
+      <DetailModal stakingInfo={selectedPool} version={Number(version)} />
 
       {addLiquidityModalOpen && <AddLiquidityModal clickedLpTokens={clickedLpTokens} />}
 
