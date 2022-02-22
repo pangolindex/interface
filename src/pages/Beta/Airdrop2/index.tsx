@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useWalletModalToggle } from 'src/state/application/hooks'
 import { CHAINS } from 'src/constants/chains'
 import { ChainId } from '@antiyro/sdk'
+import Web3 from 'web3';
 
 const AirdropUI = () => {
     const { account, chainId } = useActiveWeb3React()
@@ -40,6 +41,44 @@ const AirdropUI = () => {
         }
     }
     console.log(selected)
+    
+    const switchNetworkFantom = async () => {
+        //@ts-ignore
+    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+    web3.eth.getAccounts().then(console.log);
+
+        try {
+            //@ts-ignore
+          await web3.currentProvider.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: "0xFA" }],
+          });
+        } catch (error) {
+          if (error.code === 4902) {
+            try {
+                //@ts-ignore
+              await web3.currentProvider.request({
+                method: "wallet_addEthereumChain",
+                params: [
+                  {
+                    chainId: "0xFA",
+                    chainName: "Fantom Opera",
+                    rpcUrls: ["https://rpc.ftm.tools/"],
+                    nativeCurrency: {
+                      name: "FTM",
+                      symbol: "FTM",
+                      decimals: 18,
+                    },
+                    blockExplorerUrls: ["https://ftmscan.com/"],
+                  },
+                ],
+              });
+            } catch (error) {
+              alert(error.message);
+            }
+          }
+        }
+      }
 
     const renderButton = () => {
         if (!account) {
@@ -100,13 +139,10 @@ const AirdropUI = () => {
                             <StyledLogo src={FtmLogo} size={"50px"}/>
                         </span>
                         <Separator />
-                        {/* <span style={{padding: "1px"}}></span> */}
                         <Text fontSize={12} fontWeight={500} lineHeight="18px" color="text10" mb="15px">
                             You are going to need gas over there. Choose the amount you wish to spend:
                         </Text>
-                        {/* <span style={{marginBottom: "10px"}}></span> */}
                         <BoxWrapper>
-                            {/* <Button variant="outline" color='white' height='39px' borderColor="white"> */}
                             <Button variant={button1} color='white' height='39px' borderColor="white" onClick={() => {selectAmount(0.1)}}>
                                 <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px'}}>0.1 AVAX</span>
                             </Button>
@@ -129,7 +165,41 @@ const AirdropUI = () => {
             }
         
         }
+
+        const renderButtonChangeChain = () => {
+            return (
+            <Button variant="primary" color='white' height='46px' onClick={switchNetworkFantom}>
+                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>GO TO FANTOM</span>
+            </Button>
+            )
+        }
+
+        const renderBoxChangeChain = () => {
+            return (
+                <ClaimBox>
+                    <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
+                        <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
+                            You are eligible
+                        </Text>
+                        <StyledLogo src={FtmLogo} size={"50px"}/>
+                    </span>
+                    <Separator />
+                    <span style={{padding: "20px"}}></span>
+                    <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
+                        Congratulations. You successfully bought FTM. Now let's go crosschain!
+                    </Text>
+                    <span style={{padding: "20px"}}></span>
+                    {renderButtonChangeChain()}
+                    <span style={{textAlign: "center"}}>
+                        <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
+                            To be eligible or not to be eligible...
+                        </Text>
+                    </span>
+                </ClaimBox>
+            )
+        }
     
+        //MAIN PAGE
     return (
         <PageWrapper>
             <Box p={70}>
@@ -145,24 +215,11 @@ const AirdropUI = () => {
             <BoxWrapper>
                 {/* FIRST BOX */}
 
-                    {renderBox()}
-
+                    {/* {renderBox()} */}
+                    {renderBoxChangeChain()}
                 {/* SECOND BOX */}
-                <ClaimBox>
-                    <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
-                        <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
-                            Claim fanPNG
-                        </Text>
-                        <StyledLogo src={FtmLogo} size={"50px"}/>
-                    </span>
-                    <Separator />
-                    <span style={{padding: "20px"}}></span>
-                    <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
-                        Let's check if you are eligible!
-                    </Text>
-                    <span style={{padding: "20px"}}></span>
-                    {renderButton()}
-                </ClaimBox>
+                    {renderBox()}
+                
                 {/* THIRD BOX */}
                 <ClaimBox>
                     <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
