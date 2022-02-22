@@ -1,22 +1,22 @@
 import React, { useState } from 'react'
 import { Box, Text, Button } from '@pangolindex/components'
-import { WidgetWrapper, PendingWrapper, Root } from './styled'
+import { WidgetWrapper, Root } from './styled'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { useStakingContract } from 'src/hooks/useContract'
-import { CustomLightSpinner } from 'src/theme'
-import Circle from 'src/assets/images/blue-loader.svg'
-import TransactionSubmitted from 'src/components/Beta/TransactionSubmitted'
+import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
+import Loader from 'src/components/Beta/Loader'
 
 interface ClaimProps {
   stakingInfo: SingleSideStakingInfo
   onClose: () => void
+  onClickRewardStake?: () => void
 }
 
-const ClaimWidget = ({ stakingInfo, onClose }: ClaimProps) => {
+const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) => {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
   // monitor call to help UI loading state
@@ -45,6 +45,11 @@ const ClaimWidget = ({ stakingInfo, onClose }: ClaimProps) => {
         })
         .catch((error: any) => {
           setAttempting(false)
+
+          // we only care if the error is something _other_ than the user rejected the tx
+          if (error?.code !== 4001) {
+            console.error(error)
+          }
           console.log(error)
         })
     }
@@ -62,7 +67,7 @@ const ClaimWidget = ({ stakingInfo, onClose }: ClaimProps) => {
     <WidgetWrapper>
       {!attempting && !hash && (
         <Root>
-          <Box textAlign="center">
+          <Box textAlign="center" display="flex" flexDirection="column" justifyContent="center">
             <Text fontSize="26px" fontWeight={500} color="text1">
               {stakingInfo?.earnedAmount?.toSignificant(6)}
             </Text>
@@ -72,34 +77,28 @@ const ClaimWidget = ({ stakingInfo, onClose }: ClaimProps) => {
             </Text>
 
             <Text fontSize="14px" color="text2" textAlign="center" mt={20}>
-              {t('earn.liquidityRemainsPool')}
+              Claim your rewards
             </Text>
           </Box>
           <Box mt={'10px'}>
-            <Button variant="primary" isDisabled={!!error} onClick={onClaimReward}>
-              {error ?? t('earn.claimReward', { symbol: stakingInfo?.rewardToken?.symbol })}
+            <Button variant="primary" isDisabled={!!error} onClick={onClaimReward} padding="15px 18px">
+              {error ?? t('earnPage.claim')}
             </Button>
           </Box>
         </Root>
       )}
 
-      {attempting && !hash && (
-        <PendingWrapper>
-          <Box mb={'15px'}>
-            <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
-          </Box>
-          <Text fontWeight={500} fontSize={20} color="text1" textAlign="center">
-            {t('earn.claim')}
-          </Text>
-          <Text fontWeight={600} fontSize={14} color="text1" textAlign="center">
-            {t('earn.claimingReward', {
-              amount: stakingInfo?.earnedAmount?.toSignificant(6),
-              symbol: stakingInfo?.rewardToken?.symbol
-            })}
-          </Text>
-        </PendingWrapper>
+      {attempting && !hash && <Loader size={100} label=" Claiming..." />}
+
+      {hash && (
+        <TransactionCompleted
+          onClose={wrappedOnDismiss}
+          submitText="Your rewards claimed"
+          isShowButtton={true}
+          onButtonClick={() => onClickRewardStake && onClickRewardStake()}
+          buttonText="Stake"
+        />
       )}
-      {hash && <TransactionSubmitted hash={hash} onClose={wrappedOnDismiss} />}
     </WidgetWrapper>
   )
 }

@@ -24,6 +24,11 @@ const StyledDialogOverlay = styled.div<{ background?: string; isOpen: boolean }>
 const Container = styled.div`
   background: ${({ theme }) => theme.bg8};
   border-radius: 10px;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    border-radius: 0px;
+    width: 100%;
+    height: 100%;
+  `};
 `
 
 interface ModalProps {

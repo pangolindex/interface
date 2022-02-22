@@ -1,7 +1,7 @@
-import { Box, Button, Text, TextInput } from '@pangolindex/components'
+import { Box, Button, TextInput, Steps, Step } from '@pangolindex/components'
 import React, { useState, useCallback } from 'react'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
-import { TokenAmount } from '@pangolindex/sdk'
+import { TokenAmount, JSBI } from '@pangolindex/sdk'
 import { useActiveWeb3React } from 'src/hooks'
 import { maxAmountSpend } from 'src/utils/maxAmountSpend'
 import { usePngContract, useStakingContract } from 'src/hooks/useContract'
@@ -12,11 +12,11 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useTranslation } from 'react-i18next'
 import { splitSignature } from 'ethers/lib/utils'
-import { MaxButton, Root, Balance, WeeklyRewards, Buttons, PendingWrapper } from './styled'
+import { MaxButton, Root, Balance, Buttons, StakeWrapper, GridContainer } from './styled'
 import TransactionSubmitted from 'src/components/Beta/TransactionSubmitted'
-import { CustomLightSpinner } from 'src/theme'
-import Circle from 'src/assets/images/blue-loader.svg'
 import { useTokenBalance } from 'src/state/wallet/hooks'
+import Stat from 'src/components/Stat'
+import Loader from 'src/components/Beta/Loader'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
@@ -25,10 +25,12 @@ type Props = {
 
 const DepositWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const { account, chainId, library } = useActiveWeb3React()
+  const [stepIndex, setStepIndex] = useState(4)
+
   const userPngUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
 
   // track and parse user input
-  const [typedValue, setTypedValue] = useState('')
+  const [typedValue, setTypedValue] = useState((userPngUnstaked as TokenAmount)?.toExact() || '')
   const { parsedAmount, error } = useDerivedStakeInfo(typedValue, stakingInfo.stakedAmount.token, userPngUnstaked)
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
@@ -75,7 +77,10 @@ const DepositWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
           })
           .catch((error: any) => {
             setAttempting(false)
-            console.error(error)
+            // we only care if the error is something _other_ than the user rejected the tx
+            if (error?.code !== 4001) {
+              console.error(error)
+            }
           })
       } else if (signatureData) {
         stakingContract
@@ -94,12 +99,31 @@ const DepositWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
           })
           .catch((error: any) => {
             setAttempting(false)
-            console.error(error)
+            // we only care if the error is something _other_ than the user rejected the tx
+            if (error?.code !== 4001) {
+              console.error(error)
+            }
           })
       } else {
         setAttempting(false)
         throw new Error(t('earn.attemptingToStakeError'))
       }
+    }
+  }
+
+  const onChangeDot = (value: number) => {
+    setStepIndex(value)
+    if (!userPngUnstaked) {
+      setTypedValue('0')
+      return
+    }
+    if (value === 4) {
+      setTypedValue((userPngUnstaked as TokenAmount).toExact())
+    } else {
+      const newAmount = (userPngUnstaked as TokenAmount)
+        .multiply(JSBI.BigInt(value * 25))
+        .divide(JSBI.BigInt(100)) as TokenAmount
+      setTypedValue(newAmount.toSignificant(6))
     }
   }
 
@@ -114,6 +138,7 @@ const DepositWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const atMaxAmount = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
   const handleMax = useCallback(() => {
     maxAmountInput && onUserInput(maxAmountInput.toExact())
+    setStepIndex(4)
   }, [maxAmountInput, onUserInput])
 
   async function onAttemptToApprove() {
@@ -186,7 +211,7 @@ const DepositWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
             addonAfter={
               !atMaxAmount ? (
                 <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
-                  <MaxButton onClick={() => handleMax()}>{t('currencyInputPanel.max')}</MaxButton>
+                  <MaxButton onClick={() => handleMax()}>PNG</MaxButton>
                 </Box>
               ) : null
             }
@@ -205,15 +230,52 @@ const DepositWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
               )
             }
           />
-          <WeeklyRewards>
-            <Text color="text14" fontSize={14} fontWeight={500}>
-              {t('earn.weeklyRewards')}
-            </Text>
-            <Text color="text14" fontSize={14} fontWeight={500}>
-              {hypotheticalWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })}{' '}
-              {t('earn.rewardPerWeek', { symbol: stakingInfo?.rewardToken?.symbol })}
-            </Text>
-          </WeeklyRewards>
+
+          <Box>
+            <Steps
+              onChange={value => {
+                onChangeDot && onChangeDot(value)
+              }}
+              current={stepIndex}
+              progressDot={true}
+            >
+              <Step />
+              <Step />
+              <Step />
+              <Step />
+              <Step />
+            </Steps>
+          </Box>
+
+          <StakeWrapper>
+            <GridContainer>
+              <Box>
+                <Stat
+                  title={`${t('migratePage.dollarWorth')}`}
+                  stat={`${hypotheticalWeeklyRewardRate.toSignificant(4, {
+                    groupSeparator: ','
+                  })} ${t('earn.rewardPerWeek', { symbol: stakingInfo?.rewardToken?.symbol })}`}
+                  titlePosition="top"
+                  titleFontSize={14}
+                  statFontSize={18}
+                  titleColor="text2"
+                />
+              </Box>
+
+              <Box>
+                <Stat
+                  title={`${t('earn.weeklyRewards')}`}
+                  stat={`${hypotheticalWeeklyRewardRate.toSignificant(4)}`}
+                  titlePosition="top"
+                  titleFontSize={14}
+                  statFontSize={18}
+                  titleColor="text2"
+                  currency={stakingInfo?.rewardToken}
+                />
+              </Box>
+            </GridContainer>
+          </StakeWrapper>
+
           <Box flex="1" />
           <Buttons>
             <Button
@@ -235,23 +297,7 @@ const DepositWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
           </Buttons>
         </>
       )}
-      {attempting && !hash && (
-        <PendingWrapper>
-          <Box mb={'15px'}>
-            <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
-          </Box>
-          <Text fontWeight={600} fontSize={20} color="text1">
-            {t('earn.depositingToken', { symbol: 'PNG' })}
-          </Text>
-          <Text fontWeight={500} fontSize={14} color="text1">
-            {parsedAmount?.toSignificant(4)} PNG
-          </Text>
-          <Box flex={1} />
-          <Text color="text14" fontSize={12}>
-            {t('modalView.confirmTransaction')}
-          </Text>
-        </PendingWrapper>
-      )}
+      {attempting && !hash && <Loader size={100} label={'Staking'} />}
       {attempting && hash && <TransactionSubmitted onClose={wrappedOnDismiss} hash={hash} />}
     </Root>
   )

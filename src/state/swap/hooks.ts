@@ -33,6 +33,10 @@ import { NATIVE } from 'src/constants'
 import { wrappedCurrency } from 'src/utils/wrappedCurrency'
 import { Order, useGelatoLimitOrdersLib, useGelatoLimitOrdersHistory } from '@gelatonetwork/limit-orders-react'
 
+export interface LimitOrderInfo extends Order {
+  pending?: boolean
+}
+
 export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>(state => state.swap)
 }
@@ -374,14 +378,37 @@ export function useGelatoLimitOrderDetail(order: Order) {
 export function useGelatoLimitOrderList() {
   const { open, executed, cancelled } = useGelatoLimitOrdersHistory()
 
-  const allOrders = useMemo(
-    () => [...cancelled.pending, ...open.pending, ...open.confirmed, ...cancelled.confirmed, ...executed],
-    [open.pending, cancelled.pending, open.confirmed, cancelled.confirmed, executed]
+
+  const openPending = useMemo(
+    () =>
+      (open.pending || []).map(item => {
+        let container = { ...item } as any
+        container['pending'] = true
+        return container
+      }),
+    [open.pending]
   )
 
-  const allOpenOrders = useMemo(() => [...cancelled.pending, ...open.pending, ...open.confirmed], [
-    open.pending,
-    cancelled.pending,
+  const cancelledPending = useMemo(
+    () =>
+      (cancelled.pending || []).map(item => {
+        let container = { ...item } as any
+        container['pending'] = true
+        return container
+      }),
+    [cancelled.pending]
+  )
+
+  const allOrders = useMemo(
+    () => [...cancelledPending, ...openPending, ...open.confirmed, ...cancelled.confirmed, ...executed],
+    [openPending, cancelledPending, open.confirmed, cancelled.confirmed, executed]
+  )
+
+  
+
+  const allOpenOrders = useMemo(() => [...cancelledPending, ...openPending, ...open.confirmed], [
+    openPending,
+    cancelledPending,
     open.confirmed
   ])
 

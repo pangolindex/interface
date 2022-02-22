@@ -115,7 +115,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
         wickUpColor: '#838ca1'
       })
 
-      series.setData([...formattedData])
+      series?.setData([...(formattedData || [])])
       setChartSeries(series)
 
       let toolTip = document.createElement('div')
@@ -135,7 +135,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
 
   useEffect(() => {
     if (chartCreated && formattedData) {
-      chartSeries?.setData([...formattedData])
+      chartSeries?.setData([...(formattedData || [])])
     }
   }, [formattedData, chartCreated, chartSeries])
 

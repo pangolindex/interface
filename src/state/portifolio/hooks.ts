@@ -203,5 +203,7 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
 
   tokens.sort((a, b) => b.usdValue - a.usdValue)
 
-  return [tokens, loading]
+  const filterTokens = tokens.filter((token) => token.usdValue >= 0.01)
+
+  return [filterTokens, loading]
 }

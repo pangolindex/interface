@@ -4,11 +4,10 @@ import { Currency } from '@pangolindex/sdk'
 import { SelectedCoinInfo, StatWrapper } from './styleds'
 import { useTranslation } from 'react-i18next'
 import Stat from 'src/components/Stat'
-import { Order } from '@gelatonetwork/limit-orders-react'
-import { useGelatoLimitOrderDetail } from 'src/state/swap/hooks'
+import { useGelatoLimitOrderDetail, LimitOrderInfo } from 'src/state/swap/hooks'
 
 type Props = {
-  order: Order
+  order: LimitOrderInfo
   onClickCancelOrder: () => void
 }
 
@@ -42,8 +41,8 @@ const LimitOrderDetail: React.FC<Props> = ({ order, onClickCancelOrder }) => {
             title={t('swapPage.inputAmount')}
             stat={inputAmount ? inputAmount.toSignificant(4) : '-'}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={14}
+            statFontSize={18}
             titleColor="text2"
             currency={currency0 as Currency}
           />
@@ -54,8 +53,8 @@ const LimitOrderDetail: React.FC<Props> = ({ order, onClickCancelOrder }) => {
             title={t('swapPage.outputAmount')}
             stat={outputAmount ? outputAmount.toSignificant(4) : '-'}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={14}
+            statFontSize={18}
             titleColor="text2"
             currency={currency1 as Currency}
           />
@@ -68,8 +67,8 @@ const LimitOrderDetail: React.FC<Props> = ({ order, onClickCancelOrder }) => {
             title={t('swap.price')}
             stat={executionPrice ? executionPrice.toSignificant(4) : '-'}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={14}
+            statFontSize={18}
             titleColor="text2"
           />
         </Box>
@@ -77,10 +76,10 @@ const LimitOrderDetail: React.FC<Props> = ({ order, onClickCancelOrder }) => {
         <Box>
           <Stat
             title={t('swapPage.status')}
-            stat={order?.status}
+            stat={`${order?.status} ${order?.pending ? `(${t('web3Status.pending')})` : ''}`}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={14}
+            statFontSize={18}
             titleColor="text2"
           />
         </Box>

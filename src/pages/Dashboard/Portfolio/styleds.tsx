@@ -9,10 +9,9 @@ export const HeaderDropdowns = styled(Box)`
 export const PortfolioToken = styled(Box)`
   display: flex;
   align-items: center;
-  font-size: 64px;
+  font-size: 50px;
   line-height: 97px;
   color: ${({ theme }) => theme.text7};
-  margin-top: 28px;
 `
 
 export const PortfolioTokenPercent = styled(Box)`
