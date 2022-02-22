@@ -23,7 +23,6 @@ import { ApplicationModal } from 'src/state/application/actions'
 import DetailModal from '../../DetailModal'
 import AddLiquidityModal from '../../AddLiquidityModal'
 import ClaimRewardModal from '../../ClaimRewardModal'
-import WithdrawModal from '../../WithdrawModal'
 import StakeModal from '../../StakeModal'
 import DropdownMenu from 'src/components/Beta/DropdownMenu'
 import { Hidden } from 'src/theme'
@@ -77,15 +76,10 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
   const stakeModalOpen = useModalOpen(ApplicationModal.STAKE)
 
   const [isClaimRewardDrawerOpen, setIsClaimRewardDrawerOpen] = useState(false)
-  const [isWithdrawDrawerOpen, setIsWithdrawDrawerOpen] = useState(false)
 
   const handleClaimRewardDrawerClose = useCallback(() => {
     setIsClaimRewardDrawerOpen(false)
   }, [setIsClaimRewardDrawerOpen])
-
-  const handleWithdrawDrawerClose = useCallback(() => {
-    setIsWithdrawDrawerOpen(false)
-  }, [setIsWithdrawDrawerOpen])
 
   const handleSearch = useCallback(value => {
     setSearchQuery(value.trim().toUpperCase())
@@ -306,13 +300,6 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
         onClose={handleClaimRewardDrawerClose}
         stakingInfo={selectedPool}
         version={Number(version)}
-      />
-
-      <WithdrawModal
-        isOpen={isWithdrawDrawerOpen}
-        onClose={handleWithdrawDrawerClose}
-        version={Number(version)}
-        stakingInfo={selectedPool}
       />
 
       {stakeModalOpen && <StakeModal clickedLpTokens={clickedLpTokens} version={Number(version)} />}
