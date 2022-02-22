@@ -33,7 +33,7 @@ jobs:
         env:
           CI: true
       - name: Prod - Increment version & create build # incrementing version automatically creates build internally with new version
-        run: npm version patch
+        run: npm version patch -m "[skip ci] %s"
         if: ${{ github.ref == 'refs/heads/master' }}
         env:
           CI: false
@@ -42,7 +42,7 @@ jobs:
           REACT_APP_WYRE_SECRET_KEY: ${{ secrets.REACT_APP_WYRE_SECRET_KEY }}
           REACT_APP_MOONPAY_PK: ${{ secrets.REACT_APP_MOONPAY_PK }}
       - name: Dev - Increment version & create build # incrementing version automatically creates build internally with new version
-        run: npm version prerelease --preid=dev
+        run: npm version prerelease --preid=dev -m "[skip ci] %s"
         if: ${{ github.ref == 'refs/heads/dev' }}
         env:
           CI: false
@@ -53,7 +53,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GIT_ACCESS_TOKEN }}
           branch: ${{ github.ref }}
           tags: true
       - name: set versions to env
