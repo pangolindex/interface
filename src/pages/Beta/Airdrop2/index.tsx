@@ -13,25 +13,33 @@ const AirdropUI = () => {
     const { t } = useTranslation()
     const toggleWalletModal = useWalletModalToggle()
     const [selected, setSelected] = useState<number>(0);
-    let amountAvax = 0;
+    const [button1, setButton1] = useState<any>("outline");
+    const [button2, setButton2] = useState<any>("outline");
+    const [button3, setButton3] = useState<any>("outline");
+
 
     const selectAmount = (amount: number) => {
         setSelected(amount)
-    }
-
-    const setAmountAvax = (selected: number) => {
-        if (selected === 0)
-            amountAvax = 0;
-        else if (selected === 1)
-            amountAvax = 0.1;
-        else if (selected === 2)
-            amountAvax = 0.5;
-        else if (selected === 3)
-            amountAvax = 1;
+        if (amount === 0.1)
+        {
+            setButton1("primary")
+            setButton2("outline")
+            setButton3("outline")
+        }
+        if (amount === 0.5)
+        {
+            setButton1("outline")
+            setButton2("primary")
+            setButton3("outline")
+        }
+        if (amount === 1)
+        {
+            setButton1("outline")
+            setButton2("outline")
+            setButton3("primary")
+        }
     }
     console.log(selected)
-    setAmountAvax(selected)
-    console.log("avax", amountAvax)
 
     const renderButton = () => {
         if (!account) {
@@ -99,13 +107,13 @@ const AirdropUI = () => {
                         {/* <span style={{marginBottom: "10px"}}></span> */}
                         <BoxWrapper>
                             {/* <Button variant="outline" color='white' height='39px' borderColor="white"> */}
-                            <Button variant="outline" color='white' height='39px' borderColor="white" onClick={() => {selectAmount(1)}}>
+                            <Button variant={button1} color='white' height='39px' borderColor="white" onClick={() => {selectAmount(0.1)}}>
                                 <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px'}}>0.1 AVAX</span>
                             </Button>
-                            <Button variant="outline" color='white' height='39px' borderColor="white" onClick={() => {selectAmount(2)}}>
+                            <Button variant={button2} color='white' height='39px' borderColor="white" onClick={() => {selectAmount(0.5)}}>
                                 <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>0.5 AVAX</span>
                             </Button>
-                            <Button variant="outline" color='white' height='39px' borderColor="white" onClick={() => {selectAmount(3)}}>
+                            <Button variant={button3} color='white' height='39px' borderColor="white" onClick={() => {selectAmount(1)}}>
                                 <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>1 AVAX</span>
                             </Button>
                         </BoxWrapper>
