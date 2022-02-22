@@ -33,7 +33,7 @@ jobs:
         env:
           CI: true
       - name: Prod - Increment version & create build # incrementing version automatically creates build internally with new version
-        run: npm run patch
+        run: npm version patch
         if: ${{ github.ref == 'refs/heads/master' }}
         env:
           CI: false
