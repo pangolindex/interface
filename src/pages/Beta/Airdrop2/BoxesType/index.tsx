@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { Text } from '@0xkilo/components'
 import { ClaimBox, StyledLogo, Separator, BoxWrapper } from '../styleds'
 import FtmLogo from '../../../../assets/images/ftm-logo.png'
-import { ButtonToConnect, ButtonCheckEligibility, ButtonBuyFTM, ButtonChangeChain } from '../ButtonsType'
+import { ButtonToConnect, ButtonClaimReward } from '../ButtonsType'
 import { Button } from '@0xkilo/components'
+import Web3 from 'web3';
 
 export const BoxNotConnected = () => {
 
@@ -32,13 +33,11 @@ export const BoxNotConnected = () => {
     )
 }
 
-export const BoxCheckEligibility: React.FC = () => {
+type IStatus = {
+    checkStatus: () => void;
+}
 
-    const [eligible, setEligible] = useState<boolean>(false);
-    const checkStatus = () => {
-        setEligible(true)
-    }
-    console.log(eligible)
+export const BoxCheckEligibility: React.FC<IStatus> = ({checkStatus}) => {
 
     return (
         <ClaimBox>
@@ -54,7 +53,9 @@ export const BoxCheckEligibility: React.FC = () => {
             Let's check if you are eligible!
         </Text>
         <span style={{padding: "20px"}}></span>
-            <ButtonCheckEligibility checkStatus={checkStatus} />
+            <Button variant="primary" color='white' height='46px'>
+                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }} onClick={checkStatus}>CHECK IF ELIGIBLE</span>
+            </Button>
         <span style={{textAlign: "center"}}>
             <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
                 To be eligible or not to be eligible...
@@ -65,7 +66,11 @@ export const BoxCheckEligibility: React.FC = () => {
     )
 }
 
-export const BoxBuyFTM = () => {
+type IBuy = {
+    buyFTM: () => void;
+}
+export const BoxBuyFTM: React.FC<IBuy> = ({buyFTM}) => {
+
     const [selected, setSelected] = useState<number>(0);
     const [button1, setButton1] = useState<any>("outline");
     const [button2, setButton2] = useState<any>("outline");
@@ -116,7 +121,9 @@ export const BoxBuyFTM = () => {
                     <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>1 AVAX</span>
                 </Button>
             </BoxWrapper>
-            <ButtonBuyFTM />
+            <Button variant="primary" color='white' height='46px' onClick={buyFTM}>
+                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>BUY FTM</span>
+            </Button>
             <span style={{textAlign: "center"}}>
                 <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
                     To be eligible or not to be eligible...
@@ -126,7 +133,52 @@ export const BoxBuyFTM = () => {
     )
 }
 
-export const BoxGoToFTM = () => {
+type IChangeChain = {
+    changeChain: () => void;
+}
+
+export const BoxGoToFTM: React.FC<IChangeChain> = ({changeChain}) => {
+
+    const switchNetworkFantom = async () => {
+        changeChain()
+        //@ts-ignore
+        const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+        web3.eth.getAccounts().then(console.log);
+    
+        try {
+        //@ts-ignore
+            await web3.currentProvider.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: "0xFA" }],
+            });
+        } catch (error) {
+            //@ts-ignore
+            if (error.code === 4902) {
+            try {
+                //@ts-ignore
+                await web3.currentProvider.request({
+                method: "wallet_addEthereumChain",
+                params: [
+                    {
+                    chainId: "0xFA",
+                    chainName: "Fantom Opera",
+                    rpcUrls: ["https://rpc.ftm.tools/"],
+                    nativeCurrency: {
+                        name: "FTM",
+                        symbol: "FTM",
+                        decimals: 18,
+                    },
+                    blockExplorerUrls: ["https://ftmscan.com/"],
+                    },
+                ],
+                });
+            } catch (error) {
+                //@ts-ignore
+                alert(error.message);
+            }
+            }
+        }
+    }
 
     return (
         <ClaimBox>
@@ -142,7 +194,9 @@ export const BoxGoToFTM = () => {
                 Congratulations. You successfully bought FTM. Now let's go crosschain!
             </Text>
             <span style={{padding: "20px"}}></span>
-            <ButtonChangeChain />
+            <Button variant="primary" color='white' height='46px' onClick={switchNetworkFantom}>
+                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>GO TO FANTOM</span>
+            </Button>
             <span style={{textAlign: "center"}}>
                 <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
                     To be eligible or not to be eligible...
@@ -153,4 +207,33 @@ export const BoxGoToFTM = () => {
 }
 
 
-export default [BoxNotConnected, BoxCheckEligibility]
+export const BoxClaimReward = () => {
+
+    return (
+        <ClaimBox>
+            <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
+                <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
+                    Claim Your Reward
+                </Text>
+                <StyledLogo src={FtmLogo} size={"50px"}/>
+            </span>
+            <Separator />
+            <span style={{padding: "20px"}}></span>
+            <Text fontSize={10} fontWeight={500} lineHeight="18px" color="text10">
+                you are eligible for:
+            </Text>
+            <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
+                2750 fanPNG
+            </Text>
+            <span style={{padding: "20px"}}></span>
+            <ButtonClaimReward />
+            <span style={{textAlign: "center"}}>
+                <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
+                    To be eligible or not to be eligible...
+                </Text>
+            </span>
+        </ClaimBox>
+    )
+}
+
+export default [BoxNotConnected, BoxCheckEligibility, BoxBuyFTM, BoxGoToFTM]

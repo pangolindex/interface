@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { PageWrapper, BoxWrapper } from './styleds'
 import { Text, Box } from '@0xkilo/components'
+// import { ChainId } from '@antiyro/sdk'
 // import FtmLogo from '../../../assets/images/ftm-logo.png'
 import { useActiveWeb3React } from 'src/hooks'
-// import { CHAINS } from 'src/constants/chains'
 // import { ChainId } from '@antiyro/sdk'
 // import { ButtonToConnect, ButtonBuyFTM, ButtonCheckEligibility, ButtonChangeChain } from './ButtonsType'
-import { BoxNotConnected, BoxCheckEligibility } from './BoxesType'
+import { BoxNotConnected, BoxCheckEligibility, BoxBuyFTM, BoxGoToFTM, BoxClaimReward  } from './BoxesType'
 
-const AirdropUI = () => {
-    const { account } = useActiveWeb3React()
+const AirdropUI: React.FC = () => {
+    let { account } = useActiveWeb3React()
+    console.log('account',account)
     // const [selected, setSelected] = useState<number>(0);
     // const [button1, setButton1] = useState<any>("outline");
     // const [button2, setButton2] = useState<any>("outline");
@@ -39,15 +40,52 @@ const AirdropUI = () => {
     // }
     // console.log(selected)
 
-    const renderBox2 = () => {
-        if (!account) {
+    const [eligible, setEligible] = useState<boolean>(false);
+    const [bought, setBought] = useState<boolean>(false);
+    const [changeMyChain, setChangeChain] = useState<boolean>(false);
+
+
+    const checkStatus = () => {
+        setEligible(true)
+    }
+
+    const buyFTM = () => {
+        setBought(true)
+    }
+
+    const changeChain = () => {
+        setChangeChain(true)
+    }
+    console.log('changeMyChain', changeMyChain)
+    console.log('bought', bought)
+    console.log('eligible', eligible)
+    const renderBoxes = () => {
+        if (!account && !eligible && !bought && !changeMyChain) {
             return (
                 <BoxNotConnected />
             )
         }
-        if (account) {
+        if (account && !eligible && !bought && !changeMyChain) {
             return (
-                <BoxCheckEligibility />
+                <BoxCheckEligibility checkStatus={checkStatus} />
+            )
+        }
+        if (account && eligible && !bought && !changeMyChain)
+        {
+            return (
+                <BoxBuyFTM buyFTM={buyFTM} />
+            )
+        }
+        if (account && eligible && bought && !changeMyChain)
+        {
+            return (
+                <BoxGoToFTM changeChain={changeChain} />
+            )
+        }
+        if (account && eligible && bought && changeMyChain)
+        {
+            return (
+                <BoxClaimReward />
             )
         }
         else {
@@ -56,6 +94,15 @@ const AirdropUI = () => {
             )
         }
     }
+
+    // const renderClaimBox = () => {
+
+    //     return (
+    //         <BoxClaimReward />
+    //     )
+    // }
+
+
     
     // const renderBox = () => {
     //     if (!CHAINS[chainId || ChainId.AVALANCHE].airdrop_active) {
@@ -168,7 +215,10 @@ const AirdropUI = () => {
                 {/* FIRST BOX */}
                     {/* {renderBoxChangeChain()} */}
                 {/* SECOND BOX */}
-                    {renderBox2()}
+                    {
+                        renderBoxes()
+                    }
+
                 {/* THIRD BOX */}
                     {/* {renderBox()} */}
 
