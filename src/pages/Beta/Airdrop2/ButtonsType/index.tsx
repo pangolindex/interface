@@ -23,12 +23,15 @@ export const ButtonBuyFTM = () => {
     )
 }
 
-export const ButtonCheckEligibility = () => {
+type Props = {
+    checkStatus: () => void;
+}
+export const ButtonCheckEligibility: React.FC<Props> = ({checkStatus}) => {
 
     return (
         <>
             <Button variant="primary" color='white' height='46px'>
-                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>CHECK IF ELIGIBLE</span>
+                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }} onClick={checkStatus}>CHECK IF ELIGIBLE</span>
             </Button>
         </>
     )
