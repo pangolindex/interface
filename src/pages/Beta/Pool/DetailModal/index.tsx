@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { ApplicationModal } from 'src/state/application/actions'
 import { useModalOpen, usePoolDetailnModalToggle } from 'src/state/application/hooks'
-import { Wrapper } from './styleds'
 import Modal from 'src/components/Beta/Modal'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { ThemeContext } from 'styled-components'
 import DetailView from './DetailView'
+import { Wrapper } from './styleds'
 
 export interface DetailModalProps {
   stakingInfo: StakingInfo
