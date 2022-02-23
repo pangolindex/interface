@@ -1142,6 +1142,22 @@ export const sAVAX: { [chainId in ChainId]: Token } = {
   )
 }
 
+export const DEP: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'DEP', 'DEAPCOIN'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xD4d026322C88C2d49942A75DfF920FCfbC5614C1', 18, 'DEP', 'DEAPCOIN')
+}
+
+export const ZEE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ZEE', 'ZeroSwapToken'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x44754455564474A89358B2C2265883DF993b12F0',
+    18,
+    'ZEE',
+    'ZeroSwapToken'
+  )
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
