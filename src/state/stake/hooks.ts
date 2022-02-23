@@ -1030,14 +1030,13 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
   const { account, chainId } = useActiveWeb3React()
   const token0 = pair?.token0
   const currency0 = unwrappedToken(token0 as Token, chainId || ChainId.AVALANCHE)
-  // ATTENTION ICI
   const currency0Price = useUSDCPrice(currency0)
-
+  
   const userPgl = useTokenBalance(account ?? undefined, pair?.liquidityToken)
-  //
+
+  // ATTENTION ICI
   const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
-  console.log('coucou')
-  console.log( totalPoolTokens)
+
   const [token0Deposited] =
     !!pair &&
     !!totalPoolTokens &&
@@ -1049,7 +1048,6 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
           pair.getLiquidityValue(pair.token1, totalPoolTokens, userPgl, false)
         ]
       : [undefined, undefined]
-
       
   const liquidityInUSD =
     currency0Price && token0Deposited
