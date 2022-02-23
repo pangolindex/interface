@@ -65,7 +65,7 @@ const ConfirmStakeDrawer: React.FC<Props> = props => {
   )
 
   return (
-    <Drawer title={t('earnPage.pngStaking')} isOpen={isOpen} onClose={onClose}>
+    <Drawer title={t('earn.depositingLiquidity')} isOpen={isOpen} onClose={onClose}>
       {attemptingTxn && !txHash && PendingContent}
       {attemptingTxn && txHash && SubmittedContent}
     </Drawer>
