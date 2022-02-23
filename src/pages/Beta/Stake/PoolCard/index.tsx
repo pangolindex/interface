@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import { Text } from '@pangolindex/components'
 import { JSBI } from '@pangolindex/sdk'
 import numeral from 'numeral'
@@ -8,7 +8,6 @@ import { Card, CardHeader, Stats, CardStats, TokenName, DetailButton, StakeButto
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import CurrencyLogo from 'src/components/CurrencyLogo'
 import ClaimDrawer from '../ClaimDrawer'
-import RewardStakeDrawer from '../RewardStakeDrawer'
 import StakeDrawer from './StakeDrawer'
 
 export interface PoolCardProps {
@@ -20,16 +19,10 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
   const { t } = useTranslation()
   const { account } = useActiveWeb3React()
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
-  const [isRewardStakeDrawerVisible, setShowRewardStakeDrawer] = useState(false)
 
   const [isStakeDrawerVisible, setShowtakeDrawer] = useState(false)
 
   const showClaimButton = stakingInfo?.earnedAmount?.greaterThan('0')
-
-  const onCloseRewardStakeDrawer = useCallback(() => {
-    setShowRewardStakeDrawer(false)
-    setShowClaimDrawer(false)
-  }, [])
 
   return (
     <Card>
@@ -106,13 +99,6 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
         onClose={() => {
           setShowClaimDrawer(false)
         }}
-        stakingInfo={stakingInfo}
-        onClickRewardStake={() => setShowRewardStakeDrawer(true)}
-      />
-
-      <RewardStakeDrawer
-        isOpen={isRewardStakeDrawerVisible}
-        onClose={onCloseRewardStakeDrawer}
         stakingInfo={stakingInfo}
       />
 
