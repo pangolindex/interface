@@ -46,6 +46,7 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
     .multiply(stakingInfo?.stakedAmount)
     .divide(stakingInfo?.totalStakedAmount)
 
+
   const [, stakingTokenPair] = usePair(token0, token1)
   const pair = stakingTokenPair
   const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)

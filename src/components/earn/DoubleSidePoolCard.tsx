@@ -107,6 +107,7 @@ export default function DoubleSidePoolCard({
   const { t } = useTranslation()
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
+
   const token: Token =
     currency0 === CAVAX[chainId || ChainId.AVALANCHE] || currency1 === CAVAX[chainId || ChainId.AVALANCHE]
       ? currency0 === CAVAX[chainId || ChainId.AVALANCHE]
@@ -116,10 +117,9 @@ export default function DoubleSidePoolCard({
       ? token1
       : token0
 
-  // get the color of the token
+  const totalStakedInUsd = stakingInfo.totalStakedInUsd ? stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' }) : 0
+  
   const backgroundColor = useColor(token)
-
-  const totalStakedInUsd = stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
 
   const pairAddress = stakingInfo?.stakedAmount?.token?.address
 

@@ -79,6 +79,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
   const [isClaimRewardDrawerOpen, setIsClaimRewardDrawerOpen] = useState(false)
   const [isWithdrawDrawerOpen, setIsWithdrawDrawerOpen] = useState(false)
 
+
   const handleClaimRewardDrawerClose = useCallback(() => {
     setIsClaimRewardDrawerOpen(false)
   }, [setIsClaimRewardDrawerOpen])

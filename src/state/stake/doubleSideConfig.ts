@@ -120,7 +120,7 @@ import {
   FIRE,
   BAVA,
   BRIBE,
-  // OG,
+  OG,
   wWAGMI
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
@@ -1391,11 +1391,11 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
 }
 
 export const DOUBLE_SIDE_STAKING_WAGMI: { [key: string]: DoubleSideStaking } = {
-  // wWAGMI_OG_V2: {
-  //   tokens: [wWAGMI[ChainId.WAGMI], OG[ChainId.WAGMI]],
-  //   stakingRewardAddress: MINICHEF_ADDRESS[ChainId.WAGMI],
-  //   version: 2
-  // },
+  wWAGMI_OG_V2: {
+    tokens: [wWAGMI[ChainId.WAGMI], OG[ChainId.WAGMI]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.WAGMI],
+    version: 2
+  },
   wWAGMI_PNG_V2: {
     tokens: [wWAGMI[ChainId.WAGMI], PNG[ChainId.WAGMI]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.WAGMI],

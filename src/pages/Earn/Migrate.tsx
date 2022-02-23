@@ -63,7 +63,7 @@ export default function Migrate({
   currencyIdToB: string;
   versionTo: string;
 }>) {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
   const currencyFromA = useCurrency(currencyIdFromA)
   const currencyFromB = useCurrency(currencyIdFromB)
@@ -73,8 +73,8 @@ export default function Migrate({
   const [pglFromStatus, pglFrom] = usePair(currencyFromA ?? undefined, currencyFromB ?? undefined)
   const [pglToStatus, pglTo] = usePair(currencyToA ?? undefined, currencyToB ?? undefined)
 
-  const canZap = (pglFrom?.involvesToken(PNG[ChainId.AVALANCHE]) && pglTo?.involvesToken(PNG[ChainId.AVALANCHE]))
-    || (pglFrom?.involvesToken(WAVAX[ChainId.AVALANCHE]) && pglTo?.involvesToken(WAVAX[ChainId.AVALANCHE]))
+  const canZap = (pglFrom?.involvesToken(PNG[chainId || ChainId.AVALANCHE]) && pglTo?.involvesToken(PNG[chainId || ChainId.AVALANCHE]))
+    || (pglFrom?.involvesToken(WAVAX[chainId || ChainId.AVALANCHE]) && pglTo?.involvesToken(WAVAX[chainId || ChainId.AVALANCHE]))
 
   const stakingInfoFrom = useStakingInfo(Number(versionFrom), pglFrom)?.[0]
   const stakingInfoTo = useStakingInfo(Number(versionTo), pglTo)?.[0]
@@ -106,8 +106,8 @@ export default function Migrate({
 
   const addTokenButton = (token: Token | undefined) => {
     if (!token) return
-    if (token.equals(PNG[ChainId.AVALANCHE])) return
-    if (token.equals(WAVAX[ChainId.AVALANCHE])) return
+    if (token.equals(PNG[chainId || ChainId.AVALANCHE])) return
+    if (token.equals(WAVAX[chainId || ChainId.AVALANCHE])) return
     return (
       <ButtonPrimary
         width={'250'}

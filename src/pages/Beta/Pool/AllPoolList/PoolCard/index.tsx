@@ -52,17 +52,16 @@ const PoolCard = ({
   const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
-
+  // ATTENTION ICI
   let yourStackedInUsd = stakingInfo?.totalStakedInUsd
-    .multiply(stakingInfo?.stakedAmount)
-    .divide(stakingInfo?.totalStakedAmount)
-
+  .multiply(stakingInfo?.stakedAmount)
+  .divide(stakingInfo?.totalStakedAmount)
+  
   const { userPgl } = useGetPoolDollerWorth(stakingTokenPair)
-
+  
   const isLiquidity = Boolean(userPgl?.greaterThan('0'))
-
+  
   let isSuperFarm = (stakingInfo?.rewardTokensAddress || [])?.length > 0
-
   return (
     <Panel>
       <Box display="flex" alignItems="center" justifyContent="space-between">
