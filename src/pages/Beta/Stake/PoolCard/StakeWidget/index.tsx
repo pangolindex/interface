@@ -95,12 +95,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
                 <Box>
                   <Stat
                     title={`${t('earn.weeklyRewards')}`}
-                    stat={
-                      hypotheticalRewardRatePerWeek
-                        ? `${hypotheticalRewardRatePerWeek.toSignificant(4)}
-      `
-                        : '-'
-                    }
+                    stat={hypotheticalRewardRatePerWeek ? `${hypotheticalRewardRatePerWeek.toSignificant(4)}` : '-'}
                     titlePosition="top"
                     titleFontSize={14}
                     statFontSize={18}
