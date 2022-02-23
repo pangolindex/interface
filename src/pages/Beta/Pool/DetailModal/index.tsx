@@ -10,11 +10,9 @@ import DetailView from './DetailView'
 export interface DetailModalProps {
   stakingInfo: StakingInfo
   version: number
-  onOpenClaimModal: () => void
-  onOpenWithdrawModal: () => void
 }
 
-const DetailModal = ({ stakingInfo, version, onOpenClaimModal, onOpenWithdrawModal }: DetailModalProps) => {
+const DetailModal = ({ stakingInfo, version }: DetailModalProps) => {
   const detailModalOpen = useModalOpen(ApplicationModal.POOL_DETAIL)
   const togglePoolDetailModal = usePoolDetailnModalToggle()
   const theme = useContext(ThemeContext)
@@ -22,13 +20,7 @@ const DetailModal = ({ stakingInfo, version, onOpenClaimModal, onOpenWithdrawMod
   return (
     <Modal isOpen={detailModalOpen} onDismiss={togglePoolDetailModal} overlayBG={theme.modalBG2}>
       <Wrapper>
-        <DetailView
-          stakingInfo={stakingInfo}
-          onDismiss={togglePoolDetailModal}
-          version={version}
-          onOpenClaimModal={onOpenClaimModal}
-          onOpenWithdrawModal={onOpenWithdrawModal}
-        />
+        <DetailView stakingInfo={stakingInfo} onDismiss={togglePoolDetailModal} version={version} />
       </Wrapper>
     </Modal>
   )
