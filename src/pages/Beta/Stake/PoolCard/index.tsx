@@ -79,7 +79,7 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
             {showClaimButton ? (
               <StakeButton
                 variant="primary"
-                color="color4"
+                // color="color4"
                 onClick={() => {
                   setShowClaimDrawer(true)
                 }}
@@ -89,7 +89,7 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
             ) : (
               <StakeButton
                 variant="primary"
-                color="color4"
+                // color="color4"
                 onClick={() => {
                   setShowtakeDrawer(true)
                 }}
