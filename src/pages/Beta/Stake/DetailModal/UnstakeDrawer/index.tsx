@@ -11,6 +11,7 @@ import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
 import { ConfirmWrapper, PendingWrapper, Wrapper } from './styled'
 import TransactionSubmitted from 'src/components/Beta/TransactionSubmitted'
+import { ChainId } from '@antiyro/sdk'
 
 type Props = {
   isOpen: boolean
@@ -34,7 +35,8 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
     onClose()
   }
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const { chainId } = useActiveWeb3React()
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
 
   async function onWithdraw() {
     if (stakingContract && stakingInfo?.stakedAmount) {

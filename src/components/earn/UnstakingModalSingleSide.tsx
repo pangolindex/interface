@@ -13,6 +13,7 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import FormattedCurrencyAmount from '../FormattedCurrencyAmount'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
+import { ChainId } from '@antiyro/sdk'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -40,7 +41,8 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
     onDismiss()
   }
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const { chainId } = useActiveWeb3React()
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
 
   async function onWithdraw() {
     if (stakingContract && stakingInfo?.stakedAmount) {

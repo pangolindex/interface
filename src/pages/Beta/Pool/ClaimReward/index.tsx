@@ -13,6 +13,7 @@ import { useStakingContract } from 'src/hooks/useContract'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
 import { getEtherscanLink } from 'src/utils'
+import { ChainId } from '@antiyro/sdk'
 
 interface ClaimProps {
   stakingInfo: StakingInfo
@@ -31,7 +32,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
   const [attempting, setAttempting] = useState(false)
 
   const poolMap = useMinichefPools()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 

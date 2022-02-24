@@ -214,7 +214,6 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
   const png = PNG[chainId || ChainId.AVALANCHE]
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
-
   const accountArg = useMemo(() => [account ?? undefined], [account])
 
   // get all the info from the staking rewards contracts

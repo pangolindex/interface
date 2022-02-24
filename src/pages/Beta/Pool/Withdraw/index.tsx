@@ -14,6 +14,7 @@ import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
 import { getEtherscanLink } from 'src/utils'
 import FormattedCurrencyAmount from 'src/components/FormattedCurrencyAmount'
+import { ChainId } from '@antiyro/sdk'
 
 interface WithdrawProps {
   stakingInfo: StakingInfo
@@ -32,7 +33,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   const [attempting, setAttempting] = useState(false)
 
   const poolMap = useMinichefPools()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 
