@@ -21,6 +21,11 @@ export const Separator = styled(Box)`
   border: 1px solid rgba(255, 255, 255, 0.22);
   margin-bottom: 15px;
 `
+
+export const SeparatorEmpty = styled(Box)`
+  margin-bottom: 15px;
+`
+
 export const StyledLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};

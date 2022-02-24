@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Text } from '@0xkilo/components'
-import { ClaimBox, StyledLogo, Separator, BoxWrapper } from '../styleds'
+import { ClaimBox, StyledLogo, Separator, BoxWrapper, SeparatorEmpty } from '../styleds'
 import FtmLogo from '../../../../assets/images/ftm-logo.png'
-import { ButtonToConnect, ButtonClaimReward } from '../ButtonsType'
+import { ButtonToConnect } from '../ButtonsType'
 import { Button } from '@0xkilo/components'
 import Web3 from 'web3';
 
@@ -124,10 +124,11 @@ export const BoxBuyFTM: React.FC<IBuy> = ({buyFTM}) => {
             <Button variant="primary" color='white' height='46px' onClick={buyFTM}>
                 <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>BUY WGM</span>
             </Button>
+            <SeparatorEmpty />
             <span style={{textAlign: "center"}}>
-                <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
-                    To be eligible or not to be eligible...
-                </Text>
+            <Button variant="outline" color='white' height='39px' onClick={buyFTM} >
+                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>Skip</span>
+            </Button>
             </span>
         </ClaimBox>
     )
@@ -206,8 +207,11 @@ export const BoxGoToFTM: React.FC<IChangeChain> = ({changeChain}) => {
     )
 }
 
-
-export const BoxClaimReward = () => {
+type IclaimPNG = {
+    claimPNG: () => void;
+    amount?: string
+}
+export const BoxClaimReward: React.FC<IclaimPNG> = ({claimPNG, amount}) => {
 
     return (
         <ClaimBox>
@@ -222,11 +226,13 @@ export const BoxClaimReward = () => {
             <Text fontSize={10} fontWeight={500} lineHeight="18px" color="text10">
                 you are eligible for:
             </Text>
-            <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
-                2750 fanPNG
+            <Text fontSize={16} fontWeight={500} lineHeight="22px" color="text10" textAlign="center">
+                { amount }
             </Text>
             <span style={{padding: "20px"}}></span>
-            <ButtonClaimReward />
+            <Button variant="primary" color='white' height='46px' onClick={claimPNG}>
+                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>CLAIM</span>
+            </Button>
             <span style={{textAlign: "center"}}>
                 <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
                     To be eligible or not to be eligible...

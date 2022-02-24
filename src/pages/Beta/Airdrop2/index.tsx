@@ -4,6 +4,11 @@ import { Text, Box } from '@0xkilo/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { BoxNotConnected, BoxCheckEligibility, BoxBuyFTM, BoxGoToFTM, BoxClaimReward  } from './BoxesType'
 // import { AIRDROP_ABI } from 'src/constants/abis/airdrop'
+import {
+    useUserHasAvailableClaim,
+    useUserUnclaimedAmount,
+    useClaimCallback
+  } from 'src/state/airdrop/hooks'
 
 const AirdropUI: React.FC = () => {
     let { account } = useActiveWeb3React()
@@ -11,9 +16,17 @@ const AirdropUI: React.FC = () => {
     const [bought, setBought] = useState<boolean>(false);
     const [changeMyChain, setChangeChain] = useState<boolean>(false);
 
+    //FUNCTION AIRDROP CONTRACT
+    const canClaim = useUserHasAvailableClaim(account)
+    const claimAmount = useUserUnclaimedAmount(account)
+    const amount = claimAmount?.toFixed(0, { groupSeparator: ',' })
+    const { claimCallback } = useClaimCallback(account)
+
+    console.log('claim', canClaim)
 
     const checkStatus = () => {
-        setEligible(true)
+        // if (canClaim)
+            setEligible(true)
     }
 
     const buyFTM = () => {
@@ -23,6 +36,12 @@ const AirdropUI: React.FC = () => {
     const changeChain = () => {
         setChangeChain(true)
     }
+
+    const claimPNG = () => {
+        claimCallback()
+        console.log('amout to claim', claimAmount?.toFixed(0, { groupSeparator: ',' }))
+    }
+
     console.log('changeMyChain', changeMyChain)
     console.log('bought', bought)
     console.log('eligible', eligible)
@@ -52,7 +71,7 @@ const AirdropUI: React.FC = () => {
         if (account && eligible && bought && changeMyChain)
         {
             return (
-                <BoxClaimReward />
+                <BoxClaimReward claimPNG={claimPNG} amount={amount} />
             )
         }
         else {
