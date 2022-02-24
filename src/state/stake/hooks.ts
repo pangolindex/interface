@@ -961,7 +961,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
             pair.reserveOf(png).raw,
             chainId
           )
-          totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount)
+          totalStakedInUsd = CHAINS[chainId || ChainId].is_mainnet ? totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount) : undefined
         } else {
           // Contains no stablecoin, WAVAX, nor PNG
           console.error(`Could not identify total staked value for pair ${pair.liquidityToken.address}`)
@@ -1041,7 +1041,9 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
   const { account, chainId } = useActiveWeb3React()
   const token0 = pair?.token0
   const currency0 = unwrappedToken(token0 as Token, chainId || ChainId.AVALANCHE)
-  const currency0Price = useUSDCPrice(currency0)
+  //ATTENTION ICI
+  const currency0PriceTmp = useUSDCPrice(currency0)
+  const currency0Price = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? currency0PriceTmp : undefined
   
   const userPgl = useTokenBalance(account ?? undefined, pair?.liquidityToken)
 
@@ -1059,11 +1061,13 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
           pair.getLiquidityValue(pair.token1, totalPoolTokens, userPgl, false)
         ]
       : [undefined, undefined]
-      
-  const liquidityInUSD =
+  
+  //ATTENTION ICI
+  const liquidityInUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ?
     currency0Price && token0Deposited
       ? Number(currency0Price.toFixed()) * 2 * Number(token0Deposited?.toSignificant(6))
       : 0
+    : 0
     //
   return useMemo(
     () => ({

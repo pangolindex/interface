@@ -93,6 +93,7 @@ export default function StakingModal({
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, stakingInfo.stakingRewardAddress)
 
+  console.log(stakingInfo.stakingRewardAddress)
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   const poolMap = useMinichefPools()
