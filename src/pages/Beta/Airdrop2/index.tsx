@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { PageWrapper, BoxWrapper } from './styleds'
+import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator } from './styleds'
 import { Text, Box } from '@0xkilo/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { BoxNotConnected, BoxCheckEligibility, BoxBuyFTM, BoxGoToFTM, BoxClaimReward  } from './BoxesType'
-// import { AIRDROP_ABI } from 'src/constants/abis/airdrop'
 import {
     useUserHasAvailableClaim,
     useUserUnclaimedAmount,
     useClaimCallback
   } from 'src/state/airdrop/hooks'
+import NearLogo from 'src/assets/images/near.png'
 
 const AirdropUI: React.FC = () => {
     let { account } = useActiveWeb3React()
@@ -98,21 +98,21 @@ const AirdropUI: React.FC = () => {
                     {
                         renderBoxes()
                     }
-                {/* <ClaimBox>
+                <ClaimBox>
                     <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
                         <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
-                            Claim fanPNG
+                            Claim nearPNG
                         </Text>
-                        <StyledLogo src={FtmLogo} size={"50px"}/>
+                        <StyledLogo src={NearLogo} size={"50px"}/>
                     </span>
                     <Separator />
                     <span style={{padding: "20px"}}></span>
                     <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
-                        Let's check if you are eligible!
+                        Coming soon...
                     </Text>
                     <span style={{padding: "20px"}}></span>
-                    <ButtonCheckEligibility />
-                </ClaimBox> */}
+                    {/* <ButtonCheckEligibility /> */}
+                </ClaimBox>
             </BoxWrapper>
         </PageWrapper>
     )
