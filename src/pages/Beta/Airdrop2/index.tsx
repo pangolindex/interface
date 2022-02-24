@@ -3,6 +3,7 @@ import { PageWrapper, BoxWrapper } from './styleds'
 import { Text, Box } from '@0xkilo/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { BoxNotConnected, BoxCheckEligibility, BoxBuyFTM, BoxGoToFTM, BoxClaimReward  } from './BoxesType'
+// import { AIRDROP_ABI } from 'src/constants/abis/airdrop'
 
 const AirdropUI: React.FC = () => {
     let { account } = useActiveWeb3React()
