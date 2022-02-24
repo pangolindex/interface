@@ -657,14 +657,14 @@ export function useDerivedUnstakeInfo(
 
 export function useGetStakingDataWithAPR(version: number) {
   const stakingInfos = useStakingInfo(version)
-
+  const { chainId } = useActiveWeb3React();
   const [stakingInfoData, setStakingInfoData] = useState<StakingInfo[]>(stakingInfos)
 
   useEffect(() => {
     if (stakingInfos?.length > 0) {
       Promise.all(
         stakingInfos.map(stakingInfo => {
-          return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+          return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE]}`)
             .then(res => res.json())
             .then(res => ({
               swapFeeApr: Number(res.swapFeeApr),

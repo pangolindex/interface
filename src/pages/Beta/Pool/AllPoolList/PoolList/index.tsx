@@ -6,7 +6,7 @@ import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConf
 import PoolCard from '../PoolCard'
 import Loader from 'src/components/Loader'
 import { useActiveWeb3React } from 'src/hooks'
-import { Token } from '@antiyro/sdk'
+import { ChainId, Token } from '@antiyro/sdk'
 import { useTranslation } from 'react-i18next'
 import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
@@ -188,7 +188,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
                   ...stakingInfo
                 }))
             } else {
-              return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+              return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE]}`)
                 .then(res => res.json())
                 .then(res => ({
                   swapFeeApr: Number(res.swapFeeApr),
