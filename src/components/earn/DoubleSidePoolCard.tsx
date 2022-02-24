@@ -12,6 +12,7 @@ import { currencyId } from '../../utils/currencyId'
 import { Break, CardNoise, CardBGImage } from './styled'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 import { PNG } from '../../constants'
+import { CHAINS } from '../../constants/chains'
 import { useTranslation } from 'react-i18next'
 import RewardTokens from '../RewardTokens'
 import { Box } from '@pangolindex/components'
@@ -117,7 +118,7 @@ export default function DoubleSidePoolCard({
       ? token1
       : token0
 
-  const totalStakedInUsd = stakingInfo.totalStakedInUsd ? stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' }) : 0
+  const totalStakedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' }) : 0
   
   const backgroundColor = useColor(token)
 

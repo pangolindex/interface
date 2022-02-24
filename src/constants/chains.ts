@@ -42,7 +42,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/avax/4d1649e8a0c7dec9de3491b81807d402.png',
     tracked_by_debank: true,
     supported_by_gelato: true,
-    coingecko_id: 'avalanche'
+    coingecko_id: 'avalanche',
+    is_mainnet: true
   },
   [ChainsId.FUJI]: {
     name: 'Avalanche-fuji',
@@ -50,7 +51,8 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/avax/4d1649e8a0c7dec9de3491b81807d402.png',
     tracked_by_debank: false,
     supported_by_gelato: true,
-    coingecko_id: 'avalanche'
+    coingecko_id: 'avalanche',
+    is_mainnet: false
   },
   [ChainsId.ETH]: {
     name: 'Ethereum',
@@ -194,6 +196,7 @@ export const CHAINS = {
     logo: 'https://static.debank.com/image/chain/logo_url/mobm/a8442077d76b258297181c3e6eb8c9cc.png',
     tracked_by_debank: false,
     supported_by_gelato: false,
-    coingecko_id: ''
+    coingecko_id: '',
+    is_mainnet: false
   }
 }

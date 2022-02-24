@@ -33,6 +33,7 @@ import { useStakingContract } from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
 import { ZERO_ADDRESS } from '../../constants'
+import { CHAINS } from '../../constants/chains'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { useTokens } from '../../hooks/Tokens'
 import { useRewardViaMultiplierContract } from '../../hooks/useContract'
@@ -248,8 +249,10 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
     undefined,
     NEVER_RELOAD
   )
-
-  const usdPrice = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
+  
+  //ATTENTION ICI
+  const usdPriceTmp = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE]);
+  const usdPrice = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ?  usdPriceTmp : undefined
 
   return useMemo(() => {
     if (!chainId || !png) return []
@@ -325,7 +328,8 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
               pair.reserveOf(png).raw,
               chainId
             )
-
+        
+        //ATTENTION ICI
         const totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount)
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
@@ -689,8 +693,10 @@ export function useGetPairDataFromPair(pair: Pair) {
   const token0 = pair?.token0 || dummyToken
   const token1 = pair?.token1 || dummyToken
 
-  const usdPriceCurrency0 = useUSDCPrice(token0)
-  const usdPriceCurrency1 = useUSDCPrice(token1)
+  const usdPriceCurrency0Tmp = useUSDCPrice(token0) 
+  const usdPriceCurrency0 = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdPriceCurrency0Tmp : undefined
+  const usdPriceCurrency1Tmp = useUSDCPrice(token1) 
+  const usdPriceCurrency1 = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdPriceCurrency1Tmp : undefined
 
   const zeroTokenAmount0 = new TokenAmount(token0, '0')
   const zeroTokenAmount1 = new TokenAmount(token1, '0')
@@ -722,6 +728,7 @@ export function useGetPairDataFromPair(pair: Pair) {
         ]
       : [zeroTokenAmount0, zeroTokenAmount1]
 
+  //ATTENTION ICI
   const usdAmountCurrency0: CurrencyAmount = usdPriceCurrency0?.quote(token0Deposited, chainId ? chainId : ChainId.AVALANCHE) ?? zeroTokenAmount0
   const usdAmountCurrency1: CurrencyAmount = usdPriceCurrency1?.quote(token1Deposited, chainId ? chainId : ChainId.AVALANCHE) ?? zeroTokenAmount1
 
@@ -837,7 +844,9 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const rewardPerSecond = useSingleCallResult(minichefContract, 'rewardPerSecond', []).result
   const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
   const rewardsExpiration = useSingleCallResult(minichefContract, 'rewardsExpiration', []).result
-  const usdPrice = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
+  //ATTENTION ICI
+  const usdPriceTmp = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
+  const usdPrice = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdPriceTmp : undefined
 
   const arr = useMemo(() => {
     if (!chainId || !png) return []
@@ -908,31 +917,33 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
         const isAvaxPool = pair.involvesToken(WAVAX[chainId])
         const isPngPool = pair.involvesToken(PNG[chainId])
 
-        let totalStakedInUsd = new TokenAmount(DAIe[chainId], BIG_INT_ZERO)
+        //ATTENTION ICI
+        let totalStakedInUsd = CHAINS[chainId || ChainId].is_mainnet ? new TokenAmount(DAIe[chainId], BIG_INT_ZERO) : undefined
         const totalStakedInWavax = new TokenAmount(WAVAX[chainId], BIG_INT_ZERO)
 
+        //ATTENTION ICI
         if (JSBI.equal(totalSupplyAvailable, BIG_INT_ZERO)) {
           // Default to 0 values above avoiding division by zero errors
         } else if (pair.involvesToken(DAIe[chainId])) {
           const pairValueInDAI = JSBI.multiply(pair.reserveOf(DAIe[chainId]).raw, BIG_INT_TWO)
           const stakedValueInDAI = JSBI.divide(JSBI.multiply(pairValueInDAI, totalSupplyStaked), totalSupplyAvailable)
-          totalStakedInUsd = new TokenAmount(DAIe[chainId], stakedValueInDAI)
+          totalStakedInUsd = CHAINS[chainId || ChainId].is_mainnet ? new TokenAmount(DAIe[chainId], stakedValueInDAI) : undefined
         } else if (pair.involvesToken(USDCe[chainId])) {
           const pairValueInUSDC = JSBI.multiply(pair.reserveOf(USDCe[chainId]).raw, BIG_INT_TWO)
           const stakedValueInUSDC = JSBI.divide(JSBI.multiply(pairValueInUSDC, totalSupplyStaked), totalSupplyAvailable)
-          totalStakedInUsd = new TokenAmount(USDCe[chainId], stakedValueInUSDC)
+          totalStakedInUsd = CHAINS[chainId || ChainId].is_mainnet ? new TokenAmount(USDCe[chainId], stakedValueInUSDC) : undefined
         } else if (pair.involvesToken(USDC[chainId])) {
           const pairValueInUSDC = JSBI.multiply(pair.reserveOf(USDC[chainId]).raw, BIG_INT_TWO)
           const stakedValueInUSDC = JSBI.divide(JSBI.multiply(pairValueInUSDC, totalSupplyStaked), totalSupplyAvailable)
-          totalStakedInUsd = new TokenAmount(USDC[chainId], stakedValueInUSDC)
+          totalStakedInUsd = CHAINS[chainId || ChainId].is_mainnet ? new TokenAmount(USDC[chainId], stakedValueInUSDC) : undefined
         } else if (pair.involvesToken(UST[chainId])) {
           const pairValueInUST = JSBI.multiply(pair.reserveOf(UST[chainId]).raw, BIG_INT_TWO)
           const stakedValueInUST = JSBI.divide(JSBI.multiply(pairValueInUST, totalSupplyStaked), totalSupplyAvailable)
-          totalStakedInUsd = new TokenAmount(UST[chainId], stakedValueInUST)
+          totalStakedInUsd = CHAINS[chainId || ChainId].is_mainnet ? new TokenAmount(UST[chainId], stakedValueInUST) : undefined
         } else if (pair.involvesToken(USDTe[chainId])) {
           const pairValueInUSDT = JSBI.multiply(pair.reserveOf(USDTe[chainId]).raw, BIG_INT_TWO)
           const stakedValueInUSDT = JSBI.divide(JSBI.multiply(pairValueInUSDT, totalSupplyStaked), totalSupplyAvailable)
-          totalStakedInUsd = new TokenAmount(USDTe[chainId], stakedValueInUSDT)
+          totalStakedInUsd = CHAINS[chainId || ChainId].is_mainnet ? new TokenAmount(USDTe[chainId], stakedValueInUSDT) : undefined
         } else if (isAvaxPool) {
           const totalStakedInWavax = calculateTotalStakedAmountInAvax(
             totalSupplyStaked,
@@ -940,7 +951,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
             pair.reserveOf(WAVAX[chainId]).raw,
             chainId
           )
-          totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount)
+          totalStakedInUsd = CHAINS[chainId || ChainId].is_mainnet ? totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount) : undefined
         } else if (isPngPool) {
           const totalStakedInWavax = calculateTotalStakedAmountInAvaxFromPng(
             totalSupplyStaked,
