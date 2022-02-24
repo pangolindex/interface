@@ -25,7 +25,7 @@ interface Props {
 const Wallet: React.FC<Props> = ({ setMenu, activeMenu, menuItems }) => {
   const theme = useContext(ThemeContext)
   const { account } = useActiveWeb3React()
-  let { v2IsLoading, allV2PairsWithLiquidity } = useGetUserLP()
+  const { v2IsLoading, allV2PairsWithLiquidity } = useGetUserLP()
   // fetch the user's balances of all tracked V2 LP tokens
 
   const [clickedLpTokens, setClickedLpTokens] = useState([] as Token[])

@@ -122,7 +122,8 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                     {pngToClaim && pngToClaim.greaterThan('0') && (
                       <StyledInternalLink
                         onClick={() => setShowPngBalanceModal(false)}
-                        to={`/png/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}`}>
+                        to={`/png/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}`}
+                      >
                         ({t('earn.claim')})
                       </StyledInternalLink>
                     )}
@@ -151,36 +152,39 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
         </CardSection>
         {account && (
           <>
-          <CardSection gap="sm">
-            <AutoColumn gap="md">
-              <AddPNG onClick={() => {
-                injected.getProvider().then(provider => {
-                  if (provider) {
-                    provider.request({
-                      method: 'wallet_watchAsset',
-                      params: {
-                        type: 'ERC20',
-                        options: {
-                          address: png?.address,
-                          symbol: png?.symbol,
-                          decimals: png?.decimals,
-                          image: 'https://raw.githubusercontent.com/pangolindex/tokens/main/assets/0x60781C2586D68229fde47564546784ab3fACA982/logo.png',
-                        },
-                      },
-                    }).catch((error: any) => {
-                      console.error(error)
+            <CardSection gap="sm">
+              <AutoColumn gap="md">
+                <AddPNG
+                  onClick={() => {
+                    injected.getProvider().then(provider => {
+                      if (provider) {
+                        provider
+                          .request({
+                            method: 'wallet_watchAsset',
+                            params: {
+                              type: 'ERC20',
+                              options: {
+                                address: png?.address,
+                                symbol: png?.symbol,
+                                decimals: png?.decimals,
+                                image:
+                                  'https://raw.githubusercontent.com/pangolindex/tokens/main/assets/0x60781C2586D68229fde47564546784ab3fACA982/logo.png'
+                              }
+                            }
+                          })
+                          .catch((error: any) => {
+                            console.error(error)
+                          })
+                      }
                     })
-                  }
-                });
-              }
-            }>
-                <TYPE.white color="white">{t('header.addMetamask')}</TYPE.white>
-              </AddPNG>
-            </AutoColumn>
-          </CardSection>
+                  }}
+                >
+                  <TYPE.white color="white">{t('header.addMetamask')}</TYPE.white>
+                </AddPNG>
+              </AutoColumn>
+            </CardSection>
           </>
-          )
-        }
+        )}
       </ModalUpper>
     </ContentWrapper>
   )

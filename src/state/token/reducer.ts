@@ -23,7 +23,7 @@ export default createReducer(initialState, builder =>
   builder
 
     .addCase(updateTokenWeeklyPriceChartData, (state, { payload: { address, chartData } }) => {
-      let container = {} as WeeklyState
+      const container = {} as WeeklyState
       container[address] = chartData
       const existingChartData = {
         ...(state.weekly || {}),
@@ -33,7 +33,7 @@ export default createReducer(initialState, builder =>
     })
 
     .addCase(updateTokenPriceChartData, (state, { payload: { address, chartData } }) => {
-      let container = {} as ChartState
+      const container = {} as ChartState
       container[address] = chartData
       const existingChartData = {
         ...(state.tokenPrices || {}),

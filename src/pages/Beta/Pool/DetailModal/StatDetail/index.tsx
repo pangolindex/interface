@@ -7,7 +7,7 @@ import { StateContainer } from './styleds'
 import Stat from 'src/components/Stat'
 
 interface Props {
-  title: String
+  title: string
   totalAmount: string
   pair: Pair | null
   pgl?: TokenAmount | undefined

@@ -10,10 +10,9 @@ export const client = new ApolloClient({
   shouldBatch: true
 })
 
-
 export const blockClient = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://api.thegraph.com/subgraphs/name/dasconnor/avalanche-blocks',
+    uri: 'https://api.thegraph.com/subgraphs/name/dasconnor/avalanche-blocks'
   }),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache()
 })

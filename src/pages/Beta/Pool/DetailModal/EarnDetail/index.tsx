@@ -26,7 +26,7 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 
-  let isSuperFarm = (rewardTokensAmount || [])?.length > 0
+  const isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
   const png = PNG[chainId || ChainId.AVALANCHE] // add PNG as default reward
   return (
