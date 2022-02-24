@@ -210,7 +210,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
     [chainId, pairToFilterBy, version]
   )
 
-  const png = PNG[ChainId.AVALANCHE]
+  const png = PNG[chainId || ChainId.AVALANCHE]
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
 
@@ -231,7 +231,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
 
   const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
 
-  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[ChainId.AVALANCHE], png)
+  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[chainId || ChainId.AVALANCHE], png)
 
   // tokens per second, constants
   const rewardRates = useMultipleContractSingleData(
