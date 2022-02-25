@@ -34,7 +34,7 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
 
   const theme = useContext(ThemeContext)
 
-  const { liquidityInUSD, userPgl: userLiquidityUnstaked } = useGetPoolDollerWorth(selectedPair)z
+  const { liquidityInUSD, userPgl: userLiquidityUnstaked } = useGetPoolDollerWorth(selectedPair)
 
   const [isPoolDrawerOpen, setIsPoolDrawerOpen] = useState(false)
 

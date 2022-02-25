@@ -22,7 +22,7 @@ const WalletCard = ({ pair, onClickAddLiquidity, onClickRemoveLiquidity }: Walle
   const currency0 = unwrappedToken(pair.token0, chainId || ChainId.AVALANCHE)
   const currency1 = unwrappedToken(pair.token1, chainId || ChainId.AVALANCHE)
 
-  const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)z
+  const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)
 
   return (
     <Panel>
