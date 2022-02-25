@@ -45,7 +45,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
           titleColor="text2"
         />
         <Stat
-          title={`${currency0?.symbol}`}
+          title={`Underlying ${currency0?.symbol}`}
           stat={`${
             token0Deposited
               ? numeral(parseFloat(token0Deposited?.toSignificant(6)).toLocaleString()).format('0.00a')
@@ -58,7 +58,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
           currency={currency0}
         />
         <Stat
-          title={`${currency1?.symbol}`}
+          title={`Underlying ${currency1?.symbol}`}
           stat={`${
             token1Deposited
               ? numeral(parseFloat(token1Deposited?.toSignificant(6)).toLocaleString()).format('0.00a')
