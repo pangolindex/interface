@@ -11,19 +11,11 @@ export const StateContainer = styled.div`
   @media screen and (max-width: 1024px) {
     grid-template-columns: 1fr;
     align-items: stretch;
-    /* > * {
-      grid-column: 1 / 3;
-    }
-
-    > * {
-      &:first-child {
-        width: 100%;
-      }
-    } */
   }
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    grid-template-columns: 33% 33% 33%;
-    grid-gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-column-gap: 6px;
+    grid-row-gap:6px;
   `};
 `
