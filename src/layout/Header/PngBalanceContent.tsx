@@ -4,7 +4,7 @@ import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from 'src/assets/images/logo.png'
 import { injected } from '../../connectors'
-import { PNG } from '../../constants'
+import { BETA_MENU_LINK, PNG } from '../../constants'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
 import { useTotalPngEarned } from '../../state/stake/hooks'
@@ -16,6 +16,7 @@ import { RowBetween } from '../../components/Row'
 import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../../components/earn/styled'
 import { usePair } from '../../data/Reserves'
 import { useTranslation } from 'react-i18next'
+import { useIsBetaUI } from '../../hooks/useLocation'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -59,6 +60,7 @@ const AddPNG = styled.span`
  * Content for balance stats modal
  */
 export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowPngBalanceModal: any }) {
+  const isBeta = useIsBetaUI()
   const { account, chainId } = useActiveWeb3React()
   const png = chainId ? PNG[chainId] : undefined
 
@@ -124,7 +126,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                     {pngToClaim && pngToClaim.greaterThan('0') && (
                       <StyledInternalLink
                         onClick={() => setShowPngBalanceModal(false)}
-                        to={`/png/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}`}
+                        to={isBeta ? BETA_MENU_LINK.pool : `/png/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}`}
                       >
                         ({t('earn.claim')})
                       </StyledInternalLink>

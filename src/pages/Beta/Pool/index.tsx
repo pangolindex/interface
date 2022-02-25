@@ -25,7 +25,7 @@ const PoolUI = () => {
   stakingInfoV1 = (stakingInfoV1 || []).filter(
     info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
   )
-  let ownStakingInfoV1 = (stakingInfoV1 || []).filter(stakingInfo => {
+  const ownStakingInfoV1 = (stakingInfoV1 || []).filter(stakingInfo => {
     return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
   })
 
@@ -34,13 +34,13 @@ const PoolUI = () => {
   stakingInfoV2 = (stakingInfoV2 || []).filter(
     info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
   )
-  let ownStakingInfoV2 = (stakingInfoV2 || []).filter(stakingInfo => {
+  const ownStakingInfoV2 = (stakingInfoV2 || []).filter(stakingInfo => {
     return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
   })
 
-  let superFarms = stakingInfoV2.filter(item => (item?.rewardTokensAddress?.length || 0) > 0)
+  const superFarms = stakingInfoV2.filter(item => (item?.rewardTokensAddress?.length || 0) > 0)
 
-  let menuItems: Array<{ label: string; value: string }> = []
+  const menuItems: Array<{ label: string; value: string }> = []
 
   // add v1
   if (stakingInfoV1.length > 0) {

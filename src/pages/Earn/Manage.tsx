@@ -95,6 +95,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
   let backgroundColor: string
   let token: Token | undefined
 
+  /* eslint-disable prefer-const*/
   // get the color of the token
   backgroundColor = useColor(token)
 
@@ -165,7 +166,6 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
                       reward?.token,
                       tokenMultiplier
                     )
-                    
 
                   return (
                     <TYPE.body fontSize={18} fontWeight={500} key={index}>

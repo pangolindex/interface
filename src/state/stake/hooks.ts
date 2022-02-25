@@ -235,9 +235,9 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
   const pairs = usePairs(tokens)
 
   const pairAddresses = useMemo(() => {
-    const pairsHaveLoaded = pairs?.every(([state, pair]) => state === PairState.EXISTS)
+    const pairsHaveLoaded = pairs?.every(([state]) => state === PairState.EXISTS)
     if (!pairsHaveLoaded) return []
-    else return pairs.map(([state, pair]) => pair?.liquidityToken.address)
+    else return pairs.map(([, pair]) => pair?.liquidityToken.address)
   }, [pairs])
 
   const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
@@ -821,7 +821,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   // console.log(pairs)
 
   const pairAddresses = useMemo(() => {
-    return pairs.map(([state, pair]) => pair?.liquidityToken.address)
+    return pairs.map(([, pair]) => pair?.liquidityToken.address)
   }, [pairs])
 
   const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')

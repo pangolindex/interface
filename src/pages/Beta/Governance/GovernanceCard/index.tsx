@@ -40,7 +40,7 @@ const GovernanceCard = ({ id, title, to, status }: GovernanceCardProps) => {
 
   return (
     <Card>
-      <CardTitle style={{maxWidth: '55%'}}>
+      <CardTitle style={{ maxWidth: '55%' }}>
         <Text fontSize={28} lineHeight="42px" color="text10" style={{ marginRight: '21px' }}>
           {id}.
         </Text>
@@ -48,7 +48,7 @@ const GovernanceCard = ({ id, title, to, status }: GovernanceCardProps) => {
           fontSize={28}
           lineHeight="42px"
           color="text10"
-          style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}
+          style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
         >
           {title}
         </Text>

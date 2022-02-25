@@ -14,7 +14,6 @@ import Loader from 'src/components/Loader'
 import ShowMore from 'src/components/Beta/ShowMore'
 import { Hidden } from 'src/theme'
 
-
 type Props = {
   isLimitOrders: boolean
 }

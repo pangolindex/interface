@@ -1,6 +1,6 @@
 import { CurrencyAmount, CAVAX, JSBI } from '@pangolindex/sdk'
 import { MIN_ETH } from '../constants'
-import { CurrencyAmount as UniCurrencyAmount, Currency } from "@uniswap/sdk-core"
+import { CurrencyAmount as UniCurrencyAmount, Currency } from '@uniswap/sdk-core'
 
 /**
  * Given some token amount, return the max that can be spent of it

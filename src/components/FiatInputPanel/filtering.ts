@@ -1,4 +1,4 @@
-import {Fiat} from '../../constants/fiat'
+import { Fiat } from '../../constants/fiat'
 
 export function filterFiats(fiats: Fiat[], search: string): Fiat[] {
   if (search.length === 0) return fiats

@@ -378,11 +378,10 @@ export function useGelatoLimitOrderDetail(order: Order) {
 export function useGelatoLimitOrderList() {
   const { open, executed, cancelled } = useGelatoLimitOrdersHistory()
 
-
   const openPending = useMemo(
     () =>
       (open.pending || []).map(item => {
-        let container = { ...item } as any
+        const container = { ...item } as any
         container['pending'] = true
         return container
       }),
@@ -392,7 +391,7 @@ export function useGelatoLimitOrderList() {
   const cancelledPending = useMemo(
     () =>
       (cancelled.pending || []).map(item => {
-        let container = { ...item } as any
+        const container = { ...item } as any
         container['pending'] = true
         return container
       }),
@@ -403,8 +402,6 @@ export function useGelatoLimitOrderList() {
     () => [...cancelledPending, ...openPending, ...open.confirmed, ...cancelled.confirmed, ...executed],
     [openPending, cancelledPending, open.confirmed, cancelled.confirmed, executed]
   )
-
-  
 
   const allOpenOrders = useMemo(() => [...cancelledPending, ...openPending, ...open.confirmed], [
     openPending,

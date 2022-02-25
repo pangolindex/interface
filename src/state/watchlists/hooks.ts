@@ -27,7 +27,7 @@ export function useSelectedCurrencyLists(): Token[] | undefined {
   return allSelectedToken
 }
 
-export function useIsSelectedCurrency(address: string): Boolean {
+export function useIsSelectedCurrency(address: string): boolean {
   const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
 
   let addresses = useSelector<AppState, AppState['watchlists']['currencies']>(state =>

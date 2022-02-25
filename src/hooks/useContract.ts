@@ -1,12 +1,12 @@
 import { Contract } from '@ethersproject/contracts'
 import { WAVAX } from '@pangolindex/sdk'
-import { abi as IPangolinPairABI } from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-core/interfaces/IPangolinPair.sol/IPangolinPair.json'
-import { abi as STAKING_REWARDS_ABI } from '@pangolindex/governance/artifacts/contracts/StakingRewards.sol/StakingRewards.json'
-import { abi as AIRDROP_ABI } from '@pangolindex/governance/artifacts/contracts/Airdrop.sol/Airdrop.json'
-import { abi as GOVERNANCE_ABI } from '@pangolindex/governance/artifacts/contracts/GovernorAlpha.sol/GovernorAlpha.json'
-import { abi as PNG_ABI } from '@pangolindex/governance/artifacts/contracts/PNG.sol/Png.json'
-import { abi as BRIDGE_MIGRATOR_ABI } from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-periphery/PangolinBridgeMigrationRouter.sol/PangolinBridgeMigrationRouter.json'
-import { abi as MINICHEF_ABI } from '@pangolindex/governance/artifacts/contracts/MiniChefV2.sol/MiniChefV2.json'
+import IPangolinPair from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-core/interfaces/IPangolinPair.sol/IPangolinPair.json'
+import StakingRewards from '@pangolindex/governance/artifacts/contracts/StakingRewards.sol/StakingRewards.json'
+import Airdrop from '@pangolindex/governance/artifacts/contracts/Airdrop.sol/Airdrop.json'
+import GovernorAlpha from '@pangolindex/governance/artifacts/contracts/GovernorAlpha.sol/GovernorAlpha.json'
+import Png from '@pangolindex/governance/artifacts/contracts/PNG.sol/Png.json'
+import PangolinBridgeMigrationRouter from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-periphery/PangolinBridgeMigrationRouter.sol/PangolinBridgeMigrationRouter.json'
+import MiniChefV2 from '@pangolindex/governance/artifacts/contracts/MiniChefV2.sol/MiniChefV2.json'
 import { useMemo } from 'react'
 import ENS_PUBLIC_RESOLVER_ABI from '../constants/abis/ens-public-resolver.json'
 import { ERC20_BYTES32_ABI } from '../constants/abis/erc20'
@@ -47,11 +47,11 @@ export function useV2MigratorContract(): Contract | null {
 }
 
 export function useMiniChefContract(): Contract | null {
-  return useContract(MINICHEF_ADDRESS, MINICHEF_ABI, true)
+  return useContract(MINICHEF_ADDRESS, MiniChefV2.abi, true)
 }
 
 export function useBridgeMigratorContract(): Contract | null {
-  return useContract(BRIDGE_MIGRATOR_ADDRESS, BRIDGE_MIGRATOR_ABI, true)
+  return useContract(BRIDGE_MIGRATOR_ADDRESS, PangolinBridgeMigrationRouter.abi, true)
 }
 
 export function useV1ExchangeContract(address?: string, withSignerIfPossible?: boolean): Contract | null {
@@ -80,7 +80,7 @@ export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossi
 }
 
 export function usePairContract(pairAddress?: string, withSignerIfPossible?: boolean): Contract | null {
-  return useContract(pairAddress, IPangolinPairABI, withSignerIfPossible)
+  return useContract(pairAddress, IPangolinPair.abi, withSignerIfPossible)
 }
 
 export function useMulticallContract(): Contract | null {
@@ -89,16 +89,20 @@ export function useMulticallContract(): Contract | null {
 }
 
 export function useGovernanceContract(): Contract | null {
-  return useContract(GOVERNANCE_ADDRESS, GOVERNANCE_ABI, true)
+  return useContract(GOVERNANCE_ADDRESS, GovernorAlpha.abi, true)
 }
 
 export function usePngContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
-  return useContract(chainId ? PNG[chainId].address : undefined, PNG_ABI, true)
+  return useContract(chainId ? PNG[chainId].address : undefined, Png.abi, true)
 }
 
 export function useStakingContract(stakingAddress?: string, withSignerIfPossible?: boolean): Contract | null {
-  return useContract(stakingAddress, stakingAddress === MINICHEF_ADDRESS ? MINICHEF_ABI : STAKING_REWARDS_ABI, withSignerIfPossible)
+  return useContract(
+    stakingAddress,
+    stakingAddress === MINICHEF_ADDRESS ? MiniChefV2.abi : StakingRewards.abi,
+    withSignerIfPossible
+  )
 }
 
 export function useRewardViaMultiplierContract(address?: string, withSignerIfPossible?: boolean): Contract | null {
@@ -107,5 +111,5 @@ export function useRewardViaMultiplierContract(address?: string, withSignerIfPos
 
 export function useAirdropContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
-  return useContract(chainId ? AIRDROP_ADDRESS[chainId] : undefined, AIRDROP_ABI, true)
+  return useContract(chainId ? AIRDROP_ADDRESS[chainId] : undefined, Airdrop.abi, true)
 }
