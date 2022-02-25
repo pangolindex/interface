@@ -2,6 +2,7 @@ import React, { useContext, useRef } from 'react'
 import Slider, { Settings } from 'react-slick'
 import { ArrowLeft, ArrowRight } from 'react-feather'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Box } from '@pangolindex/components'
 import Scrollbars from 'react-custom-scrollbars'
 import { ThemeContext } from 'styled-components'
@@ -13,7 +14,6 @@ import { NewsSection, NewsTitle, NewsContent, NewsDate, SlickNext } from './styl
 import Loader from 'src/components/Loader'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-
 
 const NewsFeedSettings: Settings = {
   dots: true,
@@ -49,45 +49,50 @@ export default function NewsWidget() {
         </SlickNext>
       </Box>
       <Box height="90%" paddingTop="10px">
-      {!!news ? (
-        <Slider ref={sliderRef} {...NewsFeedSettings}>
-          {news &&
-            news.map((element: News) => (
-              <div key={element.id} style={{ height: '100%' }}>
-                <NewsContent>
-                  <Scrollbars style={{ height: '100%', padding: "0px 10px"}}>
-                    <ReactMarkdown
-                      renderers={{
-                        link: props => (
-                          <a href={props.href} rel="nofollow noreferrer noopener" target="_blank">
-                            {props.children}
-                          </a>
-                        )
-                      }}
-                    >
-                      {element.content}
-                    </ReactMarkdown>
-                  </Scrollbars>
-                </NewsContent>
-                <NewsDate>
-                  {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
-                </NewsDate>
-              </div>
-            ))}
-        </Slider>
-      ) : (
-        <Box display="flex" alignItems="center" justifyContent="center" height="100%">
-          <Loader
-            size="10%"
-            stroke={theme.yellow3}
-            style={{
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              display: 'block'
-            }}
-          />
-        </Box>
-      )}
+        {!!news ? (
+          <Slider ref={sliderRef} {...NewsFeedSettings}>
+            {news &&
+              news.map((element: News) => (
+                <div key={element.id} style={{ height: '100%' }}>
+                  <NewsContent>
+                    <Scrollbars style={{ height: '100%', padding: '0px 10px' }}>
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        linkTarget={'_blank'}
+                        components={{
+                          /* eslint-disable react/prop-types */
+                          a: ({ children, ...props }) => {
+                            const linkProps = props
+                            if (props.target === '_blank') {
+                              linkProps['rel'] = 'noopener noreferrer'
+                            }
+                            return <a {...linkProps}>{children}</a>
+                          }
+                        }}
+                      >
+                        {element.content}
+                      </ReactMarkdown>
+                    </Scrollbars>
+                  </NewsContent>
+                  <NewsDate>
+                    {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
+                  </NewsDate>
+                </div>
+              ))}
+          </Slider>
+        ) : (
+          <Box display="flex" alignItems="center" justifyContent="center" height="100%">
+            <Loader
+              size="10%"
+              stroke={theme.yellow3}
+              style={{
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                display: 'block'
+              }}
+            />
+          </Box>
+        )}
       </Box>
     </NewsSection>
   )

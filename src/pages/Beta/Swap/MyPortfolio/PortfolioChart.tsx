@@ -4,7 +4,9 @@ import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { BalanceInfo, DurationBtns } from './styleds'
 import { useGetChainBalance } from 'src/state/portifolio/hooks'
 
-type Props = {}
+type Props = {
+  /* */
+}
 
 const PortfolioChart: React.FC<Props> = () => {
   const data = []

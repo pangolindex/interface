@@ -22,11 +22,9 @@ export interface PoolDetailProps {
   onDismiss: () => void
   stakingInfo: StakingInfo
   version: number
-  onOpenClaimModal: () => void
-  onOpenWithdrawModal: () => void
 }
 
-const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenWithdrawModal }: PoolDetailProps) => {
+const DetailView = ({ stakingInfo, onDismiss, version }: PoolDetailProps) => {
   const theme = useContext(ThemeContext)
   const { height } = useWindowSize()
   const { t } = useTranslation()
@@ -40,7 +38,7 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  let yourStackedInUsd = stakingInfo?.totalStakedInUsd
+  const yourStackedInUsd = stakingInfo?.totalStakedInUsd
     .multiply(stakingInfo?.stakedAmount)
     .divide(stakingInfo?.totalStakedAmount)
 
@@ -170,13 +168,7 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
 
         <EarnWrapper>
           <EarnWidget currencyA={currency0} currencyB={currency1} version={version} pair={pair} />
-          {isStaking && (
-            <EarnDetail
-              stakingInfo={stakingInfo}
-              onOpenClaimModal={onOpenClaimModal}
-              onOpenWithdrawModal={onOpenWithdrawModal}
-            />
-          )}
+          {isStaking && <EarnDetail stakingInfo={stakingInfo} version={version} />}
         </EarnWrapper>
       </Box>
     </Wrapper>

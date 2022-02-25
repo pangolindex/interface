@@ -28,13 +28,13 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, onRemove, isSelected }) 
   const theme = useContext(ThemeContext)
   const usdcPrice = useUSDCPrice(coin)
 
-  let chartData = useTokenWeeklyChartData(coin?.address?.toLowerCase())
+  const chartData = useTokenWeeklyChartData(coin?.address?.toLowerCase())
 
-  let currentUSDPrice = chartData?.[(chartData || []).length - 1]?.priceUSD || 0
-  let previousUSDPrice = chartData?.[0]?.priceUSD || 0
+  const currentUSDPrice = chartData?.[(chartData || []).length - 1]?.priceUSD || 0
+  const previousUSDPrice = chartData?.[0]?.priceUSD || 0
   const diffPercent = currentUSDPrice - previousUSDPrice < 0 ? -1 : 1
-  var decreaseValue = currentUSDPrice - previousUSDPrice
-  let perc = (decreaseValue / previousUSDPrice) * 100
+  const decreaseValue = currentUSDPrice - previousUSDPrice
+  const perc = (decreaseValue / previousUSDPrice) * 100
 
   const token = unwrappedToken(coin)
 

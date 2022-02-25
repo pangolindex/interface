@@ -20,7 +20,16 @@ interface Props {
 }
 
 const ConfirmStakeDrawer: React.FC<Props> = props => {
-  const { isOpen, onClose, attemptingTxn, txHash, parsedAmount, onComplete = () => {} } = props
+  const {
+    isOpen,
+    onClose,
+    attemptingTxn,
+    txHash,
+    parsedAmount,
+    onComplete = () => {
+      /* */
+    }
+  } = props
 
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
@@ -65,7 +74,7 @@ const ConfirmStakeDrawer: React.FC<Props> = props => {
   )
 
   return (
-    <Drawer title={t('earnPage.pngStaking')} isOpen={isOpen} onClose={onClose}>
+    <Drawer title={t('earn.depositingLiquidity')} isOpen={isOpen} onClose={onClose}>
       {attemptingTxn && !txHash && PendingContent}
       {attemptingTxn && txHash && SubmittedContent}
     </Drawer>

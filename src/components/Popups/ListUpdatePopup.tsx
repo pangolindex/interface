@@ -64,15 +64,15 @@ export default function ListUpdatePopup({
       <AutoColumn style={{ flex: '1' }} gap="8px">
         {auto ? (
           <TYPE.body fontWeight={500}>
-            {t('popups.tokenListUpdated', {"oldList": oldList.name})}{' '}
+            {t('popups.tokenListUpdated', { oldList: oldList.name })}{' '}
             <strong>{listVersionLabel(newList.version)}</strong>.
           </TYPE.body>
         ) : (
           <>
             <div>
               <Text>
-                {t('popups.updateAvailable', {"oldList": oldList.name})} (
-                {listVersionLabel(oldList.version)} to {listVersionLabel(newList.version)}).
+                {t('popups.updateAvailable', { oldList: oldList.name })} ({listVersionLabel(oldList.version)} to{' '}
+                {listVersionLabel(newList.version)}).
               </Text>
               <PopupUnorderedList>
                 {tokensAdded.length > 0 ? (
@@ -97,7 +97,11 @@ export default function ListUpdatePopup({
                     {t('popups.removed')}
                   </li>
                 ) : null}
-                {numTokensChanged > 0 ? <li>{numTokensChanged} {t('popups.tokensUpdated')}</li> : null}
+                {numTokensChanged > 0 ? (
+                  <li>
+                    {numTokensChanged} {t('popups.tokensUpdated')}
+                  </li>
+                ) : null}
               </PopupUnorderedList>
             </div>
             <AutoRow>

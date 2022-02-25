@@ -8,8 +8,8 @@ export async function splitQuery(query: any, localClient: any, vars: any, list: 
     if (skip + skipCount < list.length) {
       end = skip + skipCount
     }
-    let sliced = list.slice(skip, end)
-    let result = await localClient.query({
+    const sliced = list.slice(skip, end)
+    const result = await localClient.query({
       query: query(...vars, sliced),
       fetchPolicy: 'cache-first'
     })
@@ -42,7 +42,7 @@ export async function crawlSingleQuery(
   let allFound = false
 
   while (!allFound) {
-    let result = await localClient.query({
+    const result = await localClient.query({
       query: query,
       variables: {
         ...vars,

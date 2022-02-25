@@ -88,7 +88,7 @@ const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) =
         </Root>
       )}
 
-      {attempting && !hash && <Loader size={100} label=" Claiming..." />}
+      {attempting && !hash && <Loader size={100} label="Claiming..." />}
 
       {hash && (
         <TransactionCompleted

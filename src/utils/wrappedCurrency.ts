@@ -29,6 +29,6 @@ export function wrappedCurrencyAmount(
 }
 
 export function unwrappedToken(token: Token): Currency | Token {
-  if (token?.equals(WAVAX[token.chainId])) return CAVAX
+  if (token?.equals?.(WAVAX[token.chainId])) return CAVAX
   return token
 }
