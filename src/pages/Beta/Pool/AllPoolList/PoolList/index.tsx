@@ -13,16 +13,10 @@ import useDebounce from 'src/hooks/useDebounce'
 import { BIG_INT_ZERO } from 'src/constants'
 import Scrollbars from 'react-custom-scrollbars'
 import { PoolsWrapper, PanelWrapper, LoadingWrapper, MobileGridContainer } from './styleds'
-import {
-  usePoolDetailnModalToggle,
-  useAddLiquiditynModalToggle,
-  useStakeModalToggle,
-  useModalOpen
-} from 'src/state/application/hooks'
+import { usePoolDetailnModalToggle, useAddLiquiditynModalToggle, useModalOpen } from 'src/state/application/hooks'
 import { ApplicationModal } from 'src/state/application/actions'
 import DetailModal from '../../DetailModal'
 import AddLiquidityModal from '../../AddLiquidityModal'
-import StakeModal from '../../StakeModal'
 import DropdownMenu from 'src/components/Beta/DropdownMenu'
 import { Hidden } from 'src/theme'
 
@@ -71,9 +65,6 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
   const toggleAddLiquidityModal = useAddLiquiditynModalToggle()
   const addLiquidityModalOpen = useModalOpen(ApplicationModal.ADD_LIQUIDITY)
 
-  const toggleStakeModal = useStakeModalToggle()
-  const stakeModalOpen = useModalOpen(ApplicationModal.STAKE)
-
   const handleSearch = useCallback(value => {
     setSearchQuery(value.trim().toUpperCase())
   }, [])
@@ -116,10 +107,6 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
             onClickAddLiquidity={() => {
               setClickedLpTokens(stakingInfo.tokens)
               toggleAddLiquidityModal()
-            }}
-            onClickStake={() => {
-              setClickedLpTokens(stakingInfo.tokens)
-              toggleStakeModal()
             }}
             version={Number(version)}
           />
@@ -196,10 +183,6 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
               onClickAddLiquidity={() => {
                 setClickedLpTokens(stakingInfo.tokens)
                 toggleAddLiquidityModal()
-              }}
-              onClickStake={() => {
-                setClickedLpTokens(stakingInfo.tokens)
-                toggleStakeModal()
               }}
               version={Number(version)}
             />
@@ -281,8 +264,6 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
       <DetailModal stakingInfo={selectedPool} version={Number(version)} />
 
       {addLiquidityModalOpen && <AddLiquidityModal clickedLpTokens={clickedLpTokens} />}
-
-      {stakeModalOpen && <StakeModal clickedLpTokens={clickedLpTokens} version={Number(version)} />}
     </PoolsWrapper>
   )
 }

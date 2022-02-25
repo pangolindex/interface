@@ -274,7 +274,6 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
   }
 
   const handleDismissConfirmation = useCallback(() => {
-    // setShowConfirm(false)
     // if there was a tx hash, we want to clear the input
     if (hash) {
       setTypedValue('')
@@ -471,7 +470,6 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
       {attempting && !hash && <Loader size={100} label={`${t('earn.depositingLiquidity')}`} />}
       {attempting && hash && (
         <TransactionCompleted
-          onClose={handleDismissConfirmation}
           submitText={`${t('earn.deposited')}`}
           isShowButtton={type === 'card' ? false : true}
           onButtonClick={() => handleDismissConfirmation()}

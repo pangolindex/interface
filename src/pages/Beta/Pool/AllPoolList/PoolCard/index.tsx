@@ -27,11 +27,10 @@ export interface PoolCardProps {
   stakingInfo: StakingInfo
   onClickViewDetail: () => void
   onClickAddLiquidity: () => void
-  onClickStake: () => void
   version: number
 }
 
-const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity, onClickStake, version }: PoolCardProps) => {
+const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity, version }: PoolCardProps) => {
   const { t } = useTranslation()
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
 

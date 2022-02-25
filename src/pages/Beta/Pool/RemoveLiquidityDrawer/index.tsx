@@ -28,7 +28,7 @@ const RemoveLiquidityDrawer: React.FC<Props> = ({ isOpen, onClose, clickedLpToke
       onClose={onClose}
       backgroundColor={backgroundColor}
     >
-      {isOpen && <RemoveLiquidity currencyA={currencyA} currencyB={currencyB} onClose={onClose} />}
+      {isOpen && <RemoveLiquidity currencyA={currencyA} currencyB={currencyB} />}
     </Drawer>
   )
 }

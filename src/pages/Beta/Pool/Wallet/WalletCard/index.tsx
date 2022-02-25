@@ -11,10 +11,9 @@ import RemoveLiquidityDrawer from '../../RemoveLiquidityDrawer'
 export interface WalletCardProps {
   pair: Pair
   onClickAddLiquidity: () => void
-  onClickRemoveLiquidity: () => void
 }
 
-const WalletCard = ({ pair, onClickAddLiquidity, onClickRemoveLiquidity }: WalletCardProps) => {
+const WalletCard = ({ pair, onClickAddLiquidity }: WalletCardProps) => {
   const { t } = useTranslation()
   const [isRemoveLiquidityDrawerVisible, setShowRemoveLiquidityDrawer] = useState(false)
   const currency0 = unwrappedToken(pair.token0)
