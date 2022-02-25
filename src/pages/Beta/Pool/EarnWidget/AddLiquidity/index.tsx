@@ -1,6 +1,6 @@
 import React, { useContext, useCallback, useState } from 'react'
 import { Currency, CAVAX, TokenAmount } from '@pangolindex/sdk'
-import { PageWrapper, InputText, StyledBalanceMax, ArrowWrapper, LightCard } from './styleds'
+import { AddWrapper, InputText, StyledBalanceMax, ArrowWrapper, LightCard } from './styleds'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Text } from '@pangolindex/components'
 import { Plus } from 'react-feather'
@@ -281,91 +281,92 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete }: AddLiquidityProps) =
   }
 
   return (
-    <PageWrapper>
-      <InputText
-        value={formattedAmounts[Field.CURRENCY_A]}
-        addonAfter={
-          !atMaxAmounts[Field.CURRENCY_A] ? (
-            <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
-              <StyledBalanceMax onClick={() => onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')}>
-                {t('currencyInputPanel.max')}
-              </StyledBalanceMax>
-            </Box>
-          ) : (
-            ''
-          )
-        }
-        onChange={(value: any) => {
-          handleTypeInput(value as any)
-        }}
-        label={`${currencyA?.symbol} Input`}
-        fontSize={24}
-        isNumeric={true}
-        placeholder="0.00"
-        addonLabel={
-          account && (
-            <Text color="text2" fontWeight={500} fontSize={14}>
-              {!!currencyA && selectedCurrencyBalanceA
-                ? t('currencyInputPanel.balance') + selectedCurrencyBalanceA?.toSignificant(6)
-                : ' -'}
-            </Text>
-          )
-        }
-      />
+    <AddWrapper>
+      <Box flex={1}>
+        <InputText
+          value={formattedAmounts[Field.CURRENCY_A]}
+          addonAfter={
+            !atMaxAmounts[Field.CURRENCY_A] ? (
+              <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
+                <StyledBalanceMax onClick={() => onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')}>
+                  {t('currencyInputPanel.max')}
+                </StyledBalanceMax>
+              </Box>
+            ) : (
+              ''
+            )
+          }
+          onChange={(value: any) => {
+            handleTypeInput(value as any)
+          }}
+          label={`${currencyA?.symbol} Input`}
+          fontSize={24}
+          isNumeric={true}
+          placeholder="0.00"
+          addonLabel={
+            account && (
+              <Text color="text2" fontWeight={500} fontSize={14}>
+                {!!currencyA && selectedCurrencyBalanceA
+                  ? t('currencyInputPanel.balance') + selectedCurrencyBalanceA?.toSignificant(6)
+                  : ' -'}
+              </Text>
+            )
+          }
+        />
 
-      <Box width="100%" textAlign="center" alignItems="center" display="flex" justifyContent={'center'} mt={10}>
-        <ArrowWrapper>
-          <Plus size="16" color={theme.text1} />
-        </ArrowWrapper>
-      </Box>
+        <Box width="100%" textAlign="center" alignItems="center" display="flex" justifyContent={'center'} mt={10}>
+          <ArrowWrapper>
+            <Plus size="16" color={theme.text1} />
+          </ArrowWrapper>
+        </Box>
 
-      <InputText
-        value={formattedAmounts[Field.CURRENCY_B]}
-        addonAfter={
-          !atMaxAmounts[Field.CURRENCY_B] ? (
-            <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
-              <StyledBalanceMax onClick={() => onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')}>
-                {t('currencyInputPanel.max')}
-              </StyledBalanceMax>
-            </Box>
-          ) : (
-            ''
-          )
-        }
-        onChange={(value: any) => {
-          handleTypeOutput(value as any)
-        }}
-        label={`${currencyB?.symbol} Input`}
-        fontSize={24}
-        isNumeric={true}
-        placeholder="0.00"
-        addonLabel={
-          account && (
-            <Text color="text2" fontWeight={500} fontSize={14}>
-              {!!currencyB && selectedCurrencyBalanceB
-                ? t('currencyInputPanel.balance') + selectedCurrencyBalanceB?.toSignificant(6)
-                : ' -'}
-            </Text>
-          )
-        }
-      />
+        <InputText
+          value={formattedAmounts[Field.CURRENCY_B]}
+          addonAfter={
+            !atMaxAmounts[Field.CURRENCY_B] ? (
+              <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
+                <StyledBalanceMax onClick={() => onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')}>
+                  {t('currencyInputPanel.max')}
+                </StyledBalanceMax>
+              </Box>
+            ) : (
+              ''
+            )
+          }
+          onChange={(value: any) => {
+            handleTypeOutput(value as any)
+          }}
+          label={`${currencyB?.symbol} Input`}
+          fontSize={24}
+          isNumeric={true}
+          placeholder="0.00"
+          addonLabel={
+            account && (
+              <Text color="text2" fontWeight={500} fontSize={14}>
+                {!!currencyB && selectedCurrencyBalanceB
+                  ? t('currencyInputPanel.balance') + selectedCurrencyBalanceB?.toSignificant(6)
+                  : ' -'}
+              </Text>
+            )
+          }
+        />
 
-      {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
-        <LightCard padding="0px">
-          {/* <Text fontWeight={500} fontSize={14} color="text1">
+        {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
+          <LightCard padding="0px">
+            {/* <Text fontWeight={500} fontSize={14} color="text1">
             {noLiquidity ? t('addLiquidity.initialPrices') : t('addLiquidity.prices')} {t('addLiquidity.poolShare')}
           </Text> */}
 
-          <PoolPriceBar
-            currencies={currencies}
-            poolTokenPercentage={poolTokenPercentage}
-            noLiquidity={noLiquidity}
-            price={price}
-            parsedAmounts={parsedAmounts}
-          />
-        </LightCard>
-      )}
-
+            <PoolPriceBar
+              currencies={currencies}
+              poolTokenPercentage={poolTokenPercentage}
+              noLiquidity={noLiquidity}
+              price={price}
+              parsedAmounts={parsedAmounts}
+            />
+          </LightCard>
+        )}
+      </Box>
       <Box width="100%" mt={10}>
         {renderButton()}
       </Box>
@@ -400,7 +401,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete }: AddLiquidityProps) =
           </Text>
         </LightCard>
       ) : null} */}
-    </PageWrapper>
+    </AddWrapper>
   )
 }
 export default AddLiquidity

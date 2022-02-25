@@ -22,7 +22,6 @@ import {
 import { ApplicationModal } from 'src/state/application/actions'
 import DetailModal from '../../DetailModal'
 import AddLiquidityModal from '../../AddLiquidityModal'
-import ClaimRewardModal from '../../ClaimRewardModal'
 import StakeModal from '../../StakeModal'
 import DropdownMenu from 'src/components/Beta/DropdownMenu'
 import { Hidden } from 'src/theme'
@@ -75,12 +74,6 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
   const toggleStakeModal = useStakeModalToggle()
   const stakeModalOpen = useModalOpen(ApplicationModal.STAKE)
 
-  const [isClaimRewardDrawerOpen, setIsClaimRewardDrawerOpen] = useState(false)
-
-  const handleClaimRewardDrawerClose = useCallback(() => {
-    setIsClaimRewardDrawerOpen(false)
-  }, [setIsClaimRewardDrawerOpen])
-
   const handleSearch = useCallback(value => {
     setSearchQuery(value.trim().toUpperCase())
   }, [])
@@ -124,14 +117,11 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
               setClickedLpTokens(stakingInfo.tokens)
               toggleAddLiquidityModal()
             }}
-            onClickClaim={() => {
-              setSelectedPoolIndex(index)
-              setIsClaimRewardDrawerOpen(true)
-            }}
             onClickStake={() => {
               setClickedLpTokens(stakingInfo.tokens)
               toggleStakeModal()
             }}
+            version={Number(version)}
           />
         )
       })
@@ -207,14 +197,11 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
                 setClickedLpTokens(stakingInfo.tokens)
                 toggleAddLiquidityModal()
               }}
-              onClickClaim={() => {
-                setSelectedPoolIndex(index)
-                setIsClaimRewardDrawerOpen(true)
-              }}
               onClickStake={() => {
                 setClickedLpTokens(stakingInfo.tokens)
                 toggleStakeModal()
               }}
+              version={Number(version)}
             />
           )
         })
@@ -294,13 +281,6 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
       <DetailModal stakingInfo={selectedPool} version={Number(version)} />
 
       {addLiquidityModalOpen && <AddLiquidityModal clickedLpTokens={clickedLpTokens} />}
-
-      <ClaimRewardModal
-        isOpen={isClaimRewardDrawerOpen}
-        onClose={handleClaimRewardDrawerClose}
-        stakingInfo={selectedPool}
-        version={Number(version)}
-      />
 
       {stakeModalOpen && <StakeModal clickedLpTokens={clickedLpTokens} version={Number(version)} />}
     </PoolsWrapper>

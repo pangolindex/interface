@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
-import { PageWrapper, InputText, ContentBox, DataBox } from './styleds'
-import { Box, Text, Button, Steps, Step } from '@pangolindex/components'
+import { PageWrapper, InputText, ContentBox } from './styleds'
+import { Box, Text, Button } from '@pangolindex/components'
 import ReactGA from 'react-ga'
 import { useActiveWeb3React } from 'src/hooks'
 import { Currency, ChainId, Percent, CAVAX } from '@pangolindex/sdk'
@@ -22,6 +22,8 @@ import { Field } from 'src/state/burn/actions'
 import { BigNumber, Contract } from 'ethers'
 import { usePairContract } from 'src/hooks/useContract'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from 'src/utils'
+import Stat from 'src/components/Stat'
+import Percentage from 'src/components/Beta/Percentage'
 
 interface RemoveLiquidityProps {
   currencyA: Currency
@@ -152,9 +154,8 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
       })
   }
 
-  const onChangeDot = (value: number) => {
-    setStepIndex(value)
-    _onUserInput(Field.LIQUIDITY_PERCENT, `${value * 25}`)
+  const onChangePercentage = (value: number) => {
+    _onUserInput(Field.LIQUIDITY_PERCENT, `${value}`)
   }
 
   // wrapped onUserInput to clear signatures
@@ -165,20 +166,6 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
     },
     [_onUserInput]
   )
-
-  const renderPoolDataRow = (label?: string, value?: string) => {
-    return (
-      <DataBox key={label}>
-        <Text color="text4" fontSize={16}>
-          {label}
-        </Text>
-
-        <Text color="text4" fontSize={16}>
-          {value}
-        </Text>
-      </DataBox>
-    )
-  }
 
   const handleDismissConfirmation = useCallback(() => {
     setShowConfirm(false)
@@ -348,52 +335,66 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
 
   return (
     <PageWrapper>
-      <Box mt={10}>
-        <InputText
-          value={parsedAmounts[Field.LIQUIDITY]?.toExact() || ''}
-          addonAfter={
-            <Box display="flex" alignItems="center">
-              <Text color="text4" fontSize={24}>
-                PGL
-              </Text>
-            </Box>
-          }
-          onChange={(value: any) => {
-            onUserInput(value as any)
-          }}
-          fontSize={24}
-          isNumeric={true}
-          placeholder="0.00"
-          addonLabel={
-            account && (
-              <Text color="text2" fontWeight={500} fontSize={14}>
-                {!!userLiquidity ? t('earn.availableToDeposit') + userLiquidity?.toSignificant(6) : ' -'}
-              </Text>
-            )
-          }
-        />
-      </Box>
-
       <Box>
-        <Steps
-          onChange={value => {
-            onChangeDot && onChangeDot(value)
-          }}
-          current={stepIndex}
-          progressDot={true}
-        >
-          <Step />
-          <Step />
-          <Step />
-          <Step />
-          <Step />
-        </Steps>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <InputText
+            value={parsedAmounts[Field.LIQUIDITY]?.toExact() || ''}
+            addonAfter={
+              <Box display="flex" alignItems="center">
+                <Text color="text4" fontSize={24}>
+                  PGL
+                </Text>
+              </Box>
+            }
+            onChange={(value: any) => {
+              onUserInput(value as any)
+            }}
+            fontSize={24}
+            isNumeric={true}
+            placeholder="0.00"
+            addonLabel={
+              account && (
+                <Text color="text2" fontWeight={500} fontSize={14}>
+                  {!!userLiquidity ? t('currencyInputPanel.balance') + userLiquidity?.toSignificant(6) : ' -'}
+                </Text>
+              )
+            }
+          />
+
+          <Box ml="5px" mt="25px">
+            <Percentage
+              onChangePercentage={value => {
+                setStepIndex(value)
+                onChangePercentage(value * 25)
+              }}
+              currentValue={stepIndex}
+              variant="box"
+            />
+          </Box>
+        </Box>
       </Box>
 
       <Box>
         <ContentBox>
-          {renderPoolDataRow(tokenA?.symbol, formattedAmounts[Field.CURRENCY_A] || '-')}
-          {renderPoolDataRow(tokenB?.symbol, formattedAmounts[Field.CURRENCY_B] || '-')}
+          <Stat
+            title={tokenA?.symbol}
+            stat={`${formattedAmounts[Field.CURRENCY_A] || '-'}`}
+            titlePosition="top"
+            titleFontSize={14}
+            statFontSize={16}
+            titleColor="text4"
+            statAlign="center"
+          />
+
+          <Stat
+            title={tokenB?.symbol}
+            stat={`${formattedAmounts[Field.CURRENCY_B] || '-'}`}
+            titlePosition="top"
+            titleFontSize={14}
+            statFontSize={16}
+            titleColor="text4"
+            statAlign="center"
+          />
         </ContentBox>
       </Box>
       <Box mt={10}>
@@ -403,6 +404,7 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
             onClick={() => {
               toggleWalletModal()
             }}
+            height="46px"
           >
             {t('earn.deposit')}
           </Button>
@@ -415,6 +417,7 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
                 isDisabled={approval !== ApprovalState.NOT_APPROVED || signatureData !== null}
                 loading={attempting && !hash}
                 loadingText={t('removeLiquidity.approving')}
+                height="46px"
               >
                 {approval === ApprovalState.PENDING
                   ? t('removeLiquidity.approving')
@@ -434,6 +437,7 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
                 }}
                 loading={attempting && !hash}
                 loadingText={t('migratePage.loading')}
+                height="46px"
               >
                 {error || t('removeLiquidity.remove')}
               </Button>

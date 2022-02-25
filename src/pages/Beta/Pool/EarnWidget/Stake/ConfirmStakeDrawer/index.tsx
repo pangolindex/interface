@@ -1,13 +1,9 @@
-import React, { useContext } from 'react'
-import { ArrowUpCircle } from 'react-feather'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { CurrencyAmount } from '@pangolindex/sdk'
-import { Text, Box, Button } from '@pangolindex/components'
-import { ThemeContext } from 'styled-components'
 import Drawer from 'src/components/Drawer'
-import { PendingWrapper, SubmittedWrapper } from './styled'
-import { CustomLightSpinner } from 'src/theme'
-import Circle from 'src/assets/images/blue-loader.svg'
+import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
+import Loader from 'src/components/Beta/Loader'
 
 interface Props {
   isOpen: boolean
@@ -20,52 +16,26 @@ interface Props {
 }
 
 const ConfirmStakeDrawer: React.FC<Props> = props => {
-  const { isOpen, onClose, attemptingTxn, txHash, parsedAmount, onComplete = () => {} } = props
+  const { isOpen, onClose, attemptingTxn, txHash, onComplete = () => {} } = props
 
-  const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
-  const PendingContent = (
-    <PendingWrapper>
-      <Box mb={'15px'}>
-        <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
-      </Box>
-      <Text fontWeight={500} fontSize={20} color="text1" textAlign="center">
-        {t('earn.depositingLiquidity')}
-      </Text>
-      <Text fontWeight={600} fontSize={14} color="text1" textAlign="center">
-        {parsedAmount?.toSignificant(4)} PGL
-      </Text>
-    </PendingWrapper>
-  )
+  const PendingContent = <Loader size={100} label={`${t('earn.depositingLiquidity')}`} />
 
-  const SubmittedContent = (
-    <SubmittedWrapper>
-      <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" paddingY={'20px'}>
-        <Box flex="1" display="flex" alignItems="center">
-          <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary} />
-        </Box>
-        <Text fontWeight={500} fontSize={20} color="text1">
-          {t('earn.transactionSubmitted')}
-        </Text>
-        <Text fontWeight={600} fontSize={14} color="text1" textAlign="center">
-          {t('earn.deposited')} {parsedAmount?.toSignificant(4)} PGL
-        </Text>
-      </Box>
-      <Button
-        variant="primary"
-        onClick={() => {
-          onClose()
-          onComplete()
-        }}
-      >
-        {t('transactionConfirmation.close')}
-      </Button>
-    </SubmittedWrapper>
-  )
+  const SubmittedContent = <TransactionCompleted onClose={onClose} submitText={`${t('earn.deposited')}`} />
 
   return (
-    <Drawer title={t('earn.depositingLiquidity')} isOpen={isOpen} onClose={onClose}>
+    <Drawer
+      title={t('earn.depositingLiquidity')}
+      isOpen={isOpen}
+      onClose={() => {
+        onClose()
+        if (txHash) {
+         
+          onComplete()
+        }
+      }}
+    >
       {attemptingTxn && !txHash && PendingContent}
       {attemptingTxn && txHash && SubmittedContent}
     </Drawer>

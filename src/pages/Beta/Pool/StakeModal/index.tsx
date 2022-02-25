@@ -38,7 +38,7 @@ const StakeModal = ({ clickedLpTokens, version }: StakeModalProps) => {
           </Text>
           <CloseIcon onClick={() => toggleStakeModal()} color={theme.text1} />
         </Box>
-        <Stake pair={stakingTokenPair} version={version} onComplete={toggleStakeModal} />
+        <Stake pair={stakingTokenPair} version={version} onComplete={toggleStakeModal} type="detail" />
       </Wrapper>
     </Modal>
   )
