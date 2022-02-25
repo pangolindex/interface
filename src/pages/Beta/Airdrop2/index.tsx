@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator } from './styleds'
 import { Text, Box } from '@0xkilo/components'
 import { useActiveWeb3React } from 'src/hooks'
-import { BoxNotConnected, BoxCheckEligibility, BoxBuyFTM, BoxGoToFTM, BoxClaimReward  } from './BoxesType'
+import { BoxNotConnected, BoxCheckEligibility, BoxGoToFTM, BoxClaimReward  } from './BoxesType'
 import {
     useUserHasAvailableClaim,
     useUserUnclaimedAmount,
@@ -13,7 +13,7 @@ import NearLogo from 'src/assets/images/near.png'
 const AirdropUI: React.FC = () => {
     let { account } = useActiveWeb3React()
     const [eligible, setEligible] = useState<boolean>(false);
-    const [bought, setBought] = useState<boolean>(false);
+    // const [bought, setBought] = useState<boolean>(false);
     const [changeMyChain, setChangeChain] = useState<boolean>(false);
 
     //FUNCTION AIRDROP CONTRACT
@@ -25,15 +25,15 @@ const AirdropUI: React.FC = () => {
     console.log('claim', canClaim)
 
     const checkStatus = () => {
-        // if (canClaim)
+        if (canClaim)
             setEligible(true)
         if (!eligible)
-            console.log("you are not eligible")
+            window.alert("Sorry, you are not eligible")
     }
 
-    const buyFTM = () => {
-        setBought(true)
-    }
+    // const buyFTM = () => {
+    //     setBought(true)
+    // }
 
     const changeChain = () => {
         setChangeChain(true)
@@ -45,32 +45,33 @@ const AirdropUI: React.FC = () => {
     }
 
     console.log('changeMyChain', changeMyChain)
-    console.log('bought', bought)
+    // console.log('bought', bought)
     console.log('eligible', eligible)
     const renderBoxes = () => {
-        if (!account && !eligible && !bought && !changeMyChain) {
+        if (!account && !eligible  && !changeMyChain) {
             return (
                 <BoxNotConnected />
             )
         }
-        if (account && !eligible && !bought && !changeMyChain) {
+        if (account && !eligible && !changeMyChain) {
             return (
                 <BoxCheckEligibility checkStatus={checkStatus} />
             )
         }
-        if (account && eligible && !bought && !changeMyChain)
-        {
-            return (
-                <BoxBuyFTM buyFTM={buyFTM} />
-            )
-        }
-        if (account && eligible && bought && !changeMyChain)
+        //BUY-FTM BOX NOT ACCESSIBLE RIGHT NOW FOR WAGMI
+        // if (account && eligible && !bought && !changeMyChain)
+        // {
+        //     return (
+        //         <BoxBuyFTM buyFTM={buyFTM} />
+        //     )
+        // }
+        if (account && eligible && !changeMyChain)
         {
             return (
                 <BoxGoToFTM changeChain={changeChain} />
             )
         }
-        if (account && eligible && bought && changeMyChain)
+        if (account && eligible && changeMyChain)
         {
             return (
                 <BoxClaimReward claimPNG={claimPNG} amount={amount} />

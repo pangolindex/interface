@@ -192,7 +192,7 @@ export const BoxGoToFTM: React.FC<IChangeChain> = ({changeChain}) => {
             <Separator />
             <span style={{padding: "20px"}}></span>
             <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
-                Congratulations. You successfully bought WGM. Now let's go crosschain!
+                Congratulations. You are eligible for the airdrop! Now let's go crosschain!
             </Text>
             <span style={{padding: "20px"}}></span>
             <Button variant="primary" color='white' height='46px' onClick={switchNetworkFantom}>
