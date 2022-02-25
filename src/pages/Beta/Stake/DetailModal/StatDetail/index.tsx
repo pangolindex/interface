@@ -6,6 +6,7 @@ import numeral from 'numeral'
 import Stat from 'src/components/Stat'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { useActiveWeb3React } from 'src/hooks'
+import { CHAINS } from 'src/constants/chains'
 
 interface Props {
   title: String
@@ -14,9 +15,10 @@ interface Props {
 }
 
 const StatDetails: React.FC<Props> = ({ title, amountInPNG, currency0 }) => {
-  const usdcPrice = useUSDCPrice(amountInPNG?.token)
   const { chainId } = useActiveWeb3React()
-  const amountInUSD = numeral(usdcPrice?.quote(amountInPNG, chainId || ChainId.AVALANCHE).toSignificant(6)).format('$0.00a')
+  const usdcPriceTmp = useUSDCPrice(amountInPNG?.token)
+  const usdcPrice = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdcPriceTmp : undefined
+  const amountInUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? numeral(usdcPrice?.quote(amountInPNG, chainId || ChainId.AVALANCHE).toSignificant(6)).format('$0.00a') : undefined
 
   return (
     <Box>
