@@ -20,7 +20,16 @@ interface Props {
 }
 
 const ConfirmStakeDrawer: React.FC<Props> = props => {
-  const { isOpen, onClose, attemptingTxn, txHash, parsedAmount, onComplete = () => {} } = props
+  const {
+    isOpen,
+    onClose,
+    attemptingTxn,
+    txHash,
+    parsedAmount,
+    onComplete = () => {
+      /* */
+    }
+  } = props
 
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()

@@ -12,6 +12,6 @@ export default function useENS(
   return {
     loading: false,
     address: validated ? validated : null,
-    name:  null
+    name: null
   }
 }

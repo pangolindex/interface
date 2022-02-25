@@ -38,7 +38,7 @@ const DetailView = ({ stakingInfo, onDismiss, version }: PoolDetailProps) => {
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  let yourStackedInUsd = stakingInfo?.totalStakedInUsd
+  const yourStackedInUsd = stakingInfo?.totalStakedInUsd
     .multiply(stakingInfo?.stakedAmount)
     .divide(stakingInfo?.totalStakedAmount)
 

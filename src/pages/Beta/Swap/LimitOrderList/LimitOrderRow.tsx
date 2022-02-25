@@ -30,7 +30,8 @@ const LimitOrderRow: React.FC<Props> = ({ order, onClick, isSelected }) => {
           </Text>
 
           <Text color={'primary'} fontSize={14} fontWeight={500}>
-            {order?.status}{order?.pending && `(P)`}
+            {order?.status}
+            {order?.pending && `(P)`}
           </Text>
         </Box>
       </Box>

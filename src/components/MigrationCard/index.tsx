@@ -20,7 +20,7 @@ const MigrationCard = ({ pair, onClickMigrate, stakingData }: StatProps) => {
 
   const { currency0, currency1 } = useGetPairDataFromPair(pair)
 
-  let totalLiqAmount = stakingData?.stakedAmount
+  const totalLiqAmount = stakingData?.stakedAmount
 
   return (
     <Panel>

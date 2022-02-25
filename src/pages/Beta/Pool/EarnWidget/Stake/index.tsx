@@ -21,7 +21,7 @@ import SelectPoolDrawer from './SelectPoolDrawer'
 
 interface StakeProps {
   pair: Pair | null
-  version: Number
+  version: number
   onComplete?: () => void
 }
 
@@ -58,7 +58,7 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 
-  let isSuperFarm = (rewardTokensAmount || [])?.length > 0
+  const isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
   // state for pending and submitted txn views
   const addTransaction = useTransactionAdder()

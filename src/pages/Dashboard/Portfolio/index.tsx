@@ -26,11 +26,11 @@ export default function PortfolioWidget() {
   const [availableBalances, setAvailableBalances] = useState<{ chainID: ChainsId; balance: number }[]>([])
 
   useEffect(() => {
-    let availableBalance: { chainID: ChainsId; balance: number }[] = []
+    const availableBalance: { chainID: ChainsId; balance: number }[] = []
     Object.keys(ChainsId)
       .filter(k => typeof k === 'string')
       .forEach(key => {
-        if (isNaN(parseInt(key)) && key.toLowerCase() !== "all") {
+        if (isNaN(parseInt(key)) && key.toLowerCase() !== 'all') {
           const chainid = ChainsId[key as keyof typeof ChainsId]
           const balance = balances[chainid]
           if (!!balance && balance >= 0.1) {
@@ -85,7 +85,9 @@ export default function PortfolioWidget() {
             </Scrollbars>
           ) : (
             <Box height={100}>
-              <Text color='text1' fontSize={50}>$ 0</Text>
+              <Text color="text1" fontSize={50}>
+                $ 0
+              </Text>
             </Box>
           )
         ) : (

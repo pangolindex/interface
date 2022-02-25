@@ -171,8 +171,8 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
   const totalPoolTokens = useTotalSupply(pair.liquidityToken)
 
-  const upgradeable0 = BRIDGE_MIGRATORS.find(({ aeb, ab }) => pair?.token0?.address === aeb)
-  const upgradeable1 = BRIDGE_MIGRATORS.find(({ aeb, ab }) => pair?.token1?.address === aeb)
+  const upgradeable0 = BRIDGE_MIGRATORS.find(({ aeb }) => pair?.token0?.address === aeb)
+  const upgradeable1 = BRIDGE_MIGRATORS.find(({ aeb }) => pair?.token1?.address === aeb)
 
   const poolTokenPercentage =
     !!userPoolBalance && !!totalPoolTokens && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
@@ -214,7 +214,13 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
               <ButtonEmpty
                 padding="8px"
                 as={Link}
-                to={`/migrate/${currencyId(currency0)}/${currencyId(currency1)}/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}/${upgradeable0 ? upgradeable0.ab : currencyId(currency0)}/${upgradeable1 ? upgradeable1.ab : currencyId(currency1)}/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}`}
+                to={`/migrate/${currencyId(currency0)}/${currencyId(
+                  currency1
+                )}/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}/${
+                  upgradeable0 ? upgradeable0.ab : currencyId(currency0)
+                }/${
+                  upgradeable1 ? upgradeable1.ab : currencyId(currency1)
+                }/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}`}
                 width="48%"
               >
                 Migrate

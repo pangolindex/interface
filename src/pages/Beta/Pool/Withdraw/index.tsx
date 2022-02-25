@@ -32,7 +32,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 
-  let isSuperFarm = (rewardTokensAmount || [])?.length > 0
+  const isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
   function wrappedOnDismiss() {
     setHash(undefined)
