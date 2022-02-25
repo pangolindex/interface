@@ -5,7 +5,6 @@ import Modal from 'src/components/Beta/Modal'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { ThemeContext } from 'styled-components'
 import DetailView from './DetailView'
-import { Wrapper } from './styleds'
 
 export interface DetailModalProps {
   stakingInfo: StakingInfo
@@ -19,9 +18,7 @@ const DetailModal = ({ stakingInfo, version }: DetailModalProps) => {
 
   return (
     <Modal isOpen={detailModalOpen} onDismiss={togglePoolDetailModal} overlayBG={theme.modalBG2}>
-      <Wrapper>
-        <DetailView stakingInfo={stakingInfo} onDismiss={togglePoolDetailModal} version={version} />
-      </Wrapper>
+      <DetailView stakingInfo={stakingInfo} onDismiss={togglePoolDetailModal} version={version} />
     </Modal>
   )
 }

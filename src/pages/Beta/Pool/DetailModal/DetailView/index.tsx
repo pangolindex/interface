@@ -31,7 +31,7 @@ const DetailView = ({ stakingInfo, onDismiss, version }: PoolDetailProps) => {
   const pair = stakingTokenPair
 
   return (
-    <Box>
+    <>
       <MobileWrapper>
         <Header stakingInfo={stakingInfo} onClose={onDismiss} />
         <Box p={10}>
@@ -63,7 +63,7 @@ const DetailView = ({ stakingInfo, onDismiss, version }: PoolDetailProps) => {
           </RightSection>
         </DetailsWrapper>
       </DesktopWrapper>
-    </Box>
+    </>
   )
 }
 export default DetailView
