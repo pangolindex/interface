@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Text } from '@0xkilo/components'
 import { ClaimBox, StyledLogo, Separator, BoxWrapper, SeparatorEmpty } from '../styleds'
-import FtmLogo from '../../../../assets/images/ftm-logo.png'
+import WgmLogo from '../../../../assets/images/wgmlogo.png'
 import { ButtonToConnect } from '../ButtonsType'
 import { Button } from '@0xkilo/components'
 import Web3 from 'web3';
@@ -12,9 +12,9 @@ export const BoxNotConnected = () => {
         <ClaimBox>
         <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
             <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
-                Claim fanPNG
+                Claim wagmiPNG
             </Text>
-            <StyledLogo src={FtmLogo} size={"50px"}/>
+            <StyledLogo src={WgmLogo} size={"50px"}/>
         </span>
         <Separator />
         <span style={{padding: "20px"}}></span>
@@ -43,9 +43,9 @@ export const BoxCheckEligibility: React.FC<IStatus> = ({checkStatus}) => {
         <ClaimBox>
         <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
             <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
-                Claim fanPNG
+                Claim wagmiPNG
             </Text>
-            <StyledLogo src={FtmLogo} size={"50px"}/>
+            <StyledLogo src={WgmLogo} size={"50px"}/>
         </span>
         <Separator />
         <span style={{padding: "20px"}}></span>
@@ -102,9 +102,9 @@ export const BoxBuyFTM: React.FC<IBuy> = ({buyFTM}) => {
         <ClaimBox>
             <span style={{display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "20px"}}>
                 <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
-                    You are eligible
+                    You are eligible!
                 </Text>
-                <StyledLogo src={FtmLogo} size={"50px"}/>
+                <StyledLogo src={WgmLogo} size={"50px"}/>
             </span>
             <Separator />
             <Text fontSize={12} fontWeight={500} lineHeight="18px" color="text10" mb="15px">
@@ -187,12 +187,12 @@ export const BoxGoToFTM: React.FC<IChangeChain> = ({changeChain}) => {
                 <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
                     You are eligible
                 </Text>
-                <StyledLogo src={FtmLogo} size={"50px"}/>
+                <StyledLogo src={WgmLogo} size={"50px"}/>
             </span>
             <Separator />
             <span style={{padding: "20px"}}></span>
             <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
-                Congratulations. You successfully bought FTM. Now let's go crosschain!
+                Congratulations. You successfully bought WGM. Now let's go crosschain!
             </Text>
             <span style={{padding: "20px"}}></span>
             <Button variant="primary" color='white' height='46px' onClick={switchNetworkFantom}>
@@ -219,7 +219,7 @@ export const BoxClaimReward: React.FC<IclaimPNG> = ({claimPNG, amount}) => {
                 <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
                     Claim Your Reward
                 </Text>
-                <StyledLogo src={FtmLogo} size={"50px"}/>
+                <StyledLogo src={WgmLogo} size={"50px"}/>
             </span>
             <Separator />
             <span style={{padding: "20px"}}></span>
