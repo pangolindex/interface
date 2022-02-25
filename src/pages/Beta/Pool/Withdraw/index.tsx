@@ -137,7 +137,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
         </Root>
       )}
 
-      {attempting && !hash && <Loader size={100} label="Withdrawing... & Claiming..." />}
+      {attempting && !hash && <Loader size={100} label="Withdrawing & Claiming..." />}
 
       {hash && (
         <TransactionCompleted
