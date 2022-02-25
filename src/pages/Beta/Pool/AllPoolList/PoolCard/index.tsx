@@ -53,7 +53,7 @@ const PoolCard = ({
   const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
-  // ATTENTION ICI
+
   let yourStackedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? stakingInfo?.totalStakedInUsd
   .multiply(stakingInfo?.stakedAmount)
   .divide(stakingInfo?.totalStakedAmount) : undefined

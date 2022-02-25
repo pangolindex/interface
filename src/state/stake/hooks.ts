@@ -249,7 +249,6 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
     NEVER_RELOAD
   )
   
-  //ATTENTION ICI
   const usdPriceTmp = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE]);
   const usdPrice = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ?  usdPriceTmp : undefined
 
@@ -328,7 +327,6 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
               chainId
             )
         
-        //ATTENTION ICI
         const totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount)
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
@@ -727,7 +725,6 @@ export function useGetPairDataFromPair(pair: Pair) {
         ]
       : [zeroTokenAmount0, zeroTokenAmount1]
 
-  //ATTENTION ICI
   const usdAmountCurrency0: CurrencyAmount = usdPriceCurrency0?.quote(token0Deposited, chainId ? chainId : ChainId.AVALANCHE) ?? zeroTokenAmount0
   const usdAmountCurrency1: CurrencyAmount = usdPriceCurrency1?.quote(token1Deposited, chainId ? chainId : ChainId.AVALANCHE) ?? zeroTokenAmount1
 
@@ -843,7 +840,6 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const rewardPerSecond = useSingleCallResult(minichefContract, 'rewardPerSecond', []).result
   const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
   const rewardsExpiration = useSingleCallResult(minichefContract, 'rewardsExpiration', []).result
-  //ATTENTION ICI
   const usdPriceTmp = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
   const usdPrice = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdPriceTmp : undefined
 
@@ -916,11 +912,9 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
         const isAvaxPool = pair.involvesToken(WAVAX[chainId])
         const isPngPool = pair.involvesToken(PNG[chainId])
 
-        //ATTENTION ICI
         let totalStakedInUsd = CHAINS[chainId || ChainId].is_mainnet ? new TokenAmount(DAIe[chainId], BIG_INT_ZERO) : undefined
         const totalStakedInWavax = new TokenAmount(WAVAX[chainId], BIG_INT_ZERO)
 
-        //ATTENTION ICI
         if (JSBI.equal(totalSupplyAvailable, BIG_INT_ZERO)) {
           // Default to 0 values above avoiding division by zero errors
         } else if (pair.involvesToken(DAIe[chainId])) {
@@ -1040,13 +1034,10 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
   const { account, chainId } = useActiveWeb3React()
   const token0 = pair?.token0
   const currency0 = unwrappedToken(token0 as Token, chainId || ChainId.AVALANCHE)
-  //ATTENTION ICI
   const currency0PriceTmp = useUSDCPrice(currency0)
   const currency0Price = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? currency0PriceTmp : undefined
   
   const userPgl = useTokenBalance(account ?? undefined, pair?.liquidityToken)
-
-  // ATTENTION ICI
   const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
 
   const [token0Deposited] =
@@ -1061,7 +1052,6 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
         ]
       : [undefined, undefined]
   
-  //ATTENTION ICI
   const liquidityInUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ?
     currency0Price && token0Deposited
       ? Number(currency0Price.toFixed()) * 2 * Number(token0Deposited?.toSignificant(6))
