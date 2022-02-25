@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { Currency, JSBI, TokenAmount } from '@antiyro/sdk'
-import { Box, Text, CurrencyLogo } from '@pangolindex/components'
+import { Box, Text, CurrencyLogo } from '@0xkilo/components'
 import { PoolImportWrapper, ArrowWrapper, CurrencySelectWrapper, LightCard, Dots } from './styleds'
 import { Plus, ChevronDown } from 'react-feather'
 import { ThemeContext } from 'styled-components'

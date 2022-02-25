@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback, useEffect, useRef, memo } from 'react'
-import { TextInput, Box, Text } from '@pangolindex/components'
+import { TextInput, Box, Text } from '@0xkilo/components'
 import Drawer from 'src/components/Drawer'
 import { useAllTokens, useToken } from 'src/hooks/Tokens'
 import { useTokenComparator } from 'src/components/SearchModal/sorting'

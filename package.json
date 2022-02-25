@@ -8,7 +8,7 @@
   },
   "private": true,
   "devDependencies": {
-    "@antiyro/sdk": "^2.0.7",
+    "@antiyro/sdk": "^2.1.1",
     "@ethersproject/experimental": "^5.0.1",
     "@gelatonetwork/limit-orders-react": "^2.1.0",
     "@gnosis.pm/safe-apps-web3-react": "^0.6.7",
@@ -143,6 +143,7 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@0xkilo/components": "^2.0.0",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/material": "^5.4.2",

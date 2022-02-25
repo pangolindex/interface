@@ -1,4 +1,4 @@
-import { Text } from '@pangolindex/components'
+import { Text } from '@0xkilo/components'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { INITIAL_ALLOWED_SLIPPAGE } from 'src/constants'

@@ -1,4 +1,4 @@
-import { Box, DoubleCurrencyLogo, Text } from '@pangolindex/components'
+import { Box, DoubleCurrencyLogo, Text } from '@0xkilo/components'
 import React, { useContext } from 'react'
 import { JSBI, ChainId } from '@antiyro/sdk'
 import Stat from 'src/components/Stat'

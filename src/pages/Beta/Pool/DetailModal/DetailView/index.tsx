@@ -5,7 +5,7 @@ import { CAVAX, Fraction, ChainId, Token } from '@antiyro/sdk'
 import { CloseIcon } from 'src/theme/components'
 import { useTranslation } from 'react-i18next'
 import { StakingInfo, useGetPoolDollerWorth } from 'src/state/stake/hooks'
-import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo } from '@0xkilo/components'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import Stat from 'src/components/Stat'
 import numeral from 'numeral'
@@ -51,7 +51,7 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
   const [, stakingTokenPair] = usePair(token0, token1)
   const pair = stakingTokenPair
   //ATTENTION ICI
-  const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)
+  const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)z
   const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
 
   return (

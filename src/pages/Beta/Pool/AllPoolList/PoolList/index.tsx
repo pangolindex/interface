@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
-import { TextInput, Box } from '@pangolindex/components'
+import { TextInput, Box } from '@0xkilo/components'
 import { DoubleSideStakingInfo } from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCard from '../PoolCard'

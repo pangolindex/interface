@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
-import { Box } from '@pangolindex/components'
+import { Box } from '@0xkilo/components'
 import Modal from '../Modal'
 import { AutoColumn } from '../Column'
 import styled from 'styled-components'

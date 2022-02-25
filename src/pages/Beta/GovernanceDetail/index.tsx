@@ -5,7 +5,7 @@ import { DateTime } from 'luxon'
 import ReactMarkdown from 'react-markdown'
 import { useTranslation } from 'react-i18next'
 import { TokenAmount, JSBI } from '@antiyro/sdk'
-import { Text } from '@pangolindex/components'
+import { Text } from '@0xkilo/components'
 
 import {
   PageWrapper,

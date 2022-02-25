@@ -1,6 +1,6 @@
 import React from 'react'
 import { Wrapper } from './styleds'
-import { Text, Checkbox, Box, Button } from '@pangolindex/components'
+import { Text, Checkbox, Box, Button } from '@0xkilo/components'
 import { Pair } from '@antiyro/sdk'
 import PairData from './PairData'
 import { StakingInfo } from '../../../state/stake/hooks'

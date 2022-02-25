@@ -1,4 +1,4 @@
-import { Text } from '@pangolindex/components'
+import { Text } from '@0xkilo/components'
 import { Trade, TradeType, ChainId } from '@antiyro/sdk'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

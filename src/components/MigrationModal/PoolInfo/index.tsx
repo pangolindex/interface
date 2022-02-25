@@ -1,6 +1,6 @@
 import React from 'react'
 import { InfoWrapper, DataBox, ContentBox, TextBox, StyledBalanceMax } from './styleds'
-import { Text, Box, DoubleCurrencyLogo, Steps, Step } from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo, Steps, Step } from '@0xkilo/components'
 import { Pair, TokenAmount } from '@antiyro/sdk'
 import { useGetPairDataFromPair } from '../../../state/stake/hooks'
 import numeral from 'numeral'

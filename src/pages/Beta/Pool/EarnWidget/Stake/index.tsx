@@ -3,7 +3,7 @@ import { ThemeContext } from 'styled-components'
 import { ChevronDown } from 'react-feather'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { PageWrapper, InputText, ContentBox, DataBox, PoolSelectWrapper } from './styleds'
-import { Box, Text, Button, Steps, Step, DoubleCurrencyLogo } from '@pangolindex/components'
+import { Box, Text, Button, Steps, Step, DoubleCurrencyLogo } from '@0xkilo/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { TokenAmount, Pair, ChainId, JSBI, Token } from '@antiyro/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
@@ -34,7 +34,7 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
 
   const theme = useContext(ThemeContext)
 
-  const { liquidityInUSD, userPgl: userLiquidityUnstaked } = useGetPoolDollerWorth(selectedPair)
+  const { liquidityInUSD, userPgl: userLiquidityUnstaked } = useGetPoolDollerWorth(selectedPair)z
 
   const [isPoolDrawerOpen, setIsPoolDrawerOpen] = useState(false)
 

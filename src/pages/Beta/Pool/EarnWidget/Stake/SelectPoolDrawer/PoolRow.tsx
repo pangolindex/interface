@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Text, DoubleCurrencyLogo, Box } from '@pangolindex/components'
+import { Text, DoubleCurrencyLogo, Box } from '@0xkilo/components'
 import { CurrencyRowRoot, Balance } from './styled'
 import { Pair, ChainId } from '@antiyro/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'

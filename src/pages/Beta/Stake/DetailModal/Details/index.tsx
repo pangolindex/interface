@@ -1,7 +1,7 @@
 import React from 'react'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { DetailsContainer } from './styled'
-import { Box } from '@pangolindex/components'
+import { Box } from '@0xkilo/components'
 import CoinDescription from 'src/components/Beta/CoinDescription'
 import StatDetails from '../StatDetail'
 
