@@ -27,6 +27,8 @@ const AirdropUI: React.FC = () => {
     const checkStatus = () => {
         // if (canClaim)
             setEligible(true)
+        if (!eligible)
+            console.log("you are not eligible")
     }
 
     const buyFTM = () => {
