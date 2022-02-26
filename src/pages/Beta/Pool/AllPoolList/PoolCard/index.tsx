@@ -59,6 +59,7 @@ const PoolCard = ({
   .divide(stakingInfo?.totalStakedAmount) : undefined
   
   const { userPgl } = useGetPoolDollerWorth(stakingTokenPair)
+  console.log(stakingTokenPair)
   
   const isLiquidity = Boolean(userPgl?.greaterThan('0'))
   
