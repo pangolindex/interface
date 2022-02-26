@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { ApplicationModal } from 'src/state/application/actions'
 import { useModalOpen, usePoolDetailnModalToggle } from 'src/state/application/hooks'
-import { Wrapper } from './styleds'
 import Modal from 'src/components/Beta/Modal'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { ThemeContext } from 'styled-components'
@@ -19,9 +18,7 @@ const DetailModal = ({ stakingInfo, version }: DetailModalProps) => {
 
   return (
     <Modal isOpen={detailModalOpen} onDismiss={togglePoolDetailModal} overlayBG={theme.modalBG2}>
-      <Wrapper>
-        <DetailView stakingInfo={stakingInfo} onDismiss={togglePoolDetailModal} version={version} />
-      </Wrapper>
+      <DetailView stakingInfo={stakingInfo} onDismiss={togglePoolDetailModal} version={version} />
     </Modal>
   )
 }
