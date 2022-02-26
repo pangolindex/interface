@@ -22,6 +22,8 @@ const AirdropUI: React.FC = () => {
     const amount = claimAmount?.toFixed(0, { groupSeparator: ',' })
     const { claimCallback } = useClaimCallback(account)
 
+    console.log(canClaim)
+
     const checkStatus = () => {
         if (canClaim)
             setEligible(true)

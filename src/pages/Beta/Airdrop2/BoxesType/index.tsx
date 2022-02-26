@@ -220,10 +220,10 @@ export const BoxClaimReward: React.FC<IclaimPNG> = ({claimPNG, amount}) => {
             </span>
             <Separator />
             <span style={{padding: "20px"}}></span>
-            <Text fontSize={10} fontWeight={500} lineHeight="18px" color="text10">
+            <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
                 you are eligible for:
             </Text>
-            <Text fontSize={16} fontWeight={500} lineHeight="22px" color="text10" textAlign="center">
+            <Text fontSize={22} fontWeight={500} lineHeight="22px" color="text10" textAlign="center">
                 { amount }
             </Text>
             <span style={{padding: "20px"}}></span>
