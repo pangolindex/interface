@@ -13,6 +13,7 @@ import DetailModal from './DetailModal'
 import ClaimModal from './ClaimModal'
 import { ApplicationModal } from 'src/state/application/actions'
 import DepositModal from './DepositModal'
+import { ChainId } from '@antiyro/sdk'
 
 interface RouteParams {
   version: string
@@ -104,7 +105,7 @@ const StakeUI = () => {
           <PoolCards>
             {stakingInfoResults?.map((stakingInfo, index) => (
               <PoolCard
-                key={stakingInfo.stakingRewardAddress}
+                key={stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE]}
                 stakingInfo={stakingInfo}
                 onViewDetailsClick={() => onViewDetailClick(index)}
                 onClaimClick={() => {

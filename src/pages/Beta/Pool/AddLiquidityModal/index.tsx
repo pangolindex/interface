@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { ApplicationModal } from 'src/state/application/actions'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box } from '@0xkilo/components'
 import { useModalOpen, useAddLiquiditynModalToggle } from 'src/state/application/hooks'
 import { Wrapper } from './styleds'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'

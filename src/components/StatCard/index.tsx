@@ -1,6 +1,6 @@
 import React from 'react'
 import { ContentWrapper, Panel } from './styleds'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box } from '@0xkilo/components'
 
 export interface StatProps {
   icon?: React.ReactNode

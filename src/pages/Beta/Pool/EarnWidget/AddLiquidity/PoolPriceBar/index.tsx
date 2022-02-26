@@ -1,12 +1,14 @@
 import React from 'react'
-import { Currency, Percent, Price, CurrencyAmount } from '@antiyro/sdk'
-import { Box } from '@pangolindex/components'
+import { Currency, Percent, Price, CurrencyAmount, ChainId } from '@antiyro/sdk'
+import { Box } from '@0xkilo/components'
 import Stat from 'src/components/Stat'
 import { Root, GridContainer } from './styled'
 import { Field } from 'src/state/mint/actions'
 import { useTranslation } from 'react-i18next'
 import { ONE_BIPS } from 'src/constants'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
+import { CHAINS } from 'src/constants/chains'
+import { useActiveWeb3React } from 'src/hooks'
 
 interface BarProps {
   currencies: { [field in Field]?: Currency }
@@ -18,10 +20,12 @@ interface BarProps {
 
 const PoolPriceBar = ({ currencies, noLiquidity, poolTokenPercentage, price, parsedAmounts }: BarProps) => {
   const { t } = useTranslation()
+  const { chainId } = useActiveWeb3React()
   const currency0InputValue = parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)
 
   const currency0 = currencies[Field.CURRENCY_A]
-  const currency0Price = useUSDCPrice(currency0)
+  const currency0PriceTmp = useUSDCPrice(currency0)
+  const currency0Price = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? currency0PriceTmp : undefined
   const multipyAmount = currency0Price ? Number(currency0Price.toFixed()) * 2 * Number(currency0InputValue) : 0
 
   return (

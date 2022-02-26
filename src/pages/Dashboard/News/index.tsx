@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import Slider, { Settings } from 'react-slick'
 import { ArrowLeft, ArrowRight } from 'react-feather'
 import ReactMarkdown from 'react-markdown'
-import { Box } from '@pangolindex/components'
+import { Box } from '@0xkilo/components'
 
 import { News, useGetNews } from 'src/state/news/hooks'
 

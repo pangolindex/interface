@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { Text, Box, CurrencyLogo, Button } from '@pangolindex/components'
+import { Text, Box, CurrencyLogo, Button } from '@0xkilo/components'
 import { Link } from 'react-feather'
 import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts'
 import { Token, ChainId } from '@antiyro/sdk'

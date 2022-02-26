@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text } from '@pangolindex/components'
+import { Text } from '@0xkilo/components'
 import { useTranslation } from 'react-i18next'
 import { Card, CardTitle, CardButtons, DetailsButton, VoteButton } from './styleds'
 import { StyledInternalLink, colors } from 'src/theme'

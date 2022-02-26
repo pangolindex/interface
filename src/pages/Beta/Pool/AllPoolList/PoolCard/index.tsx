@@ -11,7 +11,7 @@ import {
   OptionButton
 } from './styleds'
 import Stat from 'src/components/Stat'
-import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo } from '@0xkilo/components'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
@@ -21,6 +21,7 @@ import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
 import { useActiveWeb3React } from 'src/hooks'
+import { CHAINS } from 'src/constants/chains'
 
 export interface PoolCardProps {
   stakingInfo: StakingInfo
@@ -52,10 +53,10 @@ const PoolCard = ({
   const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
-  // ATTENTION ICI
-  let yourStackedInUsd = stakingInfo?.totalStakedInUsd
+
+  let yourStackedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? stakingInfo?.totalStakedInUsd
   .multiply(stakingInfo?.stakedAmount)
-  .divide(stakingInfo?.totalStakedAmount)
+  .divide(stakingInfo?.totalStakedAmount) : undefined
   
   const { userPgl } = useGetPoolDollerWorth(stakingTokenPair)
   

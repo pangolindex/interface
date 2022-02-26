@@ -2,7 +2,7 @@ import React, { useContext, useState, useCallback } from 'react'
 import { ArrowDown, AlertTriangle, ArrowUpCircle } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import { Token, Trade, TradeType, CAVAX, ChainId } from '@antiyro/sdk'
-import { CurrencyLogo, Text, Box, Button } from '@pangolindex/components'
+import { CurrencyLogo, Text, Box, Button } from '@0xkilo/components'
 import { ThemeContext } from 'styled-components'
 import { getEtherscanLink } from 'src/utils'
 import Drawer from 'src/components/Drawer'
@@ -27,6 +27,7 @@ import { shortenAddress, isAddress } from 'src/utils'
 import { FiatValue } from './FiateValue'
 import { computeFiatValuePriceImpact } from 'src/utils/computeFiatValuePriceImpact'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
+import { CHAINS } from 'src/constants/chains'
 
 interface Props {
   isOpen: boolean
@@ -134,8 +135,10 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
         )
       : undefined
 
-  const fiatValueInput = useUSDCPrice(inputCurrency)
-  const fiatValueOutput = useUSDCPrice(outputCurrency)
+  const fiatValueInputTmp = useUSDCPrice(inputCurrency)
+  const fiatValueInput = CHAINS[chainId || ChainId.AVALANCHE] ? fiatValueInputTmp : undefined
+  const fiatValueOutputTmp = useUSDCPrice(outputCurrency)
+  const fiatValueOutput = CHAINS[chainId || ChainId.AVALANCHE] ? fiatValueOutputTmp : undefined
 
   if (!inputAmount || !outputAmount) return null
 

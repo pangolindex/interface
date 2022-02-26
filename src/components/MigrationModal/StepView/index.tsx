@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Wrapper, ConfirmedIcon, Section } from './styleds'
-import { Text, Steps, Step, Box } from '@pangolindex/components'
+import { Text, Steps, Step, Box } from '@0xkilo/components'
 import { CloseIcon } from '../../../theme/components'
 import { useTranslation } from 'react-i18next'
 import ChoosePool from '../ChoosePool'

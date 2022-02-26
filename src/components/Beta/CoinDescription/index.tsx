@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box } from '@0xkilo/components'
 import { Token } from '@antiyro/sdk'
 import { useCoinGeckoTokenData } from 'src/hooks/Tokens'
 import { ExternalLink } from 'src/theme'

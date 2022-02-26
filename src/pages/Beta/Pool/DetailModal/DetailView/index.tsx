@@ -5,7 +5,7 @@ import { CAVAX, Fraction, ChainId, Token } from '@antiyro/sdk'
 import { CloseIcon } from 'src/theme/components'
 import { useTranslation } from 'react-i18next'
 import { StakingInfo, useGetPoolDollerWorth } from 'src/state/stake/hooks'
-import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo } from '@0xkilo/components'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import Stat from 'src/components/Stat'
 import numeral from 'numeral'
@@ -18,6 +18,7 @@ import { useWindowSize } from 'react-use'
 import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
 import { useActiveWeb3React } from 'src/hooks'
+import { CHAINS } from 'src/constants/chains'
 
 export interface PoolDetailProps {
   onDismiss: () => void
@@ -38,17 +39,18 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
   const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
   const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
 
-  const totalStakedInUsd = numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a')
+  const totalStakedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a') : 0
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  let yourStackedInUsd = stakingInfo?.totalStakedInUsd
+  let yourStackedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? stakingInfo?.totalStakedInUsd
     .multiply(stakingInfo?.stakedAmount)
-    .divide(stakingInfo?.totalStakedAmount)
+    .divide(stakingInfo?.totalStakedAmount) : undefined
 
 
   const [, stakingTokenPair] = usePair(token0, token1)
   const pair = stakingTokenPair
+  //ATTENTION ICI
   const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)
   const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box, Button, DoubleCurrencyLogo } from '@pangolindex/components'
+import { Text, Box, Button, DoubleCurrencyLogo } from '@0xkilo/components'
 import { Currency } from '@antiyro/sdk'
 import { useTranslation } from 'react-i18next'
 import { MobileRowWrapper, StatWrapper } from './styleds'

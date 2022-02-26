@@ -1,5 +1,5 @@
-import { Box, Button, Text, ToggleButtons } from '@pangolindex/components'
-import { JSBI } from '@antiyro/sdk'
+import { Box, Button, Text, ToggleButtons } from '@0xkilo/components'
+import { JSBI, ChainId } from '@antiyro/sdk'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
@@ -7,6 +7,8 @@ import Stat from 'src/components/Stat'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { Root } from './styled'
+import { CHAINS } from 'src/constants/chains'
+import { useActiveWeb3React } from 'src/hooks'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
@@ -20,17 +22,19 @@ enum SHOW_TYPE {
 
 const EarnedWidget: React.FC<Props> = ({ stakingInfo, onClaimClick }) => {
   const { t } = useTranslation()
+  const { chainId } = useActiveWeb3React()
   const [showType, setShowType] = useState(SHOW_TYPE.TOKEN)
 
   const rewardTokenSymbol = stakingInfo?.rewardToken?.symbol || ''
   const rewardToken = stakingInfo?.rewardToken
-  const usdcPrice = useUSDCPrice(rewardToken)
+  const usdcPriceTmp = useUSDCPrice(rewardToken)
+  const usdcPrice = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdcPriceTmp : undefined
 
   const dailyRewardInToken = stakingInfo?.rewardRate?.multiply((60 * 60 * 24).toString()).toSignificant(4)
   const unclaimedAmountInToken = stakingInfo?.earnedAmount.toSignificant(4)
 
-  const dailyRewardUSD = Number(dailyRewardInToken) * Number(usdcPrice?.toSignificant(6))
-  const unclaimedAmountInUSD = Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6))
+  const dailyRewardUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? Number(dailyRewardInToken) * Number(usdcPrice?.toSignificant(6)) : undefined
+  const unclaimedAmountInUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6)) : undefined
 
   const dailyReward = showType === SHOW_TYPE.TOKEN ? dailyRewardInToken : numeral(dailyRewardUSD).format('$0.00a')
   const tokenToDisplay = showType === SHOW_TYPE.TOKEN ? rewardTokenSymbol : ''

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useCallback, useMemo, useEffect } from 'react'
 import ReactGA from 'react-ga'
 import { RefreshCcw } from 'react-feather'
-import { Text, Box, Button } from '@pangolindex/components'
+import { Text, Box, Button } from '@0xkilo/components'
 import { Token, Trade, JSBI, CurrencyAmount, TokenAmount, ChainId } from '@antiyro/sdk'
 import { ThemeContext } from 'styled-components'
 import RetryDrawer from '../../RetryDrawer'

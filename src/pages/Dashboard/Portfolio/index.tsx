@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Text } from '@pangolindex/components'
+import { Box, Text } from '@0xkilo/components'
 import Scrollbars from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
 

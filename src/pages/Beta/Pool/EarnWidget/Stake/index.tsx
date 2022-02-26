@@ -3,7 +3,7 @@ import { ThemeContext } from 'styled-components'
 import { ChevronDown } from 'react-feather'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { PageWrapper, InputText, ContentBox, DataBox, PoolSelectWrapper } from './styleds'
-import { Box, Text, Button, Steps, Step, DoubleCurrencyLogo } from '@pangolindex/components'
+import { Box, Text, Button, Steps, Step, DoubleCurrencyLogo } from '@0xkilo/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { TokenAmount, Pair, ChainId, JSBI, Token } from '@antiyro/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
@@ -78,9 +78,9 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
   const { t } = useTranslation()
   const [stepIndex, setStepIndex] = useState(4)
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, stakingInfo?.stakingRewardAddress)
+  const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, stakingInfo?.stakingRewardAddress[chainId || ChainId.AVALANCHE])
 
-  const stakingContract = useStakingContract(stakingInfo?.stakingRewardAddress)
+  const stakingContract = useStakingContract(stakingInfo?.stakingRewardAddress[chainId || ChainId.AVALANCHE])
   const currency0 = unwrappedToken(selectedPair?.token0 as Token, chainId || ChainId.AVALANCHE)
   const currency1 = unwrappedToken(selectedPair?.token1 as Token, chainId || ChainId.AVALANCHE)
   const poolMap = useMinichefPools()
@@ -204,7 +204,7 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
     ]
     const message = {
       owner: account,
-      spender: stakingInfo.stakingRewardAddress,
+      spender: stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE],
       value: liquidityAmount.raw.toString(),
       nonce: nonce.toHexString(),
       deadline: deadline.toNumber()

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box } from '@pangolindex/components'
+import { Box } from '@0xkilo/components'
 import { PageWrapper, GridContainer, ExternalLink } from './styleds'
 import Sidebar from './Sidebar'
 import AllPoolList from './AllPoolList'

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
-import { Box } from '@pangolindex/components'
+import { Box } from '@0xkilo/components'
 import Modal from '../Modal'
 import { AutoColumn } from '../Column'
 import styled from 'styled-components'
@@ -91,10 +91,9 @@ export default function StakingModal({
   const deadline = useTransactionDeadline()
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, stakingInfo.stakingRewardAddress)
-
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
-
+  const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
+  
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
   const poolMap = useMinichefPools()
   const isSuperFarm = (extraRewardTokensAmount || [])?.length > 0
 
@@ -201,7 +200,7 @@ export default function StakingModal({
     ]
     const message = {
       owner: account,
-      spender: stakingInfo.stakingRewardAddress,
+      spender: stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE],
       value: liquidityAmount.raw.toString(),
       nonce: nonce.toHexString(),
       deadline: deadline.toNumber()

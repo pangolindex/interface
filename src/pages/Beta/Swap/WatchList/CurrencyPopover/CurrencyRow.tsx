@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Text, Box, CurrencyLogo, Button } from '@pangolindex/components'
+import { Text, Box, CurrencyLogo, Button } from '@0xkilo/components'
 import { Token, ChainId } from '@antiyro/sdk'
 import { RowWrapper } from './styled'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
