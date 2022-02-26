@@ -5,7 +5,6 @@ import WgmLogo from '../../../../assets/images/wgmlogo.png'
 import { ButtonToConnect } from '../ButtonsType'
 import { Button } from '@0xkilo/components'
 
-
 export const BoxNotConnected = () => {
 
     return (
