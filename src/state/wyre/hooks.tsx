@@ -9,7 +9,7 @@ import CryptoJS from 'crypto-js'
 // Signature Calculation using Crypto-js
 export const signature = (url: string, data: string) => {
   const dataToSign = url + data
-  /*eslint-disable @typescript-eslint/ban-ts-comment*/
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   const token = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(dataToSign.toString(CryptoJS.enc.Utf8), WYRE_SECRET_KEY))
   return token

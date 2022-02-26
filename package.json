@@ -123,6 +123,7 @@
     "eject": "react-scripts eject",
     "serve": "serve build -l 3000",
     "version": "npm run build",
+    "lint": "yarn eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "get:version": "node -pe \"require('./package.json').version\"",
     "integration-test": "start-server-and-test 'serve build -l 3000' http://localhost:3000 'cypress run'"
   },

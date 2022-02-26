@@ -47,7 +47,7 @@ interface HeaderProps {
   onCollapsed: () => void
 }
 
-export default function Header({ onCollapsed }: HeaderProps) {
+export default function Header({}: HeaderProps) {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
