@@ -22,12 +22,10 @@ const AirdropUI: React.FC = () => {
     const amount = claimAmount?.toFixed(0, { groupSeparator: ',' })
     const { claimCallback } = useClaimCallback(account)
 
-    console.log('claim', canClaim)
-
     const checkStatus = () => {
         if (canClaim)
             setEligible(true)
-        if (!eligible)
+        else
             window.alert("Sorry, you are not eligible")
     }
 
@@ -41,12 +39,7 @@ const AirdropUI: React.FC = () => {
 
     const claimPNG = () => {
         claimCallback()
-        console.log('amout to claim', claimAmount?.toFixed(0, { groupSeparator: ',' }))
     }
-
-    console.log('changeMyChain', changeMyChain)
-    // console.log('bought', bought)
-    console.log('eligible', eligible)
     const renderBoxes = () => {
         if (!account && !eligible  && !changeMyChain) {
             return (

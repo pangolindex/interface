@@ -13,13 +13,5 @@ export const ButtonToConnect = () => {
     )
 }
 
-export const ButtonClaimReward = () => {
-    return (
-        <Button variant="primary" color='white' height='46px'>
-            <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>CLAIM</span>
-        </Button>
-    )
-}
-
-export default [ButtonToConnect, ButtonClaimReward]
+export default [ButtonToConnect]
 

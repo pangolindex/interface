@@ -4,7 +4,7 @@ import { Wrapper, PanelWrapper, HeaderGridContainer, EarnWrapper, DetailContaine
 import { CAVAX, Fraction, ChainId, Token } from '@antiyro/sdk'
 import { CloseIcon } from 'src/theme/components'
 import { useTranslation } from 'react-i18next'
-import { StakingInfo, useGetPoolDollerWorth } from 'src/state/stake/hooks'
+import { StakingInfo } from 'src/state/stake/hooks'
 import { Text, Box, DoubleCurrencyLogo } from '@0xkilo/components'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import Stat from 'src/components/Stat'
@@ -19,6 +19,8 @@ import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
 import { useActiveWeb3React } from 'src/hooks'
 import { CHAINS } from 'src/constants/chains'
+import { useTokenBalance } from 'src/state/wallet/hooks'
+import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 
 export interface PoolDetailProps {
   onDismiss: () => void
@@ -34,7 +36,7 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
   const { t } = useTranslation()
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
-  const { chainId } = useActiveWeb3React()
+  const { chainId, account } = useActiveWeb3React()
 
   const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
   const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
@@ -51,7 +53,10 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
   const [, stakingTokenPair] = usePair(token0, token1)
   const pair = stakingTokenPair
   //ATTENTION ICI
-  const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)
+  const userPgl  = useTokenBalance(account ?? undefined, pair?.liquidityToken)
+
+  const { liquidityInUSD } = useGetPoolDollerWorth(pair)
+
   const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
 
   return (

@@ -17,11 +17,12 @@ import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { usePair } from 'src/data/Reserves'
-import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
+// import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
 import { useActiveWeb3React } from 'src/hooks'
 import { CHAINS } from 'src/constants/chains'
+import { useTokenBalance } from 'src/state/wallet/hooks'
 
 export interface PoolCardProps {
   stakingInfo: StakingInfo
@@ -40,7 +41,7 @@ const PoolCard = ({
 }: PoolCardProps) => {
   const { t } = useTranslation()
 
-  const { chainId } = useActiveWeb3React()
+  const { chainId, account } = useActiveWeb3React()
 
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
@@ -58,9 +59,9 @@ const PoolCard = ({
   .multiply(stakingInfo?.stakedAmount)
   .divide(stakingInfo?.totalStakedAmount) : undefined
   
-  const { userPgl } = useGetPoolDollerWorth(stakingTokenPair)
-  console.log(stakingTokenPair)
-  
+  // const { userPgl } = useGetPoolDollerWorth(stakingTokenPair)
+  const userPgl  = useTokenBalance(account ?? undefined, stakingTokenPair?.liquidityToken)
+
   const isLiquidity = Boolean(userPgl?.greaterThan('0'))
   
   let isSuperFarm = (stakingInfo?.rewardTokensAddress || [])?.length > 0

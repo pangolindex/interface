@@ -4,7 +4,7 @@ import { ClaimBox, StyledLogo, Separator, BoxWrapper, SeparatorEmpty } from '../
 import WgmLogo from '../../../../assets/images/wgmlogo.png'
 import { ButtonToConnect } from '../ButtonsType'
 import { Button } from '@0xkilo/components'
-import Web3 from 'web3';
+
 
 export const BoxNotConnected = () => {
 
@@ -142,22 +142,20 @@ export const BoxGoToFTM: React.FC<IChangeChain> = ({changeChain}) => {
 
     const switchNetworkFantom = async () => {
         changeChain()
-        //@ts-ignore
-        const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-        web3.eth.getAccounts().then(console.log);
     
         try {
         //@ts-ignore
-            await web3.currentProvider.request({
+            await ethereum.request({
             method: "wallet_switchEthereumChain",
             params: [{ chainId: "0x2B67" }],
             });
-        } catch (error) {
+        } 
+        catch (error) {
             //@ts-ignore
             if (error.code === 4902) {
             try {
                 //@ts-ignore
-                await web3.currentProvider.request({
+                await ethereum.request({
                 method: "wallet_addEthereumChain",
                 params: [
                     {
