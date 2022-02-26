@@ -47,7 +47,7 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity, version
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  let yourStackedInUsd = stakingInfo?.totalStakedInUsd
+  const yourStackedInUsd = stakingInfo?.totalStakedInUsd
     .multiply(stakingInfo?.stakedAmount)
     .divide(stakingInfo?.totalStakedAmount)
 
@@ -55,7 +55,7 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity, version
 
   const isLiquidity = Boolean(userPgl?.greaterThan('0'))
 
-  let isSuperFarm = (stakingInfo?.rewardTokensAddress || [])?.length > 0
+  const isSuperFarm = (stakingInfo?.rewardTokensAddress || [])?.length > 0
 
   return (
     <Panel>

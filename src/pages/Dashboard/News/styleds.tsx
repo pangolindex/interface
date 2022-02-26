@@ -82,7 +82,7 @@ export const NewsDate = styled(Box)`
   color: #929292;
   margin-button: 15px;
   height: 10% !important;
-  padding: 0px 10px
+  padding: 0px 10px;
 `
 
 export const SlickNext = styled(Box)<{ onClick: () => void }>`

@@ -34,7 +34,7 @@ import Loader from 'src/components/Beta/Loader'
 
 interface StakeProps {
   pair: Pair | null
-  version: Number
+  version: number
   onComplete?: () => void
   type: 'card' | 'detail'
   combinedApr?: number
@@ -73,7 +73,7 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 
-  let isSuperFarm = (rewardTokensAmount || [])?.length > 0
+  const isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
   // state for pending and submitted txn views
   const addTransaction = useTransactionAdder()

@@ -48,7 +48,6 @@ export default function Transaction({ hash }: { hash: string }) {
 
   if (!chainId) return null
 
- 
   return (
     <TransactionWrapper>
       <TransactionState

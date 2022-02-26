@@ -18,7 +18,7 @@ export function useAllPairChartData(): ChartState | undefined {
 
   return allTokenCharts
 }
-
+/* eslint-disable prefer-const */
 export function usePairHourlyRateData(pairAddress: string, timeWindow: string, interval = 3600, type = 'ALL') {
   const data1 = useAllPairChartData()
 
@@ -90,7 +90,7 @@ export const getPairHourlyRateData = async (
 
     // format token ETH price results
     let values = [] as any
-    for (var row in result) {
+    for (let row in result) {
       let timestamp = row.split('t')[1]
 
       const year = dayjs.utc(dayjs.unix(Number(timestamp))).get('year')
@@ -272,7 +272,7 @@ export const getHourlyPairTokensChartData = async (
 
     let finalValues = [] as any
     if (mapOn === 'map1') {
-      for (var row in values1) {
+      for (let row in values1) {
         let timestamp = values1[row]?.timestamp
 
         let dayjsTimestamp = dayjs.utc(dayjs.unix(Number(timestamp)))
@@ -304,7 +304,7 @@ export const getHourlyPairTokensChartData = async (
         }
       }
     } else {
-      for (var row1 in values0) {
+      for (let row1 in values0) {
         let timestamp = values0[row1]?.timestamp
         let dayjsTimestamp = dayjs.utc(dayjs.unix(Number(timestamp)))
         const year = dayjsTimestamp.get('year')

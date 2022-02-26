@@ -80,7 +80,9 @@ export default function Earn({
    `};
   `
 
-  const stakingRewardsExist = Boolean(typeof chainId === 'number' && (SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0)
+  const stakingRewardsExist = Boolean(
+    typeof chainId === 'number' && (SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0
+  )
 
   return (
     <PageWrapper gap="lg" justify="center">
@@ -101,9 +103,7 @@ export default function Earn({
 
       <AutoColumn gap="lg" style={{ width: '100%', maxWidth: '720px' }}>
         <DataRow style={{ alignItems: 'baseline' }}>
-          <TYPE.mediumHeader style={{ marginTop: '0.5rem' }}>
-            {t('earnPage.currentOpportunities')}
-          </TYPE.mediumHeader>
+          <TYPE.mediumHeader style={{ marginTop: '0.5rem' }}>{t('earnPage.currentOpportunities')}</TYPE.mediumHeader>
         </DataRow>
 
         <PoolSection>
@@ -113,11 +113,7 @@ export default function Earn({
             t('earnPage.noActiveRewards')
           ) : (
             stakingInfoResults?.map(stakingInfo => (
-              <SingleSidePoolCard
-                key={stakingInfo.stakingRewardAddress}
-                stakingInfo={stakingInfo}
-                version={version}
-              />
+              <SingleSidePoolCard key={stakingInfo.stakingRewardAddress} stakingInfo={stakingInfo} version={version} />
             ))
           )}
         </PoolSection>

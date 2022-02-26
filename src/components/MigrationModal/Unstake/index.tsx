@@ -25,8 +25,8 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
   const [attempting, setAttempting] = useState(false as boolean)
   const [isValidAmount, setIsValidAmount] = useState(false as boolean)
 
-  let pair = Object.values(allChoosePool)?.[choosePoolIndex]?.pair
-  let stakingInfo = Object.values(allChoosePool)?.[choosePoolIndex]?.staking
+  const pair = Object.values(allChoosePool)?.[choosePoolIndex]?.pair
+  const stakingInfo = Object.values(allChoosePool)?.[choosePoolIndex]?.staking
 
   const [unStakingAmount, setUnstakingAmount] = useState('')
   const [stepIndex, setStepIndex] = useState(4)
@@ -39,13 +39,14 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
   }, [choosePoolIndex, stakingInfo])
 
   useEffect(() => {
-    let stakingToken = stakingInfo?.stakedAmount?.token
+    const stakingToken = stakingInfo?.stakedAmount?.token
     const parsedInput = tryParseAmount(unStakingAmount, stakingToken) as TokenAmount
 
-    if (parsedInput
-      && stakingInfo?.stakedAmount
-      && JSBI.lessThanOrEqual(parsedInput.raw, stakingInfo?.stakedAmount.raw)
-      && JSBI.greaterThan(parsedInput.raw, JSBI.BigInt(0))
+    if (
+      parsedInput &&
+      stakingInfo?.stakedAmount &&
+      JSBI.lessThanOrEqual(parsedInput.raw, stakingInfo?.stakedAmount.raw) &&
+      JSBI.greaterThan(parsedInput.raw, JSBI.BigInt(0))
     ) {
       setIsValidAmount(true)
     } else {
@@ -86,10 +87,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   async function onWithdraw() {
-    if (
-      stakingContract &&
-      stakingInfo?.stakedAmount?.greaterThan('0')
-    ) {
+    if (stakingContract && stakingInfo?.stakedAmount?.greaterThan('0')) {
       setAttempting(true)
       await stakingContract
         .exit()

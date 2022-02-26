@@ -7,7 +7,7 @@ import Stat from 'src/components/Stat'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 
 interface Props {
-  title: String
+  title: string
   amountInPNG: TokenAmount
   currency0: Currency | undefined
 }

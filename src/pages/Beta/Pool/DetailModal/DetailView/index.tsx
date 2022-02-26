@@ -27,6 +27,13 @@ const DetailView = ({ stakingInfo, onDismiss, version }: PoolDetailProps) => {
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
+<<<<<<< HEAD
+=======
+  const yourStackedInUsd = stakingInfo?.totalStakedInUsd
+    .multiply(stakingInfo?.stakedAmount)
+    .divide(stakingInfo?.totalStakedAmount)
+
+>>>>>>> c09a4afa0eb138e58f5bc4ccfff37b57da94e322
   const [, stakingTokenPair] = usePair(token0, token1)
   const pair = stakingTokenPair
 
