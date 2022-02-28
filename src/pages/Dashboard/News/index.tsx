@@ -55,7 +55,24 @@ export default function NewsWidget() {
               news.map((element: News) => (
                 <div key={element.id} style={{ height: '100%' }}>
                   <NewsContent>
-                    <Scrollbars style={{ height: '100%', padding: '0px 10px' }}>
+                    <Scrollbars
+                      style={{ height: '100%', padding: '0px 10px' }}
+                      // disable horizontal bar in content
+                      renderView={props => <div {...props} style={{ ...props.style, overflowX: 'hidden' }} />}
+                      // vertical bar use theme color
+                      renderThumbVertical={props => (
+                        <div
+                          {...props}
+                          style={{
+                            ...props.style,
+                            backgroundColor: theme.text1,
+                            opacity: 0.2,
+                            cursor: 'pointer',
+                            borderRadius: '3px'
+                          }}
+                        />
+                      )}
+                    >
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         linkTarget={'_blank'}
