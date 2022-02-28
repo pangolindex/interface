@@ -41,8 +41,8 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
       ? pairChart?.[0]?.[(pairChart[0] || []).length - 2]?.open || 0
       : tokensPairChart?.[0]?.[(tokensPairChart[0] || []).length - 2]?.open || 0
 
-  var decreaseValue = currentPair0UsdcPrice - lastDaypair0UsdcPrice
-  let perc = decreaseValue && lastDaypair0UsdcPrice ? (decreaseValue / lastDaypair0UsdcPrice) * 100 : 0
+  const decreaseValue = currentPair0UsdcPrice - lastDaypair0UsdcPrice
+  const perc = decreaseValue && lastDaypair0UsdcPrice ? (decreaseValue / lastDaypair0UsdcPrice) * 100 : 0
 
   return (
     <Box>

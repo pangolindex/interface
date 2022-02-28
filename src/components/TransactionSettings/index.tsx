@@ -134,13 +134,13 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
     } catch {}
   }
 
-  function parseCustomDeadline(value: string) {
-    setDeadlineInput(value)
+  function parseCustomDeadline(valueAsMinutes: string) {
+    setDeadlineInput(valueAsMinutes)
 
     try {
-      const valueAsInt: number = Number.parseInt(value) * 60
-      if (!Number.isNaN(valueAsInt) && valueAsInt > 0) {
-        setDeadline(valueAsInt)
+      const valueAsSeconds: number = Number.parseInt(valueAsMinutes) * 60
+      if (!Number.isNaN(valueAsSeconds) && valueAsSeconds > 0) {
+        setDeadline(valueAsSeconds)
       }
     } catch {}
   }

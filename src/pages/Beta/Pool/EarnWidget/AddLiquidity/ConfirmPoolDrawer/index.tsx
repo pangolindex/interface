@@ -54,7 +54,9 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
     parsedAmounts,
     poolTokenPercentage,
     onAdd,
-    onComplete = () => {}
+    onComplete = () => {
+      /**/
+    }
   } = props
 
   const { chainId } = useActiveWeb3React()

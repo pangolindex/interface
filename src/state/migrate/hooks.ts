@@ -77,14 +77,14 @@ export function useGetUserLP() {
 }
 
 export function useGetMigrationData(version: number) {
-  let { v2IsLoading, allV2PairsWithLiquidity, allPairs } = useGetUserLP()
+  const { v2IsLoading, allV2PairsWithLiquidity, allPairs } = useGetUserLP()
 
   const [allPool, setAllPool] = useState({} as { [address: string]: { pair: Pair; staking: StakingInfo } })
 
   const stakingInfos = useGetStakingDataWithAPR(Number(version))
 
   const poolMap = useMinichefPools()
-
+  /* eslint-disable prefer-const */
   useEffect(() => {
     let pairs = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
 

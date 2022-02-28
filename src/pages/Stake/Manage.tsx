@@ -229,9 +229,7 @@ export default function Manage({
                   <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>
                     ⚡
                   </span>
-                  {stakingInfo?.rewardRate
-                    ?.multiply((60 * 60 * 24 * 7).toString())
-                    ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
+                  {stakingInfo?.rewardRatePerWeek?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
                   {t('earnPage.rewardPerWeek', { symbol: rewardCurrency?.symbol })}
                 </TYPE.black>
               </RowBetween>

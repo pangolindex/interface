@@ -75,7 +75,7 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
 export function useTokenList(urls: string[] | undefined): TokenAddressMap {
   const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
 
-  let tokenList = {} as { [chainId: string]: { [tokenAddress: string]: WrappedTokenInfo } }
+  const tokenList = {} as { [chainId: string]: { [tokenAddress: string]: WrappedTokenInfo } }
   return useMemo(() => {
     ;([] as string[]).concat(urls || []).forEach(url => {
       const current = lists[url]?.current
@@ -142,13 +142,13 @@ export function useAllLists(): TokenList[] {
   )
 }
 
-export function useIsSelectedAEBTokenList(): Boolean {
+export function useIsSelectedAEBTokenList(): boolean {
   const selectedListUrl = useSelectedListUrl()
   const isSelected = (selectedListUrl || []).includes(AEB_TOKENLIST)
   return isSelected
 }
 
-export function useIsSelectedAEBToken(): Boolean {
+export function useIsSelectedAEBToken(): boolean {
   const listsByUrl = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
 
   const allAEBTokens = listsByUrl[AEB_TOKENLIST]?.current?.tokens || []

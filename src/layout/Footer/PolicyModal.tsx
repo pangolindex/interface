@@ -21,7 +21,7 @@ export default function PolicyModal({ selectPolicy, open, closeModal }: Props) {
       <Content padding={30}>
         <Scrollbars>
           <PolicyText>
-            <ReactMarkdown parserOptions={{ commonmark: true }} source={selectPolicy} />
+            <ReactMarkdown>{selectPolicy}</ReactMarkdown>
           </PolicyText>
         </Scrollbars>
       </Content>

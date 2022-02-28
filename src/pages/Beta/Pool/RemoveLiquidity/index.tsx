@@ -159,10 +159,13 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
   }
 
   // wrapped onUserInput to clear signatures
-  const onUserInput = useCallback((typedValue: string) => {
-    setSignatureData(null)
-    _onUserInput(Field.LIQUIDITY, typedValue)
-  }, [_onUserInput])
+  const onUserInput = useCallback(
+    (typedValue: string) => {
+      setSignatureData(null)
+      _onUserInput(Field.LIQUIDITY, typedValue)
+    },
+    [_onUserInput]
+  )
 
   const renderPoolDataRow = (label?: string, value?: string) => {
     return (
@@ -334,10 +337,12 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
             label: [currencyA?.symbol, currencyB?.symbol].join('/')
           })
         })
-        .catch((error: Error) => {
+        .catch((error: any) => {
           setAttempting(false)
           // we only care if the error is something _other_ than the user rejected the tx
-          console.error(error)
+          if (error?.code !== 4001) {
+            console.error(error)
+          }
         })
     }
   }

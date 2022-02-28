@@ -23,7 +23,7 @@ const StyledBottomCard = styled(DataCard)<{ dim: any; isOverlay: boolean }>`
 export interface ManageProps {
   stakedAmount: TokenAmount
   earnedAmount: TokenAmount
-  rewardRate?: TokenAmount | undefined
+  weeklyRewardRate?: TokenAmount | undefined
   currency?: Currency | null | undefined
   setShowClaimRewardModal: () => void
   isOverlay: boolean
@@ -33,7 +33,7 @@ export interface ManageProps {
 const RewardCard: React.FC<ManageProps> = ({
   stakedAmount,
   earnedAmount,
-  rewardRate,
+  weeklyRewardRate,
   currency,
   setShowClaimRewardModal,
   isOverlay,
@@ -75,7 +75,7 @@ const RewardCard: React.FC<ManageProps> = ({
             <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px ' }}>
               ⚡
             </span>
-            {rewardRate?.multiply((60 * 60 * 24 * 7).toString())?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
+            {weeklyRewardRate?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
             {t('earnPage.rewardPerWeek', { symbol: currency ? currency?.symbol : 'PNG' })}
           </TYPE.black>
         </RowBetween>

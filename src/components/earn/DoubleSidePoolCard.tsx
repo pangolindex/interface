@@ -201,9 +201,7 @@ export default function DoubleSidePoolCard({
                 <span role="img" aria-label="wizard-icon" style={{ marginRight: '0.5rem' }}>
                   ⚡
                 </span>
-                {`${stakingInfo.rewardRate
-                  ?.multiply(`${60 * 60 * 24 * 7}`)
-                  ?.toSignificant(4, { groupSeparator: ',' })} PNG / week`}
+                {`${stakingInfo.rewardRatePerWeek?.toSignificant(4, { groupSeparator: ',' })} PNG / week`}
               </TYPE.black>
             </BottomSection>
 
@@ -216,18 +214,20 @@ export default function DoubleSidePoolCard({
                 <AutoColumn gap="sm">
                   {(rewardTokens || []).map((token, index) => {
                     const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
-                    let extraRewardRate =
-                      stakingInfo?.getExtraTokensRewardRate &&
-                      stakingInfo?.getExtraTokensRewardRate(stakingInfo?.rewardRate, token as Token, tokenMultiplier)
+                    const weeklyExtraRewardRate =
+                      stakingInfo?.getExtraTokensWeeklyRewardRate &&
+                      stakingInfo?.getExtraTokensWeeklyRewardRate(
+                        stakingInfo?.rewardRatePerWeek,
+                        token as Token,
+                        tokenMultiplier
+                      )
 
                     return (
                       <TYPE.black style={{ textAlign: 'right' }} color={'white'} fontWeight={500} key={index}>
                         <span role="img" aria-label="wizard-icon" style={{ marginRight: '0.5rem' }}>
                           ⚡
                         </span>
-                        {`${extraRewardRate
-                          ?.multiply(`${60 * 60 * 24 * 7}`)
-                          ?.toSignificant(4, { groupSeparator: ',' })} ${token?.symbol} / week`}
+                        {`${weeklyExtraRewardRate?.toSignificant(4, { groupSeparator: ',' })} ${token?.symbol} / week`}
                       </TYPE.black>
                     )
                   })}

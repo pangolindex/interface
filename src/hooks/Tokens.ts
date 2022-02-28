@@ -176,10 +176,12 @@ export function useCoinGeckoTokenData(coin: Token) {
   const [result, setResult] = useState({} as { coinId: string; homePage: string; description: string })
 
   useEffect(() => {
-    let getCoinData = async () => {
-      const chain = coin.chainId === 43113 ? CHAINS[ChainsId.AVAX] : CHAINS[coin.chainId ]
+    const getCoinData = async () => {
+      const chain = coin.chainId === 43113 ? CHAINS[ChainsId.AVAX] : CHAINS[coin.chainId]
 
-      const response = await fetch(`https://api.coingecko.com/api/v3/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`) 
+      const response = await fetch(
+        `https://api.coingecko.com/api/v3/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`
+      )
       const data = await response.json()
       console.log(data)
       setResult({

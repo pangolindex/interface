@@ -77,10 +77,10 @@ const BottomSection = styled.div<{ showBackground: boolean }>`
 
 export default function SingleSidePoolCard({
   stakingInfo,
-  version,
+  version
 }: {
   stakingInfo: SingleSideStakingInfo
-	migration?: SingleSideStaking
+  migration?: SingleSideStaking
   version: string
 }) {
   const { t } = useTranslation()
@@ -124,8 +124,7 @@ export default function SingleSidePoolCard({
           <TYPE.white>
             {JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0)) && !stakingInfo.isPeriodFinished
               ? `${stakingInfo.apr.toLocaleString()}%`
-              : ' - '
-            }
+              : ' - '}
           </TYPE.white>
         </RowBetween>
       </AprContainer>
@@ -142,9 +141,9 @@ export default function SingleSidePoolCard({
               <span role="img" aria-label="wizard-icon" style={{ marginRight: '0.5rem' }}>
                 ⚡
               </span>
-              {`${stakingInfo.rewardRate
-                ?.multiply(`${60 * 60 * 24 * 7}`)
-                ?.toSignificant(4, { groupSeparator: ',' })} ${stakingInfo.rewardToken.symbol} / week`}
+              {`${stakingInfo.rewardRatePerWeek?.toSignificant(4, { groupSeparator: ',' })} ${
+                stakingInfo.rewardToken.symbol
+              } / week`}
             </TYPE.black>
           </BottomSection>
         </>

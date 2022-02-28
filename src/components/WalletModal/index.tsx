@@ -125,7 +125,7 @@ const WALLET_VIEWS = {
 function addAvalancheNetwork() {
   injected.getProvider().then(provider => {
     provider
-      .request({
+      ?.request({
         method: 'wallet_addEthereumChain',
         params: [AVALANCHE_CHAIN_PARAMS]
       })

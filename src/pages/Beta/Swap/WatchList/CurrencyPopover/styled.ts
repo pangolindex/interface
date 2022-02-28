@@ -41,7 +41,7 @@ export const PopoverContainer = styled(Box)`
   }
 `
 
-export const RowWrapper = styled.div<{ disabled: Boolean }>`
+export const RowWrapper = styled.div<{ disabled: boolean }>`
   padding: 5px 5px;
   display: grid;
   grid-template-columns: 100px minmax(auto, calc(100% - 150px)) 50px;

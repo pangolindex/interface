@@ -30,7 +30,7 @@ const PageWrapper = styled(AutoColumn)`
 `
 
 const StepCard = styled(DataCard)`
-  background: #22242A;
+  background: #22242a;
   overflow: hidden;
 `
 
@@ -46,22 +46,15 @@ const ErrorCard = styled(DataCard)`
 
 export default function Migrate({
   match: {
-    params: {
-      currencyIdFromA,
-      currencyIdFromB,
-      versionFrom,
-      currencyIdToA,
-      currencyIdToB,
-      versionTo
-    }
+    params: { currencyIdFromA, currencyIdFromB, versionFrom, currencyIdToA, currencyIdToB, versionTo }
   }
 }: RouteComponentProps<{
-  currencyIdFromA: string;
-  currencyIdFromB: string;
-  versionFrom: string;
-  currencyIdToA: string;
-  currencyIdToB: string;
-  versionTo: string;
+  currencyIdFromA: string
+  currencyIdFromB: string
+  versionFrom: string
+  currencyIdToA: string
+  currencyIdToB: string
+  versionTo: string
 }>) {
   const { account, chainId } = useActiveWeb3React()
 
@@ -88,14 +81,10 @@ export default function Migrate({
   const requiresUnstake = stakingInfoFrom?.stakedAmount?.greaterThan('0')
 
   // Step 2: Detect if old LP is currently held and cannot be migrated directly to the new staking contract
-  const requiresConvert = (!requiresUnstake)
-    && arePairsDifferent
-    && pglFromBalance?.greaterThan('0')
+  const requiresConvert = !requiresUnstake && arePairsDifferent && pglFromBalance?.greaterThan('0')
 
   // Step 3: Detect if new LP has been minted and not staked
-  const requiresStake = (!requiresUnstake && !requiresConvert)
-    && !!stakingInfoTo
-    && pglToBalance?.greaterThan('0')
+  const requiresStake = !requiresUnstake && !requiresConvert && !!stakingInfoTo && pglToBalance?.greaterThan('0')
 
   // Detect if all steps have been completed
   const requiresNothing = !!pglFromBalance && !!pglToBalance && !requiresUnstake && !requiresConvert && !requiresStake
@@ -122,8 +111,8 @@ export default function Migrate({
                     address: token.address,
                     symbol: token.symbol,
                     decimals: token.decimals,
-                    image: `https://raw.githubusercontent.com/pangolindex/tokens/main/assets/${token.address}/logo.png`,
-                  },
+                    image: `https://raw.githubusercontent.com/pangolindex/tokens/main/assets/${token.address}/logo.png`
+                  }
                 }
               })
               .catch((error: any) => {
@@ -140,14 +129,12 @@ export default function Migrate({
   return (
     <PageWrapper gap="lg" justify="center">
       <RowBetween style={{ gap: '24px' }}>
-        <TYPE.mediumHeader style={{ margin: 0 }}>
-          Liquidity Migration
-        </TYPE.mediumHeader>
+        <TYPE.mediumHeader style={{ margin: 0 }}>Liquidity Migration</TYPE.mediumHeader>
       </RowBetween>
 
-      {(pglFromStatus === PairState.LOADING || pglToStatus === PairState.LOADING) ? (
+      {pglFromStatus === PairState.LOADING || pglToStatus === PairState.LOADING ? (
         <Loader />
-      ) : (pglFromStatus === PairState.EXISTS && pglToStatus === PairState.EXISTS) ? (
+      ) : pglFromStatus === PairState.EXISTS && pglToStatus === PairState.EXISTS ? (
         <>
           <StepCard>
             <CardSection>
@@ -155,7 +142,7 @@ export default function Migrate({
                 <RowBetween>
                   <TYPE.white fontWeight={600}>Step 1. Unstake Pangolin liquidity (PGL)</TYPE.white>
                 </RowBetween>
-                {(requiresUnstake) && (
+                {requiresUnstake && (
                   <>
                     <RowBetween style={{ marginBottom: '1rem' }}>
                       <TYPE.white fontSize={14}>
@@ -168,7 +155,9 @@ export default function Migrate({
                       width={'fit-content'}
                       onClick={() => setShowUnstakingModal(true)}
                     >
-                      {`Unstake ${stakingInfoFrom?.stakedAmount?.toSignificant(4) ?? ''} ${pglFrom?.token0?.symbol}-${pglFrom?.token1?.symbol} liquidity`}
+                      {`Unstake ${stakingInfoFrom?.stakedAmount?.toSignificant(4) ?? ''} ${pglFrom?.token0?.symbol}-${
+                        pglFrom?.token1?.symbol
+                      } liquidity`}
                     </ButtonPrimary>
                   </>
                 )}
@@ -182,21 +171,23 @@ export default function Migrate({
                 <RowBetween>
                   <TYPE.white fontWeight={600}>Step 2. Convert Pangolin liquidity tokens (PGL)</TYPE.white>
                 </RowBetween>
-                {(requiresConvert) && (
+                {requiresConvert && (
                   <>
                     <RowBetween style={{ marginBottom: '1rem' }}>
                       <TYPE.white fontSize={14}>
                         {`You are currently holding deprecated PGL tokens. Migrate them including the underlying assets they represent to continue the migration process`}
                       </TYPE.white>
                     </RowBetween>
-                    {(canZap) ? (
+                    {canZap ? (
                       <ButtonPrimary
                         padding="8px"
                         borderRadius="8px"
                         width={'fit-content'}
                         onClick={() => setShowMigrateModal(true)}
                       >
-                        {`Migrate ${pglFromBalance?.toSignificant(4) ?? ''} ${pglFrom?.token0?.symbol}-${pglFrom?.token1?.symbol} to ${pglTo?.token0?.symbol}-${pglTo?.token1?.symbol}`}
+                        {`Migrate ${pglFromBalance?.toSignificant(4) ?? ''} ${pglFrom?.token0?.symbol}-${
+                          pglFrom?.token1?.symbol
+                        } to ${pglTo?.token0?.symbol}-${pglTo?.token1?.symbol}`}
                       </ButtonPrimary>
                     ) : (
                       <ErrorText severity={2}>
@@ -218,7 +209,7 @@ export default function Migrate({
                 <RowBetween>
                   <TYPE.white fontWeight={600}>Step 3. Stake Pangolin liquidity (PGL)</TYPE.white>
                 </RowBetween>
-                {(requiresStake) && (
+                {requiresStake && (
                   <>
                     <ButtonPrimary
                       padding="8px"
@@ -226,7 +217,9 @@ export default function Migrate({
                       width={'fit-content'}
                       onClick={() => setShowStakingModal(true)}
                     >
-                      {`Stake ${pglToBalance?.toSignificant(4) ?? ''} ${pglTo?.token0?.symbol}-${pglTo?.token1?.symbol} liquidity to earn PNG`}
+                      {`Stake ${pglToBalance?.toSignificant(4) ?? ''} ${pglTo?.token0?.symbol}-${
+                        pglTo?.token1?.symbol
+                      } liquidity to earn PNG`}
                     </ButtonPrimary>
                   </>
                 )}
@@ -234,7 +227,7 @@ export default function Migrate({
             </CardSection>
           </StepCard>
 
-          {(requiresNothing) && (
+          {requiresNothing && (
             <>
               <SuccessCard>
                 <CardSection>
@@ -258,7 +251,8 @@ export default function Migrate({
             <AutoColumn gap="md">
               <RowBetween>
                 <TYPE.white fontWeight={600} textAlign={'center'}>
-                  {`Error finding pairs ${currencyFromA?.symbol ?? '?'}/${currencyFromB?.symbol ?? '?'} and ${currencyToA?.symbol ?? '?'}/${currencyToB?.symbol ?? '?'}`}
+                  {`Error finding pairs ${currencyFromA?.symbol ?? '?'}/${currencyFromB?.symbol ??
+                    '?'} and ${currencyToA?.symbol ?? '?'}/${currencyToB?.symbol ?? '?'}`}
                 </TYPE.white>
               </RowBetween>
             </AutoColumn>
@@ -277,7 +271,7 @@ export default function Migrate({
         />
       )}
 
-      {(pglFrom && pglTo) && (
+      {pglFrom && pglTo && (
         <BridgeMigratorModal
           isOpen={showMigrateModal}
           onDismiss={() => setShowMigrateModal(false)}
@@ -296,7 +290,6 @@ export default function Migrate({
           version={Number(versionTo)}
         />
       )}
-
     </PageWrapper>
   )
 }

@@ -254,6 +254,10 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
             swapErrorMessage: error.message,
             txHash: undefined
           })
+          // we only care if the error is something _other_ than the user rejected the tx
+          if (error?.code !== 4001) {
+            console.error(error)
+          }
         })
     } catch (error) {
       setSwapState({
@@ -263,6 +267,10 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
         swapErrorMessage: (error as any).message,
         txHash: undefined
       })
+      // we only care if the error is something _other_ than the user rejected the tx
+      if ((error as any)?.code !== 4001) {
+        console.error(error)
+      }
     }
   }, [
     handleLimitOrderSubmission,

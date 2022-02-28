@@ -15,12 +15,18 @@ export default function Drawer({ isOpen, onClose, children, title }: DrawerProps
   const theme = useContext(ThemeContext)
   return (
     <DrawerRoot isOpen={isOpen}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" padding="10px">
-        <Text color="text1" fontSize={24}>
-          {title}
-        </Text>
+      {title && (
+        <Box display="flex" justifyContent="space-between" alignItems="center" padding="10px">
+          <Text color="text1" fontSize={24}>
+            {title}
+          </Text>
+        </Box>
+      )}
+
+      <Box position="absolute" right={10} top={10}>
         <CloseIcon onClick={onClose} color={theme.text4} />
       </Box>
+
       <DrawerContent>{children}</DrawerContent>
     </DrawerRoot>
   )

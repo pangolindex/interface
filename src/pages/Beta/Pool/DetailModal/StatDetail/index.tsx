@@ -3,12 +3,13 @@ import { Text, Box } from '@0xkilo/components'
 import { JSBI, Pair, TokenAmount, Currency, ChainId } from '@antiyro/sdk'
 import { useTotalSupply } from 'src/data/TotalSupply'
 import { useActiveWeb3React } from 'src/hooks'
+import numeral from 'numeral'
 import { StateContainer } from './styleds'
 import Stat from 'src/components/Stat'
 import { CHAINS } from 'src/constants/chains'
 
 interface Props {
-  title: String
+  title: string
   totalAmount: string
   pair: Pair | null
   pgl?: TokenAmount | undefined
@@ -43,25 +44,33 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
           title={title}
           stat={`${totalAmount ? `${totalAmount}` : '-'}`}
           titlePosition="top"
-          titleFontSize={16}
-          statFontSize={24}
+          titleFontSize={12}
+          statFontSize={20}
           titleColor="text2"
         />
         <Stat
           title={`Underlying ${currency0?.symbol}`}
-          stat={`${token0Deposited ? parseFloat(token0Deposited?.toSignificant(6)).toLocaleString() : '-'}`}
+          stat={`${
+            token0Deposited
+              ? numeral(parseFloat(token0Deposited?.toSignificant(6)).toLocaleString()).format('0.00a')
+              : '-'
+          }`}
           titlePosition="top"
-          titleFontSize={16}
-          statFontSize={24}
+          titleFontSize={12}
+          statFontSize={20}
           titleColor="text2"
           currency={currency0}
         />
         <Stat
           title={`Underlying ${currency1?.symbol}`}
-          stat={`${token1Deposited ? parseFloat(token1Deposited?.toSignificant(6)).toLocaleString() : '-'}`}
+          stat={`${
+            token1Deposited
+              ? numeral(parseFloat(token1Deposited?.toSignificant(6)).toLocaleString()).format('0.00a')
+              : '-'
+          }`}
           titlePosition="top"
-          titleFontSize={16}
-          statFontSize={24}
+          titleFontSize={12}
+          statFontSize={20}
           titleColor="text2"
           currency={currency1}
         />

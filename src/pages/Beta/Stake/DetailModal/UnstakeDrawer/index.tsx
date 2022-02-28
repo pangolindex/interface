@@ -7,10 +7,9 @@ import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Box, Button, Text } from '@0xkilo/components'
-import { CustomLightSpinner } from 'src/theme'
-import Circle from 'src/assets/images/blue-loader.svg'
-import { ConfirmWrapper, PendingWrapper, Wrapper } from './styled'
-import TransactionSubmitted from 'src/components/Beta/TransactionSubmitted'
+import { ConfirmWrapper, Wrapper } from './styled'
+import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
+import Loader from 'src/components/Beta/Loader'
 import { ChainId } from '@antiyro/sdk'
 
 type Props = {
@@ -51,7 +50,10 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
         })
         .catch((error: any) => {
           setAttempting(false)
-          console.log(error)
+          // we only care if the error is something _other_ than the user rejected the tx
+          if (error?.code !== 4001) {
+            console.error(error)
+          }
         })
     }
   }
@@ -88,7 +90,8 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
               </Box>
             </Box>
             <Text fontSize="14px" color="text2" mt={20}>
-              {t('earn.whenYouWithdrawSingleSideWarning', { symbol: stakingInfo?.rewardToken?.symbol })}
+              {/* {t('earn.whenYouWithdrawSingleSideWarning', { symbol: stakingInfo?.rewardToken?.symbol })} */}
+              You can unstake your rewards.
             </Text>
             <Box flex={1} />
             <Box mt={'10px'}>
@@ -98,26 +101,8 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
             </Box>
           </ConfirmWrapper>
         )}
-        {attempting && !hash && (
-          <PendingWrapper>
-            <Box mb={'15px'}>
-              <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
-            </Box>
-            <Text fontWeight={500} fontSize={20} color="text1" textAlign="center">
-              {t('earn.withdrawingLiquidity', {
-                amount: stakingInfo?.stakedAmount?.toSignificant(6),
-                symbol: 'PNG'
-              })}
-            </Text>
-            <Text fontWeight={600} fontSize={14} color="text1" textAlign="center">
-              {t('earn.claimingReward', {
-                amount: stakingInfo?.earnedAmount?.toSignificant(6),
-                symbol: stakingInfo?.rewardToken?.symbol
-              })}
-            </Text>
-          </PendingWrapper>
-        )}
-        {hash && <TransactionSubmitted hash={hash} onClose={wrappedOnDismiss} />}
+        {attempting && !hash && <Loader size={100} label="Unstaking" />}
+        {hash && <TransactionCompleted onClose={wrappedOnDismiss} submitText="Unstaked" />}
       </Wrapper>
     </Drawer>
   )

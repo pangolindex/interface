@@ -4,11 +4,10 @@ import { Currency } from '@antiyro/sdk'
 import { useTranslation } from 'react-i18next'
 import { MobileRowWrapper, StatWrapper } from './styleds'
 import Stat from 'src/components/Stat'
-import { Order } from '@gelatonetwork/limit-orders-react'
-import { useGelatoLimitOrderDetail } from 'src/state/swap/hooks'
+import { useGelatoLimitOrderDetail, LimitOrderInfo } from 'src/state/swap/hooks'
 
 type Props = {
-  order: Order
+  order: LimitOrderInfo
   onClick: () => void
   isSelected: boolean
   onClickCancelOrder: () => void
@@ -102,7 +101,7 @@ const MobileLimitOrderRow: React.FC<Props> = ({ order, onClick, isSelected, onCl
               <Box>
                 <Stat
                   title={t('swapPage.status')}
-                  stat={order?.status}
+                  stat={`${order?.status} ${order?.pending ? `(${t('web3Status.pending')})` : ''}`}
                   titlePosition="top"
                   titleFontSize={14}
                   statFontSize={18}

@@ -10,7 +10,7 @@ export type ChainBalances = {
 
 interface ChainList {
   community_id: number
-  usd_value: Number
+  usd_value: number
 }
 
 interface Data {
@@ -63,7 +63,7 @@ export function useGetChainsBalances(): [ChainBalances, boolean] {
     const getBalances = async () => {
       const response = await fetch(`https://openapi.debank.com/v1/user/total_balance?id=${account}`)
       const data: Data = await response.json()
-      let chainbalances: any = {
+      const chainbalances: any = {
         0: data?.total_usd_value
       }
 
@@ -209,5 +209,7 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
 
   tokens.sort((a, b) => b.usdValue - a.usdValue)
 
-  return [tokens, loading]
+  const filterTokens = tokens.filter(token => token.usdValue >= 0.01)
+
+  return [filterTokens, loading]
 }

@@ -2,9 +2,8 @@ import styled from 'styled-components'
 
 export const StateContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: max-content;
   gap: 12px;
-  display: inline-grid;
+  display: grid;
   width: 100%;
   align-items: start;
   margin-top: 12px;
@@ -12,14 +11,11 @@ export const StateContainer = styled.div`
   @media screen and (max-width: 1024px) {
     grid-template-columns: 1fr;
     align-items: stretch;
-    > * {
-      grid-column: 1 / 3;
-    }
-
-    > * {
-      &:first-child {
-        width: 100%;
-      }
-    }
   }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-column-gap: 6px;
+    grid-row-gap:6px;
+  `};
 `

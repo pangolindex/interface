@@ -60,24 +60,24 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
 
   const toggleIndividualSelect = (address: string) => {
     if (!!allChoosePool[address]) {
-      let newAllChoosePool = allChoosePool
+      const newAllChoosePool = allChoosePool
       delete newAllChoosePool[address]
       setAllChoosePool({ ...newAllChoosePool })
     } else {
-      let newObject = allPool[address]
-      let container = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
+      const newObject = allPool[address]
+      const container = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
       container[address] = newObject
       setAllChoosePool({ ...allChoosePool, ...container })
     }
   }
 
   const goNext = () => {
-    let newStep = currentStep + 1
+    const newStep = currentStep + 1
     setCurrentStep(newStep)
   }
 
   const goBack = () => {
-    let newStep = currentStep - 1
+    const newStep = currentStep - 1
     setCurrentStep(newStep)
   }
 

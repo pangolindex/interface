@@ -2,7 +2,7 @@ import React, { useState, useCallback, useContext, useEffect } from 'react'
 import { ThemeContext } from 'styled-components'
 import { ChevronDown } from 'react-feather'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
-import { PageWrapper, InputText, ContentBox, DataBox, PoolSelectWrapper } from './styleds'
+import { PageWrapper, InputText, ContentBox, DataBox, PoolSelectWrapper, ExtraRewardDataBox } from './styleds'
 import { Box, Text, Button, Steps, Step, DoubleCurrencyLogo } from '@0xkilo/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { TokenAmount, Pair, ChainId, JSBI, Token } from '@antiyro/sdk'
@@ -22,7 +22,7 @@ import { useTokenBalance } from 'src/state/wallet/hooks'
 
 interface StakeProps {
   pair: Pair | null
-  version: Number
+  version: number
   onComplete?: () => void
 }
 
@@ -49,18 +49,18 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
   )
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  let hypotheticalRewardRate: TokenAmount = new TokenAmount(stakingInfo?.rewardRate?.token, '0')
+  let hypotheticalWeeklyRewardRate: TokenAmount = new TokenAmount(stakingInfo?.rewardRatePerWeek?.token, '0')
   if (parsedAmountWrapped?.greaterThan('0')) {
-    hypotheticalRewardRate = stakingInfo?.getHypotheticalRewardRate(
+    hypotheticalWeeklyRewardRate = stakingInfo?.getHypotheticalWeeklyRewardRate(
       stakingInfo?.stakedAmount.add(parsedAmountWrapped),
       stakingInfo?.totalStakedAmount.add(parsedAmountWrapped),
-      stakingInfo?.totalRewardRate
+      stakingInfo?.totalRewardRatePerSecond
     )
   }
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 
-  let isSuperFarm = (rewardTokensAmount || [])?.length > 0
+  const isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
   // state for pending and submitted txn views
   const addTransaction = useTransactionAdder()
@@ -122,7 +122,10 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
           })
           .catch((error: any) => {
             setAttempting(false)
-            console.error(error)
+            // we only care if the error is something _other_ than the user rejected the tx
+            if (error?.code !== 4001) {
+              console.error(error)
+            }
           })
       } else if (signatureData) {
         const permitMethod = version < 2 ? 'stakeWithPermit' : 'depositWithPermit'
@@ -154,7 +157,10 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
           })
           .catch((error: any) => {
             setAttempting(false)
-            console.error(error)
+            // we only care if the error is something _other_ than the user rejected the tx
+            if (error?.code !== 4001) {
+              console.error(error)
+            }
           })
       } else {
         setAttempting(false)
@@ -348,36 +354,35 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
         <ContentBox>
           {renderPoolDataRow(t('migratePage.dollarWorth'), `${finalUsd ? `$${Number(finalUsd).toFixed(2)}` : '-'}`)}
           {renderPoolDataRow(
-            `${t('dashboardPage.earned_dailyIncome')}`,
-            `${hypotheticalRewardRate
-              .multiply((60 * 60 * 24).toString())
-              .toSignificant(4, { groupSeparator: ',' })} PNG`
+            `${t('dashboardPage.earned_weeklyIncome')}`,
+            `${hypotheticalWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })} PNG`
           )}
 
           {isSuperFarm && (
-            <DataBox key="extra-reward">
+            <ExtraRewardDataBox key="extra-reward">
               <Text color="text4" fontSize={16}>
                 {t('earn.extraReward')}
               </Text>
 
-              {rewardTokensAmount?.map((reward, index) => {
-                const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
-                const extraRewardRate = stakingInfo?.getExtraTokensRewardRate?.(
-                  hypotheticalRewardRate,
-                  reward?.token,
-                  tokenMultiplier
-                )
-                if (extraRewardRate) {
-                  return (
-                    <Text color="text4" fontSize={16} key={index}>
-                      {extraRewardRate.multiply((60 * 60 * 24).toString()).toSignificant(4, { groupSeparator: ',' })}{' '}
-                      {reward?.token?.symbol}
-                    </Text>
+              <Box>
+                {rewardTokensAmount?.map((reward, index) => {
+                  const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
+                  const extraTokenWeeklyRewardRate = stakingInfo?.getExtraTokensWeeklyRewardRate?.(
+                    hypotheticalWeeklyRewardRate,
+                    reward?.token,
+                    tokenMultiplier
                   )
-                }
-                return null
-              })}
-            </DataBox>
+                  if (extraTokenWeeklyRewardRate) {
+                    return (
+                      <Text color="text4" fontSize={16} key={index}>
+                        {extraTokenWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })} {reward?.token?.symbol}
+                      </Text>
+                    )
+                  }
+                  return null
+                })}
+              </Box>
+            </ExtraRewardDataBox>
           )}
         </ContentBox>
       </Box>

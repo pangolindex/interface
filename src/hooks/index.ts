@@ -18,10 +18,9 @@ export function useEagerConnect() {
   const [tried, setTried] = useState(false)
   const [triedSafe, setTriedSafe] = useState<boolean>(!IS_IN_IFRAME)
 
-
   useEffect(() => {
-    if (!triedSafe){
-      gnosisSafe.isSafeApp().then((loadedInSafe) => {
+    if (!triedSafe) {
+      gnosisSafe.isSafeApp().then(loadedInSafe => {
         if (loadedInSafe) {
           activate(gnosisSafe, undefined, true).catch(() => {
             setTriedSafe(true)

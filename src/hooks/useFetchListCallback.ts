@@ -9,12 +9,9 @@ import getTokenList from '../utils/getTokenList'
 export function useFetchListCallback(): (listUrl: string) => Promise<TokenList> {
   const dispatch = useDispatch<AppDispatch>()
 
-  const ensResolver = useCallback(
-    () => {
-        throw new Error('Could not construct mainnet ENS resolver')
-    },
-    []
-  )
+  const ensResolver = useCallback(() => {
+    throw new Error('Could not construct mainnet ENS resolver')
+  }, [])
 
   return useCallback(
     async (listUrl: string) => {

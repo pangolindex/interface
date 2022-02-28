@@ -9,7 +9,7 @@ import { useActiveWeb3React } from 'src/hooks'
 import { CHAINS } from 'src/constants/chains'
 
 interface Props {
-  title: String
+  title: string
   amountInPNG: TokenAmount
   currency0: Currency | undefined
 }

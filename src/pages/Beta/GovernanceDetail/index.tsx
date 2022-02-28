@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { ArrowLeft } from 'react-feather'
 import { DateTime } from 'luxon'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { useTranslation } from 'react-i18next'
 import { TokenAmount, JSBI } from '@antiyro/sdk'
 import { Text } from '@0xkilo/components'
@@ -220,7 +221,7 @@ export default function GovernanceDetail() {
                     {t('votePage.overview')}
                   </Text>
                   <MarkDownWrapper>
-                    <ReactMarkdown source={proposalData?.description} />
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{proposalData?.description}</ReactMarkdown>
                   </MarkDownWrapper>
                 </>
               ) : (
@@ -240,7 +241,7 @@ export default function GovernanceDetail() {
                         : ''
                     }
                   >
-                    <ReactMarkdown source={proposalData?.proposer} />
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{proposalData?.proposer}</ReactMarkdown>
                   </ExternalLink>
                 </>
               )}

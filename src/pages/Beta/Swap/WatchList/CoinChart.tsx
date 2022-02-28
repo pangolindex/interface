@@ -26,7 +26,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
   const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
 
   const { t } = useTranslation()
-  let weekFrame = TIMEFRAME.find(t => t.label === '1W')
+  const weekFrame = TIMEFRAME.find(t => t.label === '1W')
 
   const [timeWindow, setTimeWindow] = useState(
     weekFrame ||
@@ -52,7 +52,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
 
   const priceData =
     useTokenPriceData(
-      coin?.address.toLowerCase(),
+      (coin?.address || '').toLowerCase(),
       timeWindow?.momentIdentifier,
       timeWindow?.interval,
       timeWindow?.label
@@ -60,7 +60,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
 
   const token = unwrappedToken(coin, chainId || ChainId.AVALANCHE)
 
-  let priceChart = [...priceData]
+  const priceChart = [...priceData]
   // add current price in chart
   if (priceChart.length > 0 && usdcPrice) {
     const timestampnow = Math.floor(Date.now() / 1000)
@@ -131,10 +131,10 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
           <Line type="monotone" dataKey="priceUSD" stroke={'#18C145'} dot={false} />
           <Tooltip
             cursor={true}
-            formatter={(priceUSD: number, name: any, props: any) => {
+            formatter={(priceUSD: number) => {
               return [`${formattedNum(priceUSD, true)}`, 'USD']
             }}
-            labelFormatter={(val, data) => {
+            labelFormatter={data => {
               return toNiceDateYear(data?.[0]?.payload?.timestamp)
             }}
             labelStyle={{ paddingTop: 4 }}

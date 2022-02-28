@@ -76,6 +76,7 @@ export const Title = styled(Box)`
 export const DesktopPortfolioList = styled(Box)`
   display: flex;
   flex-direction: column;
+  align-items: center;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;
   `};

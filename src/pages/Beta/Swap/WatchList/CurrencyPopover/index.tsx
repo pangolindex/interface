@@ -26,7 +26,14 @@ const currencyKey = (currency: Currency, chainId: ChainId): string => {
   return currency instanceof Token ? currency.address : currency === CAVAX[chainId || ChainId.AVALANCHE] ? 'AVAX' : ''
 }
 
-const CurrencyPopover: React.FC<Props> = ({ getRef = () => {}, coins, isOpen, onSelectCurrency }) => {
+const CurrencyPopover: React.FC<Props> = ({
+  getRef = () => {
+    /* */
+  },
+  coins,
+  isOpen,
+  onSelectCurrency
+}) => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [invertSearchOrder] = useState<boolean>(false)
 

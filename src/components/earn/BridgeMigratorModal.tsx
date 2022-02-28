@@ -34,7 +34,13 @@ interface BridgeMigratorModalProps {
   userLiquidityUnstaked: TokenAmount | undefined
 }
 
-export default function BridgeMigratorModal({ isOpen, onDismiss, pairFrom, pairTo, userLiquidityUnstaked }: BridgeMigratorModalProps) {
+export default function BridgeMigratorModal({
+  isOpen,
+  onDismiss,
+  pairFrom,
+  pairTo,
+  userLiquidityUnstaked
+}: BridgeMigratorModalProps) {
   const { account, chainId, library } = useActiveWeb3React()
 
   // track and parse user input
@@ -66,13 +72,14 @@ export default function BridgeMigratorModal({ isOpen, onDismiss, pairFrom, pairT
     setAttempting(true)
     if (bridgeMigratorContract && parsedAmount && deadline && account) {
       if (approval === ApprovalState.APPROVED) {
-        await bridgeMigratorContract.migrateLiquidity(
-          pairFrom.liquidityToken.address,
-          pairTo.liquidityToken.address,
-          account,
-          `0x${parsedAmount.raw.toString(16)}`,
-          deadline.toNumber(),
-        )
+        await bridgeMigratorContract
+          .migrateLiquidity(
+            pairFrom.liquidityToken.address,
+            pairTo.liquidityToken.address,
+            account,
+            `0x${parsedAmount.raw.toString(16)}`,
+            deadline.toNumber()
+          )
           .then((response: TransactionResponse) => {
             addTransaction(response, {
               summary: 'Migrate liquidity'
@@ -93,7 +100,7 @@ export default function BridgeMigratorModal({ isOpen, onDismiss, pairFrom, pairT
             signatureData.deadline,
             signatureData.v,
             signatureData.r,
-            signatureData.s,
+            signatureData.s
           )
           .then((response: TransactionResponse) => {
             addTransaction(response, {

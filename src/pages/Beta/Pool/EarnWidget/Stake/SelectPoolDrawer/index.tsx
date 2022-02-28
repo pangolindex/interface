@@ -18,7 +18,7 @@ const SelectPoolDrawer: React.FC<Props> = props => {
   const { isOpen, onClose, onPoolSelect, selectedPair } = props
 
   // fetch the user's balances of all tracked V2 LP tokens
-  let { allV2PairsWithLiquidity } = useGetUserLP()
+  const { allV2PairsWithLiquidity } = useGetUserLP()
 
   const onSelect = useCallback(
     pair => {

@@ -160,7 +160,7 @@ const MigrateUI = () => {
                 pair={pool?.pair}
                 stakingData={pool?.staking}
                 onClickMigrate={() => {
-                  let container = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
+                  const container = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
                   container[pool?.pair?.liquidityToken.address] = pool
                   setSelectedPool(container)
                   toggleMigrationModal()

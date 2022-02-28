@@ -389,7 +389,9 @@ export default function AccountDetails({
         <LowerSection>
           <AutoRow mb={'1rem'} style={{ justifyContent: 'space-between' }}>
             <TYPE.body>{t('accountDetails.recentTransactions')}</TYPE.body>
-            <LinkStyledButton onClick={clearAllTransactionsCallback} isBeta={isBeta}>{t('accountDetails.clearAll')}</LinkStyledButton>
+            <LinkStyledButton onClick={clearAllTransactionsCallback} isBeta={isBeta}>
+              {t('accountDetails.clearAll')}
+            </LinkStyledButton>
           </AutoRow>
           {renderTransactions(pendingTransactions)}
           {renderTransactions(confirmedTransactions)}

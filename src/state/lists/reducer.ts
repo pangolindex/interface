@@ -45,6 +45,7 @@ export default createReducer(initialState, builder =>
   builder
     .addCase(fetchTokenList.pending, (state, { payload: { requestId, url } }) => {
       state.byUrl[url] = {
+        /* eslint-disable @typescript-eslint/ban-ts-comment */
         // @ts-ignore
         current: null,
         // @ts-ignore

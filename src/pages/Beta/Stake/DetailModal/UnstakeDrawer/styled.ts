@@ -6,20 +6,12 @@ export const Wrapper = styled.div`
   flex-direction: column;
   flex: 1;
   text-align: center;
+  padding: 20px;
 `
 
 export const ConfirmWrapper = styled(Box)`
-  padding: 10px;
   display: flex;
   flex-direction: column;
   height: 100%;
   text-align: center;
-`
-
-export const PendingWrapper = styled(Box)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100%;
 `

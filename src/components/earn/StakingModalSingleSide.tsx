@@ -42,7 +42,12 @@ interface StakingModalProps {
   userLiquidityUnstaked: TokenAmount | undefined
 }
 
-export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo, userLiquidityUnstaked }: StakingModalProps) {
+export default function StakingModalSingleSide({
+  isOpen,
+  onDismiss,
+  stakingInfo,
+  userLiquidityUnstaked
+}: StakingModalProps) {
   const { account, chainId, library } = useActiveWeb3React()
 
   // track and parse user input
@@ -50,12 +55,12 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
   const { parsedAmount, error } = useDerivedStakeInfo(typedValue, stakingInfo.stakedAmount.token, userLiquidityUnstaked)
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  let hypotheticalRewardRate: TokenAmount = new TokenAmount(stakingInfo.rewardRate.token, '0')
+  let hypotheticalWeeklyRewardRate: TokenAmount = new TokenAmount(stakingInfo.rewardRatePerWeek.token, '0')
   if (parsedAmountWrapped?.greaterThan('0')) {
-    hypotheticalRewardRate = stakingInfo.getHypotheticalRewardRate(
+    hypotheticalWeeklyRewardRate = stakingInfo.getHypotheticalWeeklyRewardRate(
       stakingInfo.stakedAmount.add(parsedAmountWrapped),
       stakingInfo.totalStakedAmount.add(parsedAmountWrapped),
-      stakingInfo.totalRewardRate
+      stakingInfo.totalRewardRatePerSecond
     )
   }
 
@@ -84,17 +89,20 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
     if (stakingContract && parsedAmount && deadline) {
       if (approval === ApprovalState.APPROVED) {
         stakingContract
-	        .stake(`0x${parsedAmount.raw.toString(16)}`)
-	        .then((response: TransactionResponse) => {
-		        addTransaction(response, {
-			        summary: t('earnPage.stakeStakingTokens', { symbol: 'PNG' })
-		        })
-		        setHash(response.hash)
-	        })
-	        .catch((error: any) => {
-		        setAttempting(false)
-		        console.error(error)
-	        })
+          .stake(`0x${parsedAmount.raw.toString(16)}`)
+          .then((response: TransactionResponse) => {
+            addTransaction(response, {
+              summary: t('earnPage.stakeStakingTokens', { symbol: 'PNG' })
+            })
+            setHash(response.hash)
+          })
+          .catch((error: any) => {
+            setAttempting(false)
+            // we only care if the error is something _other_ than the user rejected the tx
+            if (error?.code !== 4001) {
+              console.error(error)
+            }
+          })
       } else if (signatureData) {
         stakingContract
           .stakeWithPermit(
@@ -102,17 +110,20 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
             signatureData.deadline,
             signatureData.v,
             signatureData.r,
-            signatureData.s,
+            signatureData.s
           )
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-	            summary: t('earnPage.stakeStakingTokens', { symbol: 'PNG' })
+              summary: t('earnPage.stakeStakingTokens', { symbol: 'PNG' })
             })
             setHash(response.hash)
           })
           .catch((error: any) => {
             setAttempting(false)
-            console.error(error)
+            // we only care if the error is something _other_ than the user rejected the tx
+            if (error?.code !== 4001) {
+              console.error(error)
+            }
           })
       } else {
         setAttempting(false)
@@ -142,16 +153,16 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
     // try to gather a signature for permission
     const nonce = await stakingTokenContract.nonces(account)
 
-	  const EIP712Domain = [
-		  { name: 'name', type: 'string' },
-		  { name: 'chainId', type: 'uint256' },
-		  { name: 'verifyingContract', type: 'address' }
-	  ]
-	  const domain = {
-		  name: 'Pangolin',
-		  chainId: chainId,
-		  verifyingContract: stakingTokenContract.address
-	  }
+    const EIP712Domain = [
+      { name: 'name', type: 'string' },
+      { name: 'chainId', type: 'uint256' },
+      { name: 'verifyingContract', type: 'address' }
+    ]
+    const domain = {
+      name: 'Pangolin',
+      chainId: chainId,
+      verifyingContract: stakingTokenContract.address
+    }
     const Permit = [
       { name: 'owner', type: 'address' },
       { name: 'spender', type: 'address' },
@@ -216,13 +227,13 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
             id="stake-liquidity-token"
           />
 
-          <HypotheticalRewardRate dim={!hypotheticalRewardRate.greaterThan('0')}>
+          <HypotheticalRewardRate dim={!hypotheticalWeeklyRewardRate.greaterThan('0')}>
             <div>
               <TYPE.black fontWeight={600}>{t('earn.weeklyRewards')}</TYPE.black>
             </div>
 
             <TYPE.black>
-              {hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toSignificant(4, { groupSeparator: ',' })}{' '}
+              {hypotheticalWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })}{' '}
               {t('earn.rewardPerWeek', { symbol: stakingInfo?.rewardToken?.symbol })}
             </TYPE.black>
           </HypotheticalRewardRate>
@@ -259,7 +270,9 @@ export default function StakingModalSingleSide({ isOpen, onDismiss, stakingInfo,
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{t('earn.deposited')} {parsedAmount?.toSignificant(4)} PNG</TYPE.body>
+            <TYPE.body fontSize={20}>
+              {t('earn.deposited')} {parsedAmount?.toSignificant(4)} PNG
+            </TYPE.body>
           </AutoColumn>
         </SubmittedView>
       )}

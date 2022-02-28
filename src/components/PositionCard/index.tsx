@@ -171,8 +171,8 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
   const totalPoolTokens = useTotalSupply(pair.liquidityToken)
 
-  const upgradeable0 = BRIDGE_MIGRATORS.find(({ aeb, ab }) => pair?.token0?.address === aeb)
-  const upgradeable1 = BRIDGE_MIGRATORS.find(({ aeb, ab }) => pair?.token1?.address === aeb)
+  const upgradeable0 = BRIDGE_MIGRATORS.find(({ aeb }) => pair?.token0?.address === aeb)
+  const upgradeable1 = BRIDGE_MIGRATORS.find(({ aeb }) => pair?.token1?.address === aeb)
 
   const poolTokenPercentage =
     !!userPoolBalance && !!totalPoolTokens && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)

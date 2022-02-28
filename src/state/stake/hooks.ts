@@ -1,5 +1,5 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent } from '@antiyro/sdk'
-import { useMemo, useEffect, useState } from 'react'
+import { useMemo, useEffect, useState, useCallback } from 'react'
 import {
   PNG,
   USDTe,
@@ -9,6 +9,7 @@ import {
   BIG_INT_ZERO,
   BIG_INT_TWO,
   BIG_INT_ONE,
+  BIG_INT_SECONDS_IN_WEEK,
   USDC,
   UST
 } from '../../constants'
@@ -29,7 +30,7 @@ import useUSDCPrice from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useTotalSupply } from '../../data/TotalSupply'
-import { useStakingContract } from '../../hooks/useContract'
+import { usePngContract, useStakingContract } from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
 import { ZERO_ADDRESS } from '../../constants'
@@ -37,6 +38,13 @@ import { CHAINS } from '../../constants/chains'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { useTokens } from '../../hooks/Tokens'
 import { useRewardViaMultiplierContract } from '../../hooks/useContract'
+import { wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
+import { TransactionResponse } from '@ethersproject/providers'
+import { useTransactionAdder } from 'src/state/transactions/hooks'
+import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
+import { maxAmountSpend } from 'src/utils/maxAmountSpend'
+import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
+import { splitSignature } from 'ethers/lib/utils'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -72,19 +80,20 @@ export interface StakingInfoBase {
   // the total amount of token staked in the contract
   totalStakedAmount: TokenAmount
   // the amount of token distributed per second to all LPs, constant
-  totalRewardRate: TokenAmount
-  // the current amount of token distributed to the active account per second.
-  // equivalent to percent of total supply * reward rate
-  rewardRate: TokenAmount
+  totalRewardRatePerSecond: TokenAmount
+  totalRewardRatePerWeek: TokenAmount
+  // the current amount of token distributed to the active account per week.
+  // equivalent to percent of total supply * reward rate * (60 * 60 * 24 * 7)
+  rewardRatePerWeek: TokenAmount
   // when the period ends
   periodFinish: Date | undefined
   // has the reward period expired
   isPeriodFinished: boolean
   // calculates a hypothetical amount of token distributed to the active account per second.
-  getHypotheticalRewardRate: (
+  getHypotheticalWeeklyRewardRate: (
     stakedAmount: TokenAmount,
     totalStakedAmount: TokenAmount,
-    totalRewardRate: TokenAmount
+    totalRewardRatePerSecond: TokenAmount
   ) => TokenAmount
 }
 
@@ -107,7 +116,11 @@ export interface DoubleSideStakingInfo extends StakingInfoBase {
   rewardTokensAddress?: Array<string>
   rewardsAddress?: string
   rewardTokensMultiplier?: Array<JSBI>
-  getExtraTokensRewardRate?: (rewardRate: TokenAmount, token: Token, tokenMultiplier: JSBI | undefined) => TokenAmount
+  getExtraTokensWeeklyRewardRate?: (
+    rewardRatePerWeek: TokenAmount,
+    token: Token,
+    tokenMultiplier: JSBI | undefined
+  ) => TokenAmount
 }
 
 export interface StakingInfo extends DoubleSideStakingInfo {
@@ -224,9 +237,9 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
   const pairs = usePairs(tokens)
 
   const pairAddresses = useMemo(() => {
-    const pairsHaveLoaded = pairs?.every(([state, pair]) => state === PairState.EXISTS)
+    const pairsHaveLoaded = pairs?.every(([state]) => state === PairState.EXISTS)
     if (!pairsHaveLoaded) return []
-    else return pairs.map(([state, pair]) => pair?.liquidityToken.address)
+    else return pairs.map(([, pair]) => pair?.liquidityToken.address)
   }, [pairs])
 
   const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
@@ -313,7 +326,15 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
 
         const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
         const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(totalSupplyStaked))
-        const totalRewardRate = new TokenAmount(png, JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0]))
+        const totalRewardRatePerSecond = new TokenAmount(
+          png,
+          JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0])
+        )
+
+        const totalRewardRatePerWeek = new TokenAmount(
+          png,
+          JSBI.multiply(totalRewardRatePerSecond.raw, BIG_INT_SECONDS_IN_WEEK)
+        )
 
         const isAvaxPool = tokens[0].equals(WAVAX[tokens[0].chainId])
         const totalStakedInWavax = isAvaxPool
@@ -326,22 +347,27 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
               pair.reserveOf(png).raw,
               chainId
             )
-        
+
         const totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount)
-        const getHypotheticalRewardRate = (
+
+        const getHypotheticalWeeklyRewardRate = (
           stakedAmount: TokenAmount,
           totalStakedAmount: TokenAmount,
-          totalRewardRate: TokenAmount
+          totalRewardRatePerSecond: TokenAmount
         ): TokenAmount => {
           return new TokenAmount(
             png,
             JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
-              ? JSBI.divide(JSBI.multiply(totalRewardRate.raw, stakedAmount.raw), totalStakedAmount.raw)
+              ? JSBI.divide(JSBI.multiply(totalRewardRatePerSecond.raw, stakedAmount.raw), totalStakedAmount.raw)
               : JSBI.BigInt(0)
           )
         }
 
-        const individualRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, totalRewardRate)
+        const individualRewardRatePerWeek = getHypotheticalWeeklyRewardRate(
+          stakedAmount,
+          totalStakedAmount,
+          totalRewardRatePerSecond
+        )
 
         const multiplier = info[index].multiplier
 
@@ -351,14 +377,15 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
           isPeriodFinished: isPeriodFinished,
           earnedAmount: new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
-          rewardRate: individualRewardRate,
-          totalRewardRate: totalRewardRate,
+          rewardRatePerWeek: individualRewardRatePerWeek,
+          totalRewardRatePerSecond: totalRewardRatePerSecond,
+          totalRewardRatePerWeek: totalRewardRatePerWeek,
           stakedAmount: stakedAmount,
           totalStakedAmount: totalStakedAmount,
           totalStakedInWavax: totalStakedInWavax,
           totalStakedInUsd: totalStakedInUsd,
           multiplier: JSBI.BigInt(multiplier ?? 0),
-          getHypotheticalRewardRate
+          getHypotheticalWeeklyRewardRate
         })
       }
       return memo
@@ -494,30 +521,43 @@ export function useSingleSideStakingInfo(
 
         const stakedAmount = new TokenAmount(png, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
         const totalStakedAmount = new TokenAmount(png, JSBI.BigInt(totalSupplyStaked))
-        const totalRewardRate = new TokenAmount(
+        const totalRewardRatePerSecond = new TokenAmount(
           rewardToken,
           JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0])
         )
+
+        const totalRewardRatePerWeek = new TokenAmount(
+          png,
+          JSBI.multiply(totalRewardRatePerSecond.raw, BIG_INT_SECONDS_IN_WEEK)
+        )
+
         const earnedAmount = new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0))
 
-        const rewardRateInPng = calculateRewardRateInPng(totalRewardRate.raw, valueOfPng)
+        const rewardRateInPng = calculateRewardRateInPng(totalRewardRatePerSecond.raw, valueOfPng)
 
         const apr = isPeriodFinished ? JSBI.BigInt(0) : calculateApr(rewardRateInPng, totalSupplyStaked)
 
-        const getHypotheticalRewardRate = (
+        const getHypotheticalWeeklyRewardRate = (
           stakedAmount: TokenAmount,
           totalStakedAmount: TokenAmount,
-          totalRewardRate: TokenAmount
+          totalRewardRatePerSecond: TokenAmount
         ): TokenAmount => {
           return new TokenAmount(
             rewardToken,
             JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
-              ? JSBI.divide(JSBI.multiply(totalRewardRate.raw, stakedAmount.raw), totalStakedAmount.raw)
+              ? JSBI.divide(
+                  JSBI.multiply(JSBI.multiply(totalRewardRatePerSecond.raw, stakedAmount.raw), BIG_INT_SECONDS_IN_WEEK),
+                  totalStakedAmount.raw
+                )
               : JSBI.BigInt(0)
           )
         }
 
-        const individualRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, totalRewardRate)
+        const individualWeeklyRewardRate = getHypotheticalWeeklyRewardRate(
+          stakedAmount,
+          totalStakedAmount,
+          totalRewardRatePerSecond
+        )
 
         memo.push({
           stakingRewardAddress: rewardsAddress,
@@ -525,12 +565,13 @@ export function useSingleSideStakingInfo(
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
           isPeriodFinished: isPeriodFinished,
           earnedAmount: earnedAmount,
-          rewardRate: individualRewardRate,
-          totalRewardRate: totalRewardRate,
+          rewardRatePerWeek: individualWeeklyRewardRate,
+          totalRewardRatePerSecond: totalRewardRatePerSecond,
+          totalRewardRatePerWeek: totalRewardRatePerWeek,
           stakedAmount: stakedAmount,
           totalStakedAmount: totalStakedAmount,
           totalStakedInPng: totalStakedAmount,
-          getHypotheticalRewardRate,
+          getHypotheticalWeeklyRewardRate,
           apr: apr
         })
       }
@@ -782,8 +823,12 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const tokens = useMemo(() => info.map(({ tokens }) => tokens), [info])
   const pairs = usePairs(tokens)
 
+  // @dev: If no farms load, you likely loaded an incorrect config from doubleSideConfig.js
+  // Enable this and look for an invalid pair
+  // console.log(pairs)
+
   const pairAddresses = useMemo(() => {
-    return pairs.map(([state, pair]) => pair?.liquidityToken.address)
+    return pairs.map(([, pair]) => pair?.liquidityToken.address)
   }, [pairs])
 
   const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
@@ -885,7 +930,26 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
         // get the LP token
         const token0 = pair?.token0
         const token1 = pair?.token1
-        const tokens = [token0, token1]
+
+        const tokens = [token0, token1].sort(({ address: addressA }, { address: addressB }) => {
+          // Sort AVAX last
+          if (addressA === WAVAX[ChainId.AVALANCHE].address) return 1
+          else if (addressB === WAVAX[ChainId.AVALANCHE].address) return -1
+          // Sort PNG first
+          else if (addressA === PNG[ChainId.AVALANCHE].address) return -1
+          else if (addressB === PNG[ChainId.AVALANCHE].address) return 1
+          // Sort UST first
+          else if (addressA === UST[ChainId.AVALANCHE].address) return -1
+          else if (addressB === UST[ChainId.AVALANCHE].address) return 1
+          // Sort USDC first
+          else if (addressA === USDC[ChainId.AVALANCHE].address) return -1
+          else if (addressB === USDC[ChainId.AVALANCHE].address) return 1
+          // Sort USDCe first
+          else if (addressA === USDCe[ChainId.AVALANCHE].address) return -1
+          else if (addressB === USDCe[ChainId.AVALANCHE].address) return 1
+          else return 0
+        })
+
         const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
         const lpToken = dummyPair.liquidityToken
 
@@ -896,6 +960,8 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           png,
           JSBI.divide(JSBI.multiply(poolAllocPointAmount.raw, rewardRatePerSecAmount.raw), totalAllocPointAmount.raw)
         )
+
+        const totalRewardRatePerWeek = new TokenAmount(png, JSBI.multiply(poolRewardRate.raw, BIG_INT_SECONDS_IN_WEEK))
 
         const periodFinishMs = rewardsExpiration?.[0]?.mul(1000)?.toNumber()
         // periodFinish will be 0 immediately after a reward contract is initialized
@@ -960,35 +1026,48 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           console.error(`Could not identify total staked value for pair ${pair.liquidityToken.address}`)
         }
 
-        const getHypotheticalRewardRate = (
+        const getHypotheticalWeeklyRewardRate = (
           stakedAmount: TokenAmount,
           totalStakedAmount: TokenAmount,
-          totalRewardRate: TokenAmount
+          totalRewardRatePerSecond: TokenAmount
         ): TokenAmount => {
           return new TokenAmount(
             png,
             JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
-              ? JSBI.divide(JSBI.multiply(totalRewardRate.raw, stakedAmount.raw), totalStakedAmount.raw)
+              ? JSBI.divide(
+                  JSBI.multiply(JSBI.multiply(totalRewardRatePerSecond.raw, stakedAmount.raw), BIG_INT_SECONDS_IN_WEEK),
+                  totalStakedAmount.raw
+                )
               : JSBI.BigInt(0)
           )
         }
 
-        const getExtraTokensRewardRate = (rewardRate: TokenAmount, token: Token, tokenMultiplier: JSBI | undefined) => {
+        const getExtraTokensWeeklyRewardRate = (
+          rewardRatePerWeek: TokenAmount,
+          token: Token,
+          tokenMultiplier: JSBI | undefined
+        ) => {
           const TEN_EIGHTEEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
-          const rewardMultiplier = JSBI.BigInt(tokenMultiplier || 1) || JSBI.BigInt(1)
-          const finalReward = JSBI.divide(JSBI.multiply(rewardMultiplier, rewardRate?.raw), TEN_EIGHTEEN)
-          const userRewardRate = new TokenAmount(token, finalReward)
-          return userRewardRate
+          // const secondToWeekConversion = JSBI.BigInt(60 * 60 * 24 * 7)
+          const rewardMultiplier = JSBI.BigInt(tokenMultiplier || 1)
+
+          const unadjustedRewardPerWeek = JSBI.multiply(rewardMultiplier, rewardRatePerWeek?.raw)
+
+          // const finalReward = JSBI.divide(JSBI.multiply(unadjustedRewardPerWeek, secondToWeekConversion), TEN_EIGHTEEN)
+          const finalReward = JSBI.divide(unadjustedRewardPerWeek, TEN_EIGHTEEN)
+
+          return new TokenAmount(token, finalReward)
         }
 
-        const userRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
+        const userRewardRatePerWeek = getHypotheticalWeeklyRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
 
         memo.push({
           stakingRewardAddress: MINICHEF_ADDRESS,
           tokens,
           earnedAmount,
-          rewardRate: userRewardRate,
-          totalRewardRate: poolRewardRate,
+          rewardRatePerWeek: userRewardRatePerWeek,
+          totalRewardRatePerSecond: poolRewardRate,
+          totalRewardRatePerWeek: totalRewardRatePerWeek,
           stakedAmount,
           totalStakedAmount,
           totalStakedInWavax,
@@ -996,8 +1075,8 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           multiplier: JSBI.divide(multiplier, JSBI.BigInt(100)),
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
           isPeriodFinished,
-          getHypotheticalRewardRate,
-          getExtraTokensRewardRate,
+          getHypotheticalWeeklyRewardRate,
+          getExtraTokensWeeklyRewardRate,
           rewardTokensAddress: rewardTokensAddress?.result?.[0],
           rewardTokensMultiplier: rewardTokensMultiplier?.result?.[0],
           rewardsAddress
@@ -1098,5 +1177,245 @@ export function useMinichefPendingRewards(miniChefStaking: DoubleSideStakingInfo
       rewardTokensAmount
     }),
     [rewardTokensAmount]
+  )
+}
+
+export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
+  const { account, chainId, library } = useActiveWeb3React()
+  const { t } = useTranslation()
+  const png = PNG[chainId ? chainId : ChainId.AVALANCHE]
+
+  const usdcPrice = useUSDCPrice(png)
+
+  // detect existing unstaked position to show purchase button if none found
+  const userPngUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
+
+  const stakeToken = stakingInfo?.stakedAmount?.token?.symbol
+
+  const [stepIndex, setStepIndex] = useState(4)
+
+  // track and parse user input
+  const [typedValue, setTypedValue] = useState((userPngUnstaked as TokenAmount)?.toExact() || '')
+  const { parsedAmount, error } = useDerivedStakeInfo(typedValue, stakingInfo.stakedAmount.token, userPngUnstaked)
+  const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
+
+  let hypotheticalRewardRatePerWeek: TokenAmount = new TokenAmount(stakingInfo.rewardRatePerWeek.token, '0')
+  if (parsedAmountWrapped?.greaterThan('0')) {
+    hypotheticalRewardRatePerWeek = stakingInfo.getHypotheticalWeeklyRewardRate(
+      stakingInfo.stakedAmount.add(parsedAmountWrapped),
+      stakingInfo.totalStakedAmount.add(parsedAmountWrapped),
+      stakingInfo.totalRewardRatePerSecond
+    )
+  }
+
+  const dollerWorth =
+    userPngUnstaked?.greaterThan('0') && usdcPrice ? Number(typedValue) * Number(usdcPrice.toFixed()) : undefined
+
+  // state for pending and submitted txn views
+  const addTransaction = useTransactionAdder()
+  const [attempting, setAttempting] = useState<boolean>(false)
+  const [hash, setHash] = useState<string | undefined>()
+  const wrappedOnDismiss = useCallback(() => {
+    setSignatureData(null)
+    setTypedValue('0')
+    setStepIndex(0)
+    setHash(undefined)
+    setAttempting(false)
+    // onClose && onClose()
+  }, [])
+
+  const stakingTokenContract = usePngContract()
+
+  // approval data for stake
+  const deadline = useTransactionDeadline()
+  const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
+  const [approval, approveCallback] = useApproveCallback(chainId || ChainId.AVALANCHE, parsedAmount, stakingInfo.stakingRewardAddress)
+
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+
+  async function onStake() {
+    setAttempting(true)
+    if (stakingContract && parsedAmount && deadline) {
+      if (approval === ApprovalState.APPROVED) {
+        stakingContract
+          .stake(`0x${parsedAmount.raw.toString(16)}`)
+          .then((response: TransactionResponse) => {
+            addTransaction(response, {
+              summary: t('earnPage.stakeStakingTokens', { symbol: 'PNG' })
+            })
+            setHash(response.hash)
+          })
+          .catch((error: any) => {
+            setAttempting(false)
+            // we only care if the error is something _other_ than the user rejected the tx
+            if (error?.code !== 4001) {
+              console.error(error)
+            }
+          })
+      } else if (signatureData) {
+        stakingContract
+          .stakeWithPermit(
+            `0x${parsedAmount.raw.toString(16)}`,
+            signatureData.deadline,
+            signatureData.v,
+            signatureData.r,
+            signatureData.s
+          )
+          .then((response: TransactionResponse) => {
+            addTransaction(response, {
+              summary: t('earnPage.stakeStakingTokens', { symbol: 'PNG' })
+            })
+            setHash(response.hash)
+          })
+          .catch((error: any) => {
+            setAttempting(false)
+            // we only care if the error is something _other_ than the user rejected the tx
+            if (error?.code !== 4001) {
+              console.error(error)
+            }
+          })
+      } else {
+        setAttempting(false)
+        throw new Error(t('earn.attemptingToStakeError'))
+      }
+    }
+  }
+
+  const onChangePercentage = (value: number) => {
+    // setStepIndex(value)
+    if (!userPngUnstaked) {
+      setTypedValue('0')
+      return
+    }
+    if (value === 100) {
+      setTypedValue((userPngUnstaked as TokenAmount).toExact())
+    } else if (value === 0) {
+      setTypedValue('0')
+    } else {
+      const newAmount = (userPngUnstaked as TokenAmount)
+        .multiply(JSBI.BigInt(value))
+        .divide(JSBI.BigInt(100)) as TokenAmount
+
+      setTypedValue(newAmount.toSignificant(6))
+    }
+  }
+
+  // wrapped onUserInput to clear signatures
+  const onUserInput = useCallback((typedValue: string) => {
+    setSignatureData(null)
+    setTypedValue(typedValue)
+  }, [])
+
+  // used for max input button
+  const maxAmountInput = maxAmountSpend(chainId || ChainId.AVALANCHE, userPngUnstaked)
+  // const atMaxAmount = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
+  const handleMax = useCallback(() => {
+    maxAmountInput && onUserInput(maxAmountInput.toExact())
+    setStepIndex(4)
+  }, [maxAmountInput, onUserInput])
+
+  async function onAttemptToApprove() {
+    if (!stakingTokenContract || !library || !deadline) throw new Error(t('earn.missingDependencies'))
+    const liquidityAmount = parsedAmount
+    if (!liquidityAmount) throw new Error(t('earn.missingLiquidityAmount'))
+
+    // try to gather a signature for permission
+    const nonce = await stakingTokenContract.nonces(account)
+
+    const EIP712Domain = [
+      { name: 'name', type: 'string' },
+      { name: 'chainId', type: 'uint256' },
+      { name: 'verifyingContract', type: 'address' }
+    ]
+    const domain = {
+      name: 'Pangolin',
+      chainId: chainId,
+      verifyingContract: stakingTokenContract.address
+    }
+    const Permit = [
+      { name: 'owner', type: 'address' },
+      { name: 'spender', type: 'address' },
+      { name: 'value', type: 'uint256' },
+      { name: 'nonce', type: 'uint256' },
+      { name: 'deadline', type: 'uint256' }
+    ]
+    const message = {
+      owner: account,
+      spender: stakingInfo.stakingRewardAddress,
+      value: liquidityAmount.raw.toString(),
+      nonce: nonce.toHexString(),
+      deadline: deadline.toNumber()
+    }
+    const data = JSON.stringify({
+      types: {
+        EIP712Domain,
+        Permit
+      },
+      domain,
+      primaryType: 'Permit',
+      message
+    })
+
+    library
+      .send('eth_signTypedData_v4', [account, data])
+      .then(splitSignature)
+      .then(signature => {
+        setSignatureData({
+          v: signature.v,
+          r: signature.r,
+          s: signature.s,
+          deadline: deadline.toNumber()
+        })
+      })
+      .catch(error => {
+        // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
+        if (error?.code !== 4001) {
+          approveCallback()
+        }
+      })
+  }
+
+  return useMemo(
+    () => ({
+      attempting,
+      stakeToken,
+      parsedAmount,
+      hash,
+      userPngUnstaked,
+      stepIndex,
+      dollerWorth,
+      hypotheticalRewardRatePerWeek,
+      signatureData,
+      error,
+      approval,
+      account,
+      png,
+      onAttemptToApprove,
+      onUserInput,
+      wrappedOnDismiss,
+      handleMax,
+      onStake,
+      onChangePercentage,
+      setStepIndex
+    }),
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      attempting,
+      stakeToken,
+      parsedAmount,
+      hash,
+      userPngUnstaked,
+      stepIndex,
+      dollerWorth,
+      hypotheticalRewardRatePerWeek,
+      signatureData,
+      error,
+      approval,
+      account,
+      png,
+      onUserInput,
+      handleMax
+    ]
   )
 }

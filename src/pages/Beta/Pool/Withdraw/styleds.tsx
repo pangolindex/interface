@@ -1,39 +1,26 @@
-import { Box, Text } from '@0xkilo/components'
+import { Box } from '@0xkilo/components'
 import styled from 'styled-components'
 
-export const PageWrapper = styled(Box)`
+export const WithdrawWrapper = styled(Box)`
   width: 100%;
+  height: 100%;
 `
-
-export const PendingWrapper = styled(Box)`
+export const Root = styled(Box)`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
+`
+export const RewardWrapper = styled(Box)`
+  display: grid;
+  grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
+  grid-gap: 8px;
+  justify-content: center;
+  height: 100%;
+`
+export const StatWrapper = styled(Box)`
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  height: 100%;
-`
-
-export const Root = styled(Box)`
-  display: grid;
-  grid-template-rows: auto max-content;
-  height: 100%;
-`
-
-export const Header = styled(Box)`
-  padding: 0px 10px;
-`
-
-export const Footer = styled(Box)`
-  padding: 0px 10px;
-`
-
-export const SubmittedWrapper = styled(Box)`
-  display: grid;
-  grid-template-rows: minmax(300px, auto) max-content;
-  height: 100%;
-  padding: 10px;
-`
-export const Link = styled(Text)`
-  text-decoration: none;
-  color: ${({ theme }) => theme.blue1};
 `

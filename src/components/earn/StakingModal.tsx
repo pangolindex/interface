@@ -60,12 +60,12 @@ export default function StakingModal({
   const { parsedAmount, error } = useDerivedStakeInfo(typedValue, stakingInfo.stakedAmount.token, userLiquidityUnstaked)
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
-  let hypotheticalRewardRate: TokenAmount = new TokenAmount(stakingInfo.rewardRate.token, '0')
+  let hypotheticalWeeklyRewardRate: TokenAmount = new TokenAmount(stakingInfo.rewardRatePerWeek.token, '0')
   if (parsedAmountWrapped?.greaterThan('0')) {
-    hypotheticalRewardRate = stakingInfo.getHypotheticalRewardRate(
+    hypotheticalWeeklyRewardRate = stakingInfo.getHypotheticalWeeklyRewardRate(
       stakingInfo.stakedAmount.add(parsedAmountWrapped),
       stakingInfo.totalStakedAmount.add(parsedAmountWrapped),
-      stakingInfo.totalRewardRate
+      stakingInfo.totalRewardRatePerSecond
     )
   }
 
@@ -116,7 +116,10 @@ export default function StakingModal({
           })
           .catch((error: any) => {
             setAttempting(false)
-            console.error(error)
+            // we only care if the error is something _other_ than the user rejected the tx
+            if (error?.code !== 4001) {
+              console.error(error)
+            }
           })
       } else if (signatureData) {
         const permitMethod = version < 2 ? 'stakeWithPermit' : 'depositWithPermit'
@@ -148,7 +151,10 @@ export default function StakingModal({
           })
           .catch((error: any) => {
             setAttempting(false)
-            console.error(error)
+            // we only care if the error is something _other_ than the user rejected the tx
+            if (error?.code !== 4001) {
+              console.error(error)
+            }
           })
       } else {
         setAttempting(false)
@@ -255,19 +261,19 @@ export default function StakingModal({
             id="stake-liquidity-token"
           />
 
-          <HypotheticalRewardRate dim={!hypotheticalRewardRate.greaterThan('0')}>
+          <HypotheticalRewardRate dim={!hypotheticalWeeklyRewardRate.greaterThan('0')}>
             <div>
               <TYPE.black fontWeight={600}>{t('earn.weeklyRewards')}</TYPE.black>
             </div>
 
             <TYPE.black>
-              {hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toSignificant(4, { groupSeparator: ',' })}{' '}
+              {hypotheticalWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })}{' '}
               {t('earn.rewardPerWeek', { symbol: 'PNG' })}
             </TYPE.black>
           </HypotheticalRewardRate>
 
           {isSuperFarm && (
-            <HypotheticalRewardRate dim={!hypotheticalRewardRate.greaterThan('0')}>
+            <HypotheticalRewardRate dim={!hypotheticalWeeklyRewardRate.greaterThan('0')}>
               <div>
                 <TYPE.black fontWeight={600}>{t('earn.extraReward')}</TYPE.black>
               </div>
@@ -275,17 +281,15 @@ export default function StakingModal({
               <Box textAlign="right">
                 {extraRewardTokensAmount?.map((reward, index) => {
                   const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
-                  const extraRewardRate = stakingInfo?.getExtraTokensRewardRate?.(
-                    hypotheticalRewardRate,
+                  const extraTokenWeeklyRewardRate = stakingInfo?.getExtraTokensWeeklyRewardRate?.(
+                    hypotheticalWeeklyRewardRate,
                     reward?.token,
                     tokenMultiplier
                   )
-                  if (extraRewardRate) {
+                  if (extraTokenWeeklyRewardRate) {
                     return (
                       <TYPE.black key={index}>
-                        {extraRewardRate
-                          .multiply((60 * 60 * 24 * 7).toString())
-                          .toSignificant(4, { groupSeparator: ',' })}{' '}
+                        {extraTokenWeeklyRewardRate.toSignificant(4, { groupSeparator: ',' })}{' '}
                         {t('earn.rewardPerWeek', { symbol: reward?.token?.symbol })}
                       </TYPE.black>
                     )

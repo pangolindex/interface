@@ -9,7 +9,7 @@ import { calculateGasMargin } from '../../utils'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../transactions/hooks'
 import { useState, useEffect, useCallback } from 'react'
-import { abi as GOV_ABI } from '@pangolindex/governance/artifacts/contracts/GovernorAlpha.sol/GovernorAlpha.json'
+import GOV from '@pangolindex/governance/artifacts/contracts/GovernorAlpha.sol/GovernorAlpha.json'
 import { GET_BLOCK } from '../../apollo/block'
 import { blockClient } from '../../apollo/client'
 
@@ -58,9 +58,9 @@ export async function getBlockFromTimestamp(timestamp: number) {
     query: GET_BLOCK,
     variables: {
       timestampFrom: timestamp,
-      timestampTo: timestamp + 60 * 60 * 24 * 7,
+      timestampTo: timestamp + 60 * 60 * 24 * 7
     },
-    fetchPolicy: 'cache-first',
+    fetchPolicy: 'cache-first'
   })
   return result?.data?.blocks?.[0]?.number
 }
@@ -85,7 +85,7 @@ export function useDataFromEventLogs() {
 
   useEffect(() => {
     const voteDelay: number = 60 * 60 * 24
-    const eventParser = new ethers.utils.Interface(GOV_ABI)
+    const eventParser = new ethers.utils.Interface(GOV.abi)
 
     async function fetchData() {
       let pastEvents = [] as any[]
@@ -165,7 +165,6 @@ export function useAllProposalData() {
   if (formattedEvents && allProposals && allProposalStates) {
     allProposals.reverse()
     allProposalStates.reverse()
-
 
     return allProposals
       .filter((p, i) => {

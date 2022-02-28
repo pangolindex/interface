@@ -9,13 +9,12 @@ type Props = {
 }
 
 const PortfolioRow: React.FC<Props> = ({ coin, pair }) => {
-
-  const fontSize = (value: number) =>{
+  const fontSize = (value: number) => {
     let size = 20
     for (let index = 0; index < 10; index++) {
-      const calcsize = Math.trunc(value/(10_000*(10**index)))
-      if (calcsize === 0){
-        size = 20 - 2*(index-1)
+      const calcsize = Math.trunc(value / (10_000 * 10 ** index))
+      if (calcsize === 0) {
+        size = 20 - 2 * (index - 1)
         break
       }
     }
@@ -40,18 +39,18 @@ const PortfolioRow: React.FC<Props> = ({ coin, pair }) => {
       </Box>
       <Box textAlign="right">
         <Text color="text1" fontSize={16} fontWeight={500}>
-          ${!!coin
+          $
+          {!!coin
             ? (coin?.price * coin?.amount).toLocaleString(undefined, {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
               })
             : !!pair
-              ? pair?.usdValue.toLocaleString(undefined, {
+            ? pair?.usdValue.toLocaleString(undefined, {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
               })
-              : 0
-          }
+            : 0}
         </Text>
       </Box>
     </RowWrapper>

@@ -72,9 +72,7 @@ export default function PoolFinder() {
 
   const prerequisiteMessage = (
     <LightCard padding="45px 10px">
-      <Text textAlign="center">
-        {!account ? t('poolFinder.connectToFind') : t('poolFinder.selectTokenToFind')}
-      </Text>
+      <Text textAlign="center">{!account ? t('poolFinder.connectToFind') : t('poolFinder.selectTokenToFind')}</Text>
     </LightCard>
   )
 

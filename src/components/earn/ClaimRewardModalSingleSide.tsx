@@ -57,7 +57,10 @@ export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingI
         })
         .catch((error: any) => {
           setAttempting(false)
-          console.log(error)
+          // we only care if the error is something _other_ than the user rejected the tx
+          if (error?.code !== 4001) {
+            console.error(error)
+          }
         })
     }
   }
@@ -70,50 +73,48 @@ export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingI
     error = error ?? t('earn.enterAmount')
   }
 
-	return (
-		<Modal isOpen={isOpen} onDismiss={wrappedOnDismiss} maxHeight={90}>
-			{!attempting && !hash && (
-				<ContentWrapper gap="lg">
-					<RowBetween>
-						<TYPE.mediumHeader>{t('earn.claim')}</TYPE.mediumHeader>
-						<CloseIcon onClick={wrappedOnDismiss} />
-					</RowBetween>
-					{stakingInfo?.earnedAmount && (
-						<AutoColumn justify="center" gap="md">
-							<TYPE.body fontWeight={600} fontSize={36}>
-								{stakingInfo?.earnedAmount?.toSignificant(6)}
-							</TYPE.body>
-							<TYPE.body>{t('earn.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}</TYPE.body>
-						</AutoColumn>
-					)}
-					<TYPE.subHeader style={{ textAlign: 'center' }}>
-						{t('earn.liquidityRemainsPool')}
-					</TYPE.subHeader>
-					<ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onClaimReward}>
-						{error ?? t('earn.claimReward', { symbol: stakingInfo?.rewardToken?.symbol })}
-					</ButtonError>
-				</ContentWrapper>
-			)}
-			{attempting && !hash && (
-				<LoadingView onDismiss={wrappedOnDismiss}>
-					<AutoColumn gap="12px" justify={'center'}>
-						<TYPE.body fontSize={20}>
+  return (
+    <Modal isOpen={isOpen} onDismiss={wrappedOnDismiss} maxHeight={90}>
+      {!attempting && !hash && (
+        <ContentWrapper gap="lg">
+          <RowBetween>
+            <TYPE.mediumHeader>{t('earn.claim')}</TYPE.mediumHeader>
+            <CloseIcon onClick={wrappedOnDismiss} />
+          </RowBetween>
+          {stakingInfo?.earnedAmount && (
+            <AutoColumn justify="center" gap="md">
+              <TYPE.body fontWeight={600} fontSize={36}>
+                {stakingInfo?.earnedAmount?.toSignificant(6)}
+              </TYPE.body>
+              <TYPE.body>{t('earn.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}</TYPE.body>
+            </AutoColumn>
+          )}
+          <TYPE.subHeader style={{ textAlign: 'center' }}>{t('earn.liquidityRemainsPool')}</TYPE.subHeader>
+          <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onClaimReward}>
+            {error ?? t('earn.claimReward', { symbol: stakingInfo?.rewardToken?.symbol })}
+          </ButtonError>
+        </ContentWrapper>
+      )}
+      {attempting && !hash && (
+        <LoadingView onDismiss={wrappedOnDismiss}>
+          <AutoColumn gap="12px" justify={'center'}>
+            <TYPE.body fontSize={20}>
               {t('earn.claimingReward', {
                 amount: stakingInfo?.earnedAmount?.toSignificant(6),
                 symbol: stakingInfo?.rewardToken?.symbol
               })}
             </TYPE.body>
-					</AutoColumn>
-				</LoadingView>
-			)}
-			{hash && (
-				<SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
-					<AutoColumn gap="12px" justify={'center'}>
-						<TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-						<TYPE.body fontSize={20}>{t('earn.claimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}</TYPE.body>
-					</AutoColumn>
-				</SubmittedView>
-			)}
-		</Modal>
-	)
+          </AutoColumn>
+        </LoadingView>
+      )}
+      {hash && (
+        <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
+          <AutoColumn gap="12px" justify={'center'}>
+            <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
+            <TYPE.body fontSize={20}>{t('earn.claimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}</TYPE.body>
+          </AutoColumn>
+        </SubmittedView>
+      )}
+    </Modal>
+  )
 }

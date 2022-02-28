@@ -27,6 +27,12 @@ export const DataBox = styled(Box)`
   display: flex;
   margin: 5px 0px 5px 0px;
 `
+
+export const ExtraRewardDataBox = styled(Box)`
+  justify-content: space-between;
+  display: flex;
+  margin: 5px 0px 5px 0px;
+`
 export const PoolSelectWrapper = styled(Box)`
   width: 100%;
   border-radius: 8px;
