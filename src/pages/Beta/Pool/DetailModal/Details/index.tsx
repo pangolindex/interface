@@ -9,6 +9,7 @@ import { usePair } from 'src/data/Reserves'
 import StatDetail from '../StatDetail'
 import numeral from 'numeral'
 import { useActiveWeb3React } from 'src/hooks'
+import { CHAINS } from 'src/constants/chains'
 
 type Props = {
   stakingInfo: StakingInfo
@@ -22,11 +23,12 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
   const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
   const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
 
-  const totalStakedInUsd = numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a')
 
-  let yourStackedInUsd = stakingInfo?.totalStakedInUsd
+  const totalStakedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a') : numeral(stakingInfo.totalStakedInUsd).format('$0.00a')
+
+  let yourStackedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? stakingInfo?.totalStakedInUsd
     .multiply(stakingInfo?.stakedAmount)
-    .divide(stakingInfo?.totalStakedAmount)
+    .divide(stakingInfo?.totalStakedAmount) : undefined
 
   const [, stakingTokenPair] = usePair(token0, token1)
   const pair = stakingTokenPair
