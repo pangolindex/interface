@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { useActiveWeb3React } from 'src/hooks'
+import { useTokenBalance } from 'src/state/wallet/hooks'
 
 export interface WalletCardProps {
   pair: Pair
@@ -17,12 +18,13 @@ export interface WalletCardProps {
 const WalletCard = ({ pair, onClickAddLiquidity, onClickRemoveLiquidity }: WalletCardProps) => {
   const { t } = useTranslation()
 
-  const { chainId } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
   const currency0 = unwrappedToken(pair.token0, chainId || ChainId.AVALANCHE)
   const currency1 = unwrappedToken(pair.token1, chainId || ChainId.AVALANCHE)
 
-  const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)
+  const userPgl = useTokenBalance(account ?? undefined, pair?.liquidityToken)
+  const { liquidityInUSD } = useGetPoolDollerWorth(pair)
 
   return (
     <Panel>

@@ -52,9 +52,7 @@ const DetailView = ({ stakingInfo, onDismiss, version, onOpenClaimModal, onOpenW
 
   const [, stakingTokenPair] = usePair(token0, token1)
   const pair = stakingTokenPair
-  //ATTENTION ICI
   const userPgl  = useTokenBalance(account ?? undefined, pair?.liquidityToken)
-
   const { liquidityInUSD } = useGetPoolDollerWorth(pair)
 
   const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)

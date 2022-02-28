@@ -18,6 +18,7 @@ import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useTranslation } from 'react-i18next'
 import ConfirmStakeDrawer from './ConfirmStakeDrawer'
 import SelectPoolDrawer from './SelectPoolDrawer'
+import { useTokenBalance } from 'src/state/wallet/hooks'
 
 interface StakeProps {
   pair: Pair | null
@@ -34,7 +35,8 @@ const Stake = ({ pair, version, onComplete }: StakeProps) => {
 
   const theme = useContext(ThemeContext)
 
-  const { liquidityInUSD, userPgl: userLiquidityUnstaked } = useGetPoolDollerWorth(selectedPair)
+  const userLiquidityUnstaked = useTokenBalance(account ?? undefined, selectedPair?.liquidityToken)
+  const { liquidityInUSD } = useGetPoolDollerWorth(selectedPair)
 
   const [isPoolDrawerOpen, setIsPoolDrawerOpen] = useState(false)
 
