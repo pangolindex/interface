@@ -22,19 +22,21 @@ import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
 import ClaimDrawer from '../../ClaimDrawer'
 import FarmDrawer from '../../FarmDrawer'
+import AddLiquidityDrawer from '../../AddLiquidityDrawer'
 
 export interface PoolCardProps {
   stakingInfo: StakingInfo
   onClickViewDetail: () => void
-  onClickAddLiquidity: () => void
   version: number
 }
 
-const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity, version }: PoolCardProps) => {
+const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) => {
   const { t } = useTranslation()
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
 
   const [isFarmDrawerVisible, setShowFarmDrawer] = useState(false)
+  const [isAddLiquidityDrawerVisible, setShowAddLiquidityDrawer] = useState(false)
+
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
@@ -144,7 +146,7 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity, version
           ) : (
             <ActionButon
               variant="plain"
-              onClick={() => onClickAddLiquidity()}
+              onClick={() => setShowAddLiquidityDrawer(true)}
               backgroundColor="bg2"
               color="text1"
               height="45px"
@@ -176,6 +178,17 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, onClickAddLiquidity, version
           version={version}
           backgroundColor="color5"
           combinedApr={stakingInfo?.combinedApr}
+        />
+      )}
+
+      {isAddLiquidityDrawerVisible && (
+        <AddLiquidityDrawer
+          isOpen={isAddLiquidityDrawerVisible}
+          onClose={() => {
+            setShowAddLiquidityDrawer(false)
+          }}
+          clickedLpTokens={stakingInfo?.tokens}
+          backgroundColor="color5"
         />
       )}
     </Panel>

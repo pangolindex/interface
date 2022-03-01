@@ -7,15 +7,16 @@ import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import RemoveLiquidityDrawer from '../../RemoveLiquidityDrawer'
+import AddLiquidityDrawer from '../../AddLiquidityDrawer'
 
 export interface WalletCardProps {
   pair: Pair
-  onClickAddLiquidity: () => void
 }
 
-const WalletCard = ({ pair, onClickAddLiquidity }: WalletCardProps) => {
+const WalletCard = ({ pair }: WalletCardProps) => {
   const { t } = useTranslation()
   const [isRemoveLiquidityDrawerVisible, setShowRemoveLiquidityDrawer] = useState(false)
+  const [isAddLiquidityDrawerVisible, setShowAddLiquidityDrawer] = useState(false)
   const currency0 = unwrappedToken(pair.token0)
   const currency1 = unwrappedToken(pair.token1)
 
@@ -54,7 +55,7 @@ const WalletCard = ({ pair, onClickAddLiquidity }: WalletCardProps) => {
 
       <InnerWrapper>
         <Box>
-          <DetailButton variant="plain" onClick={() => onClickAddLiquidity()} color="text1" height="45px">
+          <DetailButton variant="plain" onClick={() => setShowAddLiquidityDrawer(true)} color="text1" height="45px">
             {t('positionCard.add')}
           </DetailButton>
         </Box>
@@ -70,6 +71,17 @@ const WalletCard = ({ pair, onClickAddLiquidity }: WalletCardProps) => {
           </ActionButon>
         </Box>
       </InnerWrapper>
+
+      {isAddLiquidityDrawerVisible && (
+        <AddLiquidityDrawer
+          isOpen={isAddLiquidityDrawerVisible}
+          onClose={() => {
+            setShowAddLiquidityDrawer(false)
+          }}
+          clickedLpTokens={[pair?.token0, pair?.token1]}
+          backgroundColor="color5"
+        />
+      )}
 
       {isRemoveLiquidityDrawerVisible && (
         <RemoveLiquidityDrawer

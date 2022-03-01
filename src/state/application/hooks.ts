@@ -71,10 +71,6 @@ export function useToggleVoteModal(): () => void {
   return useToggleModal(ApplicationModal.VOTE)
 }
 
-export function useAddLiquiditynModalToggle(): () => void {
-  return useToggleModal(ApplicationModal.ADD_LIQUIDITY)
-}
-
 // returns a function that allows adding a popup
 export function useAddPopup(): (content: PopupContent, key?: string) => void {
   const dispatch = useDispatch()

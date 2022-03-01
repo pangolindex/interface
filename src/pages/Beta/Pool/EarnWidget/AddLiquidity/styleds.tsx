@@ -54,3 +54,16 @@ export const LightCard = styled(Box)`
   margin-top: 10px;
   padding: 10px;
 `
+export const InputWrapper = styled(Box)<{ type: string }>`
+  display: grid;
+  grid-auto-flow: ${({ type }) => (type === 'detail' ? 'row' : 'column')};
+  grid-auto-columns: minmax(0, 1fr);
+  grid-gap: 5px;
+`
+export const Buttons = styled(Box)`
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-gap: 10px;
+  margin-top: 10px;
+`

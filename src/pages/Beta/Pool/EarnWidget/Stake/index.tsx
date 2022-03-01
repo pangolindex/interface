@@ -455,7 +455,6 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
               variant="primary"
               isDisabled={!!error || (signatureData === null && approval !== ApprovalState.APPROVED)}
               onClick={() => {
-                // setShowConfirm(true)
                 onStake()
               }}
               loading={attempting && !hash}

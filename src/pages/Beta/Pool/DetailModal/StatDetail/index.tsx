@@ -29,6 +29,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
           pair.getLiquidityValue(pair.token1, totalPoolTokens, pgl, false)
         ]
       : [undefined, undefined]
+
   return (
     <Box>
       <Text color="text1" fontSize={24} fontWeight={400}>

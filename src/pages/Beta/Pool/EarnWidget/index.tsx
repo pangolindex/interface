@@ -19,7 +19,7 @@ const EarnWidget = ({ currencyA, currencyB, pair, version }: EarnWidgetProps) =>
     <Root>
       <EarnOption type={type} setType={setType} />
       {type === 'Pool' ? (
-        <AddLiquidity currencyA={currencyA} currencyB={currencyB} />
+        <AddLiquidity currencyA={currencyA} currencyB={currencyB} type="detail" />
       ) : (
         <Stake pair={pair} version={version} type="detail" />
       )}
