@@ -18,7 +18,6 @@ import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
 import { tryParseAmount } from '../../state/swap/hooks'
 
-
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
   padding: 1rem;
@@ -31,7 +30,12 @@ interface UpgradeTokenModalModalProps {
   abTokenAddress: string
 }
 
-export default function UpgradeTokenModal({ isOpen, onDismiss, aebTokenBalance, abTokenAddress }: UpgradeTokenModalModalProps) {
+export default function UpgradeTokenModal({
+  isOpen,
+  onDismiss,
+  aebTokenBalance,
+  abTokenAddress
+}: UpgradeTokenModalModalProps) {
   const { account, library } = useActiveWeb3React()
 
   // track and parse user input
@@ -119,7 +123,7 @@ export default function UpgradeTokenModal({ isOpen, onDismiss, aebTokenBalance, 
             currency={aebTokenBalance?.token}
             label={''}
             disableCurrencySelect={true}
-            customBalanceText={"Available to upgrade: "}
+            customBalanceText={'Available to upgrade: '}
             id="upgrade-token"
           />
 
@@ -147,7 +151,9 @@ export default function UpgradeTokenModal({ isOpen, onDismiss, aebTokenBalance, 
         <LoadingView onDismiss={wrappedOnDismiss}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>Upgrading token</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{parsedAmount?.toSignificant(4)} {parsedAmount?.currency?.symbol}</TYPE.body>
+            <TYPE.body fontSize={20}>
+              {parsedAmount?.toSignificant(4)} {parsedAmount?.currency?.symbol}
+            </TYPE.body>
           </AutoColumn>
         </LoadingView>
       )}
@@ -155,7 +161,9 @@ export default function UpgradeTokenModal({ isOpen, onDismiss, aebTokenBalance, 
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>Upgraded {parsedAmount?.toSignificant(4)} {parsedAmount?.currency?.symbol}</TYPE.body>
+            <TYPE.body fontSize={20}>
+              Upgraded {parsedAmount?.toSignificant(4)} {parsedAmount?.currency?.symbol}
+            </TYPE.body>
           </AutoColumn>
         </SubmittedView>
       )}

@@ -48,7 +48,7 @@ const LimitOrderDetailInfo: React.FC<Props> = ({ trade }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [outputAmount, chainId, library, rawOutputAmount])
 
-  const renderRow = (label: string, value: string, showSeverity?: boolean) => {
+  const renderRow = (label: string, value: string) => {
     return (
       <DataBox key={label}>
         <Text color="text4" fontSize={14}>

@@ -87,7 +87,7 @@ export default function TradingViewChart() {
         }
       })
 
-      let series = chart.addAreaSeries({
+      const series = chart.addAreaSeries({
         topColor: 'transparent',
         bottomColor: 'transparent',
         lineColor: '#E67826',
@@ -98,7 +98,7 @@ export default function TradingViewChart() {
       })
 
       series.setData(formattedData)
-      let toolTip = document.createElement('div')
+      const toolTip = document.createElement('div')
       toolTip.setAttribute('id', 'tooltip-id')
       if (htmlElement) htmlElement.appendChild(toolTip)
       toolTip.style.display = 'block'
