@@ -15,7 +15,7 @@ const Layout: React.FC<unknown> = ({ children }) => {
     <Wrapper>
       <Sidebar collapsed={isDrawerCollapsed} onCollapsed={value => setIsDrawerCollapsed(value)} />
       <MainContent collapsed={isDrawerCollapsed}>
-        <Header onCollapsed={() => setIsDrawerCollapsed(!isDrawerCollapsed)} />
+        <Header />
         <AppContent>{children}</AppContent>
       </MainContent>
     </Wrapper>

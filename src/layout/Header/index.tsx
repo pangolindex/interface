@@ -50,11 +50,7 @@ const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
   [ChainId.WAGMI]: 'WGM'
 }
 
-interface HeaderProps {
-  onCollapsed: () => void
-}
-
-export default function Header({ onCollapsed }: HeaderProps) {
+export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)

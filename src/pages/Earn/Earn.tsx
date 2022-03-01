@@ -228,9 +228,10 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
         const poolCards = updatedStakingInfos.map((stakingInfo, index) => {
           return (
             <DoubleSidePoolCard
-              /* eslint-disable @typescript-eslint/ban-ts-comment */
+              // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
               // @ts-ignore
               swapFeeApr={stakingInfo.swapFeeApr}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
               // @ts-ignore
               stakingApr={stakingInfo.stakingApr}
               key={index}

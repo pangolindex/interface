@@ -50,7 +50,7 @@ const SelectPoolDrawer: React.FC<Props> = props => {
               itemCount={allV2PairsWithLiquidity.length}
               itemSize={56}
               itemData={allV2PairsWithLiquidity}
-              itemKey={(index, data) => index}
+              itemKey={index => index}
             >
               {Row}
             </FixedSizeList>

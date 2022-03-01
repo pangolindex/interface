@@ -1,6 +1,6 @@
 {
   "name": "@pangolindex/interface",
-  "version": "1.0.2-dev.5",
+  "version": "1.0.2-dev.6",
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
@@ -69,10 +69,12 @@
     "ethers": "^5.0.7",
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
+    "husky": "^7.0.0",
     "i18next": "^20.3.4",
     "i18next-browser-languagedetector": "^3.0.1",
     "i18next-xhr-backend": "^2.0.1",
     "inter-ui": "^3.13.1",
+    "lint-staged": "^12.3.4",
     "lodash.flatmap": "^4.5.0",
     "luxon": "^1.25.0",
     "multicodec": "^2.0.0",
@@ -124,8 +126,18 @@
     "eject": "react-scripts eject",
     "serve": "serve build -l 3000",
     "version": "npm run build",
+    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "get:version": "node -pe \"require('./package.json').version\"",
-    "integration-test": "start-server-and-test 'serve build -l 3000' http://localhost:3000 'cypress run'"
+    "integration-test": "start-server-and-test 'serve build -l 3000' http://localhost:3000 'cypress run'",
+    "prepare": "husky install",
+    "type-check": "tsc --noEmit",
+    "pre-commit-hook": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{jsx,js,ts,tsx}": [
+      "bash -c 'npm run type-check'",
+      "npm run lint"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app",

@@ -31,7 +31,7 @@ const LogoIcon = styled(Box)`
   left: 44.5%;
 `
 
-export function LoadingView({ children, onDismiss }: { children: any; onDismiss: () => void }) {
+export function LoadingView({ children }: { children: any; onDismiss: () => void }) {
   const { t } = useTranslation()
   return (
     <ConfirmOrLoadingWrapper>
