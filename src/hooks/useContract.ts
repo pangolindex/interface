@@ -1,5 +1,5 @@
 import { Contract } from '@ethersproject/contracts'
-import { ChainId, WAVAX } from '@antiyro/sdk'
+import { ChainId, WAVAX } from '@pangolindex/sdk'
 import IPangolinPair from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-core/interfaces/IPangolinPair.sol/IPangolinPair.json'
 import StakingRewards from '@pangolindex/governance/artifacts/contracts/StakingRewards.sol/StakingRewards.json'
 import Airdrop from '@pangolindex/governance/artifacts/contracts/Airdrop.sol/Airdrop.json'

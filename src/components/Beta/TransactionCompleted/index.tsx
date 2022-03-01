@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Box, Text, Button } from '@0xkilo/components'
+import { Box, Text, Button } from '@pangolindex/components'
 import { Root } from './styled'
 import CircleTick from 'src/assets/svg/circleTick.svg'
 import { CloseIcon } from 'src/theme/components'

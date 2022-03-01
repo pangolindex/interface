@@ -1,4 +1,4 @@
-import { ChainId, Trade, TradeType } from '@antiyro/sdk'
+import { ChainId, Trade, TradeType } from '@pangolindex/sdk'
 import React, { useContext, useMemo } from 'react'
 import { ArrowDown, AlertTriangle } from 'react-feather'
 import { Text } from 'rebass'

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Box } from '@0xkilo/components'
+import { Box } from '@pangolindex/components'
 
 export const MainContent = styled.div<{ collapsed: boolean }>`
   &&& {

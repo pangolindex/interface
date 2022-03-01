@@ -1,4 +1,4 @@
-import { CurrencyAmount, CAVAX, JSBI, ChainId } from '@antiyro/sdk'
+import { CurrencyAmount, CAVAX, JSBI, ChainId } from '@pangolindex/sdk'
 import { MIN_ETH } from '../constants'
 import { CurrencyAmount as UniCurrencyAmount, Currency } from '@uniswap/sdk-core'
 

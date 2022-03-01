@@ -1,4 +1,4 @@
-import { TokenAmount, Pair, Currency, ChainId } from '@antiyro/sdk'
+import { TokenAmount, Pair, Currency, ChainId } from '@pangolindex/sdk'
 import { useMemo } from 'react'
 import IPangolinPair from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-core/interfaces/IPangolinPair.sol/IPangolinPair.json'
 import { Interface } from '@ethersproject/abi'

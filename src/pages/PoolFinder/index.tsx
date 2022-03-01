@@ -1,4 +1,4 @@
-import { Currency, CAVAX, JSBI, TokenAmount, ChainId } from '@antiyro/sdk'
+import { Currency, CAVAX, JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Plus } from 'react-feather'
 import { Text } from 'rebass'

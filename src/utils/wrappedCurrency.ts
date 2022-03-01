@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, CAVAX, Token, TokenAmount, WAVAX } from '@antiyro/sdk'
+import { ChainId, Currency, CurrencyAmount, CAVAX, Token, TokenAmount, WAVAX } from '@pangolindex/sdk'
 import { NativeCurrency as UniCurrency, Token as UniToken } from '@uniswap/sdk-core'
 
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Text, Box, ToggleButtons } from '@0xkilo/components'
+import { Text, Box, ToggleButtons } from '@pangolindex/components'
 import LimitOrderRow from './LimitOrderRow'
 import { DesktopLimitOrderList, GridContainer, MobileLimitOrderList } from './styleds'
 import Scrollbars from 'react-custom-scrollbars'

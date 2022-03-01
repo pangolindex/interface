@@ -1,4 +1,4 @@
-import { ChainId, Trade, TradeType } from '@antiyro/sdk'
+import { ChainId, Trade, TradeType } from '@pangolindex/sdk'
 import React, { useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { Field } from '../../state/swap/actions'

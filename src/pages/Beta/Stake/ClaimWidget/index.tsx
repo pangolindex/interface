@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Text, Button } from '@0xkilo/components'
+import { Box, Text, Button } from '@pangolindex/components'
 import { WidgetWrapper, Root } from './styled'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { useStakingContract } from 'src/hooks/useContract'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
-import { ChainId } from '@antiyro/sdk'
+import { ChainId } from '@pangolindex/sdk'
 
 interface ClaimProps {
   stakingInfo: SingleSideStakingInfo

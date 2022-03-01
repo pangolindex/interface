@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box, CurrencyLogo, DoubleCurrencyLogo } from '@0xkilo/components'
+import { Text, Box, CurrencyLogo, DoubleCurrencyLogo } from '@pangolindex/components'
 import { RowWrapper } from './styleds'
 import { PairDataUser, TokenDataUser } from 'src/state/portifolio/hooks'
 

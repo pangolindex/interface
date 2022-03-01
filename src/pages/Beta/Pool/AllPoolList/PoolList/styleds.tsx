@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Box, TextInput } from '@0xkilo/components'
+import { Box, TextInput } from '@pangolindex/components'
 
 export const PoolsWrapper = styled(Box)`
   width: 100%;

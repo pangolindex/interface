@@ -15,7 +15,7 @@ import { useCurrency } from '../../hooks/Tokens'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
 import { useUserSlippageTolerance } from '../../state/user/hooks'
 import { Field } from '../../state/burn/actions'
-import { CAVAX, ChainId, currencyEquals, Percent, WAVAX } from '@antiyro/sdk'
+import { CAVAX, ChainId, currencyEquals, Percent, WAVAX } from '@pangolindex/sdk'
 import { Contract } from '@ethersproject/contracts'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
 import { ROUTER_ADDRESS } from '../../constants'
@@ -68,6 +68,18 @@ export default function RemoveLiquidityModal({
     currencyB,
     chainId
   ])
+
+  const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
+    [ChainId.FUJI]: 'AVAX',
+    [ChainId.AVALANCHE]: 'AVAX',
+    [ChainId.WAGMI]: 'WGM'
+  }
+
+  const NETWORK_WRAPPED_CURRENCY: { [chainId in ChainId]?: string } = {
+    [ChainId.FUJI]: 'WAVAX',
+    [ChainId.AVALANCHE]: 'WAVAX',
+    [ChainId.WAGMI]: 'wWAGMI'
+  }
 
   // toggle wallet when disconnected
   const toggleWalletModal = useWalletModalToggle()
@@ -575,7 +587,7 @@ export default function RemoveLiquidityModal({
                             setCurrencyIdB(currencyB === CAVAX[chainId] ? WAVAX[chainId].address : currencyIdB)
                           }}
                         >
-                          {t('removeLiquidity.receiveWavax')}
+                          {t('removeLiquidity.receiveWavax', { symbol: NETWORK_WRAPPED_CURRENCY[chainId] })}
                         </LinkStyledButton>
                       ) : oneCurrencyIsWAVAX ? (
                         <LinkStyledButton
@@ -588,7 +600,7 @@ export default function RemoveLiquidityModal({
                             )
                           }}
                         >
-                          {t('removeLiquidity.receiveAvax')}
+                          {t('removeLiquidity.receiveAvax', { symbol: NETWORK_CURRENCY[chainId] })}
                         </LinkStyledButton>
                       ) : null}
                     </RowBetween>

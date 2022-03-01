@@ -16,7 +16,7 @@ import { SearchInput } from '../../components/SearchModal/styleds'
 import useDebounce from '../../hooks/useDebounce'
 import { BIG_INT_ZERO } from '../../constants'
 import Toggle from '../../components/Toggle'
-import { ChainId } from '@antiyro/sdk'
+import { ChainId } from '@pangolindex/sdk'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;

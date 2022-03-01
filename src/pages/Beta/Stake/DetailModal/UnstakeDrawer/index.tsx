@@ -6,11 +6,11 @@ import { useStakingContract } from 'src/hooks/useContract'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Box, Button, Text } from '@0xkilo/components'
+import { Box, Button, Text } from '@pangolindex/components'
 import { ConfirmWrapper, Wrapper } from './styled'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
-import { ChainId } from '@antiyro/sdk'
+import { ChainId } from '@pangolindex/sdk'
 
 type Props = {
   isOpen: boolean

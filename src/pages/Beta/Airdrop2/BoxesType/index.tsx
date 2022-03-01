@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Text } from '@0xkilo/components'
+import { Text } from '@pangolindex/components'
 import { ClaimBox, StyledLogo, Separator, BoxWrapper, SeparatorEmpty } from '../styleds'
 import WgmLogo from '../../../../assets/images/wgmlogo.png'
 import { ButtonToConnect } from '../ButtonsType'
-import { Button } from '@0xkilo/components'
+import { Button } from '@pangolindex/components'
 
 export const BoxNotConnected = () => {
 

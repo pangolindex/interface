@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, JSBI, Pair, Percent, TokenAmount, ChainId } from '@antiyro/sdk'
+import { Currency, CurrencyAmount, JSBI, Pair, Percent, TokenAmount, ChainId } from '@pangolindex/sdk'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { usePair } from '../../data/Reserves'

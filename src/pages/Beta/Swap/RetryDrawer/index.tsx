@@ -1,6 +1,6 @@
 import React from 'react'
 import { Divider } from './styled'
-import { Text, Box } from '@0xkilo/components'
+import { Text, Box } from '@pangolindex/components'
 import Drawer from 'src/components/Drawer'
 
 interface Props {

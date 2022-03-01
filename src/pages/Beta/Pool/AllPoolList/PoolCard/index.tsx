@@ -1,5 +1,5 @@
 import React from 'react'
-import { Fraction, ChainId } from '@antiyro/sdk'
+import { Fraction, ChainId } from '@pangolindex/sdk'
 import {
   Panel,
   Divider,
@@ -11,7 +11,7 @@ import {
   OptionButton
 } from './styleds'
 import Stat from 'src/components/Stat'
-import { Text, Box, DoubleCurrencyLogo } from '@0xkilo/components'
+import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'

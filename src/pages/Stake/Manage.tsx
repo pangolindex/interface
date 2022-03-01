@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
-import { ChainId, JSBI } from '@antiyro/sdk'
+import { ChainId, JSBI } from '@pangolindex/sdk'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import { useCurrency } from 'src/hooks/Tokens'
 import { useWalletModalToggle } from 'src/state/application/hooks'

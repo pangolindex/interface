@@ -1,4 +1,4 @@
-import { Box, Button } from "@0xkilo/components"
+import { Box, Button } from "@pangolindex/components"
 import styled from 'styled-components'
 
 import { ButtonPrimary } from '../../../components/Button'

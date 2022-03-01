@@ -1,6 +1,6 @@
 import React from 'react'
-import { Text, Box } from '@0xkilo/components'
-import { ChainId, Currency, TokenAmount } from '@antiyro/sdk'
+import { Text, Box } from '@pangolindex/components'
+import { ChainId, Currency, TokenAmount } from '@pangolindex/sdk'
 import { StateContainer } from './styleds'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'

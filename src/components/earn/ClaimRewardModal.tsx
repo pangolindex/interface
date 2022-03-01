@@ -12,7 +12,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
-import { TokenAmount, ChainId } from '@antiyro/sdk'
+import { TokenAmount, ChainId } from '@pangolindex/sdk'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;

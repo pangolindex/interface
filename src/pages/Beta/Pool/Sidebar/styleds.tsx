@@ -1,7 +1,7 @@
-import { Box } from '@0xkilo/components'
+import { Box } from '@pangolindex/components'
 import styled from 'styled-components'
 import { darken } from 'polished'
-import { Text } from '@0xkilo/components'
+import { Text } from '@pangolindex/components'
 
 export const SidebarWrapper = styled(Box)`
   width: 100%;

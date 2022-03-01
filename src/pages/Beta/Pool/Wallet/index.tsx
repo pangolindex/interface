@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { ThemeContext } from 'styled-components'
-import { Token } from '@antiyro/sdk'
+import { Token } from '@pangolindex/sdk'
 import { TYPE } from 'src/theme'
 import Card from 'src/components/Card'
 import { useActiveWeb3React } from 'src/hooks'

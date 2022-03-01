@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Text } from '@0xkilo/components'
+import { Box, Text } from '@pangolindex/components'
 import LogoIcon from 'src/assets/svg/logoIcon.svg'
 import { Loading } from 'src/components/Icons'
 import styled from 'styled-components'

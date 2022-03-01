@@ -1,4 +1,4 @@
-import { Box, Text } from '@0xkilo/components'
+import { Box, Text } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const WatchListRoot = styled(Box)`

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import { ArrowUpCircle, Plus } from 'react-feather'
 import { useTranslation } from 'react-i18next'
-import { Currency, CurrencyAmount, Pair, Percent, TokenAmount } from '@antiyro/sdk'
-import { Text, Box, Button, CurrencyLogo, DoubleCurrencyLogo } from '@0xkilo/components'
+import { Currency, CurrencyAmount, Pair, Percent, TokenAmount } from '@pangolindex/sdk'
+import { Text, Box, Button, CurrencyLogo, DoubleCurrencyLogo } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import Drawer from 'src/components/Drawer'
 import {

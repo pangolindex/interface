@@ -1,5 +1,5 @@
-import { Box, Button, Text } from '@0xkilo/components'
-import { JSBI, ChainId } from '@antiyro/sdk'
+import { Box, Button, Text } from '@pangolindex/components'
+import { JSBI, ChainId } from '@pangolindex/sdk'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'

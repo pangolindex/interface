@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Steps, Step } from '@0xkilo/components'
+import { Box, Steps, Step } from '@pangolindex/components'
 import { PValue } from './styled'
 
 interface Props {

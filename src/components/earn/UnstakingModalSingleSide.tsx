@@ -13,7 +13,7 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import FormattedCurrencyAmount from '../FormattedCurrencyAmount'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
-import { ChainId } from '@antiyro/sdk'
+import { ChainId } from '@pangolindex/sdk'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
