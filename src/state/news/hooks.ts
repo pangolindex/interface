@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import axios from 'axios'
 import qs from 'qs'
+import { useQuery } from 'react-query'
 
 enum TypeNews {
   news = 1,
@@ -19,8 +20,6 @@ export interface News {
 
 // Get News in Pangolin Strapi api
 export function useGetNews() {
-  const [news, setNews] = useState<News[]>()
-
   const query = qs.stringify(
     {
       filters: {
@@ -39,26 +38,23 @@ export function useGetNews() {
     }
   )
 
-  useEffect(() => {
-    const getNews = async () => {
-      const response = await fetch(`https://cms.api.pango.elasticboard.io/api/articles?${query}`)
-      const data = await response.json()
-      const requestNews: News[] = data?.data?.map((element: any) => {
-        return {
-          id: element?.id,
-          title: element?.attributes?.title,
-          content: element?.attributes?.content,
-          createdAt: new Date(element?.attributes?.createdAt),
-          updatedAt: new Date(element?.attributes?.updatedAt),
-          publishedAt: new Date(element?.attributes?.publishedAt),
-          type: TypeNews[element?.attributes?.Type]
-        }
-      })
-      setNews(requestNews)
-    }
+  return useQuery('getNews', async () => {
+    const response = await axios.get(`https://cms.api.pango.elasticboard.io/api/articles?${query}`, {
+      timeout: 1000
+    })
+    const data = response.data
+    const news: News[] = data?.data?.map((element: any) => {
+      return {
+        id: element?.id,
+        title: element?.attributes?.title,
+        content: element?.attributes?.content,
+        createdAt: new Date(element?.attributes?.createdAt),
+        updatedAt: new Date(element?.attributes?.updatedAt),
+        publishedAt: new Date(element?.attributes?.publishedAt),
+        type: TypeNews[element?.attributes?.Type]
+      }
+    })
 
-    getNews()
-  }, [query, setNews])
-
-  return news
+    return news
+  })
 }

@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom'
 import ReactGA from 'react-ga'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { NetworkContextName } from './constants'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
@@ -62,6 +63,8 @@ window.addEventListener('error', error => {
   })
 })
 
+const queryClient = new QueryClient()
+
 function Updaters() {
   return (
     <>
@@ -111,10 +114,12 @@ ReactDOM.render(
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
         <Provider store={store}>
-          <Updaters />
-          <ThemeProvider>
-            <ComponentThemeProvider />
-          </ThemeProvider>
+          <QueryClientProvider client={queryClient}>
+            <Updaters />
+            <ThemeProvider>
+              <ComponentThemeProvider />
+            </ThemeProvider>
+          </QueryClientProvider>
         </Provider>
       </Web3ProviderNetwork>
     </Web3ReactProvider>

@@ -35,7 +35,7 @@ export default function NewsWidget() {
   const handleNewsBack = () => {
     sliderRef?.current?.slickPrev()
   }
-  const news = useGetNews()
+  const {data: news, isLoading} = useGetNews()
 
   return (
     <NewsSection img={Earth}>
@@ -49,7 +49,7 @@ export default function NewsWidget() {
         </SlickNext>
       </Box>
       <Box height="90%" paddingTop="10px">
-        {!!news ? (
+        {!isLoading ? (
           <Slider ref={sliderRef} {...NewsFeedSettings}>
             {news &&
               news.map((element: News) => (
