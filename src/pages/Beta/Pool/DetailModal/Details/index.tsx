@@ -22,7 +22,7 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
 
   const totalStakedInUsd = numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a')
 
-  let yourStackedInUsd = stakingInfo?.totalStakedInUsd
+  const yourStakeInUsd = stakingInfo?.totalStakedInUsd
     .multiply(stakingInfo?.stakedAmount)
     .divide(stakingInfo?.totalStakedAmount)
 
@@ -31,7 +31,7 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
   const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
-  
+
   return (
     <>
       <DetailsContainer>
@@ -64,7 +64,7 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
               currency0={currency0}
               currency1={currency1}
               pair={pair}
-              totalAmount={`${numeral((yourStackedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}`}
+              totalAmount={`${numeral((yourStakeInUsd as Fraction)?.toFixed(2)).format('$0.00a')}`}
               pgl={stakingInfo?.stakedAmount}
             />
           </Box>
