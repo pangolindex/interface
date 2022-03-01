@@ -1,4 +1,4 @@
-import { JSBI, Pair, Percent, ChainId } from '@antiyro/sdk'
+import { JSBI, Pair, Percent, ChainId } from '@pangolindex/sdk'
 import { darken } from 'polished'
 import React, { useState } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'

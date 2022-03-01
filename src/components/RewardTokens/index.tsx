@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@antiyro/sdk'
+import { ChainId, Token } from '@pangolindex/sdk'
 import React from 'react'
 import styled from 'styled-components'
 import { PNG } from '../../constants'

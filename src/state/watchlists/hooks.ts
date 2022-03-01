@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { ChainId, Token } from '@antiyro/sdk'
+import { ChainId, Token } from '@pangolindex/sdk'
 import { AppState } from '../index'
 import { useActiveWeb3React } from 'src/hooks'
 import { useAllTokens } from 'src/hooks/Tokens'

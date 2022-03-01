@@ -9,7 +9,7 @@ import {
   Price,
   TokenAmount,
   ChainId
-} from '@antiyro/sdk'
+} from '@pangolindex/sdk'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { PairState, usePair } from '../../data/Reserves'

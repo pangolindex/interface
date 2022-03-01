@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Text } from '@0xkilo/components'
-import { JSBI } from '@antiyro/sdk'
+import { Text } from '@pangolindex/components'
+import { JSBI } from '@pangolindex/sdk'
 import numeral from 'numeral'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'

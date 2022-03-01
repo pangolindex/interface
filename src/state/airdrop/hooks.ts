@@ -3,7 +3,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { useAirdropContract } from '../../hooks/useContract'
 import { calculateGasMargin } from '../../utils'
 import { useTransactionAdder } from '../transactions/hooks'
-import { TokenAmount, JSBI } from '@antiyro/sdk'
+import { TokenAmount, JSBI } from '@pangolindex/sdk'
 import { PNG } from './../../constants/index'
 import { useSingleCallResult } from '../multicall/hooks'
 

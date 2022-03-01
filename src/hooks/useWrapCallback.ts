@@ -1,4 +1,4 @@
-import { Currency, currencyEquals, CAVAX, WAVAX, ChainId } from '@antiyro/sdk'
+import { Currency, currencyEquals, CAVAX, WAVAX, ChainId } from '@pangolindex/sdk'
 import { useMemo } from 'react'
 import { tryParseAmount } from '../state/swap/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
@@ -31,6 +31,18 @@ export default function useWrapCallback(
   const inputAmount = useMemo(() => tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, typedValue, inputCurrency), [chainId, inputCurrency, typedValue])
   const addTransaction = useTransactionAdder()
 
+  const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
+    [ChainId.FUJI]: 'AVAX',
+    [ChainId.AVALANCHE]: 'AVAX',
+    [ChainId.WAGMI]: 'WGM'
+  }
+
+  const NETWORK_WRAPPED_CURRENCY: { [chainId in ChainId]?: string } = {
+    [ChainId.FUJI]: 'WAVAX',
+    [ChainId.AVALANCHE]: 'WAVAX',
+    [ChainId.WAGMI]: 'wWAGMI'
+  }
+
   return useMemo(() => {
     if (!wethContract || !chainId || !inputCurrency || !outputCurrency) return NOT_APPLICABLE
 
@@ -44,13 +56,13 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.deposit({ value: `0x${inputAmount.raw.toString(16)}` })
-                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} AVAX to WAVAX` })
+                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} ${NETWORK_CURRENCY[chainId]} to ${NETWORK_WRAPPED_CURRENCY[chainId]}` })
                 } catch (error) {
                   console.error('Could not deposit', error)
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient AVAX balance'
+        inputError: sufficientBalance ? undefined : `Insufficient ${NETWORK_CURRENCY[chainId]} balance`
       }
     } else if (currencyEquals(WAVAX[chainId], inputCurrency) && outputCurrency === CAVAX[chainId || ChainId.AVALANCHE]) {
       return {
@@ -60,16 +72,16 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.withdraw(`0x${inputAmount.raw.toString(16)}`)
-                  addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} WAVAX to AVAX` })
+                  addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} ${NETWORK_WRAPPED_CURRENCY[chainId]} to ${NETWORK_CURRENCY[chainId]}` })
                 } catch (error) {
                   console.error('Could not withdraw', error)
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient WAVAX balance'
+        inputError: sufficientBalance ? undefined : `Insufficient ${NETWORK_WRAPPED_CURRENCY[chainId]} balance`
       }
     } else {
       return NOT_APPLICABLE
     }
-  }, [wethContract, chainId, inputCurrency, outputCurrency, inputAmount, balance, addTransaction])
+  }, [wethContract, chainId, inputCurrency, outputCurrency, inputAmount, balance, addTransaction, NETWORK_WRAPPED_CURRENCY, NETWORK_CURRENCY])
 }

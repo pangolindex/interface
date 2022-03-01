@@ -11,7 +11,7 @@ import PoolCard from './PoolCard'
 import { useModalOpen, useSingleSideStakingDetailnModalToggle } from 'src/state/application/hooks'
 import DetailModal from './DetailModal'
 import { ApplicationModal } from 'src/state/application/actions'
-import { ChainId } from '@antiyro/sdk'
+import { ChainId } from '@pangolindex/sdk'
 
 interface RouteParams {
   version: string

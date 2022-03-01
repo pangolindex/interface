@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Token, TokenAmount } from '@antiyro/sdk'
+import { ChainId, JSBI, Token, TokenAmount } from '@pangolindex/sdk'
 import { BigNumber } from 'ethers'
 import { ZERO_ADDRESS } from '../constants'
 import { computePngCirculation } from './computePngCirculation'

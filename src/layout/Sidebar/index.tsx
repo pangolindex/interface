@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Text, Box } from '@0xkilo/components'
+import { Text, Box } from '@pangolindex/components'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import { ThemeContext } from 'styled-components'
 import { useTranslation } from 'react-i18next'

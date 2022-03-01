@@ -1,4 +1,4 @@
-import { Currency } from '@antiyro/sdk'
+import { Currency } from '@pangolindex/sdk'
 import React from 'react'
 import { useActiveWeb3React } from 'src/hooks'
 import styled from 'styled-components'

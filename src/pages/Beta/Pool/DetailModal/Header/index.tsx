@@ -1,4 +1,4 @@
-import { Box, DoubleCurrencyLogo, Text } from '@0xkilo/components'
+import { Box, DoubleCurrencyLogo, Text } from '@pangolindex/components'
 import React, { useContext } from 'react'
 import Stat from 'src/components/Stat'
 import { StakingInfo } from 'src/state/stake/hooks'
@@ -10,7 +10,7 @@ import { CloseIcon } from 'src/theme'
 import { Hidden, Visible } from 'src/theme'
 import RewardTokens from 'src/components/RewardTokens'
 import { useTokens } from 'src/hooks/Tokens'
-import { ChainId } from '@antiyro/sdk'
+import { ChainId } from '@pangolindex/sdk'
 import { useActiveWeb3React } from 'src/hooks'
 
 type Props = {

@@ -1,4 +1,4 @@
-import { Box, CurrencyInput, TextInput } from '@0xkilo/components'
+import { Box, CurrencyInput, TextInput } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const Root = styled(Box)`

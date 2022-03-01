@@ -10,7 +10,7 @@ import { currencyId } from '../../utils/currencyId'
 import { Break } from './styled'
 import { useTranslation } from 'react-i18next'
 import CurrencyLogo from '../CurrencyLogo'
-import { JSBI, ChainId } from "@antiyro/sdk";
+import { JSBI, ChainId } from "@pangolindex/sdk";
 import { useActiveWeb3React } from 'src/hooks'
 
 const StatContainer = styled.div`

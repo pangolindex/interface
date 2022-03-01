@@ -12,7 +12,7 @@ import Loader from '../../components/Loader'
 import { useActiveWeb3React } from '../../hooks'
 import { BIG_INT_ZERO } from '../../constants'
 import { useTranslation } from 'react-i18next'
-import { ChainId } from '@antiyro/sdk'
+import { ChainId } from '@pangolindex/sdk'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;

@@ -1,4 +1,4 @@
-import { Currency, CAVAX, Token, ChainId } from '@antiyro/sdk'
+import { Currency, CAVAX, Token, ChainId } from '@pangolindex/sdk'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 

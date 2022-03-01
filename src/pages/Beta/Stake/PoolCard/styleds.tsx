@@ -1,4 +1,4 @@
-import { Box, Button, Text } from '@0xkilo/components'
+import { Box, Button, Text } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const Card = styled(Box)`

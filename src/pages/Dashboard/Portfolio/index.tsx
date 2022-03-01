@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Box, Text } from '@0xkilo/components'
+import { Box, Text } from '@pangolindex/components'
 import Scrollbars from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
 import { ThemeContext } from 'styled-components'

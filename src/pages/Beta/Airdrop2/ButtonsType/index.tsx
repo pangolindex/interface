@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@0xkilo/components'
+import { Button } from '@pangolindex/components'
 import { useWalletModalToggle } from 'src/state/application/hooks'
 import { useTranslation } from 'react-i18next'
 

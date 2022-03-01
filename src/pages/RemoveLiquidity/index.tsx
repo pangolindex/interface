@@ -1,7 +1,7 @@
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, CAVAX, Percent, WAVAX, ChainId } from '@antiyro/sdk'
+import { Currency, currencyEquals, CAVAX, Percent, WAVAX, ChainId } from '@pangolindex/sdk'
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { ArrowDown, Plus } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -598,7 +598,7 @@ export default function RemoveLiquidity({
                               currencyB === CAVAX[chainId] ? WAVAX[chainId].address : currencyIdB
                             }`}
                           >
-                            {t('removeLiquidity.receiveWavax')}{NETWORK_WRAPPED_CURRENCY[chainId]}
+                            {t('removeLiquidity.receiveWavax', { symbol: NETWORK_WRAPPED_CURRENCY[chainId] })}
                           </StyledInternalLink>
                         ) : oneCurrencyIsWAVAX ? (
                           <StyledInternalLink
@@ -606,7 +606,7 @@ export default function RemoveLiquidity({
                               currencyA && currencyEquals(currencyA, WAVAX[chainId]) ? 'AVAX' : currencyIdA
                             }/${currencyB && currencyEquals(currencyB, WAVAX[chainId]) ? 'AVAX' : currencyIdB}`}
                           >
-                            {t('removeLiquidity.receiveAvax')}{NETWORK_CURRENCY[chainId]}
+                             {t('removeLiquidity.receiveAvax', { symbol: NETWORK_CURRENCY[chainId] })}
                           </StyledInternalLink>
                         ) : null}
                       </RowBetween>

@@ -1,4 +1,4 @@
-import { CAVAX, ChainId, Currency, Pair, Token, TokenAmount } from '@antiyro/sdk'
+import { CAVAX, ChainId, Currency, Pair, Token, TokenAmount } from '@pangolindex/sdk'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { CHAINS, ChainsId } from 'src/constants/chains'

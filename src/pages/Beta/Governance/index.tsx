@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Text } from '@0xkilo/components'
+import { Text } from '@pangolindex/components'
 import {
   PageWrapper,
   PageTitle,
@@ -21,7 +21,7 @@ import DelegateModal from 'src/components/vote/DelegateModal'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { PNG, ZERO_ADDRESS } from 'src/constants'
-import { JSBI, TokenAmount, ChainId } from '@antiyro/sdk'
+import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
 import { shortenAddress, getEtherscanLink } from 'src/utils'
 import FormattedCurrencyAmount from 'src/components/FormattedCurrencyAmount'
 

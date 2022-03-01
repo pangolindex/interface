@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useCallback } from 'react'
 import ReactGA from 'react-ga'
-import { Box, TextInput, Text, Button } from '@0xkilo/components'
+import { Box, TextInput, Text, Button } from '@pangolindex/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, AppState } from 'src/state'
 import { useIsSelectedAEBTokenList } from 'src/state/lists/hooks'

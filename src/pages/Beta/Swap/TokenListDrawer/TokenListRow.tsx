@@ -1,4 +1,4 @@
-import { Text, Switch, Box } from '@0xkilo/components'
+import { Text, Switch, Box } from '@pangolindex/components'
 import React, { useCallback, useState, useRef } from 'react'
 import ReactGA from 'react-ga'
 import { useDispatch, useSelector } from 'react-redux'

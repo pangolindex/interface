@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Pair, Token, Trade } from '@antiyro/sdk'
+import { Currency, CurrencyAmount, Pair, Token, Trade } from '@pangolindex/sdk'
 import flatMap from 'lodash.flatmap'
 import { useMemo } from 'react'
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator } from './styleds'
-import { Text, Box } from '@0xkilo/components'
+import { Text, Box } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { BoxNotConnected, BoxCheckEligibility, BoxGoToFTM, BoxClaimReward  } from './BoxesType'
 import {

@@ -1,10 +1,10 @@
-import { ChainId, Token } from '@antiyro/sdk'
+import { ChainId, Token } from '@pangolindex/sdk'
 import { Tags, TokenInfo, TokenList } from '@pangolindex/token-lists'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { AppState } from '../index'
 import { AEB_TOKENLIST } from '../../constants/lists'
-import { WAVAX } from '@antiyro/sdk'
+import { WAVAX } from '@pangolindex/sdk'
 import { PNG } from '../../constants'
 
 type TagDetails = Tags[keyof Tags]

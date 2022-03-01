@@ -1,4 +1,4 @@
-import { Currency, Pair, ChainId } from '@antiyro/sdk'
+import { Currency, Pair, ChainId } from '@pangolindex/sdk'
 import React, { useState, useContext, useCallback } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import { darken } from 'polished'

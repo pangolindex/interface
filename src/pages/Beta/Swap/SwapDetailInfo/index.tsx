@@ -1,5 +1,5 @@
-import { Text } from '@0xkilo/components'
-import { Trade, TradeType, ChainId } from '@antiyro/sdk'
+import { Text } from '@pangolindex/components'
+import { Trade, TradeType, ChainId } from '@pangolindex/sdk'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { INITIAL_ALLOWED_SLIPPAGE, ONE_BIPS } from 'src/constants'

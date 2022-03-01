@@ -3,7 +3,7 @@ import Slider, { Settings } from 'react-slick'
 import { ArrowLeft, ArrowRight } from 'react-feather'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { Box } from '@0xkilo/components'
+import { Box } from '@pangolindex/components'
 import Scrollbars from 'react-custom-scrollbars'
 import { ThemeContext } from 'styled-components'
 

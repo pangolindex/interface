@@ -1,4 +1,4 @@
-import { TokenAmount, WAVAX, JSBI } from '@antiyro/sdk'
+import { TokenAmount, WAVAX, JSBI } from '@pangolindex/sdk'
 import React, { useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'

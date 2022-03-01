@@ -1,5 +1,5 @@
 import { PNG } from './../../constants/index'
-import { Currency, CurrencyAmount, CAVAX, JSBI, Token, TokenAmount, ChainId } from '@antiyro/sdk'
+import { Currency, CurrencyAmount, CAVAX, JSBI, Token, TokenAmount, ChainId } from '@pangolindex/sdk'
 import { useMemo } from 'react'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { useAllTokens } from '../../hooks/Tokens'
