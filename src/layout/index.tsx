@@ -3,7 +3,6 @@ import Header from './Header'
 import Sidebar from './Sidebar'
 import { Wrapper, MainContent, AppContent } from './styled'
 import Logo from 'src/assets/images/logo.svg'
-import Footer from './Footer'
 
 const Layout: React.FC<unknown> = ({ children }) => {
   const [isDrawerCollapsed, setIsDrawerCollapsed] = useState(true)
@@ -18,7 +17,6 @@ const Layout: React.FC<unknown> = ({ children }) => {
       <MainContent collapsed={isDrawerCollapsed}>
         <Header />
         <AppContent>{children}</AppContent>
-        <Footer />
       </MainContent>
     </Wrapper>
   )

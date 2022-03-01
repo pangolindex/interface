@@ -1,9 +1,9 @@
 import React, { useMemo, useState, useCallback, useEffect, useRef, memo } from 'react'
-import { TextInput, Box, Text } from '@pangolindex/components'
+import { TextInput, Box, Text } from '@0xkilo/components'
 import Drawer from 'src/components/Drawer'
 import { useAllTokens, useToken } from 'src/hooks/Tokens'
 import { useTokenComparator } from 'src/components/SearchModal/sorting'
-import { CAVAX, Currency, currencyEquals, Token } from '@pangolindex/sdk'
+import { CAVAX, Currency, currencyEquals, Token, ChainId } from '@antiyro/sdk'
 import { filterTokens } from 'src/components/SearchModal/filtering'
 import { FixedSizeList } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
@@ -14,6 +14,7 @@ import { useSelectedListInfo } from 'src/state/lists/hooks'
 import BaseRow, { RowBetween } from 'src/components/Row'
 import TokenListDrawer from '../TokenListDrawer'
 import usePrevious from 'src/hooks/usePrevious'
+import { useActiveWeb3React } from 'src/hooks'
 
 interface Props {
   isOpen: boolean
@@ -23,8 +24,8 @@ interface Props {
   otherSelectedCurrency?: Currency
 }
 
-const currencyKey = (currency: Currency): string => {
-  return currency instanceof Token ? currency.address : currency === CAVAX ? 'AVAX' : ''
+const currencyKey = (currency: Currency, chainId: ChainId): string => {
+  return currency instanceof Token ? currency.address : currency === CAVAX[chainId || ChainId.AVALANCHE] ? 'AVAX' : ''
 }
 
 const SelectTokenDrawer: React.FC<Props> = props => {
@@ -54,7 +55,7 @@ const SelectTokenDrawer: React.FC<Props> = props => {
 
   const allTokens = useAllTokens()
   const selectedListInfo = useSelectedListInfo()
-
+  const { chainId } = useActiveWeb3React()
   const isAddressSearch = isAddress(searchQuery)
   const searchToken = useToken(searchQuery)
 
@@ -82,7 +83,8 @@ const SelectTokenDrawer: React.FC<Props> = props => {
     ]
   }, [filteredTokens, searchQuery, searchToken, tokenComparator])
 
-  const currencies = useMemo(() => [Currency.CAVAX, ...filteredSortedTokens], [filteredSortedTokens])
+  //const currencies = useMemo(() => [Currency.CAVAX], ...filteredSortedTokens], [filteredSortedTokens])
+  const currencies = useMemo(() => [CAVAX[chainId || ChainId.AVALANCHE], ...filteredSortedTokens], [filteredSortedTokens, chainId])
 
   const onSelect = useCallback(
     currency => {
@@ -135,7 +137,7 @@ const SelectTokenDrawer: React.FC<Props> = props => {
               itemCount={currencies.length}
               itemSize={56}
               itemData={currencies}
-              itemKey={(index, data) => currencyKey(data[index])}
+              itemKey={(index, data) => currencyKey(data[index], chainId || ChainId.AVALANCHE)}
             >
               {Row}
             </FixedSizeList>

@@ -8,7 +8,7 @@ import { useCurrency, useTokens } from '../../hooks/Tokens'
 import { useActiveWeb3React } from '../../hooks'
 import { useSingleContractMultipleData } from '../../state/multicall/hooks'
 import { useRewardViaMultiplierContract } from '../../hooks/useContract'
-import { JSBI, Token, TokenAmount } from '@pangolindex/sdk'
+import { JSBI, Token, TokenAmount } from '@antiyro/sdk'
 
 const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB: string }>> = ({
   match: {
@@ -26,7 +26,6 @@ const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB:
   const miniChefStaking = useMinichefStakingInfos(2, stakingTokenPair)?.[0]
 
   const rewardAddress = miniChefStaking?.rewardsAddress
-
   const rewardContract = useRewardViaMultiplierContract(rewardAddress)
 
   const earnedAmount = miniChefStaking?.earnedAmount

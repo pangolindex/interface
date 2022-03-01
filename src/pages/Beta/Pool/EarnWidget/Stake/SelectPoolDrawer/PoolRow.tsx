@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react'
-import { Text, DoubleCurrencyLogo, Box } from '@pangolindex/components'
+import { Text, DoubleCurrencyLogo, Box } from '@0xkilo/components'
 import { CurrencyRowRoot, Balance } from './styled'
-import { Pair } from '@pangolindex/sdk'
+import { Pair, ChainId } from '@antiyro/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
+import { useActiveWeb3React } from 'src/hooks'
+import { useTokenBalance } from 'src/state/wallet/hooks'
 
 interface Props {
   pair: Pair
@@ -15,10 +16,12 @@ interface Props {
 const PoolRow: React.FC<Props> = props => {
   const { pair, style, onSelect, isSelected } = props
 
-  const currency0 = unwrappedToken(pair.token0)
-  const currency1 = unwrappedToken(pair.token1)
+  const { account, chainId } = useActiveWeb3React()
 
-  const { userPgl } = useGetPoolDollerWorth(pair)
+  const currency0 = unwrappedToken(pair.token0, chainId || ChainId.AVALANCHE)
+  const currency1 = unwrappedToken(pair.token1, chainId || ChainId.AVALANCHE)
+
+  const userPgl = useTokenBalance(account ?? undefined, pair?.liquidityToken)
 
   const handleSelect = useCallback(() => {
     onSelect(pair)

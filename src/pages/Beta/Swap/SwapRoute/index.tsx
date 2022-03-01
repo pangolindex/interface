@@ -1,5 +1,5 @@
-import { CurrencyLogo, Text, Box } from '@pangolindex/components'
-import { Trade } from '@pangolindex/sdk'
+import { CurrencyLogo, Text, Box } from '@0xkilo/components'
+import { Trade } from '@antiyro/sdk'
 import React, { useContext } from 'react'
 import { ChevronRight } from 'react-feather'
 import { ThemeContext } from 'styled-components'

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Wrapper } from './styleds'
-import { Box, Button } from '@pangolindex/components'
-import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
+import { Box, Button } from '@0xkilo/components'
+import { Pair, JSBI, TokenAmount, ChainId } from '@antiyro/sdk'
 import PoolInfo from '../PoolInfo'
 import { StakingInfo } from '../../../state/stake/hooks'
 import { tryParseAmount } from '../../../state/swap/hooks'
@@ -58,7 +58,7 @@ const Stake = ({
   const [stepIndex, setStepIndex] = useState(4)
   // approval data for stake
   const deadline = useTransactionDeadline()
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, MINICHEF_ADDRESS)
+  const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, MINICHEF_ADDRESS[chainId ? chainId : ChainId.AVALANCHE])
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
 
   const onChangeAmount = (value: string) => {
@@ -97,7 +97,7 @@ const Stake = ({
 
   useEffect(() => {
     const stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(stakingAmount, stakingToken) as TokenAmount
+    const parsedInput = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, stakingAmount, stakingToken) as TokenAmount
 
     if (
       parsedInput &&
@@ -115,14 +115,14 @@ const Stake = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingAmount])
 
-  const stakingContract = useStakingContract(MINICHEF_ADDRESS)
+  const stakingContract = useStakingContract(MINICHEF_ADDRESS[chainId ? chainId : ChainId.AVALANCHE])
   const poolMap = useMinichefPools()
 
   const pairContract = usePairContract(stakingInfo.stakedAmount.token.address)
 
   async function onStake() {
     const stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(stakingAmount, stakingToken) as TokenAmount
+    const parsedInput = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, stakingAmount, stakingToken) as TokenAmount
 
     if (
       stakingContract &&

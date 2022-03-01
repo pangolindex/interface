@@ -13,7 +13,7 @@ import { useCurrency } from '../../hooks/Tokens'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
 import { useIsExpertMode, useUserSlippageTolerance } from '../../state/user/hooks'
 import { Field } from '../../state/mint/actions'
-import { CAVAX, ChainId, Currency, TokenAmount } from '@pangolindex/sdk'
+import { CAVAX, ChainId, Currency, TokenAmount } from '@antiyro/sdk'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
 import { ROUTER_ADDRESS } from '../../constants'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from '../../utils'
@@ -105,7 +105,7 @@ export default function AddLiquidityModal({
     (accumulator, field) => {
       return {
         ...accumulator,
-        [field]: maxAmountSpend(currencyBalances[field])
+        [field]: maxAmountSpend(chainId ? chainId : ChainId.AVALANCHE, currencyBalances[field])
       }
     },
     {}
@@ -123,10 +123,12 @@ export default function AddLiquidityModal({
 
   // check whether the user has approved the router on the tokens
   const [approvalA, approveACallback] = useApproveCallback(
+    chainId ? chainId : ChainId.AVALANCHE,
     parsedAmounts[Field.CURRENCY_A],
     chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
   )
   const [approvalB, approveBCallback] = useApproveCallback(
+    chainId ? chainId : ChainId.AVALANCHE,
     parsedAmounts[Field.CURRENCY_B],
     chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
   )
@@ -151,8 +153,8 @@ export default function AddLiquidityModal({
       method: (...args: any) => Promise<TransactionResponse>,
       args: Array<string | string[] | number>,
       value: BigNumber | null
-    if (currencyA === CAVAX || currencyB === CAVAX) {
-      const tokenBIsETH = currencyB === CAVAX
+    if (chainId && (currencyA === CAVAX[chainId] || currencyB === CAVAX[chainId])) {
+      const tokenBIsETH = currencyB === CAVAX[chainId]
       estimate = router.estimateGas.addLiquidityAVAX
       method = router.addLiquidityAVAX
       args = [
@@ -266,7 +268,7 @@ export default function AddLiquidityModal({
 
   const handleCurrencyASelect = useCallback(
     (currencyA: Currency) => {
-      const newCurrencyIdA = currencyId(currencyA)
+      const newCurrencyIdA = currencyId(currencyA, chainId ? chainId : ChainId.AVALANCHE)
       if (newCurrencyIdA === currencyIdB) {
         setCurrencyIdA(currencyIdB)
         setCurrencyIdB(currencyIdA)
@@ -278,7 +280,7 @@ export default function AddLiquidityModal({
   )
   const handleCurrencyBSelect = useCallback(
     (currencyB: Currency) => {
-      const newCurrencyIdB = currencyId(currencyB)
+      const newCurrencyIdB = currencyId(currencyB, chainId ? chainId : ChainId.AVALANCHE)
       if (newCurrencyIdB === currencyIdA) {
         setCurrencyIdA(currencyIdB)
         setCurrencyIdB(currencyIdA)

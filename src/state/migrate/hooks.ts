@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from 'react'
-import { ChainId, Pair } from '@pangolindex/sdk'
+import { ChainId, Pair } from '@antiyro/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { useTokenBalancesWithLoadingIndicator } from '../wallet/hooks'
 import { usePairs } from '../../data/Reserves'

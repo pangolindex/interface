@@ -7,8 +7,9 @@ import {
   Pair,
   Percent,
   Price,
-  TokenAmount
-} from '@pangolindex/sdk'
+  TokenAmount,
+  ChainId
+} from '@antiyro/sdk'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { PairState, usePair } from '../../data/Reserves'
@@ -71,7 +72,7 @@ export function useDerivedMintInfo(
     pairState === PairState.NOT_EXISTS || Boolean(totalSupply && JSBI.equal(totalSupply.raw, ZERO))
 
   // balances
-  const balances = useCurrencyBalances(account ?? undefined, [
+  const balances = useCurrencyBalances(chainId || ChainId.AVALANCHE, account ?? undefined, [
     currencies[Field.CURRENCY_A],
     currencies[Field.CURRENCY_B]
   ])
@@ -81,24 +82,24 @@ export function useDerivedMintInfo(
   }
 
   // amounts
-  const independentAmount: CurrencyAmount | undefined = tryParseAmount(typedValue, currencies[independentField])
+  const independentAmount: CurrencyAmount | undefined = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, typedValue, currencies[independentField])
   const dependentAmount: CurrencyAmount | undefined = useMemo(() => {
     if (noLiquidity) {
       if (otherTypedValue && currencies[dependentField]) {
-        return tryParseAmount(otherTypedValue, currencies[dependentField])
+        return tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, otherTypedValue, currencies[dependentField])
       }
       return undefined
     } else if (independentAmount) {
       // we wrap the currencies just to get the price in terms of the other token
       const wrappedIndependentAmount = wrappedCurrencyAmount(independentAmount, chainId)
       const [tokenA, tokenB] = [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)]
-      if (tokenA && tokenB && wrappedIndependentAmount && pair) {
+      if (tokenA && tokenB && wrappedIndependentAmount && pair && chainId) {
         const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA
         const dependentTokenAmount =
           dependentField === Field.CURRENCY_B
-            ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
-            : pair.priceOf(tokenB).quote(wrappedIndependentAmount)
-        return dependentCurrency === CAVAX ? CurrencyAmount.ether(dependentTokenAmount.raw) : dependentTokenAmount
+            ? pair.priceOf(tokenA).quote(wrappedIndependentAmount, chainId)
+            : pair.priceOf(tokenB).quote(wrappedIndependentAmount, chainId)
+        return dependentCurrency === CAVAX[chainId] ? CurrencyAmount.ether(dependentTokenAmount.raw, chainId) : dependentTokenAmount
       }
       return undefined
     } else {

@@ -1,4 +1,4 @@
-import { CAVAX, ChainId, Currency, Pair, Token, TokenAmount } from '@pangolindex/sdk'
+import { CAVAX, ChainId, Currency, Pair, Token, TokenAmount } from '@antiyro/sdk'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { CHAINS, ChainsId } from 'src/constants/chains'
@@ -86,14 +86,17 @@ export function useGetChainsBalances(): [ChainBalances, boolean] {
 // Get the USD balance of address of connected chain
 export function useGetChainBalance() {
   const [balance, setBalance] = useState<number>(0)
-  /* eslint-disable prefer-const*/
-  let { chainId = ChainId.AVALANCHE, account } = useActiveWeb3React()
+
+  let { chainId, account } = useActiveWeb3React()
 
   if (chainId === ChainId.FUJI) {
     chainId = ChainId.AVALANCHE
   }
+  if (chainId === ChainId.WAGMI) {
+    chainId = ChainId.AVALANCHE
+  }
 
-  const chain = CHAINS[chainId]
+  const chain = CHAINS[chainId || ChainId.AVALANCHE]
   useEffect(() => {
     const getBalance = async () => {
       const response = await fetch(
@@ -118,13 +121,16 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
 
   const [loading, setLoading] = useState<boolean>(true)
 
-  let { chainId = ChainId.AVALANCHE, account } = useActiveWeb3React()
+  let { chainId, account } = useActiveWeb3React()
 
   if (chainId === ChainId.FUJI) {
     chainId = ChainId.AVALANCHE
   }
+  if (chainId === ChainId.WAGMI) {
+    chainId = ChainId.AVALANCHE
+  }
 
-  const chain = CHAINS[chainId]
+  const chain = CHAINS[chainId || ChainId.AVALANCHE]
 
   useEffect(() => {
     const getBalance = async (chainId: ChainId) => {
@@ -135,7 +141,7 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
 
       const requestTokens: TokenDataUser[] = data.map((token: any) => {
         if (token?.id?.toLowerCase() === 'avax') {
-          return new TokenDataUser(CAVAX, token?.price, token?.amount)
+          return new TokenDataUser(CAVAX[chainId || ChainId.AVALANCHE], token?.price, token?.amount)
         }
 
         return new TokenDataUser(
@@ -169,7 +175,7 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
         if (!token2) {
           return new TokenDataUser(
             new Token(
-              chainId,
+              chainId || ChainId.AVALANCHE,
               ethers.utils.getAddress(token1?.id),
               token1?.decimals,
               `${token1?.symbol} - Staked`,
@@ -181,23 +187,23 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
         }
 
         const tokenA = new TokenAmount(
-          new Token(chainId, ethers.utils.getAddress(token1?.id), token1?.decimals, token1?.symbol, token1?.name),
+          new Token(chainId || ChainId.AVALANCHE, ethers.utils.getAddress(token1?.id), token1?.decimals, token1?.symbol, token1?.name),
           token1?.amount.toString().replace('.', '')
         )
 
         const tokenB = new TokenAmount(
-          new Token(chainId, ethers.utils.getAddress(token2?.id), token2?.decimals, token2?.symbol, token2?.name),
+          new Token(chainId || ChainId.AVALANCHE, ethers.utils.getAddress(token2?.id), token2?.decimals, token2?.symbol, token2?.name),
           token2?.amount.toString().replace('.', '')
         )
 
-        return new PairDataUser(new Pair(tokenA, tokenB, chainId), pair?.stats?.net_usd_value)
+        return new PairDataUser(new Pair(tokenA, tokenB, chainId || ChainId.AVALANCHE), pair?.stats?.net_usd_value)
       })
       setLoading(false)
       return requestPairs
     }
 
     if (!!account) {
-      getBalance(chainId)
+      getBalance(chainId || ChainId.AVALANCHE)
     }
   }, [account, chainId, chain, setTokens])
 

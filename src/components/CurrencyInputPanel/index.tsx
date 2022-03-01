@@ -1,4 +1,4 @@
-import { Currency, Pair } from '@pangolindex/sdk'
+import { Currency, Pair, ChainId } from '@antiyro/sdk'
 import React, { useState, useContext, useCallback } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import { darken } from 'polished'
@@ -152,8 +152,8 @@ export default function CurrencyInputPanel({
   const { t } = useTranslation()
 
   const [modalOpen, setModalOpen] = useState(false)
-  const { account } = useActiveWeb3React()
-  const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
+  const { account, chainId } = useActiveWeb3React()
+  const selectedCurrencyBalance = useCurrencyBalance(chainId || ChainId.AVALANCHE, account ?? undefined, currency ?? undefined)
   const theme = useContext(ThemeContext)
 
   const handleDismissSearch = useCallback(() => {
@@ -212,8 +212,8 @@ export default function CurrencyInputPanel({
             <Aligner>
               {pair ? (
                 <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin={true} />
-              ) : currency ? (
-                <CurrencyLogo currency={currency} size={'24px'} />
+              ) : chainId && currency ? (
+                <CurrencyLogo currency={currency} size={'24px'} chainId={chainId} />
               ) : null}
               {pair ? (
                 <StyledTokenName className="pair-name-container">

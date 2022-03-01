@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Box, Text, Button } from '@pangolindex/components'
+import { Box, Text, Button } from '@0xkilo/components'
 import { Root, Link } from './styled'
 import { ArrowUpCircle } from 'react-feather'
 import { useActiveWeb3React } from 'src/hooks'

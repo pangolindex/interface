@@ -1,10 +1,12 @@
 import React from 'react'
-import { Text, Box } from '@pangolindex/components'
-import { JSBI, Pair, TokenAmount, Currency } from '@pangolindex/sdk'
+import { Text, Box } from '@0xkilo/components'
+import { JSBI, Pair, TokenAmount, Currency, ChainId } from '@antiyro/sdk'
 import { useTotalSupply } from 'src/data/TotalSupply'
+import { useActiveWeb3React } from 'src/hooks'
 import numeral from 'numeral'
 import { StateContainer } from './styleds'
 import Stat from 'src/components/Stat'
+import { CHAINS } from 'src/constants/chains'
 
 interface Props {
   title: string
@@ -17,6 +19,8 @@ interface Props {
 
 export default function StatDetail({ title, totalAmount, pair, pgl, currency0, currency1 }: Props) {
   const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
+  const { chainId } = useActiveWeb3React()
+  pgl = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? pgl : undefined
 
   const [token0Deposited, token1Deposited] =
     !!pair &&

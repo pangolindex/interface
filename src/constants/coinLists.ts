@@ -92,9 +92,11 @@ import {
   CLY,
   COOK,
   SKILL,
-  TUS
+  TUS,
+  OG,
+  wWAGMI
 } from 'src/constants'
-import { WAVAX } from '@pangolindex/sdk'
+import { WAVAX } from '@antiyro/sdk'
 
 export const COIN_LISTS = [
   WAVAX,
@@ -191,5 +193,7 @@ export const COIN_LISTS = [
   CLY,
   COOK,
   SKILL,
-  TUS
+  TUS,
+  OG,
+  wWAGMI
 ]

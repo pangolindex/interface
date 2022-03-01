@@ -1,5 +1,5 @@
 import React from 'react'
-import { Fraction } from '@pangolindex/sdk'
+import { Fraction, ChainId } from '@antiyro/sdk'
 import {
   Panel,
   Divider,
@@ -11,15 +11,18 @@ import {
   OptionButton
 } from './styleds'
 import Stat from 'src/components/Stat'
-import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo } from '@0xkilo/components'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { usePair } from 'src/data/Reserves'
-import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
+// import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
+import { useActiveWeb3React } from 'src/hooks'
+import { CHAINS } from 'src/constants/chains'
+import { useTokenBalance } from 'src/state/wallet/hooks'
 
 export interface PoolCardProps {
   stakingInfo: StakingInfo
@@ -38,11 +41,13 @@ const PoolCard = ({
 }: PoolCardProps) => {
   const { t } = useTranslation()
 
+  const { chainId, account } = useActiveWeb3React()
+
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
+  const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
+  const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
 
   const [, stakingTokenPair] = usePair(token0, token1)
 
@@ -50,16 +55,16 @@ const PoolCard = ({
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  const yourStackedInUsd = stakingInfo?.totalStakedInUsd
-    .multiply(stakingInfo?.stakedAmount)
-    .divide(stakingInfo?.totalStakedAmount)
-
-  const { userPgl } = useGetPoolDollerWorth(stakingTokenPair)
+  let yourStackedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? stakingInfo?.totalStakedInUsd
+  .multiply(stakingInfo?.stakedAmount)
+  .divide(stakingInfo?.totalStakedAmount) : undefined
+  
+  // const { userPgl } = useGetPoolDollerWorth(stakingTokenPair)
+  const userPgl  = useTokenBalance(account ?? undefined, stakingTokenPair?.liquidityToken)
 
   const isLiquidity = Boolean(userPgl?.greaterThan('0'))
-
-  const isSuperFarm = (stakingInfo?.rewardTokensAddress || [])?.length > 0
-
+  
+  let isSuperFarm = (stakingInfo?.rewardTokensAddress || [])?.length > 0
   return (
     <Panel>
       <Box display="flex" alignItems="center" justifyContent="space-between">

@@ -11,6 +11,7 @@ import PoolCard from './PoolCard'
 import { useModalOpen, useSingleSideStakingDetailnModalToggle } from 'src/state/application/hooks'
 import DetailModal from './DetailModal'
 import { ApplicationModal } from 'src/state/application/actions'
+import { ChainId } from '@antiyro/sdk'
 
 interface RouteParams {
   version: string
@@ -26,7 +27,7 @@ const StakeUI = () => {
 
   const toggleDetailModal = useSingleSideStakingDetailnModalToggle()
   const isDetailModalOpen = useModalOpen(ApplicationModal.SINGLE_SIDE_STAKE_DETAIL)
-
+  
   useEffect(() => {
     const sorted = stakingInfos
       ?.filter(function(info) {
@@ -85,7 +86,7 @@ const StakeUI = () => {
           <PoolCards>
             {stakingInfoResults?.map((stakingInfo, index) => (
               <PoolCard
-                key={stakingInfo.stakingRewardAddress}
+                key={stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE]}
                 stakingInfo={stakingInfo}
                 onViewDetailsClick={() => onViewDetailClick(index)}
               />

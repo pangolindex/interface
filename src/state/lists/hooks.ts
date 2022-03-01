@@ -1,10 +1,10 @@
-import { ChainId, Token } from '@pangolindex/sdk'
+import { ChainId, Token } from '@antiyro/sdk'
 import { Tags, TokenInfo, TokenList } from '@pangolindex/token-lists'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { AppState } from '../index'
 import { AEB_TOKENLIST } from '../../constants/lists'
-import { WAVAX } from '@pangolindex/sdk'
+import { WAVAX } from '@antiyro/sdk'
 import { PNG } from '../../constants'
 
 type TagDetails = Tags[keyof Tags]
@@ -35,7 +35,8 @@ export type TokenAddressMap = Readonly<{ [chainId in ChainId]: Readonly<{ [token
  */
 const EMPTY_LIST: TokenAddressMap = {
   [ChainId.FUJI]: {},
-  [ChainId.AVALANCHE]: {}
+  [ChainId.AVALANCHE]: {},
+  [ChainId.WAGMI]: {}
 }
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =

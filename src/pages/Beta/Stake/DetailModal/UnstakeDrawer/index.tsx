@@ -6,10 +6,11 @@ import { useStakingContract } from 'src/hooks/useContract'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Box, Button, Text } from '@pangolindex/components'
+import { Box, Button, Text } from '@0xkilo/components'
 import { ConfirmWrapper, Wrapper } from './styled'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
+import { ChainId } from '@antiyro/sdk'
 
 type Props = {
   isOpen: boolean
@@ -33,7 +34,8 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
     onClose()
   }
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const { chainId } = useActiveWeb3React()
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
 
   async function onWithdraw() {
     if (stakingContract && stakingInfo?.stakedAmount) {

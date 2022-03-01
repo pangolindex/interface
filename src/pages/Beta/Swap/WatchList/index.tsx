@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState, useMemo } from 'react'
-import { Box, Button } from '@pangolindex/components'
-import { ChainId, Token } from '@pangolindex/sdk'
+import { Box, Button } from '@0xkilo/components'
+import { ChainId, Token } from '@antiyro/sdk'
 import { Plus } from 'react-feather'
 import { ThemeContext } from 'styled-components'
 import { PNG } from 'src/constants'
@@ -79,8 +79,9 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
         </Box>
       </Box>
       <GridContainer isLimitOrders={isLimitOrders}>
-        {!isLimitOrders && (
+        {isLimitOrders && (
           <Hidden upToSmall={true}>
+            {/* // ATTENTION ICI */}
             <CoinChart coin={selectedToken} />
           </Hidden>
         )}

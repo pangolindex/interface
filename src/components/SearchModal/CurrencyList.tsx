@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, currencyEquals, CAVAX, Token } from '@pangolindex/sdk'
+import { Currency, CurrencyAmount, currencyEquals, CAVAX, Token, ChainId } from '@antiyro/sdk'
 import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react'
 import { FixedSizeList } from 'react-window'
 import { Text } from 'rebass'
@@ -18,8 +18,8 @@ import Loader from '../Loader'
 import { isTokenOnList } from '../../utils'
 import { useTranslation } from 'react-i18next'
 
-function currencyKey(currency: Currency): string {
-  return currency instanceof Token ? currency.address : currency === CAVAX ? 'AVAX' : ''
+function currencyKey(currency: Currency, chainId: ChainId): string {
+  return currency instanceof Token ? currency.address : currency === CAVAX[chainId || ChainId.AVALANCHE] ? 'AVAX' : ''
 }
 
 const StyledBalanceText = styled(Text)`
@@ -95,11 +95,11 @@ function CurrencyRow({
   style: CSSProperties
 }) {
   const { account, chainId } = useActiveWeb3React()
-  const key = currencyKey(currency)
+  const key = currencyKey(currency, chainId || ChainId.AVALANCHE)
   const selectedTokenList = useSelectedTokenList()
-  const isOnSelectedList = isTokenOnList(selectedTokenList, currency)
+  const isOnSelectedList = isTokenOnList(selectedTokenList, chainId || ChainId.AVALANCHE, currency)
   const customAdded = useIsUserAddedToken(currency)
-  const balance = useCurrencyBalance(account ?? undefined, currency)
+  const balance = useCurrencyBalance(chainId || ChainId.AVALANCHE, account ?? undefined, currency)
 
   const removeToken = useRemoveUserAddedToken()
   const addToken = useAddUserToken()
@@ -114,7 +114,7 @@ function CurrencyRow({
       disabled={isSelected}
       selected={otherSelected}
     >
-      <CurrencyLogo currency={currency} size={'24px'} />
+      <CurrencyLogo currency={currency} size={'24px'} chainId={chainId || ChainId.AVALANCHE}/>
       <Column>
         <Text title={currency.name} fontWeight={500}>
           {currency.symbol}
@@ -157,6 +157,7 @@ function CurrencyRow({
 }
 
 export default function CurrencyList({
+  chainId,
   height,
   currencies,
   selectedCurrency,
@@ -165,6 +166,7 @@ export default function CurrencyList({
   fixedListRef,
   showETH
 }: {
+  chainId: ChainId
   height: number
   currencies: Currency[]
   selectedCurrency?: Currency | null
@@ -173,7 +175,8 @@ export default function CurrencyList({
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>
   showETH: boolean
 }) {
-  const itemData = useMemo(() => (showETH ? [Currency.CAVAX, ...currencies] : currencies), [currencies, showETH])
+  // const itemData = useMemo(() => (showETH ? [Currency.CAVAX, ...currencies] : currencies), [currencies, showETH])
+  const itemData = useMemo(() => (showETH ? [CAVAX[chainId], ...currencies] : currencies), [currencies, showETH, chainId])
 
   const Row = useCallback(
     ({ data, index, style }) => {
@@ -194,7 +197,7 @@ export default function CurrencyList({
     [onCurrencySelect, otherCurrency, selectedCurrency]
   )
 
-  const itemKey = useCallback((index: number, data: any) => currencyKey(data[index]), [])
+  const itemKey = useCallback((index: number, data: any) => currencyKey(data[index], chainId || ChainId.AVALANCHE), [chainId])
 
   return (
     <FixedSizeList

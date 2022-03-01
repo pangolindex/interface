@@ -1,8 +1,8 @@
 import React, { useState, useContext, useCallback, useMemo, useEffect } from 'react'
 import ReactGA from 'react-ga'
 import { RefreshCcw } from 'react-feather'
-import { Text, Box, Button } from '@pangolindex/components'
-import { Token, Trade, JSBI, CurrencyAmount, TokenAmount } from '@pangolindex/sdk'
+import { Text, Box, Button } from '@0xkilo/components'
+import { Token, Trade, JSBI, CurrencyAmount, TokenAmount, ChainId } from '@antiyro/sdk'
 import { ThemeContext } from 'styled-components'
 import RetryDrawer from '../../RetryDrawer'
 import SelectTokenDrawer from '../../SelectTokenDrawer'
@@ -123,7 +123,7 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
         [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount
       }
 
-  const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers()
+  const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers(chainId ? chainId : ChainId.AVALANCHE)
   const isValid = !swapInputError
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
 
@@ -173,7 +173,7 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const noRoute = !route
 
   // check whether the user has approved the router on the input token
-  const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
+  const [approval, approveCallback] = useApproveCallbackFromTrade(chainId || ChainId.AVALANCHE, trade, allowedSlippage)
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
@@ -185,12 +185,12 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
     }
   }, [approval, approvalSubmitted])
 
-  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
+  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(chainId ? chainId : ChainId.AVALANCHE, currencyBalances[Field.INPUT])
 
   // the callback to execute the swap
   const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(trade, allowedSlippage, recipient)
 
-  const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
+  const { priceImpactWithoutFee } = computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade)
 
   const handleSwap = useCallback(() => {
     if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee)) {
@@ -286,8 +286,8 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
       if (!chainId || !selectedTokens) return true // Assume trusted at first to avoid flashing a warning
       return (
         TRUSTED_TOKEN_ADDRESSES[chainId].includes(token.address) || // trust token from manually whitelisted token
-        isTokenOnList(selectedTokens, token) || // trust all tokens from selected token list by user
-        isTokenOnList(whitelistedTokens, token) // trust all defi + AB tokens
+        isTokenOnList(selectedTokens, chainId || ChainId.AVALANCHE, token) || // trust all tokens from selected token list by user
+        isTokenOnList(whitelistedTokens, chainId || ChainId.AVALANCHE, token) // trust all defi + AB tokens
       )
     },
     [chainId, selectedTokens, whitelistedTokens]

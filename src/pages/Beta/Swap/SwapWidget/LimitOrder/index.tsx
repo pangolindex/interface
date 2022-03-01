@@ -1,8 +1,8 @@
 import React, { useState, useContext, useCallback, useEffect } from 'react'
 import { useGelatoLimitOrders } from '@gelatonetwork/limit-orders-react'
 import { RefreshCcw, Divide, X } from 'react-feather'
-import { Text, Box, Button, ToggleButtons } from '@pangolindex/components'
-import { Token, Trade, JSBI, TokenAmount, CAVAX } from '@pangolindex/sdk'
+import { Text, Box, Button, ToggleButtons } from '@0xkilo/components'
+import { Token, Trade, JSBI, TokenAmount, CAVAX, ChainId } from '@antiyro/sdk'
 import { CurrencyAmount, Currency as UniCurrency } from '@uniswap/sdk-core'
 import { ThemeContext } from 'styled-components'
 import SelectTokenDrawer from '../../SelectTokenDrawer'
@@ -68,7 +68,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
     orderState: { independentField, rateType }
   } = useGelatoLimitOrders()
 
-  const { onCurrencySelection: onSwapCurrencySelection } = useSwapActionHandlers()
+  const { onCurrencySelection: onSwapCurrencySelection } = useSwapActionHandlers(chainId ? chainId : ChainId.AVALANCHE)
 
   // get custom setting values for user
   const [allowedSlippage] = useUserSlippageTolerance()
@@ -82,10 +82,10 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const outputTokenInfo = gelatoOutputCurrency?.tokenInfo
 
   const inputCurrency =
-    gelatoInputCurrency && gelatoInputCurrency?.symbol === CAVAX.symbol
-      ? CAVAX
-      : inputTokenInfo && inputTokenInfo.symbol === CAVAX.symbol
-      ? CAVAX
+      chainId && gelatoInputCurrency && gelatoInputCurrency?.symbol === CAVAX[chainId].symbol
+      ? CAVAX[chainId]
+      : chainId && inputTokenInfo && inputTokenInfo.symbol === CAVAX[chainId].symbol
+      ? CAVAX[chainId]
       : inputTokenInfo
       ? new Token(
           inputTokenInfo?.chainId,
@@ -105,10 +105,10 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
       : undefined
 
   const outputCurrency =
-    gelatoOutputCurrency && gelatoOutputCurrency?.symbol === CAVAX.symbol
-      ? CAVAX
-      : outputTokenInfo && outputTokenInfo?.symbol === CAVAX.symbol
-      ? CAVAX
+    chainId && gelatoOutputCurrency && gelatoOutputCurrency?.symbol === CAVAX[chainId].symbol
+      ? CAVAX[chainId]
+      : chainId && outputTokenInfo && outputTokenInfo?.symbol === CAVAX[chainId].symbol
+      ? CAVAX[chainId]
       : outputTokenInfo
       ? new Token(
           outputTokenInfo?.chainId,
@@ -178,7 +178,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const tradePrice = trade?.executionPrice
 
   // check whether the user has approved the router on the input token
-  const [approval, approveCallback] = useApproveCallbackFromInputCurrencyAmount(parsedAmounts.input)
+  const [approval, approveCallback] = useApproveCallbackFromInputCurrencyAmount(chainId ? chainId : ChainId.AVALANCHE, parsedAmounts.input)
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
@@ -191,6 +191,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   }, [approval, approvalSubmitted])
 
   const maxAmountInput: CurrencyAmount<UniCurrency> | undefined = galetoMaxAmountSpend(
+    chainId ? chainId : ChainId.AVALANCHE,
     currencyBalances[LimitField.INPUT]
   )
 
@@ -315,7 +316,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
 
       // here need to add isToken because in Galato hook require this variable to select currency
       const newCurrency = { ...currency }
-      if (currency?.symbol === CAVAX.symbol) {
+      if (chainId && currency?.symbol === CAVAX[chainId].symbol) {
         newCurrency.isNative = true
       } else {
         newCurrency.isToken = true
@@ -325,7 +326,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
       // this is to update tokens on chart on token selection
       onSwapCurrencySelection(tokenDrawerType as any, currency)
     },
-    [tokenDrawerType, onCurrencySelection, onSwapCurrencySelection]
+    [chainId, tokenDrawerType, onCurrencySelection, onSwapCurrencySelection]
   )
 
   const handleApprove = useCallback(async () => {

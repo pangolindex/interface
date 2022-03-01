@@ -1,4 +1,4 @@
-import { Currency, CAVAX, Token } from '@pangolindex/sdk'
+import { Currency, CAVAX, Token, ChainId } from '@antiyro/sdk'
 import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import ReactGA from 'react-ga'
 import { useTranslation } from 'react-i18next'
@@ -121,7 +121,7 @@ export function CurrencySearch({
       if (e.key === 'Enter') {
         const s = searchQuery.toLowerCase().trim()
         if (s === 'eth') {
-          handleCurrencySelect(CAVAX)
+          handleCurrencySelect(CAVAX[chainId || ChainId.AVALANCHE])
         } else if (filteredSortedTokens.length > 0) {
           if (
             filteredSortedTokens[0].symbol?.toLowerCase() === searchQuery.trim().toLowerCase() ||
@@ -132,7 +132,7 @@ export function CurrencySearch({
         }
       }
     },
-    [filteredSortedTokens, handleCurrencySelect, searchQuery]
+    [chainId, filteredSortedTokens, handleCurrencySelect, searchQuery]
   )
 
   const selectedListInfo = useSelectedListInfo()
@@ -171,9 +171,10 @@ export function CurrencySearch({
       <Separator />
 
       <div style={{ flex: '1' }}>
-        <AutoSizer disableWidth>
+        {chainId && <AutoSizer disableWidth>
           {({ height }) => (
             <CurrencyList
+              chainId={chainId}
               height={height}
               showETH={showETH}
               currencies={filteredSortedTokens}
@@ -183,7 +184,7 @@ export function CurrencySearch({
               fixedListRef={fixedList}
             />
           )}
-        </AutoSizer>
+        </AutoSizer>}
       </div>
 
       <Separator />

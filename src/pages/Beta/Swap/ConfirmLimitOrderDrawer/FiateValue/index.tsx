@@ -1,8 +1,8 @@
-import { CurrencyAmount, Percent, JSBI } from '@pangolindex/sdk'
+import { CurrencyAmount, Percent, JSBI } from '@antiyro/sdk'
 import React, { useMemo, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { warningSeverity } from 'src/utils/prices'
-import { Text } from '@pangolindex/components'
+import { Text } from '@0xkilo/components'
 
 export function FiatValue({
   fiatValue,

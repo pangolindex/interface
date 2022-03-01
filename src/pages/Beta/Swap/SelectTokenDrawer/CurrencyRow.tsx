@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
-import { Text, CurrencyLogo } from '@pangolindex/components'
+import { Text, CurrencyLogo } from '@0xkilo/components'
 import { CurrencyRowRoot, Balance } from './styled'
-import { Currency } from '@pangolindex/sdk'
+import { Currency, ChainId } from '@antiyro/sdk'
 import { useActiveWeb3React } from 'src/hooks'
 // import { useSelectedTokenList } from 'src/state/lists/hooks'
 // import { isTokenOnList } from 'src/utils'
@@ -21,11 +21,11 @@ interface Props {
 
 const CurrencyRow: React.FC<Props> = props => {
   const { currency, style, onSelect, isSelected, otherSelected } = props
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   // const selectedTokenList = useSelectedTokenList()
   // const isOnSelectedList = isTokenOnList(selectedTokenList, currency)
   // const customAdded = useIsUserAddedToken(currency)
-  const balance = useCurrencyBalance(account ?? undefined, currency)
+  const balance = useCurrencyBalance(chainId || ChainId.AVALANCHE, account ?? undefined, currency)
 
   // const removeToken = useRemoveUserAddedToken()
   // const addToken = useAddUserToken()

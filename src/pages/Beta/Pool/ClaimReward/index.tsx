@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Text, Button } from '@pangolindex/components'
+import { Box, Text, Button } from '@0xkilo/components'
 import { ClaimWrapper, Root, RewardWrapper, StatWrapper } from './styleds'
 import { StakingInfo, useMinichefPendingRewards } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -11,6 +11,7 @@ import { useStakingContract } from 'src/hooks/useContract'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 import Stat from 'src/components/Stat'
+import { ChainId } from '@antiyro/sdk'
 
 interface ClaimProps {
   stakingInfo: StakingInfo
@@ -18,7 +19,7 @@ interface ClaimProps {
   onClose: () => void
 }
 const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
   const { t } = useTranslation()
 
@@ -28,7 +29,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
   const [attempting, setAttempting] = useState(false)
 
   const poolMap = useMinichefPools()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 

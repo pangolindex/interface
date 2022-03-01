@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Text } from '@pangolindex/components'
+import { Text } from '@0xkilo/components'
 import { useTranslation } from 'react-i18next'
 import { ThemeContext } from 'styled-components'
 import { ChevronDown, ChevronUp } from 'react-feather'

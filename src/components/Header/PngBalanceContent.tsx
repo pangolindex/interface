@@ -1,10 +1,11 @@
-import { TokenAmount, JSBI } from '@pangolindex/sdk'
+import { TokenAmount, JSBI, ChainId } from '@antiyro/sdk'
 import React, { useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from '../../assets/images/token-logo.png'
 import { injected } from '../../connectors'
 import { PNG } from '../../constants'
+import { CHAINS } from '../../constants/chains'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
 import { useTotalPngEarned } from '../../state/stake/hooks'
@@ -72,12 +73,13 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const oneToken = JSBI.BigInt(1000000000000000000)
   const { t } = useTranslation()
 
-  const usdcPrice = useUSDCPrice(png)
+  const usdcPriceTmp = useUSDCPrice(png);
+  const usdcPrice = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdcPriceTmp : undefined
 
   let pngPrice
 
-  if (usdcPrice && png) {
-    pngPrice = usdcPrice.quote(new TokenAmount(png, oneToken))
+  if (chainId && usdcPrice && png) {
+    pngPrice = usdcPrice.quote(new TokenAmount(png, oneToken), chainId)
   }
 
   const [circulation, setCirculation] = useState(totalSupply)

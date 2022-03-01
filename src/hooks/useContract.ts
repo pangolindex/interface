@@ -1,5 +1,5 @@
 import { Contract } from '@ethersproject/contracts'
-import { WAVAX } from '@pangolindex/sdk'
+import { ChainId, WAVAX } from '@antiyro/sdk'
 import IPangolinPair from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-core/interfaces/IPangolinPair.sol/IPangolinPair.json'
 import StakingRewards from '@pangolindex/governance/artifacts/contracts/StakingRewards.sol/StakingRewards.json'
 import Airdrop from '@pangolindex/governance/artifacts/contracts/Airdrop.sol/Airdrop.json'
@@ -47,7 +47,8 @@ export function useV2MigratorContract(): Contract | null {
 }
 
 export function useMiniChefContract(): Contract | null {
-  return useContract(MINICHEF_ADDRESS, MiniChefV2.abi, true)
+  const { chainId } = useActiveWeb3React()
+  return useContract(MINICHEF_ADDRESS[chainId || ChainId.AVALANCHE], MiniChefV2.abi, true)
 }
 
 export function useBridgeMigratorContract(): Contract | null {
@@ -98,11 +99,8 @@ export function usePngContract(): Contract | null {
 }
 
 export function useStakingContract(stakingAddress?: string, withSignerIfPossible?: boolean): Contract | null {
-  return useContract(
-    stakingAddress,
-    stakingAddress === MINICHEF_ADDRESS ? MiniChefV2.abi : StakingRewards.abi,
-    withSignerIfPossible
-  )
+  const { chainId } = useActiveWeb3React()
+  return useContract(stakingAddress, stakingAddress === MINICHEF_ADDRESS[chainId || ChainId.AVALANCHE] ? MiniChefV2.abi : StakingRewards.abi, withSignerIfPossible)
 }
 
 export function useRewardViaMultiplierContract(address?: string, withSignerIfPossible?: boolean): Contract | null {

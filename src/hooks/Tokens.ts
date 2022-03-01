@@ -1,6 +1,6 @@
 import { useMemo, useEffect, useState } from 'react'
 import { parseBytes32String } from '@ethersproject/strings'
-import { Currency, CAVAX, Token, currencyEquals } from '@pangolindex/sdk'
+import { Currency, CAVAX, Token, currencyEquals } from '@antiyro/sdk'
 import ERC20_INTERFACE, { ERC20_BYTES32_INTERFACE } from '../constants/abis/erc20'
 import { useSelectedTokenList } from '../state/lists/hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../state/multicall/hooks'
@@ -8,6 +8,7 @@ import { useUserAddedTokens } from '../state/user/hooks'
 import { isAddress } from '../utils'
 import { useActiveWeb3React } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
+
 import { CHAINS, ChainsId } from 'src/constants/chains'
 
 export function useAllTokens(): { [address: string]: Token } {
@@ -164,10 +165,12 @@ export function useTokens(tokensAddress: string[] = []): Array<Token | undefined
 }
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
+  const { chainId } = useActiveWeb3React()
   const isAVAX = currencyId?.toUpperCase() === 'AVAX'
   const token = useToken(isAVAX ? undefined : currencyId)
-  return isAVAX ? CAVAX : token
+  return isAVAX ? chainId && CAVAX[chainId] : token
 }
+
 
 export function useCoinGeckoTokenData(coin: Token) {
   const [result, setResult] = useState({} as { coinId: string; homePage: string; description: string })

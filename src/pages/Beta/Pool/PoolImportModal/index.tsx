@@ -1,13 +1,14 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box } from '@0xkilo/components'
 import { Wrapper } from './styleds'
 import Modal from 'src/components/Beta/Modal'
 import { ThemeContext } from 'styled-components'
 import { CloseIcon } from 'src/theme/components'
 import { useTranslation } from 'react-i18next'
 import PoolImport from './PoolImport'
-import { CAVAX, Currency } from '@pangolindex/sdk'
+import { CAVAX, Currency, ChainId } from '@antiyro/sdk'
 import SelectTokenDrawer from '../../Swap/SelectTokenDrawer'
+import { useActiveWeb3React } from 'src/hooks'
 
 enum Fields {
   TOKEN0 = 0,
@@ -23,8 +24,8 @@ interface ImportPoolModalProps {
 const PoolImportModal = ({ isOpen, onClose, onManagePoolsClick }: ImportPoolModalProps) => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
-
-  const [currency0, setCurrency0] = useState<Currency | undefined>(CAVAX)
+  const { chainId } = useActiveWeb3React()
+  const [currency0, setCurrency0] = useState<Currency | undefined>(CAVAX[chainId || ChainId.AVALANCHE])
   const [currency1, setCurrency1] = useState<Currency | undefined>(undefined)
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
   const [showSearch, setShowSearch] = useState<boolean>(false)

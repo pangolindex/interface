@@ -8,7 +8,7 @@ import { TYPE, CloseIcon } from '../../theme'
 import { ButtonConfirmed, ButtonError } from '../Button'
 import ProgressCircles from '../ProgressSteps'
 import CurrencyInputPanel from '../CurrencyInputPanel'
-import { TokenAmount, Pair } from '@pangolindex/sdk'
+import { TokenAmount, Pair, ChainId } from '@antiyro/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { useBridgeMigratorContract, usePairContract } from '../../hooks/useContract'
@@ -64,7 +64,7 @@ export default function BridgeMigratorModal({
   const deadline = useTransactionDeadline()
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, BRIDGE_MIGRATOR_ADDRESS)
+  const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, BRIDGE_MIGRATOR_ADDRESS)
 
   const bridgeMigratorContract = useBridgeMigratorContract()
 
@@ -126,7 +126,7 @@ export default function BridgeMigratorModal({
   }, [])
 
   // used for max input button
-  const maxAmountInput = maxAmountSpend(userLiquidityUnstaked)
+  const maxAmountInput = maxAmountSpend(chainId ? chainId : ChainId.AVALANCHE, userLiquidityUnstaked)
   const atMaxAmount = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
   const handleMax = useCallback(() => {
     maxAmountInput && onUserInput(maxAmountInput.toExact())

@@ -1,4 +1,4 @@
-import { Box, DoubleCurrencyLogo, Text } from '@pangolindex/components'
+import { Box, DoubleCurrencyLogo, Text } from '@0xkilo/components'
 import React, { useContext } from 'react'
 import Stat from 'src/components/Stat'
 import { StakingInfo } from 'src/state/stake/hooks'
@@ -10,6 +10,8 @@ import { CloseIcon } from 'src/theme'
 import { Hidden, Visible } from 'src/theme'
 import RewardTokens from 'src/components/RewardTokens'
 import { useTokens } from 'src/hooks/Tokens'
+import { ChainId } from '@antiyro/sdk'
+import { useActiveWeb3React } from 'src/hooks'
 
 type Props = {
   stakingInfo: StakingInfo
@@ -17,14 +19,15 @@ type Props = {
 }
 
 const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
+  const { chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
 
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
+  const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
+  const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
 
   const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
 

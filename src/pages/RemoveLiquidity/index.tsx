@@ -1,7 +1,7 @@
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, CAVAX, Percent, WAVAX } from '@pangolindex/sdk'
+import { Currency, currencyEquals, CAVAX, Percent, WAVAX, ChainId } from '@antiyro/sdk'
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { ArrowDown, Plus } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -42,7 +42,6 @@ import { Field } from '../../state/burn/actions'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { useUserSlippageTolerance } from '../../state/user/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
-import { ChainId } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 
 export default function RemoveLiquidity({
@@ -104,6 +103,7 @@ export default function RemoveLiquidity({
   // allowance handling
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
+    chainId ? chainId : ChainId.AVALANCHE,
     parsedAmounts[Field.LIQUIDITY],
     chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
   )
@@ -218,8 +218,8 @@ export default function RemoveLiquidity({
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
 
-    const currencyBIsETH = currencyB === CAVAX
-    const oneCurrencyIsETH = currencyA === CAVAX || currencyBIsETH
+    const currencyBIsETH = currencyB === CAVAX[chainId || ChainId.AVALANCHE]
+    const oneCurrencyIsETH = currencyA === CAVAX[chainId || ChainId.AVALANCHE] || currencyBIsETH
 
     // TODO: Translate using i18n
     if (!tokenA || !tokenB) throw new Error('could not wrap')
@@ -352,6 +352,18 @@ export default function RemoveLiquidity({
     }
   }
 
+  const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
+    [ChainId.FUJI]: 'AVAX',
+    [ChainId.AVALANCHE]: 'AVAX',
+    [ChainId.WAGMI]: 'WGM'
+  }
+
+  const NETWORK_WRAPPED_CURRENCY: { [chainId in ChainId]?: string } = {
+    [ChainId.FUJI]: 'WAVAX',
+    [ChainId.AVALANCHE]: 'WAVAX',
+    [ChainId.WAGMI]: 'wWAGMI'
+  }
+
   function modalHeader() {
     return (
       <AutoColumn gap={'md'} style={{ marginTop: '20px' }}>
@@ -360,7 +372,7 @@ export default function RemoveLiquidity({
             {parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}
           </Text>
           <RowFixed gap="4px">
-            <CurrencyLogo currency={currencyA} size={'24px'} />
+            {chainId && <CurrencyLogo currency={currencyA} size={'24px'} chainId={chainId} />}
             <Text fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
               {currencyA?.symbol}
             </Text>
@@ -374,7 +386,7 @@ export default function RemoveLiquidity({
             {parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}
           </Text>
           <RowFixed gap="4px">
-            <CurrencyLogo currency={currencyB} size={'24px'} />
+            {chainId && <CurrencyLogo currency={currencyB} size={'24px'} chainId={chainId} />}
             <Text fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
               {currencyB?.symbol}
             </Text>
@@ -445,7 +457,7 @@ export default function RemoveLiquidity({
     [onUserInput]
   )
 
-  const oneCurrencyIsAVAX = currencyA === CAVAX || currencyB === CAVAX
+  const oneCurrencyIsAVAX = currencyA === CAVAX[chainId || ChainId.AVALANCHE] || currencyB === CAVAX[chainId || ChainId.AVALANCHE]
   const oneCurrencyIsWAVAX = Boolean(
     chainId &&
       ((currencyA && currencyEquals(WAVAX[chainId], currencyA)) ||
@@ -454,23 +466,23 @@ export default function RemoveLiquidity({
 
   const handleSelectCurrencyA = useCallback(
     (currency: Currency) => {
-      if (currencyIdB && currencyId(currency) === currencyIdB) {
-        history.push(`/remove/${currencyId(currency)}/${currencyIdA}`)
+      if (currencyIdB && currencyId(currency, chainId || ChainId.AVALANCHE) === currencyIdB) {
+        history.push(`/remove/${currencyId(currency, chainId || ChainId.AVALANCHE)}/${currencyIdA}`)
       } else {
-        history.push(`/remove/${currencyId(currency)}/${currencyIdB}`)
+        history.push(`/remove/${currencyId(currency, chainId || ChainId.AVALANCHE)}/${currencyIdB}`)
       }
     },
-    [currencyIdA, currencyIdB, history]
+    [chainId, currencyIdA, currencyIdB, history]
   )
   const handleSelectCurrencyB = useCallback(
     (currency: Currency) => {
-      if (currencyIdA && currencyId(currency) === currencyIdA) {
-        history.push(`/remove/${currencyIdB}/${currencyId(currency)}`)
+      if (currencyIdA && currencyId(currency, chainId || ChainId.AVALANCHE) === currencyIdA) {
+        history.push(`/remove/${currencyIdB}/${currencyId(currency, chainId || ChainId.AVALANCHE)}`)
       } else {
-        history.push(`/remove/${currencyIdA}/${currencyId(currency)}`)
+        history.push(`/remove/${currencyIdA}/${currencyId(currency, chainId || ChainId.AVALANCHE)}`)
       }
     },
-    [currencyIdA, currencyIdB, history]
+    [chainId, currencyIdA, currencyIdB, history]
   )
 
   const handleDismissConfirmation = useCallback(() => {
@@ -561,7 +573,7 @@ export default function RemoveLiquidity({
                         {formattedAmounts[Field.CURRENCY_A] || '-'}
                       </Text>
                       <RowFixed>
-                        <CurrencyLogo currency={currencyA} style={{ marginRight: '12px' }} />
+                        {chainId && <CurrencyLogo currency={currencyA} style={{ marginRight: '12px' }} chainId={chainId} />}
                         <Text fontSize={24} fontWeight={500} id="remove-liquidity-tokena-symbol">
                           {currencyA?.symbol}
                         </Text>
@@ -572,7 +584,7 @@ export default function RemoveLiquidity({
                         {formattedAmounts[Field.CURRENCY_B] || '-'}
                       </Text>
                       <RowFixed>
-                        <CurrencyLogo currency={currencyB} style={{ marginRight: '12px' }} />
+                        {chainId && <CurrencyLogo currency={currencyB} style={{ marginRight: '12px' }} chainId={chainId} />}
                         <Text fontSize={24} fontWeight={500} id="remove-liquidity-tokenb-symbol">
                           {currencyB?.symbol}
                         </Text>
@@ -582,11 +594,11 @@ export default function RemoveLiquidity({
                       <RowBetween style={{ justifyContent: 'flex-end' }}>
                         {oneCurrencyIsAVAX ? (
                           <StyledInternalLink
-                            to={`/remove/${currencyA === CAVAX ? WAVAX[chainId].address : currencyIdA}/${
-                              currencyB === CAVAX ? WAVAX[chainId].address : currencyIdB
+                            to={`/remove/${currencyA === CAVAX[chainId] ? WAVAX[chainId].address : currencyIdA}/${
+                              currencyB === CAVAX[chainId] ? WAVAX[chainId].address : currencyIdB
                             }`}
                           >
-                            {t('removeLiquidity.receiveWavax')}
+                            {t('removeLiquidity.receiveWavax')}{NETWORK_WRAPPED_CURRENCY[chainId]}
                           </StyledInternalLink>
                         ) : oneCurrencyIsWAVAX ? (
                           <StyledInternalLink
@@ -594,7 +606,7 @@ export default function RemoveLiquidity({
                               currencyA && currencyEquals(currencyA, WAVAX[chainId]) ? 'AVAX' : currencyIdA
                             }/${currencyB && currencyEquals(currencyB, WAVAX[chainId]) ? 'AVAX' : currencyIdB}`}
                           >
-                            {t('removeLiquidity.receiveAvax')}
+                            {t('removeLiquidity.receiveAvax')}{NETWORK_CURRENCY[chainId]}
                           </StyledInternalLink>
                         ) : null}
                       </RowBetween>

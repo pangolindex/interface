@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Text, Button } from '@pangolindex/components'
+import { Box, Text, Button } from '@0xkilo/components'
 import { WidgetWrapper, Root } from './styled'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { useStakingContract } from 'src/hooks/useContract'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
+import { ChainId } from '@antiyro/sdk'
 
 interface ClaimProps {
   stakingInfo: SingleSideStakingInfo
@@ -30,7 +31,8 @@ const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) =
     onClose()
   }
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const { chainId } = useActiveWeb3React()
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
 
   async function onClaimReward() {
     if (stakingContract && stakingInfo?.stakedAmount) {

@@ -1,12 +1,14 @@
 import React from 'react'
+import { ChainId } from '@antiyro/sdk'
 import { MobileWrapper, DesktopWrapper, DetailsWrapper, Tab, Tabs, LeftSection, RightSection } from './styleds'
 import { StakingInfo } from 'src/state/stake/hooks'
-import { Box } from '@pangolindex/components'
+import { Box } from '@0xkilo/components'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { usePair } from 'src/data/Reserves'
 import EarnWidget from '../../EarnWidget'
 import EarnDetail from '../EarnDetail'
 import { useWindowSize } from 'react-use'
+import { useActiveWeb3React } from 'src/hooks'
 import Header from '../Header'
 import Details from '../Details'
 
@@ -21,11 +23,13 @@ const DetailView = ({ stakingInfo, onDismiss, version }: PoolDetailProps) => {
 
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
+  const { chainId } = useActiveWeb3React()
 
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
+  const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
+  const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
+
 
   const [, stakingTokenPair] = usePair(token0, token1)
   const pair = stakingTokenPair

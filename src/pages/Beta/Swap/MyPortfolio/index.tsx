@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { GridContainer, PageWrapper, Title, DesktopPortfolioList, MobilePortfolioList } from './styleds'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box } from '@0xkilo/components'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
 import { ThemeContext } from 'styled-components'
@@ -41,6 +41,7 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
         <GridContainer isLimitOrders={isLimitOrders}>
           {!isLimitOrders && (
             <Hidden upToSmall={true}>
+              {/* ATTENTION ICI */}
               <PortfolioChart />
             </Hidden>
           )}

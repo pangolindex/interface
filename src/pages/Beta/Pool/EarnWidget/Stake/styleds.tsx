@@ -1,4 +1,4 @@
-import { Box, TextInput } from '@pangolindex/components'
+import { Box, TextInput } from '@0xkilo/components'
 import styled from 'styled-components'
 
 export const PageWrapper = styled(Box)`

@@ -15,7 +15,7 @@ import { useCurrency } from '../../hooks/Tokens'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
 import { useUserSlippageTolerance } from '../../state/user/hooks'
 import { Field } from '../../state/burn/actions'
-import { CAVAX, ChainId, currencyEquals, Percent, WAVAX } from '@pangolindex/sdk'
+import { CAVAX, ChainId, currencyEquals, Percent, WAVAX } from '@antiyro/sdk'
 import { Contract } from '@ethersproject/contracts'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
 import { ROUTER_ADDRESS } from '../../constants'
@@ -110,6 +110,7 @@ export default function RemoveLiquidityModal({
   // allowance handling
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
+    chainId ? chainId : ChainId.AVALANCHE,
     parsedAmounts[Field.LIQUIDITY],
     chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
   )
@@ -218,8 +219,8 @@ export default function RemoveLiquidityModal({
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
 
-    const currencyBIsAVAX = currencyB === CAVAX
-    const oneCurrencyIsAVAX = currencyA === CAVAX || currencyBIsAVAX
+    const currencyBIsAVAX = currencyB === CAVAX[chainId]
+    const oneCurrencyIsAVAX = currencyA === CAVAX[chainId] || currencyBIsAVAX
 
     // TODO: Translate using i18n
     if (!tokenA || !tokenB) throw new Error('could not wrap')
@@ -360,7 +361,7 @@ export default function RemoveLiquidityModal({
             {parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}
           </Text>
           <RowFixed gap="4px">
-            <CurrencyLogo currency={currencyA} size={'24px'} />
+            {chainId && <CurrencyLogo currency={currencyA} size={'24px'} chainId={chainId} />}
             <Text fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
               {currencyA?.symbol}
             </Text>
@@ -374,7 +375,7 @@ export default function RemoveLiquidityModal({
             {parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}
           </Text>
           <RowFixed gap="4px">
-            <CurrencyLogo currency={currencyB} size={'24px'} />
+            {chainId && <CurrencyLogo currency={currencyB} size={'24px'} chainId={chainId} />}
             <Text fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
               {currencyB?.symbol}
             </Text>
@@ -445,7 +446,7 @@ export default function RemoveLiquidityModal({
     [onUserInput]
   )
 
-  const oneCurrencyIsAVAX = currencyA === CAVAX || currencyB === CAVAX
+  const oneCurrencyIsAVAX = chainId && (currencyA === CAVAX[chainId] || currencyB === CAVAX[chainId])
   const oneCurrencyIsWAVAX = Boolean(
     chainId &&
       ((currencyA && currencyEquals(WAVAX[chainId], currencyA)) ||
@@ -548,7 +549,7 @@ export default function RemoveLiquidityModal({
                       {formattedAmounts[Field.CURRENCY_A] || '-'}
                     </Text>
                     <RowFixed>
-                      <CurrencyLogo currency={currencyA} style={{ marginRight: '12px' }} />
+                      {chainId && <CurrencyLogo currency={currencyA} style={{ marginRight: '12px' }} chainId={chainId}/>}
                       <Text fontSize={24} fontWeight={500} id="remove-liquidity-tokena-symbol">
                         {currencyA?.symbol}
                       </Text>
@@ -559,7 +560,7 @@ export default function RemoveLiquidityModal({
                       {formattedAmounts[Field.CURRENCY_B] || '-'}
                     </Text>
                     <RowFixed>
-                      <CurrencyLogo currency={currencyB} style={{ marginRight: '12px' }} />
+                      {chainId && <CurrencyLogo currency={currencyB} style={{ marginRight: '12px' }} chainId={chainId}/>}
                       <Text fontSize={24} fontWeight={500} id="remove-liquidity-tokenb-symbol">
                         {currencyB?.symbol}
                       </Text>
@@ -570,8 +571,8 @@ export default function RemoveLiquidityModal({
                       {oneCurrencyIsAVAX ? (
                         <LinkStyledButton
                           onClick={() => {
-                            setCurrencyIdA(currencyA === CAVAX ? WAVAX[chainId].address : currencyIdA)
-                            setCurrencyIdB(currencyB === CAVAX ? WAVAX[chainId].address : currencyIdB)
+                            setCurrencyIdA(currencyA === CAVAX[chainId] ? WAVAX[chainId].address : currencyIdA)
+                            setCurrencyIdB(currencyB === CAVAX[chainId] ? WAVAX[chainId].address : currencyIdB)
                           }}
                         >
                           {t('removeLiquidity.receiveWavax')}

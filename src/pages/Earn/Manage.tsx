@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Token, Currency, TokenAmount } from '@pangolindex/sdk'
+import { Token, Currency, TokenAmount, ChainId } from '@antiyro/sdk'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { TYPE } from '../../theme'
@@ -90,7 +90,7 @@ export interface ManageProps {
 }
 
 const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, currencyB, extraRewardTokensAmount }) => {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
   let backgroundColor: string
   let token: Token | undefined
@@ -223,7 +223,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
                 padding="8px"
                 width={'fit-content'}
                 as={Link}
-                to={`/add/${currencyA && currencyId(currencyA)}/${currencyB && currencyId(currencyB)}`}
+                to={`/add/${currencyA && currencyId(currencyA, chainId || ChainId.AVALANCHE)}/${currencyB && currencyId(currencyB, chainId || ChainId.AVALANCHE)}`}
               >
                 {t('earnPage.addPoolLiquidity', { poolHandle: currencyA?.symbol + '-' + currencyB?.symbol })}
               </ButtonPrimary>
@@ -331,7 +331,8 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
         {!showAddLiquidityButton && (
           <DataRow style={{ marginBottom: '1rem' }}>
             <ButtonPrimary padding="8px" borderRadius="8px" width="160px" onClick={handleDepositClick}>
-              {stakingInfo?.stakedAmount?.greaterThan(BIG_INT_ZERO)
+              {
+              stakingInfo?.stakedAmount?.greaterThan(BIG_INT_ZERO)
                 ? t('earnPage.deposit')
                 : t('earnPage.depositStakingTokens', { symbol: 'PGL' })}
             </ButtonPrimary>

@@ -1,5 +1,5 @@
-import { ChainId, TokenAmount } from '@pangolindex/sdk'
-import { Button, Box, Text } from '@pangolindex/components'
+import { ChainId, TokenAmount } from '@antiyro/sdk'
+import { Button, Box, Text } from '@0xkilo/components'
 import React, { useContext, useState, useRef } from 'react'
 import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
@@ -40,14 +40,21 @@ import { Hidden } from 'src/theme'
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: 'Fuji',
-  [ChainId.AVALANCHE]: 'Avalanche'
+  [ChainId.AVALANCHE]: 'Avalanche',
+  [ChainId.WAGMI]: 'Wagmi'
+}
+
+const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
+  [ChainId.FUJI]: 'AVAX',
+  [ChainId.AVALANCHE]: 'AVAX',
+  [ChainId.WAGMI]: 'WGM'
 }
 
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
-  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
+  const userEthBalance = useETHBalances(chainId || ChainId.AVALANCHE, account ? [account] : [])?.[account ?? '']
 
   const aggregateBalance: TokenAmount | undefined = useAggregatePngBalance()
 
@@ -130,9 +137,9 @@ export default function Header() {
             </PNGWrapper>
           )}
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
-            {account && userEthBalance ? (
+            {chainId && account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                {userEthBalance?.toSignificant(4)} AVAX
+                {userEthBalance?.toSignificant(4)} {NETWORK_CURRENCY[chainId]}
               </BalanceText>
             ) : null}
             <Web3Status />

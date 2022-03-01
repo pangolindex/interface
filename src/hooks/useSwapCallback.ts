@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
-import { JSBI, Percent, Router, SwapParameters, Trade, TradeType } from '@pangolindex/sdk'
+import { JSBI, Percent, Router, SwapParameters, Trade, TradeType } from '@antiyro/sdk'
 import { useMemo } from 'react'
 import { BIPS_BASE, INITIAL_ALLOWED_SLIPPAGE } from '../constants'
 import { useTransactionAdder } from '../state/transactions/hooks'
@@ -73,7 +73,7 @@ function useSwapCallArguments(
         allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
         recipient,
         deadline: deadline.toNumber()
-      })
+      }, chainId)
     )
 
     if (trade.tradeType === TradeType.EXACT_INPUT) {
@@ -83,7 +83,7 @@ function useSwapCallArguments(
           allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
           recipient,
           deadline: deadline.toNumber()
-        })
+        }, chainId)
       )
     }
 

@@ -12,6 +12,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
+import { ChainId } from '@antiyro/sdk'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -39,7 +40,9 @@ export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingI
     onDismiss()
   }
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const { chainId } = useActiveWeb3React()
+
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
 
   async function onClaimReward() {
     if (stakingContract && stakingInfo?.stakedAmount) {

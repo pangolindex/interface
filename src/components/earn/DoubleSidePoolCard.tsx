@@ -4,7 +4,7 @@ import { RowBetween } from '../Row'
 import styled from 'styled-components'
 import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
-import { CAVAX, Token } from '@pangolindex/sdk'
+import { CAVAX, Token, ChainId } from '@antiyro/sdk'
 import { ButtonPrimary } from '../Button'
 import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
@@ -12,11 +12,13 @@ import { currencyId } from '../../utils/currencyId'
 import { Break, CardNoise, CardBGImage } from './styled'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 import { PNG } from '../../constants'
+import { CHAINS } from '../../constants/chains'
 import { useTranslation } from 'react-i18next'
 import RewardTokens from '../RewardTokens'
-import { Box } from '@pangolindex/components'
+import { Box } from '@0xkilo/components'
 import { useTokens } from '../../hooks/Tokens'
 import { BETA_MENU_LINK } from 'src/constants'
+import { useActiveWeb3React } from 'src/hooks'
 
 const StatContainer = styled.div`
   display: flex;
@@ -93,30 +95,32 @@ export default function DoubleSidePoolCard({
   swapFeeApr: number
   stakingApr: number
 }) {
+  const { chainId } = useActiveWeb3React()
+
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
+  const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
+  const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
 
   const poolMap = useMinichefPools()
 
   const { t } = useTranslation()
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
+
   const token: Token =
-    currency0 === CAVAX || currency1 === CAVAX
-      ? currency0 === CAVAX
+    currency0 === CAVAX[chainId || ChainId.AVALANCHE] || currency1 === CAVAX[chainId || ChainId.AVALANCHE]
+      ? currency0 === CAVAX[chainId || ChainId.AVALANCHE]
         ? token1
         : token0
       : token0.equals(PNG[token0.chainId])
       ? token1
       : token0
 
-  // get the color of the token
+  const totalStakedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' }) : 0
+  
   const backgroundColor = useColor(token)
-
-  const totalStakedInUsd = stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
 
   const pairAddress = stakingInfo?.stakedAmount?.token?.address
 
@@ -152,7 +156,7 @@ export default function DoubleSidePoolCard({
 
           {(isStaking || !stakingInfo.isPeriodFinished) && (
             <StyledInternalLink
-              to={`/png/${currencyId(currency0)}/${currencyId(currency1)}/${version}`}
+              to={`/png/${currencyId(currency0, chainId ? chainId : ChainId.AVALANCHE)}/${currencyId(currency1, chainId ? chainId : ChainId.AVALANCHE)}/${version}`}
               style={{ width: '100%' }}
             >
               <ButtonPrimary padding="8px" borderRadius="8px">

@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { PageWrapper, InputText, ContentBox, DataBox } from './styleds'
-import { Box, Text, Button, Steps, Step } from '@pangolindex/components'
+import { Box, Text, Button, Steps, Step } from '@0xkilo/components'
 import ReactGA from 'react-ga'
 import { useActiveWeb3React } from 'src/hooks'
-import { Currency, ChainId, Percent, CAVAX } from '@pangolindex/sdk'
+import { Currency, ChainId, Percent, CAVAX } from '@antiyro/sdk'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -77,6 +77,7 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
   // allowance handling
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
+    chainId ? chainId : ChainId.AVALANCHE,
     parsedAmounts[Field.LIQUIDITY],
     chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
   )
@@ -212,8 +213,8 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
 
-    const currencyBIsAVAX = currencyB === CAVAX
-    const oneCurrencyIsAVAX = currencyA === CAVAX || currencyBIsAVAX
+    const currencyBIsAVAX = currencyB === CAVAX[chainId || ChainId.AVALANCHE]
+    const oneCurrencyIsAVAX = currencyA === CAVAX[chainId || ChainId.AVALANCHE] || currencyBIsAVAX
 
     // TODO: Translate using i18n
     if (!tokenA || !tokenB) throw new Error('could not wrap')
