@@ -39,7 +39,7 @@ const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB:
     account ? [[0, account as string, earnedAmount]] : []
   )
   const rewardTokens = useTokens(miniChefStaking?.rewardTokensAddress)
-  const rewardAmounts = rewardTokenAmounts?.[0]?.result?.amounts || []
+  const rewardAmounts = rewardTokenAmounts?.[0]?.result?.amounts || [] // eslint-disable-line react-hooks/exhaustive-deps
 
   const rewardTokensAmount = useMemo(() => {
     if (!rewardTokens) return []
