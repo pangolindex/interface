@@ -6,10 +6,14 @@ export const Card = styled(Box)`
   background: ${({ theme }) => theme.bg2};
   border-radius: 8px;
   padding: 30px;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(auto, 65%) minmax(auto, 35%);
+  grid-gap: 12px;
   align-items: center;
   margin-top: 22px;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    grid-template-columns: 100%;
+  `};
 `
 
 export const CardTitle = styled(Box)`

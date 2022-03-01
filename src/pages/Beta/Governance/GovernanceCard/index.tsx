@@ -40,7 +40,7 @@ const GovernanceCard = ({ id, title, to, status }: GovernanceCardProps) => {
 
   return (
     <Card>
-      <CardTitle style={{ maxWidth: '55%' }}>
+      <CardTitle>
         <Text fontSize={28} lineHeight="42px" color="text10" style={{ marginRight: '21px' }}>
           {id}.
         </Text>
