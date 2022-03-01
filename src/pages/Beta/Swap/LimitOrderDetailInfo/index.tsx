@@ -5,7 +5,6 @@ import { INITIAL_ALLOWED_SLIPPAGE } from 'src/constants'
 import { useActiveWeb3React } from 'src/hooks'
 import { ContentBox, DataBox, ValueText } from './styled'
 import { useGelatoLimitOrders, useGelatoLimitOrdersLib } from '@gelatonetwork/limit-orders-react'
-import { GelatoLimitOrders } from '@gelatonetwork/limit-orders-lib'
 import { TokenAmount } from '@pangolindex/sdk'
 
 type Props = { trade: any }
@@ -35,8 +34,8 @@ const LimitOrderDetailInfo: React.FC<Props> = ({ trade }) => {
 
     const { minReturn } = library.getFeeAndSlippageAdjustedMinReturn(rawOutputAmount)
 
-    const slippagePercentage = GelatoLimitOrders.slippageBPS / 100
-    const gelatoFeePercentage = GelatoLimitOrders.gelatoFeeBPS / 100
+    const slippagePercentage = library.slippageBPS / 100
+    const gelatoFeePercentage = library.gelatoFeeBPS / 100
 
     //const minReturnParsed = CurrencyAmount.fromRawAmount(trade?.outputAmount?.currency, minReturn)
     const minReturnParsed = new TokenAmount(trade?.outputAmount?.currency, minReturn)
