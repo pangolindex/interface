@@ -17,9 +17,6 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
 
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
-
   const totalStakedInUsd = numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a')
 
   let yourStackedInUsd = stakingInfo?.totalStakedInUsd
@@ -31,7 +28,10 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
   const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
-  
+
+  const currency0 = pair?.token0 ? unwrappedToken(pair?.token0) : undefined
+  const currency1 = pair?.token1 ? unwrappedToken(pair?.token1) : undefined
+
   return (
     <>
       <DetailsContainer>
