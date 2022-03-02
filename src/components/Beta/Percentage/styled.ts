@@ -15,4 +15,5 @@ export const PValue = styled(Box)<{ isActive: boolean }>`
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
+  justify-content: center;
 `
