@@ -57,6 +57,7 @@ export const InputWrapper = styled(Box)<{ type: string }>`
   grid-auto-columns: minmax(0, 1fr);
   margin-top: ${({ type }) => (type === 'detail' ? '10px' : '0px')};
   grid-gap: 5px;
+  align-items: ${({ type }) => (type === 'detail' ? 'normal' : 'center')};
 `
 export const Buttons = styled(Box)`
   display: grid;

@@ -14,4 +14,5 @@ export const PValue = styled(Box)<{ isActive: boolean }>`
   border: ${({ theme, isActive }) => (isActive ? 0 : `1px solid ${theme.text1}`)};
   border-radius: 5px;
   cursor: pointer;
+  text-align: center;
 `
