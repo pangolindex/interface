@@ -19,7 +19,7 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
 
   const totalStakedInUsd = numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a')
 
-  let yourStackedInUsd = stakingInfo?.totalStakedInUsd
+  const yourStackedInUsd = stakingInfo?.totalStakedInUsd
     .multiply(stakingInfo?.stakedAmount)
     .divide(stakingInfo?.totalStakedAmount)
 

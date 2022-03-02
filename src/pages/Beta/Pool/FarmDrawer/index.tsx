@@ -24,7 +24,9 @@ const FarmDrawer: React.FC<Props> = ({ isOpen, onClose, clickedLpTokens, backgro
 
   return (
     <Drawer title={t('earn.deposit')} isOpen={isOpen} onClose={onClose} backgroundColor={backgroundColor}>
-      {isOpen && <Stake pair={stakingTokenPair} version={version} onComplete={onClose} type="card" combinedApr={combinedApr} />}
+      {isOpen && (
+        <Stake pair={stakingTokenPair} version={version} onComplete={onClose} type="card" combinedApr={combinedApr} />
+      )}
     </Drawer>
   )
 }
