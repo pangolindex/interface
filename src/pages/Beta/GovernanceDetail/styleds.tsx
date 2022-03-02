@@ -36,6 +36,9 @@ export const CardWrapper = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   width: 100%;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    grid-template-columns: 1fr;
+  `};
 `
 
 export const StyledDataCard = styled(DataCard)`
@@ -45,6 +48,7 @@ export const StyledDataCard = styled(DataCard)`
   color: ${({ theme }) => theme.text1};
   height: fit-content;
   z-index: 2;
+  display: block;
 `
 
 export const ProgressWrapper = styled.div`
