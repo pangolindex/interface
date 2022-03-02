@@ -1,6 +1,6 @@
 import React, { useContext, useCallback, useState } from 'react'
 import { Currency, CAVAX, TokenAmount } from '@pangolindex/sdk'
-import { PageWrapper, InputText, StyledBalanceMax, ArrowWrapper, LightCard } from './styleds'
+import { AddWrapper, InputText, StyledBalanceMax, ArrowWrapper, LightCard, InputWrapper, Buttons } from './styleds'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Text } from '@pangolindex/components'
 import { Plus } from 'react-feather'
@@ -22,7 +22,6 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { wrappedCurrency } from 'src/utils/wrappedCurrency'
 import ReactGA from 'react-ga'
-import { AutoColumn } from 'src/components/Column'
 import PoolPriceBar from './PoolPriceBar'
 import { PairState } from 'src/data/Reserves'
 import ConfirmPoolDrawer from './ConfirmPoolDrawer'
@@ -32,9 +31,10 @@ interface AddLiquidityProps {
   currencyA: Currency
   currencyB: Currency
   onComplete?: () => void
+  type: 'card' | 'detail'
 }
 
-const AddLiquidity = ({ currencyA, currencyB, onComplete }: AddLiquidityProps) => {
+const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityProps) => {
   const { account, chainId, library } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
@@ -226,13 +226,13 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete }: AddLiquidityProps) =
   const renderButton = () => {
     if (!account) {
       return (
-        <Button variant="primary" onClick={toggleWalletModal}>
+        <Button variant="primary" onClick={toggleWalletModal} height="46px">
           {t('swapPage.connectWallet')}
         </Button>
       )
     } else {
       return (
-        <AutoColumn gap={'md'}>
+        <Buttons>
           {(approvalA === ApprovalState.NOT_APPROVED ||
             approvalA === ApprovalState.PENDING ||
             approvalB === ApprovalState.NOT_APPROVED ||
@@ -247,6 +247,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete }: AddLiquidityProps) =
                     width={approvalB !== ApprovalState.APPROVED ? '48%' : '100%'}
                     loading={approvalA === ApprovalState.PENDING}
                     loadingText={`${t('swapPage.approving')} ${currencies[Field.CURRENCY_A]?.symbol}`}
+                    height="46px"
                   >
                     {t('addLiquidity.approve') + currencies[Field.CURRENCY_A]?.symbol}
                   </Button>
@@ -259,6 +260,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete }: AddLiquidityProps) =
                     width={approvalA !== ApprovalState.APPROVED ? '48%' : '100%'}
                     loading={approvalB === ApprovalState.PENDING}
                     loadingText={`${t('swapPage.approving')} ${currencies[Field.CURRENCY_B]?.symbol}`}
+                    height="46px"
                   >
                     {t('addLiquidity.approve') + currencies[Field.CURRENCY_B]?.symbol}
                   </Button>
@@ -266,6 +268,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete }: AddLiquidityProps) =
               </RowBetween>
             )}
           <Button
+            height="46px"
             variant="primary"
             onClick={() => {
               expertMode ? onAdd() : setShowConfirm(true)
@@ -275,100 +278,108 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete }: AddLiquidityProps) =
           >
             {error ?? t('addLiquidity.supply')}
           </Button>
-        </AutoColumn>
+        </Buttons>
       )
     }
   }
 
   return (
-    <PageWrapper>
-      <InputText
-        value={formattedAmounts[Field.CURRENCY_A]}
-        addonAfter={
-          !atMaxAmounts[Field.CURRENCY_A] ? (
-            <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
-              <StyledBalanceMax onClick={() => onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')}>
-                {t('currencyInputPanel.max')}
-              </StyledBalanceMax>
-            </Box>
-          ) : (
-            ''
-          )
-        }
-        onChange={(value: any) => {
-          handleTypeInput(value as any)
-        }}
-        label={`${currencyA?.symbol} Input`}
-        fontSize={24}
-        isNumeric={true}
-        placeholder="0.00"
-        addonLabel={
-          account && (
-            <Text color="text2" fontWeight={500} fontSize={14}>
-              {!!currencyA && selectedCurrencyBalanceA
-                ? t('currencyInputPanel.balance') + selectedCurrencyBalanceA?.toSignificant(6)
-                : ' -'}
-            </Text>
-          )
-        }
-      />
+    <AddWrapper>
+      <Box flex={1}>
+        <InputWrapper type={type}>
+          <InputText
+            value={formattedAmounts[Field.CURRENCY_A]}
+            addonAfter={
+              !atMaxAmounts[Field.CURRENCY_A] ? (
+                <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
+                  <StyledBalanceMax onClick={() => onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')}>
+                    {t('currencyInputPanel.max')}
+                  </StyledBalanceMax>
+                </Box>
+              ) : (
+                ''
+              )
+            }
+            onChange={(value: any) => {
+              handleTypeInput(value as any)
+            }}
+            label={`${currencyA?.symbol}`}
+            fontSize={24}
+            isNumeric={true}
+            placeholder="0.00"
+            addonLabel={
+              account && (
+                <Text color="text2" fontWeight={500} fontSize={12}>
+                  {!!currencyA && selectedCurrencyBalanceA
+                    ? t('currencyInputPanel.balance') + selectedCurrencyBalanceA?.toSignificant(6)
+                    : ' -'}
+                </Text>
+              )
+            }
+          />
 
-      <Box width="100%" textAlign="center" alignItems="center" display="flex" justifyContent={'center'} mt={10}>
-        <ArrowWrapper>
-          <Plus size="16" color={theme.text1} />
-        </ArrowWrapper>
-      </Box>
+          <Box
+            width="100%"
+            textAlign="center"
+            alignItems="center"
+            display={type === 'card' ? 'none' : 'flex'}
+            justifyContent={'center'}
+            mt={10}
+          >
+            <ArrowWrapper>
+              <Plus size="16" color={theme.text1} />
+            </ArrowWrapper>
+          </Box>
 
-      <InputText
-        value={formattedAmounts[Field.CURRENCY_B]}
-        addonAfter={
-          !atMaxAmounts[Field.CURRENCY_B] ? (
-            <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
-              <StyledBalanceMax onClick={() => onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')}>
-                {t('currencyInputPanel.max')}
-              </StyledBalanceMax>
-            </Box>
-          ) : (
-            ''
-          )
-        }
-        onChange={(value: any) => {
-          handleTypeOutput(value as any)
-        }}
-        label={`${currencyB?.symbol} Input`}
-        fontSize={24}
-        isNumeric={true}
-        placeholder="0.00"
-        addonLabel={
-          account && (
-            <Text color="text2" fontWeight={500} fontSize={14}>
-              {!!currencyB && selectedCurrencyBalanceB
-                ? t('currencyInputPanel.balance') + selectedCurrencyBalanceB?.toSignificant(6)
-                : ' -'}
-            </Text>
-          )
-        }
-      />
+          <InputText
+            value={formattedAmounts[Field.CURRENCY_B]}
+            addonAfter={
+              !atMaxAmounts[Field.CURRENCY_B] ? (
+                <Box display={'flex'} alignItems={'center'} height={'100%'} justifyContent={'center'}>
+                  <StyledBalanceMax onClick={() => onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')}>
+                    {t('currencyInputPanel.max')}
+                  </StyledBalanceMax>
+                </Box>
+              ) : (
+                ''
+              )
+            }
+            onChange={(value: any) => {
+              handleTypeOutput(value as any)
+            }}
+            label={`${currencyB?.symbol}`}
+            fontSize={24}
+            isNumeric={true}
+            placeholder="0.00"
+            addonLabel={
+              account && (
+                <Text color="text2" fontWeight={500} fontSize={12}>
+                  {!!currencyB && selectedCurrencyBalanceB
+                    ? t('currencyInputPanel.balance') + selectedCurrencyBalanceB?.toSignificant(6)
+                    : ' -'}
+                </Text>
+              )
+            }
+          />
+        </InputWrapper>
 
-      {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
-        <LightCard padding="0px">
-          {/* <Text fontWeight={500} fontSize={14} color="text1">
+        {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
+          <LightCard padding="0px">
+            {/* <Text fontWeight={500} fontSize={14} color="text1">
             {noLiquidity ? t('addLiquidity.initialPrices') : t('addLiquidity.prices')} {t('addLiquidity.poolShare')}
           </Text> */}
 
-          <PoolPriceBar
-            currencies={currencies}
-            poolTokenPercentage={poolTokenPercentage}
-            noLiquidity={noLiquidity}
-            price={price}
-            parsedAmounts={parsedAmounts}
-          />
-        </LightCard>
-      )}
-
-      <Box width="100%" mt={10}>
-        {renderButton()}
+            <PoolPriceBar
+              currencies={currencies}
+              poolTokenPercentage={poolTokenPercentage}
+              noLiquidity={noLiquidity}
+              price={price}
+              parsedAmounts={parsedAmounts}
+            />
+          </LightCard>
+        )}
       </Box>
+      <Box width="100%">{renderButton()}</Box>
 
       {/* Confirm Swap Drawer */}
       {showConfirm && (
@@ -387,6 +398,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete }: AddLiquidityProps) =
           txHash={txHash}
           onClose={handleDismissConfirmation}
           onComplete={onComplete}
+          type={type}
         />
       )}
 
@@ -400,7 +412,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete }: AddLiquidityProps) =
           </Text>
         </LightCard>
       ) : null} */}
-    </PageWrapper>
+    </AddWrapper>
   )
 }
 export default AddLiquidity

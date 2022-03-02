@@ -6,7 +6,7 @@ import { CloseIcon } from 'src/theme/components'
 import { ThemeContext } from 'styled-components'
 
 interface Props {
-  onClose: () => void
+  onClose?: () => void
   submitText?: string
   showCloseIcon?: boolean
   isShowButtton?: boolean
@@ -27,7 +27,7 @@ const TransactionCompleted = ({
     <Root>
       {showCloseIcon && (
         <Box display="flex" justifyContent="flex-end">
-          <CloseIcon onClick={onClose} color={theme.text4} />
+          <CloseIcon onClick={() => onClose && onClose()} color={theme.text4} />
         </Box>
       )}
 

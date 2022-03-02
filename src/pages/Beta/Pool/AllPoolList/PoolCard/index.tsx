@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Fraction } from '@pangolindex/sdk'
 import {
   Panel,
@@ -20,23 +20,22 @@ import { usePair } from 'src/data/Reserves'
 import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
+import ClaimDrawer from '../../ClaimDrawer'
+import FarmDrawer from '../../FarmDrawer'
+import AddLiquidityDrawer from '../../AddLiquidityDrawer'
 
 export interface PoolCardProps {
   stakingInfo: StakingInfo
   onClickViewDetail: () => void
-  onClickAddLiquidity: () => void
-  onClickClaim: () => void
-  onClickStake: () => void
+  version: number
 }
 
-const PoolCard = ({
-  stakingInfo,
-  onClickViewDetail,
-  onClickAddLiquidity,
-  onClickClaim,
-  onClickStake
-}: PoolCardProps) => {
+const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) => {
   const { t } = useTranslation()
+  const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
+
+  const [isFarmDrawerVisible, setShowFarmDrawer] = useState(false)
+  const [isAddLiquidityDrawerVisible, setShowAddLiquidityDrawer] = useState(false)
 
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
@@ -127,7 +126,7 @@ const PoolCard = ({
           {isStaking && Boolean(stakingInfo.earnedAmount.greaterThan('0')) ? (
             <ActionButon
               variant="plain"
-              onClick={() => onClickClaim()}
+              onClick={() => setShowClaimDrawer(true)}
               backgroundColor="bg2"
               color="text1"
               height="45px"
@@ -137,17 +136,17 @@ const PoolCard = ({
           ) : isLiquidity ? (
             <ActionButon
               variant="plain"
-              onClick={() => onClickStake()}
+              onClick={() => setShowFarmDrawer(true)}
               backgroundColor="bg2"
               color="text1"
               height="45px"
             >
-              {t('earnPage.stake')}
+              {t('header.farm')}
             </ActionButon>
           ) : (
             <ActionButon
               variant="plain"
-              onClick={() => onClickAddLiquidity()}
+              onClick={() => setShowAddLiquidityDrawer(true)}
               backgroundColor="bg2"
               color="text1"
               height="45px"
@@ -157,6 +156,41 @@ const PoolCard = ({
           )}
         </Box>
       </InnerWrapper>
+      {isClaimDrawerVisible && (
+        <ClaimDrawer
+          isOpen={isClaimDrawerVisible}
+          onClose={() => {
+            setShowClaimDrawer(false)
+          }}
+          stakingInfo={stakingInfo}
+          version={version}
+          backgroundColor="color5"
+        />
+      )}
+
+      {isFarmDrawerVisible && (
+        <FarmDrawer
+          isOpen={isFarmDrawerVisible}
+          onClose={() => {
+            setShowFarmDrawer(false)
+          }}
+          clickedLpTokens={stakingInfo?.tokens}
+          version={version}
+          backgroundColor="color5"
+          combinedApr={stakingInfo?.combinedApr}
+        />
+      )}
+
+      {isAddLiquidityDrawerVisible && (
+        <AddLiquidityDrawer
+          isOpen={isAddLiquidityDrawerVisible}
+          onClose={() => {
+            setShowAddLiquidityDrawer(false)
+          }}
+          clickedLpTokens={stakingInfo?.tokens}
+          backgroundColor="color5"
+        />
+      )}
     </Panel>
   )
 }

@@ -6,24 +6,14 @@ import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConf
 import PoolCard from '../PoolCard'
 import Loader from 'src/components/Loader'
 import { useActiveWeb3React } from 'src/hooks'
-import { Token } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
 import { BIG_INT_ZERO } from 'src/constants'
 import Scrollbars from 'react-custom-scrollbars'
 import { PoolsWrapper, PanelWrapper, LoadingWrapper, MobileGridContainer } from './styleds'
-import {
-  usePoolDetailnModalToggle,
-  useAddLiquiditynModalToggle,
-  useStakeModalToggle,
-  useModalOpen
-} from 'src/state/application/hooks'
-import { ApplicationModal } from 'src/state/application/actions'
+import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
 import DetailModal from '../../DetailModal'
-import AddLiquidityModal from '../../AddLiquidityModal'
-import ClaimRewardModal from '../../ClaimRewardModal'
-import StakeModal from '../../StakeModal'
 import DropdownMenu from 'src/components/Beta/DropdownMenu'
 import { Hidden } from 'src/theme'
 
@@ -66,20 +56,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
 
   const [selectedPoolIndex, setSelectedPoolIndex] = useState(-1)
 
-  const [clickedLpTokens, setClickedLpTokens] = useState([] as Token[])
-
   const togglePoolDetailModal = usePoolDetailnModalToggle()
-  const toggleAddLiquidityModal = useAddLiquiditynModalToggle()
-  const addLiquidityModalOpen = useModalOpen(ApplicationModal.ADD_LIQUIDITY)
-
-  const toggleStakeModal = useStakeModalToggle()
-  const stakeModalOpen = useModalOpen(ApplicationModal.STAKE)
-
-  const [isClaimRewardDrawerOpen, setIsClaimRewardDrawerOpen] = useState(false)
-
-  const handleClaimRewardDrawerClose = useCallback(() => {
-    setIsClaimRewardDrawerOpen(false)
-  }, [setIsClaimRewardDrawerOpen])
 
   const handleSearch = useCallback(value => {
     setSearchQuery(value.trim().toUpperCase())
@@ -120,18 +97,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
               setSelectedPoolIndex(index)
               togglePoolDetailModal()
             }}
-            onClickAddLiquidity={() => {
-              setClickedLpTokens(stakingInfo.tokens)
-              toggleAddLiquidityModal()
-            }}
-            onClickClaim={() => {
-              setSelectedPoolIndex(index)
-              setIsClaimRewardDrawerOpen(true)
-            }}
-            onClickStake={() => {
-              setClickedLpTokens(stakingInfo.tokens)
-              toggleStakeModal()
-            }}
+            version={Number(version)}
           />
         )
       })
@@ -203,18 +169,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
                 setSelectedPoolIndex(index)
                 togglePoolDetailModal()
               }}
-              onClickAddLiquidity={() => {
-                setClickedLpTokens(stakingInfo.tokens)
-                toggleAddLiquidityModal()
-              }}
-              onClickClaim={() => {
-                setSelectedPoolIndex(index)
-                setIsClaimRewardDrawerOpen(true)
-              }}
-              onClickStake={() => {
-                setClickedLpTokens(stakingInfo.tokens)
-                toggleStakeModal()
-              }}
+              version={Number(version)}
             />
           )
         })
@@ -292,17 +247,6 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
       )}
 
       <DetailModal stakingInfo={selectedPool} version={Number(version)} />
-
-      {addLiquidityModalOpen && <AddLiquidityModal clickedLpTokens={clickedLpTokens} />}
-
-      <ClaimRewardModal
-        isOpen={isClaimRewardDrawerOpen}
-        onClose={handleClaimRewardDrawerClose}
-        stakingInfo={selectedPool}
-        version={Number(version)}
-      />
-
-      {stakeModalOpen && <StakeModal clickedLpTokens={clickedLpTokens} version={Number(version)} />}
     </PoolsWrapper>
   )
 }
