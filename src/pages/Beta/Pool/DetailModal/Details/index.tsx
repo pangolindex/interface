@@ -20,13 +20,9 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
 
-  const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
-  const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
-
-
   const totalStakedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a') : numeral(stakingInfo.totalStakedInUsd).format('$0.00a')
 
-  let yourStackedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? stakingInfo?.totalStakedInUsd
+  const yourStakeInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? stakingInfo?.totalStakedInUsd
     .multiply(stakingInfo?.stakedAmount)
     .divide(stakingInfo?.totalStakedAmount) : undefined
 
@@ -35,7 +31,10 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
   const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
-  
+
+  const currency0 = pair?.token0 ? unwrappedToken(pair?.token0, chainId || ChainId.AVALANCHE) : undefined
+  const currency1 = pair?.token1 ? unwrappedToken(pair?.token1, chainId || ChainId.AVALANCHE) : undefined
+
   return (
     <>
       <DetailsContainer>
@@ -68,7 +67,7 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
               currency0={currency0}
               currency1={currency1}
               pair={pair}
-              totalAmount={`${numeral((yourStackedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}`}
+              totalAmount={`${numeral((yourStakeInUsd as Fraction)?.toFixed(2)).format('$0.00a')}`}
               pgl={stakingInfo?.stakedAmount}
             />
           </Box>

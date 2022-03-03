@@ -2,8 +2,8 @@ import { Box } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const PValue = styled(Box)<{ isActive: boolean }>`
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 3px;
+  margin-right: 3px;
   align-items: center;
   display: flex;
   width: 100%;
@@ -14,4 +14,6 @@ export const PValue = styled(Box)<{ isActive: boolean }>`
   border: ${({ theme, isActive }) => (isActive ? 0 : `1px solid ${theme.text1}`)};
   border-radius: 5px;
   cursor: pointer;
+  text-align: center;
+  justify-content: center;
 `

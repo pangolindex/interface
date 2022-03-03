@@ -3,11 +3,9 @@ import ReactGA from 'react-ga'
 import { Box, TextInput, Text, Button } from '@pangolindex/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, AppState } from 'src/state'
-import { useIsSelectedAEBTokenList } from 'src/state/lists/hooks'
-import { DeprecatedWarning } from 'src/components/Warning'
 import Drawer from 'src/components/Drawer'
 import TokenListRow from './TokenListRow'
-import { Warning, List, AddInputWrapper } from './styled'
+import { List, AddInputWrapper } from './styled'
 import Scrollbars from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
 import { useFetchListCallback } from 'src/hooks/useFetchListCallback'
@@ -89,8 +87,6 @@ const TokenListDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
       })
   }, [lists])
 
-  const isAEBTokenList = useIsSelectedAEBTokenList()
-
   return (
     <Drawer title="Manage Lists" isOpen={isOpen} onClose={onClose}>
       {/* Render Search Token Input */}
@@ -117,11 +113,6 @@ const TokenListDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
         ) : null}
       </Box>
       <Scrollbars>
-        {isAEBTokenList && (
-          <Warning>
-            <DeprecatedWarning />
-          </Warning>
-        )}
         <List>
           {sortedLists.map(url => (
             <TokenListRow listUrl={url} key={url} />

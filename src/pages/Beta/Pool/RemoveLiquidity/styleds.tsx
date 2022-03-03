@@ -1,9 +1,12 @@
 import { Box, TextInput } from '@pangolindex/components'
 import styled from 'styled-components'
 
-export const PageWrapper = styled(Box)`
+export const RemoveWrapper = styled(Box)`
   width: 100%;
   padding: 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `
 
 export const InputText = styled(TextInput)`
@@ -18,12 +21,9 @@ export const ContentBox = styled(Box)`
   border-radius: 10px;
   background-color: ${({ theme }) => theme.bg6};
   margin-top: 10px;
-  padding: 10px;
-`
-
-export const DataBox = styled(Box)`
-  align-items: center;
-  justify-content: space-between;
-  display: flex;
-  margin: 5px 0px 5px 0px;
+  padding: 6px;
+  display: grid;
+  grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
+  grid-gap: 12px;
+  text-align: center;
 `
