@@ -1,21 +1,13 @@
+import axios from 'axios'
+import qs from 'qs'
+import { useQuery } from 'react-query'
 import { CAVAX, ChainId, Currency, Pair, Token, TokenAmount } from '@pangolindex/sdk'
 import { ethers } from 'ethers'
-import { useEffect, useState } from 'react'
 import { CHAINS, ChainsId } from 'src/constants/chains'
 import { useActiveWeb3React } from 'src/hooks'
 
 export type ChainBalances = {
   [chainID in ChainsId]: number
-}
-
-interface ChainList {
-  community_id: number
-  usd_value: number
-}
-
-interface Data {
-  total_usd_value: number
-  chain_list: ChainList[]
 }
 
 export interface Protocol {
@@ -53,114 +45,95 @@ export class PairDataUser {
   }
 }
 
+const openApi = axios.create({
+  baseURL: 'https://openapi.debank.com/v1/user',
+  timeout: 2000
+})
+
 // Get the USD balance of address of all chains (supported by Debank)
-export function useGetChainsBalances(): [ChainBalances, boolean] {
-  const [balances, setBalances] = useState<ChainBalances>({} as ChainBalances)
-  const [loading, setLoading] = useState(false)
+export function useGetChainsBalances() {
   const { account } = useActiveWeb3React()
 
-  useEffect(() => {
-    const getBalances = async () => {
-      const response = await fetch(`https://openapi.debank.com/v1/user/total_balance?id=${account}`)
-      const data: Data = await response.json()
+  const query = qs.stringify(
+    {
+      id: account
+    },
+    {
+      encodeValuesOnly: true
+    }
+  )
+
+  return useQuery('getChainsBalances', async () => {
+    if (account) {
+      const response = await openApi.get(`/total_balance?${query}`)
+      const data = response.data
       const chainbalances: any = {
         0: data?.total_usd_value
       }
 
-      data?.chain_list?.forEach((chain: ChainList) => {
+      data?.chain_list?.forEach((chain: any) => {
         chainbalances[chain?.community_id] = chain?.usd_value
       })
-
-      setBalances(chainbalances)
-      setLoading(false)
+      return chainbalances as ChainBalances
     }
-    if (!!account) {
-      setLoading(true)
-      getBalances()
-    }
-  }, [account, setBalances, setLoading])
 
-  return [balances, loading]
+    return {} as ChainBalances
+  })
 }
 
 // Get the USD balance of address of connected chain
 export function useGetChainBalance() {
-  const [balance, setBalance] = useState<number>(0)
-  /* eslint-disable prefer-const*/
-  let { chainId = ChainId.AVALANCHE, account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
-  if (chainId === ChainId.FUJI) {
-    chainId = ChainId.AVALANCHE
+  const getChainBalance = async () => {
+    if (account && chainId) {
+      let id = chainId
+      if (id === ChainId.FUJI) {
+        id = ChainId.AVALANCHE
+      }
+
+      const chain = CHAINS[id]
+
+      const query = qs.stringify(
+        {
+          id: account,
+          chain_id: chain.symbol.toLowerCase()
+        },
+        {
+          encodeValuesOnly: true
+        }
+      )
+
+      const response = await openApi.get(`/chain_balance?${query}`)
+      const data = response.data
+
+      return data?.usd_value
+    }
+
+    return 0
   }
 
-  const chain = CHAINS[chainId]
-  useEffect(() => {
-    const getBalance = async () => {
-      const response = await fetch(
-        `https://openapi.debank.com/v1/user/chain_balance?id=${account}&chain_id=${chain.symbol.toLowerCase()}`
-      )
-      const data = await response.json()
-
-      setBalance(data?.usd_value)
-    }
-
-    if (!!account) {
-      getBalance()
-    }
-  }, [account, chain, setBalance])
-
-  return balance
+  return useQuery('getChainBalance', getChainBalance, { refetchInterval: 10000 })
 }
 
 // Get the Tokens of wallet
-export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], boolean] {
-  const [tokens, setTokens] = useState<(TokenDataUser | PairDataUser)[]>([] as TokenDataUser[])
+export function useGetWalletChainTokens() {
+  const { account, chainId } = useActiveWeb3React()
 
-  const [loading, setLoading] = useState<boolean>(true)
-
-  let { chainId = ChainId.AVALANCHE, account } = useActiveWeb3React()
-
-  if (chainId === ChainId.FUJI) {
-    chainId = ChainId.AVALANCHE
-  }
-
-  const chain = CHAINS[chainId]
-
-  useEffect(() => {
-    const getBalance = async (chainId: ChainId) => {
-      const response = await fetch(
-        `https://openapi.debank.com/v1/user/token_list?id=${account}&chain_id=${chain.symbol.toLowerCase()}`
-      )
-      const data = await response.json()
-
-      const requestTokens: TokenDataUser[] = data.map((token: any) => {
-        if (token?.id?.toLowerCase() === 'avax') {
-          return new TokenDataUser(CAVAX, token?.price, token?.amount)
-        }
-
-        return new TokenDataUser(
-          new Token(chainId, ethers.utils.getAddress(token?.id), token?.decimals, token?.symbol, token?.name),
-          token?.price,
-          token?.amount
-        )
-      })
-
-      if (chainId === ChainId.AVALANCHE) {
-        const pairs = await getPangolinPairs()
-        const tokens = [...requestTokens, ...pairs]
-        setTokens(tokens)
-        return
+  // This functions is temporary for Pangolin birthday
+  const getPangolinPairs = async () => {
+    const query = qs.stringify(
+      {
+        id: account,
+        protocol_id: 'avax_pangolin'
+      },
+      {
+        encodeValuesOnly: true
       }
-
-      setTokens(requestTokens)
-    }
-
-    // This functions is temporary for Pangolin birthday
-    const getPangolinPairs = async () => {
-      const response = await fetch(
-        `https://openapi.debank.com/v1/user/protocol?id=${account}&protocol_id=avax_pangolin`
-      )
-      const data = await response.json()
+    )
+    if (account && chainId) {
+      const response = await openApi.get(`/protocol?${query}`)
+      const data = response.data
 
       const requestPairs: (TokenDataUser | PairDataUser)[] = data?.portfolio_item_list.map((pair: any) => {
         const token1 = pair?.detail?.supply_token_list[0]
@@ -192,18 +165,67 @@ export function useGetWalletChainTokens(): [(TokenDataUser | PairDataUser)[], bo
 
         return new PairDataUser(new Pair(tokenA, tokenB, chainId), pair?.stats?.net_usd_value)
       })
-      setLoading(false)
       return requestPairs
     }
+    return []
+  }
 
-    if (!!account) {
-      getBalance(chainId)
+  const getBalance = async () => {
+    if (account && chainId) {
+      let id = chainId
+      if (id === ChainId.FUJI) {
+        id = ChainId.AVALANCHE
+      }
+      const chain = CHAINS[id]
+
+      const query = qs.stringify(
+        {
+          id: account,
+          chain_id: chain.symbol.toLowerCase()
+        },
+        {
+          encodeValuesOnly: true
+        }
+      )
+
+      const response = await openApi.get(`/token_list?${query}`)
+      const data = response.data
+
+      const requestTokens: TokenDataUser[] = data.map((token: any) => {
+        if (token?.id?.toLowerCase() === 'avax') {
+          return new TokenDataUser(CAVAX, token?.price, token?.amount)
+        }
+
+        return new TokenDataUser(
+          new Token(chainId, ethers.utils.getAddress(token?.id), token?.decimals, token?.symbol, token?.name),
+          token?.price,
+          token?.amount
+        )
+      })
+
+      if (chainId === ChainId.AVALANCHE) {
+        const pairs = await getPangolinPairs()
+        const tokens = [...requestTokens, ...pairs]
+        return tokens
+      }
+
+      return requestTokens
     }
-  }, [account, chainId, chain, setTokens])
+    return []
+  }
 
-  tokens.sort((a, b) => b.usdValue - a.usdValue)
+  return useQuery(
+    'getWalletChainTokens',
+    async () => {
+      const tokens = await getBalance()
+      tokens.sort((a, b) => b.usdValue - a.usdValue)
 
-  const filterTokens = tokens.filter(token => token.usdValue >= 0.01)
+      const filterTokens = tokens.filter(token => token.usdValue >= 0.01)
 
-  return [filterTokens, loading]
+      return filterTokens
+    },
+    {
+      refetchInterval: 10000
+    }
+  )
 }
