@@ -22,7 +22,7 @@ export const ContentWrapper = styled(Box)`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  max-width: 960px;
+  max-width: 1080px;
   margin: auto;
 `
 

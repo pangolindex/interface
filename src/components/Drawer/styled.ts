@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
-export const DrawerRoot = styled.div<{ isOpen: boolean }>`
+export const DrawerRoot = styled.div<{ isOpen: boolean; backgroundColor?: string }>`
   overflow: hidden;
   position: absolute;
   z-index: 99;
   transition: all 350ms ease;
-  background-color: ${({ theme }) => theme.bg2};
+  background-color: ${({ theme, backgroundColor }: any) => (backgroundColor ? theme[backgroundColor] : theme.bg2)}; 
   transform: ${({ isOpen }) => (!isOpen ? 'translate(100%, 0px)' : 'translate(0px, 0px)')};
   width: 100%;
   display: flex;

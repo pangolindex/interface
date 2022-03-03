@@ -11,6 +11,7 @@ export const Panel = styled(Box)`
   justify-content: flex-start;
   padding: 20px;
   border-radius: 10px;
+  height: 295px;
 `
 
 export const ContentWrapper = styled.div`
@@ -40,6 +41,15 @@ export const DetailButton = styled(Button)`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     width: 48%;
   `};
+`
+export const StatWrapper = styled(Box)`
+  display: grid;
+  grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
+  grid-gap: 12px;
+  margin-top: 10px;
+  flex: 1;
+  height: 100%;
+  align-items: center;
 `
 
 export const InnerWrapper = styled(Box)`

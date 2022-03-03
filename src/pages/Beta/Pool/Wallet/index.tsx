@@ -1,6 +1,5 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { ThemeContext } from 'styled-components'
-import { Token } from '@pangolindex/sdk'
 import { TYPE } from 'src/theme'
 import Card from 'src/components/Card'
 import { useActiveWeb3React } from 'src/hooks'
@@ -10,10 +9,7 @@ import WalletCard from './WalletCard'
 import Scrollbars from 'react-custom-scrollbars'
 import Loader from 'src/components/Loader'
 import { useGetUserLP } from 'src/state/migrate/hooks'
-import { useAddLiquiditynModalToggle, useModalOpen, useRemoveLiquiditynModalToggle } from 'src/state/application/hooks'
-import { ApplicationModal } from 'src/state/application/actions'
-import AddLiquidityModal from '../AddLiquidityModal'
-import RemoveLiquidityModal from '../RemoveLiquidityModal'
+
 import DropdownMenu from 'src/components/Beta/DropdownMenu'
 
 interface Props {
@@ -27,14 +23,6 @@ const Wallet: React.FC<Props> = ({ setMenu, activeMenu, menuItems }) => {
   const { account } = useActiveWeb3React()
   const { v2IsLoading, allV2PairsWithLiquidity } = useGetUserLP()
   // fetch the user's balances of all tracked V2 LP tokens
-
-  const [clickedLpTokens, setClickedLpTokens] = useState([] as Token[])
-
-  const toggleAddLiquidityModal = useAddLiquiditynModalToggle()
-  const addLiquidityModalOpen = useModalOpen(ApplicationModal.ADD_LIQUIDITY)
-
-  const toggleRemoveLiquidityModal = useRemoveLiquiditynModalToggle()
-  const removeLiquidityModalOpen = useModalOpen(ApplicationModal.REMOVE_LIQUIDITY)
 
   const { t } = useTranslation()
 
@@ -63,18 +51,7 @@ const Wallet: React.FC<Props> = ({ setMenu, activeMenu, menuItems }) => {
           <Scrollbars>
             <PanelWrapper>
               {allV2PairsWithLiquidity.map(v2Pair => (
-                <WalletCard
-                  key={v2Pair.liquidityToken.address}
-                  pair={v2Pair}
-                  onClickAddLiquidity={() => {
-                    setClickedLpTokens([v2Pair?.token0, v2Pair?.token1])
-                    toggleAddLiquidityModal()
-                  }}
-                  onClickRemoveLiquidity={() => {
-                    setClickedLpTokens([v2Pair?.token0, v2Pair?.token1])
-                    toggleRemoveLiquidityModal()
-                  }}
-                />
+                <WalletCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
               ))}
             </PanelWrapper>
           </Scrollbars>
@@ -86,9 +63,6 @@ const Wallet: React.FC<Props> = ({ setMenu, activeMenu, menuItems }) => {
           </TYPE.body>
         </EmptyProposals>
       )}
-
-      {addLiquidityModalOpen && <AddLiquidityModal clickedLpTokens={clickedLpTokens} />}
-      {removeLiquidityModalOpen && <RemoveLiquidityModal clickedLpTokens={clickedLpTokens} />}
     </PageWrapper>
   )
 }

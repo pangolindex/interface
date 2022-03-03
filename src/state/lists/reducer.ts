@@ -167,15 +167,28 @@ export default createReducer(initialState, builder =>
         )
         const newListOfListsSet = DEFAULT_TOKEN_LISTS.reduce<Set<string>>((s, l) => s.add(l), new Set())
 
+        // Detected addition of default token lists
         DEFAULT_TOKEN_LISTS.forEach(listUrl => {
           if (!lastInitializedSet.has(listUrl)) {
             state.byUrl[listUrl] = NEW_LIST_STATE
+            if (DEFAULT_TOKEN_LISTS_SELECTED.includes(listUrl)) {
+              if (!state.selectedListUrl || !state.selectedListUrl.includes(listUrl)) {
+                state.selectedListUrl = (state.selectedListUrl || []).concat([listUrl])
+              }
+            }
           }
         })
 
+        // Detected removal of default token lists
         state.lastInitializedDefaultListOfLists.forEach(listUrl => {
           if (!newListOfListsSet.has(listUrl)) {
             delete state.byUrl[listUrl]
+            if (!!state.selectedListUrl && state.selectedListUrl.includes(listUrl)) {
+              state.selectedListUrl = state.selectedListUrl.filter(url => url !== listUrl)
+              if (state.selectedListUrl.length === 0) {
+                state.selectedListUrl = DEFAULT_TOKEN_LISTS_SELECTED
+              }
+            }
           }
         })
       }
