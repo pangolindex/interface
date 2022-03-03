@@ -25,14 +25,7 @@ interface ClaimProps {
   onManagePoolsClick: () => void
 }
 
-const PoolImport = ({
-  onClose,
-  currency0,
-  currency1,
-  openTokenDrawer,
-  setActiveField,
-  onManagePoolsClick
-}: ClaimProps) => {
+const PoolImport = ({ currency0, currency1, openTokenDrawer, setActiveField, onManagePoolsClick }: ClaimProps) => {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)

@@ -11,6 +11,7 @@ export const Panel = styled(Box)`
   justify-content: flex-start;
   padding: 20px;
   border-radius: 10px;
+  height: 295px;
 `
 
 export const ContentWrapper = styled.div`
@@ -54,6 +55,9 @@ export const StatWrapper = styled(Box)`
   grid-template-columns: minmax(auto, 33%) minmax(auto, 33%) minmax(auto, 33%);
   grid-gap: 12px;
   margin-top: 10px;
+  flex: 1;
+  height: 100%;
+  align-items: center;
 `
 export const OptionButton = styled.div`
   font-weight: 500;

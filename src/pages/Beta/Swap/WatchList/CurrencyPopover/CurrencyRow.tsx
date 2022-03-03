@@ -37,7 +37,14 @@ const WatchlistCurrencyRow: React.FC<Props> = ({ currency, onSelect, style }) =>
         </Text>
       </Box>
       <Box ml={'10px'} textAlign="right">
-        <Button variant="secondary" backgroundColor="bg9" color="text6" padding={'0px'} onClick={handleSelect} height="24px">
+        <Button
+          variant="secondary"
+          backgroundColor="bg9"
+          color="text6"
+          padding={'0px'}
+          onClick={handleSelect}
+          height="24px"
+        >
           Add
         </Button>
       </Box>

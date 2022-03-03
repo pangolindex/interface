@@ -76,10 +76,10 @@ const BottomSection = styled.div<{ showBackground: boolean }>`
 
 export default function SingleSidePoolCard({
   stakingInfo,
-  version,
+  version
 }: {
   stakingInfo: SingleSideStakingInfo
-	migration?: SingleSideStaking
+  migration?: SingleSideStaking
   version: string
 }) {
   const { t } = useTranslation()
@@ -97,10 +97,7 @@ export default function SingleSidePoolCard({
         </TYPE.white>
 
         {(isStaking || !stakingInfo.isPeriodFinished) && (
-          <StyledInternalLink
-            to={`/stake/${version}/${currencyId(stakingInfo.rewardToken)}`}
-            style={{ width: '100%' }}
-          >
+          <StyledInternalLink to={`/stake/${version}/${currencyId(stakingInfo.rewardToken)}`} style={{ width: '100%' }}>
             <ButtonPrimary padding="8px" borderRadius="8px">
               {isStaking ? t('earn.manage') : t('earn.deposit')}
             </ButtonPrimary>
@@ -122,8 +119,7 @@ export default function SingleSidePoolCard({
           <TYPE.white>
             {JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0)) && !stakingInfo.isPeriodFinished
               ? `${stakingInfo.apr.toLocaleString()}%`
-              : ' - '
-            }
+              : ' - '}
           </TYPE.white>
         </RowBetween>
       </AprContainer>

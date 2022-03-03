@@ -1,6 +1,6 @@
 {
   "name": "@pangolindex/interface",
-  "version": "1.0.2",
+  "version": "1.0.2-dev.14",
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
@@ -9,14 +9,15 @@
   "private": true,
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
-    "@gelatonetwork/limit-orders-react": "^2.1.0",
+    "@gelatonetwork/limit-orders-react": "^2.3.1",
     "@gnosis.pm/safe-apps-web3-react": "^0.6.7",
+    "@metamask/jazzicon": "^2.0.0",
     "@pangolindex/components": "1.0.7-rc.9",
     "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.2.0",
-    "@pangolindex/sdk": "1.1.0",
+    "@pangolindex/sdk": "1.4.0",
     "@pangolindex/token-lists": "^1.0.1",
-    "@pangolindex/web3-react-injected-connector": "1.0.1",
+    "@pangolindex/web3-react-injected-connector": "^1.0.0",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.10.3",
     "@reach/portal": "^0.10.3",
@@ -52,6 +53,7 @@
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link-http": "^1.5.17",
+    "axios": "^0.26.0",
     "babel-plugin-styled-components": "^2.0.2",
     "cids": "^1.0.0",
     "copy-to-clipboard": "^3.2.0",
@@ -67,11 +69,12 @@
     "ethers": "^5.0.7",
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
+    "husky": "^7.0.0",
     "i18next": "^20.3.4",
     "i18next-browser-languagedetector": "^3.0.1",
     "i18next-xhr-backend": "^2.0.1",
     "inter-ui": "^3.13.1",
-    "jazzicon": "^1.5.0",
+    "lint-staged": "^12.3.4",
     "lodash.flatmap": "^4.5.0",
     "luxon": "^1.25.0",
     "multicodec": "^2.0.0",
@@ -90,8 +93,9 @@
     "react-ga": "^2.5.7",
     "react-html-parser": "^2.0.2",
     "react-i18next": "^10.7.0",
-    "react-markdown": "^4.3.1",
+    "react-markdown": "^8.0.0",
     "react-popper": "^2.2.3",
+    "react-query": "^3.34.16",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "^3.4.1",
@@ -104,6 +108,7 @@
     "rebass": "^4.0.7",
     "recharts": "^2.1.6",
     "redux-localstorage-simple": "^2.3.1",
+    "remark-gfm": "^3.0.1",
     "serve": "^11.3.0",
     "slick-carousel": "^1.8.1",
     "start-server-and-test": "^1.11.0",
@@ -122,8 +127,18 @@
     "eject": "react-scripts eject",
     "serve": "serve build -l 3000",
     "version": "npm run build",
+    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "get:version": "node -pe \"require('./package.json').version\"",
-    "integration-test": "start-server-and-test 'serve build -l 3000' http://localhost:3000 'cypress run'"
+    "integration-test": "start-server-and-test 'serve build -l 3000' http://localhost:3000 'cypress run'",
+    "prepare": "husky install",
+    "type-check": "tsc --noEmit",
+    "pre-commit-hook": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{jsx,js,ts,tsx}": [
+      "bash -c 'npm run type-check'",
+      "npm run lint"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app",

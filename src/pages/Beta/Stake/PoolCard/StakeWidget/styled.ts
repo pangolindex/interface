@@ -1,11 +1,14 @@
-import { Box, Text } from '@pangolindex/components'
+import { Box, TextInput } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const Root = styled(Box)`
-  padding: 10px;
-  height: 100%;
+  padding: 0px 20px;
+  background-color: ${({ theme }) => theme.bg2};
+  border-radius: 10px;
+  position: relative;
   display: flex;
   flex-direction: column;
+  height: 400px;
 `
 
 export const MaxButton = styled.button`
@@ -19,19 +22,12 @@ export const MaxButton = styled.button`
   color: ${({ theme }) => theme.text2};
 `
 
-export const Balance = styled(Text)`
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  color: ${({ theme }) => theme.text2};
-`
-
-export const Buttons = styled(Box)`
+export const Buttons = styled(Box)<{ isStaked?: boolean }>`
   display: grid;
-  grid-auto-flow: column;
+  grid-auto-flow: ${({ isStaked }) => (isStaked ? 'column' : 'row')};
   grid-auto-columns: minmax(0, 1fr);
   grid-gap: 10px;
-  margin-top: 20px;
+  margin-top: 5px;
 `
 
 export const StakeWrapper = styled(Box)`
@@ -39,11 +35,14 @@ export const StakeWrapper = styled(Box)`
   position: relative;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.bg6};
-  padding: 10px;
+  padding: 8px;
+  margin-top: 10px;
 `
 export const GridContainer = styled(Box)`
   display: grid;
   grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
   grid-gap: 8px;
-  padding: 10px 0px;
+`
+export const InputText = styled(TextInput)`
+  padding: 5px;
 `

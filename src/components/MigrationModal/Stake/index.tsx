@@ -47,8 +47,8 @@ const Stake = ({
   const [attempting, setAttempting] = useState<boolean>(false)
   const [isValidAmount, setIsValidAmount] = useState(false as boolean)
 
-  let pair = Object.values(allChoosePool)?.[choosePoolIndex]?.pair
-  let stakingInfo = Object.values(allChoosePool)?.[choosePoolIndex]?.staking
+  const pair = Object.values(allChoosePool)?.[choosePoolIndex]?.pair
+  const stakingInfo = Object.values(allChoosePool)?.[choosePoolIndex]?.staking
 
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, pair.liquidityToken) as TokenAmount
   const [stakingAmount, setStakingAmount] = useState('')
@@ -96,13 +96,14 @@ const Stake = ({
   }, [choosePoolIndex, userLiquidityUnstaked.toFixed()])
 
   useEffect(() => {
-    let stakingToken = stakingInfo?.stakedAmount?.token
+    const stakingToken = stakingInfo?.stakedAmount?.token
     const parsedInput = tryParseAmount(stakingAmount, stakingToken) as TokenAmount
 
-    if (parsedInput
-      && stakingInfo?.stakedAmount
-      && JSBI.lessThanOrEqual(parsedInput.raw, userLiquidityUnstaked.raw)
-      && JSBI.greaterThan(parsedInput.raw, JSBI.BigInt(0))
+    if (
+      parsedInput &&
+      stakingInfo?.stakedAmount &&
+      JSBI.lessThanOrEqual(parsedInput.raw, userLiquidityUnstaked.raw) &&
+      JSBI.greaterThan(parsedInput.raw, JSBI.BigInt(0))
     ) {
       setIsValidAmount(true)
     } else {

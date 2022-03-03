@@ -23,7 +23,7 @@ import { useSwapCallback } from 'src/hooks/useSwapCallback'
 import { computeTradePriceBreakdown, warningSeverity } from 'src/utils/prices'
 import confirmPriceImpactWithoutFee from 'src/components/swap/confirmPriceImpactWithoutFee'
 import { useIsSelectedAEBToken, useSelectedTokenList, useTokenList } from 'src/state/lists/hooks'
-import { AVAX_BRIDGE_LIST, DEFI_TOKEN_LIST, STABLECOIN_TOKEN_LIST } from 'src/constants/lists'
+import { DEFAULT_TOKEN_LISTS_SELECTED } from 'src/constants/lists'
 import { TRUSTED_TOKEN_ADDRESSES } from 'src/constants'
 import { isTokenOnList } from 'src/utils'
 import TokenWarningModal from 'src/components/TokenWarningModal'
@@ -41,6 +41,7 @@ import {
 import { RowBetween } from 'src/components/Row'
 import TradeOption from '../TradeOption'
 import { wrappedCurrency } from 'src/utils/wrappedCurrency'
+import { useQueryClient } from 'react-query'
 
 interface Props {
   swapType: string
@@ -192,7 +193,12 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
 
   const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
 
+  const queryClient = useQueryClient()
+
   const handleSwap = useCallback(() => {
+    // refetch balances in my portfolio widget
+    queryClient.refetchQueries(['getWalletChainTokens', 'getChainBalance'])
+
     if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee)) {
       return
     }
@@ -229,7 +235,17 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
           console.error(error)
         }
       })
-  }, [tradeToConfirm, account, priceImpactWithoutFee, recipient, recipientAddress, showConfirm, swapCallback, trade])
+  }, [
+    tradeToConfirm,
+    account,
+    priceImpactWithoutFee,
+    recipient,
+    recipientAddress,
+    showConfirm,
+    swapCallback,
+    trade,
+    queryClient
+  ])
 
   const handleSelectTokenDrawerClose = useCallback(() => {
     setIsTokenDrawerOpen(false)
@@ -279,7 +295,7 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const isAEBToken = useIsSelectedAEBToken()
 
   const selectedTokens = useSelectedTokenList()
-  const whitelistedTokens = useTokenList([DEFI_TOKEN_LIST, AVAX_BRIDGE_LIST, STABLECOIN_TOKEN_LIST])
+  const whitelistedTokens = useTokenList(DEFAULT_TOKEN_LISTS_SELECTED)
 
   const isTrustedToken = useCallback(
     (token: Token) => {
@@ -287,7 +303,7 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
       return (
         TRUSTED_TOKEN_ADDRESSES[chainId].includes(token.address) || // trust token from manually whitelisted token
         isTokenOnList(selectedTokens, token) || // trust all tokens from selected token list by user
-        isTokenOnList(whitelistedTokens, token) // trust all defi + AB tokens
+        isTokenOnList(whitelistedTokens, token) // trust all tokens selected by default
       )
     },
     [chainId, selectedTokens, whitelistedTokens]

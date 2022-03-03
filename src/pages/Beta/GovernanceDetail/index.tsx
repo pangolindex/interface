@@ -3,9 +3,10 @@ import { useParams } from 'react-router-dom'
 import { ArrowLeft } from 'react-feather'
 import { DateTime } from 'luxon'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { useTranslation } from 'react-i18next'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
-import { Text } from '@pangolindex/components'
+import { Text, Box } from '@pangolindex/components'
 
 import {
   PageWrapper,
@@ -191,7 +192,7 @@ export default function GovernanceDetail() {
           </StyledDataCard>
         </CardWrapper>
         <StyledDataCard style={{ borderRadius: '0px' }}>
-          <CardSection style={{ padding: '25px 30px' }}>
+          <CardSection style={{ padding: '25px 30px', display: 'block' }}>
             <AutoColumn gap="md">
               <Text fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
                 {t('votePage.details')}
@@ -220,14 +221,14 @@ export default function GovernanceDetail() {
                     {t('votePage.overview')}
                   </Text>
                   <MarkDownWrapper>
-                    <ReactMarkdown source={proposalData?.description} />
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{proposalData?.description}</ReactMarkdown>
                   </MarkDownWrapper>
                 </>
               ) : (
                 <Loader />
               )}
             </AutoColumn>
-            <AutoColumn gap="md">
+            <Box style={{ wordWrap: 'break-word' }}>
               {proposalData?.proposer && (
                 <>
                   <Text fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
@@ -240,11 +241,11 @@ export default function GovernanceDetail() {
                         : ''
                     }
                   >
-                    <ReactMarkdown source={proposalData?.proposer} />
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{proposalData?.proposer}</ReactMarkdown>
                   </ExternalLink>
                 </>
               )}
-            </AutoColumn>
+            </Box>
           </CardSection>
         </StyledDataCard>
       </ProposalInfo>

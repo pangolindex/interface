@@ -22,10 +22,10 @@ export const DropdownItem = styled.div`
 
   span {
     margin-left: 10px !important;
-  };
+  }
 
   &:hover {
     cursor: pointer;
-    background-color:${({ theme }) => theme.primary};
+    background-color: ${({ theme }) => theme.primary};
   }
 `

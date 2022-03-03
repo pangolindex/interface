@@ -1,6 +1,6 @@
 import { Box, Button, Text } from '@pangolindex/components'
 import { JSBI } from '@pangolindex/sdk'
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
@@ -8,7 +8,6 @@ import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { Root, StatWrapper } from './styled'
 import ClaimDrawer from '../../ClaimDrawer'
-import RewardStakeDrawer from '../../RewardStakeDrawer'
 import UnstakeDrawer from '../UnstakeDrawer'
 
 type Props = {
@@ -19,7 +18,6 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
   const { t } = useTranslation()
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
   const [isUnstakeDrawerVisible, setShowUnstakeDrawer] = useState(false)
-  const [isRewardStakeDrawerVisible, setShowRewardStakeDrawer] = useState(false)
 
   const rewardToken = stakingInfo?.rewardToken
   const usdcPrice = useUSDCPrice(rewardToken)
@@ -29,11 +27,6 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
 
   const weeklyRewardUSD = Number(weeklyRewardInToken) * Number(usdcPrice?.toSignificant(6))
   const unclaimedAmountInUSD = Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6))
-
-  const onCloseRewardStakeDrawer = useCallback(() => {
-    setShowRewardStakeDrawer(false)
-    setShowClaimDrawer(false)
-  }, [])
 
   return (
     <Root>
@@ -124,7 +117,6 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
           setShowClaimDrawer(false)
         }}
         stakingInfo={stakingInfo}
-        onClickRewardStake={() => setShowRewardStakeDrawer(true)}
       />
 
       <UnstakeDrawer
@@ -132,12 +124,6 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
         onClose={() => {
           setShowUnstakeDrawer(false)
         }}
-        stakingInfo={stakingInfo}
-      />
-
-      <RewardStakeDrawer
-        isOpen={isRewardStakeDrawerVisible}
-        onClose={onCloseRewardStakeDrawer}
         stakingInfo={stakingInfo}
       />
     </Root>

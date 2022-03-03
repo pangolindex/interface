@@ -43,11 +43,7 @@ const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.AVALANCHE]: 'Avalanche'
 }
 
-interface HeaderProps {
-  onCollapsed: () => void
-}
-
-export default function Header({ onCollapsed }: HeaderProps) {
+export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)

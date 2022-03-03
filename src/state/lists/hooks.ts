@@ -3,9 +3,7 @@ import { Tags, TokenInfo, TokenList } from '@pangolindex/token-lists'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { AppState } from '../index'
-import { AEB_TOKENLIST } from '../../constants/lists'
-import { WAVAX } from '@pangolindex/sdk'
-import { PNG } from '../../constants'
+import { AEB_TOKENS } from '../../constants/lists'
 
 type TagDetails = Tags[keyof Tags]
 export interface TagInfo extends TagDetails {
@@ -74,7 +72,7 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
 export function useTokenList(urls: string[] | undefined): TokenAddressMap {
   const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
 
-  let tokenList = {} as { [chainId: string]: { [tokenAddress: string]: WrappedTokenInfo } }
+  const tokenList = {} as { [chainId: string]: { [tokenAddress: string]: WrappedTokenInfo } }
   return useMemo(() => {
     ;([] as string[]).concat(urls || []).forEach(url => {
       const current = lists[url]?.current
@@ -141,25 +139,7 @@ export function useAllLists(): TokenList[] {
   )
 }
 
-export function useIsSelectedAEBTokenList(): Boolean {
-  const selectedListUrl = useSelectedListUrl()
-  const isSelected = (selectedListUrl || []).includes(AEB_TOKENLIST)
-  return isSelected
-}
-
-export function useIsSelectedAEBToken(): Boolean {
-  const listsByUrl = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
-
-  const allAEBTokens = listsByUrl[AEB_TOKENLIST]?.current?.tokens || []
-
+export function useIsSelectedAEBToken(): boolean {
   const selectedOutputToken = useSelector<AppState, AppState['swap']['OUTPUT']>(state => state.swap.OUTPUT)
-
-  const aebToken = allAEBTokens.find(token => token?.address === selectedOutputToken?.currencyId)
-
-  // ignore PNG and WAVAX token
-  if (aebToken?.address === PNG[ChainId.AVALANCHE].address || aebToken?.address === WAVAX[ChainId.AVALANCHE].address) {
-    return false
-  }
-
-  return !!aebToken
+  return AEB_TOKENS.some(tokenAddress => tokenAddress === selectedOutputToken?.currencyId)
 }

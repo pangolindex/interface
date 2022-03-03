@@ -102,7 +102,9 @@ export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalPro
             <TYPE.body>{t('vote.canEitherVote')}</TYPE.body>
             {usingDelegate && <AddressInputPanel value={typed} onChange={handleRecipientType} />}
             <ButtonPrimary disabled={!isAddress(parsedAddress ?? '')} onClick={onDelegate}>
-              <TYPE.mediumHeader color="white">{usingDelegate ? t('vote.delegateVotes') : t('vote.selfDelegate')}</TYPE.mediumHeader>
+              <TYPE.mediumHeader color="white">
+                {usingDelegate ? t('vote.delegateVotes') : t('vote.selfDelegate')}
+              </TYPE.mediumHeader>
             </ButtonPrimary>
             <TextButton onClick={() => setUsingDelegate(!usingDelegate)}>
               <TYPE.blue>

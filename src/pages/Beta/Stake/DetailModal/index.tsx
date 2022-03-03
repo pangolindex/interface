@@ -29,7 +29,7 @@ const DetailModal: React.FC<Props> = ({ stakingInfo, onClose }) => {
         <Header stakingInfo={stakingInfo} onClose={onClose} />
         <Box p={10}>
           <StakeWidget stakingInfo={stakingInfo} />
-          <EarnedWidget stakingInfo={stakingInfo} />
+          {stakingInfo?.stakedAmount?.greaterThan('0') && <EarnedWidget stakingInfo={stakingInfo} />}
 
           <Box mt={25}>
             <Tabs>

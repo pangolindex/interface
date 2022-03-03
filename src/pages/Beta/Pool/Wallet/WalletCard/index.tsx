@@ -1,21 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Pair } from '@pangolindex/sdk'
-import { Panel, Divider, ActionButon, InnerWrapper, DetailButton } from './styleds'
+import { Panel, Divider, ActionButon, InnerWrapper, DetailButton, StatWrapper } from './styleds'
 import Stat from 'src/components/Stat'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
+import RemoveLiquidityDrawer from '../../RemoveLiquidityDrawer'
+import AddLiquidityDrawer from '../../AddLiquidityDrawer'
 
 export interface WalletCardProps {
   pair: Pair
-  onClickAddLiquidity: () => void
-  onClickRemoveLiquidity: () => void
 }
 
-const WalletCard = ({ pair, onClickAddLiquidity, onClickRemoveLiquidity }: WalletCardProps) => {
+const WalletCard = ({ pair }: WalletCardProps) => {
   const { t } = useTranslation()
-
+  const [isRemoveLiquidityDrawerVisible, setShowRemoveLiquidityDrawer] = useState(false)
+  const [isAddLiquidityDrawerVisible, setShowAddLiquidityDrawer] = useState(false)
   const currency0 = unwrappedToken(pair.token0)
   const currency1 = unwrappedToken(pair.token1)
 
@@ -34,7 +35,7 @@ const WalletCard = ({ pair, onClickAddLiquidity, onClickRemoveLiquidity }: Walle
       </Box>
       <Divider />
 
-      <InnerWrapper>
+      <StatWrapper>
         <Stat
           title={t('pool.yourLiquidity')}
           stat={`${liquidityInUSD ? `$${liquidityInUSD?.toFixed(4)}` : '-'}`}
@@ -50,18 +51,18 @@ const WalletCard = ({ pair, onClickAddLiquidity, onClickRemoveLiquidity }: Walle
           titleFontSize={16}
           statFontSize={24}
         />
-      </InnerWrapper>
+      </StatWrapper>
 
       <InnerWrapper>
         <Box>
-          <DetailButton variant="plain" onClick={() => onClickAddLiquidity()} color="text1" height="45px">
+          <DetailButton variant="plain" onClick={() => setShowAddLiquidityDrawer(true)} color="text1" height="45px">
             {t('positionCard.add')}
           </DetailButton>
         </Box>
         <Box>
           <ActionButon
             variant="plain"
-            onClick={() => onClickRemoveLiquidity()}
+            onClick={() => setShowRemoveLiquidityDrawer(true)}
             backgroundColor="bg2"
             color="text1"
             height="45px"
@@ -70,6 +71,28 @@ const WalletCard = ({ pair, onClickAddLiquidity, onClickRemoveLiquidity }: Walle
           </ActionButon>
         </Box>
       </InnerWrapper>
+
+      {isAddLiquidityDrawerVisible && (
+        <AddLiquidityDrawer
+          isOpen={isAddLiquidityDrawerVisible}
+          onClose={() => {
+            setShowAddLiquidityDrawer(false)
+          }}
+          clickedLpTokens={[pair?.token0, pair?.token1]}
+          backgroundColor="color5"
+        />
+      )}
+
+      {isRemoveLiquidityDrawerVisible && (
+        <RemoveLiquidityDrawer
+          isOpen={isRemoveLiquidityDrawerVisible}
+          onClose={() => {
+            setShowRemoveLiquidityDrawer(false)
+          }}
+          clickedLpTokens={[pair?.token0, pair?.token1]}
+          backgroundColor="color5"
+        />
+      )}
     </Panel>
   )
 }

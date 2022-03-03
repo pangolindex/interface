@@ -9,7 +9,7 @@ export const toK = (num: number) => {
 }
 
 // using a currency library here in case we want to add more in future
-var priceFormatter = new Intl.NumberFormat('en-US', {
+const priceFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
   minimumFractionDigits: 2
@@ -19,11 +19,11 @@ export const toNiceDateYear = (date: number) => {
   return dayjs.utc(dayjs.unix(date)).format('MMMM DD, YYYY')
 }
 
-export const formattedNum = (number: any, usd = false, acceptNegatives = false) => {
+export const formattedNum = (number: any, usd = false) => {
   if (isNaN(number) || number === '' || number === undefined) {
     return usd ? '$0' : 0
   }
-  let num = parseFloat(number) as any
+  const num = parseFloat(number) as any
 
   if (num > 500000000) {
     return (usd ? '$' : '') + toK(num.toFixed(0))
@@ -50,7 +50,7 @@ export const formattedNum = (number: any, usd = false, acceptNegatives = false) 
     if (num < 0.1) {
       return '$' + Number(parseFloat(num).toFixed(4))
     } else {
-      let usdString = priceFormatter.format(num)
+      const usdString = priceFormatter.format(num)
       return '$' + usdString.slice(1, usdString.length)
     }
   }

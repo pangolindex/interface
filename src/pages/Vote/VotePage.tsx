@@ -12,6 +12,7 @@ import { ProposalStatus } from './styled'
 import { useProposalData, useUserVotes, useUserDelegatee, ProposalData } from '../../state/governance/hooks'
 import { DateTime } from 'luxon'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import VoteModal from '../../components/vote/VoteModal'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
 import { useTokenBalance } from '../../state/wallet/hooks'
@@ -264,7 +265,7 @@ export default function VotePage({
         <AutoColumn gap="md">
           <TYPE.mediumHeader fontWeight={600}>{t('votePage.overview')}</TYPE.mediumHeader>
           <MarkDownWrapper>
-            <ReactMarkdown source={proposalData?.description} />
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{`${proposalData?.description}`}</ReactMarkdown>
           </MarkDownWrapper>
         </AutoColumn>
         <AutoColumn gap="md">
@@ -272,7 +273,7 @@ export default function VotePage({
           <ExternalLink
             href={proposalData?.proposer && chainId ? getEtherscanLink(chainId, proposalData?.proposer, 'address') : ''}
           >
-            <ReactMarkdown source={proposalData?.proposer} />
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{`${proposalData?.proposer}`}</ReactMarkdown>
           </ExternalLink>
         </AutoColumn>
       </ProposalInfo>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Text } from '@pangolindex/components'
 import { JSBI } from '@pangolindex/sdk'
 import numeral from 'numeral'
@@ -7,17 +7,20 @@ import { useTranslation } from 'react-i18next'
 import { Card, CardHeader, Stats, CardStats, TokenName, DetailButton, StakeButton, StatValue } from './styleds'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import CurrencyLogo from 'src/components/CurrencyLogo'
+import ClaimDrawer from '../ClaimDrawer'
+import StakeDrawer from './StakeDrawer'
 
 export interface PoolCardProps {
   stakingInfo: SingleSideStakingInfo
   onViewDetailsClick: () => void
-  onClaimClick: () => void
-  onDepositClick: () => void
 }
 
-const PoolCard = ({ stakingInfo, onViewDetailsClick, onClaimClick, onDepositClick }: PoolCardProps) => {
+const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
   const { t } = useTranslation()
   const { account } = useActiveWeb3React()
+  const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
+
+  const [isStakeDrawerVisible, setShowtakeDrawer] = useState(false)
 
   const showClaimButton = stakingInfo?.earnedAmount?.greaterThan('0')
 
@@ -67,17 +70,39 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick, onClaimClick, onDepositClic
         {!!account && (
           <>
             {showClaimButton ? (
-              <StakeButton variant="primary" color="color4" onClick={onClaimClick}>
+              <StakeButton
+                variant="primary"
+                // color="color4"
+                onClick={() => {
+                  setShowClaimDrawer(true)
+                }}
+              >
                 {t('earnPage.claim')}
               </StakeButton>
             ) : (
-              <StakeButton variant="primary" color="color4" onClick={onDepositClick}>
+              <StakeButton
+                variant="primary"
+                // color="color4"
+                onClick={() => {
+                  setShowtakeDrawer(true)
+                }}
+              >
                 {t('earnPage.stake')}
               </StakeButton>
             )}
           </>
         )}
       </CardStats>
+
+      <ClaimDrawer
+        isOpen={isClaimDrawerVisible}
+        onClose={() => {
+          setShowClaimDrawer(false)
+        }}
+        stakingInfo={stakingInfo}
+      />
+
+      <StakeDrawer isOpen={isStakeDrawerVisible} onClose={() => setShowtakeDrawer(false)} stakingInfo={stakingInfo} />
     </Card>
   )
 }

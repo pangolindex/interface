@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, { useState } from 'react'
 
 export const FormContext = React.createContext<any | undefined>(undefined)
 
@@ -7,7 +7,6 @@ export interface Data {
 }
 
 export type Validator = (val: string) => string[]
-
 
 export interface Validators {
   [key: string]: Validator[]
@@ -24,27 +23,19 @@ export interface FormState {
 }
 
 interface FormProps {
-  initialValues?: Data,
-  onSubmit: (data: Data) => void,
-  onReset?: () => void,
-  children?: React.ReactNode,
-  id?: string,
+  initialValues?: Data
+  onSubmit: (data: Data) => void
+  onReset?: () => void
+  children?: React.ReactNode
+  id?: string
   className?: string
 }
 
 export function isEmpty(input: Validators | Errors): boolean {
-  return (Object.keys(input).length === 0)
+  return Object.keys(input).length === 0
 }
 
-export default function PurchaseForm({
-                               initialValues,
-                               onSubmit,
-                               onReset,
-                               children,
-                               id,
-                               className
-                             }: FormProps) {
-
+export default function PurchaseForm({ initialValues, onSubmit, onReset, children, id, className }: FormProps) {
   function initState(): FormState {
     return {
       data: {
@@ -57,7 +48,7 @@ export default function PurchaseForm({
 
   const [formState, setFormState] = useState<FormState>(initState())
   const validate = () => {
-    const {validators} = formState
+    const { validators } = formState
 
     setFormState(state => ({
       ...state,
@@ -68,23 +59,20 @@ export default function PurchaseForm({
       return true
     }
 
-    const formErrors = Object.entries(validators).reduce<Errors>(
-      (errors, [name, validators]) => {
-        const {data} = formState
-        const messages = validators.reduce<string[]>((result, validator) => {
-          const value = data[name]
-          const err = validator(value)
-          return [...result, ...err]
-        }, [])
+    const formErrors = Object.entries(validators).reduce<Errors>((errors, [name, validators]) => {
+      const { data } = formState
+      const messages = validators.reduce<string[]>((result, validator) => {
+        const value = data[name]
+        const err = validator(value)
+        return [...result, ...err]
+      }, [])
 
-        if (messages.length > 0) {
-          errors[name] = messages
-        }
+      if (messages.length > 0) {
+        errors[name] = messages
+      }
 
-        return errors
-      },
-      {}
-    )
+      return errors
+    }, {})
 
     if (isEmpty(formErrors)) {
       return true
@@ -99,8 +87,8 @@ export default function PurchaseForm({
   }
 
   const validateField = (name: string) => {
-    let formErrors = formState.errors
-    let validators = formState.validators[name]
+    const formErrors = formState.errors
+    const validators = formState.validators[name]
     const messages = validators.reduce<string[]>((result, validator) => {
       const value = formState.data[name]
       const err = validator(value)
@@ -131,22 +119,23 @@ export default function PurchaseForm({
     })
   }
 
-  const registerInput = ({ name, validators } : {name: string, validators: Validator[]}) => {
-
-    setFormState((state:FormState):FormState => {
-      return {
-        ...state,
-        validators: {
-          ...state.validators,
-          [name]: validators || []
-        },
-        errors: {
-          ...state.errors,
-          [name]: []
+  const registerInput = ({ name, validators }: { name: string; validators: Validator[] }) => {
+    setFormState(
+      (state: FormState): FormState => {
+        return {
+          ...state,
+          validators: {
+            ...state.validators,
+            [name]: validators || []
+          },
+          errors: {
+            ...state.errors,
+            [name]: []
+          }
         }
       }
-    })
-    
+    )
+
     return () => {
       setFormState(state => {
         const { data, errors, validators: currentValidators } = { ...state }
@@ -194,5 +183,4 @@ export default function PurchaseForm({
       </form>
     </FormContext.Provider>
   )
-
 }

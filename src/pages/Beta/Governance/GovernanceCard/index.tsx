@@ -1,7 +1,6 @@
 import React from 'react'
-import { Text } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
-import { Card, CardTitle, CardButtons, DetailsButton, VoteButton } from './styleds'
+import { Card, CardTitle, CardButtons, DetailsButton, VoteButton, Title, Number } from './styleds'
 import { StyledInternalLink, colors } from 'src/theme'
 import { useDarkModeManager } from 'src/state/user/hooks'
 
@@ -40,18 +39,9 @@ const GovernanceCard = ({ id, title, to, status }: GovernanceCardProps) => {
 
   return (
     <Card>
-      <CardTitle style={{maxWidth: '55%'}}>
-        <Text fontSize={28} lineHeight="42px" color="text10" style={{ marginRight: '21px' }}>
-          {id}.
-        </Text>
-        <Text
-          fontSize={28}
-          lineHeight="42px"
-          color="text10"
-          style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}
-        >
-          {title}
-        </Text>
+      <CardTitle>
+        <Number>{id}.</Number>
+        <Title>{title}</Title>
       </CardTitle>
       <CardButtons>
         <StyledInternalLink to={to} style={{ width: '100%', textDecoration: 'none' }}>
