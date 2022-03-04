@@ -1,6 +1,6 @@
 {
   "name": "@pangolindex/interface",
-  "version": "1.0.2-dev.13",
+  "version": "1.0.5-dev.0",
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
@@ -53,6 +53,7 @@
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link-http": "^1.5.17",
+    "axios": "^0.26.0",
     "babel-plugin-styled-components": "^2.0.2",
     "cids": "^1.0.0",
     "copy-to-clipboard": "^3.2.0",
@@ -94,6 +95,7 @@
     "react-i18next": "^10.7.0",
     "react-markdown": "^8.0.0",
     "react-popper": "^2.2.3",
+    "react-query": "^3.34.16",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "^3.4.1",

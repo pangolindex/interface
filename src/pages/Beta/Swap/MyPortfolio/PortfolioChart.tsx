@@ -22,7 +22,7 @@ const PortfolioChart: React.FC<Props> = () => {
     data.push(d)
   }
 
-  const balance = useGetChainBalance()
+  const { data: balance = 0 } = useGetChainBalance()
 
   return (
     <Box>

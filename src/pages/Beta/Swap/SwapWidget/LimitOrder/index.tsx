@@ -23,6 +23,7 @@ import LimitOrderDetailInfo from '../../LimitOrderDetailInfo'
 import TradeOption from '../TradeOption'
 import { wrappedGelatoCurrency } from 'src/utils/wrappedCurrency'
 import { useSwapActionHandlers } from 'src/state/swap/hooks'
+import { useQueryClient } from 'react-query'
 
 enum Rate {
   DIV = 'DIV',
@@ -195,8 +196,12 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
     currencyBalances[LimitField.INPUT]
   )
 
+  const queryClient = useQueryClient()
+
   // for limit swap
   const handleSwap = useCallback(() => {
+    // refetch balances in my portfolio widget
+    queryClient.refetchQueries(['getWalletChainTokens', 'getChainBalance'])
     if (!handleLimitOrderSubmission) {
       return
     }
@@ -280,7 +285,8 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
     currencies.output,
     rawAmounts.input,
     rawAmounts.output,
-    account
+    account,
+    queryClient
   ])
 
   const handleSelectTokenDrawerClose = useCallback(() => {

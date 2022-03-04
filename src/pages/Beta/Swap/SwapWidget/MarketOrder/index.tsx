@@ -41,6 +41,7 @@ import {
 import { RowBetween } from 'src/components/Row'
 import TradeOption from '../TradeOption'
 import { wrappedCurrency } from 'src/utils/wrappedCurrency'
+import { useQueryClient } from 'react-query'
 
 interface Props {
   swapType: string
@@ -192,7 +193,12 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
 
   const { priceImpactWithoutFee } = computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade)
 
+  const queryClient = useQueryClient()
+
   const handleSwap = useCallback(() => {
+    // refetch balances in my portfolio widget
+    queryClient.refetchQueries(['getWalletChainTokens', 'getChainBalance'])
+
     if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee)) {
       return
     }
@@ -229,7 +235,17 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
           console.error(error)
         }
       })
-  }, [tradeToConfirm, account, priceImpactWithoutFee, recipient, recipientAddress, showConfirm, swapCallback, trade])
+  }, [
+    tradeToConfirm,
+    account,
+    priceImpactWithoutFee,
+    recipient,
+    recipientAddress,
+    showConfirm,
+    swapCallback,
+    trade,
+    queryClient
+  ])
 
   const handleSelectTokenDrawerClose = useCallback(() => {
     setIsTokenDrawerOpen(false)

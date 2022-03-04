@@ -23,7 +23,8 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
   const [showMore, setShowMore] = useState(false as boolean)
-  const [data, loading] = useGetWalletChainTokens()
+
+  const { data = [], isLoading } = useGetWalletChainTokens()
 
   return (
     <PageWrapper>
@@ -46,7 +47,7 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
             </Hidden>
           )}
           <DesktopPortfolioList>
-            {loading ? (
+            {isLoading ? (
               <Loader
                 size="40%"
                 stroke={theme.yellow3}
@@ -72,7 +73,7 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
           </DesktopPortfolioList>
 
           <MobilePortfolioList>
-            {loading ? (
+            {isLoading ? (
               <Loader
                 size="40%"
                 stroke={theme.yellow3}

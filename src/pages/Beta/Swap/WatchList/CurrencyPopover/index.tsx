@@ -118,6 +118,8 @@ const CurrencyPopover: React.FC<Props> = ({
   const { chainId } = useActiveWeb3React()
 
   return (
+    //ATTENTION ICI
+    // @ts-ignore
     <PopoverContainer ref={ref => getRef(ref)}>
       {/* Render Search Token Input */}
       <Box padding="0px 10px">
