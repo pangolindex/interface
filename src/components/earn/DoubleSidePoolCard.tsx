@@ -108,7 +108,6 @@ export default function DoubleSidePoolCard({
   const { t } = useTranslation()
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-
   const token: Token =
     currency0 === CAVAX[chainId || ChainId.AVALANCHE] || currency1 === CAVAX[chainId || ChainId.AVALANCHE]
       ? currency0 === CAVAX[chainId || ChainId.AVALANCHE]
@@ -118,8 +117,10 @@ export default function DoubleSidePoolCard({
       ? token1
       : token0
 
-  const totalStakedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' }) : 0
-  
+  const totalStakedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+    ? stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
+    : 0
+
   const backgroundColor = useColor(token)
 
   const pairAddress = stakingInfo?.stakedAmount?.token?.address
@@ -156,7 +157,10 @@ export default function DoubleSidePoolCard({
 
           {(isStaking || !stakingInfo.isPeriodFinished) && (
             <StyledInternalLink
-              to={`/png/${currencyId(currency0, chainId ? chainId : ChainId.AVALANCHE)}/${currencyId(currency1, chainId ? chainId : ChainId.AVALANCHE)}/${version}`}
+              to={`/png/${currencyId(currency0, chainId ? chainId : ChainId.AVALANCHE)}/${currencyId(
+                currency1,
+                chainId ? chainId : ChainId.AVALANCHE
+              )}/${version}`}
               style={{ width: '100%' }}
             >
               <ButtonPrimary padding="8px" borderRadius="8px">

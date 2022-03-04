@@ -124,7 +124,9 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
         [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount
       }
 
-  const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers(chainId ? chainId : ChainId.AVALANCHE)
+  const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers(
+    chainId ? chainId : ChainId.AVALANCHE
+  )
   const isValid = !swapInputError
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
 
@@ -186,7 +188,10 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
     }
   }, [approval, approvalSubmitted])
 
-  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(chainId ? chainId : ChainId.AVALANCHE, currencyBalances[Field.INPUT])
+  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(
+    chainId ? chainId : ChainId.AVALANCHE,
+    currencyBalances[Field.INPUT]
+  )
 
   // the callback to execute the swap
   const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(trade, allowedSlippage, recipient)

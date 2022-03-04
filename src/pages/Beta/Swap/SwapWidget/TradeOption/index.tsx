@@ -23,20 +23,21 @@ const TradeOption: React.FC<Props> = ({ swapType, setSwapType }) => {
             {t('swapPage.trade')}
           </Text>
           {chainId && !CHAINS[chainId].supported_by_gelato ? (
-          <ToggleButtons
-            options={['MARKET']}
-            value={swapType}
-            onChange={value => {
-              setSwapType(value)
-            }}
-          /> ) : (
             <ToggleButtons
-            options={['MARKET', 'LIMIT']}
-            value={swapType}
-            onChange={value => {
-              setSwapType(value)
-            }}
-          />
+              options={['MARKET']}
+              value={swapType}
+              onChange={value => {
+                setSwapType(value)
+              }}
+            />
+          ) : (
+            <ToggleButtons
+              options={['MARKET', 'LIMIT']}
+              value={swapType}
+              onChange={value => {
+                setSwapType(value)
+              }}
+            />
           )}
         </Box>
       </Box>

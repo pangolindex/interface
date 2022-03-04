@@ -58,12 +58,14 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
-  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId? chainId : ChainId.AVALANCHE), [
-    trade,
-    allowedSlippage,
-    chainId
-  ])
-  const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade), [chainId, trade])
+  const slippageAdjustedAmounts = useMemo(
+    () => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId ? chainId : ChainId.AVALANCHE),
+    [trade, allowedSlippage, chainId]
+  )
+  const { priceImpactWithoutFee } = useMemo(
+    () => computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade),
+    [chainId, trade]
+  )
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
   const showAcceptChanges = useMemo(

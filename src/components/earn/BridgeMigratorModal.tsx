@@ -64,7 +64,11 @@ export default function BridgeMigratorModal({
   const deadline = useTransactionDeadline()
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, BRIDGE_MIGRATOR_ADDRESS)
+  const [approval, approveCallback] = useApproveCallback(
+    chainId ? chainId : ChainId.AVALANCHE,
+    parsedAmount,
+    BRIDGE_MIGRATOR_ADDRESS
+  )
 
   const bridgeMigratorContract = useBridgeMigratorContract()
 

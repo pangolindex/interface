@@ -15,9 +15,9 @@ const SwapUI = () => {
   return (
     <PageWrapper>
       <TopContainer>
-          <StatsWrapper>
-            <PairInfo />
-          </StatsWrapper>
+        <StatsWrapper>
+          <PairInfo />
+        </StatsWrapper>
         <SwapWidget />
       </TopContainer>
 

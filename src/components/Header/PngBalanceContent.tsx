@@ -73,7 +73,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const oneToken = JSBI.BigInt(1000000000000000000)
   const { t } = useTranslation()
 
-  const usdcPriceTmp = useUSDCPrice(png);
+  const usdcPriceTmp = useUSDCPrice(png)
   const usdcPrice = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdcPriceTmp : undefined
 
   let pngPrice

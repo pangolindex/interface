@@ -153,7 +153,11 @@ export default function CurrencyInputPanel({
 
   const [modalOpen, setModalOpen] = useState(false)
   const { account, chainId } = useActiveWeb3React()
-  const selectedCurrencyBalance = useCurrencyBalance(chainId || ChainId.AVALANCHE, account ?? undefined, currency ?? undefined)
+  const selectedCurrencyBalance = useCurrencyBalance(
+    chainId || ChainId.AVALANCHE,
+    account ?? undefined,
+    currency ?? undefined
+  )
   const theme = useContext(ThemeContext)
 
   const handleDismissSearch = useCallback(() => {

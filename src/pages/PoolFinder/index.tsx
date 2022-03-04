@@ -145,7 +145,12 @@ export default function PoolFinder() {
               <LightCard padding="45px 10px">
                 <AutoColumn gap="sm" justify="center">
                   <Text textAlign="center">{t('poolFinder.noLiquidityYet')}</Text>
-                  <StyledInternalLink to={`/add/${currencyId(currency0, chainId || ChainId.AVALANCHE)}/${currencyId(currency1, chainId || ChainId.AVALANCHE)}`}>
+                  <StyledInternalLink
+                    to={`/add/${currencyId(currency0, chainId || ChainId.AVALANCHE)}/${currencyId(
+                      currency1,
+                      chainId || ChainId.AVALANCHE
+                    )}`}
+                  >
                     <Text textAlign="center">{t('poolFinder.addLiquidity')}</Text>
                   </StyledInternalLink>
                 </AutoColumn>
@@ -155,7 +160,12 @@ export default function PoolFinder() {
             <LightCard padding="45px 10px">
               <AutoColumn gap="sm" justify="center">
                 <Text textAlign="center">{t('poolFinder.noPoolFound')}</Text>
-                <StyledInternalLink to={`/add/${currencyId(currency0, chainId || ChainId.AVALANCHE)}/${currencyId(currency1, chainId || ChainId.AVALANCHE)}`}>
+                <StyledInternalLink
+                  to={`/add/${currencyId(currency0, chainId || ChainId.AVALANCHE)}/${currencyId(
+                    currency1,
+                    chainId || ChainId.AVALANCHE
+                  )}`}
+                >
                   {t('poolFinder.createPool')}
                 </StyledInternalLink>
               </AutoColumn>

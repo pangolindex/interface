@@ -41,7 +41,9 @@ export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>(state => state.swap)
 }
 
-export function useSwapActionHandlers(chainId: ChainId): {
+export function useSwapActionHandlers(
+  chainId: ChainId
+): {
   onCurrencySelection: (field: Field, currency: Currency) => void
   onSwitchTokens: () => void
   onUserInput: (field: Field, typedValue: string) => void
@@ -53,7 +55,8 @@ export function useSwapActionHandlers(chainId: ChainId): {
       dispatch(
         selectCurrency({
           field,
-          currencyId: currency instanceof Token ? currency.address : chainId && currency === CAVAX[chainId] ? 'AVAX' : ''
+          currencyId:
+            currency instanceof Token ? currency.address : chainId && currency === CAVAX[chainId] ? 'AVAX' : ''
         })
       )
     },
@@ -156,7 +159,11 @@ export function useDerivedSwapInfo(): {
   ])
 
   const isExactIn: boolean = independentField === Field.INPUT
-  const parsedAmount = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
+  const parsedAmount = tryParseAmount(
+    chainId ? chainId : ChainId.AVALANCHE,
+    typedValue,
+    (isExactIn ? inputCurrency : outputCurrency) ?? undefined
+  )
 
   const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
   const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
@@ -204,10 +211,15 @@ export function useDerivedSwapInfo(): {
 
   const [allowedSlippage] = useUserSlippageTolerance()
 
-  const slippageAdjustedAmounts = v2Trade && allowedSlippage && computeSlippageAdjustedAmounts(v2Trade, allowedSlippage, chainId? chainId : ChainId.AVALANCHE)
+  const slippageAdjustedAmounts =
+    v2Trade &&
+    allowedSlippage &&
+    computeSlippageAdjustedAmounts(v2Trade, allowedSlippage, chainId ? chainId : ChainId.AVALANCHE)
 
   const slippageAdjustedAmountsV1 =
-    v1Trade && allowedSlippage && computeSlippageAdjustedAmounts(v1Trade, allowedSlippage, chainId? chainId : ChainId.AVALANCHE)
+    v1Trade &&
+    allowedSlippage &&
+    computeSlippageAdjustedAmounts(v1Trade, allowedSlippage, chainId ? chainId : ChainId.AVALANCHE)
 
   // compare input balance to max input based on version
   const [balanceIn, amountIn] = [

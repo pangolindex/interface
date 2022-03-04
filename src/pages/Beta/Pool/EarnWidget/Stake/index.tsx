@@ -96,7 +96,11 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
 
   const [stepIndex, setStepIndex] = useState(4)
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, stakingInfo?.stakingRewardAddress[chainId || ChainId.AVALANCHE])
+  const [approval, approveCallback] = useApproveCallback(
+    chainId ? chainId : ChainId.AVALANCHE,
+    parsedAmount,
+    stakingInfo?.stakingRewardAddress[chainId || ChainId.AVALANCHE]
+  )
 
   const stakingContract = useStakingContract(stakingInfo?.stakingRewardAddress[chainId || ChainId.AVALANCHE])
   const currency0 = unwrappedToken(selectedPair?.token0 as Token, chainId || ChainId.AVALANCHE)
