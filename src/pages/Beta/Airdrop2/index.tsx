@@ -5,24 +5,53 @@ import { useActiveWeb3React } from 'src/hooks'
 import { BoxNotConnected, BoxCheckEligibility, BoxGoToFTM, BoxClaimReward } from './BoxesType'
 import { useUserHasAvailableClaim, useUserUnclaimedAmount, useClaimCallback } from 'src/state/airdrop/hooks'
 import NearLogo from 'src/assets/images/near.png'
+import Modal from 'src/components/Modal'
 
 const AirdropUI: React.FC = () => {
   const { account } = useActiveWeb3React()
   const [eligible, setEligible] = useState<boolean>(false)
   // const [bought, setBought] = useState<boolean>(false);
   const [changeMyChain, setChangeChain] = useState<boolean>(false)
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
 
   //FUNCTION AIRDROP CONTRACT
   const canClaim = useUserHasAvailableClaim(account)
   const claimAmount = useUserUnclaimedAmount(account)
   const amount = claimAmount?.toFixed(0, { groupSeparator: ',' })
   const { claimCallback } = useClaimCallback(account)
+  
 
   console.log(canClaim)
 
   const checkStatus = () => {
     if (canClaim) setEligible(true)
-    else window.alert('Sorry, you are not eligible')
+    // else window.alert('Sorry, you are not eligible')
+    else {
+      setModalOpen(true)
+    } 
+  }
+
+  const renderError = (modalOpen: any) => {
+    return (
+      <Modal 
+      isOpen={modalOpen} 
+      onDismiss={wrappedOnDismiss} 
+      maxHeight={250} 
+      minHeight={50} 
+      isBeta={true} 
+      >
+      <span style={{ textAlign: 'center', paddingTop: '40%' }}>
+        <Separator />
+          <Text fontSize={35} fontWeight={500} lineHeight="50px" color="text10">
+            Sorry, you are not eligible
+          </Text>
+        <Separator style={{ marginTop: '30px' }} />
+      </span>
+      </Modal>
+    )
+  }
+  function wrappedOnDismiss() {
+    setModalOpen(false)
   }
 
   // const buyFTM = () => {
@@ -93,6 +122,7 @@ const AirdropUI: React.FC = () => {
           {/* <ButtonCheckEligibility /> */}
         </ClaimBox>
       </BoxWrapper>
+      {renderError(modalOpen)}
     </PageWrapper>
   )
 }
