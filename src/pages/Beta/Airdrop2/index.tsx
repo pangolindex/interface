@@ -19,18 +19,20 @@ const AirdropUI: React.FC = () => {
   const claimAmount = useUserUnclaimedAmount(account)
   const amount = claimAmount?.toFixed(0, { groupSeparator: ',' })
   const { claimCallback } = useClaimCallback(account)
-  
 
   console.log(canClaim)
 
   const checkStatus = () => {
     if (canClaim) setEligible(true)
-    // else window.alert('Sorry, you are not eligible')
     else {
       setModalOpen(true)
     } 
   }
 
+  function wrappedOnDismiss() {
+    setModalOpen(false)
+  }
+  
   const renderError = (modalOpen: any) => {
     return (
       <Modal 
@@ -49,9 +51,6 @@ const AirdropUI: React.FC = () => {
       </span>
       </Modal>
     )
-  }
-  function wrappedOnDismiss() {
-    setModalOpen(false)
   }
 
   // const buyFTM = () => {
