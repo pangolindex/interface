@@ -42,6 +42,7 @@ import { RowBetween } from 'src/components/Row'
 import TradeOption from '../TradeOption'
 import { wrappedCurrency } from 'src/utils/wrappedCurrency'
 import { useQueryClient } from 'react-query'
+import { useChainId } from 'src/hooks'
 
 interface Props {
   swapType: string
@@ -176,7 +177,7 @@ const MarketOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const noRoute = !route
 
   // check whether the user has approved the router on the input token
-  const [approval, approveCallback] = useApproveCallbackFromTrade(chainId || ChainId.AVALANCHE, trade, allowedSlippage)
+  const [approval, approveCallback] = useApproveCallbackFromTrade(useChainId(), trade, allowedSlippage)
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)

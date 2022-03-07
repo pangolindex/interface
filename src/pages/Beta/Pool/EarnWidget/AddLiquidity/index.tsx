@@ -25,6 +25,7 @@ import PoolPriceBar from './PoolPriceBar'
 import { PairState } from 'src/data/Reserves'
 import ConfirmPoolDrawer from './ConfirmPoolDrawer'
 import { useCurrencyBalance } from 'src/state/wallet/hooks'
+import { useChainId } from 'src/hooks'
 
 interface AddLiquidityProps {
   currencyA: Currency
@@ -222,12 +223,12 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
   const toggleWalletModal = useWalletModalToggle()
 
   const selectedCurrencyBalanceA = useCurrencyBalance(
-    chainId || ChainId.AVALANCHE,
+    useChainId(),
     account ?? undefined,
     currencyA ?? undefined
   )
   const selectedCurrencyBalanceB = useCurrencyBalance(
-    chainId || ChainId.AVALANCHE,
+    useChainId(),
     account ?? undefined,
     currencyB ?? undefined
   )

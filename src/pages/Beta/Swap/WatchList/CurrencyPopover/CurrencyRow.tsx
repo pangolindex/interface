@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
 import { Text, Box, CurrencyLogo, Button } from '@pangolindex/components'
-import { Token, ChainId } from '@pangolindex/sdk'
+import { Token } from '@pangolindex/sdk'
 import { RowWrapper } from './styled'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { useIsSelectedCurrency } from 'src/state/watchlists/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   currency: Token
@@ -17,13 +17,11 @@ const WatchlistCurrencyRow: React.FC<Props> = ({ currency, onSelect, style }) =>
   const usdcPrice = useUSDCPrice(currency)
   const isSelected = useIsSelectedCurrency(currency?.address)
 
-  const { chainId } = useActiveWeb3React()
-
   const handleSelect = useCallback(() => {
     onSelect(currency?.address)
   }, [onSelect, currency])
 
-  const token = unwrappedToken(currency, chainId || ChainId.AVALANCHE)
+  const token = unwrappedToken(currency, useChainId())
 
   return (
     <RowWrapper disabled={isSelected} style={style}>

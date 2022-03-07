@@ -6,6 +6,7 @@ import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import RemoveLiquidity from '../RemoveLiquidity'
 import { useActiveWeb3React } from 'src/hooks'
 
+
 type Props = {
   isOpen: boolean
   clickedLpTokens: Array<Token>

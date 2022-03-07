@@ -32,6 +32,7 @@ import { useTranslation } from 'react-i18next'
 import { NATIVE } from 'src/constants'
 import { wrappedCurrency } from 'src/utils/wrappedCurrency'
 import { Order, useGelatoLimitOrdersLib, useGelatoLimitOrdersHistory } from '@gelatonetwork/limit-orders-react'
+import { useChainId } from 'src/hooks'
 
 export interface LimitOrderInfo extends Order {
   pending?: boolean
@@ -153,7 +154,7 @@ export function useDerivedSwapInfo(): {
   const recipientAddress = isAddress(recipient)
   const to: string | null = (recipientAddress ? recipientAddress : account) ?? null
 
-  const relevantTokenBalances = useCurrencyBalances(chainId || ChainId.AVALANCHE, account ?? undefined, [
+  const relevantTokenBalances = useCurrencyBalances(useChainId(), account ?? undefined, [
     inputCurrency ?? undefined,
     outputCurrency ?? undefined
   ])

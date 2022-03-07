@@ -21,6 +21,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 const HypotheticalRewardRate = styled.div<{ dim: boolean }>`
   display: flex;
@@ -94,10 +95,10 @@ export default function StakingModal({
   const [approval, approveCallback] = useApproveCallback(
     chainId ? chainId : ChainId.AVALANCHE,
     parsedAmount,
-    stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE]
+    stakingInfo.stakingRewardAddress[useChainId()]
   )
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
   const poolMap = useMinichefPools()
   const isSuperFarm = (extraRewardTokensAmount || [])?.length > 0
 

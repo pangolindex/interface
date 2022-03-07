@@ -10,21 +10,22 @@ import StatDetail from '../StatDetail'
 import numeral from 'numeral'
 import { useActiveWeb3React } from 'src/hooks'
 import { CHAINS } from 'src/constants/chains'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   stakingInfo: StakingInfo
 }
 
 const Details: React.FC<Props> = ({ stakingInfo }) => {
-  const { chainId } = useActiveWeb3React()
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
+  const { chainId } = useActiveWeb3React()
 
-  const totalStakedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+  const totalStakedInUsd = CHAINS[useChainId()].is_mainnet
     ? numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a')
     : numeral(stakingInfo.totalStakedInUsd).format('$0.00a')
 
-  const yourStakeInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+  const yourStakeInUsd = CHAINS[useChainId()].is_mainnet
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
 
@@ -74,13 +75,13 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
             />
           </Box>
         )}
-        {currency0 !== CAVAX[chainId || ChainId.AVALANCHE] && currency0 instanceof Token && (
+        {currency0 !== CAVAX[useChainId()] && currency0 instanceof Token && (
           <Box mt={20}>
             <CoinDescription coin={currency0} />
           </Box>
         )}
 
-        {currency1 !== CAVAX[chainId || ChainId.AVALANCHE] && currency1 instanceof Token && (
+        {currency1 !== CAVAX[useChainId()] && currency1 instanceof Token && (
           <Box mt={20}>
             <CoinDescription coin={currency1} />
           </Box>

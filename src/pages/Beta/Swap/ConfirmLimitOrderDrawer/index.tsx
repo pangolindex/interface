@@ -28,6 +28,7 @@ import { FiatValue } from './FiateValue'
 import { computeFiatValuePriceImpact } from 'src/utils/computeFiatValuePriceImpact'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { CHAINS } from 'src/constants/chains'
+import { useChainId } from 'src/hooks'
 
 interface Props {
   isOpen: boolean
@@ -136,9 +137,9 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
       : undefined
 
   const fiatValueInputTmp = useUSDCPrice(inputCurrency)
-  const fiatValueInput = CHAINS[chainId || ChainId.AVALANCHE] ? fiatValueInputTmp : undefined
+  const fiatValueInput = CHAINS[useChainId()] ? fiatValueInputTmp : undefined
   const fiatValueOutputTmp = useUSDCPrice(outputCurrency)
-  const fiatValueOutput = CHAINS[chainId || ChainId.AVALANCHE] ? fiatValueOutputTmp : undefined
+  const fiatValueOutput = CHAINS[useChainId()] ? fiatValueOutputTmp : undefined
 
   if (!inputAmount || !outputAmount) return null
 

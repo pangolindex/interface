@@ -1,4 +1,4 @@
-import { Currency, Pair, ChainId } from '@pangolindex/sdk'
+import { Currency, Pair } from '@pangolindex/sdk'
 import React, { useState, useContext, useCallback } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import { darken } from 'polished'
@@ -13,6 +13,7 @@ import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg'
 
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 const InputRow = styled.div<{ selected: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -154,7 +155,7 @@ export default function CurrencyInputPanel({
   const [modalOpen, setModalOpen] = useState(false)
   const { account, chainId } = useActiveWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(
-    chainId || ChainId.AVALANCHE,
+    useChainId(),
     account ?? undefined,
     currency ?? undefined
   )

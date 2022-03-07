@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { Text, CurrencyLogo } from '@pangolindex/components'
 import { CurrencyRowRoot, Balance } from './styled'
-import { Currency, ChainId } from '@pangolindex/sdk'
+import { Currency } from '@pangolindex/sdk'
 import { useActiveWeb3React } from 'src/hooks'
 // import { useSelectedTokenList } from 'src/state/lists/hooks'
 // import { isTokenOnList } from 'src/utils'
@@ -10,6 +10,7 @@ import { useCurrencyBalance } from 'src/state/wallet/hooks'
 import Loader from 'src/components/Loader'
 // import { useAddUserToken, useRemoveUserAddedToken } from 'src/state/user/hooks'
 // import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 interface Props {
   currency: Currency
@@ -21,11 +22,11 @@ interface Props {
 
 const CurrencyRow: React.FC<Props> = props => {
   const { currency, style, onSelect, isSelected, otherSelected } = props
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   // const selectedTokenList = useSelectedTokenList()
   // const isOnSelectedList = isTokenOnList(selectedTokenList, currency)
   // const customAdded = useIsUserAddedToken(currency)
-  const balance = useCurrencyBalance(chainId || ChainId.AVALANCHE, account ?? undefined, currency)
+  const balance = useCurrencyBalance(useChainId(), account ?? undefined, currency)
 
   // const removeToken = useRemoveUserAddedToken()
   // const addToken = useAddUserToken()

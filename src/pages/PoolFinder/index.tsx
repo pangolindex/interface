@@ -19,6 +19,7 @@ import { currencyId } from '../../utils/currencyId'
 import AppBody from '../AppBody'
 import { Dots } from '../Pool/styleds'
 import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 enum Fields {
   TOKEN0 = 0,
@@ -32,7 +33,7 @@ export default function PoolFinder() {
   const [showSearch, setShowSearch] = useState<boolean>(false)
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
 
-  const [currency0, setCurrency0] = useState<Currency | null>(CAVAX[chainId || ChainId.AVALANCHE])
+  const [currency0, setCurrency0] = useState<Currency | null>(CAVAX[useChainId()])
   const [currency1, setCurrency1] = useState<Currency | null>(null)
 
   const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)

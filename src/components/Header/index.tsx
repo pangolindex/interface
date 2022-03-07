@@ -32,6 +32,7 @@ import { MenuFlyout, MenuNavItem } from '../StyledMenu'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { BETA_MENU_LINK } from 'src/constants'
 import { Hidden } from 'src/theme'
+import { useChainId } from 'src/hooks'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -297,7 +298,7 @@ export default function Header() {
 
   const location: any = useLocation()
 
-  const userEthBalance = useETHBalances(chainId || ChainId.AVALANCHE, account ? [account] : [])?.[account ?? '']
+  const userEthBalance = useETHBalances(useChainId(), account ? [account] : [])?.[account ?? '']
   const [isDark] = useDarkModeManager()
 
   const aggregateBalance: TokenAmount | undefined = useAggregatePngBalance()

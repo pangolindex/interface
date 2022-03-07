@@ -45,6 +45,7 @@ import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { maxAmountSpend } from 'src/utils/maxAmountSpend'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
+import { useChainId } from 'src/hooks'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -224,7 +225,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
     [chainId, pairToFilterBy, version]
   )
 
-  const png = PNG[chainId || ChainId.AVALANCHE]
+  const png = PNG[useChainId()]
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
   const accountArg = useMemo(() => [account ?? undefined], [account])
@@ -244,7 +245,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
 
   const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
 
-  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[chainId || ChainId.AVALANCHE], png)
+  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[useChainId()], png)
 
   // tokens per second, constants
   const rewardRates = useMultipleContractSingleData(
@@ -263,7 +264,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
   )
 
   const usdPriceTmp = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
-  const usdPrice = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdPriceTmp : undefined
+  const usdPrice = CHAINS[useChainId()].is_mainnet ? usdPriceTmp : undefined
 
   return useMemo(() => {
     if (!chainId || !png) return []
@@ -597,8 +598,7 @@ export function useSingleSideStakingInfo(
 }
 
 export function useTotalPngEarned(): TokenAmount | undefined {
-  const { chainId } = useActiveWeb3React()
-  const png = PNG[chainId || ChainId.AVALANCHE]
+  const png = PNG[useChainId()]
   const stakingInfo0 = useStakingInfo(0)
   const stakingInfo1 = useStakingInfo(1)
   const stakingInfo2 = useMinichefStakingInfos(2)
@@ -743,15 +743,15 @@ export function useGetStakingDataWithAPR(version: number) {
 export function useGetPairDataFromPair(pair: Pair) {
   const { account, chainId } = useActiveWeb3React()
 
-  const dummyToken = new Token(chainId || ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'PNG', 'Pangolin')
+  const dummyToken = new Token(useChainId(), ZERO_ADDRESS, 18, 'PNG', 'Pangolin')
 
   const token0 = pair?.token0 || dummyToken
   const token1 = pair?.token1 || dummyToken
 
   const usdPriceCurrency0Tmp = useUSDCPrice(token0)
-  const usdPriceCurrency0 = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdPriceCurrency0Tmp : undefined
+  const usdPriceCurrency0 = CHAINS[useChainId()].is_mainnet ? usdPriceCurrency0Tmp : undefined
   const usdPriceCurrency1Tmp = useUSDCPrice(token1)
-  const usdPriceCurrency1 = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdPriceCurrency1Tmp : undefined
+  const usdPriceCurrency1 = CHAINS[useChainId()].is_mainnet ? usdPriceCurrency1Tmp : undefined
 
   const zeroTokenAmount0 = new TokenAmount(token0, '0')
   const zeroTokenAmount1 = new TokenAmount(token1, '0')
@@ -823,7 +823,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const { chainId, account } = useActiveWeb3React()
   const minichefContract = useStakingContract(MINICHEF_ADDRESS[chainId ? chainId : ChainId.AVALANCHE])
   const poolMap = useMinichefPools()
-  const png = PNG[chainId || ChainId.AVALANCHE]
+  const png = PNG[useChainId()]
 
   const info = useMemo(
     () =>
@@ -855,7 +855,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     MINICHEF_ADDRESS[chainId ? chainId : ChainId.AVALANCHE]
   ])
 
-  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[chainId || ChainId.AVALANCHE], png)
+  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[useChainId()], png)
 
   const poolIdArray = useMemo(() => {
     if (!pairAddresses || !poolMap) return []
@@ -907,7 +907,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
   const rewardsExpiration = useSingleCallResult(minichefContract, 'rewardsExpiration', []).result
   const usdPriceTmp = useUSDCPrice(WAVAX[chainId ? chainId : ChainId.AVALANCHE])
-  const usdPrice = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdPriceTmp : undefined
+  const usdPrice = CHAINS[useChainId()].is_mainnet ? usdPriceTmp : undefined
 
   const arr = useMemo(() => {
     if (!chainId || !png) return []
@@ -1147,14 +1147,14 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
 }
 
 export function useGetPoolDollerWorth(pair: Pair | null) {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const token0 = pair?.token0
-  const currency0 = unwrappedToken(token0 as Token, chainId || ChainId.AVALANCHE)
+  const currency0 = unwrappedToken(token0 as Token, useChainId())
   const currency0PriceTmp = useUSDCPrice(currency0)
-  const currency0Price = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? currency0PriceTmp : undefined
+  const currency0Price = CHAINS[useChainId()].is_mainnet ? currency0PriceTmp : undefined
 
   const userPglTmp = useTokenBalance(account ?? undefined, pair?.liquidityToken)
-  const userPgl = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? userPglTmp : undefined
+  const userPgl = CHAINS[useChainId()].is_mainnet ? userPglTmp : undefined
 
   const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
 
@@ -1170,7 +1170,7 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
         ]
       : [undefined, undefined]
 
-  const liquidityInUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+  const liquidityInUSD = CHAINS[useChainId()].is_mainnet
     ? currency0Price && token0Deposited
       ? Number(currency0Price.toFixed()) * 2 * Number(token0Deposited?.toSignificant(6))
       : 0
@@ -1267,7 +1267,7 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
   const deadline = useTransactionDeadline()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
-    chainId || ChainId.AVALANCHE,
+    useChainId(),
     parsedAmount,
     stakingInfo.stakingRewardAddress
   )
@@ -1348,7 +1348,7 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
   }, [])
 
   // used for max input button
-  const maxAmountInput = maxAmountSpend(chainId || ChainId.AVALANCHE, userPngUnstaked)
+  const maxAmountInput = maxAmountSpend(useChainId(), userPngUnstaked)
   // const atMaxAmount = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
   const handleMax = useCallback(() => {
     maxAmountInput && onUserInput(maxAmountInput.toExact())

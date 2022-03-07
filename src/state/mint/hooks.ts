@@ -22,6 +22,7 @@ import { tryParseAmount } from '../swap/hooks'
 import { useCurrencyBalances } from '../wallet/hooks'
 import { Field, typeInput } from './actions'
 import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 const ZERO = JSBI.BigInt(0)
 
@@ -72,7 +73,7 @@ export function useDerivedMintInfo(
     pairState === PairState.NOT_EXISTS || Boolean(totalSupply && JSBI.equal(totalSupply.raw, ZERO))
 
   // balances
-  const balances = useCurrencyBalances(chainId || ChainId.AVALANCHE, account ?? undefined, [
+  const balances = useCurrencyBalances(useChainId(), account ?? undefined, [
     currencies[Field.CURRENCY_A],
     currencies[Field.CURRENCY_B]
   ])

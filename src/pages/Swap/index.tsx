@@ -48,6 +48,7 @@ import { useIsSelectedAEBToken, useSelectedTokenList, useTokenList } from '../..
 import { DeprecatedWarning } from '../../components/Warning'
 import { isTokenOnList } from '../../utils'
 import { DEFAULT_TOKEN_LISTS_SELECTED } from '../../constants/lists'
+import { useChainId } from 'src/hooks'
 
 const TopText = styled.span`
   margin-bottom: 8px;
@@ -199,7 +200,7 @@ export default function Swap() {
   const noRoute = !route
 
   // check whether the user has approved the router on the input token
-  const [approval, approveCallback] = useApproveCallbackFromTrade(chainId || ChainId.AVALANCHE, trade, allowedSlippage)
+  const [approval, approveCallback] = useApproveCallbackFromTrade(useChainId(), trade, allowedSlippage)
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
@@ -212,7 +213,7 @@ export default function Swap() {
   }, [approval, approvalSubmitted])
 
   const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(
-    chainId || ChainId.AVALANCHE,
+    useChainId(),
     currencyBalances[Field.INPUT]
   )
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
@@ -344,7 +345,7 @@ export default function Swap() {
         <Wrapper id="swap-page">
           <ConfirmSwapModal
             isOpen={showConfirm}
-            chainId={chainId || ChainId.AVALANCHE}
+            chainId={useChainId()}
             trade={trade}
             originalTrade={tradeToConfirm}
             onAcceptChanges={handleAcceptChanges}

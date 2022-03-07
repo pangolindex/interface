@@ -13,7 +13,7 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import FormattedCurrencyAmount from '../FormattedCurrencyAmount'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
-import { ChainId } from '@pangolindex/sdk'
+import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -41,8 +41,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
     onDismiss()
   }
 
-  const { chainId } = useActiveWeb3React()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
 
   async function onWithdraw() {
     if (stakingContract && stakingInfo?.stakedAmount) {

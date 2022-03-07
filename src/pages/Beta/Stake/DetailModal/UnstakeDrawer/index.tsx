@@ -10,7 +10,8 @@ import { Box, Button, Text } from '@pangolindex/components'
 import { ConfirmWrapper, Wrapper } from './styled'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
-import { ChainId } from '@pangolindex/sdk'
+import { useChainId } from 'src/hooks'
+
 
 type Props = {
   isOpen: boolean
@@ -34,8 +35,7 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
     onClose()
   }
 
-  const { chainId } = useActiveWeb3React()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
 
   async function onWithdraw() {
     if (stakingContract && stakingInfo?.stakedAmount) {

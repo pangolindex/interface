@@ -6,9 +6,9 @@ import { ThemeContext } from 'styled-components'
 import { CloseIcon } from 'src/theme/components'
 import { useTranslation } from 'react-i18next'
 import PoolImport from './PoolImport'
-import { CAVAX, Currency, ChainId } from '@pangolindex/sdk'
+import { CAVAX, Currency } from '@pangolindex/sdk'
 import SelectTokenDrawer from '../../Swap/SelectTokenDrawer'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 enum Fields {
   TOKEN0 = 0,
@@ -24,8 +24,7 @@ interface ImportPoolModalProps {
 const PoolImportModal = ({ isOpen, onClose, onManagePoolsClick }: ImportPoolModalProps) => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
-  const { chainId } = useActiveWeb3React()
-  const [currency0, setCurrency0] = useState<Currency | undefined>(CAVAX[chainId || ChainId.AVALANCHE])
+  const [currency0, setCurrency0] = useState<Currency | undefined>(CAVAX[useChainId()])
   const [currency1, setCurrency1] = useState<Currency | undefined>(undefined)
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
   const [showSearch, setShowSearch] = useState<boolean>(false)

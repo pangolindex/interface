@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Fraction, ChainId } from '@pangolindex/sdk'
+import { Fraction } from '@pangolindex/sdk'
 import {
   Panel,
   Divider,
@@ -26,6 +26,7 @@ import { useTokenBalance } from 'src/state/wallet/hooks'
 import ClaimDrawer from '../../ClaimDrawer'
 import FarmDrawer from '../../FarmDrawer'
 import AddLiquidityDrawer from '../../AddLiquidityDrawer'
+import { useChainId } from 'src/hooks'
 
 export interface PoolCardProps {
   stakingInfo: StakingInfo
@@ -40,13 +41,13 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
   const [isFarmDrawerVisible, setShowFarmDrawer] = useState(false)
   const [isAddLiquidityDrawerVisible, setShowAddLiquidityDrawer] = useState(false)
 
-  const { chainId, account } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
 
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
-  const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
-  const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
+  const currency0 = unwrappedToken(token0, useChainId())
+  const currency1 = unwrappedToken(token1, useChainId())
 
   const [, stakingTokenPair] = usePair(token0, token1)
 
@@ -54,7 +55,7 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  const yourStackedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+  const yourStackedInUsd = CHAINS[useChainId()].is_mainnet
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
 

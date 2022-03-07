@@ -32,6 +32,7 @@ import Percentage from 'src/components/Beta/Percentage'
 import Stat from 'src/components/Stat'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
+import { useChainId } from 'src/hooks'
 
 interface StakeProps {
   pair: Pair | null
@@ -99,12 +100,12 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
   const [approval, approveCallback] = useApproveCallback(
     chainId ? chainId : ChainId.AVALANCHE,
     parsedAmount,
-    stakingInfo?.stakingRewardAddress[chainId || ChainId.AVALANCHE]
+    stakingInfo?.stakingRewardAddress[useChainId()]
   )
 
-  const stakingContract = useStakingContract(stakingInfo?.stakingRewardAddress[chainId || ChainId.AVALANCHE])
-  const currency0 = unwrappedToken(selectedPair?.token0 as Token, chainId || ChainId.AVALANCHE)
-  const currency1 = unwrappedToken(selectedPair?.token1 as Token, chainId || ChainId.AVALANCHE)
+  const stakingContract = useStakingContract(stakingInfo?.stakingRewardAddress[useChainId()])
+  const currency0 = unwrappedToken(selectedPair?.token0 as Token, useChainId())
+  const currency1 = unwrappedToken(selectedPair?.token1 as Token, useChainId())
   const poolMap = useMinichefPools()
 
   const onChangePercentage = (value: number) => {
