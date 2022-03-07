@@ -14,13 +14,13 @@ const BridgeUI = () => {
     if (!account) {
       return (
         <Button variant="primary" color="white" onClick={toggleWalletModal}>
-          <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>{t('swapPage.connectWallet')}</span>
+          <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>{t('swapPage.connectWallet')}</span>
         </Button>
       )
     } else {
       return (
         <Button variant="primary" color="white">
-          <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>BRIDGE</span>
+          <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>BRIDGE</span>
         </Button>
       )
     }

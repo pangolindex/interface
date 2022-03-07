@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
-import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator } from './styleds'
+import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator, QuestionWrapper } from './styleds'
 import { Text, Box } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
-import { BoxNotConnected, BoxCheckEligibility, BoxGoToFTM, BoxClaimReward } from './BoxesType'
+import { BoxNotConnected, BoxCheckEligibility, BoxGoToFTM, BoxClaimReward, QuestionAnswer } from './BoxesType'
 import { useUserHasAvailableClaim, useUserUnclaimedAmount, useClaimCallback } from 'src/state/airdrop/hooks'
 import NearLogo from 'src/assets/images/near.png'
 import Modal from 'src/components/Modal'
+import Confetti from 'src/components/Confetti'
+import { PngTokenAnimated } from 'src/theme'
+import tokenLogo from 'src/assets/images/logo.png'
+import { ColumnCenter } from 'src/components/Column'
 
 const AirdropUI: React.FC = () => {
   const { account } = useActiveWeb3React()
@@ -20,37 +24,9 @@ const AirdropUI: React.FC = () => {
   const amount = claimAmount?.toFixed(0, { groupSeparator: ',' })
   const { claimCallback } = useClaimCallback(account)
 
-  console.log(canClaim)
-
   const checkStatus = () => {
     if (canClaim) setEligible(true)
-    else {
-      setModalOpen(true)
-    } 
-  }
-
-  function wrappedOnDismiss() {
-    setModalOpen(false)
-  }
-  
-  const renderError = (modalOpen: any) => {
-    return (
-      <Modal 
-      isOpen={modalOpen} 
-      onDismiss={wrappedOnDismiss} 
-      maxHeight={250} 
-      minHeight={50} 
-      isBeta={true} 
-      >
-      <span style={{ textAlign: 'center', paddingTop: '40%' }}>
-        <Separator />
-          <Text fontSize={35} fontWeight={500} lineHeight="50px" color="text10">
-            Sorry, you are not eligible
-          </Text>
-        <Separator style={{ marginTop: '30px' }} />
-      </span>
-      </Modal>
-    )
+    else setModalOpen(true)
   }
 
   // const buyFTM = () => {
@@ -88,6 +64,23 @@ const AirdropUI: React.FC = () => {
     }
   }
 
+  function wrappedOnDismiss() {
+    setModalOpen(false)
+  }
+
+  const renderError = (modalOpen: any) => {
+    return (
+      <Modal isOpen={modalOpen} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={50} isBeta={true} >
+        <ColumnCenter>
+            <PngTokenAnimated width="55px" src={tokenLogo} />
+            <Text fontSize={35} fontWeight={500} lineHeight="50px" color="text10" style={{ textAlign: 'center', paddingTop: '30px' }}>
+                Sorry, you are not eligible
+            </Text>
+        </ColumnCenter>
+      </Modal>
+    )
+  }
+
   //MAIN PAGE
   return (
     <PageWrapper>
@@ -103,6 +96,7 @@ const AirdropUI: React.FC = () => {
       </Box>
       <BoxWrapper>
         {renderBoxes()}
+        <Confetti start={Boolean(eligible)} />
         <ClaimBox>
           <span
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '20px' }}
@@ -121,6 +115,12 @@ const AirdropUI: React.FC = () => {
           {/* <ButtonCheckEligibility /> */}
         </ClaimBox>
       </BoxWrapper>
+      <QuestionWrapper>
+        <Text fontSize={44} fontWeight={500} lineHeight="66px" color="text10">
+          HAVE QUESTIONS?
+        </Text>
+        <QuestionAnswer />
+      </QuestionWrapper>
       {renderError(modalOpen)}
     </PageWrapper>
   )

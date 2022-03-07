@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Text } from '@pangolindex/components'
-import { ClaimBox, StyledLogo, Separator, BoxWrapper, SeparatorEmpty } from '../styleds'
+import { ClaimBox, StyledLogo, Separator, BoxWrapper, SeparatorEmpty, QuestionBox } from '../styleds'
 import WgmLogo from '../../../../assets/images/wgmlogo.png'
 import { ButtonToConnect } from '../ButtonsType'
 import { Button } from '@pangolindex/components'
+import PlusLogo from 'src/assets/images/plus.png'
+import MinusLogo from 'src/assets/images/minus.png'
 
 export const BoxNotConnected = () => {
   return (
@@ -49,8 +51,8 @@ export const BoxCheckEligibility: React.FC<IStatus> = ({ checkStatus }) => {
         Let's check if you are eligible!
       </Text>
       <span style={{ padding: '20px' }}></span>
-      <Button variant="primary" color="white" height="46px">
-        <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }} onClick={checkStatus}>
+      <Button variant="primary" color="white" height="46px" onClick={checkStatus}>
+        <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }} >
           CHECK IF ELIGIBLE
         </span>
       </Button>
@@ -111,7 +113,7 @@ export const BoxBuyFTM: React.FC<IBuy> = ({ buyFTM }) => {
             selectAmount(0.1)
           }}
         >
-          <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>0.1 AVAX</span>
+          <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '15px' }}>0.1 AVAX</span>
         </Button>
         <Button
           variant={button2}
@@ -122,7 +124,7 @@ export const BoxBuyFTM: React.FC<IBuy> = ({ buyFTM }) => {
             selectAmount(0.5)
           }}
         >
-          <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>0.5 AVAX</span>
+          <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '15px' }}>0.5 AVAX</span>
         </Button>
         <Button
           variant={button3}
@@ -133,16 +135,16 @@ export const BoxBuyFTM: React.FC<IBuy> = ({ buyFTM }) => {
             selectAmount(1)
           }}
         >
-          <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>1 AVAX</span>
+          <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '15px' }}>1 AVAX</span>
         </Button>
       </BoxWrapper>
       <Button variant="primary" color="white" height="46px" onClick={buyFTM}>
-        <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>BUY WGM</span>
+        <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>BUY WGM</span>
       </Button>
       <SeparatorEmpty />
       <span style={{ textAlign: 'center' }}>
         <Button variant="outline" color="white" height="39px" onClick={buyFTM}>
-          <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>Skip</span>
+          <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '15px' }}>Skip</span>
         </Button>
       </span>
     </ClaimBox>
@@ -207,7 +209,7 @@ export const BoxGoToFTM: React.FC<IChangeChain> = ({ changeChain }) => {
       </Text>
       <span style={{ padding: '20px' }}></span>
       <Button variant="primary" color="white" height="46px" onClick={switchNetworkFantom}>
-        <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>GO TO WAGMI</span>
+        <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>GO TO WAGMI</span>
       </Button>
       <span style={{ textAlign: 'center' }}>
         <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
@@ -241,7 +243,7 @@ export const BoxClaimReward: React.FC<IclaimPNG> = ({ claimPNG, amount }) => {
       </Text>
       <span style={{ padding: '20px' }}></span>
       <Button variant="primary" color="white" height="46px" onClick={claimPNG}>
-        <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>CLAIM</span>
+        <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>CLAIM</span>
       </Button>
       <span style={{ textAlign: 'center' }}>
         <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
@@ -252,4 +254,80 @@ export const BoxClaimReward: React.FC<IclaimPNG> = ({ claimPNG, amount }) => {
   )
 }
 
-export default [BoxNotConnected, BoxCheckEligibility, BoxBuyFTM, BoxGoToFTM]
+export const QuestionAnswer = () => {
+  const [visible, setVisible] = useState<boolean>(false)
+  const [visible2, setVisible2] = useState<boolean>(false)
+  const [visible3, setVisible3] = useState<boolean>(false)
+
+  return (
+    <QuestionBox>
+      <span onClick={() => setVisible(!visible)}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {visible ? <img src={MinusLogo} alt="" /> : <StyledLogo src={PlusLogo} size={'20px'} />}
+
+          <Text fontSize={24} fontWeight={700} lineHeight="36px" color="text10">
+            Is there really a troll on the bridge
+          </Text>
+        </span>
+        {visible ? (
+          <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8">
+            Well yes… And no. How it works is, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla lectus
+            turpis, bibendum in felis vitae, scelerisque dignissim diam. Phasellus porta pulvinar nisi quis mollis.
+            Curabitur dapibus lacus enim, sed aliquam nunc mollis nec. In vel convallis ipsum. Praesent tincidunt nulla
+            in mi iaculis pulvinar. Phasellus risus tortor, sodales eget mattis eget, ultrices ut sem. Nullam eget
+            iaculis nisl, at consectetur dui. Nam finibus felis ac finibus rutrum.
+          </Text>
+        ) : (
+          <></>
+        )}
+        <span style={{ padding: '20px' }}></span>
+        <Separator />
+      </span>
+      <span onClick={() => setVisible2(!visible2)}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {visible2 ? <img src={MinusLogo} alt="" /> : <StyledLogo src={PlusLogo} size={'20px'} />}
+
+          <Text fontSize={24} fontWeight={700} lineHeight="36px" color="text10">
+            Is there really a troll on the bridge
+          </Text>
+        </span>
+        {visible2 ? (
+          <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8">
+            Well yes… And no. How it works is, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla lectus
+            turpis, bibendum in felis vitae, scelerisque dignissim diam. Phasellus porta pulvinar nisi quis mollis.
+            Curabitur dapibus lacus enim, sed aliquam nunc mollis nec. In vel convallis ipsum. Praesent tincidunt nulla
+            in mi iaculis pulvinar. Phasellus risus tortor, sodales eget mattis eget, ultrices ut sem. Nullam eget
+            iaculis nisl, at consectetur dui. Nam finibus felis ac finibus rutrum.
+          </Text>
+        ) : (
+          <></>
+        )}
+        <span style={{ padding: '20px' }}></span>
+        <Separator />
+      </span>
+      <span onClick={() => setVisible3(!visible3)}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {visible3 ? <img src={MinusLogo} alt="" /> : <StyledLogo src={PlusLogo} size={'20px'} />}
+
+          <Text fontSize={24} fontWeight={700} lineHeight="36px" color="text10">
+            Is there really a troll on the bridge
+          </Text>
+        </span>
+        {visible3 ? (
+          <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8">
+            Well yes… And no. How it works is, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla lectus
+            turpis, bibendum in felis vitae, scelerisque dignissim diam. Phasellus porta pulvinar nisi quis mollis.
+            Curabitur dapibus lacus enim, sed aliquam nunc mollis nec. In vel convallis ipsum. Praesent tincidunt nulla
+            in mi iaculis pulvinar. Phasellus risus tortor, sodales eget mattis eget, ultrices ut sem. Nullam eget
+            iaculis nisl, at consectetur dui. Nam finibus felis ac finibus rutrum.
+          </Text>
+        ) : (
+          <></>
+        )}
+        <span style={{ padding: '20px' }}></span>
+        <Separator />
+      </span>
+    </QuestionBox>
+  )
+}
+export default [BoxNotConnected, BoxCheckEligibility, BoxBuyFTM, BoxGoToFTM, QuestionBox]

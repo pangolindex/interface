@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Box } from '@pangolindex/components'
+import { X } from 'react-feather'
 
 export const PageWrapper = styled(Box)`
   width: 100%;
@@ -9,12 +10,22 @@ export const BoxWrapper = styled(Box)`
   justify-content: center;
   gap: 15px;
   margin-bottom: 15px;
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  `};
 `
 export const ClaimBox = styled(Box)`
-  width: 27%;
+  min-width: 27%;
   background-color: #111;
   border-radius: 7px;
   padding: 1em;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+  min-width: 70%;
+  min-height: 70%
+  `};
 `
 
 export const Separator = styled(Box)`
@@ -31,4 +42,29 @@ export const StyledLogo = styled.img<{ size: string }>`
   height: ${({ size }) => size};
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.075);
   border-radius: 24px;
+`
+
+export const QuestionWrapper = styled(Box)`
+  display: flex;
+  justify-content: space-around;
+  gap: 15px;
+  padding-bottom: 30px;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    `};
+`
+export const QuestionBox = styled(Box)`
+  background-color: #111111;
+  border-radius: 10px;
+  min-width: 70%;
+  max-width: 70%;
+  padding: 30px;
+  cursor: pointer;
+`
+export const StyledClose = styled(X)`
+  :hover {
+    cursor: pointer;
+  }
 `
