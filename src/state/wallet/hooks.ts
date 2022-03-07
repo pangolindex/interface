@@ -8,6 +8,7 @@ import { useMulticallContract } from '../../hooks/useContract'
 import { isAddress } from '../../utils'
 import { useSingleContractMultipleData, useMultipleContractSingleData } from '../multicall/hooks'
 import { useTotalPngEarned } from '../stake/hooks'
+import { useChainId } from 'src/hooks'
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
@@ -111,7 +112,7 @@ export function useCurrencyBalances(
     () => currencies?.some(currency => chainId && currency === CAVAX[chainId]) ?? false,
     [chainId, currencies]
   )
-  const ethBalance = useETHBalances(chainId || ChainId.AVALANCHE, containsETH ? [account] : [])
+  const ethBalance = useETHBalances(useChainId(), containsETH ? [account] : [])
 
   return useMemo(
     () =>
@@ -130,7 +131,7 @@ export function useCurrencyBalance(
   account?: string,
   currency?: Currency
 ): CurrencyAmount | undefined {
-  return useCurrencyBalances(chainId || ChainId.AVALANCHE, account, [currency])[0]
+  return useCurrencyBalances(useChainId(), account, [currency])[0]
 }
 
 // mimics useAllBalances

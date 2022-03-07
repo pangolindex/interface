@@ -12,7 +12,8 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
-import { ChainId } from '@pangolindex/sdk'
+import { useChainId } from 'src/hooks'
+
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -40,9 +41,7 @@ export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingI
     onDismiss()
   }
 
-  const { chainId } = useActiveWeb3React()
-
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
 
   async function onClaimReward() {
     if (stakingContract && stakingInfo?.stakedAmount) {

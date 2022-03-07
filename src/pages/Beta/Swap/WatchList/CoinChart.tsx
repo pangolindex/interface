@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { BETA_MENU_LINK } from 'src/constants'
 import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   coin: Token
@@ -58,7 +59,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
       timeWindow?.label
     ) || []
 
-  const token = unwrappedToken(coin, chainId || ChainId.AVALANCHE)
+  const token = unwrappedToken(coin, useChainId())
 
   const priceChart = [...priceData]
   // add current price in chart

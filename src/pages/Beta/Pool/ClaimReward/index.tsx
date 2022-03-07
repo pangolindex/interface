@@ -11,7 +11,7 @@ import { useStakingContract } from 'src/hooks/useContract'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 import Stat from 'src/components/Stat'
-import { ChainId } from '@pangolindex/sdk'
+import { useChainId } from 'src/hooks'
 
 interface ClaimProps {
   stakingInfo: StakingInfo
@@ -19,7 +19,7 @@ interface ClaimProps {
   onClose: () => void
 }
 const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
 
   const { t } = useTranslation()
 
@@ -29,7 +29,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
   const [attempting, setAttempting] = useState(false)
 
   const poolMap = useMinichefPools()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 

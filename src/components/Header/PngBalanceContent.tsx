@@ -1,4 +1,4 @@
-import { TokenAmount, JSBI, ChainId } from '@pangolindex/sdk'
+import { TokenAmount, JSBI } from '@pangolindex/sdk'
 import React, { useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
@@ -17,6 +17,7 @@ import { RowBetween } from '../Row'
 import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../earn/styled'
 import { useTranslation } from 'react-i18next'
 import useUSDCPrice from '../../utils/useUSDCPrice'
+import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -74,7 +75,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const { t } = useTranslation()
 
   const usdcPriceTmp = useUSDCPrice(png)
-  const usdcPrice = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = CHAINS[useChainId()].is_mainnet ? usdcPriceTmp : undefined
 
   let pngPrice
 

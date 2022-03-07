@@ -10,8 +10,7 @@ import { CloseIcon } from 'src/theme'
 import { Hidden, Visible } from 'src/theme'
 import RewardTokens from 'src/components/RewardTokens'
 import { useTokens } from 'src/hooks/Tokens'
-import { ChainId } from '@pangolindex/sdk'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   stakingInfo: StakingInfo
@@ -19,15 +18,14 @@ type Props = {
 }
 
 const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
-  const { chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
 
-  const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
-  const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
+  const currency0 = unwrappedToken(token0, useChainId())
+  const currency1 = unwrappedToken(token1, useChainId())
 
   const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
 

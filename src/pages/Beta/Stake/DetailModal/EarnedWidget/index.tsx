@@ -1,5 +1,5 @@
 import { Box, Button, Text } from '@pangolindex/components'
-import { JSBI, ChainId } from '@pangolindex/sdk'
+import { JSBI } from '@pangolindex/sdk'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
@@ -10,7 +10,7 @@ import { Root, StatWrapper } from './styled'
 import ClaimDrawer from '../../ClaimDrawer'
 import UnstakeDrawer from '../UnstakeDrawer'
 import { CHAINS } from 'src/constants/chains'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
@@ -18,21 +18,20 @@ type Props = {
 
 const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
   const { t } = useTranslation()
-  const { chainId } = useActiveWeb3React()
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
   const [isUnstakeDrawerVisible, setShowUnstakeDrawer] = useState(false)
 
   const rewardToken = stakingInfo?.rewardToken
   const usdcPriceTmp = useUSDCPrice(rewardToken)
-  const usdcPrice = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = CHAINS[useChainId()].is_mainnet ? usdcPriceTmp : undefined
 
   const weeklyRewardInToken = stakingInfo?.rewardRatePerWeek.toSignificant(4)
   const unclaimedAmountInToken = stakingInfo?.earnedAmount.toSignificant(4)
 
-  const weeklyRewardUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+  const weeklyRewardUSD = CHAINS[useChainId()].is_mainnet
     ? Number(weeklyRewardInToken) * Number(usdcPrice?.toSignificant(6))
     : undefined
-  const unclaimedAmountInUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+  const unclaimedAmountInUSD = CHAINS[useChainId()].is_mainnet
     ? Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6))
     : undefined
 

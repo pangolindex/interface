@@ -22,6 +22,7 @@ import { useTranslation } from 'react-i18next'
 import RewardCard from './RewardCard'
 import { BETA_MENU_LINK } from 'src/constants'
 
+
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
   width: 100%;

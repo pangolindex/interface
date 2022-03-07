@@ -20,6 +20,7 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
 import { splitSignature } from 'ethers/lib/utils'
+import { useChainId } from 'src/hooks'
 
 const HypotheticalRewardRate = styled.div<{ dim: boolean }>`
   display: flex;
@@ -83,10 +84,10 @@ export default function StakingModalSingleSide({
   const [approval, approveCallback] = useApproveCallback(
     chainId ? chainId : ChainId.AVALANCHE,
     parsedAmount,
-    stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE]
+    stakingInfo.stakingRewardAddress[useChainId()]
   )
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
 
   async function onStake() {
     setAttempting(true)

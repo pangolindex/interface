@@ -13,7 +13,8 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import FormattedCurrencyAmount from '../FormattedCurrencyAmount'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
-import { TokenAmount, ChainId } from '@pangolindex/sdk'
+import { TokenAmount } from '@pangolindex/sdk'
+import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -50,8 +51,7 @@ export default function UnstakingModal({
   }
 
   const poolMap = useMinichefPools()
-  const { chainId } = useActiveWeb3React()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
   const isSuperFarm = extraRewardTokensAmount && extraRewardTokensAmount?.length > 0
 
   async function onWithdraw() {

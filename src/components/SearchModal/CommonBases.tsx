@@ -9,6 +9,7 @@ import QuestionHelper from '../QuestionHelper'
 import { AutoRow } from '../Row'
 import CurrencyLogo from '../CurrencyLogo'
 import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 const BaseWrapper = styled.div<{ disable?: boolean }>`
   border: 1px solid ${({ theme, disable }) => (disable ? 'transparent' : theme.bg3)};
@@ -51,7 +52,7 @@ export default function CommonBases({
               onSelect(CAVAX[chainId || ChainId.AVALANCHE])
             }
           }}
-          disable={selectedCurrency === CAVAX[chainId || ChainId.AVALANCHE]}
+          disable={selectedCurrency === CAVAX[useChainId()]}
         >
           {chainId && (
             <CurrencyLogo currency={chainId && CAVAX[chainId]} style={{ marginRight: 8 }} chainId={chainId} />

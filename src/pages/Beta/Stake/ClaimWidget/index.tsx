@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { useStakingContract } from 'src/hooks/useContract'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
-import { ChainId } from '@pangolindex/sdk'
+import { useChainId } from 'src/hooks'
 
 interface ClaimProps {
   stakingInfo: SingleSideStakingInfo
@@ -31,8 +31,7 @@ const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) =
     onClose()
   }
 
-  const { chainId } = useActiveWeb3React()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
 
   async function onClaimReward() {
     if (stakingContract && stakingInfo?.stakedAmount) {

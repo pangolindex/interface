@@ -26,6 +26,7 @@ import { RowBetween, RowFixed } from '../Row'
 import { Dots } from '../swap/styleds'
 import { useTranslation } from 'react-i18next'
 import { BRIDGE_MIGRATORS, DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/doubleSideConfig'
+import { useChainId } from 'src/hooks'
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
@@ -162,8 +163,8 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
 export default function FullPositionCard({ pair, border }: PositionCardProps) {
   const { account, chainId } = useActiveWeb3React()
 
-  const currency0 = unwrappedToken(pair.token0, chainId || ChainId.AVALANCHE)
-  const currency1 = unwrappedToken(pair.token1, chainId || ChainId.AVALANCHE)
+  const currency0 = unwrappedToken(pair.token0, useChainId())
+  const currency1 = unwrappedToken(pair.token1, useChainId())
   const { t } = useTranslation()
 
   const [showMore, setShowMore] = useState(false)

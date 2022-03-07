@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Text, Box, CurrencyLogo } from '@pangolindex/components'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
-import { ChainId, Token } from '@pangolindex/sdk'
+import { Token } from '@pangolindex/sdk'
 import { DeleteButton, RowWrapper } from './styleds'
 import { ThemeContext } from 'styled-components'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from 'src/state'
 import { PNG } from 'src/constants'
 import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   coin: Token
@@ -37,7 +38,7 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, onRemove, isSelected }) 
   const decreaseValue = currentUSDPrice - previousUSDPrice
   const perc = (decreaseValue / previousUSDPrice) * 100
 
-  const token = unwrappedToken(coin, chainId || ChainId.AVALANCHE)
+  const token = unwrappedToken(coin, useChainId())
 
   const dispatch = useDispatch<AppDispatch>()
 

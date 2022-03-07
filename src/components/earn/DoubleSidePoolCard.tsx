@@ -19,6 +19,8 @@ import { Box } from '@pangolindex/components'
 import { useTokens } from '../../hooks/Tokens'
 import { BETA_MENU_LINK } from 'src/constants'
 import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
+
 
 const StatContainer = styled.div`
   display: flex;
@@ -100,8 +102,8 @@ export default function DoubleSidePoolCard({
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
-  const currency0 = unwrappedToken(token0, chainId || ChainId.AVALANCHE)
-  const currency1 = unwrappedToken(token1, chainId || ChainId.AVALANCHE)
+  const currency0 = unwrappedToken(token0, useChainId())
+  const currency1 = unwrappedToken(token1, useChainId())
 
   const poolMap = useMinichefPools()
 
@@ -117,7 +119,7 @@ export default function DoubleSidePoolCard({
       ? token1
       : token0
 
-  const totalStakedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+  const totalStakedInUsd = CHAINS[useChainId()].is_mainnet
     ? stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
     : 0
 

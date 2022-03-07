@@ -37,6 +37,7 @@ import { useTranslation } from 'react-i18next'
 import MobileFooter from '../MobileFooter'
 import { Logo } from '../../components/Icons'
 import { Hidden } from 'src/theme'
+import { useChainId } from 'src/hooks'
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: 'Fuji',
@@ -54,7 +55,7 @@ export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
-  const userEthBalance = useETHBalances(chainId || ChainId.AVALANCHE, account ? [account] : [])?.[account ?? '']
+  const userEthBalance = useETHBalances(useChainId(), account ? [account] : [])?.[account ?? '']
 
   const aggregateBalance: TokenAmount | undefined = useAggregatePngBalance()
 

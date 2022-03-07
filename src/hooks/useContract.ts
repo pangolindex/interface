@@ -1,5 +1,5 @@
 import { Contract } from '@ethersproject/contracts'
-import { ChainId, WAVAX } from '@pangolindex/sdk'
+import { WAVAX } from '@pangolindex/sdk'
 import IPangolinPair from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-core/interfaces/IPangolinPair.sol/IPangolinPair.json'
 import StakingRewards from '@pangolindex/governance/artifacts/contracts/StakingRewards.sol/StakingRewards.json'
 import Airdrop from '@pangolindex/governance/artifacts/contracts/Airdrop.sol/Airdrop.json'
@@ -21,6 +21,7 @@ import { useActiveWeb3React } from './index'
 import { AIRDROP_ADDRESS, BRIDGE_MIGRATOR_ADDRESS, MINICHEF_ADDRESS, ZERO_ADDRESS } from '../constants'
 import { GOVERNANCE_ADDRESS, PNG } from '../constants'
 import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../constants/abis/rewarderViaMultiplier'
+import { useChainId } from 'src/hooks'
 
 // returns null on errors
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
@@ -47,8 +48,7 @@ export function useV2MigratorContract(): Contract | null {
 }
 
 export function useMiniChefContract(): Contract | null {
-  const { chainId } = useActiveWeb3React()
-  return useContract(MINICHEF_ADDRESS[chainId || ChainId.AVALANCHE], MiniChefV2.abi, true)
+  return useContract(MINICHEF_ADDRESS[useChainId()], MiniChefV2.abi, true)
 }
 
 export function useBridgeMigratorContract(): Contract | null {
@@ -99,10 +99,9 @@ export function usePngContract(): Contract | null {
 }
 
 export function useStakingContract(stakingAddress?: string, withSignerIfPossible?: boolean): Contract | null {
-  const { chainId } = useActiveWeb3React()
   return useContract(
     stakingAddress,
-    stakingAddress === MINICHEF_ADDRESS[chainId || ChainId.AVALANCHE] ? MiniChefV2.abi : StakingRewards.abi,
+    stakingAddress === MINICHEF_ADDRESS[useChainId()] ? MiniChefV2.abi : StakingRewards.abi,
     withSignerIfPossible
   )
 }

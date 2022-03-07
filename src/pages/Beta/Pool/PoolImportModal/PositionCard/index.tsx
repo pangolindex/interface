@@ -1,5 +1,5 @@
 import React from 'react'
-import { JSBI, Pair, Percent, Currency, ChainId } from '@pangolindex/sdk'
+import { JSBI, Pair, Percent, Currency } from '@pangolindex/sdk'
 import { Wrapper, InnerWrapper } from './styleds'
 import { Text, Box, Button, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
@@ -8,6 +8,7 @@ import { useActiveWeb3React } from 'src/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { useTotalSupply } from 'src/data/TotalSupply'
+import { useChainId } from 'src/hooks'
 
 export interface PositionCardProps {
   pair: Pair
@@ -15,10 +16,10 @@ export interface PositionCardProps {
 }
 
 const PositionCard = ({ pair, onManagePoolsClick }: PositionCardProps) => {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
 
-  const currency0 = unwrappedToken(pair?.token0, chainId || ChainId.AVALANCHE)
-  const currency1 = unwrappedToken(pair?.token1, chainId || ChainId.AVALANCHE)
+  const currency0 = unwrappedToken(pair?.token0, useChainId())
+  const currency1 = unwrappedToken(pair?.token1, useChainId())
 
   const { t } = useTranslation()
 

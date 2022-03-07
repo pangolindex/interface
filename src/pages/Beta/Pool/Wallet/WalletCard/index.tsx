@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Pair, ChainId } from '@pangolindex/sdk'
+import { Pair } from '@pangolindex/sdk'
 import { Panel, Divider, ActionButon, InnerWrapper, DetailButton, StatWrapper } from './styleds'
 import Stat from 'src/components/Stat'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
@@ -10,6 +10,7 @@ import { useActiveWeb3React } from 'src/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import RemoveLiquidityDrawer from '../../RemoveLiquidityDrawer'
 import AddLiquidityDrawer from '../../AddLiquidityDrawer'
+import { useChainId } from 'src/hooks'
 
 export interface WalletCardProps {
   pair: Pair
@@ -18,12 +19,12 @@ export interface WalletCardProps {
 const WalletCard = ({ pair }: WalletCardProps) => {
   const { t } = useTranslation()
 
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const [isRemoveLiquidityDrawerVisible, setShowRemoveLiquidityDrawer] = useState(false)
   const [isAddLiquidityDrawerVisible, setShowAddLiquidityDrawer] = useState(false)
 
-  const currency0 = unwrappedToken(pair.token0, chainId || ChainId.AVALANCHE)
-  const currency1 = unwrappedToken(pair.token1, chainId || ChainId.AVALANCHE)
+  const currency0 = unwrappedToken(pair.token0, useChainId())
+  const currency1 = unwrappedToken(pair.token1, useChainId())
 
   const userPgl = useTokenBalance(account ?? undefined, pair?.liquidityToken)
   const { liquidityInUSD } = useGetPoolDollerWorth(pair)

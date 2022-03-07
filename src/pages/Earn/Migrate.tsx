@@ -19,10 +19,11 @@ import UnstakingModal from '../../components/earn/UnstakingModal'
 import Confetti from '../../components/Confetti'
 import BridgeMigratorModal from '../../components/earn/BridgeMigratorModal'
 import Loader from '../../components/Loader'
-import { ChainId, Token, WAVAX } from '@pangolindex/sdk'
+import { Token, WAVAX, ChainId } from '@pangolindex/sdk'
 import { PNG } from '../../constants'
 import { ErrorText } from '../../components/swap/styleds'
 import { injected } from '../../connectors'
+import { useChainId } from 'src/hooks'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -67,7 +68,7 @@ export default function Migrate({
   const [pglToStatus, pglTo] = usePair(currencyToA ?? undefined, currencyToB ?? undefined)
 
   const canZap =
-    (pglFrom?.involvesToken(PNG[chainId || ChainId.AVALANCHE]) &&
+    (pglFrom?.involvesToken(PNG[useChainId()]) &&
       pglTo?.involvesToken(PNG[chainId || ChainId.AVALANCHE])) ||
     (pglFrom?.involvesToken(WAVAX[chainId || ChainId.AVALANCHE]) &&
       pglTo?.involvesToken(WAVAX[chainId || ChainId.AVALANCHE]))

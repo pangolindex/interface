@@ -17,6 +17,7 @@ import { FadedSpan, MenuItem } from './styleds'
 import Loader from '../Loader'
 import { isTokenOnList } from '../../utils'
 import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 function currencyKey(currency: Currency, chainId: ChainId): string {
   return currency instanceof Token ? currency.address : currency === CAVAX[chainId || ChainId.AVALANCHE] ? 'AVAX' : ''
@@ -95,11 +96,11 @@ function CurrencyRow({
   style: CSSProperties
 }) {
   const { account, chainId } = useActiveWeb3React()
-  const key = currencyKey(currency, chainId || ChainId.AVALANCHE)
+  const key = currencyKey(currency, useChainId())
   const selectedTokenList = useSelectedTokenList()
-  const isOnSelectedList = isTokenOnList(selectedTokenList, chainId || ChainId.AVALANCHE, currency)
+  const isOnSelectedList = isTokenOnList(selectedTokenList, useChainId(), currency)
   const customAdded = useIsUserAddedToken(currency)
-  const balance = useCurrencyBalance(chainId || ChainId.AVALANCHE, account ?? undefined, currency)
+  const balance = useCurrencyBalance(useChainId(), account ?? undefined, currency)
 
   const removeToken = useRemoveUserAddedToken()
   const addToken = useAddUserToken()
@@ -114,7 +115,7 @@ function CurrencyRow({
       disabled={isSelected}
       selected={otherSelected}
     >
-      <CurrencyLogo currency={currency} size={'24px'} chainId={chainId || ChainId.AVALANCHE} />
+      <CurrencyLogo currency={currency} size={'24px'} chainId={useChainId()} />
       <Column>
         <Text title={currency.name} fontWeight={500}>
           {currency.symbol}
