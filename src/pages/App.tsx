@@ -48,6 +48,8 @@ import BuyV2 from './Beta/Buy'
 import PoolV2 from './Beta/Pool'
 import { BETA_MENU_LINK } from 'src/constants'
 
+import Policy from './Beta/Policy'
+
 const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;
@@ -162,6 +164,25 @@ export default function App() {
               <CustomRoute exact strict path={`${BETA_MENU_LINK.buy}`} component={BuyV2} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.pool}`} component={PoolV2} layout={Layout} />
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
+
+              <CustomRoute
+                exact
+                path="/beta/policy/privacy"
+                component={() => <Policy policy="privacy" />}
+                layout={Layout}
+              />
+              <CustomRoute
+                exact
+                path="/beta/policy/cookie"
+                component={() => <Policy policy="cookie" />}
+                layout={Layout}
+              />
+              <CustomRoute
+                exact
+                path="/beta/policy/terms"
+                component={() => <Policy policy="terms" />}
+                layout={Layout}
+              />
 
               <Route component={RedirectPathToSwapOnly} />
             </Switch>
