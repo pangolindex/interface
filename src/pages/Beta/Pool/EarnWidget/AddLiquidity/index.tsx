@@ -221,8 +221,16 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
   // toggle wallet when disconnected
   const toggleWalletModal = useWalletModalToggle()
 
-  const selectedCurrencyBalanceA = useCurrencyBalance(chainId || ChainId.AVALANCHE, account ?? undefined, currencyA ?? undefined)
-  const selectedCurrencyBalanceB = useCurrencyBalance(chainId || ChainId.AVALANCHE, account ?? undefined, currencyB ?? undefined)
+  const selectedCurrencyBalanceA = useCurrencyBalance(
+    chainId || ChainId.AVALANCHE,
+    account ?? undefined,
+    currencyA ?? undefined
+  )
+  const selectedCurrencyBalanceB = useCurrencyBalance(
+    chainId || ChainId.AVALANCHE,
+    account ?? undefined,
+    currencyB ?? undefined
+  )
 
   const renderButton = () => {
     if (!account) {

@@ -1,9 +1,10 @@
 // the Pangolin Default token list lives here
 export const PANGOLIN_LIST = 'https://raw.githubusercontent.com/pangolindex/tokenlists/main/pangolin.tokenlist.json'
+export const WAGMI_LIST = 'https://raw.githubusercontent.com/pangolindex/tokenlists/main/wgm.tokenlist.json'
 
-export const DEFAULT_TOKEN_LISTS_SELECTED: string[] = [PANGOLIN_LIST]
+export const DEFAULT_TOKEN_LISTS_SELECTED: string[] = [PANGOLIN_LIST, WAGMI_LIST]
 
-export const DEFAULT_TOKEN_LISTS: string[] = [PANGOLIN_LIST]
+export const DEFAULT_TOKEN_LISTS: string[] = [PANGOLIN_LIST, WAGMI_LIST]
 
 // Token addresses (excluding PNG and WAVAX) ported from:
 // https://raw.githubusercontent.com/pangolindex/tokenlists/main/aeb.tokenlist.json

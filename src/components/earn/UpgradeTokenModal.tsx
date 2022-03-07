@@ -40,7 +40,11 @@ export default function UpgradeTokenModal({
 
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
-  const parsedAmount: CurrencyAmount | undefined = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, typedValue, aebTokenBalance?.token ?? undefined)
+  const parsedAmount: CurrencyAmount | undefined = tryParseAmount(
+    chainId ? chainId : ChainId.AVALANCHE,
+    typedValue,
+    aebTokenBalance?.token ?? undefined
+  )
 
   // state for pending and submitted txn views
   const addTransaction = useTransactionAdder()
@@ -56,7 +60,11 @@ export default function UpgradeTokenModal({
 
   // approval data for stake
   const { t } = useTranslation()
-  const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, abTokenAddress)
+  const [approval, approveCallback] = useApproveCallback(
+    chainId ? chainId : ChainId.AVALANCHE,
+    parsedAmount,
+    abTokenAddress
+  )
 
   async function onUpgrade() {
     setAttempting(true)

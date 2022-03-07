@@ -114,7 +114,7 @@ const CurrencyPopover: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
-  
+
   const { chainId } = useActiveWeb3React()
 
   return (

@@ -214,7 +214,11 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                   ...stakingInfo
                 }))
             } else {
-              return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE]}`)
+              return fetch(
+                `https://api.pangolin.exchange/pangolin/apr/${
+                  stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE]
+                }`
+              )
                 .then(res => res.json())
                 .then(res => ({
                   swapFeeApr: Number(res.swapFeeApr),

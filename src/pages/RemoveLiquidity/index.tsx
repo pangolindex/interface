@@ -457,7 +457,8 @@ export default function RemoveLiquidity({
     [onUserInput]
   )
 
-  const oneCurrencyIsAVAX = currencyA === CAVAX[chainId || ChainId.AVALANCHE] || currencyB === CAVAX[chainId || ChainId.AVALANCHE]
+  const oneCurrencyIsAVAX =
+    currencyA === CAVAX[chainId || ChainId.AVALANCHE] || currencyB === CAVAX[chainId || ChainId.AVALANCHE]
   const oneCurrencyIsWAVAX = Boolean(
     chainId &&
       ((currencyA && currencyEquals(WAVAX[chainId], currencyA)) ||
@@ -573,7 +574,9 @@ export default function RemoveLiquidity({
                         {formattedAmounts[Field.CURRENCY_A] || '-'}
                       </Text>
                       <RowFixed>
-                        {chainId && <CurrencyLogo currency={currencyA} style={{ marginRight: '12px' }} chainId={chainId} />}
+                        {chainId && (
+                          <CurrencyLogo currency={currencyA} style={{ marginRight: '12px' }} chainId={chainId} />
+                        )}
                         <Text fontSize={24} fontWeight={500} id="remove-liquidity-tokena-symbol">
                           {currencyA?.symbol}
                         </Text>
@@ -584,7 +587,9 @@ export default function RemoveLiquidity({
                         {formattedAmounts[Field.CURRENCY_B] || '-'}
                       </Text>
                       <RowFixed>
-                        {chainId && <CurrencyLogo currency={currencyB} style={{ marginRight: '12px' }} chainId={chainId} />}
+                        {chainId && (
+                          <CurrencyLogo currency={currencyB} style={{ marginRight: '12px' }} chainId={chainId} />
+                        )}
                         <Text fontSize={24} fontWeight={500} id="remove-liquidity-tokenb-symbol">
                           {currencyB?.symbol}
                         </Text>
@@ -606,7 +611,7 @@ export default function RemoveLiquidity({
                               currencyA && currencyEquals(currencyA, WAVAX[chainId]) ? 'AVAX' : currencyIdA
                             }/${currencyB && currencyEquals(currencyB, WAVAX[chainId]) ? 'AVAX' : currencyIdB}`}
                           >
-                             {t('removeLiquidity.receiveAvax', { symbol: NETWORK_CURRENCY[chainId] })}
+                            {t('removeLiquidity.receiveAvax', { symbol: NETWORK_CURRENCY[chainId] })}
                           </StyledInternalLink>
                         ) : null}
                       </RowBetween>

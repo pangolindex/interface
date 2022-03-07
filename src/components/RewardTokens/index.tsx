@@ -30,7 +30,15 @@ export default function RewardTokens({ rewardTokens = [], size = 16, margin = fa
   return (
     <Wrapper sizeraw={size} margin={margin}>
       {(tokens || []).map((token, i) => {
-        return <CoveredLogo key={i} currency={token as Token} size={size.toString() + 'px'} sizeraw={size} chainId={chainId || ChainId.AVALANCHE}/>
+        return (
+          <CoveredLogo
+            key={i}
+            currency={token as Token}
+            size={size.toString() + 'px'}
+            sizeraw={size}
+            chainId={chainId || ChainId.AVALANCHE}
+          />
+        )
       })}
     </Wrapper>
   )

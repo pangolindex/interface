@@ -80,7 +80,11 @@ export default function StakingModalSingleSide({
   const deadline = useTransactionDeadline()
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
+  const [approval, approveCallback] = useApproveCallback(
+    chainId ? chainId : ChainId.AVALANCHE,
+    parsedAmount,
+    stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE]
+  )
 
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE])
 

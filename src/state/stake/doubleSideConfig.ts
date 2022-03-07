@@ -1392,7 +1392,7 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   WAVAX_BRIBE_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], BRIBE[ChainId.AVALANCHE]],
-    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE], 
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
     version: 2
   },
   WAVAX_AGF_V2: {
@@ -1505,12 +1505,14 @@ export const DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(
   ...Object.values(DOUBLE_SIDE_STAKING).map(staking => staking.version)
 )
 
+export const DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION_WAGMI = Math.max(
+  ...Object.values(DOUBLE_SIDE_STAKING_WAGMI).map(staking => staking.version)
+)
+
 export const DOUBLE_SIDE_STAKING_REWARDS_INFO: {
   [chainId in ChainId]?: DoubleSideStaking[][]
 } = {
   [ChainId.FUJI]: [],
   [ChainId.AVALANCHE]: [DOUBLE_SIDE_STAKING_V0, DOUBLE_SIDE_STAKING_V1, DOUBLE_SIDE_STAKING_V2],
   [ChainId.WAGMI]: [DOUBLE_SIDE_STAKING_WAGMI_V0, DOUBLE_SIDE_STAKING_WAGMI_V1, DOUBLE_SIDE_STAKING_WAGMI_V2]
-  // [ChainId.WAGMI]: [DOUBLE_SIDE_STAKING_WAGMI_V2]
-
 }

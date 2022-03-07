@@ -35,8 +35,20 @@ type ChainTokenList = {
 
 export const PNG: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, '0x83080D4b5fC60e22dFFA8d14AD3BB41Dde48F199', 18, 'PNG', 'Pangolin'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x60781C2586D68229fde47564546784ab3fACA982', 18, 'PNG', 'Pangolin'),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, '0x25dbCAb8709E6222d74a56bD0184fc41439806CE', 18, 'wagmiPNG', 'Wagmi Pangolin')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x60781C2586D68229fde47564546784ab3fACA982',
+    18,
+    'PNG',
+    'Pangolin'
+  ),
+  [ChainId.WAGMI]: new Token(
+    ChainId.WAGMI,
+    '0x25dbCAb8709E6222d74a56bD0184fc41439806CE',
+    18,
+    'wagmiPNG',
+    'Wagmi Pangolin'
+  )
 }
 
 export const OG: { [chainId in ChainId]: Token } = {
@@ -59,7 +71,13 @@ export const ETH: { [chainId in ChainId]: Token } = {
 
 export const WETHe: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'WETH.e', 'Ether'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB', 18, 'WETH.e', 'Ether'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB',
+    18,
+    'WETH.e',
+    'Ether'
+  ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'WETH.e', 'Ether')
 }
 
@@ -72,13 +90,7 @@ export const USDT: { [chainId in ChainId]: Token } = {
     'USDT',
     'Tether USD'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    6,
-    'USDT',
-    'Tether USD'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 6, 'USDT', 'Tether USD')
 }
 
 export const USDTe: { [chainId in ChainId]: Token } = {
@@ -90,13 +102,7 @@ export const USDTe: { [chainId in ChainId]: Token } = {
     'USDT.e',
     'Tether USD'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    6,
-    'USDT.e',
-    'Tether USD'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 6, 'USDT.e', 'Tether USD')
 }
 
 export const WBTC: { [chainId in ChainId]: Token } = {
@@ -108,13 +114,7 @@ export const WBTC: { [chainId in ChainId]: Token } = {
     'WBTC',
     'Wrapped Bitcoin'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    8,
-    'WBTC',
-    'Wrapped Bitcoin'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 8, 'WBTC', 'Wrapped Bitcoin')
 }
 
 export const WBTCe: { [chainId in ChainId]: Token } = {
@@ -126,13 +126,7 @@ export const WBTCe: { [chainId in ChainId]: Token } = {
     'WBTC.e',
     'Wrapped Bitcoin'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    8,
-    'WBTC.e',
-    'Wrapped Bitcoin'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 8, 'WBTC.e', 'Wrapped Bitcoin')
 }
 
 export const LINK: { [chainId in ChainId]: Token } = {
@@ -144,13 +138,7 @@ export const LINK: { [chainId in ChainId]: Token } = {
     'LINK',
     'ChainLink Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'LINK',
-    'ChainLink Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'LINK', 'ChainLink Token')
 }
 
 export const LINKe: { [chainId in ChainId]: Token } = {
@@ -162,13 +150,7 @@ export const LINKe: { [chainId in ChainId]: Token } = {
     'LINK.e',
     'ChainLink Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'LINK.e',
-    'ChainLink Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'LINK.e', 'ChainLink Token')
 }
 
 export const DAI: { [chainId in ChainId]: Token } = {
@@ -180,13 +162,7 @@ export const DAI: { [chainId in ChainId]: Token } = {
     'DAI',
     'Dai Stablecoin'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'DAI',
-    'Dai Stablecoin'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'DAI', 'Dai Stablecoin')
 }
 
 export const DAIe: { [chainId in ChainId]: Token } = {
@@ -198,13 +174,7 @@ export const DAIe: { [chainId in ChainId]: Token } = {
     'DAI.e',
     'Dai Stablecoin'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'DAI.e',
-    'Dai Stablecoin'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'DAI.e', 'Dai Stablecoin')
 }
 
 export const UNI: { [chainId in ChainId]: Token } = {
@@ -222,13 +192,7 @@ export const UNIe: { [chainId in ChainId]: Token } = {
     'UNI.e',
     'Uniswap'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'UNI.e',
-    'Uniswap'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'UNI.e', 'Uniswap')
 }
 
 export const SUSHI: { [chainId in ChainId]: Token } = {
@@ -240,13 +204,7 @@ export const SUSHI: { [chainId in ChainId]: Token } = {
     'SUSHI',
     'SushiToken'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'SUSHI',
-    'SushiToken'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'SUSHI', 'SushiToken')
 }
 
 export const SUSHIe: { [chainId in ChainId]: Token } = {
@@ -258,13 +216,7 @@ export const SUSHIe: { [chainId in ChainId]: Token } = {
     'SUSHI.e',
     'SushiToken'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'SUSHI.e',
-    'SushiToken'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'SUSHI.e', 'SushiToken')
 }
 
 export const AAVE: { [chainId in ChainId]: Token } = {
@@ -276,13 +228,7 @@ export const AAVE: { [chainId in ChainId]: Token } = {
     'AAVE',
     'Aave Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'AAVE',
-    'Aave Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'AAVE', 'Aave Token')
 }
 
 export const AAVEe: { [chainId in ChainId]: Token } = {
@@ -294,13 +240,7 @@ export const AAVEe: { [chainId in ChainId]: Token } = {
     'AAVE.e',
     'Aave Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'AAVE.e',
-    'Aave Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'AAVE.e', 'Aave Token')
 }
 
 export const YFI: { [chainId in ChainId]: Token } = {
@@ -312,13 +252,7 @@ export const YFI: { [chainId in ChainId]: Token } = {
     'YFI',
     'yearn.finance'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'YFI',
-    'yearn.finance'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'YFI', 'yearn.finance')
 }
 
 export const YFIe: { [chainId in ChainId]: Token } = {
@@ -330,13 +264,7 @@ export const YFIe: { [chainId in ChainId]: Token } = {
     'YFI.e',
     'yearn.finance'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'YFI.e',
-    'yearn.finance'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'YFI.e', 'yearn.finance')
 }
 
 export const SNOB: { [chainId in ChainId]: Token } = {
@@ -348,13 +276,7 @@ export const SNOB: { [chainId in ChainId]: Token } = {
     'SNOB',
     'Snowball'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'SNOB',
-    'Snowball'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'SNOB', 'Snowball')
 }
 
 export const VSO: { [chainId in ChainId]: Token } = {
@@ -366,13 +288,7 @@ export const VSO: { [chainId in ChainId]: Token } = {
     'VSO',
     'VersoToken'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'VSO',
-    'VersoToken'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'VSO', 'VersoToken')
 }
 
 export const SPORE: { [chainId in ChainId]: Token } = {
@@ -384,13 +300,7 @@ export const SPORE: { [chainId in ChainId]: Token } = {
     'SPORE',
     'Spore.Finance'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    9,
-    'SPORE',
-    'Spore.Finance'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 9, 'SPORE', 'Spore.Finance')
 }
 
 // Bridged via anyswap
@@ -403,13 +313,7 @@ export const BIFI: { [chainId in ChainId]: Token } = {
     'BIFI',
     'beefy.finance'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'BIFI',
-    'beefy.finance'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'BIFI', 'beefy.finance')
 }
 
 // Bridged via anyswap
@@ -428,13 +332,7 @@ export const XAVA: { [chainId in ChainId]: Token } = {
     'XAVA',
     'Avalaunch'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'XAVA',
-    'Avalaunch'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'XAVA', 'Avalaunch')
 }
 
 export const PEFI: { [chainId in ChainId]: Token } = {
@@ -446,13 +344,7 @@ export const PEFI: { [chainId in ChainId]: Token } = {
     'PEFI',
     'PenguinToken'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'PEFI',
-    'PenguinToken'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'PEFI', 'PenguinToken')
 }
 
 export const TRYB: { [chainId in ChainId]: Token } = {
@@ -470,13 +362,7 @@ export const SHERPA: { [chainId in ChainId]: Token } = {
     'SHERPA',
     'Sherpa'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'SHERPA',
-    'Sherpa'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'SHERPA', 'Sherpa')
 }
 
 export const YAK: { [chainId in ChainId]: Token } = {
@@ -488,13 +374,7 @@ export const YAK: { [chainId in ChainId]: Token } = {
     'YAK',
     'Yak Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'YAK',
-    'Yak Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'YAK', 'Yak Token')
 }
 
 export const QI: { [chainId in ChainId]: Token } = {
@@ -512,13 +392,7 @@ export const DYP: { [chainId in ChainId]: Token } = {
     'DYP',
     'DeFiYieldProtocol'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'DYP',
-    'DeFiYieldProtocol'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'DYP', 'DeFiYieldProtocol')
 }
 
 export const WALBT: { [chainId in ChainId]: Token } = {
@@ -530,13 +404,7 @@ export const WALBT: { [chainId in ChainId]: Token } = {
     'WALBT',
     'Wrapped AllianceBlock Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'WALBT',
-    'Wrapped AllianceBlock Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'WALBT', 'Wrapped AllianceBlock Token')
 }
 
 export const HUSKY: { [chainId in ChainId]: Token } = {
@@ -554,13 +422,7 @@ export const USDCe: { [chainId in ChainId]: Token } = {
     'USDC.e',
     'USD Coin'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    6,
-    'USDC.e',
-    'USD Coin'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 6, 'USDC.e', 'USD Coin')
 }
 
 export const LYD: { [chainId in ChainId]: Token } = {
@@ -572,18 +434,18 @@ export const LYD: { [chainId in ChainId]: Token } = {
     'LYD',
     'LydiaFinance Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'LYD',
-    'LydiaFinance Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'LYD', 'LydiaFinance Token')
 }
 
 export const TUSD: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'TUSD', 'TrueUSD'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x1C20E891Bab6b1727d14Da358FAe2984Ed9B59EB', 18, 'TUSD', 'TrueUSD'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x1C20E891Bab6b1727d14Da358FAe2984Ed9B59EB',
+    18,
+    'TUSD',
+    'TrueUSD'
+  ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'TUSD', 'TrueUSD')
 }
 
@@ -596,20 +458,13 @@ export const GAJ: { [chainId in ChainId]: Token } = {
     'GAJ',
     'PolyGaj Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'GAJ',
-    'PolyGaj Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'GAJ', 'PolyGaj Token')
 }
 
 export const GDL: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'GDL', 'Gondola'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xD606199557c8Ab6F4Cc70bD03FaCc96ca576f142', 18, 'GDL', 'Gondola'),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'GDL', 'Gondola')
-
 }
 
 export const MFI: { [chainId in ChainId]: Token } = {
@@ -621,13 +476,7 @@ export const MFI: { [chainId in ChainId]: Token } = {
     'MFI',
     'MarginSwap'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'MFI',
-    'MarginSwap'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'MFI', 'MarginSwap')
 }
 
 export const SHIBX: { [chainId in ChainId]: Token } = {
@@ -639,13 +488,7 @@ export const SHIBX: { [chainId in ChainId]: Token } = {
     'SHIBX',
     'SHIBAVAX'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'SHIBX',
-    'SHIBAVAX'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'SHIBX', 'SHIBAVAX')
 }
 
 export const AVE: { [chainId in ChainId]: Token } = {
@@ -663,20 +506,13 @@ export const ELE: { [chainId in ChainId]: Token } = {
     'ELE',
     'Eleven.finance'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'ELE',
-    'Eleven.finance'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'ELE', 'Eleven.finance')
 }
 
 export const FRAX: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'FRAX', 'Frax'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xDC42728B0eA910349ed3c6e1c9Dc06b5FB591f98', 18, 'FRAX', 'Frax'),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'FRAX', 'Frax')
-
 }
 
 export const FXS: { [chainId in ChainId]: Token } = {
@@ -688,13 +524,7 @@ export const FXS: { [chainId in ChainId]: Token } = {
     'FXS',
     'Frax Share'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'FXS',
-    'Frax Share'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'FXS', 'Frax Share')
 }
 
 export const START: { [chainId in ChainId]: Token } = {
@@ -706,13 +536,7 @@ export const START: { [chainId in ChainId]: Token } = {
     'START',
     'Starter'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'START',
-    'Starter'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'START', 'Starter')
 }
 
 export const SWAPe: { [chainId in ChainId]: Token } = {
@@ -724,18 +548,18 @@ export const SWAPe: { [chainId in ChainId]: Token } = {
     'SWAP.e',
     'TrustSwap Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'SWAP.e',
-    'TrustSwap Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'SWAP.e', 'TrustSwap Token')
 }
 
 export const YTS: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'YTS', 'YetiSwap'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x488F73cddDA1DE3664775fFd91623637383D6404', 18, 'YTS', 'YetiSwap'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x488F73cddDA1DE3664775fFd91623637383D6404',
+    18,
+    'YTS',
+    'YetiSwap'
+  ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'YTS', 'YetiSwap')
 }
 
@@ -748,13 +572,7 @@ export const TUNDRA: { [chainId in ChainId]: Token } = {
     'TUNDRA',
     'TUNDRA Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'TUNDRA',
-    'TUNDRA Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'TUNDRA', 'TUNDRA Token')
 }
 
 export const XUSD: { [chainId in ChainId]: Token } = {
@@ -766,13 +584,7 @@ export const XUSD: { [chainId in ChainId]: Token } = {
     'xUSD',
     'xDollar Stablecoin'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'xUSD',
-    'xDollar Stablecoin'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'xUSD', 'xDollar Stablecoin')
 }
 
 export const XDO: { [chainId in ChainId]: Token } = {
@@ -790,13 +602,7 @@ export const JOE: { [chainId in ChainId]: Token } = {
     'JOE',
     'JOE Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'JOE',
-    'JOE Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'JOE', 'JOE Token')
 }
 
 export const ZABU: { [chainId in ChainId]: Token } = {
@@ -808,13 +614,7 @@ export const ZABU: { [chainId in ChainId]: Token } = {
     'ZABU',
     'ZABU Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'ZABU',
-    'ZABU Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'ZABU', 'ZABU Token')
 }
 
 export const YAY: { [chainId in ChainId]: Token } = {
@@ -826,13 +626,7 @@ export const YAY: { [chainId in ChainId]: Token } = {
     'YAY',
     'YAY Games'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'YAY',
-    'YAY Games'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'YAY', 'YAY Games')
 }
 
 export const STORM: { [chainId in ChainId]: Token } = {
@@ -844,13 +638,7 @@ export const STORM: { [chainId in ChainId]: Token } = {
     'STORM',
     'STORM Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'STORM',
-    'STORM Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'STORM', 'STORM Token')
 }
 
 export const OOE: { [chainId in ChainId]: Token } = {
@@ -862,13 +650,7 @@ export const OOE: { [chainId in ChainId]: Token } = {
     'OOE',
     'OpenOcean'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'OOE',
-    'OpenOcean'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'OOE', 'OpenOcean')
 }
 
 export const VEE: { [chainId in ChainId]: Token } = {
@@ -879,8 +661,14 @@ export const VEE: { [chainId in ChainId]: Token } = {
 
 export const AVXT: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'AVXT', 'Avaxtars'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x397bBd6A0E41bdF4C3F971731E180Db8Ad06eBc1', 6, 'AVXT', 'Avaxtars'),
-  [ChainId.WAGMI]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 6, 'AVXT', 'Avaxtars'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x397bBd6A0E41bdF4C3F971731E180Db8Ad06eBc1',
+    6,
+    'AVXT',
+    'Avaxtars'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 6, 'AVXT', 'Avaxtars')
 }
 
 export const OLIVE: { [chainId in ChainId]: Token } = {
@@ -892,18 +680,18 @@ export const OLIVE: { [chainId in ChainId]: Token } = {
     'OLIVE',
     'Olive Token'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'OLIVE',
-    'Olive Token'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'OLIVE', 'Olive Token')
 }
 
 export const APEIN: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'APEIN', 'Ape In'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x938FE3788222A74924E062120E7BFac829c719Fb', 18, 'APEIN', 'Ape In'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x938FE3788222A74924E062120E7BFac829c719Fb',
+    18,
+    'APEIN',
+    'Ape In'
+  ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'APEIN', 'Ape In')
 }
 
@@ -916,13 +704,7 @@ export const GB: { [chainId in ChainId]: Token } = {
     'GB',
     'Good Bridging'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    9,
-    'GB',
-    'Good Bridging'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 9, 'GB', 'Good Bridging')
 }
 
 export const CNR: { [chainId in ChainId]: Token } = {
@@ -946,18 +728,18 @@ export const IronICE: { [chainId in ChainId]: Token } = {
     'IronICE',
     'Iron Finance ICE'
   ),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    ZERO_ADDRESS,
-    18,
-    'IronICE',
-    'Iron Finance ICE'
-  )
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'IronICE', 'Iron Finance ICE')
 }
 
 export const MYAK: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 12, 'mYAK', 'MiniYAK'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xdDAaAD7366B455AfF8E7c82940C43CEB5829B604', 12, 'mYAK', 'MiniYAK'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xdDAaAD7366B455AfF8E7c82940C43CEB5829B604',
+    12,
+    'mYAK',
+    'MiniYAK'
+  ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 12, 'mYAK', 'MiniYAK')
 }
 
@@ -971,7 +753,6 @@ export const TEDDY: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'TEDDY', 'TEDDY'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x094bd7B2D99711A1486FB94d4395801C6d0fdDcC', 18, 'TEDDY', 'TEDDY'),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'TEDDY', 'TEDDY')
-
 }
 
 export const TSD: { [chainId in ChainId]: Token } = {
@@ -1127,7 +908,7 @@ export const MIM: { [chainId in ChainId]: Token } = {
     'MIM',
     'Magic Internet Money'
   ),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS,18, 'MIM', 'Magic Internet Money')
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'MIM', 'Magic Internet Money')
 }
 
 export const gOHM: { [chainId in ChainId]: Token } = {
@@ -1139,19 +920,19 @@ export const gOHM: { [chainId in ChainId]: Token } = {
     'gOHM',
     'Governance OHM'
   ),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS,18, 'gOHM', 'Governance OHM')
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'gOHM', 'Governance OHM')
 }
 
 export const CRA: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'CRA', 'Crabada'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xA32608e873F9DdEF944B24798db69d80Bbb4d1ed', 18, 'CRA', 'Crabada'),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS,18, 'CRA', 'Crabada')
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'CRA', 'Crabada')
 }
 
 export const CRAFT: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'CRAFT', 'CRAFT'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x8aE8be25C23833e0A01Aa200403e826F611f9CD2', 18, 'CRAFT', 'CRAFT'),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS,18, 'CRAFT', 'CRAFT')
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'CRAFT', 'CRAFT')
 }
 
 export const MAXI: { [chainId in ChainId]: Token } = {
@@ -1163,25 +944,37 @@ export const MAXI: { [chainId in ChainId]: Token } = {
     'MAXI',
     'Maximizer'
   ),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS,18, 'MAXI', 'Maximizer')
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'MAXI', 'Maximizer')
 }
 
 export const AVAI: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'AVAI', 'AVAI'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x346A59146b9b4a77100D369a3d18E8007A9F46a6', 18, 'AVAI', 'AVAI'),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS,18, 'AVAI', 'AVAI')
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'AVAI', 'AVAI')
 }
 
 export const ORCA: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ORCA', 'OrcaDAO'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x8B1d98A91F853218ddbb066F20b8c63E782e2430', 18, 'ORCA', 'OrcaDAO'),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS,18, 'ORCA', 'OrcaDAO')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x8B1d98A91F853218ddbb066F20b8c63E782e2430',
+    18,
+    'ORCA',
+    'OrcaDAO'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'ORCA', 'OrcaDAO')
 }
 
 export const JEWEL: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'JEWEL', 'Jewels'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x4f60a160D8C2DDdaAfe16FCC57566dB84D674BD6', 18, 'JEWEL', 'Jewels'),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS,18, 'JEWEL', 'Jewels')
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x4f60a160D8C2DDdaAfe16FCC57566dB84D674BD6',
+    18,
+    'JEWEL',
+    'Jewels'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'JEWEL', 'Jewels')
 }
 
 export const NFTD: { [chainId in ChainId]: Token } = {
@@ -1205,7 +998,7 @@ export const CLY: { [chainId in ChainId]: Token } = {
     'CLY',
     'Colony Token'
   ),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS,18, 'CLY', 'Colony Token')
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'CLY', 'Colony Token')
 }
 
 export const COOK: { [chainId in ChainId]: Token } = {
@@ -1246,7 +1039,13 @@ export const TUS: { [chainId in ChainId]: Token } = {
 
 export const USDC: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'USDC', 'USD Coin'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E', 6, 'USDC', 'USD Coin'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
+    6,
+    'USDC',
+    'USD Coin'
+  ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 6, 'USDC', 'USD Coin')
 }
 
@@ -1276,14 +1075,25 @@ export const HERMES: { [chainId in ChainId]: Token } = {
 
 export const PTP: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'PTP', 'Platypus'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x22d4002028f537599bE9f666d1c4Fa138522f9c8', 18, 'PTP', 'Platypus'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x22d4002028f537599bE9f666d1c4Fa138522f9c8',
+    18,
+    'PTP',
+    'Platypus'
+  ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'PTP', 'Platypus')
-
 }
 
 export const ISA: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ISA', 'Islander'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x3EeFb18003D033661f84e48360eBeCD181A84709', 18, 'ISA', 'Islander'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x3EeFb18003D033661f84e48360eBeCD181A84709',
+    18,
+    'ISA',
+    'Islander'
+  ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'ISA', 'Islander')
 }
 
@@ -1553,7 +1363,13 @@ export const sAVAX: { [chainId in ChainId]: Token } = {
 
 export const DEP: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'DEP', 'DEAPCOIN'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xD4d026322C88C2d49942A75DfF920FCfbC5614C1', 18, 'DEP', 'DEAPCOIN'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xD4d026322C88C2d49942A75DfF920FCfbC5614C1',
+    18,
+    'DEP',
+    'DEAPCOIN'
+  ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'DEP', 'DEAPCOIN')
 }
 
@@ -1593,7 +1409,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     UST[ChainId.AVALANCHE],
     USDC[ChainId.AVALANCHE]
   ],
-  [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI], PNG[ChainId.WAGMI]],
+  [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI], PNG[ChainId.WAGMI]]
 }
 
 /**

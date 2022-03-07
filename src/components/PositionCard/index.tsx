@@ -214,7 +214,14 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
               <ButtonEmpty
                 padding="8px"
                 as={Link}
-                to={`/migrate/${currencyId(currency0, chainId ? chainId : ChainId.AVALANCHE)}/${currencyId(currency1, chainId ? chainId : ChainId.AVALANCHE)}/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}/${upgradeable0 ? upgradeable0.ab : currencyId(currency0, chainId ? chainId : ChainId.AVALANCHE)}/${upgradeable1 ? upgradeable1.ab : currencyId(currency1, chainId ? chainId : ChainId.AVALANCHE)}/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}`}
+                to={`/migrate/${currencyId(currency0, chainId ? chainId : ChainId.AVALANCHE)}/${currencyId(
+                  currency1,
+                  chainId ? chainId : ChainId.AVALANCHE
+                )}/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}/${
+                  upgradeable0 ? upgradeable0.ab : currencyId(currency0, chainId ? chainId : ChainId.AVALANCHE)
+                }/${
+                  upgradeable1 ? upgradeable1.ab : currencyId(currency1, chainId ? chainId : ChainId.AVALANCHE)
+                }/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}`}
                 width="48%"
               >
                 Migrate
@@ -263,7 +270,9 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                   <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
                     {token0Deposited?.toSignificant(6)}
                   </Text>
-                  {chainId && <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency0} chainId={chainId} />}
+                  {chainId && (
+                    <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency0} chainId={chainId} />
+                  )}
                 </RowFixed>
               ) : (
                 '-'
@@ -281,7 +290,9 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                   <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
                     {token1Deposited?.toSignificant(6)}
                   </Text>
-                  {chainId && <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency1} chainId={chainId} />}
+                  {chainId && (
+                    <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency1} chainId={chainId} />
+                  )}
                 </RowFixed>
               ) : (
                 '-'
@@ -301,7 +312,10 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
               <ButtonPrimary
                 padding="8px"
                 as={Link}
-                to={`/add/${currencyId(currency0, chainId ? chainId : ChainId.AVALANCHE)}/${currencyId(currency1, chainId ? chainId : ChainId.AVALANCHE)}`}
+                to={`/add/${currencyId(currency0, chainId ? chainId : ChainId.AVALANCHE)}/${currencyId(
+                  currency1,
+                  chainId ? chainId : ChainId.AVALANCHE
+                )}`}
                 width="48%"
               >
                 {t('positionCard.add')}
@@ -310,7 +324,10 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 padding="8px"
                 as={Link}
                 width="48%"
-                to={`/remove/${currencyId(currency0, chainId ? chainId : ChainId.AVALANCHE)}/${currencyId(currency1, chainId ? chainId : ChainId.AVALANCHE)}`}
+                to={`/remove/${currencyId(currency0, chainId ? chainId : ChainId.AVALANCHE)}/${currencyId(
+                  currency1,
+                  chainId ? chainId : ChainId.AVALANCHE
+                )}`}
               >
                 {t('positionCard.remove')}
               </ButtonPrimary>

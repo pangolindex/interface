@@ -58,7 +58,11 @@ const Stake = ({
   const [stepIndex, setStepIndex] = useState(4)
   // approval data for stake
   const deadline = useTransactionDeadline()
-  const [approval, approveCallback] = useApproveCallback(chainId ? chainId : ChainId.AVALANCHE, parsedAmount, MINICHEF_ADDRESS[chainId ? chainId : ChainId.AVALANCHE])
+  const [approval, approveCallback] = useApproveCallback(
+    chainId ? chainId : ChainId.AVALANCHE,
+    parsedAmount,
+    MINICHEF_ADDRESS[chainId ? chainId : ChainId.AVALANCHE]
+  )
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
 
   const onChangeAmount = (value: string) => {
@@ -97,7 +101,11 @@ const Stake = ({
 
   useEffect(() => {
     const stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, stakingAmount, stakingToken) as TokenAmount
+    const parsedInput = tryParseAmount(
+      chainId ? chainId : ChainId.AVALANCHE,
+      stakingAmount,
+      stakingToken
+    ) as TokenAmount
 
     if (
       parsedInput &&
@@ -122,7 +130,11 @@ const Stake = ({
 
   async function onStake() {
     const stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, stakingAmount, stakingToken) as TokenAmount
+    const parsedInput = tryParseAmount(
+      chainId ? chainId : ChainId.AVALANCHE,
+      stakingAmount,
+      stakingToken
+    ) as TokenAmount
 
     if (
       stakingContract &&

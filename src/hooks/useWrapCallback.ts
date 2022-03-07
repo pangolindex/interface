@@ -28,7 +28,11 @@ export default function useWrapCallback(
   const wethContract = useWETHContract()
   const balance = useCurrencyBalance(chainId || ChainId.AVALANCHE, account ?? undefined, inputCurrency)
   // we can always parse the amount typed as the input currency, since wrapping is 1:1
-  const inputAmount = useMemo(() => tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, typedValue, inputCurrency), [chainId, inputCurrency, typedValue])
+  const inputAmount = useMemo(() => tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, typedValue, inputCurrency), [
+    chainId,
+    inputCurrency,
+    typedValue
+  ])
   const addTransaction = useTransactionAdder()
 
   const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
@@ -56,7 +60,11 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.deposit({ value: `0x${inputAmount.raw.toString(16)}` })
-                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} ${NETWORK_CURRENCY[chainId]} to ${NETWORK_WRAPPED_CURRENCY[chainId]}` })
+                  addTransaction(txReceipt, {
+                    summary: `Wrap ${inputAmount.toSignificant(6)} ${NETWORK_CURRENCY[chainId]} to ${
+                      NETWORK_WRAPPED_CURRENCY[chainId]
+                    }`
+                  })
                 } catch (error) {
                   console.error('Could not deposit', error)
                 }
@@ -64,7 +72,10 @@ export default function useWrapCallback(
             : undefined,
         inputError: sufficientBalance ? undefined : `Insufficient ${NETWORK_CURRENCY[chainId]} balance`
       }
-    } else if (currencyEquals(WAVAX[chainId], inputCurrency) && outputCurrency === CAVAX[chainId || ChainId.AVALANCHE]) {
+    } else if (
+      currencyEquals(WAVAX[chainId], inputCurrency) &&
+      outputCurrency === CAVAX[chainId || ChainId.AVALANCHE]
+    ) {
       return {
         wrapType: WrapType.UNWRAP,
         execute:
@@ -72,7 +83,11 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.withdraw(`0x${inputAmount.raw.toString(16)}`)
-                  addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} ${NETWORK_WRAPPED_CURRENCY[chainId]} to ${NETWORK_CURRENCY[chainId]}` })
+                  addTransaction(txReceipt, {
+                    summary: `Unwrap ${inputAmount.toSignificant(6)} ${NETWORK_WRAPPED_CURRENCY[chainId]} to ${
+                      NETWORK_CURRENCY[chainId]
+                    }`
+                  })
                 } catch (error) {
                   console.error('Could not withdraw', error)
                 }
@@ -83,5 +98,15 @@ export default function useWrapCallback(
     } else {
       return NOT_APPLICABLE
     }
-  }, [wethContract, chainId, inputCurrency, outputCurrency, inputAmount, balance, addTransaction, NETWORK_WRAPPED_CURRENCY, NETWORK_CURRENCY])
+  }, [
+    wethContract,
+    chainId,
+    inputCurrency,
+    outputCurrency,
+    inputAmount,
+    balance,
+    addTransaction,
+    NETWORK_WRAPPED_CURRENCY,
+    NETWORK_CURRENCY
+  ])
 }

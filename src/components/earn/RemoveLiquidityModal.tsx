@@ -561,7 +561,9 @@ export default function RemoveLiquidityModal({
                       {formattedAmounts[Field.CURRENCY_A] || '-'}
                     </Text>
                     <RowFixed>
-                      {chainId && <CurrencyLogo currency={currencyA} style={{ marginRight: '12px' }} chainId={chainId}/>}
+                      {chainId && (
+                        <CurrencyLogo currency={currencyA} style={{ marginRight: '12px' }} chainId={chainId} />
+                      )}
                       <Text fontSize={24} fontWeight={500} id="remove-liquidity-tokena-symbol">
                         {currencyA?.symbol}
                       </Text>
@@ -572,7 +574,9 @@ export default function RemoveLiquidityModal({
                       {formattedAmounts[Field.CURRENCY_B] || '-'}
                     </Text>
                     <RowFixed>
-                      {chainId && <CurrencyLogo currency={currencyB} style={{ marginRight: '12px' }} chainId={chainId}/>}
+                      {chainId && (
+                        <CurrencyLogo currency={currencyB} style={{ marginRight: '12px' }} chainId={chainId} />
+                      )}
                       <Text fontSize={24} fontWeight={500} id="remove-liquidity-tokenb-symbol">
                         {currencyB?.symbol}
                       </Text>

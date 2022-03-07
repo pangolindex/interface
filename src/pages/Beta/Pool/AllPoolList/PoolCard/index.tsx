@@ -54,16 +54,16 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  let yourStackedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? stakingInfo?.totalStakedInUsd
-  .multiply(stakingInfo?.stakedAmount)
-  .divide(stakingInfo?.totalStakedAmount) : undefined
-  
+  const yourStackedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+    ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
+    : undefined
+
   // const { userPgl } = useGetPoolDollerWorth(stakingTokenPair)
-  const userPgl  = useTokenBalance(account ?? undefined, stakingTokenPair?.liquidityToken)
+  const userPgl = useTokenBalance(account ?? undefined, stakingTokenPair?.liquidityToken)
 
   const isLiquidity = Boolean(userPgl?.greaterThan('0'))
-  
-  let isSuperFarm = (stakingInfo?.rewardTokensAddress || [])?.length > 0
+
+  const isSuperFarm = (stakingInfo?.rewardTokensAddress || [])?.length > 0
   return (
     <Panel>
       <Box display="flex" alignItems="center" justifyContent="space-between">

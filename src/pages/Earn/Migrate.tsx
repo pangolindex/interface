@@ -66,8 +66,11 @@ export default function Migrate({
   const [pglFromStatus, pglFrom] = usePair(currencyFromA ?? undefined, currencyFromB ?? undefined)
   const [pglToStatus, pglTo] = usePair(currencyToA ?? undefined, currencyToB ?? undefined)
 
-  const canZap = (pglFrom?.involvesToken(PNG[chainId || ChainId.AVALANCHE]) && pglTo?.involvesToken(PNG[chainId || ChainId.AVALANCHE]))
-    || (pglFrom?.involvesToken(WAVAX[chainId || ChainId.AVALANCHE]) && pglTo?.involvesToken(WAVAX[chainId || ChainId.AVALANCHE]))
+  const canZap =
+    (pglFrom?.involvesToken(PNG[chainId || ChainId.AVALANCHE]) &&
+      pglTo?.involvesToken(PNG[chainId || ChainId.AVALANCHE])) ||
+    (pglFrom?.involvesToken(WAVAX[chainId || ChainId.AVALANCHE]) &&
+      pglTo?.involvesToken(WAVAX[chainId || ChainId.AVALANCHE]))
 
   const stakingInfoFrom = useStakingInfo(Number(versionFrom), pglFrom)?.[0]
   const stakingInfoTo = useStakingInfo(Number(versionTo), pglTo)?.[0]

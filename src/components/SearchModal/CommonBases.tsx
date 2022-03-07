@@ -53,7 +53,9 @@ export default function CommonBases({
           }}
           disable={selectedCurrency === CAVAX[chainId || ChainId.AVALANCHE]}
         >
-          {chainId && <CurrencyLogo currency={chainId && CAVAX[chainId]} style={{ marginRight: 8 }} chainId={chainId}/>}
+          {chainId && (
+            <CurrencyLogo currency={chainId && CAVAX[chainId]} style={{ marginRight: 8 }} chainId={chainId} />
+          )}
           <Text fontWeight={500} fontSize={16}>
             AVAX
           </Text>
@@ -62,7 +64,7 @@ export default function CommonBases({
           const selected = selectedCurrency instanceof Token && selectedCurrency.address === token.address
           return (
             <BaseWrapper onClick={() => !selected && onSelect(token)} disable={selected} key={token.address}>
-              {chainId && <CurrencyLogo currency={token} style={{ marginRight: 8 }} chainId={chainId}/>}
+              {chainId && <CurrencyLogo currency={token} style={{ marginRight: 8 }} chainId={chainId} />}
               <Text fontWeight={500} fontSize={16}>
                 {token.symbol}
               </Text>

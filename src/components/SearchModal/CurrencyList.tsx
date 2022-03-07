@@ -114,7 +114,7 @@ function CurrencyRow({
       disabled={isSelected}
       selected={otherSelected}
     >
-      <CurrencyLogo currency={currency} size={'24px'} chainId={chainId || ChainId.AVALANCHE}/>
+      <CurrencyLogo currency={currency} size={'24px'} chainId={chainId || ChainId.AVALANCHE} />
       <Column>
         <Text title={currency.name} fontWeight={500}>
           {currency.symbol}
@@ -176,7 +176,11 @@ export default function CurrencyList({
   showETH: boolean
 }) {
   // const itemData = useMemo(() => (showETH ? [Currency.CAVAX, ...currencies] : currencies), [currencies, showETH])
-  const itemData = useMemo(() => (showETH ? [CAVAX[chainId], ...currencies] : currencies), [currencies, showETH, chainId])
+  const itemData = useMemo(() => (showETH ? [CAVAX[chainId], ...currencies] : currencies), [
+    currencies,
+    showETH,
+    chainId
+  ])
 
   const Row = useCallback(
     ({ data, index, style }) => {
@@ -197,7 +201,9 @@ export default function CurrencyList({
     [onCurrencySelect, otherCurrency, selectedCurrency]
   )
 
-  const itemKey = useCallback((index: number, data: any) => currencyKey(data[index], chainId || ChainId.AVALANCHE), [chainId])
+  const itemKey = useCallback((index: number, data: any) => currencyKey(data[index], chainId || ChainId.AVALANCHE), [
+    chainId
+  ])
 
   return (
     <FixedSizeList

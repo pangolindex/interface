@@ -29,12 +29,14 @@ export default function SwapModalHeader({
   showAcceptChanges: boolean
   onAcceptChanges: () => void
 }) {
-  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId? chainId : ChainId.AVALANCHE), [
-    trade,
-    allowedSlippage,
-    chainId
-  ])
-  const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade), [chainId, trade])
+  const slippageAdjustedAmounts = useMemo(
+    () => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId ? chainId : ChainId.AVALANCHE),
+    [trade, allowedSlippage, chainId]
+  )
+  const { priceImpactWithoutFee } = useMemo(
+    () => computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade),
+    [chainId, trade]
+  )
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
   const theme = useContext(ThemeContext)
@@ -44,7 +46,14 @@ export default function SwapModalHeader({
     <AutoColumn gap={'md'} style={{ marginTop: '20px' }}>
       <RowBetween align="flex-end">
         <RowFixed gap={'0px'}>
-          {chainId && <CurrencyLogo currency={trade.inputAmount.currency} size={'24px'} style={{ marginRight: '12px' }} chainId={chainId} />}
+          {chainId && (
+            <CurrencyLogo
+              currency={trade.inputAmount.currency}
+              size={'24px'}
+              style={{ marginRight: '12px' }}
+              chainId={chainId}
+            />
+          )}
           <TruncatedText
             fontSize={24}
             fontWeight={500}
@@ -64,7 +73,14 @@ export default function SwapModalHeader({
       </RowFixed>
       <RowBetween align="flex-end">
         <RowFixed gap={'0px'}>
-          {chainId && <CurrencyLogo currency={trade.outputAmount.currency} size={'24px'} style={{ marginRight: '12px' }} chainId={ chainId } />}
+          {chainId && (
+            <CurrencyLogo
+              currency={trade.outputAmount.currency}
+              size={'24px'}
+              style={{ marginRight: '12px' }}
+              chainId={chainId}
+            />
+          )}
           <TruncatedText
             fontSize={24}
             fontWeight={500}

@@ -107,7 +107,10 @@ export function useCurrencyBalances(
   ])
 
   const tokenBalances = useTokenBalances(account, tokens)
-  const containsETH: boolean = useMemo(() => currencies?.some(currency => chainId && currency === CAVAX[chainId]) ?? false, [chainId, currencies])
+  const containsETH: boolean = useMemo(
+    () => currencies?.some(currency => chainId && currency === CAVAX[chainId]) ?? false,
+    [chainId, currencies]
+  )
   const ethBalance = useETHBalances(chainId || ChainId.AVALANCHE, containsETH ? [account] : [])
 
   return useMemo(
@@ -122,7 +125,11 @@ export function useCurrencyBalances(
   )
 }
 
-export function useCurrencyBalance(chainId: ChainId, account?: string, currency?: Currency): CurrencyAmount | undefined {
+export function useCurrencyBalance(
+  chainId: ChainId,
+  account?: string,
+  currency?: Currency
+): CurrencyAmount | undefined {
   return useCurrencyBalances(chainId || ChainId.AVALANCHE, account, [currency])[0]
 }
 
