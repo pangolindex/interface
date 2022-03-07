@@ -1158,6 +1158,17 @@ export const ZEE: { [chainId in ChainId]: Token } = {
   )
 }
 
+export const TOMB: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'TOMB', 'TOMB'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xb84527D59b6Ecb96F433029ECc890D4492C5dCe1',
+    18,
+    'TOMB',
+    'TOMB'
+  )
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
