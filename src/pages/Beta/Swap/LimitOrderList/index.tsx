@@ -8,15 +8,30 @@ import { useTranslation } from 'react-i18next'
 import { Order } from '@gelatonetwork/limit-orders-react'
 import CancelOrderModal from './CancelOrderModal'
 import { useGelatoLimitOrderList } from 'src/state/swap/hooks'
-import OrderTypeDropDown from './OrderTypeDropdown'
 import MobileLimitOrderRow from './MobileLimitOrderRow'
 import ShowMore from 'src/components/Beta/ShowMore'
+import DropdownMenu from 'src/components/Beta/DropdownMenu'
 
 export enum TabType {
   open = 'OPEN',
   executed = 'EXECUTED',
   cancelled = 'CANCELLED'
 }
+
+export const LimitOrderTypeOptions = [
+  {
+    label: TabType?.open,
+    value: TabType?.open
+  },
+  {
+    label: TabType?.executed,
+    value: TabType?.executed
+  },
+  {
+    label: TabType?.cancelled,
+    value: TabType?.cancelled
+  }
+]
 
 const LimitOrderList = () => {
   const { t } = useTranslation()
@@ -61,9 +76,10 @@ const LimitOrderList = () => {
           </Text>
 
           <Box>
-            <OrderTypeDropDown
-              activeTab={activeTab}
-              onChange={value => {
+            <DropdownMenu
+              options={LimitOrderTypeOptions}
+              value={activeTab}
+              onSelect={value => {
                 setActiveTab(value)
               }}
             />

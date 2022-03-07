@@ -10,9 +10,7 @@ import { BIG_INT_ZERO } from 'src/constants'
 import PoolCard from './PoolCard'
 import { useModalOpen, useSingleSideStakingDetailnModalToggle } from 'src/state/application/hooks'
 import DetailModal from './DetailModal'
-import ClaimModal from './ClaimModal'
 import { ApplicationModal } from 'src/state/application/actions'
-import DepositModal from './DepositModal'
 
 interface RouteParams {
   version: string
@@ -25,8 +23,7 @@ const StakeUI = () => {
   const stakingInfos = useSingleSideStakingInfo(Number(params.version))
   const [stakingInfoResults, setStakingInfoResults] = useState<SingleSideStakingInfo[]>()
   const [selectedStakingInfoIndex, setSelectedStakingInfoIndex] = useState<number>(-1)
-  const [showClaimModal, setShowClaimModal] = useState(false)
-  const [showDepositModal, setShowDepositModal] = useState(false)
+
   const toggleDetailModal = useSingleSideStakingDetailnModalToggle()
   const isDetailModalOpen = useModalOpen(ApplicationModal.SINGLE_SIDE_STAKE_DETAIL)
 
@@ -71,22 +68,6 @@ const StakeUI = () => {
     [toggleDetailModal, setSelectedStakingInfoIndex]
   )
 
-  const onClaimClick = useCallback(
-    (index: number) => {
-      setSelectedStakingInfoIndex(index)
-      setShowClaimModal(true)
-    },
-    [setSelectedStakingInfoIndex, setShowClaimModal]
-  )
-
-  const onDepositClick = useCallback(
-    (index: number) => {
-      setSelectedStakingInfoIndex(index)
-      setShowDepositModal(true)
-    },
-    [setSelectedStakingInfoIndex, setShowDepositModal]
-  )
-
   const selectedStakingInfo = useMemo(() => stakingInfoResults?.[selectedStakingInfoIndex], [
     stakingInfoResults,
     selectedStakingInfoIndex
@@ -107,12 +88,6 @@ const StakeUI = () => {
                 key={stakingInfo.stakingRewardAddress}
                 stakingInfo={stakingInfo}
                 onViewDetailsClick={() => onViewDetailClick(index)}
-                onClaimClick={() => {
-                  onClaimClick(index)
-                }}
-                onDepositClick={() => {
-                  onDepositClick(index)
-                }}
               />
             ))}
           </PoolCards>
@@ -120,34 +95,7 @@ const StakeUI = () => {
       </PoolsWrapper>
 
       {selectedStakingInfo && isDetailModalOpen && (
-        <DetailModal
-          stakingInfo={selectedStakingInfo}
-          onClose={toggleDetailModal}
-          onClaimClick={() => {
-            setSelectedStakingInfoIndex(selectedStakingInfoIndex)
-            setShowClaimModal(true)
-          }}
-        />
-      )}
-
-      {selectedStakingInfo && showDepositModal && (
-        <DepositModal
-          isOpen={showDepositModal}
-          stakingInfo={selectedStakingInfo}
-          onClose={() => {
-            setShowDepositModal(false)
-          }}
-        />
-      )}
-
-      {selectedStakingInfo && showClaimModal && (
-        <ClaimModal
-          isOpen={showClaimModal}
-          stakingInfo={selectedStakingInfo}
-          onClose={() => {
-            setShowClaimModal(false)
-          }}
-        />
+        <DetailModal stakingInfo={selectedStakingInfo} onClose={toggleDetailModal} />
       )}
     </PageWrapper>
   )

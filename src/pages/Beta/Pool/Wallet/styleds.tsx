@@ -42,3 +42,12 @@ export const PanelWrapper = styled.div`
     }
   }
 `
+
+export const MobileContainer = styled(Box)`
+  display: none;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: block;
+    width: 100%
+    margin-bottom : 10px;
+  `};
+`

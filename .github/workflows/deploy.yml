@@ -16,22 +16,65 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+          fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
       - uses: actions/cache@v2.1.4
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Configure Git
+        run: |
+          git config --global user.name 'Pangolin'
+          git config --global user.email 'pangolindex@users.noreply.github.com'
       - uses: actions/setup-node@v2.1.4
         with:
           node-version: ${{ env.node_version }}
       - run: yarn --frozen-lockfile
         env:
           CI: true
-      - run: yarn build
+      - name: Prod - Increment version & create build # incrementing version automatically creates build internally with new version
+        run: npm version patch -m "[skip ci] %s"
+        if: ${{ github.ref == 'refs/heads/master' }}
         env:
           CI: false
           REACT_APP_WYRE_API_KEY: ${{ secrets.REACT_APP_WYRE_API_KEY }}
           REACT_APP_WYRE_ID: ${{ secrets.REACT_APP_WYRE_ID }}
           REACT_APP_WYRE_SECRET_KEY: ${{ secrets.REACT_APP_WYRE_SECRET_KEY }}
+          REACT_APP_MOONPAY_PK: ${{ secrets.REACT_APP_MOONPAY_PK }}
+      - name: Dev - Increment version & create build # incrementing version automatically creates build internally with new version
+        run: npm version prerelease --preid=dev -m "[skip ci] %s"
+        if: ${{ github.ref == 'refs/heads/dev' }}
+        env:
+          CI: false
+          REACT_APP_WYRE_API_KEY: ${{ secrets.REACT_APP_WYRE_API_KEY }}
+          REACT_APP_WYRE_ID: ${{ secrets.REACT_APP_WYRE_ID }}
+          REACT_APP_WYRE_SECRET_KEY: ${{ secrets.REACT_APP_WYRE_SECRET_KEY }}
+          REACT_APP_MOONPAY_PK: ${{ secrets.REACT_APP_MOONPAY_PK }}
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GIT_ACCESS_TOKEN }}
+          branch: ${{ github.ref }}
+          tags: true
+      - name: set versions to env
+        run: |
+            echo "TAG_VERSION=v$(npm run get:version --silent)" >> $GITHUB_ENV
+            echo "SENTRY_VERSION=pangolin-interface@$(npm run get:version --silent)" >> $GITHUB_ENV
+      - run: echo ${{ env.TAG_VERSION }}
+      - name: install sentry-cli
+        run: npm install -g @sentry/cli
+      - name: upload sourcemaps to sentry
+        run: |
+              sentry-cli --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }} releases --org pangolin-tq --project pangolin-tq new ${{env.SENTRY_VERSION}} --finalize
+              sentry-cli --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }} releases --org pangolin-tq --project pangolin-tq files "${{env.SENTRY_VERSION}}" upload-sourcemaps ./build/static/js
+      - name: Zip Assets
+        run: zip -r build.zip build
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: ${{ github.ref == 'refs/heads/dev' }}
+          tag_name: ${{ env.TAG_VERSION }}
+          files: build.zip
       - run: npx ipfs-deploy@8.0.1 ./build -p infura -p pinata -d cloudflare -O -C
         env:
           IPFS_DEPLOY_PINATA__API_KEY: ${{ secrets.PINATA_KEY }}

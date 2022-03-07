@@ -1,9 +1,12 @@
 import { Box, TextInput } from '@pangolindex/components'
 import styled from 'styled-components'
 
-export const PageWrapper = styled(Box)`
+export const AddWrapper = styled(Box)`
   width: 100%;
   padding: 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `
 
 export const InputText = styled(TextInput)`
@@ -50,4 +53,17 @@ export const LightCard = styled(Box)`
   background-color: ${({ theme }) => theme.bg6};
   margin-top: 10px;
   padding: 10px;
+`
+export const InputWrapper = styled(Box)<{ type: string }>`
+  display: grid;
+  grid-auto-flow: ${({ type }) => (type === 'detail' ? 'row' : 'column')};
+  grid-auto-columns: minmax(0, 1fr);
+  grid-gap: 5px;
+`
+export const Buttons = styled(Box)`
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-gap: 10px;
+  margin-top: 10px;
 `

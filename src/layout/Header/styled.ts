@@ -130,12 +130,6 @@ export const PNGWrapper = styled.span`
   }
 `
 
-export const HideSmall = styled.span`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
-  `};
-`
-
 export const NetworkCard = styled(BlackCard)`
   border-radius: 12px;
   padding: 8px 12px;
@@ -170,6 +164,12 @@ export const ThemeMode = styled(BlackCard)`
     outline: none;
     background-color: ${({ theme }) => theme.bg4};
   }
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    padding: 10px;
+    border: none;
+    height: 45px;
+    background-color: ${({ theme }) => theme.color7};
+  `};
 `
 
 export const MobileHeader = styled.div`

@@ -117,7 +117,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   }, [])
 
   useEffect(() => {
-    let filtered = poolCards?.filter(
+    const filtered = poolCards?.filter(
       card =>
         card.props.stakingInfo.tokens[0].symbol.toUpperCase().includes(debouncedSearchQuery) ||
         card.props.stakingInfo.tokens[1].symbol.toUpperCase().includes(debouncedSearchQuery)
@@ -149,11 +149,11 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
     let finalFarms = sortedFarms
     if (showSuperFarm) {
       // if super farms toggled on then keep all super farms on top
-      let nonSuperFarms = sortedFarms.filter(
+      const nonSuperFarms = sortedFarms.filter(
         item => !item.rewardTokensAddress?.length && !item.stakedAmount.greaterThan(BIG_INT_ZERO)
       )
-      let stakedFarms = sortedFarms.filter(item => item.stakedAmount.greaterThan(BIG_INT_ZERO))
-      let superFarms = sortedFarms.filter(
+      const stakedFarms = sortedFarms.filter(item => item.stakedAmount.greaterThan(BIG_INT_ZERO))
+      const superFarms = sortedFarms.filter(
         item => (item?.rewardTokensAddress?.length || 0) > 0 && !item.stakedAmount.greaterThan(BIG_INT_ZERO)
       )
       finalFarms = [...stakedFarms, ...superFarms, ...nonSuperFarms]
@@ -227,8 +227,10 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
         const poolCards = updatedStakingInfos.map((stakingInfo, index) => {
           return (
             <DoubleSidePoolCard
+              // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
               // @ts-ignore
               swapFeeApr={stakingInfo.swapFeeApr}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
               // @ts-ignore
               stakingApr={stakingInfo.stakingApr}
               key={index}
@@ -249,7 +251,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const stakingRewardsExist = Boolean(
     typeof chainId === 'number' && (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0
   )
-
+  /* eslint-disable @typescript-eslint/ban-types */
   const getSortField = (label: string, field: string, sortBy: any, setSortBy: Function) => {
     return (
       <SortField

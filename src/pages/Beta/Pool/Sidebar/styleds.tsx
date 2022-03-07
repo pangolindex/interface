@@ -13,6 +13,9 @@ export const SidebarWrapper = styled(Box)`
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display:none;
+  `};
 `
 
 export const Menu = styled.div`

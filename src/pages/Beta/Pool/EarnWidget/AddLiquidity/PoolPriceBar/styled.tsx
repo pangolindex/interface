@@ -12,5 +12,4 @@ export const GridContainer = styled(Box)`
   display: grid;
   grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
   grid-gap: 8px;
-  padding: 10px 0px;
 `

@@ -1,4 +1,4 @@
-import { Box, Button } from '@pangolindex/components'
+import { Box, Text } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const Root = styled(Box)`
@@ -6,41 +6,46 @@ export const Root = styled(Box)`
   background-color: ${({ theme }) => theme.bg2};
   border-radius: 10px;
   position: relative;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 400px;
 `
 
-export const StakedAmount = styled(Box)`
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.bg1};
-  font-size: 20px;
+export const MaxButton = styled.button`
+  height: 28px;
+  background-color: ${({ theme }) => theme.bg2};
+  border: 1px solid ${({ theme }) => theme.bg2};
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: ${({ theme }) => theme.text2};
+`
+
+export const Balance = styled(Text)`
+  font-size: 12px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  color: ${({ theme }) => theme.text7};
+  color: ${({ theme }) => theme.text2};
 `
 
-export const TokenSymbol = styled(Box)`
-  background-color: ${({ theme }) => theme.bg1};
-  color: ${({ theme }) => theme.text7};
-  display: flex;
-  align-items: center;
-  padding: 5px;
-  border-radius: 8px;
-  font-size: 14px;
-`
-
-export const Buttons = styled(Box)`
+export const Buttons = styled(Box)<{ isStaked?: boolean }>`
   display: grid;
-  grid-auto-rows: minmax(0, 1fr);
-  grid-auto-flow: row;
+  grid-auto-flow: ${({ isStaked }) => (isStaked ? 'column' : 'row')};
+  grid-auto-columns: minmax(0, 1fr);
   grid-gap: 10px;
-  margin-top: 15px;
+  margin-top: 20px;
 `
 
-export const UnstakeButton = styled(Button)`
-  padding: 15px 18px !important;
-  border: 1px solid ${({ theme }) => theme.bg9} !important;
-  color: ${({ theme }) => theme.text1} !important; 
+export const StakeWrapper = styled(Box)`
+  width: 100%;
+  position: relative;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.bg6};
+  padding: 10px;
+`
+export const GridContainer = styled(Box)`
+  display: grid;
+  grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
+  grid-gap: 8px;
 `

@@ -23,6 +23,7 @@ import LimitOrderDetailInfo from '../../LimitOrderDetailInfo'
 import TradeOption from '../TradeOption'
 import { wrappedGelatoCurrency } from 'src/utils/wrappedCurrency'
 import { useSwapActionHandlers } from 'src/state/swap/hooks'
+import { useQueryClient } from 'react-query'
 
 enum Rate {
   DIV = 'DIV',
@@ -194,8 +195,12 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
     currencyBalances[LimitField.INPUT]
   )
 
+  const queryClient = useQueryClient()
+
   // for limit swap
   const handleSwap = useCallback(() => {
+    // refetch balances in my portfolio widget
+    queryClient.refetchQueries(['getWalletChainTokens', 'getChainBalance'])
     if (!handleLimitOrderSubmission) {
       return
     }
@@ -253,6 +258,10 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
             swapErrorMessage: error.message,
             txHash: undefined
           })
+          // we only care if the error is something _other_ than the user rejected the tx
+          if (error?.code !== 4001) {
+            console.error(error)
+          }
         })
     } catch (error) {
       setSwapState({
@@ -262,6 +271,10 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
         swapErrorMessage: (error as any).message,
         txHash: undefined
       })
+      // we only care if the error is something _other_ than the user rejected the tx
+      if ((error as any)?.code !== 4001) {
+        console.error(error)
+      }
     }
   }, [
     handleLimitOrderSubmission,
@@ -271,7 +284,8 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
     currencies.output,
     rawAmounts.input,
     rawAmounts.output,
-    account
+    account,
+    queryClient
   ])
 
   const handleSelectTokenDrawerClose = useCallback(() => {

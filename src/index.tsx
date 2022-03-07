@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom'
 import ReactGA from 'react-ga'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { NetworkContextName } from './constants'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
@@ -24,15 +25,19 @@ import { ThemeContext } from 'styled-components'
 import { useIsBetaUI } from './hooks/useLocation'
 import { GelatoProvider } from '@gelatonetwork/limit-orders-react'
 import { useActiveWeb3React } from './hooks'
-import { version } from '../package.json'
+import Package from '../package.json'
 
 Sentry.init({
   dsn: 'https://ff9ffce9712f415f8ad4c2a80123c984@o1080468.ingest.sentry.io/6086371',
   integrations: [new Integrations.BrowserTracing()],
-  release: `pangolin-interface@${version}`, //manual for now
+  release: `pangolin-interface@${Package.version}`, //manual for now
   tracesSampleRate: 0.4,
   allowUrls: ['https://app.pangolin.exchange', 'https://beta-app.pangolin.exchange'],
-  enabled: process.env.NODE_ENV === 'production'
+  enabled: process.env.NODE_ENV === 'production',
+  ignoreErrors: [
+    'ResizeObserver loop limit exceeded',
+    'Blocked a frame with origin "https://app.pangolin.exchange" from accessing a cross-origin frame.'
+  ]
 })
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
@@ -57,6 +62,8 @@ window.addEventListener('error', error => {
     fatal: true
   })
 })
+
+const queryClient = new QueryClient()
 
 function Updaters() {
   return (
@@ -107,10 +114,12 @@ ReactDOM.render(
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
         <Provider store={store}>
-          <Updaters />
-          <ThemeProvider>
-            <ComponentThemeProvider />
-          </ThemeProvider>
+          <QueryClientProvider client={queryClient}>
+            <Updaters />
+            <ThemeProvider>
+              <ComponentThemeProvider />
+            </ThemeProvider>
+          </QueryClientProvider>
         </Provider>
       </Web3ProviderNetwork>
     </Web3ReactProvider>

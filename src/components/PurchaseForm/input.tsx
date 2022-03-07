@@ -1,11 +1,11 @@
-import React from "react"
-import {useContext, useEffect} from "react"
-import {MouseoverTooltip} from "../Tooltip";
+import React from 'react'
+import { useContext, useEffect } from 'react'
+import { MouseoverTooltip } from '../Tooltip'
 import styled from 'styled-components'
-import {Validator, FormContext} from './'
+import { Validator, FormContext } from './'
 
 export const StyledInput = styled.input<{ error?: boolean }>`
-  color: ${({error, theme}) => (error ? theme.red1 : theme.text1)};
+  color: ${({ error, theme }) => (error ? theme.red1 : theme.text1)};
   position: relative;
   display: flex;
   padding: 16px;
@@ -17,21 +17,21 @@ export const StyledInput = styled.input<{ error?: boolean }>`
   white-space: nowrap;
   background: transparent;
   border-radius: 8px;
-  color: ${({theme}) => theme.text1};
+  color: ${({ theme }) => theme.text1};
   border-style: solid;
-  border: 1px solid ${({error, theme}) => (error ? theme.red1 : theme.bg2)};
-  background: ${({theme}) => theme.bg1};
+  border: 1px solid ${({ error, theme }) => (error ? theme.red1 : theme.bg2)};
+  background: ${({ theme }) => theme.bg1};
   -webkit-appearance: none;
   font-size: 24px;
 
   ::placeholder {
-    color: ${({theme}) => theme.text4};
+    color: ${({ theme }) => theme.text4};
   }
 
   transition: border 100ms;
 
   :focus {
-    border: 1px solid ${({theme}) => theme.bg3} !important;
+    border: 1px solid ${({ theme }) => theme.bg3} !important;
     outline: none;
   }
 
@@ -54,45 +54,45 @@ const BlockDiv = styled.div`
   display: block;
 `
 
-
 interface InputProps {
-  name: string,
-  type: string,
-  validators?: Validator[],
-  onChange?: (val: string) => void,
-  onError?: (hasError: boolean) => void,
-  value?: string,
-  label?: string,
-  placeholder?: string,
+  name: string
+  type: string
+  validators?: Validator[]
+  onChange?: (val: string) => void
+  onError?: (hasError: boolean) => void
+  value?: string
+  label?: string
+  placeholder?: string
 }
 
 export default function TextInput({
-                                    name,
-                                    type,
-                                    validators,
-                                    onChange,
-                                    onError,
-                                    value,
-                                    label,
-                                    placeholder
-                                  }: InputProps) {
+  name,
+  type,
+  validators,
+  onChange,
+  onError,
+  value,
+  label,
+  placeholder
+}: InputProps) {
+  const hasError = (errors: string[]): boolean => errors && errors.length !== 0
+  const { registerInput } = useContext(FormContext)
 
-  const hasError = (errors: string[]): boolean => (errors && (errors).length !== 0)
-  const {registerInput} = useContext(FormContext)
-
-  useEffect(
-    () => {
-      registerInput({
-        name: name,
-        validators: validators
-        // eslint-disable-next-line
-      })}, []
-  );
+  useEffect(() => {
+    registerInput({
+      name: name,
+      validators: validators
+      // eslint-disable-next-line
+    })
+  }, [name, validators, registerInput])
 
   return (
     <FormContext.Consumer>
-      {(context) =>
-        <MouseoverTooltip text={hasError(context.errors[name]) ? context.errors[name].join('\n') : ""} referenceElementAs={BlockDiv}>
+      {context => (
+        <MouseoverTooltip
+          text={hasError(context.errors[name]) ? context.errors[name].join('\n') : ''}
+          referenceElementAs={BlockDiv}
+        >
           <label>{label}</label>
           <StyledInput
             name={name}
@@ -107,7 +107,7 @@ export default function TextInput({
               }
             }}
             onChange={event => {
-              const val = event.target.value;
+              const val = event.target.value
               context.setFieldValue(name, val)
               if (onChange) {
                 onChange(val)
@@ -115,6 +115,8 @@ export default function TextInput({
             }}
             value={value}
           />
-        </MouseoverTooltip>}
-    </FormContext.Consumer>)
+        </MouseoverTooltip>
+      )}
+    </FormContext.Consumer>
+  )
 }

@@ -6,39 +6,43 @@ import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConf
 import PoolCard from '../PoolCard'
 import Loader from 'src/components/Loader'
 import { useActiveWeb3React } from 'src/hooks'
-import { Token } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
 import { BIG_INT_ZERO } from 'src/constants'
 import Scrollbars from 'react-custom-scrollbars'
-import { PoolsWrapper, PanelWrapper, LoadingWrapper } from './styleds'
-import SortOptions from '../SortOptions'
-import {
-  usePoolDetailnModalToggle,
-  useAddLiquiditynModalToggle,
-  useStakeModalToggle,
-  useModalOpen
-} from 'src/state/application/hooks'
-import { ApplicationModal } from 'src/state/application/actions'
+import { PoolsWrapper, PanelWrapper, LoadingWrapper, MobileGridContainer } from './styleds'
+import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
 import DetailModal from '../../DetailModal'
-import AddLiquidityModal from '../../AddLiquidityModal'
-import ClaimRewardModal from '../../ClaimRewardModal'
-import WithdrawModal from '../../WithdrawModal'
-import StakeModal from '../../StakeModal'
+import DropdownMenu from 'src/components/Beta/DropdownMenu'
+import { Hidden } from 'src/theme'
 
 export enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
   totalApr = 'totalApr'
 }
 
+export const SortOptions = [
+  {
+    label: 'Liquidity',
+    value: SortingType.totalStakedInUsd
+  },
+  {
+    label: 'APR',
+    value: SortingType.totalApr
+  }
+]
+
 export interface EarnProps {
   version: string
   stakingInfos: DoubleSideStakingInfo[]
   poolMap?: { [key: string]: number }
+  setMenu: (value: string) => void
+  activeMenu: string
+  menuItems: Array<{ label: string; value: string }>
 }
 
-const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
+const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu, activeMenu, menuItems }) => {
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
@@ -46,31 +50,13 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const [poolCards, setPoolCards] = useState<any[]>()
   const [filteredPoolCards, setFilteredPoolCards] = useState<any[]>()
   const [searchQuery, setSearchQuery] = useState<string>('')
-  const [sortBy, setSortBy] = useState<any>({ field: '', desc: true })
+  const [sortBy, setSortBy] = useState<string>('')
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
   const [stakingInfoData, setStakingInfoData] = useState<any[]>(stakingInfos)
 
   const [selectedPoolIndex, setSelectedPoolIndex] = useState(-1)
 
-  const [clickedLpTokens, setClickedLpTokens] = useState([] as Token[])
-
   const togglePoolDetailModal = usePoolDetailnModalToggle()
-  const toggleAddLiquidityModal = useAddLiquiditynModalToggle()
-  const addLiquidityModalOpen = useModalOpen(ApplicationModal.ADD_LIQUIDITY)
-
-  const toggleStakeModal = useStakeModalToggle()
-  const stakeModalOpen = useModalOpen(ApplicationModal.STAKE)
-
-  const [isClaimRewardDrawerOpen, setIsClaimRewardDrawerOpen] = useState(false)
-  const [isWithdrawDrawerOpen, setIsWithdrawDrawerOpen] = useState(false)
-
-  const handleClaimRewardDrawerClose = useCallback(() => {
-    setIsClaimRewardDrawerOpen(false)
-  }, [setIsClaimRewardDrawerOpen])
-
-  const handleWithdrawDrawerClose = useCallback(() => {
-    setIsWithdrawDrawerOpen(false)
-  }, [setIsWithdrawDrawerOpen])
 
   const handleSearch = useCallback(value => {
     setSearchQuery(value.trim().toUpperCase())
@@ -90,20 +76,12 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   useEffect(() => {
     Promise.all(
       stakingInfoData.sort(function(info_a, info_b) {
-        if (sortBy.field === SortingType.totalStakedInUsd) {
-          if (sortBy.desc) {
-            return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-          } else {
-            return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-          }
+        if (sortBy === SortingType.totalStakedInUsd) {
+          return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
         }
 
-        if (sortBy.field === SortingType.totalApr) {
-          if (sortBy.desc) {
-            return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
-          } else {
-            return info_a.stakingApr + info_a.swapFeeApr < info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
-          }
+        if (sortBy === SortingType.totalApr) {
+          return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
         }
         return 0
       })
@@ -119,25 +97,14 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
               setSelectedPoolIndex(index)
               togglePoolDetailModal()
             }}
-            onClickAddLiquidity={() => {
-              setClickedLpTokens(stakingInfo.tokens)
-              toggleAddLiquidityModal()
-            }}
-            onClickClaim={() => {
-              setSelectedPoolIndex(index)
-              setIsClaimRewardDrawerOpen(true)
-            }}
-            onClickStake={() => {
-              setClickedLpTokens(stakingInfo.tokens)
-              toggleStakeModal()
-            }}
+            version={Number(version)}
           />
         )
       })
       setPoolCards(poolCards)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy?.field, sortBy?.desc, stakingInfoData])
+  }, [sortBy, stakingInfoData])
 
   useEffect(() => {
     setPoolCardsLoading(true)
@@ -202,18 +169,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 setSelectedPoolIndex(index)
                 togglePoolDetailModal()
               }}
-              onClickAddLiquidity={() => {
-                setClickedLpTokens(stakingInfo.tokens)
-                toggleAddLiquidityModal()
-              }}
-              onClickClaim={() => {
-                setSelectedPoolIndex(index)
-                setIsClaimRewardDrawerOpen(true)
-              }}
-              onClickStake={() => {
-                setClickedLpTokens(stakingInfo.tokens)
-                toggleStakeModal()
-              }}
+              version={Number(version)}
             />
           )
         })
@@ -252,8 +208,37 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 addonAfter={<Search style={{ marginTop: '5px' }} color={theme.text2} size={20} />}
               />
             </Box>
-            <SortOptions sortBy={sortBy} setSortBy={setSortBy} />
+            <Hidden upToSmall={true}>
+              <Box ml={10}>
+                <DropdownMenu
+                  title="Sort by:"
+                  options={SortOptions}
+                  value={sortBy}
+                  onSelect={value => {
+                    setSortBy(value)
+                  }}
+                  height="54px"
+                />
+              </Box>
+            </Hidden>
           </Box>
+          <MobileGridContainer>
+            <DropdownMenu
+              options={menuItems}
+              value={activeMenu}
+              onSelect={value => {
+                setMenu(value)
+              }}
+            />
+            <DropdownMenu
+              title="Sort by:"
+              options={SortOptions}
+              value={sortBy}
+              onSelect={value => {
+                setSortBy(value)
+              }}
+            />
+          </MobileGridContainer>
 
           <Scrollbars>
             <PanelWrapper>{filteredPoolCards}</PanelWrapper>
@@ -261,30 +246,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
         </>
       )}
 
-      <DetailModal
-        stakingInfo={selectedPool}
-        version={Number(version)}
-        onOpenClaimModal={() => setIsClaimRewardDrawerOpen(true)}
-        onOpenWithdrawModal={() => setIsWithdrawDrawerOpen(true)}
-      />
-
-      {addLiquidityModalOpen && <AddLiquidityModal clickedLpTokens={clickedLpTokens} />}
-
-      <ClaimRewardModal
-        isOpen={isClaimRewardDrawerOpen}
-        onClose={handleClaimRewardDrawerClose}
-        stakingInfo={selectedPool}
-        version={Number(version)}
-      />
-
-      <WithdrawModal
-        isOpen={isWithdrawDrawerOpen}
-        onClose={handleWithdrawDrawerClose}
-        version={Number(version)}
-        stakingInfo={selectedPool}
-      />
-
-      {stakeModalOpen && <StakeModal clickedLpTokens={clickedLpTokens} version={Number(version)} />}
+      <DetailModal stakingInfo={selectedPool} version={Number(version)} />
     </PoolsWrapper>
   )
 }

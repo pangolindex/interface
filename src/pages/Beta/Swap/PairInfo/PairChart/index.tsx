@@ -19,7 +19,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
   const [chartSeries, setChartSeries] = useState<ISeriesApi<'Candlestick'>>()
   const [isDark] = useDarkModeManager()
 
-  let timeWindow =
+  const timeWindow =
     TIMEFRAME.find(t => t.label === '1Y') ||
     ({} as {
       description: string
@@ -115,10 +115,10 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
         wickUpColor: '#838ca1'
       })
 
-      series.setData([...formattedData])
+      series?.setData([...(formattedData || [])])
       setChartSeries(series)
 
-      let toolTip = document.createElement('div')
+      const toolTip = document.createElement('div')
       toolTip.setAttribute('id', 'tooltip-id')
       if (htmlElement) htmlElement.appendChild(toolTip)
       toolTip.style.display = 'block'
@@ -135,7 +135,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
 
   useEffect(() => {
     if (chartCreated && formattedData) {
-      chartSeries?.setData([...formattedData])
+      chartSeries?.setData([...(formattedData || [])])
     }
   }, [formattedData, chartCreated, chartSeries])
 

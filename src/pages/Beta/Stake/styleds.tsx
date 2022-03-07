@@ -8,12 +8,17 @@ export const PageWrapper = styled(Box)`
 export const PageTitle = styled(Box)`
   font-weight: 500;
   font-size: 44px;
-  line-height: 52px;
   color: ${({ theme }) => theme.text7};
   margin-top: 105px;
   margin-bottom: 92px;
   display: flex;
   justify-content: center;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+      font-size: 24px;
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 30px;
+  `};
 `
 
 export const PoolsWrapper = styled(Box)`

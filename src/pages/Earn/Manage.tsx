@@ -95,6 +95,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
   let backgroundColor: string
   let token: Token | undefined
 
+  /* eslint-disable prefer-const*/
   // get the color of the token
   backgroundColor = useColor(token)
 
@@ -122,8 +123,8 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
   }, [account, toggleWalletModal])
 
   const poolMap = useMinichefPools()
-  let pairAddress = stakingInfo?.stakedAmount?.token?.address
-  let isSuperFarm = (extraRewardTokensAmount || [])?.length > 0
+  const pairAddress = stakingInfo?.stakedAmount?.token?.address
+  const isSuperFarm = (extraRewardTokensAmount || [])?.length > 0
 
   return (
     <PageWrapper gap="lg" justify="center">
@@ -148,24 +149,27 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
             <TYPE.body style={{ margin: 0 }}>{t('earnPage.poolRate')}</TYPE.body>
 
             <TYPE.body fontSize={isSuperFarm ? 18 : 24} fontWeight={500}>
-              {stakingInfo?.totalRewardRate
+              {stakingInfo?.totalRewardRatePerSecond
                 ?.multiply((60 * 60 * 24 * 7).toString())
                 ?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
               {t('earnPage.rewardPerWeek', { symbol: 'PNG' })}
             </TYPE.body>
 
-            {isSuperFarm && stakingInfo?.totalRewardRate && (
+            {isSuperFarm && stakingInfo?.totalRewardRatePerSecond && (
               <>
                 {(extraRewardTokensAmount || []).map((reward, index) => {
                   const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
-                  let totalRewardRate =
-                    stakingInfo?.getExtraTokensRewardRate &&
-                    stakingInfo?.getExtraTokensRewardRate(stakingInfo?.totalRewardRate, reward?.token, tokenMultiplier)
+                  const weeklyRewardRate =
+                    stakingInfo?.getExtraTokensWeeklyRewardRate &&
+                    stakingInfo?.getExtraTokensWeeklyRewardRate(
+                      stakingInfo?.totalRewardRatePerWeek,
+                      reward?.token,
+                      tokenMultiplier
+                    )
 
                   return (
                     <TYPE.body fontSize={18} fontWeight={500} key={index}>
-                      {totalRewardRate?.multiply((60 * 60 * 24 * 7).toString())?.toFixed(0, { groupSeparator: ',' }) ??
-                        '-'}
+                      {weeklyRewardRate?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
 
                       {t('earnPage.rewardPerWeek', { symbol: reward?.token.symbol })}
                     </TYPE.body>
@@ -283,7 +287,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
           <RewardCard
             stakedAmount={stakingInfo?.stakedAmount}
             earnedAmount={stakingInfo?.earnedAmount}
-            rewardRate={stakingInfo?.rewardRate}
+            weeklyRewardRate={stakingInfo?.rewardRatePerWeek}
             setShowClaimRewardModal={() => setShowClaimRewardModal(true)}
             isOverlay={true}
             isSuperFarm={isSuperFarm}
@@ -292,23 +296,21 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
           {isSuperFarm && (
             <>
               {(extraRewardTokensAmount || []).map((reward, index) => {
-                const userRewardRate = stakingInfo?.getHypotheticalRewardRate(
-                  stakingInfo?.stakedAmount,
-                  stakingInfo?.totalStakedAmount,
-                  stakingInfo?.totalRewardRate
-                )
-
                 const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
 
-                let rewardRate =
-                  stakingInfo?.getExtraTokensRewardRate &&
-                  (stakingInfo?.getExtraTokensRewardRate(userRewardRate, reward?.token, tokenMultiplier) as TokenAmount)
+                const weeklyExtraRewardRate =
+                  stakingInfo?.getExtraTokensWeeklyRewardRate &&
+                  stakingInfo?.getExtraTokensWeeklyRewardRate(
+                    stakingInfo?.rewardRatePerWeek,
+                    reward?.token,
+                    tokenMultiplier
+                  )
 
                 return (
                   <RewardCard
                     stakedAmount={stakingInfo?.stakedAmount}
                     earnedAmount={reward}
-                    rewardRate={rewardRate}
+                    weeklyRewardRate={weeklyExtraRewardRate}
                     setShowClaimRewardModal={() => setShowClaimRewardModal(true)}
                     currency={reward?.token}
                     isOverlay={false}

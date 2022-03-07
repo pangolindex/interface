@@ -97,11 +97,7 @@ export function AddRemoveTabs({ adding, creating }: { adding: boolean; creating:
             : t('navigationTabs.removeLiquidity')}
         </ActiveText>
         <QuestionHelper
-          text={
-            adding
-              ? t('navigationTabs.whenYouAddLiquidityInfo')
-              : t('navigationTabs.removingPoolTokensInfo')
-          }
+          text={adding ? t('navigationTabs.whenYouAddLiquidityInfo') : t('navigationTabs.removingPoolTokensInfo')}
         />
       </RowBetween>
     </Tabs>

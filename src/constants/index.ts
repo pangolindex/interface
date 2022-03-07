@@ -1066,6 +1066,98 @@ export const RACEX: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7086e045b78e1e72f741f25231c08d238812cf8a', 18, 'RACEX', 'RaceX')
 }
 
+export const FIRE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'FIRE', 'FIRE'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xfcc6CE74f4cd7eDEF0C5429bB99d38A3608043a5', 18, 'FIRE', 'FIRE')
+}
+
+export const BAVA: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'BAVA', 'BavaToken'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xe19A1684873faB5Fb694CfD06607100A632fF21c',
+    18,
+    'BAVA',
+    'BavaToken'
+  )
+}
+
+export const BRIBE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'BRIBE', 'BRIBE'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xCe2fbed816E320258161CeD52c2d0CEBcdFd8136', 18, 'BRIBE', 'BRIBE')
+}
+
+export const AGF: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'AGF', 'Augmented Finance'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xb67a9374Da03d4114a6FB8f0E7F2b82b5cB34ee3',
+    18,
+    'AGF',
+    'Augmented Finance'
+  )
+}
+
+export const ODDZ: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ODDZ', 'OddzToken'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xB0a6e056B587D0a85640b39b1cB44086F7a26A1E',
+    18,
+    'ODDZ',
+    'OddzToken'
+  )
+}
+
+export const DLAUNCH: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'DLAUNCH', 'DefiLaunch Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x0659133127749Cc0616Ed6632912ddF7cc8D7545',
+    18,
+    'DLAUNCH',
+    'DefiLaunch Token'
+  )
+}
+
+export const ACRE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ACRE', 'Arable Protocol'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x00EE200Df31b869a321B10400Da10b561F3ee60d',
+    18,
+    'ACRE',
+    'Arable Protocol'
+  )
+}
+
+export const sAVAX: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'sAVAX', 'Staked AVAX'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x2b2C81e08f1Af8835a78Bb2A90AE924ACE0eA4bE',
+    18,
+    'sAVAX',
+    'Staked AVAX'
+  )
+}
+
+export const DEP: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'DEP', 'DEAPCOIN'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xD4d026322C88C2d49942A75DfF920FCfbC5614C1', 18, 'DEP', 'DEAPCOIN')
+}
+
+export const ZEE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ZEE', 'ZeroSwapToken'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x44754455564474A89358B2C2265883DF993b12F0',
+    18,
+    'ZEE',
+    'ZeroSwapToken'
+  )
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
@@ -1201,14 +1293,15 @@ export const AVALANCHE_CHAIN_PARAMS = {
 
 // default allowed slippage, in bips
 export const INITIAL_ALLOWED_SLIPPAGE = 50
-// 60 minutes, denominated in seconds
-export const DEFAULT_DEADLINE_FROM_NOW = 60 * 60
+// 10 minutes, denominated in seconds
+export const DEFAULT_DEADLINE_FROM_NOW = 10 * 60
 
 export const BIG_INT_ZERO = JSBI.BigInt(0)
 export const BIG_INT_ONE = JSBI.BigInt(1)
 export const BIG_INT_TWO = JSBI.BigInt(2)
 export const BIG_INT_TEN = JSBI.BigInt(10)
 export const BIG_INT_EIGHTEEN = JSBI.BigInt(18)
+export const BIG_INT_SECONDS_IN_WEEK = JSBI.BigInt(60 * 60 * 24 * 7)
 export const ONE_TOKEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
 
 // one basis point
@@ -1227,6 +1320,7 @@ export const BLOCKED_PRICE_IMPACT_NON_EXPERT: Percent = new Percent(JSBI.BigInt(
 export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)) // .01 ETH
 export const BETTER_TRADE_LINK_THRESHOLD = new Percent(JSBI.BigInt(75), JSBI.BigInt(10000))
 
+export const MOONPAY_PK = process.env.REACT_APP_MOONPAY_PK || ''
 export const WYRE_API_KEY = process.env.REACT_APP_WYRE_API_KEY ? process.env.REACT_APP_WYRE_API_KEY : ''
 export const WYRE_SECRET_KEY = process.env.REACT_APP_WYRE_SECRET_KEY ? process.env.REACT_APP_WYRE_SECRET_KEY : ''
 export const WYRE_ID = process.env.REACT_APP_WYRE_ID ? process.env.REACT_APP_WYRE_ID : ''
@@ -1274,15 +1368,6 @@ export const TIMEFRAME = [
     momentIdentifier: ''
   }
 ]
-
-/*
- * Mapping between symbol (uppercase string) and CoinGecko coin id (string)
- * Using CoinGecko API: https://api.coingecko.com/api/v3/coins/list
- */
-export const COIN_ID_OVERRIDE = {
-  NEKO: undefined,
-  VEE: undefined
-}
 
 export enum BETA_MENU_LINK {
   dashboard = '/beta/dashboard',

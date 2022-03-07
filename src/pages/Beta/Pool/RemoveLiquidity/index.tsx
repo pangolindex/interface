@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
-import { PageWrapper, InputText, ContentBox, DataBox } from './styleds'
-import { Box, Text, Button, Steps, Step } from '@pangolindex/components'
+import { RemoveWrapper, InputText, ContentBox } from './styleds'
+import { Box, Text, Button } from '@pangolindex/components'
 import ReactGA from 'react-ga'
 import { useActiveWeb3React } from 'src/hooks'
 import { Currency, ChainId, Percent, CAVAX } from '@pangolindex/sdk'
@@ -10,7 +10,6 @@ import { splitSignature } from 'ethers/lib/utils'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useTranslation } from 'react-i18next'
-import ConfirmRemoveDrawer from './ConfirmRemoveDrawer'
 import { RowBetween } from 'src/components/Row'
 import { ROUTER_ADDRESS } from 'src/constants'
 import { useWalletModalToggle } from 'src/state/application/hooks'
@@ -22,14 +21,17 @@ import { Field } from 'src/state/burn/actions'
 import { BigNumber, Contract } from 'ethers'
 import { usePairContract } from 'src/hooks/useContract'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from 'src/utils'
+import Stat from 'src/components/Stat'
+import Percentage from 'src/components/Beta/Percentage'
+import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
+import Loader from 'src/components/Beta/Loader'
 
 interface RemoveLiquidityProps {
   currencyA: Currency
   currencyB: Currency
-  onClose: () => void
 }
 
-const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps) => {
+const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
   const { account, chainId, library } = useActiveWeb3React()
 
   const [tokenA, tokenB] = useMemo(() => [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)], [
@@ -49,8 +51,6 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
   const { onUserInput: _onUserInput } = useBurnActionHandlers()
   const isValid = !error
 
-  // sub modal and loading
-  const [showConfirm, setShowConfirm] = useState<boolean>(false)
   // state for pending and submitted txn views
   const [attempting, setAttempting] = useState<boolean>(false)
   const [hash, setHash] = useState<string | undefined>()
@@ -152,41 +152,18 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
       })
   }
 
-  const onChangeDot = (value: number) => {
-    setStepIndex(value)
-    _onUserInput(Field.LIQUIDITY_PERCENT, `${value * 25}`)
+  const onChangePercentage = (value: number) => {
+    _onUserInput(Field.LIQUIDITY_PERCENT, `${value}`)
   }
 
   // wrapped onUserInput to clear signatures
-  const onUserInput = useCallback((typedValue: string) => {
-    setSignatureData(null)
-    _onUserInput(Field.LIQUIDITY, typedValue)
-  }, [_onUserInput])
-
-  const renderPoolDataRow = (label?: string, value?: string) => {
-    return (
-      <DataBox key={label}>
-        <Text color="text4" fontSize={16}>
-          {label}
-        </Text>
-
-        <Text color="text4" fontSize={16}>
-          {value}
-        </Text>
-      </DataBox>
-    )
-  }
-
-  const handleDismissConfirmation = useCallback(() => {
-    setShowConfirm(false)
-    setSignatureData(null) // important that we clear signature data to avoid bad sigs
-    // if there was a tx hash, we want to clear the input
-    if (hash) {
-      _onUserInput(Field.LIQUIDITY_PERCENT, '0')
-    }
-    setHash('')
-    setAttempting(false)
-  }, [_onUserInput, hash])
+  const onUserInput = useCallback(
+    (typedValue: string) => {
+      setSignatureData(null)
+      _onUserInput(Field.LIQUIDITY, typedValue)
+    },
+    [_onUserInput]
+  )
 
   // tx sending
   const addTransaction = useTransactionAdder()
@@ -333,126 +310,137 @@ const RemoveLiquidity = ({ currencyA, currencyB, onClose }: RemoveLiquidityProps
             label: [currencyA?.symbol, currencyB?.symbol].join('/')
           })
         })
-        .catch((error: Error) => {
+        .catch((error: any) => {
           setAttempting(false)
           // we only care if the error is something _other_ than the user rejected the tx
-          console.error(error)
+          if (error?.code !== 4001) {
+            console.error(error)
+          }
         })
     }
   }
 
   return (
-    <PageWrapper>
-      <Box mt={10}>
-        <InputText
-          value={parsedAmounts[Field.LIQUIDITY]?.toExact() || ''}
-          addonAfter={
-            <Box display="flex" alignItems="center">
-              <Text color="text4" fontSize={24}>
-                PGL
-              </Text>
-            </Box>
-          }
-          onChange={(value: any) => {
-            onUserInput(value as any)
-          }}
-          fontSize={24}
-          isNumeric={true}
-          placeholder="0.00"
-          addonLabel={
-            account && (
-              <Text color="text2" fontWeight={500} fontSize={14}>
-                {!!userLiquidity ? t('earn.availableToDeposit') + userLiquidity?.toSignificant(6) : ' -'}
-              </Text>
-            )
-          }
-        />
-      </Box>
+    <RemoveWrapper>
+      {!attempting && !hash && (
+        <>
+          <Box flex={1}>
+            <Box>
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <InputText
+                  value={parsedAmounts[Field.LIQUIDITY]?.toExact() || ''}
+                  addonAfter={
+                    <Box display="flex" alignItems="center">
+                      <Text color="text4" fontSize={24}>
+                        PGL
+                      </Text>
+                    </Box>
+                  }
+                  onChange={(value: any) => {
+                    onUserInput(value as any)
+                  }}
+                  fontSize={24}
+                  isNumeric={true}
+                  placeholder="0.00"
+                  addonLabel={
+                    account && (
+                      <Text color="text2" fontWeight={500} fontSize={14}>
+                        {!!userLiquidity ? t('currencyInputPanel.balance') + userLiquidity?.toSignificant(6) : ' -'}
+                      </Text>
+                    )
+                  }
+                />
 
-      <Box>
-        <Steps
-          onChange={value => {
-            onChangeDot && onChangeDot(value)
-          }}
-          current={stepIndex}
-          progressDot={true}
-        >
-          <Step />
-          <Step />
-          <Step />
-          <Step />
-          <Step />
-        </Steps>
-      </Box>
-
-      <Box>
-        <ContentBox>
-          {renderPoolDataRow(tokenA?.symbol, formattedAmounts[Field.CURRENCY_A] || '-')}
-          {renderPoolDataRow(tokenB?.symbol, formattedAmounts[Field.CURRENCY_B] || '-')}
-        </ContentBox>
-      </Box>
-      <Box mt={10}>
-        {!account ? (
-          <Button
-            variant="primary"
-            onClick={() => {
-              toggleWalletModal()
-            }}
-          >
-            {t('earn.deposit')}
-          </Button>
-        ) : (
-          <RowBetween>
-            <Box mr="5px" width="100%">
-              <Button
-                variant={approval === ApprovalState.APPROVED || signatureData !== null ? 'confirm' : 'primary'}
-                onClick={onAttemptToApprove}
-                isDisabled={approval !== ApprovalState.NOT_APPROVED || signatureData !== null}
-                loading={attempting && !hash}
-                loadingText={t('removeLiquidity.approving')}
-              >
-                {approval === ApprovalState.PENDING
-                  ? t('removeLiquidity.approving')
-                  : approval === ApprovalState.APPROVED || signatureData !== null
-                  ? t('removeLiquidity.approved')
-                  : t('removeLiquidity.approve')}
-              </Button>
+                <Box ml="5px" mt="25px">
+                  <Percentage
+                    onChangePercentage={value => {
+                      setStepIndex(value)
+                      onChangePercentage(value * 25)
+                    }}
+                    currentValue={stepIndex}
+                    variant="box"
+                  />
+                </Box>
+              </Box>
             </Box>
 
-            <Box width="100%">
+            <Box>
+              <ContentBox>
+                <Stat
+                  title={tokenA?.symbol}
+                  stat={`${formattedAmounts[Field.CURRENCY_A] || '-'}`}
+                  titlePosition="top"
+                  titleFontSize={14}
+                  statFontSize={16}
+                  titleColor="text4"
+                  statAlign="center"
+                />
+
+                <Stat
+                  title={tokenB?.symbol}
+                  stat={`${formattedAmounts[Field.CURRENCY_B] || '-'}`}
+                  titlePosition="top"
+                  titleFontSize={14}
+                  statFontSize={16}
+                  titleColor="text4"
+                  statAlign="center"
+                />
+              </ContentBox>
+            </Box>
+          </Box>
+          <Box mt={10}>
+            {!account ? (
               <Button
                 variant="primary"
-                isDisabled={!isValid || (signatureData === null && approval !== ApprovalState.APPROVED)}
                 onClick={() => {
-                  setShowConfirm(true)
-                  // onRemove()
+                  toggleWalletModal()
                 }}
-                loading={attempting && !hash}
-                loadingText={t('migratePage.loading')}
+                height="46px"
               >
-                {error || t('removeLiquidity.remove')}
+                {t('earn.deposit')}
               </Button>
-            </Box>
-          </RowBetween>
-        )}
-      </Box>
+            ) : (
+              <RowBetween>
+                <Box mr="5px" width="100%">
+                  <Button
+                    variant={approval === ApprovalState.APPROVED || signatureData !== null ? 'confirm' : 'primary'}
+                    onClick={onAttemptToApprove}
+                    isDisabled={approval !== ApprovalState.NOT_APPROVED || signatureData !== null}
+                    loading={attempting && !hash}
+                    loadingText={t('removeLiquidity.approving')}
+                    height="46px"
+                  >
+                    {approval === ApprovalState.PENDING
+                      ? t('removeLiquidity.approving')
+                      : approval === ApprovalState.APPROVED || signatureData !== null
+                      ? t('removeLiquidity.approved')
+                      : t('removeLiquidity.approve')}
+                  </Button>
+                </Box>
 
-      {showConfirm && (
-        <ConfirmRemoveDrawer
-          isOpen={showConfirm}
-          parsedAmounts={parsedAmounts}
-          attemptingTxn={attempting}
-          txHash={hash}
-          onClose={handleDismissConfirmation}
-          allowedSlippage={allowedSlippage}
-          pair={pair}
-          currencyA={currencyA}
-          currencyB={currencyB}
-          onConfirm={onRemove}
-          onComplete={onClose}
-        />
+                <Box width="100%">
+                  <Button
+                    variant="primary"
+                    isDisabled={!isValid || (signatureData === null && approval !== ApprovalState.APPROVED)}
+                    onClick={() => {
+                      onRemove()
+                    }}
+                    loading={attempting && !hash}
+                    loadingText={t('migratePage.loading')}
+                    height="46px"
+                  >
+                    {error || t('removeLiquidity.remove')}
+                  </Button>
+                </Box>
+              </RowBetween>
+            )}
+          </Box>
+        </>
       )}
-    </PageWrapper>
+
+      {attempting && !hash && <Loader size={100} label={`Removing Liquidity...`} />}
+      {attempting && hash && <TransactionCompleted submitText={`Removed Liquidity`} />}
+    </RemoveWrapper>
   )
 }
 export default RemoveLiquidity

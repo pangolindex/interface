@@ -71,13 +71,11 @@ const PoolInfo = ({
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
   const poolOwnership = getHypotheticalPoolOwnership(
-  parsedAmountWrapped ? stakingInfo?.stakedAmount.add(parsedAmountWrapped).raw : stakingInfo?.stakedAmount.raw,
+    parsedAmountWrapped ? stakingInfo?.stakedAmount.add(parsedAmountWrapped).raw : stakingInfo?.stakedAmount.raw,
     parsedAmountWrapped ? totalPoolTokens?.add(parsedAmountWrapped).raw : totalPoolTokens?.raw
   )
 
-  const pngRate = stakingInfo?.rewardRate
-    ?.multiply((60 * 60 * 24 * 7).toString())
-    ?.toSignificant(4, { groupSeparator: ',' })
+  const pngRate = stakingInfo?.rewardRatePerWeek?.toSignificant(4, { groupSeparator: ',' })
 
   const currency0Row = {
     label: `${currency0.symbol} Amount:`,
@@ -193,8 +191,8 @@ const PoolInfo = ({
               <Step />
             </Steps>
           </Box>
-        </>)
-      }
+        </>
+      )}
 
       <Box>
         <ContentBox>{info.map(item => renderPoolDataRow(item.label, item.value))}</ContentBox>

@@ -6,6 +6,7 @@ import { darken } from 'polished'
 import { ArrowLeft, X } from 'react-feather'
 import CrossIcon from 'src/assets/svg/cross.svg'
 import { useIsBetaUI } from 'src/hooks/useLocation'
+import { Box } from '@pangolindex/components'
 
 export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColor: string }>(({ warning, theme }) => ({
   backgroundColor: warning ? theme.red1 : theme.primary1
@@ -191,5 +192,68 @@ export const CustomLightSpinner = styled(Spinner)<{ size: string }>`
 export const HideSmall = styled.span`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;
+  `};
+`
+
+export const Hidden = styled(Box)<{
+  upToExtraSmall?: boolean
+  upToSmall?: boolean
+  upToMedium?: boolean
+  upToLarge?: boolean
+}>`
+  ${({ theme, upToExtraSmall }) =>
+    upToExtraSmall &&
+    theme.mediaWidth.upToExtraSmall`
+    display: none;
+  `};
+
+  ${({ theme, upToSmall }) =>
+    upToSmall &&
+    theme.mediaWidth.upToSmall`
+    display: none;
+  `};
+
+  ${({ theme, upToMedium }) =>
+    upToMedium &&
+    theme.mediaWidth.upToMedium`
+    display: none;
+  `};
+
+  ${({ theme, upToLarge }) =>
+    upToLarge &&
+    theme.mediaWidth.upToLarge`
+    display: none;
+  `};
+`
+
+export const Visible = styled(Box)<{
+  upToExtraSmall?: boolean
+  upToSmall?: boolean
+  upToMedium?: boolean
+  upToLarge?: boolean
+}>`
+  display: none;
+  ${({ theme, upToExtraSmall }) =>
+    upToExtraSmall &&
+    theme.mediaWidth.upToExtraSmall`
+    display: block;
+  `};
+
+  ${({ theme, upToSmall }) =>
+    upToSmall &&
+    theme.mediaWidth.upToSmall`
+    display: block;
+  `};
+
+  ${({ theme, upToMedium }) =>
+    upToMedium &&
+    theme.mediaWidth.upToMedium`
+    display: block;
+  `};
+
+  ${({ theme, upToLarge }) =>
+    upToLarge &&
+    theme.mediaWidth.upToLarge`
+    display: block;
   `};
 `

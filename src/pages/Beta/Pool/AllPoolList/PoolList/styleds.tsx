@@ -8,6 +8,9 @@ export const PoolsWrapper = styled(Box)`
   border-radius: 0px;
   overflow: hidden;
   color: ${({ theme }) => theme.text7};
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    padding-bottom : 50px;
+  `};
 `
 
 export const LoadingWrapper = styled(Box)`
@@ -42,4 +45,13 @@ export const PanelWrapper = styled.div`
 `
 export const SearchInput = styled(TextInput)`
   background-color: ${({ theme }) => theme.bg8};
+`
+export const MobileGridContainer = styled(Box)`
+  display: none;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: grid;
+    grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
+    grid-gap: 8px;
+    margin-bottom : 10px;
+  `};
 `

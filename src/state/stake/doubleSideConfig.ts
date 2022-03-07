@@ -116,7 +116,17 @@ import {
   LUNA,
   IME,
   MONEY,
-  YDR
+  YDR,
+  FIRE,
+  BAVA,
+  BRIBE,
+  AGF,
+  ODDZ,
+  DLAUNCH,
+  ACRE,
+  sAVAX,
+  DEP,
+  ZEE
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1365,6 +1375,56 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   WAVAX_YDR_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], YDR[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_FIRE_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], FIRE[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_BAVA_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], BAVA[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_BRIBE_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], BRIBE[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_AGF_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], AGF[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_ODDZ_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], ODDZ[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  UST_DLAUNCH_V2: {
+    tokens: [UST[ChainId.AVALANCHE], DLAUNCH[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_ACRE_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], ACRE[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_sAVAX_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], sAVAX[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_DEP_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], DEP[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_ZEE_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], ZEE[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   }

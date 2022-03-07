@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useRef, useCallback } from 'react'
+import { useOnClickOutside } from 'src/hooks/useOnClickOutside'
 import styled from 'styled-components'
 import '@reach/dialog/styles.css'
 import { Portal } from 'react-portal'
-import OutsideClickHandler from 'react-outside-click-handler'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDialogOverlay = styled.div<{ background?: string; isOpen: boolean }>`
@@ -24,6 +24,11 @@ const StyledDialogOverlay = styled.div<{ background?: string; isOpen: boolean }>
 const Container = styled.div`
   background: ${({ theme }) => theme.bg8};
   border-radius: 10px;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    border-radius: 0px;
+    width: 100%;
+    height: 100%;
+  `};
 `
 
 interface ModalProps {
@@ -34,18 +39,17 @@ interface ModalProps {
 }
 
 export default function Modal({ isOpen, onDismiss, children, overlayBG }: ModalProps) {
+  const node = useRef<HTMLDivElement>()
+  const handleClose = useCallback(() => {
+    onDismiss()
+  }, [onDismiss])
+
+  useOnClickOutside(node, isOpen ? handleClose : undefined)
+
   return (
     <Portal>
       <StyledDialogOverlay isOpen={isOpen} background={overlayBG}>
-        {isOpen && (
-          <OutsideClickHandler
-            onOutsideClick={() => {
-              onDismiss()
-            }}
-          >
-            <Container>{children}</Container>{' '}
-          </OutsideClickHandler>
-        )}
+        {isOpen && <Container ref={node as any}>{children}</Container>}
       </StyledDialogOverlay>
     </Portal>
   )

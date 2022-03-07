@@ -7,7 +7,13 @@ import { checkedTransaction, finalizeTransaction } from './actions'
 
 export function shouldCheck(
   lastBlockNumber: number,
-  tx: { addedTime: number; receipt?: {}; lastCheckedBlockNumber?: number }
+  tx: {
+    addedTime: number
+    receipt?: {
+      /* */
+    }
+    lastCheckedBlockNumber?: number
+  }
 ): boolean {
   if (tx.receipt) return false
   if (!tx.lastCheckedBlockNumber) return true
@@ -34,7 +40,7 @@ export default function Updater(): null {
   const dispatch = useDispatch<AppDispatch>()
   const state = useSelector<AppState, AppState['transactions']>(state => state.transactions)
 
-  const transactions = chainId ? state[chainId] ?? {} : {}
+  const transactions = chainId ? state[chainId] ?? {} : {} // eslint-disable-line react-hooks/exhaustive-deps
 
   // show popup on confirm
   const addPopup = useAddPopup()

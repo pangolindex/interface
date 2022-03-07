@@ -1,4 +1,14 @@
-import { Currency, CurrencyAmount, CAVAX, InsufficientInputAmountError, JSBI, Pair, Percent, Price, TokenAmount } from '@pangolindex/sdk'
+import {
+  Currency,
+  CurrencyAmount,
+  CAVAX,
+  InsufficientInputAmountError,
+  JSBI,
+  Pair,
+  Percent,
+  Price,
+  TokenAmount
+} from '@pangolindex/sdk'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { PairState, usePair } from '../../data/Reserves'
@@ -42,7 +52,7 @@ export function useDerivedMintInfo(
   const dependentField = independentField === Field.CURRENCY_A ? Field.CURRENCY_B : Field.CURRENCY_A
 
   // error handling
-  let insufficientInput: boolean = false
+  let insufficientInput = false
 
   // tokens
   const currencies: { [field in Field]?: Currency } = useMemo(
@@ -95,6 +105,7 @@ export function useDerivedMintInfo(
       return undefined
     }
   }, [noLiquidity, otherTypedValue, currencies, dependentField, independentAmount, currencyA, chainId, currencyB, pair])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const parsedAmounts: { [field in Field]: CurrencyAmount | undefined } = {
     [Field.CURRENCY_A]: independentField === Field.CURRENCY_A ? independentAmount : dependentAmount,
     [Field.CURRENCY_B]: independentField === Field.CURRENCY_A ? dependentAmount : independentAmount
@@ -124,13 +135,11 @@ export function useDerivedMintInfo(
     if (pair && totalSupply && tokenAmountA && tokenAmountB) {
       try {
         return pair.getLiquidityMinted(totalSupply, tokenAmountA, tokenAmountB)
-      }
-      catch (err) {
+      } catch (err) {
         if (err instanceof InsufficientInputAmountError) {
           insufficientInput = true
           return undefined
-        }
-        else {
+        } else {
           throw err
         }
       }

@@ -36,7 +36,7 @@ export function useTokenWeeklyChartData(tokenAddress: string) {
   useEffect(() => {
     async function checkForChartData() {
       if (!chartData) {
-        let data = await getTokenWeeklyChartData(tokenAddress)
+        const data = await getTokenWeeklyChartData(tokenAddress)
 
         dispatch(updateTokenWeeklyPriceChartData({ address: tokenAddress, chartData: data }))
       }
@@ -89,7 +89,7 @@ export function useTokenPriceData(tokenAddress: string, timeWindow: string, inte
             .unix()
 
     async function fetch() {
-      let data = await getIntervalTokenData(tokenAddress, startTime, undefined, interval)
+      const data = await getIntervalTokenData(tokenAddress, startTime, undefined, interval)
 
       dispatch(updateTokenPriceChartData({ address: tokenAddress, chartData: data }))
     }
@@ -135,12 +135,12 @@ export const getIntervalTokenData = async (
       return []
     }
 
-    let result: any = await splitQuery(PRICES_BY_BLOCK, client, [tokenAddress], blocks, 50)
+    const result: any = await splitQuery(PRICES_BY_BLOCK, client, [tokenAddress], blocks, 50)
 
     // format token ETH price results
-    let values = [] as Array<{ timestamp: string; derivedETH: number; ethPrice: number; priceUSD: any }>
-    for (let row in result) {
-      let timestamp = row.split('t')[1]
+    const values = [] as Array<{ timestamp: string; derivedETH: number; ethPrice: number; priceUSD: any }>
+    for (const row in result) {
+      const timestamp = row.split('t')[1]
       if (!timestamp) continue
 
       const derivedETH = parseFloat(result[`t${timestamp}`]?.derivedETH)
@@ -155,7 +155,7 @@ export const getIntervalTokenData = async (
       })
     }
 
-    let formattedHistory = [] as Array<{ timestamp: string; priceUSD: number }>
+    const formattedHistory = [] as Array<{ timestamp: string; priceUSD: number }>
 
     // for each hour, construct the open and close price
     for (let i = 0; i < values.length - 1; i++) {
@@ -177,10 +177,10 @@ export async function getBlocksFromTimestamps(timestamps: Array<number>, skipCou
   if (timestamps?.length === 0) {
     return []
   }
-  let fetchedData: any = await splitQuery(GET_BLOCKS, blockClient, [], timestamps, skipCount)
-  let blocks = []
+  const fetchedData: any = await splitQuery(GET_BLOCKS, blockClient, [], timestamps, skipCount)
+  const blocks = []
   if (fetchedData) {
-    for (var t in fetchedData) {
+    for (const t in fetchedData) {
       if (fetchedData[t].length > 0) {
         blocks.push({
           timestamp: t.split('t')[1],

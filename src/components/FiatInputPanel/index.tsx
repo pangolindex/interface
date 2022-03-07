@@ -4,9 +4,9 @@ import { darken } from 'polished'
 import FiatSearchModal from './FiatSearchModal'
 import { Fiat } from '../../constants/fiat'
 import { Input as NumericalInput } from '../NumericalInput'
-import {StyledEthereumLogo as FiatLogo} from "../CurrencyLogo";
+import { StyledEthereumLogo as FiatLogo } from '../CurrencyLogo'
 import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg'
-import {StyledTokenName as StyledFiatName} from "../CurrencyInputPanel";
+import { StyledTokenName as StyledFiatName } from '../CurrencyInputPanel'
 
 const InputRow = styled.div<{ selected: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -65,7 +65,6 @@ const Container = styled.div<{ hideInput: boolean }>`
   background-color: ${({ theme }) => theme.bg1};
 `
 
-
 interface FiatInputPanelProps {
   value: string
   onUserInput: (value: string) => void
@@ -82,9 +81,8 @@ export default function FiatInputPanel({
   onFiatSelect,
   fiat,
   hideInput = false,
-  id,
+  id
 }: FiatInputPanelProps) {
-
   const [modalOpen, setModalOpen] = useState(false)
 
   const handleDismissSearch = useCallback(() => {
@@ -115,7 +113,7 @@ export default function FiatInputPanel({
             }}
           >
             <Aligner>
-              <FiatLogo src={fiat.logo} size={'24px'} alt={fiat.name}/>
+              <FiatLogo src={fiat.logo} size={'24px'} alt={fiat.name} />
               <StyledFiatName className="token-symbol-container" active={Boolean(fiat && fiat.symbol)}>
                 {fiat.symbol}
               </StyledFiatName>

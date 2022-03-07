@@ -11,13 +11,43 @@ export const NewsSection = styled(Box)<{ img: string }>`
   width: 100%;
   height: 100%;
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
 
   & .slick-slider {
-    padding: 110px 20px;
+    height: 100%
+    padding: 0 20px 0px;
 
     .slick-dots {
       bottom: 0px;
+      li button:before{
+        color: ${({ theme }) => theme.text1};
+      }
+      li.slick-active button:before{
+        color: ${({ theme }) => theme.text1};
+      }
+      
     }
+  }
+
+  & .slick-slide {
+    height: auto;
+
+    & div {
+      height: 100%;
+    }
+  }
+
+  & .slick-list {
+    height: 100%;
+  }
+
+  & .slick-track {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    height: 100%;
   }
 `
 
@@ -38,7 +68,7 @@ export const NewsContent = styled(Box)`
   font-weight: 500;
   font-size: 18px;
   line-height: 27px;
-
+  height: 90% !important;
   & a {
     color: ${({ theme }) => theme.text7};
   }
@@ -50,7 +80,9 @@ export const NewsDate = styled(Box)`
   display: flex;
   align-items: center;
   color: #929292;
-  margin-top: 15px;
+  margin-button: 15px;
+  height: 10% !important;
+  padding: 0px 10px;
 `
 
 export const SlickNext = styled(Box)<{ onClick: () => void }>`

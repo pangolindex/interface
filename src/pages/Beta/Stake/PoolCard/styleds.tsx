@@ -1,4 +1,4 @@
-import { Box, Button } from '@pangolindex/components'
+import { Box, Button, Text } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const Card = styled(Box)`
@@ -7,7 +7,8 @@ export const Card = styled(Box)`
   box-sizing: border-box;
   border-radius: 10px;
   background: ${({ theme }) => theme.color2};
-
+  position: relative;
+  overflow: hidden;
   & img {
     border-radius: 100px;
   }
@@ -28,6 +29,15 @@ export const CardHeader = styled(Box)`
 
 export const Stats = styled(Box)``
 
+export const StatValue = styled(Text)`
+  font-size: 28px;
+  font-weight: 500;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    font-size: 22px;
+  `};
+`
+
 export const CardStats = styled(Box)`
   display: grid;
   grid-auto-columns: minmax(0, 1fr);
@@ -44,7 +54,7 @@ export const TokenName = styled(Box)`
 `
 
 export const StakeButton = styled(Button)`
-  background-color: ${({ theme }) => theme.color5} !important;
+  /* background-color: ${({ theme }) => theme.color5} !important; */
   height: 46px;
   border-radius: 4px !important;
   font-size: 16px;

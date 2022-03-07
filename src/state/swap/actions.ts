@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit'
 
 export enum Field {
   INPUT = 'INPUT',
-  OUTPUT = 'OUTPUT',
+  OUTPUT = 'OUTPUT'
 }
 
 export enum LimitField {
@@ -16,7 +16,6 @@ export enum LimitNewField {
   OUTPUT = 'OUTPUT',
   PRICE = 'PRICE'
 }
-
 
 export const selectCurrency = createAction<{ field: Field; currencyId: string }>('swap/selectCurrency')
 export const switchCurrencies = createAction<void>('swap/switchCurrencies')

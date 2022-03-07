@@ -103,7 +103,7 @@ export default function App() {
 
         <BodyWrapper isBeta={isBeta}>
           <Popups />
-          <Polling />
+          {!isBeta && <Polling />}
           <Web3ReactManager>
             <Switch>
               <Route exact strict path="/swap" component={Swap} />

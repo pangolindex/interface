@@ -32,6 +32,7 @@ export const AppContent = styled.div`
     padding:16px;
     padding-top: 2rem; 
     margin-top: 50px;
+    padding-bottom: 70px;
   `};
 
   z-index: 1;

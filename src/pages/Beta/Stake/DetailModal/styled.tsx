@@ -1,9 +1,23 @@
 import { Box } from '@pangolindex/components'
 import styled from 'styled-components'
 
-export const Wrapper = styled(Box)`
+export const DesktopWrapper = styled(Box)`
   width: 1080px;
   overflow: auto;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
+`
+
+export const MobileWrapper = styled(Box)`
+  width: 100%;
+  height: 100%;
+  display: none;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+  display: block;
+  overflow: scroll;
+`};
 `
 
 export const LeftSection = styled(Box)`
@@ -29,6 +43,10 @@ export const Tab = styled(Box)`
   font-size: 18px;
   color: ${({ theme }) => theme.text10};
   background-color: ${({ theme }) => theme.bg2};
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    border-radius: 10px 10px 0 0;
+  `};
 `
 
 export const RightSection = styled(Box)`

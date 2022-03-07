@@ -1,26 +1,15 @@
 import React, { useContext } from 'react'
-import { AlertTriangle, ArrowUpCircle } from 'react-feather'
+import { AlertTriangle } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import { Currency, CurrencyAmount, Fraction, Percent, TokenAmount } from '@pangolindex/sdk'
 import { CurrencyLogo, DoubleCurrencyLogo, Text, Box, Button } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
-import { getEtherscanLink } from 'src/utils'
 import Drawer from 'src/components/Drawer'
 import { Field } from 'src/state/mint/actions'
-import {
-  Header,
-  OutputText,
-  Footer,
-  Root,
-  PendingWrapper,
-  ErrorWrapper,
-  ErrorBox,
-  SubmittedWrapper,
-  Link
-} from './styled'
-import { CustomLightSpinner } from 'src/theme'
-import Circle from 'src/assets/images/blue-loader.svg'
-import { useActiveWeb3React } from 'src/hooks'
+import { Header, OutputText, Footer, Root, ErrorWrapper, ErrorBox, StatWrapper } from './styled'
+import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
+import Loader from 'src/components/Beta/Loader'
+import Stat from 'src/components/Stat'
 
 interface Props {
   isOpen: boolean
@@ -37,6 +26,7 @@ interface Props {
   parsedAmounts: { [field in Field]?: CurrencyAmount }
   poolTokenPercentage?: Percent
   onAdd: () => void
+  type: 'card' | 'detail'
 }
 
 const ConfirmSwapDrawer: React.FC<Props> = props => {
@@ -54,10 +44,13 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
     parsedAmounts,
     poolTokenPercentage,
     onAdd,
-    onComplete = () => {}
+    onComplete = () => {
+      /**/
+    },
+    type
   } = props
 
-  const { chainId } = useActiveWeb3React()
+  // const { chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
@@ -65,7 +58,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
     currencies[Field.CURRENCY_A]?.symbol
   } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`
 
-  const ConfirmContent = (
+  const DetailConfirmContent = (
     <Root>
       <Header>
         {noLiquidity ? (
@@ -168,22 +161,64 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
     </Root>
   )
 
-  const PendingContent = (
-    <PendingWrapper>
-      <Box mb={'15px'}>
-        <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
+  const CardConfirmContent = (
+    <Box display="flex" flexDirection="column" p={10} height="100%">
+      <Box flex={1}>
+        <StatWrapper>
+          <Box display="inline-block">
+            <Text color={'text1'} fontSize={16}>
+              {t('addLiquidity.deposited')}
+            </Text>
+
+            <Box display="flex" alignItems="center">
+              <Text color={'text1'} fontSize={20}>
+                {parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}
+              </Text>
+
+              <Box ml={10} mt="8px">
+                <CurrencyLogo currency={currencies[Field.CURRENCY_A]} size="20px" />
+              </Box>
+            </Box>
+
+            <Box display="flex" alignItems="center">
+              <Text color={'text1'} fontSize={20}>
+                {parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}
+              </Text>
+
+              <Box ml={10} mt="8px">
+                <CurrencyLogo currency={currencies[Field.CURRENCY_B]} size="20px" />
+              </Box>
+            </Box>
+          </Box>
+
+          <Stat
+            title={`PGL`}
+            stat={noLiquidity ? '-' : `     ${liquidityMinted?.toSignificant(6)}`}
+            titlePosition="top"
+            titleFontSize={16}
+            statFontSize={20}
+          />
+
+          <Stat
+            title={t('addLiquidity.shareOfPool')}
+            stat={`${noLiquidity ? '100' : poolTokenPercentage?.toSignificant(4)}%`}
+            titlePosition="top"
+            titleFontSize={14}
+            statFontSize={16}
+          />
+        </StatWrapper>
+
+        <OutputText>{t('addLiquidity.outputEstimated', { allowedSlippage: allowedSlippage / 100 })}</OutputText>
       </Box>
-      <Text fontWeight={500} fontSize={20} color="text1" textAlign="center">
-        {t('transactionConfirmation.waitingConfirmation')}
-      </Text>
-      <Text fontWeight={600} fontSize={14} color="text1" textAlign="center">
-        {pendingText}
-      </Text>
-      <Text fontSize={12} color="text1" textAlign="center">
-        {t('transactionConfirmation.confirmTransaction')}
-      </Text>
-    </PendingWrapper>
+      <Box mt={'10px'}>
+        <Button variant="primary" onClick={onAdd} height="46px">
+          {noLiquidity ? t('addLiquidity.createPoolSupply') : t('addLiquidity.confirmSupply')}
+        </Button>
+      </Box>
+    </Box>
   )
+
+  const PendingContent = <Loader size={100} label={pendingText} />
 
   const ErroContent = (
     <ErrorWrapper>
@@ -200,45 +235,35 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
   )
 
   const SubmittedContent = (
-    <SubmittedWrapper>
-      <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" paddingY={'20px'}>
-        <Box flex="1" display="flex" alignItems="center">
-          <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary} />
-        </Box>
-        <Text fontWeight={500} fontSize={20} color="text1">
-          {t('transactionConfirmation.transactionSubmitted')}
-        </Text>
-        {chainId && txHash && (
-          <Link
-            as="a"
-            fontWeight={500}
-            fontSize={14}
-            color={'primary'}
-            href={getEtherscanLink(chainId, txHash, 'transaction')}
-          >
-            {t('transactionConfirmation.viewExplorer')}
-          </Link>
-        )}
-      </Box>
-      <Button
-        variant="primary"
-        onClick={() => {
-          onClose()
-          onComplete()
-        }}
-      >
-        {t('transactionConfirmation.close')}
-      </Button>
-    </SubmittedWrapper>
+    <TransactionCompleted
+      submitText={`Liquidity Added`}
+      isShowButtton={type === 'card' ? false : true}
+      onButtonClick={() => {
+        onClose()
+        onComplete()
+      }}
+      buttonText="Close"
+    />
   )
 
   return (
     <Drawer
       title={noLiquidity ? t('addLiquidity.creatingPool') : t('addLiquidity.willReceive')}
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={() => {
+        type === 'card' ? onComplete() : onClose()
+      }}
+      backgroundColor={type === 'card' ? 'color5' : 'bg2'}
     >
-      {poolErrorMessage ? ErroContent : txHash ? SubmittedContent : attemptingTxn ? PendingContent : ConfirmContent}
+      {poolErrorMessage
+        ? ErroContent
+        : txHash
+        ? SubmittedContent
+        : attemptingTxn
+        ? PendingContent
+        : type === 'detail'
+        ? DetailConfirmContent
+        : CardConfirmContent}
     </Drawer>
   )
 }
