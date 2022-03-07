@@ -39,7 +39,7 @@ export default function NewsWidget() {
 
   return (
     <NewsSection img={Earth}>
-      <Box height="15%" display="flex">
+      <Box height="25%" display="flex">
         <NewsTitle>News</NewsTitle>
         <SlickNext onClick={handleNewsBack} style={{ right: 60 }}>
           <ArrowLeft size={20} style={{ minWidth: 24 }} />
