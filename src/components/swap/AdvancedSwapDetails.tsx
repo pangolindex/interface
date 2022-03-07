@@ -14,11 +14,26 @@ import SwapRoute from './SwapRoute'
 import { useTranslation } from 'react-i18next'
 import { useActiveWeb3React } from 'src/hooks'
 
-function TradeSummary({ trade, allowedSlippage, chainId }: { trade: Trade; allowedSlippage: number; chainId: ChainId }) {
+function TradeSummary({
+  trade,
+  allowedSlippage,
+  chainId
+}: {
+  trade: Trade
+  allowedSlippage: number
+  chainId: ChainId
+}) {
   const theme = useContext(ThemeContext)
-  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade)
+  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(
+    chainId ? chainId : ChainId.AVALANCHE,
+    trade
+  )
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
-  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId? chainId : ChainId.AVALANCHE)
+  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
+    trade,
+    allowedSlippage,
+    chainId ? chainId : ChainId.AVALANCHE
+  )
   const { t } = useTranslation()
 
   return (
@@ -75,7 +90,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
   const theme = useContext(ThemeContext)
 
   const [allowedSlippage] = useUserSlippageTolerance()
-  const { chainId } =useActiveWeb3React()
+  const { chainId } = useActiveWeb3React()
   const showRoute = Boolean(trade && trade.route.path.length > 2)
   const { t } = useTranslation()
 
@@ -94,7 +109,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
                   </TYPE.black>
                   <QuestionHelper text={t('swap.routingHelper')} />
                 </RowFixed>
-                <SwapRoute trade={trade} chainId={ chainId } />
+                <SwapRoute trade={trade} chainId={chainId} />
               </AutoColumn>
             </>
           )}

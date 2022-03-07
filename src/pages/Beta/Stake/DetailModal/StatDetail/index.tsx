@@ -18,7 +18,9 @@ const StatDetails: React.FC<Props> = ({ title, amountInPNG, currency0 }) => {
   const { chainId } = useActiveWeb3React()
   const usdcPriceTmp = useUSDCPrice(amountInPNG?.token)
   const usdcPrice = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? usdcPriceTmp : undefined
-  const amountInUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? numeral(usdcPrice?.quote(amountInPNG, chainId || ChainId.AVALANCHE).toSignificant(6)).format('$0.00a') : undefined
+  const amountInUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+    ? numeral(usdcPrice?.quote(amountInPNG, chainId || ChainId.AVALANCHE).toSignificant(6)).format('$0.00a')
+    : undefined
 
   return (
     <Box>

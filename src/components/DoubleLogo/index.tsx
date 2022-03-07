@@ -32,11 +32,13 @@ export default function DoubleCurrencyLogo({
   size = 16,
   margin = false
 }: DoubleCurrencyLogoProps) {
-  const { chainId } = useActiveWeb3React();
+  const { chainId } = useActiveWeb3React()
   return (
     <Wrapper sizeraw={size} margin={margin}>
-      {chainId && currency0 && <HigherLogo currency={currency0} size={size.toString() + 'px'} chainId={chainId}/>}
-      {chainId && currency1 && <CoveredLogo currency={currency1} size={size.toString() + 'px'} sizeraw={size} chainId={chainId}/>}
+      {chainId && currency0 && <HigherLogo currency={currency0} size={size.toString() + 'px'} chainId={chainId} />}
+      {chainId && currency1 && (
+        <CoveredLogo currency={currency1} size={size.toString() + 'px'} sizeraw={size} chainId={chainId} />
+      )}
     </Wrapper>
   )
 }

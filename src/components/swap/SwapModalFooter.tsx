@@ -36,12 +36,14 @@ export default function SwapModalFooter({
   const [showInverted, setShowInverted] = useState<boolean>(false)
   const theme = useContext(ThemeContext)
   const { chainId } = useActiveWeb3React()
-  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId? chainId : ChainId.AVALANCHE), [
-    allowedSlippage,
-    trade,
-    chainId
-  ])
-  const { priceImpactWithoutFee, realizedLPFee } = useMemo(() => computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE,trade), [chainId, trade])
+  const slippageAdjustedAmounts = useMemo(
+    () => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId ? chainId : ChainId.AVALANCHE),
+    [allowedSlippage, trade, chainId]
+  )
+  const { priceImpactWithoutFee, realizedLPFee } = useMemo(
+    () => computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade),
+    [chainId, trade]
+  )
   const severity = warningSeverity(priceImpactWithoutFee)
   const { t } = useTranslation()
 

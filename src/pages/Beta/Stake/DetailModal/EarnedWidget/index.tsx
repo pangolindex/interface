@@ -29,8 +29,12 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
   const weeklyRewardInToken = stakingInfo?.rewardRatePerWeek.toSignificant(4)
   const unclaimedAmountInToken = stakingInfo?.earnedAmount.toSignificant(4)
 
-  const weeklyRewardUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? Number(weeklyRewardInToken) * Number(usdcPrice?.toSignificant(6)) : undefined
-  const unclaimedAmountInUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6)) : undefined
+  const weeklyRewardUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+    ? Number(weeklyRewardInToken) * Number(usdcPrice?.toSignificant(6))
+    : undefined
+  const unclaimedAmountInUSD = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+    ? Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6))
+    : undefined
 
   return (
     <Root>

@@ -15,9 +15,16 @@ const SwapDetailInfo: React.FC<Props> = ({ trade }) => {
   const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const [allowedSlippage] = useUserSlippageTolerance()
-  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade)
+  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(
+    chainId ? chainId : ChainId.AVALANCHE,
+    trade
+  )
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
-  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId? chainId : ChainId.AVALANCHE)
+  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
+    trade,
+    allowedSlippage,
+    chainId ? chainId : ChainId.AVALANCHE
+  )
 
   const amount = isExactIn
     ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${trade.outputAmount.currency.symbol}` ?? '-'

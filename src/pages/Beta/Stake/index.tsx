@@ -27,7 +27,7 @@ const StakeUI = () => {
 
   const toggleDetailModal = useSingleSideStakingDetailnModalToggle()
   const isDetailModalOpen = useModalOpen(ApplicationModal.SINGLE_SIDE_STAKE_DETAIL)
-  
+
   useEffect(() => {
     const sorted = stakingInfos
       ?.filter(function(info) {

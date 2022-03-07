@@ -171,20 +171,22 @@ export function CurrencySearch({
       <Separator />
 
       <div style={{ flex: '1' }}>
-        {chainId && <AutoSizer disableWidth>
-          {({ height }) => (
-            <CurrencyList
-              chainId={chainId}
-              height={height}
-              showETH={showETH}
-              currencies={filteredSortedTokens}
-              onCurrencySelect={handleCurrencySelect}
-              otherCurrency={otherSelectedCurrency}
-              selectedCurrency={selectedCurrency}
-              fixedListRef={fixedList}
-            />
-          )}
-        </AutoSizer>}
+        {chainId && (
+          <AutoSizer disableWidth>
+            {({ height }) => (
+              <CurrencyList
+                chainId={chainId}
+                height={height}
+                showETH={showETH}
+                currencies={filteredSortedTokens}
+                onCurrencySelect={handleCurrencySelect}
+                otherCurrency={otherSelectedCurrency}
+                selectedCurrency={selectedCurrency}
+                fixedListRef={fixedList}
+              />
+            )}
+          </AutoSizer>
+        )}
       </div>
 
       <Separator />

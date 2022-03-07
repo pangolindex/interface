@@ -83,7 +83,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const outputTokenInfo = gelatoOutputCurrency?.tokenInfo
 
   const inputCurrency =
-      chainId && gelatoInputCurrency && gelatoInputCurrency?.symbol === CAVAX[chainId].symbol
+    chainId && gelatoInputCurrency && gelatoInputCurrency?.symbol === CAVAX[chainId].symbol
       ? CAVAX[chainId]
       : chainId && inputTokenInfo && inputTokenInfo.symbol === CAVAX[chainId].symbol
       ? CAVAX[chainId]
@@ -179,7 +179,10 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const tradePrice = trade?.executionPrice
 
   // check whether the user has approved the router on the input token
-  const [approval, approveCallback] = useApproveCallbackFromInputCurrencyAmount(chainId ? chainId : ChainId.AVALANCHE, parsedAmounts.input)
+  const [approval, approveCallback] = useApproveCallbackFromInputCurrencyAmount(
+    chainId ? chainId : ChainId.AVALANCHE,
+    parsedAmounts.input
+  )
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)

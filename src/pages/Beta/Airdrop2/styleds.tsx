@@ -61,5 +61,4 @@ export const QuestionBox = styled(Box)`
   max-width: 70%;
   padding: 30px;
   cursor: pointer;
-  
 `

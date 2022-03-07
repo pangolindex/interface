@@ -35,7 +35,7 @@ export default function NewsWidget() {
   const handleNewsBack = () => {
     sliderRef?.current?.slickPrev()
   }
-  const {data: news, isLoading} = useGetNews()
+  const { data: news, isLoading } = useGetNews()
 
   return (
     <NewsSection img={Earth}>

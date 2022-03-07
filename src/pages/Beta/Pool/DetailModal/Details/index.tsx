@@ -20,11 +20,13 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
 
-  const totalStakedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a') : numeral(stakingInfo.totalStakedInUsd).format('$0.00a')
+  const totalStakedInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+    ? numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a')
+    : numeral(stakingInfo.totalStakedInUsd).format('$0.00a')
 
-  const yourStakeInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet ? stakingInfo?.totalStakedInUsd
-    .multiply(stakingInfo?.stakedAmount)
-    .divide(stakingInfo?.totalStakedAmount) : undefined
+  const yourStakeInUsd = CHAINS[chainId || ChainId.AVALANCHE].is_mainnet
+    ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
+    : undefined
 
   const [, stakingTokenPair] = usePair(token0, token1)
   const pair = stakingTokenPair

@@ -100,7 +100,11 @@ export function usePngContract(): Contract | null {
 
 export function useStakingContract(stakingAddress?: string, withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React()
-  return useContract(stakingAddress, stakingAddress === MINICHEF_ADDRESS[chainId || ChainId.AVALANCHE] ? MiniChefV2.abi : StakingRewards.abi, withSignerIfPossible)
+  return useContract(
+    stakingAddress,
+    stakingAddress === MINICHEF_ADDRESS[chainId || ChainId.AVALANCHE] ? MiniChefV2.abi : StakingRewards.abi,
+    withSignerIfPossible
+  )
 }
 
 export function useRewardViaMultiplierContract(address?: string, withSignerIfPossible?: boolean): Contract | null {

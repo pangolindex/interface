@@ -171,7 +171,6 @@ export function useCurrency(currencyId: string | undefined): Currency | null | u
   return isAVAX ? chainId && CAVAX[chainId] : token
 }
 
-
 export function useCoinGeckoTokenData(coin: Token) {
   const [result, setResult] = useState({} as { coinId: string; homePage: string; description: string })
 
