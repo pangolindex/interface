@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator } from './styleds'
+import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator, QuestionWrapper } from './styleds'
 import { Text, Box } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
-import { BoxNotConnected, BoxCheckEligibility, BoxGoToFTM, BoxClaimReward  } from './BoxesType'
+import { BoxNotConnected, BoxCheckEligibility, BoxGoToFTM, BoxClaimReward, QuestionAnswer } from './BoxesType'
 import {
     useUserHasAvailableClaim,
     useUserUnclaimedAmount,
@@ -10,19 +10,20 @@ import {
   } from 'src/state/airdrop/hooks'
 import NearLogo from 'src/assets/images/near.png'
 
+
+
 const AirdropUI: React.FC = () => {
     let { account } = useActiveWeb3React()
     const [eligible, setEligible] = useState<boolean>(false);
     // const [bought, setBought] = useState<boolean>(false);
     const [changeMyChain, setChangeChain] = useState<boolean>(false);
 
+
     //FUNCTION AIRDROP CONTRACT
     const canClaim = useUserHasAvailableClaim(account)
     const claimAmount = useUserUnclaimedAmount(account)
     const amount = claimAmount?.toFixed(0, { groupSeparator: ',' })
     const { claimCallback } = useClaimCallback(account)
-
-    console.log(canClaim)
 
     const checkStatus = () => {
         if (canClaim)
@@ -112,6 +113,13 @@ const AirdropUI: React.FC = () => {
                     {/* <ButtonCheckEligibility /> */}
                 </ClaimBox>
             </BoxWrapper>
+            <QuestionWrapper>
+                <Text fontSize={44} fontWeight={500} lineHeight="66px" color="text10">
+                    HAVE QUESTIONS?
+                </Text>
+                <QuestionAnswer />
+                
+            </QuestionWrapper>
         </PageWrapper>
     )
 
