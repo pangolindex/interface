@@ -9,12 +9,19 @@ export const BoxWrapper = styled(Box)`
   justify-content: center;
   gap: 15px;
   margin-bottom: 15px;
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+  flex-direction: column;
+  `};
 `
 export const ClaimBox = styled(Box)`
   width: 27%;
   background-color: #111;
   border-radius: 7px;
   padding: 1em;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+  min-width: 50%;
+  `};
 `
 
 export const Separator = styled(Box)`

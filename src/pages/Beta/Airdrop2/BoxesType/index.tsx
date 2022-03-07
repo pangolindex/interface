@@ -53,7 +53,7 @@ export const BoxCheckEligibility: React.FC<IStatus> = ({checkStatus}) => {
         </Text>
         <span style={{padding: "20px"}}></span>
             <Button variant="primary" color='white' height='46px'>
-                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }} onClick={checkStatus}>CHECK IF ELIGIBLE</span>
+                <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }} onClick={checkStatus}>CHECK IF ELIGIBLE</span>
             </Button>
         <span style={{textAlign: "center"}}>
             <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
@@ -111,22 +111,22 @@ export const BoxBuyFTM: React.FC<IBuy> = ({buyFTM}) => {
             </Text>
             <BoxWrapper>
                 <Button variant={button1} color='white' height='39px' borderColor="white" onClick={() => {selectAmount(0.1)}}>
-                    <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px'}}>0.1 AVAX</span>
+                    <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '15px'}}>0.1 AVAX</span>
                 </Button>
                 <Button variant={button2} color='white' height='39px' borderColor="white" onClick={() => {selectAmount(0.5)}}>
-                    <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>0.5 AVAX</span>
+                    <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '15px' }}>0.5 AVAX</span>
                 </Button>
                 <Button variant={button3} color='white' height='39px' borderColor="white" onClick={() => {selectAmount(1)}}>
-                    <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>1 AVAX</span>
+                    <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '15px' }}>1 AVAX</span>
                 </Button>
             </BoxWrapper>
             <Button variant="primary" color='white' height='46px' onClick={buyFTM}>
-                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>BUY WGM</span>
+                <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>BUY WGM</span>
             </Button>
             <SeparatorEmpty />
             <span style={{textAlign: "center"}}>
             <Button variant="outline" color='white' height='39px' onClick={buyFTM} >
-                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '15px' }}>Skip</span>
+                <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '15px' }}>Skip</span>
             </Button>
             </span>
         </ClaimBox>
@@ -193,7 +193,7 @@ export const BoxGoToFTM: React.FC<IChangeChain> = ({changeChain}) => {
             </Text>
             <span style={{padding: "20px"}}></span>
             <Button variant="primary" color='white' height='46px' onClick={switchNetworkFantom}>
-                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>GO TO WAGMI</span>
+                <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>GO TO WAGMI</span>
             </Button>
             <span style={{textAlign: "center"}}>
                 <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
@@ -228,7 +228,7 @@ export const BoxClaimReward: React.FC<IclaimPNG> = ({claimPNG, amount}) => {
             </Text>
             <span style={{padding: "20px"}}></span>
             <Button variant="primary" color='white' height='46px' onClick={claimPNG}>
-                <span style={{ whiteSpace: 'nowrap', color: '#FFF', fontSize: '20px' }}>CLAIM</span>
+                <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>CLAIM</span>
             </Button>
             <span style={{textAlign: "center"}}>
                 <Text fontSize={14} fontWeight={500} lineHeight="35px" color="text8">
