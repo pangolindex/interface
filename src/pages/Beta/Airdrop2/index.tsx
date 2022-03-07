@@ -7,6 +7,9 @@ import { useUserHasAvailableClaim, useUserUnclaimedAmount, useClaimCallback } fr
 import NearLogo from 'src/assets/images/near.png'
 import Modal from 'src/components/Modal'
 import Confetti from 'src/components/Confetti'
+import { PngTokenAnimated } from 'src/theme'
+import tokenLogo from 'src/assets/images/logo.png'
+import { ColumnCenter } from 'src/components/Column'
 
 const AirdropUI: React.FC = () => {
   const { account } = useActiveWeb3React()
@@ -67,12 +70,13 @@ const AirdropUI: React.FC = () => {
 
   const renderError = (modalOpen: any) => {
     return (
-      <Modal isOpen={modalOpen} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={50} isBeta={true}>
-        <span style={{ textAlign: 'center', paddingTop: '40%' }}>
-          <Text fontSize={35} fontWeight={500} lineHeight="50px" color="text10">
-            Sorry, you are not eligible
-          </Text>
-        </span>
+      <Modal isOpen={modalOpen} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={50} isBeta={true} >
+        <ColumnCenter>
+            <PngTokenAnimated width="55px" src={tokenLogo} />
+            <Text fontSize={35} fontWeight={500} lineHeight="50px" color="text10" style={{ textAlign: 'center', paddingTop: '30px' }}>
+                Sorry, you are not eligible
+            </Text>
+        </ColumnCenter>
       </Modal>
     )
   }

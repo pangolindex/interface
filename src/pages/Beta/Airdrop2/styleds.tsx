@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Box } from '@pangolindex/components'
+import { X } from 'react-feather'
 
 export const PageWrapper = styled(Box)`
   width: 100%;
@@ -61,4 +62,9 @@ export const QuestionBox = styled(Box)`
   max-width: 70%;
   padding: 30px;
   cursor: pointer;
+`
+export const StyledClose = styled(X)`
+  :hover {
+    cursor: pointer;
+  }
 `
