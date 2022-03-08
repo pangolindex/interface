@@ -50,6 +50,8 @@ import BridgeV2 from './Beta/Bridge'
 import AirdropV2 from './Beta/Airdrop2'
 import { BETA_MENU_LINK } from 'src/constants'
 
+import Policy from './Beta/Policy'
+
 const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;
@@ -167,6 +169,25 @@ export default function App() {
               <CustomRoute exact strict path={`${BETA_MENU_LINK.airdrop}`} component={AirdropV2} layout={Layout} />
 
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
+
+              <CustomRoute
+                exact
+                path="/beta/policy/privacy"
+                component={() => <Policy policy="privacy" />}
+                layout={Layout}
+              />
+              <CustomRoute
+                exact
+                path="/beta/policy/cookie"
+                component={() => <Policy policy="cookie" />}
+                layout={Layout}
+              />
+              <CustomRoute
+                exact
+                path="/beta/policy/terms"
+                component={() => <Policy policy="terms" />}
+                layout={Layout}
+              />
 
               <Route component={RedirectPathToSwapOnly} />
             </Switch>
