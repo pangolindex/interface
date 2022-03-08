@@ -76,6 +76,8 @@ export const FullBox = styled(Box)`
   ${({ theme }) => theme.mediaWidth.upToMedium`
   min-width: 90%;
   max-width: 90%;
+  flex-flow: column wrap;
+  justify-content: center;
   order: -1;
   `};
 `
@@ -87,6 +89,12 @@ export const QuestionBox = styled(Box)`
   width: 70%;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+  min-width: 100%;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  `};
 `
 
 export const TableContent = styled(Box)`
@@ -96,4 +104,11 @@ export const TableContent = styled(Box)`
   cursor: pointer;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+  min-width: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 0px;
+
+  `};
 `
