@@ -62,6 +62,8 @@ export const QuestionBox = styled(Box)`
   padding: 30px;
   cursor: pointer;
   width: 70%;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 `
 
 export const TableContent = styled(Box)`
@@ -69,6 +71,9 @@ export const TableContent = styled(Box)`
   padding: 20px;
   width: 30%
   cursor: pointer;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+
 `
 
 export const FullBox = styled(Box)`
