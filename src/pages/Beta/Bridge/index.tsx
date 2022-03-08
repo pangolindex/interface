@@ -4,6 +4,7 @@ import { Text, Box, ToggleButtons, Button } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { useWalletModalToggle } from 'src/state/application/hooks'
+import { QuestionAnswer } from './BoxQuestion'
 
 const BridgeUI = () => {
   const { account } = useActiveWeb3React()
@@ -28,6 +29,7 @@ const BridgeUI = () => {
 
   return (
     <PageWrapper>
+      <QuestionAnswer />
       <Ibridge>
         <Box p={20}>
           <Box display="flex" alignItems="center" justifyContent="space-between">
