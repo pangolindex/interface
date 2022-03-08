@@ -6,13 +6,24 @@ export const PageWrapper = styled(Box)`
   display: flex;
   justify-content: start;
   gap: 20px;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  `};
 `
 
 export const Ibridge = styled(Box)`
   background-color: #111111;
-  width: 30%;
+  min-width: 30%;
   border-radius: 16px;
   max-height: 475px;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+  min-height: 65vh;
+  min-width: 90%;
+  max-width: 90%;
+  order: -2;
+  `};
 `
 
 export const Separator = styled(Box)`
@@ -57,6 +68,18 @@ export const StyledLogo = styled.img<{ size: string }>`
   border-radius: 24px;
 `
 
+export const FullBox = styled(Box)`
+  display: flex;
+  min-width: 70%;
+  max-width: 70%;
+  min-height: 90vh;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+  min-width: 90%;
+  max-width: 90%;
+  order: -1;
+  `};
+`
+
 export const QuestionBox = styled(Box)`
   background-color: #111111;
   padding: 30px;
@@ -73,12 +96,4 @@ export const TableContent = styled(Box)`
   cursor: pointer;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
-
-`
-
-export const FullBox = styled(Box)`
-  display: flex;
-  min-width: 70%;
-  max-width: 70%;
-  min-height: 90vh;
 `
