@@ -56,7 +56,7 @@ export default function PortfolioWidget() {
         {/* <TradingViewChart /> */}
         {account ? (
           isLoading ? (
-            <Loader 
+            <Loader
               size="10%"
               stroke={theme.yellow3}
               style={{
