@@ -117,7 +117,8 @@ export function useApproveCallbackFromTrade(chainId: ChainId, trade?: Trade, all
 }
 
 // wraps useApproveCallback in the context of a swap
-export function useApproveCallbackFromInputCurrencyAmount(chainId: ChainId, currencyAmountIn: any | undefined) {
+export function useApproveCallbackFromInputCurrencyAmount(currencyAmountIn: any | undefined) {
+  const { chainId } = useActiveWeb3React()
   const gelatoLibrary = useGelatoLimitOrdersLib()
 
   const newCurrencyAmountIn = currencyAmountIn

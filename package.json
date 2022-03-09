@@ -160,8 +160,6 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@emotion/react": "^11.7.1",
-    "@emotion/styled": "^11.6.0",
     "@sentry/react": "^6.17.4",
     "@sentry/tracing": "^6.17.4",
     "@types/crypto-js": "^4.0.2",
