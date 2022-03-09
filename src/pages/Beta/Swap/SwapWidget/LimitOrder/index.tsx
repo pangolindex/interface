@@ -180,7 +180,6 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
 
   // check whether the user has approved the router on the input token
   const [approval, approveCallback] = useApproveCallbackFromInputCurrencyAmount(
-    chainId ? chainId : ChainId.AVALANCHE,
     parsedAmounts.input
   )
 
