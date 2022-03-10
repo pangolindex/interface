@@ -31,7 +31,8 @@ import { useProposalData, useUserVotes, useUserDelegatee, ProposalData } from 's
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { ExternalLink } from 'src/theme'
-import { PNG, ZERO_ADDRESS } from 'src/constants'
+import { ZERO_ADDRESS } from 'src/constants'
+import { PNG } from 'src/constants/tokens'
 import { isAddress, getEtherscanLink } from 'src/utils'
 import { BETA_MENU_LINK } from 'src/constants'
 

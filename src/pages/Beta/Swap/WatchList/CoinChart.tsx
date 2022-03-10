@@ -88,7 +88,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
             width={'32px'}
             height={'32px'}
             padding="0px"
-            href={`${ANALYTICS_PAGE}#/token/${coin?.address}`}
+            href={`${ANALYTICS_PAGE}/#/token/${coin?.address}`}
             target="_blank"
             as="a"
           >

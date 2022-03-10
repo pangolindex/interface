@@ -11,7 +11,7 @@ import { X } from 'react-feather'
 import { removeCurrency } from 'src/state/watchlists/actions'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from 'src/state'
-import { PNG } from 'src/constants'
+import { PNG } from 'src/constants/tokens'
 import { useActiveWeb3React } from 'src/hooks'
 
 type Props = {

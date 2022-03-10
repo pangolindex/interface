@@ -1,10 +1,11 @@
-import { TokenAmount, JSBI } from '@pangolindex/sdk'
+import { TokenAmount, JSBI, ChainId } from '@pangolindex/sdk'
 import React, { useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from '../../assets/images/token-logo.png'
 import { injected } from '../../connectors'
-import { PNG } from '../../constants'
+import { getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
+import { PNG } from '../../constants/tokens'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
 import { useTotalPngEarned } from '../../state/stake/hooks'
@@ -84,7 +85,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
 
   useMemo(() => {
     if (png === undefined) return
-    fetch(`https://api.pangolin.exchange/png/circulating-supply`)
+    fetch(`${PANGOLIN_API_BASE_URL}/png/circulating-supply`)
       .then(res => res.text())
       .then(val => setCirculation(new TokenAmount(png, val)))
   }, [png])
@@ -167,8 +168,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                                 address: png?.address,
                                 symbol: png?.symbol,
                                 decimals: png?.decimals,
-                                image:
-                                  'https://raw.githubusercontent.com/pangolindex/tokens/main/assets/0x60781C2586D68229fde47564546784ab3fACA982/logo.png'
+                                image: getTokenLogoURL(PNG[ChainId.AVALANCHE].address, 48)
                               }
                             }
                           })

@@ -1,4 +1,4 @@
-import { UNI } from './../../constants/index'
+import { PNG } from '../../constants/tokens'
 import { TokenAmount } from '@pangolindex/sdk'
 import { isAddress } from 'ethers/lib/utils'
 import { useGovernanceContract, usePngContract } from '../../hooks/useContract'
@@ -207,12 +207,12 @@ export function useUserDelegatee(): string {
 
 export function useUserVotes(): TokenAmount | undefined {
   const { account, chainId } = useActiveWeb3React()
-  const uniContract = usePngContract()
+  const pngContract = usePngContract()
 
   // check for available votes
-  const uni = chainId ? UNI[chainId] : undefined
-  const votes = useSingleCallResult(uniContract, 'getCurrentVotes', [account ?? undefined])?.result?.[0]
-  return votes && uni ? new TokenAmount(uni, votes) : undefined
+  const png = chainId ? PNG[chainId] : undefined
+  const votes = useSingleCallResult(pngContract, 'getCurrentVotes', [account ?? undefined])?.result?.[0]
+  return votes && png ? new TokenAmount(png, votes) : undefined
 }
 
 export function useDelegateCallback(): (delegatee: string | undefined) => undefined | Promise<string> {
