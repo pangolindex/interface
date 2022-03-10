@@ -1,6 +1,6 @@
 import { useMemo, useEffect, useState } from 'react'
 import { parseBytes32String } from '@ethersproject/strings'
-import { Currency, CAVAX, Token, currencyEquals } from '@pangolindex/sdk'
+import { Currency, CAVAX, Token, currencyEquals, CHAINS, ChainId } from '@pangolindex/sdk'
 import ERC20_INTERFACE, { ERC20_BYTES32_INTERFACE } from '../constants/abis/erc20'
 import { useSelectedTokenList } from '../state/lists/hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../state/multicall/hooks'
@@ -8,8 +8,11 @@ import { useUserAddedTokens } from '../state/user/hooks'
 import { isAddress } from '../utils'
 import { useChainId } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
+<<<<<<< HEAD
 
 import { CHAINS, ChainsId } from 'src/constants/chains'
+=======
+>>>>>>> 0859375 (Update sdk to 1.5.0)
 
 export function useAllTokens(): { [address: string]: Token } {
   const chainId = useChainId()
@@ -176,7 +179,10 @@ export function useCoinGeckoTokenData(coin: Token) {
 
   useEffect(() => {
     const getCoinData = async () => {
-      const chain = coin.chainId === 43113 ? CHAINS[ChainsId.AVAX] : CHAINS[coin.chainId]
+      let chain = CHAINS.filter(chain => chain.chain_id === coin.chainId)[0]
+      if (!chain.mainnet) {
+        chain = CHAINS.filter(chain => chain.chain_id === ChainId.AVALANCHE)[0]
+      }
 
       const response = await fetch(
         `https://api.coingecko.com/api/v3/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`

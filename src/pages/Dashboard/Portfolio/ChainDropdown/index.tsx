@@ -3,23 +3,26 @@ import React, { useRef } from 'react'
 import { useOnClickOutside } from 'src/hooks/useOnClickOutside'
 import { ApplicationModal } from 'src/state/application/actions'
 import { useModalOpen, useToggleModal } from 'src/state/application/hooks'
-import { CHAIN, CHAINS, ChainsId } from 'src/constants/chains'
 
 import { StyledMenuButton } from '../DateDropdown'
 import { StyledMenu } from 'src/components/StyledMenu'
 import PolygonIcon from 'src/assets/svg/Polygon.svg'
 import { DropdownItem, NarrowMenuFlyout } from './styleds'
+import { Chain, CHAINS } from '@pangolindex/sdk'
+import { AllChain } from 'src/state/portifolio/hooks'
 
 interface ChainDropdownProps {
-  selectChain?: CHAIN
-  handleSelectChain: (chain: CHAIN) => void
+  selectChain?: Chain
+  handleSelectChain: (chain: Chain) => void
 }
 
-export default function ChainDropdown({ selectChain = CHAINS[ChainsId.All], handleSelectChain }: ChainDropdownProps) {
+export default function ChainDropdown({ selectChain = AllChain, handleSelectChain }: ChainDropdownProps) {
   const node = useRef<HTMLDivElement>()
   const open = useModalOpen(ApplicationModal.PORTFOLIO_TOKEN)
   const toggle = useToggleModal(ApplicationModal.PORTFOLIO_TOKEN)
   useOnClickOutside(node, open ? toggle : undefined)
+
+  CHAINS.push(AllChain)
 
   return (
     <StyledMenu ref={node as any}>
@@ -29,7 +32,7 @@ export default function ChainDropdown({ selectChain = CHAINS[ChainsId.All], hand
 
       {open && (
         <NarrowMenuFlyout>
-          {Object.values(CHAINS).map((chain: CHAIN, index: number) => {
+          {CHAINS.filter(chain => chain.tracked_by_debank).map((chain: Chain, index: number) => {
             return (
               <DropdownItem
                 id="link"

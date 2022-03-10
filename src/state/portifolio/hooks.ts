@@ -1,15 +1,32 @@
 import axios from 'axios'
 import qs from 'qs'
 import { useQuery } from 'react-query'
-import { CAVAX, ChainId, Currency, Pair, Token, TokenAmount } from '@pangolindex/sdk'
+import { CAVAX, ChainId, Currency, Pair, Token, TokenAmount, CHAINS, Chain } from '@pangolindex/sdk'
 import { ethers } from 'ethers'
+<<<<<<< HEAD
 import { CHAINS, ChainsId } from 'src/constants/chains'
 import { useActiveWeb3React, useChainId } from 'src/hooks'
+=======
+import Logo from 'src/assets/images/logo.svg'
+import { useActiveWeb3React } from 'src/hooks'
+>>>>>>> 0859375 (Update sdk to 1.5.0)
 
-export type ChainBalances = {
-  [chainID in ChainsId]: number
+export const AllChain: Chain = {
+  id: 'all',
+  chain_id: 0,
+  name: 'All',
+  symbol: 'ALL',
+  mainnet: false,
+  logo: Logo,
+  pangolin_is_live: false,
+  tracked_by_debank: true,
+  rpc_uri: '',
+  nativeCurrency: {
+    name: 'Ether',
+    symbol: 'ETH',
+    decimals: 18
+  }
 }
-
 export interface Protocol {
   id: string
   name: string
@@ -67,17 +84,22 @@ export function useGetChainsBalances() {
     if (account) {
       const response = await openApi.get(`/total_balance?${query}`)
       const data = response.data
-      const chainbalances: any = {
-        0: data?.total_usd_value
-      }
-
+      const chainbalances: { chainID: number; balance: number }[] = [
+        {
+          chainID: 0,
+          balance: data?.total_usd_value
+        }
+      ]
       data?.chain_list?.forEach((chain: any) => {
-        chainbalances[chain?.community_id] = chain?.usd_value
+        chainbalances.push({
+          chainID: chain?.community_id,
+          balance: chain?.usd_value
+        })
       })
-      return chainbalances as ChainBalances
+      return chainbalances
     }
 
-    return {} as ChainBalances
+    return [] as { chainID: number; balance: number }[]
   })
 }
 
@@ -88,12 +110,10 @@ export function useGetChainBalance() {
 
   const getChainBalance = async () => {
     if (account && chainId) {
-      let id = chainId
-      if (id === ChainId.FUJI || id === ChainId.WAGMI) {
-        id = ChainId.AVALANCHE
+      let chain = CHAINS.filter(chain => chain.chain_id === chainId)[0]
+      if (!chain.mainnet && chainId == ChainId.WAGMI) {
+        chain = CHAINS.filter(chain => chain.chain_id === ChainId.AVALANCHE)[0]
       }
-
-      const chain = CHAINS[id]
 
       const query = qs.stringify(
         {
@@ -173,11 +193,10 @@ export function useGetWalletChainTokens() {
 
   const getBalance = async () => {
     if (account && chainId) {
-      let id = chainId
-      if (id === ChainId.FUJI) {
-        id = ChainId.AVALANCHE
+      let chain = CHAINS.filter(chain => chain.chain_id === chainId)[0]
+      if (!chain.mainnet) {
+        chain = CHAINS.filter(chain => chain.chain_id === ChainId.AVALANCHE)[0]
       }
-      const chain = CHAINS[id]
 
       const query = qs.stringify(
         {
