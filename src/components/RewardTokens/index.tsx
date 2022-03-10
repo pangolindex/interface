@@ -1,7 +1,7 @@
 import { ChainId, Token } from '@pangolindex/sdk'
 import React from 'react'
 import styled from 'styled-components'
-import { PNG } from '../../constants'
+import { PNG } from '../../constants/tokens'
 import { useActiveWeb3React } from '../../hooks'
 import CurrencyLogo from '../CurrencyLogo'
 

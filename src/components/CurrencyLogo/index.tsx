@@ -6,9 +6,7 @@ import AvaxLogo from '../../assets/images/avalanche_token_round.png'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'
-
-const getTokenLogoURL = (address: string) =>
-  `https://raw.githubusercontent.com/pangolindex/tokens/main/assets/${address}/logo.png`
+import { getTokenLogoURL_24_24, getTokenLogoURL_48_48 } from '../../constants'
 
 export const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
@@ -39,14 +37,17 @@ export default function CurrencyLogo({
     if (currency === CAVAX) return []
 
     if (currency instanceof Token) {
-      if (currency instanceof WrappedTokenInfo) {
-        return [...uriLocations, getTokenLogoURL(currency.address)]
-      }
-
-      return [...uriLocations, getTokenLogoURL(currency.address)]
+      // Javascript will parse 'XXpx' or 'XXrem' as XX
+      const logoSizeFloat = parseFloat(size)
+      const primarySrc =
+        isNaN(logoSizeFloat) || logoSizeFloat <= 24
+          ? getTokenLogoURL_24_24(currency.address)
+          : getTokenLogoURL_48_48(currency.address)
+      return [primarySrc, ...uriLocations]
     }
+
     return []
-  }, [currency, uriLocations])
+  }, [currency, uriLocations, size])
 
   if (currency === CAVAX) {
     return <StyledEthereumLogo src={AvaxLogo} size={size} style={style} />

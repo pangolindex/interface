@@ -1,4 +1,4 @@
-import { PNG } from './../../constants/index'
+import { PNG } from '../../constants/tokens'
 import { Currency, CurrencyAmount, CAVAX, JSBI, Token, TokenAmount } from '@pangolindex/sdk'
 import { useMemo } from 'react'
 import ERC20_INTERFACE from '../../constants/abis/erc20'

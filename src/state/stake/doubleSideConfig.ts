@@ -1,4 +1,5 @@
 import { ChainId, WAVAX } from '@pangolindex/sdk'
+import { MINICHEF_ADDRESS } from '../../constants'
 import {
   PNG,
   DAI,
@@ -81,7 +82,6 @@ import {
   ORBS,
   SPELL,
   KLO,
-  MINICHEF_ADDRESS,
   MIM,
   gOHM,
   CRA,
@@ -128,7 +128,7 @@ import {
   DEP,
   ZEE,
   TOMB
-} from '../../constants'
+} from '../../constants/tokens'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
 export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {

@@ -14,7 +14,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import useDebounce from '../../hooks/useDebounce'
-import { BIG_INT_ZERO } from '../../constants'
+import { BIG_INT_ZERO, PANGOLIN_API_BASE_URL } from '../../constants'
 import Toggle from '../../components/Toggle'
 
 const PageWrapper = styled(AutoColumn)`
@@ -202,9 +202,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
           // TODO: update here api call without staking reward address
           .map(stakingInfo => {
             if (poolMap) {
-              return fetch(
-                `https://api.pangolin.exchange/pangolin/apr2/${poolMap[stakingInfo.totalStakedAmount.token.address]}`
-              )
+              return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr2/${poolMap[stakingInfo.totalStakedAmount.token.address]}`)
                 .then(res => res.json())
                 .then(res => ({
                   swapFeeApr: Number(res.swapFeeApr),
@@ -213,7 +211,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                   ...stakingInfo
                 }))
             } else {
-              return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+              return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
                 .then(res => res.json())
                 .then(res => ({
                   swapFeeApr: Number(res.swapFeeApr),
