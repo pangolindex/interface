@@ -81,7 +81,6 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
       <GridContainer isLimitOrders={isLimitOrders}>
         {isLimitOrders && (
           <Hidden upToSmall={true}>
-            {/* // ATTENTION ICI */}
             <CoinChart coin={selectedToken} />
           </Hidden>
         )}
