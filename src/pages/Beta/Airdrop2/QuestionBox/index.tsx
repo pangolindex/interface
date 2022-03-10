@@ -1,22 +1,22 @@
 import React, { useState } from 'react'
 import { Text } from '@pangolindex/components'
+import { StyledLogo, Separator, QuestionBox } from '../styleds'
 import PlusLogo from 'src/assets/images/plus.png'
 import MinusLogo from 'src/assets/images/minus.png'
-import { StyledLogo, SeparatorBorder } from '../../styleds'
 
-export const TrollQuestionBox = () => {
+export const QuestionAnswer = () => {
   const [visible, setVisible] = useState<boolean>(false)
   const [visible2, setVisible2] = useState<boolean>(false)
   const [visible3, setVisible3] = useState<boolean>(false)
 
   return (
-    <>
+    <QuestionBox>
       <span onClick={() => setVisible(!visible)}>
         <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {visible ? <img src={MinusLogo} alt="" /> : <StyledLogo src={PlusLogo} size={'20px'} />}
 
-          <Text fontSize={24} fontWeight={500} lineHeight="36px" color="text10">
-            Is there really a troll on the bridge TrollQuestionBox
+          <Text fontSize={24} fontWeight={700} lineHeight="36px" color="text10">
+            Is there really a troll on the bridge
           </Text>
         </span>
         {visible ? (
@@ -31,14 +31,14 @@ export const TrollQuestionBox = () => {
           <></>
         )}
         <span style={{ padding: '20px' }}></span>
-        <SeparatorBorder />
+        <Separator />
       </span>
       <span onClick={() => setVisible2(!visible2)}>
         <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {visible2 ? <img src={MinusLogo} alt="" /> : <StyledLogo src={PlusLogo} size={'20px'} />}
 
-          <Text fontSize={24} fontWeight={500} lineHeight="36px" color="text10">
-            Is there really a troll on the bridge TrollQuestionBox
+          <Text fontSize={24} fontWeight={700} lineHeight="36px" color="text10">
+            Is there really a troll on the bridge
           </Text>
         </span>
         {visible2 ? (
@@ -53,14 +53,14 @@ export const TrollQuestionBox = () => {
           <></>
         )}
         <span style={{ padding: '20px' }}></span>
-        <SeparatorBorder />
+        <Separator />
       </span>
       <span onClick={() => setVisible3(!visible3)}>
         <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {visible3 ? <img src={MinusLogo} alt="" /> : <StyledLogo src={PlusLogo} size={'20px'} />}
 
-          <Text fontSize={24} fontWeight={500} lineHeight="36px" color="text10">
-            Is there really a troll on the bridge TrollQuestionBox
+          <Text fontSize={24} fontWeight={700} lineHeight="36px" color="text10">
+            Is there really a troll on the bridge
           </Text>
         </span>
         {visible3 ? (
@@ -75,8 +75,8 @@ export const TrollQuestionBox = () => {
           <></>
         )}
         <span style={{ padding: '20px' }}></span>
-        <SeparatorBorder />
+        <Separator />
       </span>
-    </>
+    </QuestionBox>
   )
 }

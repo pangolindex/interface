@@ -1,14 +1,9 @@
 import React, { useState } from 'react'
 import { QuestionBox, TableContent, FullBox } from '../styleds'
-import { GeneralBox } from '../QuestionBoxes/GeneralBox'
-import { OtherQuestionBox } from '../QuestionBoxes/OtherQuestionBox'
-import { BridgingBox } from '../QuestionBoxes/BridgingBox'
-import { TrollFeeBox } from '../QuestionBoxes/TrollFeeBox'
-import { TrollQuestionBox } from '../QuestionBoxes/TrollQuestionBox'
+import { TrollQuestionBox, TrollFeeBox, BridgingBox, OtherQuestionBox, GeneralBox } from '../QuestionBoxes'
 import { Text } from '@pangolindex/components'
 
 export const QuestionAnswer = () => {
-
   const [general, setGeneral] = useState<boolean>(true)
   const [otherQuestion, setOtherQuestion] = useState<boolean>(false)
   const [bridging, setBridging] = useState<boolean>(false)
@@ -16,108 +11,129 @@ export const QuestionAnswer = () => {
   const [trollFee, setTrollFee] = useState<boolean>(false)
 
   const showGeneral = () => {
-      setGeneral(true)
-      setOtherQuestion(false)
-      setBridging(false)
-      setTrollQuestions(false)
-      setTrollFee(false)
+    setGeneral(true)
+    setOtherQuestion(false)
+    setBridging(false)
+    setTrollQuestions(false)
+    setTrollFee(false)
   }
 
   const showOtherQuestion = () => {
-      setGeneral(false)
-      setOtherQuestion(true)
-      setBridging(false)
-      setTrollQuestions(false)
-      setTrollFee(false)
+    setGeneral(false)
+    setOtherQuestion(true)
+    setBridging(false)
+    setTrollQuestions(false)
+    setTrollFee(false)
   }
 
   const showBridging = () => {
-      setGeneral(false)
-      setOtherQuestion(false)
-      setBridging(true)
-      setTrollQuestions(false)
-      setTrollFee(false)
+    setGeneral(false)
+    setOtherQuestion(false)
+    setBridging(true)
+    setTrollQuestions(false)
+    setTrollFee(false)
   }
 
   const showTrollQuestions = () => {
-      setGeneral(false)
-      setOtherQuestion(false)
-      setBridging(false)
-      setTrollQuestions(true)
-      setTrollFee(false)
+    setGeneral(false)
+    setOtherQuestion(false)
+    setBridging(false)
+    setTrollQuestions(true)
+    setTrollFee(false)
   }
 
   const showTrollFee = () => {
-      setGeneral(false)
-      setOtherQuestion(false)
-      setBridging(false)
-      setTrollQuestions(false)
-      setTrollFee(true)
+    setGeneral(false)
+    setOtherQuestion(false)
+    setBridging(false)
+    setTrollQuestions(false)
+    setTrollFee(true)
   }
 
   return (
     <FullBox>
       <TableContent>
         <Text fontSize={21} fontWeight={500} lineHeight="32px" color="text10" padding={10}>
-            Table of Content
+          Table of Content
         </Text>
-        { general ? (
-            <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text10" padding={10} onClick={showGeneral}>
-                General
-            </Text>
+        {general ? (
+          <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text10" padding={10} onClick={showGeneral}>
+            General
+          </Text>
         ) : (
-            <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" padding={10} onClick={showGeneral}>
-                General
-            </Text>
+          <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" padding={10} onClick={showGeneral}>
+            General
+          </Text>
         )}
-        { otherQuestion ? (
-        <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text10" padding={10} onClick={showOtherQuestion}>
+        {otherQuestion ? (
+          <Text
+            fontSize={14}
+            fontWeight={500}
+            lineHeight="21px"
+            color="text10"
+            padding={10}
+            onClick={showOtherQuestion}
+          >
             Other Questions
-        </Text>
+          </Text>
         ) : (
-        <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" padding={10} onClick={showOtherQuestion}>
+          <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" padding={10} onClick={showOtherQuestion}>
             Other Questions
-        </Text>
+          </Text>
         )}
 
-        { bridging ? (
-        <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text10" padding={10} onClick={showBridging}>
+        {bridging ? (
+          <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text10" padding={10} onClick={showBridging}>
             Bridging For Noobs
-        </Text>
+          </Text>
         ) : (
-        <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" padding={10} onClick={showBridging}>
+          <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" padding={10} onClick={showBridging}>
             Bridging For Noobs
-        </Text>
+          </Text>
         )}
-        { trollQuestions ? (
-        <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text10" padding={10} onClick={showTrollQuestions}>
+        {trollQuestions ? (
+          <Text
+            fontSize={14}
+            fontWeight={500}
+            lineHeight="21px"
+            color="text10"
+            padding={10}
+            onClick={showTrollQuestions}
+          >
             Troll Related Questions
-        </Text>
+          </Text>
         ) : (
-        <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" padding={10} onClick={showTrollQuestions}>
+          <Text
+            fontSize={14}
+            fontWeight={500}
+            lineHeight="21px"
+            color="text8"
+            padding={10}
+            onClick={showTrollQuestions}
+          >
             Troll Related Questions
-        </Text>
+          </Text>
         )}
-        { trollFee ? (
-        <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text10" padding={10} onClick={showTrollFee}>
+        {trollFee ? (
+          <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text10" padding={10} onClick={showTrollFee}>
             Troll Fee Problems
-        </Text>
+          </Text>
         ) : (
-        <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" padding={10} onClick={showTrollFee}>
+          <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" padding={10} onClick={showTrollFee}>
             Troll Fee Problems
-        </Text>
+          </Text>
         )}
       </TableContent>
       <QuestionBox>
         <Text fontSize={32} fontWeight={500} lineHeight="48px" color="text10">
-            Have Questions? Look Here:
+          Have Questions? Look Here:
         </Text>
         <span style={{ padding: '20px' }}></span>
-        { general ? (<GeneralBox />) : <></> }
-        { otherQuestion ? (<OtherQuestionBox />) : <></> }
-        { bridging ? (<BridgingBox />) : <></> }
-        { trollQuestions ? (<TrollQuestionBox />) : <></> }
-        { trollFee ? <TrollFeeBox /> : <></>}
+        {general ? <GeneralBox /> : <></>}
+        {otherQuestion ? <OtherQuestionBox /> : <></>}
+        {bridging ? <BridgingBox /> : <></>}
+        {trollQuestions ? <TrollQuestionBox /> : <></>}
+        {trollFee ? <TrollFeeBox /> : <></>}
       </QuestionBox>
     </FullBox>
   )
