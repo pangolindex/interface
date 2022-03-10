@@ -17,10 +17,10 @@ export const ANALYTICS_PAGE = 'https://info.pangolin.exchange'
 export const PANGOLIN_API_BASE_URL = `https://api.pangolin.exchange`
 
 export const PANGOLIN_TOKENS_REPO_RAW_BASE_URL = `https://raw.githubusercontent.com/pangolindex/tokens`
-export const getTokenLogoURL_24_24 = (address: string) =>
-  `${PANGOLIN_TOKENS_REPO_RAW_BASE_URL}/main/assets/${address}/logo.png` // TODO: Update to logo_24.png
-export const getTokenLogoURL_48_48 = (address: string) =>
-  `${PANGOLIN_TOKENS_REPO_RAW_BASE_URL}/main/assets/${address}/logo.png` // TODO: Update to logo_48.png
+
+export type LogoSize = 24 | 48
+export const getTokenLogoURL = (address: string, size: LogoSize = 24) =>
+  `${PANGOLIN_TOKENS_REPO_RAW_BASE_URL}/main/assets/${address}/logo_${size}.png`
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 

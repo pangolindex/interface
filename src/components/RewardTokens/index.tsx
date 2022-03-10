@@ -1,5 +1,6 @@
 import { ChainId, Token } from '@pangolindex/sdk'
 import React from 'react'
+import { LogoSize } from 'src/constants'
 import styled from 'styled-components'
 import { PNG } from '../../constants/tokens'
 import { useActiveWeb3React } from '../../hooks'
@@ -14,7 +15,7 @@ const Wrapper = styled.div<{ margin: boolean; sizeraw: number }>`
 
 interface RewardTokensLogoProps {
   margin?: boolean
-  size?: number
+  size?: LogoSize
   rewardTokens?: Array<Token | null | undefined> | null
 }
 
@@ -23,14 +24,14 @@ const CoveredLogo = styled(CurrencyLogo)<{ sizeraw: number }>`
   left: ${({ sizeraw }) => '-' + (sizeraw / 2).toString() + 'px'} !important;
 `
 
-export default function RewardTokens({ rewardTokens = [], size = 16, margin = false }: RewardTokensLogoProps) {
+export default function RewardTokens({ rewardTokens = [], size = 24, margin = false }: RewardTokensLogoProps) {
   const { chainId } = useActiveWeb3React()
   const tokens = [PNG[chainId || ChainId.AVALANCHE], ...(rewardTokens || [])] // add PNG as default reward
 
   return (
     <Wrapper sizeraw={size} margin={margin}>
       {(tokens || []).map((token, i) => {
-        return <CoveredLogo key={i} currency={token as Token} size={size.toString() + 'px'} sizeraw={size} />
+        return <CoveredLogo key={i} currency={token as Token} size={size} sizeraw={size} />
       })}
     </Wrapper>
   )

@@ -4,7 +4,7 @@ import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from '../../assets/images/token-logo.png'
 import { injected } from '../../connectors'
-import { getTokenLogoURL_48_48, PANGOLIN_API_BASE_URL } from '../../constants'
+import { getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
@@ -168,7 +168,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                                 address: png?.address,
                                 symbol: png?.symbol,
                                 decimals: png?.decimals,
-                                image: getTokenLogoURL_48_48(PNG[ChainId.AVALANCHE].address)
+                                image: getTokenLogoURL(PNG[ChainId.AVALANCHE].address, 48)
                               }
                             }
                           })

@@ -3,10 +3,10 @@ import { shade } from 'polished'
 import Vibrant from 'node-vibrant'
 import { hex } from 'wcag-contrast'
 import { Token } from '@pangolindex/sdk'
-import { getTokenLogoURL_24_24 } from '../constants'
+import { getTokenLogoURL } from '../constants'
 
 async function getColorFromToken(token: Token): Promise<string | null> {
-  const path = getTokenLogoURL_24_24(token.address)
+  const path = getTokenLogoURL(token.address)
 
   return Vibrant.from(path)
     .getPalette()

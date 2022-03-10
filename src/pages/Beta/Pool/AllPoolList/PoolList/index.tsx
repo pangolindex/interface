@@ -136,7 +136,9 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
           // TODO: update here api call without staking reward address
           .map(stakingInfo => {
             if (poolMap) {
-              return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr2/${poolMap[stakingInfo.totalStakedAmount.token.address]}`)
+              return fetch(
+                `${PANGOLIN_API_BASE_URL}/pangolin/apr2/${poolMap[stakingInfo.totalStakedAmount.token.address]}`
+              )
                 .then(res => res.json())
                 .then(res => ({
                   swapFeeApr: Number(res.swapFeeApr),
