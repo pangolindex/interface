@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { QuestionBox, TableContent, FullBox } from '../styleds'
-import { GeneralBox } from './GeneralBox'
-import { OtherQuestionBox } from './OtherQuestionBox'
-import { BridgingBox } from './BridgingBox'
-import { TrollFeeBox } from './TrollFeeBox'
-import { TrollQuestionBox } from './TrollQuestionBox'
+import { GeneralBox } from '../QuestionBoxes/GeneralBox'
+import { OtherQuestionBox } from '../QuestionBoxes/OtherQuestionBox'
+import { BridgingBox } from '../QuestionBoxes/BridgingBox'
+import { TrollFeeBox } from '../QuestionBoxes/TrollFeeBox'
+import { TrollQuestionBox } from '../QuestionBoxes/TrollQuestionBox'
 import { Text } from '@pangolindex/components'
 
 export const QuestionAnswer = () => {

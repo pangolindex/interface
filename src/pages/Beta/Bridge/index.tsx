@@ -4,7 +4,7 @@ import { Text, Box, ToggleButtons, Button } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { useWalletModalToggle } from 'src/state/application/hooks'
-import { QuestionAnswer } from './QuestionBoxes'
+import { QuestionAnswer } from './TabulationBox'
 
 const BridgeUI = () => {
   const { account } = useActiveWeb3React()
