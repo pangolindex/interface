@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator, QuestionWrapper } from './styleds'
 import { Text, Box } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
-import { BoxNotConnected, BoxCheckEligibility, BoxGoToFTM, BoxClaimReward, QuestionAnswer } from './BoxesType'
+import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxNotConnected } from './BoxesType'
+import { QuestionAnswer } from './QuestionBox'
 import { useUserHasAvailableClaim, useUserUnclaimedAmount, useClaimCallback } from 'src/state/airdrop/hooks'
 import NearLogo from 'src/assets/images/near.png'
 import Modal from 'src/components/Modal'
@@ -18,7 +19,6 @@ const AirdropUI: React.FC = () => {
   const [changeMyChain, setChangeChain] = useState<boolean>(false)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
 
-  //FUNCTION AIRDROP CONTRACT
   const canClaim = useUserHasAvailableClaim(account)
   const claimAmount = useUserUnclaimedAmount(account)
   const amount = claimAmount?.toFixed(0, { groupSeparator: ',' })
@@ -51,11 +51,11 @@ const AirdropUI: React.FC = () => {
     // if (account && eligible && !bought && !changeMyChain)
     // {
     //     return (
-    //         <BoxBuyFTM buyFTM={buyFTM} />
+    //         <BoxBuyCurrency buyFTM={buyFTM} />
     //     )
     // }
     if (account && eligible && !changeMyChain) {
-      return <BoxGoToFTM changeChain={changeChain} />
+      return <BoxChangeChain changeChain={changeChain} />
     }
     if (account && eligible && changeMyChain) {
       return <BoxClaimReward claimPNG={claimPNG} amount={amount} />
@@ -70,18 +70,23 @@ const AirdropUI: React.FC = () => {
 
   const renderError = (modalOpen: any) => {
     return (
-      <Modal isOpen={modalOpen} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={50} isBeta={true} >
+      <Modal isOpen={modalOpen} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={50} isBeta={true}>
         <ColumnCenter>
-            <PngTokenAnimated width="55px" src={tokenLogo} />
-            <Text fontSize={35} fontWeight={500} lineHeight="50px" color="text10" style={{ textAlign: 'center', paddingTop: '30px' }}>
-                Sorry, you are not eligible
-            </Text>
+          <PngTokenAnimated width="55px" src={tokenLogo} />
+          <Text
+            fontSize={35}
+            fontWeight={500}
+            lineHeight="50px"
+            color="text10"
+            style={{ textAlign: 'center', paddingTop: '30px' }}
+          >
+            Sorry, you are not eligible
+          </Text>
         </ColumnCenter>
       </Modal>
     )
   }
 
-  //MAIN PAGE
   return (
     <PageWrapper>
       <Box p={70}>

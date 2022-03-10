@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { PageWrapper, PageTitle, PoolsWrapper, PoolCards } from './styleds'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 import Loader from 'src/components/Loader'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/singleSideConfig'
 import { SingleSideStakingInfo, useSingleSideStakingInfo } from 'src/state/stake/hooks'
@@ -11,7 +11,6 @@ import PoolCard from './PoolCard'
 import { useModalOpen, useSingleSideStakingDetailnModalToggle } from 'src/state/application/hooks'
 import DetailModal from './DetailModal'
 import { ApplicationModal } from 'src/state/application/actions'
-import { ChainId } from '@pangolindex/sdk'
 
 interface RouteParams {
   version: string
@@ -20,7 +19,7 @@ interface RouteParams {
 const StakeUI = () => {
   const params = useParams<RouteParams>()
   const { t } = useTranslation()
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const stakingInfos = useSingleSideStakingInfo(Number(params.version))
   const [stakingInfoResults, setStakingInfoResults] = useState<SingleSideStakingInfo[]>()
   const [selectedStakingInfoIndex, setSelectedStakingInfoIndex] = useState<number>(-1)
@@ -86,7 +85,7 @@ const StakeUI = () => {
           <PoolCards>
             {stakingInfoResults?.map((stakingInfo, index) => (
               <PoolCard
-                key={stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE]}
+                key={stakingInfo.stakingRewardAddress[chainId]}
                 stakingInfo={stakingInfo}
                 onViewDetailsClick={() => onViewDetailClick(index)}
               />

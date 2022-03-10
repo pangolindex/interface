@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 import { CAVAX, ChainId, Currency, Pair, Token, TokenAmount } from '@pangolindex/sdk'
 import { ethers } from 'ethers'
 import { CHAINS, ChainsId } from 'src/constants/chains'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 
 export type ChainBalances = {
   [chainID in ChainsId]: number
@@ -83,7 +83,9 @@ export function useGetChainsBalances() {
 
 // Get the USD balance of address of connected chain
 export function useGetChainBalance() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+
 
   const getChainBalance = async () => {
     if (account && chainId) {
@@ -117,7 +119,8 @@ export function useGetChainBalance() {
 
 // Get the Tokens of wallet
 export function useGetWalletChainTokens() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   // This functions is temporary for Pangolin birthday
   const getPangolinPairs = async () => {
@@ -141,7 +144,7 @@ export function useGetWalletChainTokens() {
         if (!token2) {
           return new TokenDataUser(
             new Token(
-              chainId || ChainId.AVALANCHE,
+              chainId,
               ethers.utils.getAddress(token1?.id),
               token1?.decimals,
               `${token1?.symbol} - Staked`,
@@ -154,7 +157,7 @@ export function useGetWalletChainTokens() {
 
         const tokenA = new TokenAmount(
           new Token(
-            chainId || ChainId.AVALANCHE,
+            chainId,
             ethers.utils.getAddress(token1?.id),
             token1?.decimals,
             token1?.symbol,
@@ -165,7 +168,7 @@ export function useGetWalletChainTokens() {
 
         const tokenB = new TokenAmount(
           new Token(
-            chainId || ChainId.AVALANCHE,
+            chainId,
             ethers.utils.getAddress(token2?.id),
             token2?.decimals,
             token2?.symbol,
@@ -174,7 +177,7 @@ export function useGetWalletChainTokens() {
           token2?.amount.toString().replace('.', '')
         )
 
-        return new PairDataUser(new Pair(tokenA, tokenB, chainId || ChainId.AVALANCHE), pair?.stats?.net_usd_value)
+        return new PairDataUser(new Pair(tokenA, tokenB, chainId), pair?.stats?.net_usd_value)
       })
       return requestPairs
     }
@@ -204,7 +207,7 @@ export function useGetWalletChainTokens() {
 
       const requestTokens: TokenDataUser[] = data.map((token: any) => {
         if (token?.id?.toLowerCase() === 'avax') {
-          return new TokenDataUser(CAVAX[chainId || ChainId.AVALANCHE], token?.price, token?.amount)
+          return new TokenDataUser(CAVAX[chainId], token?.price, token?.amount)
         }
 
         return new TokenDataUser(

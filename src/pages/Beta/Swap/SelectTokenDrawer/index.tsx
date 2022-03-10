@@ -14,7 +14,7 @@ import { useSelectedListInfo } from 'src/state/lists/hooks'
 import BaseRow, { RowBetween } from 'src/components/Row'
 import TokenListDrawer from '../TokenListDrawer'
 import usePrevious from 'src/hooks/usePrevious'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 interface Props {
   isOpen: boolean
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const currencyKey = (currency: Currency, chainId: ChainId): string => {
-  return currency instanceof Token ? currency.address : currency === CAVAX[chainId || ChainId.AVALANCHE] ? 'AVAX' : ''
+  return currency instanceof Token ? currency.address : currency === CAVAX[chainId] ? 'AVAX' : ''
 }
 
 const SelectTokenDrawer: React.FC<Props> = props => {
@@ -55,7 +55,7 @@ const SelectTokenDrawer: React.FC<Props> = props => {
 
   const allTokens = useAllTokens()
   const selectedListInfo = useSelectedListInfo()
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const isAddressSearch = isAddress(searchQuery)
   const searchToken = useToken(searchQuery)
 
@@ -84,7 +84,7 @@ const SelectTokenDrawer: React.FC<Props> = props => {
   }, [filteredTokens, searchQuery, searchToken, tokenComparator])
 
   //const currencies = useMemo(() => [Currency.CAVAX], ...filteredSortedTokens], [filteredSortedTokens])
-  const currencies = useMemo(() => [CAVAX[chainId || ChainId.AVALANCHE], ...filteredSortedTokens], [
+  const currencies = useMemo(() => [CAVAX[chainId], ...filteredSortedTokens], [
     filteredSortedTokens,
     chainId
   ])
@@ -140,7 +140,7 @@ const SelectTokenDrawer: React.FC<Props> = props => {
               itemCount={currencies.length}
               itemSize={56}
               itemData={currencies}
-              itemKey={(index, data) => currencyKey(data[index], chainId || ChainId.AVALANCHE)}
+              itemKey={(index, data) => currencyKey(data[index], chainId)}
             >
               {Row}
             </FixedSizeList>

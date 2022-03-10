@@ -30,11 +30,11 @@ export default function SwapModalHeader({
   onAcceptChanges: () => void
 }) {
   const slippageAdjustedAmounts = useMemo(
-    () => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId ? chainId : ChainId.AVALANCHE),
+    () => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId),
     [trade, allowedSlippage, chainId]
   )
   const { priceImpactWithoutFee } = useMemo(
-    () => computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade),
+    () => computeTradePriceBreakdown(chainId, trade),
     [chainId, trade]
   )
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)

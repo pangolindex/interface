@@ -1,8 +1,8 @@
-import { TokenAmount, Pair, Currency, ChainId } from '@pangolindex/sdk'
+import { TokenAmount, Pair, Currency } from '@pangolindex/sdk'
 import { useMemo } from 'react'
 import IPangolinPair from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-core/interfaces/IPangolinPair.sol/IPangolinPair.json'
 import { Interface } from '@ethersproject/abi'
-import { useActiveWeb3React } from '../hooks'
+import { useChainId } from '../hooks'
 
 import { useMultipleContractSingleData } from '../state/multicall/hooks'
 import { wrappedCurrency } from '../utils/wrappedCurrency'
@@ -17,7 +17,7 @@ export enum PairState {
 }
 
 export function usePairs(currencies: [Currency | undefined, Currency | undefined][]): [PairState, Pair | null][] {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const tokens = useMemo(
     () =>
@@ -32,7 +32,7 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
     () =>
       tokens.map(([tokenA, tokenB]) => {
         return tokenA && tokenB && !tokenA.equals(tokenB)
-          ? Pair.getAddress(tokenA, tokenB, chainId ? chainId : ChainId.AVALANCHE)
+          ? Pair.getAddress(tokenA, tokenB, chainId)
           : undefined
       }),
     [tokens, chainId]
@@ -56,7 +56,7 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
         new Pair(
           new TokenAmount(token0, reserve0.toString()),
           new TokenAmount(token1, reserve1.toString()),
-          chainId ? chainId : ChainId.AVALANCHE
+          chainId
         )
       ]
     })

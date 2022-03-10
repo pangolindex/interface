@@ -18,9 +18,10 @@ const PoolRow: React.FC<Props> = props => {
   const { pair, style, onSelect, isSelected } = props
 
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
-  const currency0 = unwrappedToken(pair.token0, useChainId())
-  const currency1 = unwrappedToken(pair.token1, useChainId())
+  const currency0 = unwrappedToken(pair.token0, chainId)
+  const currency1 = unwrappedToken(pair.token1, chainId)
 
   const userPgl = useTokenBalance(account ?? undefined, pair?.liquidityToken)
 

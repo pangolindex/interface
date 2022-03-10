@@ -7,8 +7,7 @@ import {
   Pair,
   Percent,
   Price,
-  TokenAmount,
-  ChainId
+  TokenAmount
 } from '@pangolindex/sdk'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -46,7 +45,9 @@ export function useDerivedMintInfo(
   poolTokenPercentage?: Percent
   error?: string
 } {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const { t } = useTranslation()
 
   const { independentField, typedValue, otherTypedValue } = useMintState()
@@ -73,7 +74,7 @@ export function useDerivedMintInfo(
     pairState === PairState.NOT_EXISTS || Boolean(totalSupply && JSBI.equal(totalSupply.raw, ZERO))
 
   // balances
-  const balances = useCurrencyBalances(useChainId(), account ?? undefined, [
+  const balances = useCurrencyBalances(chainId, account ?? undefined, [
     currencies[Field.CURRENCY_A],
     currencies[Field.CURRENCY_B]
   ])
@@ -84,14 +85,14 @@ export function useDerivedMintInfo(
 
   // amounts
   const independentAmount: CurrencyAmount | undefined = tryParseAmount(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     typedValue,
     currencies[independentField]
   )
   const dependentAmount: CurrencyAmount | undefined = useMemo(() => {
     if (noLiquidity) {
       if (otherTypedValue && currencies[dependentField]) {
-        return tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, otherTypedValue, currencies[dependentField])
+        return tryParseAmount(chainId, otherTypedValue, currencies[dependentField])
       }
       return undefined
     } else if (independentAmount) {

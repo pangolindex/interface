@@ -2,7 +2,7 @@ import React, { useState, useContext, useCallback, useEffect } from 'react'
 import { useGelatoLimitOrders } from '@gelatonetwork/limit-orders-react'
 import { RefreshCcw, Divide, X } from 'react-feather'
 import { Text, Box, Button, ToggleButtons } from '@pangolindex/components'
-import { Token, Trade, JSBI, TokenAmount, CAVAX, ChainId } from '@pangolindex/sdk'
+import { Token, Trade, JSBI, TokenAmount, CAVAX } from '@pangolindex/sdk'
 import { CurrencyAmount, Currency as UniCurrency } from '@uniswap/sdk-core'
 import { ThemeContext } from 'styled-components'
 import SelectTokenDrawer from '../../SelectTokenDrawer'
@@ -24,6 +24,7 @@ import TradeOption from '../TradeOption'
 import { wrappedGelatoCurrency } from 'src/utils/wrappedCurrency'
 import { useSwapActionHandlers } from 'src/state/swap/hooks'
 import { useQueryClient } from 'react-query'
+import { useChainId } from 'src/hooks'
 
 enum Rate {
   DIV = 'DIV',
@@ -40,7 +41,8 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const [selectedPercentage, setSelectedPercentage] = useState(0)
   const [tokenDrawerType, setTokenDrawerType] = useState(LimitNewField.INPUT)
   const [activeTab, setActiveTab] = useState<'SELL' | 'BUY'>('SELL')
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const theme = useContext(ThemeContext)
 
@@ -69,7 +71,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
     orderState: { independentField, rateType }
   } = useGelatoLimitOrders()
 
-  const { onCurrencySelection: onSwapCurrencySelection } = useSwapActionHandlers(chainId ? chainId : ChainId.AVALANCHE)
+  const { onCurrencySelection: onSwapCurrencySelection } = useSwapActionHandlers(chainId)
 
   // get custom setting values for user
   const [allowedSlippage] = useUserSlippageTolerance()
@@ -194,7 +196,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   }, [approval, approvalSubmitted])
 
   const maxAmountInput: CurrencyAmount<UniCurrency> | undefined = galetoMaxAmountSpend(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     currencyBalances[LimitField.INPUT]
   )
 

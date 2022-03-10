@@ -1,7 +1,7 @@
 import React, { useContext, useState, useCallback } from 'react'
 import { ArrowDown, AlertTriangle, ArrowUpCircle } from 'react-feather'
 import { useTranslation } from 'react-i18next'
-import { Token, Trade, TradeType, CAVAX, ChainId } from '@pangolindex/sdk'
+import { Token, Trade, TradeType, CAVAX } from '@pangolindex/sdk'
 import { CurrencyLogo, Text, Box, Button } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import { getEtherscanLink } from 'src/utils'
@@ -21,7 +21,6 @@ import {
 import LimitOrderDetailInfo from '../LimitOrderDetailInfo'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
-import { useActiveWeb3React } from 'src/hooks'
 import { useGelatoLimitOrders } from '@gelatonetwork/limit-orders-react'
 import { shortenAddress, isAddress } from 'src/utils'
 import { FiatValue } from './FiateValue'
@@ -57,7 +56,7 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
     txHash
   } = props
   const [showInverted, setShowInverted] = useState<boolean>(false)
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
@@ -91,10 +90,10 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
   const outputTokenInfo = outputCurrency1?.tokenInfo
 
   const inputCurrency =
-    inputCurrency1 && inputCurrency1?.symbol === CAVAX[chainId || ChainId.AVALANCHE].symbol
-      ? CAVAX[chainId || ChainId.AVALANCHE]
-      : inputTokenInfo && inputTokenInfo.symbol === CAVAX[chainId || ChainId.AVALANCHE].symbol
-      ? CAVAX[chainId || ChainId.AVALANCHE]
+    inputCurrency1 && inputCurrency1?.symbol === CAVAX[chainId].symbol
+      ? CAVAX[chainId]
+      : inputTokenInfo && inputTokenInfo.symbol === CAVAX[chainId].symbol
+      ? CAVAX[chainId]
       : inputTokenInfo
       ? new Token(
           inputTokenInfo?.chainId,
@@ -114,10 +113,10 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
       : undefined
 
   const outputCurrency =
-    outputCurrency1 && outputCurrency1?.symbol === CAVAX[chainId || ChainId.AVALANCHE].symbol
-      ? CAVAX[chainId || ChainId.AVALANCHE]
-      : outputTokenInfo && outputTokenInfo?.symbol === CAVAX[chainId || ChainId.AVALANCHE].symbol
-      ? CAVAX[chainId || ChainId.AVALANCHE]
+    outputCurrency1 && outputCurrency1?.symbol === CAVAX[chainId].symbol
+      ? CAVAX[chainId]
+      : outputTokenInfo && outputTokenInfo?.symbol === CAVAX[chainId].symbol
+      ? CAVAX[chainId]
       : outputTokenInfo
       ? new Token(
           outputTokenInfo?.chainId,
@@ -137,9 +136,9 @@ const ConfirmLimitOrderDrawer: React.FC<Props> = props => {
       : undefined
 
   const fiatValueInputTmp = useUSDCPrice(inputCurrency)
-  const fiatValueInput = CHAINS[useChainId()] ? fiatValueInputTmp : undefined
+  const fiatValueInput = CHAINS[chainId] ? fiatValueInputTmp : undefined
   const fiatValueOutputTmp = useUSDCPrice(outputCurrency)
-  const fiatValueOutput = CHAINS[useChainId()] ? fiatValueOutputTmp : undefined
+  const fiatValueOutput = CHAINS[chainId] ? fiatValueOutputTmp : undefined
 
   if (!inputAmount || !outputAmount) return null
 

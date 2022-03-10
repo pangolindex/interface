@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import { ArrowDown, AlertTriangle, ArrowUpCircle } from 'react-feather'
 import { useTranslation } from 'react-i18next'
-import { Trade, TradeType, ChainId } from '@pangolindex/sdk'
+import { Trade, TradeType } from '@pangolindex/sdk'
 import { CurrencyLogo, Text, Box, Button } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import { getEtherscanLink, tradeMeaningfullyDiffers } from 'src/utils'
@@ -24,7 +24,7 @@ import {
 import SwapDetailInfo from '../SwapDetailInfo'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 interface Props {
   isOpen: boolean
@@ -54,16 +54,16 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
     txHash
   } = props
 
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
   const slippageAdjustedAmounts = useMemo(
-    () => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId ? chainId : ChainId.AVALANCHE),
+    () => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId),
     [trade, allowedSlippage, chainId]
   )
   const { priceImpactWithoutFee } = useMemo(
-    () => computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade),
+    () => computeTradePriceBreakdown(chainId, trade),
     [chainId, trade]
   )
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)

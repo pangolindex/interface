@@ -36,6 +36,7 @@ export default function ClaimRewardModal({
   extraRewardTokensAmount
 }: StakingModalProps) {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
 
   // monitor call to help UI loading state
@@ -51,7 +52,7 @@ export default function ClaimRewardModal({
 
   const poolMap = useMinichefPools()
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
   const isSuperFarm = extraRewardTokensAmount && extraRewardTokensAmount?.length > 0
 
   async function onClaimReward() {

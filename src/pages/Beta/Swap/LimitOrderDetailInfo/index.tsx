@@ -2,7 +2,7 @@ import { Text } from '@pangolindex/components'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { INITIAL_ALLOWED_SLIPPAGE } from 'src/constants'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 import { ContentBox, DataBox, ValueText } from './styled'
 import { useGelatoLimitOrders, useGelatoLimitOrdersLib } from '@gelatonetwork/limit-orders-react'
 import { TokenAmount } from '@pangolindex/sdk'
@@ -12,7 +12,7 @@ type Props = { trade: any }
 const LimitOrderDetailInfo: React.FC<Props> = ({ trade }) => {
   const { t } = useTranslation()
 
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const {
     derivedOrderInfo: { parsedAmounts, rawAmounts }

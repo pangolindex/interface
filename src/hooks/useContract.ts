@@ -39,7 +39,7 @@ function useContract(address: string | undefined, ABI: any, withSignerIfPossible
 }
 
 export function useV1FactoryContract(): Contract | null {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   return useContract(chainId && V1_FACTORY_ADDRESSES[chainId], V1_FACTORY_ABI, false)
 }
 
@@ -48,7 +48,8 @@ export function useV2MigratorContract(): Contract | null {
 }
 
 export function useMiniChefContract(): Contract | null {
-  return useContract(MINICHEF_ADDRESS[useChainId()], MiniChefV2.abi, true)
+  const chainId = useChainId()
+  return useContract(MINICHEF_ADDRESS[chainId], MiniChefV2.abi, true)
 }
 
 export function useBridgeMigratorContract(): Contract | null {
@@ -68,7 +69,7 @@ export function useBridgeTokenContract(tokenAddress?: string, withSignerIfPossib
 }
 
 export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   return useContract(chainId ? WAVAX[chainId]?.address : undefined, WETH_ABI, withSignerIfPossible)
 }
 
@@ -85,8 +86,8 @@ export function usePairContract(pairAddress?: string, withSignerIfPossible?: boo
 }
 
 export function useMulticallContract(): Contract | null {
-  const { chainId } = useActiveWeb3React()
-  return useContract(chainId && MULTICALL_NETWORKS[chainId], MULTICALL_ABI, false)
+  const chainId = useChainId()
+  return useContract(MULTICALL_NETWORKS[chainId], MULTICALL_ABI, false)
 }
 
 export function useGovernanceContract(): Contract | null {
@@ -94,14 +95,15 @@ export function useGovernanceContract(): Contract | null {
 }
 
 export function usePngContract(): Contract | null {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   return useContract(chainId ? PNG[chainId].address : undefined, Png.abi, true)
 }
 
 export function useStakingContract(stakingAddress?: string, withSignerIfPossible?: boolean): Contract | null {
+  const chainId = useChainId()
   return useContract(
     stakingAddress,
-    stakingAddress === MINICHEF_ADDRESS[useChainId()] ? MiniChefV2.abi : StakingRewards.abi,
+    stakingAddress === MINICHEF_ADDRESS[chainId] ? MiniChefV2.abi : StakingRewards.abi,
     withSignerIfPossible
   )
 }
@@ -111,6 +113,6 @@ export function useRewardViaMultiplierContract(address?: string, withSignerIfPos
 }
 
 export function useAirdropContract(): Contract | null {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   return useContract(chainId ? AIRDROP_ADDRESS[chainId] : undefined, Airdrop.abi, true)
 }

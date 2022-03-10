@@ -19,6 +19,7 @@ export interface EarnDetailProps {
 
 const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
   const { t } = useTranslation()
+  const chainId = useChainId()
 
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
   const [isWithdrawDrawerVisible, setShowWithdrawDrawer] = useState(false)
@@ -27,7 +28,7 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
 
   const isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
-  const png = PNG[useChainId()] // add PNG as default reward
+  const png = PNG[chainId] // add PNG as default reward
   return (
     <Wrapper>
       <Box display="flex" justifyContent="space-between" alignItems="center">

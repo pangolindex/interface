@@ -8,7 +8,7 @@ import { ButtonConfirmed, ButtonError, ButtonLight, ButtonPrimary } from '../But
 import { usePairContract } from '../../hooks/useContract'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React,useChainId } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from '../../state/burn/hooks'
 import { useCurrency } from '../../hooks/Tokens'
@@ -55,7 +55,8 @@ export default function RemoveLiquidityModal({
   currencyIdA: _currencyIdA,
   currencyIdB: _currencyIdB
 }: RemoveLiquidityModalProps) {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
@@ -122,9 +123,9 @@ export default function RemoveLiquidityModal({
   // allowance handling
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     parsedAmounts[Field.LIQUIDITY],
-    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
+    ROUTER_ADDRESS[chainId]
   )
 
   async function onAttemptToApprove() {

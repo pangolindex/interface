@@ -9,7 +9,7 @@ import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
 import { Box } from '@pangolindex/components'
 import { ChartWrapper, ChartContainer } from './styleds'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 import { CHAINS } from 'src/constants/chains'
 
 type Props = { pair?: Pair | null; tokenB?: Token; tokenA?: Token }
@@ -158,11 +158,11 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
     })
   }, [width, height, chartCreated])
 
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   return (
     <ChartWrapper>
-      {chainId && !CHAINS[chainId].tracked_by_debank ? (
+      {!CHAINS[chainId].tracked_by_debank ? (
         <ChartContainer id="chart-container-id" ref={ref as any}>
           {(formattedData || []).length === 0 && (
             <Box

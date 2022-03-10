@@ -18,20 +18,23 @@ type Props = {
 
 const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
   const { t } = useTranslation()
+
+  const chainId = useChainId()
+
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
   const [isUnstakeDrawerVisible, setShowUnstakeDrawer] = useState(false)
 
   const rewardToken = stakingInfo?.rewardToken
   const usdcPriceTmp = useUSDCPrice(rewardToken)
-  const usdcPrice = CHAINS[useChainId()].is_mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = CHAINS[chainId].is_mainnet ? usdcPriceTmp : undefined
 
   const weeklyRewardInToken = stakingInfo?.rewardRatePerWeek.toSignificant(4)
   const unclaimedAmountInToken = stakingInfo?.earnedAmount.toSignificant(4)
 
-  const weeklyRewardUSD = CHAINS[useChainId()].is_mainnet
+  const weeklyRewardUSD = CHAINS[chainId].is_mainnet
     ? Number(weeklyRewardInToken) * Number(usdcPrice?.toSignificant(6))
     : undefined
-  const unclaimedAmountInUSD = CHAINS[useChainId()].is_mainnet
+  const unclaimedAmountInUSD = CHAINS[chainId].is_mainnet
     ? Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6))
     : undefined
 

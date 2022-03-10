@@ -293,12 +293,14 @@ const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
 }
 
 export default function Header() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const { t } = useTranslation()
 
   const location: any = useLocation()
 
-  const userEthBalance = useETHBalances(useChainId(), account ? [account] : [])?.[account ?? '']
+  const userEthBalance = useETHBalances(chainId, account ? [account] : [])?.[account ?? '']
   const [isDark] = useDarkModeManager()
 
   const aggregateBalance: TokenAmount | undefined = useAggregatePngBalance()
@@ -394,7 +396,7 @@ export default function Header() {
             </Button>
           </Hidden>
           <Hidden upToSmall={true}>
-            {chainId && NETWORK_LABELS[chainId] && (
+            {NETWORK_LABELS[chainId] && (
               <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
             )}
           </Hidden>
@@ -425,7 +427,7 @@ export default function Header() {
             </PNGWrapper>
           )}
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
-            {chainId && account && userEthBalance ? (
+            {account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
                 {userEthBalance?.toSignificant(4)} {NETWORK_CURRENCY[chainId]}
               </BalanceText>

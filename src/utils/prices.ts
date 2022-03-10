@@ -38,7 +38,7 @@ export function computeTradePriceBreakdown(
     trade &&
     (trade.inputAmount instanceof TokenAmount
       ? new TokenAmount(trade.inputAmount.token, realizedLPFee.multiply(trade.inputAmount.raw).quotient)
-      : CurrencyAmount.ether(realizedLPFee.multiply(trade.inputAmount.raw).quotient, chainId || ChainId.AVALANCHE))
+      : CurrencyAmount.ether(realizedLPFee.multiply(trade.inputAmount.raw).quotient, chainId))
 
   return { priceImpactWithoutFee: priceImpactWithoutFeePercent, realizedLPFee: realizedLPFeeAmount }
 }
@@ -51,8 +51,8 @@ export function computeSlippageAdjustedAmounts(
 ): { [field in Field]?: CurrencyAmount } {
   const pct = basisPointsToPercent(allowedSlippage)
   return {
-    [Field.INPUT]: trade?.maximumAmountIn(pct, chainId ? chainId : ChainId.AVALANCHE),
-    [Field.OUTPUT]: trade?.minimumAmountOut(pct, chainId ? chainId : ChainId.AVALANCHE)
+    [Field.INPUT]: trade?.maximumAmountIn(pct, chainId),
+    [Field.OUTPUT]: trade?.minimumAmountOut(pct, chainId)
   }
 }
 

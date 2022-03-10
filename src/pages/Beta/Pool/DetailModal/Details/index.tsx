@@ -1,14 +1,13 @@
 import React from 'react'
 import { StakingInfo, useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { CAVAX, Fraction, Token, ChainId } from '@pangolindex/sdk'
+import { CAVAX, Fraction, Token } from '@pangolindex/sdk'
 import { DetailsContainer } from './styled'
 import { Box } from '@pangolindex/components'
 import CoinDescription from 'src/components/Beta/CoinDescription'
 import { usePair } from 'src/data/Reserves'
 import StatDetail from '../StatDetail'
 import numeral from 'numeral'
-import { useActiveWeb3React } from 'src/hooks'
 import { CHAINS } from 'src/constants/chains'
 import { useChainId } from 'src/hooks'
 
@@ -19,13 +18,13 @@ type Props = {
 const Details: React.FC<Props> = ({ stakingInfo }) => {
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
-  const totalStakedInUsd = CHAINS[useChainId()].is_mainnet
+  const totalStakedInUsd = CHAINS[chainId].is_mainnet
     ? numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a')
     : numeral(stakingInfo.totalStakedInUsd).format('$0.00a')
 
-  const yourStakeInUsd = CHAINS[useChainId()].is_mainnet
+  const yourStakeInUsd = CHAINS[chainId].is_mainnet
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
 
@@ -35,8 +34,8 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  const currency0 = pair?.token0 ? unwrappedToken(pair?.token0, chainId || ChainId.AVALANCHE) : undefined
-  const currency1 = pair?.token1 ? unwrappedToken(pair?.token1, chainId || ChainId.AVALANCHE) : undefined
+  const currency0 = pair?.token0 ? unwrappedToken(pair?.token0, chainId) : undefined
+  const currency1 = pair?.token1 ? unwrappedToken(pair?.token1, chainId) : undefined
 
   return (
     <>
@@ -75,13 +74,13 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
             />
           </Box>
         )}
-        {currency0 !== CAVAX[useChainId()] && currency0 instanceof Token && (
+        {currency0 !== CAVAX[chainId] && currency0 instanceof Token && (
           <Box mt={20}>
             <CoinDescription coin={currency0} />
           </Box>
         )}
 
-        {currency1 !== CAVAX[useChainId()] && currency1 instanceof Token && (
+        {currency1 !== CAVAX[chainId] && currency1 instanceof Token && (
           <Box mt={20}>
             <CoinDescription coin={currency1} />
           </Box>

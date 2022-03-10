@@ -7,10 +7,10 @@ import numeral from 'numeral'
 import { useTranslation } from 'react-i18next'
 import { StakingInfo } from '../../../state/stake/hooks'
 import { useTokenBalance } from '../../../state/wallet/hooks'
-import { useActiveWeb3React } from '../../../hooks'
+import { useActiveWeb3React, useChainId } from '../../../hooks'
 import { wrappedCurrencyAmount } from '../../../utils/wrappedCurrency'
 import { tryParseAmount } from '../../../state/swap/hooks'
-import { JSBI, ChainId } from '@pangolindex/sdk'
+import { JSBI } from '@pangolindex/sdk'
 
 export interface PoolInfoProps {
   pair: Pair
@@ -35,7 +35,8 @@ const PoolInfo = ({
   userPoolBalance,
   onMax
 }: PoolInfoProps) => {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const { t } = useTranslation()
 
@@ -67,7 +68,7 @@ const PoolInfo = ({
 
   const unClaimedPng = stakingInfo?.earnedAmount?.toFixed(6) ?? '0'
 
-  const parsedAmount = tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, amount, stakingInfo?.stakedAmount?.token)
+  const parsedAmount = tryParseAmount(chainId, amount, stakingInfo?.stakedAmount?.token)
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
   const poolOwnership = getHypotheticalPoolOwnership(

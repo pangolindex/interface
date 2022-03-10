@@ -13,7 +13,7 @@ import { AppDispatch } from 'src/state'
 import { addCurrency } from 'src/state/watchlists/actions'
 import { FixedSizeList } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 interface Props {
   getRef?: (ref: any) => void
@@ -23,7 +23,7 @@ interface Props {
 }
 
 const currencyKey = (currency: Currency, chainId: ChainId): string => {
-  return currency instanceof Token ? currency.address : currency === CAVAX[chainId || ChainId.AVALANCHE] ? 'AVAX' : ''
+  return currency instanceof Token ? currency.address : currency === CAVAX[chainId] ? 'AVAX' : ''
 }
 
 const CurrencyPopover: React.FC<Props> = ({
@@ -115,7 +115,7 @@ const CurrencyPopover: React.FC<Props> = ({
     []
   )
 
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   return (
     //ATTENTION ICI
@@ -153,7 +153,7 @@ const CurrencyPopover: React.FC<Props> = ({
               itemCount={currencies.length}
               itemSize={45}
               itemData={currencies}
-              itemKey={(index, data) => currencyKey(data[index], chainId || ChainId.AVALANCHE)}
+              itemKey={(index, data) => currencyKey(data[index], chainId)}
             >
               {Row}
             </FixedSizeList>

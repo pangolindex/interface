@@ -4,7 +4,7 @@ import { RowBetween } from '../Row'
 import styled from 'styled-components'
 import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
-import { CAVAX, Token, ChainId } from '@pangolindex/sdk'
+import { CAVAX, Token } from '@pangolindex/sdk'
 import { ButtonPrimary } from '../Button'
 import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
@@ -18,9 +18,7 @@ import RewardTokens from '../RewardTokens'
 import { Box } from '@pangolindex/components'
 import { useTokens } from '../../hooks/Tokens'
 import { BETA_MENU_LINK } from 'src/constants'
-import { useActiveWeb3React } from 'src/hooks'
 import { useChainId } from 'src/hooks'
-
 
 const StatContainer = styled.div`
   display: flex;
@@ -97,13 +95,13 @@ export default function DoubleSidePoolCard({
   swapFeeApr: number
   stakingApr: number
 }) {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
-  const currency0 = unwrappedToken(token0, useChainId())
-  const currency1 = unwrappedToken(token1, useChainId())
+  const currency0 = unwrappedToken(token0, chainId)
+  const currency1 = unwrappedToken(token1, chainId)
 
   const poolMap = useMinichefPools()
 
@@ -111,15 +109,15 @@ export default function DoubleSidePoolCard({
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
   const token: Token =
-    currency0 === CAVAX[chainId || ChainId.AVALANCHE] || currency1 === CAVAX[chainId || ChainId.AVALANCHE]
-      ? currency0 === CAVAX[chainId || ChainId.AVALANCHE]
+    currency0 === CAVAX[chainId] || currency1 === CAVAX[chainId]
+      ? currency0 === CAVAX[chainId]
         ? token1
         : token0
       : token0.equals(PNG[token0.chainId])
       ? token1
       : token0
 
-  const totalStakedInUsd = CHAINS[useChainId()].is_mainnet
+  const totalStakedInUsd = CHAINS[chainId].is_mainnet
     ? stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
     : 0
 
@@ -159,9 +157,9 @@ export default function DoubleSidePoolCard({
 
           {(isStaking || !stakingInfo.isPeriodFinished) && (
             <StyledInternalLink
-              to={`/png/${currencyId(currency0, chainId ? chainId : ChainId.AVALANCHE)}/${currencyId(
+              to={`/png/${currencyId(currency0, chainId)}/${currencyId(
                 currency1,
-                chainId ? chainId : ChainId.AVALANCHE
+                chainId
               )}/${version}`}
               style={{ width: '100%' }}
             >

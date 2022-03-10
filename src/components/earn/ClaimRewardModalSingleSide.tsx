@@ -28,6 +28,7 @@ interface StakingModalProps {
 
 export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingInfo }: StakingModalProps) {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
 
   // monitor call to help UI loading state
@@ -41,7 +42,7 @@ export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingI
     onDismiss()
   }
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
 
   async function onClaimReward() {
     if (stakingContract && stakingInfo?.stakedAmount) {

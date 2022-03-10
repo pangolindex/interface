@@ -6,13 +6,13 @@ import { useSelectedTokenList } from '../state/lists/hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../state/multicall/hooks'
 import { useUserAddedTokens } from '../state/user/hooks'
 import { isAddress } from '../utils'
-import { useActiveWeb3React } from './index'
+import { useChainId } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 
 import { CHAINS, ChainsId } from 'src/constants/chains'
 
 export function useAllTokens(): { [address: string]: Token } {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const userAddedTokens = useUserAddedTokens()
   const allTokens = useSelectedTokenList()
 
@@ -54,7 +54,7 @@ function parseStringOrBytes32(str: string | undefined, bytes32: string | undefin
 // null if loading
 // otherwise returns the token
 export function useToken(tokenAddress?: string): Token | undefined | null {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const tokens = useAllTokens()
 
   const address = isAddress(tokenAddress)
@@ -104,7 +104,7 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
 }
 
 export function useTokens(tokensAddress: string[] = []): Array<Token | undefined | null> | undefined | null {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const tokens = useAllTokens()
 
   const tokensName = useMultipleContractSingleData(tokensAddress, ERC20_INTERFACE, 'name', undefined, NEVER_RELOAD)
@@ -165,7 +165,7 @@ export function useTokens(tokensAddress: string[] = []): Array<Token | undefined
 }
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const isAVAX = currencyId?.toUpperCase() === 'AVAX'
   const token = useToken(isAVAX ? undefined : currencyId)
   return isAVAX ? chainId && CAVAX[chainId] : token

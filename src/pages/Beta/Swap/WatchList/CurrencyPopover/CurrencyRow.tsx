@@ -17,11 +17,13 @@ const WatchlistCurrencyRow: React.FC<Props> = ({ currency, onSelect, style }) =>
   const usdcPrice = useUSDCPrice(currency)
   const isSelected = useIsSelectedCurrency(currency?.address)
 
+  const chainId = useChainId()
+
   const handleSelect = useCallback(() => {
     onSelect(currency?.address)
   }, [onSelect, currency])
 
-  const token = unwrappedToken(currency, useChainId())
+  const token = unwrappedToken(currency, chainId)
 
   return (
     <RowWrapper disabled={isSelected} style={style}>

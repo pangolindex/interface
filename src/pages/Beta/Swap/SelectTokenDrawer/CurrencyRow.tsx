@@ -23,10 +23,12 @@ interface Props {
 const CurrencyRow: React.FC<Props> = props => {
   const { currency, style, onSelect, isSelected, otherSelected } = props
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+
   // const selectedTokenList = useSelectedTokenList()
   // const isOnSelectedList = isTokenOnList(selectedTokenList, currency)
   // const customAdded = useIsUserAddedToken(currency)
-  const balance = useCurrencyBalance(useChainId(), account ?? undefined, currency)
+  const balance = useCurrencyBalance(chainId, account ?? undefined, currency)
 
   // const removeToken = useRemoveUserAddedToken()
   // const addToken = useAddUserToken()

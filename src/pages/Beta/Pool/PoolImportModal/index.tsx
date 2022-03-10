@@ -23,8 +23,10 @@ interface ImportPoolModalProps {
 
 const PoolImportModal = ({ isOpen, onClose, onManagePoolsClick }: ImportPoolModalProps) => {
   const theme = useContext(ThemeContext)
+  const chainId = useChainId()
+
   const { t } = useTranslation()
-  const [currency0, setCurrency0] = useState<Currency | undefined>(CAVAX[useChainId()])
+  const [currency0, setCurrency0] = useState<Currency | undefined>(CAVAX[chainId])
   const [currency1, setCurrency1] = useState<Currency | undefined>(undefined)
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
   const [showSearch, setShowSearch] = useState<boolean>(false)

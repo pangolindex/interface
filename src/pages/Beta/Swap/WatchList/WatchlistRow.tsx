@@ -12,7 +12,6 @@ import { removeCurrency } from 'src/state/watchlists/actions'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from 'src/state'
 import { PNG } from 'src/constants'
-import { useActiveWeb3React } from 'src/hooks'
 import { useChainId } from 'src/hooks'
 
 type Props = {
@@ -24,7 +23,7 @@ type Props = {
 
 const WatchlistRow: React.FC<Props> = ({ coin, onClick, onRemove, isSelected }) => {
   // const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const [showChart, setShowChart] = useState(false)
   const [showDeleteButton, setShowDeleteButton] = useState(false)
   const theme = useContext(ThemeContext)
@@ -38,7 +37,7 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, onRemove, isSelected }) 
   const decreaseValue = currentUSDPrice - previousUSDPrice
   const perc = (decreaseValue / previousUSDPrice) * 100
 
-  const token = unwrappedToken(coin, useChainId())
+  const token = unwrappedToken(coin, chainId)
 
   const dispatch = useDispatch<AppDispatch>()
 
@@ -86,7 +85,7 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, onRemove, isSelected }) 
         )}
       </Box>
       <Box textAlign="right" minWidth={30} height={'100%'}>
-        {chainId && showDeleteButton && coin.address !== PNG[chainId].address && (
+        {showDeleteButton && coin.address !== PNG[chainId].address && (
           <Box zIndex={2} position="relative">
             <DeleteButton onClick={removeToken}>
               <X fontSize={16} fontWeight={600} style={{ float: 'right' }} />

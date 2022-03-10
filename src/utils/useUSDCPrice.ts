@@ -4,7 +4,7 @@ import { ChainId, Currency, currencyEquals, JSBI, Price, WAVAX } from '@pangolin
 import { useMemo } from 'react'
 import { USDCe } from '../constants'
 import { PairState, usePairs } from '../data/Reserves'
-import { useActiveWeb3React } from '../hooks'
+import { useChainId } from '../hooks'
 import { wrappedCurrency } from './wrappedCurrency'
 
 /**
@@ -12,9 +12,9 @@ import { wrappedCurrency } from './wrappedCurrency'
  * @param currency currency to compute the USDC price of
  */
 export default function useUSDCPrice(currency?: Currency): Price | undefined {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const wrapped = wrappedCurrency(currency, chainId)
-  const USDC = chainId ? USDCe[chainId] : USDCe[ChainId.AVALANCHE]
+  const USDC = USDCe[chainId]
   const tokenPairs: [Currency | undefined, Currency | undefined][] = useMemo(
     () => [
       [

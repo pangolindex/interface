@@ -40,7 +40,7 @@ export function useETHBalances(
     () =>
       addresses.reduce<{ [address: string]: CurrencyAmount }>((memo, address, i) => {
         const value = results?.[i]?.result?.[0]
-        if (value) memo[address] = CurrencyAmount.ether(JSBI.BigInt(value.toString()), chainId || ChainId.AVALANCHE)
+        if (value) memo[address] = CurrencyAmount.ether(JSBI.BigInt(value.toString()), chainId)
         return memo
       }, {}),
     [chainId, addresses, results]
@@ -112,7 +112,7 @@ export function useCurrencyBalances(
     () => currencies?.some(currency => chainId && currency === CAVAX[chainId]) ?? false,
     [chainId, currencies]
   )
-  const ethBalance = useETHBalances(useChainId(), containsETH ? [account] : [])
+  const ethBalance = useETHBalances(chainId, containsETH ? [account] : [])
 
   return useMemo(
     () =>
@@ -131,7 +131,7 @@ export function useCurrencyBalance(
   account?: string,
   currency?: Currency
 ): CurrencyAmount | undefined {
-  return useCurrencyBalances(useChainId(), account, [currency])[0]
+  return useCurrencyBalances(chainId, account, [currency])[0]
 }
 
 // mimics useAllBalances
@@ -145,7 +145,8 @@ export function useAllTokenBalances(): { [tokenAddress: string]: TokenAmount | u
 
 // get the total owned and unharvested PNG for account
 export function useAggregatePngBalance(): TokenAmount | undefined {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const png = chainId ? PNG[chainId] : undefined
 

@@ -7,7 +7,7 @@ import { TYPE, CloseIcon } from '../../theme'
 import { ButtonConfirmed, ButtonError } from '../Button'
 import ProgressCircles from '../ProgressSteps'
 import CurrencyInputPanel from '../CurrencyInputPanel'
-import { CurrencyAmount, TokenAmount, ChainId } from '@pangolindex/sdk'
+import { CurrencyAmount, TokenAmount } from '@pangolindex/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { useBridgeTokenContract } from '../../hooks/useContract'
@@ -17,6 +17,7 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
 import { tryParseAmount } from '../../state/swap/hooks'
+import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -36,12 +37,14 @@ export default function UpgradeTokenModal({
   aebTokenBalance,
   abTokenAddress
 }: UpgradeTokenModalModalProps) {
-  const { account, library, chainId } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
+
 
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
   const parsedAmount: CurrencyAmount | undefined = tryParseAmount(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     typedValue,
     aebTokenBalance?.token ?? undefined
   )
@@ -61,7 +64,7 @@ export default function UpgradeTokenModal({
   // approval data for stake
   const { t } = useTranslation()
   const [approval, approveCallback] = useApproveCallback(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     parsedAmount,
     abTokenAddress
   )
@@ -95,7 +98,7 @@ export default function UpgradeTokenModal({
   }, [])
 
   // used for max input button
-  const maxAmountInput = maxAmountSpend(chainId ? chainId : ChainId.AVALANCHE, aebTokenBalance)
+  const maxAmountInput = maxAmountSpend(chainId, aebTokenBalance)
   const atMaxAmount = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
   const handleMax = useCallback(() => {
     maxAmountInput && onUserInput(maxAmountInput.toExact())

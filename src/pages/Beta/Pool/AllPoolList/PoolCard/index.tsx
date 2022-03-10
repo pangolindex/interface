@@ -42,12 +42,13 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
   const [isAddLiquidityDrawerVisible, setShowAddLiquidityDrawer] = useState(false)
 
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
-  const currency0 = unwrappedToken(token0, useChainId())
-  const currency1 = unwrappedToken(token1, useChainId())
+  const currency0 = unwrappedToken(token0, chainId)
+  const currency1 = unwrappedToken(token1, chainId)
 
   const [, stakingTokenPair] = usePair(token0, token1)
 
@@ -55,7 +56,7 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  const yourStackedInUsd = CHAINS[useChainId()].is_mainnet
+  const yourStackedInUsd = CHAINS[chainId].is_mainnet
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
 
