@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Wrapper } from './styleds'
 import { Box, Button } from '@pangolindex/components'
-import { Pair, JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
+import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
 import { StakingInfo } from '../../../state/stake/hooks'
 import { tryParseAmount } from '../../../state/swap/hooks'
@@ -21,7 +21,8 @@ export interface UnstakeProps {
 }
 
 const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProps) => {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
   const [attempting, setAttempting] = useState(false as boolean)
   const [isValidAmount, setIsValidAmount] = useState(false as boolean)
@@ -42,7 +43,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
   useEffect(() => {
     const stakingToken = stakingInfo?.stakedAmount?.token
     const parsedInput = tryParseAmount(
-      chainId ? chainId : ChainId.AVALANCHE,
+      chainId,
       unStakingAmount,
       stakingToken
     ) as TokenAmount
@@ -89,7 +90,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
 
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
 
   async function onWithdraw() {
     if (stakingContract && stakingInfo?.stakedAmount?.greaterThan('0')) {

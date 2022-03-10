@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next'
 import { useChainId } from 'src/hooks'
 
 function currencyKey(currency: Currency, chainId: ChainId): string {
-  return currency instanceof Token ? currency.address : currency === CAVAX[chainId || ChainId.AVALANCHE] ? 'AVAX' : ''
+  return currency instanceof Token ? currency.address : currency === CAVAX[chainId] ? 'AVAX' : ''
 }
 
 const StyledBalanceText = styled(Text)`
@@ -95,12 +95,13 @@ function CurrencyRow({
   otherSelected: boolean
   style: CSSProperties
 }) {
-  const { account, chainId } = useActiveWeb3React()
-  const key = currencyKey(currency, useChainId())
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+  const key = currencyKey(currency, chainId)
   const selectedTokenList = useSelectedTokenList()
-  const isOnSelectedList = isTokenOnList(selectedTokenList, useChainId(), currency)
+  const isOnSelectedList = isTokenOnList(selectedTokenList, chainId, currency)
   const customAdded = useIsUserAddedToken(currency)
-  const balance = useCurrencyBalance(useChainId(), account ?? undefined, currency)
+  const balance = useCurrencyBalance(chainId, account ?? undefined, currency)
 
   const removeToken = useRemoveUserAddedToken()
   const addToken = useAddUserToken()
@@ -115,7 +116,7 @@ function CurrencyRow({
       disabled={isSelected}
       selected={otherSelected}
     >
-      <CurrencyLogo currency={currency} size={'24px'} chainId={useChainId()} />
+      <CurrencyLogo currency={currency} size={'24px'} chainId={chainId} />
       <Column>
         <Text title={currency.name} fontWeight={500}>
           {currency.symbol}
@@ -202,7 +203,7 @@ export default function CurrencyList({
     [onCurrencySelect, otherCurrency, selectedCurrency]
   )
 
-  const itemKey = useCallback((index: number, data: any) => currencyKey(data[index], chainId || ChainId.AVALANCHE), [
+  const itemKey = useCallback((index: number, data: any) => currencyKey(data[index], chainId), [
     chainId
   ])
 

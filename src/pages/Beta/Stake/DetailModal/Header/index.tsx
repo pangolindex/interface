@@ -19,9 +19,10 @@ type Props = {
 const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
+  const chainId = useChainId()
 
-  const currency0 = unwrappedToken(stakingInfo?.totalStakedAmount?.token, useChainId())
-  const currency1 = unwrappedToken(stakingInfo?.rewardToken, useChainId())
+  const currency0 = unwrappedToken(stakingInfo?.totalStakedAmount?.token, chainId)
+  const currency1 = unwrappedToken(stakingInfo?.rewardToken, chainId)
   const totalRewardRate = stakingInfo?.totalRewardRatePerSecond
     ?.multiply((60 * 60 * 24 * 7).toString())
     ?.toSignificant(4, { groupSeparator: ',' })

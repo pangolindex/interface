@@ -19,6 +19,8 @@ interface ClaimProps {
 
 const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) => {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+  
   const { t } = useTranslation()
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()
@@ -31,7 +33,7 @@ const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) =
     onClose()
   }
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
 
   async function onClaimReward() {
     if (stakingContract && stakingInfo?.stakedAmount) {

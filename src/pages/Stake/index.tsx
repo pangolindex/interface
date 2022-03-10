@@ -9,10 +9,9 @@ import { RouteComponentProps } from 'react-router-dom'
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
-import { useActiveWeb3React } from '../../hooks'
+import { useChainId } from '../../hooks'
 import { BIG_INT_ZERO } from '../../constants'
 import { useTranslation } from 'react-i18next'
-import { ChainId } from '@pangolindex/sdk'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -38,7 +37,7 @@ export default function Earn({
     params: { version }
   }
 }: RouteComponentProps<{ version: string }>) {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
   const stakingInfos = useSingleSideStakingInfo(Number(version))
   const [stakingInfoResults, setStakingInfoResults] = useState<any[]>()
@@ -115,7 +114,7 @@ export default function Earn({
           ) : (
             stakingInfoResults?.map(stakingInfo => (
               <SingleSidePoolCard
-                key={stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE]}
+                key={stakingInfo.stakingRewardAddress[chainId]}
                 stakingInfo={stakingInfo}
                 version={version}
               />

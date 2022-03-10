@@ -17,9 +17,11 @@ export interface PositionCardProps {
 
 const PositionCard = ({ pair, onManagePoolsClick }: PositionCardProps) => {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
-  const currency0 = unwrappedToken(pair?.token0, useChainId())
-  const currency1 = unwrappedToken(pair?.token1, useChainId())
+
+  const currency0 = unwrappedToken(pair?.token0, chainId)
+  const currency1 = unwrappedToken(pair?.token1, chainId)
 
   const { t } = useTranslation()
 

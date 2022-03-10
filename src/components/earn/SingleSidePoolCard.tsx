@@ -10,8 +10,8 @@ import { currencyId } from '../../utils/currencyId'
 import { Break } from './styled'
 import { useTranslation } from 'react-i18next'
 import CurrencyLogo from '../CurrencyLogo'
-import { JSBI, ChainId } from '@pangolindex/sdk'
-import { useActiveWeb3React } from 'src/hooks'
+import { JSBI } from '@pangolindex/sdk'
+import { useChainId } from 'src/hooks'
 
 const StatContainer = styled.div`
   display: flex;
@@ -88,7 +88,7 @@ export default function SingleSidePoolCard({
 
   // get the color of the token
   const backgroundColor = useColor(stakingInfo.rewardToken)
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   return (
     <Wrapper showBackground={isStaking} bgColor={backgroundColor}>
@@ -100,7 +100,7 @@ export default function SingleSidePoolCard({
 
         {(isStaking || !stakingInfo.isPeriodFinished) && (
           <StyledInternalLink
-            to={`/stake/${version}/${currencyId(stakingInfo.rewardToken, chainId ? chainId : ChainId.AVALANCHE)}`}
+            to={`/stake/${version}/${currencyId(stakingInfo.rewardToken, chainId)}`}
             style={{ width: '100%' }}
           >
             <ButtonPrimary padding="8px" borderRadius="8px">

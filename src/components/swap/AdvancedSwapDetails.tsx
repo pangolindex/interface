@@ -12,7 +12,7 @@ import FormattedPriceImpact from './FormattedPriceImpact'
 import { SectionBreak } from './styleds'
 import SwapRoute from './SwapRoute'
 import { useTranslation } from 'react-i18next'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 function TradeSummary({
   trade,
@@ -25,14 +25,14 @@ function TradeSummary({
 }) {
   const theme = useContext(ThemeContext)
   const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     trade
   )
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
     trade,
     allowedSlippage,
-    chainId ? chainId : ChainId.AVALANCHE
+    chainId
   )
   const { t } = useTranslation()
 
@@ -90,7 +90,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
   const theme = useContext(ThemeContext)
 
   const [allowedSlippage] = useUserSlippageTolerance()
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const showRoute = Boolean(trade && trade.route.path.length > 2)
   const { t } = useTranslation()
 

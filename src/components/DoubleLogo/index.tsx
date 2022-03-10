@@ -1,6 +1,6 @@
 import { Currency } from '@pangolindex/sdk'
 import React from 'react'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 import styled from 'styled-components'
 import CurrencyLogo from '../CurrencyLogo'
 
@@ -32,7 +32,7 @@ export default function DoubleCurrencyLogo({
   size = 16,
   margin = false
 }: DoubleCurrencyLogoProps) {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   return (
     <Wrapper sizeraw={size} margin={margin}>
       {chainId && currency0 && <HigherLogo currency={currency0} size={size.toString() + 'px'} chainId={chainId} />}

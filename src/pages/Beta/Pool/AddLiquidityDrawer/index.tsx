@@ -1,10 +1,10 @@
 import React from 'react'
 import Drawer from 'src/components/Drawer'
-import { Token, ChainId } from '@pangolindex/sdk'
+import { Token } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import AddLiquidity from '../EarnWidget/AddLiquidity'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   isOpen: boolean
@@ -15,13 +15,13 @@ type Props = {
 
 const AddLiquidityDrawer: React.FC<Props> = ({ isOpen, onClose, clickedLpTokens, backgroundColor }) => {
   const { t } = useTranslation()
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const token0 = clickedLpTokens?.[0]
   const token1 = clickedLpTokens?.[1]
 
-  const currencyA = token0 && unwrappedToken(token0, chainId || ChainId.AVALANCHE)
-  const currencyB = token1 && unwrappedToken(token1, chainId || ChainId.AVALANCHE)
+  const currencyA = token0 && unwrappedToken(token0, chainId)
+  const currencyB = token1 && unwrappedToken(token1, chainId)
 
   return (
     <Drawer title={t('pool.addLiquidity')} isOpen={isOpen} onClose={onClose} backgroundColor={backgroundColor}>

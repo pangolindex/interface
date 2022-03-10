@@ -61,7 +61,8 @@ const AddPNG = styled.span`
  * Content for balance stats modal
  */
 export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowPngBalanceModal: any }) {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const png = chainId ? PNG[chainId] : undefined
 
   const total = useAggregatePngBalance()
@@ -75,11 +76,11 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const { t } = useTranslation()
 
   const usdcPriceTmp = useUSDCPrice(png)
-  const usdcPrice = CHAINS[useChainId()].is_mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = CHAINS[chainId].is_mainnet ? usdcPriceTmp : undefined
 
   let pngPrice
 
-  if (chainId && usdcPrice && png) {
+  if (usdcPrice && png) {
     pngPrice = usdcPrice.quote(new TokenAmount(png, oneToken), chainId)
   }
 

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Token, Currency, TokenAmount, ChainId } from '@pangolindex/sdk'
+import { Token, Currency, TokenAmount } from '@pangolindex/sdk'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { TYPE } from '../../theme'
@@ -14,7 +14,7 @@ import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks
 import UnstakingModal from '../../components/earn/UnstakingModal'
 import ClaimRewardModal from '../../components/earn/ClaimRewardModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
 import { BIG_INT_ZERO } from '../../constants'
@@ -91,8 +91,8 @@ export interface ManageProps {
 }
 
 const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, currencyB, extraRewardTokensAmount }) => {
-  const { account, chainId } = useActiveWeb3React()
-
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   let backgroundColor: string
   let token: Token | undefined
 
@@ -224,8 +224,8 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
                 padding="8px"
                 width={'fit-content'}
                 as={Link}
-                to={`/add/${currencyA && currencyId(currencyA, chainId || ChainId.AVALANCHE)}/${currencyB &&
-                  currencyId(currencyB, chainId || ChainId.AVALANCHE)}`}
+                to={`/add/${currencyA && currencyId(currencyA, chainId)}/${currencyB &&
+                  currencyId(currencyB, chainId)}`}
               >
                 {t('earnPage.addPoolLiquidity', { poolHandle: currencyA?.symbol + '-' + currencyB?.symbol })}
               </ButtonPrimary>

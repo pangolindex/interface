@@ -20,6 +20,7 @@ interface ClaimProps {
 }
 const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const { t } = useTranslation()
 
@@ -29,7 +30,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
   const [attempting, setAttempting] = useState(false)
 
   const poolMap = useMinichefPools()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 

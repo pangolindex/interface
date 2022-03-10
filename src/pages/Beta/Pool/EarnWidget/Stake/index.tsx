@@ -15,7 +15,7 @@ import {
 } from './styleds'
 import { Box, Text, Button, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
-import { TokenAmount, Pair, ChainId, JSBI, Token } from '@pangolindex/sdk'
+import { TokenAmount, Pair, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { useGetPoolDollerWorth, useMinichefStakingInfos, useMinichefPendingRewards } from 'src/state/stake/hooks'
 import { usePairContract, useStakingContract } from 'src/hooks/useContract'
@@ -43,7 +43,8 @@ interface StakeProps {
 }
 
 const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const [selectedPair, setSelectedPair] = useState<Pair | null>(pair)
 
@@ -87,7 +88,7 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
   const dummyPair = new Pair(
     new TokenAmount(stakingInfo.tokens[0], '0'),
     new TokenAmount(stakingInfo.tokens[1], '0'),
-    chainId ? chainId : ChainId.AVALANCHE
+    chainId
   )
   const pairContract = usePairContract(dummyPair.liquidityToken.address)
 
@@ -98,14 +99,14 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
   const [stepIndex, setStepIndex] = useState(4)
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     parsedAmount,
-    stakingInfo?.stakingRewardAddress[useChainId()]
+    stakingInfo?.stakingRewardAddress[chainId]
   )
 
-  const stakingContract = useStakingContract(stakingInfo?.stakingRewardAddress[useChainId()])
-  const currency0 = unwrappedToken(selectedPair?.token0 as Token, useChainId())
-  const currency1 = unwrappedToken(selectedPair?.token1 as Token, useChainId())
+  const stakingContract = useStakingContract(stakingInfo?.stakingRewardAddress[chainId])
+  const currency0 = unwrappedToken(selectedPair?.token0 as Token, chainId)
+  const currency1 = unwrappedToken(selectedPair?.token1 as Token, chainId)
   const poolMap = useMinichefPools()
 
   const onChangePercentage = (value: number) => {
@@ -232,7 +233,7 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
     ]
     const message = {
       owner: account,
-      spender: stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE],
+      spender: stakingInfo.stakingRewardAddress[chainId],
       value: liquidityAmount.raw.toString(),
       nonce: nonce.toHexString(),
       deadline: deadline.toNumber()

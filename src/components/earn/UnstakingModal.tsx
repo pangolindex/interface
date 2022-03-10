@@ -37,6 +37,7 @@ export default function UnstakingModal({
   extraRewardTokensAmount
 }: StakingModalProps) {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
 
   // monitor call to help UI loading state
@@ -51,7 +52,7 @@ export default function UnstakingModal({
   }
 
   const poolMap = useMinichefPools()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
   const isSuperFarm = extraRewardTokensAmount && extraRewardTokensAmount?.length > 0
 
   async function onWithdraw() {

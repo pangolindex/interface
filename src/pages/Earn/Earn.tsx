@@ -10,13 +10,12 @@ import { NavLink } from 'react-router-dom'
 import { AutoRow, RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
-import { useActiveWeb3React } from '../../hooks'
+import { useChainId } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import useDebounce from '../../hooks/useDebounce'
 import { BIG_INT_ZERO } from '../../constants'
 import Toggle from '../../components/Toggle'
-import { ChainId } from '@pangolindex/sdk'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -101,7 +100,7 @@ export interface EarnProps {
 }
 
 const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
 
   const [poolCardsLoading, setPoolCardsLoading] = useState(false)
@@ -216,7 +215,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
             } else {
               return fetch(
                 `https://api.pangolin.exchange/pangolin/apr/${
-                  stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE]
+                  stakingInfo.stakingRewardAddress[chainId]
                 }`
               )
                 .then(res => res.json())

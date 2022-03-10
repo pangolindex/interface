@@ -153,9 +153,10 @@ export default function CurrencyInputPanel({
   const { t } = useTranslation()
 
   const [modalOpen, setModalOpen] = useState(false)
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const selectedCurrencyBalance = useCurrencyBalance(
-    useChainId(),
+    chainId,
     account ?? undefined,
     currency ?? undefined
   )
@@ -217,7 +218,7 @@ export default function CurrencyInputPanel({
             <Aligner>
               {pair ? (
                 <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin={true} />
-              ) : chainId && currency ? (
+              ) : currency ? (
                 <CurrencyLogo currency={currency} size={'24px'} chainId={chainId} />
               ) : null}
               {pair ? (

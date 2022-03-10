@@ -100,7 +100,7 @@ export function tryParseAmount(chainId: ChainId, value?: string, currency?: Curr
     if (typedValueParsed !== '0') {
       return currency instanceof Token
         ? new TokenAmount(currency, JSBI.BigInt(typedValueParsed))
-        : CurrencyAmount.ether(JSBI.BigInt(typedValueParsed), chainId ? chainId : ChainId.AVALANCHE)
+        : CurrencyAmount.ether(JSBI.BigInt(typedValueParsed), chainId)
     }
   } catch (error) {
     // should fail if the user specifies too many decimal places of precision (or maybe exceed max uint?)
@@ -136,7 +136,9 @@ export function useDerivedSwapInfo(): {
   inputError?: string
   v1Trade: Trade | undefined
 } {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const { t } = useTranslation()
 
   const toggledVersion = useToggledVersion()
@@ -154,14 +156,14 @@ export function useDerivedSwapInfo(): {
   const recipientAddress = isAddress(recipient)
   const to: string | null = (recipientAddress ? recipientAddress : account) ?? null
 
-  const relevantTokenBalances = useCurrencyBalances(useChainId(), account ?? undefined, [
+  const relevantTokenBalances = useCurrencyBalances(chainId, account ?? undefined, [
     inputCurrency ?? undefined,
     outputCurrency ?? undefined
   ])
 
   const isExactIn: boolean = independentField === Field.INPUT
   const parsedAmount = tryParseAmount(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     typedValue,
     (isExactIn ? inputCurrency : outputCurrency) ?? undefined
   )
@@ -215,12 +217,12 @@ export function useDerivedSwapInfo(): {
   const slippageAdjustedAmounts =
     v2Trade &&
     allowedSlippage &&
-    computeSlippageAdjustedAmounts(v2Trade, allowedSlippage, chainId ? chainId : ChainId.AVALANCHE)
+    computeSlippageAdjustedAmounts(v2Trade, allowedSlippage, chainId)
 
   const slippageAdjustedAmountsV1 =
     v1Trade &&
     allowedSlippage &&
-    computeSlippageAdjustedAmounts(v1Trade, allowedSlippage, chainId ? chainId : ChainId.AVALANCHE)
+    computeSlippageAdjustedAmounts(v1Trade, allowedSlippage, chainId)
 
   // compare input balance to max input based on version
   const [balanceIn, amountIn] = [
@@ -307,7 +309,8 @@ export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
 export function useDefaultsFromURLSearch():
   | { inputCurrencyId: string | undefined; outputCurrencyId: string | undefined }
   | undefined {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const dispatch = useDispatch<AppDispatch>()
   const parsedQs = useParsedQueryString()
   const [result, setResult] = useState<
@@ -336,7 +339,8 @@ export function useDefaultsFromURLSearch():
 }
 
 export function useGelatoLimitOrderDetail(order: Order) {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const gelatoLibrary = useGelatoLimitOrdersLib()
 
   const inputCurrency = order.inputToken === NATIVE && chainId ? 'AVAX' : order.inputToken

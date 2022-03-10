@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, Box, ToggleButtons } from '@pangolindex/components'
 import { SwapWrapper, SwapAlertBox } from './styled'
 import { useTranslation } from 'react-i18next'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 import { CHAINS } from 'src/constants/chains'
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 
 const TradeOption: React.FC<Props> = ({ swapType, setSwapType }) => {
   const { t } = useTranslation()
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   return (
     <SwapWrapper>
@@ -22,7 +22,7 @@ const TradeOption: React.FC<Props> = ({ swapType, setSwapType }) => {
           <Text color="text1" fontSize={24} fontWeight={500}>
             {t('swapPage.trade')}
           </Text>
-          {chainId && !CHAINS[chainId].supported_by_gelato ? (
+          {!CHAINS[chainId].supported_by_gelato ? (
             <ToggleButtons
               options={['MARKET']}
               value={swapType}

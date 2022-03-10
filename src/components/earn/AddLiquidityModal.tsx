@@ -13,7 +13,7 @@ import { useCurrency } from '../../hooks/Tokens'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
 import { useIsExpertMode, useUserSlippageTolerance } from '../../state/user/hooks'
 import { Field } from '../../state/mint/actions'
-import { CAVAX, ChainId, Currency, TokenAmount } from '@pangolindex/sdk'
+import { CAVAX, Currency, TokenAmount } from '@pangolindex/sdk'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
 import { ROUTER_ADDRESS } from '../../constants'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from '../../utils'
@@ -34,6 +34,7 @@ import { ConfirmAddModalBottom } from '../../pages/AddLiquidity/ConfirmAddModalB
 import { currencyId } from '../../utils/currencyId'
 import { PairState } from '../../data/Reserves'
 import { PoolPriceBar } from '../../pages/AddLiquidity/PoolPriceBar'
+import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -53,7 +54,9 @@ export default function AddLiquidityModal({
   currencyIdA: _currencyIdA,
   currencyIdB: _currencyIdB
 }: AddLiquidityModalProps) {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
@@ -105,7 +108,7 @@ export default function AddLiquidityModal({
     (accumulator, field) => {
       return {
         ...accumulator,
-        [field]: maxAmountSpend(chainId ? chainId : ChainId.AVALANCHE, currencyBalances[field])
+        [field]: maxAmountSpend(chainId, currencyBalances[field])
       }
     },
     {}
@@ -123,14 +126,14 @@ export default function AddLiquidityModal({
 
   // check whether the user has approved the router on the tokens
   const [approvalA, approveACallback] = useApproveCallback(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     parsedAmounts[Field.CURRENCY_A],
-    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
+    ROUTER_ADDRESS[chainId]
   )
   const [approvalB, approveBCallback] = useApproveCallback(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     parsedAmounts[Field.CURRENCY_B],
-    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
+    ROUTER_ADDRESS[chainId]
   )
 
   const addTransaction = useTransactionAdder()
@@ -268,7 +271,7 @@ export default function AddLiquidityModal({
 
   const handleCurrencyASelect = useCallback(
     (currencyA: Currency) => {
-      const newCurrencyIdA = currencyId(currencyA, chainId ? chainId : ChainId.AVALANCHE)
+      const newCurrencyIdA = currencyId(currencyA, chainId)
       if (newCurrencyIdA === currencyIdB) {
         setCurrencyIdA(currencyIdB)
         setCurrencyIdB(currencyIdA)
@@ -280,7 +283,7 @@ export default function AddLiquidityModal({
   )
   const handleCurrencyBSelect = useCallback(
     (currencyB: Currency) => {
-      const newCurrencyIdB = currencyId(currencyB, chainId ? chainId : ChainId.AVALANCHE)
+      const newCurrencyIdB = currencyId(currencyB, chainId)
       if (newCurrencyIdB === currencyIdA) {
         setCurrencyIdA(currencyIdB)
         setCurrencyIdB(currencyIdA)

@@ -25,11 +25,12 @@ export default function useWrapCallback(
   outputCurrency: Currency | undefined,
   typedValue: string | undefined
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
-  const { chainId, account } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const wethContract = useWETHContract()
-  const balance = useCurrencyBalance(useChainId(), account ?? undefined, inputCurrency)
+  const balance = useCurrencyBalance(chainId, account ?? undefined, inputCurrency)
   // we can always parse the amount typed as the input currency, since wrapping is 1:1
-  const inputAmount = useMemo(() => tryParseAmount(chainId ? chainId : ChainId.AVALANCHE, typedValue, inputCurrency), [
+  const inputAmount = useMemo(() => tryParseAmount(chainId, typedValue, inputCurrency), [
     chainId,
     inputCurrency,
     typedValue
@@ -53,7 +54,7 @@ export default function useWrapCallback(
 
     const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount)
 
-    if (inputCurrency === CAVAX[chainId || ChainId.AVALANCHE] && currencyEquals(WAVAX[chainId], outputCurrency)) {
+    if (inputCurrency === CAVAX[chainId] && currencyEquals(WAVAX[chainId], outputCurrency)) {
       return {
         wrapType: WrapType.WRAP,
         execute:
@@ -75,7 +76,7 @@ export default function useWrapCallback(
       }
     } else if (
       currencyEquals(WAVAX[chainId], inputCurrency) &&
-      outputCurrency === CAVAX[chainId || ChainId.AVALANCHE]
+      outputCurrency === CAVAX[chainId]
     ) {
       return {
         wrapType: WrapType.UNWRAP,

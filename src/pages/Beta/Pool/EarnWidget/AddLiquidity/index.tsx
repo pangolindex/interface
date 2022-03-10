@@ -1,5 +1,5 @@
 import React, { useContext, useCallback, useState } from 'react'
-import { Currency, CAVAX, TokenAmount, ChainId } from '@pangolindex/sdk'
+import { Currency, CAVAX, TokenAmount } from '@pangolindex/sdk'
 import { AddWrapper, InputText, StyledBalanceMax, ArrowWrapper, LightCard, InputWrapper, Buttons } from './styleds'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Text } from '@pangolindex/components'
@@ -35,7 +35,9 @@ interface AddLiquidityProps {
 }
 
 const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityProps) => {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
@@ -80,7 +82,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
     (accumulator, field) => {
       return {
         ...accumulator,
-        [field]: maxAmountSpend(chainId ? chainId : ChainId.AVALANCHE, currencyBalances[field])
+        [field]: maxAmountSpend(chainId, currencyBalances[field])
       }
     },
     {}
@@ -98,14 +100,14 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
 
   // check whether the user has approved the router on the tokens
   const [approvalA, approveACallback] = useApproveCallback(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     parsedAmounts[Field.CURRENCY_A],
-    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
+    ROUTER_ADDRESS[chainId]
   )
   const [approvalB, approveBCallback] = useApproveCallback(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     parsedAmounts[Field.CURRENCY_B],
-    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
+    ROUTER_ADDRESS[chainId]
   )
 
   const addTransaction = useTransactionAdder()
@@ -128,8 +130,8 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
       method: (...args: any) => Promise<TransactionResponse>,
       args: Array<string | string[] | number>,
       value: BigNumber | null
-    if (currencyA === CAVAX[chainId || ChainId.AVALANCHE] || currencyB === CAVAX[chainId || ChainId.AVALANCHE]) {
-      const tokenBIsETH = currencyB === CAVAX[chainId || ChainId.AVALANCHE]
+    if (currencyA === CAVAX[chainId] || currencyB === CAVAX[chainId]) {
+      const tokenBIsETH = currencyB === CAVAX[chainId]
       estimate = router.estimateGas.addLiquidityAVAX
       method = router.addLiquidityAVAX
       args = [
@@ -223,12 +225,12 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
   const toggleWalletModal = useWalletModalToggle()
 
   const selectedCurrencyBalanceA = useCurrencyBalance(
-    useChainId(),
+    chainId,
     account ?? undefined,
     currencyA ?? undefined
   )
   const selectedCurrencyBalanceB = useCurrencyBalance(
-    useChainId(),
+    chainId,
     account ?? undefined,
     currencyB ?? undefined
   )

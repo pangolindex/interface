@@ -18,8 +18,10 @@ interface Props {
 }
 
 export default function StatDetail({ title, totalAmount, pair, pgl, currency0, currency1 }: Props) {
+  const chainId = useChainId()
+
   const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
-  pgl = CHAINS[useChainId()].is_mainnet ? pgl : undefined
+  pgl = CHAINS[chainId].is_mainnet ? pgl : undefined
 
   const [token0Deposited, token1Deposited] =
     !!pair &&

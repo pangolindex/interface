@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Wrapper } from './styleds'
 import { Box, Button } from '@pangolindex/components'
-import { Pair, JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
+import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
 import { StakingInfo } from '../../../state/stake/hooks'
 import { tryParseAmount } from '../../../state/swap/hooks'
@@ -18,6 +18,7 @@ import { useDerivedStakeInfo, useMinichefPools } from '../../../state/stake/hook
 import { splitSignature } from 'ethers/lib/utils'
 import useTransactionDeadline from '../../../hooks/useTransactionDeadline'
 import Loader from '../Loader'
+import { useChainId } from 'src/hooks'
 
 export interface StakeProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
@@ -38,8 +39,9 @@ const Stake = ({
   setChoosePoolIndex,
   isStakingLoading
 }: StakeProps) => {
-  const { account, chainId, library } = useActiveWeb3React()
-
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
+  
   const { t } = useTranslation()
 
   // state for pending and submitted txn views
@@ -59,9 +61,9 @@ const Stake = ({
   // approval data for stake
   const deadline = useTransactionDeadline()
   const [approval, approveCallback] = useApproveCallback(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     parsedAmount,
-    MINICHEF_ADDRESS[chainId ? chainId : ChainId.AVALANCHE]
+    MINICHEF_ADDRESS[chainId]
   )
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
 
@@ -102,7 +104,7 @@ const Stake = ({
   useEffect(() => {
     const stakingToken = stakingInfo?.stakedAmount?.token
     const parsedInput = tryParseAmount(
-      chainId ? chainId : ChainId.AVALANCHE,
+      chainId,
       stakingAmount,
       stakingToken
     ) as TokenAmount
@@ -123,7 +125,7 @@ const Stake = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingAmount])
 
-  const stakingContract = useStakingContract(MINICHEF_ADDRESS[chainId ? chainId : ChainId.AVALANCHE])
+  const stakingContract = useStakingContract(MINICHEF_ADDRESS[chainId])
   const poolMap = useMinichefPools()
 
   const pairContract = usePairContract(stakingInfo.stakedAmount.token.address)
@@ -131,7 +133,7 @@ const Stake = ({
   async function onStake() {
     const stakingToken = stakingInfo?.stakedAmount?.token
     const parsedInput = tryParseAmount(
-      chainId ? chainId : ChainId.AVALANCHE,
+      chainId,
       stakingAmount,
       stakingToken
     ) as TokenAmount

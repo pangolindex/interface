@@ -28,6 +28,8 @@ interface StakingModalProps {
 
 export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInfo }: StakingModalProps) {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+  
   const { t } = useTranslation()
 
   // monitor call to help UI loading state
@@ -41,7 +43,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
     onDismiss()
   }
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
 
   async function onWithdraw() {
     if (stakingContract && stakingInfo?.stakedAmount) {

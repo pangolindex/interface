@@ -10,6 +10,7 @@ import { computeSlippageAdjustedAmounts } from '../utils/prices'
 import { calculateGasMargin } from '../utils'
 import { useTokenContract } from './useContract'
 import { useActiveWeb3React } from './index'
+import { useChainId } from './index'
 import { useGelatoLimitOrdersLib } from '@gelatonetwork/limit-orders-react'
 
 export enum ApprovalState {
@@ -105,20 +106,20 @@ export function useApproveCallbackFromTrade(chainId: ChainId, trade?: Trade, all
   const amountToApprove = useMemo(
     () =>
       trade
-        ? computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId ? chainId : ChainId.AVALANCHE)[Field.INPUT]
+        ? computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId)[Field.INPUT]
         : undefined,
     [trade, allowedSlippage, chainId]
   )
   return useApproveCallback(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     amountToApprove,
-    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
+    ROUTER_ADDRESS[chainId]
   )
 }
 
 // wraps useApproveCallback in the context of a swap
 export function useApproveCallbackFromInputCurrencyAmount(currencyAmountIn: any | undefined) {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const gelatoLibrary = useGelatoLimitOrdersLib()
 
   const newCurrencyAmountIn = currencyAmountIn
@@ -126,7 +127,7 @@ export function useApproveCallbackFromInputCurrencyAmount(currencyAmountIn: any 
     : undefined
 
   return useApproveCallback(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId ,
     newCurrencyAmountIn,
     gelatoLibrary?.erc20OrderRouter.address ?? undefined
   )

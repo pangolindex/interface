@@ -1,12 +1,12 @@
 import React from 'react'
 import { Text, Box } from '@pangolindex/components'
-import { Currency, TokenAmount, ChainId } from '@pangolindex/sdk'
+import { Currency, TokenAmount } from '@pangolindex/sdk'
 import { StateContainer } from './styleds'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { CHAINS } from 'src/constants/chains'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 interface Props {
   title: string
@@ -15,12 +15,12 @@ interface Props {
 }
 
 const StatDetails: React.FC<Props> = ({ title, amountInPNG, currency0 }) => {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const usdcPriceTmp = useUSDCPrice(amountInPNG?.token)
-  const usdcPrice = CHAINS[useChainId()].is_mainnet ? usdcPriceTmp : undefined
-  const amountInUSD = CHAINS[useChainId()].is_mainnet
-    ? numeral(usdcPrice?.quote(amountInPNG, chainId || ChainId.AVALANCHE).toSignificant(6)).format('$0.00a')
+  const usdcPrice = CHAINS[chainId].is_mainnet ? usdcPriceTmp : undefined
+  const amountInUSD = CHAINS[chainId].is_mainnet
+    ? numeral(usdcPrice?.quote(amountInPNG, chainId).toSignificant(6)).format('$0.00a')
     : undefined
 
   return (

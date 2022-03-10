@@ -1,4 +1,4 @@
-import { Trade, TradeType, ChainId } from '@pangolindex/sdk'
+import { Trade, TradeType } from '@pangolindex/sdk'
 import React, { useContext, useMemo, useState } from 'react'
 import { Repeat } from 'react-feather'
 import { Text } from 'rebass'
@@ -18,7 +18,7 @@ import { AutoRow, RowBetween, RowFixed } from '../Row'
 import FormattedPriceImpact from './FormattedPriceImpact'
 import { StyledBalanceMaxMini, SwapCallbackError } from './styleds'
 import { useTranslation } from 'react-i18next'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 export default function SwapModalFooter({
   trade,
@@ -35,13 +35,13 @@ export default function SwapModalFooter({
 }) {
   const [showInverted, setShowInverted] = useState<boolean>(false)
   const theme = useContext(ThemeContext)
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const slippageAdjustedAmounts = useMemo(
-    () => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId ? chainId : ChainId.AVALANCHE),
+    () => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId),
     [allowedSlippage, trade, chainId]
   )
   const { priceImpactWithoutFee, realizedLPFee } = useMemo(
-    () => computeTradePriceBreakdown(chainId ? chainId : ChainId.AVALANCHE, trade),
+    () => computeTradePriceBreakdown(chainId, trade),
     [chainId, trade]
   )
   const severity = warningSeverity(priceImpactWithoutFee)

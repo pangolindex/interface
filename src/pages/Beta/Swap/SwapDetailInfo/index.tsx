@@ -1,5 +1,5 @@
 import { Text } from '@pangolindex/components'
-import { Trade, TradeType, ChainId } from '@pangolindex/sdk'
+import { Trade, TradeType } from '@pangolindex/sdk'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { INITIAL_ALLOWED_SLIPPAGE, ONE_BIPS } from 'src/constants'
@@ -7,23 +7,23 @@ import { Field } from 'src/state/swap/actions'
 import { useUserSlippageTolerance } from 'src/state/user/hooks'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown, warningSeverity } from 'src/utils/prices'
 import { ContentBox, DataBox, ValueText } from './styled'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 type Props = { trade: Trade }
 
 const SwapDetailInfo: React.FC<Props> = ({ trade }) => {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
   const [allowedSlippage] = useUserSlippageTolerance()
   const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     trade
   )
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
     trade,
     allowedSlippage,
-    chainId ? chainId : ChainId.AVALANCHE
+    chainId
   )
 
   const amount = isExactIn

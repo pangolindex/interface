@@ -23,6 +23,7 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
   const { t } = useTranslation()
 
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()
@@ -35,7 +36,7 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
     onClose()
   }
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[useChainId()])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
 
   async function onWithdraw() {
     if (stakingContract && stakingInfo?.stakedAmount) {

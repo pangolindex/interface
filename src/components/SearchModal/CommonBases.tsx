@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from 'rebass'
-import { ChainId, Currency, currencyEquals, CAVAX, Token } from '@pangolindex/sdk'
+import { Currency, currencyEquals, CAVAX, Token } from '@pangolindex/sdk'
 import styled from 'styled-components'
 
 import { SUGGESTED_BASES } from '../../constants'
@@ -28,14 +28,13 @@ const BaseWrapper = styled.div<{ disable?: boolean }>`
 `
 
 export default function CommonBases({
-  chainId,
   onSelect,
   selectedCurrency
 }: {
-  chainId?: ChainId
   selectedCurrency?: Currency | null
   onSelect: (currency: Currency) => void
 }) {
+  const chainId = useChainId()
   const { t } = useTranslation()
   return (
     <AutoColumn gap="md">
@@ -48,11 +47,11 @@ export default function CommonBases({
       <AutoRow gap="4px">
         <BaseWrapper
           onClick={() => {
-            if (!selectedCurrency || !currencyEquals(selectedCurrency, CAVAX[chainId || ChainId.AVALANCHE])) {
-              onSelect(CAVAX[chainId || ChainId.AVALANCHE])
+            if (!selectedCurrency || !currencyEquals(selectedCurrency, CAVAX[chainId])) {
+              onSelect(CAVAX[chainId])
             }
           }}
-          disable={selectedCurrency === CAVAX[useChainId()]}
+          disable={selectedCurrency === CAVAX[chainId]}
         >
           {chainId && (
             <CurrencyLogo currency={chainId && CAVAX[chainId]} style={{ marginRight: 8 }} chainId={chainId} />

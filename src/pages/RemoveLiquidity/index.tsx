@@ -21,7 +21,7 @@ import Row, { RowBetween, RowFixed } from '../../components/Row'
 import Slider from '../../components/Slider'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import { ROUTER_ADDRESS } from '../../constants'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
 import { usePairContract } from '../../hooks/useContract'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
@@ -51,7 +51,9 @@ export default function RemoveLiquidity({
   }
 }: RouteComponentProps<{ currencyIdA: string; currencyIdB: string }>) {
   const [currencyA, currencyB] = [useCurrency(currencyIdA) ?? undefined, useCurrency(currencyIdB) ?? undefined]
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const [tokenA, tokenB] = useMemo(() => [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)], [
     currencyA,
     currencyB,
@@ -103,9 +105,9 @@ export default function RemoveLiquidity({
   // allowance handling
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     parsedAmounts[Field.LIQUIDITY],
-    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
+    ROUTER_ADDRESS[chainId]
   )
 
   const isArgentWallet = false
@@ -218,8 +220,8 @@ export default function RemoveLiquidity({
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
 
-    const currencyBIsETH = currencyB === CAVAX[chainId || ChainId.AVALANCHE]
-    const oneCurrencyIsETH = currencyA === CAVAX[chainId || ChainId.AVALANCHE] || currencyBIsETH
+    const currencyBIsETH = currencyB === CAVAX[chainId]
+    const oneCurrencyIsETH = currencyA === CAVAX[chainId] || currencyBIsETH
 
     // TODO: Translate using i18n
     if (!tokenA || !tokenB) throw new Error('could not wrap')
@@ -458,7 +460,7 @@ export default function RemoveLiquidity({
   )
 
   const oneCurrencyIsAVAX =
-    currencyA === CAVAX[chainId || ChainId.AVALANCHE] || currencyB === CAVAX[chainId || ChainId.AVALANCHE]
+    currencyA === CAVAX[chainId] || currencyB === CAVAX[chainId]
   const oneCurrencyIsWAVAX = Boolean(
     chainId &&
       ((currencyA && currencyEquals(WAVAX[chainId], currencyA)) ||
@@ -467,20 +469,20 @@ export default function RemoveLiquidity({
 
   const handleSelectCurrencyA = useCallback(
     (currency: Currency) => {
-      if (currencyIdB && currencyId(currency, chainId || ChainId.AVALANCHE) === currencyIdB) {
-        history.push(`/remove/${currencyId(currency, chainId || ChainId.AVALANCHE)}/${currencyIdA}`)
+      if (currencyIdB && currencyId(currency, chainId) === currencyIdB) {
+        history.push(`/remove/${currencyId(currency, chainId)}/${currencyIdA}`)
       } else {
-        history.push(`/remove/${currencyId(currency, chainId || ChainId.AVALANCHE)}/${currencyIdB}`)
+        history.push(`/remove/${currencyId(currency, chainId)}/${currencyIdB}`)
       }
     },
     [chainId, currencyIdA, currencyIdB, history]
   )
   const handleSelectCurrencyB = useCallback(
     (currency: Currency) => {
-      if (currencyIdA && currencyId(currency, chainId || ChainId.AVALANCHE) === currencyIdA) {
-        history.push(`/remove/${currencyIdB}/${currencyId(currency, chainId || ChainId.AVALANCHE)}`)
+      if (currencyIdA && currencyId(currency, chainId) === currencyIdA) {
+        history.push(`/remove/${currencyIdB}/${currencyId(currency, chainId)}`)
       } else {
-        history.push(`/remove/${currencyIdA}/${currencyId(currency, chainId || ChainId.AVALANCHE)}`)
+        history.push(`/remove/${currencyIdA}/${currencyId(currency, chainId)}`)
       }
     },
     [chainId, currencyIdA, currencyIdB, history]

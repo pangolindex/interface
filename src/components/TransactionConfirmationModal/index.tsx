@@ -12,7 +12,7 @@ import { AutoColumn, ColumnCenter } from '../Column'
 import Circle from '../../assets/images/blue-loader.svg'
 
 import { getEtherscanLink } from '../../utils'
-import { useActiveWeb3React } from '../../hooks'
+import { useChainId } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 
 const Wrapper = styled.div`
@@ -175,7 +175,7 @@ export default function TransactionConfirmationModal({
   pendingText,
   content
 }: ConfirmationModalProps) {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   if (!chainId) return null
 

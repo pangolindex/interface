@@ -8,7 +8,7 @@ import { TYPE, CloseIcon } from '../../theme'
 import { ButtonConfirmed, ButtonError } from '../Button'
 import ProgressCircles from '../ProgressSteps'
 import CurrencyInputPanel from '../CurrencyInputPanel'
-import { TokenAmount, Pair, ChainId } from '@pangolindex/sdk'
+import { TokenAmount, Pair } from '@pangolindex/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { useBridgeMigratorContract, usePairContract } from '../../hooks/useContract'
@@ -20,6 +20,7 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
 import { BRIDGE_MIGRATOR_ADDRESS } from '../../constants'
+import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -41,7 +42,9 @@ export default function BridgeMigratorModal({
   pairTo,
   userLiquidityUnstaked
 }: BridgeMigratorModalProps) {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
+
 
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
@@ -65,7 +68,7 @@ export default function BridgeMigratorModal({
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
-    chainId ? chainId : ChainId.AVALANCHE,
+    chainId,
     parsedAmount,
     BRIDGE_MIGRATOR_ADDRESS
   )
@@ -130,7 +133,7 @@ export default function BridgeMigratorModal({
   }, [])
 
   // used for max input button
-  const maxAmountInput = maxAmountSpend(chainId ? chainId : ChainId.AVALANCHE, userLiquidityUnstaked)
+  const maxAmountInput = maxAmountSpend(chainId, userLiquidityUnstaked)
   const atMaxAmount = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
   const handleMax = useCallback(() => {
     maxAmountInput && onUserInput(maxAmountInput.toExact())

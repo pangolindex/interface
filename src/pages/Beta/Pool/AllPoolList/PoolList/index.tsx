@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { TextInput, Box } from '@pangolindex/components'
-import { ChainId } from '@pangolindex/sdk'
 import { DoubleSideStakingInfo } from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCard from '../PoolCard'
 import Loader from 'src/components/Loader'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
@@ -45,7 +44,7 @@ export interface EarnProps {
 }
 
 const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu, activeMenu, menuItems }) => {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
   const [poolCardsLoading, setPoolCardsLoading] = useState(false)
@@ -151,7 +150,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
             } else {
               return fetch(
                 `https://api.pangolin.exchange/pangolin/apr/${
-                  stakingInfo.stakingRewardAddress[chainId || ChainId.AVALANCHE]
+                  stakingInfo.stakingRewardAddress[chainId]
                 }`
               )
                 .then(res => res.json())

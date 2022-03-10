@@ -7,7 +7,7 @@ import CurrencyLogo from '../../components/CurrencyLogo'
 import { Field } from '../../state/mint/actions'
 import { TYPE } from '../../theme'
 import { useTranslation } from 'react-i18next'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 export function ConfirmAddModalBottom({
   noLiquidity,
@@ -25,7 +25,7 @@ export function ConfirmAddModalBottom({
   onAdd: () => void
 }) {
   const { t } = useTranslation()
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   return (
     <>
       <RowBetween>

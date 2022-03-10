@@ -20,11 +20,13 @@ const WalletCard = ({ pair }: WalletCardProps) => {
   const { t } = useTranslation()
 
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const [isRemoveLiquidityDrawerVisible, setShowRemoveLiquidityDrawer] = useState(false)
   const [isAddLiquidityDrawerVisible, setShowAddLiquidityDrawer] = useState(false)
 
-  const currency0 = unwrappedToken(pair.token0, useChainId())
-  const currency1 = unwrappedToken(pair.token1, useChainId())
+  const currency0 = unwrappedToken(pair.token0, chainId)
+  const currency1 = unwrappedToken(pair.token1, chainId)
 
   const userPgl = useTokenBalance(account ?? undefined, pair?.liquidityToken)
   const { liquidityInUSD } = useGetPoolDollerWorth(pair)
