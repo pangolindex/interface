@@ -85,7 +85,7 @@ const StakeUI = () => {
           <PoolCards>
             {stakingInfoResults?.map((stakingInfo, index) => (
               <PoolCard
-                key={stakingInfo.stakingRewardAddress[chainId]}
+                key={stakingInfo.stakingRewardAddress}
                 stakingInfo={stakingInfo}
                 onViewDetailsClick={() => onViewDetailClick(index)}
               />
