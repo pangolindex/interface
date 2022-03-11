@@ -127,7 +127,7 @@ export default function Modal({
               onDismiss={onDismiss}
               initialFocusRef={initialFocusRef}
               background={overlayBG}
-              isBeta={isBeta}
+              // isBeta={isBeta}
             >
               <StyledDialogContent
                 {...(isMobile
