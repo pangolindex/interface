@@ -141,7 +141,7 @@ const PoolInfo = ({
     <InfoWrapper>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box display="flex" alignItems="center">
-          <DoubleCurrencyLogo size={25} currency0={currency0} currency1={currency1} />{' '}
+          <DoubleCurrencyLogo size={24} currency0={currency0} currency1={currency1} />{' '}
           <Text color="text1" fontSize={16} ml={10}>
             {currency0.symbol}-{currency1.symbol} {t('migratePage.pool')}
           </Text>

@@ -31,7 +31,7 @@ const WalletCard = ({ pair }: WalletCardProps) => {
           </Text>
         </Box>
 
-        <DoubleCurrencyLogo size={55} currency0={currency0} currency1={currency1} />
+        <DoubleCurrencyLogo size={48} currency0={currency0} currency1={currency1} />
       </Box>
       <Divider />
 

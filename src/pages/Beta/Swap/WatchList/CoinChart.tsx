@@ -71,7 +71,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
   return (
     <Box>
       <SelectedCoinInfo>
-        <CurrencyLogo currency={token} size="56px" />
+        <CurrencyLogo currency={token} size={48} />
         <Box>
           <Text color="text1" fontSize="24px">
             {token.symbol}
