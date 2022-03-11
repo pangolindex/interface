@@ -1,4 +1,5 @@
 import { Text } from '@pangolindex/components'
+import { formatUnits } from '@ethersproject/units'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { INITIAL_ALLOWED_SLIPPAGE } from 'src/constants'
@@ -18,10 +19,12 @@ const LimitOrderDetailInfo: React.FC<Props> = ({ trade }) => {
     derivedOrderInfo: { parsedAmounts, rawAmounts }
   } = useGelatoLimitOrders()
 
-  const { realExecutionPriceAsString } = useGasOverhead(parsedAmounts.input, parsedAmounts.output)
+  const { gasPrice, realExecutionPriceAsString } = useGasOverhead(parsedAmounts.input, parsedAmounts.output)
   const priceText = `${'1 ' + parsedAmounts?.input?.currency.symbol + ' = ' + realExecutionPriceAsString ?? '-'} ${
     parsedAmounts?.output?.currency.symbol
   }`
+
+  const formattedGasPrice = gasPrice ? `${parseFloat(formatUnits(gasPrice, 'gwei')).toFixed(0)} GWEI` : '-'
 
   const library = useGelatoLimitOrdersLib()
 
@@ -66,6 +69,7 @@ const LimitOrderDetailInfo: React.FC<Props> = ({ trade }) => {
 
   return (
     <ContentBox>
+      {renderRow('Gas Price', `${formattedGasPrice}`)}
       {renderRow('Real Execution Price', `${realExecutionPriceAsString ? `${priceText}` : '-'}`)}
       {renderRow(t('swapPage.gelatoFee'), `${gelatoFeePercentage ? `${gelatoFeePercentage}` : '-'}%`)}
       {slippagePercentage !== INITIAL_ALLOWED_SLIPPAGE &&
