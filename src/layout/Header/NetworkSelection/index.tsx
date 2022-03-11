@@ -69,7 +69,7 @@ export default function NetworkSelection({ open, closeModal }: Props) {
             options={['Mainnet', 'Testnet']}
             value={mainnet === true ? 'Mainnet' : 'Testnet'}
             onChange={value => {
-              setMainnet(!mainnet)
+              setMainnet(value === 'Mainnet')
             }}
           />
         </ButtonFrame>
