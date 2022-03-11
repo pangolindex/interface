@@ -61,7 +61,7 @@ const WatchlistRow: React.FC<Props> = ({ coin, onClick, onRemove, isSelected }) 
       onMouseLeave={() => setShowDeleteButton(false)}
     >
       <Box display="flex" alignItems="center" height={'100%'} onClick={onClick}>
-        <CurrencyLogo size={'28px'} currency={token} />
+        <CurrencyLogo size={24} currency={token} />
         <Text color="text1" fontSize={20} fontWeight={500} marginLeft={'6px'}>
           {token.symbol}
         </Text>

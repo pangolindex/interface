@@ -28,7 +28,7 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
       <CardHeader>
         <TokenName>{t('stakePage.earn', { symbol: stakingInfo.rewardToken.symbol })}</TokenName>
         <div>
-          <CurrencyLogo size="58px" currency={stakingInfo.rewardToken} />
+          <CurrencyLogo size={48} currency={stakingInfo.rewardToken} />
         </div>
       </CardHeader>
       <CardStats>
