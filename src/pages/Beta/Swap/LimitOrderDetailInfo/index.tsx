@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { INITIAL_ALLOWED_SLIPPAGE } from 'src/constants'
 import { useActiveWeb3React } from 'src/hooks'
 import { ContentBox, DataBox, ValueText } from './styled'
-import { useGelatoLimitOrders, useGelatoLimitOrdersLib } from '@gelatonetwork/limit-orders-react'
+import { useGelatoLimitOrders, useGelatoLimitOrdersLib, useGasOverhead } from '@gelatonetwork/limit-orders-react'
 import { TokenAmount } from '@pangolindex/sdk'
 
 type Props = { trade: any }
@@ -17,6 +17,11 @@ const LimitOrderDetailInfo: React.FC<Props> = ({ trade }) => {
   const {
     derivedOrderInfo: { parsedAmounts, rawAmounts }
   } = useGelatoLimitOrders()
+
+  const { realExecutionPriceAsString } = useGasOverhead(parsedAmounts.input, parsedAmounts.output)
+  const priceText = `${'1 ' + parsedAmounts?.input?.currency.symbol + ' = ' + realExecutionPriceAsString ?? '-'} ${
+    parsedAmounts?.output?.currency.symbol
+  }`
 
   const library = useGelatoLimitOrdersLib()
 
@@ -61,6 +66,7 @@ const LimitOrderDetailInfo: React.FC<Props> = ({ trade }) => {
 
   return (
     <ContentBox>
+      {renderRow('Real Execution Price', `${realExecutionPriceAsString ? `${priceText}` : '-'}`)}
       {renderRow(t('swapPage.gelatoFee'), `${gelatoFeePercentage ? `${gelatoFeePercentage}` : '-'}%`)}
       {slippagePercentage !== INITIAL_ALLOWED_SLIPPAGE &&
         renderRow(t('swapPage.slippageTolerance'), `${slippagePercentage ? `${slippagePercentage}` : '-'}%`)}
