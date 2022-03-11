@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next'
 import { useStakingContract } from 'src/hooks/useContract'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
-import { useChainId } from 'src/hooks'
 
 interface ClaimProps {
   stakingInfo: SingleSideStakingInfo
@@ -19,7 +18,6 @@ interface ClaimProps {
 
 const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) => {
   const { account } = useActiveWeb3React()
-  const chainId = useChainId()
   
   const { t } = useTranslation()
   // monitor call to help UI loading state
@@ -33,7 +31,7 @@ const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) =
     onClose()
   }
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   async function onClaimReward() {
     if (stakingContract && stakingInfo?.stakedAmount) {

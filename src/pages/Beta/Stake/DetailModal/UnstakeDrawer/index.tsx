@@ -10,7 +10,6 @@ import { Box, Button, Text } from '@pangolindex/components'
 import { ConfirmWrapper, Wrapper } from './styled'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
-import { useChainId } from 'src/hooks'
 
 
 type Props = {
@@ -23,7 +22,6 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
   const { t } = useTranslation()
 
   const { account } = useActiveWeb3React()
-  const chainId = useChainId()
 
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()
@@ -36,7 +34,7 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
     onClose()
   }
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   async function onWithdraw() {
     if (stakingContract && stakingInfo?.stakedAmount) {

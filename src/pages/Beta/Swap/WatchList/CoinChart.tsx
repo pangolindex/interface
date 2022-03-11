@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState } from 'react'
 import { Text, Box, CurrencyLogo, Button } from '@pangolindex/components'
 import { Link } from 'react-feather'
 import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts'
-import { Token, ChainId } from '@pangolindex/sdk'
+import { Token } from '@pangolindex/sdk'
 import { SelectedCoinInfo, TrackIcons, DurationBtns } from './styleds'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { ANALYTICS_PAGE } from 'src/constants'
@@ -14,7 +14,7 @@ import { formattedNum, toNiceDateYear } from 'src/utils/charts'
 import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { BETA_MENU_LINK } from 'src/constants'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   coin: Token
@@ -23,19 +23,19 @@ type Props = {
 export const RedirectContext = React.createContext<boolean>(false)
 
 const CoinChart: React.FC<Props> = ({ coin }) => {
-  const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const { t } = useTranslation()
   const weekFrame = TIMEFRAME.find(t => t.label === '1W')
 
   const [timeWindow, setTimeWindow] = useState(
     weekFrame ||
-      ({} as {
-        description: string
-        label: string
-        interval: number
-        momentIdentifier: string
-      })
+    ({} as {
+      description: string
+      label: string
+      interval: number
+      momentIdentifier: string
+    })
   )
 
   const redirect = useContext(RedirectContext)
