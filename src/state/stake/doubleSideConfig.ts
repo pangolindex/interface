@@ -127,7 +127,10 @@ import {
   sAVAX,
   DEP,
   ZEE,
-  TOMB
+  TOMB,
+  BUSINESSES,
+  DOLLA,
+  NCASH
 } from '../../constants'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1431,6 +1434,21 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   WAVAX_TOMB_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], TOMB[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_BUSINESSES_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], BUSINESSES[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_DOLLA_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], DOLLA[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  PNG_NCASH_V2: {
+    tokens: [PNG[ChainId.AVALANCHE], NCASH[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   }
