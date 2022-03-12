@@ -1163,6 +1163,17 @@ export const TOMB: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xb84527D59b6Ecb96F433029ECc890D4492C5dCe1', 18, 'TOMB', 'TOMB')
 }
 
+export const MAI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'MAI', 'Mai Stablecoin'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x5c49b268c9841AFF1Cc3B0a418ff5c3442eE3F3b',
+    18,
+    'MAI',
+    'Mai Stablecoin'
+  )
+}
+
 export const BUSINESSES: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'BUSINESSES', '$BUSINESSES'),
   [ChainId.AVALANCHE]: new Token(

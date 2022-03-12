@@ -128,6 +128,7 @@ import {
   DEP,
   ZEE,
   TOMB,
+  MAI,
   BUSINESSES,
   DOLLA,
   NCASH
@@ -1434,6 +1435,11 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   WAVAX_TOMB_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], TOMB[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_MAI_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], MAI[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   },
