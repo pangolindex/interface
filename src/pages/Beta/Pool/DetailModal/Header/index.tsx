@@ -35,7 +35,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
     <HeaderRoot>
       <HeaderWrapper>
         <Box display="flex" alignItems="center">
-          <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={35} />
+          <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={48} />
           <Text color="text1" fontSize={24} fontWeight={500} marginLeft={10}>
             {currency0?.symbol}/{currency1?.symbol}
           </Text>

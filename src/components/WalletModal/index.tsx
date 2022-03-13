@@ -23,7 +23,7 @@ import PendingView from './PendingView'
 import { useTranslation } from 'react-i18next'
 import { useIsBetaUI } from 'src/hooks/useLocation'
 
-const WALLET_TUTORIAL = LANDING_PAGE + 'tutorials/getting-started/#set-up-metamask'
+const WALLET_TUTORIAL = `${LANDING_PAGE}/tutorials/getting-started/#set-up-metamask`
 
 const CloseIcon = styled.div`
   position: absolute;

@@ -67,7 +67,7 @@ const PoolImport = ({ currency0, currency1, openTokenDrawer, setActiveField, onM
         }}
       >
         <Box display="flex" alignItems="center">
-          <CurrencyLogo size="24px" currency={currency0} />
+          <CurrencyLogo size={24} currency={currency0} />
           <Text color="text2" fontSize={16} fontWeight={500} lineHeight="40px" marginLeft={10}>
             {currency0?.symbol}
           </Text>
@@ -89,7 +89,7 @@ const PoolImport = ({ currency0, currency1, openTokenDrawer, setActiveField, onM
       >
         {currency1 ? (
           <Box display="flex" alignItems="center">
-            <CurrencyLogo size="24px" currency={currency1} />
+            <CurrencyLogo size={24} currency={currency1} />
             <Text color="text2" fontSize={16} fontWeight={500} lineHeight="40px" marginLeft={10}>
               {currency1?.symbol}
             </Text>

@@ -7,9 +7,7 @@ import WgmLogo from '../../assets/images/wgmlogo.png'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'
-
-const getTokenLogoURL = (address: string) =>
-  `https://raw.githubusercontent.com/pangolindex/tokens/main/assets/${address}/logo.png`
+import { getTokenLogoURL, LogoSize } from '../../constants'
 
 export const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
@@ -28,12 +26,12 @@ const StyledLogo = styled(Logo)<{ size: string }>`
 export default function CurrencyLogo({
   chainId,
   currency,
-  size = '24px',
+  size = 24,
   style
 }: {
   chainId: ChainId
   currency?: Currency
-  size?: string
+  size?: LogoSize
   style?: React.CSSProperties
 }) {
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined)
@@ -42,22 +40,20 @@ export default function CurrencyLogo({
     if (chainId && currency === CAVAX[chainId]) return []
 
     if (currency instanceof Token) {
-      if (currency instanceof WrappedTokenInfo) {
-        return [...uriLocations, getTokenLogoURL(currency.address)]
-      }
-
-      return [...uriLocations, getTokenLogoURL(currency.address)]
+      const primarySrc = getTokenLogoURL(currency.address, size)
+      return [primarySrc, ...uriLocations]
     }
+
     return []
-  }, [chainId, currency, uriLocations])
+  }, [chainId, currency, uriLocations, size])
 
   if (chainId && currency === CAVAX[ChainId.AVALANCHE]) {
-    return <StyledEthereumLogo src={AvaxLogo} size={size} style={style} />
+    return <StyledEthereumLogo src={AvaxLogo} size={`${size}px`} style={style} />
   } else if (chainId && currency === CAVAX[ChainId.FUJI]) {
-    return <StyledEthereumLogo src={AvaxLogo} size={size} style={style} />
+    return <StyledEthereumLogo src={AvaxLogo} size={`${size}px`} style={style} />
   } else if (chainId && currency === CAVAX[ChainId.WAGMI]) {
-    return <StyledEthereumLogo src={WgmLogo} size={size} style={style} />
+    return <StyledEthereumLogo src={WgmLogo} size={`${size}px`} style={style} />
   }
 
-  return <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
+  return <StyledLogo size={`${size}px`} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
 }

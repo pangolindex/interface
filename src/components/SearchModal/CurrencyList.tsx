@@ -116,7 +116,7 @@ function CurrencyRow({
       disabled={isSelected}
       selected={otherSelected}
     >
-      <CurrencyLogo currency={currency} size={'24px'} chainId={chainId} />
+      <CurrencyLogo currency={currency} size={24} chainId={chainId} />
       <Column>
         <Text title={currency.name} fontWeight={500}>
           {currency.symbol}

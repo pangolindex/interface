@@ -49,7 +49,7 @@ export default function SwapModalHeader({
           {chainId && (
             <CurrencyLogo
               currency={trade.inputAmount.currency}
-              size={'24px'}
+              size={24}
               style={{ marginRight: '12px' }}
               chainId={chainId}
             />
@@ -76,7 +76,7 @@ export default function SwapModalHeader({
           {chainId && (
             <CurrencyLogo
               currency={trade.outputAmount.currency}
-              size={'24px'}
+              size={24}
               style={{ marginRight: '12px' }}
               chainId={chainId}
             />

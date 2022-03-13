@@ -48,7 +48,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
     <Box>
       <MobileStat>
         <Box display="flex" alignItems="center">
-          <DoubleCurrencyLogo size={20} currency0={inputCurrency} currency1={outputCurrency} />
+          <DoubleCurrencyLogo size={24} currency0={inputCurrency} currency1={outputCurrency} />
           <Text color="text1" fontSize={20} fontWeight={500} lineHeight="55px" marginLeft={10}>
             {inputCurrency?.symbol}/{outputCurrency?.symbol}
           </Text>

@@ -24,7 +24,7 @@ export default memo(function SwapRoute({ chainId, trade }: { chainId: ChainId; t
         return (
           <Fragment key={i}>
             <Flex my="0.5rem" alignItems="center" style={{ flexShrink: 0 }}>
-              {chainId && <CurrencyLogo currency={token} size="1.5rem" chainId={chainId} />}
+              {chainId && <CurrencyLogo currency={token} size={24} chainId={chainId} />}
               <TYPE.black fontSize={14} color={theme.text1} ml="0.5rem">
                 {token.symbol}
               </TYPE.black>

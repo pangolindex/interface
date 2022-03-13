@@ -20,7 +20,8 @@ import Confetti from '../../components/Confetti'
 import BridgeMigratorModal from '../../components/earn/BridgeMigratorModal'
 import Loader from '../../components/Loader'
 import { Token, WAVAX } from '@pangolindex/sdk'
-import { PNG } from '../../constants'
+import { getTokenLogoURL } from '../../constants'
+import { PNG } from '../../constants/tokens'
 import { ErrorText } from '../../components/swap/styleds'
 import { injected } from '../../connectors'
 import { useChainId } from 'src/hooks'
@@ -117,7 +118,7 @@ export default function Migrate({
                     address: token.address,
                     symbol: token.symbol,
                     decimals: token.decimals,
-                    image: `https://raw.githubusercontent.com/pangolindex/tokens/main/assets/${token.address}/logo.png`
+                    image: getTokenLogoURL(token.address, 48)
                   }
                 }
               })
