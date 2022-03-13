@@ -1163,6 +1163,44 @@ export const TOMB: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xb84527D59b6Ecb96F433029ECc890D4492C5dCe1', 18, 'TOMB', 'TOMB')
 }
 
+export const MAI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'MAI', 'Mai Stablecoin'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x5c49b268c9841AFF1Cc3B0a418ff5c3442eE3F3b',
+    18,
+    'MAI',
+    'Mai Stablecoin'
+  )
+}
+
+export const BUSINESSES: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'BUSINESSES', '$BUSINESSES'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x15c841043e13fFAA9a99FabEa236D40F45615623',
+    18,
+    'BUSINESSES',
+    '$BUSINESSES'
+  )
+}
+
+export const DOLLA: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'DOLLA', '$dolla'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x4B322765D761984C0f9E72200B62a9b445F38caC', 18, 'DOLLA', '$dolla')
+}
+
+export const NCASH: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ncash', 'NitroNetwork'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xc69Eba65e87889f0805dB717Af06797055A0BA07',
+    18,
+    'ncash',
+    'NitroNetwork'
+  )
+}
+
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
