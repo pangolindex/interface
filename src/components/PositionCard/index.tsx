@@ -96,7 +96,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
             </FixedHeightRow>
             <FixedHeightRow onClick={() => setShowMore(!showMore)}>
               <RowFixed>
-                <DoubleCurrencyLogo currency0={currency0} currency1={currency1} margin={true} size={20} />
+                <DoubleCurrencyLogo currency0={currency0} currency1={currency1} margin={true} size={24} />
                 <Text fontWeight={500} fontSize={20}>
                   {currency0.symbol}/{currency1.symbol}
                 </Text>
@@ -202,7 +202,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
       <AutoColumn gap="12px">
         <FixedHeightRow>
           <RowFixed>
-            <DoubleCurrencyLogo currency0={currency0} currency1={currency1} margin={true} size={20} />
+            <DoubleCurrencyLogo currency0={currency0} currency1={currency1} margin={true} size={24} />
             <Text fontWeight={500} fontSize={20}>
               {!currency0 || !currency1 ? (
                 <Dots>{t('positionCard.loading')}</Dots>
@@ -273,7 +273,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                   <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
                     {token0Deposited?.toSignificant(6)}
                   </Text>
-                    <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency0} chainId={chainId} />
+                  <CurrencyLogo size={24} style={{ marginLeft: '8px' }} currency={currency0} chainId={chainId} />
                 </RowFixed>
               ) : (
                 '-'
@@ -291,7 +291,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                   <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
                     {token1Deposited?.toSignificant(6)}
                   </Text>
-                    <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency1} chainId={chainId} />
+                  <CurrencyLogo size={24} style={{ marginLeft: '8px' }} currency={currency1} chainId={chainId} />
                 </RowFixed>
               ) : (
                 '-'

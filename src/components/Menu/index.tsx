@@ -11,7 +11,7 @@ import { StyledMenu, StyledMenuButton, MenuFlyout, MenuItem, MenuNavItem } from 
 
 import { useTranslation } from 'react-i18next'
 
-const TutorialPage = LANDING_PAGE + 'tutorials'
+const TutorialPage = `${LANDING_PAGE}/tutorials`
 
 const StyledMenuIcon = styled(MenuIcon)`
   path {

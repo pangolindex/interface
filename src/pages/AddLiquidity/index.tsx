@@ -232,7 +232,7 @@ export default function AddLiquidity({
             <DoubleCurrencyLogo
               currency0={currencies[Field.CURRENCY_A]}
               currency1={currencies[Field.CURRENCY_B]}
-              size={30}
+              size={24}
             />
           </RowFlat>
         </LightCard>
@@ -246,7 +246,7 @@ export default function AddLiquidity({
           <DoubleCurrencyLogo
             currency0={currencies[Field.CURRENCY_A]}
             currency1={currencies[Field.CURRENCY_B]}
-            size={30}
+            size={24}
           />
         </RowFlat>
         <Row>

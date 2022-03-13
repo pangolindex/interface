@@ -133,28 +133,28 @@ const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
   }
 `
 
-// const Web3StatusConnectedBeta = styled(Box)<{ pending?: boolean }>`
-//   align-items: center;
-//   border-radius: 10px;
-//   cursor: pointer;
-//   user-select: none;
-//   display: flex;
-//   font-size: 16px;
-//   padding: 0.35rem;
-//   border: 1px solid ${({ pending, theme }) => (pending ? theme.primary : theme.bg3)};
-//   background-color: ${({ pending, theme }) => (pending ? theme.primary : theme.color2)};
-//   color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
-//   font-weight: 500;
-//   :focus {
-//     outline: none;
-//   }
+const Web3StatusConnectedBeta = styled(Box)<{ pending?: boolean }>`
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  font-size: 16px;
+  padding: 0.35rem;
+  border: 1px solid ${({ pending, theme }) => (pending ? theme.primary : theme.bg3)};
+  background-color: ${({ pending, theme }) => (pending ? theme.primary : theme.color2)};
+  color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
+  font-weight: 500;
+  :focus {
+    outline: none;
+  }
 
-//   ${({ theme, pending }) => theme.mediaWidth.upToSmall`
-//     padding: 10px;
-//     border: none;
-//     background-color: ${({ theme }) => (pending ? theme.primary : theme.color7)};
-//   `};
-// `
+  ${({ theme, pending }) => theme.mediaWidth.upToSmall`
+    padding: 10px;
+    border: none;
+    background-color: ${pending ? theme.primary : theme.color7};
+  `};
+`
 
 const Text = styled.p`
   flex: 1 1 auto;
@@ -232,9 +232,9 @@ function Web3StatusInner() {
   const toggleWalletModal = useWalletModalToggle()
 
   const isBeta = useIsBetaUI()
-
-  // const StatusConnected: any = isBeta ? Web3StatusConnectedBeta : Web3StatusConnected
-  const StatusConnected: any = isBeta ? Web3StatusConnected : Web3StatusConnected
+//ATTENTION ICI
+  const StatusConnected: any = isBeta ? Web3StatusConnectedBeta : Web3StatusConnected
+  // const StatusConnected: any = isBeta ? Web3StatusConnected : Web3StatusConnected
   const StatusConnect: any = isBeta ? Web3StatusConnectBeta : Web3StatusConnect
   if (account) {
     return (

@@ -374,7 +374,7 @@ export default function RemoveLiquidity({
             {parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}
           </Text>
           <RowFixed gap="4px">
-            {chainId && <CurrencyLogo currency={currencyA} size={'24px'} chainId={chainId} />}
+            {chainId && <CurrencyLogo currency={currencyA} size={24} chainId={chainId} />}
             <Text fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
               {currencyA?.symbol}
             </Text>
@@ -388,7 +388,7 @@ export default function RemoveLiquidity({
             {parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}
           </Text>
           <RowFixed gap="4px">
-            {chainId && <CurrencyLogo currency={currencyB} size={'24px'} chainId={chainId} />}
+            {chainId && <CurrencyLogo currency={currencyB} size={24} chainId={chainId} />}
             <Text fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
               {currencyB?.symbol}
             </Text>

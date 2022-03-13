@@ -1,18 +1,14 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent } from '@pangolindex/sdk'
 import { useMemo, useEffect, useState, useCallback } from 'react'
 import {
-  PNG,
-  USDTe,
-  USDCe,
-  DAIe,
   MINICHEF_ADDRESS,
   BIG_INT_ZERO,
   BIG_INT_TWO,
   BIG_INT_ONE,
   BIG_INT_SECONDS_IN_WEEK,
-  USDC,
-  UST
+  PANGOLIN_API_BASE_URL
 } from '../../constants'
+import { DAIe, PNG, USDC, USDCe, USDTe, UST } from '../../constants/tokens'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
@@ -723,11 +719,7 @@ export function useGetStakingDataWithAPR(version: number) {
     if (stakingInfos?.length > 0) {
       Promise.all(
         stakingInfos.map(stakingInfo => {
-          return fetch(
-            `https://api.pangolin.exchange/pangolin/apr/${
-              stakingInfo.stakingRewardAddress[chainId]
-            }`
-          )
+          return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress[chainId]}`)
             .then(res => res.json())
             .then(res => ({
               swapFeeApr: Number(res.swapFeeApr),

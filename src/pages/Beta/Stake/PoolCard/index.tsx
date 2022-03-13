@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { Text } from '@pangolindex/components'
+import { Text, CurrencyLogo } from '@pangolindex/components'
 import { JSBI } from '@pangolindex/sdk'
 import numeral from 'numeral'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { Card, CardHeader, Stats, CardStats, TokenName, DetailButton, StakeButton, StatValue } from './styleds'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
-import CurrencyLogo from 'src/components/CurrencyLogo'
 import ClaimDrawer from '../ClaimDrawer'
 import StakeDrawer from './StakeDrawer'
 
@@ -17,7 +16,7 @@ export interface PoolCardProps {
 
 const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
   const { t } = useTranslation()
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
 
   const [isStakeDrawerVisible, setShowtakeDrawer] = useState(false)
@@ -28,7 +27,9 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
     <Card>
       <CardHeader>
         <TokenName>{t('stakePage.earn', { symbol: stakingInfo.rewardToken.symbol })}</TokenName>
-        <div>{chainId && <CurrencyLogo size="58px" currency={stakingInfo.rewardToken} chainId={chainId} />}</div>
+        <div>
+          <CurrencyLogo size={48} currency={stakingInfo.rewardToken} />
+        </div>
       </CardHeader>
       <CardStats>
         {stakingInfo.stakedAmount.greaterThan('0') ? (

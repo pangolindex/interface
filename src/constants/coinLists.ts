@@ -95,7 +95,7 @@ import {
   TUS,
   OG,
   wWAGMI
-} from 'src/constants'
+} from 'src/constants/tokens'
 import { WAVAX } from '@pangolindex/sdk'
 
 export const COIN_LISTS = [

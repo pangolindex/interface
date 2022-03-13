@@ -9,7 +9,7 @@ import { useChainId } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
-import { BIG_INT_ZERO } from 'src/constants'
+import { BIG_INT_ZERO, PANGOLIN_API_BASE_URL } from 'src/constants'
 import Scrollbars from 'react-custom-scrollbars'
 import { PoolsWrapper, PanelWrapper, LoadingWrapper, MobileGridContainer } from './styleds'
 import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
@@ -138,7 +138,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
           .map(stakingInfo => {
             if (poolMap) {
               return fetch(
-                `https://api.pangolin.exchange/pangolin/apr2/${poolMap[stakingInfo.totalStakedAmount.token.address]}`
+                `${PANGOLIN_API_BASE_URL}/pangolin/apr2/${poolMap[stakingInfo.totalStakedAmount.token.address]}`
               )
                 .then(res => res.json())
                 .then(res => ({
@@ -148,11 +148,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
                   ...stakingInfo
                 }))
             } else {
-              return fetch(
-                `https://api.pangolin.exchange/pangolin/apr/${
-                  stakingInfo.stakingRewardAddress[chainId]
-                }`
-              )
+              return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress[chainId]}`)
                 .then(res => res.json())
                 .then(res => ({
                   swapFeeApr: Number(res.swapFeeApr),

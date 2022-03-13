@@ -118,9 +118,7 @@ const CurrencyPopover: React.FC<Props> = ({
   const chainId = useChainId()
 
   return (
-    //ATTENTION ICI
-    // @ts-ignore
-    <PopoverContainer ref={ref => getRef(ref)}>
+    <PopoverContainer ref={(ref: any) => getRef(ref)}>
       {/* Render Search Token Input */}
       <Box padding="0px 10px">
         <AddInputWrapper>

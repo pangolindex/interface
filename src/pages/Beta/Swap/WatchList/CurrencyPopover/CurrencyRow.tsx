@@ -28,7 +28,7 @@ const WatchlistCurrencyRow: React.FC<Props> = ({ currency, onSelect, style }) =>
   return (
     <RowWrapper disabled={isSelected} style={style}>
       <Box display="flex" alignItems="center">
-        <CurrencyLogo size={'28px'} currency={token} />
+        <CurrencyLogo size={24} currency={token} />
         <Text color="text1" fontSize={20} fontWeight={500} marginLeft={'6px'}>
           {token?.symbol}
         </Text>
