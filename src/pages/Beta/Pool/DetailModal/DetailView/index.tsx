@@ -27,7 +27,7 @@ const DetailView = ({ stakingInfo, onDismiss, version }: PoolDetailProps) => {
   const currency0 = unwrappedToken(token0, chainId)
   const currency1 = unwrappedToken(token1, chainId)
 
-  const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
+  const isStaking = Boolean(stakingInfo?.stakedAmount?.greaterThan('0'))
 
   const [, stakingTokenPair] = usePair(token0, token1)
   const pair = stakingTokenPair
