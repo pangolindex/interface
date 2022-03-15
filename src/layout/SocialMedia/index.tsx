@@ -44,7 +44,7 @@ export default function SocialMedia({ collapsed }: SocialMediaProps) {
       title: 'Github'
     },
     {
-      link: 'https://discord.gg/PARrDYYbfw',
+      link: 'https://discord.gg/pangolindex',
       icon: Discord,
       title: 'Discord'
     },
