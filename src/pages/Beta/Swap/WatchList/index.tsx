@@ -83,12 +83,12 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
         {CHAINS[chainId].is_mainnet ? (
           !isLimitOrders && (
             <Hidden upToSmall={true}>
-              <CoinChart coinTmp={selectedToken} />
+              <CoinChart coin={selectedToken} />
             </Hidden>
           )) : (
           isLimitOrders && (
             <Hidden upToSmall={true}>
-              <CoinChart coinTmp={selectedToken} />
+              <CoinChart coin={selectedToken} />
             </Hidden>
           ))}
 
