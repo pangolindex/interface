@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { BETA_MENU_LINK } from 'src/constants'
 import { useChainId } from 'src/hooks'
+import { CHAINS } from 'src/constants/chains'
 
 type Props = {
   coin: Token
@@ -39,8 +40,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
   )
 
   const redirect = useContext(RedirectContext)
-
-  const usdcPrice = useUSDCPrice(coin)
+  const usdcPrice = useUSDCPrice(CHAINS[chainId].is_mainnet ? coin : {} as Token)
 
   const { onCurrencySelection } = useSwapActionHandlers(chainId)
   const onCurrencySelect = useCallback(
