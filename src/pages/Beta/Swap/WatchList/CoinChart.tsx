@@ -18,12 +18,12 @@ import { useChainId } from 'src/hooks'
 import { CHAINS } from 'src/constants/chains'
 
 type Props = {
-  coin: Token
+  coinTmp: Token
 }
 
 export const RedirectContext = React.createContext<boolean>(false)
 
-const CoinChart: React.FC<Props> = ({ coin }) => {
+const CoinChart: React.FC<Props> = ({ coinTmp}) => {
   const chainId = useChainId()
 
   const { t } = useTranslation()
@@ -40,7 +40,10 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
   )
 
   const redirect = useContext(RedirectContext)
-  const usdcPrice = useUSDCPrice(CHAINS[chainId].is_mainnet ? coin : {} as Token)
+
+  
+  const coin = CHAINS[chainId].is_mainnet ? coinTmp : {} as Token
+  const usdcPrice = useUSDCPrice(coin)
 
   const { onCurrencySelection } = useSwapActionHandlers(chainId)
   const onCurrencySelect = useCallback(

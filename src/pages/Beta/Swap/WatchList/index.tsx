@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next'
 import { useAllTokens } from 'src/hooks/Tokens'
 import ShowMore from 'src/components/Beta/ShowMore'
 import { Hidden } from 'src/theme'
-// import { CHAINS } from 'src/constants/chains'
+import { CHAINS } from 'src/constants/chains'
 
 type Props = {
   isLimitOrders?: boolean
@@ -80,12 +80,17 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
         </Box>
       </Box>
       <GridContainer isLimitOrders={isLimitOrders}>
-        { !isLimitOrders && (
+        {CHAINS[chainId].is_mainnet ? (
+          !isLimitOrders && (
             <Hidden upToSmall={true}>
-              <CoinChart coin={selectedToken} />
+              <CoinChart coinTmp={selectedToken} />
             </Hidden>
-          )
-        }
+          )) : (
+          isLimitOrders && (
+            <Hidden upToSmall={true}>
+              <CoinChart coinTmp={selectedToken} />
+            </Hidden>
+          ))}
 
         <DesktopWatchList>
           <Scrollbars>
