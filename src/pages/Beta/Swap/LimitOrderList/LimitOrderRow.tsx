@@ -1,8 +1,7 @@
 import React from 'react'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box, useGelatoLimitOrderDetail, LimitOrderInfo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import { DesktopRowWrapper } from './styleds'
-import { useGelatoLimitOrderDetail, LimitOrderInfo } from 'src/state/swap/hooks'
 
 type Props = {
   order: LimitOrderInfo

@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box, SelectTokenDrawer } from '@pangolindex/components'
 import { Wrapper } from './styleds'
 import Modal from 'src/components/Beta/Modal'
 import { ThemeContext } from 'styled-components'
@@ -7,7 +7,6 @@ import { CloseIcon } from 'src/theme/components'
 import { useTranslation } from 'react-i18next'
 import PoolImport from './PoolImport'
 import { CAVAX, Currency } from '@pangolindex/sdk'
-import SelectTokenDrawer from '../../Swap/SelectTokenDrawer'
 
 enum Fields {
   TOKEN0 = 0,
