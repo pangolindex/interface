@@ -88,6 +88,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
       })
     ).then(stakingInfoData => {
       const poolCards = stakingInfoData.map((stakingInfo, index) => {
+        console.log('stakinginfo', stakingInfo)
         return (
           <PoolCard
             key={index}
