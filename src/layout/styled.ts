@@ -4,8 +4,8 @@ import { Box } from '@pangolindex/components'
 export const MainContent = styled.div<{ collapsed: boolean }>`
   &&& {
     min-height: 100vh;
-    margin-left: 70px;
-    width: calc(100% - 70px);
+    margin-left: 140px;
+    width: calc(100% - 140px);
     display: flex;
     flex-direction: column;
 
@@ -21,7 +21,8 @@ export const AppContent = styled.div`
   flex-direction: column;
   width: 100%;
   padding-top: 100px;
-  padding: 0px 50px;
+  padding: 0px 10px;
+  justify-content: center
   height: 100%;
   flex: 1;
   overflow-y: auto;
@@ -36,6 +37,11 @@ export const AppContent = styled.div`
   `};
 
   z-index: 1;
+`
+
+export const WarningWrapper = styled.div`
+  position: sticky;
+  top: 80px;
 `
 
 export const Wrapper = styled(Box)`

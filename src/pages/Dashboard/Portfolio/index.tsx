@@ -75,7 +75,7 @@ export default function PortfolioWidget() {
                     maximumFractionDigits: 2
                   })}
                   <img
-                    width={'50px'}
+                    width={'30px'}
                     src={CHAINS[chain.chainID].logo}
                     alt={'Chain logo'}
                     style={{ marginLeft: '12px' }}
@@ -85,7 +85,7 @@ export default function PortfolioWidget() {
             </Scrollbars>
           ) : (
             <Box height={100}>
-              <Text color="text1" fontSize={50}>
+              <Text color="text1" fontSize={30}>
                 $ 0
               </Text>
             </Box>

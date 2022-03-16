@@ -5,14 +5,13 @@ import { NavLink } from 'react-router-dom'
 import { ExternalLink } from '../../theme'
 
 export const Sider = styled.div<{ collapsed: boolean }>`
-  overflow: hidden;
   height: 100vh;
   position: fixed;
   z-index: 99;
   left: 0;
   transition: width 350ms ease;
   background-color: ${({ theme }) => theme.color2};
-  width: ${({ collapsed }) => (collapsed ? '70px' : '220px')};
+  width: ${({ collapsed }) => (collapsed ? '140px' : '220px')};
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -63,7 +62,7 @@ export const CollapseBar = styled.div`
 
 export const MenuWrapper = styled.div`
   flex: 1;
-  height: 100%;
+  height: max-content;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -75,16 +74,15 @@ export const MenuLink = styled(NavLink).attrs({
   activeClassName
 })`
   ${({ theme }) => theme.flexRowNoWrap}
+  display: flex;
   outline: none;
   cursor: pointer;
   text-decoration: none;
   color: ${({ theme }) => theme.color22};
-  font-size: 1rem;
-  width: fit-content;
-  margin: 0 8px;
+  font-size: 0.1rem;
+  width: 100%;
   align-items: center;
   font-weight: 500;
-  width: 100%;
   &.${activeClassName} {
     color: ${({ theme }) => theme.white};
   }
@@ -104,13 +102,11 @@ export const MenuExternalLink = styled(ExternalLink).attrs({
   cursor: pointer;
   text-decoration: none;
   color: ${({ theme }) => theme.color22};
-  font-size: 1rem;
+  font-size: 0.1rem;
   width: fit-content;
-  margin: 0 8px;
   font-weight: 500;
-  overflow-y: hidden;
-  white-space: nowrap;
   width: 100%;
+  margin-bottom: 5px;
 
   :hover,
   :focus {
@@ -121,22 +117,19 @@ export const MenuExternalLink = styled(ExternalLink).attrs({
 `
 
 export const MenuItem = styled.div<{ isActive?: boolean }>`
-  ${({ theme }) => theme.flexRowNoWrap}
-  display: flex;
+  display: inline-flex;
+
   align-items: center;
+  justify-content: center;
   cursor: pointer;
   text-decoration: none;
   color: ${({ theme, isActive }) => (isActive ? theme.text1 : theme.text2)};
   width: 100%;
   font-weight: 500;
-  line-height: 24px;
-  padding: 8px;
-  height: 50px;
+  padding: 5px;
   background-color: ${({ theme, isActive }) => (isActive ? theme.primary : 'transparent')};
   border-radius: 9px;
-  margin-bottom: 5px;
-  overflow-y: hidden;
-  white-space: nowrap;
+  margin-bottom: 10px;
 
   :hover,
   :focus {
@@ -146,10 +139,15 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
   }
 `
 
+export const IconWrapper = styled.div`
+  width: 100%;
+`
 export const Menu = styled.div`
   position: relative;
 `
 
 export const MenuName = styled(Text)`
-  margin-left: 12px;
+  dispaly: flex;
+  margin-left: 0.5rem;
+  width: 100%;
 `

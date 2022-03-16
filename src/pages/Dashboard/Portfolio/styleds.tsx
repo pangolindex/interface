@@ -9,7 +9,7 @@ export const HeaderDropdowns = styled(Box)`
 export const PortfolioToken = styled(Box)`
   display: flex;
   align-items: center;
-  font-size: 50px;
+  font-size: 20px;
   line-height: 97px;
   color: ${({ theme }) => theme.text7};
 `

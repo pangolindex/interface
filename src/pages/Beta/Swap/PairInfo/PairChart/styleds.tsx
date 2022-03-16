@@ -2,14 +2,16 @@ import styled from 'styled-components'
 
 export const ChartWrapper = styled.div`
   width: 100%;
+  max-width: 400px;
+  min-height: 400px;
   padding: 10px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.color2};
   position: relative;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
-  `};
 `
+/*   ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `}; */
 
 export const ChartContainer = styled.div`
   width: 100%;

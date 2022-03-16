@@ -27,8 +27,13 @@ export const PageDescription = styled.div`
 
 export const TopContainerWrapper = styled(Box)`
   width: 100%;
+  margin: auto;
+  max-width: 1200px;
   margin-bottom: 22px;
   display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
 `
 
 export const ContainerLeft = styled(Box)`
@@ -45,9 +50,9 @@ export const BottomContainerWrapper = styled(Box)`
 `
 
 export const Card = styled(Box)`
+  padding: 3px;
   width: 100%;
-  padding: 25px 30px;
-  margin-right: 22px;
+  margin-bottom: 0.3rem;
   background: ${({ theme }) => theme.bg2};
   border-radius: 8px;
 
@@ -59,7 +64,7 @@ export const Card = styled(Box)`
 export const CardHeader = styled(Box)`
   width: 100%;
   color: ${({ theme }) => theme.text7};
-  font-size: 32px;
+  font-size: 24px;
   line-height: 48px;
   display: flex;
   justify-content: space-between;
@@ -69,5 +74,19 @@ export const CardHeader = styled(Box)`
 
 export const CardBody = styled(Box)`
   width: 100%;
+  height: 100%;
   color: ${({ theme }) => theme.text7};
+`
+
+export const PortfolioWrapper = styled(Box)`
+  display: grid;
+  gap: 12;
+  width: 100%;
+  max-width: 600px;
+`
+export const WatchListWrapper = styled(Box)`
+  display: grid;
+  gap: 12;
+  width: 100%;
+  max-width: 1114px;
 `

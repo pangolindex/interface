@@ -70,6 +70,9 @@ export default function SocialMedia({ collapsed }: SocialMediaProps) {
           return (
             <Link key={index} href={x.link}>
               <Icon height={'16px'} src={x.icon} alt={x.title} />
+              <Text color="color22" fontSize={1}>
+                {x.title}
+              </Text>
             </Link>
           )
         })}

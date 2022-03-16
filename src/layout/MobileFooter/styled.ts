@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom'
 
 export const MenuWrapper = styled.div`
   flex: 1;
-  overflow-y: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -51,7 +50,6 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
   background-color: ${({ theme, isActive }) => (isActive ? theme.primary : 'transparent')};
   border-radius: 9px;
   margin-bottom: 5px;
-  overflow-y: hidden;
   white-space: nowrap;
 
   display: flex;

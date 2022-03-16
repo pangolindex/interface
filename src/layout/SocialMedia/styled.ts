@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 export const IconWrapper = styled.div<{ collapsed: boolean }>`
   display: flex;
   justify-content: center;
-  flex-direction: ${({ collapsed }) => (collapsed ? 'column' : 'row')};
+  flex-direction: ${({ collapsed }) => (collapsed ? 'column' : 'column')};
   align-items: center;
   margin: 5px 0px 10px 0px;
 `

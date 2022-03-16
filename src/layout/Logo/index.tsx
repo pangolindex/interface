@@ -21,7 +21,7 @@ export default function LogoIcon({ collapsed }: LogoProps) {
       </Box>
       {!collapsed && (
         <Box ml={12}>
-          <Text color="text1" fontSize={16}>
+          <Text color="text1" fontSize={12}>
             Pangolin
           </Text>
         </Box>

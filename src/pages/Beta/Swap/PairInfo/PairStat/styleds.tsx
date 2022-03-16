@@ -1,11 +1,10 @@
 import styled from 'styled-components'
 
 export const PanelWrapper = styled.div`
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: max-content;
-  gap: 12px;
-  display: inline-grid;
+  display: inline-flex;
+  flex-wrap: wrap;
   width: 100%;
+  max-width: 400px;
   align-items: start;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.color2};
@@ -24,9 +23,12 @@ export const PanelWrapper = styled.div`
   }
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
+  display: none;
   `};
 `
+/*   grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: max-content;
+    gap: 12px;  */
 
 export const MobileStat = styled.div`
   border-radius: 10px;

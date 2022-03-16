@@ -7,7 +7,7 @@ import { useLocation } from 'react-router'
 import SocialMedia from '../SocialMedia'
 import {
   Sider,
-  CollapseBar,
+  /*   CollapseBar, */
   Menu,
   MenuItem,
   MenuLink,
@@ -16,8 +16,8 @@ import {
   MenuExternalLink,
   MenuWrapper
 } from './styled'
-import Backward from '../../assets/svg/backward.svg'
-import Forward from '../../assets/svg/forward.svg'
+/* import Backward from '../../assets/svg/backward.svg'
+import Forward from '../../assets/svg/forward.svg' */
 import { Dashboard, Swap, Stake, Pool, Buy, Vote, Migration } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import { ANALYTICS_PAGE } from '../../constants'
@@ -131,20 +131,20 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
   return (
     <Sider
       collapsed={collapsed}
-      onMouseEnter={() => {
-        onCollapsed(false)
-      }}
-      onMouseLeave={() => {
-        if (!collapsed) {
-          onCollapsed(true)
-        }
-      }}
+      /*       onMouseEnter={() => {
+            onCollapsed(false)
+          }}
+          onMouseLeave={() => {
+            if (!collapsed) {
+              onCollapsed(true)
+            }
+          }} */
     >
-      <Logo collapsed={collapsed} />
+      <Logo collapsed={false} />
 
       <Scrollbars
         autoHeight
-        autoHeightMax={height ? height - 150 : window.innerHeight - 150}
+        autoHeightMax={height ? height - 100 : window.innerHeight - 100}
         autoHide
         style={{ flex: 1, overflowX: 'hidden' }}
       >
@@ -154,24 +154,22 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
               const Icon = x.icon
 
               return (
-                <MenuItem isActive={x.isActive} key={index}>
-                  <MenuLink id={x.id} to={x.link}>
+                <MenuLink key={index} id={x.id} to={x.link}>
+                  <MenuItem isActive={x.isActive}>
                     <Icon size={16} fillColor={x.isActive ? theme.black : theme.color22} />
-                    {!collapsed && (
-                      <MenuName fontSize={16} color={x.isActive ? 'black' : undefined}>
-                        {x.title}
-                      </MenuName>
-                    )}
-                  </MenuLink>
-                </MenuItem>
+                    {/* {!collapsed && ( */}
+                    <MenuName color={x.isActive ? 'black' : undefined}>{x.title}</MenuName>
+                    {/* )} */}
+                  </MenuItem>
+                </MenuLink>
               )
             })}
           </Menu>
 
-          <Box mt={collapsed ? '0px' : '10px'} overflowY="hidden">
+          <Box mt={collapsed ? '10px' : '10px'} overflowY="hidden">
             {!collapsed && (
-              <Box height={35} overflowY="hidden">
-                <Text color="color22" fontSize={12}>
+              <Box height={45} overflowY="hidden">
+                <Text color="color22" fontSize={10}>
                   PANGOLIN LINKS{' '}
                 </Text>
               </Box>
@@ -179,32 +177,36 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
             {pangolinLinks.map((x, index) => {
               return (
-                <MenuItem key={index}>
-                  <MenuExternalLink id={x.id} href={x.link}>
+                <MenuExternalLink key={index} id={x.id} href={x.link}>
+                  <MenuItem>
                     <img src={x.icon} width={16} alt={x.title} />
-                    {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
-                  </MenuExternalLink>
-                </MenuItem>
+                    {/* {!collapsed &&  */}
+                    <MenuName>{x.title}</MenuName>
+                    {/* } */}
+                  </MenuItem>
+                </MenuExternalLink>
               )
             })}
           </Box>
           <Box mt={collapsed ? '0px' : '10px'}>
-            {!collapsed && (
-              <Box height={35} overflowY="hidden">
-                <Text color="color22" fontSize={12}>
-                  {t('header.usefulLinks')}
-                </Text>
-              </Box>
-            )}
+            {/* {!collapsed && ( */}
+            <Box height={35} overflowY="hidden">
+              <Text color="color22" fontSize={12}>
+                {t('header.usefulLinks')}
+              </Text>
+            </Box>
+            {/* )} */}
 
             {otherLinks.map((x, index) => {
               return (
-                <MenuItem key={index}>
-                  <MenuExternalLink id={x.id} href={x.link}>
+                <MenuExternalLink key={index} id={x.id} href={x.link}>
+                  <MenuItem>
                     <img src={x.icon} width={16} alt={x.title} />
-                    {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
-                  </MenuExternalLink>
-                </MenuItem>
+                    {/* {!collapsed &&  */}
+                    <MenuName>{x.title}</MenuName>
+                    {/* } */}
+                  </MenuItem>
+                </MenuExternalLink>
               )
             })}
           </Box>
@@ -212,13 +214,13 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       </Scrollbars>
       <BottomBar>
         <SocialMedia collapsed={collapsed} />
-        <CollapseBar onClick={() => onCollapsed(!collapsed)}>
+        {/* <CollapseBar onClick={() => onCollapsed(!collapsed)}>
           {collapsed ? (
             <img height={'16px'} src={Forward} alt={'Forward'} />
           ) : (
             <img height={'16px'} src={Backward} alt={'Backward'} />
           )}
-        </CollapseBar>
+        </CollapseBar> */}
       </BottomBar>
     </Sider>
   )

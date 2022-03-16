@@ -4,6 +4,7 @@ import styled from 'styled-components'
 export const Root = styled(Box)`
   width: 100%;
   min-width: 320px;
+  max-width: 400px
   position: relative;
   overflow: hidden;
   ${({ theme }) => theme.mediaWidth.upToSmall`

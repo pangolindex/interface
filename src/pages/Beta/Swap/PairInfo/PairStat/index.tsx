@@ -77,7 +77,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             stat={`$${inputUsdcPrice ? inputUsdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}`}
             titlePosition="top"
             titleFontSize={16}
-            statFontSize={24}
+            statFontSize={18}
             titleColor="text2"
           />
         </Box>
@@ -88,7 +88,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             stat={`$${outputUsdcPrice ? outputUsdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}`}
             titlePosition="top"
             titleFontSize={16}
-            statFontSize={24}
+            statFontSize={18}
             titleColor="text2"
           />
         </Box>
@@ -99,7 +99,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             stat={`${Pair0UsdcPrice ? Pair0UsdcPrice?.toFixed(4) : '-'}`}
             titlePosition="top"
             titleFontSize={16}
-            statFontSize={24}
+            statFontSize={18}
             titleColor="text2"
           />
         </Box>
@@ -110,7 +110,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             stat={`${Pair1UsdcPrice ? Pair1UsdcPrice?.toFixed(4) : '-'}`}
             titlePosition="top"
             titleFontSize={16}
-            statFontSize={24}
+            statFontSize={18}
             titleColor="text2"
           />
         </Box>
@@ -121,7 +121,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             stat={perc ? `${perc.toFixed(3)}%` : '-'}
             titlePosition="top"
             titleFontSize={16}
-            statFontSize={24}
+            statFontSize={18}
             titleColor="text2"
           />
         </Box>

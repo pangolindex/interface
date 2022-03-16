@@ -15,5 +15,5 @@ export const LogoWrapper = styled.div<{ collapsed: boolean }>`
   display: flex;
   align-items: center;
   height: 50px;
-  padding: 10px;
+  padding-bottom: 10px;
 `

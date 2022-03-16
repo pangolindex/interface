@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import Header from './Header'
 import Sidebar from './Sidebar'
-import { Wrapper, MainContent, AppContent } from './styled'
+import { Wrapper, MainContent, AppContent, WarningWrapper } from './styled'
 import Logo from 'src/assets/images/logo.svg'
 import Footer from './Footer'
+import URLWarning from 'src/components/Header/URLWarning'
 
 const Layout: React.FC<unknown> = ({ children }) => {
   const [isDrawerCollapsed, setIsDrawerCollapsed] = useState(true)
@@ -14,9 +15,15 @@ const Layout: React.FC<unknown> = ({ children }) => {
 
   return (
     <Wrapper>
-      <Sidebar collapsed={isDrawerCollapsed} onCollapsed={value => setIsDrawerCollapsed(value)} />
+      <Sidebar
+        collapsed={true}
+        /* collapsed={isDrawerCollapsed} */ onCollapsed={value => setIsDrawerCollapsed(value)}
+      />
       <MainContent collapsed={isDrawerCollapsed}>
         <Header />
+        <WarningWrapper>
+          <URLWarning />
+        </WarningWrapper>
         <AppContent>{children}</AppContent>
         <Footer />
       </MainContent>

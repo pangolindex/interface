@@ -6,21 +6,18 @@ import { Text } from 'rebass'
 export const HeaderFrame = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  align-items: center;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
   width: 100%;
-  top: 0;
+  top: 0 !important;
   position: relative;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 1rem;
   z-index: 2;
   ${({ theme }) => theme.mediaWidth.upToMedium`
-    grid-template-columns: 1fr;
-    padding: 0;
-    width: calc(100%);
-    position: relative;
+  padding: 0;
+  display: block;
   `};
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`

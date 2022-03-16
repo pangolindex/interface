@@ -2,25 +2,22 @@ import { Box } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const PageWrapper = styled(Box)`
-  width: 100%;
   padding-top: 25px;
+  width: 100%;
 `
 
 export const TopContainer = styled(Box)`
-  display: grid;
-  grid-template-columns: auto minmax(auto, 400px);
-  grid-gap: 12px;
+width: 100%
+display: flex;
+flex-wrap: wrap;
+gap: 12px;
+align-items: center;
+justify-content: center;
+  padding-bottom: .5rem;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    grid-template-columns: none;
-    grid-template-rows: max-content auto;
+    
   `};
-`
-
-export const StatsWrapper = styled(Box)`
-  display: grid;
-  grid-template-rows: max-content auto;
-  grid-gap: 12px;
 `
 
 export const GridContainer = styled(Box)<{ isLimitOrders: boolean }>`
@@ -34,4 +31,12 @@ export const GridContainer = styled(Box)<{ isLimitOrders: boolean }>`
     grid-template-columns: none;
     grid-template-rows: max-content;
   `};
+`
+
+export const PairInfoWrapper = styled(Box)`
+width: 100%;
+max-width: 400px;
+display: flex;
+flex-direction: column
+gap: 12px;
 `

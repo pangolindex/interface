@@ -10,7 +10,7 @@ type Props = {
 
 const PortfolioRow: React.FC<Props> = ({ coin, pair }) => {
   const fontSize = (value: number) => {
-    let size = 20
+    let size = 15
     for (let index = 0; index < 10; index++) {
       const calcsize = Math.trunc(value / (10_000 * 10 ** index))
       if (calcsize === 0) {
@@ -27,7 +27,7 @@ const PortfolioRow: React.FC<Props> = ({ coin, pair }) => {
         {coin && <CurrencyLogo size={24} currency={coin.token} />}
         {pair && <DoubleCurrencyLogo currency0={pair?.pair?.token0} currency1={pair?.pair?.token1} size={24} />}
         {coin && (
-          <Text color="text1" fontSize={fontSize(coin?.price * coin?.amount)} fontWeight={500} marginLeft={'6px'}>
+          <Text color="text1" fontSize={17} fontWeight={500} marginLeft={'6px'}>
             {coin?.token?.symbol}
           </Text>
         )}

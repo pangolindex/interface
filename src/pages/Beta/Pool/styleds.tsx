@@ -8,14 +8,13 @@ export const PageWrapper = styled(Box)`
 `
 
 export const GridContainer = styled(Box)`
-  display: grid;
-  grid-template-columns: minmax(auto, 75%) minmax(auto, 25%);
-  grid-gap: 12px;
-  padding: 50px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 0px 0px;
   height: 100%;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     padding: 10px 0px 0px;
-    grid-template-columns: 100%;
   `};
 `
 
@@ -24,7 +23,8 @@ export const ExternalLink = styled.a`
   color: ${({ theme }) => theme.text1};
   display: flex;
   text-decoration: none;
-  height: 80px;
+  height: 40px;
+  width: 50%;
   align-items: center;
   justify-content: center;
   border-radius: 10px;

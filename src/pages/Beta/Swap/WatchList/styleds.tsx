@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 export const WatchListRoot = styled(Box)`
   width: 100%;
+  width: 100%;
   height: 100%;
   border-radius: 10px;
   padding: 20px;
@@ -14,7 +15,7 @@ export const DesktopWatchList = styled(Box)`
   display: flex;
   flex-direction: column;
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
+  display: none;
   `};
 `
 
@@ -22,7 +23,7 @@ export const MobileWatchList = styled.div`
   display: none;
   ${({ theme }) => theme.mediaWidth.upToSmall`
   display: block;
-`};
+  `};
 `
 
 export const GridContainer = styled(Box)<{ isLimitOrders?: boolean }>`
