@@ -158,7 +158,9 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
                   <MenuItem isActive={x.isActive}>
                     <Icon size={16} fillColor={x.isActive ? theme.black : theme.color22} />
                     {/* {!collapsed && ( */}
-                    <MenuName color={x.isActive ? 'black' : undefined}>{x.title}</MenuName>
+                    <MenuName fontSize={14} color={x.isActive ? 'black' : undefined}>
+                      {x.title}
+                    </MenuName>
                     {/* )} */}
                   </MenuItem>
                 </MenuLink>
@@ -181,7 +183,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
                   <MenuItem>
                     <img src={x.icon} width={16} alt={x.title} />
                     {/* {!collapsed &&  */}
-                    <MenuName>{x.title}</MenuName>
+                    <MenuName fontSize={14}>{x.title}</MenuName>
                     {/* } */}
                   </MenuItem>
                 </MenuExternalLink>
@@ -191,7 +193,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
           <Box mt={collapsed ? '0px' : '10px'}>
             {/* {!collapsed && ( */}
             <Box height={35} overflowY="hidden">
-              <Text color="color22" fontSize={12}>
+              <Text color="color22" fontSize={14}>
                 {t('header.usefulLinks')}
               </Text>
             </Box>
@@ -203,7 +205,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
                   <MenuItem>
                     <img src={x.icon} width={16} alt={x.title} />
                     {/* {!collapsed &&  */}
-                    <MenuName>{x.title}</MenuName>
+                    <MenuName fontSize={14}>{x.title}</MenuName>
                     {/* } */}
                   </MenuItem>
                 </MenuExternalLink>
