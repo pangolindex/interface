@@ -1441,6 +1441,36 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], TOMB[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
     version: 2
+  },
+  WAVAX_MAI_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], MAI[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  WAVAX_BUSINESSES_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], BUSINESSES[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  WAVAX_DOLLA_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], DOLLA[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  WAVAX_NCASH_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], NCASH[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  WAVAX_KACY_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], KACY[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  WAVAX_OML_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], OML[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
   }
 }
 
@@ -1453,36 +1483,6 @@ export const DOUBLE_SIDE_STAKING_WAGMI: { [key: string]: DoubleSideStaking } = {
   wWAGMI_PNG_V2: {
     tokens: [wWAGMI[ChainId.WAGMI], PNG[ChainId.WAGMI]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.WAGMI],
-    version: 2
-  },
-  WAVAX_MAI_V2: {
-    tokens: [WAVAX[ChainId.AVALANCHE], MAI[ChainId.AVALANCHE]],
-    stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2
-  },
-  WAVAX_BUSINESSES_V2: {
-    tokens: [WAVAX[ChainId.AVALANCHE], BUSINESSES[ChainId.AVALANCHE]],
-    stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2
-  },
-  WAVAX_DOLLA_V2: {
-    tokens: [WAVAX[ChainId.AVALANCHE], DOLLA[ChainId.AVALANCHE]],
-    stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2
-  },
-  WAVAX_NCASH_V2: {
-    tokens: [WAVAX[ChainId.AVALANCHE], NCASH[ChainId.AVALANCHE]],
-    stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2
-  },
-  WAVAX_KACY_V2: {
-    tokens: [WAVAX[ChainId.AVALANCHE], KACY[ChainId.AVALANCHE]],
-    stakingRewardAddress: MINICHEF_ADDRESS,
-    version: 2
-  },
-  WAVAX_OML_V2: {
-    tokens: [WAVAX[ChainId.AVALANCHE], OML[ChainId.AVALANCHE]],
-    stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   }
 }
