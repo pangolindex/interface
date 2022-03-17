@@ -1,6 +1,6 @@
 {
   "name": "@pangolindex/interface",
-  "version": "1.0.8",
+  "version": "1.0.9-dev.0",
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
