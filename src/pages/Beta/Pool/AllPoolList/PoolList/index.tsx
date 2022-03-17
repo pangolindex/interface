@@ -17,7 +17,6 @@ import DetailModal from '../../DetailModal'
 import DropdownMenu from 'src/components/Beta/DropdownMenu'
 import { Hidden } from 'src/theme'
 
-
 export enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
   totalApr = 'totalApr'

@@ -11,7 +11,6 @@ import { ConfirmWrapper, Wrapper } from './styled'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 
-
 type Props = {
   isOpen: boolean
   onClose: () => void

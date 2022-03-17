@@ -42,11 +42,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
 
   useEffect(() => {
     const stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(
-      chainId,
-      unStakingAmount,
-      stakingToken
-    ) as TokenAmount
+    const parsedInput = tryParseAmount(chainId, unStakingAmount, stakingToken) as TokenAmount
 
     if (
       parsedInput &&

@@ -30,12 +30,12 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
 
   const [timeWindow, setTimeWindow] = useState(
     weekFrame ||
-    ({} as {
-      description: string
-      label: string
-      interval: number
-      momentIdentifier: string
-    })
+      ({} as {
+        description: string
+        label: string
+        interval: number
+        momentIdentifier: string
+      })
   )
 
   const redirect = useContext(RedirectContext)

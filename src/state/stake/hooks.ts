@@ -650,11 +650,7 @@ export function useDerivedStakeInfo(
 
   const { t } = useTranslation()
 
-  const parsedInput: CurrencyAmount | undefined = tryParseAmount(
-    chainId,
-    typedValue,
-    stakingToken
-  )
+  const parsedInput: CurrencyAmount | undefined = tryParseAmount(chainId, typedValue, stakingToken)
 
   const parsedAmount =
     parsedInput && userLiquidityUnstaked && JSBI.lessThanOrEqual(parsedInput.raw, userLiquidityUnstaked.raw)
@@ -688,11 +684,7 @@ export function useDerivedUnstakeInfo(
 
   const { t } = useTranslation()
 
-  const parsedInput: CurrencyAmount | undefined = tryParseAmount(
-    chainId,
-    typedValue,
-    stakingAmount.token
-  )
+  const parsedInput: CurrencyAmount | undefined = tryParseAmount(chainId, typedValue, stakingAmount.token)
 
   const parsedAmount = parsedInput && JSBI.lessThanOrEqual(parsedInput.raw, stakingAmount.raw) ? parsedInput : undefined
 
@@ -783,10 +775,8 @@ export function useGetPairDataFromPair(pair: Pair) {
         ]
       : [zeroTokenAmount0, zeroTokenAmount1]
 
-  const usdAmountCurrency0: CurrencyAmount =
-    usdPriceCurrency0?.quote(token0Deposited, chainId) ?? zeroTokenAmount0
-  const usdAmountCurrency1: CurrencyAmount =
-    usdPriceCurrency1?.quote(token1Deposited, chainId) ?? zeroTokenAmount1
+  const usdAmountCurrency0: CurrencyAmount = usdPriceCurrency0?.quote(token0Deposited, chainId) ?? zeroTokenAmount0
+  const usdAmountCurrency1: CurrencyAmount = usdPriceCurrency1?.quote(token1Deposited, chainId) ?? zeroTokenAmount1
 
   const totalAmountUsd: CurrencyAmount = usdAmountCurrency0?.add(usdAmountCurrency1)
 
@@ -1272,11 +1262,7 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
   // approval data for stake
   const deadline = useTransactionDeadline()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(
-    chainId,
-    parsedAmount,
-    stakingInfo.stakingRewardAddress
-  )
+  const [approval, approveCallback] = useApproveCallback(chainId, parsedAmount, stakingInfo.stakingRewardAddress)
 
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 

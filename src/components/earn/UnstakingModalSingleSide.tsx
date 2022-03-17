@@ -29,7 +29,7 @@ interface StakingModalProps {
 export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInfo }: StakingModalProps) {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
-  
+
   const { t } = useTranslation()
 
   // monitor call to help UI loading state

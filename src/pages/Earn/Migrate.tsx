@@ -61,7 +61,6 @@ export default function Migrate({
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
-
   const currencyFromA = useCurrency(currencyIdFromA)
   const currencyFromB = useCurrency(currencyIdFromB)
   const currencyToA = useCurrency(currencyIdToA)
@@ -71,10 +70,8 @@ export default function Migrate({
   const [pglToStatus, pglTo] = usePair(currencyToA ?? undefined, currencyToB ?? undefined)
 
   const canZap =
-    (pglFrom?.involvesToken(PNG[chainId]) &&
-      pglTo?.involvesToken(PNG[chainId])) ||
-    (pglFrom?.involvesToken(WAVAX[chainId]) &&
-      pglTo?.involvesToken(WAVAX[chainId]))
+    (pglFrom?.involvesToken(PNG[chainId]) && pglTo?.involvesToken(PNG[chainId])) ||
+    (pglFrom?.involvesToken(WAVAX[chainId]) && pglTo?.involvesToken(WAVAX[chainId]))
 
   const stakingInfoFrom = useStakingInfo(Number(versionFrom), pglFrom)?.[0]
   const stakingInfoTo = useStakingInfo(Number(versionTo), pglTo)?.[0]

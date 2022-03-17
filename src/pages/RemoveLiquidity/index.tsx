@@ -459,8 +459,7 @@ export default function RemoveLiquidity({
     [onUserInput]
   )
 
-  const oneCurrencyIsAVAX =
-    currencyA === CAVAX[chainId] || currencyB === CAVAX[chainId]
+  const oneCurrencyIsAVAX = currencyA === CAVAX[chainId] || currencyB === CAVAX[chainId]
   const oneCurrencyIsWAVAX = Boolean(
     chainId &&
       ((currencyA && currencyEquals(WAVAX[chainId], currencyA)) ||

@@ -45,7 +45,6 @@ export default function BridgeMigratorModal({
   const { account, library } = useActiveWeb3React()
   const chainId = useChainId()
 
-
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
   const { parsedAmount, error } = useDerivedStakeInfo(typedValue, pairFrom.liquidityToken, userLiquidityUnstaked)
@@ -67,11 +66,7 @@ export default function BridgeMigratorModal({
   const deadline = useTransactionDeadline()
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(
-    chainId,
-    parsedAmount,
-    BRIDGE_MIGRATOR_ADDRESS
-  )
+  const [approval, approveCallback] = useApproveCallback(chainId, parsedAmount, BRIDGE_MIGRATOR_ADDRESS)
 
   const bridgeMigratorContract = useBridgeMigratorContract()
 

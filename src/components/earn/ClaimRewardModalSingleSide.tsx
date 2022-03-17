@@ -14,7 +14,6 @@ import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import { useChainId } from 'src/hooks'
 
-
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
   padding: 1rem;

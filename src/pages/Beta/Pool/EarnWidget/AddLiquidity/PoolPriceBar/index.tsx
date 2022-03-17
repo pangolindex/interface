@@ -10,7 +10,6 @@ import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { CHAINS } from 'src/constants/chains'
 import { useChainId } from 'src/hooks'
 
-
 interface BarProps {
   currencies: { [field in Field]?: Currency }
   noLiquidity?: boolean

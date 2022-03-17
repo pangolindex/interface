@@ -311,10 +311,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
               <ButtonPrimary
                 padding="8px"
                 as={Link}
-                to={`/add/${currencyId(currency0, chainId)}/${currencyId(
-                  currency1,
-                  chainId
-                )}`}
+                to={`/add/${currencyId(currency0, chainId)}/${currencyId(currency1, chainId)}`}
                 width="48%"
               >
                 {t('positionCard.add')}
@@ -323,10 +320,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 padding="8px"
                 as={Link}
                 width="48%"
-                to={`/remove/${currencyId(currency0, chainId)}/${currencyId(
-                  currency1,
-                  chainId
-                )}`}
+                to={`/remove/${currencyId(currency0, chainId)}/${currencyId(currency1, chainId)}`}
               >
                 {t('positionCard.remove')}
               </ButtonPrimary>

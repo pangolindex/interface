@@ -74,10 +74,7 @@ export default function useWrapCallback(
             : undefined,
         inputError: sufficientBalance ? undefined : `Insufficient ${NETWORK_CURRENCY[chainId]} balance`
       }
-    } else if (
-      currencyEquals(WAVAX[chainId], inputCurrency) &&
-      outputCurrency === CAVAX[chainId]
-    ) {
+    } else if (currencyEquals(WAVAX[chainId], inputCurrency) && outputCurrency === CAVAX[chainId]) {
       return {
         wrapType: WrapType.UNWRAP,
         execute:

@@ -28,7 +28,6 @@ export const Ibridge = styled(Box)`
 
 export const Separator = styled(Box)`
   margin-top: 25px;
-
 `
 export const SeparatorBorder = styled(Box)`
   margin-top: 15px;

@@ -157,10 +157,7 @@ export default function DoubleSidePoolCard({
 
           {(isStaking || !stakingInfo.isPeriodFinished) && (
             <StyledInternalLink
-              to={`/png/${currencyId(currency0, chainId)}/${currencyId(
-                currency1,
-                chainId
-              )}/${version}`}
+              to={`/png/${currencyId(currency0, chainId)}/${currencyId(currency1, chainId)}/${version}`}
               style={{ width: '100%' }}
             >
               <ButtonPrimary padding="8px" borderRadius="8px">

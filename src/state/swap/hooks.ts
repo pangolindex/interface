@@ -162,11 +162,7 @@ export function useDerivedSwapInfo(): {
   ])
 
   const isExactIn: boolean = independentField === Field.INPUT
-  const parsedAmount = tryParseAmount(
-    chainId,
-    typedValue,
-    (isExactIn ? inputCurrency : outputCurrency) ?? undefined
-  )
+  const parsedAmount = tryParseAmount(chainId, typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
 
   const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
   const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
@@ -215,14 +211,10 @@ export function useDerivedSwapInfo(): {
   const [allowedSlippage] = useUserSlippageTolerance()
 
   const slippageAdjustedAmounts =
-    v2Trade &&
-    allowedSlippage &&
-    computeSlippageAdjustedAmounts(v2Trade, allowedSlippage, chainId)
+    v2Trade && allowedSlippage && computeSlippageAdjustedAmounts(v2Trade, allowedSlippage, chainId)
 
   const slippageAdjustedAmountsV1 =
-    v1Trade &&
-    allowedSlippage &&
-    computeSlippageAdjustedAmounts(v1Trade, allowedSlippage, chainId)
+    v1Trade && allowedSlippage && computeSlippageAdjustedAmounts(v1Trade, allowedSlippage, chainId)
 
   // compare input balance to max input based on version
   const [balanceIn, amountIn] = [
