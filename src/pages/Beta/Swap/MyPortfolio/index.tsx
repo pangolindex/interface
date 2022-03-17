@@ -42,6 +42,7 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
         <GridContainer isLimitOrders={isLimitOrders}>
           {!isLimitOrders && (
             <Hidden upToSmall={true}>
+              {/* ATTENTION ICI */}
               <PortfolioChart />
             </Hidden>
           )}

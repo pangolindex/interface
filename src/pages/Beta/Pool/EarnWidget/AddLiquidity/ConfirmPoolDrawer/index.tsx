@@ -50,7 +50,6 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
     type
   } = props
 
-  // const { chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 

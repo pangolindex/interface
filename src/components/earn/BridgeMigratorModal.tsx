@@ -20,6 +20,7 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
 import { BRIDGE_MIGRATOR_ADDRESS } from '../../constants'
+import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -41,7 +42,8 @@ export default function BridgeMigratorModal({
   pairTo,
   userLiquidityUnstaked
 }: BridgeMigratorModalProps) {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
 
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
@@ -64,7 +66,7 @@ export default function BridgeMigratorModal({
   const deadline = useTransactionDeadline()
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, BRIDGE_MIGRATOR_ADDRESS)
+  const [approval, approveCallback] = useApproveCallback(chainId, parsedAmount, BRIDGE_MIGRATOR_ADDRESS)
 
   const bridgeMigratorContract = useBridgeMigratorContract()
 
@@ -126,7 +128,7 @@ export default function BridgeMigratorModal({
   }, [])
 
   // used for max input button
-  const maxAmountInput = maxAmountSpend(userLiquidityUnstaked)
+  const maxAmountInput = maxAmountSpend(chainId, userLiquidityUnstaked)
   const atMaxAmount = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
   const handleMax = useCallback(() => {
     maxAmountInput && onUserInput(maxAmountInput.toExact())

@@ -38,8 +38,8 @@ import { Dots, Wrapper } from '../Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { currencyId } from '../../utils/currencyId'
 import { PoolPriceBar } from './PoolPriceBar'
-import { ChainId } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 export default function AddLiquidity({
   match: {
@@ -47,7 +47,9 @@ export default function AddLiquidity({
   },
   history
 }: RouteComponentProps<{ currencyIdA?: string; currencyIdB?: string }>) {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const theme = useContext(ThemeContext)
 
   const currencyA = useCurrency(currencyIdA)
@@ -103,7 +105,7 @@ export default function AddLiquidity({
     (accumulator, field) => {
       return {
         ...accumulator,
-        [field]: maxAmountSpend(currencyBalances[field])
+        [field]: maxAmountSpend(chainId, currencyBalances[field])
       }
     },
     {}
@@ -121,12 +123,14 @@ export default function AddLiquidity({
 
   // check whether the user has approved the router on the tokens
   const [approvalA, approveACallback] = useApproveCallback(
+    chainId,
     parsedAmounts[Field.CURRENCY_A],
-    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
+    ROUTER_ADDRESS[chainId]
   )
   const [approvalB, approveBCallback] = useApproveCallback(
+    chainId,
     parsedAmounts[Field.CURRENCY_B],
-    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
+    ROUTER_ADDRESS[chainId]
   )
 
   const addTransaction = useTransactionAdder()
@@ -149,8 +153,8 @@ export default function AddLiquidity({
       method: (...args: any) => Promise<TransactionResponse>,
       args: Array<string | string[] | number>,
       value: BigNumber | null
-    if (currencyA === CAVAX || currencyB === CAVAX) {
-      const tokenBIsETH = currencyB === CAVAX
+    if (currencyA === CAVAX[chainId] || currencyB === CAVAX[chainId]) {
+      const tokenBIsETH = currencyB === CAVAX[chainId]
       estimate = router.estimateGas.addLiquidityAVAX
       method = router.addLiquidityAVAX
       args = [
@@ -279,18 +283,18 @@ export default function AddLiquidity({
 
   const handleCurrencyASelect = useCallback(
     (currencyA: Currency) => {
-      const newCurrencyIdA = currencyId(currencyA)
+      const newCurrencyIdA = currencyId(currencyA, chainId)
       if (newCurrencyIdA === currencyIdB) {
         history.push(`/add/${currencyIdB}/${currencyIdA}`)
       } else {
         history.push(`/add/${newCurrencyIdA}/${currencyIdB}`)
       }
     },
-    [currencyIdB, history, currencyIdA]
+    [chainId, currencyIdB, history, currencyIdA]
   )
   const handleCurrencyBSelect = useCallback(
     (currencyB: Currency) => {
-      const newCurrencyIdB = currencyId(currencyB)
+      const newCurrencyIdB = currencyId(currencyB, chainId)
       if (currencyIdA === newCurrencyIdB) {
         if (currencyIdB) {
           history.push(`/add/${currencyIdB}/${newCurrencyIdB}`)
@@ -301,7 +305,7 @@ export default function AddLiquidity({
         history.push(`/add/${currencyIdA ? currencyIdA : 'AVAX'}/${newCurrencyIdB}`)
       }
     },
-    [currencyIdA, history, currencyIdB]
+    [chainId, currencyIdA, history, currencyIdB]
   )
 
   const handleDismissConfirmation = useCallback(() => {

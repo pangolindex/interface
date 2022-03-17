@@ -10,6 +10,7 @@ import { CloseIcon } from 'src/theme'
 import { Hidden, Visible } from 'src/theme'
 import RewardTokens from 'src/components/RewardTokens'
 import { useTokens } from 'src/hooks/Tokens'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   stakingInfo: StakingInfo
@@ -18,13 +19,15 @@ type Props = {
 
 const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const theme = useContext(ThemeContext)
+  const chainId = useChainId()
+
   const { t } = useTranslation()
 
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
 
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
+  const currency0 = unwrappedToken(token0, chainId)
+  const currency1 = unwrappedToken(token1, chainId)
 
   const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
 

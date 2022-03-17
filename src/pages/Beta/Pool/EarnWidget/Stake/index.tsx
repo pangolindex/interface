@@ -15,7 +15,7 @@ import {
 } from './styleds'
 import { Box, Text, Button, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
-import { TokenAmount, Pair, ChainId, JSBI, Token } from '@pangolindex/sdk'
+import { TokenAmount, Pair, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { useGetPoolDollerWorth, useMinichefStakingInfos, useMinichefPendingRewards } from 'src/state/stake/hooks'
 import { usePairContract, useStakingContract } from 'src/hooks/useContract'
@@ -27,10 +27,12 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useTranslation } from 'react-i18next'
 import SelectPoolDrawer from './SelectPoolDrawer'
+import { useTokenBalance } from 'src/state/wallet/hooks'
 import Percentage from 'src/components/Beta/Percentage'
 import Stat from 'src/components/Stat'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
+import { useChainId } from 'src/hooks'
 
 interface StakeProps {
   pair: Pair | null
@@ -41,7 +43,8 @@ interface StakeProps {
 }
 
 const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const [selectedPair, setSelectedPair] = useState<Pair | null>(pair)
 
@@ -49,7 +52,8 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
 
   const theme = useContext(ThemeContext)
 
-  const { liquidityInUSD, userPgl: userLiquidityUnstaked } = useGetPoolDollerWorth(selectedPair)
+  const userLiquidityUnstaked = useTokenBalance(account ?? undefined, selectedPair?.liquidityToken)
+  const { liquidityInUSD } = useGetPoolDollerWorth(selectedPair)
 
   const [isPoolDrawerOpen, setIsPoolDrawerOpen] = useState(false)
 
@@ -84,7 +88,7 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
   const dummyPair = new Pair(
     new TokenAmount(stakingInfo.tokens[0], '0'),
     new TokenAmount(stakingInfo.tokens[1], '0'),
-    chainId ? chainId : ChainId.AVALANCHE
+    chainId
   )
   const pairContract = usePairContract(dummyPair.liquidityToken.address)
 
@@ -94,11 +98,15 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
 
   const [stepIndex, setStepIndex] = useState(4)
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, stakingInfo?.stakingRewardAddress)
+  const [approval, approveCallback] = useApproveCallback(
+    chainId,
+    parsedAmount,
+    stakingInfo?.stakingRewardAddress[chainId]
+  )
 
-  const stakingContract = useStakingContract(stakingInfo?.stakingRewardAddress)
-  const currency0 = unwrappedToken(selectedPair?.token0 as Token)
-  const currency1 = unwrappedToken(selectedPair?.token1 as Token)
+  const stakingContract = useStakingContract(stakingInfo?.stakingRewardAddress[chainId])
+  const currency0 = unwrappedToken(selectedPair?.token0 as Token, chainId)
+  const currency1 = unwrappedToken(selectedPair?.token1 as Token, chainId)
   const poolMap = useMinichefPools()
 
   const onChangePercentage = (value: number) => {
@@ -225,7 +233,7 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
     ]
     const message = {
       owner: account,
-      spender: stakingInfo.stakingRewardAddress,
+      spender: stakingInfo.stakingRewardAddress[chainId],
       value: liquidityAmount.raw.toString(),
       nonce: nonce.toHexString(),
       deadline: deadline.toNumber()

@@ -7,15 +7,17 @@ import { Field } from 'src/state/swap/actions'
 import { useUserSlippageTolerance } from 'src/state/user/hooks'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown, warningSeverity } from 'src/utils/prices'
 import { ContentBox, DataBox, ValueText } from './styled'
+import { useChainId } from 'src/hooks'
 
 type Props = { trade: Trade }
 
 const SwapDetailInfo: React.FC<Props> = ({ trade }) => {
+  const chainId = useChainId()
   const { t } = useTranslation()
   const [allowedSlippage] = useUserSlippageTolerance()
-  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(trade)
+  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(chainId, trade)
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
-  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
+  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId)
 
   const amount = isExactIn
     ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${trade.outputAmount.currency.symbol}` ?? '-'

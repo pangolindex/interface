@@ -24,7 +24,7 @@ import {
 import SwapDetailInfo from '../SwapDetailInfo'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 interface Props {
   isOpen: boolean
@@ -54,15 +54,16 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
     txHash
   } = props
 
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
-  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage), [
+  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId), [
     trade,
-    allowedSlippage
+    allowedSlippage,
+    chainId
   ])
-  const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
+  const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(chainId, trade), [chainId, trade])
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
   const showAcceptChanges = useMemo(

@@ -18,6 +18,7 @@ interface ClaimProps {
 
 const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) => {
   const { account } = useActiveWeb3React()
+
   const { t } = useTranslation()
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()

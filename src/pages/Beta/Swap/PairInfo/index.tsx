@@ -5,10 +5,10 @@ import { Field } from 'src/state/swap/actions'
 import { useDerivedSwapInfo } from 'src/state/swap/hooks'
 import { usePair } from 'src/data/Reserves'
 import { wrappedCurrency } from 'src/utils/wrappedCurrency'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 const PairInfo = () => {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const { currencies } = useDerivedSwapInfo()
 

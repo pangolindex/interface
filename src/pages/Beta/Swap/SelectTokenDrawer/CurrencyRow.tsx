@@ -10,6 +10,7 @@ import { useCurrencyBalance } from 'src/state/wallet/hooks'
 import Loader from 'src/components/Loader'
 // import { useAddUserToken, useRemoveUserAddedToken } from 'src/state/user/hooks'
 // import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 interface Props {
   currency: Currency
@@ -22,10 +23,12 @@ interface Props {
 const CurrencyRow: React.FC<Props> = props => {
   const { currency, style, onSelect, isSelected, otherSelected } = props
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+
   // const selectedTokenList = useSelectedTokenList()
   // const isOnSelectedList = isTokenOnList(selectedTokenList, currency)
   // const customAdded = useIsUserAddedToken(currency)
-  const balance = useCurrencyBalance(account ?? undefined, currency)
+  const balance = useCurrencyBalance(chainId, account ?? undefined, currency)
 
   // const removeToken = useRemoveUserAddedToken()
   // const addToken = useAddUserToken()

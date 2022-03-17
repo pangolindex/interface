@@ -18,6 +18,7 @@ import { AutoRow, RowBetween, RowFixed } from '../Row'
 import FormattedPriceImpact from './FormattedPriceImpact'
 import { StyledBalanceMaxMini, SwapCallbackError } from './styleds'
 import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 export default function SwapModalFooter({
   trade,
@@ -34,11 +35,16 @@ export default function SwapModalFooter({
 }) {
   const [showInverted, setShowInverted] = useState<boolean>(false)
   const theme = useContext(ThemeContext)
-  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage), [
+  const chainId = useChainId()
+  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId), [
     allowedSlippage,
+    trade,
+    chainId
+  ])
+  const { priceImpactWithoutFee, realizedLPFee } = useMemo(() => computeTradePriceBreakdown(chainId, trade), [
+    chainId,
     trade
   ])
-  const { priceImpactWithoutFee, realizedLPFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
   const severity = warningSeverity(priceImpactWithoutFee)
   const { t } = useTranslation()
 

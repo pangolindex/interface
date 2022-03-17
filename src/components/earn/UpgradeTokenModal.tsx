@@ -17,6 +17,7 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
 import { tryParseAmount } from '../../state/swap/hooks'
+import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -37,10 +38,15 @@ export default function UpgradeTokenModal({
   abTokenAddress
 }: UpgradeTokenModalModalProps) {
   const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
 
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
-  const parsedAmount: CurrencyAmount | undefined = tryParseAmount(typedValue, aebTokenBalance?.token ?? undefined)
+  const parsedAmount: CurrencyAmount | undefined = tryParseAmount(
+    chainId,
+    typedValue,
+    aebTokenBalance?.token ?? undefined
+  )
 
   // state for pending and submitted txn views
   const addTransaction = useTransactionAdder()
@@ -56,7 +62,7 @@ export default function UpgradeTokenModal({
 
   // approval data for stake
   const { t } = useTranslation()
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, abTokenAddress)
+  const [approval, approveCallback] = useApproveCallback(chainId, parsedAmount, abTokenAddress)
 
   async function onUpgrade() {
     setAttempting(true)
@@ -87,7 +93,7 @@ export default function UpgradeTokenModal({
   }, [])
 
   // used for max input button
-  const maxAmountInput = maxAmountSpend(aebTokenBalance)
+  const maxAmountInput = maxAmountSpend(chainId, aebTokenBalance)
   const atMaxAmount = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
   const handleMax = useCallback(() => {
     maxAmountInput && onUserInput(maxAmountInput.toExact())

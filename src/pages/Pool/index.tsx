@@ -13,11 +13,10 @@ import { RowBetween, RowFixed } from '../../components/Row'
 import { ButtonPrimary, ButtonSecondary } from '../../components/Button'
 import { AutoColumn } from '../../components/Column'
 
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import { usePairs } from '../../data/Reserves'
 import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks'
 import { Dots } from '../../components/swap/styleds'
-import { ChainId } from '@pangolindex/sdk'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import { LANDING_PAGE, ANALYTICS_PAGE } from '../../constants'
 import { useTranslation } from 'react-i18next'
@@ -78,7 +77,8 @@ const EmptyProposals = styled.div`
 
 export default function Pool() {
   const theme = useContext(ThemeContext)
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const AccountAnalytics = account ? `${ANALYTICS_PAGE}/#/account/${account}` : `${ANALYTICS_PAGE}/#/accounts`
 
@@ -88,7 +88,7 @@ export default function Pool() {
   const tokenPairsWithLiquidityTokens = useMemo(
     () =>
       trackedTokenPairs.map(tokens => ({
-        liquidityToken: toV2LiquidityToken(tokens, chainId ? chainId : ChainId.AVALANCHE),
+        liquidityToken: toV2LiquidityToken(tokens, chainId),
         tokens
       })),
     [trackedTokenPairs, chainId]

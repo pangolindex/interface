@@ -1,5 +1,6 @@
 import { Currency } from '@pangolindex/sdk'
 import React from 'react'
+import { useChainId } from 'src/hooks'
 import { LogoSize } from 'src/constants'
 import styled from 'styled-components'
 import CurrencyLogo from '../CurrencyLogo'
@@ -32,10 +33,11 @@ export default function DoubleCurrencyLogo({
   size = 24,
   margin = false
 }: DoubleCurrencyLogoProps) {
+  const chainId = useChainId()
   return (
     <Wrapper sizeraw={size} margin={margin}>
-      {currency0 && <HigherLogo currency={currency0} size={size} />}
-      {currency1 && <CoveredLogo currency={currency1} size={size} sizeraw={size} />}
+      {currency0 && <HigherLogo currency={currency0} size={size} chainId={chainId} />}
+      {currency1 && <CoveredLogo currency={currency1} size={size} sizeraw={size} chainId={chainId} />}
     </Wrapper>
   )
 }

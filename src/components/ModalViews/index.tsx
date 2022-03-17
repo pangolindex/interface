@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useActiveWeb3React } from '../../hooks'
+import { useChainId } from '../../hooks'
 
 import { AutoColumn, ColumnCenter } from '../Column'
 import styled, { ThemeContext } from 'styled-components'
@@ -50,7 +50,7 @@ export function SubmittedView({
   hash: string | undefined
 }) {
   const theme = useContext(ThemeContext)
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
 
   return (

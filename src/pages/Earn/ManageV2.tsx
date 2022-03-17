@@ -26,7 +26,6 @@ const ManageV2: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB:
   const miniChefStaking = useMinichefStakingInfos(2, stakingTokenPair)?.[0]
 
   const rewardAddress = miniChefStaking?.rewardsAddress
-
   const rewardContract = useRewardViaMultiplierContract(rewardAddress)
 
   const earnedAmount = miniChefStaking?.earnedAmount
