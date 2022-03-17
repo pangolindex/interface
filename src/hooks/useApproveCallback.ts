@@ -104,17 +104,10 @@ export function useApproveCallback(
 // wraps useApproveCallback in the context of a swap
 export function useApproveCallbackFromTrade(chainId: ChainId, trade?: Trade, allowedSlippage = 0) {
   const amountToApprove = useMemo(
-    () =>
-      trade
-        ? computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId)[Field.INPUT]
-        : undefined,
+    () => (trade ? computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId)[Field.INPUT] : undefined),
     [trade, allowedSlippage, chainId]
   )
-  return useApproveCallback(
-    chainId,
-    amountToApprove,
-    ROUTER_ADDRESS[chainId]
-  )
+  return useApproveCallback(chainId, amountToApprove, ROUTER_ADDRESS[chainId])
 }
 
 // wraps useApproveCallback in the context of a swap
@@ -126,9 +119,5 @@ export function useApproveCallbackFromInputCurrencyAmount(currencyAmountIn: any 
     ? new TokenAmount(currencyAmountIn?.currency, currencyAmountIn?.numerator)
     : undefined
 
-  return useApproveCallback(
-    chainId ,
-    newCurrencyAmountIn,
-    gelatoLibrary?.erc20OrderRouter.address ?? undefined
-  )
+  return useApproveCallback(chainId, newCurrencyAmountIn, gelatoLibrary?.erc20OrderRouter.address ?? undefined)
 }

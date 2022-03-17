@@ -19,7 +19,7 @@ export const BoxCheckEligibility: React.FC<IStatus> = ({ checkStatus }) => {
       <Separator />
       <span style={{ padding: '20px' }}></span>
       <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
-        Let's check if you are eligible!
+        Let&apos;s check if you are eligible!
       </Text>
       <span style={{ padding: '20px' }}></span>
       <Button variant="primary" color="white" height="46px" onClick={checkStatus}>

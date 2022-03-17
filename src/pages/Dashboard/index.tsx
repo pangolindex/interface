@@ -36,9 +36,9 @@ const Dashboard = () => {
           </TopContainerWrapper>
           <BottomContainerWrapper>
             {CHAINS[chainId].is_mainnet && (
-            <RedirectContext.Provider value={true}>
-              <WatchList />
-            </RedirectContext.Provider>
+              <RedirectContext.Provider value={true}>
+                <WatchList />
+              </RedirectContext.Provider>
             )}
           </BottomContainerWrapper>
         </ContainerLeft>

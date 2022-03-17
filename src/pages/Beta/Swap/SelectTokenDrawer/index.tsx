@@ -84,10 +84,7 @@ const SelectTokenDrawer: React.FC<Props> = props => {
   }, [filteredTokens, searchQuery, searchToken, tokenComparator])
 
   //const currencies = useMemo(() => [Currency.CAVAX], ...filteredSortedTokens], [filteredSortedTokens])
-  const currencies = useMemo(() => [CAVAX[chainId], ...filteredSortedTokens], [
-    filteredSortedTokens,
-    chainId
-  ])
+  const currencies = useMemo(() => [CAVAX[chainId], ...filteredSortedTokens], [filteredSortedTokens, chainId])
 
   const onSelect = useCallback(
     currency => {

@@ -24,16 +24,9 @@ function TradeSummary({
   chainId: ChainId
 }) {
   const theme = useContext(ThemeContext)
-  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(
-    chainId,
-    trade
-  )
+  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(chainId, trade)
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
-  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(
-    trade,
-    allowedSlippage,
-    chainId
-  )
+  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId)
   const { t } = useTranslation()
 
   return (

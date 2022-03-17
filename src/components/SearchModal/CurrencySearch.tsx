@@ -157,9 +157,7 @@ export function CurrencySearch({
           onKeyDown={handleEnter}
           autoComplete="off"
         />
-        {showCommonBases && (
-          <CommonBases onSelect={handleCurrencySelect} selectedCurrency={selectedCurrency} />
-        )}
+        {showCommonBases && <CommonBases onSelect={handleCurrencySelect} selectedCurrency={selectedCurrency} />}
         <RowBetween>
           <Text fontSize={14} fontWeight={500}>
             {t('searchModal.tokenName')}

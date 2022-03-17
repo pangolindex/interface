@@ -181,9 +181,7 @@ const LimitOrder: React.FC<Props> = ({ swapType, setSwapType }) => {
   const tradePrice = trade?.executionPrice
 
   // check whether the user has approved the router on the input token
-  const [approval, approveCallback] = useApproveCallbackFromInputCurrencyAmount(
-    parsedAmounts.input
-  )
+  const [approval, approveCallback] = useApproveCallbackFromInputCurrencyAmount(parsedAmounts.input)
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)

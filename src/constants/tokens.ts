@@ -1386,7 +1386,13 @@ export const BUSINESSES: { [chainId in ChainId]: Token } = {
 
 export const DOLLA: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'DOLLA', '$dolla'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x4B322765D761984C0f9E72200B62a9b445F38caC', 18, 'DOLLA', '$dolla'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x4B322765D761984C0f9E72200B62a9b445F38caC',
+    18,
+    'DOLLA',
+    '$dolla'
+  ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'DOLLA', '$dolla')
 }
 

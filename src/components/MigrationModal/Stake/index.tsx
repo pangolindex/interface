@@ -41,7 +41,7 @@ const Stake = ({
 }: StakeProps) => {
   const { account, library } = useActiveWeb3React()
   const chainId = useChainId()
-  
+
   const { t } = useTranslation()
 
   // state for pending and submitted txn views
@@ -60,11 +60,7 @@ const Stake = ({
   const [stepIndex, setStepIndex] = useState(4)
   // approval data for stake
   const deadline = useTransactionDeadline()
-  const [approval, approveCallback] = useApproveCallback(
-    chainId,
-    parsedAmount,
-    MINICHEF_ADDRESS[chainId]
-  )
+  const [approval, approveCallback] = useApproveCallback(chainId, parsedAmount, MINICHEF_ADDRESS[chainId])
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
 
   const onChangeAmount = (value: string) => {
@@ -103,11 +99,7 @@ const Stake = ({
 
   useEffect(() => {
     const stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(
-      chainId,
-      stakingAmount,
-      stakingToken
-    ) as TokenAmount
+    const parsedInput = tryParseAmount(chainId, stakingAmount, stakingToken) as TokenAmount
 
     if (
       parsedInput &&
@@ -132,11 +124,7 @@ const Stake = ({
 
   async function onStake() {
     const stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(
-      chainId,
-      stakingAmount,
-      stakingToken
-    ) as TokenAmount
+    const parsedInput = tryParseAmount(chainId, stakingAmount, stakingToken) as TokenAmount
 
     if (
       stakingContract &&

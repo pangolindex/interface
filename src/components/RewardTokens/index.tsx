@@ -25,22 +25,13 @@ const CoveredLogo = styled(CurrencyLogo)<{ sizeraw: number }>`
 `
 
 export default function RewardTokens({ rewardTokens = [], size = 24, margin = false }: RewardTokensLogoProps) {
-
   const chainId = useChainId()
   const tokens = [PNG[chainId], ...(rewardTokens || [])] // add PNG as default reward
 
   return (
     <Wrapper sizeraw={size} margin={margin}>
       {(tokens || []).map((token, i) => {
-        return (
-          <CoveredLogo
-            key={i}
-            currency={token as Token}
-            size={size}
-            sizeraw={size}
-            chainId={chainId}
-          />
-        )
+        return <CoveredLogo key={i} currency={token as Token} size={size} sizeraw={size} chainId={chainId} />
       })}
     </Wrapper>
   )

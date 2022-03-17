@@ -80,17 +80,17 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
         </Box>
       </Box>
       <GridContainer isLimitOrders={isLimitOrders}>
-        {CHAINS[chainId].is_mainnet ? (
-          !isLimitOrders && (
-            <Hidden upToSmall={true}>
-              <CoinChart coin={selectedToken} />
-            </Hidden>
-          )) : (
-          isLimitOrders && (
-            <Hidden upToSmall={true}>
-              <CoinChart coin={selectedToken} />
-            </Hidden>
-          ))}
+        {CHAINS[chainId].is_mainnet
+          ? !isLimitOrders && (
+              <Hidden upToSmall={true}>
+                <CoinChart coin={selectedToken} />
+              </Hidden>
+            )
+          : isLimitOrders && (
+              <Hidden upToSmall={true}>
+                <CoinChart coin={selectedToken} />
+              </Hidden>
+            )}
 
         <DesktopWatchList>
           <Scrollbars>

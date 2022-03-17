@@ -8,7 +8,7 @@ import { ButtonConfirmed, ButtonError, ButtonLight, ButtonPrimary } from '../But
 import { usePairContract } from '../../hooks/useContract'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
-import { useActiveWeb3React,useChainId } from '../../hooks'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from '../../state/burn/hooks'
 import { useCurrency } from '../../hooks/Tokens'

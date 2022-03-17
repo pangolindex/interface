@@ -11,17 +11,15 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
   const switchNetworkFantom = async () => {
     changeChain()
 
+    let ethereum: any
     try {
-      //@ts-ignore
       await ethereum.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: '0x2B67' }]
       })
     } catch (error) {
-      //@ts-ignore
-      if (error.code === 4902) {
+      if ((error as any).code === 4902) {
         try {
-          //@ts-ignore
           await ethereum.request({
             method: 'wallet_addEthereumChain',
             params: [
@@ -39,8 +37,7 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
             ]
           })
         } catch (error) {
-          //@ts-ignore
-          alert(error.message)
+          alert((error as any).message)
         }
       }
     }
@@ -57,7 +54,7 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
       <Separator />
       <span style={{ padding: '20px' }}></span>
       <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
-        Congratulations. You are eligible for the airdrop! Now let's go crosschain!
+        Congratulations. You are eligible for the airdrop! Now let&apos;s go crosschain!
       </Text>
       <span style={{ padding: '20px' }}></span>
       <Button variant="primary" color="white" height="46px" onClick={switchNetworkFantom}>

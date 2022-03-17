@@ -40,7 +40,6 @@ export default function UpgradeTokenModal({
   const { account, library } = useActiveWeb3React()
   const chainId = useChainId()
 
-
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
   const parsedAmount: CurrencyAmount | undefined = tryParseAmount(
@@ -63,11 +62,7 @@ export default function UpgradeTokenModal({
 
   // approval data for stake
   const { t } = useTranslation()
-  const [approval, approveCallback] = useApproveCallback(
-    chainId,
-    parsedAmount,
-    abTokenAddress
-  )
+  const [approval, approveCallback] = useApproveCallback(chainId, parsedAmount, abTokenAddress)
 
   async function onUpgrade() {
     setAttempting(true)

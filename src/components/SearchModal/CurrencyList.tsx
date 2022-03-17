@@ -203,9 +203,7 @@ export default function CurrencyList({
     [onCurrencySelect, otherCurrency, selectedCurrency]
   )
 
-  const itemKey = useCallback((index: number, data: any) => currencyKey(data[index], chainId), [
-    chainId
-  ])
+  const itemKey = useCallback((index: number, data: any) => currencyKey(data[index], chainId), [chainId])
 
   return (
     <FixedSizeList

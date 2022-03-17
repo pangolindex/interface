@@ -86,7 +86,6 @@ export function useGetChainBalance() {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
-
   const getChainBalance = async () => {
     if (account && chainId) {
       let id = chainId
@@ -156,24 +155,12 @@ export function useGetWalletChainTokens() {
         }
 
         const tokenA = new TokenAmount(
-          new Token(
-            chainId,
-            ethers.utils.getAddress(token1?.id),
-            token1?.decimals,
-            token1?.symbol,
-            token1?.name
-          ),
+          new Token(chainId, ethers.utils.getAddress(token1?.id), token1?.decimals, token1?.symbol, token1?.name),
           token1?.amount.toString().replace('.', '')
         )
 
         const tokenB = new TokenAmount(
-          new Token(
-            chainId,
-            ethers.utils.getAddress(token2?.id),
-            token2?.decimals,
-            token2?.symbol,
-            token2?.name
-          ),
+          new Token(chainId, ethers.utils.getAddress(token2?.id), token2?.decimals, token2?.symbol, token2?.name),
           token2?.amount.toString().replace('.', '')
         )
 
