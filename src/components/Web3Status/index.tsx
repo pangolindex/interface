@@ -152,7 +152,7 @@ const Web3StatusConnectedBeta = styled(Box)<{ pending?: boolean }>`
   ${({ theme, pending }) => theme.mediaWidth.upToSmall`
     padding: 10px;
     border: none;
-    background-color: ${({ theme }) => (pending ? theme.primary : theme.color7)};
+    background-color: ${pending ? theme.primary : theme.color7};
   `};
 `
 

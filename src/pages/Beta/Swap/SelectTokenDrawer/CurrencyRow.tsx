@@ -39,7 +39,7 @@ const CurrencyRow: React.FC<Props> = props => {
 
   return (
     <CurrencyRowRoot style={style} onClick={handleSelect} disabled={isSelected} selected={otherSelected}>
-      <CurrencyLogo currency={currency} size={'24px'} />
+      <CurrencyLogo currency={currency} size={24} />
       <Text color="text1" fontSize={14} title={currency?.name}>
         {currency?.symbol}
       </Text>

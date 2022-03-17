@@ -19,7 +19,7 @@ const SwapRoute: React.FC<Props> = ({ trade }) => {
         return (
           <Box key={i} display="flex" alignItems="center">
             <Box display="flex" alignItems="center" my={'5px'}>
-              <CurrencyLogo currency={token} size="1.5rem" />
+              <CurrencyLogo currency={token} size={24} />
               <Box ml={'10px'}>
                 <Text fontSize={14} color={'text1'}>
                   {token.symbol}

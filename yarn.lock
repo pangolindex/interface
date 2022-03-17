@@ -1737,22 +1737,22 @@
     "@ethersproject/properties" "^5.5.0"
     "@ethersproject/strings" "^5.5.0"
 
-"@gelatonetwork/limit-orders-lib@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@gelatonetwork/limit-orders-lib/-/limit-orders-lib-4.0.0.tgz#bf65f1830e76a580331a8801614017e61aad5d3a"
-  integrity sha512-jk3kRMlad+HW1gv3/XkLln+L1WWw7phId/0ts0FlRrMWeOu6u7rREOwBOZSUQok2g6f56kQaN3gx+tINflfD4w==
+"@gelatonetwork/limit-orders-lib@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@gelatonetwork/limit-orders-lib/-/limit-orders-lib-4.1.0.tgz#764f8b2dcd91cd9124a66e5cd66d877403887216"
+  integrity sha512-41YBmraM4+EMmdNFOOMYvag7jkVD+uw5jtgC4QfDCbytgAzfHdTVuQa9yKXWTftcl8KnNzg0dc6U/dVZcKmX7Q==
   dependencies:
     ethers "^5.4.6"
     graphql "^15.5.3"
     graphql-request "^3.5.0"
     tslib "^2.3.1"
 
-"@gelatonetwork/limit-orders-react@^2.3.1":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@gelatonetwork/limit-orders-react/-/limit-orders-react-2.3.1.tgz#2091a0c993df1889296a99f4cb7a3e773ec227ca"
-  integrity sha512-Jht9varbfeoLcVEvVupXGBZKv/F6LJ62gmO7BKpLtbbdZM4Ui+Mrb55ierNJBO79pgifqRQ0mIwXD6FnuK8OwA==
+"@gelatonetwork/limit-orders-react@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@gelatonetwork/limit-orders-react/-/limit-orders-react-2.4.0.tgz#9fe68ae0efa801277ba6b9c2f741c60a9fbf4965"
+  integrity sha512-Dxdc7S32UL+aK1sRVjlcyIEdmfZZ3f5MSAnybWY72c10RewPC+JoxkCmxQGhZTomNZNMk5fE7L9Fird3C8c2sw==
   dependencies:
-    "@gelatonetwork/limit-orders-lib" "^4.0.0"
+    "@gelatonetwork/limit-orders-lib" "^4.1.0"
     "@popperjs/core" "^2.9.2"
     "@reach/dialog" "^0.15.0"
     "@uniswap/default-token-list" "^2.0.0"
@@ -2170,10 +2170,10 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@pangolindex/components@1.0.7-rc.9":
-  version "1.0.7-rc.9"
-  resolved "https://registry.npmjs.org/@pangolindex/components/-/components-1.0.7-rc.9.tgz"
-  integrity sha512-UZuxdULffWP4wNiqm5PSKctU+0SFn3aWsk5nT0uj6WKhb6uRlGw1+/ajjmUq/gvgtj3YicLI4w/sUTdbUdbovw==
+"@pangolindex/components@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-1.0.7.tgz#d67a0ba42d26019021487e09a557b2e6ea5ef3f1"
+  integrity sha512-bGSDw7LkiJZqDHGVu4Lmx4ugH/dOPgIAgvsh4UGZ8Q9LOm4lxeR2GBg7qYFQhHTDdIvvVfeLYQ0lUoh0RSpvFw==
   dependencies:
     react-switch "^6.0.0"
 

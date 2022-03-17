@@ -19,7 +19,8 @@ import { V1_EXCHANGE_ABI, V1_FACTORY_ABI, V1_FACTORY_ADDRESSES } from '../consta
 import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
 import { AIRDROP_ADDRESS, BRIDGE_MIGRATOR_ADDRESS, MINICHEF_ADDRESS, ZERO_ADDRESS } from '../constants'
-import { GOVERNANCE_ADDRESS, PNG } from '../constants'
+import { GOVERNANCE_ADDRESS } from '../constants'
+import { PNG } from '../constants/tokens'
 import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../constants/abis/rewarderViaMultiplier'
 
 // returns null on errors

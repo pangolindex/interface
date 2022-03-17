@@ -22,7 +22,7 @@ import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/
 import { LANDING_PAGE, ANALYTICS_PAGE } from '../../constants'
 import { useTranslation } from 'react-i18next'
 
-const LiquidityTutorial = LANDING_PAGE + 'tutorials/manage-liquidity'
+const LiquidityTutorial = `${LANDING_PAGE}/tutorials/manage-liquidity`
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -80,7 +80,7 @@ export default function Pool() {
   const theme = useContext(ThemeContext)
   const { account, chainId } = useActiveWeb3React()
 
-  const AccountAnalytics = account ? ANALYTICS_PAGE + '#/account/' + account : ANALYTICS_PAGE + '#/accounts'
+  const AccountAnalytics = account ? `${ANALYTICS_PAGE}/#/account/${account}` : `${ANALYTICS_PAGE}/#/accounts`
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()

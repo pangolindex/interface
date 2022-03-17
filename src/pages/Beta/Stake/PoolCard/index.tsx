@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { Text } from '@pangolindex/components'
+import { Text, CurrencyLogo } from '@pangolindex/components'
 import { JSBI } from '@pangolindex/sdk'
 import numeral from 'numeral'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { Card, CardHeader, Stats, CardStats, TokenName, DetailButton, StakeButton, StatValue } from './styleds'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
-import CurrencyLogo from 'src/components/CurrencyLogo'
 import ClaimDrawer from '../ClaimDrawer'
 import StakeDrawer from './StakeDrawer'
 
@@ -29,7 +28,7 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
       <CardHeader>
         <TokenName>{t('stakePage.earn', { symbol: stakingInfo.rewardToken.symbol })}</TokenName>
         <div>
-          <CurrencyLogo size="58px" currency={stakingInfo.rewardToken} />
+          <CurrencyLogo size={48} currency={stakingInfo.rewardToken} />
         </div>
       </CardHeader>
       <CardStats>

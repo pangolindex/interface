@@ -360,7 +360,7 @@ export default function RemoveLiquidityModal({
             {parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}
           </Text>
           <RowFixed gap="4px">
-            <CurrencyLogo currency={currencyA} size={'24px'} />
+            <CurrencyLogo currency={currencyA} size={24} />
             <Text fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
               {currencyA?.symbol}
             </Text>
@@ -374,7 +374,7 @@ export default function RemoveLiquidityModal({
             {parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}
           </Text>
           <RowFixed gap="4px">
-            <CurrencyLogo currency={currencyB} size={'24px'} />
+            <CurrencyLogo currency={currencyB} size={24} />
             <Text fontSize={24} fontWeight={500} style={{ marginLeft: '10px' }}>
               {currencyB?.symbol}
             </Text>

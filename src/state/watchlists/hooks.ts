@@ -3,7 +3,7 @@ import { ChainId, Token } from '@pangolindex/sdk'
 import { AppState } from '../index'
 import { useActiveWeb3React } from 'src/hooks'
 import { useAllTokens } from 'src/hooks/Tokens'
-import { PNG } from 'src/constants'
+import { PNG } from 'src/constants/tokens'
 
 export function useSelectedCurrencyLists(): Token[] | undefined {
   const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()

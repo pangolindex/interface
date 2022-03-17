@@ -1,6 +1,6 @@
 import AppBody from '../AppBody'
 import { Wrapper } from '../../components/swap/styleds'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { TYPE } from '../../theme'
 import PurchaseForm, { Data } from '../../components/PurchaseForm'
 import TextInput from '../../components/PurchaseForm/input'
@@ -69,6 +69,9 @@ export default function Buy() {
     })
   }
 
+  const validators = useMemo(() => [minLengthValidator], [])
+  const emailValidators = useMemo(() => [emailValidator, minLengthValidator], [])
+
   return (
     <>
       <AppBody>
@@ -103,21 +106,21 @@ export default function Buy() {
               type="text"
               name="firstName"
               placeholder={t('buyPage.firstName')}
-              validators={[minLengthValidator]}
+              validators={validators}
               onError={setFieldError}
             />
             <TextInput
               type="text"
               name="lastName"
               placeholder={t('buyPage.lastName')}
-              validators={[minLengthValidator]}
+              validators={validators}
               onError={setFieldError}
             />
             <TextInput
               type="text"
               name="email"
               placeholder={t('buyPage.email')}
-              validators={[emailValidator, minLengthValidator]}
+              validators={emailValidators}
               onError={setFieldError}
             />
             <FiatInputPanel fiat={fiat} value={amount} onUserInput={setAmount} onFiatSelect={setFiat} id="fiatPanel" />

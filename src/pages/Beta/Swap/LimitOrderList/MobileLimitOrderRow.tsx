@@ -22,7 +22,7 @@ const MobileLimitOrderRow: React.FC<Props> = ({ order, onClick, isSelected, onCl
       <MobileRowWrapper isSelected={isSelected} onClick={onClick}>
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Box display="flex" alignItems="center">
-            <DoubleCurrencyLogo size={18} currency0={currency0 as Currency} currency1={currency1 as Currency} />
+            <DoubleCurrencyLogo size={24} currency0={currency0 as Currency} currency1={currency1 as Currency} />
 
             <Text color="text1" fontSize={18} fontWeight={500} lineHeight="30px">
               {currency0?.symbol}/{currency1?.symbol}
