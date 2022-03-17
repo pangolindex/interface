@@ -1174,3 +1174,19 @@ export const NCASH: { [chainId in ChainId]: Token } = {
     'NitroNetwork'
   )
 }
+
+export const KACY: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'KACY', 'Kassandra'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xf32398dae246C5f672B52A54e9B413dFFcAe1A44',
+    18,
+    'KACY',
+    'Kassandra'
+  )
+}
+
+export const OML: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OML', 'Omlira'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x979fFD8eEd7a43629eA29581DF4Bfe2b3F224e47', 18, 'OML', 'Omlira')
+}

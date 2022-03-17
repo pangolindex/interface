@@ -131,7 +131,9 @@ import {
   MAI,
   BUSINESSES,
   DOLLA,
-  NCASH
+  NCASH,
+  KACY,
+  OML
 } from '../../constants/tokens'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1455,6 +1457,16 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   WAVAX_NCASH_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], NCASH[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_KACY_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], KACY[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS,
+    version: 2
+  },
+  WAVAX_OML_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], OML[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS,
     version: 2
   }
