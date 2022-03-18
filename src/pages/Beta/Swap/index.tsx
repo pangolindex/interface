@@ -1,6 +1,6 @@
 import React from 'react'
 import { PageWrapper, GridContainer, TopContainer, StatsWrapper } from './styleds'
-import { useGelatoLimitOrderList} from '@pangolindex/components'
+import { useGelatoLimitOrderList } from '@pangolindex/components'
 import MyPortfolio from './MyPortfolio'
 import WatchList from './WatchList'
 import PairInfo from './PairInfo'
@@ -18,7 +18,7 @@ const SwapUI = () => {
         <StatsWrapper>
           <PairInfo />
         </StatsWrapper>
-        <SwapWidget />
+        <SwapWidget isShowLimit={true} />
       </TopContainer>
 
       <GridContainer isLimitOrders={isLimitOrders}>
