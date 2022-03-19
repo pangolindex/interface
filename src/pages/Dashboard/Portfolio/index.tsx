@@ -68,14 +68,14 @@ export default function PortfolioWidget() {
           ) : availableBalances.length > 0 ? (
             <Scrollbars style={{ height: 100 }}>
               {availableBalances.map((chain, index) => (
-                <PortfolioToken key={index} height={50}>
+                <PortfolioToken key={index} height={35}>
                   ${' '}
                   {chain.balance.toLocaleString(undefined, {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                   })}
                   <img
-                    width={'50px'}
+                    width={'24px'}
                     src={CHAINS[chain.chainID].logo}
                     alt={'Chain logo'}
                     style={{ marginLeft: '12px' }}
