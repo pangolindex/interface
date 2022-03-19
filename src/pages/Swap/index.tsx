@@ -48,6 +48,8 @@ import { useIsSelectedAEBToken, useSelectedTokenList, useTokenList } from '../..
 import { DeprecatedWarning } from '../../components/Warning'
 import { isTokenOnList } from '../../utils'
 import { DEFAULT_TOKEN_LISTS_SELECTED } from '../../constants/lists'
+import { Button } from '@pangolindex/components'
+import { BETA_MENU_LINK } from 'src/constants'
 
 const TopText = styled.span`
   margin-bottom: 8px;
@@ -81,6 +83,14 @@ const WarningWrapper = styled.div`
   max-width: 420px;
   width: 100%;
   margin: 0 0 2rem 0;
+`
+
+const LegacyButtonWrapper = styled.div`
+  display: none;
+  margin-bottom: 1rem;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: block;
+  `};
 `
 
 export default function Swap() {
@@ -324,6 +334,20 @@ export default function Swap() {
           <DeprecatedWarning />
         </WarningWrapper>
       )}
+
+      <LegacyButtonWrapper>
+        <Button
+          variant="primary"
+          height={36}
+          padding="4px 6px"
+          href={`#${BETA_MENU_LINK.dashboard}`}
+          backgroundColor={'#f05629'}
+          as="a"
+          target="_self"
+        >
+          <span style={{ whiteSpace: 'nowrap' }}>{t('header.switchToNewUI')}</span>
+        </Button>
+      </LegacyButtonWrapper>
 
       <TopText>
         <Trans i18nKey="swapPage.velox">

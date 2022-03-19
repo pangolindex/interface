@@ -8,7 +8,7 @@ import { MenuType } from './Sidebar'
 import { useTranslation } from 'react-i18next'
 import { useMinichefStakingInfos, useStakingInfo } from 'src/state/stake/hooks'
 import { BIG_INT_ZERO } from 'src/constants'
-/* import { Hidden } from 'src/theme' */
+import { Hidden } from 'src/theme'
 
 export enum PoolType {
   own = 'own',
@@ -89,23 +89,6 @@ const PoolUI = () => {
   return (
     <PageWrapper>
       <GridContainer>
-        {/* <Hidden upToSmall={true}> */}
-        <Box style={{ display: 'flex', gap: '12px' }}>
-          <ExternalLink
-            href="https://app.nexusmutual.io/cover/buy/get-quote?address=0xefa94DE7a4656D787667C749f7E1223D71E9FD88"
-            target="_blank"
-          >
-            {t('earnPage.getCoverNexusMutual')}
-          </ExternalLink>
-          <ExternalLink
-            href="https://app.insurace.io/Insurance/BuyCovers?referrer=565928487188065888397039055593264600345483712698"
-            target="_blank"
-          >
-            {t('earnPage.getInsuranceCoverage')}
-          </ExternalLink>
-          {/* <Migration /> */}
-        </Box>
-        {/* </Hidden> */}
         <Box display="flex" height="100%">
           <Sidebar
             activeMenu={activeMenu}
@@ -140,6 +123,23 @@ const PoolUI = () => {
             <Wallet activeMenu={activeMenu} setMenu={(value: string) => setMenu(value)} menuItems={menuItems} />
           )}
         </Box>
+        <Hidden upToSmall={true}>
+          <Box style={{ display: 'flex', gap: '12px' }}>
+            <ExternalLink
+              href="https://app.nexusmutual.io/cover/buy/get-quote?address=0xefa94DE7a4656D787667C749f7E1223D71E9FD88"
+              target="_blank"
+            >
+              {t('earnPage.getCoverNexusMutual')}
+            </ExternalLink>
+            <ExternalLink
+              href="https://app.insurace.io/Insurance/BuyCovers?referrer=565928487188065888397039055593264600345483712698"
+              target="_blank"
+            >
+              {t('earnPage.getInsuranceCoverage')}
+            </ExternalLink>
+            {/* <Migration /> */}
+          </Box>
+        </Hidden>
       </GridContainer>
     </PageWrapper>
   )

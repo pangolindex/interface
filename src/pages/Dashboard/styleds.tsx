@@ -6,6 +6,7 @@ export const FlexWrapper = styled(Box)`
 `
 
 export const PageWrapper = styled(Box)`
+  justify-content: center;
   width: 100%;
 `
 
@@ -89,4 +90,12 @@ export const WatchListWrapper = styled(Box)`
   gap: 12;
   width: 100%;
   max-width: 1114px;
+`
+export const LegacyButtonWrapper = styled.div`
+  display: none;
+  margin: 0.3rem 0 0.7rem 0;
+  justify-content: center;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: flex;
+  `};
 `

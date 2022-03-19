@@ -201,3 +201,31 @@ export const LegacyButtonWrapper = styled.div`
     display: none;
   `};
 `
+
+export const CollapseBar = styled.div`
+  position: absolute;
+  top 40px;
+  left: 3px;
+  height: 60px;
+  color: ${({ theme }) => theme.text2};
+  line-height: 48px;
+  text-align: center;
+  cursor: pointer;
+  background-color: ${({ theme }) => theme.bg6};
+  width: '100%';
+  transition: all 0.2s;
+  display: none;
+  transform: rotate(90deg);
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+   display:block;
+  `};
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   display:block;
+  `};
+
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+   display:block;
+  `};
+`

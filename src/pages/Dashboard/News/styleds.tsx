@@ -9,7 +9,7 @@ export const NewsSection = styled(Box)<{ img: string }>`
   background-repeat: no-repeat;
   background-position: bottom right;
   width: 100%;
-  min-width: 300px;
+  min-width: 200px;
   max-width: 500px;
   min-height: 400px !important;
   border-radius: 8px;
@@ -62,9 +62,9 @@ export const NewsTitle = styled(Box)`
   top: 0px;
   left: 0px;
   font-weight: bold;
-  font-size: 32px;
+  font-size: 26px;
   line-height: 48px;
-  padding: 20px;
+  padding: 10px;
   z-index: 2;
   background: linear-gradient(0deg, #ffc800, #ffc800);
   border-radius: 5px 0px 5px 0px;
@@ -78,6 +78,7 @@ export const NewsContent = styled(Box)`
   font-size: 18px;
   line-height: 27px;
   height: 90% !important;
+  padding: 0.5rem 0;
   & a {
     color: ${({ theme }) => theme.text7};
   }
@@ -91,7 +92,7 @@ export const NewsDate = styled(Box)`
   color: #929292;
   margin-button: 30px;
   height: 10% !important;
-  padding: 0 0 20px 0;
+  padding: 0 0 25px 0;
 `
 
 export const SlickNext = styled(Box)<{ onClick: () => void }>`

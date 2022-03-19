@@ -1,8 +1,9 @@
 import React from 'react'
 import {
-  PageTitle,
-  PageDescription,
+  /*   PageTitle,
+    PageDescription, */
   PageWrapper,
+  LegacyButtonWrapper,
   TopContainerWrapper,
   PortfolioWrapper,
   WatchListWrapper
@@ -15,6 +16,7 @@ import WatchList from '../Beta/Swap/WatchList'
 import NewsWidget from './News'
 import PortfolioWidget from './Portfolio'
 import MyPortfolio from '../Beta/Swap/MyPortfolio'
+import { Button } from '@pangolindex/components'
 //import Earned from './Earned'
 //import FollowedWallet from './FollowWallet'
 
@@ -23,8 +25,13 @@ const Dashboard = () => {
 
   return (
     <PageWrapper>
-      <PageTitle>{t('dashboardPage.dashboard')}</PageTitle>
-      <PageDescription>{t('dashboardPage.greetings')}</PageDescription>
+      {/*       <PageTitle>{t('dashboardPage.dashboard')}</PageTitle>
+      <PageDescription>{t('dashboardPage.greetings')}</PageDescription> */}
+      <LegacyButtonWrapper>
+        <Button variant="primary" height={36} width="max-content" padding="4px 6px" target="_self" href="/#" as="a">
+          <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
+        </Button>
+      </LegacyButtonWrapper>
       <TopContainerWrapper>
         <NewsWidget />
         <PortfolioWrapper>
