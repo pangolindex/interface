@@ -8,6 +8,9 @@ export const FlexWrapper = styled(Box)`
 export const PageWrapper = styled(Box)`
   width: 100%;
 `
+export const ContainerRight = styled(Box)`
+  width: 50%;
+`
 
 export const TopContainer = styled(Box)`
   display: grid;
