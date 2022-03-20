@@ -98,8 +98,8 @@ export default function PortfolioWidget() {
           </Box>
         )}
         <PortfolioInfo>
-          <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coins, pools and other holdings in your
-          current wallet
+          <img width={'24px'} src={Info2} alt="i" />{' '}
+          <Text color="text8">Includes coins, pools and other holdings in your current wallet</Text>
         </PortfolioInfo>
       </CardBody>
     </Card>

@@ -21,6 +21,7 @@ export const TopContainer = styled(Box)`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     grid-template-columns: none;
     grid-template-rows: max-content auto;
+    margin-bottom: 0px;
   `};
 `
 
@@ -32,15 +33,21 @@ export const StatsWrapper = styled(Box)`
 
 export const PageTitle = styled.div`
   font-size: 36px;
-  line-height: 56px;
   color: ${({ theme }) => theme.text7};
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   font-size: 24px;
+  `};
 `
 
 export const PageDescription = styled.div`
   font-size: 24px;
-  line-height: 42px;
   margin-bottom: 16px;
   color: ${({ theme }) => theme.text8};
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   font-size: 14px;
+  `};
 `
 
 export const Card = styled(Box)`
@@ -64,6 +71,10 @@ export const CardHeader = styled(Box)`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 13px;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   font-size: 20px;
+  `};
 `
 
 export const CardBody = styled(Box)`
