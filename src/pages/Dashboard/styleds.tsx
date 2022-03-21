@@ -66,7 +66,7 @@ export const CardHeader = styled(Box)`
   width: 100%;
   color: ${({ theme }) => theme.text7};
   font-size: 32px;
-  line-height: 48px;
+  /* line-height: 48px; */
   display: flex;
   justify-content: space-between;
   align-items: center;
