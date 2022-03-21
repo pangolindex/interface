@@ -9,7 +9,7 @@ export const HeaderDropdowns = styled(Box)`
 export const PortfolioToken = styled(Box)`
   display: flex;
   align-items: center;
-  font-size: 50px;
+  font-size: 24px;
   line-height: 97px;
   color: ${({ theme }) => theme.text7};
 `
@@ -26,10 +26,15 @@ export const PortfolioTokenPercent = styled(Box)`
 `
 
 export const PortfolioInfo = styled(Box)`
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 5% 95%;
+  grid-gap: 12px;
   font-size: 16px;
-  line-height: 24px;
-
   color: ${({ theme }) => theme.text8};
+  margin-top: 10px;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   font-size: 14px;
+   grid-gap: 24px;
+  `};
 `
