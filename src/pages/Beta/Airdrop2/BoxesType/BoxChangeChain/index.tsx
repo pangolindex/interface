@@ -26,7 +26,7 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
               {
                 chainId: '0x2B67',
                 chainName: 'WAGMI',
-                rpcUrls: ['https://api.trywagmi.xyz/rpc'],
+                rpcUrls: ['https://api-wagmi.avax-test.network/rpc'],
                 nativeCurrency: {
                   name: 'WGM',
                   symbol: 'WGM',
