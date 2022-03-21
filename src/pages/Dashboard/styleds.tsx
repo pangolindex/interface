@@ -8,40 +8,46 @@ export const FlexWrapper = styled(Box)`
 export const PageWrapper = styled(Box)`
   width: 100%;
 `
-
-export const PageTitle = styled.div`
-  font-size: 48px;
-  line-height: 56px;
-  margin-bottom: 12px;
-
-  color: ${({ theme }) => theme.text7};
-`
-
-export const PageDescription = styled.div`
-  font-size: 28px;
-  line-height: 42px;
-  margin-bottom: 30px;
-
-  color: ${({ theme }) => theme.text8};
-`
-
-export const TopContainerWrapper = styled(Box)`
-  width: 100%;
-  margin-bottom: 22px;
-  display: flex;
-`
-
-export const ContainerLeft = styled(Box)`
-  width: 50%;
-  margin-right: 22px;
-`
-
 export const ContainerRight = styled(Box)`
   width: 50%;
 `
 
-export const BottomContainerWrapper = styled(Box)`
-  width: 100%;
+export const TopContainer = styled(Box)`
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-gap: 12px;
+  margin-bottom: 22px;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    grid-template-columns: none;
+    grid-template-rows: max-content auto;
+    margin-bottom: 0px;
+  `};
+`
+
+export const StatsWrapper = styled(Box)`
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-gap: 12px;
+`
+
+export const PageTitle = styled.div`
+  font-size: 36px;
+  color: ${({ theme }) => theme.text7};
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   font-size: 24px;
+  `};
+`
+
+export const PageDescription = styled.div`
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: ${({ theme }) => theme.text8};
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   font-size: 14px;
+  `};
 `
 
 export const Card = styled(Box)`
@@ -60,11 +66,15 @@ export const CardHeader = styled(Box)`
   width: 100%;
   color: ${({ theme }) => theme.text7};
   font-size: 32px;
-  line-height: 48px;
+  /* line-height: 48px; */
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 13px;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+   font-size: 20px;
+  `};
 `
 
 export const CardBody = styled(Box)`
