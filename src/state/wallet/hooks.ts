@@ -1,5 +1,5 @@
 import { PNG } from '../../constants/tokens'
-import { Currency, CurrencyAmount, CAVAX, JSBI, Token, TokenAmount } from '@pangolindex/sdk'
+import { Currency, CurrencyAmount, CAVAX, JSBI, Token, TokenAmount, ChainId } from '@pangolindex/sdk'
 import { useMemo } from 'react'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { useAllTokens } from '../../hooks/Tokens'
@@ -8,11 +8,13 @@ import { useMulticallContract } from '../../hooks/useContract'
 import { isAddress } from '../../utils'
 import { useSingleContractMultipleData, useMultipleContractSingleData } from '../multicall/hooks'
 import { useTotalPngEarned } from '../stake/hooks'
+import { useChainId } from 'src/hooks'
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
  */
 export function useETHBalances(
+  chainId: ChainId,
   uncheckedAddresses?: (string | undefined)[]
 ): { [address: string]: CurrencyAmount | undefined } {
   const multicallContract = useMulticallContract()
@@ -38,10 +40,10 @@ export function useETHBalances(
     () =>
       addresses.reduce<{ [address: string]: CurrencyAmount }>((memo, address, i) => {
         const value = results?.[i]?.result?.[0]
-        if (value) memo[address] = CurrencyAmount.ether(JSBI.BigInt(value.toString()))
+        if (value) memo[address] = CurrencyAmount.ether(JSBI.BigInt(value.toString()), chainId)
         return memo
       }, {}),
-    [addresses, results]
+    [chainId, addresses, results]
   )
 }
 
@@ -97,6 +99,7 @@ export function useTokenBalance(account?: string, token?: Token): TokenAmount | 
 }
 
 export function useCurrencyBalances(
+  chainId: ChainId,
   account?: string,
   currencies?: (Currency | undefined)[]
 ): (CurrencyAmount | undefined)[] {
@@ -105,23 +108,30 @@ export function useCurrencyBalances(
   ])
 
   const tokenBalances = useTokenBalances(account, tokens)
-  const containsETH: boolean = useMemo(() => currencies?.some(currency => currency === CAVAX) ?? false, [currencies])
-  const ethBalance = useETHBalances(containsETH ? [account] : [])
+  const containsETH: boolean = useMemo(
+    () => currencies?.some(currency => chainId && currency === CAVAX[chainId]) ?? false,
+    [chainId, currencies]
+  )
+  const ethBalance = useETHBalances(chainId, containsETH ? [account] : [])
 
   return useMemo(
     () =>
       currencies?.map(currency => {
         if (!account || !currency) return undefined
         if (currency instanceof Token) return tokenBalances[currency.address]
-        if (currency === CAVAX) return ethBalance[account]
+        if (chainId && currency === CAVAX[chainId]) return ethBalance[account]
         return undefined
       }) ?? [],
-    [account, currencies, ethBalance, tokenBalances]
+    [chainId, account, currencies, ethBalance, tokenBalances]
   )
 }
 
-export function useCurrencyBalance(account?: string, currency?: Currency): CurrencyAmount | undefined {
-  return useCurrencyBalances(account, [currency])[0]
+export function useCurrencyBalance(
+  chainId: ChainId,
+  account?: string,
+  currency?: Currency
+): CurrencyAmount | undefined {
+  return useCurrencyBalances(chainId, account, [currency])[0]
 }
 
 // mimics useAllBalances
@@ -135,7 +145,8 @@ export function useAllTokenBalances(): { [tokenAddress: string]: TokenAmount | u
 
 // get the total owned and unharvested PNG for account
 export function useAggregatePngBalance(): TokenAmount | undefined {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const png = chainId ? PNG[chainId] : undefined
 

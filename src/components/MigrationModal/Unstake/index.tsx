@@ -11,6 +11,7 @@ import { useTransactionAdder } from '../../../state/transactions/hooks'
 import { useTranslation } from 'react-i18next'
 import { useActiveWeb3React } from '../../../hooks'
 import { RowBetween } from '../../Row'
+import { useChainId } from 'src/hooks'
 
 export interface UnstakeProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
@@ -21,6 +22,7 @@ export interface UnstakeProps {
 
 const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProps) => {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
   const [attempting, setAttempting] = useState(false as boolean)
   const [isValidAmount, setIsValidAmount] = useState(false as boolean)
@@ -40,7 +42,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
 
   useEffect(() => {
     const stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(unStakingAmount, stakingToken) as TokenAmount
+    const parsedInput = tryParseAmount(chainId, unStakingAmount, stakingToken) as TokenAmount
 
     if (
       parsedInput &&
@@ -84,7 +86,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
 
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
 
   async function onWithdraw() {
     if (stakingContract && stakingInfo?.stakedAmount?.greaterThan('0')) {

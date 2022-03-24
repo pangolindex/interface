@@ -48,6 +48,7 @@ import { useIsSelectedAEBToken, useSelectedTokenList, useTokenList } from '../..
 import { DeprecatedWarning } from '../../components/Warning'
 import { isTokenOnList } from '../../utils'
 import { DEFAULT_TOKEN_LISTS_SELECTED } from '../../constants/lists'
+import { useChainId } from 'src/hooks'
 
 const TopText = styled.span`
   margin-bottom: 8px;
@@ -101,7 +102,9 @@ export default function Swap() {
     setDismissTokenWarning(true)
   }, [])
 
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const theme = useContext(ThemeContext)
 
   // toggle wallet when disconnected
@@ -151,7 +154,7 @@ export default function Swap() {
         [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount
       }
 
-  const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
+  const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers(chainId)
   const isValid = !swapInputError
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
 
@@ -197,7 +200,7 @@ export default function Swap() {
   const noRoute = !route
 
   // check whether the user has approved the router on the input token
-  const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
+  const [approval, approveCallback] = useApproveCallbackFromTrade(chainId, trade, allowedSlippage)
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
@@ -209,13 +212,13 @@ export default function Swap() {
     }
   }, [approval, approvalSubmitted])
 
-  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
+  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(chainId, currencyBalances[Field.INPUT])
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
 
   // the callback to execute the swap
   const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(trade, allowedSlippage, recipient)
 
-  const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
+  const { priceImpactWithoutFee } = computeTradePriceBreakdown(chainId, trade)
 
   const handleSwap = useCallback(() => {
     if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee)) {
@@ -304,8 +307,8 @@ export default function Swap() {
       if (!chainId || !selectedTokens) return true // Assume trusted at first to avoid flashing a warning
       return (
         TRUSTED_TOKEN_ADDRESSES[chainId].includes(token.address) || // trust token from manually whitelisted token
-        isTokenOnList(selectedTokens, token) || // trust all tokens from selected token list by user
-        isTokenOnList(whitelistedTokens, token) // trust all tokens selected by default
+        isTokenOnList(selectedTokens, chainId, token) || // trust all tokens from selected token list by user
+        isTokenOnList(whitelistedTokens, chainId, token) // trust all defi + AB tokens
       )
     },
     [chainId, selectedTokens, whitelistedTokens]
@@ -339,6 +342,7 @@ export default function Swap() {
         <Wrapper id="swap-page">
           <ConfirmSwapModal
             isOpen={showConfirm}
+            chainId={chainId}
             trade={trade}
             originalTrade={tradeToConfirm}
             onAcceptChanges={handleAcceptChanges}

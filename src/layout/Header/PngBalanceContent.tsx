@@ -77,7 +77,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const oneToken = JSBI.BigInt(1000000000000000000)
   const { t } = useTranslation()
   let pngPrice: number | undefined
-  if (avaxPngTokenPair && png) {
+  if (avaxPngTokenPair && png && pngPrice) {
     const avaxPngRatio = JSBI.divide(
       JSBI.multiply(oneToken, avaxPngTokenPair.reserveOf(wavax).raw),
       avaxPngTokenPair.reserveOf(png).raw

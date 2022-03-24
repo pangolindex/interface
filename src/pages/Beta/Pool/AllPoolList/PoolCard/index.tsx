@@ -17,12 +17,16 @@ import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { usePair } from 'src/data/Reserves'
-import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
+// import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
+import { useActiveWeb3React } from 'src/hooks'
+import { CHAINS } from 'src/constants/chains'
+import { useTokenBalance } from 'src/state/wallet/hooks'
 import ClaimDrawer from '../../ClaimDrawer'
 import FarmDrawer from '../../FarmDrawer'
 import AddLiquidityDrawer from '../../AddLiquidityDrawer'
+import { useChainId } from 'src/hooks'
 
 export interface PoolCardProps {
   stakingInfo: StakingInfo
@@ -37,11 +41,14 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
   const [isFarmDrawerVisible, setShowFarmDrawer] = useState(false)
   const [isAddLiquidityDrawerVisible, setShowAddLiquidityDrawer] = useState(false)
 
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
+  const currency0 = unwrappedToken(token0, chainId)
+  const currency1 = unwrappedToken(token1, chainId)
 
   const [, stakingTokenPair] = usePair(token0, token1)
 
@@ -49,16 +56,16 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  const yourStackedInUsd = stakingInfo?.totalStakedInUsd
-    .multiply(stakingInfo?.stakedAmount)
-    .divide(stakingInfo?.totalStakedAmount)
+  const yourStackedInUsd = CHAINS[chainId].is_mainnet
+    ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
+    : undefined
 
-  const { userPgl } = useGetPoolDollerWorth(stakingTokenPair)
+  // const { userPgl } = useGetPoolDollerWorth(stakingTokenPair)
+  const userPgl = useTokenBalance(account ?? undefined, stakingTokenPair?.liquidityToken)
 
   const isLiquidity = Boolean(userPgl?.greaterThan('0'))
 
   const isSuperFarm = (stakingInfo?.rewardTokensAddress || [])?.length > 0
-
   return (
     <Panel>
       <Box display="flex" alignItems="center" justifyContent="space-between">

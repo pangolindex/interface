@@ -8,7 +8,8 @@ export const GAS_PRICE = 225
 
 export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.FUJI]: '0x2D99ABD9008Dc933ff5c0CD271B88309593aB921',
-  [ChainId.AVALANCHE]: '0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106'
+  [ChainId.AVALANCHE]: '0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106',
+  [ChainId.WAGMI]: '0x2F99E88888ee24cbf1623FB7af7FD2e508123eb3'
 }
 
 export const LANDING_PAGE = 'https://pangolin.exchange'
@@ -28,7 +29,11 @@ export const GOVERNANCE_ADDRESS = '0xb0Ff2b1047d9E8d294c2eD798faE3fA817F43Ee1'
 
 export const BRIDGE_MIGRATOR_ADDRESS = '0x4b23Aa72A1214d0E4fd3f2c8Da7C6ba660F7483C'
 
-export const MINICHEF_ADDRESS = '0x1f806f7C8dED893fd3caE279191ad7Aa3798E928'
+export const MINICHEF_ADDRESS: { [chainId in ChainId]: string } = {
+  [ChainId.FUJI]: ZERO_ADDRESS,
+  [ChainId.AVALANCHE]: '0x1f806f7C8dED893fd3caE279191ad7Aa3798E928',
+  [ChainId.WAGMI]: '0x08B7fAC01886858CE741bfA7573D281F05730bF1'
+}
 
 export const NATIVE = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
 
@@ -39,12 +44,14 @@ type ChainTokenList = {
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
-  [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9'
+  [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9',
+  [ChainId.WAGMI]: '0xFf3A1Fbc721C9c1E92835b551e9A795FCdBa83e8'
 }
 
 const WAVAX_AND_PNG_ONLY: ChainTokenList = {
   [ChainId.FUJI]: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
-  [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]]
+  [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
+  [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI], PNG[ChainId.WAGMI]]
 }
 
 // used to construct intermediary pairs for trading
@@ -58,7 +65,8 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     USDCe[ChainId.AVALANCHE],
     UST[ChainId.AVALANCHE],
     USDC[ChainId.AVALANCHE]
-  ]
+  ],
+  [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI], PNG[ChainId.WAGMI]]
 }
 
 /**
@@ -86,7 +94,8 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
 // these tokens can be directly linked to (via url params) in the swap page without prompting a warning
 export const TRUSTED_TOKEN_ADDRESSES: { readonly [chainId in ChainId]: string[] } = {
   [ChainId.FUJI]: [],
-  [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE].address, PNG[ChainId.AVALANCHE].address]
+  [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE].address, PNG[ChainId.AVALANCHE].address],
+  [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI].address, PNG[ChainId.WAGMI].address]
 }
 
 export const SWAP_DEFAULT_CURRENCY = {
@@ -95,6 +104,10 @@ export const SWAP_DEFAULT_CURRENCY = {
     outputCurrnecy: UST[ChainId.AVALANCHE].address
   },
   [ChainId.FUJI]: {
+    inputCurrency: '',
+    outputCurrnecy: ''
+  },
+  [ChainId.WAGMI]: {
     inputCurrency: '',
     outputCurrnecy: ''
   }
@@ -255,5 +268,7 @@ export enum BETA_MENU_LINK {
   pool = '/beta/pool',
   stake = '/beta/stake',
   vote = '/beta/vote',
-  migrate = '/beta/migrate'
+  migrate = '/beta/migrate',
+  bridge = '/beta/bridge',
+  airdrop = '/beta/airdrop'
 }

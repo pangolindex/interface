@@ -18,6 +18,7 @@ import { useDerivedStakeInfo, useMinichefPools } from '../../../state/stake/hook
 import { splitSignature } from 'ethers/lib/utils'
 import useTransactionDeadline from '../../../hooks/useTransactionDeadline'
 import Loader from '../Loader'
+import { useChainId } from 'src/hooks'
 
 export interface StakeProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
@@ -38,7 +39,8 @@ const Stake = ({
   setChoosePoolIndex,
   isStakingLoading
 }: StakeProps) => {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const { t } = useTranslation()
 
@@ -58,7 +60,7 @@ const Stake = ({
   const [stepIndex, setStepIndex] = useState(4)
   // approval data for stake
   const deadline = useTransactionDeadline()
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, MINICHEF_ADDRESS)
+  const [approval, approveCallback] = useApproveCallback(chainId, parsedAmount, MINICHEF_ADDRESS[chainId])
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
 
   const onChangeAmount = (value: string) => {
@@ -97,7 +99,7 @@ const Stake = ({
 
   useEffect(() => {
     const stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(stakingAmount, stakingToken) as TokenAmount
+    const parsedInput = tryParseAmount(chainId, stakingAmount, stakingToken) as TokenAmount
 
     if (
       parsedInput &&
@@ -115,14 +117,14 @@ const Stake = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingAmount])
 
-  const stakingContract = useStakingContract(MINICHEF_ADDRESS)
+  const stakingContract = useStakingContract(MINICHEF_ADDRESS[chainId])
   const poolMap = useMinichefPools()
 
   const pairContract = usePairContract(stakingInfo.stakedAmount.token.address)
 
   async function onStake() {
     const stakingToken = stakingInfo?.stakedAmount?.token
-    const parsedInput = tryParseAmount(stakingAmount, stakingToken) as TokenAmount
+    const parsedInput = tryParseAmount(chainId, stakingAmount, stakingToken) as TokenAmount
 
     if (
       stakingContract &&

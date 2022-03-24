@@ -37,17 +37,26 @@ import { useTranslation } from 'react-i18next'
 import MobileFooter from '../MobileFooter'
 import { Logo } from '../../components/Icons'
 import { Hidden } from 'src/theme'
+import { useChainId } from 'src/hooks'
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: 'Fuji',
-  [ChainId.AVALANCHE]: 'Avalanche'
+  [ChainId.AVALANCHE]: 'Avalanche',
+  [ChainId.WAGMI]: 'Wagmi'
+}
+
+const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
+  [ChainId.FUJI]: 'AVAX',
+  [ChainId.AVALANCHE]: 'AVAX',
+  [ChainId.WAGMI]: 'WGM'
 }
 
 export default function Header() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
-  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
+  const userEthBalance = useETHBalances(chainId, account ? [account] : [])?.[account ?? '']
 
   const aggregateBalance: TokenAmount | undefined = useAggregatePngBalance()
 
@@ -98,7 +107,7 @@ export default function Header() {
             </Button>
           </LegacyButtonWrapper>
           <Hidden upToSmall={true}>
-            {chainId && NETWORK_LABELS[chainId] && (
+            {NETWORK_LABELS[chainId] && (
               <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
             )}
           </Hidden>
@@ -132,7 +141,7 @@ export default function Header() {
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                {userEthBalance?.toSignificant(4)} AVAX
+                {userEthBalance?.toSignificant(4)} {NETWORK_CURRENCY[chainId]}
               </BalanceText>
             ) : null}
             <Web3Status />

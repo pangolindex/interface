@@ -26,6 +26,7 @@ import { RowBetween, RowFixed } from '../Row'
 import { Dots } from '../swap/styleds'
 import { useTranslation } from 'react-i18next'
 import { BRIDGE_MIGRATORS, DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/doubleSideConfig'
+import { useChainId } from 'src/hooks'
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
@@ -53,9 +54,10 @@ interface PositionCardProps {
 
 export function MinimalPositionCard({ pair, showUnwrapped = false, border }: PositionCardProps) {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
-  const currency0 = showUnwrapped ? pair.token0 : unwrappedToken(pair.token0)
-  const currency1 = showUnwrapped ? pair.token1 : unwrappedToken(pair.token1)
+  const currency0 = showUnwrapped ? pair.token0 : unwrappedToken(pair.token0, chainId)
+  const currency1 = showUnwrapped ? pair.token1 : unwrappedToken(pair.token1, chainId)
 
   const { t } = useTranslation()
   const [showMore, setShowMore] = useState(false)
@@ -161,9 +163,10 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
 
 export default function FullPositionCard({ pair, border }: PositionCardProps) {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
-  const currency0 = unwrappedToken(pair.token0)
-  const currency1 = unwrappedToken(pair.token1)
+  const currency0 = unwrappedToken(pair.token0, chainId)
+  const currency1 = unwrappedToken(pair.token1, chainId)
   const { t } = useTranslation()
 
   const [showMore, setShowMore] = useState(false)
@@ -214,12 +217,13 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
               <ButtonEmpty
                 padding="8px"
                 as={Link}
-                to={`/migrate/${currencyId(currency0)}/${currencyId(
-                  currency1
+                to={`/migrate/${currencyId(currency0, chainId)}/${currencyId(
+                  currency1,
+                  chainId
                 )}/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}/${
-                  upgradeable0 ? upgradeable0.ab : currencyId(currency0)
+                  upgradeable0 ? upgradeable0.ab : currencyId(currency0, chainId)
                 }/${
-                  upgradeable1 ? upgradeable1.ab : currencyId(currency1)
+                  upgradeable1 ? upgradeable1.ab : currencyId(currency1, chainId)
                 }/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}`}
                 width="48%"
               >
@@ -269,7 +273,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                   <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
                     {token0Deposited?.toSignificant(6)}
                   </Text>
-                  <CurrencyLogo size={24} style={{ marginLeft: '8px' }} currency={currency0} />
+                  <CurrencyLogo size={24} style={{ marginLeft: '8px' }} currency={currency0} chainId={chainId} />
                 </RowFixed>
               ) : (
                 '-'
@@ -287,7 +291,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                   <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
                     {token1Deposited?.toSignificant(6)}
                   </Text>
-                  <CurrencyLogo size={24} style={{ marginLeft: '8px' }} currency={currency1} />
+                  <CurrencyLogo size={24} style={{ marginLeft: '8px' }} currency={currency1} chainId={chainId} />
                 </RowFixed>
               ) : (
                 '-'
@@ -307,7 +311,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
               <ButtonPrimary
                 padding="8px"
                 as={Link}
-                to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
+                to={`/add/${currencyId(currency0, chainId)}/${currencyId(currency1, chainId)}`}
                 width="48%"
               >
                 {t('positionCard.add')}
@@ -316,7 +320,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                 padding="8px"
                 as={Link}
                 width="48%"
-                to={`/remove/${currencyId(currency0)}/${currencyId(currency1)}`}
+                to={`/remove/${currencyId(currency0, chainId)}/${currencyId(currency1, chainId)}`}
               >
                 {t('positionCard.remove')}
               </ButtonPrimary>

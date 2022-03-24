@@ -13,6 +13,7 @@ import { formattedNum, toNiceDateYear } from 'src/utils/charts'
 import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { BETA_MENU_LINK } from 'src/constants'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   coin: Token
@@ -21,6 +22,8 @@ type Props = {
 export const RedirectContext = React.createContext<boolean>(false)
 
 const CoinChart: React.FC<Props> = ({ coin }) => {
+  const chainId = useChainId()
+
   const { t } = useTranslation()
   const weekFrame = TIMEFRAME.find(t => t.label === '1W')
 
@@ -38,7 +41,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
 
   const usdcPrice = useUSDCPrice(coin)
 
-  const { onCurrencySelection } = useSwapActionHandlers()
+  const { onCurrencySelection } = useSwapActionHandlers(chainId)
   const onCurrencySelect = useCallback(
     currency => {
       onCurrencySelection(Field.INPUT, currency)
@@ -54,7 +57,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
       timeWindow?.label
     ) || []
 
-  const token = unwrappedToken(coin)
+  const token = unwrappedToken(coin, chainId)
 
   const priceChart = [...priceData]
   // add current price in chart

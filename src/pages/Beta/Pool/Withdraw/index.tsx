@@ -11,6 +11,7 @@ import { useStakingContract } from 'src/hooks/useContract'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 import Stat from 'src/components/Stat'
+import { useChainId } from 'src/hooks'
 
 interface WithdrawProps {
   stakingInfo: StakingInfo
@@ -19,6 +20,7 @@ interface WithdrawProps {
 }
 const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const { t } = useTranslation()
 
@@ -28,7 +30,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   const [attempting, setAttempting] = useState(false)
 
   const poolMap = useMinichefPools()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 

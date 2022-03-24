@@ -2,13 +2,11 @@ import React from 'react'
 import PairStat from './PairStat'
 import PairChart from './PairChart'
 import { Field } from 'src/state/swap/actions'
-import { useDerivedSwapInfo } from '@pangolindex/components'
-import { usePair } from 'src/data/Reserves'
-import { wrappedCurrency } from 'src/utils/wrappedCurrency'
-import { useActiveWeb3React } from 'src/hooks'
+import { useDerivedSwapInfo, wrappedCurrency, usePair } from '@pangolindex/components'
+import { useChainId } from 'src/hooks'
 
 const PairInfo = () => {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const { currencies } = useDerivedSwapInfo()
 

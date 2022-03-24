@@ -24,11 +24,11 @@ export function getNetworkLibrary(): Web3Provider {
 }
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [43113, 43114]
+  supportedChainIds: [43113, 43114, 11111]
 })
 
 export const gnosisSafe = new SafeAppConnector({
-  supportedChainIds: [43113, 43114]
+  supportedChainIds: [43113, 43114, 11111]
 })
 
 export const walletlink = new WalletLinkConnector({

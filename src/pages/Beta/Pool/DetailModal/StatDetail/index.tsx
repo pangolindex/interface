@@ -5,6 +5,8 @@ import { useTotalSupply } from 'src/data/TotalSupply'
 import numeral from 'numeral'
 import { StateContainer } from './styleds'
 import Stat from 'src/components/Stat'
+import { CHAINS } from 'src/constants/chains'
+import { useChainId } from 'src/hooks'
 
 interface Props {
   title: string
@@ -16,7 +18,10 @@ interface Props {
 }
 
 export default function StatDetail({ title, totalAmount, pair, pgl, currency0, currency1 }: Props) {
+  const chainId = useChainId()
+
   const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
+  pgl = CHAINS[chainId].is_mainnet ? pgl : undefined
 
   const [token0Deposited, token1Deposited] =
     !!pair &&

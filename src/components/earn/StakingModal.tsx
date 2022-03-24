@@ -9,7 +9,7 @@ import { TYPE, CloseIcon } from '../../theme'
 import { ButtonConfirmed, ButtonError } from '../Button'
 import ProgressCircles from '../ProgressSteps'
 import CurrencyInputPanel from '../CurrencyInputPanel'
-import { TokenAmount, Pair, ChainId } from '@pangolindex/sdk'
+import { TokenAmount, Pair } from '@pangolindex/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { usePairContract, useStakingContract } from '../../hooks/useContract'
@@ -21,6 +21,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 const HypotheticalRewardRate = styled.div<{ dim: boolean }>`
   display: flex;
@@ -53,8 +54,8 @@ export default function StakingModal({
   version,
   extraRewardTokensAmount
 }: StakingModalProps) {
-  const { account, chainId, library } = useActiveWeb3React()
-
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
   const { parsedAmount, error } = useDerivedStakeInfo(typedValue, stakingInfo.stakedAmount.token, userLiquidityUnstaked)
@@ -83,7 +84,7 @@ export default function StakingModal({
   const dummyPair = new Pair(
     new TokenAmount(stakingInfo.tokens[0], '0'),
     new TokenAmount(stakingInfo.tokens[1], '0'),
-    chainId ? chainId : ChainId.AVALANCHE
+    chainId
   )
   const pairContract = usePairContract(dummyPair.liquidityToken.address)
 
@@ -91,10 +92,13 @@ export default function StakingModal({
   const deadline = useTransactionDeadline()
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, stakingInfo.stakingRewardAddress)
+  const [approval, approveCallback] = useApproveCallback(
+    chainId,
+    parsedAmount,
+    stakingInfo.stakingRewardAddress[chainId]
+  )
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
-
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
   const poolMap = useMinichefPools()
   const isSuperFarm = (extraRewardTokensAmount || [])?.length > 0
 
@@ -171,7 +175,7 @@ export default function StakingModal({
   }, [])
 
   // used for max input button
-  const maxAmountInput = maxAmountSpend(userLiquidityUnstaked)
+  const maxAmountInput = maxAmountSpend(chainId, userLiquidityUnstaked)
   const atMaxAmount = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
   const handleMax = useCallback(() => {
     maxAmountInput && onUserInput(maxAmountInput.toExact())
@@ -207,7 +211,7 @@ export default function StakingModal({
     ]
     const message = {
       owner: account,
-      spender: stakingInfo.stakingRewardAddress,
+      spender: stakingInfo.stakingRewardAddress[chainId],
       value: liquidityAmount.raw.toString(),
       nonce: nonce.toHexString(),
       deadline: deadline.toNumber()
