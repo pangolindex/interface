@@ -182,7 +182,7 @@ export function useCoinGeckoTokenData(coin: Token) {
         `https://api.coingecko.com/api/v3/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`
       )
       const data = await response.json()
-   
+
       setResult({
         coinId: data?.id,
         homePage: data?.links?.homepage[0],
