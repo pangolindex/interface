@@ -10,6 +10,7 @@ interface NetworkConnectorArguments {
 // taken from ethers.js, compatible interface with web3 provider
 type AsyncSendable = {
   isMetaMask?: boolean
+  isXDEFI?: boolean
   host?: string
   path?: string
   sendAsync?: (request: any, callback: (error: any, response: any) => void) => void
@@ -30,6 +31,7 @@ interface BatchItem {
 
 class MiniRpcProvider implements AsyncSendable {
   public readonly isMetaMask: false = false
+  public readonly isXDEFI: false = false
   public readonly chainId: number
   public readonly url: string
   public readonly host: string
@@ -148,6 +150,7 @@ export class NetworkConnector extends AbstractConnector {
     super({ supportedChainIds: Object.keys(urls).map((k): number => Number(k)) })
 
     this.currentChainId = defaultChainId || Number(Object.keys(urls)[0])
+
     this.providers = Object.keys(urls).reduce<{ [chainId: number]: MiniRpcProvider }>((accumulator, chainId) => {
       accumulator[Number(chainId)] = new MiniRpcProvider(Number(chainId), urls[Number(chainId)])
       return accumulator

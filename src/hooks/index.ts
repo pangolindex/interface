@@ -4,7 +4,7 @@ import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
-import { gnosisSafe, injected } from '../connectors'
+import { gnosisSafe, injected, xDefi } from '../connectors'
 import { IS_IN_IFRAME, NetworkContextName } from '../constants'
 
 export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & { chainId?: ChainId } {
@@ -30,14 +30,17 @@ export function useEagerConnect() {
         }
       })
     } else {
-      injected.isAuthorized().then(isAuthorized => {
+      const isXDEFI = window.xfi && window.xfi.ethereum && window.xfi.ethereum.isXDEFI
+
+      const existingConnector = isXDEFI ? xDefi : injected
+      existingConnector.isAuthorized().then(isAuthorized => {
         if (isAuthorized) {
-          activate(injected, undefined, true).catch(() => {
+          activate(existingConnector, undefined, true).catch(() => {
             setTried(true)
           })
         } else {
-          if (isMobile && window.ethereum) {
-            activate(injected, undefined, true).catch(() => {
+          if (isMobile && (window.ethereum || window.xfi.ethereum)) {
+            activate(existingConnector, undefined, true).catch(() => {
               setTried(true)
             })
           } else {

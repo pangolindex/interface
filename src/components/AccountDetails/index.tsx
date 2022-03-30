@@ -242,10 +242,14 @@ export default function AccountDetails({
   function formatConnectorName() {
     const { ethereum } = window
     const isMetaMask = !!(ethereum && ethereum.isMetaMask)
+
+    const isXDEFI = !!(ethereum && ethereum.isXDEFI)
+
     const name = Object.keys(SUPPORTED_WALLETS)
       .filter(
         k =>
-          SUPPORTED_WALLETS[k].connector === connector && (connector !== injected || isMetaMask === (k === 'METAMASK'))
+          SUPPORTED_WALLETS[k].connector === connector &&
+          (connector !== injected || isMetaMask === (k === 'METAMASK') || isXDEFI === (k === 'XDEFI'))
       )
       .map(k => SUPPORTED_WALLETS[k].name)[0]
     return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>

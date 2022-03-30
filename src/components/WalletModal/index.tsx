@@ -7,6 +7,7 @@ import { isMobile } from 'react-device-detect'
 import ReactGA from 'react-ga'
 import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
+import XDefiIcon from '../../assets/images/xDefi.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { gnosisSafe, injected } from '../../connectors'
 import { LANDING_PAGE, SUPPORTED_WALLETS, AVALANCHE_CHAIN_PARAMS, IS_IN_IFRAME } from '../../constants'
@@ -241,6 +242,8 @@ export default function WalletModal({
   // get wallets user can switch too, depending on device/browser
   function getOptions() {
     const isMetamask = window.ethereum && window.ethereum.isMetaMask
+    const isXDEFI = window.ethereum && window.ethereum.isXDEFI
+
     return Object.keys(SUPPORTED_WALLETS).map(key => {
       const option = SUPPORTED_WALLETS[key]
       // check for mobile options
@@ -281,6 +284,18 @@ export default function WalletModal({
                 icon={MetamaskIcon}
               />
             )
+          } else if (option.name === 'XDefi') {
+            return (
+              <Option
+                id={`connect-${key}`}
+                key={key}
+                color={'#315CF5'}
+                header={'Install XDEFI'}
+                subheader={null}
+                link={'https://www.xdefi.io/'}
+                icon={XDefiIcon}
+              />
+            )
           } else {
             return null //dont want to return install twice
           }
@@ -289,8 +304,12 @@ export default function WalletModal({
         else if (option.name === 'MetaMask' && !isMetamask) {
           return null
         }
+        // don't return xDefi if injected provider isn't xDefi
+        // else if (option.name === 'XDefi' && !isXDEFI) {
+        //   return null
+        // }
         // likewise for generic
-        else if (option.name === 'Injected' && isMetamask) {
+        else if (option.name === 'Injected' && (isMetamask || isXDEFI)) {
           return null
         }
       }
@@ -326,10 +345,12 @@ export default function WalletModal({
 
   function getModalContent() {
     const isMetamask = window.ethereum && window.ethereum.isMetaMask
+    const isXDEFI = window.ethereum && window.ethereum.isXDEFI
     const isCbWalletDappBrowser = window?.ethereum?.isCoinbaseWallet
     const isWalletlink = !!window?.WalletLinkProvider || !!window?.walletLinkExtension
     const isCbWallet = isCbWalletDappBrowser || isWalletlink
-    const isMetamaskOrCbWallet = isMetamask || isCbWallet
+    const isMetamaskOrCbWallet = isMetamask || isCbWallet || isXDEFI
+
     if (error) {
       return (
         <UpperSection>
