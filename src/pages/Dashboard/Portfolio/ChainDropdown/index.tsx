@@ -17,12 +17,11 @@ interface ChainDropdownProps {
 }
 
 export default function ChainDropdown({ selectChain = AllChain, handleSelectChain }: ChainDropdownProps) {
+  const available_chains = [AllChain, ...CHAINS]
   const node = useRef<HTMLDivElement>()
   const open = useModalOpen(ApplicationModal.PORTFOLIO_TOKEN)
   const toggle = useToggleModal(ApplicationModal.PORTFOLIO_TOKEN)
   useOnClickOutside(node, open ? toggle : undefined)
-
-  CHAINS.push(AllChain)
 
   return (
     <StyledMenu ref={node as any}>
@@ -32,7 +31,7 @@ export default function ChainDropdown({ selectChain = AllChain, handleSelectChai
 
       {open && (
         <NarrowMenuFlyout>
-          {CHAINS.filter(chain => chain.tracked_by_debank).map((chain: Chain, index: number) => {
+          {available_chains.filter(chain => chain.tracked_by_debank).map((chain: Chain, index: number) => {
             return (
               <DropdownItem
                 id="link"
