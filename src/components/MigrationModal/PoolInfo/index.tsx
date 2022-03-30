@@ -7,7 +7,7 @@ import numeral from 'numeral'
 import { useTranslation } from 'react-i18next'
 import { StakingInfo } from '../../../state/stake/hooks'
 import { useTokenBalance } from '../../../state/wallet/hooks'
-import { useActiveWeb3React } from '../../../hooks'
+import { useActiveWeb3React, useChainId } from '../../../hooks'
 import { wrappedCurrencyAmount } from '../../../utils/wrappedCurrency'
 import { tryParseAmount } from '../../../state/swap/hooks'
 import { JSBI } from '@pangolindex/sdk'
@@ -35,7 +35,8 @@ const PoolInfo = ({
   userPoolBalance,
   onMax
 }: PoolInfoProps) => {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const { t } = useTranslation()
 
@@ -67,7 +68,7 @@ const PoolInfo = ({
 
   const unClaimedPng = stakingInfo?.earnedAmount?.toFixed(6) ?? '0'
 
-  const parsedAmount = tryParseAmount(amount, stakingInfo?.stakedAmount?.token)
+  const parsedAmount = tryParseAmount(chainId, amount, stakingInfo?.stakedAmount?.token)
   const parsedAmountWrapped = wrappedCurrencyAmount(parsedAmount, chainId)
 
   const poolOwnership = getHypotheticalPoolOwnership(
@@ -141,7 +142,7 @@ const PoolInfo = ({
     <InfoWrapper>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box display="flex" alignItems="center">
-          <DoubleCurrencyLogo size={25} currency0={currency0} currency1={currency1} />{' '}
+          <DoubleCurrencyLogo size={24} currency0={currency0} currency1={currency1} />{' '}
           <Text color="text1" fontSize={16} ml={10}>
             {currency0.symbol}-{currency1.symbol} {t('migratePage.pool')}
           </Text>

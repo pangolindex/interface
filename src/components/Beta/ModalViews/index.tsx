@@ -8,7 +8,7 @@ import { AutoColumn, ColumnCenter } from '../../Column'
 import { RowBetween } from '../../Row'
 import { CustomLightSpinner } from 'src/theme'
 import { ExternalLink, BetaCloseIcon } from 'src/theme/components'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 import { getEtherscanLink } from 'src/utils'
 
 import Logo from 'src/assets/images/logo.svg'
@@ -61,7 +61,7 @@ export function SubmittedView({
   hash: string | undefined
 }) {
   // const theme = useContext(ThemeContext)
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
 
   return (

@@ -8,7 +8,7 @@ import { ButtonSecondary } from '../Button'
 import { RowBetween, RowFixed } from '../Row'
 import { FixedHeightRow, HoverCard } from './index'
 import DoubleCurrencyLogo from '../DoubleLogo'
-import { useActiveWeb3React } from '../../hooks'
+import { useChainId } from '../../hooks'
 import { ThemeContext } from 'styled-components'
 
 interface PositionCardProps extends RouteComponentProps<{}> {
@@ -19,14 +19,14 @@ interface PositionCardProps extends RouteComponentProps<{}> {
 function V1PositionCard({ token, V1LiquidityBalance }: PositionCardProps) {
   const theme = useContext(ThemeContext)
 
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   return (
     <HoverCard>
       <AutoColumn gap="12px">
         <FixedHeightRow>
           <RowFixed>
-            <DoubleCurrencyLogo currency0={token} margin={true} size={20} />
+            <DoubleCurrencyLogo currency0={token} margin={true} size={24} />
             <Text fontWeight={500} fontSize={20} style={{ marginLeft: '' }}>
               {`${chainId && token.equals(WAVAX[chainId]) ? 'WAVAX' : token.symbol}/AVAX`}
             </Text>

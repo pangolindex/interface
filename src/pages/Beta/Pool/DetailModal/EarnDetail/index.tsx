@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { Wrapper, InnerWrapper } from './styleds'
-import { TokenAmount, ChainId } from '@pangolindex/sdk'
+import { TokenAmount } from '@pangolindex/sdk'
 import { Text, Box, Button } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import Stat from 'src/components/Stat'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { BIG_INT_ZERO } from 'src/constants'
 import { useMinichefPendingRewards } from 'src/state/stake/hooks'
-import { PNG } from 'src/constants'
-import { useActiveWeb3React } from 'src/hooks'
+import { PNG } from 'src/constants/tokens'
 import ClaimDrawer from '../../ClaimDrawer'
 import WithdrawDrawer from '../../WithdrawDrawer'
+import { useChainId } from 'src/hooks'
 
 export interface EarnDetailProps {
   stakingInfo: StakingInfo
@@ -18,8 +18,8 @@ export interface EarnDetailProps {
 }
 
 const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
-  const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
+  const chainId = useChainId()
 
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
   const [isWithdrawDrawerVisible, setShowWithdrawDrawer] = useState(false)
@@ -28,7 +28,7 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
 
   const isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
-  const png = PNG[chainId || ChainId.AVALANCHE] // add PNG as default reward
+  const png = PNG[chainId] // add PNG as default reward
   return (
     <Wrapper>
       <Box display="flex" justifyContent="space-between" alignItems="center">

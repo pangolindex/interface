@@ -10,11 +10,11 @@ import { NavLink } from 'react-router-dom'
 import { AutoRow, RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
-import { useActiveWeb3React } from '../../hooks'
+import { useChainId } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import useDebounce from '../../hooks/useDebounce'
-import { BIG_INT_ZERO } from '../../constants'
+import { BIG_INT_ZERO, PANGOLIN_API_BASE_URL } from '../../constants'
 import Toggle from '../../components/Toggle'
 
 const PageWrapper = styled(AutoColumn)`
@@ -100,7 +100,7 @@ export interface EarnProps {
 }
 
 const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
 
   const [poolCardsLoading, setPoolCardsLoading] = useState(false)
@@ -203,7 +203,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
           .map(stakingInfo => {
             if (poolMap) {
               return fetch(
-                `https://api.pangolin.exchange/pangolin/apr2/${poolMap[stakingInfo.totalStakedAmount.token.address]}`
+                `${PANGOLIN_API_BASE_URL}/pangolin/apr2/${poolMap[stakingInfo.totalStakedAmount.token.address]}`
               )
                 .then(res => res.json())
                 .then(res => ({
@@ -213,7 +213,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                   ...stakingInfo
                 }))
             } else {
-              return fetch(`https://api.pangolin.exchange/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+              return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress[chainId]}`)
                 .then(res => res.json())
                 .then(res => ({
                   swapFeeApr: Number(res.swapFeeApr),

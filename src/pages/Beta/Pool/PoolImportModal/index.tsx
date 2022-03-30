@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box, SelectTokenDrawer } from '@pangolindex/components'
 import { Wrapper } from './styleds'
 import Modal from 'src/components/Beta/Modal'
 import { ThemeContext } from 'styled-components'
@@ -7,7 +7,7 @@ import { CloseIcon } from 'src/theme/components'
 import { useTranslation } from 'react-i18next'
 import PoolImport from './PoolImport'
 import { CAVAX, Currency } from '@pangolindex/sdk'
-import SelectTokenDrawer from '../../Swap/SelectTokenDrawer'
+import { useChainId } from 'src/hooks'
 
 enum Fields {
   TOKEN0 = 0,
@@ -22,9 +22,10 @@ interface ImportPoolModalProps {
 
 const PoolImportModal = ({ isOpen, onClose, onManagePoolsClick }: ImportPoolModalProps) => {
   const theme = useContext(ThemeContext)
-  const { t } = useTranslation()
+  const chainId = useChainId()
 
-  const [currency0, setCurrency0] = useState<Currency | undefined>(CAVAX)
+  const { t } = useTranslation()
+  const [currency0, setCurrency0] = useState<Currency | undefined>(CAVAX[chainId])
   const [currency1, setCurrency1] = useState<Currency | undefined>(undefined)
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
   const [showSearch, setShowSearch] = useState<boolean>(false)

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Box, TextInput } from '@pangolindex/components'
 import { useToken } from 'src/hooks/Tokens'
 import { useTokenComparator } from 'src/components/SearchModal/sorting'
-import { Currency, Token, CAVAX } from '@pangolindex/sdk'
+import { Currency, Token, CAVAX, ChainId } from '@pangolindex/sdk'
 import { filterTokens } from 'src/components/SearchModal/filtering'
 import { AddInputWrapper, PopoverContainer, CurrencyList } from './styled'
 import CurrencyRow from './CurrencyRow'
@@ -13,6 +13,7 @@ import { AppDispatch } from 'src/state'
 import { addCurrency } from 'src/state/watchlists/actions'
 import { FixedSizeList } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
+import { useChainId } from 'src/hooks'
 
 interface Props {
   getRef?: (ref: any) => void
@@ -21,8 +22,8 @@ interface Props {
   onSelectCurrency: (currency: Token) => void
 }
 
-const currencyKey = (currency: Currency): string => {
-  return currency instanceof Token ? currency.address : currency === CAVAX ? 'AVAX' : ''
+const currencyKey = (currency: Currency, chainId: ChainId): string => {
+  return currency instanceof Token ? currency.address : currency === CAVAX[chainId] ? 'AVAX' : ''
 }
 
 const CurrencyPopover: React.FC<Props> = ({
@@ -114,8 +115,10 @@ const CurrencyPopover: React.FC<Props> = ({
     []
   )
 
+  const chainId = useChainId()
+
   return (
-    <PopoverContainer ref={ref => getRef(ref)}>
+    <PopoverContainer ref={(ref: any) => getRef(ref)}>
       {/* Render Search Token Input */}
       <Box padding="0px 10px">
         <AddInputWrapper>
@@ -148,7 +151,7 @@ const CurrencyPopover: React.FC<Props> = ({
               itemCount={currencies.length}
               itemSize={45}
               itemData={currencies}
-              itemKey={(index, data) => currencyKey(data[index])}
+              itemKey={(index, data) => currencyKey(data[index], chainId)}
             >
               {Row}
             </FixedSizeList>

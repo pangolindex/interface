@@ -5,9 +5,9 @@ import { ThemeContext } from 'styled-components'
 
 import { FooterFrame, Button, Policies } from './styled'
 import PolicyModal from './PolicyModal'
-import { PrivacyPolicy } from './Policies/PrivacyPolicy'
-import { TermsService } from './Policies/TermsService'
-import { CookiePolicy } from './Policies/CookiePolicy'
+import { PrivacyPolicy } from '../../constants/Policies/PrivacyPolicy'
+import { TermsService } from '../../constants/Policies/TermsService'
+import { CookiePolicy } from '../../constants/Policies/CookiePolicy'
 
 export default function Footer() {
   const [selectedPolicy, setSelectPolicy] = useState<string>('')
@@ -31,7 +31,7 @@ export default function Footer() {
         <Circle style={{ marginLeft: 10, marginRight: 10 }} size={5} stroke={theme.text1} fill={theme.text1} />
         <Button onClick={() => openModal(CookiePolicy)}>Cookie Policy</Button>
       </Policies>
-      <Box display="flex">
+      <Box display="flex" justifyContent="center">
         <Text color="text1">Powered by</Text>
         <Text color="mustardYellow" marginLeft="5px">
           Pangolin DAO

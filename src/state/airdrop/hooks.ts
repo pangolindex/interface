@@ -4,7 +4,7 @@ import { useAirdropContract } from '../../hooks/useContract'
 import { calculateGasMargin } from '../../utils'
 import { useTransactionAdder } from '../transactions/hooks'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
-import { PNG } from './../../constants/index'
+import { PNG } from '../../constants/tokens'
 import { useSingleCallResult } from '../multicall/hooks'
 
 export function useAirdropIsClaimingAllowed(): boolean {

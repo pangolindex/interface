@@ -49,6 +49,11 @@ export const NewsSection = styled(Box)<{ img: string }>`
     align-items: stretch;
     height: 100%;
   }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    height: 600px;
+  `};
+
 `
 
 export const NewsTitle = styled(Box)`

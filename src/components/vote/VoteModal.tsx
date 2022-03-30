@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { useActiveWeb3React } from '../../hooks'
+import { useChainId } from '../../hooks'
 
 import Modal from '../Modal'
 import { AutoColumn, ColumnCenter } from '../Column'
@@ -43,7 +43,7 @@ interface VoteModalProps {
 }
 
 export default function VoteModal({ isOpen, onDismiss, proposalId, support }: VoteModalProps) {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const {
     voteCallback
   }: {

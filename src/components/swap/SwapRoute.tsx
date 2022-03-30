@@ -1,4 +1,4 @@
-import { Trade } from '@pangolindex/sdk'
+import { Trade, ChainId } from '@pangolindex/sdk'
 import React, { Fragment, memo, useContext } from 'react'
 import { ChevronRight } from 'react-feather'
 import { Flex } from 'rebass'
@@ -6,7 +6,7 @@ import { ThemeContext } from 'styled-components'
 import { TYPE } from '../../theme'
 import CurrencyLogo from '../CurrencyLogo'
 
-export default memo(function SwapRoute({ trade }: { trade: Trade }) {
+export default memo(function SwapRoute({ chainId, trade }: { chainId: ChainId; trade: Trade }) {
   const theme = useContext(ThemeContext)
   return (
     <Flex
@@ -24,7 +24,7 @@ export default memo(function SwapRoute({ trade }: { trade: Trade }) {
         return (
           <Fragment key={i}>
             <Flex my="0.5rem" alignItems="center" style={{ flexShrink: 0 }}>
-              <CurrencyLogo currency={token} size="1.5rem" />
+              {chainId && <CurrencyLogo currency={token} size={24} chainId={chainId} />}
               <TYPE.black fontSize={14} color={theme.text1} ml="0.5rem">
                 {token.symbol}
               </TYPE.black>

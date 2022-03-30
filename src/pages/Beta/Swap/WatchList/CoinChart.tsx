@@ -1,12 +1,11 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { Text, Box, CurrencyLogo, Button } from '@pangolindex/components'
+import { Text, Box, CurrencyLogo, Button, useSwapActionHandlers } from '@pangolindex/components'
+import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { Link } from 'react-feather'
 import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts'
 import { Token } from '@pangolindex/sdk'
 import { SelectedCoinInfo, TrackIcons, DurationBtns } from './styleds'
-import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { ANALYTICS_PAGE } from 'src/constants'
-import { useSwapActionHandlers } from 'src/state/swap/hooks'
 import { Field } from 'src/state/swap/actions'
 import { useTokenPriceData } from 'src/state/token/hooks'
 import { TIMEFRAME } from 'src/constants'
@@ -14,6 +13,7 @@ import { formattedNum, toNiceDateYear } from 'src/utils/charts'
 import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { BETA_MENU_LINK } from 'src/constants'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   coin: Token
@@ -22,6 +22,8 @@ type Props = {
 export const RedirectContext = React.createContext<boolean>(false)
 
 const CoinChart: React.FC<Props> = ({ coin }) => {
+  const chainId = useChainId()
+
   const { t } = useTranslation()
   const weekFrame = TIMEFRAME.find(t => t.label === '1W')
 
@@ -39,7 +41,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
 
   const usdcPrice = useUSDCPrice(coin)
 
-  const { onCurrencySelection } = useSwapActionHandlers()
+  const { onCurrencySelection } = useSwapActionHandlers(chainId)
   const onCurrencySelect = useCallback(
     currency => {
       onCurrencySelection(Field.INPUT, currency)
@@ -55,7 +57,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
       timeWindow?.label
     ) || []
 
-  const token = unwrappedToken(coin)
+  const token = unwrappedToken(coin, chainId)
 
   const priceChart = [...priceData]
   // add current price in chart
@@ -71,7 +73,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
   return (
     <Box>
       <SelectedCoinInfo>
-        <CurrencyLogo currency={token} size="56px" />
+        <CurrencyLogo currency={token} size={48} />
         <Box>
           <Text color="text1" fontSize="24px">
             {token.symbol}
@@ -88,7 +90,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
             width={'32px'}
             height={'32px'}
             padding="0px"
-            href={`${ANALYTICS_PAGE}#/token/${coin?.address}`}
+            href={`${ANALYTICS_PAGE}/#/token/${coin?.address}`}
             target="_blank"
             as="a"
           >

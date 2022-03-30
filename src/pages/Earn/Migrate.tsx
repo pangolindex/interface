@@ -19,10 +19,12 @@ import UnstakingModal from '../../components/earn/UnstakingModal'
 import Confetti from '../../components/Confetti'
 import BridgeMigratorModal from '../../components/earn/BridgeMigratorModal'
 import Loader from '../../components/Loader'
-import { ChainId, Token, WAVAX } from '@pangolindex/sdk'
-import { PNG } from '../../constants'
+import { Token, WAVAX } from '@pangolindex/sdk'
+import { getTokenLogoURL } from '../../constants'
+import { PNG } from '../../constants/tokens'
 import { ErrorText } from '../../components/swap/styleds'
 import { injected } from '../../connectors'
+import { useChainId } from 'src/hooks'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -57,6 +59,7 @@ export default function Migrate({
   versionTo: string
 }>) {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const currencyFromA = useCurrency(currencyIdFromA)
   const currencyFromB = useCurrency(currencyIdFromB)
@@ -67,8 +70,8 @@ export default function Migrate({
   const [pglToStatus, pglTo] = usePair(currencyToA ?? undefined, currencyToB ?? undefined)
 
   const canZap =
-    (pglFrom?.involvesToken(PNG[ChainId.AVALANCHE]) && pglTo?.involvesToken(PNG[ChainId.AVALANCHE])) ||
-    (pglFrom?.involvesToken(WAVAX[ChainId.AVALANCHE]) && pglTo?.involvesToken(WAVAX[ChainId.AVALANCHE]))
+    (pglFrom?.involvesToken(PNG[chainId]) && pglTo?.involvesToken(PNG[chainId])) ||
+    (pglFrom?.involvesToken(WAVAX[chainId]) && pglTo?.involvesToken(WAVAX[chainId]))
 
   const stakingInfoFrom = useStakingInfo(Number(versionFrom), pglFrom)?.[0]
   const stakingInfoTo = useStakingInfo(Number(versionTo), pglTo)?.[0]
@@ -96,8 +99,8 @@ export default function Migrate({
 
   const addTokenButton = (token: Token | undefined) => {
     if (!token) return
-    if (token.equals(PNG[ChainId.AVALANCHE])) return
-    if (token.equals(WAVAX[ChainId.AVALANCHE])) return
+    if (token.equals(PNG[chainId])) return
+    if (token.equals(WAVAX[chainId])) return
     return (
       <ButtonPrimary
         width={'250'}
@@ -112,7 +115,7 @@ export default function Migrate({
                     address: token.address,
                     symbol: token.symbol,
                     decimals: token.decimals,
-                    image: `https://raw.githubusercontent.com/pangolindex/tokens/main/assets/${token.address}/logo.png`
+                    image: getTokenLogoURL(token.address, 48)
                   }
                 }
               })

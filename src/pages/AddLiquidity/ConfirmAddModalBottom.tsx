@@ -7,6 +7,7 @@ import CurrencyLogo from '../../components/CurrencyLogo'
 import { Field } from '../../state/mint/actions'
 import { TYPE } from '../../theme'
 import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 export function ConfirmAddModalBottom({
   noLiquidity,
@@ -24,6 +25,7 @@ export function ConfirmAddModalBottom({
   onAdd: () => void
 }) {
   const { t } = useTranslation()
+  const chainId = useChainId()
   return (
     <>
       <RowBetween>
@@ -31,7 +33,9 @@ export function ConfirmAddModalBottom({
           {currencies[Field.CURRENCY_A]?.symbol} {t('addLiquidity.deposited')}
         </TYPE.body>
         <RowFixed>
-          <CurrencyLogo currency={currencies[Field.CURRENCY_A]} style={{ marginRight: '8px' }} />
+          {chainId && (
+            <CurrencyLogo currency={currencies[Field.CURRENCY_A]} style={{ marginRight: '8px' }} chainId={chainId} />
+          )}
           <TYPE.body>{parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}</TYPE.body>
         </RowFixed>
       </RowBetween>
@@ -40,7 +44,9 @@ export function ConfirmAddModalBottom({
           {currencies[Field.CURRENCY_B]?.symbol} {t('addLiquidity.deposited')}
         </TYPE.body>
         <RowFixed>
-          <CurrencyLogo currency={currencies[Field.CURRENCY_B]} style={{ marginRight: '8px' }} />
+          {chainId && (
+            <CurrencyLogo currency={currencies[Field.CURRENCY_B]} style={{ marginRight: '8px' }} chainId={chainId} />
+          )}
           <TYPE.body>{parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}</TYPE.body>
         </RowFixed>
       </RowBetween>

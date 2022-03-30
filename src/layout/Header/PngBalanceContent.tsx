@@ -1,10 +1,11 @@
-import { TokenAmount, WAVAX, JSBI } from '@pangolindex/sdk'
+import { TokenAmount, WAVAX, JSBI, ChainId } from '@pangolindex/sdk'
 import React, { useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from 'src/assets/images/logo.png'
 import { injected } from '../../connectors'
-import { BETA_MENU_LINK, PNG } from '../../constants'
+import { BETA_MENU_LINK, getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
+import { PNG } from '../../constants/tokens'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
 import { useTotalPngEarned } from '../../state/stake/hooks'
@@ -76,7 +77,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const oneToken = JSBI.BigInt(1000000000000000000)
   const { t } = useTranslation()
   let pngPrice: number | undefined
-  if (avaxPngTokenPair && png) {
+  if (avaxPngTokenPair && png && pngPrice) {
     const avaxPngRatio = JSBI.divide(
       JSBI.multiply(oneToken, avaxPngTokenPair.reserveOf(wavax).raw),
       avaxPngTokenPair.reserveOf(png).raw
@@ -88,7 +89,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
 
   useMemo(() => {
     if (png === undefined) return
-    fetch(`https://api.pangolin.exchange/png/circulating-supply`)
+    fetch(`${PANGOLIN_API_BASE_URL}/png/circulating-supply`)
       .then(res => res.text())
       .then(val => setCirculation(new TokenAmount(png, val)))
   }, [png])
@@ -171,8 +172,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                                 address: png?.address,
                                 symbol: png?.symbol,
                                 decimals: png?.decimals,
-                                image:
-                                  'https://raw.githubusercontent.com/pangolindex/tokens/main/assets/0x60781C2586D68229fde47564546784ab3fACA982/logo.png'
+                                image: getTokenLogoURL(PNG[ChainId.AVALANCHE].address, 48)
                               }
                             }
                           })

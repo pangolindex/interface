@@ -92,8 +92,10 @@ import {
   CLY,
   COOK,
   SKILL,
-  TUS
-} from 'src/constants'
+  TUS,
+  OG,
+  wWAGMI
+} from 'src/constants/tokens'
 import { WAVAX } from '@pangolindex/sdk'
 
 export const COIN_LISTS = [
@@ -191,5 +193,7 @@ export const COIN_LISTS = [
   CLY,
   COOK,
   SKILL,
-  TUS
+  TUS,
+  OG,
+  wWAGMI
 ]

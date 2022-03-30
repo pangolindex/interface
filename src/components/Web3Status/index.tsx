@@ -152,7 +152,7 @@ const Web3StatusConnectedBeta = styled(Box)<{ pending?: boolean }>`
   ${({ theme, pending }) => theme.mediaWidth.upToSmall`
     padding: 10px;
     border: none;
-    background-color: ${({ theme }) => (pending ? theme.primary : theme.color7)};
+    background-color: ${pending ? theme.primary : theme.color7};
   `};
 `
 
@@ -232,8 +232,9 @@ function Web3StatusInner() {
   const toggleWalletModal = useWalletModalToggle()
 
   const isBeta = useIsBetaUI()
-
+  //ATTENTION ICI
   const StatusConnected: any = isBeta ? Web3StatusConnectedBeta : Web3StatusConnected
+  // const StatusConnected: any = isBeta ? Web3StatusConnected : Web3StatusConnected
   const StatusConnect: any = isBeta ? Web3StatusConnectBeta : Web3StatusConnect
   if (account) {
     return (

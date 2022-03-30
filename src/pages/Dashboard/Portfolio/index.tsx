@@ -56,7 +56,7 @@ export default function PortfolioWidget() {
         {/* <TradingViewChart /> */}
         {account ? (
           isLoading ? (
-            <Loader 
+            <Loader
               size="10%"
               stroke={theme.yellow3}
               style={{
@@ -68,14 +68,14 @@ export default function PortfolioWidget() {
           ) : availableBalances.length > 0 ? (
             <Scrollbars style={{ height: 100 }}>
               {availableBalances.map((chain, index) => (
-                <PortfolioToken key={index} height={50}>
+                <PortfolioToken key={index} height={35}>
                   ${' '}
                   {chain.balance.toLocaleString(undefined, {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                   })}
                   <img
-                    width={'50px'}
+                    width={'24px'}
                     src={CHAINS[chain.chainID].logo}
                     alt={'Chain logo'}
                     style={{ marginLeft: '12px' }}
@@ -98,8 +98,8 @@ export default function PortfolioWidget() {
           </Box>
         )}
         <PortfolioInfo>
-          <img width={'24px'} src={Info2} alt="i" /> &nbsp;&nbsp;Includes coins, pools and other holdings in your
-          current wallet
+          <img width={'24px'} src={Info2} alt="i" />{' '}
+          <Text color="text8">Includes coins, pools and other holdings in your current wallet</Text>
         </PortfolioInfo>
       </CardBody>
     </Card>

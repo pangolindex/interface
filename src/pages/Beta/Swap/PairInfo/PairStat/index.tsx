@@ -1,10 +1,9 @@
 import React, { useContext } from 'react'
 import { PanelWrapper, MobileStat } from './styleds'
-import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo, useUSDCPrice } from '@pangolindex/components'
 import Stat from 'src/components/Stat'
 import { ThemeContext } from 'styled-components'
 import { Pair, Currency, Token } from '@pangolindex/sdk'
-import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { useAllPairChartData, useAllPairTokensChartData } from 'src/state/pair/hooks'
 import { useTranslation } from 'react-i18next'
 
@@ -48,7 +47,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
     <Box>
       <MobileStat>
         <Box display="flex" alignItems="center">
-          <DoubleCurrencyLogo size={20} currency0={inputCurrency} currency1={outputCurrency} />
+          <DoubleCurrencyLogo size={24} currency0={inputCurrency} currency1={outputCurrency} />
           <Text color="text1" fontSize={20} fontWeight={500} lineHeight="55px" marginLeft={10}>
             {inputCurrency?.symbol}/{outputCurrency?.symbol}
           </Text>

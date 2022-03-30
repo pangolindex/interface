@@ -1,10 +1,12 @@
-import { TokenAmount, JSBI } from '@pangolindex/sdk'
+import { TokenAmount, JSBI, ChainId } from '@pangolindex/sdk'
 import React, { useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from '../../assets/images/token-logo.png'
 import { injected } from '../../connectors'
-import { PNG } from '../../constants'
+import { CHAINS } from '../../constants/chains'
+import { getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
+import { PNG } from '../../constants/tokens'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
 import { useTotalPngEarned } from '../../state/stake/hooks'
@@ -16,6 +18,7 @@ import { RowBetween } from '../Row'
 import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../earn/styled'
 import { useTranslation } from 'react-i18next'
 import useUSDCPrice from '../../utils/useUSDCPrice'
+import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -59,7 +62,8 @@ const AddPNG = styled.span`
  * Content for balance stats modal
  */
 export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowPngBalanceModal: any }) {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const png = chainId ? PNG[chainId] : undefined
 
   const total = useAggregatePngBalance()
@@ -72,19 +76,20 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const oneToken = JSBI.BigInt(1000000000000000000)
   const { t } = useTranslation()
 
-  const usdcPrice = useUSDCPrice(png)
+  const usdcPriceTmp = useUSDCPrice(png)
+  const usdcPrice = CHAINS[chainId].is_mainnet ? usdcPriceTmp : undefined
 
   let pngPrice
 
   if (usdcPrice && png) {
-    pngPrice = usdcPrice.quote(new TokenAmount(png, oneToken))
+    pngPrice = usdcPrice.quote(new TokenAmount(png, oneToken), chainId)
   }
 
   const [circulation, setCirculation] = useState(totalSupply)
 
   useMemo(() => {
     if (png === undefined) return
-    fetch(`https://api.pangolin.exchange/png/circulating-supply`)
+    fetch(`${PANGOLIN_API_BASE_URL}/png/circulating-supply`)
       .then(res => res.text())
       .then(val => setCirculation(new TokenAmount(png, val)))
   }, [png])
@@ -167,8 +172,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                                 address: png?.address,
                                 symbol: png?.symbol,
                                 decimals: png?.decimals,
-                                image:
-                                  'https://raw.githubusercontent.com/pangolindex/tokens/main/assets/0x60781C2586D68229fde47564546784ab3fACA982/logo.png'
+                                image: getTokenLogoURL(PNG[ChainId.AVALANCHE].address, 48)
                               }
                             }
                           })

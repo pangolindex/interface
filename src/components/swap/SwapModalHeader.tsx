@@ -1,4 +1,4 @@
-import { Trade, TradeType } from '@pangolindex/sdk'
+import { ChainId, Trade, TradeType } from '@pangolindex/sdk'
 import React, { useContext, useMemo } from 'react'
 import { ArrowDown, AlertTriangle } from 'react-feather'
 import { Text } from 'rebass'
@@ -15,23 +15,26 @@ import { TruncatedText, SwapShowAcceptChanges } from './styleds'
 import { useTranslation } from 'react-i18next'
 
 export default function SwapModalHeader({
+  chainId,
   trade,
   allowedSlippage,
   recipient,
   showAcceptChanges,
   onAcceptChanges
 }: {
+  chainId: ChainId
   trade: Trade
   allowedSlippage: number
   recipient: string | null
   showAcceptChanges: boolean
   onAcceptChanges: () => void
 }) {
-  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage), [
+  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId), [
     trade,
-    allowedSlippage
+    allowedSlippage,
+    chainId
   ])
-  const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
+  const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(chainId, trade), [chainId, trade])
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
   const theme = useContext(ThemeContext)
@@ -41,7 +44,14 @@ export default function SwapModalHeader({
     <AutoColumn gap={'md'} style={{ marginTop: '20px' }}>
       <RowBetween align="flex-end">
         <RowFixed gap={'0px'}>
-          <CurrencyLogo currency={trade.inputAmount.currency} size={'24px'} style={{ marginRight: '12px' }} />
+          {chainId && (
+            <CurrencyLogo
+              currency={trade.inputAmount.currency}
+              size={24}
+              style={{ marginRight: '12px' }}
+              chainId={chainId}
+            />
+          )}
           <TruncatedText
             fontSize={24}
             fontWeight={500}
@@ -61,7 +71,14 @@ export default function SwapModalHeader({
       </RowFixed>
       <RowBetween align="flex-end">
         <RowFixed gap={'0px'}>
-          <CurrencyLogo currency={trade.outputAmount.currency} size={'24px'} style={{ marginRight: '12px' }} />
+          {chainId && (
+            <CurrencyLogo
+              currency={trade.outputAmount.currency}
+              size={24}
+              style={{ marginRight: '12px' }}
+              chainId={chainId}
+            />
+          )}
           <TruncatedText
             fontSize={24}
             fontWeight={500}

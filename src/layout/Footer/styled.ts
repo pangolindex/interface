@@ -6,7 +6,7 @@ export const FooterFrame = styled.footer`
   width: 100%;
   height: 50px;
   display: grid;
-  grid-template-columns: minmax(auto, 85%) minmax(auto, 15%);
+  grid-template-columns: 75% 25%;
   align-items: center;
   background-color: ${({ theme }) => theme.color2};
 `

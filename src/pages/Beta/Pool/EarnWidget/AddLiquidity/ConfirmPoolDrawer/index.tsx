@@ -50,7 +50,6 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
     type
   } = props
 
-  // const { chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
@@ -69,7 +68,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
             <DoubleCurrencyLogo
               currency0={currencies[Field.CURRENCY_A]}
               currency1={currencies[Field.CURRENCY_B]}
-              size={30}
+              size={24}
             />
           </Box>
         ) : (
@@ -81,7 +80,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
               <DoubleCurrencyLogo
                 currency0={currencies[Field.CURRENCY_A]}
                 currency1={currencies[Field.CURRENCY_B]}
-                size={30}
+                size={24}
               />
             </Box>
 
@@ -102,7 +101,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
               {currencies[Field.CURRENCY_A]?.symbol} {t('addLiquidity.deposited')}
             </Text>
             <Box display="flex">
-              <CurrencyLogo currency={currencies[Field.CURRENCY_A]} size="16px" />
+              <CurrencyLogo currency={currencies[Field.CURRENCY_A]} size={24} />
               <Text fontSize="14px" color="text1" ml="10px">
                 {parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}
               </Text>
@@ -114,7 +113,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
               {currencies[Field.CURRENCY_B]?.symbol} {t('addLiquidity.deposited')}
             </Text>
             <Box display="flex">
-              <CurrencyLogo currency={currencies[Field.CURRENCY_B]} size="16px" />
+              <CurrencyLogo currency={currencies[Field.CURRENCY_B]} size={24} />
               <Text fontSize="14px" color="text1" ml="10px">
                 {parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}
               </Text>
@@ -176,7 +175,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
               </Text>
 
               <Box ml={10} mt="8px">
-                <CurrencyLogo currency={currencies[Field.CURRENCY_A]} size="20px" />
+                <CurrencyLogo currency={currencies[Field.CURRENCY_A]} size={24} />
               </Box>
             </Box>
 
@@ -186,7 +185,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
               </Text>
 
               <Box ml={10} mt="8px">
-                <CurrencyLogo currency={currencies[Field.CURRENCY_B]} size="20px" />
+                <CurrencyLogo currency={currencies[Field.CURRENCY_B]} size={24} />
               </Box>
             </Box>
           </Box>

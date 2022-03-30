@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 import { CAVAX, ChainId, Currency, Pair, Token, TokenAmount } from '@pangolindex/sdk'
 import { ethers } from 'ethers'
 import { CHAINS, ChainsId } from 'src/constants/chains'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 
 export type ChainBalances = {
   [chainID in ChainsId]: number
@@ -83,12 +83,13 @@ export function useGetChainsBalances() {
 
 // Get the USD balance of address of connected chain
 export function useGetChainBalance() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const getChainBalance = async () => {
     if (account && chainId) {
       let id = chainId
-      if (id === ChainId.FUJI) {
+      if (id === ChainId.FUJI || id === ChainId.WAGMI) {
         id = ChainId.AVALANCHE
       }
 
@@ -112,13 +113,13 @@ export function useGetChainBalance() {
 
     return 0
   }
-
   return useQuery('getChainBalance', getChainBalance, { refetchInterval: 10000 })
 }
 
 // Get the Tokens of wallet
 export function useGetWalletChainTokens() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   // This functions is temporary for Pangolin birthday
   const getPangolinPairs = async () => {
@@ -193,7 +194,7 @@ export function useGetWalletChainTokens() {
 
       const requestTokens: TokenDataUser[] = data.map((token: any) => {
         if (token?.id?.toLowerCase() === 'avax') {
-          return new TokenDataUser(CAVAX, token?.price, token?.amount)
+          return new TokenDataUser(CAVAX[chainId], token?.price, token?.amount)
         }
 
         return new TokenDataUser(

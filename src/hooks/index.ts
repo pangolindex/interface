@@ -98,3 +98,8 @@ export function useInactiveListener(suppress = false) {
     return undefined
   }, [active, error, suppress, activate])
 }
+
+export const useChainId = () => {
+  const { chainId } = useActiveWeb3React()
+  return chainId || ChainId.AVALANCHE
+}

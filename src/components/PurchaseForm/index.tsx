@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 export const FormContext = React.createContext<any | undefined>(undefined)
 
@@ -119,7 +119,7 @@ export default function PurchaseForm({ initialValues, onSubmit, onReset, childre
     })
   }
 
-  const registerInput = ({ name, validators }: { name: string; validators: Validator[] }) => {
+  const registerInput = useCallback(({ name, validators }: { name: string; validators: Validator[] }) => {
     setFormState(
       (state: FormState): FormState => {
         return {
@@ -150,7 +150,7 @@ export default function PurchaseForm({ initialValues, onSubmit, onReset, childre
         }
       })
     }
-  }
+  }, [])
 
   const providerValue = {
     errors: formState.errors,

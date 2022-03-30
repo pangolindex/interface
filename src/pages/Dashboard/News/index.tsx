@@ -35,11 +35,11 @@ export default function NewsWidget() {
   const handleNewsBack = () => {
     sliderRef?.current?.slickPrev()
   }
-  const {data: news, isLoading} = useGetNews()
+  const { data: news, isLoading } = useGetNews()
 
   return (
     <NewsSection img={Earth}>
-      <Box height="15%" display="flex">
+      <Box height="25%" display="flex">
         <NewsTitle>News</NewsTitle>
         <SlickNext onClick={handleNewsBack} style={{ right: 60 }}>
           <ArrowLeft size={20} style={{ minWidth: 24 }} />
@@ -58,12 +58,14 @@ export default function NewsWidget() {
                     <Scrollbars
                       style={{ height: '100%', padding: '0px 10px' }}
                       // disable horizontal bar in content
+                      // eslint-disable-next-line react/prop-types
                       renderView={props => <div {...props} style={{ ...props.style, overflowX: 'hidden' }} />}
                       // vertical bar use theme color
                       renderThumbVertical={props => (
                         <div
                           {...props}
                           style={{
+                            // eslint-disable-next-line react/prop-types
                             ...props.style,
                             backgroundColor: theme.text1,
                             opacity: 0.2,
@@ -92,7 +94,7 @@ export default function NewsWidget() {
                     </Scrollbars>
                   </NewsContent>
                   <NewsDate>
-                    {element?.publishedAt.toLocaleTimeString()}, {element?.publishedAt.toLocaleDateString()}
+                    {element?.updatedAt.toLocaleTimeString()}, {element?.updatedAt.toLocaleDateString()}
                   </NewsDate>
                 </div>
               ))}

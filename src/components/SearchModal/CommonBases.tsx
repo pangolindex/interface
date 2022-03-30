@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from 'rebass'
-import { ChainId, Currency, currencyEquals, CAVAX, Token } from '@pangolindex/sdk'
+import { Currency, currencyEquals, CAVAX, Token } from '@pangolindex/sdk'
 import styled from 'styled-components'
 
 import { SUGGESTED_BASES } from '../../constants'
@@ -9,6 +9,7 @@ import QuestionHelper from '../QuestionHelper'
 import { AutoRow } from '../Row'
 import CurrencyLogo from '../CurrencyLogo'
 import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 const BaseWrapper = styled.div<{ disable?: boolean }>`
   border: 1px solid ${({ theme, disable }) => (disable ? 'transparent' : theme.bg3)};
@@ -27,14 +28,13 @@ const BaseWrapper = styled.div<{ disable?: boolean }>`
 `
 
 export default function CommonBases({
-  chainId,
   onSelect,
   selectedCurrency
 }: {
-  chainId?: ChainId
   selectedCurrency?: Currency | null
   onSelect: (currency: Currency) => void
 }) {
+  const chainId = useChainId()
   const { t } = useTranslation()
   return (
     <AutoColumn gap="md">
@@ -47,13 +47,15 @@ export default function CommonBases({
       <AutoRow gap="4px">
         <BaseWrapper
           onClick={() => {
-            if (!selectedCurrency || !currencyEquals(selectedCurrency, CAVAX)) {
-              onSelect(CAVAX)
+            if (!selectedCurrency || !currencyEquals(selectedCurrency, CAVAX[chainId])) {
+              onSelect(CAVAX[chainId])
             }
           }}
-          disable={selectedCurrency === CAVAX}
+          disable={selectedCurrency === CAVAX[chainId]}
         >
-          <CurrencyLogo currency={CAVAX} style={{ marginRight: 8 }} />
+          {chainId && (
+            <CurrencyLogo currency={chainId && CAVAX[chainId]} style={{ marginRight: 8 }} chainId={chainId} />
+          )}
           <Text fontWeight={500} fontSize={16}>
             AVAX
           </Text>
@@ -62,7 +64,7 @@ export default function CommonBases({
           const selected = selectedCurrency instanceof Token && selectedCurrency.address === token.address
           return (
             <BaseWrapper onClick={() => !selected && onSelect(token)} disable={selected} key={token.address}>
-              <CurrencyLogo currency={token} style={{ marginRight: 8 }} />
+              {chainId && <CurrencyLogo currency={token} style={{ marginRight: 8 }} chainId={chainId} />}
               <Text fontWeight={500} fontSize={16}>
                 {token.symbol}
               </Text>

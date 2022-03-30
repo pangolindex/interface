@@ -24,8 +24,8 @@ const PortfolioRow: React.FC<Props> = ({ coin, pair }) => {
   return (
     <RowWrapper>
       <Box display="flex" alignItems="center">
-        {coin && <CurrencyLogo size={'28px'} currency={coin.token} />}
-        {pair && <DoubleCurrencyLogo currency0={pair?.pair?.token0} currency1={pair?.pair?.token1} size={28} />}
+        {coin && <CurrencyLogo size={24} currency={coin.token} />}
+        {pair && <DoubleCurrencyLogo currency0={pair?.pair?.token0} currency1={pair?.pair?.token1} size={24} />}
         {coin && (
           <Text color="text1" fontSize={fontSize(coin?.price * coin?.amount)} fontWeight={500} marginLeft={'6px'}>
             {coin?.token?.symbol}

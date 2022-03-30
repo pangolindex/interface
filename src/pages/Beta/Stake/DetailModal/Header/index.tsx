@@ -9,6 +9,7 @@ import { HeaderRoot, StatsWrapper, HeaderWrapper } from './styled'
 import { useTranslation } from 'react-i18next'
 import { CloseIcon } from 'src/theme'
 import { Hidden, Visible } from 'src/theme'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
@@ -18,8 +19,10 @@ type Props = {
 const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
-  const currency0 = unwrappedToken(stakingInfo?.totalStakedAmount?.token)
-  const currency1 = unwrappedToken(stakingInfo?.rewardToken)
+  const chainId = useChainId()
+
+  const currency0 = unwrappedToken(stakingInfo?.totalStakedAmount?.token, chainId)
+  const currency1 = unwrappedToken(stakingInfo?.rewardToken, chainId)
   const totalRewardRate = stakingInfo?.totalRewardRatePerSecond
     ?.multiply((60 * 60 * 24 * 7).toString())
     ?.toSignificant(4, { groupSeparator: ',' })
@@ -30,7 +33,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
     <HeaderRoot>
       <HeaderWrapper>
         <Box display="flex" alignItems="center">
-          <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={35} />
+          <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={48} />
           <Text color="text1" fontSize={24} fontWeight={500} marginLeft={10}>
             {currency0?.symbol}/{currency1?.symbol}
           </Text>
@@ -47,7 +50,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
           </Text>
 
           <Box display="flex" alignItems="center" mt="10px">
-            <CurrencyLogo currency={currency1} size={'18px'} />
+            <CurrencyLogo currency={currency1} size={24} />
           </Box>
         </Box>
 

@@ -159,8 +159,11 @@ export default createReducer(initialState, builder =>
       // state loaded from localStorage, but new lists have never been initialized
       if (!state.lastInitializedDefaultListOfLists) {
         state.byUrl = initialState.byUrl
-        state.selectedListUrl = DEFAULT_TOKEN_LISTS_SELECTED
+        state.selectedListUrl = initialState.selectedListUrl
       } else if (state.lastInitializedDefaultListOfLists) {
+        // Safeguard for legacy data maintained before multiple lists could be selected
+        if (typeof state.selectedListUrl === 'string') state.selectedListUrl = [state.selectedListUrl]
+
         const lastInitializedSet = state.lastInitializedDefaultListOfLists.reduce<Set<string>>(
           (s, l) => s.add(l),
           new Set()

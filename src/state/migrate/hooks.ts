@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from 'react'
-import { ChainId, Pair } from '@pangolindex/sdk'
-import { useActiveWeb3React } from '../../hooks'
+import { Pair } from '@pangolindex/sdk'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import { useTokenBalancesWithLoadingIndicator } from '../wallet/hooks'
 import { usePairs } from '../../data/Reserves'
 import { toV2LiquidityToken, useTrackedTokenPairs } from '../user/hooks'
@@ -12,7 +12,8 @@ export interface SelectedPoolState {
 }
 
 export function useGetUserLP() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
@@ -20,7 +21,7 @@ export function useGetUserLP() {
   const tokenPairsWithLiquidityTokens = useMemo(
     () =>
       trackedTokenPairs.map(tokens => ({
-        liquidityToken: toV2LiquidityToken(tokens, chainId ? chainId : ChainId.AVALANCHE),
+        liquidityToken: toV2LiquidityToken(tokens, chainId),
         tokens
       })),
     [trackedTokenPairs, chainId]
