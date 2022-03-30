@@ -112,7 +112,7 @@ import {
   PLN,
   HEC,
   RACEX,
-  UST,
+  axlUST,
   LUNA,
   IME,
   MONEY,
@@ -1342,13 +1342,13 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     version: 2
   },
 
-  WAVAX_UST_V2: {
-    tokens: [WAVAX[ChainId.AVALANCHE], UST[ChainId.AVALANCHE]],
+  WAVAX_axlUST_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], axlUST[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
     version: 2
   },
-  USDC_UST_V2: {
-    tokens: [USDC[ChainId.AVALANCHE], UST[ChainId.AVALANCHE]],
+  USDC_axlUST_V2: {
+    tokens: [USDC[ChainId.AVALANCHE], axlUST[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
     version: 2
   },
@@ -1412,8 +1412,8 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
     version: 2
   },
-  UST_DLAUNCH_V2: {
-    tokens: [UST[ChainId.AVALANCHE], DLAUNCH[ChainId.AVALANCHE]],
+  axlUST_DLAUNCH_V2: {
+    tokens: [axlUST[ChainId.AVALANCHE], DLAUNCH[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
     version: 2
   },

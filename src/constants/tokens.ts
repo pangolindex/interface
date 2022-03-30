@@ -1186,16 +1186,16 @@ export const HEC: { [chainId in ChainId]: Token } = {
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'HeC', 'HeroesChained')
 }
 
-export const UST: { [chainId in ChainId]: Token } = {
-  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'UST', 'Axelar Wrapped UST'),
+export const axlUST: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'axlUST', 'Axelar Wrapped UST'),
   [ChainId.AVALANCHE]: new Token(
     ChainId.AVALANCHE,
     '0x260Bbf5698121EB85e7a74f2E45E16Ce762EbE11',
     6,
-    'UST',
+    'axlUST',
     'Axelar Wrapped UST'
   ),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'UST', 'Axelar Wrapped UST')
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'axlUST', 'Axelar Wrapped UST')
 }
 
 export const LUNA: { [chainId in ChainId]: Token } = {
