@@ -9,6 +9,7 @@ import { HeaderRoot, StatsWrapper, HeaderWrapper } from './styled'
 import { useTranslation } from 'react-i18next'
 import { CloseIcon } from 'src/theme'
 import { Hidden, Visible } from 'src/theme'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
@@ -18,8 +19,10 @@ type Props = {
 const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
-  const currency0 = unwrappedToken(stakingInfo?.totalStakedAmount?.token)
-  const currency1 = unwrappedToken(stakingInfo?.rewardToken)
+  const chainId = useChainId()
+
+  const currency0 = unwrappedToken(stakingInfo?.totalStakedAmount?.token, chainId)
+  const currency1 = unwrappedToken(stakingInfo?.rewardToken, chainId)
   const totalRewardRate = stakingInfo?.totalRewardRatePerSecond
     ?.multiply((60 * 60 * 24 * 7).toString())
     ?.toSignificant(4, { groupSeparator: ',' })

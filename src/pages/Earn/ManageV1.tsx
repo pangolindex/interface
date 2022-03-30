@@ -5,14 +5,14 @@ import Manage from './Manage'
 import { usePair } from '../../data/Reserves'
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
 import { useCurrency } from '../../hooks/Tokens'
-import { useActiveWeb3React } from '../../hooks'
+import { useChainId } from '../../hooks'
 
 const ManageV1: React.FC<RouteComponentProps<{ currencyIdA: string; currencyIdB: string; version: string }>> = ({
   match: {
     params: { currencyIdA, currencyIdB, version }
   }
 }) => {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
 
   // get currencies and pair
   const [currencyA, currencyB] = [useCurrency(currencyIdA), useCurrency(currencyIdB)]

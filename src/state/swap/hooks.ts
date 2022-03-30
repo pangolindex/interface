@@ -9,11 +9,10 @@ import {
   TokenAmount,
   Trade,
   FACTORY_ADDRESS,
-  ChainId,
-  Price
+  ChainId
 } from '@pangolindex/sdk'
 import { ParsedQs } from 'qs'
-import { useCallback, useEffect, useState, useMemo } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
@@ -29,19 +28,15 @@ import { useUserSlippageTolerance } from '../user/hooks'
 import { computeSlippageAdjustedAmounts } from '../../utils/prices'
 import { ROUTER_ADDRESS, SWAP_DEFAULT_CURRENCY } from '../../constants'
 import { useTranslation } from 'react-i18next'
-import { NATIVE } from 'src/constants'
-import { wrappedCurrency } from 'src/utils/wrappedCurrency'
-import { Order, useGelatoLimitOrdersLib, useGelatoLimitOrdersHistory } from '@gelatonetwork/limit-orders-react'
-
-export interface LimitOrderInfo extends Order {
-  pending?: boolean
-}
+import { useChainId } from 'src/hooks'
 
 export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>(state => state.swap)
 }
 
-export function useSwapActionHandlers(): {
+export function useSwapActionHandlers(
+  chainId: ChainId
+): {
   onCurrencySelection: (field: Field, currency: Currency) => void
   onSwitchTokens: () => void
   onUserInput: (field: Field, typedValue: string) => void
@@ -53,11 +48,12 @@ export function useSwapActionHandlers(): {
       dispatch(
         selectCurrency({
           field,
-          currencyId: currency instanceof Token ? currency.address : currency === CAVAX ? 'AVAX' : ''
+          currencyId:
+            currency instanceof Token ? currency.address : chainId && currency === CAVAX[chainId] ? 'AVAX' : ''
         })
       )
     },
-    [dispatch]
+    [chainId, dispatch]
   )
 
   const onSwitchTokens = useCallback(() => {
@@ -87,7 +83,7 @@ export function useSwapActionHandlers(): {
 }
 
 // try to parse a user entered amount for a given token
-export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmount | undefined {
+export function tryParseAmount(chainId: ChainId, value?: string, currency?: Currency): CurrencyAmount | undefined {
   if (!value || !currency) {
     return undefined
   }
@@ -96,7 +92,7 @@ export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmo
     if (typedValueParsed !== '0') {
       return currency instanceof Token
         ? new TokenAmount(currency, JSBI.BigInt(typedValueParsed))
-        : CurrencyAmount.ether(JSBI.BigInt(typedValueParsed))
+        : CurrencyAmount.ether(JSBI.BigInt(typedValueParsed), chainId)
     }
   } catch (error) {
     // should fail if the user specifies too many decimal places of precision (or maybe exceed max uint?)
@@ -133,6 +129,8 @@ export function useDerivedSwapInfo(): {
   v1Trade: Trade | undefined
 } {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const { t } = useTranslation()
 
   const toggledVersion = useToggledVersion()
@@ -150,13 +148,13 @@ export function useDerivedSwapInfo(): {
   const recipientAddress = isAddress(recipient)
   const to: string | null = (recipientAddress ? recipientAddress : account) ?? null
 
-  const relevantTokenBalances = useCurrencyBalances(account ?? undefined, [
+  const relevantTokenBalances = useCurrencyBalances(chainId, account ?? undefined, [
     inputCurrency ?? undefined,
     outputCurrency ?? undefined
   ])
 
   const isExactIn: boolean = independentField === Field.INPUT
-  const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
+  const parsedAmount = tryParseAmount(chainId, typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
 
   const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
   const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
@@ -204,10 +202,11 @@ export function useDerivedSwapInfo(): {
 
   const [allowedSlippage] = useUserSlippageTolerance()
 
-  const slippageAdjustedAmounts = v2Trade && allowedSlippage && computeSlippageAdjustedAmounts(v2Trade, allowedSlippage)
+  const slippageAdjustedAmounts =
+    v2Trade && allowedSlippage && computeSlippageAdjustedAmounts(v2Trade, allowedSlippage, chainId)
 
   const slippageAdjustedAmountsV1 =
-    v1Trade && allowedSlippage && computeSlippageAdjustedAmounts(v1Trade, allowedSlippage)
+    v1Trade && allowedSlippage && computeSlippageAdjustedAmounts(v1Trade, allowedSlippage, chainId)
 
   // compare input balance to max input based on version
   const [balanceIn, amountIn] = [
@@ -294,7 +293,8 @@ export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
 export function useDefaultsFromURLSearch():
   | { inputCurrencyId: string | undefined; outputCurrencyId: string | undefined }
   | undefined {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const dispatch = useDispatch<AppDispatch>()
   const parsedQs = useParsedQueryString()
   const [result, setResult] = useState<
@@ -320,104 +320,4 @@ export function useDefaultsFromURLSearch():
   }, [dispatch, chainId])
 
   return result
-}
-
-export function useGelatoLimitOrderDetail(order: Order) {
-  const { chainId } = useActiveWeb3React()
-  const gelatoLibrary = useGelatoLimitOrdersLib()
-
-  const inputCurrency = order.inputToken === NATIVE && chainId ? 'AVAX' : order.inputToken
-  const outputCurrency = order.outputToken === NATIVE && chainId ? 'AVAX' : order.outputToken
-
-  const currency0 = useCurrency(inputCurrency)
-  const currency1 = useCurrency(outputCurrency)
-
-  const inputToken = currency0 ? wrappedCurrency(currency0, chainId) : undefined
-  const outputToken = currency1 ? wrappedCurrency(currency1, chainId) : undefined
-
-  const inputAmount = useMemo(
-    () => (inputToken && order.inputAmount ? new TokenAmount(inputToken, order.inputAmount) : undefined),
-    [inputToken, order.inputAmount]
-  )
-
-  const rawMinReturn = useMemo(
-    () =>
-      order.adjustedMinReturn
-        ? order.adjustedMinReturn
-        : gelatoLibrary && chainId && order.minReturn
-        ? gelatoLibrary.getAdjustedMinReturn(order.minReturn)
-        : undefined,
-    [chainId, gelatoLibrary, order.adjustedMinReturn, order.minReturn]
-  )
-
-  const outputAmount = useMemo(
-    () => (outputToken && rawMinReturn ? new TokenAmount(outputToken, rawMinReturn) : undefined),
-    [outputToken, rawMinReturn]
-  )
-
-  const executionPrice = useMemo(
-    () =>
-      outputAmount && outputAmount.greaterThan('0') && inputAmount && currency0 && currency1
-        ? new Price(currency0, currency1, inputAmount?.raw, outputAmount?.raw)
-        : undefined,
-    [currency0, currency1, inputAmount, outputAmount]
-  )
-
-  return useMemo(
-    () => ({
-      currency0,
-      currency1,
-      inputAmount,
-      outputAmount,
-      executionPrice
-    }),
-    [currency0, currency1, inputAmount, outputAmount, executionPrice]
-  )
-}
-
-export function useGelatoLimitOrderList() {
-  const { open, executed, cancelled } = useGelatoLimitOrdersHistory()
-
-  const openPending = useMemo(
-    () =>
-      (open.pending || []).map(item => {
-        const container = { ...item } as any
-        container['pending'] = true
-        return container
-      }),
-    [open.pending]
-  )
-
-  const cancelledPending = useMemo(
-    () =>
-      (cancelled.pending || []).map(item => {
-        const container = { ...item } as any
-        container['pending'] = true
-        return container
-      }),
-    [cancelled.pending]
-  )
-
-  const allOrders = useMemo(
-    () => [...cancelledPending, ...openPending, ...open.confirmed, ...cancelled.confirmed, ...executed],
-    [openPending, cancelledPending, open.confirmed, cancelled.confirmed, executed]
-  )
-
-  const allOpenOrders = useMemo(() => [...cancelledPending, ...openPending, ...open.confirmed], [
-    openPending,
-    cancelledPending,
-    open.confirmed
-  ])
-
-  const allCancelledOrders = useMemo(() => cancelled.confirmed, [cancelled.confirmed])
-
-  return useMemo(
-    () => ({
-      allOrders,
-      allOpenOrders,
-      allCancelledOrders,
-      executed
-    }),
-    [allOrders, allOpenOrders, allCancelledOrders, executed]
-  )
 }

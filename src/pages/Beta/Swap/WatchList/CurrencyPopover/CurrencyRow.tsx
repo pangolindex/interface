@@ -5,6 +5,7 @@ import { RowWrapper } from './styled'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { useIsSelectedCurrency } from 'src/state/watchlists/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
+import { useChainId } from 'src/hooks'
 
 type Props = {
   currency: Token
@@ -16,11 +17,13 @@ const WatchlistCurrencyRow: React.FC<Props> = ({ currency, onSelect, style }) =>
   const usdcPrice = useUSDCPrice(currency)
   const isSelected = useIsSelectedCurrency(currency?.address)
 
+  const chainId = useChainId()
+
   const handleSelect = useCallback(() => {
     onSelect(currency?.address)
   }, [onSelect, currency])
 
-  const token = unwrappedToken(currency)
+  const token = unwrappedToken(currency, chainId)
 
   return (
     <RowWrapper disabled={isSelected} style={style}>

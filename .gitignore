@@ -34,3 +34,5 @@ cypress/screenshots
 cypress/fixtures/example.json
 # Local Netlify folder
 .netlify
+.yalc
+yalc.lock

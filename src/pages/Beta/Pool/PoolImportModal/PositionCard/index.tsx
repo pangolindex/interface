@@ -8,6 +8,7 @@ import { useActiveWeb3React } from 'src/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { useTotalSupply } from 'src/data/TotalSupply'
+import { useChainId } from 'src/hooks'
 
 export interface PositionCardProps {
   pair: Pair
@@ -16,9 +17,10 @@ export interface PositionCardProps {
 
 const PositionCard = ({ pair, onManagePoolsClick }: PositionCardProps) => {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
-  const currency0 = unwrappedToken(pair?.token0)
-  const currency1 = unwrappedToken(pair?.token1)
+  const currency0 = unwrappedToken(pair?.token0, chainId)
+  const currency1 = unwrappedToken(pair?.token1, chainId)
 
   const { t } = useTranslation()
 

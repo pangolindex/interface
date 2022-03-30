@@ -13,9 +13,9 @@ import wyre from './wyre/reducer'
 import watchlists from './watchlists/reducer'
 import token from './token/reducer'
 import pair from './pair/reducer'
-import { gelatoReducers, GELATO_PERSISTED_KEYS } from '@gelatonetwork/limit-orders-react'
+import { pangolinReducers, PANGOLIN_PERSISTED_KEYS } from '@pangolindex/components'
 
-const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'watchlists', ...GELATO_PERSISTED_KEYS]
+const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'watchlists', ...PANGOLIN_PERSISTED_KEYS]
 
 const store = configureStore({
   reducer: {
@@ -31,7 +31,7 @@ const store = configureStore({
     watchlists,
     token,
     pair,
-    ...gelatoReducers
+    ...pangolinReducers
   },
   middleware: [...getDefaultMiddleware({ thunk: false }), save({ states: PERSISTED_KEYS })],
   preloadedState: load({ states: PERSISTED_KEYS })

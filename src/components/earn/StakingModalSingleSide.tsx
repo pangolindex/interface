@@ -20,6 +20,7 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
 import { splitSignature } from 'ethers/lib/utils'
+import { useChainId } from 'src/hooks'
 
 const HypotheticalRewardRate = styled.div<{ dim: boolean }>`
   display: flex;
@@ -48,7 +49,8 @@ export default function StakingModalSingleSide({
   stakingInfo,
   userLiquidityUnstaked
 }: StakingModalProps) {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
 
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
@@ -80,9 +82,13 @@ export default function StakingModalSingleSide({
   const deadline = useTransactionDeadline()
   const { t } = useTranslation()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, stakingInfo.stakingRewardAddress)
+  const [approval, approveCallback] = useApproveCallback(
+    chainId,
+    parsedAmount,
+    stakingInfo.stakingRewardAddress[chainId]
+  )
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
 
   async function onStake() {
     setAttempting(true)
@@ -139,7 +145,7 @@ export default function StakingModalSingleSide({
   }, [])
 
   // used for max input button
-  const maxAmountInput = maxAmountSpend(userLiquidityUnstaked)
+  const maxAmountInput = maxAmountSpend(chainId, userLiquidityUnstaked)
   const atMaxAmount = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
   const handleMax = useCallback(() => {
     maxAmountInput && onUserInput(maxAmountInput.toExact())
@@ -172,7 +178,7 @@ export default function StakingModalSingleSide({
     ]
     const message = {
       owner: account,
-      spender: stakingInfo.stakingRewardAddress,
+      spender: stakingInfo.stakingRewardAddress[chainId],
       value: liquidityAmount.raw.toString(),
       nonce: nonce.toHexString(),
       deadline: deadline.toNumber()

@@ -58,7 +58,7 @@ export default function Menu() {
             <Send size={14} />
             {t('menu.telegram')}
           </MenuItem>
-          <MenuItem id="link" href="https://discord.com/invite/PARrDYYbfw">
+          <MenuItem id="link" href="https://discord.com/invite/pangolindex">
             <MessageCircle size={14} />
             {t('menu.discord')}
           </MenuItem>

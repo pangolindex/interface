@@ -3,8 +3,8 @@ import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { RemoveWrapper, InputText, ContentBox } from './styleds'
 import { Box, Text, Button } from '@pangolindex/components'
 import ReactGA from 'react-ga'
-import { useActiveWeb3React } from 'src/hooks'
-import { Currency, ChainId, Percent, CAVAX } from '@pangolindex/sdk'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
+import { Currency, Percent, CAVAX } from '@pangolindex/sdk'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -32,7 +32,8 @@ interface RemoveLiquidityProps {
 }
 
 const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const [tokenA, tokenB] = useMemo(() => [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)], [
     currencyA,
@@ -77,8 +78,9 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
   // allowance handling
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
+    chainId,
     parsedAmounts[Field.LIQUIDITY],
-    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
+    ROUTER_ADDRESS[chainId]
   )
 
   const { t } = useTranslation()
@@ -186,8 +188,8 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
 
-    const currencyBIsAVAX = currencyB === CAVAX
-    const oneCurrencyIsAVAX = currencyA === CAVAX || currencyBIsAVAX
+    const currencyBIsAVAX = currencyB === CAVAX[chainId]
+    const oneCurrencyIsAVAX = currencyA === CAVAX[chainId] || currencyBIsAVAX
 
     // TODO: Translate using i18n
     if (!tokenA || !tokenB) throw new Error('could not wrap')

@@ -5,7 +5,7 @@ import { DoubleSideStakingInfo } from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCard from '../PoolCard'
 import Loader from 'src/components/Loader'
-import { useActiveWeb3React } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
@@ -43,7 +43,7 @@ export interface EarnProps {
 }
 
 const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu, activeMenu, menuItems }) => {
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
   const [poolCardsLoading, setPoolCardsLoading] = useState(false)
@@ -87,6 +87,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
       })
     ).then(stakingInfoData => {
       const poolCards = stakingInfoData.map((stakingInfo, index) => {
+        // console.log('stakinginfo', stakingInfo)
         return (
           <PoolCard
             key={index}
@@ -147,7 +148,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
                   ...stakingInfo
                 }))
             } else {
-              return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+              return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress[chainId]}`)
                 .then(res => res.json())
                 .then(res => ({
                   swapFeeApr: Number(res.swapFeeApr),

@@ -21,6 +21,7 @@ import { tryParseAmount } from '../swap/hooks'
 import { useCurrencyBalances } from '../wallet/hooks'
 import { Field, typeInput } from './actions'
 import { useTranslation } from 'react-i18next'
+import { useChainId } from 'src/hooks'
 
 const ZERO = JSBI.BigInt(0)
 
@@ -44,7 +45,9 @@ export function useDerivedMintInfo(
   poolTokenPercentage?: Percent
   error?: string
 } {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const { t } = useTranslation()
 
   const { independentField, typedValue, otherTypedValue } = useMintState()
@@ -71,7 +74,7 @@ export function useDerivedMintInfo(
     pairState === PairState.NOT_EXISTS || Boolean(totalSupply && JSBI.equal(totalSupply.raw, ZERO))
 
   // balances
-  const balances = useCurrencyBalances(account ?? undefined, [
+  const balances = useCurrencyBalances(chainId, account ?? undefined, [
     currencies[Field.CURRENCY_A],
     currencies[Field.CURRENCY_B]
   ])
@@ -81,24 +84,30 @@ export function useDerivedMintInfo(
   }
 
   // amounts
-  const independentAmount: CurrencyAmount | undefined = tryParseAmount(typedValue, currencies[independentField])
+  const independentAmount: CurrencyAmount | undefined = tryParseAmount(
+    chainId,
+    typedValue,
+    currencies[independentField]
+  )
   const dependentAmount: CurrencyAmount | undefined = useMemo(() => {
     if (noLiquidity) {
       if (otherTypedValue && currencies[dependentField]) {
-        return tryParseAmount(otherTypedValue, currencies[dependentField])
+        return tryParseAmount(chainId, otherTypedValue, currencies[dependentField])
       }
       return undefined
     } else if (independentAmount) {
       // we wrap the currencies just to get the price in terms of the other token
       const wrappedIndependentAmount = wrappedCurrencyAmount(independentAmount, chainId)
       const [tokenA, tokenB] = [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)]
-      if (tokenA && tokenB && wrappedIndependentAmount && pair) {
+      if (tokenA && tokenB && wrappedIndependentAmount && pair && chainId) {
         const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA
         const dependentTokenAmount =
           dependentField === Field.CURRENCY_B
-            ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
-            : pair.priceOf(tokenB).quote(wrappedIndependentAmount)
-        return dependentCurrency === CAVAX ? CurrencyAmount.ether(dependentTokenAmount.raw) : dependentTokenAmount
+            ? pair.priceOf(tokenA).quote(wrappedIndependentAmount, chainId)
+            : pair.priceOf(tokenB).quote(wrappedIndependentAmount, chainId)
+        return dependentCurrency === CAVAX[chainId]
+          ? CurrencyAmount.ether(dependentTokenAmount.raw, chainId)
+          : dependentTokenAmount
       }
       return undefined
     } else {

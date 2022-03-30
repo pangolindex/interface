@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { usePair } from '../../data/Reserves'
 import { useTotalSupply } from '../../data/TotalSupply'
 
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
 import { AppDispatch, AppState } from '../index'
 import { tryParseAmount } from '../swap/hooks'
@@ -30,7 +30,9 @@ export function useDerivedBurnInfo(
   error?: string
   userLiquidity?: TokenAmount | undefined
 } {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const { t } = useTranslation()
 
   const { independentField, typedValue } = useBurnState()
@@ -82,7 +84,7 @@ export function useDerivedBurnInfo(
   // user specified a specific amount of liquidity tokens
   else if (independentField === Field.LIQUIDITY) {
     if (pair?.liquidityToken) {
-      const independentAmount = tryParseAmount(typedValue, pair.liquidityToken)
+      const independentAmount = tryParseAmount(chainId, typedValue, pair.liquidityToken)
       if (independentAmount && userLiquidity && !independentAmount.greaterThan(userLiquidity)) {
         percentToRemove = new Percent(independentAmount.raw, userLiquidity.raw)
       }
@@ -91,7 +93,7 @@ export function useDerivedBurnInfo(
   // user specified a specific amount of token a or b
   else {
     if (tokens[independentField]) {
-      const independentAmount = tryParseAmount(typedValue, tokens[independentField])
+      const independentAmount = tryParseAmount(chainId, typedValue, tokens[independentField])
       const liquidityValue = liquidityValues[independentField]
       if (independentAmount && liquidityValue && !independentAmount.greaterThan(liquidityValue)) {
         percentToRemove = new Percent(independentAmount.raw, liquidityValue.raw)

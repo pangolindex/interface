@@ -19,7 +19,8 @@ export function isAddress(value: any): string | false {
 
 const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   43113: 'https://testnet.snowtrace.io',
-  43114: 'https://snowtrace.io'
+  43114: 'https://snowtrace.io',
+  11111: 'https://ftmscan.com/'
 }
 
 export function getEtherscanLink(
@@ -96,20 +97,15 @@ export function getContract(address: string, ABI: any, library: Web3Provider, ac
 
 // account is optional
 export function getRouterContract(chainId: ChainId, library: Web3Provider, account?: string): Contract {
-  return getContract(
-    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE],
-    IPangolinRouter.abi,
-    library,
-    account
-  )
+  return getContract(ROUTER_ADDRESS[chainId], IPangolinRouter.abi, library, account)
 }
 
 export function escapeRegExp(string: string): string {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
 }
 
-export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currency): boolean {
-  if (currency === CAVAX) return true
+export function isTokenOnList(defaultTokens: TokenAddressMap, chainId: ChainId, currency?: Currency): boolean {
+  if (chainId && currency === CAVAX[chainId]) return true
   return Boolean(currency instanceof Token && defaultTokens[currency.chainId]?.[currency.address])
 }
 

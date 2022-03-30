@@ -1,0 +1,260 @@
+[
+    {
+        "inputs": [
+        {
+            "internalType": "uint256",
+            "name": "supply_",
+            "type": "uint256"
+        },
+        {
+            "internalType": "address",
+            "name": "png_",
+            "type": "address"
+        },
+        {
+            "internalType": "address",
+            "name": "owner_",
+            "type": "address"
+        },
+        {
+            "internalType": "address",
+            "name": "remainderDestination_",
+            "type": "address"
+        }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [],
+        "name": "ClaimingAllowed",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [],
+        "name": "ClaimingOver",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+        {
+            "indexed": false,
+            "internalType": "address",
+            "name": "claimer",
+            "type": "address"
+        },
+        {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+        }
+        ],
+        "name": "PngClaimed",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "airdropSupply",
+        "outputs": [
+        {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "allowClaiming",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "claim",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "claimingAllowed",
+        "outputs": [
+        {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+        }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "endClaiming",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+        {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+        }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "png",
+        "outputs": [
+        {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+        }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "remainderDestination",
+        "outputs": [
+        {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+        }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "uint256",
+            "name": "supply",
+            "type": "uint256"
+        }
+        ],
+        "name": "setAirdropSupply",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "address",
+            "name": "owner_",
+            "type": "address"
+        }
+        ],
+        "name": "setOwner",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "address",
+            "name": "remainderDestination_",
+            "type": "address"
+        }
+        ],
+        "name": "setRemainderDestination",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "address",
+            "name": "addr",
+            "type": "address"
+        }
+        ],
+        "name": "setWhitelister",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "totalAllocated",
+        "outputs": [
+        {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "address[]",
+            "name": "addrs",
+            "type": "address[]"
+        },
+        {
+            "internalType": "uint256[]",
+            "name": "pngOuts",
+            "type": "uint256[]"
+        }
+        ],
+        "name": "whitelistAddresses",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "whitelister",
+        "outputs": [
+        {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+        }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+        }
+        ],
+        "name": "withdrawAmount",
+        "outputs": [
+        {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]

@@ -14,7 +14,7 @@ import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks
 import UnstakingModal from '../../components/earn/UnstakingModal'
 import ClaimRewardModal from '../../components/earn/ClaimRewardModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
 import { BIG_INT_ZERO } from '../../constants'
@@ -91,7 +91,7 @@ export interface ManageProps {
 
 const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, currencyB, extraRewardTokensAmount }) => {
   const { account } = useActiveWeb3React()
-
+  const chainId = useChainId()
   let backgroundColor: string
   let token: Token | undefined
 
@@ -223,7 +223,8 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
                 padding="8px"
                 width={'fit-content'}
                 as={Link}
-                to={`/add/${currencyA && currencyId(currencyA)}/${currencyB && currencyId(currencyB)}`}
+                to={`/add/${currencyA && currencyId(currencyA, chainId)}/${currencyB &&
+                  currencyId(currencyB, chainId)}`}
               >
                 {t('earnPage.addPoolLiquidity', { poolHandle: currencyA?.symbol + '-' + currencyB?.symbol })}
               </ButtonPrimary>

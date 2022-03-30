@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { FixedSizeList } from 'react-window'
 import { Text } from 'rebass'
 import { ThemeContext } from 'styled-components'
-import { useActiveWeb3React } from '../../hooks'
+import { useChainId } from '../../hooks'
 import { useAllTokens, useToken } from '../../hooks/Tokens'
 import { useSelectedListInfo } from '../../state/lists/hooks'
 import { CloseIcon, LinkStyledButton, TYPE } from '../../theme'
@@ -43,7 +43,7 @@ export function CurrencySearch({
   onChangeList
 }: CurrencySearchProps) {
   const { t } = useTranslation()
-  const { chainId } = useActiveWeb3React()
+  const chainId = useChainId()
   const theme = useContext(ThemeContext)
 
   const fixedList = useRef<FixedSizeList>()
@@ -121,7 +121,7 @@ export function CurrencySearch({
       if (e.key === 'Enter') {
         const s = searchQuery.toLowerCase().trim()
         if (s === 'eth') {
-          handleCurrencySelect(CAVAX)
+          handleCurrencySelect(CAVAX[chainId])
         } else if (filteredSortedTokens.length > 0) {
           if (
             filteredSortedTokens[0].symbol?.toLowerCase() === searchQuery.trim().toLowerCase() ||
@@ -132,7 +132,7 @@ export function CurrencySearch({
         }
       }
     },
-    [filteredSortedTokens, handleCurrencySelect, searchQuery]
+    [chainId, filteredSortedTokens, handleCurrencySelect, searchQuery]
   )
 
   const selectedListInfo = useSelectedListInfo()
@@ -157,9 +157,7 @@ export function CurrencySearch({
           onKeyDown={handleEnter}
           autoComplete="off"
         />
-        {showCommonBases && (
-          <CommonBases chainId={chainId} onSelect={handleCurrencySelect} selectedCurrency={selectedCurrency} />
-        )}
+        {showCommonBases && <CommonBases onSelect={handleCurrencySelect} selectedCurrency={selectedCurrency} />}
         <RowBetween>
           <Text fontSize={14} fontWeight={500}>
             {t('searchModal.tokenName')}
@@ -171,19 +169,22 @@ export function CurrencySearch({
       <Separator />
 
       <div style={{ flex: '1' }}>
-        <AutoSizer disableWidth>
-          {({ height }) => (
-            <CurrencyList
-              height={height}
-              showETH={showETH}
-              currencies={filteredSortedTokens}
-              onCurrencySelect={handleCurrencySelect}
-              otherCurrency={otherSelectedCurrency}
-              selectedCurrency={selectedCurrency}
-              fixedListRef={fixedList}
-            />
-          )}
-        </AutoSizer>
+        {chainId && (
+          <AutoSizer disableWidth>
+            {({ height }) => (
+              <CurrencyList
+                chainId={chainId}
+                height={height}
+                showETH={showETH}
+                currencies={filteredSortedTokens}
+                onCurrencySelect={handleCurrencySelect}
+                otherCurrency={otherSelectedCurrency}
+                selectedCurrency={selectedCurrency}
+                fixedListRef={fixedList}
+              />
+            )}
+          </AutoSizer>
+        )}
       </div>
 
       <Separator />

@@ -15,7 +15,6 @@ import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { maxAmountSpend } from 'src/utils/maxAmountSpend'
 import { ApprovalState, useApproveCallback } from 'src/hooks/useApproveCallback'
 import { ROUTER_ADDRESS } from 'src/constants'
-import { ChainId } from '@pangolindex/sdk'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from 'src/utils'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -26,6 +25,7 @@ import PoolPriceBar from './PoolPriceBar'
 import { PairState } from 'src/data/Reserves'
 import ConfirmPoolDrawer from './ConfirmPoolDrawer'
 import { useCurrencyBalance } from 'src/state/wallet/hooks'
+import { useChainId } from 'src/hooks'
 
 interface AddLiquidityProps {
   currencyA: Currency
@@ -35,7 +35,9 @@ interface AddLiquidityProps {
 }
 
 const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityProps) => {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
+  const chainId = useChainId()
+
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
@@ -80,7 +82,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
     (accumulator, field) => {
       return {
         ...accumulator,
-        [field]: maxAmountSpend(currencyBalances[field])
+        [field]: maxAmountSpend(chainId, currencyBalances[field])
       }
     },
     {}
@@ -98,12 +100,14 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
 
   // check whether the user has approved the router on the tokens
   const [approvalA, approveACallback] = useApproveCallback(
+    chainId,
     parsedAmounts[Field.CURRENCY_A],
-    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
+    ROUTER_ADDRESS[chainId]
   )
   const [approvalB, approveBCallback] = useApproveCallback(
+    chainId,
     parsedAmounts[Field.CURRENCY_B],
-    chainId ? ROUTER_ADDRESS[chainId] : ROUTER_ADDRESS[ChainId.AVALANCHE]
+    ROUTER_ADDRESS[chainId]
   )
 
   const addTransaction = useTransactionAdder()
@@ -126,8 +130,8 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
       method: (...args: any) => Promise<TransactionResponse>,
       args: Array<string | string[] | number>,
       value: BigNumber | null
-    if (currencyA === CAVAX || currencyB === CAVAX) {
-      const tokenBIsETH = currencyB === CAVAX
+    if (currencyA === CAVAX[chainId] || currencyB === CAVAX[chainId]) {
+      const tokenBIsETH = currencyB === CAVAX[chainId]
       estimate = router.estimateGas.addLiquidityAVAX
       method = router.addLiquidityAVAX
       args = [
@@ -220,8 +224,8 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
   // toggle wallet when disconnected
   const toggleWalletModal = useWalletModalToggle()
 
-  const selectedCurrencyBalanceA = useCurrencyBalance(account ?? undefined, currencyA ?? undefined)
-  const selectedCurrencyBalanceB = useCurrencyBalance(account ?? undefined, currencyB ?? undefined)
+  const selectedCurrencyBalanceA = useCurrencyBalance(chainId, account ?? undefined, currencyA ?? undefined)
+  const selectedCurrencyBalanceB = useCurrencyBalance(chainId, account ?? undefined, currencyB ?? undefined)
 
   const renderButton = () => {
     if (!account) {

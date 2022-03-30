@@ -9,6 +9,7 @@ import EarnDetail from '../EarnDetail'
 import { useWindowSize } from 'react-use'
 import Header from '../Header'
 import Details from '../Details'
+import { useChainId } from 'src/hooks'
 
 export interface PoolDetailProps {
   onDismiss: () => void
@@ -18,12 +19,13 @@ export interface PoolDetailProps {
 
 const DetailView = ({ stakingInfo, onDismiss, version }: PoolDetailProps) => {
   const { height } = useWindowSize()
+  const chainId = useChainId()
 
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
 
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
+  const currency0 = unwrappedToken(token0, chainId)
+  const currency1 = unwrappedToken(token1, chainId)
 
   const isStaking = Boolean(stakingInfo?.stakedAmount?.greaterThan('0'))
 

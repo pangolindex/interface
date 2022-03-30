@@ -12,11 +12,13 @@ import { currencyId } from '../../utils/currencyId'
 import { Break, CardNoise, CardBGImage } from './styled'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 import { PNG } from '../../constants/tokens'
+import { CHAINS } from '../../constants/chains'
 import { useTranslation } from 'react-i18next'
 import RewardTokens from '../RewardTokens'
 import { Box } from '@pangolindex/components'
 import { useTokens } from '../../hooks/Tokens'
 import { BETA_MENU_LINK } from 'src/constants'
+import { useChainId } from 'src/hooks'
 
 const StatContainer = styled.div`
   display: flex;
@@ -93,11 +95,13 @@ export default function DoubleSidePoolCard({
   swapFeeApr: number
   stakingApr: number
 }) {
+  const chainId = useChainId()
+
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
-  const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
+  const currency0 = unwrappedToken(token0, chainId)
+  const currency1 = unwrappedToken(token1, chainId)
 
   const poolMap = useMinichefPools()
 
@@ -105,18 +109,19 @@ export default function DoubleSidePoolCard({
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
   const token: Token =
-    currency0 === CAVAX || currency1 === CAVAX
-      ? currency0 === CAVAX
+    currency0 === CAVAX[chainId] || currency1 === CAVAX[chainId]
+      ? currency0 === CAVAX[chainId]
         ? token1
         : token0
       : token0.equals(PNG[token0.chainId])
       ? token1
       : token0
 
-  // get the color of the token
-  const backgroundColor = useColor(token)
+  const totalStakedInUsd = CHAINS[chainId].is_mainnet
+    ? stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
+    : 0
 
-  const totalStakedInUsd = stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
+  const backgroundColor = useColor(token)
 
   const pairAddress = stakingInfo?.stakedAmount?.token?.address
 
@@ -152,7 +157,7 @@ export default function DoubleSidePoolCard({
 
           {(isStaking || !stakingInfo.isPeriodFinished) && (
             <StyledInternalLink
-              to={`/png/${currencyId(currency0)}/${currencyId(currency1)}/${version}`}
+              to={`/png/${currencyId(currency0, chainId)}/${currencyId(currency1, chainId)}/${version}`}
               style={{ width: '100%' }}
             >
               <ButtonPrimary padding="8px" borderRadius="8px">

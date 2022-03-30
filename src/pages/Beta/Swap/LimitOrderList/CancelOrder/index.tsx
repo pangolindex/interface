@@ -1,12 +1,17 @@
 import React, { useState, useCallback } from 'react'
-import { Box, Text, Button } from '@pangolindex/components'
+import {
+  Box,
+  Text,
+  Button,
+  useGelatoLimitOrderDetail,
+  Order,
+  useGelatoLimitOrdersHandlers
+} from '@pangolindex/components'
 import { CancelOrderRoot, PendingWrapper, Root, Footer, Header } from './styleds'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
-import { Order, useGelatoLimitOrdersHandlers } from '@gelatonetwork/limit-orders-react'
-import { useGelatoLimitOrderDetail } from 'src/state/swap/hooks'
 import TransactionSubmitted from 'src/components/Beta/TransactionSubmitted'
 
 interface ClaimProps {
