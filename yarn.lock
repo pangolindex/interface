@@ -2195,17 +2195,10 @@
     csv-batch "^2.0.2"
     openzeppelin-solidity "^3.4.0"
 
-<<<<<<< HEAD
-"@pangolindex/sdk@2.0.0-rc.2":
-  version "2.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-2.0.0-rc.2.tgz#ad697f6b09284b1c3d612ac84ea8c481b95938bf"
-  integrity sha512-hxUTnp6Ofbp2v77hMTQ2Vt1tHxXEeFiJJov43gRhIVsucCRyrlrw+RxmfUFoTUCX3Zdx6wa1nAZTmMl+AVxnZQ==
-=======
-"@pangolindex/sdk@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-1.5.0.tgz#5b51d76775b2e6fc23aa82264dea291fc12fbd8a"
-  integrity sha512-b/OLh0wGygl/6unrlJ1VtzepV9DpeNz/ifNVsQOkDUZFlGQT3Gv6DvSXWJelYKPUSK24ZPoNXbu0bvqHfnjhIg==
->>>>>>> 0859375 (Update sdk to 1.5.0)
+"@pangolindex/sdk@2.0.0-rc.4":
+  version "2.0.0-rc.4"
+  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-2.0.0-rc.4.tgz#0e80a13be4bf8ec165e3df37638fcbfb20d63ece"
+  integrity sha512-SVlA8yJ3FeGQq3ZYx/LmVuzStHt+M9xsohtkuyL5HtXMSW2OPJe3axkCPe7g3+q1SHXuSynUqHHJ6Vt7gJm81w==
   dependencies:
     "@pangolindex/exchange-contracts" "^1.0.1"
     big.js "^5.2.2"

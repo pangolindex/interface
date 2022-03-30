@@ -4,11 +4,10 @@ import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from '../../assets/images/token-logo.png'
 import { injected } from '../../connectors'
-import { CHAINS } from '../../constants/chains'
 import { getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { useTotalSupply } from '../../data/TotalSupply'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChain } from '../../hooks'
 import { useTotalPngEarned } from '../../state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/doubleSideConfig'
 import { useAggregatePngBalance, useTokenBalance } from '../../state/wallet/hooks'
@@ -64,6 +63,7 @@ const AddPNG = styled.span`
 export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowPngBalanceModal: any }) {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
+  const chain = useChain(chainId)
   const png = chainId ? PNG[chainId] : undefined
 
   const total = useAggregatePngBalance()
@@ -77,7 +77,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const { t } = useTranslation()
 
   const usdcPriceTmp = useUSDCPrice(png)
-  const usdcPrice = CHAINS[chainId].is_mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = chain.mainnet ? usdcPriceTmp : undefined
 
   let pngPrice
 

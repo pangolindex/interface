@@ -6,12 +6,12 @@ import WatchList from './WatchList'
 import PairInfo from './PairInfo'
 import { RedirectContext } from './WatchList/CoinChart'
 import LimitOrderList from './LimitOrderList'
-import { CHAINS } from 'src/constants/chains'
-import { useChainId } from 'src/hooks'
+import { useChainId, useChain } from 'src/hooks'
 
 const SwapUI = () => {
   const { allOrders } = useGelatoLimitOrderList()
   const chainId = useChainId()
+  const chain = useChain(chainId)
 
   const isLimitOrders = (allOrders || []).length > 0
   return (
@@ -23,7 +23,7 @@ const SwapUI = () => {
         <SwapWidget isLimitOrderVisible={true} />
       </TopContainer>
 
-      {CHAINS[chainId].is_mainnet && (
+      {chain.mainnet && (
         <GridContainer isLimitOrders={isLimitOrders}>
           {isLimitOrders && <LimitOrderList />}
           <MyPortfolio isLimitOrders={isLimitOrders} />

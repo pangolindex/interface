@@ -5,8 +5,7 @@ import { StateContainer } from './styleds'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
-import { CHAINS } from 'src/constants/chains'
-import { useChainId } from 'src/hooks'
+import { useChain, useChainId } from 'src/hooks'
 
 interface Props {
   title: string
@@ -16,10 +15,11 @@ interface Props {
 
 const StatDetails: React.FC<Props> = ({ title, amountInPNG, currency0 }) => {
   const chainId = useChainId()
+  const chain = useChain(chainId)
 
   const usdcPriceTmp = useUSDCPrice(amountInPNG?.token)
-  const usdcPrice = CHAINS[chainId].is_mainnet ? usdcPriceTmp : undefined
-  const amountInUSD = CHAINS[chainId].is_mainnet
+  const usdcPrice = chain.mainnet ? usdcPriceTmp : undefined
+  const amountInUSD = chain.mainnet
     ? numeral(usdcPrice?.quote(amountInPNG, chainId).toSignificant(6)).format('$0.00a')
     : undefined
 

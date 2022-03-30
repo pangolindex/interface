@@ -9,8 +9,7 @@ import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { Root, StatWrapper } from './styled'
 import ClaimDrawer from '../../ClaimDrawer'
 import UnstakeDrawer from '../UnstakeDrawer'
-import { CHAINS } from 'src/constants/chains'
-import { useChainId } from 'src/hooks'
+import { useChainId, useChain } from 'src/hooks'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
@@ -20,21 +19,22 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
   const { t } = useTranslation()
 
   const chainId = useChainId()
+  const chain = useChain(chainId)
 
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
   const [isUnstakeDrawerVisible, setShowUnstakeDrawer] = useState(false)
 
   const rewardToken = stakingInfo?.rewardToken
   const usdcPriceTmp = useUSDCPrice(rewardToken)
-  const usdcPrice = CHAINS[chainId].is_mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = chain.mainnet ? usdcPriceTmp : undefined
 
   const weeklyRewardInToken = stakingInfo?.rewardRatePerWeek.toSignificant(4)
   const unclaimedAmountInToken = stakingInfo?.earnedAmount.toSignificant(4)
 
-  const weeklyRewardUSD = CHAINS[chainId].is_mainnet
+  const weeklyRewardUSD = chain.mainnet
     ? Number(weeklyRewardInToken) * Number(usdcPrice?.toSignificant(6))
     : undefined
-  const unclaimedAmountInUSD = CHAINS[chainId].is_mainnet
+  const unclaimedAmountInUSD = chain.mainnet
     ? Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6))
     : undefined
 

@@ -4,7 +4,7 @@ import { ChainId, Token } from '@pangolindex/sdk'
 import { Plus } from 'react-feather'
 import { ThemeContext } from 'styled-components'
 import { PNG } from 'src/constants/tokens'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useChain } from 'src/hooks'
 import WatchlistRow from './WatchlistRow'
 import { WatchListRoot, GridContainer, Title, DesktopWatchList, MobileWatchList } from './styleds'
 import Scrollbars from 'react-custom-scrollbars'
@@ -17,7 +17,6 @@ import { useTranslation } from 'react-i18next'
 import { useAllTokens } from 'src/hooks/Tokens'
 import ShowMore from 'src/components/Beta/ShowMore'
 import { Hidden } from 'src/theme'
-import { CHAINS } from 'src/constants/chains'
 
 type Props = {
   isLimitOrders?: boolean
@@ -25,6 +24,7 @@ type Props = {
 
 const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
   const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
+  const chain = useChain(chainId)
   const { t } = useTranslation()
   const [showMore, setShowMore] = useState(false as boolean)
   const allTokens = useAllTokens()
@@ -80,7 +80,7 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
         </Box>
       </Box>
       <GridContainer isLimitOrders={isLimitOrders}>
-        {CHAINS[chainId].is_mainnet
+        {chain.mainnet
           ? !isLimitOrders && (
               <Hidden upToSmall={true}>
                 <CoinChart coin={selectedToken} />

@@ -12,13 +12,12 @@ import { currencyId } from '../../utils/currencyId'
 import { Break, CardNoise, CardBGImage } from './styled'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 import { PNG } from '../../constants/tokens'
-import { CHAINS } from '../../constants/chains'
 import { useTranslation } from 'react-i18next'
 import RewardTokens from '../RewardTokens'
 import { Box } from '@pangolindex/components'
 import { useTokens } from '../../hooks/Tokens'
 import { BETA_MENU_LINK } from 'src/constants'
-import { useChainId } from 'src/hooks'
+import { useChain, useChainId } from 'src/hooks'
 
 const StatContainer = styled.div`
   display: flex;
@@ -96,6 +95,7 @@ export default function DoubleSidePoolCard({
   stakingApr: number
 }) {
   const chainId = useChainId()
+  const chain = useChain(chainId)
 
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
@@ -117,7 +117,7 @@ export default function DoubleSidePoolCard({
       ? token1
       : token0
 
-  const totalStakedInUsd = CHAINS[chainId].is_mainnet
+  const totalStakedInUsd = chain.mainnet
     ? stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
     : 0
 

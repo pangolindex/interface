@@ -5,16 +5,15 @@ import { RedirectContext } from '../Beta/Swap/WatchList/CoinChart'
 import WatchList from '../Beta/Swap/WatchList'
 import NewsWidget from './News'
 import PortfolioWidget from './Portfolio'
-import { CHAINS } from 'src/constants/chains'
-import { ChainId } from '@pangolindex/sdk'
-import { useActiveWeb3React } from 'src/hooks'
 import { Hidden, Visible } from 'src/theme'
+import { useChainId, useChain } from 'src/hooks'
 //import Earned from './Earned'
 //import FollowedWallet from './FollowWallet'
 
 const Dashboard = () => {
   const { t } = useTranslation()
-  const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
+  const chainId = useChainId()
+  const chain = useChain(chainId)
 
   return (
     <PageWrapper>
@@ -24,7 +23,7 @@ const Dashboard = () => {
       <TopContainer>
         <StatsWrapper>
           <PortfolioWidget />
-          {CHAINS[chainId].is_mainnet && (
+          {chain.mainnet && (
             <RedirectContext.Provider value={true}>
               <WatchList />
             </RedirectContext.Provider>

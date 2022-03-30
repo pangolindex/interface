@@ -8,8 +8,7 @@ import CoinDescription from 'src/components/Beta/CoinDescription'
 import { usePair } from 'src/data/Reserves'
 import StatDetail from '../StatDetail'
 import numeral from 'numeral'
-import { CHAINS } from 'src/constants/chains'
-import { useChainId } from 'src/hooks'
+import { useChain, useChainId } from 'src/hooks'
 
 type Props = {
   stakingInfo: StakingInfo
@@ -19,12 +18,13 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
   const token0 = stakingInfo?.tokens[0]
   const token1 = stakingInfo?.tokens[1]
   const chainId = useChainId()
+  const chain = useChain(chainId)
 
-  const totalStakedInUsd = CHAINS[chainId].is_mainnet
+  const totalStakedInUsd = chain.mainnet
     ? numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a')
     : numeral(stakingInfo.totalStakedInUsd).format('$0.00a')
 
-  const yourStakeInUsd = CHAINS[chainId].is_mainnet
+  const yourStakeInUsd = chain.mainnet
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
 

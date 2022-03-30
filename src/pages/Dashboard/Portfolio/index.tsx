@@ -64,7 +64,7 @@ export default function PortfolioWidget() {
                     maximumFractionDigits: 2
                   })}
                   <img
-                    width={'50px'}
+                    width={'40px'}
                     src={CHAINS.filter(value => value.chain_id === chain.chainID)[0]?.logo}
                     alt={'Chain logo'}
                     style={{ marginLeft: '12px' }}
