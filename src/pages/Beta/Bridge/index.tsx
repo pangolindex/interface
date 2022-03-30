@@ -1,72 +1,143 @@
 import React from 'react'
-import { PageWrapper, Ibridge, ChainSelect, Separator, MaxButton, WrapButton } from './styleds'
-import { Text, Box, ToggleButtons, Button } from '@pangolindex/components'
-import { useActiveWeb3React } from 'src/hooks'
-import { useTranslation } from 'react-i18next'
-import { useWalletModalToggle } from 'src/state/application/hooks'
-import { QuestionAnswer } from './TabulationBox'
+import { ChainId } from "@certusone/wormhole-sdk";
+import {
+  Container,
+  Step,
+  StepButton,
+  StepContent,
+  Stepper,
+} from "@material-ui/core";
+import { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
+import useCheckIfWormholeWrapped from "../../../hooks/bridgeHooks/useCheckIfWormholeWrapped";
+import useFetchTargetAsset from "../../../hooks/bridgeHooks/useFetchTargetAsset";
+import {
+  selectTransferActiveStep,
+  selectTransferIsRedeemComplete,
+  selectTransferIsRedeeming,
+  selectTransferIsSendComplete,
+  selectTransferIsSending,
+} from "../../../store/selectors";
+import {
+  setSourceChain,
+  setStep,
+  setTargetChain,
+} from "../../../store/transferSlice";
+import { CHAINS_BY_ID } from "../../../utils/bridgeUtils/consts";
+import Redeem from "./Redeem";
+import RedeemPreview from "./RedeemPreview";
+import Send from "./Send";
+import SendPreview from "./SendPreview";
+import Source from "./Source";
+import SourcePreview from "./SourcePreview";
+import Target from "./Target";
+import TargetPreview from "./TargetPreview";
 
-const BridgeUI = () => {
-  const { account } = useActiveWeb3React()
-  const { t } = useTranslation()
-  const toggleWalletModal = useWalletModalToggle()
+function Transfer() {
+  console.log()
+  useCheckIfWormholeWrapped();
+  useFetchTargetAsset();
+  const dispatch = useDispatch();
+  const activeStep = useSelector(selectTransferActiveStep);
+  const isSending = useSelector(selectTransferIsSending);
+  const isSendComplete = useSelector(selectTransferIsSendComplete);
+  const isRedeeming = useSelector(selectTransferIsRedeeming);
+  const isRedeemComplete = useSelector(selectTransferIsRedeemComplete);
+  const preventNavigation =
+  (isSending || isSendComplete || isRedeeming) && !isRedeemComplete;
+  
+  const { search } = useLocation();
+  const query = useMemo(() => new URLSearchParams(search), [search]);
+  const pathSourceChain = query.get("sourceChain");
+  const pathTargetChain = query.get("targetChain");
 
-  const renderButton = () => {
-    if (!account) {
-      return (
-        <Button variant="primary" color="white" onClick={toggleWalletModal}>
-          <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>{t('swapPage.connectWallet')}</span>
-        </Button>
-      )
-    } else {
-      return (
-        <Button variant="primary" color="white">
-          <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>BRIDGE</span>
-        </Button>
-      )
+  //This effect initializes the state based on the path params
+  useEffect(() => {
+    if (!pathSourceChain && !pathTargetChain) {
+      return;
     }
-  }
+    try {
+      const sourceChain: ChainId =
+        CHAINS_BY_ID[parseFloat(pathSourceChain || "") as ChainId]?.id;
+      const targetChain: ChainId =
+        CHAINS_BY_ID[parseFloat(pathTargetChain || "") as ChainId]?.id;
 
+      if (sourceChain === targetChain) {
+        return;
+      }
+      if (sourceChain) {
+        dispatch(setSourceChain(sourceChain));
+      }
+      if (targetChain) {
+        dispatch(setTargetChain(targetChain));
+      }
+    } catch (e) {
+      console.error("Invalid path params specified.");
+    }
+  }, [pathSourceChain, pathTargetChain, dispatch]);
+
+  useEffect(() => {
+    if (preventNavigation) {
+      window.onbeforeunload = () => true;
+      return () => {
+        window.onbeforeunload = null;
+      };
+      return console.log("error in index bridge")
+    }
+  }, [preventNavigation]);
   return (
-    <PageWrapper>
-      <QuestionAnswer />
-      <Ibridge>
-        <Box p={20}>
-          <Box display="flex" alignItems="center" justifyContent="space-between">
-            <Text fontSize={24} fontWeight={500} lineHeight="36px" color="text10">
-              Cross Chain
-            </Text>
-            <ToggleButtons options={['Bridge', 'Swap']} />
-          </Box>
-          <Separator />
-          <Text fontSize={16} fontWeight={500} lineHeight="24px" color="text10">
-            From
-          </Text>
-          <ChainSelect></ChainSelect>
-          <Separator />
-          <Text fontSize={16} fontWeight={500} lineHeight="24px" color="text10">
-            Destination
-          </Text>
-          <ChainSelect></ChainSelect>
-          <Separator />
-          <Box display="flex" alignItems="center" justifyContent="space-between">
-            <Text fontSize={16} fontWeight={500} lineHeight="24px" color="text10">
-              Amount
-            </Text>
-            <WrapButton>
-              <MaxButton width="20%">25%</MaxButton>
-              <MaxButton width="20%">50%</MaxButton>
-              <MaxButton width="20%">75%</MaxButton>
-              <MaxButton width="20%">100%</MaxButton>
-            </WrapButton>
-          </Box>
-          <ChainSelect></ChainSelect>
-          <Separator />
-          {renderButton()}
-        </Box>
-      </Ibridge>
-    </PageWrapper>
-  )
+    <Container maxWidth="md">
+      <Stepper activeStep={activeStep} orientation="vertical">
+        <Step
+          expanded={activeStep >= 0}
+          disabled={preventNavigation || isRedeemComplete}
+        >
+          <StepButton onClick={() => dispatch(setStep(0))} icon={null}>
+            1. Source
+          </StepButton>
+          <StepContent>
+            {activeStep === 0 ? <Source /> : <SourcePreview />}
+          </StepContent>
+        </Step>
+        <Step
+          expanded={activeStep >= 1}
+          disabled={preventNavigation || isRedeemComplete}
+        >
+          <StepButton
+            disabled={preventNavigation || isRedeemComplete || activeStep === 0}
+            onClick={() => dispatch(setStep(1))}
+            icon={null}
+          >
+            2. Target
+          </StepButton>
+          <StepContent>
+            {activeStep === 1 ? <Target /> : <TargetPreview />}
+          </StepContent>
+        </Step>
+        <Step expanded={activeStep >= 2} disabled={isSendComplete}>
+          <StepButton disabled icon={null}>
+            3. Send tokens
+          </StepButton>
+          <StepContent>
+            {activeStep === 2 ? <Send /> : <SendPreview />}
+          </StepContent>
+        </Step>
+        <Step expanded={activeStep >= 3} completed={isRedeemComplete}>
+          <StepButton
+            onClick={() => dispatch(setStep(3))}
+            disabled={!isSendComplete || isRedeemComplete}
+            icon={null}
+          >
+            4. Redeem tokens
+          </StepButton>
+          <StepContent>
+            {isRedeemComplete ? <RedeemPreview /> : <Redeem />}
+          </StepContent>
+        </Step>
+      </Stepper>
+    </Container>
+  );
 }
 
-export default BridgeUI
+export default Transfer;

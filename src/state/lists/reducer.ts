@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { createReducer } from '@reduxjs/toolkit'
 import { getVersionUpgrade, VersionUpgrade } from '@pangolindex/token-lists'
 import { TokenList } from '@pangolindex/token-lists/dist/types'

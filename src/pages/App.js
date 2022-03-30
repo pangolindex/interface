@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 import Header from '../components/Header'
@@ -51,6 +51,31 @@ import AirdropV2 from './Beta/Airdrop2'
 import { BETA_MENU_LINK } from 'src/constants'
 
 import Policy from './Beta/Policy'
+
+
+
+
+import Attest from "src/pages/Beta/Bridge/components/Attest";
+import Migration from "src/pages/Beta/Bridge/components/Migration";
+import EvmQuickMigrate from "src/pages/Beta/Bridge/components/Migration/EvmQuickMigrate";
+import SolanaQuickMigrate from "src/pages/Beta/Bridge/components/Migration/SolanaQuickMigrate";
+import NFT from "src/pages/Beta/Bridge/components/NFT";
+import NFTOriginVerifier from "src/pages/Beta/Bridge/components/NFTOriginVerifier";
+import Recovery from "src/pages/Beta/Bridge/components/Recovery";
+import Stats from "src/pages/Beta/Bridge/components/Stats";
+import TokenOriginVerifier from "src/pages/Beta/Bridge/components/TokenOriginVerifier";
+import Transfer from "src/pages/Beta/Bridge/components/Transfer";
+import WithdrawTokensTerra from "src/pages/Beta/Bridge/components/WithdrawTokensTerra";
+import {
+  CHAIN_ID_BSC,
+  CHAIN_ID_ETH,
+  CHAIN_ID_SOLANA,
+} from "@certusone/wormhole-sdk";
+import {
+  Container,
+  Tab,
+  Tabs,
+} from "@material-ui/core";
 
 const AppWrapper = styled.div`
   display: flex;
@@ -165,8 +190,8 @@ export default function App() {
               />
               <CustomRoute exact strict path={`${BETA_MENU_LINK.buy}`} component={BuyV2} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.pool}`} component={PoolV2} layout={Layout} />
-              <CustomRoute exact path={`${BETA_MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} />
               <CustomRoute exact strict path={`${BETA_MENU_LINK.airdrop}`} component={AirdropV2} layout={Layout} />
+              {/* <CustomRoute exact path={`${BETA_MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} /> */}
 
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
 
@@ -190,6 +215,57 @@ export default function App() {
               />
 
               <Route component={RedirectPathToSwapOnly} />
+
+
+
+
+          <Route exact path="/beta/bridge/transfer">
+            <Transfer />
+          </Route>
+          <Route exact path="/beta/bridge/nft">
+            <NFT />
+          </Route>
+          <Route exact path="/beta/bridge/redeem">
+            <Recovery />
+          </Route>
+          <Route exact path="/beta/bridge/nft-origin-verifier">
+            <NFTOriginVerifier />
+          </Route>
+          <Route exact path="/beta/bridge/token-origin-verifier">
+            <TokenOriginVerifier />
+          </Route>
+          <Route exact path="/beta/bridge/register">
+            <Attest />
+          </Route>
+          <Route exact path="/beta/bridge/migrate/Solana/:legacyAsset/:fromTokenAccount">
+            <Migration chainId={CHAIN_ID_SOLANA} />
+          </Route>
+          <Route exact path="/beta/bridge/migrate/Ethereum/:legacyAsset/">
+            <Migration chainId={CHAIN_ID_ETH} />
+          </Route>
+          <Route exact path="/beta/bridge/migrate/BinanceSmartChain/:legacyAsset/">
+            <Migration chainId={CHAIN_ID_BSC} />
+          </Route>
+          <Route exact path="/beta/bridge/migrate/Ethereum/">
+            <EvmQuickMigrate chainId={CHAIN_ID_ETH} />
+          </Route>
+          <Route exact path="/beta/bridge/migrate/BinanceSmartChain/">
+            <EvmQuickMigrate chainId={CHAIN_ID_BSC} />
+          </Route>
+          <Route exact path="/beta/bridge/migrate/Solana/">
+            <SolanaQuickMigrate />
+          </Route>
+          <Route exact path="/beta/bridge/stats">
+            <Stats />
+          </Route>
+          <Route exact path="/beta/bridge/withdraw-tokens-terra">
+            <WithdrawTokensTerra />
+          </Route>
+          <Route>
+            <Redirect to="/beta/bridge/transfer" />
+          </Route>
+
+
             </Switch>
           </Web3ReactManager>
           {!isBeta && <Marginer />}
@@ -198,3 +274,4 @@ export default function App() {
     </Suspense>
   )
 }
+

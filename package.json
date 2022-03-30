@@ -146,8 +146,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {
@@ -193,6 +192,9 @@
     "@types/react-portal": "^4.0.4",
     "crypto-js": "^4.0.0",
     "lightweight-charts": "^3.7.0",
-    "react-portal": "^4.2.1"
+    "notistack": "^1.0.10",
+    "react-portal": "^4.2.1",
+    "use-debounce": "^7.0.0",
+    "react-table": "^7.7.0"
   }
 }

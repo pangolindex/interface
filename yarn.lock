@@ -3194,9 +3194,9 @@
     buffer "~6.0.3"
 
 "@solana/spl-token-registry@^0.2.216":
-  version "0.2.3006"
-  resolved "https://registry.yarnpkg.com/@solana/spl-token-registry/-/spl-token-registry-0.2.3006.tgz#5e4fbdf84adb7fdf0909442020a050b435db141e"
-  integrity sha512-ZHUk9F29hF8z9V8AScWig6qKi+vfCG6EcJCqGk/kAtAJb/gOCi1q1sPgzXpL7DWg2GLoo3ENV09fy91xSSXocw==
+  version "0.2.3007"
+  resolved "https://registry.yarnpkg.com/@solana/spl-token-registry/-/spl-token-registry-0.2.3007.tgz#2932e79172df2646e53dbf7e4659b49460eb5545"
+  integrity sha512-E9UDrRzGOQu6SpQjl8XxIJiP21nRUxhuSfDuRdcc4mshUAtFVgABOI3ag8duzn7CLwilX4b4uZmo+OAL3P1mhg==
   dependencies:
     cross-fetch "3.0.6"
 
@@ -18310,6 +18310,14 @@ normalize-url@^4.1.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-4.5.1.tgz#0dd90cf1288ee1d1313b87081c9a5932ee48518a"
   integrity sha512-9UZCFRHQdNrfTpGg8+1INIg93B6zE0aXMVFkw1WFwvO4SlZywU6aLg5Of0Ap/PgcbSw4LNxvMWXMeugwMCX0AA==
 
+notistack@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/notistack/-/notistack-1.0.10.tgz#8db90830034383467a04184f1fa8ff77f4fc58a5"
+  integrity sha512-z0y4jJaVtOoH3kc3GtNUlhNTY+5LE04QDeLVujX3VPhhzg67zw055mZjrBF+nzpv3V9aiPNph1EgRU4+t8kQTQ==
+  dependencies:
+    clsx "^1.1.0"
+    hoist-non-react-statics "^3.3.0"
+
 npm-bundled@^1.0.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/npm-bundled/-/npm-bundled-1.1.2.tgz#944c78789bd739035b70baa2ca5cc32b8d860bc1"
@@ -21092,6 +21100,11 @@ react-switch@^6.0.0:
   integrity sha512-QV3/6eRK5/5epdQzIqvDAHRoGLbCv/wDpHUi6yBMXY1Xco5XGuIZxvB49PHoV1v/SpEgOCJLD/Zo43iic+aEIw==
   dependencies:
     prop-types "^15.7.2"
+
+react-table@^7.7.0:
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.7.0.tgz#e2ce14d7fe3a559f7444e9ecfe8231ea8373f912"
+  integrity sha512-jBlj70iBwOTvvImsU9t01LjFjy4sXEtclBovl3mTiqjz23Reu0DKnRza4zlLtOPACx6j2/7MrQIthIK1Wi+LIA==
 
 react-transition-group@2.9.0:
   version "2.9.0"
@@ -24706,6 +24719,11 @@ use-count-up@^2.2.5:
   integrity sha512-nFXUiweeHDYovM0boDk0/CTa/VW7Gzh9G/l8NVNPleqmDJbDuDO3j8qSODTbyFQrKKHN7XJd2f9hy8FUgocIvw==
   dependencies:
     use-elapsed-time "^2.1.6"
+
+use-debounce@^7.0.0:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-7.0.1.tgz#380e6191cc13ad29f8e2149a12b5c37cc2891190"
+  integrity sha512-fOrzIw2wstbAJuv8PC9Vg4XgwyTLEOdq4y/Z3IhVl8DAE4svRcgyEUvrEXu+BMNgMoc3YND6qLT61kkgEKXh7Q==
 
 use-elapsed-time@^2.1.6:
   version "2.1.8"
