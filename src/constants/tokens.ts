@@ -1425,3 +1425,39 @@ export const OML: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x979fFD8eEd7a43629eA29581DF4Bfe2b3F224e47', 18, 'OML', 'Omlira'),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'OML', 'Omlira')
 }
+
+export const JPYC: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'JPYC', 'JPY Coin'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x431D5dfF03120AFA4bDf332c61A6e1766eF37BDB',
+    18,
+    'JPYC',
+    'JPY Coin'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'JPYC', 'JPY Coin')
+}
+
+export const UST: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'UST', 'Wormhole UST'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xb599c3590F42f8F995ECfa0f85D2980B76862fc1',
+    6,
+    'UST',
+    'Wormhole UST'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 6, 'UST', 'Wormhole UST')
+}
+
+export const axlATOM: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'axlATOM', 'Axelar Wrapped ATOM'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x80D18b1c9Ab0c9B5D6A6d5173575417457d00a12',
+    6,
+    'axlATOM',
+    'Axelar Wrapped ATOM'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 6, 'axlATOM', 'Axelar Wrapped ATOM')
+}
