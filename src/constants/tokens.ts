@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@pangolindex/sdk'
+import { ChainId, Token } from '@antiyro/sdk'
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 

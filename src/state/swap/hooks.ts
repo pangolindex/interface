@@ -11,7 +11,7 @@ import {
   FACTORY_ADDRESS,
   ChainId,
   Price
-} from '@pangolindex/sdk'
+} from '@antiyro/sdk'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'

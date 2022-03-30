@@ -6,7 +6,7 @@ import { INITIAL_ALLOWED_SLIPPAGE } from 'src/constants'
 import { useChainId } from 'src/hooks'
 import { ContentBox, DataBox, ValueText } from './styled'
 import { useGelatoLimitOrders, useGelatoLimitOrdersLib, useGasOverhead } from '@gelatonetwork/limit-orders-react'
-import { TokenAmount } from '@pangolindex/sdk'
+import { TokenAmount } from '@antiyro/sdk'
 
 type Props = { trade: any }
 

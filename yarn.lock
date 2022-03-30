@@ -9,6 +9,19 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
+"@antiyro/sdk@^10.0.5":
+  version "10.0.5"
+  resolved "https://registry.yarnpkg.com/@antiyro/sdk/-/sdk-10.0.5.tgz#52103175df9628c1c5029137b394e91af4ad9536"
+  integrity sha512-Q2Gz2VWoVNINbkdt+X7xvQn4q8+15xdzpYeRjGemjeTtzfGpEJZoFcXEjp+xxpvnHX1q5AhbvVDI3+rsQeYNlg==
+  dependencies:
+    "@pangolindex/exchange-contracts" "^1.0.1"
+    big.js "^5.2.2"
+    decimal.js-light "^2.5.0"
+    jsbi "^3.1.1"
+    tiny-invariant "^1.1.0"
+    tiny-warning "^1.0.3"
+    toformat "^2.0.0"
+
 "@babel/code-frame@7.8.3":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.8.3.tgz#33e25903d7481181534e12ec0a25f16b6fcf419e"
@@ -2193,19 +2206,6 @@
     "@tenderly/hardhat-tenderly" "^1.0.6"
     csv-batch "^2.0.2"
     openzeppelin-solidity "^3.4.0"
-
-"@pangolindex/sdk@2.0.0-rc.2":
-  version "2.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-2.0.0-rc.2.tgz#ad697f6b09284b1c3d612ac84ea8c481b95938bf"
-  integrity sha512-hxUTnp6Ofbp2v77hMTQ2Vt1tHxXEeFiJJov43gRhIVsucCRyrlrw+RxmfUFoTUCX3Zdx6wa1nAZTmMl+AVxnZQ==
-  dependencies:
-    "@pangolindex/exchange-contracts" "^1.0.1"
-    big.js "^5.2.2"
-    decimal.js-light "^2.5.0"
-    jsbi "^3.1.1"
-    tiny-invariant "^1.1.0"
-    tiny-warning "^1.0.3"
-    toformat "^2.0.0"
 
 "@pangolindex/token-lists@^1.0.1":
   version "1.0.1"

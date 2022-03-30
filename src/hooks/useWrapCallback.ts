@@ -1,4 +1,4 @@
-import { Currency, currencyEquals, CAVAX, WAVAX, ChainId } from '@pangolindex/sdk'
+import { Currency, currencyEquals, CAVAX, WAVAX, ChainId } from '@antiyro/sdk'
 import { useMemo } from 'react'
 import { tryParseAmount } from '../state/swap/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'

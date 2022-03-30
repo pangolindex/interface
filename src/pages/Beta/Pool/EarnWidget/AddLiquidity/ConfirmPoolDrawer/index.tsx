@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { AlertTriangle } from 'react-feather'
 import { useTranslation } from 'react-i18next'
-import { Currency, CurrencyAmount, Fraction, Percent, TokenAmount } from '@pangolindex/sdk'
+import { Currency, CurrencyAmount, Fraction, Percent, TokenAmount } from '@antiyro/sdk'
 import { CurrencyLogo, DoubleCurrencyLogo, Text, Box, Button } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import Drawer from 'src/components/Drawer'

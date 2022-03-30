@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pair, Fraction } from '@pangolindex/sdk'
+import { Pair, Fraction } from '@antiyro/sdk'
 import { Panel, OptionButton, OptionsWrapper, Divider, MigrateButton, InnerWrapper } from './styleds'
 import Stat from '../Stat'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'

@@ -1,4 +1,4 @@
-import { Currency, Percent, Price } from '@pangolindex/sdk'
+import { Currency, Percent, Price } from '@antiyro/sdk'
 import React, { useContext } from 'react'
 import { Text } from 'rebass'
 import { ThemeContext } from 'styled-components'

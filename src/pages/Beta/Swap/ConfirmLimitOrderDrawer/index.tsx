@@ -1,7 +1,7 @@
 import React, { useContext, useState, useCallback } from 'react'
 import { ArrowDown, AlertTriangle, ArrowUpCircle } from 'react-feather'
 import { useTranslation } from 'react-i18next'
-import { Token, Trade, TradeType, CAVAX } from '@pangolindex/sdk'
+import { Token, Trade, TradeType, CAVAX, CHAINS } from '@antiyro/sdk'
 import { CurrencyLogo, Text, Box, Button } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import { getEtherscanLink } from 'src/utils'
@@ -26,7 +26,6 @@ import { shortenAddress, isAddress } from 'src/utils'
 import { FiatValue } from './FiateValue'
 import { computeFiatValuePriceImpact } from 'src/utils/computeFiatValuePriceImpact'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
-import { CHAINS } from 'src/constants/chains'
 import { useChainId } from 'src/hooks'
 
 interface Props {

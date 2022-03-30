@@ -1,5 +1,5 @@
 import React from 'react'
-import { JSBI, Pair, Percent, Currency } from '@pangolindex/sdk'
+import { JSBI, Pair, Percent, Currency } from '@antiyro/sdk'
 import { Wrapper, InnerWrapper } from './styleds'
 import { Text, Box, Button, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'

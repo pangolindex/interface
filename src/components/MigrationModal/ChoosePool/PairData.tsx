@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pair } from '@pangolindex/sdk'
+import { Pair } from '@antiyro/sdk'
 import { PairBox } from './styleds'
 import { Text, Box, DoubleCurrencyLogo, Checkbox } from '@pangolindex/components'
 import { StakingInfo } from '../../../state/stake/hooks'

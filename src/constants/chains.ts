@@ -43,7 +43,7 @@ export const CHAINS = {
     tracked_by_debank: true,
     supported_by_gelato: true,
     coingecko_id: 'avalanche',
-    is_mainnet: true,
+    mainnet: true,
     airdrop_active: false
   },
   [ChainsId.FUJI]: {
@@ -53,7 +53,7 @@ export const CHAINS = {
     tracked_by_debank: false,
     supported_by_gelato: true,
     coingecko_id: 'avalanche',
-    is_mainnet: false,
+    mainnet: false,
     airdrop_active: false
   },
   [ChainsId.ETH]: {
@@ -216,7 +216,7 @@ export const CHAINS = {
     tracked_by_debank: false,
     supported_by_gelato: false,
     coingecko_id: '',
-    is_mainnet: false,
+    mainnet: false,
     airdrop_active: true
   }
 }

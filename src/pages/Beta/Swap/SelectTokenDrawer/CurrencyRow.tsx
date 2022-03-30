@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { Text, CurrencyLogo } from '@pangolindex/components'
 import { CurrencyRowRoot, Balance } from './styled'
-import { Currency } from '@pangolindex/sdk'
+import { Currency } from '@antiyro/sdk'
 import { useActiveWeb3React } from 'src/hooks'
 // import { useSelectedTokenList } from 'src/state/lists/hooks'
 // import { isTokenOnList } from 'src/utils'

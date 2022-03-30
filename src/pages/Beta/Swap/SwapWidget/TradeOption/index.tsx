@@ -3,7 +3,7 @@ import { Text, Box, ToggleButtons } from '@pangolindex/components'
 import { SwapWrapper, SwapAlertBox } from './styled'
 import { useTranslation } from 'react-i18next'
 import { useChainId } from 'src/hooks'
-import { CHAINS } from 'src/constants/chains'
+import { CHAINS } from '@antiyro/sdk'
 
 interface Props {
   swapType: string

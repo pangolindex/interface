@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, Box, DoubleCurrencyLogo, Button } from '@pangolindex/components'
-import { Currency } from '@pangolindex/sdk'
+import { Currency } from '@antiyro/sdk'
 import { SelectedCoinInfo, StatWrapper } from './styleds'
 import { useTranslation } from 'react-i18next'
 import Stat from 'src/components/Stat'

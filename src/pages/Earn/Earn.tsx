@@ -136,7 +136,6 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
           return info_a.totalStakedInUsd?.lessThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
         }
       }
-
       if (sortBy.field === SortingType.totalApr) {
         if (sortBy.desc) {
           return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
