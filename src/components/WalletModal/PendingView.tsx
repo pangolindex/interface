@@ -76,7 +76,7 @@ export default function PendingView({
   tryActivation: (connector: AbstractConnector) => void
 }) {
   const isMetamask = window?.ethereum?.isMetaMask
-  const isXDEFI = window.ethereum && window.ethereum.isXDEFI
+
   const { t } = useTranslation()
 
   return (
@@ -111,13 +111,6 @@ export default function PendingView({
               return null
             }
             if (!isMetamask && option.name === 'MetaMask') {
-              return null
-            }
-
-            if (isXDEFI && option.name !== 'XDefi') {
-              return null
-            }
-            if (!isXDEFI && option.name === 'XDefi') {
               return null
             }
           }

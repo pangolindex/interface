@@ -9,7 +9,7 @@ import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import XDefiIcon from '../../assets/images/xDefi.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { gnosisSafe, injected } from '../../connectors'
+import { gnosisSafe, injected, xDefi } from '../../connectors'
 import { LANDING_PAGE, SUPPORTED_WALLETS, AVALANCHE_CHAIN_PARAMS, IS_IN_IFRAME } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/actions'
@@ -284,7 +284,27 @@ export default function WalletModal({
                 icon={MetamaskIcon}
               />
             )
-          } else if (option.name === 'XDefi') {
+          } else {
+            return null //dont want to return install twice
+          }
+        }
+        // don't return metamask if injected provider isn't metamask
+        else if (option.name === 'MetaMask' && !isMetamask) {
+          return null
+        }
+
+        // likewise for generic
+        else if (option.name === 'Injected' && isMetamask) {
+          return null
+        }
+      }
+
+      // overwrite injected when needed
+      else if (option.connector === xDefi) {
+        // don't show injected if there's no injected provider
+
+        if (!(window.xfi && window.xfi.ethereum && window.xfi.ethereum.isXDEFI)) {
+          if (option.name === 'XDEFI') {
             return (
               <Option
                 id={`connect-${key}`}
@@ -300,14 +320,7 @@ export default function WalletModal({
             return null //dont want to return install twice
           }
         }
-        // don't return metamask if injected provider isn't metamask
-        else if (option.name === 'MetaMask' && !isMetamask) {
-          return null
-        }
-        // don't return xDefi if injected provider isn't xDefi
-        // else if (option.name === 'XDefi' && !isXDEFI) {
-        //   return null
-        // }
+
         // likewise for generic
         else if (option.name === 'Injected' && (isMetamask || isXDEFI)) {
           return null
@@ -345,7 +358,7 @@ export default function WalletModal({
 
   function getModalContent() {
     const isMetamask = window.ethereum && window.ethereum.isMetaMask
-    const isXDEFI = window.ethereum && window.ethereum.isXDEFI
+    const isXDEFI = window.xfi && window.xfi.ethereum && window.xfi.ethereum.isXDEFI
     const isCbWalletDappBrowser = window?.ethereum?.isCoinbaseWallet
     const isWalletlink = !!window?.WalletLinkProvider || !!window?.walletLinkExtension
     const isCbWallet = isCbWalletDappBrowser || isWalletlink
