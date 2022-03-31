@@ -114,7 +114,7 @@ export default function Earn({
           ) : (
             stakingInfoResults?.map(stakingInfo => (
               <SingleSidePoolCard
-                key={stakingInfo.stakingRewardAddress[chainId]}
+                key={stakingInfo.stakingRewardAddress}
                 stakingInfo={stakingInfo}
                 version={version}
               />
