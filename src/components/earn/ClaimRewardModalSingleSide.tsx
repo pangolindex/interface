@@ -12,7 +12,6 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
-import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -27,7 +26,6 @@ interface StakingModalProps {
 
 export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingInfo }: StakingModalProps) {
   const { account } = useActiveWeb3React()
-  const chainId = useChainId()
   const { t } = useTranslation()
 
   // monitor call to help UI loading state
@@ -41,7 +39,7 @@ export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingI
     onDismiss()
   }
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   async function onClaimReward() {
     if (stakingContract && stakingInfo?.stakedAmount) {

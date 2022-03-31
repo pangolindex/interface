@@ -85,10 +85,10 @@ export default function StakingModalSingleSide({
   const [approval, approveCallback] = useApproveCallback(
     chainId,
     parsedAmount,
-    stakingInfo.stakingRewardAddress[chainId]
+    stakingInfo.stakingRewardAddress
   )
 
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   async function onStake() {
     setAttempting(true)
@@ -178,7 +178,7 @@ export default function StakingModalSingleSide({
     ]
     const message = {
       owner: account,
-      spender: stakingInfo.stakingRewardAddress[chainId],
+      spender: stakingInfo.stakingRewardAddress,
       value: liquidityAmount.raw.toString(),
       nonce: nonce.toHexString(),
       deadline: deadline.toNumber()
