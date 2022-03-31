@@ -12,18 +12,17 @@ import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
 import './i18n'
 import App from './pages/App'
-import store from './state'
 import ApplicationUpdater from './state/application/updater'
 import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
+import store from './state'
 import UserUpdater from './state/user/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
-import { ThemeProvider as NewThemeProvider } from '@pangolindex/components'
+import { PangolinProvider } from '@pangolindex/components'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
 import { useIsBetaUI } from './hooks/useLocation'
-import { GelatoProvider } from '@gelatonetwork/limit-orders-react'
 import { useActiveWeb3React } from './hooks'
 import Package from '../package.json'
 
@@ -77,35 +76,18 @@ function Updaters() {
   )
 }
 
-const Gelato = ({ children }: { children?: React.ReactNode }) => {
-  const { library, chainId, account } = useActiveWeb3React()
-  return (
-    <GelatoProvider
-      library={library}
-      chainId={chainId}
-      account={account ?? undefined}
-      useDefaultTheme={false}
-      handler={'pangolin'}
-    >
-      {children}
-    </GelatoProvider>
-  )
-}
-
 const ComponentThemeProvider = () => {
   const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
-
+  const { library, chainId, account } = useActiveWeb3React()
   return (
-    <NewThemeProvider theme={theme as any}>
+    <PangolinProvider library={library} chainId={chainId} account={account ?? undefined} theme={theme as any}>
       <FixedGlobalStyle isBeta={isBeta} />
       <ThemedGlobalStyle isBeta={isBeta} />
       <HashRouter>
-        <Gelato>
-          <App />
-        </Gelato>
+        <App />
       </HashRouter>
-    </NewThemeProvider>
+    </PangolinProvider>
   )
 }
 
