@@ -46,7 +46,7 @@ import GovernanceV2 from './Beta/Governance'
 import GovernanceDetailV2 from './Beta/GovernanceDetail'
 import BuyV2 from './Beta/Buy'
 import PoolV2 from './Beta/Pool'
-import BridgeV2 from './Beta/Bridge'
+// import BridgeV2 from './Beta/Bridge'
 import AirdropV2 from './Beta/Airdrop2'
 import { BETA_MENU_LINK } from 'src/constants'
 
@@ -66,16 +66,19 @@ import Stats from "src/pages/Beta/Bridge/components/Stats";
 import TokenOriginVerifier from "src/pages/Beta/Bridge/components/TokenOriginVerifier";
 import Transfer from "src/pages/Beta/Bridge/components/Transfer";
 import WithdrawTokensTerra from "src/pages/Beta/Bridge/components/WithdrawTokensTerra";
+
+import BridgeV2 from './Beta/Bridge'
+
 import {
   CHAIN_ID_BSC,
   CHAIN_ID_ETH,
   CHAIN_ID_SOLANA,
 } from "@certusone/wormhole-sdk";
-import {
-  Container,
-  Tab,
-  Tabs,
-} from "@material-ui/core";
+// import {
+//   Container,
+//   Tab,
+//   Tabs,
+// } from "@material-ui/core";
 
 const AppWrapper = styled.div`
   display: flex;
@@ -191,7 +194,6 @@ export default function App() {
               <CustomRoute exact strict path={`${BETA_MENU_LINK.buy}`} component={BuyV2} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.pool}`} component={PoolV2} layout={Layout} />
               <CustomRoute exact strict path={`${BETA_MENU_LINK.airdrop}`} component={AirdropV2} layout={Layout} />
-              {/* <CustomRoute exact path={`${BETA_MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} /> */}
 
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
 
@@ -200,29 +202,51 @@ export default function App() {
                 path="/beta/policy/privacy"
                 component={() => <Policy policy="privacy" />}
                 layout={Layout}
-              />
+                />
               <CustomRoute
                 exact
                 path="/beta/policy/cookie"
                 component={() => <Policy policy="cookie" />}
                 layout={Layout}
-              />
+                />
               <CustomRoute
                 exact
                 path="/beta/policy/terms"
                 component={() => <Policy policy="terms" />}
                 layout={Layout}
-              />
+                />
+
+                {/* <CustomRoute exact path={`${BETA_MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} /> */}
+                <CustomRoute exact path={`${BETA_MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} />
+
+                <CustomRoute exact path={`${BETA_MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/transfer" component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/nft" component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/redeem" component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/nft-origin-verifier" component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/token-origin-verifier" component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/register" component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/migrate/Solana/:legacyAsset/:fromTokenAccount" component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/migrate/Ethereum/:legacyAsset/" component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/migrate/BinanceSmartChain/:legacyAsset/" component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/migrate/Ethereum/" component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/migrate/BinanceSmartChain/" component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/migrate/Solana/" component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/stats" component={BridgeV2} layout={Layout} />
+                <CustomRoute exact path="/beta/bridge/withdraw-tokens-terra" component={BridgeV2} layout={Layout} />
 
               <Route component={RedirectPathToSwapOnly} />
 
 
 
 
-          <Route exact path="/beta/bridge/transfer">
+          {/* <CustomRoute exact strict path={`${BETA_MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} /> */}
+            {/* <Transfer />
+          </CustomRoute> */}
+          {/* <Route exact path="/beta/bridge/transfer">
             <Transfer />
-          </Route>
-          <Route exact path="/beta/bridge/nft">
+          </Route> */}
+          {/* <Route exact path="/beta/bridge/nft">
             <NFT />
           </Route>
           <Route exact path="/beta/bridge/redeem">
@@ -260,10 +284,10 @@ export default function App() {
           </Route>
           <Route exact path="/beta/bridge/withdraw-tokens-terra">
             <WithdrawTokensTerra />
-          </Route>
-          <Route>
+          </Route> */}
+          {/* <Route>
             <Redirect to="/beta/bridge/transfer" />
-          </Route>
+          </Route> */}
 
 
             </Switch>

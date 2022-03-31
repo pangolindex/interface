@@ -49,12 +49,12 @@ Sentry.init({
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
 if ('ethereum' in window) {
-  // ;(window.ethereum as any).autoRefreshOnNetworkChange = false
-  ;(window.ethereum).autoRefreshOnNetworkChange = false
+  ;(window.ethereum as any).autoRefreshOnNetworkChange = false
+  // ;(window.ethereum).autoRefreshOnNetworkChange = false
 
 }
-// const GOOGLE_ANALYTICS_ID: string | undefined = process.env.REACT_APP_GOOGLE_ANALYTICS_ID
-const GOOGLE_ANALYTICS_ID = process.env.REACT_APP_GOOGLE_ANALYTICS_ID
+const GOOGLE_ANALYTICS_ID: string | undefined = process.env.REACT_APP_GOOGLE_ANALYTICS_ID
+// const GOOGLE_ANALYTICS_ID = process.env.REACT_APP_GOOGLE_ANALYTICS_ID
 if (typeof GOOGLE_ANALYTICS_ID === 'string') {
   ReactGA.initialize(GOOGLE_ANALYTICS_ID)
   ReactGA.set({
@@ -85,8 +85,8 @@ function Updaters() {
   )
 }
 
-// const Gelato = ({ children }: { children?: React.ReactNode }) => {
-const Gelato = ( children ) => {
+// const Gelato = ( children ) => {
+const Gelato = ({ children }: { children?: React.ReactNode }) => {
   const { library, chainId, account } = useActiveWeb3React()
   return (
     <GelatoProvider
@@ -106,8 +106,7 @@ const ComponentThemeProvider = () => {
   const theme = useContext(ThemeContext)
 
   return (
-    // <NewThemeProvider theme={theme as any}>
-    <NewThemeProvider theme={theme}>
+    <NewThemeProvider theme={theme as any}>
       <FixedGlobalStyle isBeta={isBeta} />
       <ThemedGlobalStyle isBeta={isBeta} />
       <HashRouter>
@@ -129,14 +128,12 @@ ReactDOM.render(
               <SolanaWalletProvider>
                 <EthereumProviderProvider>
                   <TerraWalletProvider>
-                    <HashRouter>
                       <QueryClientProvider client={queryClient}>
                         <Updaters />
                         <ThemeProvider>
                           <ComponentThemeProvider />
                         </ThemeProvider>
                       </QueryClientProvider>
-                    </HashRouter>
                   </TerraWalletProvider>
                 </EthereumProviderProvider>
               </SolanaWalletProvider>
@@ -149,22 +146,3 @@ ReactDOM.render(
 
   document.getElementById('root')
 )
-
-// ReactDOM.render(
-//     <Provider store={store}>
-//           <SnackbarProvider maxSnack={3}>
-//             <BetaContextProvider>
-//               <SolanaWalletProvider>
-//                 <EthereumProviderProvider>
-//                   <TerraWalletProvider>
-//                     <HashRouter>
-//                       <App />
-//                     </HashRouter>
-//                   </TerraWalletProvider>
-//                 </EthereumProviderProvider>
-//               </SolanaWalletProvider>
-//             </BetaContextProvider>
-//           </SnackbarProvider>
-//     </Provider>,
-//   document.getElementById("root")
-// );

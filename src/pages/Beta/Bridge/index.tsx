@@ -35,7 +35,6 @@ import Target from "./Target";
 import TargetPreview from "./TargetPreview";
 
 function Transfer() {
-  console.log()
   useCheckIfWormholeWrapped();
   useFetchTargetAsset();
   const dispatch = useDispatch();
