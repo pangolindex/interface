@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { CHAINS, Chain } from '@pangolindex/sdk'
+import { ALL_CHAINS, Chain } from '@pangolindex/sdk'
 import { Box, Text, ToggleButtons } from '@pangolindex/components'
 
 //import { useActiveWeb3React } from 'src/hooks'
@@ -23,9 +23,9 @@ export default function NetworkSelection({ open, closeModal }: Props) {
   const { ethereum } = window
   const isMetaMask = ethereum && ethereum.isMetaMask
 
-  const chains = CHAINS.filter(chain => chain.pangolin_is_live && chain.mainnet === mainnet)
+  const chains = ALL_CHAINS.filter(chain => chain.pangolin_is_live && chain.mainnet === mainnet)
 
-  const chainListHeigh = chains.length / 2 <= 1 ? 48 : chains.length / 2 <= 2 ? 116 : 184
+  const chainListHeight = chains.length / 2 <= 1 ? 48 : chains.length / 2 <= 2 ? 116 : 184
 
   const changeChain = async (chain: Chain) => {
     if (isMetaMask && ethereum) {
@@ -73,7 +73,7 @@ export default function NetworkSelection({ open, closeModal }: Props) {
             }}
           />
         </ButtonFrame>
-        <Box height={chainListHeigh} style={{ gridArea: 'chains' }}>
+        <Box height={chainListHeight} style={{ gridArea: 'chains' }}>
           <Scrollbars>
             <ChainsList>
               {chains.map((chain, index) => (
