@@ -124,22 +124,22 @@ ReactDOM.render(
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
         <Provider store={store}>
-          {/* <SnackbarProvider maxSnack={3}>
+          <SnackbarProvider maxSnack={3}>
             <BetaContextProvider>
               <SolanaWalletProvider>
                 <EthereumProviderProvider>
-                  <TerraWalletProvider> */}
+                  <TerraWalletProvider>
                       <QueryClientProvider client={queryClient}>
                         <Updaters />
                         <ThemeProvider>
                           <ComponentThemeProvider />
                         </ThemeProvider>
                       </QueryClientProvider>
-                  {/* </TerraWalletProvider>
+                  </TerraWalletProvider>
                 </EthereumProviderProvider>
               </SolanaWalletProvider>
             </BetaContextProvider>
-          </SnackbarProvider> */}
+          </SnackbarProvider>
         </Provider>
       </Web3ProviderNetwork>
     </Web3ReactProvider>

@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 import Header from '../components/Header'
@@ -46,7 +46,6 @@ import GovernanceV2 from './Beta/Governance'
 import GovernanceDetailV2 from './Beta/GovernanceDetail'
 import BuyV2 from './Beta/Buy'
 import PoolV2 from './Beta/Pool'
-// import BridgeV2 from './Beta/Bridge'
 import AirdropV2 from './Beta/Airdrop2'
 import { BETA_MENU_LINK } from 'src/constants'
 
@@ -70,7 +69,7 @@ import Policy from './Beta/Policy'
 
 // import WithdrawTokensTerra from "src/pages/Beta/Bridge/components/WithdrawTokensTerra";
 
-// import BridgeV2 from './Beta/Bridge'
+import BridgeV2 from './Beta/Bridge'
 
 // import {
 //   CHAIN_ID_BSC,
@@ -219,7 +218,7 @@ export default function App() {
                 layout={Layout}
                 />
 
-                {/* <CustomRoute exact path={`${BETA_MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} /> */}
+                <CustomRoute exact path={`${BETA_MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} />
                 {/* <CustomRoute exact path="/" component={Transfer} layout={Layout} /> */}
                   {/* <Transfer />
                 </Route> */}

@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { useWalletModalToggle } from 'src/state/application/hooks'
 import { QuestionAnswer } from './TabulationBox'
 
+import useCheckIfWormholeWrapped from "src/hooks/bridgeHooks/useCheckIfWormholeWrapped";
+
 const BridgeUI = () => {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
@@ -26,7 +28,7 @@ const BridgeUI = () => {
       )
     }
   }
-
+  // useCheckIfWormholeWrapped();
   return (
     <PageWrapper>
       <QuestionAnswer />
