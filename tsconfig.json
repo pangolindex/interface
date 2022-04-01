@@ -41,5 +41,5 @@
     "./src/**/*.ts",
     "./src/**/*.tsx",
     "src/components/Confetti/index.js"
-, "src/index.ts", "src/pages/App.js", "src/index.js"  ]
+, "src/index.ts", "src/pages/App.tsx", "src/index.tsx" ]
 }
