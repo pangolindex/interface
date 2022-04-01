@@ -2,7 +2,7 @@
 import detectEthereumProvider from "@metamask/detect-provider";
 import { BigNumber, ethers } from "ethers";
 import React, {
-  FC,
+  ReactChildren,
   useCallback,
   useContext,
   useMemo,
@@ -31,7 +31,11 @@ const EthereumProviderContext = React.createContext<IEthereumProviderContext>({
   signerAddress: undefined,
   providerError: null,
 });
-export const EthereumProviderProvider: FC = (props) => {
+export const EthereumProviderProvider = ({
+  children,
+}: {
+  children: ReactChildren;
+}) => {
   const [providerError, setProviderError] = useState<string | null>(null);
   const [provider, setProvider] = useState<Provider>(undefined);
   const [chainId, setChainId] = useState<number | undefined>(undefined);
@@ -146,7 +150,7 @@ export const EthereumProviderProvider: FC = (props) => {
   );
   return (
     <EthereumProviderContext.Provider value={contextValue}>
-      {props.children}
+      {children}
     </EthereumProviderContext.Provider>
   );
 };

@@ -1,6 +1,6 @@
-import React from "react";
+/* eslint-disable */
 import { NetworkInfo, WalletProvider } from "@terra-money/wallet-provider";
-import { FC } from "react";
+import { ReactChildren } from "react";
 import { CLUSTER } from "src/utils/bridgeUtils/consts";
 
 const mainnet: NetworkInfo = {
@@ -20,13 +20,17 @@ const walletConnectChainIds: Record<number, NetworkInfo> = {
   1: mainnet,
 };
 
-export const TerraWalletProvider: FC = (props) => {
+export const TerraWalletProvider = ({
+  children,
+}: {
+  children: ReactChildren;
+}) => {
   return (
     <WalletProvider
       defaultNetwork={CLUSTER === "testnet" ? testnet : mainnet}
       walletConnectChainIds={walletConnectChainIds}
     >
-      {props.children}
+      {children}
     </WalletProvider>
   );
 };

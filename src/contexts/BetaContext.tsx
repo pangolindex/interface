@@ -1,8 +1,13 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+/* eslint-disable */
+import React, { ReactChildren, useContext, useEffect, useState } from "react";
 
 const BetaContext = React.createContext<boolean>(false);
 
-export const BetaContextProvider: FC = (props) => {
+export const BetaContextProvider = ({
+  children,
+}: {
+  children: ReactChildren;
+}) => {
   const [isBetaEnabled, setIsBetaEnabled] = useState(false);
 
   useEffect(() => {
@@ -39,7 +44,7 @@ export const BetaContextProvider: FC = (props) => {
 
   return (
     <BetaContext.Provider value={isBetaEnabled}>
-      {props.children}
+      {children}
     </BetaContext.Provider>
   );
 };

@@ -29,7 +29,7 @@ import { BETA_CHAINS, CHAINS, CHAINS_BY_ID } from "src/utils/bridgeUtils/consts"
 import HeaderText from "./HeaderText";
 import KeyAndBalance from "./KeyAndBalance";
 import SmartAddress from "./SmartAddress";
-import { RegisterNowButtonCore } from "../RegisterNowButton";
+import { RegisterNowButtonCore } from "src/pages/Beta/Bridge/components/Transfer/RegisterNowButton";
 
 const useStyles = makeStyles((theme) => ({
   flexBox: {

@@ -270,6 +270,5 @@ export enum BETA_MENU_LINK {
   vote = '/beta/vote',
   migrate = '/beta/migrate',
   airdrop = '/beta/airdrop',
-  bridge = '/beta/bridge/transfer',
-  
+  bridge = '/beta/bridge',
 }
