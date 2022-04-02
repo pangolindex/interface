@@ -1091,7 +1091,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
         const userRewardRatePerWeek = getHypotheticalWeeklyRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
 
         memo.push({
-          stakingRewardAddress: MINICHEF_ADDRESS,
+          stakingRewardAddress: MINICHEF_ADDRESS[chainId],
           tokens,
           earnedAmount,
           rewardRatePerWeek: userRewardRatePerWeek,
