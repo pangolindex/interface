@@ -180,6 +180,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
         stakingInfos
           .filter(function(info) {
             // Only include pools that are live or require a migration
+            return true
             return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
           })
           .sort(function(info_a, info_b) {
@@ -213,7 +214,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                   ...stakingInfo
                 }))
             } else {
-              return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress[chainId]}`)
+              return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
                 .then(res => res.json())
                 .then(res => ({
                   swapFeeApr: Number(res.swapFeeApr),
