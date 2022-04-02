@@ -113,11 +113,7 @@ export default function Earn({
             t('earnPage.noActiveRewards')
           ) : (
             stakingInfoResults?.map(stakingInfo => (
-              <SingleSidePoolCard
-                key={stakingInfo.stakingRewardAddress}
-                stakingInfo={stakingInfo}
-                version={version}
-              />
+              <SingleSidePoolCard key={stakingInfo.stakingRewardAddress} stakingInfo={stakingInfo} version={version} />
             ))
           )}
         </PoolSection>

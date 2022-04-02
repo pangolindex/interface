@@ -180,7 +180,6 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
         stakingInfos
           .filter(function(info) {
             // Only include pools that are live or require a migration
-            return true
             return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
           })
           .sort(function(info_a, info_b) {
