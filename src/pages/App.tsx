@@ -61,7 +61,7 @@ import EvmQuickMigrate from "src/pages/Beta/Bridge/components/Migration/EvmQuick
 import SolanaQuickMigrate from "src/pages/Beta/Bridge/components/Migration/SolanaQuickMigrate";
 import NFT from "src/pages/Beta/Bridge/components/NFT";
 import NFTOriginVerifier from "src/pages/Beta/Bridge/components/NFTOriginVerifier";
-import Recovery from "src/pages/Beta/Bridge/components/Recovery";
+// import Recovery from "src/pages/Beta/Bridge/components/Recovery";
 import Stats from "src/pages/Beta/Bridge/components/Stats";
 import TokenOriginVerifier from "src/pages/Beta/Bridge/components/TokenOriginVerifier";
 import WithdrawTokensTerra from "src/pages/Beta/Bridge/components/WithdrawTokensTerra";

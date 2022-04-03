@@ -43,6 +43,8 @@ import SolanaTPSWarning from "../SolanaTPSWarning";
 import StepDescription from "../StepDescription";
 import { TokenSelector } from "../TokenSelectors/SourceTokenSelector";
 import SourceAssetWarning from "./SourceAssetWarning";
+import { BETA_MENU_LINK } from 'src/constants'
+import { Text } from '@pangolindex/components'
 
 const useStyles = makeStyles((theme) => ({
   chainSelectWrapper: {
@@ -105,12 +107,12 @@ function Source() {
   const handleMigrationClick = useCallback(() => {
     if (sourceChain === CHAIN_ID_SOLANA) {
       history.push(
-        `/migrate/Solana/${parsedTokenAccount?.mintKey}/${parsedTokenAccount?.publicKey}`
+        `/beta/bridge/migration/Solana/${parsedTokenAccount?.mintKey}/${parsedTokenAccount?.publicKey}`
       );
     } else if (sourceChain === CHAIN_ID_ETH) {
-      history.push(`/migrate/Ethereum/${parsedTokenAccount?.mintKey}`);
+      history.push(`/beta/bridge/migration/Ethereum/${parsedTokenAccount?.mintKey}`);
     } else if (sourceChain === CHAIN_ID_BSC) {
-      history.push(`/migrate/BinanceSmartChain/${parsedTokenAccount?.mintKey}`);
+      history.push(`/beta/bridge/migration/BinanceSmartChain/${parsedTokenAccount?.mintKey}`);
     }
   }, [history, parsedTokenAccount, sourceChain]);
   const handleSourceChange = useCallback(
@@ -144,17 +146,19 @@ function Source() {
     <>
       <StepDescription>
         <div style={{ display: "flex", alignItems: "center" }}>
-          Select tokens to send through the Portal.
+          <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">
+            Select tokens to send through the Portal.
+          </Text>
           <div style={{ flexGrow: 1 }} />
           <div>
             <Button
               component={Link}
-              to="/token-origin-verifier"
+              to={`${BETA_MENU_LINK.TokenOriginVerifier}`}
               size="small"
-              variant="outlined"
+              variant="contained"
               startIcon={<VerifiedUser />}
             >
-              Token Origin Verifier
+              Verify
             </Button>
           </div>
         </div>
@@ -164,7 +168,9 @@ function Source() {
         style={{ marginBottom: "25px" }}
       >
         <div className={classes.chainSelectContainer}>
-          <Typography variant="caption">Source</Typography>
+          <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">
+            Source
+          </Text>
           <ChainSelect
             select
             variant="outlined"
@@ -184,7 +190,9 @@ function Source() {
           />
         </div>
         <div className={classes.chainSelectContainer}>
-          <Typography variant="caption">Target</Typography>
+          <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">
+            Target
+          </Text>
           <ChainSelect
             variant="outlined"
             select

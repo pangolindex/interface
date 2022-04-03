@@ -15,6 +15,7 @@ import {
   selectTransferTargetChain,
 } from "src/store/selectors";
 import { ChainId, hexToNativeString } from "@certusone/wormhole-sdk";
+import { BETA_MENU_LINK } from 'src/constants'
 
 export function RegisterNowButtonCore({
   originChain,
@@ -38,7 +39,7 @@ export function RegisterNowButtonCore({
       dispatch(setSourceAsset(nativeAsset));
       dispatch(setTargetChain(targetChain));
       dispatch(setStep(2));
-      history.push("/register");
+      history.push(`${BETA_MENU_LINK.attest}`);
     }
   }, [dispatch, canSwitch, originChain, originAsset, targetChain, history]);
   if (!canSwitch) return null;

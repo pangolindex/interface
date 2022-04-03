@@ -22,6 +22,7 @@ import LowBalanceWarning from "../LowBalanceWarning";
 import SolanaTPSWarning from "../SolanaTPSWarning";
 import StepDescription from "../StepDescription";
 import { TokenSelector } from "../TokenSelectors/SourceTokenSelector";
+import { BETA_MENU_LINK } from 'src/constants'
 
 const useStyles = makeStyles((theme) => ({
   transferField: {
@@ -56,7 +57,7 @@ function Source() {
           <div>
             <Button
               component={Link}
-              to="/nft-origin-verifier"
+              to={`${BETA_MENU_LINK.NFTOriginVerifier}`}
               size="small"
               variant="outlined"
               startIcon={<VerifiedUser />}

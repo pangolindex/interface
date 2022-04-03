@@ -32,7 +32,7 @@ export default function CreatePreview() {
   }, [dispatch]);
   const handleReturnClick = useCallback(() => {
     dispatch(reset());
-    push("/transfer");
+    push("/beta/bridge/transfer");
   }, [dispatch, push]);
 
   const explainerString =

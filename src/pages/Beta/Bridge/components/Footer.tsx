@@ -151,7 +151,7 @@ export default function Footer() {
       <div className={classes.container}>
         <div className={classes.flex}>
           <div className={classes.logoWrapper}>
-            <RouterLink to={"/transfer"}>
+            <RouterLink to={"/beta/bridge/transfer"}>
               <img src={Portal} alt="Portal" className={classes.wormholeIcon} />
             </RouterLink>
           </div>
@@ -160,7 +160,7 @@ export default function Footer() {
             <div>
               <Link
                 component={NavLink}
-                to={"/transfer"}
+                to={"/beta/bridge/transfer"}
                 color="inherit"
                 underline="hover"
                 className={classes.linkStyle}
@@ -180,7 +180,7 @@ export default function Footer() {
               </Link>
               <Link
                 component={NavLink}
-                to={"/stats"}
+                to={"/beta/bridge/stats"}
                 color="inherit"
                 underline="hover"
                 className={classes.linkStyle}

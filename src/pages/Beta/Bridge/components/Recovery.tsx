@@ -356,7 +356,7 @@ export default function Recovery() {
             },
           })
         );
-        push("/nft");
+        push("/beta/bridge/nft");
       } else {
         dispatch(
           setRecoveryVaa({
@@ -373,7 +373,7 @@ export default function Recovery() {
             },
           })
         );
-        push("/transfer");
+        push("/beta/bridge/transfer");
       }
     }
   }, [

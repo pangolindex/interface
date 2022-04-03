@@ -33,6 +33,10 @@ import SourcePreview from "./SourcePreview";
 import Target from "./Target";
 import TargetPreview from "./TargetPreview";
 
+import { QuestionAnswer } from '../../TabulationBox'
+import { PageWrapper, Ibridge, ChainSelect, Separator, MaxButton, WrapButton } from '../../styleds'
+import { Text, Box, ToggleButtons, Button } from '@pangolindex/components'
+
 function Transfer() {
   useCheckIfWormholeWrapped();
   useFetchTargetAsset();
@@ -84,20 +88,34 @@ function Transfer() {
     }
     return ;
   }, [preventNavigation]);
+
   return (
-    <Container maxWidth="md">
-      <Stepper activeStep={activeStep} orientation="vertical">
+    <PageWrapper>
+      <QuestionAnswer />
+      <Ibridge>
+        <Box p={20}>
+          <Box display="flex" alignItems="center" justifyContent="space-between">
+            <Text fontSize={24} fontWeight={500} lineHeight="36px" color="text10">
+              Cross Chain
+            </Text>
+            <ToggleButtons options={['Bridge', 'Swap']} />
+          </Box>
+          <Separator />      
         <Step
           expanded={activeStep >= 0}
           disabled={preventNavigation || isRedeemComplete}
         >
           <StepButton onClick={() => dispatch(setStep(0))} icon={null}>
+          <Text fontSize={16} fontWeight={500} lineHeight="24px" color="text10">
             1. Source
+          </Text>
           </StepButton>
-          <StepContent>
+          <Box>
             {activeStep === 0 ? <Source /> : <SourcePreview />}
-          </StepContent>
+          </Box>
         </Step>
+
+        
         <Step
           expanded={activeStep >= 1}
           disabled={preventNavigation || isRedeemComplete}
@@ -133,8 +151,9 @@ function Transfer() {
             {isRedeemComplete ? <RedeemPreview /> : <Redeem />}
           </StepContent>
         </Step>
-      </Stepper>
-    </Container>
+      </Box>
+    </Ibridge>
+    </PageWrapper>
   );
 }
 
