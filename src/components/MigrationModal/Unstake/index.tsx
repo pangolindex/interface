@@ -86,7 +86,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
 
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()
-  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress[chainId])
+  const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   async function onWithdraw() {
     if (stakingContract && stakingInfo?.stakedAmount?.greaterThan('0')) {
