@@ -8,7 +8,7 @@ import {
   BIG_INT_SECONDS_IN_WEEK,
   PANGOLIN_API_BASE_URL
 } from '../../constants'
-import { DAIe, PNG, USDC, USDCe, USDTe, UST } from '../../constants/tokens'
+import { DAIe, PNG, USDC, USDCe, USDTe, axlUST } from '../../constants/tokens'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
@@ -704,14 +704,17 @@ export function useDerivedUnstakeInfo(
 
 export function useGetStakingDataWithAPR(version: number) {
   const stakingInfos = useStakingInfo(version)
-  const chainId = useChainId()
   const [stakingInfoData, setStakingInfoData] = useState<StakingInfo[]>(stakingInfos)
 
   useEffect(() => {
     if (stakingInfos?.length > 0) {
       Promise.all(
         stakingInfos.map(stakingInfo => {
-          return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress[chainId]}`)
+          const APR_URL =
+            version < 2
+              ? `${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress}`
+              : `${PANGOLIN_API_BASE_URL}/pangolin/apr2/${stakingInfo.stakingRewardAddress}`
+          return fetch(APR_URL)
             .then(res => res.json())
             .then(res => ({
               swapFeeApr: Number(res.swapFeeApr),
@@ -951,9 +954,9 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           // Sort PNG first
           else if (addressA === PNG[ChainId.AVALANCHE].address) return -1
           else if (addressB === PNG[ChainId.AVALANCHE].address) return 1
-          // Sort UST first
-          else if (addressA === UST[ChainId.AVALANCHE].address) return -1
-          else if (addressB === UST[ChainId.AVALANCHE].address) return 1
+          // Sort axlUST first
+          else if (addressA === axlUST[ChainId.AVALANCHE].address) return -1
+          else if (addressB === axlUST[ChainId.AVALANCHE].address) return 1
           // Sort USDC first
           else if (addressA === USDC[ChainId.AVALANCHE].address) return -1
           else if (addressB === USDC[ChainId.AVALANCHE].address) return 1
@@ -1016,11 +1019,11 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           totalStakedInUsd = CHAINS[chainId || ChainId].is_mainnet
             ? new TokenAmount(USDC[chainId], stakedValueInUSDC)
             : undefined
-        } else if (pair.involvesToken(UST[chainId])) {
-          const pairValueInUST = JSBI.multiply(pair.reserveOf(UST[chainId]).raw, BIG_INT_TWO)
+        } else if (pair.involvesToken(axlUST[chainId])) {
+          const pairValueInUST = JSBI.multiply(pair.reserveOf(axlUST[chainId]).raw, BIG_INT_TWO)
           const stakedValueInUST = JSBI.divide(JSBI.multiply(pairValueInUST, totalSupplyStaked), totalSupplyAvailable)
           totalStakedInUsd = CHAINS[chainId || ChainId].is_mainnet
-            ? new TokenAmount(UST[chainId], stakedValueInUST)
+            ? new TokenAmount(axlUST[chainId], stakedValueInUST)
             : undefined
         } else if (pair.involvesToken(USDTe[chainId])) {
           const pairValueInUSDT = JSBI.multiply(pair.reserveOf(USDTe[chainId]).raw, BIG_INT_TWO)
@@ -1091,7 +1094,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
         const userRewardRatePerWeek = getHypotheticalWeeklyRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
 
         memo.push({
-          stakingRewardAddress: MINICHEF_ADDRESS,
+          stakingRewardAddress: MINICHEF_ADDRESS[chainId],
           tokens,
           earnedAmount,
           rewardRatePerWeek: userRewardRatePerWeek,

@@ -33,7 +33,7 @@ export function useGetNews() {
         title: element?.title,
         content: element?.content,
         createdAt: new Date(element?.date_created),
-        updatedAt: new Date(element?.date_updated),
+        updatedAt: new Date(element?.date_updated)
       }
     })
 
