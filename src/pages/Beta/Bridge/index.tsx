@@ -28,7 +28,7 @@ const BridgeUI = () => {
       )
     }
   }
-  // useCheckIfWormholeWrapped();
+  useCheckIfWormholeWrapped();
   return (
     <PageWrapper>
       <QuestionAnswer />

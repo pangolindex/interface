@@ -49,7 +49,6 @@ function Transfer() {
   const query = useMemo(() => new URLSearchParams(search), [search]);
   const pathSourceChain = query.get("sourceChain");
   const pathTargetChain = query.get("targetChain");
-  console.log(preventNavigation)
 
   //This effect initializes the state based on the path params
   useEffect(() => {

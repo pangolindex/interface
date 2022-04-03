@@ -32,6 +32,7 @@ import { BetaContextProvider } from "./contexts/BetaContext";
 import { EthereumProviderProvider } from "./contexts/EthereumProviderContext";
 import { SolanaWalletProvider } from "./contexts/SolanaWalletContext";
 import { TerraWalletProvider } from "./contexts/TerraWalletContext";
+import ErrorBoundary from "./ErrorBoundary";
 
 Sentry.init({
   dsn: 'https://ff9ffce9712f415f8ad4c2a80123c984@o1080468.ingest.sentry.io/6086371',
@@ -123,6 +124,7 @@ ReactDOM.render(
   <StrictMode>
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
+      <ErrorBoundary>
         <Provider store={store}>
           <SnackbarProvider maxSnack={3}>
             <BetaContextProvider>
@@ -141,6 +143,7 @@ ReactDOM.render(
             </BetaContextProvider>
           </SnackbarProvider>
         </Provider>
+        </ErrorBoundary>
       </Web3ProviderNetwork>
     </Web3ReactProvider>
   </StrictMode>,
@@ -150,7 +153,6 @@ ReactDOM.render(
 
 // ReactDOM.render(
 //   <Provider store={store}>
-//     <ThemeProvider theme={theme}>
 //       <CssBaseline />
 //         <SnackbarProvider maxSnack={3}>
 //           <BetaContextProvider>
@@ -158,7 +160,6 @@ ReactDOM.render(
 //               <EthereumProviderProvider>
 //                 <TerraWalletProvider>
 //                   <HashRouter>
-//                     <BackgroundImage />
 //                     <App />
 //                   </HashRouter>
 //                 </TerraWalletProvider>
@@ -166,7 +167,6 @@ ReactDOM.render(
 //             </SolanaWalletProvider>
 //           </BetaContextProvider>
 //         </SnackbarProvider>
-//     </ThemeProvider>
 //   </Provider>,
 
 //   document.getElementById("root")
