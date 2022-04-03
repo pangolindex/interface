@@ -1,10 +1,16 @@
 import React from 'react'
-import { Text, Box, DoubleCurrencyLogo, Button } from '@pangolindex/components'
+import {
+  Text,
+  Box,
+  DoubleCurrencyLogo,
+  Button,
+  useGelatoLimitOrderDetail,
+  LimitOrderInfo
+} from '@pangolindex/components'
 import { Currency } from '@pangolindex/sdk'
 import { SelectedCoinInfo, StatWrapper } from './styleds'
 import { useTranslation } from 'react-i18next'
 import Stat from 'src/components/Stat'
-import { useGelatoLimitOrderDetail, LimitOrderInfo } from 'src/state/swap/hooks'
 
 type Props = {
   order: LimitOrderInfo

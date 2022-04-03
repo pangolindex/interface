@@ -13,7 +13,7 @@ import wyre from './wyre/reducer'
 import watchlists from './watchlists/reducer'
 import token from './token/reducer'
 import pair from './pair/reducer'
-import { gelatoReducers, GELATO_PERSISTED_KEYS } from '@gelatonetwork/limit-orders-react'
+import { pangolinReducers, PANGOLIN_PERSISTED_KEYS } from '@pangolindex/components'
 
 import attestReducer from "../store/attestSlice";
 import nftReducer from "../store/nftSlice";
@@ -21,7 +21,7 @@ import transferReducer from "../store/transferSlice";
 import tokenReducer from "../store/tokenSlice";
 import feeReducer from "../store/feeSlice";
 
-const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'watchlists', ...GELATO_PERSISTED_KEYS]
+const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'watchlists', ...PANGOLIN_PERSISTED_KEYS]
 
 export const store = configureStore({
   reducer: {
@@ -42,7 +42,7 @@ export const store = configureStore({
     transfer: transferReducer,
     tokens: tokenReducer,
     fee: feeReducer,
-    ...gelatoReducers
+    ...pangolinReducers
   },
   middleware: [...getDefaultMiddleware({ thunk: false }), save({ states: PERSISTED_KEYS })],
   preloadedState: load({ states: PERSISTED_KEYS })
@@ -54,6 +54,5 @@ export default store
 
 export type AppState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
-
 
 export type RootState = ReturnType<typeof store.getState>;
