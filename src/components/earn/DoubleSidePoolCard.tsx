@@ -155,7 +155,7 @@ export default function DoubleSidePoolCard({
             </StyledInternalLink>
           ) : null}
 
-          {(true || isStaking || !stakingInfo.isPeriodFinished) && (
+          {(isStaking || !stakingInfo.isPeriodFinished) && (
             <StyledInternalLink
               to={`/png/${currencyId(currency0, chainId)}/${currencyId(currency1, chainId)}/${version}`}
               style={{ width: '100%' }}
