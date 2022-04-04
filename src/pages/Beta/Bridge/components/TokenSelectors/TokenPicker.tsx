@@ -121,7 +121,10 @@ const useStyles = makeStyles(theme =>
     },
     grower: {
       flexGrow: 1
-    }
+    },
+    textFieldColor: {
+      color: "white",
+    },
   })
 )
 
@@ -471,7 +474,7 @@ export default function TokenPicker({
         </div>
       </DialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <Alert severity="info">
+        <Alert severity="info" style={{backgroundColor: "#212427", color: "white"}}>
           You should always check for markets and liquidity before sending tokens.{' '}
           <Link href={AVAILABLE_MARKETS_URL} target="_blank" rel="noopener noreferrer">
             Click here to see available markets for wrapped tokens.
@@ -484,7 +487,7 @@ export default function TokenPicker({
           onChange={event => setHolderString(event.target.value)}
           fullWidth
           margin="normal"
-          style={{color: "white"}}
+          className={classes.textFieldColor}
         />
         {useTokenId ? (
           <TextField
@@ -494,6 +497,7 @@ export default function TokenPicker({
             onChange={event => setTokenIdHolderString(event.target.value)}
             fullWidth
             margin="normal"
+            style={{color: "white"}}
           />
         ) : null}
         {isLocalLoading || showLoader ? (
@@ -504,7 +508,7 @@ export default function TokenPicker({
           <List component="div" className={classes.tokenList}>
             {featuredOptions.length ? (
               <>
-                <Typography variant="subtitle2" gutterBottom>
+                <Typography variant="subtitle2" gutterBottom style={{color: "white"}}>
                   Featured {CHAINS_BY_ID[chainId].name} &gt; {CHAINS_BY_ID[targetChain].name} markets{' '}
                   <Tooltip
                     title={`Markets for these ${CHAINS_BY_ID[chainId].name} tokens exist for the corresponding tokens on ${CHAINS_BY_ID[targetChain].name}`}
@@ -576,7 +580,7 @@ export default function TokenPicker({
           <RenderOption account={value} />
         ) : (
           <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">
-            Select a tokens
+            Select a token
           </Text>
           // <Typography color="primary">Select a tokens</Typography>
         )}

@@ -149,7 +149,7 @@ function Source() {
         </div>
       </StepDescription>
       <div className={classes.chainSelectWrapper} style={{ marginBottom: '25px' }}>
-          <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10" paddingTop='5px' paddingBottom='5px'>
+          <Text fontSize={17} fontWeight={500} lineHeight="12px" color="text10" paddingTop='5px' paddingBottom='5px' >
             Origin
           </Text>
         <div className={classes.chainSelectContainer}>
@@ -171,7 +171,7 @@ function Source() {
             disabled={shouldLockFields}
           />
         </div>
-          <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10" paddingTop='5px' paddingBottom='5px'>
+          <Text fontSize={17} fontWeight={500} lineHeight="12px" color="text10" paddingTop='5px' paddingBottom='5px'>
             Destination
           </Text>
         <div className={classes.chainSelectContainer}>

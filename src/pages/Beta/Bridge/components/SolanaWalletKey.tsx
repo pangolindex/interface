@@ -24,11 +24,12 @@ const SolanaWalletKey = () => {
   const wallet = useSolanaWallet();
   return (
     <div className={classes.root}>
-      <WalletMultiButton />
+      <WalletMultiButton style={{backgroundColor: "#FFC800", color: "black"}} />
       {wallet && (
         <WalletDisconnectButton
           startIcon={<DisconnectIcon />}
           className={classes.disconnectButton}
+          style={{backgroundColor: "#FF0000", color: "black"}}
         />
       )}
     </div>

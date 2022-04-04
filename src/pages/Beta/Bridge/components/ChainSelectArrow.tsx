@@ -22,6 +22,7 @@ export default function ChainSelectArrow({
         setShowSwap(false);
       }}
       disabled={disabled}
+      style={{color: "white"}}
     >
       {showSwap ? <SwapHoriz /> : <ArrowForward />}
     </IconButton>

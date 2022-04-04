@@ -170,7 +170,6 @@
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@metamask/detect-provider": "^1.2.0",
     "@project-serum/serum": "^0.13.60",
-    "@reduxjs/toolkit": "^1.6.1",
     "@sentry/react": "^6.17.4",
     "@sentry/tracing": "^6.17.4",
     "@solana/spl-token": "^0.1.6",
