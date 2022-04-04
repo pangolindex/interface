@@ -70,6 +70,15 @@ const CurrencyPopover: React.FC<Props> = ({
     if (searchToken) return [searchToken]
     const sorted = filteredTokens.sort(tokenComparator)
 
+    // if avax in sorted tokens, move it to the top
+    const containAvax = sorted.some(token => token.symbol === 'WAVAX')
+    if (containAvax) {
+      const avaxIndex = sorted.findIndex(token => token.symbol === 'WAVAX')
+      const avax = filteredTokens[avaxIndex]
+      sorted.splice(avaxIndex, 1)
+      sorted.unshift(avax)
+    }
+
     const symbolMatch = searchQuery
       .toLowerCase()
       .split(/\s+/)
