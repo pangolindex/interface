@@ -37,14 +37,22 @@ function getTokenComparator(balances: {
   }
 }
 
-export function useTokenComparator(inverted: boolean): (tokenA: Token, tokenB: Token) => number {
+export function useTokenComparator(inverted: boolean, firstToken?: Token): (tokenA: Token, tokenB: Token) => number {
   const balances = useAllTokenBalances()
   const comparator = useMemo(() => getTokenComparator(balances ?? {}), [balances])
   return useMemo(() => {
+    // if firstToken add firstToken in top of array
+    if (firstToken) {
+      return (tokenA: Token, tokenB: Token) => {
+        if (tokenA.address === firstToken.address) return -1
+        if (tokenB.address === firstToken.address) return 1
+        return comparator(tokenA, tokenB) * (inverted ? -1 : 1)
+      }
+    }
     if (inverted) {
       return (tokenA: Token, tokenB: Token) => comparator(tokenA, tokenB) * -1
     } else {
       return comparator
     }
-  }, [inverted, comparator])
+  }, [inverted, firstToken, comparator])
 }

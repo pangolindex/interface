@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Box, TextInput } from '@pangolindex/components'
 import { useToken } from 'src/hooks/Tokens'
 import { useTokenComparator } from 'src/components/SearchModal/sorting'
-import { Currency, Token, CAVAX, ChainId } from '@pangolindex/sdk'
+import { Currency, Token, CAVAX, ChainId, WAVAX } from '@pangolindex/sdk'
 import { filterTokens } from 'src/components/SearchModal/filtering'
 import { AddInputWrapper, PopoverContainer, CurrencyList } from './styled'
 import CurrencyRow from './CurrencyRow'
@@ -59,7 +59,7 @@ const CurrencyPopover: React.FC<Props> = ({
   const isAddressSearch = isAddress(searchQuery)
   const searchToken = useToken(searchQuery)
 
-  const tokenComparator = useTokenComparator(invertSearchOrder)
+  const tokenComparator = useTokenComparator(invertSearchOrder, WAVAX[useChainId()])
 
   const filteredTokens: Token[] = useMemo(() => {
     if (isAddressSearch) return searchToken ? [searchToken] : []
@@ -69,15 +69,6 @@ const CurrencyPopover: React.FC<Props> = ({
   const filteredSortedTokens: Token[] = useMemo(() => {
     if (searchToken) return [searchToken]
     const sorted = filteredTokens.sort(tokenComparator)
-
-    // if avax in sorted tokens, move it to the top
-    const containAvax = sorted.some(token => token.symbol === 'WAVAX')
-    if (containAvax) {
-      const avaxIndex = sorted.findIndex(token => token.symbol === 'WAVAX')
-      const avax = filteredTokens[avaxIndex]
-      sorted.splice(avaxIndex, 1)
-      sorted.unshift(avax)
-    }
 
     const symbolMatch = searchQuery
       .toLowerCase()
