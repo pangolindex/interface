@@ -38,6 +38,7 @@ import MobileFooter from '../MobileFooter'
 import { Logo } from '../../components/Icons'
 import { Hidden } from 'src/theme'
 import { useChainId } from 'src/hooks'
+import NetworkSelection from './NetworkSelection'
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: 'Fuji',
@@ -61,6 +62,7 @@ export default function Header() {
   const aggregateBalance: TokenAmount | undefined = useAggregatePngBalance()
 
   const [showPngBalanceModal, setShowPngBalanceModal] = useState(false)
+  const [openNetworkSelection, setOpenNetworkSelection] = useState(false)
 
   const countUpValue = aggregateBalance?.toFixed(0) ?? '0'
   const countUpValuePrevious = usePrevious(countUpValue) ?? '0'
@@ -70,6 +72,10 @@ export default function Header() {
   useOnClickOutside(node, open ? toggle : undefined)
 
   const [isDark, toggleDarkMode] = useDarkModeManager()
+
+  const closeNetworkSelection = () => {
+    setOpenNetworkSelection(false)
+  }
 
   return (
     <HeaderFrame>
@@ -107,8 +113,14 @@ export default function Header() {
             </Button>
           </LegacyButtonWrapper>
           <Hidden upToSmall={true}>
-            {NETWORK_LABELS[chainId] && (
-              <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
+            <NetworkSelection open={openNetworkSelection} closeModal={closeNetworkSelection} />
+            {chainId && NETWORK_LABELS[chainId] && (
+              <NetworkCard
+                title={NETWORK_LABELS[chainId]}
+                onClick={() => setOpenNetworkSelection(!openNetworkSelection)}
+              >
+                {NETWORK_LABELS[chainId]}
+              </NetworkCard>
             )}
           </Hidden>
           {aggregateBalance && (
