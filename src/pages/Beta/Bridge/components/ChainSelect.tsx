@@ -1,8 +1,8 @@
 import React from 'react'
 import {
   ListItemIcon,
-  ListItemText,
   makeStyles,
+  ListItemText,
   MenuItem,
   OutlinedTextFieldProps,
   TextField,
@@ -11,9 +11,12 @@ import clsx from "clsx";
 import { useMemo } from "react";
 import { useBetaContext } from "src/contexts/BetaContext";
 import { BETA_CHAINS, ChainInfo } from "src/utils/bridgeUtils/consts";
+import { Text } from '@pangolindex/components'
 
 const useStyles = makeStyles((theme) => ({
   select: {
+    paddingTop: 0,
+    paddingBottom: 0,
     "& .MuiSelect-root": {
       display: "flex",
       alignItems: "center",
@@ -26,15 +29,29 @@ const useStyles = makeStyles((theme) => ({
     height: 24,
     maxWidth: 24,
   },
+  listItemColor: {
+    display: 'flex',
+    alignItems: "center",
+    padding: "8px",
+    cursor: 'pointer',
+    backgroundColor: "#1c1c1c",
+
+    "&:hover": {
+      backgroundColor: "#212427",
+    },
+  },
 }));
 
 const createChainMenuItem = ({ id, name, logo }: ChainInfo, classes: any) => (
-  <MenuItem key={id} value={id}>
+  <div key={id} value={id} className={classes.listItemColor} >
     <ListItemIcon className={classes.listItemIcon}>
       <img src={logo} alt={name} className={classes.icon} />
     </ListItemIcon>
-    <ListItemText>{name}</ListItemText>
-  </MenuItem>
+    {/* <ListItemText>{name}</ListItemText> */}
+    <Text fontSize={20} fontWeight={500} lineHeight="12px" color="text10">
+    {name}
+   </Text>
+  </div>
 );
 
 interface ChainSelectProps extends OutlinedTextFieldProps {
