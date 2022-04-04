@@ -2,7 +2,7 @@ import { ChainId, JSBI, Percent, Token, WAVAX } from '@pangolindex/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
 import { gnosisSafe, injected, walletconnect, walletlink } from '../connectors'
-import { DAIe, PNG, USDC, USDCe, USDTe, UST } from './tokens'
+import { DAIe, PNG, USDC, USDCe, USDTe, axlUST } from './tokens'
 
 export const GAS_PRICE = 225
 
@@ -63,7 +63,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     USDTe[ChainId.AVALANCHE],
     DAIe[ChainId.AVALANCHE],
     USDCe[ChainId.AVALANCHE],
-    UST[ChainId.AVALANCHE],
+    axlUST[ChainId.AVALANCHE],
     USDC[ChainId.AVALANCHE]
   ],
   [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI], PNG[ChainId.WAGMI]]
@@ -101,15 +101,15 @@ export const TRUSTED_TOKEN_ADDRESSES: { readonly [chainId in ChainId]: string[] 
 export const SWAP_DEFAULT_CURRENCY = {
   [ChainId.AVALANCHE]: {
     inputCurrency: 'AVAX',
-    outputCurrnecy: UST[ChainId.AVALANCHE].address
+    outputCurrency: axlUST[ChainId.AVALANCHE].address
   },
   [ChainId.FUJI]: {
     inputCurrency: '',
-    outputCurrnecy: ''
+    outputCurrency: ''
   },
   [ChainId.WAGMI]: {
     inputCurrency: '',
-    outputCurrnecy: ''
+    outputCurrency: ''
   }
 }
 
