@@ -59,7 +59,7 @@ const CurrencyPopover: React.FC<Props> = ({
   const isAddressSearch = isAddress(searchQuery)
   const searchToken = useToken(searchQuery)
 
-  const tokenComparator = useTokenComparator(invertSearchOrder, WAVAX[chainId])
+  const tokenComparator = useTokenComparator(invertSearchOrder, [WAVAX[chainId]])
 
   const filteredTokens: Token[] = useMemo(() => {
     if (isAddressSearch) return searchToken ? [searchToken] : []
