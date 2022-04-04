@@ -1,6 +1,7 @@
 import React from 'react'
 import { ClaimBox, StyledLogo, Separator } from '../../styleds'
 import { Text, Button } from '@pangolindex/components'
+import { CHAINS, ChainId } from '@pangolindex/sdk'
 import WgmLogo from 'src/assets/images/wgmlogo.png'
 
 type IChangeChain = {
@@ -26,7 +27,7 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
               {
                 chainId: '0x2B67',
                 chainName: 'WAGMI',
-                rpcUrls: ['https://api-wagmi.avax-test.network/rpc'],
+                rpcUrls: [CHAINS[ChainId.AVALANCHE].rpc_uri],
                 nativeCurrency: {
                   name: 'WGM',
                   symbol: 'WGM',

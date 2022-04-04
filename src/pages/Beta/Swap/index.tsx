@@ -1,12 +1,12 @@
 import React from 'react'
 import { PageWrapper, GridContainer, TopContainer, StatsWrapper } from './styleds'
 import { useGelatoLimitOrderList, SwapWidget } from '@pangolindex/components'
+import { CHAINS } from '@pangolindex/sdk'
 import MyPortfolio from './MyPortfolio'
 import WatchList from './WatchList'
 import PairInfo from './PairInfo'
 import { RedirectContext } from './WatchList/CoinChart'
 import LimitOrderList from './LimitOrderList'
-import { CHAINS } from 'src/constants/chains'
 import { useChainId } from 'src/hooks'
 
 const SwapUI = () => {
@@ -23,7 +23,7 @@ const SwapUI = () => {
         <SwapWidget isLimitOrderVisible={true} />
       </TopContainer>
 
-      {CHAINS[chainId].is_mainnet && (
+      {CHAINS[chainId].mainnet && (
         <GridContainer isLimitOrders={isLimitOrders}>
           {isLimitOrders && <LimitOrderList />}
           <MyPortfolio isLimitOrders={isLimitOrders} />

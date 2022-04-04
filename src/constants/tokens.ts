@@ -1,19 +1,19 @@
-import { ChainId, Token } from '@pangolindex/sdk'
+import { ChainId, Token, CHAINS } from '@pangolindex/sdk'
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 export const PNG: { [chainId in ChainId]: Token } = {
-  [ChainId.FUJI]: new Token(ChainId.FUJI, '0x83080D4b5fC60e22dFFA8d14AD3BB41Dde48F199', 18, 'PNG', 'Pangolin'),
+  [ChainId.FUJI]: new Token(ChainId.FUJI, CHAINS[ChainId.FUJI].contracts!.png, 18, 'PNG', 'Pangolin'),
   [ChainId.AVALANCHE]: new Token(
     ChainId.AVALANCHE,
-    '0x60781C2586D68229fde47564546784ab3fACA982',
+    CHAINS[ChainId.AVALANCHE].contracts!.png,
     18,
     'PNG',
     'Pangolin'
   ),
   [ChainId.WAGMI]: new Token(
     ChainId.WAGMI,
-    '0x25dbCAb8709E6222d74a56bD0184fc41439806CE',
+    CHAINS[ChainId.WAGMI].contracts!.png,
     18,
     'wagmiPNG',
     'Wagmi Pangolin'
