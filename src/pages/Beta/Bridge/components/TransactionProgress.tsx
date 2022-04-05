@@ -8,11 +8,10 @@ import {
   isEVMChain,
 } from "@certusone/wormhole-sdk";
 import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
-import { Connection } from "@solana/web3.js";
 import { useEffect, useState } from "react";
 import { useEthereumProvider } from "src/contexts/EthereumProviderContext";
 import { Transaction } from "src/store/transferSlice";
-import { CHAINS_BY_ID, SOLANA_HOST } from "src/utils/bridgeUtils/consts";
+import { CHAINS_BY_ID} from "src/utils/bridgeUtils/consts";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,19 +56,6 @@ export default function TransactionProgress({
         cancelled = true;
       };
     }
-    if (chainId === CHAIN_ID_SOLANA) {
-      let cancelled = false;
-      const connection = new Connection(SOLANA_HOST, "confirmed");
-      const sub = connection.onSlotChange((slotInfo) => {
-        if (!cancelled) {
-          setCurrentBlock(slotInfo.slot);
-        }
-      });
-      return () => {
-        cancelled = true;
-        connection.removeSlotChangeListener(sub);
-      };
-    }
     return ;
   }, [isSendComplete, chainId, provider, tx]);
   const blockDiff =
@@ -86,7 +72,7 @@ export default function TransactionProgress({
       : 1;
   if (
     !isSendComplete &&
-    (chainId === CHAIN_ID_SOLANA || isEVMChain(chainId)) &&
+    (isEVMChain(chainId)) &&
     blockDiff !== undefined
   ) {
     return (

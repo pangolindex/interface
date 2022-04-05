@@ -3,20 +3,14 @@ import {
   ChainId,
   CHAIN_ID_ACALA,
   CHAIN_ID_KARURA,
-  CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
   createWrappedOnEth,
-  createWrappedOnSolana,
   createWrappedOnTerra,
   isEVMChain,
-  postVaaSolanaWithRetry,
   updateWrappedOnEth,
-  updateWrappedOnSolana,
   updateWrappedOnTerra,
 } from "@certusone/wormhole-sdk";
 import { Alert } from "@material-ui/lab";
-import { WalletContextState } from "@solana/wallet-adapter-react";
-import { Connection } from "@solana/web3.js";
 import {
   ConnectedWallet,
   useConnectedWallet,
@@ -26,7 +20,6 @@ import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEthereumProvider } from "src/contexts/EthereumProviderContext";
-import { useSolanaWallet } from "src/contexts/SolanaWalletContext";
 import { setCreateTx, setIsCreating } from "src/store/attestSlice";
 import {
   selectAttestIsCreating,
@@ -37,15 +30,10 @@ import {
   ACALA_HOST,
   getTokenBridgeAddressForChain,
   KARURA_HOST,
-  MAX_VAA_UPLOAD_RETRIES_SOLANA,
-  SOLANA_HOST,
-  SOL_BRIDGE_ADDRESS,
-  SOL_TOKEN_BRIDGE_ADDRESS,
   TERRA_TOKEN_BRIDGE_ADDRESS,
 } from "src/utils/bridgeUtils/consts";
 import { getKaruraGasParams } from "src/utils/bridgeUtils/karura";
 import parseError from "src/utils/bridgeUtils/parseError";
-import { signSendAndConfirm } from "src/utils/bridgeUtils/solana";
 import { postWithFees } from "src/utils/bridgeUtils/terra";
 import useAttestSignedVAA from "./useAttestSignedVAA";
 
@@ -82,57 +70,6 @@ async function evm(
     dispatch(
       setCreateTx({ id: receipt.transactionHash, block: receipt.blockNumber })
     );
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
-    });
-  } catch (e) {
-    enqueueSnackbar(null, {
-      content: <Alert severity="error">{parseError(e)}</Alert>,
-    });
-    dispatch(setIsCreating(false));
-  }
-}
-
-async function solana(
-  dispatch: any,
-  enqueueSnackbar: any,
-  wallet: WalletContextState,
-  payerAddress: string, // TODO: we may not need this since we have wallet
-  signedVAA: Uint8Array,
-  shouldUpdate: boolean
-) {
-  dispatch(setIsCreating(true));
-  try {
-    if (!wallet.signTransaction) {
-      throw new Error("wallet.signTransaction is undefined");
-    }
-    const connection = new Connection(SOLANA_HOST, "confirmed");
-    await postVaaSolanaWithRetry(
-      connection,
-      wallet.signTransaction,
-      SOL_BRIDGE_ADDRESS,
-      payerAddress,
-      Buffer.from(signedVAA),
-      MAX_VAA_UPLOAD_RETRIES_SOLANA
-    );
-    const transaction = shouldUpdate
-      ? await updateWrappedOnSolana(
-          connection,
-          SOL_BRIDGE_ADDRESS,
-          SOL_TOKEN_BRIDGE_ADDRESS,
-          payerAddress,
-          signedVAA
-        )
-      : await createWrappedOnSolana(
-          connection,
-          SOL_BRIDGE_ADDRESS,
-          SOL_TOKEN_BRIDGE_ADDRESS,
-          payerAddress,
-          signedVAA
-        );
-    const txid = await signSendAndConfirm(wallet, connection, transaction);
-    // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
-    dispatch(setCreateTx({ id: txid, block: 1 }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
@@ -189,8 +126,6 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectAttestTargetChain);
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
   const signedVAA = useAttestSignedVAA();
   const isCreating = useSelector(selectAttestIsCreating);
   const { signer } = useEthereumProvider();
@@ -204,20 +139,6 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
         signer,
         signedVAA,
         targetChain,
-        shouldUpdate
-      );
-    } else if (
-      targetChain === CHAIN_ID_SOLANA &&
-      !!solanaWallet &&
-      !!solPK &&
-      !!signedVAA
-    ) {
-      solana(
-        dispatch,
-        enqueueSnackbar,
-        solanaWallet,
-        solPK.toString(),
-        signedVAA,
         shouldUpdate
       );
     } else if (targetChain === CHAIN_ID_TERRA && !!terraWallet && !!signedVAA) {
@@ -241,8 +162,6 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
     dispatch,
     enqueueSnackbar,
     targetChain,
-    solanaWallet,
-    solPK,
     terraWallet,
     signedVAA,
     signer,

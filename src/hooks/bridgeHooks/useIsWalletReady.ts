@@ -1,7 +1,6 @@
 /* eslint-disable */
 import {
   ChainId,
-  CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
@@ -9,7 +8,6 @@ import { hexlify, hexStripZeros } from "@ethersproject/bytes";
 import { useConnectedWallet } from "@terra-money/wallet-provider";
 import { useCallback, useMemo } from "react";
 import { useEthereumProvider } from "src/contexts/EthereumProviderContext";
-import { useSolanaWallet } from "src/contexts/SolanaWalletContext";
 import { CLUSTER, getEvmChainId } from "src/utils/bridgeUtils/consts";
 
 const createWalletStatus = (
@@ -34,8 +32,6 @@ function useIsWalletReady(
   forceNetworkSwitch: () => void;
 } {
   const autoSwitch = enableNetworkAutoswitch;
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
   const terraWallet = useConnectedWallet();
   const hasTerraWallet = !!terraWallet;
   const {
@@ -74,14 +70,6 @@ function useIsWalletReady(
         terraWallet.walletAddress
       );
     }
-    if (chainId === CHAIN_ID_SOLANA && solPK) {
-      return createWalletStatus(
-        true,
-        undefined,
-        forceNetworkSwitch,
-        solPK.toString()
-      );
-    }
     if (isEVMChain(chainId) && hasEthInfo && signerAddress) {
       if (hasCorrectEvmNetwork) {
         return createWalletStatus(
@@ -114,7 +102,6 @@ function useIsWalletReady(
     autoSwitch,
     forceNetworkSwitch,
     hasTerraWallet,
-    solPK,
     hasEthInfo,
     correctEvmNetwork,
     hasCorrectEvmNetwork,

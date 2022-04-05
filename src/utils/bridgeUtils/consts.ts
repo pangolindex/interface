@@ -13,7 +13,6 @@ import {
   CHAIN_ID_TERRA,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
-import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
 import acalaIcon from "src/pages/Beta/Bridge/icons/acala.svg";
 import avaxIcon from "src/pages/Beta/Bridge/icons/avax.svg";
@@ -23,7 +22,6 @@ import fantomIcon from "src/pages/Beta/Bridge/icons/fantom.svg";
 import karuraIcon from "src/pages/Beta/Bridge/icons/karura.svg";
 import oasisIcon from "src/pages/Beta/Bridge/icons/oasis-network-rose-logo.svg";
 import polygonIcon from "src/pages/Beta/Bridge/icons/polygon.svg";
-import solanaIcon from "src/pages/Beta/Bridge/icons/solana.svg";
 import terraIcon from "src/pages/Beta/Bridge/icons/terra.svg";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
@@ -71,11 +69,6 @@ export const CHAINS: ChainInfo[] =
           name: "Polygon",
           logo: polygonIcon,
         },
-        // {
-        //   id: CHAIN_ID_SOLANA,
-        //   name: "Solana",
-        //   logo: solanaIcon,
-        // },
         {
           id: CHAIN_ID_TERRA,
           name: "Terra",
@@ -130,11 +123,6 @@ export const CHAINS: ChainInfo[] =
           logo: polygonIcon,
         },
         {
-          id: CHAIN_ID_SOLANA,
-          name: "Solana",
-          logo: solanaIcon,
-        },
-        {
           id: CHAIN_ID_TERRA,
           name: "Terra",
           logo: terraIcon,
@@ -152,11 +140,6 @@ export const CHAINS: ChainInfo[] =
           logo: ethIcon,
         },
         {
-          id: CHAIN_ID_SOLANA,
-          name: "Solana",
-          logo: solanaIcon,
-        },
-        {
           id: CHAIN_ID_TERRA,
           name: "Terra",
           logo: terraIcon,
@@ -171,7 +154,6 @@ export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
     id === CHAIN_ID_ETHEREUM_ROPSTEN ||
     id === CHAIN_ID_POLYGON ||
     id === CHAIN_ID_OASIS ||
-    id === CHAIN_ID_SOLANA ||
     id === CHAIN_ID_FANTOM ||
     id === CHAIN_ID_KARURA ||
     id === CHAIN_ID_ACALA
@@ -184,9 +166,7 @@ export const CHAINS_BY_ID: ChainsById = CHAINS.reduce((obj, chain) => {
 
 export const COMING_SOON_CHAINS: ChainInfo[] = [];
 export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
-  chainId === CHAIN_ID_SOLANA
-    ? "SOL"
-    : chainId === CHAIN_ID_ETH || chainId === CHAIN_ID_ETHEREUM_ROPSTEN
+  chainId === CHAIN_ID_ETH || chainId === CHAIN_ID_ETHEREUM_ROPSTEN
     ? "ETH"
     : chainId === CHAIN_ID_BSC
     ? "BNB"
@@ -270,13 +250,6 @@ export const getEvmChainId = (chainId: ChainId) =>
     : chainId === CHAIN_ID_ACALA
     ? ACALA_NETWORK_CHAIN_ID
     : undefined;
-export const SOLANA_HOST = process.env.REACT_APP_SOLANA_API_URL
-  ? process.env.REACT_APP_SOLANA_API_URL
-  : CLUSTER === "mainnet"
-  ? clusterApiUrl("mainnet-beta")
-  : CLUSTER === "testnet"
-  ? clusterApiUrl("devnet")
-  : "http://localhost:8899";
 
 export const TERRA_HOST =
   CLUSTER === "mainnet"
@@ -536,9 +509,7 @@ export const TERRA_TOKEN_BRIDGE_ADDRESS =
     : "terra10pyejy66429refv3g35g2t7am0was7ya7kz2a4";
 
 export const getBridgeAddressForChain = (chainId: ChainId) =>
-  chainId === CHAIN_ID_SOLANA
-    ? SOL_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_ETH
+  chainId === CHAIN_ID_ETH
     ? ETH_BRIDGE_ADDRESS
     : chainId === CHAIN_ID_BSC
     ? BSC_BRIDGE_ADDRESS
@@ -560,9 +531,7 @@ export const getBridgeAddressForChain = (chainId: ChainId) =>
     ? ACALA_BRIDGE_ADDRESS
     : "";
 export const getNFTBridgeAddressForChain = (chainId: ChainId) =>
-  chainId === CHAIN_ID_SOLANA
-    ? SOL_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_ETH
+  chainId === CHAIN_ID_ETH
     ? ETH_NFT_BRIDGE_ADDRESS
     : chainId === CHAIN_ID_BSC
     ? BSC_NFT_BRIDGE_ADDRESS
@@ -582,9 +551,7 @@ export const getNFTBridgeAddressForChain = (chainId: ChainId) =>
     ? ACALA_NFT_BRIDGE_ADDRESS
     : "";
 export const getTokenBridgeAddressForChain = (chainId: ChainId) =>
-  chainId === CHAIN_ID_SOLANA
-    ? SOL_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_ETH
+  chainId === CHAIN_ID_ETH
     ? ETH_TOKEN_BRIDGE_ADDRESS
     : chainId === CHAIN_ID_BSC
     ? BSC_TOKEN_BRIDGE_ADDRESS
@@ -716,12 +683,6 @@ export const WORMHOLE_V1_ETH_ADDRESS =
     : CLUSTER === "testnet"
     ? "0xdae0Cba01eFc4bfEc1F7Fece73Fe8b8d2Eda65B0"
     : "0xf92cD566Ea4864356C5491c177A430C222d7e678"; //TODO something that doesn't explode in localhost
-export const WORMHOLE_V1_SOLANA_ADDRESS =
-  CLUSTER === "mainnet"
-    ? "WormT3McKhFJ2RkiGpdw9GKvNCrB2aB54gb2uV9MfQC"
-    : CLUSTER === "testnet"
-    ? "BrdgiFmZN3BKkcY3danbPYyxPKwb8RhQzpM2VY5L97ED"
-    : "";
 
 export const TERRA_TOKEN_METADATA_URL =
   "https://assets.terra.money/cw20/tokens.json";
@@ -943,8 +904,6 @@ export const getMigrationAssetMap = (chainId: ChainId) => {
     return BSC_MIGRATION_ASSET_MAP;
   } else if (chainId === CHAIN_ID_ETH) {
     return ETH_MIGRATION_ASSET_MAP;
-  } else if (chainId === CHAIN_ID_SOLANA) {
-    return MIGRATION_ASSET_MAP;
   } else {
     return new Map<string, string>();
   }
@@ -1044,9 +1003,7 @@ export const getHowToAddTokensToWalletUrl = (chainId: ChainId) => {
 };
 
 export const getHowToAddToTokenListUrl = (chainId: ChainId) => {
-  if (chainId === CHAIN_ID_SOLANA) {
-    return "https://github.com/solana-labs/token-list";
-  } else if (chainId === CHAIN_ID_TERRA) {
+  if (chainId === CHAIN_ID_TERRA) {
     return "https://github.com/terra-money/assets";
   }
   return "";

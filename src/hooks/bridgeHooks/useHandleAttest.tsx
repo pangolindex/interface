@@ -1,23 +1,17 @@
 import React from 'react'
 import {
   attestFromEth,
-  attestFromSolana,
   attestFromTerra,
   ChainId,
-  CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
   getEmitterAddressEth,
-  getEmitterAddressSolana,
   getEmitterAddressTerra,
   isEVMChain,
   parseSequenceFromLogEth,
-  parseSequenceFromLogSolana,
   parseSequenceFromLogTerra,
   uint8ArrayToHex,
 } from "@certusone/wormhole-sdk";
 import { Alert } from "@material-ui/lab";
-import { WalletContextState } from "@solana/wallet-adapter-react";
-import { Connection, PublicKey } from "@solana/web3.js";
 import {
   ConnectedWallet,
   useConnectedWallet,
@@ -27,7 +21,6 @@ import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEthereumProvider } from "src/contexts/EthereumProviderContext";
-import { useSolanaWallet } from "src/contexts/SolanaWalletContext";
 import {
   setAttestTx,
   setIsSending,
@@ -44,14 +37,10 @@ import {
 import {
   getBridgeAddressForChain,
   getTokenBridgeAddressForChain,
-  SOLANA_HOST,
-  SOL_BRIDGE_ADDRESS,
-  SOL_TOKEN_BRIDGE_ADDRESS,
   TERRA_TOKEN_BRIDGE_ADDRESS,
 } from "src/utils/bridgeUtils/consts";
 import { getSignedVAAWithRetry } from "src/utils/bridgeUtils/getSignedVAAWithRetry";
 import parseError from "src/utils/bridgeUtils/parseError";
-import { signSendAndConfirm } from "src/utils/bridgeUtils/solana";
 import { postWithFees, waitForTerraExecution } from "src/utils/bridgeUtils/terra";
 
 async function evm(
@@ -86,58 +75,6 @@ async function evm(
     });
     const { vaaBytes } = await getSignedVAAWithRetry(
       chainId,
-      emitterAddress,
-      sequence
-    );
-    dispatch(setSignedVAAHex(uint8ArrayToHex(vaaBytes)));
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Fetched Signed VAA</Alert>,
-    });
-  } catch (e) {
-    console.error(e);
-    enqueueSnackbar(null, {
-      content: <Alert severity="error">{parseError(e)}</Alert>,
-    });
-    dispatch(setIsSending(false));
-  }
-}
-
-async function solana(
-  dispatch: any,
-  enqueueSnackbar: any,
-  solPK: PublicKey,
-  sourceAsset: string,
-  wallet: WalletContextState
-) {
-  dispatch(setIsSending(true));
-  try {
-    const connection = new Connection(SOLANA_HOST, "confirmed");
-    const transaction = await attestFromSolana(
-      connection,
-      SOL_BRIDGE_ADDRESS,
-      SOL_TOKEN_BRIDGE_ADDRESS,
-      solPK.toString(),
-      sourceAsset
-    );
-    const txid = await signSendAndConfirm(wallet, connection, transaction);
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
-    });
-    const info = await connection.getTransaction(txid);
-    if (!info) {
-      // TODO: error state
-      throw new Error("An error occurred while fetching the transaction info");
-    }
-    dispatch(setAttestTx({ id: txid, block: info.slot }));
-    const sequence = parseSequenceFromLogSolana(info);
-    const emitterAddress = await getEmitterAddressSolana(
-      SOL_TOKEN_BRIDGE_ADDRESS
-    );
-    enqueueSnackbar(null, {
-      content: <Alert severity="info">Fetching VAA</Alert>,
-    });
-    const { vaaBytes } = await getSignedVAAWithRetry(
-      CHAIN_ID_SOLANA,
       emitterAddress,
       sequence
     );
@@ -213,16 +150,12 @@ export function useHandleAttest() {
   const isSending = useSelector(selectAttestIsSending);
   const isSendComplete = useSelector(selectAttestIsSendComplete);
   const { signer } = useEthereumProvider();
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const disabled = !isTargetComplete || isSending || isSendComplete;
   const handleAttestClick = useCallback(() => {
     if (isEVMChain(sourceChain) && !!signer) {
       evm(dispatch, enqueueSnackbar, signer, sourceAsset, sourceChain);
-    } else if (sourceChain === CHAIN_ID_SOLANA && !!solanaWallet && !!solPK) {
-      solana(dispatch, enqueueSnackbar, solPK, sourceAsset, solanaWallet);
     } else if (sourceChain === CHAIN_ID_TERRA && !!terraWallet) {
       terra(dispatch, enqueueSnackbar, terraWallet, sourceAsset, terraFeeDenom);
     } else {
@@ -232,8 +165,6 @@ export function useHandleAttest() {
     enqueueSnackbar,
     sourceChain,
     signer,
-    solanaWallet,
-    solPK,
     terraWallet,
     sourceAsset,
     terraFeeDenom,

@@ -1,5 +1,4 @@
 import {
-  CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
   hexToNativeString,
   isEVMChain,
@@ -32,10 +31,6 @@ import ChainSelect from "../ChainSelect";
 import KeyAndBalance from "../KeyAndBalance";
 import LowBalanceWarning from "../LowBalanceWarning";
 import SmartAddress from "../SmartAddress";
-import SolanaCreateAssociatedAddress, {
-  useAssociatedAccountExistsState,
-} from "../SolanaCreateAssociatedAddress";
-import SolanaTPSWarning from "../SolanaTPSWarning";
 import StepDescription from "../StepDescription";
 import RegisterNowButton from "./RegisterNowButton";
 
@@ -101,12 +96,6 @@ function Target() {
   const shouldLockFields = useSelector(selectTransferShouldLockFields);
   const { statusMessage } = useIsWalletReady(targetChain);
   const isLoading = !statusMessage && !targetAssetError && !data;
-  const { associatedAccountExists, setAssociatedAccountExists } =
-    useAssociatedAccountExistsState(
-      targetChain,
-      targetAsset,
-      readableTargetAddress
-    );
   useSyncTargetAddress(!shouldLockFields);
   const handleTargetChange = useCallback(
     (event) => {
@@ -161,14 +150,6 @@ function Target() {
           </div>
         </>
       ) : null}
-      {targetChain === CHAIN_ID_SOLANA && targetAsset ? (
-        <SolanaCreateAssociatedAddress
-          mintAddress={targetAsset}
-          readableTargetAddress={readableTargetAddress}
-          associatedAccountExists={associatedAccountExists}
-          setAssociatedAccountExists={setAssociatedAccountExists}
-        />
-      ) : null}
       <Alert severity="info" variant="outlined" className={classes.alert}>
         <Typography>
           You will have to pay transaction fees on{" "}
@@ -179,9 +160,8 @@ function Target() {
         )}
       </Alert>
       <LowBalanceWarning chainId={targetChain} />
-      {targetChain === CHAIN_ID_SOLANA && <SolanaTPSWarning />}
       <ButtonWithLoader
-        disabled={!isTargetComplete || !associatedAccountExists}
+        disabled={!isTargetComplete}
         onClick={handleNextClick}
         showLoader={isLoading}
         error={

@@ -1,12 +1,11 @@
 import React from "react";
-import { CHAIN_ID_SOLANA, CHAIN_ID_TERRA } from "@certusone/wormhole-sdk";
+import { CHAIN_ID_TERRA } from "@certusone/wormhole-sdk";
 import { useSelector } from "react-redux";
 import { useHandleNFTRedeem } from "src/hooks/bridgeHooks/useHandleNFTRedeem";
 import useIsWalletReady from "src/hooks/bridgeHooks/useIsWalletReady";
 import { selectNFTTargetChain } from "src/store/selectors";
 import ButtonWithLoader from "../ButtonWithLoader";
 import KeyAndBalance from "../KeyAndBalance";
-import SolanaTPSWarning from "../SolanaTPSWarning";
 import StepDescription from "../StepDescription";
 import TerraFeeDenomPicker from "../TerraFeeDenomPicker";
 import WaitingForWalletMessage from "./WaitingForWalletMessage";
@@ -22,7 +21,6 @@ function Redeem() {
       {targetChain === CHAIN_ID_TERRA && (
         <TerraFeeDenomPicker disabled={disabled} />
       )}
-      {targetChain === CHAIN_ID_SOLANA && <SolanaTPSWarning />}
       <ButtonWithLoader
         disabled={!isReady || disabled}
         onClick={handleClick}

@@ -6,10 +6,8 @@ import {
   CHAIN_ID_FANTOM,
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
-  CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
   isEVMChain,
-  WSOL_ADDRESS,
 } from "@certusone/wormhole-sdk";
 import {
   Checkbox,
@@ -42,8 +40,6 @@ import {
 import ButtonWithLoader from "../ButtonWithLoader";
 import KeyAndBalance from "../KeyAndBalance";
 import SmartAddress from "../SmartAddress";
-import { SolanaCreateAssociatedAddressAlternate } from "../SolanaCreateAssociatedAddress";
-import SolanaTPSWarning from "../SolanaTPSWarning";
 import StepDescription from "../StepDescription";
 import TerraFeeDenomPicker from "../TerraFeeDenomPicker";
 import AddToMetamask from "./AddToMetamask";
@@ -96,10 +92,6 @@ function Redeem() {
     targetChain === CHAIN_ID_FANTOM &&
     targetAsset &&
     targetAsset.toLowerCase() === WFTM_ADDRESS.toLowerCase();
-  const isSolNative =
-    targetChain === CHAIN_ID_SOLANA &&
-    targetAsset &&
-    targetAsset === WSOL_ADDRESS;
   const isNativeEligible =
     isEthNative ||
     isEthRopstenNative ||
@@ -107,8 +99,7 @@ function Redeem() {
     isPolygonNative ||
     isAvaxNative ||
     isOasisNative ||
-    isFantomNative ||
-    isSolNative;
+    isFantomNative;
   const [useNativeRedeem, setUseNativeRedeem] = useState(true);
   const toggleNativeRedeem = useCallback(() => {
     setUseNativeRedeem(!useNativeRedeem);
@@ -137,10 +128,6 @@ function Redeem() {
           label="Automatically unwrap to native currency"
         />
       )}
-      {targetChain === CHAIN_ID_SOLANA && <SolanaTPSWarning />}
-      {targetChain === CHAIN_ID_SOLANA ? (
-        <SolanaCreateAssociatedAddressAlternate />
-      ) : null}
 
       <ButtonWithLoader
         //TODO disable when the associated token account is confirmed to not exist

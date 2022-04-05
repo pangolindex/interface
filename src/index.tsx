@@ -29,7 +29,6 @@ import Package from '../package.json'
 import { SnackbarProvider } from "notistack";
 import { BetaContextProvider } from "./contexts/BetaContext";
 import { EthereumProviderProvider } from "./contexts/EthereumProviderContext";
-import { SolanaWalletProvider } from "./contexts/SolanaWalletContext";
 import { TerraWalletProvider } from "./contexts/TerraWalletContext";
 import ErrorBoundary from "./ErrorBoundary";
 
@@ -109,7 +108,6 @@ ReactDOM.render(
         <Provider store={store}>
           <SnackbarProvider maxSnack={3}>
             <BetaContextProvider>
-              <SolanaWalletProvider>
                 <EthereumProviderProvider>
                   <TerraWalletProvider>
                       <QueryClientProvider client={queryClient}>
@@ -120,7 +118,6 @@ ReactDOM.render(
                       </QueryClientProvider>
                   </TerraWalletProvider>
                 </EthereumProviderProvider>
-              </SolanaWalletProvider>
             </BetaContextProvider>
           </SnackbarProvider>
         </Provider>

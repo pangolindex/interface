@@ -58,7 +58,6 @@ import Transfer from './Beta/Bridge/components/Transfer'
 import Attest from "src/pages/Beta/Bridge/components/Attest";
 import Migration from "src/pages/Beta/Bridge/components/Migration";
 import EvmQuickMigrate from "src/pages/Beta/Bridge/components/Migration/EvmQuickMigrate";
-import SolanaQuickMigrate from "src/pages/Beta/Bridge/components/Migration/SolanaQuickMigrate";
 import NFT from "src/pages/Beta/Bridge/components/NFT";
 import NFTOriginVerifier from "src/pages/Beta/Bridge/components/NFTOriginVerifier";
 // import Recovery from "src/pages/Beta/Bridge/components/Recovery";
@@ -69,7 +68,6 @@ import WithdrawTokensTerra from "src/pages/Beta/Bridge/components/WithdrawTokens
 import {
   CHAIN_ID_BSC,
   CHAIN_ID_ETH,
-  CHAIN_ID_SOLANA,
 } from "@certusone/wormhole-sdk";
 
 const AppWrapper = styled.div`
@@ -214,12 +212,8 @@ export default function App() {
               <CustomRoute exact path={`${BETA_MENU_LINK.NFTOriginVerifier}`} component={NFTOriginVerifier} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.TokenOriginVerifier}`} component={TokenOriginVerifier} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.stats}`} component={Stats} layout={Layout} />
-              <CustomRoute exact path={`${BETA_MENU_LINK.SolanaQuickMigrate}`} component={SolanaQuickMigrate} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.WithdrawTokensTerra}`} component={WithdrawTokensTerra} layout={Layout} />
               
-              <Route exact path={`${BETA_MENU_LINK.WithdrawTokensTerra}/Solana/:legacyAsset/:fromTokenAccount`}>
-                <Migration chainId={CHAIN_ID_SOLANA} />
-              </Route>
               <Route exact path={`${BETA_MENU_LINK.WithdrawTokensTerra}/Ethereum/:legacyAsset/`}>
                 <Migration chainId={CHAIN_ID_ETH} />
               </Route>

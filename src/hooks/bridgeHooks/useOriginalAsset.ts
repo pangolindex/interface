@@ -3,7 +3,6 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
   getOriginalAssetEth,
-  getOriginalAssetSol,
   getOriginalAssetTerra,
   hexToNativeString,
   isEVMChain,
@@ -12,12 +11,10 @@ import {
 } from "@certusone/wormhole-sdk";
 import {
   getOriginalAssetEth as getOriginalAssetEthNFT,
-  getOriginalAssetSol as getOriginalAssetSolNFT,
   WormholeWrappedNFTInfo,
 } from "@certusone/wormhole-sdk/lib/esm/nft_bridge";
 import { Web3Provider } from "@ethersproject/providers";
 import { ethers } from "ethers";
-import { Connection } from "@solana/web3.js";
 import { LCDClient } from "@terra-money/terra.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -28,10 +25,7 @@ import { DataWrapper } from "src/store/helpers";
 import {
   getNFTBridgeAddressForChain,
   getTokenBridgeAddressForChain,
-  SOLANA_HOST,
   SOLANA_SYSTEM_PROGRAM_ADDRESS,
-  SOL_NFT_BRIDGE_ADDRESS,
-  SOL_TOKEN_BRIDGE_ADDRESS,
   TERRA_HOST,
 } from "src/utils/bridgeUtils/consts";
 import useIsWalletReady from "./useIsWalletReady";
@@ -55,13 +49,6 @@ export async function getOriginalAssetToken(
         provider,
         foreignNativeStringAddress,
         foreignChain
-      );
-    } else if (foreignChain === CHAIN_ID_SOLANA) {
-      const connection = new Connection(SOLANA_HOST, "confirmed");
-      promise = await getOriginalAssetSol(
-        connection,
-        SOL_TOKEN_BRIDGE_ADDRESS,
-        foreignNativeStringAddress
       );
     } else if (foreignChain === CHAIN_ID_TERRA) {
       const lcd = new LCDClient(TERRA_HOST);
@@ -91,13 +78,6 @@ export async function getOriginalAssetNFT(
         foreignNativeStringAddress,
         tokenId,
         foreignChain
-      );
-    } else if (foreignChain === CHAIN_ID_SOLANA) {
-      const connection = new Connection(SOLANA_HOST, "confirmed");
-      promise = getOriginalAssetSolNFT(
-        connection,
-        SOL_NFT_BRIDGE_ADDRESS,
-        foreignNativeStringAddress
       );
     }
   } catch (e) {

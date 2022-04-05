@@ -149,7 +149,7 @@ function SecondaryAssetInformation({
         originAsset={
           nativeToHexString(
             originAssetInfo?.originAddress || undefined,
-            originAssetInfo?.originChain || CHAIN_ID_SOLANA // this should exist
+            originAssetInfo?.originChain // this should exist
           ) || undefined
         }
         targetChain={chainId}

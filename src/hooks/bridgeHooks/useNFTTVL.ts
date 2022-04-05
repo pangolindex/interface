@@ -4,15 +4,7 @@ import {
   CHAIN_ID_BSC,
   CHAIN_ID_ETH,
   CHAIN_ID_POLYGON,
-  CHAIN_ID_SOLANA,
 } from "@certusone/wormhole-sdk";
-import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import {
-  AccountInfo,
-  Connection,
-  ParsedAccountData,
-  PublicKey,
-} from "@solana/web3.js";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { DataWrapper } from "src/store/helpers";
@@ -23,11 +15,7 @@ import {
   ETH_NFT_BRIDGE_ADDRESS,
   getNFTBridgeAddressForChain,
   POLYGON_NFT_BRIDGE_ADDRESS,
-  SOLANA_HOST,
-  SOL_NFT_CUSTODY_ADDRESS,
 } from "src/utils/bridgeUtils/consts";
-import { Metadata } from "src/utils/bridgeUtils/metaplex";
-import useMetadata, { GenericMetadata } from "./useMetadata";
 
 export type NFTTVL = NFTParsedTokenAccount & { chainId: ChainId };
 
@@ -66,55 +54,6 @@ const calcEvmTVL = (covalentReport: any, chainId: ChainId): NFTTVL[] => {
 
   return output;
 };
-const calcSolanaTVL = (
-  accounts:
-    | { pubkey: PublicKey; account: AccountInfo<ParsedAccountData> }[]
-    | undefined,
-  metaData: DataWrapper<Map<string, GenericMetadata>>
-) => {
-  const output: NFTTVL[] = [];
-  if (
-    !accounts ||
-    !accounts.length ||
-    metaData.isFetching ||
-    metaData.error ||
-    !metaData.data
-  ) {
-    return output;
-  }
-
-  accounts.forEach((item) => {
-    const genericMetadata = metaData.data?.get(
-      item.account.data.parsed?.info?.mint?.toString()
-    );
-    const raw: Metadata | undefined = genericMetadata?.raw;
-
-    if (
-      item.account.data.parsed?.info?.tokenAmount?.uiAmount > 0 &&
-      item.account.data.parsed?.info?.tokenAmount?.decimals === 0
-    ) {
-      output.push({
-        amount: item.account.data.parsed?.info?.tokenAmount?.amount,
-        mintKey: item.account.data.parsed?.info?.mint,
-        publicKey: getNFTBridgeAddressForChain(CHAIN_ID_SOLANA),
-        decimals: 0,
-        uiAmount: 0,
-        uiAmountString:
-          item.account.data.parsed?.info?.tokenAmount?.uiAmountString,
-        chainId: CHAIN_ID_SOLANA,
-        uri: raw?.data?.uri,
-        symbol: raw?.data?.symbol,
-        // external_url: nftData.external_data?.external_url,
-        // image: nftData.external_data?.image,
-        // image_256: nftData.external_data?.image_256,
-        // nftName: nftData.external_data?.name,
-        // description: nftData.external_data?.description,
-      });
-    }
-  });
-
-  return output;
-};
 
 const useNFTTVL = (): DataWrapper<NFTTVL[]> => {
   const [ethCovalentData, setEthCovalentData] = useState(undefined);
@@ -134,29 +73,6 @@ const useNFTTVL = (): DataWrapper<NFTTVL[]> => {
   const [avaxCovalentIsLoading, setAvaxCovalentIsLoading] = useState(false);
   const [avaxCovalentError, setAvaxCovalentError] = useState("");
 
-  const [solanaCustodyTokens, setSolanaCustodyTokens] = useState<
-    { pubkey: PublicKey; account: AccountInfo<ParsedAccountData> }[] | undefined
-  >(undefined);
-  const [solanaCustodyTokensLoading, setSolanaCustodyTokensLoading] =
-    useState(false);
-  const [solanaCustodyTokensError, setSolanaCustodyTokensError] = useState("");
-  const mintAddresses = useMemo(() => {
-    const addresses: string[] = [];
-    solanaCustodyTokens?.forEach((item) => {
-      const mintKey = item.account.data.parsed?.info?.mint?.toString();
-      if (mintKey) {
-        addresses.push(mintKey);
-      }
-    });
-    return addresses;
-  }, [solanaCustodyTokens]);
-
-  const solanaMetadata = useMetadata(CHAIN_ID_SOLANA, mintAddresses);
-
-  const solanaTVL = useMemo(
-    () => calcSolanaTVL(solanaCustodyTokens, solanaMetadata),
-    [solanaCustodyTokens, solanaMetadata]
-  );
   const ethTVL = useMemo(
     () => calcEvmTVL(ethCovalentData, CHAIN_ID_ETH),
     [ethCovalentData]
@@ -288,31 +204,6 @@ const useNFTTVL = (): DataWrapper<NFTTVL[]> => {
       );
   }, []);
 
-  useEffect(() => {
-    const cancelled = false;
-    const connection = new Connection(SOLANA_HOST, "confirmed");
-    setSolanaCustodyTokensLoading(true);
-    connection
-      .getParsedTokenAccountsByOwner(new PublicKey(SOL_NFT_CUSTODY_ADDRESS), {
-        programId: TOKEN_PROGRAM_ID,
-      })
-      .then(
-        (results) => {
-          if (!cancelled) {
-            setSolanaCustodyTokens(results.value);
-            setSolanaCustodyTokensLoading(false);
-          }
-        },
-        (error) => {
-          if (!cancelled) {
-            setSolanaCustodyTokensLoading(false);
-            setSolanaCustodyTokensError(
-              "Unable to retrieve Solana locked tokens."
-            );
-          }
-        }
-      );
-  }, []);
 
   return useMemo(() => {
     const tvlArray = [
@@ -320,7 +211,6 @@ const useNFTTVL = (): DataWrapper<NFTTVL[]> => {
       ...bscTVL,
       ...polygonTVL,
       ...avaxTVL,
-      ...solanaTVL,
     ];
 
     return {
@@ -328,14 +218,12 @@ const useNFTTVL = (): DataWrapper<NFTTVL[]> => {
         ethCovalentIsLoading ||
         bscCovalentIsLoading ||
         polygonCovalentIsLoading ||
-        avaxCovalentIsLoading ||
-        solanaCustodyTokensLoading,
+        avaxCovalentIsLoading,
       error:
         ethCovalentError ||
         bscCovalentError ||
         polygonCovalentError ||
-        avaxCovalentError ||
-        solanaCustodyTokensError,
+        avaxCovalentError,
       receivedAt: null,
       data: tvlArray,
     };
@@ -349,9 +237,6 @@ const useNFTTVL = (): DataWrapper<NFTTVL[]> => {
     polygonCovalentIsLoading,
     ethTVL,
     bscTVL,
-    solanaTVL,
-    solanaCustodyTokensError,
-    solanaCustodyTokensLoading,
     avaxTVL,
     avaxCovalentIsLoading,
     avaxCovalentError,

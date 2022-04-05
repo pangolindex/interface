@@ -32,7 +32,6 @@ import {
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
-import { Connection } from "@solana/web3.js";
 import { LCDClient } from "@terra-money/terra.js";
 import { ethers } from "ethers";
 import { useSnackbar } from "notistack";
@@ -94,33 +93,6 @@ async function evm(
     );
     const { vaaBytes } = await getSignedVAAWithRetry(
       chainId,
-      emitterAddress,
-      sequence.toString(),
-      WORMHOLE_RPC_HOSTS.length
-    );
-    return { vaa: uint8ArrayToHex(vaaBytes), error: null };
-  } catch (e) {
-    console.error(e);
-    enqueueSnackbar(null, {
-      content: <Alert severity="error">{parseError(e)}</Alert>,
-    });
-    return { vaa: null, error: parseError(e) };
-  }
-}
-
-async function solana(tx: string, enqueueSnackbar: any, nft: boolean) {
-  try {
-    const connection = new Connection(SOLANA_HOST, "confirmed");
-    const info = await connection.getTransaction(tx);
-    if (!info) {
-      throw new Error("An error occurred while fetching the transaction info");
-    }
-    const sequence = parseSequenceFromLogSolana(info);
-    const emitterAddress = await getEmitterAddressSolana(
-      nft ? SOL_NFT_BRIDGE_ADDRESS : SOL_TOKEN_BRIDGE_ADDRESS
-    );
-    const { vaaBytes } = await getSignedVAAWithRetry(
-      CHAIN_ID_SOLANA,
       emitterAddress,
       sequence.toString(),
       WORMHOLE_RPC_HOSTS.length
@@ -248,25 +220,6 @@ export default function Recovery() {
             }
           }
         })();
-      } else if (recoverySourceChain === CHAIN_ID_SOLANA) {
-        setRecoverySourceTxError("");
-        setRecoverySourceTxIsLoading(true);
-        (async () => {
-          const { vaa, error } = await solana(
-            recoverySourceTx,
-            enqueueSnackbar,
-            isNFT
-          );
-          if (!cancelled) {
-            setRecoverySourceTxIsLoading(false);
-            if (vaa) {
-              setRecoverySignedVAA(vaa);
-            }
-            if (error) {
-              setRecoverySourceTxError(error);
-            }
-          }
-        })();
       } else if (recoverySourceChain === CHAIN_ID_TERRA) {
         setRecoverySourceTxError("");
         setRecoverySourceTxIsLoading(true);
@@ -315,30 +268,6 @@ export default function Recovery() {
   const handleSignedVAAChange = useCallback((event) => {
     setRecoverySignedVAA(event.target.value.trim());
   }, []);
-  useEffect(() => {
-    let cancelled = false;
-    if (recoverySignedVAA) {
-      (async () => {
-        try {
-          const { parse_vaa } = await import(
-            "@certusone/wormhole-sdk/lib/esm/solana/core/bridge"
-          );
-          const parsedVAA = parse_vaa(hexToUint8Array(recoverySignedVAA));
-          if (!cancelled) {
-            setRecoveryParsedVAA(parsedVAA);
-          }
-        } catch (e) {
-          console.log(e);
-          if (!cancelled) {
-            setRecoveryParsedVAA(null);
-          }
-        }
-      })();
-    }
-    return () => {
-      cancelled = true;
-    };
-  }, [recoverySignedVAA]);
   const parsedPayloadTargetChain = parsedPayload?.targetChain;
   const enableRecovery = recoverySignedVAA && parsedPayloadTargetChain;
   const handleRecoverClick = useCallback(() => {

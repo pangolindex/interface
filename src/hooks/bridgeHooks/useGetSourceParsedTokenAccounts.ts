@@ -8,20 +8,9 @@ import {
   CHAIN_ID_FANTOM,
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
-  CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
   isEVMChain,
-  WSOL_ADDRESS,
-  WSOL_DECIMALS,
 } from "@certusone/wormhole-sdk";
-import { Dispatch } from "@reduxjs/toolkit";
-import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import {
-  AccountInfo,
-  Connection,
-  ParsedAccountData,
-  PublicKey,
-} from "@solana/web3.js";
 import axios from "axios";
 import { ethers } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
@@ -31,7 +20,6 @@ import {
   Provider,
   useEthereumProvider,
 } from "src/contexts/EthereumProviderContext";
-import { useSolanaWallet } from "src/contexts/SolanaWalletContext";
 import avaxIcon from "src/pages/Beta/Bridge/icons/avax.svg";
 import bnbIcon from "src/pages/Beta/Bridge/icons/bnb.svg";
 import ethIcon from "src/pages/Beta/Bridge/icons/eth.svg";
@@ -70,7 +58,6 @@ import {
   logoOverrides,
   ROPSTEN_WETH_ADDRESS,
   ROPSTEN_WETH_DECIMALS,
-  SOLANA_HOST,
   WAVAX_ADDRESS,
   WAVAX_DECIMALS,
   WBNB_ADDRESS,
@@ -84,11 +71,6 @@ import {
   WROSE_ADDRESS,
   WROSE_DECIMALS,
 } from "src/utils/bridgeUtils/consts";
-import {
-  ExtractedMintInfo,
-  extractMintInfo,
-  getMultipleAccountsRPC,
-} from "src/utils/bridgeUtils/solana";
 
 export function createParsedTokenAccount(
   publicKey: string,
@@ -154,19 +136,6 @@ export function createNFTParsedTokenAccount(
   };
 }
 
-const createParsedTokenAccountFromInfo = (
-  pubkey: PublicKey,
-  item: AccountInfo<ParsedAccountData>
-): ParsedTokenAccount => {
-  return {
-    publicKey: pubkey?.toString(),
-    mintKey: item.data.parsed?.info?.mint?.toString(),
-    amount: item.data.parsed?.info?.tokenAmount?.amount,
-    decimals: item.data.parsed?.info?.tokenAmount?.decimals,
-    uiAmount: item.data.parsed?.info?.tokenAmount?.uiAmount,
-    uiAmountString: item.data.parsed?.info?.tokenAmount?.uiAmountString,
-  };
-};
 
 const createParsedTokenAccountFromCovalent = (
   walletAddress: string,
@@ -183,32 +152,6 @@ const createParsedTokenAccountFromCovalent = (
     name: covalent.contract_name,
     logo: logoOverrides.get(covalent.contract_address) || covalent.logo_url,
   };
-};
-
-const createNativeSolParsedTokenAccount = async (
-  connection: Connection,
-  walletAddress: string
-) => {
-  // const walletAddress = "H69q3Q8E74xm7swmMQpsJLVp2Q9JuBwBbxraAMX5Drzm" // known solana mainnet wallet with tokens
-  const fetchAccounts = await getMultipleAccountsRPC(connection, [
-    new PublicKey(walletAddress),
-  ]);
-  if (!fetchAccounts || !fetchAccounts.length || !fetchAccounts[0]) {
-    return null;
-  } else {
-    return createParsedTokenAccount(
-      walletAddress, //publicKey
-      WSOL_ADDRESS, //Mint key
-      fetchAccounts[0].lamports.toString(), //amount
-      WSOL_DECIMALS, //decimals, 9
-      parseFloat(formatUnits(fetchAccounts[0].lamports, WSOL_DECIMALS)),
-      formatUnits(fetchAccounts[0].lamports, WSOL_DECIMALS).toString(),
-      "SOL",
-      "Solana",
-      undefined, //TODO logo. It's in the solana token map, so we could potentially use that URL.
-      true
-    );
-  }
 };
 
 const createNativeEthParsedTokenAccount = (
@@ -466,62 +409,6 @@ const getEthereumAccountsCovalent = async (
   }
 };
 
-const getSolanaParsedTokenAccounts = async (
-  walletAddress: string,
-  dispatch: Dispatch,
-  nft: boolean
-) => {
-  const connection = new Connection(SOLANA_HOST, "confirmed");
-  dispatch(
-    nft ? fetchSourceParsedTokenAccountsNFT() : fetchSourceParsedTokenAccounts()
-  );
-  try {
-    //No matter what, we retrieve the spl tokens associated to this address.
-    let splParsedTokenAccounts = await connection
-      .getParsedTokenAccountsByOwner(new PublicKey(walletAddress), {
-        programId: new PublicKey(TOKEN_PROGRAM_ID),
-      })
-      .then((result) => {
-        return result.value.map((item) =>
-          createParsedTokenAccountFromInfo(item.pubkey, item.account)
-        );
-      });
-
-    // uncomment to test token account in picker, useful for debugging
-    // splParsedTokenAccounts.push({
-    //   amount: "1",
-    //   decimals: 8,
-    //   mintKey: "2Xf2yAXJfg82sWwdLUo2x9mZXy6JCdszdMZkcF1Hf4KV",
-    //   publicKey: "2Xf2yAXJfg82sWwdLUo2x9mZXy6JCdszdMZkcF1Hf4KV",
-    //   uiAmount: 1,
-    //   uiAmountString: "1",
-    //   isNativeAsset: false,
-    // });
-
-    if (nft) {
-      //In the case of NFTs, we are done, and we set the accounts in redux
-      dispatch(receiveSourceParsedTokenAccountsNFT(splParsedTokenAccounts));
-    } else {
-      //In the transfer case, we also pull the SOL balance of the wallet, and prepend it at the beginning of the list.
-      const nativeAccount = await createNativeSolParsedTokenAccount(
-        connection,
-        walletAddress
-      );
-      if (nativeAccount !== null) {
-        splParsedTokenAccounts.unshift(nativeAccount);
-      }
-      dispatch(receiveSourceParsedTokenAccounts(splParsedTokenAccounts));
-    }
-  } catch (e) {
-    console.error(e);
-    dispatch(
-      nft
-        ? errorSourceParsedTokenAccountsNFT("Failed to load NFT metadata")
-        : errorSourceParsedTokenAccounts("Failed to load token metadata.")
-    );
-  }
-};
-
 /**
  * Fetches the balance of an asset for the connected wallet
  * This should handle every type of chain in the future, but only reads the Transfer state.
@@ -538,8 +425,6 @@ function useGetAvailableTokens(nft: boolean = false) {
   const lookupChain = useSelector(
     nft ? selectNFTSourceChain : selectTransferSourceChain
   );
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
   const { provider, signerAddress } = useEthereumProvider();
 
   const [covalent, setCovalent] = useState<any>(undefined);
@@ -554,22 +439,12 @@ function useGetAvailableTokens(nft: boolean = false) {
     string | undefined
   >(undefined);
 
-  const [solanaMintAccounts, setSolanaMintAccounts] = useState<
-    Map<string, ExtractedMintInfo | null> | undefined
-  >(undefined);
-  const [solanaMintAccountsLoading, setSolanaMintAccountsLoading] =
-    useState(false);
-  const [solanaMintAccountsError, setSolanaMintAccountsError] = useState<
-    string | undefined
-  >(undefined);
 
   const selectedSourceWalletAddress = useSelector(
     nft ? selectNFTSourceWalletAddress : selectSourceWalletAddress
   );
   const currentSourceWalletAddress: string | undefined = isEVMChain(lookupChain)
     ? signerAddress
-    : lookupChain === CHAIN_ID_SOLANA
-    ? solPK?.toString()
     : undefined;
 
   const resetSourceAccounts = useCallback(() => {
@@ -616,72 +491,6 @@ function useGetAvailableTokens(nft: boolean = false) {
     dispatch,
     resetSourceAccounts,
   ]);
-
-  //Solana accountinfos load
-  useEffect(() => {
-    if (lookupChain === CHAIN_ID_SOLANA && solPK) {
-      if (
-        !(tokenAccounts.data || tokenAccounts.isFetching || tokenAccounts.error)
-      ) {
-        getSolanaParsedTokenAccounts(solPK.toString(), dispatch, nft);
-      }
-    }
-
-    return () => {};
-  }, [dispatch, solanaWallet, lookupChain, solPK, tokenAccounts, nft]);
-
-  //Solana Mint Accounts lookup
-  useEffect(() => {
-    if (lookupChain !== CHAIN_ID_SOLANA || !tokenAccounts.data?.length) {
-      return () => {};
-    }
-
-    let cancelled = false;
-    setSolanaMintAccountsLoading(true);
-    setSolanaMintAccountsError(undefined);
-    const mintAddresses = tokenAccounts.data.map((x) => x.mintKey);
-    //This is a known wormhole v1 token on testnet
-    // mintAddresses.push("4QixXecTZ4zdZGa39KH8gVND5NZ2xcaB12wiBhE4S7rn");
-    //SOLT devnet token
-    // mintAddresses.push("2WDq7wSs9zYrpx2kbHDA4RUTRch2CCTP6ZWaH4GNfnQQ");
-    // bad monkey "NFT"
-    // mintAddresses.push("5FJeEJR8576YxXFdGRAu4NBBFcyfmtjsZrXHSsnzNPdS");
-    // degenerate monkey NFT
-    // mintAddresses.push("EzYsbigNNGbNuANRJ3mnnyJYU2Bk7mBYVsxuonUwAX7r");
-
-    const connection = new Connection(SOLANA_HOST, "confirmed");
-    getMultipleAccountsRPC(
-      connection,
-      mintAddresses.map((x) => new PublicKey(x))
-    ).then(
-      (results) => {
-        if (!cancelled) {
-          const output = new Map<string, ExtractedMintInfo | null>();
-
-          results.forEach((result, index) =>
-            output.set(
-              mintAddresses[index],
-              (result && extractMintInfo(result)) || null
-            )
-          );
-
-          setSolanaMintAccounts(output);
-          setSolanaMintAccountsLoading(false);
-        }
-      },
-      (error) => {
-        if (!cancelled) {
-          setSolanaMintAccounts(undefined);
-          setSolanaMintAccountsLoading(false);
-          setSolanaMintAccountsError(
-            "Could not retrieve Solana mint accounts."
-          );
-        }
-      }
-    );
-
-    return () => (cancelled = true);
-  }, [tokenAccounts.data, lookupChain]);
 
   //Ethereum native asset load
   useEffect(() => {
@@ -1011,18 +820,7 @@ function useGetAvailableTokens(nft: boolean = false) {
     tokenAccounts,
   ]);
 
-  return lookupChain === CHAIN_ID_SOLANA
-    ? {
-        tokenAccounts: tokenAccounts,
-        mintAccounts: {
-          data: solanaMintAccounts,
-          isFetching: solanaMintAccountsLoading,
-          error: solanaMintAccountsError,
-          receivedAt: null, //TODO
-        },
-        resetAccounts: resetSourceAccounts,
-      }
-    : isEVMChain(lookupChain)
+  return  isEVMChain(lookupChain)
     ? {
         tokenAccounts: ethAccounts,
         covalent: {

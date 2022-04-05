@@ -27,7 +27,6 @@ import useMarketsMap from 'src/hooks/bridgeHooks/useMarketsMap'
 import { NFTParsedTokenAccount } from 'src/store/nftSlice'
 import { selectTransferTargetChain } from 'src/store/selectors'
 import { AVAILABLE_MARKETS_URL, CHAINS_BY_ID } from 'src/utils/bridgeUtils/consts'
-import { shortenAddress } from 'src/utils/bridgeUtils/solana'
 import NFTViewer from './NFTViewer'
 import { Text } from '@pangolindex/components'
 

@@ -1,29 +1,20 @@
 import React from 'react'
 import {
   ChainId,
-  CHAIN_ID_SOLANA,
   getEmitterAddressEth,
-  getEmitterAddressSolana,
-  hexToUint8Array,
   isEVMChain,
   parseSequenceFromLogEth,
-  parseSequenceFromLogSolana,
   uint8ArrayToHex,
 } from "@certusone/wormhole-sdk";
 import {
   transferFromEth,
-  transferFromSolana,
 } from "@certusone/wormhole-sdk/lib/esm/nft_bridge";
 import { Alert } from "@material-ui/lab";
-import { WalletContextState } from "@solana/wallet-adapter-react";
-import { Connection } from "@solana/web3.js";
-import { BigNumber, Signer } from "ethers";
-import { arrayify, zeroPad } from "ethers/lib/utils";
+import { Signer } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEthereumProvider } from "src/contexts/EthereumProviderContext";
-import { useSolanaWallet } from "src/contexts/SolanaWalletContext";
 import {
   setIsSending,
   setSignedVAAHex,
@@ -44,13 +35,9 @@ import {
 import {
   getBridgeAddressForChain,
   getNFTBridgeAddressForChain,
-  SOLANA_HOST,
-  SOL_BRIDGE_ADDRESS,
-  SOL_NFT_BRIDGE_ADDRESS,
 } from "src/utils/bridgeUtils/consts";
 import { getSignedVAAWithRetry } from "src/utils/bridgeUtils/getSignedVAAWithRetry";
 import parseError from "src/utils/bridgeUtils/parseError";
-import { signSendAndConfirm } from "src/utils/bridgeUtils/solana";
 import useNFTTargetAddressHex from "./useNFTTargetAddress";
 
 async function evm(
@@ -107,73 +94,6 @@ async function evm(
   }
 }
 
-async function solana(
-  dispatch: any,
-  enqueueSnackbar: any,
-  wallet: WalletContextState,
-  payerAddress: string, //TODO: we may not need this since we have wallet
-  fromAddress: string,
-  mintAddress: string,
-  targetChain: ChainId,
-  targetAddress: Uint8Array,
-  originAddressStr?: string,
-  originChain?: ChainId,
-  originTokenId?: string
-) {
-  dispatch(setIsSending(true));
-  try {
-    const connection = new Connection(SOLANA_HOST, "confirmed");
-    const originAddress = originAddressStr
-      ? zeroPad(hexToUint8Array(originAddressStr), 32)
-      : undefined;
-    const transaction = await transferFromSolana(
-      connection,
-      SOL_BRIDGE_ADDRESS,
-      SOL_NFT_BRIDGE_ADDRESS,
-      payerAddress,
-      fromAddress,
-      mintAddress,
-      targetAddress,
-      targetChain,
-      originAddress,
-      originChain,
-      arrayify(BigNumber.from(originTokenId || "0"))
-    );
-    const txid = await signSendAndConfirm(wallet, connection, transaction);
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
-    });
-    const info = await connection.getTransaction(txid);
-    if (!info) {
-      throw new Error("An error occurred while fetching the transaction info");
-    }
-    dispatch(setTransferTx({ id: txid, block: info.slot }));
-    const sequence = parseSequenceFromLogSolana(info);
-    const emitterAddress = await getEmitterAddressSolana(
-      SOL_NFT_BRIDGE_ADDRESS
-    );
-    enqueueSnackbar(null, {
-      content: <Alert severity="info">Fetching VAA</Alert>,
-    });
-    const { vaaBytes } = await getSignedVAAWithRetry(
-      CHAIN_ID_SOLANA,
-      emitterAddress,
-      sequence
-    );
-
-    dispatch(setSignedVAAHex(uint8ArrayToHex(vaaBytes)));
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Fetched Signed VAA</Alert>,
-    });
-  } catch (e) {
-    console.error(e);
-    enqueueSnackbar(null, {
-      content: <Alert severity="error">{parseError(e)}</Alert>,
-    });
-    dispatch(setIsSending(false));
-  }
-}
-
 export function useHandleNFTTransfer() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -192,8 +112,6 @@ export function useHandleNFTTransfer() {
   const isSending = useSelector(selectNFTIsSending);
   const isSendComplete = useSelector(selectNFTIsSendComplete);
   const { signer } = useEthereumProvider();
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
   const sourceParsedTokenAccount = useSelector(
     selectNFTSourceParsedTokenAccount
   );
@@ -218,27 +136,6 @@ export function useHandleNFTTransfer() {
         targetAddress,
         sourceChain
       );
-    } else if (
-      sourceChain === CHAIN_ID_SOLANA &&
-      !!solanaWallet &&
-      !!solPK &&
-      !!sourceAsset &&
-      !!sourceTokenPublicKey &&
-      !!targetAddress
-    ) {
-      solana(
-        dispatch,
-        enqueueSnackbar,
-        solanaWallet,
-        solPK.toString(),
-        sourceTokenPublicKey,
-        sourceAsset,
-        targetChain,
-        targetAddress,
-        originAsset,
-        originChain,
-        originTokenId
-      );
     } else {
     }
   }, [
@@ -246,8 +143,6 @@ export function useHandleNFTTransfer() {
     enqueueSnackbar,
     sourceChain,
     signer,
-    solanaWallet,
-    solPK,
     sourceTokenPublicKey,
     sourceAsset,
     sourceTokenId,
