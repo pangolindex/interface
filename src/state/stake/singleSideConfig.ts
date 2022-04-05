@@ -1,4 +1,4 @@
-import { ChainId, WAVAX } from '@pangolindex/sdk'
+import { ChainId, WAVAX, CHAINS } from '@pangolindex/sdk'
 import { OOE, APEIN, ORBS, PNG } from '../../constants/tokens'
 import { SingleSideStaking } from './hooks'
 
@@ -30,7 +30,7 @@ export const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
   PNG_V0: {
     rewardToken: PNG[ChainId.AVALANCHE],
     conversionRouteHops: [WAVAX[ChainId.AVALANCHE]],
-    stakingRewardAddress: '0x88afdaE1a9F58Da3E68584421937E5F564A0135b',
+    stakingRewardAddress: CHAINS[ChainId.AVALANCHE].contracts!.staking![0].address,
     version: 0
   }
 }
