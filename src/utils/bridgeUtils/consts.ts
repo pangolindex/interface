@@ -71,11 +71,11 @@ export const CHAINS: ChainInfo[] =
           name: "Polygon",
           logo: polygonIcon,
         },
-        {
-          id: CHAIN_ID_SOLANA,
-          name: "Solana",
-          logo: solanaIcon,
-        },
+        // {
+        //   id: CHAIN_ID_SOLANA,
+        //   name: "Solana",
+        //   logo: solanaIcon,
+        // },
         {
           id: CHAIN_ID_TERRA,
           name: "Terra",
