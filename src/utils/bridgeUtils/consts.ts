@@ -18,7 +18,6 @@ import avaxIcon from "src/pages/Beta/Bridge/icons/avax.svg";
 import ethIcon from "src/pages/Beta/Bridge/icons/eth.svg";
 import fantomIcon from "src/pages/Beta/Bridge/icons/fantom.svg";
 import karuraIcon from "src/pages/Beta/Bridge/icons/karura.svg";
-import oasisIcon from "src/pages/Beta/Bridge/icons/oasis-network-rose-logo.svg";
 import polygonIcon from "src/pages/Beta/Bridge/icons/polygon.svg";
 import terraIcon from "src/pages/Beta/Bridge/icons/terra.svg";
 

@@ -12,15 +12,17 @@ export default function NumberTextField({
 }: TextFieldProps & { onMaxClick?: () => void }) {
   return (
     <TextField
+      style={{color: 'white'}}
       type="number"
       {...props}
       InputProps={{
         endAdornment: onMaxClick ? (
-          <InputAdornment position="end">
+          <InputAdornment position="end" style={{color: 'white'}}>
             <Button
               onClick={onMaxClick}
               disabled={props.disabled}
               variant="outlined"
+              style={{color: 'white'}}
             >
               Max
             </Button>

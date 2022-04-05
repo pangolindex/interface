@@ -75,7 +75,6 @@ function Transfer() {
     }
     return
   }, [preventNavigation])
-
   return (
     <PageWrapper>
       <QuestionAnswer />

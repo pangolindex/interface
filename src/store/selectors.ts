@@ -161,7 +161,7 @@ export const selectNFTIsRecovery = (state: RootState) => state.nft.isRecovery;
 
 export const selectTransferActiveStep = (state: RootState) =>
   state.transfer.activeStep;
-export const selectTransferSourceChain = (state: RootState | undefined) =>
+export const selectTransferSourceChain = (state: RootState) =>
   state.transfer.sourceChain;
 export const selectTransferSourceAsset = (state: RootState) => {
   return state.transfer.sourceParsedTokenAccount?.mintKey || undefined;

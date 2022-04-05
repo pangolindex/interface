@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 400,
     backgroundColor: "#FFC800",
     "&:hover": {
-      backgroundColor: "#212427",
+      backgroundColor: "rgba(255, 200, 0, 0.8)",
     },
   }
 }))

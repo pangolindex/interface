@@ -1,7 +1,7 @@
 import {
   ChainId,
   CHAIN_ID_ETH,
-  CHAIN_ID_AVAX,
+  CHAIN_ID_FANTOM,
 } from "@certusone/wormhole-sdk";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Transaction } from "./transferSlice";
@@ -24,7 +24,7 @@ export interface AttestState {
 
 const initialState: AttestState = {
   activeStep: 0,
-  sourceChain: CHAIN_ID_AVAX,
+  sourceChain: CHAIN_ID_FANTOM,
   sourceAsset: "",
   targetChain: CHAIN_ID_ETH,
   attestTx: undefined,

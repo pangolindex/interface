@@ -86,7 +86,6 @@ export default function SmartAddress({
     : parsedTokenAccount?.symbol || symbol || "";
   // const useableLogo = logo || isNativeTerra ? getNativeTerraIcon(useableSymbol) : null
   const isNative = parsedTokenAccount?.isNativeAsset || isNativeTerra || false;
-  const addressShort = shortenAddress(useableAddress) || "";
 
   const useableName = isNative
     ? "Native Currency"
@@ -167,11 +166,6 @@ export default function SmartAddress({
   const tooltipContent = (
     <>
       {useableName && <Typography>{useableName}</Typography>}
-      {useableSymbol && !isNative && (
-        <Typography noWrap variant="body2">
-          {addressShort}
-        </Typography>
-      )}
       <div>
         {explorerButton}
         {copyButton}
@@ -194,7 +188,7 @@ export default function SmartAddress({
         })}
         component="div"
       >
-        {useableSymbol || addressShort}
+        {useableSymbol}
       </Typography>
     </StyledTooltip>
   );
