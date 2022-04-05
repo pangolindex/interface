@@ -1,4 +1,4 @@
-import { ChainId, WAVAX, CHAINS } from '@antiyro/sdk'
+import { ChainId, WAVAX, CHAINS } from '@pangolindex/sdk'
 import { OOE, APEIN, ORBS, PNG } from '../../constants/tokens'
 import { SingleSideStaking } from './hooks'
 

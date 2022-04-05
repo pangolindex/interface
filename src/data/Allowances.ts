@@ -1,4 +1,4 @@
-import { Token, TokenAmount } from '@antiyro/sdk'
+import { Token, TokenAmount } from '@pangolindex/sdk'
 import { useMemo } from 'react'
 
 import { useTokenContract } from '../hooks/useContract'

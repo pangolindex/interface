@@ -6,7 +6,7 @@ import { ThemeContext } from 'styled-components'
 import { CloseIcon } from 'src/theme/components'
 import { useTranslation } from 'react-i18next'
 import PoolImport from './PoolImport'
-import { CAVAX, Currency } from '@antiyro/sdk'
+import { CAVAX, Currency } from '@pangolindex/sdk'
 import { useChainId } from 'src/hooks'
 
 enum Fields {

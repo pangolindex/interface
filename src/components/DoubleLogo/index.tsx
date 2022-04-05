@@ -1,4 +1,4 @@
-import { Currency } from '@antiyro/sdk'
+import { Currency } from '@pangolindex/sdk'
 import React from 'react'
 import { useChainId } from 'src/hooks'
 import { LogoSize } from 'src/constants'

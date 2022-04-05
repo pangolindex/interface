@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Wrapper, InnerWrapper } from './styleds'
-import { TokenAmount } from '@antiyro/sdk'
+import { TokenAmount } from '@pangolindex/sdk'
 import { Text, Box, Button } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import Stat from 'src/components/Stat'

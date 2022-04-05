@@ -1,4 +1,4 @@
-import { Currency, CAVAX, Token } from '@antiyro/sdk'
+import { Currency, CAVAX, Token } from '@pangolindex/sdk'
 import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import ReactGA from 'react-ga'
 import { useTranslation } from 'react-i18next'

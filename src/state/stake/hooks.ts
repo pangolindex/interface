@@ -1,4 +1,4 @@
-import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent, CHAINS } from '@antiyro/sdk'
+import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent, CHAINS } from '@pangolindex/sdk'
 import { useMemo, useEffect, useState, useCallback } from 'react'
 import {
   MINICHEF_ADDRESS,

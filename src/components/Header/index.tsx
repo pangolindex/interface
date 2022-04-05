@@ -1,4 +1,4 @@
-import { ChainId, TokenAmount } from '@antiyro/sdk'
+import { ChainId, TokenAmount } from '@pangolindex/sdk'
 import { Button } from '@pangolindex/components'
 import React, { useState, useRef } from 'react'
 import { Text } from 'rebass'

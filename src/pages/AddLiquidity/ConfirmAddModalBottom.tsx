@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Fraction, Percent } from '@antiyro/sdk'
+import { Currency, CurrencyAmount, Fraction, Percent } from '@pangolindex/sdk'
 import React from 'react'
 import { Text } from 'rebass'
 import { ButtonPrimary } from '../../components/Button'

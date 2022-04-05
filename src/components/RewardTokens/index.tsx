@@ -1,4 +1,4 @@
-import { Token } from '@antiyro/sdk'
+import { Token } from '@pangolindex/sdk'
 import React from 'react'
 import { LogoSize } from 'src/constants'
 import styled from 'styled-components'

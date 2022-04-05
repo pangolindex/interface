@@ -1,4 +1,4 @@
-import { Percent } from '@antiyro/sdk'
+import { Percent } from '@pangolindex/sdk'
 import React from 'react'
 import { ONE_BIPS } from '../../constants'
 import { warningSeverity } from '../../utils/prices'

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 import { useQuery } from 'react-query'
-import { CAVAX, ChainId, Currency, Pair, Token, TokenAmount, Chain, AVALANCHE_MAINNET } from '@antiyro/sdk'
+import { CAVAX, ChainId, Currency, Pair, Token, TokenAmount, Chain, AVALANCHE_MAINNET } from '@pangolindex/sdk'
 import { ethers } from 'ethers'
 import Logo from 'src/assets/images/logo.svg'
 import { useActiveWeb3React, useChain, useChainId } from 'src/hooks'

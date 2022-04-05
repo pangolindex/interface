@@ -1,4 +1,4 @@
-import { ChainId, WAVAX } from '@antiyro/sdk'
+import { ChainId, WAVAX } from '@pangolindex/sdk'
 import { MINICHEF_ADDRESS } from '../../constants'
 import {
   PNG,

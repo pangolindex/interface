@@ -3,7 +3,7 @@ import { Text, Box, CurrencyLogo, Button, useSwapActionHandlers } from '@pangoli
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { Link } from 'react-feather'
 import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts'
-import { Token } from '@antiyro/sdk'
+import { Token } from '@pangolindex/sdk'
 import { SelectedCoinInfo, TrackIcons, DurationBtns } from './styleds'
 import { ANALYTICS_PAGE } from 'src/constants'
 import { Field } from 'src/state/swap/actions'

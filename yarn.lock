@@ -9,9 +9,9 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@antiyro/sdk@10.0.10":
+"@pangolindex/sdk@10.0.10":
   version "10.0.10"
-  resolved "https://registry.yarnpkg.com/@antiyro/sdk/-/sdk-10.0.10.tgz#e003fad288ed4bf54e1f5e3cc5881593747038e1"
+  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-10.0.10.tgz#e003fad288ed4bf54e1f5e3cc5881593747038e1"
   integrity sha512-Ysi861YkUt/EWjVNQCSmqGW0LB5hNmbBgOfkGXLQV2d1gCyGBEeCShzOVSEsOvEOE0BLcsOzBZ+HAqH30g+p1g==
   dependencies:
     "@pangolindex/exchange-contracts" "^1.0.1"
