@@ -25,7 +25,6 @@ import {
 } from "@certusone/wormhole-sdk";
 import SmartAddress from "../SmartAddress";
 import avaxIcon from "src/pages/Beta/Bridge/icons/avax.svg";
-import bscIcon from "src/pages/Beta/Bridge/icons/bsc.svg";
 import ethIcon from "src/pages/Beta/Bridge/icons/eth.svg";
 import fantomIcon from "src/pages/Beta/Bridge/icons/fantom.svg";
 import solanaIcon from "src/pages/Beta/Bridge/icons/solana.svg";
@@ -67,18 +66,6 @@ const LogoIcon = ({ chainId }: { chainId: ChainId }) =>
       }}
       src={ethIcon}
       alt="Ethereum"
-    />
-  ) : chainId === CHAIN_ID_BSC ? (
-    <Avatar
-      style={{
-        backgroundColor: "rgb(20, 21, 26)",
-        height: "1em",
-        width: "1em",
-        marginLeft: "4px",
-        padding: "2px",
-      }}
-      src={bscIcon}
-      alt="Binance Smart Chain"
     />
   ) : chainId === CHAIN_ID_POLYGON ? (
     <Avatar

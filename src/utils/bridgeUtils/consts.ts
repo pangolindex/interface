@@ -15,7 +15,6 @@ import {
 import { getAddress } from "ethers/lib/utils";
 import acalaIcon from "src/pages/Beta/Bridge/icons/acala.svg";
 import avaxIcon from "src/pages/Beta/Bridge/icons/avax.svg";
-import bscIcon from "src/pages/Beta/Bridge/icons/bsc.svg";
 import ethIcon from "src/pages/Beta/Bridge/icons/eth.svg";
 import fantomIcon from "src/pages/Beta/Bridge/icons/fantom.svg";
 import karuraIcon from "src/pages/Beta/Bridge/icons/karura.svg";
@@ -44,11 +43,6 @@ export const CHAINS: ChainInfo[] =
           logo: avaxIcon,
         },
         {
-          id: CHAIN_ID_BSC,
-          name: "Binance Smart Chain",
-          logo: bscIcon,
-        },
-        {
           id: CHAIN_ID_ETH,
           name: "Ethereum",
           logo: ethIcon,
@@ -57,11 +51,6 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_FANTOM,
           name: "Fantom",
           logo: fantomIcon,
-        },
-        {
-          id: CHAIN_ID_OASIS,
-          name: "Oasis",
-          logo: oasisIcon,
         },
         {
           id: CHAIN_ID_POLYGON,
@@ -87,11 +76,6 @@ export const CHAINS: ChainInfo[] =
           logo: avaxIcon,
         },
         {
-          id: CHAIN_ID_BSC,
-          name: "Binance Smart Chain",
-          logo: bscIcon,
-        },
-        {
           id: CHAIN_ID_ETH,
           name: "Ethereum (Goerli)",
           logo: ethIcon,
@@ -112,11 +96,6 @@ export const CHAINS: ChainInfo[] =
           logo: karuraIcon,
         },
         {
-          id: CHAIN_ID_OASIS,
-          name: "Oasis",
-          logo: oasisIcon,
-        },
-        {
           id: CHAIN_ID_POLYGON,
           name: "Polygon",
           logo: polygonIcon,
@@ -128,11 +107,6 @@ export const CHAINS: ChainInfo[] =
         },
       ]
     : [
-        {
-          id: CHAIN_ID_BSC,
-          name: "Binance Smart Chain",
-          logo: bscIcon,
-        },
         {
           id: CHAIN_ID_ETH,
           name: "Ethereum",
@@ -152,7 +126,6 @@ export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
     id === CHAIN_ID_ETH ||
     id === CHAIN_ID_ETHEREUM_ROPSTEN ||
     id === CHAIN_ID_POLYGON ||
-    id === CHAIN_ID_OASIS ||
     id === CHAIN_ID_FANTOM ||
     id === CHAIN_ID_KARURA ||
     id === CHAIN_ID_ACALA
@@ -175,8 +148,6 @@ export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
     ? "MATIC"
     : chainId === CHAIN_ID_AVAX
     ? "AVAX"
-    : chainId === CHAIN_ID_OASIS
-    ? "ROSE"
     : chainId === CHAIN_ID_FANTOM
     ? "FTM"
     : chainId === CHAIN_ID_KARURA
@@ -221,8 +192,6 @@ export const POLYGON_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 137 : CLUSTER === "testnet" ? 80001 : 1381;
 export const AVAX_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 43114 : CLUSTER === "testnet" ? 43113 : 1381;
-export const OASIS_NETWORK_CHAIN_ID =
-  CLUSTER === "mainnet" ? 42262 : CLUSTER === "testnet" ? 42261 : 1381;
 export const FANTOM_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 250 : CLUSTER === "testnet" ? 4002 : 1381;
 export const KARURA_NETWORK_CHAIN_ID =
@@ -240,8 +209,6 @@ export const getEvmChainId = (chainId: ChainId) =>
     ? POLYGON_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_AVAX
     ? AVAX_NETWORK_CHAIN_ID
-    : chainId === CHAIN_ID_OASIS
-    ? OASIS_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_FANTOM
     ? FANTOM_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_KARURA

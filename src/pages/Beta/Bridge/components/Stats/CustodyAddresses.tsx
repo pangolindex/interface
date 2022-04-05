@@ -1,11 +1,9 @@
 import {
   CHAIN_ID_AVAX,
-  CHAIN_ID_BSC,
   CHAIN_ID_ETH,
   CHAIN_ID_FANTOM,
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
-
   CHAIN_ID_TERRA,
 } from "@certusone/wormhole-sdk";
 import { makeStyles, Paper, Typography } from "@material-ui/core";
@@ -52,12 +50,6 @@ const CustodyAddresses: React.FC<any> = () => {
         chainId: CHAIN_ID_ETH,
         tokenAddress: getTokenBridgeAddressForChain(CHAIN_ID_ETH),
         nftAddress: getNFTBridgeAddressForChain(CHAIN_ID_ETH),
-      },
-      {
-        chainName: "Binance Smart Chain",
-        chainId: CHAIN_ID_BSC,
-        tokenAddress: getTokenBridgeAddressForChain(CHAIN_ID_BSC),
-        nftAddress: getNFTBridgeAddressForChain(CHAIN_ID_BSC),
       },
       {
         chainName: "Terra",

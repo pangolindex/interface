@@ -1,6 +1,6 @@
 import { CHAIN_ID_BSC, CHAIN_ID_ETH} from '@certusone/wormhole-sdk'
 import { getAddress } from '@ethersproject/address'
-import { Button, makeStyles, Typography } from '@material-ui/core'
+import { Button, makeStyles } from '@material-ui/core'
 import { VerifiedUser } from '@material-ui/icons'
 import React, { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -22,7 +22,6 @@ import {
   BSC_MIGRATION_ASSET_MAP,
   CHAINS,
   ETH_MIGRATION_ASSET_MAP,
-  MIGRATION_ASSET_MAP
 } from 'src/utils/bridgeUtils/consts'
 import ButtonWithLoader from '../ButtonWithLoader'
 import ChainSelect from '../ChainSelect'
@@ -92,8 +91,6 @@ function Source() {
   const handleMigrationClick = useCallback(() => {
     if (sourceChain === CHAIN_ID_ETH) {
       history.push(`/beta/bridge/migration/Ethereum/${parsedTokenAccount?.mintKey}`)
-    } else if (sourceChain === CHAIN_ID_BSC) {
-      history.push(`/beta/bridge/migration/BinanceSmartChain/${parsedTokenAccount?.mintKey}`)
     }
   }, [history, parsedTokenAccount, sourceChain])
   const handleSourceChange = useCallback(

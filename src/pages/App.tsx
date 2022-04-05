@@ -66,7 +66,6 @@ import TokenOriginVerifier from "src/pages/Beta/Bridge/components/TokenOriginVer
 import WithdrawTokensTerra from "src/pages/Beta/Bridge/components/WithdrawTokensTerra";
 
 import {
-  CHAIN_ID_BSC,
   CHAIN_ID_ETH,
 } from "@certusone/wormhole-sdk";
 
@@ -217,14 +216,9 @@ export default function App() {
               <Route exact path={`${BETA_MENU_LINK.WithdrawTokensTerra}/Ethereum/:legacyAsset/`}>
                 <Migration chainId={CHAIN_ID_ETH} />
               </Route>
-              <Route exact path={`${BETA_MENU_LINK.WithdrawTokensTerra}/BinanceSmartChain/:legacyAsset/`}>
-                <Migration chainId={CHAIN_ID_BSC} />
-              </Route>
+              
               <Route exact path={`${BETA_MENU_LINK.WithdrawTokensTerra}/Ethereum/`}>
                 <EvmQuickMigrate chainId={CHAIN_ID_ETH} />
-              </Route>
-              <Route exact path={`${BETA_MENU_LINK.WithdrawTokensTerra}/BinanceSmartChain/`}>
-                <EvmQuickMigrate chainId={CHAIN_ID_BSC} />
               </Route>
               <Route component={RedirectPathToSwapOnly} />
 

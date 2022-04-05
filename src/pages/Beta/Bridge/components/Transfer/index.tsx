@@ -1,5 +1,5 @@
 import { ChainId } from '@certusone/wormhole-sdk'
-import { Container, Step, StepButton, StepContent, Stepper } from '@material-ui/core'
+import { Step, StepButton, StepContent } from '@material-ui/core'
 import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router'
@@ -24,8 +24,8 @@ import Target from './Target'
 import TargetPreview from './TargetPreview'
 
 import { QuestionAnswer } from '../../TabulationBox'
-import { PageWrapper, Ibridge, ChainSelect, Separator, MaxButton, WrapButton } from '../../styleds'
-import { Text, Box, ToggleButtons, Button } from '@pangolindex/components'
+import { PageWrapper, Ibridge, Separator } from '../../styleds'
+import { Text, Box, ToggleButtons } from '@pangolindex/components'
 
 function Transfer() {
   useCheckIfWormholeWrapped()
