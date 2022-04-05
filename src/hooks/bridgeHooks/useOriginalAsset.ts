@@ -1,6 +1,5 @@
 import {
   ChainId,
-  CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
   getOriginalAssetEth,
   getOriginalAssetTerra,
@@ -25,7 +24,6 @@ import { DataWrapper } from "src/store/helpers";
 import {
   getNFTBridgeAddressForChain,
   getTokenBridgeAddressForChain,
-  SOLANA_SYSTEM_PROGRAM_ADDRESS,
   TERRA_HOST,
 } from "src/utils/bridgeUtils/consts";
 import useIsWalletReady from "./useIsWalletReady";
@@ -117,14 +115,6 @@ export async function getOriginalAsset(
   ) {
     throw new Error("Unable to find address.");
   }
-  if (
-    result.chainId === CHAIN_ID_SOLANA &&
-    uint8ArrayToNative(result.assetAddress, result.chainId) ===
-      SOLANA_SYSTEM_PROGRAM_ADDRESS
-  ) {
-    throw new Error("Unable to find address.");
-  }
-
   return result;
 }
 

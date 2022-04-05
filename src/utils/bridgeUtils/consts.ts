@@ -9,7 +9,6 @@ import {
   CHAIN_ID_KARURA,
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
-  CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
@@ -694,20 +693,6 @@ export const WORMHOLE_V1_MINT_AUTHORITY =
     ? "BJa7dq3bRP216zaTdw4cdcV71WkPc1HXvmnGeFVDi5DC"
     : "";
 
-// hardcoded addresses for warnings
-export const SOLANA_TOKENS_THAT_EXIST_ELSEWHERE = [
-  "SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt", //  SRM
-  "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", // USDC
-  "kinXdEcpDQeHPEuQnqmUgtYykqKGVFq6CeVX5iAHJq6", //  KIN
-  "CDJWUqTcYTVAKXAVXoQZFes5JUFc7owSeq7eMQcDSbo5", // renBTC
-  "8wv2KAykQstNAj2oW6AHANGBiFKVFhvMiyyzzjhkmGvE", // renLUNA
-  "G1a6jxYz3m8DVyMqYnuV7s86wD4fvuXYneWSpLJkmsXj", // renBCH
-  "FKJvvVJ242tX7zFtzTmzqoA631LqHh4CdgcN8dcfFSju", // renDGB
-  "ArUkYE2XDKzqy77PRRGjo4wREWwqk6RXTfM9NeqzPvjU", // renDOGE
-  "E99CQ2gFMmbiyK2bwiaFNWUUmwz4r8k2CVEFxwuvQ7ue", // renZEC
-  "De2bU64vsXKU9jq4bCjeDxNRGPn8nr3euaTK8jBYmD3J", // renFIL
-  "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB", // USDT
-];
 export const ETH_TOKENS_THAT_EXIST_ELSEWHERE = [
   getAddress("0x476c5E26a75bd202a9683ffD34359C0CC15be0fF"), // SRM
   getAddress("0x818fc6c2ec5986bc6e2cbf00939d90556ab12ce5"), // KIN
@@ -718,10 +703,6 @@ export const ETH_TOKENS_THAT_EXIST_ELSEWHERE = [
   getAddress("0x3832d2F059E55934220881F831bE501D180671A7"), // renDOGE
   getAddress("0x1c5db575e2ff833e46a2e9864c22f4b22e0b37c2"), // renZEC
   getAddress("0xD5147bc8e386d91Cc5DBE72099DAC6C9b99276F5"), // renFIL
-];
-export const ETH_TOKENS_THAT_CAN_BE_SWAPPED_ON_SOLANA = [
-  getAddress("0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"), // USDC
-  getAddress("0xdac17f958d2ee523a2206206994597c13d831ec7"), // USDT
 ];
 export const BSC_MARKET_WARNINGS = [
   getAddress(WBNB_ADDRESS),
@@ -925,8 +906,6 @@ export const TOTAL_TRANSACTIONS_WORMHOLE = `https://europe-west3-wormhole-315720
 export const RECENT_TRANSACTIONS_WORMHOLE = `https://europe-west3-wormhole-315720.cloudfunctions.net/mainnet-recent?groupBy=address&numRows=2`;
 
 export const VAA_EMITTER_ADDRESSES = [
-  `${CHAIN_ID_SOLANA}:ec7372995d5cc8732397fb0ad35c0121e0eaa90d26f828a534cab54391b3a4f5`, //SOLANA TOKEN
-  `${CHAIN_ID_SOLANA}:0def15a24423e1edd1a5ab16f557b9060303ddbab8c803d2ee48f4b78a1cfd6b`, //SOLAN NFT
   `${CHAIN_ID_ETH}:0000000000000000000000003ee18b2214aff97000d974cf647e7c347e8fa585`, //ETH token
   `${CHAIN_ID_ETH}:0000000000000000000000006ffd7ede62328b3af38fcd61461bbfc52f5651fe`, //ETH NFT
   `${CHAIN_ID_TERRA}:0000000000000000000000007cf7b764e38a0a5e967972c1df77d432510564e2`, //terra
@@ -951,10 +930,6 @@ export const MULTI_CHAIN_TOKENS: MultiChainInfo =
   //EVM chains should format the addresses to all lowercase
   CLUSTER === "mainnet"
     ? ({
-        [CHAIN_ID_SOLANA]: {
-          EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v: "USDC",
-          Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB: "USDT",
-        },
         [CHAIN_ID_ETH]: {
           "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48": "USDC",
           "0xdac17f958d2ee523a2206206994597c13d831ec7": "USDT",
@@ -970,9 +945,6 @@ export const MULTI_CHAIN_TOKENS: MultiChainInfo =
         },
       } as MultiChainInfo)
     : ({
-        [CHAIN_ID_SOLANA]: {
-          "2WDq7wSs9zYrpx2kbHDA4RUTRch2CCTP6ZWaH4GNfnQQ": "SOLT",
-        },
         [CHAIN_ID_ETH]: {},
         [CHAIN_ID_TERRA]: {},
         [CHAIN_ID_BSC]: {},
@@ -982,7 +954,6 @@ export const MULTI_CHAIN_TOKENS: MultiChainInfo =
 export const AVAILABLE_MARKETS_URL =
   "https://docs.wormholenetwork.com/wormhole/overview-liquid-markets";
 
-export const SOLANA_SYSTEM_PROGRAM_ADDRESS = "11111111111111111111111111111111";
 export const FEATURED_MARKETS_JSON_URL =
   "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/src/markets.json";
 
@@ -1008,10 +979,6 @@ export const getHowToAddToTokenListUrl = (chainId: ChainId) => {
   }
   return "";
 };
-
-export const SOLANA_TOKEN_METADATA_PROGRAM_URL =
-  "https://github.com/metaplex-foundation/metaplex/tree/master/rust/token-metadata/program";
-export const MAX_VAA_UPLOAD_RETRIES_SOLANA = 5;
 
 export const POLYGON_TERRA_WRAPPED_TOKENS = [
   "0x692597b009d13c4049a947cab2239b7d6517875f", // Wrapped UST Token

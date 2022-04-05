@@ -151,7 +151,6 @@ export const BasicAccountRender = (
 ) => {
   const { data: marketsData } = useMarketsMap(false)
   const classes = useStyles()
-  const mintPrettyString = shortenAddress(account.mintKey)
   const uri = nft ? account.image_256 : account.logo || account.uri
   const symbol = account.symbol || 'Unknown'
   const name = account.name || 'Unknown'
@@ -168,7 +167,6 @@ export const BasicAccountRender = (
         <Typography>{name}</Typography>
       </div>
       <div>
-        <Typography>{mintPrettyString}</Typography>
         <Typography style={{ wordBreak: 'break-all' }}>{tokenId}</Typography>
       </div>
     </div>
@@ -203,7 +201,7 @@ export const BasicAccountRender = (
       <div>
         <Typography style={{color:"white"}} variant="subtitle1">{symbol}</Typography>
       </div>
-      <div>{<Typography style={{color:"white"}} variant="body1">{account.isNativeAsset ? 'Native' : mintPrettyString}</Typography>}</div>
+      <div>{<Typography style={{color:"white"}} variant="body1">{account.isNativeAsset ? 'Native' : ''}</Typography>}</div>
       <div>
         {shouldDisplayBalance ? (
           <>
