@@ -88,7 +88,6 @@ function Transfer() {
             <ToggleButtons options={['Bridge', 'Swap']} />
           </Box>
           <Separator />
-          
           <Step expanded={activeStep >= 0} disabled={preventNavigation || isRedeemComplete}>
             <StepButton onClick={() => dispatch(setStep(0))} icon={null}>
               <Text fontSize={16} fontWeight={500} lineHeight="24px" color="text10">
