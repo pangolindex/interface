@@ -1,4 +1,4 @@
-import { ChainId, currencyEquals, Trade } from '@pangolindex/sdk'
+import { ChainId, currencyEquals, Trade } from '@antiyro/sdk'
 import React, { useCallback, useMemo } from 'react'
 import TransactionConfirmationModal, {
   ConfirmationModalContent,

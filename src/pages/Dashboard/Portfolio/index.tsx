@@ -11,7 +11,7 @@ import { PortfolioToken, PortfolioInfo } from './styleds'
 import { Card, CardHeader, CardBody } from '../styleds'
 import Loader from 'src/components/Loader'
 import Info2 from 'src/assets/svg/info2.svg'
-import { ALL_CHAINS } from '@pangolindex/sdk'
+import { ALL_CHAINS } from '@antiyro/sdk'
 
 export default function PortfolioWidget() {
   const theme = useContext(ThemeContext)

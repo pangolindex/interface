@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Fraction, CHAINS } from '@pangolindex/sdk'
+import { Fraction, CHAINS } from '@antiyro/sdk'
 import {
   Panel,
   Divider,

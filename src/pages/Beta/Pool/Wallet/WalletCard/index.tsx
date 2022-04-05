@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Pair } from '@pangolindex/sdk'
+import { Pair } from '@antiyro/sdk'
 import { Panel, Divider, ActionButon, InnerWrapper, DetailButton, StatWrapper } from './styleds'
 import Stat from 'src/components/Stat'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'

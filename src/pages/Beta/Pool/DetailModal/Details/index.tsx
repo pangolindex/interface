@@ -1,7 +1,7 @@
 import React from 'react'
 import { StakingInfo, useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { CAVAX, Fraction, Token, CHAINS } from '@pangolindex/sdk'
+import { CAVAX, Fraction, Token, CHAINS } from '@antiyro/sdk'
 import { DetailsContainer } from './styled'
 import { Box } from '@pangolindex/components'
 import CoinDescription from 'src/components/Beta/CoinDescription'

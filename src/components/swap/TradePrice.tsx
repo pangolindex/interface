@@ -1,5 +1,5 @@
 import React from 'react'
-import { Price } from '@pangolindex/sdk'
+import { Price } from '@antiyro/sdk'
 import { useContext } from 'react'
 import { Repeat } from 'react-feather'
 import { Text } from 'rebass'

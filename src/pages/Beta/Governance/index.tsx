@@ -22,7 +22,7 @@ import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
-import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
+import { JSBI, TokenAmount, ChainId } from '@antiyro/sdk'
 import { shortenAddress, getEtherscanLink } from 'src/utils'
 import FormattedCurrencyAmount from 'src/components/FormattedCurrencyAmount'
 
