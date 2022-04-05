@@ -38,9 +38,9 @@ const ToggleConnectedButton = ({
         size="small"
         onClick={disconnect}
         className={classes.button}
-        startIcon={<LinkOff />}
+        startIcon={<LinkOff style={{color: 'black'}} />}
       >
-        <Text fontSize={15} fontWeight={500} lineHeight="12px" color="text10">
+        <Text fontSize={15} fontWeight={500} lineHeight="12px" color="text5">
           Disconnect {pk.substring(0, is0x ? 6 : 3)}...
           {pk.substr(pk.length - (is0x ? 4 : 3))}
         </Text>

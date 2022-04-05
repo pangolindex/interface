@@ -85,7 +85,7 @@ export const TokenSelector = (props: TokenSelectorProps) => {
 
   const content = fatalError ? (
     <RefreshButtonWrapper callback={resetAccountWrapper}>
-      <Typography>{fatalError}</Typography>
+      <Typography style={{color: "white"}}>{fatalError}</Typography>
     </RefreshButtonWrapper>
   ) : isEVMChain(lookupChain) ? (
     <EvmTokenPicker
