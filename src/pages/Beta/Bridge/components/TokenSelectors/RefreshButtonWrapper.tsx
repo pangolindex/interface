@@ -37,7 +37,7 @@ export default function RefreshButtonWrapper({
       <div className={classes.inlineContentWrapper}>{children}</div>
       <Tooltip title="Reload Tokens">
         <IconButton onClick={callback}>
-          <RefreshIcon />
+          <RefreshIcon style={{color: "white"}} />
         </IconButton>
       </Tooltip>
     </div>
