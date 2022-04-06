@@ -67,7 +67,6 @@ function Source() {
   const targetChainOptions = useMemo(() => CHAINS.filter(c => c.id !== sourceChain), [sourceChain])
   const parsedTokenAccount = useSelector(selectTransferSourceParsedTokenAccount)
   const hasParsedTokenAccount = !!parsedTokenAccount
-  console.log('source', CHAIN_ID_ETH)
   const isEthereumMigration =
     sourceChain === CHAIN_ID_ETH &&
     !!parsedTokenAccount &&

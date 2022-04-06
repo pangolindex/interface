@@ -81,8 +81,8 @@ function SendConfirmationContent({
   }, [open, deservesTimeout]);
 
   const sendConfirmationContent = (
-    <>
-      <DialogTitle>Are you sure?</DialogTitle>
+    <div style={{backgroundColor: "#1C1C1C"}}>
+      <DialogTitle style={{color: 'white'}}>Are you sure?</DialogTitle>
       <DialogContent>
         {targetAsset ? (
           <div style={{ textAlign: "center", marginBottom: 16 }}>
@@ -100,7 +100,7 @@ function SendConfirmationContent({
               </Typography>
             </div>
             <div style={{ paddingTop: 4 }}>
-              <ArrowDownward fontSize="inherit" />
+              <ArrowDownward fontSize="inherit" style={{color: "white"}} />
             </div>
             <SmartAddress
               variant="h6"
@@ -126,7 +126,7 @@ function SendConfirmationContent({
         />
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={onClose}>
+        <Button variant="outlined" onClick={onClose} style={{color: 'white'}}>
           Cancel
         </Button>
         <Button
@@ -135,11 +135,12 @@ function SendConfirmationContent({
           onClick={onClick}
           size={"medium"}
           disabled={!!countdown}
+          style={{backgroundColor: "#FFC800", color: "black"}}
         >
           {!!countdown ? countdown.toString() : "Confirm"}
         </Button>
       </DialogActions>
-    </>
+    </div>
   );
 
   return sendConfirmationContent;

@@ -1,5 +1,5 @@
 import { ChainId } from '@certusone/wormhole-sdk'
-import { Step, StepButton, StepContent } from '@material-ui/core'
+import { Step, StepButton } from '@material-ui/core'
 import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router'
@@ -153,7 +153,7 @@ function Transfer() {
             </StepButton>
 
             )}
-            <StepContent>{isRedeemComplete ? <RedeemPreview /> : <Redeem />}</StepContent>
+            <Box>{isRedeemComplete ? <RedeemPreview /> : <Redeem />}</Box>
           </Step>
         </Box>
       </Ibridge>
