@@ -98,13 +98,9 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
 
   const [stepIndex, setStepIndex] = useState(4)
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
-  const [approval, approveCallback] = useApproveCallback(
-    chainId,
-    parsedAmount,
-    stakingInfo?.stakingRewardAddress[chainId]
-  )
+  const [approval, approveCallback] = useApproveCallback(chainId, parsedAmount, stakingInfo?.stakingRewardAddress)
 
-  const stakingContract = useStakingContract(stakingInfo?.stakingRewardAddress[chainId])
+  const stakingContract = useStakingContract(stakingInfo?.stakingRewardAddress)
   const currency0 = unwrappedToken(selectedPair?.token0 as Token, chainId)
   const currency1 = unwrappedToken(selectedPair?.token1 as Token, chainId)
   const poolMap = useMinichefPools()
@@ -233,7 +229,7 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
     ]
     const message = {
       owner: account,
-      spender: stakingInfo.stakingRewardAddress[chainId],
+      spender: stakingInfo.stakingRewardAddress,
       value: liquidityAmount.raw.toString(),
       nonce: nonce.toHexString(),
       deadline: deadline.toNumber()
