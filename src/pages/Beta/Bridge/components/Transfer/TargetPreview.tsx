@@ -23,10 +23,10 @@ export default function TargetPreview() {
 
   const explainerContent =
     targetChain && readableTargetAddress ? (
-      <>
+      <div style={{padding: '10px'}}>
         {targetAsset ? (
           <>
-            <span>and receive</span>
+            <span style={{color: 'white'}}>and receive</span>
             <SmartAddress
               chainId={targetChain}
               address={targetAsset}
@@ -36,17 +36,16 @@ export default function TargetPreview() {
             />
           </>
         ) : null}
-        <span>to</span>
+        <span style={{color: 'white'}}>to</span>
         <SmartAddress chainId={targetChain} address={readableTargetAddress} />
-        <span>on {CHAINS_BY_ID[targetChain].name}</span>
-      </>
+        <span style={{color: 'white'}}>on {CHAINS_BY_ID[targetChain].name}</span>
+      </div>
     ) : (
       ""
     );
 
   return (
     <Typography
-      style={{color: 'white', backgroundColor: "#212427", borderRadius: "5px", padding: "10px"}}
       component="div"
       variant="subtitle2"
       className={classes.description}

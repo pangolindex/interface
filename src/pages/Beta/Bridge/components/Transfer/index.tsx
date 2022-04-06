@@ -88,41 +88,71 @@ function Transfer() {
           </Box>
           <Separator />
           <Step expanded={activeStep >= 0} disabled={preventNavigation || isRedeemComplete}>
-            <StepButton onClick={() => dispatch(setStep(0))} icon={null}>
+            <StepButton onClick={() => dispatch(setStep(0))} icon={null} >
               <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
                 1. Source
               </Text>
             </StepButton>
             <Box>{activeStep === 0 ? <Source /> : <SourcePreview />}</Box>
           </Step>
-
-          <Step expanded={activeStep >= 1} disabled={preventNavigation || isRedeemComplete} style={{backgroundColor: "#212427", borderRadius: "5px", marginTop:'2px', marginBottom: '2px', height: "50px", padding:'13px'}}>
-            <StepButton
+          <Step expanded={activeStep >= 1} disabled={preventNavigation || isRedeemComplete} >
+            {activeStep < 1 ? (
+              <StepButton
               disabled={preventNavigation || isRedeemComplete || activeStep === 0}
               onClick={() => dispatch(setStep(1))}
               icon={null}
-              
+              style={{backgroundColor: "#212427", borderRadius: "5px", marginTop: "5px", marginBottom: '5px'}}
             >
               <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
                 2. Target
               </Text>
             </StepButton>
-            <StepContent>{activeStep === 1 ? <Target /> : <TargetPreview />}</StepContent>
-          </Step>
-          <Step expanded={activeStep >= 2} disabled={isSendComplete} style={{backgroundColor: "#212427", borderRadius: "5px", marginTop:'2px', marginBottom: '2px', height: "50px", padding:'13px'}}>
-            <StepButton disabled icon={null}  >
+            ) : (
+            <StepButton
+              disabled={preventNavigation || isRedeemComplete || activeStep === 0}
+              onClick={() => dispatch(setStep(1))}
+              icon={null}
+            >
               <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
+                2. Target
+              </Text>
+            </StepButton>
+
+            )}
+            <Box>{activeStep === 1 ? <Target /> : <TargetPreview />}</Box>
+          </Step>
+          <Step expanded={activeStep >= 2} disabled={isSendComplete}  >
+            {activeStep < 2 ? (
+              <StepButton disabled icon={null} style={{backgroundColor: "#212427", borderRadius: "5px", marginTop: "5px", marginBottom: '5px'}} >
+              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" >
                 3. Send tokens
               </Text>
             </StepButton>
-            <StepContent>{activeStep === 2 ? <Send /> : <SendPreview />}</StepContent>
+            ) : (
+            <StepButton disabled icon={null}  >
+              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" >
+                3. Send tokens
+              </Text>
+            </StepButton>
+
+            )}
+            <Box>{activeStep === 2 ? <Send /> : <SendPreview />}</Box>
           </Step>
-          <Step expanded={activeStep >= 3} completed={isRedeemComplete} style={{backgroundColor: "#212427", borderRadius: "5px", marginTop:'2px', height: "50px", padding:'13px'}}>
-            <StepButton onClick={() => dispatch(setStep(3))} disabled={!isSendComplete || isRedeemComplete} icon={null}>
+          <Step expanded={activeStep >= 3} completed={isRedeemComplete}  >
+            {activeStep < 3 ? (
+              <StepButton onClick={() => dispatch(setStep(3))} disabled={!isSendComplete || isRedeemComplete} icon={null} style={{backgroundColor: "#212427", borderRadius: "5px", marginTop: "5px", marginBottom: '5px'}}>
               <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" style={{color: 'white'}}>
                 4. Redeem tokens
               </Text>
             </StepButton>
+            ) : (
+            <StepButton onClick={() => dispatch(setStep(3))} disabled={!isSendComplete || isRedeemComplete} icon={null} >
+              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" style={{color: 'white'}}>
+                4. Redeem tokens
+              </Text>
+            </StepButton>
+
+            )}
             <StepContent>{isRedeemComplete ? <RedeemPreview /> : <Redeem />}</StepContent>
           </Step>
         </Box>

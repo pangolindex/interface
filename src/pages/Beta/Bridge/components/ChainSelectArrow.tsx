@@ -1,6 +1,5 @@
 import React from 'react'
 import { IconButton } from "@material-ui/core";
-import { ArrowForward, SwapHoriz } from "@material-ui/icons";
 import { useState } from "react";
 import Arrow from "src/assets/images/arrow-bridge.png"
 import ArrowUp from "src/assets/images/arrow-bridge-up.png"
@@ -27,7 +26,6 @@ export default function ChainSelectArrow({
       style={{color: "white"}}
     >
       {showSwap ? <img src={ArrowUp} /> : <img src={Arrow} />}
-      
     </IconButton>
   );
 }

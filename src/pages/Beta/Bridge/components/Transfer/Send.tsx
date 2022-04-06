@@ -129,7 +129,7 @@ function Send() {
   }, [approveAmount]);
 
   return (
-    <>
+    <div style={{padding: '10px'}}>
       <StepDescription>
         Transfer the tokens to the Wormhole Token Bridge.
       </StepDescription>
@@ -192,7 +192,7 @@ function Send() {
         tx={transferTx}
         isSendComplete={isSendComplete}
       />
-    </>
+    </div>
   );
 }
 
