@@ -19,7 +19,7 @@ function PolygonTerraWrappedWarning() {
   const classes = useStyles();
   return (
     <Alert severity="warning" variant="outlined" className={classes.alert}>
-      <Typography variant="body1">
+      <Typography style={{color: 'white'}} variant="body1">
         This is a Shuttle-wrapped asset from Polygon! Transferring it will
         result in a double wrapped (Wormhole-wrapped Shuttle-wrapped) asset,
         which has no liquid markets.

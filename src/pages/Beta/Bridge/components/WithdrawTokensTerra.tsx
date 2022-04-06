@@ -107,7 +107,7 @@ export default function WithdrawTokensTerra() {
     <Container maxWidth="md">
       <HeaderText white>Withdraw Tokens</HeaderText>
       <Paper className={classes.mainPaper}>
-        <Typography style={{ textAlign: "center" }}>
+        <Typography style={{color: 'white', textAlign: "center"}}>
           Withdraw tokens from the Terra token bridge
         </Typography>
         <TerraWalletKey />

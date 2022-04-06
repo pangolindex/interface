@@ -123,8 +123,8 @@ function Target() {
         <>
           {targetAsset ? (
             <div className={classes.transferField}>
-              <Typography variant="subtitle2">Bridged tokens:</Typography>
-              <Typography component="div">
+              <Typography style={{color: 'white'}} variant="subtitle2">Bridged tokens:</Typography>
+              <Typography style={{color: 'white'}} component="div">
                 <SmartAddress
                   chainId={targetChain}
                   address={targetAsset}
@@ -138,8 +138,8 @@ function Target() {
             </div>
           ) : null}
           <div className={classes.transferField}>
-            <Typography variant="subtitle2">Sent to:</Typography>
-            <Typography component="div">
+            <Typography style={{color: 'white'}} variant="subtitle2">Sent to:</Typography>
+            <Typography style={{color: 'white'}} component="div">
               <SmartAddress
                 chainId={targetChain}
                 address={readableTargetAddress}
@@ -151,7 +151,7 @@ function Target() {
         </>
       ) : null}
       <Alert severity="info" variant="outlined" className={classes.alert}>
-        <Typography>
+        <Typography >
           You will have to pay transaction fees on{" "}
           {CHAINS_BY_ID[targetChain].name} to redeem your tokens.
         </Typography>

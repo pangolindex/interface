@@ -32,6 +32,7 @@ export default function RedeemPreview() {
   return (
     <>
       <Typography
+        style={{color: 'white'}}
         component="div"
         variant="subtitle2"
         className={classes.description}

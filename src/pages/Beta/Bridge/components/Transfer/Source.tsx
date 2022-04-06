@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
   chainSelectArrow: {
     position: 'relative',
     top: '12px',
-    transform: 'rotate(90deg)'
+    // transform: 'rotate(90deg)',
   },
   transferField: {
   }
@@ -164,7 +164,7 @@ function Source() {
             disabled={shouldLockFields}
           />
         </div>
-          <Text fontSize={17} fontWeight={500} lineHeight="12px" color="text10" paddingTop='5px' paddingBottom='5px'>
+          <Text fontSize={17} fontWeight={500} lineHeight="12px" color="text10" paddingTop='10px' paddingBottom='5px'>
             Destination
           </Text>
         <div className={classes.chainSelectContainer}>

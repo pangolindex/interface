@@ -76,7 +76,7 @@ export default function TerraFeeDenomPicker(props: TerraFeeDenomPickerProps) {
 
   return (
     <div className={classes.feePickerContainer}>
-      <Typography variant="caption">Fee Denomination</Typography>
+      <Typography style={{color: 'white'}} variant="caption">Fee Denomination</Typography>
       <TextField
         variant="outlined"
         size="small"

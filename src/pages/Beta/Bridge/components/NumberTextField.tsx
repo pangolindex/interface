@@ -22,7 +22,7 @@ export default function NumberTextField({
               onClick={onMaxClick}
               disabled={props.disabled}
               variant="outlined"
-              style={{color: 'white'}}
+              style={{color: 'black'}}
             >
               Max
             </Button>

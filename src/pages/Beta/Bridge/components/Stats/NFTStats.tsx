@@ -214,8 +214,8 @@ const NFTStats: React.FC<any> = () => {
   const header = (
     <div className={classes.flexBox}>
       <div className={classes.explainerContainer}>
-        <Typography variant="h4">Total NFTs Locked</Typography>
-        <Typography variant="subtitle1" color="textSecondary">
+        <Typography style={{color: 'white'}} variant="h4">Total NFTs Locked</Typography>
+        <Typography style={{color: 'white'}} variant="subtitle1" color="textSecondary">
           These NFTs are currently locked by the NFT Bridge contracts.
         </Typography>
       </div>
@@ -225,6 +225,7 @@ const NFTStats: React.FC<any> = () => {
           className={clsx(classes.explainerContainer, classes.totalContainer)}
         >
           <Typography
+            style={{color: 'white'}}
             variant="body2"
             color="textSecondary"
             component="div"
@@ -233,6 +234,7 @@ const NFTStats: React.FC<any> = () => {
             {"Total "}
           </Typography>
           <Typography
+            style={{color: 'white'}}
             variant="h3"
             component="div"
             noWrap

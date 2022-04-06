@@ -41,10 +41,11 @@ export default function HeaderText({
         component="h1"
         className={clsx({ [classes.linearGradient]: !white })}
         gutterBottom={!!subtitle}
+        style={{color: 'white'}}
       >
         {children}
       </Typography>
-      {subtitle ? <Typography component="div">{subtitle}</Typography> : null}
+      {subtitle ? <Typography style={{color: 'white'}} component="div">{subtitle}</Typography> : null}
     </div>
   );
 }

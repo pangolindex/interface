@@ -83,7 +83,7 @@ export default function TransactionProgress({
           }
           variant="determinate"
         />
-        <Typography variant="body2" className={classes.message}>
+        <Typography style={{color: 'white'}} variant="body2" className={classes.message}>
           {blockDiff < expectedBlocks
             ? `Waiting for ${blockDiff} / ${expectedBlocks} confirmations on ${CHAINS_BY_ID[chainId].name}...`
             : `Waiting for Wormhole Network consensus...`}

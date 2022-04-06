@@ -35,6 +35,7 @@ export default function SourcePreview() {
       component="div"
       variant="subtitle2"
       className={classes.description}
+      style={{color: 'white'}}
     >
       {explainerContent}
     </Typography>

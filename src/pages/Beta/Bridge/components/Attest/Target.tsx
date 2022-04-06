@@ -57,7 +57,7 @@ function Target() {
       />
       <KeyAndBalance chainId={targetChain} />
       <Alert severity="info" variant="outlined" className={classes.alert}>
-        <Typography>
+        <Typography style={{color: 'white'}}>
           You will have to pay transaction fees on{" "}
           {CHAINS_BY_ID[targetChain].name} to attest this token.{" "}
         </Typography>

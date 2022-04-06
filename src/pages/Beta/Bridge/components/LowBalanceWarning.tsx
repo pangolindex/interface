@@ -33,7 +33,7 @@ function LowBalanceWarning({ chainId }: { chainId: ChainId }) {
     <Alert severity="warning" variant="outlined" className={classes.alert}>
       <Typography variant="body1">{warningMessage}</Typography>
       {chainId !== CHAIN_ID_TERRA ? (
-        <Typography variant="body1">
+        <Typography style={{color: 'white'}} variant="body1">
           {"Current balance: " + transactionFeeWarning.balanceString}
         </Typography>
       ) : null}

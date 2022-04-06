@@ -15,7 +15,7 @@ export default function StepDescription({
 }) {
   const classes = useStyles();
   return (
-    <Typography component="div" variant="body2" className={classes.description}>
+    <Typography style={{color: 'white'}} component="div" variant="body2" className={classes.description}>
       {children}
     </Typography>
   );

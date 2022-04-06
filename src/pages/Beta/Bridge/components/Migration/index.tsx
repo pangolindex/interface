@@ -47,7 +47,7 @@ const EthereumRoot: React.FC<Migration> = (props) => {
   let content = null;
   if (!legacyAsset || !targetPool) {
     content = (
-      <Typography style={{ textAlign: "center" }}>
+      <Typography style={{ textAlign: "center", color: 'white' }}>
         This asset is not eligible for migration.
       </Typography>
     );

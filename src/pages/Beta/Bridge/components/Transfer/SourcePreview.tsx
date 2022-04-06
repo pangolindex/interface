@@ -48,6 +48,7 @@ export default function SourcePreview() {
   return (
     <>
       <Typography
+        style={{color: 'white', backgroundColor: "#212427", borderRadius: "5px", padding: "10px"}}
         component="div"
         variant="subtitle2"
         className={classes.description}

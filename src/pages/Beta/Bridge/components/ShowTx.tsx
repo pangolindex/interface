@@ -79,7 +79,7 @@ export default function ShowTx({
 
   return (
     <div className={classes.tx}>
-      <Typography noWrap component="div" variant="body2">
+      <Typography style={{color: 'white'}} noWrap component="div" variant="body2">
         {tx.id}
       </Typography>
       {showExplorerLink && explorerAddress ? (

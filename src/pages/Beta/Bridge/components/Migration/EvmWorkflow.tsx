@@ -170,18 +170,18 @@ export default function EvmWorkflow({
 
   const explainerContent = (
     <div>
-      <Typography>This action will convert</Typography>
-      <Typography variant="h6">
+      <Typography style={{color: 'white'}}>This action will convert</Typography>
+      <Typography style={{color: 'white'}} variant="h6">
         {fromTokenPretty} {`(Balance: ${fromWalletBalance || ""})`}
       </Typography>
       <div className={classes.spacer} />
-      <Typography>to</Typography>
-      <Typography variant="h6">
+      <Typography style={{color: 'white'}}>to</Typography>
+      <Typography style={{color: 'white'}} variant="h6">
         {toTokenPretty} {`(Balance: ${poolInfo.data?.toWalletBalance || ""})`}
       </Typography>
       <div className={classes.spacer} />
-      <Typography>Utilizing this pool</Typography>
-      <Typography variant="h6">
+      <Typography style={{color: 'white'}}>Utilizing this pool</Typography>
+      <Typography style={{color: 'white'}} variant="h6">
         {poolPretty} {`(Balance: ${poolInfo.data?.toPoolBalance || ""})`}
       </Typography>
     </div>
@@ -213,11 +213,14 @@ export default function EvmWorkflow({
       )}
 
       {(error || !isReadyToTransfer) && (
-        <Typography color="error">{error || getNotReadyCause()}</Typography>
+        <div >
+          <Typography color="error" >{error || getNotReadyCause()}</Typography>
+          
+        </div>
       )}
       {transaction ? (
         <>
-          <Typography>
+          <Typography style={{color: 'white'}}>
             Successfully migrated your tokens! They will be available once this
             transaction confirms.
           </Typography>

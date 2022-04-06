@@ -25,7 +25,7 @@ import TargetPreview from './TargetPreview'
 
 import { QuestionAnswer } from '../../TabulationBox'
 import { PageWrapper, Ibridge, Separator } from '../../styleds'
-import { Text, Box, ToggleButtons } from '@pangolindex/components'
+import { Text, Box } from '@pangolindex/components'
 
 function Transfer() {
   useCheckIfWormholeWrapped()
@@ -81,44 +81,45 @@ function Transfer() {
       <Ibridge>
         <Box p={20}>
           <Box display="flex" alignItems="center" justifyContent="space-between">
-            <Text fontSize={24} fontWeight={500} lineHeight="36px" color="text10">
+            <Text fontSize={24} fontWeight={600} lineHeight="36px" color="text10">
               Cross Chain
             </Text>
-            <ToggleButtons options={['Bridge', 'Swap']} />
+            {/* <ToggleButtons options={['Bridge', 'Swap']} /> */}
           </Box>
           <Separator />
           <Step expanded={activeStep >= 0} disabled={preventNavigation || isRedeemComplete}>
             <StepButton onClick={() => dispatch(setStep(0))} icon={null}>
-              <Text fontSize={16} fontWeight={500} lineHeight="24px" color="text10">
+              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
                 1. Source
               </Text>
             </StepButton>
             <Box>{activeStep === 0 ? <Source /> : <SourcePreview />}</Box>
           </Step>
 
-          <Step expanded={activeStep >= 1} disabled={preventNavigation || isRedeemComplete}>
+          <Step expanded={activeStep >= 1} disabled={preventNavigation || isRedeemComplete} style={{backgroundColor: "#212427", borderRadius: "5px", marginTop:'2px', marginBottom: '2px', height: "50px", padding:'13px'}}>
             <StepButton
               disabled={preventNavigation || isRedeemComplete || activeStep === 0}
               onClick={() => dispatch(setStep(1))}
               icon={null}
+              
             >
-              <Text fontSize={16} fontWeight={500} lineHeight="24px" color="text10">
+              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
                 2. Target
               </Text>
             </StepButton>
             <StepContent>{activeStep === 1 ? <Target /> : <TargetPreview />}</StepContent>
           </Step>
-          <Step expanded={activeStep >= 2} disabled={isSendComplete}>
-            <StepButton disabled icon={null}>
-              <Text fontSize={16} fontWeight={500} lineHeight="24px" color="text10">
+          <Step expanded={activeStep >= 2} disabled={isSendComplete} style={{backgroundColor: "#212427", borderRadius: "5px", marginTop:'2px', marginBottom: '2px', height: "50px", padding:'13px'}}>
+            <StepButton disabled icon={null}  >
+              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
                 3. Send tokens
               </Text>
             </StepButton>
             <StepContent>{activeStep === 2 ? <Send /> : <SendPreview />}</StepContent>
           </Step>
-          <Step expanded={activeStep >= 3} completed={isRedeemComplete}>
+          <Step expanded={activeStep >= 3} completed={isRedeemComplete} style={{backgroundColor: "#212427", borderRadius: "5px", marginTop:'2px', height: "50px", padding:'13px'}}>
             <StepButton onClick={() => dispatch(setStep(3))} disabled={!isSendComplete || isRedeemComplete} icon={null}>
-              <Text fontSize={16} fontWeight={500} lineHeight="24px" color="text10">
+              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" style={{color: 'white'}}>
                 4. Redeem tokens
               </Text>
             </StepButton>

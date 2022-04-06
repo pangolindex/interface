@@ -210,8 +210,8 @@ const StatsRoot: React.FC<any> = () => {
       </Container>
       <div className={classes.flexBox}>
         <div className={classes.explainerContainer}>
-          <Typography variant="h4">Total Value Locked</Typography>
-          <Typography variant="subtitle1" color="textSecondary">
+          <Typography style={{color: 'white'}} variant="h4">Total Value Locked</Typography>
+          <Typography style={{color: 'white'}} variant="subtitle1" color="textSecondary">
             These assets are currently locked by the Token Bridge contracts.
           </Typography>
         </div>
@@ -225,6 +225,7 @@ const StatsRoot: React.FC<any> = () => {
               color="textSecondary"
               component="div"
               noWrap
+              style={{color: 'white'}}
             >
               {"Total (USD)"}
             </Typography>
@@ -233,6 +234,7 @@ const StatsRoot: React.FC<any> = () => {
               component="div"
               noWrap
               className={classes.totalValue}
+              style={{color: 'white'}}
             >
               {tvlString}
             </Typography>

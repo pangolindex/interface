@@ -25,14 +25,14 @@ function WormholeWrappedWarning() {
   const classes = useStyles();
   return (
     <Alert severity="info" variant="outlined" className={classes.alert}>
-      <Typography component="div" className={classes.line}>
+      <Typography style={{color: 'white'}} component="div" className={classes.line}>
         The tokens you will receive are{" "}
         <Box fontWeight={900} display="inline">
           Wormhole Wrapped Tokens
         </Box>{" "}
         and will need to be exchanged for native assets.
       </Typography>
-      <Typography component="div">
+      <Typography style={{color: 'white'}} component="div">
         <Link
           href={AVAILABLE_MARKETS_URL}
           target="_blank"
@@ -56,10 +56,12 @@ function MultichainWarning({
   return (
     <Alert severity="warning" variant="outlined" className={classes.alert}>
       <Typography
+        style={{color: 'white'}}
         variant="h6"
         className={classes.line}
       >{`You will not receive native ${symbol} on ${CHAINS_BY_ID[targetChain].name}`}</Typography>
       <Typography
+        style={{color: 'white'}}
         className={classes.line}
       >{`To receive native ${symbol}, you will have to perform a swap with the wrapped tokens once you are done bridging.`}</Typography>
       <Typography>

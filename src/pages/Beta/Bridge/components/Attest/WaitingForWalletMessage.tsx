@@ -25,7 +25,7 @@ export default function WaitingForWalletMessage() {
   const createTx = useSelector(selectAttestCreateTx);
   const showWarning = (isSending && !attestTx) || (isCreating && !createTx);
   return showWarning ? (
-    <Typography className={classes.message} variant="body2">
+    <Typography style={{color: 'white'}} className={classes.message} variant="body2">
       {WAITING_FOR_WALLET_AND_CONF}{" "}
     </Typography>
   ) : null;

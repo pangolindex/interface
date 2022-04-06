@@ -86,8 +86,8 @@ const TransactionMetrics: React.FC<any> = () => {
   const header = (
     <div className={classes.flexBox}>
       <div>
-        <Typography variant="h4">Transaction Count</Typography>
-        <Typography variant="subtitle1" color="textSecondary">
+        <Typography style={{color: 'white'}} variant="h4">Transaction Count</Typography>
+        <Typography style={{color: 'white'}} variant="subtitle1" color="textSecondary">
           This is how many transactions the Token Bridge has processed.
         </Typography>
       </div>
@@ -98,7 +98,7 @@ const TransactionMetrics: React.FC<any> = () => {
   const content = (
     <div className={classes.totalsBox}>
       <div className={classes.totalContainer}>
-        <Typography variant="subtitle2" component="div" noWrap>
+        <Typography style={{color: 'white'}} variant="subtitle2" component="div" noWrap>
           {"Last 48 Hours"}
         </Typography>
         <Typography
@@ -106,12 +106,13 @@ const TransactionMetrics: React.FC<any> = () => {
           component="div"
           noWrap
           className={classes.totalValue}
+          style={{color: 'white'}}
         >
           {numeral(transactionCount.data?.total48h || 0).format("0,0")}
         </Typography>
       </div>
       <div className={classes.totalContainer}>
-        <Typography variant="subtitle2" component="div" noWrap>
+        <Typography style={{color: 'white'}} variant="subtitle2" component="div" noWrap>
           {"All Time"}
         </Typography>
         <Typography
@@ -119,6 +120,7 @@ const TransactionMetrics: React.FC<any> = () => {
           component="div"
           noWrap
           className={classes.totalValue}
+          style={{color: 'white'}}
         >
           {numeral(transactionCount.data?.totalAllTime || 0).format("0,0")}
         </Typography>
@@ -128,6 +130,7 @@ const TransactionMetrics: React.FC<any> = () => {
 
   const networkExplorer = (
     <Typography
+      style={{color: 'white'}}
       variant="subtitle1"
       className={clsx(classes.alignCenter, classes.typog)}
     >

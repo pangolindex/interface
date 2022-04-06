@@ -123,8 +123,8 @@ const CustodyAddresses: React.FC<any> = () => {
   const header = (
     <div className={classes.flexBox}>
       <div className={classes.explainerContainer}>
-        <Typography variant="h4">Custody Addresses</Typography>
-        <Typography variant="subtitle1" color="textSecondary">
+        <Typography style={{color: 'white'}} variant="h4">Custody Addresses</Typography>
+        <Typography style={{color: 'white'}} variant="subtitle1" color="textSecondary">
           These are the custody addresses which hold collateralized assets for
           the token bridge.
         </Typography>

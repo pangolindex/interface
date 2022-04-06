@@ -30,10 +30,11 @@ const useStyles = makeStyles((theme) => ({
   listItemColor: {
     display: 'flex',
     alignItems: "center",
-    padding: "8px",
+    padding: "15px",
     cursor: 'pointer',
     backgroundColor: "#1c1c1c",
-
+    marginTop: '-8px',
+    marginBottom: '-8px',
     "&:hover": {
       backgroundColor: "#212427",
     },
@@ -42,9 +43,9 @@ const useStyles = makeStyles((theme) => ({
 
 const createChainMenuItem = ({ id, name, logo }: ChainInfo, classes: any) => (
   <div key={id} value={id} className={classes.listItemColor} >
-    <ListItemIcon className={classes.listItemIcon}>
+    <div className={classes.listItemIcon}>
       <img src={logo} alt={name} className={classes.icon} />
-    </ListItemIcon>
+    </div>
     {/* <ListItemText>{name}</ListItemText> */}
     <Text fontSize={20} fontWeight={500} lineHeight="12px" color="text10">
     {name}

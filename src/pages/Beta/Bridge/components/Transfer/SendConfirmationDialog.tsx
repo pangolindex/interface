@@ -86,7 +86,7 @@ function SendConfirmationContent({
       <DialogContent>
         {targetAsset ? (
           <div style={{ textAlign: "center", marginBottom: 16 }}>
-            <Typography variant="subtitle1" style={{ marginBottom: 8 }}>
+            <Typography style={{color: 'white', marginBottom: 8}} variant="subtitle1">
               You are about to perform this transfer:
             </Typography>
             <SmartAddress
@@ -95,7 +95,7 @@ function SendConfirmationContent({
               parsedTokenAccount={sourceParsedTokenAccount}
             />
             <div>
-              <Typography variant="caption">
+              <Typography style={{color: 'white'}} variant="caption">
                 {CHAINS_BY_ID[sourceChain].name}
               </Typography>
             </div>
@@ -111,7 +111,7 @@ function SendConfirmationContent({
               logo={logo}
             />
             <div>
-              <Typography variant="caption">
+              <Typography style={{color: 'white'}} variant="caption">
                 {CHAINS_BY_ID[targetChain].name}
               </Typography>
             </div>

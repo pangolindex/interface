@@ -202,7 +202,7 @@ export default function Footer() {
           </div>
           <div className={classes.spacer} />
           <div className={classes.socialWrapper}>
-            <Typography className={classes.socialHeader}>
+            <Typography style={{color: 'white'}} className={classes.socialHeader}>
               Let&aposs be friends
             </Typography>
             <IconButton
@@ -247,7 +247,7 @@ export default function Footer() {
             </IconButton>
           </div>
           <div className={classes.copyWrapper}>
-            <Typography variant="body2">
+            <Typography style={{color: 'white'}} variant="body2">
               2022 &copy; Wormhole. All Rights Reserved.
             </Typography>
           </div>

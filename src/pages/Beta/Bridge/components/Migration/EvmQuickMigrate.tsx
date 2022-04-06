@@ -174,7 +174,7 @@ function EvmMigrationLineItem({
     return (
       <div className={classes.lineItem}>
         <div>
-          <Typography variant="body2" color="textSecondary">
+          <Typography style={{color: 'white'}} variant="body2" color="textSecondary">
             Successfully migrated your tokens. They will become available once
             this transaction confirms.
           </Typography>
@@ -186,10 +186,10 @@ function EvmMigrationLineItem({
     return (
       <div className={classes.lineItem}>
         <div>
-          <Typography variant="body2" color="textSecondary">
+          <Typography style={{color: 'white'}} variant="body2" color="textSecondary">
             Current Token
           </Typography>
-          <Typography className={classes.balance}>
+          <Typography style={{color: 'white'}} className={classes.balance}>
             {poolInfo.data.fromWalletBalance}
           </Typography>
           <SmartAddress
@@ -199,7 +199,7 @@ function EvmMigrationLineItem({
           />
         </div>
         <div>
-          <Typography variant="body2" color="textSecondary">
+          <Typography style={{color: 'white'}} variant="body2" color="textSecondary">
             will become
           </Typography>
           <ArrowRightAltIcon fontSize="large" />
@@ -208,7 +208,7 @@ function EvmMigrationLineItem({
           <Typography variant="body2" color="textSecondary">
             Wormhole Token
           </Typography>
-          <Typography className={classes.balance}>
+          <Typography style={{color: 'white'}} className={classes.balance}>
             {poolInfo.data.fromWalletBalance}
           </Typography>
           <SmartAddress
@@ -338,7 +338,7 @@ export default function EvmQuickMigrate({ chainId }: { chainId: ChainId }) {
 
   const content = (
     <div className={classes.containerDiv}>
-      <Typography variant="h5">
+      <Typography style={{color: 'white'}} variant="h5">
         {`This page allows you to convert certain wrapped tokens ${
           chainName ? "on " + chainName : ""
         } into
@@ -346,7 +346,7 @@ export default function EvmQuickMigrate({ chainId }: { chainId: ChainId }) {
       </Typography>
       <EthereumSignerKey />
       {!isReady ? (
-        <Typography variant="body1">Please connect your wallet.</Typography>
+        <Typography style={{color: 'white'}} variant="body1">Please connect your wallet.</Typography>
       ) : migratorsError ? (
         <Typography variant="h6">{migratorsError}</Typography>
       ) : (
@@ -354,7 +354,7 @@ export default function EvmQuickMigrate({ chainId }: { chainId: ChainId }) {
           <div className={classes.spacer} />
           <CircularProgress className={isLoading ? "" : classes.hidden} />
           <div className={!isLoading ? "" : classes.hidden}>
-            <Typography>
+            <Typography style={{color: 'white'}}>
               {hasEligibleAssets
                 ? "You have some assets that are eligible for migration! Click the 'Convert' button to swap them for Wormhole tokens."
                 : "You don't have any assets eligible for migration."}

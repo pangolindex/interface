@@ -165,7 +165,7 @@ export default function SmartAddress({
 
   const tooltipContent = (
     <>
-      {useableName && <Typography>{useableName}</Typography>}
+      {useableName && <Typography style={{color: 'white'}}>{useableName}</Typography>}
       <div>
         {explorerButton}
         {copyButton}
@@ -181,6 +181,7 @@ export default function SmartAddress({
       className={classes.mainTypog}
     >
       <Typography
+      style={{color: 'white'}}
         variant={variant || "body1"}
         className={clsx(classes.mainTypog, {
           [classes.noGutter]: noGutter,

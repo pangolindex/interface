@@ -77,16 +77,16 @@ function PrimaryAssetInfomation({
   const metadata = useMetadata(originChain, tokenArray);
   const nativeContent = (
     <div>
-      <Typography>{`This is not a Wormhole wrapped token.`}</Typography>
+      <Typography style={{color: 'white'}}>{`This is not a Wormhole wrapped token.`}</Typography>
     </div>
   );
   const wrapped = (
     <div>
-      <Typography>{`This is wrapped by Wormhole! Here is the original token: `}</Typography>
+      <Typography style={{color: 'white'}}>{`This is wrapped by Wormhole! Here is the original token: `}</Typography>
       <div className={classes.flexBox}>
-        <Typography>{`Chain: ${CHAINS_BY_ID[originChain].name}`}</Typography>
+        <Typography style={{color: 'white'}}>{`Chain: ${CHAINS_BY_ID[originChain].name}`}</Typography>
         <div>
-          <Typography component="div">
+          <Typography style={{color: 'white'}} component="div">
             {"Token: "}
             <SmartAddress
               address={originAsset}
@@ -125,7 +125,7 @@ function SecondaryAssetInformation({
   //TODO when this is the origin chain
   return !originAssetInfo ? null : chainId === originAssetInfo.originChain ? (
     <div>
-      <Typography>{`Transferring to ${CHAINS_BY_ID[chainId].name} will unwrap the token:`}</Typography>
+      <Typography style={{color: 'white'}}>{`Transferring to ${CHAINS_BY_ID[chainId].name} will unwrap the token:`}</Typography>
       <div className={classes.resultContainer}>
         <SmartAddress
           chainId={chainId}
@@ -143,7 +143,7 @@ function SecondaryAssetInformation({
     </div>
   ) : !foreignAssetInfo ? null : foreignAssetInfo.doesExist === false ? (
     <div>
-      <Typography>{`This token has not yet been registered on ${CHAINS_BY_ID[chainId].name}`}</Typography>
+      <Typography style={{color: 'white'}}>{`This token has not yet been registered on ${CHAINS_BY_ID[chainId].name}`}</Typography>
       <RegisterNowButtonCore
         originChain={originAssetInfo?.originChain || undefined}
         originAsset={
@@ -157,7 +157,7 @@ function SecondaryAssetInformation({
     </div>
   ) : (
     <div>
-      <Typography>When bridged, this asset becomes: </Typography>
+      <Typography style={{color: 'white'}}>When bridged, this asset becomes: </Typography>
       <div className={classes.resultContainer}>
         <SmartAddress
           chainId={chainId}
@@ -262,8 +262,8 @@ export default function TokenOriginVerifier() {
 
   const primaryContent = (
     <>
-      <Typography variant="h5">Source Information</Typography>
-      <Typography variant="body1" color="textSecondary">
+      <Typography style={{color: 'white'}} variant="h5">Source Information</Typography>
+      <Typography style={{color: 'white'}} variant="body1" color="textSecondary">
         Enter a token from any supported chain to get started.
       </Typography>
       <div className={classes.spacer} />
@@ -275,6 +275,7 @@ export default function TokenOriginVerifier() {
         onChange={handlePrimaryLookupChainChange}
         fullWidth
         margin="normal"
+        style={{color: 'white'}}
       >
         {primaryLookupChainOptions.map(({ id, name }) => (
           <MenuItem key={id} value={id}>
@@ -289,6 +290,7 @@ export default function TokenOriginVerifier() {
         label="Paste an address"
         value={primaryLookupAsset}
         onChange={handlePrimaryLookupAssetChange}
+        style={{color: 'white'}}
       />
       <div className={classes.centered}>
         {isEVMChain(primaryLookupChain) ? (
@@ -315,8 +317,8 @@ export default function TokenOriginVerifier() {
 
   const secondaryContent = originInfo.data ? (
     <>
-      <Typography variant="h5">Bridge Results</Typography>
-      <Typography variant="body1" color="textSecondary">
+      <Typography style={{color: 'white'}} variant="h5">Bridge Results</Typography>
+      <Typography style={{color: 'white'}} variant="body1" color="textSecondary">
         Select a chain to see the result of bridging this token.
       </Typography>
       <div className={classes.spacer} />
@@ -328,6 +330,7 @@ export default function TokenOriginVerifier() {
         onChange={handleSecondaryLookupChainChange}
         fullWidth
         margin="normal"
+        style={{color: 'white'}}
       >
         {secondaryLookupChainOptions.map(({ id, name }) => (
           <MenuItem key={id} value={id}>
@@ -340,7 +343,7 @@ export default function TokenOriginVerifier() {
           <KeyAndBalance chainId={secondaryLookupChain} />
         ) : null}
         {secondaryError ? (
-          <Typography color="error">{secondaryError}</Typography>
+          <Typography style={{color: 'white'}} color="error">{secondaryError}</Typography>
         ) : null}
         <div className={classes.spacer} />
         {foreignAssetInfo.isFetching ? (

@@ -484,7 +484,9 @@ export default function TokenPicker({
           onChange={event => setHolderString(event.target.value)}
           fullWidth
           margin="normal"
-          className={classes.textFieldColor}
+          // className={classes.textFieldColor}
+          inputProps={{ className: classes.textFieldColor }}
+          style={{color: "white"}}
         />
         {useTokenId ? (
           <TextField
@@ -513,6 +515,7 @@ export default function TokenPicker({
                     <InfoOutlined fontSize="small" style={{ verticalAlign: 'text-bottom' }} />
                   </Tooltip>
                 </Typography>
+                {/* ATTENTION ICI */}
                 {featuredOptions.map(option => {
                   return (
                     <ListItem
