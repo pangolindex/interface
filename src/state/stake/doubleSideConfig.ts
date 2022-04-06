@@ -138,7 +138,8 @@ import {
   OML,
   JPYC,
   UST,
-  axlATOM
+  axlATOM,
+  LOST
 } from '../../constants/tokens'
 import { BridgeMigrator, DoubleSideStaking, Migration } from './hooks'
 
@@ -1498,6 +1499,11 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   },
   WAVAX_axlATOM_V2: {
     tokens: [WAVAX[ChainId.AVALANCHE], axlATOM[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  WAVAX_LOST_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], LOST[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
     version: 2
   }
