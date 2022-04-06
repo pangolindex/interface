@@ -54,7 +54,7 @@ export default function Menu() {
             <Book size={14} />
             {t('menu.tutorials')}
           </MenuItem>
-          <MenuItem id="link" href="https://t.me/pangolindex">
+          <MenuItem id="link" href="https://t.me/pangolindexV2">
             <Send size={14} />
             {t('menu.telegram')}
           </MenuItem>
