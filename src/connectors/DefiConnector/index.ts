@@ -76,20 +76,20 @@ export class DefiConnector extends AbstractConnector {
     }
 
     if (window?.xfi?.ethereum.on) {
-      window?.xfi?.ethereum.on('chainChanged', this.handleChainChanged)
-      window?.xfi?.ethereum.on('accountsChanged', this.handleAccountsChanged)
-      window?.xfi?.ethereum.on('close', this.handleClose)
-      window?.xfi?.ethereum.on('networkChanged', this.handleNetworkChanged)
+      window.xfi.ethereum.on('chainChanged', this.handleChainChanged)
+      window.xfi.ethereum.on('accountsChanged', this.handleAccountsChanged)
+      window.xfi.ethereum.on('close', this.handleClose)
+      window.xfi.ethereum.on('networkChanged', this.handleNetworkChanged)
     }
 
     if ((window?.xfi?.ethereum as any).isXDEFI) {
-      ;(window?.xfi?.ethereum as any).autoRefreshOnNetworkChange = false
+      ;(window.xfi.ethereum as any).autoRefreshOnNetworkChange = false
     }
 
     // try to activate + get account via eth_requestAccounts
     let account
     try {
-      account = await (window?.xfi?.ethereum.send as Send)('eth_requestAccounts').then(
+      account = await (window.xfi.ethereum.send as Send)('eth_requestAccounts').then(
         sendReturn => parseSendReturn(sendReturn)[0]
       )
     } catch (error) {
@@ -102,12 +102,12 @@ export class DefiConnector extends AbstractConnector {
     // if unsuccessful, try enable
     if (!account) {
       // if enable is successful but doesn't return accounts, fall back to getAccount (not happy i have to do this...)
-      account = await window?.xfi?.ethereum
+      account = await window.xfi.ethereum
         .enable()
         .then((sendReturn: any) => sendReturn && parseSendReturn(sendReturn)[0])
     }
 
-    return { provider: window?.xfi?.ethereum, ...(account ? { account } : {}) }
+    return { provider: window.xfi.ethereum, ...(account ? { account } : {}) }
   }
 
   public async getProvider(): Promise<any> {
@@ -121,14 +121,14 @@ export class DefiConnector extends AbstractConnector {
 
     let chainId
     try {
-      chainId = await (window?.xfi?.ethereum.send as Send)('eth_chainId').then(parseSendReturn)
+      chainId = await (window.xfi.ethereum.send as Send)('eth_chainId').then(parseSendReturn)
     } catch {
       warning(false, 'eth_chainId was unsuccessful, falling back to net_version')
     }
 
     if (!chainId) {
       try {
-        chainId = await (window?.xfi?.ethereum.send as Send)('net_version').then(parseSendReturn)
+        chainId = await (window.xfi.ethereum.send as Send)('net_version').then(parseSendReturn)
       } catch {
         warning(false, 'net_version was unsuccessful, falling back to net version v2')
       }
@@ -136,7 +136,7 @@ export class DefiConnector extends AbstractConnector {
 
     if (!chainId) {
       try {
-        chainId = parseSendReturn((window?.xfi?.ethereum.send as SendOld)({ method: 'net_version' }))
+        chainId = parseSendReturn((window.xfi.ethereum.send as SendOld)({ method: 'net_version' }))
       } catch {
         warning(false, 'net_version v2 was unsuccessful, falling back to manual matches and static properties')
       }
@@ -144,13 +144,13 @@ export class DefiConnector extends AbstractConnector {
 
     if (!chainId) {
       if ((window?.xfi?.ethereum as any).isDapper) {
-        chainId = parseSendReturn((window?.xfi?.ethereum as any).cachedResults.net_version)
+        chainId = parseSendReturn((window.xfi.ethereum as any).cachedResults.net_version)
       } else {
         chainId =
-          (window?.xfi?.ethereum as any).chainId ||
-          (window?.xfi?.ethereum as any).netVersion ||
-          (window?.xfi?.ethereum as any).networkVersion ||
-          (window?.xfi?.ethereum as any)._chainId
+          (window.xfi.ethereum as any).chainId ||
+          (window.xfi.ethereum as any).netVersion ||
+          (window.xfi.ethereum as any).networkVersion ||
+          (window.xfi.ethereum as any)._chainId
       }
     }
 
@@ -164,7 +164,7 @@ export class DefiConnector extends AbstractConnector {
 
     let account
     try {
-      account = await (window?.xfi?.ethereum.send as Send)('eth_accounts').then(
+      account = await (window.xfi.ethereum.send as Send)('eth_accounts').then(
         sendReturn => parseSendReturn(sendReturn)[0]
       )
     } catch {
@@ -173,14 +173,14 @@ export class DefiConnector extends AbstractConnector {
 
     if (!account) {
       try {
-        account = await window?.xfi?.ethereum.enable().then((sendReturn: any) => parseSendReturn(sendReturn)[0])
+        account = await window.xfi.ethereum.enable().then((sendReturn: any) => parseSendReturn(sendReturn)[0])
       } catch {
         warning(false, 'enable was unsuccessful, falling back to eth_accounts v2')
       }
     }
 
     if (!account) {
-      account = parseSendReturn((window?.xfi?.ethereum.send as SendOld)({ method: 'eth_accounts' }))[0]
+      account = parseSendReturn((window.xfi.ethereum.send as SendOld)({ method: 'eth_accounts' }))[0]
     }
 
     return account
@@ -188,10 +188,10 @@ export class DefiConnector extends AbstractConnector {
 
   public deactivate() {
     if (window?.xfi?.ethereum && window?.xfi?.ethereum.removeListener) {
-      window?.xfi?.ethereum.removeListener('chainChanged', this.handleChainChanged)
-      window?.xfi?.ethereum.removeListener('accountsChanged', this.handleAccountsChanged)
-      window?.xfi?.ethereum.removeListener('close', this.handleClose)
-      window?.xfi?.ethereum.removeListener('networkChanged', this.handleNetworkChanged)
+      window.xfi.ethereum.removeListener('chainChanged', this.handleChainChanged)
+      window.xfi.ethereum.removeListener('accountsChanged', this.handleAccountsChanged)
+      window.xfi.ethereum.removeListener('close', this.handleClose)
+      window.xfi.ethereum.removeListener('networkChanged', this.handleNetworkChanged)
     }
   }
 
@@ -201,7 +201,7 @@ export class DefiConnector extends AbstractConnector {
     }
 
     try {
-      return await (window?.xfi?.ethereum.send as Send)('eth_accounts').then(sendReturn => {
+      return await (window.xfi.ethereum.send as Send)('eth_accounts').then(sendReturn => {
         if (parseSendReturn(sendReturn).length > 0) {
           return true
         } else {
