@@ -146,6 +146,7 @@ export default function SmartAddress({
       href={explorerAddress}
       target="_blank"
       rel="noopener noreferrer"
+      style={{color: 'white', border: '1px solid white'}}
     >
       {"View on " + explorerName}
     </Button>

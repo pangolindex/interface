@@ -83,6 +83,7 @@ export default function AddToMetamask() {
       size="small"
       variant="outlined"
       className={classes.addButton}
+      style={{color: 'white', border: '1px solid white'}}
     >
       Add to Metamask
     </Button>

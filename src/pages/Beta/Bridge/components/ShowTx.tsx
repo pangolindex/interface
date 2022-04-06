@@ -90,6 +90,7 @@ export default function ShowTx({
           size="small"
           variant="outlined"
           className={classes.viewButton}
+          style={{color: 'white', border: '1px solid white'}}
         >
           View on {explorerName}
         </Button>
