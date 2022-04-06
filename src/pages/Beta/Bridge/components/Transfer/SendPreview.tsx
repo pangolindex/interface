@@ -25,7 +25,7 @@ export default function SendPreview() {
   const sourceChain = useSelector(selectTransferSourceChain);
   const transferTx = useSelector(selectTransferTransferTx);
 
-  const explainerString = "The tokens have entered the bridge!";
+  const explainerString = "";
 
   return (
     <>

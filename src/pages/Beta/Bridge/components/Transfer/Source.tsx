@@ -1,4 +1,4 @@
-import { CHAIN_ID_BSC, CHAIN_ID_ETH} from '@certusone/wormhole-sdk'
+import { CHAIN_ID_BSC, CHAIN_ID_ETH } from '@certusone/wormhole-sdk'
 import { getAddress } from '@ethersproject/address'
 import { Button, makeStyles } from '@material-ui/core'
 import { VerifiedUser } from '@material-ui/icons'
@@ -18,11 +18,7 @@ import {
   selectTransferTargetChain
 } from 'src/store/selectors'
 import { incrementStep, setAmount, setSourceChain, setTargetChain } from 'src/store/transferSlice'
-import {
-  BSC_MIGRATION_ASSET_MAP,
-  CHAINS,
-  ETH_MIGRATION_ASSET_MAP,
-} from 'src/utils/bridgeUtils/consts'
+import { BSC_MIGRATION_ASSET_MAP, CHAINS, ETH_MIGRATION_ASSET_MAP } from 'src/utils/bridgeUtils/consts'
 import ButtonWithLoader from '../ButtonWithLoader'
 import ChainSelect from '../ChainSelect'
 import ChainSelectArrow from '../ChainSelectArrow'
@@ -39,28 +35,27 @@ const useStyles = makeStyles(theme => ({
   chainSelectWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   chainSelectContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     width: '100%',
-    fontSize: "20px",
+    fontSize: '20px',
     fontWeight: 500,
-    outline: "none",
-    cursor: "pointer",
-    userSelect: "none",
-    border: "none",
-    backgroundColor: "#1c1c1c",
-    marginTop: "5px",
-    borderRadius: "8px",
+    outline: 'none',
+    cursor: 'pointer',
+    userSelect: 'none',
+    border: 'none',
+    backgroundColor: '#1c1c1c',
+    marginTop: '5px',
+    borderRadius: '8px'
   },
   chainSelectArrow: {
     position: 'relative',
-    top: '12px',
+    top: '12px'
     // transform: 'rotate(90deg)',
   },
-  transferField: {
-  }
+  transferField: {}
 }))
 
 function Source() {
@@ -72,7 +67,7 @@ function Source() {
   const targetChainOptions = useMemo(() => CHAINS.filter(c => c.id !== sourceChain), [sourceChain])
   const parsedTokenAccount = useSelector(selectTransferSourceParsedTokenAccount)
   const hasParsedTokenAccount = !!parsedTokenAccount
-  console.log("source", CHAIN_ID_ETH)
+  console.log('source', CHAIN_ID_ETH)
   const isEthereumMigration =
     sourceChain === CHAIN_ID_ETH &&
     !!parsedTokenAccount &&
@@ -142,9 +137,9 @@ function Source() {
         </div>
       </StepDescription>
       <div className={classes.chainSelectWrapper} style={{ marginBottom: '25px' }}>
-          <Text fontSize={17} fontWeight={500} lineHeight="12px" color="text10" paddingTop='5px' paddingBottom='5px' >
-            Origin
-          </Text>
+        <Text fontSize={17} fontWeight={500} lineHeight="12px" color="text10" paddingTop="5px" paddingBottom="5px">
+          Origin
+        </Text>
         <div className={classes.chainSelectContainer}>
           <ChainSelect
             select
@@ -164,9 +159,9 @@ function Source() {
             disabled={shouldLockFields}
           />
         </div>
-          <Text fontSize={17} fontWeight={500} lineHeight="12px" color="text10" paddingTop='10px' paddingBottom='5px'>
-            Destination
-          </Text>
+        <Text fontSize={17} fontWeight={500} lineHeight="12px" color="text10" paddingTop="10px" paddingBottom="5px">
+          Destination
+        </Text>
         <div className={classes.chainSelectContainer}>
           <ChainSelect
             variant="outlined"
@@ -203,7 +198,7 @@ function Source() {
               onChange={handleAmountChange}
               disabled={shouldLockFields}
               onMaxClick={uiAmountString && !parsedTokenAccount.isNativeAsset ? handleMaxClick : undefined}
-              style={{backgroundColor: 'white'}}
+              style={{ backgroundColor: 'white' }}
             />
           ) : null}
           <ButtonWithLoader
@@ -212,9 +207,7 @@ function Source() {
             showLoader={false}
             error={statusMessage || error}
           >
-            <Text fontSize={16} fontWeight={500} lineHeight="24px" color="text10">
-              Next
-            </Text>
+            Next
           </ButtonWithLoader>
         </>
       )}

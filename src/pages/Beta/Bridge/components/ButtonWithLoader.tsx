@@ -69,7 +69,7 @@ export default function ButtonWithLoader({
               className={classes.button}
               disabled={disabled}
               onClick={onClick}
-              style={{ backgroundColor: '#FFC800' }}
+              style={{ backgroundColor: '#FFC800', color: "black" }}
             >
               {children}
             </Button>

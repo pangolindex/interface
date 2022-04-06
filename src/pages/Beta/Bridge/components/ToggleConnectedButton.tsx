@@ -8,12 +8,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     margin: `${theme.spacing(1)}px auto`,
     width: '100%',
-    height: "3em",
+    height: '3em',
     maxWidth: 400,
-    backgroundColor: "#FFC800",
-    "&:hover": {
-      backgroundColor: "rgba(255, 200, 0, 0.8)",
-    },
+    backgroundColor: '#FFC800',
+    '&:hover': {
+      backgroundColor: 'rgba(255, 200, 0, 0.8)'
+    }
   }
 }))
 
@@ -38,7 +38,7 @@ const ToggleConnectedButton = ({
         size="small"
         onClick={disconnect}
         className={classes.button}
-        startIcon={<LinkOff style={{color: 'black'}} />}
+        startIcon={<LinkOff style={{ color: 'black' }} />}
       >
         <Text fontSize={15} fontWeight={500} lineHeight="12px" color="text5">
           Disconnect {pk.substring(0, is0x ? 6 : 3)}...
@@ -48,7 +48,7 @@ const ToggleConnectedButton = ({
     </Tooltip>
   ) : (
     <Button color="primary" variant="contained" size="small" onClick={connect} className={classes.button}>
-      <Text fontSize={15} fontWeight={500} lineHeight="12px" color="text10">
+      <Text fontSize={15} fontWeight={500} lineHeight="12px" color="text5">
         Connect
       </Text>
     </Button>

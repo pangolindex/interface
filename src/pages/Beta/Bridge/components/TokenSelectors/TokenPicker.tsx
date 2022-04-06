@@ -48,18 +48,17 @@ const useStyles = makeStyles(theme =>
     },
     dialogContent: {
       overflowX: 'hidden',
-      backgroundColor: "#1c1c1c",
+      backgroundColor: '#1c1c1c'
     },
     dialogTitle: {
-      backgroundColor: '#212427',
-
+      backgroundColor: '#212427'
     },
     selectionButtonContainer: {
       //display: "flex",
       textAlign: 'center',
       backgroundColor: '#212427',
       marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacing(2)
     },
     selectionButton: {
       maxWidth: '100%',
@@ -122,8 +121,8 @@ const useStyles = makeStyles(theme =>
       flexGrow: 1
     },
     textFieldColor: {
-      color: "white",
-    },
+      color: 'white'
+    }
   })
 )
 
@@ -199,14 +198,26 @@ export const BasicAccountRender = (
         {uri && <img alt="" className={classes.tokenImage} src={uri} />}
       </div>
       <div>
-        <Typography style={{color:"white"}} variant="subtitle1">{symbol}</Typography>
+        <Typography style={{ color: 'white' }} variant="subtitle1">
+          {symbol}
+        </Typography>
       </div>
-      <div>{<Typography style={{color:"white"}} variant="body1">{account.isNativeAsset ? 'Native' : ''}</Typography>}</div>
+      <div>
+        {
+          <Typography style={{ color: 'white' }} variant="body1">
+            {account.isNativeAsset ? 'Native' : ''}
+          </Typography>
+        }
+      </div>
       <div>
         {shouldDisplayBalance ? (
           <>
-            <Typography style={{color:"white"}} variant="body2">{'Balance'}</Typography>
-            <Typography style={{color:"white"}} variant="h6">{balancePretty(account.uiAmountString)}</Typography>
+            <Typography style={{ color: 'white' }} variant="body2">
+              {'Balance'}
+            </Typography>
+            <Typography style={{ color: 'white' }} variant="h6">
+              {balancePretty(account.uiAmountString)}
+            </Typography>
           </>
         ) : (
           <div />
@@ -218,7 +229,9 @@ export const BasicAccountRender = (
   const migrationRender = (
     <div className={classes.migrationAlert}>
       <Alert severity="warning">
-        <Typography style={{color:"white"}} variant="body2">This is a legacy asset eligible for migration.</Typography>
+        <Typography style={{ color: 'white' }} variant="body2">
+          This is a legacy asset eligible for migration.
+        </Typography>
         <div>{tokenContent}</div>
       </Alert>
     </div>
@@ -455,7 +468,7 @@ export default function TokenPicker({
   )
 
   const dialog = (
-    <Dialog  onClose={closeDialog} aria-labelledby="simple-dialog-title" open={dialogIsOpen} maxWidth="sm" fullWidth>
+    <Dialog onClose={closeDialog} aria-labelledby="simple-dialog-title" open={dialogIsOpen} maxWidth="sm" fullWidth>
       <DialogTitle className={classes.dialogTitle}>
         <div id="simple-dialog-title" className={classes.flexTitle}>
           {/* <Typography variant="h5">Select a token</Typography> */}
@@ -464,14 +477,14 @@ export default function TokenPicker({
           </Text>
           <div className={classes.grower} />
           <Tooltip title="Reload tokens">
-            <IconButton style={{color: "white"}} onClick={resetAccountsWrapper}>
+            <IconButton style={{ color: 'white' }} onClick={resetAccountsWrapper}>
               <RefreshIcon />
             </IconButton>
           </Tooltip>
         </div>
       </DialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <Alert severity="info" style={{backgroundColor: "#212427", color: "white"}}>
+        <Alert severity="info" style={{ backgroundColor: '#212427', color: 'white' }}>
           You should always check for markets and liquidity before sending tokens.{' '}
           <Link href={AVAILABLE_MARKETS_URL} target="_blank" rel="noopener noreferrer">
             Click here to see available markets for wrapped tokens.
@@ -486,7 +499,7 @@ export default function TokenPicker({
           margin="normal"
           // className={classes.textFieldColor}
           inputProps={{ className: classes.textFieldColor }}
-          style={{color: "white"}}
+          style={{ backgroundColor: 'white' }}
         />
         {useTokenId ? (
           <TextField
@@ -496,7 +509,7 @@ export default function TokenPicker({
             onChange={event => setTokenIdHolderString(event.target.value)}
             fullWidth
             margin="normal"
-            style={{color: "white"}}
+            style={{ color: 'white' }}
           />
         ) : null}
         {isLocalLoading || showLoader ? (
@@ -507,7 +520,7 @@ export default function TokenPicker({
           <List component="div" className={classes.tokenList}>
             {featuredOptions.length ? (
               <>
-                <Typography variant="subtitle2" gutterBottom style={{color: "white"}}>
+                <Typography variant="subtitle2" gutterBottom style={{ color: 'white' }}>
                   Featured {CHAINS_BY_ID[chainId].name} &gt; {CHAINS_BY_ID[targetChain].name} markets{' '}
                   <Tooltip
                     title={`Markets for these ${CHAINS_BY_ID[chainId].name} tokens exist for the corresponding tokens on ${CHAINS_BY_ID[targetChain].name}`}

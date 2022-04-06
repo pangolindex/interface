@@ -1,7 +1,7 @@
 import {
   ChainId,
-  CHAIN_ID_ETH,
-  CHAIN_ID_SOLANA,
+  CHAIN_ID_AVAX,
+  CHAIN_ID_FANTOM
 } from "@certusone/wormhole-sdk";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { StateSafeWormholeWrappedInfo } from "../hooks/bridgeHooks/useCheckIfWormholeWrapped";
@@ -61,7 +61,7 @@ export interface TransferState {
 
 const initialState: TransferState = {
   activeStep: 0,
-  sourceChain: CHAIN_ID_SOLANA,
+  sourceChain: CHAIN_ID_AVAX,
   isSourceAssetWormholeWrapped: false,
   sourceWalletAddress: undefined,
   sourceParsedTokenAccount: undefined,
@@ -69,7 +69,7 @@ const initialState: TransferState = {
   originChain: undefined,
   originAsset: undefined,
   amount: "",
-  targetChain: CHAIN_ID_ETH,
+  targetChain: CHAIN_ID_FANTOM,
   targetAddressHex: undefined,
   targetAsset: getEmptyDataWrapper(),
   targetParsedTokenAccount: undefined,
