@@ -24,7 +24,7 @@ export default function SocialMedia({ collapsed }: SocialMediaProps) {
       title: 'Twitter'
     },
     {
-      link: 'https://t.me/pangolindex',
+      link: 'https://t.me/pangolindexV2',
       icon: Telegram,
       title: 'Telegram'
     },
