@@ -18,6 +18,7 @@ export const Ibridge = styled(Box)`
   min-width: 30%;
   border-radius: 16px;
   max-height: 80%;
+  font-family: 'Poppins';
   ${({ theme }) => theme.mediaWidth.upToMedium`
   min-height: 65vh;
   min-width: 90%;
@@ -110,4 +111,13 @@ export const TableContent = styled(Box)`
   border-bottom-left-radius: 0px;
 
   `};
+`
+
+export const StepDisplay = styled.div`
+  text-align: center;
+  background-color: #212427;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 20px;
 `

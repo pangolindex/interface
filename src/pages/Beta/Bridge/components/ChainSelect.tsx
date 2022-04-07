@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListItemIcon, makeStyles, OutlinedTextFieldProps, TextField } from '@material-ui/core'
+import { makeStyles, OutlinedTextFieldProps, TextField } from '@material-ui/core'
 import clsx from 'clsx'
 import { useMemo } from 'react'
 import { useBetaContext } from 'src/contexts/BetaContext'

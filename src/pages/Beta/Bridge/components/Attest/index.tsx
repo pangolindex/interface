@@ -25,6 +25,7 @@ import Source from "./Source";
 import SourcePreview from "./SourcePreview";
 import Target from "./Target";
 import TargetPreview from "./TargetPreview";
+import { Text } from '@pangolindex/components'
 
 function Attest() {
   const dispatch = useDispatch();
@@ -57,7 +58,9 @@ function Attest() {
           disabled={preventNavigation || isCreateComplete}
         >
           <StepButton onClick={() => dispatch(setStep(0))} icon={null}>
-            1. Source
+          <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
+                1. Source
+              </Text>
           </StepButton>
           <StepContent>
             {activeStep === 0 ? <Source /> : <SourcePreview />}

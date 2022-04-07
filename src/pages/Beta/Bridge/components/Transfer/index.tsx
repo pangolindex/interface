@@ -1,5 +1,5 @@
 import { ChainId } from '@certusone/wormhole-sdk'
-import { Step, StepButton, StepContent } from '@material-ui/core'
+import { Step, StepContent } from '@material-ui/core'
 import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router'
@@ -24,7 +24,7 @@ import Target from './Target'
 import TargetPreview from './TargetPreview'
 
 import { QuestionAnswer } from '../../TabulationBox'
-import { PageWrapper, Ibridge, Separator } from '../../styleds'
+import { PageWrapper, Ibridge, Separator, StepDisplay } from '../../styleds'
 import { Text, Box } from '@pangolindex/components'
 
 function Transfer() {
@@ -88,70 +88,58 @@ function Transfer() {
           </Box>
           <Separator />
           <Step expanded={activeStep >= 0} disabled={preventNavigation || isRedeemComplete}>
-            <StepButton onClick={() => dispatch(setStep(0))} icon={null} >
+            <div onClick={() => dispatch(setStep(0))}>
               <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
                 1. Source
               </Text>
-            </StepButton>
+            </div>
             <Box>{activeStep === 0 ? <Source /> : <SourcePreview />}</Box>
           </Step>
-          <Step expanded={activeStep >= 1} disabled={preventNavigation || isRedeemComplete} >
+          <Step expanded={activeStep >= 1} disabled={preventNavigation || isRedeemComplete}>
             {activeStep < 1 ? (
-              <StepButton
-              disabled={preventNavigation || isRedeemComplete || activeStep === 0}
-              onClick={() => dispatch(setStep(1))}
-              icon={null}
-              style={{backgroundColor: "#212427", borderRadius: "5px", marginTop: "5px", marginBottom: '5px'}}
-            >
-              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
-                2. Target
-              </Text>
-            </StepButton>
+              <StepDisplay onClick={() => dispatch(setStep(1))}>
+                <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
+                  2. Target
+                </Text>
+              </StepDisplay>
             ) : (
-            <StepButton
-              disabled={preventNavigation || isRedeemComplete || activeStep === 0}
-              onClick={() => dispatch(setStep(1))}
-              icon={null}
-            >
-              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
-                2. Target
-              </Text>
-            </StepButton>
-
+              <div onClick={() => dispatch(setStep(1))}>
+                <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
+                  2. Target
+                </Text>
+              </div>
             )}
             <Box>{activeStep === 1 ? <Target /> : <TargetPreview />}</Box>
           </Step>
-          <Step expanded={activeStep >= 2} disabled={isSendComplete}  >
+          <Step expanded={activeStep >= 2} disabled={isSendComplete}>
             {activeStep < 2 ? (
-              <StepButton disabled icon={null} style={{backgroundColor: "#212427", borderRadius: "5px", marginTop: "5px", marginBottom: '5px'}} >
-              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" >
-                3. Send tokens
-              </Text>
-            </StepButton>
+              <StepDisplay>
+                <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
+                  3. Send tokens
+                </Text>
+              </StepDisplay>
             ) : (
-            <StepButton disabled icon={null}  >
-              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" >
-                3. Send tokens
-              </Text>
-            </StepButton>
-
+              <div>
+                <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
+                  3. Send tokens
+                </Text>
+              </div>
             )}
             <Box>{activeStep === 2 ? <Send /> : <SendPreview />}</Box>
           </Step>
-          <Step expanded={activeStep >= 3} completed={isRedeemComplete}  >
+          <Step expanded={activeStep >= 3} completed={isRedeemComplete}>
             {activeStep < 3 ? (
-              <StepButton onClick={() => dispatch(setStep(3))} disabled={!isSendComplete || isRedeemComplete} icon={null} style={{backgroundColor: "#212427", borderRadius: "5px", marginTop: "5px", marginBottom: '5px'}}>
-              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" style={{color: 'white'}}>
-                4. Redeem tokens
-              </Text>
-            </StepButton>
+              <StepDisplay onClick={() => dispatch(setStep(3))}>
+                <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" style={{ color: 'white' }}>
+                  4. Redeem tokens
+                </Text>
+              </StepDisplay>
             ) : (
-            <StepButton onClick={() => dispatch(setStep(3))} disabled={!isSendComplete || isRedeemComplete} icon={null} >
-              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" style={{color: 'white'}}>
-                4. Redeem tokens
-              </Text>
-            </StepButton>
-
+              <div onClick={() => dispatch(setStep(3))}>
+                <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" style={{ color: 'white' }}>
+                  4. Redeem tokens
+                </Text>
+              </div>
             )}
             <StepContent>{isRedeemComplete ? <RedeemPreview /> : <Redeem />}</StepContent>
           </Step>
