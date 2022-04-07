@@ -28,15 +28,15 @@ export default function SourcePreview() {
   const explainerContent =
     sourceChain && sourceParsedTokenAccount ? (
       <>
-        <span>You will transfer {sourceAmount}</span>
+        <span style={{color: 'white'}}>You will transfer {sourceAmount}</span>
         <SmartAddress
           chainId={sourceChain}
           parsedTokenAccount={sourceParsedTokenAccount}
         />
         {sourceWalletAddress ? (
           <>
-            <span>from</span>
-            <SmartAddress chainId={sourceChain} address={sourceWalletAddress} />
+            <span style={{color: 'white'}}>from</span>
+            <SmartAddress style={{color: 'white'}} chainId={sourceChain} address={sourceWalletAddress} />
           </>
         ) : null}
         <span>on {CHAINS_BY_ID[sourceChain].name}</span>
@@ -48,7 +48,7 @@ export default function SourcePreview() {
   return (
     <>
       <Typography
-        style={{color: 'white', backgroundColor: "#212427", borderRadius: "5px", padding: "10px"}}
+        style={{color: 'white'}}
         component="div"
         variant="subtitle2"
         className={classes.description}

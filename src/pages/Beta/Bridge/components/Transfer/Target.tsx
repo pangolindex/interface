@@ -31,7 +31,6 @@ import ChainSelect from "../ChainSelect";
 import KeyAndBalance from "../KeyAndBalance";
 import LowBalanceWarning from "../LowBalanceWarning";
 import SmartAddress from "../SmartAddress";
-import StepDescription from "../StepDescription";
 import RegisterNowButton from "./RegisterNowButton";
 
 const useStyles = makeStyles((theme) => ({
@@ -108,7 +107,7 @@ function Target() {
   }, [dispatch]);
   return (
     <>
-      <StepDescription>Select a recipient chain and address.</StepDescription>
+      <span style={{color: 'white'}}>Select a recipient chain and address.</span>
       <ChainSelect
         variant="outlined"
         select
