@@ -55,7 +55,6 @@ import Policy from './Beta/Policy'
 
 
 import Transfer from './Beta/Bridge/components/Transfer'
-import Attest from "src/pages/Beta/Bridge/components/Attest";
 import Migration from "src/pages/Beta/Bridge/components/Migration";
 import EvmQuickMigrate from "src/pages/Beta/Bridge/components/Migration/EvmQuickMigrate";
 import NFTOriginVerifier from "src/pages/Beta/Bridge/components/NFTOriginVerifier";
@@ -205,7 +204,6 @@ export default function App() {
                 />
 
               <CustomRoute exact path={`${BETA_MENU_LINK.transfer}`} component={Transfer} layout={Layout} />
-              <CustomRoute exact path={`${BETA_MENU_LINK.attest}`} component={Attest} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.NFTOriginVerifier}`} component={NFTOriginVerifier} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.TokenOriginVerifier}`} component={TokenOriginVerifier} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.stats}`} component={Stats} layout={Layout} />

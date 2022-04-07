@@ -28,7 +28,7 @@ const StyledDialogOverlay = styled(AnimatedDialogOverlay)<{ background?: string;
 const AnimatedDialogContent = animated(DialogContent)
 // destructure to not pass custom props to Dialog DOM element
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isBeta, ...rest }) => (
+const StyledDialogContent = styled(({ maxWidth, minHeight, maxHeight, mobile, isOpen, isBeta, ...rest }) => (
   <AnimatedDialogContent {...rest} />
 )).attrs({
   'aria-label': 'dialog'
@@ -46,7 +46,11 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isBe
 
     align-self: ${({ mobile }) => (mobile ? 'flex-end' : 'center')};
 
-    max-width: 420px;
+    ${({ maxWidth }) =>
+      maxWidth &&
+      css`
+      max-width: ${maxWidth}px;
+      `}
     ${({ maxHeight }) =>
       maxHeight &&
       css`
@@ -79,6 +83,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isBe
 interface ModalProps {
   isOpen: boolean
   onDismiss: () => void
+  maxWidth?: number
   minHeight?: number | false
   maxHeight?: number
   initialFocusRef?: React.RefObject<any>
@@ -90,6 +95,7 @@ interface ModalProps {
 export default function Modal({
   isOpen,
   onDismiss,
+  maxWidth = 420,
   minHeight = false,
   maxHeight = 90,
   initialFocusRef,
@@ -137,6 +143,7 @@ export default function Modal({
                     }
                   : {})}
                 aria-label="dialog content"
+                maxWidth={maxWidth}
                 minHeight={minHeight}
                 maxHeight={maxHeight}
                 mobile={isMobile}

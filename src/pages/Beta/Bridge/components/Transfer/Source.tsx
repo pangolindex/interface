@@ -25,7 +25,6 @@ import ChainSelectArrow from '../ChainSelectArrow'
 import KeyAndBalance from '../KeyAndBalance'
 import LowBalanceWarning from '../LowBalanceWarning'
 import NumberTextField from '../NumberTextField'
-import StepDescription from '../StepDescription'
 import { TokenSelector } from '../TokenSelectors/SourceTokenSelector'
 import SourceAssetWarning from './SourceAssetWarning'
 import { BETA_MENU_LINK } from 'src/constants'
@@ -116,7 +115,7 @@ function Source() {
 
   return (
     <>
-      <StepDescription>
+      <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">
             Select tokens to send through the Portal.
@@ -134,7 +133,7 @@ function Source() {
             </Button>
           </div>
         </div>
-      </StepDescription>
+      </div>
       <div className={classes.chainSelectWrapper} style={{ marginBottom: '25px' }}>
         <Text fontSize={17} fontWeight={500} lineHeight="12px" color="text10" paddingTop="5px" paddingBottom="5px">
           Origin

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { ChainId } from '@certusone/wormhole-sdk'
 import { BigNumber } from '@ethersproject/bignumber'
 import {
-  Button,
+  // Button,
   CircularProgress,
   createStyles,
   Dialog,
@@ -28,7 +28,8 @@ import { NFTParsedTokenAccount } from 'src/store/nftSlice'
 import { selectTransferTargetChain } from 'src/store/selectors'
 import { AVAILABLE_MARKETS_URL, CHAINS_BY_ID } from 'src/utils/bridgeUtils/consts'
 import NFTViewer from './NFTViewer'
-import { Text } from '@pangolindex/components'
+import { Text, Button } from '@pangolindex/components'
+import Modal from 'src/components/Modal'
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -113,9 +114,7 @@ const useStyles = makeStyles(theme =>
       }
     },
     flexTitle: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center'
+      padding: "30px"
     },
     grower: {
       flexGrow: 1
@@ -152,24 +151,7 @@ export const BasicAccountRender = (
   const classes = useStyles()
   const uri = nft ? account.image_256 : account.logo || account.uri
   const symbol = account.symbol || 'Unknown'
-  const name = account.name || 'Unknown'
-  const tokenId = account.tokenId
   const shouldDisplayBalance = !displayBalance || displayBalance(account)
-
-  const nftContent = (
-    <div className={classes.tokenOverviewContainer}>
-      <div className={classes.tokenImageContainer}>
-        {uri && <img alt="" className={classes.tokenImage} src={uri} />}
-      </div>
-      <div>
-        <Typography>{symbol}</Typography>
-        <Typography>{name}</Typography>
-      </div>
-      <div>
-        <Typography style={{ wordBreak: 'break-all' }}>{tokenId}</Typography>
-      </div>
-    </div>
-  )
 
   const tokenContent = (
     <div className={classes.tokenOverviewContainer}>
@@ -179,13 +161,11 @@ export const BasicAccountRender = (
             marketsData?.markets?.[market] ? (
               <Button
                 key={market}
-                size="small"
-                variant="outlined"
-                color="secondary"
-                startIcon={<Launch />}
+                variant="primary"
+                // startIcon={<Launch />}
                 href={marketsData.markets[market].link}
                 target="_blank"
-                rel="noopener noreferrer"
+                // rel="noopener noreferrer"
                 onClick={noClickThrough}
               >
                 {marketsData.markets[market].name}
@@ -237,7 +217,7 @@ export const BasicAccountRender = (
     </div>
   )
 
-  return nft ? nftContent : isMigrationEligible(account.mintKey) ? migrationRender : tokenContent
+  return isMigrationEligible(account.mintKey) ? migrationRender : tokenContent
 }
 
 interface MarketParsedTokenAccount extends NFTParsedTokenAccount {
@@ -468,12 +448,11 @@ export default function TokenPicker({
   )
 
   const dialog = (
-    <Dialog onClose={closeDialog} aria-labelledby="simple-dialog-title" open={dialogIsOpen} maxWidth="sm" fullWidth>
-      <DialogTitle className={classes.dialogTitle}>
-        <div id="simple-dialog-title" className={classes.flexTitle}>
-          {/* <Typography variant="h5">Select a token</Typography> */}
+    <Modal onDismiss={closeDialog} isOpen={dialogIsOpen} maxWidth={800}  >
+      <div style={{backgroundColor: "#212427"}}>
+        <div style={{padding: "20px"}}>
           <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">
-            Select a token
+            Refresh
           </Text>
           <div className={classes.grower} />
           <Tooltip title="Reload tokens">
@@ -482,14 +461,14 @@ export default function TokenPicker({
             </IconButton>
           </Tooltip>
         </div>
-      </DialogTitle>
+      </div>
       <DialogContent className={classes.dialogContent}>
-        <Alert severity="info" style={{ backgroundColor: '#212427', color: 'white' }}>
+        <p style={{ backgroundColor: '#212427', color: 'white', padding: "5px" }}>
           You should always check for markets and liquidity before sending tokens.{' '}
-          <Link href={AVAILABLE_MARKETS_URL} target="_blank" rel="noopener noreferrer">
+          <a href={AVAILABLE_MARKETS_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: 'white' }}>
             Click here to see available markets for wrapped tokens.
-          </Link>
-        </Alert>
+          </a>
+        </p>
         <TextField
           variant="outlined"
           label="Search name or paste address"
@@ -577,17 +556,17 @@ export default function TokenPicker({
           </List>
         )}
       </DialogContent>
-    </Dialog>
+    </Modal>
   )
 
   const selectionChip = (
     <div className={classes.selectionButtonContainer}>
       <Button
         onClick={openDialog}
-        disabled={disabled}
-        variant="outlined"
-        startIcon={<KeyboardArrowDownIcon />}
-        className={classes.selectionButton}
+        // disabled={disabled}
+        variant="outline"
+        // startIcon={<KeyboardArrowDownIcon />}
+        // className={classes.selectionButton}
       >
         {value ? (
           <RenderOption account={value} />
@@ -595,7 +574,6 @@ export default function TokenPicker({
           <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">
             Select a token
           </Text>
-          // <Typography color="primary">Select a tokens</Typography>
         )}
       </Button>
     </div>
