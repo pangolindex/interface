@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState, useMemo } from 'react'
-import { Box, Button } from '@antiyro/components'
+import { Box, Button } from '@pangolindex/components'
 import { ChainId, Token } from '@pangolindex/sdk'
 import { Plus } from 'react-feather'
 import { ThemeContext } from 'styled-components'

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { darken } from 'polished'
-import { Text } from '@antiyro/components'
+import { Text } from '@pangolindex/components'
 import { NavLink } from 'react-router-dom'
 import { ExternalLink } from '../../theme'
 

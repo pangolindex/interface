@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { QuestionBox, TableContent, FullBox } from '../styleds'
 import { TrollQuestionBox, TrollFeeBox, BridgingBox, OtherQuestionBox, GeneralBox } from '../QuestionBoxes'
-import { Text } from '@antiyro/components'
+import { Text } from '@pangolindex/components'
 
 export const QuestionAnswer = () => {
   const [general, setGeneral] = useState<boolean>(true)

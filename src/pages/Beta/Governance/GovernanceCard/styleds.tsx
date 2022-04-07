@@ -1,4 +1,4 @@
-import { Box, Button, Text } from '@antiyro/components'
+import { Box, Button, Text } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const Card = styled(Box)`

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box } from '@antiyro/components'
+import { Text, Box } from '@pangolindex/components'
 import { JSBI, Pair, TokenAmount, Currency, ChainId } from '@pangolindex/sdk'
 import { useTotalSupply } from 'src/data/TotalSupply'
 import numeral from 'numeral'

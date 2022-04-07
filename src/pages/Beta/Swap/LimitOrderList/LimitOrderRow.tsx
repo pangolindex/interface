@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box, useGelatoLimitOrderDetail, LimitOrderInfo } from '@antiyro/components'
+import { Text, Box, useGelatoLimitOrderDetail, LimitOrderInfo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import { DesktopRowWrapper } from './styleds'
 

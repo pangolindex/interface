@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Box, Text, Button } from '@antiyro/components'
+import { Box, Text, Button } from '@pangolindex/components'
 import { Root, Link } from './styled'
 import { ArrowUpCircle } from 'react-feather'
 import { useChainId } from 'src/hooks'

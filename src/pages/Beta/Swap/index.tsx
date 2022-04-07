@@ -1,6 +1,6 @@
 import React from 'react'
 import { PageWrapper, GridContainer, TopContainer, StatsWrapper } from './styleds'
-import { useGelatoLimitOrderList, SwapWidget } from '@antiyro/components'
+import { useGelatoLimitOrderList, SwapWidget } from '@pangolindex/components'
 import { ChainId } from '@pangolindex/sdk'
 import MyPortfolio from './MyPortfolio'
 import WatchList from './WatchList'

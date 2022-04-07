@@ -13,7 +13,7 @@ import wyre from './wyre/reducer'
 import watchlists from './watchlists/reducer'
 import token from './token/reducer'
 import pair from './pair/reducer'
-import { pangolinReducers, PANGOLIN_PERSISTED_KEYS } from '@antiyro/components'
+import { pangolinReducers, PANGOLIN_PERSISTED_KEYS } from '@pangolindex/components'
 
 const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'watchlists', ...PANGOLIN_PERSISTED_KEYS]
 

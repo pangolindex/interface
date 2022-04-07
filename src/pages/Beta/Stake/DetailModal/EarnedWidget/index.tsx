@@ -1,4 +1,4 @@
-import { Box, Button, Text } from '@antiyro/components'
+import { Box, Button, Text } from '@pangolindex/components'
 import { JSBI, ChainId } from '@pangolindex/sdk'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'

@@ -9,9 +9,9 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@antiyro/components@^2.0.0-rc.6":
+"@pangolindex/components@^2.0.0-rc.6":
   version "2.0.0-rc.9"
-  resolved "https://registry.yarnpkg.com/@antiyro/components/-/components-2.0.0-rc.9.tgz#d548ba1f064afda12aec0051cd5fda09214b6ccb"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-2.0.0-rc.9.tgz#d548ba1f064afda12aec0051cd5fda09214b6ccb"
   integrity sha512-iFr73qyeZgbBK2aa9bMeu56uImcL9pENF8fkHMHkL6lq5fih9HvLB0ZWS4mNUmvPJwaF6i7d/qihKGRvszUdNQ==
   dependencies:
     cids "^1.1.9"

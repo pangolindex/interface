@@ -11,7 +11,7 @@ import {
   OptionButton
 } from './styleds'
 import Stat from 'src/components/Stat'
-import { Text, Box, DoubleCurrencyLogo } from '@antiyro/components'
+import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'

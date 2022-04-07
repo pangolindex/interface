@@ -1,6 +1,6 @@
 import React from 'react'
 import { Currency, Percent, Price, CurrencyAmount, ChainId } from '@pangolindex/sdk'
-import { Box } from '@antiyro/components'
+import { Box } from '@pangolindex/components'
 import Stat from 'src/components/Stat'
 import { Root, GridContainer } from './styled'
 import { Field } from 'src/state/mint/actions'

@@ -1,4 +1,4 @@
-import { Box, TextInput } from '@antiyro/components'
+import { Box, TextInput } from '@pangolindex/components'
 import styled from 'styled-components'
 
 export const StakeWrapper = styled(Box)`

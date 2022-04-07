@@ -7,7 +7,7 @@ import { TIMEFRAME } from 'src/constants'
 import { usePairHourlyRateData, useHourlyPairTokensChartData } from 'src/state/pair/hooks'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
-import { Box } from '@antiyro/components'
+import { Box } from '@pangolindex/components'
 import { ChartWrapper, ChartContainer } from './styleds'
 import { useChainId } from 'src/hooks'
 
