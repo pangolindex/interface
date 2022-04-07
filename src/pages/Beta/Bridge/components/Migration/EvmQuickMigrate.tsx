@@ -17,7 +17,6 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useEthereumProvider } from "src/contexts/EthereumProviderContext";
 import useEthereumMigratorInformation from "src/hooks/bridgeHooks/useEthereumMigratorInformation";
 import useIsWalletReady from "src/hooks/bridgeHooks/useIsWalletReady";
-import { COLORS } from "../../muiTheme";
 import { CHAINS_BY_ID, getMigrationAssetMap } from "src/utils/bridgeUtils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
 import EthereumSignerKey from "../EthereumSignerKey";
@@ -46,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
     flewGrow: 1,
   },
   mainPaper: {
-    backgroundColor: COLORS.whiteWithTransparency,
     textAlign: "center",
     padding: "2rem",
     "& > h, p ": {

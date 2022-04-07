@@ -30,7 +30,6 @@ import { useCallback, useEffect, useState } from "react";
 import { useBetaContext } from "src/contexts/BetaContext";
 import { useEthereumProvider } from "src/contexts/EthereumProviderContext";
 import useIsWalletReady from "src/hooks/bridgeHooks/useIsWalletReady";
-import { COLORS } from "../muiTheme";
 import { NFTParsedTokenAccount } from "src/store/nftSlice";
 import {
   BETA_CHAINS,
@@ -51,7 +50,6 @@ import NFTViewer from "./TokenSelectors/NFTViewer";
 const useStyles = makeStyles((theme) => ({
   mainCard: {
     padding: "32px 32px 16px",
-    backgroundColor: COLORS.whiteWithTransparency,
   },
   originHeader: {
     marginTop: theme.spacing(4),

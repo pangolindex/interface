@@ -2,7 +2,6 @@ import React from 'react'
 import { makeStyles, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import { ReactChild } from "react";
-import { COLORS } from "../muiTheme";
 
 const useStyles = makeStyles((theme) => ({
   centeredContainer: {
@@ -13,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   linearGradient: {
-    background: `linear-gradient(to left, ${COLORS.blue}, ${COLORS.green});`,
     WebkitBackgroundClip: "text",
     backgroundClip: "text",
     WebkitTextFillColor: "transparent",

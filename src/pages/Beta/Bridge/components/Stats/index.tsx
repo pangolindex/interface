@@ -11,7 +11,6 @@ import clsx from "clsx";
 import numeral from "numeral";
 import React, { useMemo } from "react";
 import useTVL from "src/hooks/bridgeHooks/useTVL";
-import { COLORS } from "../../muiTheme";
 import HeaderText from "../HeaderText";
 import SmartAddress from "../SmartAddress";
 import { balancePretty } from "../TokenSelectors/TokenPicker";
@@ -39,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   mainPaper: {
-    backgroundColor: COLORS.whiteWithTransparency,
     padding: "2rem",
     "& > h, & > p ": {
       margin: ".5rem",

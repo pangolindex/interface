@@ -9,7 +9,6 @@ import {
 import clsx from "clsx";
 import numeral from "numeral";
 import useTransactionCount from "src/hooks/bridgeHooks/useTransactionCount";
-import { COLORS } from "../../muiTheme";
 import { WORMHOLE_EXPLORER_BASE } from "src/utils/bridgeUtils/consts";
 
 const useStyles = makeStyles((theme) => ({
@@ -69,7 +68,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   mainPaper: {
-    backgroundColor: COLORS.whiteWithTransparency,
     padding: "2rem",
     "& > h, & > p ": {
       margin: ".5rem",

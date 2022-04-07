@@ -24,9 +24,7 @@ import useFetchForeignAsset, {
 import useIsWalletReady from "src/hooks/bridgeHooks/useIsWalletReady";
 import useMetadata from "src/hooks/bridgeHooks/useMetadata";
 import useOriginalAsset, { OriginalAssetInfo } from "src/hooks/bridgeHooks/useOriginalAsset";
-import { COLORS } from "../muiTheme";
 import { BETA_CHAINS, CHAINS, CHAINS_BY_ID } from "src/utils/bridgeUtils/consts";
-import HeaderText from "./HeaderText";
 import KeyAndBalance from "./KeyAndBalance";
 import SmartAddress from "./SmartAddress";
 import { RegisterNowButtonCore } from "src/pages/Beta/Bridge/components/Transfer/RegisterNowButton";
@@ -43,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
   },
   mainCard: {
     padding: "32px 32px 16px",
-    backgroundColor: COLORS.whiteWithTransparency,
   },
   spacer: {
     height: theme.spacing(3),

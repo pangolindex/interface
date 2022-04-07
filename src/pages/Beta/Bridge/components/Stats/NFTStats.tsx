@@ -20,7 +20,6 @@ import {
   //DENY_LIST,
   ALLOW_LIST,
 } from "./nftLists";
-import { COLORS } from "../../muiTheme";
 
 const useStyles = makeStyles((theme) => ({
   logoPositioner: {
@@ -92,7 +91,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
   },
   mainPaper: {
-    backgroundColor: COLORS.whiteWithTransparency,
     padding: "2rem",
     "& > h, & > p ": {
       margin: ".5rem",

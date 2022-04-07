@@ -8,7 +8,6 @@ import {
 } from "@certusone/wormhole-sdk";
 import { makeStyles, Paper, Typography } from "@material-ui/core";
 import React, { useMemo } from "react";
-import { COLORS } from "../../muiTheme";
 import {
   getNFTBridgeAddressForChain,
   getTokenBridgeAddressForChain,
@@ -32,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
   },
   explainerContainer: {},
   mainPaper: {
-    backgroundColor: COLORS.whiteWithTransparency,
     padding: "2rem",
     "& > h, & > p ": {
       margin: ".5rem",

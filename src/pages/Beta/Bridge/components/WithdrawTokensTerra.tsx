@@ -27,7 +27,6 @@ import { useSelector } from "react-redux";
 import { selectTerraFeeDenom } from "src/store/selectors";
 import TerraFeeDenomPicker from "./TerraFeeDenomPicker";
 import HeaderText from "./HeaderText";
-import { COLORS } from "../muiTheme";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -38,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   mainPaper: {
-    backgroundColor: COLORS.whiteWithTransparency,
     textAlign: "center",
     padding: "2rem",
     "& > h, p ": {

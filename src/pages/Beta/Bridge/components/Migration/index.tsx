@@ -8,14 +8,12 @@ import { getAddress } from "@ethersproject/address";
 import { Container, makeStyles, Paper, Typography } from "@material-ui/core";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import { COLORS } from "../../muiTheme";
 import { getMigrationAssetMap } from "src/utils/bridgeUtils/consts";
 import HeaderText from "../HeaderText";
 import EvmWorkflow from "./EvmWorkflow";
 
 const useStyles = makeStyles(() => ({
   mainPaper: {
-    backgroundColor: COLORS.whiteWithTransparency,
     textAlign: "center",
     padding: "2rem",
     "& > h, p ": {

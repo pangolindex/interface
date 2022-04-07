@@ -37,7 +37,6 @@ import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router";
 import { useEthereumProvider } from "src/contexts/EthereumProviderContext";
 import useIsWalletReady from "src/hooks/bridgeHooks/useIsWalletReady";
-import { COLORS } from "../muiTheme";
 import { setRecoveryVaa as setRecoveryNFTVaa } from "src/store/nftSlice";
 import { setRecoveryVaa } from "src/store/transferSlice";
 import {
@@ -60,7 +59,6 @@ import KeyAndBalance from "./KeyAndBalance";
 const useStyles = makeStyles((theme) => ({
   mainCard: {
     padding: "32px 32px 16px",
-    backgroundColor: COLORS.whiteWithTransparency,
   },
   advancedContainer: {
     padding: theme.spacing(2, 0),
