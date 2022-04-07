@@ -1,27 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { ChainId } from '@certusone/wormhole-sdk'
 import { BigNumber } from '@ethersproject/bignumber'
-import {
-  // Button,
-  CircularProgress,
-  createStyles,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  IconButton,
-  Link,
-  List,
-  ListItem,
-  makeStyles,
-  TextField,
-  Tooltip,
-  Typography
-} from '@material-ui/core'
-import { InfoOutlined, Launch } from '@material-ui/icons'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
-import RefreshIcon from '@material-ui/icons/Refresh'
-import { Alert } from '@material-ui/lab'
+import { createStyles, makeStyles } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import useMarketsMap from 'src/hooks/bridgeHooks/useMarketsMap'
 import { NFTParsedTokenAccount } from 'src/store/nftSlice'
@@ -30,44 +10,12 @@ import { AVAILABLE_MARKETS_URL, CHAINS_BY_ID } from 'src/utils/bridgeUtils/const
 import NFTViewer from './NFTViewer'
 import { Text, Button } from '@pangolindex/components'
 import Modal from 'src/components/Modal'
-import Loader from "src/components/Modal"
-import ReloadIcon from "src/assets/images/refresh.png"
-import { SearchInput } from "../../styleds"
+import Loader from 'src/components/Modal'
+import ReloadIcon from 'src/assets/images/refresh.png'
+import { SearchInput, Separator } from '../../styleds'
 
 const useStyles = makeStyles(theme =>
   createStyles({
-    alignCenter: {
-      textAlign: 'center'
-    },
-    optionContainer: {
-      padding: 0
-    },
-    optionContent: {
-      padding: theme.spacing(1)
-    },
-    tokenList: {
-      maxHeight: theme.spacing(80), //TODO smarter
-      height: theme.spacing(80),
-      overflow: 'auto'
-    },
-    dialogContent: {
-      overflowX: 'hidden',
-      backgroundColor: '#1c1c1c'
-    },
-    dialogTitle: {
-      backgroundColor: '#212427'
-    },
-    selectionButtonContainer: {
-      //display: "flex",
-      textAlign: 'center',
-      backgroundColor: '#212427',
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2)
-    },
-    selectionButton: {
-      maxWidth: '100%',
-      width: theme.breakpoints.values.sm
-    },
     tokenOverviewContainer: {
       display: 'flex',
       width: '100%',
@@ -90,15 +38,6 @@ const useStyles = makeStyles(theme =>
       },
       flexWrap: 'wrap'
     },
-    tokenImageContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: 40
-    },
-    tokenImage: {
-      maxHeight: '2.5rem' //Eyeballing this based off the text size
-    },
     tokenMarketsList: {
       order: 1,
       textAlign: 'left',
@@ -116,15 +55,6 @@ const useStyles = makeStyles(theme =>
         width: '100%'
       }
     },
-    flexTitle: {
-      padding: "30px"
-    },
-    grower: {
-      flexGrow: 1
-    },
-    textFieldColor: {
-      color: 'white'
-    }
   })
 )
 
@@ -165,10 +95,8 @@ export const BasicAccountRender = (
               <Button
                 key={market}
                 variant="primary"
-                // startIcon={<Launch />}
                 href={marketsData.markets[market].link}
                 target="_blank"
-                // rel="noopener noreferrer"
                 onClick={noClickThrough}
               >
                 {marketsData.markets[market].name}
@@ -177,8 +105,8 @@ export const BasicAccountRender = (
           )}
         </div>
       ) : null}
-      <div className={classes.tokenImageContainer}>
-        {uri && <img alt="" className={classes.tokenImage} src={uri} />}
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', maxWidth: 40}}>
+        {uri && <img alt="" style={{maxHeight: '2.5rem'}} src={uri} />}
       </div>
       <div>
         <Text fontSize={13} fontWeight={500} lineHeight="12px" color="primaryText1">
@@ -256,7 +184,6 @@ export default function TokenPicker({
   showLoader?: boolean
   useTokenId?: boolean
 }) {
-  const classes = useStyles()
   const [holderString, setHolderString] = useState('')
   const [tokenIdHolderString, setTokenIdHolderString] = useState('')
   const [loadingError, setLoadingError] = useState('')
@@ -436,9 +363,14 @@ export default function TokenPicker({
   //TODO sigfigs function on the balance strings
 
   const localLoader = (
-    <div className={classes.alignCenter}>
+    <div style={{ textAlign: "center" }}>
       {/* <CircularProgress /> */}
-      <Loader isOpen={isLocalLoading} onDismiss={() => {!isLocalLoading}} />
+      <Loader
+        isOpen={isLocalLoading}
+        onDismiss={() => {
+          !isLocalLoading
+        }}
+      />
       <Text fontSize={13} fontWeight={500} lineHeight="12px" color="primaryText1">
         {showLoader ? 'Loading available tokens' : 'Searching for results'}
       </Text>
@@ -446,7 +378,7 @@ export default function TokenPicker({
   )
 
   const displayLocalError = (
-    <div className={classes.alignCenter}>
+    <div style={{ textAlign: "center" }}>
       <Text fontSize={13} fontWeight={500} lineHeight="12px" color="primaryText1">
         {loadingError || selectionError}
       </Text>
@@ -457,123 +389,99 @@ export default function TokenPicker({
     setHolderString(event.target.value.trim().toLowerCase())
   }, [])
 
+  const handleHolderString = useCallback(event => {
+    setTokenIdHolderString(event.target.value.trim().toLowerCase())
+  }, [])
+
   const dialog = (
-    <Modal onDismiss={closeDialog} isOpen={dialogIsOpen} maxWidth={800}  >
-      <div style={{backgroundColor: "#212427"}}>
-        <div style={{padding: "20px"}}>
+    <Modal onDismiss={closeDialog} isOpen={dialogIsOpen} maxWidth={800}>
+      <div style={{ backgroundColor: '#212427' }}>
+        <div style={{ padding: '20px' }}>
           <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">
             Refresh
           </Text>
-          <div className={classes.grower} />
-          <Tooltip title="Reload tokens">
-            <IconButton style={{ color: 'white' }} onClick={resetAccountsWrapper}>
-              <img src={ReloadIcon} style={{width: "12px"}} />
-            </IconButton>
-          </Tooltip>
+          <div style={{flexGrow: 1}} />
+          <div title="Reload tokens">
+            <img src={ReloadIcon} style={{ width: '12px' }} onClick={resetAccountsWrapper} />
+          </div>
         </div>
       </div>
-      <DialogContent className={classes.dialogContent}>
-        <p style={{ backgroundColor: '#212427', color: 'white', padding: "5px" }}>
+      <div style={{ padding: '20px', overflowX: 'hidden', backgroundColor: '#1c1c1c' }}>
+        <p style={{ backgroundColor: '#212427', color: 'white', padding: '5px' }}>
           You should always check for markets and liquidity before sending tokens.{' '}
-          <a href={AVAILABLE_MARKETS_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: 'white' }}>
+          <a
+            href={AVAILABLE_MARKETS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: 'underline', color: 'white' }}
+          >
             Click here to see available markets for wrapped tokens.
           </a>
         </p>
-        {/* <TextField
-          variant="outlined"
-          label="Search name or paste address"
-          value={holderString}
-          onChange={event => setHolderString(event.target.value)}
-          fullWidth
-          margin="normal"
-          // className={classes.textFieldColor}
-          inputProps={{ className: classes.textFieldColor }}
-          style={{ backgroundColor: 'white' }}
-        /> */}
-        {console.log('ye', holderString)}
-        <SearchInput
-                placeholder="Search name or paste address"
-                value={holderString}
-                onChange={handleSearch}
-              />
-        {/* <AddressInputPanel id="recipient" value={holderString} onChange={event => setHolderString(event.target.value)} /> */}
+        <SearchInput placeholder="Search name or paste address" value={holderString} onChange={handleSearch} />
         {useTokenId ? (
-          <TextField
-            variant="outlined"
-            label="Token Id"
-            value={tokenIdHolderString}
-            onChange={event => setTokenIdHolderString(event.target.value)}
-            fullWidth
-            margin="normal"
-            style={{ color: 'white' }}
-          />
+          <SearchInput placeholder="Token Id" value={tokenIdHolderString} onChange={handleHolderString} />
         ) : null}
         {isLocalLoading || showLoader ? (
           localLoader
         ) : loadingError || selectionError ? (
           displayLocalError
         ) : (
-          <List component="div" className={classes.tokenList}>
-            {featuredOptions.length ? (
+          <div style={{maxHeight: "60vh", height: "60vh", overflow: 'auto'}}>
+            {nonFeaturedOptions.length ? (
               <>
-                <Text fontSize={13} fontWeight={500} lineHeight="12px" color="primaryText1">
-                  Featured {CHAINS_BY_ID[chainId].name} &gt; {CHAINS_BY_ID[targetChain].name} markets{' '}
-                  <Tooltip
-                    title={`Markets for these ${CHAINS_BY_ID[chainId].name} tokens exist for the corresponding tokens on ${CHAINS_BY_ID[targetChain].name}`}
-                  >
-                    <InfoOutlined fontSize="small" style={{ verticalAlign: 'text-bottom' }} />
-                  </Tooltip>
+                <Separator />
+                <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text5">
+                  Other Assets
                 </Text>
-                {/* ATTENTION ICI */}
-                {featuredOptions.map(option => {
-                  return (
-                    <ListItem
-                      component="div"
-                      button
-                      onClick={() => handleSelectOption(option)}
-                      key={option.publicKey + option.mintKey + (option.tokenId || '')}
-                    >
-                      <RenderOption account={option} />
-                    </ListItem>
-                  )
-                })}
-                {nonFeaturedOptions.length ? (
-                  <>
-                    <Divider style={{ marginTop: 8, marginBottom: 16 }} />
-                    <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text5">
-                      Other Assets
-                    </Text>
-                  </>
-                ) : null}
               </>
             ) : null}
+
             {nonFeaturedOptions.map(option => {
               return (
-                <ListItem
-                  component="div"
-                  button
+                <div
                   onClick={() => handleSelectOption(option)}
                   key={option.publicKey + option.mintKey + (option.tokenId || '')}
                 >
                   <RenderOption account={option} />
-                </ListItem>
+                </div>
               )
             })}
+            {featuredOptions.length ? (
+              <div style={{ paddingTop: '30px' }}>
+                <Text fontSize={13} fontWeight={500} lineHeight="12px" color="primaryText1">
+                  Featured {CHAINS_BY_ID[chainId].name} &gt; {CHAINS_BY_ID[targetChain].name} markets{' '}
+                  <div
+                    title={`Markets for these ${CHAINS_BY_ID[chainId].name} tokens exist for the corresponding tokens on ${CHAINS_BY_ID[targetChain].name}`}
+                  ></div>
+                </Text>
+                {featuredOptions.map(option => {
+                  return (
+                    <div
+                      onClick={() => handleSelectOption(option)}
+                      key={option.publicKey + option.mintKey + (option.tokenId || '')}
+                    >
+                      <RenderOption account={option} />
+                    </div>
+                  )
+                })}
+              </div>
+            ) : null}
             {featuredOptions.length || nonFeaturedOptions.length ? null : (
-              <div className={classes.alignCenter}>
+              <div style={{ textAlign: "center" }}>
                 <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text5">
                   No results found
                 </Text>
               </div>
             )}
-          </List>
+          </div>
         )}
-      </DialogContent>
+      </div>
     </Modal>
   )
 
   const selectionChip = (
-    <div className={classes.selectionButtonContainer}>
+    <div style={{textAlign: 'center',backgroundColor: '#212427',marginTop: "2vh", marginBottom: "2vh"}}>
       {value ? (
         <RenderOption account={value} />
       ) : (

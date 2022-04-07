@@ -149,3 +149,29 @@ export const SearchInput = styled.input`
     outline: none;
   }
 `
+  
+export const TokenOverviewContainer = styled.div`
+  display: 'flex';
+  width: '100%';
+  alignItems: 'center';
+  flexBasis: '25%';
+  flexWrap: 'wrap';
+  & div  {
+    margin: theme.spacing(1),
+    flexBasis: '25%',
+    '&$tokenImageContainer': {
+      maxWidth: 40
+    }
+    '&$tokenMarketsList {
+      marginTop: theme.spacing(-0.5),
+      marginLeft: 0,
+      flexBasis: '100%'
+    }
+    &:last-child {
+      textAlign: 'right'
+    }
+    flexShrink: 1
+  }
+  flexWrap: 'wrap'
+  }
+`
