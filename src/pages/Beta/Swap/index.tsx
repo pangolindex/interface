@@ -1,7 +1,7 @@
 import React from 'react'
 import { PageWrapper, GridContainer, TopContainer, StatsWrapper } from './styleds'
-import { useGelatoLimitOrderList, SwapWidget } from '@pangolindex/components'
-import { CHAINS } from '@pangolindex/sdk'
+import { useGelatoLimitOrderList, SwapWidget } from '@antiyro/components'
+import { ChainId } from '@pangolindex/sdk'
 import MyPortfolio from './MyPortfolio'
 import WatchList from './WatchList'
 import PairInfo from './PairInfo'
@@ -23,7 +23,7 @@ const SwapUI = () => {
         <SwapWidget isLimitOrderVisible={true} />
       </TopContainer>
 
-      {CHAINS[chainId].mainnet && (
+      {chainId !== ChainId.WAGMI && (
         <GridContainer isLimitOrders={isLimitOrders}>
           {isLimitOrders && <LimitOrderList />}
           <MyPortfolio isLimitOrders={isLimitOrders} />

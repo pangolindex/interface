@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { RemoveWrapper, InputText, ContentBox } from './styleds'
-import { Box, Text, Button } from '@pangolindex/components'
+import { Box, Text, Button } from '@antiyro/components'
 import ReactGA from 'react-ga'
 import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { Currency, Percent, CAVAX } from '@pangolindex/sdk'

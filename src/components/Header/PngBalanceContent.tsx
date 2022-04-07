@@ -1,4 +1,4 @@
-import { TokenAmount, JSBI, ChainId, CHAINS } from '@pangolindex/sdk'
+import { TokenAmount, JSBI, ChainId } from '@pangolindex/sdk'
 import React, { useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
@@ -76,7 +76,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const { t } = useTranslation()
 
   const usdcPriceTmp = useUSDCPrice(png)
-  const usdcPrice = CHAINS[chainId].mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = chainId !== ChainId.WAGMI ? usdcPriceTmp : undefined
 
   let pngPrice
 

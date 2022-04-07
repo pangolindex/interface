@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text } from '@pangolindex/components'
+import { Text } from '@antiyro/components'
 import PlusLogo from 'src/assets/images/plus.png'
 import MinusLogo from 'src/assets/images/minus.png'
 import { StyledLogo, SeparatorBorder } from '../../styleds'

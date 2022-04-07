@@ -1,4 +1,4 @@
-import { Box } from '@pangolindex/components'
+import { Box } from '@antiyro/components'
 import styled from 'styled-components'
 
 export const HeaderRoot = styled(Box)`

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { SidebarWrapper, Menu, MenuLink, MenuName, MenuItem, Circle } from './styleds'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box } from '@antiyro/components'
 import { useTranslation } from 'react-i18next'
 import PoolImportModal from '../PoolImportModal'
 

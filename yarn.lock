@@ -9,7 +9,15 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@pangolindex/sdk@10.0.10":
+"@antiyro/components@^2.0.0-rc.6":
+  version "2.0.0-rc.9"
+  resolved "https://registry.yarnpkg.com/@antiyro/components/-/components-2.0.0-rc.9.tgz#d548ba1f064afda12aec0051cd5fda09214b6ccb"
+  integrity sha512-iFr73qyeZgbBK2aa9bMeu56uImcL9pENF8fkHMHkL6lq5fih9HvLB0ZWS4mNUmvPJwaF6i7d/qihKGRvszUdNQ==
+  dependencies:
+    cids "^1.1.9"
+    react-switch "^6.0.0"
+
+"@pangolindex/sdk@^10.0.10":
   version "10.0.10"
   resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-10.0.10.tgz#e003fad288ed4bf54e1f5e3cc5881593747038e1"
   integrity sha512-Ysi861YkUt/EWjVNQCSmqGW0LB5hNmbBgOfkGXLQV2d1gCyGBEeCShzOVSEsOvEOE0BLcsOzBZ+HAqH30g+p1g==
@@ -2182,14 +2190,6 @@
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
-
-"@pangolindex/components@2.0.0-rc.5":
-  version "2.0.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-2.0.0-rc.5.tgz#9ecb5d2d68f5a22b64d146da2a78c2c0a0bcb82c"
-  integrity sha512-Q5Vn8HWuh6sx0OrJ5+6e7EoKamUSBgm1ZSjQAOyfK/2yWrAi/19Id7C3jsVs0yardub5ko2q35coKj5lJO5rcQ==
-  dependencies:
-    cids "^1.1.9"
-    react-switch "^6.0.0"
 
 "@pangolindex/exchange-contracts@1.0.2", "@pangolindex/exchange-contracts@^1.0.1":
   version "1.0.2"

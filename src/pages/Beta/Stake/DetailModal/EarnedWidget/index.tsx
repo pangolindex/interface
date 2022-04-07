@@ -1,5 +1,5 @@
-import { Box, Button, Text } from '@pangolindex/components'
-import { JSBI, CHAINS } from '@pangolindex/sdk'
+import { Box, Button, Text } from '@antiyro/components'
+import { JSBI, ChainId } from '@pangolindex/sdk'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
@@ -25,15 +25,15 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
 
   const rewardToken = stakingInfo?.rewardToken
   const usdcPriceTmp = useUSDCPrice(rewardToken)
-  const usdcPrice = CHAINS[chainId].mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = chainId !== ChainId.WAGMI ? usdcPriceTmp : undefined
 
   const weeklyRewardInToken = stakingInfo?.rewardRatePerWeek.toSignificant(4)
   const unclaimedAmountInToken = stakingInfo?.earnedAmount.toSignificant(4)
 
-  const weeklyRewardUSD = CHAINS[chainId].mainnet
+  const weeklyRewardUSD = chainId !== ChainId.WAGMI
     ? Number(weeklyRewardInToken) * Number(usdcPrice?.toSignificant(6))
     : undefined
-  const unclaimedAmountInUSD = CHAINS[chainId].mainnet
+  const unclaimedAmountInUSD = chainId !== ChainId.WAGMI
     ? Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6))
     : undefined
 

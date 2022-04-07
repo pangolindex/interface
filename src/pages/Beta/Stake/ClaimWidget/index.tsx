@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Text, Button } from '@pangolindex/components'
+import { Box, Text, Button } from '@antiyro/components'
 import { WidgetWrapper, Root } from './styled'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'

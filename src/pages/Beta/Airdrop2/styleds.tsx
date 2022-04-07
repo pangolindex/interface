@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Box } from '@pangolindex/components'
+import { Box } from '@antiyro/components'
 import { X } from 'react-feather'
 
 export const PageWrapper = styled(Box)`

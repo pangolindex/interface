@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState, useMemo } from 'react'
-import { Box, Button } from '@pangolindex/components'
-import { ChainId, Token, CHAINS } from '@pangolindex/sdk'
+import { Box, Button } from '@antiyro/components'
+import { ChainId, Token } from '@pangolindex/sdk'
 import { Plus } from 'react-feather'
 import { ThemeContext } from 'styled-components'
 import { PNG } from 'src/constants/tokens'
@@ -79,7 +79,7 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
         </Box>
       </Box>
       <GridContainer isLimitOrders={isLimitOrders}>
-        {CHAINS[chainId].mainnet
+        {chainId !== ChainId.WAGMI
           ? !isLimitOrders && (
               <Hidden upToSmall={true}>
                 <CoinChart coin={selectedToken} />

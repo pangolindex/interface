@@ -1,6 +1,6 @@
 import React from 'react'
-import { Currency, Percent, Price, CurrencyAmount, CHAINS } from '@pangolindex/sdk'
-import { Box } from '@pangolindex/components'
+import { Currency, Percent, Price, CurrencyAmount, ChainId } from '@pangolindex/sdk'
+import { Box } from '@antiyro/components'
 import Stat from 'src/components/Stat'
 import { Root, GridContainer } from './styled'
 import { Field } from 'src/state/mint/actions'
@@ -24,7 +24,7 @@ const PoolPriceBar = ({ currencies, noLiquidity, poolTokenPercentage, price, par
 
   const currency0 = currencies[Field.CURRENCY_A]
   const currency0PriceTmp = useUSDCPrice(currency0)
-  const currency0Price = CHAINS[chainId].mainnet ? currency0PriceTmp : undefined
+  const currency0Price = chainId !== ChainId.WAGMI ? currency0PriceTmp : undefined
   const multipyAmount = currency0Price ? Number(currency0Price.toFixed()) * 2 * Number(currency0InputValue) : 0
 
   return (

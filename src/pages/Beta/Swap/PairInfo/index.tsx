@@ -2,7 +2,7 @@ import React from 'react'
 import PairStat from './PairStat'
 import PairChart from './PairChart'
 import { Field } from 'src/state/swap/actions'
-import { useDerivedSwapInfo, wrappedCurrency, usePair } from '@pangolindex/components'
+import { useDerivedSwapInfo, wrappedCurrency, usePair } from '@antiyro/components'
 import { useChainId } from 'src/hooks'
 
 const PairInfo = () => {

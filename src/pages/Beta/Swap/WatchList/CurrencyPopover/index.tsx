@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { Box, TextInput } from '@pangolindex/components'
+import { Box, TextInput } from '@antiyro/components'
 import { useToken } from 'src/hooks/Tokens'
 import { useTokenComparator } from 'src/components/SearchModal/sorting'
 import { Currency, Token, CAVAX, ChainId } from '@pangolindex/sdk'

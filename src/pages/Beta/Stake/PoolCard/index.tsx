@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, CurrencyLogo } from '@pangolindex/components'
+import { Text, CurrencyLogo } from '@antiyro/components'
 import { JSBI } from '@pangolindex/sdk'
 import numeral from 'numeral'
 import { useActiveWeb3React } from 'src/hooks'

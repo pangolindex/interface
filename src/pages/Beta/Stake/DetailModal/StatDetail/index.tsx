@@ -1,6 +1,6 @@
 import React from 'react'
-import { Text, Box } from '@pangolindex/components'
-import { Currency, TokenAmount, CHAINS } from '@pangolindex/sdk'
+import { Text, Box } from '@antiyro/components'
+import { Currency, TokenAmount, ChainId } from '@pangolindex/sdk'
 import { StateContainer } from './styleds'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
@@ -17,8 +17,8 @@ const StatDetails: React.FC<Props> = ({ title, amountInPNG, currency0 }) => {
   const chainId = useChainId()
 
   const usdcPriceTmp = useUSDCPrice(amountInPNG?.token)
-  const usdcPrice = CHAINS[chainId].mainnet ? usdcPriceTmp : undefined
-  const amountInUSD = CHAINS[chainId].mainnet
+  const usdcPrice = chainId !== ChainId.WAGMI ? usdcPriceTmp : undefined
+  const amountInUSD = chainId !== ChainId.WAGMI
     ? numeral(usdcPrice?.quote(amountInPNG, chainId).toSignificant(6)).format('$0.00a')
     : undefined
 

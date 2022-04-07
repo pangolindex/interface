@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Fraction, CHAINS } from '@pangolindex/sdk'
+import { Fraction, ChainId } from '@pangolindex/sdk'
 import {
   Panel,
   Divider,
@@ -11,7 +11,7 @@ import {
   OptionButton
 } from './styleds'
 import Stat from 'src/components/Stat'
-import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo } from '@antiyro/components'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
@@ -55,7 +55,7 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  const yourStackedInUsd = CHAINS[chainId].mainnet
+  const yourStackedInUsd = chainId !== ChainId.WAGMI
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
 

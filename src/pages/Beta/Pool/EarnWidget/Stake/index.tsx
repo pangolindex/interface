@@ -13,7 +13,7 @@ import {
   Buttons,
   CardContentBox
 } from './styleds'
-import { Box, Text, Button, DoubleCurrencyLogo } from '@pangolindex/components'
+import { Box, Text, Button, DoubleCurrencyLogo } from '@antiyro/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { TokenAmount, Pair, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'

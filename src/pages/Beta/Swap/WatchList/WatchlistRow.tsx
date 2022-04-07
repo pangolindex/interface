@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Text, Box, CurrencyLogo } from '@pangolindex/components'
+import { Text, Box, CurrencyLogo } from '@antiyro/components'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { Token } from '@pangolindex/sdk'
 import { DeleteButton, RowWrapper } from './styleds'

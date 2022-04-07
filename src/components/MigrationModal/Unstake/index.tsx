@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Wrapper } from './styleds'
-import { Box, Button } from '@pangolindex/components'
+import { Box, Button } from '@antiyro/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
 import { StakingInfo } from '../../../state/stake/hooks'

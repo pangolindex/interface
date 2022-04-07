@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Box } from '@pangolindex/components'
+import { Box } from '@antiyro/components'
 import { CloseIcon } from 'src/theme'
 
 export const Frame = styled(Box)`

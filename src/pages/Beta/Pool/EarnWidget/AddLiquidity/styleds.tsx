@@ -1,4 +1,4 @@
-import { Box, TextInput } from '@pangolindex/components'
+import { Box, TextInput } from '@antiyro/components'
 import styled from 'styled-components'
 
 export const AddWrapper = styled(Box)`

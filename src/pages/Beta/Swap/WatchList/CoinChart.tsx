@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { Text, Box, CurrencyLogo, Button, useSwapActionHandlers } from '@pangolindex/components'
+import { Text, Box, CurrencyLogo, Button, useSwapActionHandlers } from '@antiyro/components'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { Link } from 'react-feather'
 import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts'

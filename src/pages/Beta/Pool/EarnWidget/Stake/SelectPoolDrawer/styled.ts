@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Text } from '@pangolindex/components'
+import { Text } from '@antiyro/components'
 
 export const CurrencyList = styled.div`
   display: flex;
