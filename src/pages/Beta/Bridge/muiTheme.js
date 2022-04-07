@@ -73,7 +73,7 @@ export const theme = responsiveFontSizes(
     overrides: {
       MuiCssBaseline: {
         "@global": {
-          "@font-face": [suisse],
+          // "@font-face": [suisse],
           body: {
             overscrollBehaviorY: "none",
             backgroundPosition: "top center",

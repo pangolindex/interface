@@ -103,9 +103,9 @@ function Transfer() {
               icon={null}
               style={{backgroundColor: "#212427", borderRadius: "5px", marginTop: "5px", marginBottom: '5px'}}
             >
-              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
+              <p>
                 2. Target
-              </Text>
+              </p>
             </StepButton>
             ) : (
             <StepButton
@@ -113,9 +113,9 @@ function Transfer() {
               onClick={() => dispatch(setStep(1))}
               icon={null}
             >
-              <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
+              <p>
                 2. Target
-              </Text>
+              </p>
             </StepButton>
 
             )}

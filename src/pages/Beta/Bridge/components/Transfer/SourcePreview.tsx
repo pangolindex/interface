@@ -36,7 +36,7 @@ export default function SourcePreview() {
         {sourceWalletAddress ? (
           <>
             <span style={{color: 'white'}}>from</span>
-            <SmartAddress style={{color: 'white'}} chainId={sourceChain} address={sourceWalletAddress} />
+            <SmartAddress chainId={sourceChain} address={sourceWalletAddress} />
           </>
         ) : null}
         <span>on {CHAINS_BY_ID[sourceChain].name}</span>
