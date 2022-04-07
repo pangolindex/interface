@@ -26,6 +26,7 @@ import { useIsBetaUI } from './hooks/useLocation'
 import { useActiveWeb3React } from './hooks'
 import Package from '../package.json'
 
+
 Sentry.init({
   dsn: 'https://ff9ffce9712f415f8ad4c2a80123c984@o1080468.ingest.sentry.io/6086371',
   integrations: [new Integrations.BrowserTracing()],
