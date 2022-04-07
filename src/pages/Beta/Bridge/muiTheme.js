@@ -16,7 +16,7 @@ export const COLORS = {
 };
 
 const suisse = {
-  fontFamily: "Suisse BP Intl",
+  fontFamily: "Poppins",
   fontStyle: "normal",
   fontDisplay: "swap",
   fontWeight: 400,
@@ -53,27 +53,27 @@ export const theme = responsiveFontSizes(
     },
 
     typography: {
-    //   fontFamily: "'Poppins', sans-serif",
-    //   fontSize: 13,
-    //   h1: {
-    //     fontFamily: "Suisse BP Intl, sans-serif",
-    //     lineHeight: 0.9,
-    //     letterSpacing: -2,
-    //     fontWeight: "bold",
-    //   },
-    //   h2: {
-    //     fontWeight: "200",
-    //   },
-    //   h4: {
-    //     fontWeight: "600",
-    //     fontFamily: "Suisse BP Intl, sans-serif",
-    //     letterSpacing: -1.02,
-    //   },
+      fontFamily: "'Poppins', sans-serif",
+      fontSize: 13,
+      h1: {
+        fontFamily: "Poppins, sans-serif",
+        lineHeight: 0.9,
+        letterSpacing: -2,
+        fontWeight: "bold",
+      },
+      h2: {
+        fontWeight: "200",
+      },
+      h4: {
+        fontWeight: "600",
+        fontFamily: "Poppins, sans-serif",
+        letterSpacing: -1.02,
+      },
     },
     overrides: {
       MuiCssBaseline: {
         "@global": {
-          // "@font-face": [suisse],
+          "@font-face": [suisse],
           body: {
             overscrollBehaviorY: "none",
             backgroundPosition: "top center",
@@ -191,7 +191,7 @@ export const theme = responsiveFontSizes(
       MuiTab: {
         root: {
           color: COLORS.white,
-          fontFamily: "Suisse BP Intl, sans-serif",
+          fontFamily: "Poppins",
           fontWeight: "bold",
           fontSize: 18,
           padding: 12,
