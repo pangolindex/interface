@@ -76,6 +76,7 @@ export default function PendingView({
   tryActivation: (connector: AbstractConnector) => void
 }) {
   const isMetamask = window?.ethereum?.isMetaMask
+
   const { t } = useTranslation()
 
   return (
