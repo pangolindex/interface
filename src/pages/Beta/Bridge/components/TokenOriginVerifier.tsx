@@ -30,6 +30,7 @@ import HeaderText from "./HeaderText";
 import KeyAndBalance from "./KeyAndBalance";
 import SmartAddress from "./SmartAddress";
 import { RegisterNowButtonCore } from "src/pages/Beta/Bridge/components/Transfer/RegisterNowButton";
+import { Text } from '@pangolindex/components'
 
 const useStyles = makeStyles((theme) => ({
   flexBox: {
@@ -49,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
   },
   centered: {
     textAlign: "center",
+    paddingBottom: "20px",
+    paddingTop: "20px",
+
   },
   arrowIcon: {
     margin: "0 auto",
@@ -262,10 +266,10 @@ export default function TokenOriginVerifier() {
 
   const primaryContent = (
     <>
-      <Typography style={{color: 'white'}} variant="h5">Source Information</Typography>
-      <Typography style={{color: 'white'}} variant="body1" color="textSecondary">
+      <Text fontSize={30} fontWeight={500} lineHeight="30px" color="text10">Source Information</Text>
+      <Text fontSize={15} fontWeight={500} lineHeight="30px" color="text10">
         Enter a token from any supported chain to get started.
-      </Typography>
+      </Text>
       <div className={classes.spacer} />
       <TextField
         select
@@ -275,7 +279,7 @@ export default function TokenOriginVerifier() {
         onChange={handlePrimaryLookupChainChange}
         fullWidth
         margin="normal"
-        style={{color: 'white'}}
+        style={{backgroundColor: 'white'}}
       >
         {primaryLookupChainOptions.map(({ id, name }) => (
           <MenuItem key={id} value={id}>
@@ -290,7 +294,7 @@ export default function TokenOriginVerifier() {
         label="Paste an address"
         value={primaryLookupAsset}
         onChange={handlePrimaryLookupAssetChange}
-        style={{color: 'white'}}
+        style={{backgroundColor: 'white'}}
       />
       <div className={classes.centered}>
         {isEVMChain(primaryLookupChain) ? (
@@ -361,9 +365,9 @@ export default function TokenOriginVerifier() {
 
   const content = (
     <div>
-      <Container maxWidth="md" className={classes.centered}>
-        <HeaderText white>Token Origin Verifier</HeaderText>
-      </Container>
+      <div className={classes.centered}>
+      <Text fontSize={40} fontWeight={500} lineHeight="30px" color="text10">Token Origin Verifier</Text>
+      </div>
       <Container maxWidth="sm">
         <Card className={classes.mainCard}>{primaryContent}</Card>
         {secondaryContent ? (
