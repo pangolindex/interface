@@ -30,6 +30,9 @@ import { AVAILABLE_MARKETS_URL, CHAINS_BY_ID } from 'src/utils/bridgeUtils/const
 import NFTViewer from './NFTViewer'
 import { Text, Button } from '@pangolindex/components'
 import Modal from 'src/components/Modal'
+import Loader from "src/components/Modal"
+import ReloadIcon from "src/assets/images/refresh.png"
+import { SearchInput } from "../../styleds"
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -178,26 +181,26 @@ export const BasicAccountRender = (
         {uri && <img alt="" className={classes.tokenImage} src={uri} />}
       </div>
       <div>
-        <Typography style={{ color: 'white' }} variant="subtitle1">
+        <Text fontSize={13} fontWeight={500} lineHeight="12px" color="primaryText1">
           {symbol}
-        </Typography>
+        </Text>
       </div>
       <div>
         {
-          <Typography style={{ color: 'white' }} variant="body1">
+          <Text fontSize={13} fontWeight={500} lineHeight="12px" color="primaryText1">
             {account.isNativeAsset ? 'Native' : ''}
-          </Typography>
+          </Text>
         }
       </div>
       <div>
         {shouldDisplayBalance ? (
           <>
-            <Typography style={{ color: 'white' }} variant="body2">
+            <Text fontSize={13} fontWeight={500} lineHeight="12px" color="primaryText1">
               {'Balance'}
-            </Typography>
-            <Typography style={{ color: 'white' }} variant="h6">
+            </Text>
+            <Text fontSize={13} fontWeight={500} lineHeight="12px" color="primaryText1">
               {balancePretty(account.uiAmountString)}
-            </Typography>
+            </Text>
           </>
         ) : (
           <div />
@@ -208,12 +211,12 @@ export const BasicAccountRender = (
 
   const migrationRender = (
     <div className={classes.migrationAlert}>
-      <Alert severity="warning">
-        <Typography style={{ color: 'white' }} variant="body2">
+      <div>
+        <Text fontSize={13} fontWeight={500} lineHeight="12px" color="primaryText1">
           This is a legacy asset eligible for migration.
-        </Typography>
+        </Text>
         <div>{tokenContent}</div>
-      </Alert>
+      </div>
     </div>
   )
 
@@ -294,7 +297,7 @@ export default function TokenPicker({
         }
         await onChange(newOption)
         closeDialog()
-      } catch (e) {
+      } catch (e: any) {
         if (e.message?.includes('v1')) {
           setSelectionError(e.message)
         } else {
@@ -434,18 +437,25 @@ export default function TokenPicker({
 
   const localLoader = (
     <div className={classes.alignCenter}>
-      <CircularProgress />
-      <Typography variant="body2">{showLoader ? 'Loading available tokens' : 'Searching for results'}</Typography>
+      {/* <CircularProgress /> */}
+      <Loader isOpen={isLocalLoading} onDismiss={() => {!isLocalLoading}} />
+      <Text fontSize={13} fontWeight={500} lineHeight="12px" color="primaryText1">
+        {showLoader ? 'Loading available tokens' : 'Searching for results'}
+      </Text>
     </div>
   )
 
   const displayLocalError = (
     <div className={classes.alignCenter}>
-      <Typography variant="body2" color="error">
+      <Text fontSize={13} fontWeight={500} lineHeight="12px" color="primaryText1">
         {loadingError || selectionError}
-      </Typography>
+      </Text>
     </div>
   )
+
+  const handleSearch = useCallback(event => {
+    setHolderString(event.target.value.trim().toLowerCase())
+  }, [])
 
   const dialog = (
     <Modal onDismiss={closeDialog} isOpen={dialogIsOpen} maxWidth={800}  >
@@ -457,7 +467,7 @@ export default function TokenPicker({
           <div className={classes.grower} />
           <Tooltip title="Reload tokens">
             <IconButton style={{ color: 'white' }} onClick={resetAccountsWrapper}>
-              <RefreshIcon />
+              <img src={ReloadIcon} style={{width: "12px"}} />
             </IconButton>
           </Tooltip>
         </div>
@@ -469,7 +479,7 @@ export default function TokenPicker({
             Click here to see available markets for wrapped tokens.
           </a>
         </p>
-        <TextField
+        {/* <TextField
           variant="outlined"
           label="Search name or paste address"
           value={holderString}
@@ -479,7 +489,14 @@ export default function TokenPicker({
           // className={classes.textFieldColor}
           inputProps={{ className: classes.textFieldColor }}
           style={{ backgroundColor: 'white' }}
-        />
+        /> */}
+        {console.log('ye', holderString)}
+        <SearchInput
+                placeholder="Search name or paste address"
+                value={holderString}
+                onChange={handleSearch}
+              />
+        {/* <AddressInputPanel id="recipient" value={holderString} onChange={event => setHolderString(event.target.value)} /> */}
         {useTokenId ? (
           <TextField
             variant="outlined"
@@ -499,14 +516,14 @@ export default function TokenPicker({
           <List component="div" className={classes.tokenList}>
             {featuredOptions.length ? (
               <>
-                <Typography variant="subtitle2" gutterBottom style={{ color: 'white' }}>
+                <Text fontSize={13} fontWeight={500} lineHeight="12px" color="primaryText1">
                   Featured {CHAINS_BY_ID[chainId].name} &gt; {CHAINS_BY_ID[targetChain].name} markets{' '}
                   <Tooltip
                     title={`Markets for these ${CHAINS_BY_ID[chainId].name} tokens exist for the corresponding tokens on ${CHAINS_BY_ID[targetChain].name}`}
                   >
                     <InfoOutlined fontSize="small" style={{ verticalAlign: 'text-bottom' }} />
                   </Tooltip>
-                </Typography>
+                </Text>
                 {/* ATTENTION ICI */}
                 {featuredOptions.map(option => {
                   return (
@@ -523,9 +540,6 @@ export default function TokenPicker({
                 {nonFeaturedOptions.length ? (
                   <>
                     <Divider style={{ marginTop: 8, marginBottom: 16 }} />
-                    {/* <Typography variant="subtitle2" gutterBottom>
-                      Other Assets
-                    </Typography> */}
                     <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text5">
                       Other Assets
                     </Text>
@@ -547,7 +561,6 @@ export default function TokenPicker({
             })}
             {featuredOptions.length || nonFeaturedOptions.length ? null : (
               <div className={classes.alignCenter}>
-                {/* <Typography>No results found</Typography> */}
                 <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text5">
                   No results found
                 </Text>
@@ -561,21 +574,15 @@ export default function TokenPicker({
 
   const selectionChip = (
     <div className={classes.selectionButtonContainer}>
-      <Button
-        onClick={openDialog}
-        // disabled={disabled}
-        variant="outline"
-        // startIcon={<KeyboardArrowDownIcon />}
-        // className={classes.selectionButton}
-      >
-        {value ? (
-          <RenderOption account={value} />
-        ) : (
+      {value ? (
+        <RenderOption account={value} />
+      ) : (
+        <Button onClick={openDialog} variant="outline">
           <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">
             Select a token
           </Text>
-        )}
-      </Button>
+        </Button>
+      )}
     </div>
   )
 
