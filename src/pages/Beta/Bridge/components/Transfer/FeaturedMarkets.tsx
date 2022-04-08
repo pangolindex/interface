@@ -1,6 +1,4 @@
 import React from "react";
-import { Button, makeStyles, Typography } from "@material-ui/core";
-import { Launch } from "@material-ui/icons";
 import { TokenInfo } from "@solana/spl-token-registry";
 import { useSelector } from "react-redux";
 import useMarketsMap from "src/hooks/bridgeHooks/useMarketsMap";
@@ -13,15 +11,7 @@ import {
   selectTransferTargetChain,
 } from "src/store/selectors";
 import { JUPITER_SWAP_BASE_URL } from "src/utils/bridgeUtils/consts";
-
-const useStyles = makeStyles((theme) => ({
-  description: {
-    marginTop: theme.spacing(1),
-  },
-  button: {
-    margin: theme.spacing(0.5, 0.5),
-  },
-}));
+import { Text, Button } from "@pangolindex/components"
 
 function getJupiterSwapUrl(
   link: string,
@@ -50,7 +40,6 @@ export default function FeaturedMarkets() {
   const targetAsset = useSelector(selectTransferTargetAsset);
   const solanaTokenMap = useSelector(selectSolanaTokenMap);
   const { data: marketsData } = useMarketsMap(true);
-  const classes = useStyles();
 
   if (
     !sourceAsset ||
@@ -78,31 +67,24 @@ export default function FeaturedMarkets() {
           : marketInfo.link;
       tokenMarketButtons.push(
         <Button
-          key={market}
-          size="small"
-          variant="outlined"
-          color="secondary"
-          startIcon={<Launch />}
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={classes.button}
-        >
-          {marketInfo.name}
-        </Button>
+        variant="outline"
+        height={36}
+        padding="4px 6px"
+        href={url}
+        as="a"
+        target=""
+      >
+        {marketInfo.name}
+      </Button>
       );
     }
   }
 
   return tokenMarketButtons.length ? (
     <div style={{ textAlign: "center" }}>
-      <Typography
-        variant="subtitle2"
-        gutterBottom
-        className={classes.description}
-      >
+      <Text fontSize={20} fontWeight={500} lineHeight="12px" color="primaryText1">
         Featured markets
-      </Typography>
+      </Text>
       {tokenMarketButtons}
     </div>
   ) : null;

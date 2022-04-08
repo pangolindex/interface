@@ -97,7 +97,7 @@ function Transfer() {
           </Step>
           <Step expanded={activeStep >= 1} disabled={preventNavigation || isRedeemComplete}>
             {activeStep < 1 ? (
-              <StepDisplay onClick={() => dispatch(setStep(1))}>
+              <StepDisplay>
                 <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
                   2. Target
                 </Text>
@@ -129,7 +129,7 @@ function Transfer() {
           </Step>
           <Step expanded={activeStep >= 3} completed={isRedeemComplete}>
             {activeStep < 3 ? (
-              <StepDisplay onClick={() => dispatch(setStep(3))}>
+              <StepDisplay>
                 <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" style={{ color: 'white' }}>
                   4. Redeem tokens
                 </Text>

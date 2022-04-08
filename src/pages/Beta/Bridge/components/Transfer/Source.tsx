@@ -1,11 +1,8 @@
 import { CHAIN_ID_BSC, CHAIN_ID_ETH } from '@certusone/wormhole-sdk'
 import { getAddress } from '@ethersproject/address'
-import { Button, makeStyles } from '@material-ui/core'
-import { VerifiedUser } from '@material-ui/icons'
 import React, { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
-import { Link } from 'react-router-dom'
 import useIsWalletReady from 'src/hooks/bridgeHooks/useIsWalletReady'
 import {
   selectTransferAmount,
@@ -24,43 +21,15 @@ import ChainSelect from '../ChainSelect'
 import ChainSelectArrow from '../ChainSelectArrow'
 import KeyAndBalance from '../KeyAndBalance'
 import LowBalanceWarning from '../LowBalanceWarning'
-import NumberTextField from '../NumberTextField'
 import { TokenSelector } from '../TokenSelectors/SourceTokenSelector'
 import SourceAssetWarning from './SourceAssetWarning'
 import { BETA_MENU_LINK } from 'src/constants'
-import { Text } from '@pangolindex/components'
+import { Text, Button } from '@pangolindex/components'
+import { SearchInput } from '../../styleds'
+import NumberTextField from '../NumberTextField'
 
-const useStyles = makeStyles(theme => ({
-  chainSelectWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  chainSelectContainer: {
-    alignItems: 'center',
-    width: '100%',
-    fontSize: '20px',
-    fontWeight: 500,
-    outline: 'none',
-    cursor: 'pointer',
-    userSelect: 'none',
-    border: 'none',
-    backgroundColor: '#1c1c1c',
-    marginTop: '5px',
-    borderRadius: '8px'
-  },
-  chainSelectArrow: {
-    position: 'relative',
-    top: '12px'
-    // transform: 'rotate(90deg)',
-  },
-  transferField: {
-    marginTop: theme.spacing(5),
-  }
-}))
 
 function Source() {
-  const classes = useStyles()
   const dispatch = useDispatch()
   const history = useHistory()
   const sourceChain = useSelector(selectTransferSourceChain)
@@ -125,22 +94,34 @@ function Source() {
           <div style={{ flexGrow: 1 }} />
           <div>
             <Button
-              component={Link}
-              to={`${BETA_MENU_LINK.TokenOriginVerifier}`}
-              size="small"
-              variant="contained"
-              startIcon={<VerifiedUser />}
+              variant="primary"
+              height={36}
+              padding="4px 6px"
+              href={`#${BETA_MENU_LINK.TokenOriginVerifier}`}
+              as="a"
+              target=""
             >
               Verify
             </Button>
           </div>
         </div>
       </div>
-      <div className={classes.chainSelectWrapper} style={{ marginBottom: '25px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '25px' }}>
         <Text fontSize={17} fontWeight={500} lineHeight="12px" color="text10" paddingTop="5px" paddingBottom="5px">
           Origin
         </Text>
-        <div className={classes.chainSelectContainer}>
+        <div 
+        style={{alignItems: 'center', 
+                width: '100%', 
+                fontSize: '20px', 
+                fontWeight: 500, 
+                outline: 'none', 
+                cursor: 'pointer', 
+                userSelect: 'none', 
+                border: 'none', 
+                backgroundColor: '#1c1c1c', 
+                marginTop: '5px', 
+                borderRadius: '8px'}}>
           <ChainSelect
             select
             variant="outlined"
@@ -151,7 +132,7 @@ function Source() {
             chains={CHAINS}
           />
         </div>
-        <div className={classes.chainSelectArrow}>
+        <div style={{position: 'relative', top: '12px'}}>
           <ChainSelectArrow
             onClick={() => {
               dispatch(setSourceChain(targetChain))
@@ -162,7 +143,17 @@ function Source() {
         <Text fontSize={17} fontWeight={500} lineHeight="12px" color="text10" paddingTop="10px" paddingBottom="5px">
           Destination
         </Text>
-        <div className={classes.chainSelectContainer}>
+        <div style={{alignItems: 'center', 
+                width: '100%', 
+                fontSize: '20px', 
+                fontWeight: 500, 
+                outline: 'none', 
+                cursor: 'pointer', 
+                userSelect: 'none', 
+                border: 'none', 
+                backgroundColor: '#1c1c1c', 
+                marginTop: '5px', 
+                borderRadius: '8px'}}>
           <ChainSelect
             variant="outlined"
             select
@@ -176,12 +167,12 @@ function Source() {
       </div>
       <KeyAndBalance chainId={sourceChain} />
       {isReady || uiAmountString ? (
-        <div className={classes.transferField}>
+        <div style={{marginTop: "20px",}}>
           <TokenSelector disabled={shouldLockFields} />
         </div>
       ) : null}
       {isMigrationAsset ? (
-        <Button variant="contained" color="primary" fullWidth onClick={handleMigrationClick}>
+        <Button variant="primary" onClick={handleMigrationClick}>
           Go to Migration Page
         </Button>
       ) : (
@@ -189,16 +180,20 @@ function Source() {
           <LowBalanceWarning chainId={sourceChain} />
           <SourceAssetWarning sourceChain={sourceChain} sourceAsset={parsedTokenAccount?.mintKey} />
           {hasParsedTokenAccount ? (
+            // <SearchInput placeholder="Amount" value={amount} onChange={handleAmountChange} />
             <NumberTextField
               variant="outlined"
               label="Amount"
               fullWidth
-              className={classes.transferField}
+              // className={classes.transferField}
               value={amount}
               onChange={handleAmountChange}
               disabled={shouldLockFields}
-              onMaxClick={uiAmountString && !parsedTokenAccount.isNativeAsset ? handleMaxClick : undefined}
-              style={{ backgroundColor: 'white' }}
+              onMaxClick={
+                uiAmountString && !parsedTokenAccount.isNativeAsset
+                  ? handleMaxClick
+                  : undefined
+              }
             />
           ) : null}
           <ButtonWithLoader

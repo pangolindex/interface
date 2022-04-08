@@ -442,6 +442,7 @@ export default function TokenPicker({
                 <div
                   onClick={() => handleSelectOption(option)}
                   key={option.publicKey + option.mintKey + (option.tokenId || '')}
+                  style={{cursor: "pointer"}}
                 >
                   <RenderOption account={option} />
                 </div>
