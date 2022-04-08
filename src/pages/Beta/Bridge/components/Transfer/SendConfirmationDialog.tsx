@@ -4,10 +4,10 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Typography,
 } from "@material-ui/core";
 import { ArrowDownward } from "@material-ui/icons";
+import ArrowDown from "src/assets/images/arrow-down.png"
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -19,6 +19,7 @@ import { CHAINS_BY_ID, MULTI_CHAIN_TOKENS } from "src/utils/bridgeUtils/consts";
 import SmartAddress from "../SmartAddress";
 import { useTargetInfo } from "./Target";
 import TokenWarning from "./TokenWarning";
+import { Text } from "@pangolindex/components"
 
 function SendConfirmationContent({
   open,
@@ -81,26 +82,27 @@ function SendConfirmationContent({
   }, [open, deservesTimeout]);
 
   const sendConfirmationContent = (
-    <div style={{backgroundColor: "#1C1C1C"}}>
-      <DialogTitle style={{color: 'white'}}>Are you sure?</DialogTitle>
-      <DialogContent>
+    <div style={{backgroundColor: "#1C1C1C", padding: '20px'}}>
+      <Text fontSize={22} fontWeight={500} lineHeight="20px" color="white" >Are you sure?</Text>
+      <div style={{marginTop: "20px"}}>
         {targetAsset ? (
           <div style={{ textAlign: "center", marginBottom: 16 }}>
-            <Typography style={{color: 'white', marginBottom: 8}} variant="subtitle1">
+            <Text fontSize={17} fontWeight={500} lineHeight="20px" color="white" >
               You are about to perform this transfer:
-            </Typography>
+            </Text>
             <SmartAddress
               variant="h6"
               chainId={sourceChain}
               parsedTokenAccount={sourceParsedTokenAccount}
             />
             <div>
-              <Typography style={{color: 'white'}} variant="caption">
+              <Text fontSize={17} fontWeight={300} lineHeight="20px" color="white" >
                 {CHAINS_BY_ID[sourceChain].name}
-              </Typography>
+              </Text>
             </div>
             <div style={{ paddingTop: 4 }}>
-              <ArrowDownward fontSize="inherit" style={{color: "white"}} />
+              <img src={ArrowDown} />
+              {/* <ArrowDownward fontSize="inherit" style={{color: "white"}} /> */}
             </div>
             <SmartAddress
               variant="h6"
@@ -124,7 +126,7 @@ function SendConfirmationContent({
           targetAsset={targetAsset ?? undefined}
           targetChain={targetChain}
         />
-      </DialogContent>
+      </div>
       <DialogActions>
         <Button variant="outlined" onClick={onClose} style={{color: 'white'}}>
           Cancel

@@ -26,6 +26,7 @@ import TerraFeeDenomPicker from '../TerraFeeDenomPicker'
 import TransactionProgress from '../TransactionProgress'
 import SendConfirmationDialog from './SendConfirmationDialog'
 import WaitingForWalletMessage from './WaitingForWalletMessage'
+import { Text } from "@pangolindex/components"
 
 function Send() {
   const { handleClick, disabled, showLoader } = useHandleTransfer()
@@ -110,11 +111,13 @@ function Send() {
       <StepDescription>Transfer the tokens to the Wormhole Token Bridge.</StepDescription>
       <KeyAndBalance chainId={sourceChain} />
       {sourceChain === CHAIN_ID_TERRA && <TerraFeeDenomPicker disabled={disabled} />}
-      <p>
+      <div style={{border: "1px solid #6DA8FF", padding: '15px', margin: '15px'}}>
+      <Text fontSize={15} fontWeight={200} lineHeight="20px" color="primaryText1" >
         This will initiate the transfer on {CHAINS_BY_ID[sourceChain].name} and wait for finalization. If you navigate
         away from this page before completing Step 4, you will have to perform the recovery workflow to complete the
         transfer.
-      </p>
+      </Text>
+      </div>
       {approveButtonNeeded ? (
         <>
           <FormControlLabel
