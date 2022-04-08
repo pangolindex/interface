@@ -1,32 +1,18 @@
-import React from "react";
-import { makeStyles, Typography } from "@material-ui/core";
-import { CHAINS_BY_ID } from "src/utils/bridgeUtils/consts";
-import SmartAddress from "../SmartAddress";
-import { useTargetInfo } from "./Target";
-
-const useStyles = makeStyles((theme) => ({
-  description: {
-    textAlign: "center",
-  },
-}));
+import React from 'react'
+import { CHAINS_BY_ID } from 'src/utils/bridgeUtils/consts'
+import SmartAddress from '../SmartAddress'
+import { useTargetInfo } from './Target'
+import { Text } from '@pangolindex/components'
 
 export default function TargetPreview() {
-  const classes = useStyles();
-  const {
-    targetChain,
-    readableTargetAddress,
-    targetAsset,
-    symbol,
-    tokenName,
-    logo,
-  } = useTargetInfo();
+  const { targetChain, readableTargetAddress, targetAsset, symbol, tokenName, logo } = useTargetInfo()
 
   const explainerContent =
     targetChain && readableTargetAddress ? (
-      <div style={{padding: '10px'}}>
+      <div style={{ padding: '10px' }}>
         {targetAsset ? (
           <>
-            <span style={{color: 'white'}}>and receive</span>
+            <span style={{ color: 'white' }}>and receive</span>
             <SmartAddress
               chainId={targetChain}
               address={targetAsset}
@@ -36,22 +22,17 @@ export default function TargetPreview() {
             />
           </>
         ) : null}
-        <span style={{color: 'white'}}>to</span>
+        <span style={{ color: 'white' }}>to</span>
         <SmartAddress chainId={targetChain} address={readableTargetAddress} />
-        <span style={{color: 'white'}}>on {CHAINS_BY_ID[targetChain].name}</span>
+        <span style={{ color: 'white' }}>on {CHAINS_BY_ID[targetChain].name}</span>
       </div>
     ) : (
-      ""
-    );
+      ''
+    )
 
   return (
-    <Typography
-      style={{color: 'white'}}
-      component="div"
-      variant="subtitle2"
-      className={classes.description}
-    >
+    <Text fontSize={15} fontWeight={300} lineHeight="20px" color="white">
       {explainerContent}
-    </Typography>
-  );
+    </Text>
+  )
 }

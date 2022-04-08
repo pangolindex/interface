@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import {
   selectSourceWalletAddress,
@@ -9,15 +8,9 @@ import {
 } from "src/store/selectors";
 import { CHAINS_BY_ID } from "src/utils/bridgeUtils/consts";
 import SmartAddress from "../SmartAddress";
-
-const useStyles = makeStyles((theme) => ({
-  description: {
-    textAlign: "center",
-  },
-}));
+import { Text } from "@pangolindex/components"
 
 export default function SourcePreview() {
-  const classes = useStyles();
   const sourceChain = useSelector(selectTransferSourceChain);
   const sourceParsedTokenAccount = useSelector(
     selectTransferSourceParsedTokenAccount
@@ -47,14 +40,9 @@ export default function SourcePreview() {
 
   return (
     <>
-      <Typography
-        style={{color: 'white'}}
-        component="div"
-        variant="subtitle2"
-        className={classes.description}
-      >
+      <Text fontSize={15} fontWeight={300} lineHeight="20px" color="white">
         {explainerContent}
-      </Typography>
+      </Text>
     </>
   );
 }
