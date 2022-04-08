@@ -27,12 +27,14 @@ export default function CurrencyLogo({
   chainId,
   currency,
   size = 24,
-  style
+  style,
+  imageSize = size
 }: {
   chainId: ChainId
   currency?: Currency
   size?: LogoSize
   style?: React.CSSProperties
+  imageSize?: LogoSize
 }) {
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined)
 
@@ -40,12 +42,12 @@ export default function CurrencyLogo({
     if (chainId && currency === CAVAX[chainId]) return []
 
     if (currency instanceof Token) {
-      const primarySrc = getTokenLogoURL(currency.address, size)
+      const primarySrc = getTokenLogoURL(currency.address, imageSize)
       return [primarySrc, ...uriLocations]
     }
 
     return []
-  }, [chainId, currency, uriLocations, size])
+  }, [chainId, currency, uriLocations, imageSize])
 
   if (chainId && currency === CAVAX[ChainId.AVALANCHE]) {
     return <StyledEthereumLogo src={AvaxLogo} size={`${size}px`} style={style} />
