@@ -9,7 +9,8 @@ import styled, { css } from 'styled-components'
 import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
 import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
-import { gnosisSafe, injected, walletlink, walletconnect } from '../../connectors'
+import XDefiIcon from '../../assets/images/xDefi.png'
+import { gnosisSafe, injected, walletlink, walletconnect, xDefi } from '../../connectors'
 import { NetworkContextName } from '../../constants'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
@@ -209,6 +210,12 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
     return (
       <IconWrapper size={16}>
         <img src={WalletConnectIcon} alt={'WalletConnect'} />
+      </IconWrapper>
+    )
+  } else if (connector === xDefi) {
+    return (
+      <IconWrapper size={16}>
+        <img src={XDefiIcon} alt={'XDEFIWalletConnect'} />
       </IconWrapper>
     )
   }
