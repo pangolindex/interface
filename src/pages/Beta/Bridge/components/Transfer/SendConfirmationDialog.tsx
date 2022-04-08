@@ -120,7 +120,7 @@ function SendConfirmationContent({
           targetChain={targetChain}
         />
       </div>
-      <div>
+      <div style={{ display: 'flex', gap: '10px'}}>
         <Button variant="outline" onClick={onClose}>
           Cancel
         </Button>
@@ -147,7 +147,7 @@ export default function SendConfirmationDialog({
   onClose: () => void;
 }) {
   return (
-    <Modal onDismiss={onClose} isOpen={open} maxWidth={800}>
+    <Modal onDismiss={onClose} isOpen={open}>
       <SendConfirmationContent
         open={open}
         onClose={onClose}

@@ -9,10 +9,10 @@ import { Text } from '@pangolindex/components'
 
 function WormholeWrappedWarning() {
   return (
-    <div style={{border: "1px solid #6DA8FF", padding: '15px', margin: '15px'}}>
-      <Text fontSize={15} fontWeight={200} lineHeight="20px" color="primaryText1" >
+    <div style={{border: "1px solid #6DA8FF", padding: '15px', marginBottom: '10px'}}>
+      <Text fontSize={15} fontWeight={300} lineHeight="20px" color="primaryText1" >
         The tokens you will receive are{" "}
-        <Text fontSize={15} fontWeight={900} lineHeight="20px" color="primaryText1" >
+        <Text fontSize={15} fontWeight={5000} lineHeight="20px" color="primaryText1" >
           Wormhole Wrapped Tokens
         </Text>{" "}
         and will need to be exchanged for native assets.
@@ -22,6 +22,7 @@ function WormholeWrappedWarning() {
           href={AVAILABLE_MARKETS_URL}
           target="_blank"
           rel="noopener noreferrer"
+          style={{color: 'white'}}
         >
           Click here to see available markets for wrapped tokens.
         </a>
