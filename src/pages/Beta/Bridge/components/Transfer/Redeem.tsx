@@ -9,11 +9,6 @@ import {
   CHAIN_ID_TERRA,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
-import {
-  Checkbox,
-  FormControlLabel,
-  Link,
-} from "@material-ui/core";
 import React,{ useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useGetIsTransferCompleted from "src/hooks/bridgeHooks/useGetIsTransferCompleted";
@@ -42,6 +37,7 @@ import StepDescription from "../StepDescription";
 import TerraFeeDenomPicker from "../TerraFeeDenomPicker";
 import AddToMetamask from "./AddToMetamask";
 import WaitingForWalletMessage from "./WaitingForWalletMessage";
+import { Text } from '@pangolindex/components'
 
 function Redeem() {
   const { handleClick, handleNativeClick, disabled, showLoader } =
@@ -107,16 +103,20 @@ function Redeem() {
         <TerraFeeDenomPicker disabled={disabled} />
       )}
       {isNativeEligible && (
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={useNativeRedeem}
-              onChange={toggleNativeRedeem}
-              color="primary"
-            />
-          }
-          label="Automatically unwrap to native currency"
-        />
+        // <FormControlLabel
+        //   control={
+        //     <Checkbox
+        //       checked={useNativeRedeem}
+        //       onChange={toggleNativeRedeem}
+        //       color="primary"
+        //     />
+        //   }
+        //   label="Automatically unwrap to native currency"
+        // />
+        <div style={{display: 'flex'}}>
+          <input type='checkbox' checked={useNativeRedeem} onChange={toggleNativeRedeem} />
+          <Text fontSize={15} fontWeight={300} lineHeight="20px" color="white">Automatically unwrap to native currency</Text>
+        </div>
       )}
 
       <ButtonWithLoader
@@ -141,13 +141,14 @@ function Redeem() {
           <div style={{marginTop: "20px", marginBottom: "20px", color: "red"}}>
             These tokens have already been redeemed.{" "}
             {!isEVMChain(targetChain) && howToAddTokensUrl ? (
-              <Link
+              <a
                 href={howToAddTokensUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                style={{ textDecoration: 'underline', color: 'white' }}
               >
                 Click here to see how to add them to your wallet.
-              </Link>
+              </a>
             ) : null}
           </div>
           {targetAsset ? (

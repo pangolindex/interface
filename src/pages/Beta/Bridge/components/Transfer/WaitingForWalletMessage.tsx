@@ -21,7 +21,7 @@ export default function WaitingForWalletMessage() {
   const showWarning =
     isApproving || (isSending && !transferTx) || (isRedeeming && !redeemTx);
   return showWarning ? (
-    <Text fontSize={22} fontWeight={500} lineHeight="20px" color="primaryText1" style={{ textAlign: "center", marginTop: "10px" }}>
+    <Text fontSize={15} fontWeight={500} lineHeight="20px" color="primaryText1" style={{ textAlign: "center", marginTop: "10px" }}>
       {WAITING_FOR_WALLET_AND_CONF}{" "}
     </Text>
   ) : null;

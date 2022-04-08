@@ -1,4 +1,3 @@
-import { makeStyles, Typography } from "@material-ui/core";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,15 +9,9 @@ import ButtonWithLoader from "../ButtonWithLoader";
 import ShowTx from "../ShowTx";
 import AddToMetamask from "./AddToMetamask";
 import FeaturedMarkets from "./FeaturedMarkets";
-
-const useStyles = makeStyles((theme) => ({
-  description: {
-    textAlign: "center",
-  },
-}));
+import { Text } from '@pangolindex/components'
 
 export default function RedeemPreview() {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const targetChain = useSelector(selectTransferTargetChain);
   const redeemTx = useSelector(selectTransferRedeemTx);
@@ -31,14 +24,9 @@ export default function RedeemPreview() {
 
   return (
     <>
-      <Typography
-        style={{color: 'white'}}
-        component="div"
-        variant="subtitle2"
-        className={classes.description}
-      >
+      <Text fontSize={15} fontWeight={300} lineHeight="20px" color="white">
         {explainerString}
-      </Typography>
+      </Text>
       {redeemTx ? <ShowTx chainId={targetChain} tx={redeemTx} /> : null}
       <AddToMetamask />
       <FeaturedMarkets />

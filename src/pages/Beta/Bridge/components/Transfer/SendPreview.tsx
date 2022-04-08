@@ -1,27 +1,13 @@
 import React from "react";
-import { makeStyles, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import {
   selectTransferSourceChain,
   selectTransferTransferTx,
 } from "src/store/selectors";
 import ShowTx from "../ShowTx";
-
-const useStyles = makeStyles((theme) => ({
-  description: {
-    textAlign: "center",
-  },
-  tx: {
-    marginTop: theme.spacing(1),
-    textAlign: "center",
-  },
-  viewButton: {
-    marginTop: theme.spacing(1),
-  },
-}));
+import { Text } from '@pangolindex/components'
 
 export default function SendPreview() {
-  const classes = useStyles();
   const sourceChain = useSelector(selectTransferSourceChain);
   const transferTx = useSelector(selectTransferTransferTx);
 
@@ -29,14 +15,9 @@ export default function SendPreview() {
 
   return (
     <>
-      <Typography
-        style={{color: 'white'}}
-        component="div"
-        variant="subtitle2"
-        className={classes.description}
-      >
+      <Text fontSize={15} fontWeight={300} lineHeight="20px" color="white">
         {explainerString}
-      </Typography>
+      </Text>
       {transferTx ? <ShowTx chainId={sourceChain} tx={transferTx} /> : null}
     </>
   );

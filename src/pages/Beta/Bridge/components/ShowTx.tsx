@@ -8,93 +8,47 @@ import {
   CHAIN_ID_FANTOM,
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
-  CHAIN_ID_TERRA,
-} from "@certusone/wormhole-sdk";
-import { Button, makeStyles, Typography } from "@material-ui/core";
-import { Transaction } from "src/store/transferSlice";
-import { CLUSTER, getExplorerName } from "src/utils/bridgeUtils/consts";
+  CHAIN_ID_TERRA
+} from '@certusone/wormhole-sdk'
+import { Transaction } from 'src/store/transferSlice'
+import { CLUSTER, getExplorerName } from 'src/utils/bridgeUtils/consts'
+import { Text, Button } from '@pangolindex/components'
 
-const useStyles = makeStyles((theme) => ({
-  tx: {
-    marginTop: theme.spacing(1),
-    textAlign: "center",
-  },
-  viewButton: {
-    marginTop: theme.spacing(1),
-  },
-}));
-
-export default function ShowTx({
-  chainId,
-  tx,
-}: {
-  chainId: ChainId;
-  tx: Transaction;
-}) {
-  const classes = useStyles();
+export default function ShowTx({ chainId, tx }: { chainId: ChainId; tx: Transaction }) {
   const showExplorerLink =
-    CLUSTER === "testnet" ||
-    CLUSTER === "mainnet" ||
-    (CLUSTER === "devnet" &&
-      (chainId === CHAIN_ID_TERRA));
+    CLUSTER === 'testnet' || CLUSTER === 'mainnet' || (CLUSTER === 'devnet' && chainId === CHAIN_ID_TERRA)
   const explorerAddress =
     chainId === CHAIN_ID_ETH
-      ? `https://${CLUSTER === "testnet" ? "goerli." : ""}etherscan.io/tx/${
-          tx?.id
-        }`
+      ? `https://${CLUSTER === 'testnet' ? 'goerli.' : ''}etherscan.io/tx/${tx?.id}`
       : chainId === CHAIN_ID_ETHEREUM_ROPSTEN
-      ? `https://${CLUSTER === "testnet" ? "ropsten." : ""}etherscan.io/tx/${
-          tx?.id
-        }`
+      ? `https://${CLUSTER === 'testnet' ? 'ropsten.' : ''}etherscan.io/tx/${tx?.id}`
       : chainId === CHAIN_ID_BSC
-      ? `https://${CLUSTER === "testnet" ? "testnet." : ""}bscscan.com/tx/${
-          tx?.id
-        }`
+      ? `https://${CLUSTER === 'testnet' ? 'testnet.' : ''}bscscan.com/tx/${tx?.id}`
       : chainId === CHAIN_ID_POLYGON
-      ? `https://${CLUSTER === "testnet" ? "mumbai." : ""}polygonscan.com/tx/${
-          tx?.id
-        }`
+      ? `https://${CLUSTER === 'testnet' ? 'mumbai.' : ''}polygonscan.com/tx/${tx?.id}`
       : chainId === CHAIN_ID_AVAX
-      ? `https://${CLUSTER === "testnet" ? "testnet." : ""}snowtrace.io/tx/${
-          tx?.id
-        }`
+      ? `https://${CLUSTER === 'testnet' ? 'testnet.' : ''}snowtrace.io/tx/${tx?.id}`
       : chainId === CHAIN_ID_OASIS
-      ? `https://${
-          CLUSTER === "testnet" ? "testnet." : ""
-        }explorer.emerald.oasis.dev/tx/${tx?.id}`
+      ? `https://${CLUSTER === 'testnet' ? 'testnet.' : ''}explorer.emerald.oasis.dev/tx/${tx?.id}`
       : chainId === CHAIN_ID_FANTOM
-      ? `https://${CLUSTER === "testnet" ? "testnet." : ""}ftmscan.com/tx/${
-          tx?.id
-        }`
+      ? `https://${CLUSTER === 'testnet' ? 'testnet.' : ''}ftmscan.com/tx/${tx?.id}`
       : chainId === CHAIN_ID_TERRA
       ? `https://finder.terra.money/${
-          CLUSTER === "devnet"
-            ? "localterra"
-            : CLUSTER === "testnet"
-            ? "bombay-12"
-            : "columbus-5"
+          CLUSTER === 'devnet' ? 'localterra' : CLUSTER === 'testnet' ? 'bombay-12' : 'columbus-5'
         }/tx/${tx?.id}`
-      : undefined;
-  const explorerName = getExplorerName(chainId);
+      : undefined
+  const explorerName = getExplorerName(chainId)
 
   return (
-    <div className={classes.tx}>
-      <Typography style={{color: 'white'}} noWrap component="div" variant="body2">
+    <div style={{ marginTop: '10px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '10px', paddingBottom: '10px' }}>
+      <Text fontSize={2} fontWeight={100} lineHeight="8px" color="white">
         {tx.id}
-      </Typography>
+      </Text>
       {showExplorerLink && explorerAddress ? (
-        <Button
-          href={explorerAddress}
-          target="_blank"
-          rel="noopener noreferrer"
-          size="small"
-          variant="outlined"
-          className={classes.viewButton}
-          style={{color: 'white', border: '1px solid white'}}
-        >
+        <Button href={explorerAddress} target="_blank" variant="outline">
           View on {explorerName}
         </Button>
       ) : null}
     </div>
-  );
+  )
 }

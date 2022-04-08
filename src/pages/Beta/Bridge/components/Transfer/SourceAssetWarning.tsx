@@ -1,30 +1,18 @@
 import React from "react";
 import { ChainId, CHAIN_ID_POLYGON, isEVMChain } from "@certusone/wormhole-sdk";
-import { makeStyles, Typography } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import { POLYGON_TERRA_WRAPPED_TOKENS } from "src/utils/bridgeUtils/consts";
+import { Text } from '@pangolindex/components'
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  alert: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-}));
 
 function PolygonTerraWrappedWarning() {
-  const classes = useStyles();
   return (
-    <Alert severity="warning" variant="outlined" className={classes.alert}>
-      <Typography style={{color: 'white'}} variant="body1">
+    <div style={{ border: '1px solid #6DA8FF', padding: '15px', margin: '15px' }}>
+      <Text fontSize={17} fontWeight={300} lineHeight="20px" color="primaryText1">
         This is a Shuttle-wrapped asset from Polygon! Transferring it will
         result in a double wrapped (Wormhole-wrapped Shuttle-wrapped) asset,
         which has no liquid markets.
-      </Typography>
-    </Alert>
+      </Text>
+    </div>
   );
 }
 
