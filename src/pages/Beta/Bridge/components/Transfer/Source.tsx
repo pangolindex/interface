@@ -21,12 +21,11 @@ import ChainSelect from '../ChainSelect'
 import ChainSelectArrow from '../ChainSelectArrow'
 import KeyAndBalance from '../KeyAndBalance'
 import LowBalanceWarning from '../LowBalanceWarning'
+import NumberTextField from '../NumberTextField'
 import { TokenSelector } from '../TokenSelectors/SourceTokenSelector'
 import SourceAssetWarning from './SourceAssetWarning'
 import { BETA_MENU_LINK } from 'src/constants'
 import { Text, Button } from '@pangolindex/components'
-import { SearchInput } from '../../styleds'
-import NumberTextField from '../NumberTextField'
 
 
 function Source() {
@@ -95,33 +94,33 @@ function Source() {
           <div>
             <Button
               variant="primary"
+              href={`#${BETA_MENU_LINK.TokenOriginVerifier}`}
               height={36}
               padding="4px 6px"
-              href={`#${BETA_MENU_LINK.TokenOriginVerifier}`}
               as="a"
-              target=""
-            >
-              Verify
+              target="">
+                Verify
             </Button>
           </div>
         </div>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '25px' }}>
+      <div style={{ marginBottom: '25px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Text fontSize={17} fontWeight={500} lineHeight="12px" color="text10" paddingTop="5px" paddingBottom="5px">
           Origin
         </Text>
-        <div 
-        style={{alignItems: 'center', 
-                width: '100%', 
-                fontSize: '20px', 
-                fontWeight: 500, 
-                outline: 'none', 
-                cursor: 'pointer', 
-                userSelect: 'none', 
-                border: 'none', 
-                backgroundColor: '#1c1c1c', 
-                marginTop: '5px', 
-                borderRadius: '8px'}}>
+        <div style={{
+          alignItems: 'center',
+          width: '100%',
+          fontSize: '20px',
+          fontWeight: 500,
+          outline: 'none',
+          cursor: 'pointer',
+          userSelect: 'none',
+          border: 'none',
+          backgroundColor: '#1c1c1c',
+          marginTop: '5px',
+          borderRadius: '8px'
+          }}>
           <ChainSelect
             select
             variant="outlined"
@@ -143,17 +142,19 @@ function Source() {
         <Text fontSize={17} fontWeight={500} lineHeight="12px" color="text10" paddingTop="10px" paddingBottom="5px">
           Destination
         </Text>
-        <div style={{alignItems: 'center', 
-                width: '100%', 
-                fontSize: '20px', 
-                fontWeight: 500, 
-                outline: 'none', 
-                cursor: 'pointer', 
-                userSelect: 'none', 
-                border: 'none', 
-                backgroundColor: '#1c1c1c', 
-                marginTop: '5px', 
-                borderRadius: '8px'}}>
+        <div style={{
+          alignItems: 'center',
+          width: '100%',
+          fontSize: '20px',
+          fontWeight: 500,
+          outline: 'none',
+          cursor: 'pointer',
+          userSelect: 'none',
+          border: 'none',
+          backgroundColor: '#1c1c1c',
+          marginTop: '5px',
+          borderRadius: '8px'
+          }}>
           <ChainSelect
             variant="outlined"
             select
@@ -167,7 +168,7 @@ function Source() {
       </div>
       <KeyAndBalance chainId={sourceChain} />
       {isReady || uiAmountString ? (
-        <div style={{marginTop: "20px",}}>
+        <div style={{marginTop: "20px"}}>
           <TokenSelector disabled={shouldLockFields} />
         </div>
       ) : null}
@@ -180,20 +181,15 @@ function Source() {
           <LowBalanceWarning chainId={sourceChain} />
           <SourceAssetWarning sourceChain={sourceChain} sourceAsset={parsedTokenAccount?.mintKey} />
           {hasParsedTokenAccount ? (
-            // <SearchInput placeholder="Amount" value={amount} onChange={handleAmountChange} />
             <NumberTextField
               variant="outlined"
               label="Amount"
               fullWidth
-              // className={classes.transferField}
               value={amount}
               onChange={handleAmountChange}
               disabled={shouldLockFields}
-              onMaxClick={
-                uiAmountString && !parsedTokenAccount.isNativeAsset
-                  ? handleMaxClick
-                  : undefined
-              }
+              onMaxClick={uiAmountString && !parsedTokenAccount.isNativeAsset ? handleMaxClick : undefined}
+              style={{ backgroundColor: 'white', marginTop: "20px" }}
             />
           ) : null}
           <ButtonWithLoader
