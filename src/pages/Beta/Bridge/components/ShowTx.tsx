@@ -39,14 +39,17 @@ export default function ShowTx({ chainId, tx }: { chainId: ChainId; tx: Transact
       : undefined
   const explorerName = getExplorerName(chainId)
 
+  const goToUrl = () => {
+    window.open(explorerAddress)
+  }
   return (
     <div style={{ marginTop: '10px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '10px', paddingBottom: '10px' }}>
       <Text fontSize={2} fontWeight={100} lineHeight="8px" color="white">
         {tx.id}
       </Text>
       {showExplorerLink && explorerAddress ? (
-        <Button href={explorerAddress} target="_blank" variant="outline">
-          View on {explorerName}
+        <Button onClick={goToUrl} target="_blank" variant="primary">
+          <span style={{color: 'white'}}>View on {explorerName}</span>
         </Button>
       ) : null}
     </div>

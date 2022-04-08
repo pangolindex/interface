@@ -13,8 +13,7 @@ import {
   ethTokenToParsedTokenAccount,
   getEthereumToken,
 } from "src/utils/bridgeUtils/ethereum";
-import { Button } from "@pangolindex/components"
-
+import { Button, Text } from "@pangolindex/components"
 
 export default function AddToMetamask() {
   const sourceParsedTokenAccount = useSelector(
@@ -75,7 +74,9 @@ export default function AddToMetamask() {
       onClick={handleClick}
       variant="outline"
     >
-      Add to Metamask
+      <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">
+        Add to Metamask
+      </Text>
     </Button>
   ) : null;
 }

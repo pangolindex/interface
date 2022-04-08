@@ -122,7 +122,9 @@ function SendConfirmationContent({
       </div>
       <div style={{ display: 'flex', gap: '10px'}}>
         <Button variant="outline" onClick={onClose}>
-          Cancel
+          <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">
+            Cancel
+          </Text>
         </Button>
         <Button
           variant="primary"

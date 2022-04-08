@@ -74,7 +74,9 @@ export default function FeaturedMarkets() {
         as="a"
         target=""
       >
-        {marketInfo.name}
+        <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">
+          {marketInfo.name}
+        </Text>
       </Button>
       );
     }

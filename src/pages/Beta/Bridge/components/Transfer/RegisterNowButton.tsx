@@ -15,7 +15,7 @@ import {
 } from "src/store/selectors";
 import { ChainId, hexToNativeString } from "@certusone/wormhole-sdk";
 import { BETA_MENU_LINK } from 'src/constants'
-import { Button } from '@pangolindex/components'
+import { Button, Text } from '@pangolindex/components'
 
 export function RegisterNowButtonCore({
   originChain,
@@ -48,7 +48,9 @@ export function RegisterNowButtonCore({
       variant="outline"
       onClick={handleClick}
     >
-      Register Now
+      <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">
+        Register Now
+      </Text>
     </Button>
   );
 }
