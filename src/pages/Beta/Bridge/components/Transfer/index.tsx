@@ -141,7 +141,10 @@ function Transfer() {
                 </Text>
               </div>
             )}
-            <StepContent>{isRedeemComplete ? <RedeemPreview /> : <Redeem />}</StepContent>
+            {activeStep === 3 && !isRedeemComplete && <Redeem /> }
+            {activeStep === 3 && isRedeemComplete && <RedeemPreview /> }
+
+            {/* {isRedeemComplete && activeStep === 3 ? <RedeemPreview /> : <Redeem />} */}
           </Step>
         </Box>
       </Ibridge>

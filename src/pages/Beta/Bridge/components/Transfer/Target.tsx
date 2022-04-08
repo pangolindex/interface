@@ -93,7 +93,7 @@ function Target() {
   }, [dispatch]);
   return (
     <>
-      <span style={{color: 'white'}}>Select a recipient chain and address.</span>
+      <Text fontSize={16} fontWeight={300} lineHeight="24px" color="text10">Select a recipient chain and address.</Text>
       <ChainSelect
         variant="outlined"
         select

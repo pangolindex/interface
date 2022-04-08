@@ -49,7 +49,7 @@ export default function ShowTx({ chainId, tx }: { chainId: ChainId; tx: Transact
       </Text>
       {showExplorerLink && explorerAddress ? (
         <Button onClick={goToUrl} target="_blank" variant="primary">
-          <span style={{color: 'white'}}>View on {explorerName}</span>
+          <span style={{color: 'black'}}>View on {explorerName}</span>
         </Button>
       ) : null}
     </div>
