@@ -13,9 +13,7 @@ import {
   Checkbox,
   FormControlLabel,
   Link,
-  makeStyles,
 } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import React,{ useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useGetIsTransferCompleted from "src/hooks/bridgeHooks/useGetIsTransferCompleted";
@@ -45,13 +43,6 @@ import TerraFeeDenomPicker from "../TerraFeeDenomPicker";
 import AddToMetamask from "./AddToMetamask";
 import WaitingForWalletMessage from "./WaitingForWalletMessage";
 
-const useStyles = makeStyles((theme) => ({
-  alert: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-}));
-
 function Redeem() {
   const { handleClick, handleNativeClick, disabled, showLoader } =
     useHandleRedeem();
@@ -60,7 +51,6 @@ function Redeem() {
   const isRecovery = useSelector(selectTransferIsRecovery);
   const { isTransferCompletedLoading, isTransferCompleted } =
     useGetIsTransferCompleted(true);
-  const classes = useStyles();
   const dispatch = useDispatch();
   const { isReady, statusMessage } = useIsWalletReady(targetChain);
   //TODO better check, probably involving a hook & the VAA
@@ -148,7 +138,7 @@ function Redeem() {
 
       {isRecovery && isReady && isTransferCompleted ? (
         <>
-          <Alert severity="info" variant="outlined" className={classes.alert}>
+          <div style={{marginTop: "20px", marginBottom: "20px", color: "red"}}>
             These tokens have already been redeemed.{" "}
             {!isEVMChain(targetChain) && howToAddTokensUrl ? (
               <Link
@@ -159,7 +149,7 @@ function Redeem() {
                 Click here to see how to add them to your wallet.
               </Link>
             ) : null}
-          </Alert>
+          </div>
           {targetAsset ? (
             <>
               <span>Token Address:</span>

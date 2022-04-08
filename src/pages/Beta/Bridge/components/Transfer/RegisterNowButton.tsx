@@ -1,4 +1,3 @@
-import { Button } from "@material-ui/core";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -16,6 +15,7 @@ import {
 } from "src/store/selectors";
 import { ChainId, hexToNativeString } from "@certusone/wormhole-sdk";
 import { BETA_MENU_LINK } from 'src/constants'
+import { Button } from '@pangolindex/components'
 
 export function RegisterNowButtonCore({
   originChain,
@@ -45,9 +45,7 @@ export function RegisterNowButtonCore({
   if (!canSwitch) return null;
   return (
     <Button
-      variant="outlined"
-      size="small"
-      style={{ display: "block", margin: "4px auto 0px" }}
+      variant="outline"
       onClick={handleClick}
     >
       Register Now
