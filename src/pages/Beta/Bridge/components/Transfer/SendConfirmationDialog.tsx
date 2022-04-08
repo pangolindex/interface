@@ -1,12 +1,4 @@
 import { isEVMChain } from "@certusone/wormhole-sdk";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Typography,
-} from "@material-ui/core";
-import { ArrowDownward } from "@material-ui/icons";
 import ArrowDown from "src/assets/images/arrow-down.png"
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
@@ -19,7 +11,8 @@ import { CHAINS_BY_ID, MULTI_CHAIN_TOKENS } from "src/utils/bridgeUtils/consts";
 import SmartAddress from "../SmartAddress";
 import { useTargetInfo } from "./Target";
 import TokenWarning from "./TokenWarning";
-import { Text } from "@pangolindex/components"
+import { Text, Button } from "@pangolindex/components"
+import Modal from 'src/components/Modal'
 
 function SendConfirmationContent({
   open,
@@ -113,9 +106,9 @@ function SendConfirmationContent({
               logo={logo}
             />
             <div>
-              <Typography style={{color: 'white'}} variant="caption">
+              <Text fontSize={17} fontWeight={300} lineHeight="20px" color="white" >
                 {CHAINS_BY_ID[targetChain].name}
-              </Typography>
+              </Text>
             </div>
           </div>
         ) : null}
@@ -127,21 +120,17 @@ function SendConfirmationContent({
           targetChain={targetChain}
         />
       </div>
-      <DialogActions>
-        <Button variant="outlined" onClick={onClose} style={{color: 'white'}}>
+      <div>
+        <Button variant="outline" onClick={onClose}>
           Cancel
         </Button>
         <Button
-          variant="contained"
-          color="primary"
+          variant="primary"
           onClick={onClick}
-          size={"medium"}
-          disabled={!!countdown}
-          style={{backgroundColor: "#FFC800", color: "black"}}
         >
           {!!countdown ? countdown.toString() : "Confirm"}
         </Button>
-      </DialogActions>
+      </div>
     </div>
   );
 
@@ -158,12 +147,12 @@ export default function SendConfirmationDialog({
   onClose: () => void;
 }) {
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Modal onDismiss={onClose} isOpen={open} maxWidth={800}>
       <SendConfirmationContent
         open={open}
         onClose={onClose}
         onClick={onClick}
       />
-    </Dialog>
+      </Modal>
   );
 }

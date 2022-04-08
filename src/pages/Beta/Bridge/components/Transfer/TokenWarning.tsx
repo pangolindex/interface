@@ -1,47 +1,32 @@
 import React from "react";
 import { ChainId, CHAIN_ID_ETH, isEVMChain } from "@certusone/wormhole-sdk";
-import { Box, Link, makeStyles, Typography } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import {
   AVAILABLE_MARKETS_URL,
   CHAINS_BY_ID,
   MULTI_CHAIN_TOKENS,
 } from "src/utils/bridgeUtils/consts";
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  alert: {
-    textAlign: "center",
-  },
-  line: {
-    marginBottom: theme.spacing(2),
-  },
-}));
+import { Text } from '@pangolindex/components'
 
 function WormholeWrappedWarning() {
-  const classes = useStyles();
   return (
-    <Alert severity="info" variant="outlined" className={classes.alert}>
-      <Typography style={{color: 'white'}} component="div" className={classes.line}>
+    <div style={{border: "1px solid #6DA8FF", padding: '15px', margin: '15px'}}>
+      <Text fontSize={15} fontWeight={200} lineHeight="20px" color="primaryText1" >
         The tokens you will receive are{" "}
-        <Box fontWeight={900} display="inline">
+        <Text fontSize={15} fontWeight={900} lineHeight="20px" color="primaryText1" >
           Wormhole Wrapped Tokens
-        </Box>{" "}
+        </Text>{" "}
         and will need to be exchanged for native assets.
-      </Typography>
-      <Typography style={{color: 'white'}} component="div">
-        <Link
+      </Text>
+      <Text fontSize={17} fontWeight={300} lineHeight="20px" color="white" >
+        <a
           href={AVAILABLE_MARKETS_URL}
           target="_blank"
           rel="noopener noreferrer"
         >
           Click here to see available markets for wrapped tokens.
-        </Link>
-      </Typography>
-    </Alert>
+        </a>
+      </Text>
+    </div>
   );
 }
 
@@ -52,38 +37,33 @@ function MultichainWarning({
   symbol: string;
   targetChain: ChainId;
 }) {
-  const classes = useStyles();
   return (
-    <Alert severity="warning" variant="outlined" className={classes.alert}>
-      <Typography
-        style={{color: 'white'}}
-        variant="h6"
-        className={classes.line}
-      >{`You will not receive native ${symbol} on ${CHAINS_BY_ID[targetChain].name}`}</Typography>
-      <Typography
-        style={{color: 'white'}}
-        className={classes.line}
-      >{`To receive native ${symbol}, you will have to perform a swap with the wrapped tokens once you are done bridging.`}</Typography>
-      <Typography>
-        <Link
+    <div style={{border: "1px solid #6DA8FF", padding: '15px', margin: '15px'}}>
+      <Text fontSize={17} fontWeight={300} lineHeight="20px" color="white" >
+        {`You will not receive native ${symbol} on ${CHAINS_BY_ID[targetChain].name}`}
+      </Text>
+      <Text fontSize={17} fontWeight={300} lineHeight="20px" color="white" >
+        {`To receive native ${symbol}, you will have to perform a swap with the wrapped tokens once you are done bridging.`}
+      </Text>
+      <Text fontSize={17} fontWeight={300} lineHeight="20px" color="white" >
+        <a
           href={AVAILABLE_MARKETS_URL}
           target="_blank"
           rel="noopener noreferrer"
         >
           Click here to see available markets for wrapped tokens.
-        </Link>
-      </Typography>
-    </Alert>
+        </a>
+      </Text>
+    </div>
   );
 }
 
 function RewardsWarning() {
-  const classes = useStyles();
   return (
-    <Alert severity="warning" variant="outlined" className={classes.alert}>
+    <div style={{border: "1px solid #6DA8FF", padding: '15px', margin: '15px'}}>
       Lido stETH rewards can only be received on Ethereum. Use the value
       accruing wrapper token wstETH instead.
-    </Alert>
+    </div>
   );
 }
 
