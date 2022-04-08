@@ -1,27 +1,6 @@
-import React from 'react'
-import {
-  createStyles,
-  IconButton,
-  makeStyles,
-  Tooltip,
-} from "@material-ui/core";
-import RefreshIcon from "@material-ui/icons/Refresh";
-
-const useStyles = makeStyles(() =>
-  createStyles({
-    inlineContentWrapper: {
-      display: "inline-block",
-      flexGrow: 1,
-    },
-    flexWrapper: {
-      "& > *": {
-        margin: ".5rem",
-      },
-      display: "flex",
-      alignItems: "center",
-    },
-  })
-);
+import React from "react";
+import Refresh from "src/assets/images/refresh.png";
+import { Text } from "@pangolindex/components"
 
 export default function RefreshButtonWrapper({
   children,
@@ -30,16 +9,11 @@ export default function RefreshButtonWrapper({
   children: JSX.Element;
   callback: () => any;
 }) {
-  const classes = useStyles();
 
   const refreshWrapper = (
-    <div className={classes.flexWrapper}>
-      <div className={classes.inlineContentWrapper}>{children}</div>
-      <Tooltip title="Reload Tokens">
-        <IconButton onClick={callback}>
-          <RefreshIcon style={{color: "white"}} />
-        </IconButton>
-      </Tooltip>
+    <div style={{display: "flex", alignItems: "center", cursor: 'pointer', gap: '15px', border: "1px solid white", padding: "20px"}} onClick={callback}>
+      <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10" style={{display: "inline-block", flexGrow: 1}}>{children}</Text>
+      <img src={Refresh} style={{width: "15px"}} />
     </div>
   );
 

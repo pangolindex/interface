@@ -5,7 +5,7 @@ import {
   CHAIN_ID_TERRA,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
-import { TextField, Typography } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useGetSourceParsedTokens from "src/hooks/bridgeHooks/useGetSourceParsedTokenAccounts";
@@ -27,7 +27,7 @@ import {
 } from "src/store/transferSlice";
 import EvmTokenPicker from "./EvmTokenPicker";
 import RefreshButtonWrapper from "./RefreshButtonWrapper";
-
+import { Text } from "@pangolindex/components"
 import TerraTokenPicker from "./TerraTokenPicker";
 
 type TokenSelectorProps = {
@@ -85,7 +85,7 @@ export const TokenSelector = (props: TokenSelectorProps) => {
 
   const content = fatalError ? (
     <RefreshButtonWrapper callback={resetAccountWrapper}>
-      <Typography style={{color: "white"}}>{fatalError}</Typography>
+      <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">{fatalError}</Text>
     </RefreshButtonWrapper>
   ) : isEVMChain(lookupChain) ? (
     <EvmTokenPicker
