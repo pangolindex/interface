@@ -1,6 +1,5 @@
 import { CHAIN_ID_TERRA, isEVMChain } from '@certusone/wormhole-sdk'
 import { Checkbox, FormControlLabel } from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
 import { ethers } from 'ethers'
 import { parseUnits } from 'ethers/lib/utils'
 import React, { useCallback, useMemo, useState } from 'react'

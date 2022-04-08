@@ -3,8 +3,6 @@ import {
   hexToNativeString,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
-import { makeStyles, Typography } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import React, { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useGetTargetParsedTokenAccounts from "src/hooks/bridgeHooks/useGetTargetParsedTokenAccounts";
@@ -19,7 +17,6 @@ import {
   selectTransferTargetAddressHex,
   selectTransferTargetAsset,
   selectTransferTargetAssetWrapper,
-  selectTransferTargetBalanceString,
   selectTransferTargetChain,
   selectTransferTargetError,
   selectTransferTargetParsedTokenAccount,
@@ -32,16 +29,7 @@ import KeyAndBalance from "../KeyAndBalance";
 import LowBalanceWarning from "../LowBalanceWarning";
 import SmartAddress from "../SmartAddress";
 import RegisterNowButton from "./RegisterNowButton";
-
-const useStyles = makeStyles((theme) => ({
-  transferField: {
-    marginTop: theme.spacing(5),
-  },
-  alert: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-}));
+import { Text } from "@pangolindex/components"
 
 export const useTargetInfo = () => {
   const targetChain = useSelector(selectTransferTargetChain);
@@ -70,7 +58,6 @@ export const useTargetInfo = () => {
 
 function Target() {
   useGetTargetParsedTokenAccounts();
-  const classes = useStyles();
   const dispatch = useDispatch();
   const sourceChain = useSelector(selectTransferSourceChain);
   const chains = useMemo(
@@ -88,7 +75,6 @@ function Target() {
     logo,
     readableTargetAddress,
   } = useTargetInfo();
-  const uiAmountString = useSelector(selectTransferTargetBalanceString);
   const transferAmount = useSelector(selectTransferAmount);
   const error = useSelector(selectTransferTargetError);
   const isTargetComplete = useSelector(selectTransferIsTargetComplete);
@@ -121,9 +107,9 @@ function Target() {
       {readableTargetAddress ? (
         <>
           {targetAsset ? (
-            <div className={classes.transferField}>
-              <Typography style={{color: 'white'}} variant="subtitle2">Bridged tokens:</Typography>
-              <Typography style={{color: 'white'}} component="div">
+            <div style={{marginTop: "20px"}}>
+              <Text fontSize={17} fontWeight={500} lineHeight="20px" color="white" >Bridged tokens:</Text>
+              <Text fontSize={17} fontWeight={500} lineHeight="20px" color="white" >
                 <SmartAddress
                   chainId={targetChain}
                   address={targetAsset}
@@ -133,31 +119,20 @@ function Target() {
                   variant="h6"
                 />
                 {`(Amount: ${transferAmount})`}
-              </Typography>
+              </Text>
             </div>
           ) : null}
-          <div className={classes.transferField}>
-            <Typography style={{color: 'white'}} variant="subtitle2">Sent to:</Typography>
-            <Typography style={{color: 'white'}} component="div">
-              <SmartAddress
-                chainId={targetChain}
-                address={readableTargetAddress}
-                variant="h6"
-              />
-              {`(Current balance: ${uiAmountString || "0"})`}
-            </Typography>
-          </div>
         </>
       ) : null}
-      <Alert severity="info" variant="outlined" className={classes.alert}>
-        <Typography >
+      <div style={{ border: "solid 1px #6DA8FF", padding: '15px', margin: '15px' }}>
+        <Text fontSize={15} fontWeight={200} lineHeight="20px" color="primaryText1" >
           You will have to pay transaction fees on{" "}
           {CHAINS_BY_ID[targetChain].name} to redeem your tokens.
-        </Typography>
+        </Text>
         {(isEVMChain(targetChain) || targetChain === CHAIN_ID_TERRA) && (
           <GasEstimateSummary methodType="transfer" chainId={targetChain} />
         )}
-      </Alert>
+      </div>
       <LowBalanceWarning chainId={targetChain} />
       <ButtonWithLoader
         disabled={!isTargetComplete}

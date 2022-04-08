@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import {
   selectTransferIsApproving,
@@ -8,20 +7,12 @@ import {
   selectTransferRedeemTx,
   selectTransferTransferTx,
 } from "src/store/selectors";
-
-const useStyles = makeStyles((theme) => ({
-  message: {
-    color: theme.palette.warning.light,
-    marginTop: theme.spacing(1),
-    textAlign: "center",
-  },
-}));
+import { Text } from '@pangolindex/components'
 
 export const WAITING_FOR_WALLET_AND_CONF =
   "Waiting for wallet approval (likely in a popup) and confirmation...";
 
 export default function WaitingForWalletMessage() {
-  const classes = useStyles();
   const isApproving = useSelector(selectTransferIsApproving);
   const isSending = useSelector(selectTransferIsSending);
   const transferTx = useSelector(selectTransferTransferTx);
@@ -30,8 +21,8 @@ export default function WaitingForWalletMessage() {
   const showWarning =
     isApproving || (isSending && !transferTx) || (isRedeeming && !redeemTx);
   return showWarning ? (
-    <Typography style={{color: 'white'}} className={classes.message} variant="body2">
+    <Text fontSize={22} fontWeight={500} lineHeight="20px" color="primaryText1" style={{ textAlign: "center", marginTop: "10px" }}>
       {WAITING_FOR_WALLET_AND_CONF}{" "}
-    </Typography>
+    </Text>
   ) : null;
 }

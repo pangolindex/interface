@@ -6,8 +6,6 @@ import {
 } from "@certusone/wormhole-sdk";
 import { Provider } from "@ethersproject/abstract-provider";
 import { formatUnits } from "@ethersproject/units";
-import { Typography } from "@material-ui/core";
-import { LocalGasStation } from "@material-ui/icons";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useEthereumProvider } from "src/contexts/EthereumProviderContext";
 import {
@@ -17,6 +15,7 @@ import {
 import { NATIVE_TERRA_DECIMALS } from "src/utils/bridgeUtils/terra";
 import useIsWalletReady from "./useIsWalletReady";
 import { LCDClient } from "@terra-money/terra.js";
+import { Text } from "@pangolindex/components"
 
 export type GasEstimate = {
   currentGasPrice: string;
@@ -225,25 +224,13 @@ function EthGasEstimateSummary({
   }
 
   return (
-    <Typography
-      component="div"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        marginTop: 8,
-        flexWrap: "wrap",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <LocalGasStation fontSize="inherit" />
-        &nbsp;{estimate.currentGasPrice}
-      </div>
+    <Text fontSize={15} fontWeight={200} lineHeight="20px" color="primaryText1" >
       <div>&nbsp;&nbsp;&nbsp;</div>
       <div>
-        Est. Fees: {estimate.lowEstimate} - {estimate.highEstimate}{" "}
+        Estimated Fees: {estimate.lowEstimate} - {estimate.highEstimate}{" "}
         {getDefaultNativeCurrencySymbol(chainId)}
       </div>
-    </Typography>
+    </Text>
   );
 }
 
@@ -316,20 +303,12 @@ function TerraGasEstimateSummary({ methodType }: { methodType: MethodType }) {
       NATIVE_TERRA_DECIMALS
     );
     return (
-      <Typography
-        component="div"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginTop: 8,
-          flexWrap: "wrap",
-        }}
-      >
+      <Text fontSize={15} fontWeight={200} lineHeight="20px" color="primaryText1" >
         <div>
           Est. Fees: {lowEstimate} - {highEstimate}
           {" UST"}
         </div>
-      </Typography>
+      </Text>
     );
   } else {
     return null;
