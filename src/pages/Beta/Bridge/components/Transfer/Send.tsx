@@ -1,5 +1,4 @@
 import { CHAIN_ID_TERRA, isEVMChain } from '@certusone/wormhole-sdk'
-import { Checkbox, FormControlLabel } from '@material-ui/core'
 import { ethers } from 'ethers'
 import { parseUnits } from 'ethers/lib/utils'
 import React, { useCallback, useMemo, useState } from 'react'
@@ -120,12 +119,16 @@ function Send() {
       </div>
       {approveButtonNeeded ? (
         <>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={
               <Checkbox checked={shouldApproveUnlimited} onChange={toggleShouldApproveUnlimited} color="primary" />
             }
             label="Approve Unlimited Tokens"
-          />
+          /> */}
+          <div style={{display: 'flex'}}>
+            <input type='checkbox' checked={shouldApproveUnlimited} onChange={toggleShouldApproveUnlimited} />
+            <Text fontSize={15} fontWeight={300} lineHeight="20px" color="white">Approve Unlimited Tokens</Text>
+          </div>
           <ButtonWithLoader
             disabled={isDisabled}
             onClick={shouldApproveUnlimited ? approveUnlimited : approveExactAmount}

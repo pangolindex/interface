@@ -1,5 +1,4 @@
 import { ChainId } from '@certusone/wormhole-sdk'
-import { Step } from '@material-ui/core'
 import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router'
