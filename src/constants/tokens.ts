@@ -861,11 +861,11 @@ export const KLO: { [chainId in ChainId]: Token } = {
   [ChainId.AVALANCHE]: new Token(
     ChainId.AVALANCHE,
     '0xb27c8941a7Df8958A1778c0259f76D1F8B711C35',
-    9,
+    18,
     'KLO',
     'Kalao Token'
   ),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 9, 'KLO', 'Kalao Token')
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'KLO', 'Kalao Token')
 }
 
 export const MIM: { [chainId in ChainId]: Token } = {
@@ -1460,4 +1460,16 @@ export const axlATOM: { [chainId in ChainId]: Token } = {
     'Axelar Wrapped ATOM'
   ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 6, 'axlATOM', 'Axelar Wrapped ATOM')
+}
+
+export const LOST: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'LOST', 'LostToken'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x449674B82F05d498E126Dd6615a1057A9c088f2C',
+    18,
+    'LOST',
+    'LostToken'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'LOST', 'LostToken')
 }

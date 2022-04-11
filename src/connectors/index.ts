@@ -1,5 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { InjectedConnector } from '@pangolindex/web3-react-injected-connector'
+import { DefiConnector } from './DefiConnector'
 import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react'
 import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
@@ -44,4 +45,8 @@ export const walletconnect = new WalletConnectConnector({
   },
   qrcode: true,
   bridge: 'https://bridge.walletconnect.org'
+})
+
+export const xDefi = new DefiConnector({
+  supportedChainIds: [1, 43114, 11111]
 })
