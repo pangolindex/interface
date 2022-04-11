@@ -7,7 +7,7 @@ export interface News {
   title: string
   content: string
   createdAt: Date
-  updatedAt: Date
+  updatedAt: Date | null
 }
 
 // Get News in Pangolin Strapi api
@@ -33,8 +33,8 @@ export function useGetNews() {
         title: element?.title,
         content: element?.content,
         createdAt: new Date(element?.date_created),
-        updatedAt: new Date(element?.date_updated)
-      }
+        updatedAt: !element?.date_updated ? null : new Date(element?.date_updated)
+      } as News
     })
 
     return news
