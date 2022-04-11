@@ -1,6 +1,4 @@
 import { ChainId } from "@certusone/wormhole-sdk";
-import { CircularProgress, makeStyles, Typography } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import { parseUnits } from "ethers/lib/utils";
 import { useSnackbar } from "notistack";
 import React, { useCallback, useState } from "react";
@@ -12,16 +10,7 @@ import EthereumSignerKey from "../EthereumSignerKey";
 import NumberTextField from "../NumberTextField";
 import ShowTx from "../ShowTx";
 import SmartAddress from "../SmartAddress";
-
-const useStyles = makeStyles((theme) => ({
-  spacer: {
-    height: "2rem",
-  },
-  containerDiv: {
-    textAlign: "center",
-    padding: theme.spacing(2),
-  },
-}));
+import { Text } from '@pangolindex/components'
 
 export default function EvmWorkflow({
   chainId,
@@ -30,7 +19,6 @@ export default function EvmWorkflow({
   chainId: ChainId;
   migratorAddress: string;
 }) {
-  const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const { signer, signerAddress } = useEthereumProvider();
   const { isReady } = useIsWalletReady(chainId);
@@ -112,7 +100,11 @@ export default function EvmWorkflow({
   const migrateTokens = useCallback(async () => {
     if (!poolInfo.data) {
       enqueueSnackbar(null, {
-        content: <Alert severity="error">Could not migrate the tokens.</Alert>,
+        content:
+        <div style={{ border: '1px solid #6DA8FF', padding: '15px', margin: '15px' }}>
+          <Text fontSize={15} fontWeight={200} lineHeight="20px" color="primaryText1">Could not migrate the tokens.</Text>
+        </div>,
+        // content: <Alert severity="error">Could not migrate the tokens.</Alert>,
       }); //Should never be hit
       return;
     }
@@ -131,14 +123,21 @@ export default function EvmWorkflow({
       forceRefresh();
       enqueueSnackbar(null, {
         content: (
-          <Alert severity="success">Successfully migrated the tokens.</Alert>
+          // <Alert severity="success">Successfully migrated the tokens.</Alert>
+          <div style={{ border: '1px solid #6DA8FF', padding: '15px', margin: '15px' }}>
+            <Text fontSize={15} fontWeight={200} lineHeight="20px" color="primaryText1">Successfully migrated the tokens.</Text>
+          </div>
         ),
       });
       setMigrationIsProcessing(false);
     } catch (e) {
       console.error(e);
       enqueueSnackbar(null, {
-        content: <Alert severity="error">Could not migrate the tokens.</Alert>,
+        // content: <Alert severity="error">Could not migrate the tokens.</Alert>,
+        content: 
+          <div style={{ border: '1px solid #6DA8FF', padding: '15px', margin: '15px' }}>
+            <Text fontSize={15} fontWeight={200} lineHeight="20px" color="primaryText1">Could not migrate the tokens.</Text>
+          </div>,
       });
       setMigrationIsProcessing(false);
       setError("Failed to send the transaction.");
@@ -170,27 +169,27 @@ export default function EvmWorkflow({
 
   const explainerContent = (
     <div>
-      <Typography style={{color: 'white'}}>This action will convert</Typography>
-      <Typography style={{color: 'white'}} variant="h6">
+      <Text fontSize={15} fontWeight={500} lineHeight="20px" color="white">This action will convert</Text>
+      <Text fontSize={17} fontWeight={500} lineHeight="20px" color="white">
         {fromTokenPretty} {`(Balance: ${fromWalletBalance || ""})`}
-      </Typography>
-      <div className={classes.spacer} />
-      <Typography style={{color: 'white'}}>to</Typography>
-      <Typography style={{color: 'white'}} variant="h6">
+      </Text>
+      <div style={{height: "2rem"}} />
+      <Text fontSize={15} fontWeight={500} lineHeight="20px" color="white">to</Text>
+      <Text fontSize={17} fontWeight={500} lineHeight="20px" color="white">
         {toTokenPretty} {`(Balance: ${poolInfo.data?.toWalletBalance || ""})`}
-      </Typography>
-      <div className={classes.spacer} />
-      <Typography style={{color: 'white'}}>Utilizing this pool</Typography>
-      <Typography style={{color: 'white'}} variant="h6">
+      </Text>
+      <div style={{height: "2rem"}} />
+      <Text fontSize={15} fontWeight={500} lineHeight="20px" color="white">Utilizing this pool</Text>
+      <Text fontSize={17} fontWeight={500} lineHeight="20px" color="white">
         {poolPretty} {`(Balance: ${poolInfo.data?.toPoolBalance || ""})`}
-      </Typography>
+      </Text>
     </div>
   );
 
   const mainWorkflow = (
     <>
       {explainerContent}
-      <div className={classes.spacer} />
+      <div style={{height: "2rem"}} />
       <NumberTextField
         variant="outlined"
         value={migrationAmount}
@@ -214,16 +213,15 @@ export default function EvmWorkflow({
 
       {(error || !isReadyToTransfer) && (
         <div >
-          <Typography color="error" >{error || getNotReadyCause()}</Typography>
-          
+          <Text fontSize={17} fontWeight={500} lineHeight="20px" color="white">{error || getNotReadyCause()}</Text>
         </div>
       )}
       {transaction ? (
         <>
-          <Typography style={{color: 'white'}}>
+          <Text fontSize={17} fontWeight={500} lineHeight="20px" color="white">
             Successfully migrated your tokens! They will be available once this
             transaction confirms.
-          </Typography>
+          </Text>
           <ShowTx tx={{ id: transaction, block: 1 }} chainId={chainId} />
         </>
       ) : null}
@@ -231,14 +229,15 @@ export default function EvmWorkflow({
   );
 
   return (
-    <div className={classes.containerDiv}>
+    <div style={{ textAlign: "center", padding: '15px' }}>
       <EthereumSignerKey />
       {!isReady ? (
-        <Typography variant="body1">Please connect your wallet.</Typography>
+        <Text fontSize={17} fontWeight={500} lineHeight="20px" color="white">Please connect your wallet.</Text>
       ) : poolInfo.isLoading ? (
-        <CircularProgress />
+        // <CircularProgress />
+        <></>
       ) : fatalError ? (
-        <Typography variant="h6">{fatalError}</Typography>
+        <Text fontSize={17} fontWeight={500} lineHeight="20px" color="white">{fatalError}</Text>
       ) : (
         mainWorkflow
       )}

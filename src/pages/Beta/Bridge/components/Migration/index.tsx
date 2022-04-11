@@ -5,28 +5,11 @@ import {
   CHAIN_ID_ETH,
 } from "@certusone/wormhole-sdk";
 import { getAddress } from "@ethersproject/address";
-import { Container, makeStyles, Paper, Typography } from "@material-ui/core";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import { getMigrationAssetMap } from "src/utils/bridgeUtils/consts";
-import HeaderText from "../HeaderText";
 import EvmWorkflow from "./EvmWorkflow";
-
-const useStyles = makeStyles(() => ({
-  mainPaper: {
-    textAlign: "center",
-    padding: "2rem",
-    "& > h, p ": {
-      margin: ".5rem",
-    },
-  },
-  divider: {
-    margin: "2rem 0rem 2rem 0rem",
-  },
-  spacer: {
-    height: "2rem",
-  },
-}));
+import { Text } from '@pangolindex/components'
 
 interface RouteParams {
   legacyAsset: string;
@@ -45,9 +28,9 @@ const EthereumRoot: React.FC<Migration> = (props) => {
   let content = null;
   if (!legacyAsset || !targetPool) {
     content = (
-      <Typography style={{ textAlign: "center", color: 'white' }}>
+      <Text fontSize={15} fontWeight={500} lineHeight="20px" color="text10" style={{ textAlign: "center", color: 'white' }}>
         This asset is not eligible for migration.
-      </Typography>
+      </Text>
     );
   } else {
     content = (
@@ -59,7 +42,6 @@ const EthereumRoot: React.FC<Migration> = (props) => {
 };
 
 const MigrationRoot: React.FC<Migration> = (props) => {
-  const classes = useStyles();
   let content = null;
 
   if (props.chainId === CHAIN_ID_ETH || props.chainId === CHAIN_ID_BSC) {
@@ -67,15 +49,12 @@ const MigrationRoot: React.FC<Migration> = (props) => {
   }
 
   return (
-    <Container maxWidth="md">
-      <HeaderText
-        white
-        subtitle="Convert assets from other bridges to Wormhole V2 tokens"
-      >
+    <>
+      <Text fontSize={30} fontWeight={500} lineHeight="20px" color="text10" style={{ color: 'white' }}>
         Migrate Assets
-      </HeaderText>
-      <Paper className={classes.mainPaper}>{content}</Paper>
-    </Container>
+      </Text>
+      <div style={{textAlign: "center", padding: "2rem",}}>{content}</div>
+    </>
   );
 };
 
