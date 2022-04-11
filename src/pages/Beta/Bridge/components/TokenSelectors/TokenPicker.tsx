@@ -7,7 +7,6 @@ import useMarketsMap from 'src/hooks/bridgeHooks/useMarketsMap'
 import { NFTParsedTokenAccount } from 'src/store/nftSlice'
 import { selectTransferTargetChain } from 'src/store/selectors'
 import { AVAILABLE_MARKETS_URL, CHAINS_BY_ID } from 'src/utils/bridgeUtils/consts'
-import NFTViewer from './NFTViewer'
 import { Text, Button } from '@pangolindex/components'
 import Modal from 'src/components/Modal'
 import Loader from 'src/components/Modal'
@@ -89,17 +88,19 @@ export const BasicAccountRender = (
   const tokenContent = (
     <div className={classes.tokenOverviewContainer}>
       {account.markets ? (
-        <div className={classes.tokenMarketsList}>
+        <div className={classes.tokenMarketsList} style={{display: 'flex', gap: '5px'}}>
           {account.markets.map(market =>
             marketsData?.markets?.[market] ? (
               <Button
                 key={market}
-                variant="primary"
+                variant="outline"
                 href={marketsData.markets[market].link}
-                target="_blank"
+                as="a"
+                target=""
                 onClick={noClickThrough}
+                width="25%"
               >
-                {marketsData.markets[market].name}
+                <span style={{color: "white"}}>{marketsData.markets[market].name}</span>
               </Button>
             ) : null
           )}
@@ -461,6 +462,7 @@ export default function TokenPicker({
                     <div
                       onClick={() => handleSelectOption(option)}
                       key={option.publicKey + option.mintKey + (option.tokenId || '')}
+                      style={{cursor: 'pointer'}}
                     >
                       <RenderOption account={option} />
                     </div>
@@ -498,7 +500,6 @@ export default function TokenPicker({
   return (
     <>
       {dialog}
-      {value && nft ? <NFTViewer value={value} chainId={chainId} /> : null}
       {selectionChip}
     </>
   )

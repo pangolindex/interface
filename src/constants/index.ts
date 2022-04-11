@@ -285,7 +285,6 @@ export enum BETA_MENU_LINK {
   EvmQuickMigrate = '/beta/bridge/evmquickmigrate',
   SolanaQuickMigrate = '/beta/bridge/solanaquickmigrate',
   NFT = '/beta/bridge/nft',
-  NFTOriginVerifier = '/beta/bridge/nftoriginverifier',
   recovery = '/beta/bridge/recovery',
   stats = '/beta/bridge/stats',
   TokenOriginVerifier = '/beta/bridge/tokenoriginverifier',

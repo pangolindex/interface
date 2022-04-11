@@ -1,13 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { formatUnits, parseUnits } from "@ethersproject/units";
-import {
-  CircularProgress,
-  Container,
-  makeStyles,
-  Paper,
-  Typography,
-} from "@material-ui/core";
-import clsx from "clsx";
 import numeral from "numeral";
 import React, { useMemo } from "react";
 import useTVL from "src/hooks/bridgeHooks/useTVL";
@@ -15,69 +7,11 @@ import HeaderText from "../HeaderText";
 import SmartAddress from "../SmartAddress";
 import { balancePretty } from "../TokenSelectors/TokenPicker";
 import CustodyAddresses from "./CustodyAddresses";
-import NFTStats from "./NFTStats";
 import MuiReactTable from "./tableComponents/MuiReactTable";
 import TransactionMetrics from "./TransactionMetrics";
-
-const useStyles = makeStyles((theme) => ({
-  logoPositioner: {
-    height: "30px",
-    width: "30px",
-    maxWidth: "30px",
-    marginRight: theme.spacing(1),
-    display: "flex",
-    alignItems: "center",
-  },
-  logo: {
-    maxHeight: "100%",
-    maxWidth: "100%",
-  },
-  tokenContainer: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-  },
-  mainPaper: {
-    padding: "2rem",
-    "& > h, & > p ": {
-      margin: ".5rem",
-    },
-    marginBottom: theme.spacing(8),
-  },
-  flexBox: {
-    display: "flex",
-    alignItems: "flex-end",
-    marginBottom: theme.spacing(4),
-    textAlign: "left",
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: "column",
-      alignItems: "unset",
-    },
-  },
-  grower: {
-    flexGrow: 1,
-  },
-  explainerContainer: {},
-  totalContainer: {
-    display: "flex",
-    alignItems: "flex-end",
-    paddingBottom: 1, // line up with left text bottom
-    [theme.breakpoints.down("sm")]: {
-      marginTop: theme.spacing(1),
-    },
-  },
-  totalValue: {
-    marginLeft: theme.spacing(0.5),
-    marginBottom: "-.125em", // line up number with label
-  },
-  alignCenter: {
-    margin: "0 auto",
-    display: "block",
-  },
-}));
+import { Text } from '@pangolindex/components'
 
 const StatsRoot: React.FC<any> = () => {
-  const classes = useStyles();
   const tvl = useTVL();
 
   const sortTokens = useMemo(() => {
@@ -117,13 +51,19 @@ const StatsRoot: React.FC<any> = () => {
         Aggregated: ({ value }: { value: any }) =>
           `${value} Token${value === 1 ? "" : "s"}`,
         Cell: (value: any) => (
-          <div className={classes.tokenContainer}>
-            <div className={classes.logoPositioner}>
+          <div style={{display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
+            <div 
+                style={{height: "30px",
+                width: "30px",
+                maxWidth: "30px",
+                marginRight: '15px',
+                display: "flex",
+                alignItems: "center",}}>
               {value.row?.original?.logo ? (
                 <img
                   src={value.row?.original?.logo}
                   alt=""
-                  className={classes.logo}
+                  style={{ maxHeight: "100%", maxWidth: "100%" }}
                 />
               ) : null}
             </div>
@@ -182,9 +122,6 @@ const StatsRoot: React.FC<any> = () => {
       },
     ];
   }, [
-    classes.logo,
-    classes.tokenContainer,
-    classes.logoPositioner,
     sortTokens,
   ]);
   const tvlString = useMemo(() => {
@@ -202,44 +139,32 @@ const StatsRoot: React.FC<any> = () => {
   }, [tvl.data]);
 
   return (
-    <Container maxWidth="lg">
-      <Container maxWidth="md">
+    <div>
+      <div >
         <HeaderText white>Rock Hard Stats</HeaderText>
-      </Container>
-      <div className={classes.flexBox}>
-        <div className={classes.explainerContainer}>
-          <Typography style={{color: 'white'}} variant="h4">Total Value Locked</Typography>
-          <Typography style={{color: 'white'}} variant="subtitle1" color="textSecondary">
-            These assets are currently locked by the Token Bridge contracts.
-          </Typography>
+      </div>
+      <div style={{display: "flex", alignItems: "flex-end", marginBottom: '20px',  textAlign: "left" }}>
+        <div>
+          <Text fontSize={22} fontWeight={500} lineHeight="20px" color="white">Total Value Locked</Text>
+          <Text fontSize={22} fontWeight={500} lineHeight="20px" color="white">
+          These assets are currently locked by the Token Bridge contracts.
+          </Text>
         </div>
-        <div className={classes.grower} />
+        <div style={{flexGrow: 1}}/>
         {!tvl.isFetching ? (
           <div
-            className={clsx(classes.explainerContainer, classes.totalContainer)}
+            style={{display: "flex", alignItems: "flex-end", paddingBottom: 1,}}
           >
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              component="div"
-              noWrap
-              style={{color: 'white'}}
-            >
+            <Text fontSize={22} fontWeight={500} lineHeight="20px" color="white">
               {"Total (USD)"}
-            </Typography>
-            <Typography
-              variant="h3"
-              component="div"
-              noWrap
-              className={classes.totalValue}
-              style={{color: 'white'}}
-            >
+            </Text>
+            <Text fontSize={22} fontWeight={500} lineHeight="20px" color="white" style={{marginLeft: '10px', marginBottom: "-.125em"}}>
               {tvlString}
-            </Typography>
+            </Text>
           </div>
         ) : null}
       </div>
-      <Paper className={classes.mainPaper}>
+      <div style={{ padding: "2rem", marginBottom: '15px' }}>
         {!tvl.isFetching ? (
           <MuiReactTable
             columns={tvlColumns}
@@ -248,13 +173,13 @@ const StatsRoot: React.FC<any> = () => {
             initialState={{ sortBy: [{ id: "totalValue", desc: true }] }}
           />
         ) : (
-          <CircularProgress className={classes.alignCenter} />
+          // <CircularProgress className={classes.alignCenter} />
+          <></>
         )}
-      </Paper>
+      </div>
       <TransactionMetrics />
       <CustodyAddresses />
-      <NFTStats />
-    </Container>
+    </div>
   );
 };
 

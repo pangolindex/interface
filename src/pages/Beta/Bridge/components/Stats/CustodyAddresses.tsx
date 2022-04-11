@@ -6,7 +6,6 @@ import {
   CHAIN_ID_POLYGON,
   CHAIN_ID_TERRA,
 } from "@certusone/wormhole-sdk";
-import { makeStyles, Paper, Typography } from "@material-ui/core";
 import React, { useMemo } from "react";
 import {
   getNFTBridgeAddressForChain,
@@ -14,33 +13,9 @@ import {
 } from "src/utils/bridgeUtils/consts";
 import SmartAddress from "../SmartAddress";
 import MuiReactTable from "./tableComponents/MuiReactTable";
-
-const useStyles = makeStyles((theme) => ({
-  flexBox: {
-    display: "flex",
-    alignItems: "flex-end",
-    marginBottom: theme.spacing(4),
-    textAlign: "left",
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: "column",
-      alignItems: "unset",
-    },
-  },
-  grower: {
-    flexGrow: 1,
-  },
-  explainerContainer: {},
-  mainPaper: {
-    padding: "2rem",
-    "& > h, & > p ": {
-      margin: ".5rem",
-    },
-    marginBottom: theme.spacing(8),
-  },
-}));
+import { Text } from '@pangolindex/components'
 
 const CustodyAddresses: React.FC<any> = () => {
-  const classes = useStyles();
   const data = useMemo(() => {
     return [
       {
@@ -119,15 +94,15 @@ const CustodyAddresses: React.FC<any> = () => {
   }, []);
 
   const header = (
-    <div className={classes.flexBox}>
-      <div className={classes.explainerContainer}>
-        <Typography style={{color: 'white'}} variant="h4">Custody Addresses</Typography>
-        <Typography style={{color: 'white'}} variant="subtitle1" color="textSecondary">
+    <div style={{display: "flex", alignItems: "flex-end", marginBottom: '15px', textAlign: "left" }}>
+      <div style={{ padding: "2rem" }}>
+        <Text fontSize={22} fontWeight={500} lineHeight="20px" color="white">Custody Addresses</Text>
+        <Text fontSize={22} fontWeight={500} lineHeight="20px" color="white">
           These are the custody addresses which hold collateralized assets for
           the token bridge.
-        </Typography>
+        </Text>
       </div>
-      <div className={classes.grower} />
+      <div style={{flexGrow: 1}} />
     </div>
   );
 
@@ -143,7 +118,7 @@ const CustodyAddresses: React.FC<any> = () => {
   return (
     <>
       {header}
-      <Paper className={classes.mainPaper}>{table}</Paper>
+      <div style={{ padding: "2rem" }}>{table}</div>
     </>
   );
 };

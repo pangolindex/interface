@@ -130,13 +130,13 @@ function Transfer() {
           <Step expanded={activeStep >= 3} completed={isRedeemComplete}>
             {activeStep < 3 ? (
               <StepDisplay>
-                <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" style={{ color: 'white' }}>
+                <Text fontSize={22} fontWeight={500} lineHeight="20px" color="white">
                   4. Redeem tokens
                 </Text>
               </StepDisplay>
             ) : (
               <div onClick={() => dispatch(setStep(3))}>
-                <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10" style={{ color: 'white' }}>
+                <Text fontSize={22} fontWeight={500} lineHeight="20px" color="white" >
                   4. Redeem tokens
                 </Text>
               </div>
