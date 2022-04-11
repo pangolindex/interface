@@ -87,15 +87,15 @@ function Transfer() {
             {/* <ToggleButtons options={['Bridge', 'Swap']} /> */}
           </Box>
           <Separator />
-          <Step expanded={activeStep >= 0} disabled={preventNavigation || isRedeemComplete}>
+          <div>
             <div onClick={() => dispatch(setStep(0))}>
               <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
                 1. Source
               </Text>
             </div>
             <Box>{activeStep === 0 ? <Source /> : <SourcePreview />}</Box>
-          </Step>
-          <Step expanded={activeStep >= 1} disabled={preventNavigation || isRedeemComplete}>
+          </div>
+          <div>
             {activeStep < 1 ? (
               <StepDisplay>
                 <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
@@ -110,8 +110,8 @@ function Transfer() {
               </div>
             )}
             <Box>{activeStep === 1 ? <Target /> : <TargetPreview />}</Box>
-          </Step>
-          <Step expanded={activeStep >= 2} disabled={isSendComplete}>
+          </div>
+          <div>
             {activeStep < 2 ? (
               <StepDisplay>
                 <Text fontSize={22} fontWeight={500} lineHeight="20px" color="text10">
@@ -126,8 +126,8 @@ function Transfer() {
               </div>
             )}
             <Box>{activeStep === 2 ? <Send /> : <SendPreview />}</Box>
-          </Step>
-          <Step expanded={activeStep >= 3} completed={isRedeemComplete}>
+          </div>
+          <div>
             {activeStep < 3 ? (
               <StepDisplay>
                 <Text fontSize={22} fontWeight={500} lineHeight="20px" color="white">
@@ -145,7 +145,7 @@ function Transfer() {
             {activeStep === 3 && isRedeemComplete && <RedeemPreview /> }
 
             {/* {isRedeemComplete && activeStep === 3 ? <RedeemPreview /> : <Redeem />} */}
-          </Step>
+          </div>
         </Box>
       </Ibridge>
     </PageWrapper>
