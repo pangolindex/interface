@@ -26,7 +26,7 @@ import { TokenSelector } from '../TokenSelectors/SourceTokenSelector'
 import SourceAssetWarning from './SourceAssetWarning'
 import { BETA_MENU_LINK } from 'src/constants'
 import { Text, Button } from '@pangolindex/components'
-
+import { SearchInput } from '../../styleds'
 
 function Source() {
   const dispatch = useDispatch()
@@ -181,16 +181,18 @@ function Source() {
           <LowBalanceWarning chainId={sourceChain} />
           <SourceAssetWarning sourceChain={sourceChain} sourceAsset={parsedTokenAccount?.mintKey} />
           {hasParsedTokenAccount ? (
-            <NumberTextField
-              variant="outlined"
-              label="Amount"
-              fullWidth
-              value={amount}
-              onChange={handleAmountChange}
-              disabled={shouldLockFields}
-              onMaxClick={uiAmountString && !parsedTokenAccount.isNativeAsset ? handleMaxClick : undefined}
-              style={{ backgroundColor: 'white', marginTop: "20px" }}
-            />
+            // <NumberTextField
+            //   variant="outlined"
+            //   label="Amount"
+            //   fullWidth
+            //   value={amount}
+            //   onChange={handleAmountChange}
+            //   disabled={shouldLockFields}
+            //   onMaxClick={uiAmountString && !parsedTokenAccount.isNativeAsset ? handleMaxClick : undefined}
+            //   style={{ backgroundColor: 'white', marginTop: "20px" }}
+            // />
+            <SearchInput placeholder="Amount" value={amount} onChange={handleAmountChange} />
+
           ) : null}
           <ButtonWithLoader
             disabled={!isSourceComplete}

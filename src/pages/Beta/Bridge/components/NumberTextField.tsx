@@ -5,6 +5,7 @@ import {
   TextField,
   TextFieldProps,
 } from "@material-ui/core";
+// import { SearchInput } from '../styleds'
 
 export default function NumberTextField({
   onMaxClick,
@@ -31,5 +32,21 @@ export default function NumberTextField({
         ...(props?.InputProps || {}),
       }}
     ></TextField>
+    // <SearchInput  
+    // {...props}
+    // InputProps={{
+    //   endAdornment: onMaxClick ? (
+    //     <InputAdornment position="end" style={{color: 'white'}}>
+    //       <Button
+    //         onClick={onMaxClick}
+    //         disabled={props.disabled}
+    //         variant="outlined"
+    //         style={{color: 'black'}}
+    //       >
+    //         Max
+    //       </Button>
+    //     </InputAdornment>
+    //   ) : undefined,
+    //   ...(props?.InputProps || {}),}}></SearchInput>
   );
 }
