@@ -21,7 +21,6 @@ import ChainSelect from '../ChainSelect'
 import ChainSelectArrow from '../ChainSelectArrow'
 import KeyAndBalance from '../KeyAndBalance'
 import LowBalanceWarning from '../LowBalanceWarning'
-import NumberTextField from '../NumberTextField'
 import { TokenSelector } from '../TokenSelectors/SourceTokenSelector'
 import SourceAssetWarning from './SourceAssetWarning'
 import { BETA_MENU_LINK } from 'src/constants'
@@ -74,11 +73,11 @@ function Source() {
     },
     [dispatch]
   )
-  const handleMaxClick = useCallback(() => {
-    if (uiAmountString) {
-      dispatch(setAmount(uiAmountString))
-    }
-  }, [dispatch, uiAmountString])
+  // const handleMaxClick = useCallback(() => {
+  //   if (uiAmountString) {
+  //     dispatch(setAmount(uiAmountString))
+  //   }
+  // }, [dispatch, uiAmountString])
   const handleNextClick = useCallback(() => {
     dispatch(incrementStep())
   }, [dispatch])

@@ -1,11 +1,9 @@
-//import Autocomplete from '@material-ui/lab/Autocomplete';
 /* eslint-disable */
 import React from 'react'
 import {
   CHAIN_ID_TERRA,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
-import { TextField } from "@material-ui/core";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useGetSourceParsedTokens from "src/hooks/bridgeHooks/useGetSourceParsedTokenAccounts";
@@ -29,6 +27,7 @@ import EvmTokenPicker from "./EvmTokenPicker";
 import RefreshButtonWrapper from "./RefreshButtonWrapper";
 import { Text } from "@pangolindex/components"
 import TerraTokenPicker from "./TerraTokenPicker";
+import { SearchInput } from '../../styleds'
 
 type TokenSelectorProps = {
   disabled: boolean;
@@ -85,7 +84,7 @@ export const TokenSelector = (props: TokenSelectorProps) => {
 
   const content = fatalError ? (
     <RefreshButtonWrapper callback={resetAccountWrapper}>
-      <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">{fatalError}</Text>
+      <Text fontSize={13} fontWeight={500} lineHeight="12px" color="text10">Please refresh to load your tokens</Text>
     </RefreshButtonWrapper>
   ) : isEVMChain(lookupChain) ? (
     <EvmTokenPicker
@@ -106,13 +105,14 @@ export const TokenSelector = (props: TokenSelectorProps) => {
       tokenAccounts={maps?.tokenAccounts}
     />
   ) : (
-    <TextField
-      variant="outlined"
-      placeholder="Asset"
-      fullWidth
-      value={"Not Implemented"}
-      disabled={true}
-    />
+    // <TextField
+    //   variant="outlined"
+    //   placeholder="Asset"
+    //   fullWidth
+    //   value={"Not Implemented"}
+    //   disabled={true}
+    // />
+    <SearchInput placeholder="Asset" value={"Not Implemented"} disabled />
   );
 
   return <div>{content}</div>;

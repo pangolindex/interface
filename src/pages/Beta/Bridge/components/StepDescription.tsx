@@ -1,22 +1,15 @@
 import React from 'react'
-import { makeStyles, Typography } from "@material-ui/core";
 import { ReactChild } from "react";
-
-const useStyles = makeStyles((theme) => ({
-  description: {
-    marginBottom: theme.spacing(4),
-  },
-}));
+import { Text } from '@pangolindex/components'
 
 export default function StepDescription({
   children,
 }: {
   children: ReactChild;
 }) {
-  const classes = useStyles();
   return (
-    <Typography style={{color: 'white'}} component="div" variant="body2" className={classes.description}>
+    <Text fontSize={15} fontWeight={300} lineHeight="15px" color="white" paddingBottom="20px">
       {children}
-    </Typography>
+    </Text>
   );
 }

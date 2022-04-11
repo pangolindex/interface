@@ -1,27 +1,6 @@
 import React from 'react'
-import { Button, CircularProgress, makeStyles, Typography } from '@material-ui/core'
 import { ReactChild } from 'react'
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    position: 'relative'
-  },
-  button: {
-    marginTop: theme.spacing(2),
-    width: '100%'
-  },
-  loader: {
-    position: 'absolute',
-    bottom: 0,
-    left: '50%',
-    marginLeft: -12,
-    marginBottom: 6
-  },
-  error: {
-    marginTop: theme.spacing(1),
-    textAlign: 'center'
-  }
-}))
+import { Text, Button } from "@pangolindex/components"
 
 export default function ButtonWithLoader({
   disabled,
@@ -36,49 +15,43 @@ export default function ButtonWithLoader({
   error?: string
   children: ReactChild
 }) {
-  const classes = useStyles()
   return (
     <>
       {disabled ? (
         <>
-          <div className={classes.root}>
+          <div style={{position: 'relative', padding: '10px 0 10px 0'}}>
             <Button
-              color="primary"
-              variant="contained"
-              className={classes.button}
-              disabled={disabled}
+              color="black"
+              variant="outline"
               onClick={onClick}
-              style={{ color: 'white' }}
+              isDisabled
             >
               {children}
             </Button>
-            {showLoader ? <CircularProgress size={24} color="inherit" className={classes.loader} /> : null}
+            {/* {showLoader ? <CircularProgress size={24} color="inherit" className={classes.loader} /> : null} */}
           </div>
           {error ? (
-            <Typography variant="body2" color="error" className={classes.error}>
+            <Text fontSize={15} fontWeight={300} lineHeight="15px" color="avaxRed" textAlign="center" >
               {error}
-            </Typography>
+            </Text>
           ) : null}
         </>
       ) : (
         <>
-          <div className={classes.root}>
+          <div style={{position: 'relative', padding: '10px 0 10px 0'}}>
             <Button
-              color="primary"
-              variant="contained"
-              className={classes.button}
-              disabled={disabled}
+              color="white"
+              variant="outline"
               onClick={onClick}
-              style={{ backgroundColor: '#FFC800', color: "black" }}
             >
               {children}
             </Button>
-            {showLoader ? <CircularProgress size={24} color="inherit" className={classes.loader} /> : null}
+            {/* {showLoader ? <CircularProgress size={24} color="inherit" className={classes.loader} /> : null} */}
           </div>
           {error ? (
-            <Typography variant="body2" color="error" className={classes.error}>
+            <Text fontSize={15} fontWeight={300} lineHeight="15px" color="avaxRed" textAlign="center">
               {error}
-            </Typography>
+            </Text>
           ) : null}
         </>
       )}

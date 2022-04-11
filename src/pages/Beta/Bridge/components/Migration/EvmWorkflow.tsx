@@ -7,10 +7,10 @@ import useEthereumMigratorInformation from "src/hooks/bridgeHooks/useEthereumMig
 import useIsWalletReady from "src/hooks/bridgeHooks/useIsWalletReady";
 import ButtonWithLoader from "../ButtonWithLoader";
 import EthereumSignerKey from "../EthereumSignerKey";
-import NumberTextField from "../NumberTextField";
 import ShowTx from "../ShowTx";
 import SmartAddress from "../SmartAddress";
 import { Text } from '@pangolindex/components'
+import { SearchInput } from '../../styleds'
 
 export default function EvmWorkflow({
   chainId,
@@ -91,11 +91,11 @@ export default function EvmWorkflow({
     (event) => setMigrationAmount(event.target.value),
     [setMigrationAmount]
   );
-  const handleMaxClick = useCallback(() => {
-    if (fromWalletBalance) {
-      setMigrationAmount(fromWalletBalance);
-    }
-  }, [fromWalletBalance]);
+  // const handleMaxClick = useCallback(() => {
+  //   if (fromWalletBalance) {
+  //     setMigrationAmount(fromWalletBalance);
+  //   }
+  // }, [fromWalletBalance]);
 
   const migrateTokens = useCallback(async () => {
     if (!poolInfo.data) {
@@ -190,15 +190,15 @@ export default function EvmWorkflow({
     <>
       {explainerContent}
       <div style={{height: "2rem"}} />
-      <NumberTextField
+      {/* <NumberTextField
         variant="outlined"
         value={migrationAmount}
         onChange={handleAmountChange}
         label={"Amount"}
         disabled={!!migrationIsProcessing || !!transaction}
         onMaxClick={fromWalletBalance ? handleMaxClick : undefined}
-      />
-
+      /> */}
+      <SearchInput placeholder="Amount" value={migrationAmount} onChange={handleAmountChange} />
       {!transaction && (
         <ButtonWithLoader
           disabled={!isReadyToTransfer || migrationIsProcessing}
