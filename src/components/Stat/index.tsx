@@ -44,7 +44,7 @@ const Stat = ({
         </Text>
         {currency && (
           <Box ml={10} mt="8px">
-            <CurrencyLogo currency={currency} size={24} />
+            <CurrencyLogo currency={currency} size={24} imageSize={48} />
           </Box>
         )}
       </Box>

@@ -3,7 +3,7 @@ import React from 'react'
 import { LogoSize } from 'src/constants'
 import styled from 'styled-components'
 import { PNG } from '../../constants/tokens'
-import CurrencyLogo from '../CurrencyLogo'
+import { CurrencyLogo } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 
 const Wrapper = styled.div<{ margin: boolean; sizeraw: number }>`
@@ -31,7 +31,7 @@ export default function RewardTokens({ rewardTokens = [], size = 24, margin = fa
   return (
     <Wrapper sizeraw={size} margin={margin}>
       {(tokens || []).map((token, i) => {
-        return <CoveredLogo key={i} currency={token as Token} size={size} sizeraw={size} chainId={chainId} />
+        return <CoveredLogo key={i} currency={token as Token} size={size} sizeraw={size} imageSize={48} />
       })}
     </Wrapper>
   )
