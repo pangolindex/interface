@@ -1,20 +1,11 @@
 import React from 'react'
 import { ChainId, CHAIN_ID_TERRA } from "@certusone/wormhole-sdk";
-import { makeStyles, Typography } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import useIsWalletReady from "src/hooks/bridgeHooks/useIsWalletReady";
 import useTransactionFees from "src/hooks/bridgeHooks/useTransactionFees";
 import { getDefaultNativeCurrencySymbol } from "src/utils/bridgeUtils/consts";
-
-const useStyles = makeStyles((theme) => ({
-  alert: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-}));
+import { Text } from "@pangolindex/components"
 
 function LowBalanceWarning({ chainId }: { chainId: ChainId }) {
-  const classes = useStyles();
   const { isReady } = useIsWalletReady(chainId);
   const transactionFeeWarning = useTransactionFees(chainId);
   const displayWarning =
@@ -30,14 +21,14 @@ function LowBalanceWarning({ chainId }: { chainId: ChainId }) {
         )} balance and may not be able to pay for the upcoming transaction fees.`;
 
   const content = (
-    <Alert severity="warning" variant="outlined" className={classes.alert}>
-      <Typography variant="body1">{warningMessage}</Typography>
+    <div style={{margin: '20px 0 20px 0', border: '1px solid #E84142'}}>
+      <Text fontSize={15} fontWeight={200} lineHeight="20px" color="avaxRed" >{warningMessage}</Text>
       {chainId !== CHAIN_ID_TERRA ? (
-        <Typography style={{color: 'white'}} variant="body1">
+        <Text fontSize={15} fontWeight={200} lineHeight="20px" color="avaxRed" >
           {"Current balance: " + transactionFeeWarning.balanceString}
-        </Typography>
+        </Text>
       ) : null}
-    </Alert>
+    </div>
   );
 
   return displayWarning ? content : null;

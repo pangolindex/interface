@@ -1,6 +1,6 @@
 
-import { Typography } from "@material-ui/core";
 import React from "react";
+import { Text } from "@pangolindex/components"
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -19,9 +19,9 @@ export default class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <Typography variant="h5" style={{ textAlign: "center", marginTop: 24 }}>
+        <Text fontSize={15} fontWeight={200} lineHeight="20px" color="avaxRed" >
           An unexpected error has occurred. Please refresh the page.
-        </Typography>
+        </Text>
       );
     }
 

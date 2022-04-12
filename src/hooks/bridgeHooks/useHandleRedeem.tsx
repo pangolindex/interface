@@ -28,8 +28,8 @@ import {
   TERRA_TOKEN_BRIDGE_ADDRESS,
 } from "src/utils/bridgeUtils/consts";
 import parseError from "src/utils/bridgeUtils/parseError";
-import { Alert } from "@material-ui/lab";
 import { postWithFees } from "src/utils/bridgeUtils/terra";
+import { Text } from "@pangolindex/components"
 
 async function evm(
   dispatch: any,
@@ -56,11 +56,11 @@ async function evm(
       setRedeemTx({ id: receipt.transactionHash, block: receipt.blockNumber })
     );
     enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
+      content: <Text fontSize={15} fontWeight={200} lineHeight="20px" color="green1" >Transaction confirmed</Text>,
     });
   } catch (e) {
     enqueueSnackbar(null, {
-      content: <Alert severity="error">{parseError(e)}</Alert>,
+      content: <Text fontSize={15} fontWeight={200} lineHeight="20px" color="avaxRed" >{parseError(e)}</Text>,
     });
     dispatch(setIsRedeeming(false));
   }
@@ -90,11 +90,12 @@ async function terra(
       setRedeemTx({ id: result.result.txhash, block: result.result.height })
     );
     enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
+      content: <Text fontSize={15} fontWeight={200} lineHeight="20px" color="green1" >Transaction confirmed</Text>,
+      
     });
   } catch (e) {
     enqueueSnackbar(null, {
-      content: <Alert severity="error">{parseError(e)}</Alert>,
+      content: <Text fontSize={15} fontWeight={200} lineHeight="20px" color="avaxRed" >{parseError(e)}</Text>,
     });
     dispatch(setIsRedeeming(false));
   }

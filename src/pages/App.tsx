@@ -200,20 +200,16 @@ export default function App() {
                 component={() => <Policy policy="terms" />}
                 layout={Layout}
                 />
-
               <CustomRoute exact path={`${BETA_MENU_LINK.transfer}`} component={Transfer} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.TokenOriginVerifier}`} component={TokenOriginVerifier} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.WithdrawTokensTerra}`} component={WithdrawTokensTerra} layout={Layout} />
-              
               <Route exact path={`${BETA_MENU_LINK.WithdrawTokensTerra}/Ethereum/:legacyAsset/`}>
                 <Migration chainId={CHAIN_ID_ETH} />
               </Route>
-              
               <Route exact path={`${BETA_MENU_LINK.WithdrawTokensTerra}/Ethereum/`}>
                 <EvmQuickMigrate chainId={CHAIN_ID_ETH} />
               </Route>
               <Route component={RedirectPathToSwapOnly} />
-
             </Switch>
           </Web3ReactManager>
           {!isBeta && <Marginer />}

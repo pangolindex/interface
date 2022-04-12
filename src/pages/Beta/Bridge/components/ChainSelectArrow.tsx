@@ -1,5 +1,4 @@
 import React from 'react'
-import { IconButton } from '@material-ui/core'
 import { useState } from 'react'
 import Arrow from 'src/assets/images/arrow-bridge.png'
 import ArrowUp from 'src/assets/images/arrow-bridge-up.png'
@@ -8,7 +7,7 @@ export default function ChainSelectArrow({ onClick, disabled }: { onClick: () =>
   const [showSwap, setShowSwap] = useState(false)
 
   return (
-    <IconButton
+    <div
       onClick={onClick}
       onMouseEnter={() => {
         setShowSwap(true)
@@ -16,10 +15,10 @@ export default function ChainSelectArrow({ onClick, disabled }: { onClick: () =>
       onMouseLeave={() => {
         setShowSwap(false)
       }}
-      disabled={disabled}
-      style={{ color: 'white' }}
+      style={{ color: 'white', cursor: 'pointer' }}
+      
     >
       {showSwap ? <img src={ArrowUp} /> : <img src={Arrow} />}
-    </IconButton>
+    </div>
   )
 }

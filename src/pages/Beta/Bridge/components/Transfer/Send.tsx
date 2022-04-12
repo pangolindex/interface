@@ -9,7 +9,7 @@ import useIsWalletReady from 'src/hooks/bridgeHooks/useIsWalletReady'
 import {
   selectSourceWalletAddress,
   selectTransferAmount,
-  selectTransferIsSendComplete,
+  // selectTransferIsSendComplete,
   selectTransferSourceAsset,
   selectTransferSourceChain,
   selectTransferSourceParsedTokenAccount,
@@ -22,7 +22,7 @@ import KeyAndBalance from '../KeyAndBalance'
 import ShowTx from '../ShowTx'
 import StepDescription from '../StepDescription'
 import TerraFeeDenomPicker from '../TerraFeeDenomPicker'
-import TransactionProgress from '../TransactionProgress'
+// import TransactionProgress from '../TransactionProgress'
 import SendConfirmationDialog from './SendConfirmationDialog'
 import WaitingForWalletMessage from './WaitingForWalletMessage'
 import { Text } from "@pangolindex/components"
@@ -55,7 +55,7 @@ function Send() {
   const oneParsed =
     sourceDecimals !== undefined && sourceDecimals !== null && parseUnits('1', sourceDecimals).toBigInt()
   const transferTx = useSelector(selectTransferTransferTx)
-  const isSendComplete = useSelector(selectTransferIsSendComplete)
+  // const isSendComplete = useSelector(selectTransferIsSendComplete)
 
   const error = useSelector(selectTransferTargetError)
   const [allowanceError, setAllowanceError] = useState('')
@@ -153,7 +153,7 @@ function Send() {
       )}
       <WaitingForWalletMessage />
       {transferTx ? <ShowTx chainId={sourceChain} tx={transferTx} /> : null}
-      <TransactionProgress chainId={sourceChain} tx={transferTx} isSendComplete={isSendComplete} />
+      {/* <TransactionProgress chainId={sourceChain} tx={transferTx} isSendComplete={isSendComplete} /> */}
     </div>
   )
 }

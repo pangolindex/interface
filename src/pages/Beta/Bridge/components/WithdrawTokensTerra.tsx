@@ -9,41 +9,13 @@ import {
   TERRA_TOKEN_BRIDGE_ADDRESS,
 } from "src/utils/bridgeUtils/consts";
 import TerraWalletKey from "./TerraWalletKey";
-import {
-  Container,
-  FormControl,
-  InputLabel,
-  makeStyles,
-  MenuItem,
-  Paper,
-  Select,
-  Typography,
-} from "@material-ui/core";
 import { postWithFees, waitForTerraExecution } from "src/utils/bridgeUtils/terra";
 import ButtonWithLoader from "./ButtonWithLoader";
 import { useSnackbar } from "notistack";
-import { Alert } from "@material-ui/lab";
 import { useSelector } from "react-redux";
 import { selectTerraFeeDenom } from "src/store/selectors";
 import TerraFeeDenomPicker from "./TerraFeeDenomPicker";
-import HeaderText from "./HeaderText";
-
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    display: "flex",
-    margin: `${theme.spacing(1)}px auto`,
-    width: "100%",
-    maxWidth: 400,
-    textAlign: "center",
-  },
-  mainPaper: {
-    textAlign: "center",
-    padding: "2rem",
-    "& > h, p ": {
-      margin: ".5rem",
-    },
-  },
-}));
+import { Text } from '@pangolindex/components'
 
 const withdraw = async (
   wallet: ConnectedWallet,
@@ -77,7 +49,6 @@ export default function WithdrawTokensTerra() {
   const wallet = useConnectedWallet();
   const [token, setToken] = useState(SUPPORTED_TERRA_TOKENS[0]);
   const [isLoading, setIsLoading] = useState(false);
-  const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const feeDenom = useSelector(selectTerraFeeDenom);
 
@@ -88,11 +59,11 @@ export default function WithdrawTokensTerra() {
         try {
           await withdraw(wallet, token, feeDenom);
           enqueueSnackbar(null, {
-            content: <Alert severity="success">Transaction confirmed.</Alert>,
+            content: <Text fontSize={15} fontWeight={200} lineHeight="20px" style={{color: '#27AE60'}} >Transaction confirmed.</Text>,
           });
         } catch (e) {
           enqueueSnackbar(null, {
-            content: <Alert severity="error">Error withdrawing tokens.</Alert>,
+            content: <Text fontSize={15} fontWeight={200} lineHeight="20px" color="avaxRed" >Error withdrawing tokens.</Text>,
           });
           console.error(e);
         }
@@ -102,27 +73,27 @@ export default function WithdrawTokensTerra() {
   }, [wallet, token, enqueueSnackbar, feeDenom]);
 
   return (
-    <Container maxWidth="md">
-      <HeaderText white>Withdraw Tokens</HeaderText>
-      <Paper className={classes.mainPaper}>
-        <Typography style={{color: 'white', textAlign: "center"}}>
+    <div>
+      <Text fontSize={24} fontWeight={500} lineHeight="24px" color="white" style={{ textAlign: 'center' }}>Withdraw Tokens</Text>
+      <div style={{ textAlign: "center", padding: "2rem" }}>
+        <Text fontSize={15} fontWeight={500} lineHeight="15px" color="white" style={{ textAlign: 'center' }}>
           Withdraw tokens from the Terra token bridge
-        </Typography>
+        </Text>
         <TerraWalletKey />
-        <FormControl className={classes.formControl}>
-          <InputLabel>Token</InputLabel>
-          <Select
+        <div style={{display: "flex", margin: "20px auto", width: "100%", maxWidth: 400, textAlign: "center"}}>
+          <Text fontSize={15} fontWeight={500} lineHeight="15px" color="white">Token</Text>
+          <div
             value={token}
             onChange={(event) => {
               setToken(event.target.value as string);
             }}
           >
             {SUPPORTED_TERRA_TOKENS.map((name) => (
-              <MenuItem key={name} value={name}>
+              <div key={name} value={name}>
                 {name}
-              </MenuItem>
+              </div>
             ))}
-          </Select>
+          </div>
           <TerraFeeDenomPicker disabled={isLoading} />
           <ButtonWithLoader
             onClick={handleClick}
@@ -131,8 +102,8 @@ export default function WithdrawTokensTerra() {
           >
             Withdraw
           </ButtonWithLoader>
-        </FormControl>
-      </Paper>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -1,8 +1,7 @@
 import React from 'react'
-import { Typography } from "@material-ui/core";
 import { useEthereumProvider } from "src/contexts/EthereumProviderContext";
 import ToggleConnectedButton from "./ToggleConnectedButton";
-
+import { Text } from "@pangolindex/components"
 const EthereumSignerKey = () => {
   const { connect, disconnect, signerAddress, providerError } =
     useEthereumProvider();
@@ -15,9 +14,9 @@ const EthereumSignerKey = () => {
         pk={signerAddress || ""}
       />
       {providerError ? (
-        <Typography variant="body2" color="error">
+        <Text fontSize={15} fontWeight={200} lineHeight="20px" color="avaxRed" >
           {providerError}
-        </Typography>
+        </Text>
       ) : null}
     </>
   );

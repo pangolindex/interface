@@ -12,7 +12,6 @@ import {
   transferFromTerra,
   uint8ArrayToHex,
 } from "@certusone/wormhole-sdk";
-import { Alert } from "@material-ui/lab";
 import {
   ConnectedWallet,
   useConnectedWallet,
@@ -50,6 +49,7 @@ import { getSignedVAAWithRetry } from "src/utils/bridgeUtils/getSignedVAAWithRet
 import parseError from "src/utils/bridgeUtils/parseError";
 import { postWithFees, waitForTerraExecution } from "src/utils/bridgeUtils/terra";
 import useTransferTargetAddressHex from "./useTransferTargetAddress";
+import { Text } from "@pangolindex/components"
 
 async function evm(
   dispatch: any,
@@ -86,7 +86,7 @@ async function evm(
       setTransferTx({ id: receipt.transactionHash, block: receipt.blockNumber })
     );
     enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
+      content: <Text fontSize={15} fontWeight={200} lineHeight="20px" color="green1" >Transaction confirmed</Text>,
     });
     const sequence = parseSequenceFromLogEth(
       receipt,
@@ -96,7 +96,7 @@ async function evm(
       getTokenBridgeAddressForChain(chainId)
     );
     enqueueSnackbar(null, {
-      content: <Alert severity="info">Fetching VAA</Alert>,
+      content: <Text fontSize={15} fontWeight={200} lineHeight="20px" color="white" >Fetching VAA</Text>,
     });
     const { vaaBytes } = await getSignedVAAWithRetry(
       chainId,
@@ -105,12 +105,12 @@ async function evm(
     );
     dispatch(setSignedVAAHex(uint8ArrayToHex(vaaBytes)));
     enqueueSnackbar(null, {
-      content: <Alert severity="success">Fetched Signed VAA</Alert>,
+      content: <Text fontSize={15} fontWeight={200} lineHeight="20px" color="green1" >Fetched Signed VAA</Text>,
     });
   } catch (e) {
     console.error(e);
     enqueueSnackbar(null, {
-      content: <Alert severity="error">{parseError(e)}</Alert>,
+      content: <Text fontSize={15} fontWeight={200} lineHeight="20px" color="avaxRed" >{parseError(e)}</Text>,
     });
     dispatch(setIsSending(false));
   }
@@ -149,7 +149,7 @@ async function terra(
     const info = await waitForTerraExecution(result);
     dispatch(setTransferTx({ id: info.txhash, block: info.height }));
     enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
+      content: <Text fontSize={15} fontWeight={200} lineHeight="20px" color="green1" >Transaction confirmed</Text>,
     });
     const sequence = parseSequenceFromLogTerra(info);
     if (!sequence) {
@@ -159,7 +159,7 @@ async function terra(
       TERRA_TOKEN_BRIDGE_ADDRESS
     );
     enqueueSnackbar(null, {
-      content: <Alert severity="info">Fetching VAA</Alert>,
+      content: <Text fontSize={15} fontWeight={200} lineHeight="20px" color="white" >Fetching VAA</Text>,
     });
     const { vaaBytes } = await getSignedVAAWithRetry(
       CHAIN_ID_TERRA,
@@ -167,13 +167,13 @@ async function terra(
       sequence
     );
     enqueueSnackbar(null, {
-      content: <Alert severity="success">Fetched Signed VAA</Alert>,
+      content:<Text fontSize={15} fontWeight={200} lineHeight="20px" color="green1" >Fetched Signed VAA</Text>,
     });
     dispatch(setSignedVAAHex(uint8ArrayToHex(vaaBytes)));
   } catch (e) {
     console.error(e);
     enqueueSnackbar(null, {
-      content: <Alert severity="error">{parseError(e)}</Alert>,
+      content: <Text fontSize={15} fontWeight={200} lineHeight="20px" color="avaxRed" >{parseError(e)}</Text>,
     });
     dispatch(setIsSending(false));
   }
