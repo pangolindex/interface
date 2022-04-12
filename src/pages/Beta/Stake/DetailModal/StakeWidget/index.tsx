@@ -56,7 +56,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
                   {parsedAmount?.toSignificant(6) || '0'}
                 </Text>
                 <Box ml={10} mt="8px">
-                  <CurrencyLogo currency={png} size={24} />
+                  <CurrencyLogo currency={png} size={24} imageSize={48} />
                 </Box>
               </Box>
 
