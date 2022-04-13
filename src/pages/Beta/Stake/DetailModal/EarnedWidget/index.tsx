@@ -1,5 +1,5 @@
 import { Box, Button, Text } from '@antiyro/components'
-import { JSBI } from '@antiyro/sdk'
+import { JSBI, CHAINS } from '@antiyro/sdk'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
@@ -9,7 +9,6 @@ import useUSDCPrice from 'src/utils/useUSDCPrice'
 import { Root, StatWrapper } from './styled'
 import ClaimDrawer from '../../ClaimDrawer'
 import UnstakeDrawer from '../UnstakeDrawer'
-import { CHAINS } from 'src/constants/chains'
 import { useChainId } from 'src/hooks'
 
 type Props = {
@@ -26,15 +25,15 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
 
   const rewardToken = stakingInfo?.rewardToken
   const usdcPriceTmp = useUSDCPrice(rewardToken)
-  const usdcPrice = CHAINS[chainId].is_mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = CHAINS[chainId].mainnet ? usdcPriceTmp : undefined
 
   const weeklyRewardInToken = stakingInfo?.rewardRatePerWeek.toSignificant(4)
   const unclaimedAmountInToken = stakingInfo?.earnedAmount.toSignificant(4)
 
-  const weeklyRewardUSD = CHAINS[chainId].is_mainnet
+  const weeklyRewardUSD = CHAINS[chainId].mainnet
     ? Number(weeklyRewardInToken) * Number(usdcPrice?.toSignificant(6))
     : undefined
-  const unclaimedAmountInUSD = CHAINS[chainId].is_mainnet
+  const unclaimedAmountInUSD = CHAINS[chainId].mainnet
     ? Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6))
     : undefined
 

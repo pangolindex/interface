@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Percent, Token, WAVAX } from '@antiyro/sdk'
+import { ChainId, JSBI, Percent, Token, WAVAX, CHAINS } from '@antiyro/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
 import { gnosisSafe, injected, walletconnect, walletlink, xDefi } from '../connectors'
@@ -7,9 +7,10 @@ import { DAIe, PNG, USDC, USDCe, USDTe, UST, axlUST } from './tokens'
 export const GAS_PRICE = 225
 
 export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
-  [ChainId.FUJI]: '0x2D99ABD9008Dc933ff5c0CD271B88309593aB921',
-  [ChainId.AVALANCHE]: '0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106',
-  [ChainId.WAGMI]: '0x2F99E88888ee24cbf1623FB7af7FD2e508123eb3'
+  [ChainId.FUJI]: CHAINS[ChainId.FUJI].contracts!.router,
+  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.router,
+  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.router,
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.router,
 }
 
 export const LANDING_PAGE = 'https://pangolin.exchange'
@@ -31,8 +32,9 @@ export const BRIDGE_MIGRATOR_ADDRESS = '0x4b23Aa72A1214d0E4fd3f2c8Da7C6ba660F748
 
 export const MINICHEF_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
-  [ChainId.AVALANCHE]: '0x1f806f7C8dED893fd3caE279191ad7Aa3798E928',
-  [ChainId.WAGMI]: '0x08B7fAC01886858CE741bfA7573D281F05730bF1'
+  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.mini_chef!,
+  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.mini_chef!,
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.mini_chef!
 }
 
 export const NATIVE = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
@@ -44,14 +46,16 @@ type ChainTokenList = {
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
-  [ChainId.AVALANCHE]: '0x0C58C2041da4CfCcF5818Bbe3b66DBC23B3902d9',
-  [ChainId.WAGMI]: '0xFf3A1Fbc721C9c1E92835b551e9A795FCdBa83e8'
+  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.airdrop!,
+  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.airdrop!,
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.airdrop!
 }
 
 const WAVAX_AND_PNG_ONLY: ChainTokenList = {
   [ChainId.FUJI]: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
   [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
-  [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI], PNG[ChainId.WAGMI]]
+  [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI], PNG[ChainId.WAGMI]],
+  [ChainId.COSTON]: [WAVAX[ChainId.COSTON], PNG[ChainId.COSTON]]
 }
 
 // used to construct intermediary pairs for trading
@@ -67,7 +71,8 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     axlUST[ChainId.AVALANCHE],
     USDC[ChainId.AVALANCHE]
   ],
-  [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI], PNG[ChainId.WAGMI]]
+  [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI], PNG[ChainId.WAGMI]],
+  [ChainId.COSTON]: [WAVAX[ChainId.COSTON], PNG[ChainId.COSTON]]
 }
 
 /**
@@ -96,7 +101,8 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
 export const TRUSTED_TOKEN_ADDRESSES: { readonly [chainId in ChainId]: string[] } = {
   [ChainId.FUJI]: [],
   [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE].address, PNG[ChainId.AVALANCHE].address],
-  [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI].address, PNG[ChainId.WAGMI].address]
+  [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI].address, PNG[ChainId.WAGMI].address],
+  [ChainId.COSTON]: [WAVAX[ChainId.COSTON].address, PNG[ChainId.COSTON].address]
 }
 
 export const SWAP_DEFAULT_CURRENCY = {
@@ -109,6 +115,10 @@ export const SWAP_DEFAULT_CURRENCY = {
     outputCurrency: ''
   },
   [ChainId.WAGMI]: {
+    inputCurrency: '',
+    outputCurrency: ''
+  },
+  [ChainId.COSTON]: {
     inputCurrency: '',
     outputCurrency: ''
   }

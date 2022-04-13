@@ -1,4 +1,4 @@
-import { ChainId, TokenAmount } from '@antiyro/sdk'
+import { ChainId, TokenAmount, CHAINS } from '@antiyro/sdk'
 import { Button, Box, Text } from '@antiyro/components'
 import React, { useContext, useState, useRef } from 'react'
 import { ThemeContext } from 'styled-components'
@@ -41,15 +41,17 @@ import { useChainId } from 'src/hooks'
 import NetworkSelection from './NetworkSelection'
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
-  [ChainId.FUJI]: 'Fuji',
-  [ChainId.AVALANCHE]: 'Avalanche',
-  [ChainId.WAGMI]: 'Wagmi'
+  [ChainId.FUJI]: CHAINS[ChainId.FUJI].name,
+  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].name,
+  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].name,
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].name
 }
 
 const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
-  [ChainId.FUJI]: 'AVAX',
-  [ChainId.AVALANCHE]: 'AVAX',
-  [ChainId.WAGMI]: 'WGM'
+  [ChainId.FUJI]: CHAINS[ChainId.FUJI].symbol,
+  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].symbol,
+  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].symbol,
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].symbol,
 }
 
 export default function Header() {

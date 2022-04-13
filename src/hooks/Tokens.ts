@@ -1,6 +1,6 @@
 import { useMemo, useEffect, useState } from 'react'
 import { parseBytes32String } from '@ethersproject/strings'
-import { Currency, CAVAX, Token, currencyEquals } from '@antiyro/sdk'
+import { Currency, CAVAX, Token, currencyEquals, CHAINS } from '@antiyro/sdk'
 import ERC20_INTERFACE, { ERC20_BYTES32_INTERFACE } from '../constants/abis/erc20'
 import { useSelectedTokenList } from '../state/lists/hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../state/multicall/hooks'
@@ -9,7 +9,7 @@ import { isAddress } from '../utils'
 import { useChainId } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 
-import { CHAINS, ChainsId } from 'src/constants/chains'
+import { ChainsId } from 'src/constants/chains'
 
 export function useAllTokens(): { [address: string]: Token } {
   const chainId = useChainId()

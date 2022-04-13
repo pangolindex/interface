@@ -1,10 +1,9 @@
-import { TokenAmount, JSBI, ChainId } from '@antiyro/sdk'
+import { TokenAmount, JSBI, ChainId, CHAINS } from '@antiyro/sdk'
 import React, { useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from '../../assets/images/token-logo.png'
 import { injected } from '../../connectors'
-import { CHAINS } from '../../constants/chains'
 import { getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { useTotalSupply } from '../../data/TotalSupply'
@@ -77,7 +76,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const { t } = useTranslation()
 
   const usdcPriceTmp = useUSDCPrice(png)
-  const usdcPrice = CHAINS[chainId].is_mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = CHAINS[chainId].mainnet ? usdcPriceTmp : undefined
 
   let pngPrice
 

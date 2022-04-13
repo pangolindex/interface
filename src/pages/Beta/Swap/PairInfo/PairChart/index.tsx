@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Pair, Token } from '@antiyro/sdk'
+import { Pair, Token, CHAINS } from '@antiyro/sdk'
 import { createChart, CrosshairMode, IChartApi, ISeriesApi } from 'lightweight-charts'
 import { useMeasure } from 'react-use'
 import { useDarkModeManager } from 'src/state/user/hooks'
@@ -10,7 +10,6 @@ import Circle from 'src/assets/images/blue-loader.svg'
 import { Box } from '@antiyro/components'
 import { ChartWrapper, ChartContainer } from './styleds'
 import { useChainId } from 'src/hooks'
-import { CHAINS } from 'src/constants/chains'
 
 type Props = { pair?: Pair | null; tokenB?: Token; tokenA?: Token }
 

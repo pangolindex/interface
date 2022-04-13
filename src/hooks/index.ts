@@ -1,5 +1,5 @@
 import { Web3Provider } from '@ethersproject/providers'
-import { ChainId } from '@antiyro/sdk'
+import { ChainId, ALL_CHAINS } from '@antiyro/sdk'
 import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useEffect, useState } from 'react'
@@ -110,4 +110,8 @@ export function useInactiveListener(suppress = false) {
 export const useChainId = () => {
   const { chainId } = useActiveWeb3React()
   return chainId || ChainId.AVALANCHE
+}
+
+export const useChain = (chainId: number) => {
+  return ALL_CHAINS.filter(chain => chain.chain_id === chainId)[0]
 }

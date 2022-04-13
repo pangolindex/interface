@@ -4,7 +4,7 @@ import { RowBetween } from '../Row'
 import styled from 'styled-components'
 import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
-import { CAVAX, Token } from '@antiyro/sdk'
+import { CAVAX, Token, CHAINS } from '@antiyro/sdk'
 import { ButtonPrimary } from '../Button'
 import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
@@ -12,7 +12,6 @@ import { currencyId } from '../../utils/currencyId'
 import { Break, CardNoise, CardBGImage } from './styled'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 import { PNG } from '../../constants/tokens'
-import { CHAINS } from '../../constants/chains'
 import { useTranslation } from 'react-i18next'
 import RewardTokens from '../RewardTokens'
 import { Box } from '@antiyro/components'
@@ -117,7 +116,7 @@ export default function DoubleSidePoolCard({
       ? token1
       : token0
 
-  const totalStakedInUsd = CHAINS[chainId].is_mainnet
+  const totalStakedInUsd = CHAINS[chainId].mainnet
     ? stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
     : 0
 
