@@ -19,7 +19,7 @@ export const BoxWrapper = styled(Box)`
 `
 export const ClaimBox = styled(Box)`
   min-width: 27%;
-  max-width: 35%;
+  max-width: 30%;
   background-color: #111;
   border-radius: 7px;
   padding: 1em;
@@ -47,9 +47,9 @@ export const StyledLogo = styled.img<{ size: string }>`
 
 export const QuestionWrapper = styled(Box)`
   display: flex;
-  justify-content: space-around;
   gap: 15px;
   padding-bottom: 30px;
+  justify-content: center;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     flex-direction: column;
     align-items: center;
@@ -59,8 +59,8 @@ export const QuestionWrapper = styled(Box)`
 export const QuestionBox = styled(Box)`
   background-color: #111111;
   border-radius: 10px;
-  min-width: 70%;
-  max-width: 70%;
+  min-width: 50%;
+  max-width: 50%;
   padding: 30px;
   cursor: pointer;
 `

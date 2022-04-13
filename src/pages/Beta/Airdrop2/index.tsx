@@ -6,6 +6,7 @@ import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxNotConnected } 
 import { QuestionAnswer } from './QuestionBox'
 import { useUserHasAvailableClaim, useUserUnclaimedAmount, useClaimCallback } from 'src/state/airdrop/hooks'
 import NearLogo from 'src/assets/images/near.png'
+import MoonBeamLogo from 'src/assets/images/moonbeam.png'
 import Modal from 'src/components/Modal'
 import Confetti from 'src/components/Confetti'
 import { PngTokenAnimated } from 'src/theme'
@@ -122,9 +123,26 @@ const AirdropUI: React.FC = () => {
           <span style={{ padding: '20px' }}></span>
           {/* <ButtonCheckEligibility /> */}
         </ClaimBox>
+        <ClaimBox>
+          <span
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '20px' }}
+          >
+            <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
+              Claim moonBeam
+            </Text>
+            <StyledLogo src={MoonBeamLogo} size={'50px'} />
+          </span>
+          <Separator />
+          <span style={{ padding: '20px' }}></span>
+          <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
+            Coming soon...
+          </Text>
+          <span style={{ padding: '20px' }}></span>
+          {/* <ButtonCheckEligibility /> */}
+        </ClaimBox>
       </BoxWrapper>
       <QuestionWrapper>
-        <Text fontSize={44} fontWeight={500} lineHeight="66px" color="text10">
+        <Text fontSize={35} fontWeight={500} lineHeight="66px" color="text10">
           HAVE QUESTIONS?
         </Text>
         <QuestionAnswer />

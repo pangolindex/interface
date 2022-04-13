@@ -6,6 +6,8 @@ import { useTransactionAdder } from '../transactions/hooks'
 import { TokenAmount, JSBI } from '@antiyro/sdk'
 import { PNG } from '../../constants/tokens'
 import { useSingleCallResult } from '../multicall/hooks'
+import axios from 'axios'
+import { useQuery } from 'react-query'
 
 export function useAirdropIsClaimingAllowed(): boolean {
   const airdropContract = useAirdropContract()
@@ -74,4 +76,28 @@ export function useClaimCallback(
   }
 
   return { claimCallback }
+}
+
+export interface Question {
+  id: number
+  title: string
+  content: string
+}
+export function useGetAirdropQuestions() {
+
+  return useQuery('getNews', async () => {
+    const response = await axios.get(`https://p7gm7mqi.directus.app/admin/content/kb/1`, {
+      timeout: 1000
+    })
+    const data = response.data
+    const questions: Question[] = data?.data?.map((element: any) => {
+      return {
+        id: element?.id,
+        title: element?.title,
+        content: element?.content,
+      } as Question
+    })
+
+    return questions
+  })
 }
