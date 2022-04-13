@@ -15,7 +15,7 @@
     "@antiyro/components": "10.0.12",
     "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.2.0",
-    "@antiyro/sdk": "10.0.12",
+    "@antiyro/sdk": "10.0.13",
     "@pangolindex/token-lists": "^1.0.1",
     "@pangolindex/web3-react-injected-connector": "^1.0.0",
     "@popperjs/core": "^2.4.4",

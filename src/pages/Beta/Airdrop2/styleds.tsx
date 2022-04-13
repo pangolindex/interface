@@ -19,6 +19,7 @@ export const BoxWrapper = styled(Box)`
 `
 export const ClaimBox = styled(Box)`
   min-width: 27%;
+  max-width: 35%;
   background-color: #111;
   border-radius: 7px;
   padding: 1em;

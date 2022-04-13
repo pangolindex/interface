@@ -45,6 +45,9 @@ const AirdropUI: React.FC = () => {
       return <BoxNotConnected />
     }
     if (account && !eligible && !changeMyChain) {
+      return <BoxChangeChain changeChain={changeChain} />
+    }
+    if (account && changeMyChain && !eligible ) {
       return <BoxCheckEligibility checkStatus={checkStatus} />
     }
     //BUY-FTM BOX NOT ACCESSIBLE RIGHT NOW FOR WAGMI
@@ -54,19 +57,19 @@ const AirdropUI: React.FC = () => {
     //         <BoxBuyCurrency buyFTM={buyFTM} />
     //     )
     // }
-    if (account && eligible && !changeMyChain) {
-      return <BoxChangeChain changeChain={changeChain} />
-    }
-    if (account && eligible && changeMyChain) {
+    if (account && changeMyChain && eligible ) {
       return <BoxClaimReward claimPNG={claimPNG} amount={amount} />
     } else {
       return <></>
     }
   }
+ 
 
   function wrappedOnDismiss() {
     setModalOpen(false)
   }
+
+  
 
   const renderError = (modalOpen: any) => {
     return (

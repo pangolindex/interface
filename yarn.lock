@@ -17,10 +17,10 @@
     cids "^1.1.9"
     react-switch "^6.0.0"
 
-"@antiyro/sdk@10.0.12":
-  version "10.0.12"
-  resolved "https://registry.yarnpkg.com/@antiyro/sdk/-/sdk-10.0.12.tgz#d8c594b2edd2d6a236f8e2734a7cfe145919885a"
-  integrity sha512-IVAngn0JgNDioK8DAU06NkAtC8LYhYTzB0sZMD3i7QpLV0HhFqsqhu4RWyAOZje0ReMCVbpN9NAUqSvzeI5+qw==
+"@antiyro/sdk@10.0.13":
+  version "10.0.13"
+  resolved "https://registry.yarnpkg.com/@antiyro/sdk/-/sdk-10.0.13.tgz#0dccf625dca3dde4915cef9275ca03b73e19fbba"
+  integrity sha512-+W6fO5JGButSCE6GXph1A+tyygRr43672QjOW+ZPbqFPWm8dnbC9tQv9bxSftQ40Bg559ws3ANiI0va+ITxGrg==
   dependencies:
     "@pangolindex/exchange-contracts" "^1.0.1"
     big.js "^5.2.2"
