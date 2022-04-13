@@ -73,11 +73,10 @@ const AirdropUI: React.FC = () => {
 
   const renderError = (modalOpen: any) => {
     return (
-      <Modal isOpen={modalOpen} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={50} isBeta={true}>
+      <Modal isOpen={modalOpen} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={30} isBeta={true}>
         <ColumnCenter>
-          <PngTokenAnimated width="55px" src={tokenLogo} />
           <Text
-            fontSize={35}
+            fontSize={25}
             fontWeight={500}
             lineHeight="50px"
             color="text10"
@@ -85,6 +84,7 @@ const AirdropUI: React.FC = () => {
           >
             Sorry, you are not eligible
           </Text>
+          <PngTokenAnimated width="55px" src={tokenLogo} />
         </ColumnCenter>
       </Modal>
     )
