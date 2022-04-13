@@ -26,8 +26,10 @@ const AirdropUI: React.FC = () => {
   const { claimCallback } = useClaimCallback(account)
 
   const checkStatus = () => {
-    if (canClaim) setEligible(true)
-    else setModalOpen(true)
+    if (Number(amount) > 0) {
+      if (canClaim) setEligible(true)
+      else setModalOpen(true)
+    }
   }
 
   // const buyFTM = () => {
@@ -39,7 +41,8 @@ const AirdropUI: React.FC = () => {
   }
 
   const claimPNG = () => {
-    claimCallback()
+    if (Number(amount) > 0)
+      claimCallback()
   }
   const renderBoxes = () => {
     if (!account && !eligible && !changeMyChain) {
