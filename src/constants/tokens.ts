@@ -1461,3 +1461,15 @@ export const axlATOM: { [chainId in ChainId]: Token } = {
   ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 6, 'axlATOM', 'Axelar Wrapped ATOM')
 }
+
+export const LOST: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'LOST', 'LostToken'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x449674B82F05d498E126Dd6615a1057A9c088f2C',
+    18,
+    'LOST',
+    'LostToken'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'LOST', 'LostToken')
+}

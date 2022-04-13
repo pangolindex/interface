@@ -94,7 +94,10 @@ export default function NewsWidget() {
                     </Scrollbars>
                   </NewsContent>
                   <NewsDate>
-                    {element?.updatedAt.toLocaleTimeString()}, {element?.updatedAt.toLocaleDateString()}
+                    {element?.updatedAt
+                      ? element?.updatedAt?.toLocaleTimeString()
+                      : element?.createdAt.toLocaleTimeString()}
+                    , {element.updatedAt ? element?.updatedAt?.toDateString() : element?.createdAt.toDateString()}
                   </NewsDate>
                 </div>
               ))}
