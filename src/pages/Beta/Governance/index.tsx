@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Text } from '@antiyro/components'
+import { Text } from '@pangolindex/components'
 import {
   PageWrapper,
   PageTitle,
@@ -22,7 +22,7 @@ import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
-import { JSBI, TokenAmount, ChainId } from '@antiyro/sdk'
+import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
 import { shortenAddress, getEtherscanLink } from 'src/utils'
 import FormattedCurrencyAmount from 'src/components/FormattedCurrencyAmount'
 

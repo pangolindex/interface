@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Text, Button } from '@antiyro/components'
+import { Box, Text, Button } from '@pangolindex/components'
 import { ClaimWrapper, Root, RewardWrapper, StatWrapper } from './styleds'
 import { StakingInfo, useMinichefPendingRewards } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'

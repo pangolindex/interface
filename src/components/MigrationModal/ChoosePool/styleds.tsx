@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Box } from '@antiyro/components'
+import { Box } from '@pangolindex/components'
 
 export const Wrapper = styled.div`
   margin: 0;

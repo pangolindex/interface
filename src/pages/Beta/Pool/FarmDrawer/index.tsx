@@ -1,6 +1,6 @@
 import React from 'react'
 import Drawer from 'src/components/Drawer'
-import { Token } from '@antiyro/sdk'
+import { Token } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 import { usePair } from 'src/data/Reserves'
 import Stake from '../EarnWidget/Stake'

@@ -13,11 +13,11 @@ import {
   EmptyProposals,
   StatisticImage
 } from './styleds'
-import { Pair } from '@antiyro/sdk'
+import { Pair } from '@pangolindex/sdk'
 import { useParams } from 'react-router-dom'
 import { useActiveWeb3React } from '../../hooks'
 import { Dots } from '../../components/swap/styleds'
-import { Text, Box } from '@antiyro/components'
+import { Text, Box } from '@pangolindex/components'
 import MigrationCard from '../../components/MigrationCard'
 import { useTranslation } from 'react-i18next'
 import MigrationModal from '../../components/MigrationModal'

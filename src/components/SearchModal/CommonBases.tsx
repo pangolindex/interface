@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from 'rebass'
-import { Currency, currencyEquals, CAVAX, Token } from '@antiyro/sdk'
+import { Currency, currencyEquals, CAVAX, Token } from '@pangolindex/sdk'
 import styled from 'styled-components'
 
 import { SUGGESTED_BASES } from '../../constants'

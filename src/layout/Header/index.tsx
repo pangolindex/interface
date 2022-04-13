@@ -1,5 +1,5 @@
-import { ChainId, TokenAmount, CHAINS } from '@antiyro/sdk'
-import { Button, Box, Text } from '@antiyro/components'
+import { ChainId, TokenAmount, CHAINS } from '@pangolindex/sdk'
+import { Button, Box, Text } from '@pangolindex/components'
 import React, { useContext, useState, useRef } from 'react'
 import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'

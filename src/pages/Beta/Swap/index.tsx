@@ -1,13 +1,13 @@
 import React from 'react'
 import { PageWrapper, GridContainer, TopContainer, StatsWrapper } from './styleds'
-import { useGelatoLimitOrderList, SwapWidget } from '@antiyro/components'
+import { useGelatoLimitOrderList, SwapWidget } from '@pangolindex/components'
 import MyPortfolio from './MyPortfolio'
 import WatchList from './WatchList'
 import PairInfo from './PairInfo'
 import { RedirectContext } from './WatchList/CoinChart'
 import LimitOrderList from './LimitOrderList'
 import { useChainId } from 'src/hooks'
-import { CHAINS } from '@antiyro/sdk'
+import { CHAINS } from '@pangolindex/sdk'
 
 const SwapUI = () => {
   const { allOrders } = useGelatoLimitOrderList()
