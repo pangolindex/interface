@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box } from '@antiyro/components'
 import { useDarkModeManager } from '../../state/user/hooks'
 import Logo from 'src/assets/images/logo_light.svg'
 import LogoDark from 'src/assets/images/logo_dark.svg'

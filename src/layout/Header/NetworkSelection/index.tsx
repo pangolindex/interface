@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { ALL_CHAINS, Chain } from '@pangolindex/sdk'
-import { Box, Text, ToggleButtons } from '@pangolindex/components'
+import { ALL_CHAINS, Chain } from '@antiyro/sdk'
+import { Box, Text, ToggleButtons } from '@antiyro/components'
 
 //import { useActiveWeb3React } from 'src/hooks'
 import Modal from 'src/components/Beta/Modal'

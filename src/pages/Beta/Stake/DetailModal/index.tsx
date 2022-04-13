@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { ApplicationModal } from 'src/state/application/actions'
-import { Box } from '@pangolindex/components'
+import { Box } from '@antiyro/components'
 import { useModalOpen, useSingleSideStakingDetailnModalToggle } from 'src/state/application/hooks'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { ThemeContext } from 'styled-components'

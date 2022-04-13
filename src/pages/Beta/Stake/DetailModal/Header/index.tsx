@@ -1,6 +1,6 @@
-import { Box, DoubleCurrencyLogo, Text, CurrencyLogo } from '@pangolindex/components'
+import { Box, DoubleCurrencyLogo, Text, CurrencyLogo } from '@antiyro/components'
 import React, { useContext } from 'react'
-import { JSBI } from '@pangolindex/sdk'
+import { JSBI } from '@antiyro/sdk'
 import Stat from 'src/components/Stat'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'

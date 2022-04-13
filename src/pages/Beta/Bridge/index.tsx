@@ -1,6 +1,6 @@
 import React from 'react'
 import { PageWrapper, Ibridge, ChainSelect, Separator, MaxButton, WrapButton } from './styleds'
-import { Text, Box, ToggleButtons, Button } from '@pangolindex/components'
+import { Text, Box, ToggleButtons, Button } from '@antiyro/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { useWalletModalToggle } from 'src/state/application/hooks'

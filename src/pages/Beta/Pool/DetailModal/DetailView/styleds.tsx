@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Box } from '@pangolindex/components'
+import { Box } from '@antiyro/components'
 
 export const DesktopWrapper = styled(Box)`
   width: 1080px;

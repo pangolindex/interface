@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Text, Box, ToggleButtons, useGelatoLimitOrderList } from '@pangolindex/components'
+import { Text, Box, ToggleButtons, useGelatoLimitOrderList } from '@antiyro/components'
 import LimitOrderRow from './LimitOrderRow'
 import { DesktopLimitOrderList, GridContainer, MobileLimitOrderList } from './styleds'
 import Scrollbars from 'react-custom-scrollbars'

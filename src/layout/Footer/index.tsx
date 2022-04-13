@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Circle } from 'react-feather'
-import { Box, Text } from '@pangolindex/components'
+import { Box, Text } from '@antiyro/components'
 import { ThemeContext } from 'styled-components'
 
 import { FooterFrame, Button, Policies } from './styled'

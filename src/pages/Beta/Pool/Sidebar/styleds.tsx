@@ -1,7 +1,7 @@
-import { Box } from '@pangolindex/components'
+import { Box } from '@antiyro/components'
 import styled from 'styled-components'
 import { darken } from 'polished'
-import { Text } from '@pangolindex/components'
+import { Text } from '@antiyro/components'
 
 export const SidebarWrapper = styled(Box)`
   width: 100%;

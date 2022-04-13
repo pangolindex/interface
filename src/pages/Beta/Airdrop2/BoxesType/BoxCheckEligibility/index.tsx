@@ -1,6 +1,6 @@
 import React from 'react'
 import { ClaimBox, StyledLogo, Separator } from '../../styleds'
-import { Text, Button } from '@pangolindex/components'
+import { Text, Button } from '@antiyro/components'
 import WgmLogo from 'src/assets/images/wgmlogo.png'
 
 type IStatus = {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box, ToggleButtons } from '@pangolindex/components'
+import { Text, Box, ToggleButtons } from '@antiyro/components'
 import { EarnWrapper } from './styled'
 import { useTranslation } from 'react-i18next'
 

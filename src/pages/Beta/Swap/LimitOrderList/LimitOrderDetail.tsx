@@ -6,8 +6,8 @@ import {
   Button,
   useGelatoLimitOrderDetail,
   LimitOrderInfo
-} from '@pangolindex/components'
-import { Currency } from '@pangolindex/sdk'
+} from '@antiyro/components'
+import { Currency } from '@antiyro/sdk'
 import { SelectedCoinInfo, StatWrapper } from './styleds'
 import { useTranslation } from 'react-i18next'
 import Stat from 'src/components/Stat'

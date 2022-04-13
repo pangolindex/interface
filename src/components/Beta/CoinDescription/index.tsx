@@ -1,6 +1,6 @@
 import React from 'react'
-import { Text, Box } from '@pangolindex/components'
-import { Token } from '@pangolindex/sdk'
+import { Text, Box } from '@antiyro/components'
+import { Token } from '@antiyro/sdk'
 import { useCoinGeckoTokenData } from 'src/hooks/Tokens'
 import { ExternalLink } from 'src/theme'
 import ReactHtmlParser from 'react-html-parser'

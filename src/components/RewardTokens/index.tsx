@@ -1,9 +1,9 @@
-import { Token } from '@pangolindex/sdk'
+import { Token } from '@antiyro/sdk'
 import React from 'react'
 import { LogoSize } from 'src/constants'
 import styled from 'styled-components'
 import { PNG } from '../../constants/tokens'
-import { CurrencyLogo } from '@pangolindex/components'
+import { CurrencyLogo } from '@antiyro/components'
 import { useChainId } from 'src/hooks'
 
 const Wrapper = styled.div<{ margin: boolean; sizeraw: number }>`

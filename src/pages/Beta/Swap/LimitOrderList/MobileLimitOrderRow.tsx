@@ -6,8 +6,8 @@ import {
   DoubleCurrencyLogo,
   useGelatoLimitOrderDetail,
   LimitOrderInfo
-} from '@pangolindex/components'
-import { Currency } from '@pangolindex/sdk'
+} from '@antiyro/components'
+import { Currency } from '@antiyro/sdk'
 import { useTranslation } from 'react-i18next'
 import { MobileRowWrapper, StatWrapper } from './styleds'
 import Stat from 'src/components/Stat'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button } from '@pangolindex/components'
+import { Box, Button } from '@antiyro/components'
 import styled from 'styled-components'
 import { RowFixed } from '../../components/Row'
 import { Settings, ChevronRight } from 'react-feather'

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box } from '@antiyro/components'
 import { Wrapper } from './styleds'
 import Modal from 'src/components/Beta/Modal'
 import { ThemeContext } from 'styled-components'
