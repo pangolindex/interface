@@ -3,14 +3,9 @@ import Header from './Header'
 import Sidebar from './Sidebar'
 import { Wrapper, MainContent, AppContent } from './styled'
 import Footer from './Footer'
-import Logo from 'src/assets/images/logo.svg'
 
 const Layout: React.FC<unknown> = ({ children }) => {
   const [isDrawerCollapsed, setIsDrawerCollapsed] = useState(true)
-
-  // Change to new favicon
-  const favicon: HTMLLinkElement = document.getElementById('favicon') as HTMLLinkElement
-  favicon.href = Logo
 
   return (
     <Wrapper>
