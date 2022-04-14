@@ -77,12 +77,10 @@ const AirdropUI: React.FC = () => {
       return <></>
     }
   }
- 
 
   function wrappedOnDismiss() {
     setModalOpen(false)
   }
-
   const renderError = (modalOpen: any) => {
     return (
       <Modal isOpen={modalOpen} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={30} isBeta={true}>

@@ -27,6 +27,10 @@ export const ClaimBox = styled(Box)`
   min-width: 70%;
   min-height: 70%
   `};
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+  min-width: 100%;
+  min-height: 70%
+  `};
 `
 
 export const Separator = styled(Box)`
@@ -55,6 +59,7 @@ export const QuestionWrapper = styled(Box)`
     align-items: center;
     justify-content: center;
     `};
+    
 `
 export const QuestionBox = styled(Box)`
   background-color: #111111;
@@ -63,6 +68,9 @@ export const QuestionBox = styled(Box)`
   max-width: 50%;
   padding: 30px;
   cursor: pointer;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+  min-width: 100%;
+  `};
 `
 export const StyledClose = styled(X)`
   :hover {

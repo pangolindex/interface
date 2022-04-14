@@ -9,34 +9,34 @@ export const QuestionAnswer = () => {
   // const [visible2, setVisible2] = useState<boolean>(false)
   // const [visible3, setVisible3] = useState<boolean>(false)
 
-  // var axios = require('axios');
-  // var data = JSON.stringify({
-  //   query: `query getKnowledge($filter: kb_filter) {
-  //     kb(filter: $filter) {
-  //         id
-  //         title
-  //         content
-  //     }
-  // }`,
-  //   variables: {"filter":{"category":{"_eq":"Airdrop"}}}
-  // });
-  
-  // var config = {
-  //   method: 'post',
-  //   url: 'https://p7gm7mqi.directus.app/graphql',
-  //   headers: { 
-  //     'Content-Type': 'application/json'
-  //   },
-  //   data : data
-  // };
-  
-  // const res = axios(config)
-  // .then(function (response: any) {
-  //   console.log(JSON.stringify(response.data));
-  // })
-  // .catch(function (error: any) {
-  //   console.log(error);
-  // });
+  var axios = require('axios');
+  var data = JSON.stringify({
+    query: `query getKnowledge($filter: kb_filter) {
+      kb(filter: $filter) {
+          id
+          title
+          content
+      }
+  }`,
+    variables: {"filter":{"category":{"_eq":"Airdrop"}}}
+  });
+
+  var config = {
+    method: 'post',
+    url: 'https://p7gm7mqi.directus.app/graphql',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+
+  axios(config)
+  .then(function (response: any) {
+    console.log(JSON.stringify(response.data));
+  })
+  .catch(function (error: any) {
+    console.log(error);
+  });
 
   return (
     <QuestionBox>
