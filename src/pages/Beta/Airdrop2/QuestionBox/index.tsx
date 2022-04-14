@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text } from '@antiyro/components'
+import { Text } from '@pangolindex/components'
 import { StyledLogo, QuestionBox } from '../styleds'
 import PlusLogo from 'src/assets/images/plus.png'
 import MinusLogo from 'src/assets/images/minus.png'

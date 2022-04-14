@@ -10,7 +10,7 @@ import {
   Trade,
   FACTORY_ADDRESS,
   ChainId
-} from '@antiyro/sdk'
+} from '@pangolindex/sdk'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'

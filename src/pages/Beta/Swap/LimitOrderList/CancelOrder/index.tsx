@@ -6,7 +6,7 @@ import {
   useGelatoLimitOrderDetail,
   Order,
   useGelatoLimitOrdersHandlers
-} from '@antiyro/components'
+} from '@pangolindex/components'
 import { CancelOrderRoot, PendingWrapper, Root, Footer, Header } from './styleds'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'

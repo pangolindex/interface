@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Percent, Token, WAVAX, CHAINS } from '@antiyro/sdk'
+import { ChainId, JSBI, Percent, Token, WAVAX, CHAINS } from '@pangolindex/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
 import { gnosisSafe, injected, walletconnect, walletlink, xDefi } from '../connectors'

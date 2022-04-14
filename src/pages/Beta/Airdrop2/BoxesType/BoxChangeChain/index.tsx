@@ -1,8 +1,8 @@
 import React from 'react'
 import { ClaimBox, StyledLogo, Separator } from '../../styleds'
-import { Text, Button } from '@antiyro/components'
+import { Text, Button } from '@pangolindex/components'
 import WgmLogo from 'src/assets/images/wgmlogo.png'
-import { CHAINS, ChainId } from "@antiyro/sdk"
+import { CHAINS, ChainId } from "@pangolindex/sdk"
 
 type IChangeChain = {
   changeChain: () => void
