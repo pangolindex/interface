@@ -12,7 +12,15 @@ import Confetti from 'src/components/Confetti'
 import { PngTokenAnimated } from 'src/theme'
 import tokenLogo from 'src/assets/images/logo.png'
 import { ColumnCenter } from 'src/components/Column'
+import { CardBGImage, CardNoise, DataCard } from 'src/components/earn/styled'
+import styled from 'styled-components'
 
+
+const ModalUpper = styled(DataCard)`
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ffc800 0%, #e1aa00 100%);
+  padding: 0.5rem;
+`
 const AirdropUI: React.FC = () => {
   const { account } = useActiveWeb3React()
   const [eligible, setEligible] = useState<boolean>(false)
@@ -29,6 +37,8 @@ const AirdropUI: React.FC = () => {
     if (Number(amount) > 0) {
       if (canClaim) setEligible(true)
       else setModalOpen(true)
+    } else {
+      setModalOpen(true)
     }
   }
 
@@ -73,23 +83,25 @@ const AirdropUI: React.FC = () => {
     setModalOpen(false)
   }
 
-  
-
   const renderError = (modalOpen: any) => {
     return (
       <Modal isOpen={modalOpen} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={30} isBeta={true}>
+        <ModalUpper>
+        <CardBGImage />
+        <CardNoise />
         <ColumnCenter>
           <Text
             fontSize={25}
             fontWeight={500}
             lineHeight="50px"
-            color="text10"
+            color="black"
             style={{ textAlign: 'center', paddingTop: '30px' }}
           >
             Sorry, you are not eligible
           </Text>
           <PngTokenAnimated width="55px" src={tokenLogo} />
         </ColumnCenter>
+        </ModalUpper>
       </Modal>
     )
   }
