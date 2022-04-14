@@ -71,7 +71,6 @@ const getProposalState = (proposal: ProposalData) => {
     return ProposalState.succeeded
   } else if (proposal.executed) {
     return ProposalState.executed
-    //TODO
     // } else if (block.timestamp >= add256(proposal.eta, timelock.GRACE_PERIOD())) {
     //     return ProposalState.expired;
   } else {
@@ -188,7 +187,7 @@ const getAllProposalData = async (id?: string) => {
   let data = [] as Array<any>
 
   try {
-    let queryData: any = {
+    const queryData: any = {
       query: GET_PROPOSALS,
       fetchPolicy: 'cache-first'
     }
@@ -263,7 +262,7 @@ export function useGetProposalsViaSubgraph(id?: string) {
       const allProposals = await getAllProposalData(id)
 
       if (allProposals) {
-        const allData = allProposals.map((proposal, i) => {
+        const allData = allProposals.map(proposal => {
           const details = (proposal?.targets || []).map((target: string, i: number) => {
             const signature = proposal?.signatures[i]
 
@@ -280,7 +279,7 @@ export function useGetProposalsViaSubgraph(id?: string) {
             }
           })
 
-          const formattedProposal = {
+          return {
             id: proposal?.id.toString(),
             title: proposal?.description?.split(/# |\n/g)[1] || 'Untitled',
             description: proposal?.description || 'No description.',
@@ -296,7 +295,6 @@ export function useGetProposalsViaSubgraph(id?: string) {
             endTime: parseInt(proposal?.endTime?.toString()),
             details: details
           }
-          return formattedProposal
         })
 
         setAllProposalsData(allData)

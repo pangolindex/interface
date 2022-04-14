@@ -37,13 +37,13 @@ export const CloseButton = styled(CloseIcon)`
 `
 
 export const ChainsList = styled(Box)`
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 20px;
 `
 
 export const ChainButton = styled.button`
-  background-color: ${({theme}) => theme.bg8};
+  background-color: ${({ theme }) => theme.bg8};
   display: flex;
   align-items: center;
   border: 0px;
@@ -53,7 +53,7 @@ export const ChainButton = styled.button`
   height: 48px;
   font-weight: 500;
 
-  :hover{
+  :hover {
     opacity: 0.5;
   }
 `

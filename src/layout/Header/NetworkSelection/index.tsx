@@ -13,8 +13,8 @@ interface Props {
 }
 
 interface MetamaskError {
-  code: number;
-  message: string;
+  code: number
+  message: string
 }
 
 export default function NetworkSelection({ open, closeModal }: Props) {
@@ -32,7 +32,7 @@ export default function NetworkSelection({ open, closeModal }: Props) {
       try {
         await ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId:  `0x${chain.chain_id.toString(16)}`}]
+          params: [{ chainId: `0x${chain.chain_id.toString(16)}` }]
         })
       } catch (error) {
         // This error code indicates that the chain has not been added to MetaMask.
@@ -48,7 +48,7 @@ export default function NetworkSelection({ open, closeModal }: Props) {
                 rpcUrls: [chain.rpc_uri],
                 blockExplorerUrls: chain.blockExplorerUrls,
                 iconUrls: chain.logo,
-                nativeCurrency: chain.nativeCurrency,
+                nativeCurrency: chain.nativeCurrency
               }
             ]
           })
