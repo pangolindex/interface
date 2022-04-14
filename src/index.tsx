@@ -1,6 +1,6 @@
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 import 'inter-ui'
-import React, { StrictMode, useContext } from 'react'
+import React, { StrictMode, useContext, useEffect } from 'react'
 import { isMobile } from 'react-device-detect'
 import ReactDOM from 'react-dom'
 import ReactGA from 'react-ga'
@@ -80,6 +80,21 @@ const ComponentThemeProvider = () => {
   const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
   const { library, chainId, account } = useActiveWeb3React()
+
+  useEffect(() => {
+    if (window.pendo && account) {
+     window.pendo.initialize({
+        visitor: {
+          id: account
+        },
+
+        account: {
+          id: account
+        }
+      })
+    }
+  }, [account])
+
   return (
     <PangolinProvider library={library} chainId={chainId} account={account ?? undefined} theme={theme as any}>
       <FixedGlobalStyle isBeta={isBeta} />
