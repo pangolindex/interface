@@ -1,17 +1,19 @@
+
 import { PNG } from '../../constants/tokens'
 import { TokenAmount } from '@pangolindex/sdk'
 import { isAddress } from 'ethers/lib/utils'
-import { useGovernanceContract, usePngContract } from '../../hooks/useContract'
+import { useGovernanceContract, usePngContract } from 'src/hooks/useContract'
 import { useSingleCallResult, useSingleContractMultipleData } from '../multicall/hooks'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React } from 'src/hooks'
 import { ethers, utils } from 'ethers'
-import { calculateGasMargin } from '../../utils'
+import { calculateGasMargin } from 'src/utils'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../transactions/hooks'
 import { useState, useEffect, useCallback } from 'react'
 import GOV from '@pangolindex/governance/artifacts/contracts/GovernorAlpha.sol/GovernorAlpha.json'
-import { GET_BLOCK } from '../../apollo/block'
-import { blockClient } from '../../apollo/client'
+import { GET_BLOCK } from 'src/apollo/block'
+import { blockClient, governanceClient } from 'src/apollo/client'
+import { GET_PROPOSALS } from 'src/apollo/vote'
 
 interface ProposalDetail {
   target: string
@@ -29,13 +31,52 @@ export interface ProposalData {
   againstCount: number
   startTime: number
   endTime: number
-  startBlock: number
+  startBlock?: number
   details: ProposalDetail[]
+  canceled?: boolean
+  executed?: boolean
+  eta?: number
+}
+
+export enum ProposalState {
+  pending = 'pending',
+  active = 'active',
+  canceled = 'canceled',
+  defeated = 'defeated',
+  succeeded = 'succeeded',
+  queued = 'queued',
+  expired = 'expired',
+  executed = 'executed'
 }
 
 const enumerateProposalState = (state: number) => {
   const proposalStates = ['pending', 'active', 'canceled', 'defeated', 'succeeded', 'queued', 'expired', 'executed']
   return proposalStates[state]
+}
+
+const getProposalState = (proposal: ProposalData) => {
+  const currentTimestamp = () => new Date().getTime()
+
+  if (proposal.canceled) {
+    return ProposalState.canceled
+  } else if (currentTimestamp() <= proposal.startTime) {
+    return ProposalState.pending
+  } else if (currentTimestamp() <= proposal.endTime) {
+    return ProposalState.active
+  } else if (
+    proposal.againstCount &&
+    JSBI.lessThanOrEqual(JSBI.BigInt(proposal.forCount), JSBI.BigInt(proposal?.againstCount || 0))
+  ) {
+    return ProposalState.defeated
+  } else if (proposal.eta === 0) {
+    return ProposalState.succeeded
+  } else if (proposal.executed) {
+    return ProposalState.executed
+    // } else if (block.timestamp >= add256(proposal.eta, timelock.GRACE_PERIOD())) {
+    //     return ProposalState.expired;
+  } else {
+    return ProposalState.queued
+  }
 }
 
 // get count of all proposals made
@@ -143,6 +184,27 @@ export function useDataFromEventLogs() {
   return formattedEvents
 }
 
+const getAllProposalData = async (id?: string) => {
+  let data = [] as Array<any>
+
+  try {
+    const queryData: any = {
+      query: GET_PROPOSALS,
+      fetchPolicy: 'cache-first'
+    }
+
+    if (!!id) {
+      queryData['variables'] = { where: { id: id } }
+    }
+    const result = await governanceClient.query(queryData)
+    data = result?.data?.proposals
+  } catch (e) {
+    console.log(e)
+  }
+
+  return data
+}
+
 // get data for all past and active proposals
 export function useAllProposalData() {
   const proposalCount = useProposalCount()
@@ -158,7 +220,6 @@ export function useAllProposalData() {
 
   // get all proposal entities
   const allProposals = useSingleContractMultipleData(govContract, 'proposals', proposalIndexes)
-
   // get all proposal states
   const allProposalStates = useSingleContractMultipleData(govContract, 'state', proposalIndexes)
 
@@ -172,6 +233,7 @@ export function useAllProposalData() {
       })
       .map((p, i) => {
         const description = formattedEvents[i].description
+
         const formattedProposal: ProposalData = {
           id: allProposals[i]?.result?.id.toString(),
           title: description?.split(/# |\n/g)[1] || 'Untitled',
@@ -192,9 +254,67 @@ export function useAllProposalData() {
   }
 }
 
+// get data for all past and active proposals
+export function useGetProposalsViaSubgraph(id?: string) {
+  const [allProposalsData, setAllProposalsData] = useState<Array<ProposalData>>([])
+
+  useEffect(() => {
+    async function checkForChartData() {
+      const allProposals = await getAllProposalData(id)
+
+      if (allProposals) {
+        const allData = allProposals.map(proposal => {
+          const details = (proposal?.targets || []).map((target: string, i: number) => {
+            const signature = proposal?.signatures[i]
+
+            const [name, types] = signature?.substr(0, signature?.length - 1).split('(')
+
+            const calldata = proposal?.calldatas[i]
+
+            const decoded = utils.defaultAbiCoder.decode(types.split(','), calldata)
+
+            return {
+              target,
+              functionSig: name,
+              callData: decoded.join(', ')
+            }
+          })
+
+          return {
+            id: proposal?.id.toString(),
+            title: proposal?.description?.split(/# |\n/g)[1] || 'Untitled',
+            description: proposal?.description || 'No description.',
+            proposer: proposal?.proposer,
+            status:
+              getProposalState({ ...proposal, forCount: proposal?.forVotes, againstCount: proposal?.againstVotes }) ??
+              'Undetermined',
+            forCount: proposal?.forVotes ? parseFloat(ethers.utils.formatUnits(proposal?.forVotes.toString(), 18)) : 0,
+            againstCount: proposal?.againstVotes
+              ? parseFloat(ethers.utils.formatUnits(proposal?.againstVotes.toString(), 18))
+              : 0,
+            startTime: parseInt(proposal?.startTime?.toString()),
+            endTime: parseInt(proposal?.endTime?.toString()),
+            details: details
+          }
+        })
+
+        setAllProposalsData(allData)
+      }
+    }
+    checkForChartData()
+  }, [id])
+
+  return allProposalsData
+}
+
 export function useProposalData(id: string): ProposalData | undefined {
   const allProposalData = useAllProposalData()
   return allProposalData?.find(p => p.id === id)
+}
+
+export function useGetProposalDetail(id: string): ProposalData | undefined {
+  const allProposalData = useGetProposalsViaSubgraph(id)
+  return allProposalData?.find((p: ProposalData) => p.id === id)
 }
 
 // get the users delegatee if it exists
@@ -226,7 +346,7 @@ export function useDelegateCallback(): (delegatee: string | undefined) => undefi
       if (!library || !chainId || !account || !isAddress(delegatee ?? '')) return undefined
       const args = [delegatee]
       if (!uniContract) throw new Error('No UNI Contract!')
-      return uniContract.estimateGas.delegate(...args, {}).then(estimatedGasLimit => {
+      return uniContract.estimateGas.delegate(...args, {}).then((estimatedGasLimit: any) => {
         return uniContract
           .delegate(...args, { value: null, gasLimit: calculateGasMargin(estimatedGasLimit) })
           .then((response: TransactionResponse) => {
@@ -253,7 +373,7 @@ export function useVoteCallback(): {
     (proposalId: string | undefined, support: boolean) => {
       if (!account || !govContract || !proposalId) return
       const args = [proposalId, support]
-      return govContract.estimateGas.castVote(...args, {}).then(estimatedGasLimit => {
+      return govContract.estimateGas.castVote(...args, {}).then((estimatedGasLimit: any) => {
         return govContract
           .castVote(...args, { value: null, gasLimit: calculateGasMargin(estimatedGasLimit) })
           .then((response: TransactionResponse) => {

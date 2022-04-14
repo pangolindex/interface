@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator, QuestionWrapper } from './styleds'
+import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator, QuestionWrapper, MainTitle } from './styleds'
 import { Text, Box } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxNotConnected } from './BoxesType'
@@ -77,12 +77,10 @@ const AirdropUI: React.FC = () => {
       return <></>
     }
   }
- 
 
   function wrappedOnDismiss() {
     setModalOpen(false)
   }
-
   const renderError = (modalOpen: any) => {
     return (
       <Modal isOpen={modalOpen} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={30} isBeta={true}>
@@ -108,11 +106,11 @@ const AirdropUI: React.FC = () => {
 
   return (
     <PageWrapper>
-      <Box p={70}>
+      <Box paddingBottom="20px">
         <span style={{ textAlign: 'center' }}>
-          <Text fontSize={44} fontWeight={500} lineHeight="66px" color="text10">
+          <MainTitle>
             Pangolin Going Crosschain
-          </Text>
+          </MainTitle>
           <Text fontSize={18} fontWeight={500} lineHeight="27px" color="text10">
             And we are not empty handed!
           </Text>

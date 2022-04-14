@@ -7,7 +7,6 @@ import remarkGfm from 'remark-gfm'
 import { useTranslation } from 'react-i18next'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
 import { Text, Box } from '@pangolindex/components'
-
 import {
   PageWrapper,
   CardWrapper,
@@ -26,8 +25,7 @@ import { AutoColumn } from 'src/components/Column'
 import { CardSection } from 'src/components/earn/styled'
 import { ButtonPrimary } from 'src/components/Button'
 import VoteModal from 'src/components/vote/VoteModal'
-import Loader from 'src/components/Loader'
-import { useProposalData, useUserVotes, useUserDelegatee, ProposalData } from 'src/state/governance/hooks'
+import { useGetProposalDetail, useUserVotes, useUserDelegatee, ProposalData } from 'src/state/governance/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { ExternalLink } from 'src/theme'
@@ -46,7 +44,7 @@ export default function GovernanceDetail() {
   const { t } = useTranslation()
 
   // get data for this specific proposal
-  const proposalData: ProposalData | undefined = useProposalData(params.id)
+  const proposalData: ProposalData | undefined = useGetProposalDetail(params.id)
 
   // update support based on button interactions
   const [support, setSupport] = useState<boolean>(true)
@@ -226,7 +224,7 @@ export default function GovernanceDetail() {
                   </MarkDownWrapper>
                 </>
               ) : (
-                <Loader />
+                <Loader size={100} />
               )}
             </AutoColumn>
             <Box style={{ wordWrap: 'break-word' }}>

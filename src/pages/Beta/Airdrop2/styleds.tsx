@@ -5,6 +5,16 @@ import { X } from 'react-feather'
 export const PageWrapper = styled(Box)`
   width: 100%;
 `
+
+export const MainTitle = styled.p`
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 66px;
+  color: white;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+  font-size: 25px
+  `}
+`
 export const BoxWrapper = styled(Box)`
   display: flex;
   justify-content: center;
@@ -25,6 +35,10 @@ export const ClaimBox = styled(Box)`
   padding: 1em;
   ${({ theme }) => theme.mediaWidth.upToMedium`
   min-width: 70%;
+  min-height: 70%
+  `};
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+  min-width: 100%;
   min-height: 70%
   `};
 `
@@ -55,6 +69,7 @@ export const QuestionWrapper = styled(Box)`
     align-items: center;
     justify-content: center;
     `};
+    
 `
 export const QuestionBox = styled(Box)`
   background-color: #111111;
@@ -63,6 +78,9 @@ export const QuestionBox = styled(Box)`
   max-width: 50%;
   padding: 30px;
   cursor: pointer;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+  min-width: 100%;
+  `};
 `
 export const StyledClose = styled(X)`
   :hover {
