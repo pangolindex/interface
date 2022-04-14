@@ -5,6 +5,16 @@ import { X } from 'react-feather'
 export const PageWrapper = styled(Box)`
   width: 100%;
 `
+
+export const MainTitle = styled.p`
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 66px;
+  color: white;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+  font-size: 25px
+  `}
+`
 export const BoxWrapper = styled(Box)`
   display: flex;
   justify-content: center;
