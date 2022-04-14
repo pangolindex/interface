@@ -55,6 +55,8 @@ export default function CurrencyLogo({
     return <StyledEthereumLogo src={AvaxLogo} size={`${size}px`} style={style} />
   } else if (chainId && currency === CAVAX[ChainId.WAGMI]) {
     return <StyledEthereumLogo src={WgmLogo} size={`${size}px`} style={style} />
+  } else if (chainId && currency === CAVAX[ChainId.COSTON]) {
+    return <StyledEthereumLogo src={WgmLogo} size={`${size}px`} style={style} />
   }
 
   return <StyledLogo size={`${size}px`} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />

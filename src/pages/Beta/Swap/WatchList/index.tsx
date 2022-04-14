@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState, useMemo } from 'react'
 import { Box, Button } from '@pangolindex/components'
-import { ChainId, Token } from '@pangolindex/sdk'
+import { ChainId, Token, CHAINS } from '@pangolindex/sdk'
 import { Plus } from 'react-feather'
 import { ThemeContext } from 'styled-components'
 import { PNG } from 'src/constants/tokens'
@@ -17,7 +17,6 @@ import { useTranslation } from 'react-i18next'
 import { useAllTokens } from 'src/hooks/Tokens'
 import ShowMore from 'src/components/Beta/ShowMore'
 import { Hidden } from 'src/theme'
-import { CHAINS } from 'src/constants/chains'
 
 type Props = {
   isLimitOrders?: boolean
@@ -80,7 +79,7 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
         </Box>
       </Box>
       <GridContainer isLimitOrders={isLimitOrders}>
-        {CHAINS[chainId].is_mainnet
+        {CHAINS[chainId].mainnet
           ? !isLimitOrders && (
               <Hidden upToSmall={true}>
                 <CoinChart coin={selectedToken} />

@@ -2,17 +2,19 @@ import React from 'react'
 import { ClaimBox, StyledLogo, Separator } from '../../styleds'
 import { Text, Button } from '@pangolindex/components'
 import WgmLogo from 'src/assets/images/wgmlogo.png'
+import { CHAINS, ChainId } from "@pangolindex/sdk"
 
 type IChangeChain = {
   changeChain: () => void
 }
 
 export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
+
   const switchNetworkFantom = async () => {
     changeChain()
-
-    let ethereum: any
+    // let ethereum: any
     try {
+      // @ts-ignore
       await ethereum.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: '0x2B67' }]
@@ -20,13 +22,14 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
     } catch (error) {
       if ((error as any).code === 4902) {
         try {
+          // @ts-ignore
           await ethereum.request({
             method: 'wallet_addEthereumChain',
             params: [
               {
                 chainId: '0x2B67',
                 chainName: 'WAGMI',
-                rpcUrls: ['https://api-wagmi.avax-test.network/rpc'],
+                rpcUrls: [CHAINS[ChainId.WAGMI].blockExplorerUrls![0]],
                 nativeCurrency: {
                   name: 'WGM',
                   symbol: 'WGM',
@@ -41,6 +44,7 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
         }
       }
     }
+    
   }
 
   return (

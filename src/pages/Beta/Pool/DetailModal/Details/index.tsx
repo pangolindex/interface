@@ -1,14 +1,13 @@
 import React from 'react'
 import { StakingInfo, useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { CAVAX, Fraction, Token } from '@pangolindex/sdk'
+import { CAVAX, Fraction, Token, CHAINS } from '@pangolindex/sdk'
 import { DetailsContainer } from './styled'
 import { Box } from '@pangolindex/components'
 import CoinDescription from 'src/components/Beta/CoinDescription'
 import { usePair } from 'src/data/Reserves'
 import StatDetail from '../StatDetail'
 import numeral from 'numeral'
-import { CHAINS } from 'src/constants/chains'
 import { useChainId } from 'src/hooks'
 
 type Props = {
@@ -20,11 +19,11 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
   const token1 = stakingInfo?.tokens[1]
   const chainId = useChainId()
 
-  const totalStakedInUsd = CHAINS[chainId].is_mainnet
+  const totalStakedInUsd = CHAINS[chainId].mainnet
     ? numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a')
     : numeral(stakingInfo.totalStakedInUsd).format('$0.00a')
 
-  const yourStakeInUsd = CHAINS[chainId].is_mainnet
+  const yourStakeInUsd = CHAINS[chainId].mainnet
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
 

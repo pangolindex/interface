@@ -27,7 +27,8 @@ export enum ChainsId {
   BTT = 199,
   AURORA = 1313161554,
   MOBM = 1284,
-  WAGMI = 11111
+  WAGMI = 11111,
+  COSTON = 16
 }
 
 export const CHAINS = {
@@ -43,7 +44,7 @@ export const CHAINS = {
     tracked_by_debank: true,
     supported_by_gelato: true,
     coingecko_id: 'avalanche',
-    is_mainnet: true,
+    mainnet: true,
     airdrop_active: false
   },
   [ChainsId.FUJI]: {
@@ -53,7 +54,7 @@ export const CHAINS = {
     tracked_by_debank: false,
     supported_by_gelato: true,
     coingecko_id: 'avalanche',
-    is_mainnet: false,
+    mainnet: false,
     airdrop_active: false
   },
   [ChainsId.ETH]: {
@@ -216,7 +217,7 @@ export const CHAINS = {
     tracked_by_debank: false,
     supported_by_gelato: false,
     coingecko_id: '',
-    is_mainnet: false,
+    mainnet: false,
     airdrop_active: true
   }
 }

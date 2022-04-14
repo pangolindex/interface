@@ -6,12 +6,21 @@ import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxNotConnected } 
 import { QuestionAnswer } from './QuestionBox'
 import { useUserHasAvailableClaim, useUserUnclaimedAmount, useClaimCallback } from 'src/state/airdrop/hooks'
 import NearLogo from 'src/assets/images/near.png'
+import MoonBeamLogo from 'src/assets/images/moonbeam.png'
 import Modal from 'src/components/Modal'
 import Confetti from 'src/components/Confetti'
 import { PngTokenAnimated } from 'src/theme'
 import tokenLogo from 'src/assets/images/logo.png'
 import { ColumnCenter } from 'src/components/Column'
+import { CardBGImage, CardNoise, DataCard } from 'src/components/earn/styled'
+import styled from 'styled-components'
 
+
+const ModalUpper = styled(DataCard)`
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ffc800 0%, #e1aa00 100%);
+  padding: 0.5rem;
+`
 const AirdropUI: React.FC = () => {
   const { account } = useActiveWeb3React()
   const [eligible, setEligible] = useState<boolean>(false)
@@ -25,8 +34,12 @@ const AirdropUI: React.FC = () => {
   const { claimCallback } = useClaimCallback(account)
 
   const checkStatus = () => {
-    if (canClaim) setEligible(true)
-    else setModalOpen(true)
+    if (Number(amount) > 0) {
+      if (canClaim) setEligible(true)
+      else setModalOpen(true)
+    } else {
+      setModalOpen(true)
+    }
   }
 
   // const buyFTM = () => {
@@ -38,13 +51,17 @@ const AirdropUI: React.FC = () => {
   }
 
   const claimPNG = () => {
-    claimCallback()
+    if (Number(amount) > 0)
+      claimCallback()
   }
   const renderBoxes = () => {
     if (!account && !eligible && !changeMyChain) {
       return <BoxNotConnected />
     }
     if (account && !eligible && !changeMyChain) {
+      return <BoxChangeChain changeChain={changeChain} />
+    }
+    if (account && changeMyChain && !eligible ) {
       return <BoxCheckEligibility checkStatus={checkStatus} />
     }
     //BUY-FTM BOX NOT ACCESSIBLE RIGHT NOW FOR WAGMI
@@ -54,15 +71,13 @@ const AirdropUI: React.FC = () => {
     //         <BoxBuyCurrency buyFTM={buyFTM} />
     //     )
     // }
-    if (account && eligible && !changeMyChain) {
-      return <BoxChangeChain changeChain={changeChain} />
-    }
-    if (account && eligible && changeMyChain) {
+    if (account && changeMyChain && eligible ) {
       return <BoxClaimReward claimPNG={claimPNG} amount={amount} />
     } else {
       return <></>
     }
   }
+ 
 
   function wrappedOnDismiss() {
     setModalOpen(false)
@@ -70,19 +85,23 @@ const AirdropUI: React.FC = () => {
 
   const renderError = (modalOpen: any) => {
     return (
-      <Modal isOpen={modalOpen} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={50} isBeta={true}>
+      <Modal isOpen={modalOpen} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={30} isBeta={true}>
+        <ModalUpper>
+        <CardBGImage />
+        <CardNoise />
         <ColumnCenter>
-          <PngTokenAnimated width="55px" src={tokenLogo} />
           <Text
-            fontSize={35}
+            fontSize={25}
             fontWeight={500}
             lineHeight="50px"
-            color="text10"
+            color="black"
             style={{ textAlign: 'center', paddingTop: '30px' }}
           >
             Sorry, you are not eligible
           </Text>
+          <PngTokenAnimated width="55px" src={tokenLogo} />
         </ColumnCenter>
+        </ModalUpper>
       </Modal>
     )
   }
@@ -119,9 +138,26 @@ const AirdropUI: React.FC = () => {
           <span style={{ padding: '20px' }}></span>
           {/* <ButtonCheckEligibility /> */}
         </ClaimBox>
+        <ClaimBox>
+          <span
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '20px' }}
+          >
+            <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
+              Claim moonBeam
+            </Text>
+            <StyledLogo src={MoonBeamLogo} size={'50px'} />
+          </span>
+          <Separator />
+          <span style={{ padding: '20px' }}></span>
+          <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
+            Coming soon...
+          </Text>
+          <span style={{ padding: '20px' }}></span>
+          {/* <ButtonCheckEligibility /> */}
+        </ClaimBox>
       </BoxWrapper>
       <QuestionWrapper>
-        <Text fontSize={44} fontWeight={500} lineHeight="66px" color="text10">
+        <Text fontSize={35} fontWeight={500} lineHeight="66px" color="text10">
           HAVE QUESTIONS?
         </Text>
         <QuestionAnswer />
