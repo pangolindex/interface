@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Text } from '@pangolindex/components'
+import { Text, Loader } from '@pangolindex/components'
 import {
   PageWrapper,
   PageTitle,
@@ -14,9 +14,7 @@ import {
   // EmptyProposals
 } from './styleds'
 import GovernanceCard, { ProposalStates } from './GovernanceCard'
-import Loader from 'src/components/Loader'
-
-import { useAllProposalData, ProposalData, useUserVotes, useUserDelegatee } from 'src/state/governance/hooks'
+import { useGetProposalsViaSubgraph, ProposalData, useUserVotes, useUserDelegatee } from 'src/state/governance/hooks'
 import DelegateModal from 'src/components/vote/DelegateModal'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
@@ -25,10 +23,8 @@ import { PNG } from 'src/constants/tokens'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
 import { shortenAddress, getEtherscanLink } from 'src/utils'
 import FormattedCurrencyAmount from 'src/components/FormattedCurrencyAmount'
-
 import { TYPE } from 'src/theme'
 import { RowBetween, RowFixed } from 'src/components/Row'
-
 import { useModalOpen, useToggleDelegateModal } from 'src/state/application/hooks'
 import { ApplicationModal } from 'src/state/application/actions'
 import { BETA_MENU_LINK } from 'src/constants'
@@ -42,7 +38,7 @@ const GovernanceUI = () => {
   const toggleDelegateModal = useToggleDelegateModal()
 
   // get data to list all proposals
-  const allProposals: ProposalData[] = useAllProposalData()
+  const allProposals: ProposalData[] = useGetProposalsViaSubgraph()
 
   // user data
   const availableVotes: TokenAmount | undefined = useUserVotes()
@@ -124,7 +120,7 @@ const GovernanceUI = () => {
         )}
         {(!allProposals || allProposals.length === 0) && (
           <div style={{ textAlign: 'center', margin: '30px' }}>
-            <Loader />
+            <Loader size={100} />
           </div>
         )}
         {/* {allProposals?.length === 0 && (

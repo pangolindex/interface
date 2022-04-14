@@ -137,7 +137,8 @@
   "lint-staged": {
     "*.{jsx,js,ts,tsx}": [
       "bash -c 'npm run type-check'",
-      "npm run lint"
+      "npm run lint",
+      "git add ."
     ]
   },
   "eslintConfig": {
