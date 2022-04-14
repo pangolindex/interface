@@ -239,6 +239,7 @@ export const WYRE_API_URL = 'https://api.sendwyre.com'
 export const WYRE_QUOTE_API_ENDPOINT = '/v3/orders/quote/partner'
 export const WYRE_RESERVE_API_ENDPOINT = '/v3/orders/reserve'
 export const WYRE_CALLBACK_URL = 'https://app.pangolin.exchange/'
+export const SUBGRAPH_BASE_URL = process.env.REACT_APP_SUBGRAPH_BASE_URL
 
 export const IS_IN_IFRAME = window.parent !== window
 export const TIMEFRAME = [

@@ -7,7 +7,7 @@ export const Card = styled(Box)`
   border-radius: 8px;
   padding: 30px;
   display: grid;
-  grid-template-columns: minmax(auto, 65%) minmax(auto, 35%);
+  grid-template-columns: 65% 35%;
   grid-gap: 12px;
   align-items: center;
   margin-top: 22px;
