@@ -24,6 +24,7 @@ export const ContentWrapper = styled(Box)`
   flex-direction: column;
   max-width: 1080px;
   margin: auto;
+  margin-bottom: 20px;
 `
 
 export const About = styled(Box)`
