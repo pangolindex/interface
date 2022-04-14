@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text } from '@antiyro/components'
+import { Text } from '@pangolindex/components'
 import { ClaimBox, StyledLogo, Separator } from '../../styleds'
 import { ButtonToConnect } from '../../ButtonToConnect'
 import WgmLogo from 'src/assets/images/wgmlogo.png'

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator, QuestionWrapper, MainTitle } from './styleds'
-import { Text, Box } from '@antiyro/components'
+import { Text, Box } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxNotConnected } from './BoxesType'
 import { QuestionAnswer } from './QuestionBox'

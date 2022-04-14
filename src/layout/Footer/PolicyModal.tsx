@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@antiyro/components'
+import { Box } from '@pangolindex/components'
 import ReactMarkdown from 'react-markdown'
 import { Scrollbars } from 'react-custom-scrollbars'
 

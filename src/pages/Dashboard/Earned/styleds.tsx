@@ -1,4 +1,4 @@
-import { Box, Button } from '@antiyro/components'
+import { Box, Button } from '@pangolindex/components'
 import styled from 'styled-components'
 
 // earned section

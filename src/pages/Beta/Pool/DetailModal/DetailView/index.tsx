@@ -1,7 +1,7 @@
 import React from 'react'
 import { MobileWrapper, DesktopWrapper, DetailsWrapper, Tab, Tabs, LeftSection, RightSection } from './styleds'
 import { StakingInfo } from 'src/state/stake/hooks'
-import { Box } from '@antiyro/components'
+import { Box } from '@pangolindex/components'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { usePair } from 'src/data/Reserves'
 import EarnWidget from '../../EarnWidget'

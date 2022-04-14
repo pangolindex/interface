@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { ThemeContext } from 'styled-components'
-import { Text } from '@antiyro/components'
+import { Text } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router'
 import { Menu, MenuItem, MenuLink, MenuWrapper } from './styled'

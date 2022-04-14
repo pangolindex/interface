@@ -1,4 +1,4 @@
-import { Token } from '@antiyro/sdk'
+import { Token } from '@pangolindex/sdk'
 import { transparentize } from 'polished'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'

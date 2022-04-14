@@ -1,6 +1,6 @@
 import React from 'react'
-import { Text, Box, CurrencyLogo } from '@antiyro/components'
-import { Currency } from '@antiyro/sdk'
+import { Text, Box, CurrencyLogo } from '@pangolindex/components'
+import { Currency } from '@pangolindex/sdk'
 import { Colors } from 'src/theme/styled'
 
 export interface StatProps {

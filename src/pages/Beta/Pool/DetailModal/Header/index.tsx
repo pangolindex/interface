@@ -1,4 +1,4 @@
-import { Box, DoubleCurrencyLogo, Text } from '@antiyro/components'
+import { Box, DoubleCurrencyLogo, Text } from '@pangolindex/components'
 import React, { useContext } from 'react'
 import Stat from 'src/components/Stat'
 import { StakingInfo } from 'src/state/stake/hooks'

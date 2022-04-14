@@ -1,4 +1,4 @@
-import { Currency, CAVAX, Token, ChainId } from '@antiyro/sdk'
+import { Currency, CAVAX, Token, ChainId } from '@pangolindex/sdk'
 
 export function currencyId(currency: Currency, chainId: ChainId): string {
   if (chainId && currency === CAVAX[chainId]) return 'AVAX'

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Text, Box } from '@antiyro/components'
-import { JSBI, Pair, TokenAmount, Currency, CHAINS } from '@antiyro/sdk'
+import { Text, Box } from '@pangolindex/components'
+import { JSBI, Pair, TokenAmount, Currency, CHAINS } from '@pangolindex/sdk'
 import { useTotalSupply } from 'src/data/TotalSupply'
 import numeral from 'numeral'
 import { StateContainer } from './styleds'

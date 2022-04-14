@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box } from '@antiyro/components'
+import { Text, Box } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import { Wrapper, IconWrapper, Icon, Link } from './styled'
 import Telegram from '../../assets/svg/social/telegram.svg'

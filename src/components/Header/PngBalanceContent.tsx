@@ -1,4 +1,4 @@
-import { TokenAmount, JSBI, ChainId, CHAINS } from '@antiyro/sdk'
+import { TokenAmount, JSBI, ChainId, CHAINS } from '@pangolindex/sdk'
 import React, { useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Box, Text } from '@antiyro/components'
+import { Box, Text } from '@pangolindex/components'
 import Scrollbars from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
 import { ThemeContext } from 'styled-components'
@@ -11,7 +11,7 @@ import { PortfolioToken, PortfolioInfo } from './styleds'
 import { Card, CardHeader, CardBody } from '../styleds'
 import Loader from 'src/components/Loader'
 import Info2 from 'src/assets/svg/info2.svg'
-import { ALL_CHAINS } from '@antiyro/sdk'
+import { ALL_CHAINS } from '@pangolindex/sdk'
 
 export default function PortfolioWidget() {
   const theme = useContext(ThemeContext)
