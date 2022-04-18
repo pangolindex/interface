@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Text, Loader } from '@pangolindex/components'
+import { Text } from '@pangolindex/components'
 import {
   PageWrapper,
   PageTitle,
