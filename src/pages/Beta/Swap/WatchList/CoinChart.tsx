@@ -133,7 +133,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
             formatter={(priceUSD: number) => {
               return [`${formattedNum(priceUSD, true)}`, 'USD']
             }}
-            labelFormatter={data => {
+            labelFormatter={(label, data) => {
               return toNiceDateYear(data?.[0]?.payload?.timestamp)
             }}
             labelStyle={{ paddingTop: 4 }}
