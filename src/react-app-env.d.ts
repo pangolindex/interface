@@ -19,6 +19,7 @@ interface Window {
     request: (...args: any[]) => Promise<any>
   }
   web3?: {}
+  pendo?: any
 }
 
 declare module 'content-hash' {
