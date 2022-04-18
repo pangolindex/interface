@@ -14,7 +14,7 @@ import tokenLogo from 'src/assets/images/logo.png'
 import { ColumnCenter } from 'src/components/Column'
 import { CardBGImage, CardNoise, DataCard } from 'src/components/earn/styled'
 import styled from 'styled-components'
-
+import { ChainId } from "@pangolindex/sdk"
 
 const ModalUpper = styled(DataCard)`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -22,7 +22,7 @@ const ModalUpper = styled(DataCard)`
   padding: 0.5rem;
 `
 const AirdropUI: React.FC = () => {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const [eligible, setEligible] = useState<boolean>(false)
   // const [bought, setBought] = useState<boolean>(false);
   const [changeMyChain, setChangeChain] = useState<boolean>(false)
@@ -58,11 +58,14 @@ const AirdropUI: React.FC = () => {
     if (!account && !eligible && !changeMyChain) {
       return <BoxNotConnected />
     }
-    if (account && !eligible && !changeMyChain) {
+    if (account && !eligible && !changeMyChain ) {
       return <BoxChangeChain changeChain={changeChain} />
     }
     if (account && changeMyChain && !eligible ) {
-      return <BoxCheckEligibility checkStatus={checkStatus} />
+      if (chainId === ChainId.WAGMI)
+        return <BoxCheckEligibility checkStatus={checkStatus} />
+      else 
+        return <BoxChangeChain changeChain={changeChain} />
     }
     //BUY-FTM BOX NOT ACCESSIBLE RIGHT NOW FOR WAGMI
     // if (account && eligible && !bought && !changeMyChain)
