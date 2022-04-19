@@ -83,7 +83,7 @@ const ComponentThemeProvider = () => {
 
   useEffect(() => {
     if (window.pendo && account) {
-     window.pendo.initialize({
+      window.pendo.initialize({
         visitor: {
           id: account
         },

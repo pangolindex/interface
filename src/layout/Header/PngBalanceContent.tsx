@@ -1,4 +1,4 @@
-import { TokenAmount, WAVAX, JSBI, ChainId } from '@pangolindex/sdk'
+import { TokenAmount, JSBI, ChainId } from '@pangolindex/sdk'
 import React, { useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
@@ -15,9 +15,11 @@ import { StyledInternalLink, TYPE, PngTokenAnimated } from '../../theme'
 import { AutoColumn } from '../../components/Column'
 import { RowBetween } from '../../components/Row'
 import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../../components/earn/styled'
-import { usePair } from '../../data/Reserves'
 import { useTranslation } from 'react-i18next'
 import { useIsBetaUI } from '../../hooks/useLocation'
+import useUSDCPrice from '../../utils/useUSDCPrice'
+import { CHAINS } from '../../constants/chains'
+import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -62,7 +64,8 @@ const AddPNG = styled.span`
  */
 export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowPngBalanceModal: any }) {
   const isBeta = useIsBetaUI()
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const png = chainId ? PNG[chainId] : undefined
 
   const total = useAggregatePngBalance()
@@ -71,18 +74,15 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
 
   const totalSupply: TokenAmount | undefined = useTotalSupply(png)
 
-  // Determine PNG price in AVAX
-  const wavax = WAVAX[chainId ? chainId : 43114]
-  const [, avaxPngTokenPair] = usePair(wavax, png)
   const oneToken = JSBI.BigInt(1000000000000000000)
   const { t } = useTranslation()
-  let pngPrice: number | undefined
-  if (avaxPngTokenPair && png && pngPrice) {
-    const avaxPngRatio = JSBI.divide(
-      JSBI.multiply(oneToken, avaxPngTokenPair.reserveOf(wavax).raw),
-      avaxPngTokenPair.reserveOf(png).raw
-    )
-    pngPrice = JSBI.toNumber(avaxPngRatio) / 1000000000000000000
+  let pngPrice
+
+  const usdcPriceTmp = useUSDCPrice(png)
+  const usdcPrice = CHAINS[chainId].is_mainnet ? usdcPriceTmp : undefined
+
+  if (usdcPrice && png) {
+    pngPrice = usdcPrice.quote(new TokenAmount(png, oneToken), chainId)
   }
 
   const [circulation, setCirculation] = useState(totalSupply)
@@ -143,7 +143,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
           <AutoColumn gap="md">
             <RowBetween>
               <TYPE.white color="white">{t('header.pngPrice')}</TYPE.white>
-              <TYPE.white color="white">{pngPrice?.toFixed(5) ?? '-'} AVAX</TYPE.white>
+              <TYPE.white color="white">${pngPrice?.toFixed(2, { groupSeparator: ',' }) ?? '-'}</TYPE.white>
             </RowBetween>
             <RowBetween>
               <TYPE.white color="white">{t('header.pngCirculation')}</TYPE.white>
