@@ -22,7 +22,7 @@ import { BigNumber, Contract } from 'ethers'
 import { usePairContract } from 'src/hooks/useContract'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from 'src/utils'
 import Stat from 'src/components/Stat'
-import Percentage from 'src/components/Beta/Percentage'
+import { NumberOptions } from '@pangolindex/components'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 
@@ -84,7 +84,7 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
   )
 
   const { t } = useTranslation()
-  const [stepIndex, setStepIndex] = useState(4)
+  const [percetage, setPercetage] = useState(100)
 
   useEffect(() => {
     _onUserInput(Field.LIQUIDITY_PERCENT, `100`)
@@ -354,13 +354,14 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
                 />
 
                 <Box ml="5px" mt="25px">
-                  <Percentage
-                    onChangePercentage={value => {
-                      setStepIndex(value)
-                      onChangePercentage(value * 25)
+                  <NumberOptions
+                    onChange={value => {
+                      setPercetage(value)
+                      onChangePercentage(value)
                     }}
-                    currentValue={stepIndex}
+                    currentValue={percetage}
                     variant="box"
+                    isPercentage={true}
                   />
                 </Box>
               </Box>

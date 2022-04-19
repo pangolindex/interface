@@ -28,7 +28,7 @@ import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useTranslation } from 'react-i18next'
 import SelectPoolDrawer from './SelectPoolDrawer'
 import { useTokenBalance } from 'src/state/wallet/hooks'
-import Percentage from 'src/components/Beta/Percentage'
+import { NumberOptions } from '@pangolindex/components'
 import Stat from 'src/components/Stat'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
@@ -357,13 +357,14 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
               />
 
               <Box mt={type === 'card' ? '25px' : '0px'}>
-                <Percentage
-                  onChangePercentage={value => {
+                <NumberOptions
+                  onChange={value => {
                     setStepIndex(value)
                     onChangePercentage(value * 25)
                   }}
                   currentValue={stepIndex}
                   variant={type === 'card' ? 'box' : 'step'}
+                  isPercentage={true}
                 />
               </Box>
             </InputWrapper>

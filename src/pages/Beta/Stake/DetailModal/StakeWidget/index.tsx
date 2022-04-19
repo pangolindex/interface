@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Stat from 'src/components/Stat'
 import Loader from 'src/components/Beta/Loader'
-import Percentage from 'src/components/Beta/Percentage'
+import { NumberOptions } from '@pangolindex/components'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
@@ -101,14 +101,15 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
               />
 
               <Box>
-                <Percentage
-                  onChangePercentage={value => {
+                <NumberOptions
+                  onChange={value => {
                     setStepIndex(value)
                     onChangePercentage(value * 25)
                   }}
                   currentValue={stepIndex}
                   variant="step"
                   isDisabled={isDisabled}
+                  isPercentage={true}
                 />
               </Box>
 
