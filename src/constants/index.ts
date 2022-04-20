@@ -170,7 +170,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
   },
   XDEFI: {
     connector: xDefi,
-    name: 'XDEFI',
+    name: 'XDEFI Wallet',
     iconName: 'xDefi.png',
     description: window.xfi && window.xfi.ethereum ? 'Easy-to-use browser extension.' : 'Please Install',
     href: null,
