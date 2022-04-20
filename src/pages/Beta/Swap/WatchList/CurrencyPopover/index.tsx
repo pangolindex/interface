@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Box, TextInput } from '@pangolindex/components'
 import { useToken } from 'src/hooks/Tokens'
 import { useTokenComparator } from 'src/components/SearchModal/sorting'
-import { Currency, Token, CAVAX, ChainId } from '@pangolindex/sdk'
+import { Currency, Token, CAVAX, ChainId, WAVAX } from '@pangolindex/sdk'
 import { filterTokens } from 'src/components/SearchModal/filtering'
 import { AddInputWrapper, PopoverContainer, CurrencyList } from './styled'
 import CurrencyRow from './CurrencyRow'
@@ -36,7 +36,7 @@ const CurrencyPopover: React.FC<Props> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [invertSearchOrder] = useState<boolean>(false)
-
+  const chainId = useChainId()
   const inputRef = useRef<HTMLInputElement>(null)
   const lastOpen = usePrevious(isOpen)
 
@@ -59,7 +59,7 @@ const CurrencyPopover: React.FC<Props> = ({
   const isAddressSearch = isAddress(searchQuery)
   const searchToken = useToken(searchQuery)
 
-  const tokenComparator = useTokenComparator(invertSearchOrder)
+  const tokenComparator = useTokenComparator(invertSearchOrder, [WAVAX[chainId]])
 
   const filteredTokens: Token[] = useMemo(() => {
     if (isAddressSearch) return searchToken ? [searchToken] : []
@@ -114,8 +114,6 @@ const CurrencyPopover: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
-
-  const chainId = useChainId()
 
   return (
     <PopoverContainer ref={(ref: any) => getRef(ref)}>
