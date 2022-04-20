@@ -80,6 +80,21 @@ const ComponentThemeProvider = () => {
   const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
   const { library, chainId, account } = useActiveWeb3React()
+
+  // useEffect(() => {
+  //   if (window.pendo && account) {
+  //     window.pendo.initialize({
+  //       visitor: {
+  //         id: account
+  //       },
+
+  //       account: {
+  //         id: account
+  //       }
+  //     })
+  //   }
+  // }, [account])
+
   return (
     <PangolinProvider library={library} chainId={chainId} account={account ?? undefined} theme={theme as any}>
       <FixedGlobalStyle isBeta={isBeta} />

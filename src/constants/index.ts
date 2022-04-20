@@ -1,8 +1,8 @@
 import { ChainId, JSBI, Percent, Token, WAVAX } from '@pangolindex/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
-import { gnosisSafe, injected, walletconnect, walletlink } from '../connectors'
-import { DAIe, PNG, USDC, USDCe, USDTe, axlUST } from './tokens'
+import { gnosisSafe, injected, walletconnect, walletlink, xDefi } from '../connectors'
+import { DAIe, PNG, USDC, USDCe, USDTe, UST, axlUST } from './tokens'
 
 export const GAS_PRICE = 225
 
@@ -63,6 +63,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     USDTe[ChainId.AVALANCHE],
     DAIe[ChainId.AVALANCHE],
     USDCe[ChainId.AVALANCHE],
+    UST[ChainId.AVALANCHE],
     axlUST[ChainId.AVALANCHE],
     USDC[ChainId.AVALANCHE]
   ],
@@ -166,6 +167,14 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     description: 'Use Wallet Connect',
     href: null,
     color: '#315CF5'
+  },
+  XDEFI: {
+    connector: xDefi,
+    name: 'XDEFI',
+    iconName: 'xDefi.png',
+    description: window.xfi && window.xfi.ethereum ? 'Easy-to-use browser extension.' : 'Please Install',
+    href: null,
+    color: '#315CF5'
   }
 }
 
@@ -220,6 +229,7 @@ export const WYRE_API_URL = 'https://api.sendwyre.com'
 export const WYRE_QUOTE_API_ENDPOINT = '/v3/orders/quote/partner'
 export const WYRE_RESERVE_API_ENDPOINT = '/v3/orders/reserve'
 export const WYRE_CALLBACK_URL = 'https://app.pangolin.exchange/'
+export const SUBGRAPH_BASE_URL = process.env.REACT_APP_SUBGRAPH_BASE_URL
 
 export const IS_IN_IFRAME = window.parent !== window
 export const TIMEFRAME = [

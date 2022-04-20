@@ -14,7 +14,7 @@ import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { getEtherscanLink } from '../../utils'
-import { injected, walletconnect, walletlink } from '../../connectors'
+import { injected, walletconnect, walletlink, xDefi } from '../../connectors'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
@@ -242,10 +242,14 @@ export default function AccountDetails({
   function formatConnectorName() {
     const { ethereum } = window
     const isMetaMask = !!(ethereum && ethereum.isMetaMask)
+
+    const isXDEFI = !!(ethereum && ethereum.isXDEFI)
+
     const name = Object.keys(SUPPORTED_WALLETS)
       .filter(
         k =>
-          SUPPORTED_WALLETS[k].connector === connector && (connector !== injected || isMetaMask === (k === 'METAMASK'))
+          SUPPORTED_WALLETS[k].connector === connector &&
+          (connector !== injected || isMetaMask === (k === 'METAMASK') || isXDEFI === (k === 'XDEFI'))
       )
       .map(k => SUPPORTED_WALLETS[k].name)[0]
     return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>
@@ -293,7 +297,7 @@ export default function AccountDetails({
               <AccountGroupingRow>
                 {formatConnectorName()}
                 <div>
-                  {connector !== injected && (
+                  {connector !== injected && connector !== xDefi && (
                     <WalletAction
                       style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
                       onClick={() => {

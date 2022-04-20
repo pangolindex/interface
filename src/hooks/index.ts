@@ -4,7 +4,7 @@ import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
-import { gnosisSafe, injected } from '../connectors'
+import { gnosisSafe, injected, xDefi } from '../connectors'
 import { IS_IN_IFRAME, NetworkContextName } from '../constants'
 
 export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & { chainId?: ChainId } {
@@ -19,33 +19,41 @@ export function useEagerConnect() {
   const [triedSafe, setTriedSafe] = useState<boolean>(!IS_IN_IFRAME)
 
   useEffect(() => {
-    if (!triedSafe) {
-      gnosisSafe.isSafeApp().then(loadedInSafe => {
-        if (loadedInSafe) {
-          activate(gnosisSafe, undefined, true).catch(() => {
+    const eagerConnect = async () => {
+      if (!triedSafe) {
+        gnosisSafe.isSafeApp().then(loadedInSafe => {
+          if (loadedInSafe) {
+            activate(gnosisSafe, undefined, true).catch(() => {
+              setTriedSafe(true)
+            })
+          } else {
             setTriedSafe(true)
-          })
-        } else {
-          setTriedSafe(true)
-        }
-      })
-    } else {
-      injected.isAuthorized().then(isAuthorized => {
-        if (isAuthorized) {
-          activate(injected, undefined, true).catch(() => {
-            setTried(true)
-          })
-        } else {
-          if (isMobile && window.ethereum) {
-            activate(injected, undefined, true).catch(() => {
+          }
+        })
+      } else {
+        const isMetaMask = await injected.isAuthorized()
+
+        const existingConnector = isMetaMask ? injected : xDefi
+
+        existingConnector.isAuthorized().then(isAuthorized => {
+          if (isAuthorized) {
+            activate(existingConnector, undefined, true).catch(() => {
               setTried(true)
             })
           } else {
-            setTried(true)
+            if (isMobile && (window.ethereum || window.xfi.ethereum)) {
+              activate(existingConnector, undefined, true).catch(() => {
+                setTried(true)
+              })
+            } else {
+              setTried(true)
+            }
           }
-        }
-      })
+        })
+      }
     }
+
+    eagerConnect()
   }, [activate, triedSafe, setTriedSafe]) // intentionally only running on mount (make sure it's only mounted once :))
 
   // if the connection worked, wait until we get confirmation of that to flip the flag
