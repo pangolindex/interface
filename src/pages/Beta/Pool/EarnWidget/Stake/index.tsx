@@ -360,7 +360,7 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
                 <NumberOptions
                   onChange={value => {
                     setStepIndex(value)
-                    onChangePercentage(value * 25)
+                    onChangePercentage(type === 'card' ? value : value * 25)
                   }}
                   currentValue={stepIndex}
                   variant={type === 'card' ? 'box' : 'step'}
