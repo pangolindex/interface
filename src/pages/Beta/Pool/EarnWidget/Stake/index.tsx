@@ -13,7 +13,7 @@ import {
   Buttons,
   CardContentBox
 } from './styleds'
-import { Box, Text, Button, DoubleCurrencyLogo } from '@pangolindex/components'
+import { Box, Text, Button, DoubleCurrencyLogo, NumberOptions } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { TokenAmount, Pair, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
@@ -28,7 +28,6 @@ import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useTranslation } from 'react-i18next'
 import SelectPoolDrawer from './SelectPoolDrawer'
 import { useTokenBalance } from 'src/state/wallet/hooks'
-import { NumberOptions } from '@pangolindex/components'
 import Stat from 'src/components/Stat'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'

@@ -2,14 +2,13 @@ import React from 'react'
 import { ZERO_ADDRESS } from 'src/constants'
 import { Root, Buttons, MaxButton, Balance, StakeWrapper, GridContainer } from './styled'
 import { BETA_MENU_LINK } from 'src/constants'
-import { Box, Button, Text, TextInput, CurrencyLogo } from '@pangolindex/components'
+import { Box, Button, Text, TextInput, CurrencyLogo, NumberOptions } from '@pangolindex/components'
 import { ApprovalState } from 'src/hooks/useApproveCallback'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
 import { useTranslation } from 'react-i18next'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Stat from 'src/components/Stat'
 import Loader from 'src/components/Beta/Loader'
-import { NumberOptions } from '@pangolindex/components'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
