@@ -310,7 +310,7 @@ export default function WalletModal({
                 id={`connect-${key}`}
                 key={key}
                 color={'#315CF5'}
-                header={'Install XDEFI'}
+                header={'Install XDEFI Wallet'}
                 subheader={null}
                 link={'https://www.xdefi.io/'}
                 icon={XDefiIcon}
