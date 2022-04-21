@@ -61,7 +61,7 @@ export const BoxChangeChainCoston: React.FC<IChangeChain> = ({ changeChainCoston
       </Text>
       <span style={{ padding: '20px' }}></span>
       <Button variant="primary" color="white" height="46px" onClick={switchNetworkCoston}>
-        <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>Go to Coston</span>
+        <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>GO TO COSTON</span>
       </Button>
       <span style={{ textAlign: 'center' }}>
         <Text fontSize={14} fontWeight={500} lineHeight="18px" color="text8">
