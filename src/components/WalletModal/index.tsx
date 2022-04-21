@@ -8,9 +8,10 @@ import ReactGA from 'react-ga'
 import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import XDefiIcon from '../../assets/images/xDefi.png'
+import RabbyIcon from '../../assets/images/rabby.svg'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { gnosisSafe, injected, xDefi } from '../../connectors'
-import { LANDING_PAGE, SUPPORTED_WALLETS, AVALANCHE_CHAIN_PARAMS, IS_IN_IFRAME } from '../../constants'
+import { LANDING_PAGE, SUPPORTED_WALLETS, AVALANCHE_CHAIN_PARAMS, IS_IN_IFRAME, WalletInfo } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useWalletModalToggle } from '../../state/application/hooks'
@@ -151,6 +152,7 @@ export default function WalletModal({
   const [walletView, setWalletView] = useState(WALLET_VIEWS.ACCOUNT)
 
   const [pendingWallet, setPendingWallet] = useState<AbstractConnector | undefined>()
+  const [selectedOption, setSelectedOption] = useState<WalletInfo | undefined>()
 
   const [pendingError, setPendingError] = useState<boolean>()
 
@@ -186,7 +188,13 @@ export default function WalletModal({
     }
   }, [setWalletView, active, error, connector, walletModalOpen, activePrevious, connectorPrevious])
 
-  const tryActivation = async (connector: AbstractConnector | SafeAppConnector | undefined) => {
+  const isMetamask = window.ethereum && window.ethereum.isMetaMask
+  const isRabby = window.ethereum && window.ethereum.isRabby
+
+  const tryActivation = async (
+    connector: AbstractConnector | SafeAppConnector | undefined,
+    option: WalletInfo | undefined
+  ) => {
     let name = ''
     Object.keys(SUPPORTED_WALLETS).map(key => {
       if (connector === SUPPORTED_WALLETS[key].connector) {
@@ -201,6 +209,7 @@ export default function WalletModal({
       label: name
     })
     setPendingWallet(connector) // set wallet for pending view
+    setSelectedOption(option)
     setWalletView(WALLET_VIEWS.PENDING)
 
     // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
@@ -239,10 +248,24 @@ export default function WalletModal({
     }
   }
 
+  function getActiveOption(): WalletInfo | undefined {
+    if (connector === injected) {
+      if (isRabby) {
+        return SUPPORTED_WALLETS.RABBY
+      } else if (isMetamask) {
+        return SUPPORTED_WALLETS.METAMASK
+      } else {
+        return SUPPORTED_WALLETS.INJECTED
+      }
+    }
+    const name = Object.keys(SUPPORTED_WALLETS).filter(key => SUPPORTED_WALLETS[key].connector === connector)[0]
+    return SUPPORTED_WALLETS[name]
+  }
+
   // get wallets user can switch too, depending on device/browser
   function getOptions() {
-    const isMetamask = window.ethereum && window.ethereum.isMetaMask
     const isXDEFI = window.ethereum && window.ethereum.isXDEFI
+    const activeOption = getActiveOption()
 
     return Object.keys(SUPPORTED_WALLETS).map(key => {
       const option = SUPPORTED_WALLETS[key]
@@ -252,11 +275,11 @@ export default function WalletModal({
           return (
             <Option
               onClick={() => {
-                option.connector !== connector && !option.href && tryActivation(option.connector)
+                option.connector !== connector && !option.href && tryActivation(option.connector, option)
               }}
               id={`connect-${key}`}
               key={key}
-              active={option.connector && option.connector === connector}
+              active={activeOption && option.name === activeOption.name}
               color={option.color}
               link={option.href}
               header={option.name}
@@ -270,6 +293,22 @@ export default function WalletModal({
 
       // overwrite injected when needed
       if (option.connector === injected) {
+        if (option.name === 'Rabby Wallet') {
+          if (!isRabby) {
+            return (
+              <Option
+                id={`connect-${key}`}
+                key={key}
+                color={'#7a7cff'}
+                header={'Install Rabby Wallet'}
+                subheader={null}
+                link={'https://rabby.io/'}
+                icon={RabbyIcon}
+              />
+            )
+          }
+        }
+
         // don't show injected if there's no injected provider
         if (!(window.web3 || window.ethereum)) {
           if (option.name === 'MetaMask') {
@@ -341,10 +380,10 @@ export default function WalletModal({
             onClick={() => {
               option.connector === connector
                 ? setWalletView(WALLET_VIEWS.ACCOUNT)
-                : !option.href && tryActivation(option.connector)
+                : !option.href && tryActivation(option.connector, option)
             }}
             key={key}
-            active={option.connector === connector}
+            active={activeOption && option.name === activeOption.name}
             color={option.color}
             link={option.href}
             header={option.name}
@@ -425,6 +464,7 @@ export default function WalletModal({
         <ContentWrapper>
           {walletView === WALLET_VIEWS.PENDING ? (
             <PendingView
+              option={selectedOption}
               connector={pendingWallet}
               error={pendingError}
               setPendingError={setPendingError}

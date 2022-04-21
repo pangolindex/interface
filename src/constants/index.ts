@@ -175,6 +175,14 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     description: window.xfi && window.xfi.ethereum ? 'Easy-to-use browser extension.' : 'Please Install',
     href: null,
     color: '#315CF5'
+  },
+  RABBY: {
+    connector: injected,
+    name: 'Rabby Wallet',
+    iconName: 'rabby.svg',
+    description: 'Easy-to-use browser extension.',
+    href: null,
+    color: '#7a7cff'
   }
 }
 
