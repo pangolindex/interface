@@ -1473,3 +1473,9 @@ export const LOST: { [chainId in ChainId]: Token } = {
   ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'LOST', 'LostToken')
 }
+
+export const KTE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'KTE', 'KyteOne'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x056D114fF1e01dE3BCA30F0Efa3655DF42880e5B', 18, 'KTE', 'KyteOne'),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'KTE', 'KyteOne')
+}
