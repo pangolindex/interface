@@ -190,18 +190,15 @@ export default function WalletModal({
 
   const isMetamask = window.ethereum && window.ethereum.isMetaMask
   const isRabby = window.ethereum && window.ethereum.isRabby
+  const isCbWalletDappBrowser = window?.ethereum?.isCoinbaseWallet
+  const isWalletlink = !!window?.WalletLinkProvider || !!window?.walletLinkExtension
+  const isCbWallet = isCbWalletDappBrowser || isWalletlink
 
   const tryActivation = async (
-    connector: AbstractConnector | SafeAppConnector | undefined,
+    activationConnector: AbstractConnector | SafeAppConnector | undefined,
     option: WalletInfo | undefined
   ) => {
-    let name = ''
-    Object.keys(SUPPORTED_WALLETS).map(key => {
-      if (connector === SUPPORTED_WALLETS[key].connector) {
-        return (name = SUPPORTED_WALLETS[key].name)
-      }
-      return true
-    })
+    const name = Object.keys(SUPPORTED_WALLETS).find(key => SUPPORTED_WALLETS[key].connector === activationConnector)
     // log selected wallet
     ReactGA.event({
       category: 'Wallet',
@@ -213,38 +210,33 @@ export default function WalletModal({
     setWalletView(WALLET_VIEWS.PENDING)
 
     // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
-    if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
-      connector.walletConnectProvider = undefined
+    if (activationConnector instanceof WalletConnectConnector && activationConnector.walletConnectProvider?.wc?.uri) {
+      activationConnector.walletConnectProvider = undefined
     }
 
-    if (!triedSafe && connector instanceof SafeAppConnector) {
-      connector.isSafeApp().then(loadedInSafe => {
+    if (!triedSafe && activationConnector instanceof SafeAppConnector) {
+      activationConnector.isSafeApp().then(loadedInSafe => {
         if (loadedInSafe) {
-          activate(connector, undefined, true).catch(() => {
+          activate(activationConnector, undefined, true).catch(() => {
             setTriedSafe(true)
           })
-        } else {
-          setTriedSafe(true)
+        }
+        setTriedSafe(true)
+      })
+    } else if (activationConnector){
+      activate(activationConnector, undefined, true)
+      .then(() => {
+        if (isCbWallet) {
+          addAvalancheNetwork()
         }
       })
-    } else {
-      connector &&
-        activate(connector, undefined, true)
-          .then(() => {
-            const isCbWalletDappBrowser = window?.ethereum?.isCoinbaseWallet
-            const isWalletlink = !!window?.WalletLinkProvider || !!window?.walletLinkExtension
-            const isCbWallet = isCbWalletDappBrowser || isWalletlink
-            if (isCbWallet) {
-              addAvalancheNetwork()
-            }
-          })
-          .catch(error => {
-            if (error instanceof UnsupportedChainIdError) {
-              activate(connector) // a little janky...can't use setError because the connector isn't set
-            } else {
-              setPendingError(true)
-            }
-          })
+      .catch(error => {
+        if (error instanceof UnsupportedChainIdError) {
+          activate(activationConnector) // a little janky...can't use setError because the connector isn't set
+        } else {
+          setPendingError(true)
+        }
+      })
     }
   }
 
@@ -254,12 +246,14 @@ export default function WalletModal({
         return SUPPORTED_WALLETS.RABBY
       } else if (isMetamask) {
         return SUPPORTED_WALLETS.METAMASK
-      } else {
-        return SUPPORTED_WALLETS.INJECTED
       }
+      return SUPPORTED_WALLETS.INJECTED
     }
-    const name = Object.keys(SUPPORTED_WALLETS).filter(key => SUPPORTED_WALLETS[key].connector === connector)[0]
-    return SUPPORTED_WALLETS[name]
+    const name = Object.keys(SUPPORTED_WALLETS).find(key => SUPPORTED_WALLETS[key].connector === connector)
+    if (name) {
+      return SUPPORTED_WALLETS[name]
+    }
+    return undefined
   }
 
   // get wallets user can switch too, depending on device/browser
@@ -396,11 +390,7 @@ export default function WalletModal({
   }
 
   function getModalContent() {
-    const isMetamask = window.ethereum && window.ethereum.isMetaMask
     const isXDEFI = window.xfi && window.xfi.ethereum && window.xfi.ethereum.isXDEFI
-    const isCbWalletDappBrowser = window?.ethereum?.isCoinbaseWallet
-    const isWalletlink = !!window?.WalletLinkProvider || !!window?.walletLinkExtension
-    const isCbWallet = isCbWalletDappBrowser || isWalletlink
     const isMetamaskOrCbWallet = isMetamask || isCbWallet || isXDEFI
 
     if (error) {
