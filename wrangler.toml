@@ -1,6 +1,0 @@
-name = "pangolin-app-temp"
-type = "javascript"
-route = "app.pangolin.exchange/*"
-
-[site]
-bucket = "./build"
