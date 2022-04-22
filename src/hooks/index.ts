@@ -41,7 +41,7 @@ export function useEagerConnect() {
               setTried(true)
             })
           } else {
-            if (isMobile && (window.ethereum || window.xfi.ethereum)) {
+            if (isMobile && (window.ethereum || (window.xfi && window.xfi.ethereum))) {
               activate(existingConnector, undefined, true).catch(() => {
                 setTried(true)
               })
