@@ -2195,10 +2195,10 @@
     csv-batch "^2.0.2"
     openzeppelin-solidity "^3.4.0"
 
-"@pangolindex/sdk@2.0.0-rc.6":
-  version "2.0.0-rc.6"
-  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-2.0.0-rc.6.tgz#22fed394b806d583690fc63308aeb00415741a81"
-  integrity sha512-/CUG7LaZ5CI+O61vEd95Y+wDIEocdjo2Jf2ySI50nFF3wpnQT8HyqpGOq8UAaS6lSsWC2ED+3LNRoFykAkGpgg==
+"@pangolindex/sdk@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-2.0.1.tgz#7a400aa05dad090e0fe56813ef06877b9c7dacce"
+  integrity sha512-s+7SpItuUWcxdDweWMlK58DvEE7+aS1pg+3OMdoWuMZWLCTBb3Wxwa8edVit1W+a5h0CibMu0Qg6LolqZDWFFg==
   dependencies:
     "@pangolindex/exchange-contracts" "^1.0.1"
     big.js "^5.2.2"
