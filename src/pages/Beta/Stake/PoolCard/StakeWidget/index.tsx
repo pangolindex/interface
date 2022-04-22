@@ -68,10 +68,10 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
               <Box ml="5px" mt="25px">
                 <NumberOptions
                   onChange={value => {
-                    setStepIndex(value)
+                    setStepIndex(value / 25)
                     onChangePercentage(value)
                   }}
-                  currentValue={stepIndex}
+                  currentValue={stepIndex * 25}
                   variant="box"
                   isDisabled={isDisabled}
                   isPercentage={true}
