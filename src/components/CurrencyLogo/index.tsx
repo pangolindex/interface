@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import AvaxLogo from '../../assets/images/avalanche_token_round.png'
 import WgmLogo from '../../assets/images/wgmlogo.png'
+import CostonLogo from '../../assets/images/flare.jpeg'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'
@@ -55,6 +56,8 @@ export default function CurrencyLogo({
     return <StyledEthereumLogo src={AvaxLogo} size={`${size}px`} style={style} />
   } else if (chainId && currency === CAVAX[ChainId.WAGMI]) {
     return <StyledEthereumLogo src={WgmLogo} size={`${size}px`} style={style} />
+  } else if (chainId && currency === CAVAX[ChainId.COSTON]) {
+    return <StyledEthereumLogo src={CostonLogo} size={`${size}px`} style={style} />
   }
 
   return <StyledLogo size={`${size}px`} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
