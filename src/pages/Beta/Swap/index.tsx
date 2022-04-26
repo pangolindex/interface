@@ -20,7 +20,7 @@ const SwapUI = () => {
         <StatsWrapper>
           <PairInfo />
         </StatsWrapper>
-        <SwapWidget isLimitOrderVisible={true} />
+        <SwapWidget isLimitOrderVisible={CHAINS[chainId].mainnet} />
       </TopContainer>
 
       {CHAINS[chainId].mainnet && (
