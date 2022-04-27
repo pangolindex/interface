@@ -4,14 +4,14 @@ import Scrollbars from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
 import { ThemeContext } from 'styled-components'
 
-import { CHAINS, ChainsId } from 'src/constants/chains'
 import { useActiveWeb3React } from 'src/hooks'
-import { useGetChainsBalances } from 'src/state/portifolio/hooks'
+import { AllChain, useGetChainsBalances } from 'src/state/portifolio/hooks'
 
 import { PortfolioToken, PortfolioInfo } from './styleds'
 import { Card, CardHeader, CardBody } from '../styleds'
 import Loader from 'src/components/Loader'
 import Info2 from 'src/assets/svg/info2.svg'
+import { ALL_CHAINS } from '@pangolindex/sdk'
 
 export default function PortfolioWidget() {
   const theme = useContext(ThemeContext)
@@ -23,25 +23,15 @@ export default function PortfolioWidget() {
   //   setSelectChain(newChain)
   // }
   const { data: balances, isLoading } = useGetChainsBalances()
-  const [availableBalances, setAvailableBalances] = useState<{ chainID: ChainsId; balance: number }[]>([])
+  const [availableBalances, setAvailableBalances] = useState<{ chainID: number; balance: number }[]>([])
+  
+  const CLONE_ALL_CHAINS = [...ALL_CHAINS]
+  CLONE_ALL_CHAINS.push(AllChain)
 
   useEffect(() => {
-    const availableBalance: { chainID: ChainsId; balance: number }[] = []
-    Object.keys(ChainsId)
-      .filter(k => typeof k === 'string')
-      .forEach(key => {
-        if (isNaN(parseInt(key)) && key.toLowerCase() !== 'all' && balances) {
-          const chainid = ChainsId[key as keyof typeof ChainsId]
-          const balance = balances[chainid]
-          if (!!balance && balance >= 0.1) {
-            availableBalance.push({
-              chainID: chainid,
-              balance: balance
-            })
-          }
-        }
-      })
-    setAvailableBalances(availableBalance)
+    if (balances) {
+      setAvailableBalances(balances.filter(chain => chain.balance > 0.01 && chain.chainID !== 0))
+    }
   }, [balances])
 
   return (
@@ -75,8 +65,8 @@ export default function PortfolioWidget() {
                     maximumFractionDigits: 2
                   })}
                   <img
-                    width={'24px'}
-                    src={CHAINS[chain.chainID].logo}
+                    width={'40px'}
+                    src={CLONE_ALL_CHAINS.filter(value => value.chain_id === chain.chainID)[0]?.logo}
                     alt={'Chain logo'}
                     style={{ marginLeft: '12px' }}
                   />

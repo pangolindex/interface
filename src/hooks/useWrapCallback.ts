@@ -1,4 +1,4 @@
-import { Currency, currencyEquals, CAVAX, WAVAX, ChainId } from '@pangolindex/sdk'
+import { Currency, currencyEquals, CAVAX, WAVAX, ChainId, CHAINS } from '@pangolindex/sdk'
 import { useMemo } from 'react'
 import { tryParseAmount } from '../state/swap/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
@@ -38,15 +38,17 @@ export default function useWrapCallback(
   const addTransaction = useTransactionAdder()
 
   const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
-    [ChainId.FUJI]: 'AVAX',
-    [ChainId.AVALANCHE]: 'AVAX',
-    [ChainId.WAGMI]: 'WGM'
+    [ChainId.FUJI]: CHAINS[ChainId.FUJI].symbol,
+    [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].symbol,
+    [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].symbol,
+    [ChainId.COSTON]: CHAINS[ChainId.COSTON].symbol,
   }
 
   const NETWORK_WRAPPED_CURRENCY: { [chainId in ChainId]?: string } = {
     [ChainId.FUJI]: 'WAVAX',
     [ChainId.AVALANCHE]: 'WAVAX',
-    [ChainId.WAGMI]: 'wWAGMI'
+    [ChainId.WAGMI]: 'wWAGMI',
+    [ChainId.COSTON]: 'wCFLR'
   }
 
   return useMemo(() => {
