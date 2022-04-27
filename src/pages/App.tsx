@@ -47,6 +47,7 @@ import GovernanceDetailV2 from './Beta/GovernanceDetail'
 import BuyV2 from './Beta/Buy'
 import PoolV2 from './Beta/Pool'
 import BridgeV2 from './Beta/Bridge'
+import AirdropV2 from './Beta/Airdrop2'
 import { BETA_MENU_LINK } from 'src/constants'
 
 import Policy from './Beta/Policy'
@@ -165,6 +166,7 @@ export default function App() {
               <CustomRoute exact strict path={`${BETA_MENU_LINK.buy}`} component={BuyV2} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.pool}`} component={PoolV2} layout={Layout} />
               <CustomRoute exact path={`${BETA_MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} />
+              <CustomRoute exact path={`${BETA_MENU_LINK.airdrop}`} component={AirdropV2} layout={Layout} />
 
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
 
