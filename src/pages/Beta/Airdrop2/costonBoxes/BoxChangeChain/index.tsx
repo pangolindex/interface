@@ -55,7 +55,7 @@ export const BoxChangeChainCoston: React.FC<IChangeChain> = ({ changeChainCoston
       </span>
       <Separator />
       <span style={{ padding: '20px' }}></span>
-      <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
+      <Text lineHeight="18px" fontWeight={500} fontSize={16} color="text10">
         Go to Coston to see if you are eligible!
       </Text>
       <span style={{ padding: '20px' }}></span>

@@ -59,8 +59,8 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
         Go to Wagmi to see if you are eligible!
       </Text>
       <span style={{ padding: '20px' }}></span>
-      <Button variant="primary" color="white" height="46px" onClick={switchNetworkWagmi}>
-        <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>GO TO WAGMI</span>
+      <Button height="46px" color="white"  variant="primary" onClick={switchNetworkWagmi}>
+        <span style={{ color: '#000', fontSize: '20px', whiteSpace: 'nowrap' }}>GO TO WAGMI</span>
       </Button>
       <span style={{ textAlign: 'center' }}>
         <Text fontSize={14} fontWeight={500} lineHeight="18px" color="text8">
