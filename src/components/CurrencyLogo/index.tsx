@@ -1,9 +1,6 @@
-import { Currency, CAVAX, Token, ChainId } from '@pangolindex/sdk'
+import { Currency, CAVAX, Token, ChainId, CHAINS } from '@pangolindex/sdk'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-
-import AvaxLogo from '../../assets/images/avalanche_token_round.png'
-import WgmLogo from '../../assets/images/wgmlogo.png'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'
@@ -50,13 +47,13 @@ export default function CurrencyLogo({
   }, [chainId, currency, uriLocations, imageSize])
 
   if (chainId && currency === CAVAX[ChainId.AVALANCHE]) {
-    return <StyledEthereumLogo src={AvaxLogo} size={`${size}px`} style={style} />
+    return <StyledEthereumLogo src={CHAINS[ChainId.AVALANCHE].logo} size={`${size}px`} style={style} />
   } else if (chainId && currency === CAVAX[ChainId.FUJI]) {
-    return <StyledEthereumLogo src={AvaxLogo} size={`${size}px`} style={style} />
+    return <StyledEthereumLogo src={CHAINS[ChainId.FUJI].logo} size={`${size}px`} style={style} />
   } else if (chainId && currency === CAVAX[ChainId.WAGMI]) {
-    return <StyledEthereumLogo src={WgmLogo} size={`${size}px`} style={style} />
+    return <StyledEthereumLogo src={CHAINS[ChainId.WAGMI].logo} size={`${size}px`} style={style} />
   } else if (chainId && currency === CAVAX[ChainId.COSTON]) {
-    return <StyledEthereumLogo src={WgmLogo} size={`${size}px`} style={style} />
+    return <StyledEthereumLogo src={CHAINS[ChainId.COSTON].logo} size={`${size}px`} style={style} />
   }
 
   return <StyledLogo size={`${size}px`} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />

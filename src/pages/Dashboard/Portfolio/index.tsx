@@ -24,8 +24,9 @@ export default function PortfolioWidget() {
   // }
   const { data: balances, isLoading } = useGetChainsBalances()
   const [availableBalances, setAvailableBalances] = useState<{ chainID: number; balance: number }[]>([])
-
-  ALL_CHAINS.push(AllChain)
+  
+  const CLONE_ALL_CHAINS = [...ALL_CHAINS]
+  CLONE_ALL_CHAINS.push(AllChain)
 
   useEffect(() => {
     if (balances) {
@@ -65,7 +66,7 @@ export default function PortfolioWidget() {
                   })}
                   <img
                     width={'40px'}
-                    src={ALL_CHAINS.filter(value => value.chain_id === chain.chainID)[0]?.logo}
+                    src={CLONE_ALL_CHAINS.filter(value => value.chain_id === chain.chainID)[0]?.logo}
                     alt={'Chain logo'}
                     style={{ marginLeft: '12px' }}
                   />
