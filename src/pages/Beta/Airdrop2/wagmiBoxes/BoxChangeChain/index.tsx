@@ -8,7 +8,7 @@ type IChangeChain = {
 }
 
 export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
-  const switchNetworkFantom = async () => {
+  const switchNetworkWagmi = async () => {
     changeChain()
     try {
       // @ts-ignore
@@ -59,7 +59,7 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
         Go to Wagmi to see if you are eligible!
       </Text>
       <span style={{ padding: '20px' }}></span>
-      <Button variant="primary" color="white" height="46px" onClick={switchNetworkFantom}>
+      <Button variant="primary" color="white" height="46px" onClick={switchNetworkWagmi}>
         <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>GO TO WAGMI</span>
       </Button>
       <span style={{ textAlign: 'center' }}>
