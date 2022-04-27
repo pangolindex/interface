@@ -28,8 +28,8 @@ export const QuestionAnswer = () => {
     data: data
   }
 
-  const [title, setTitle] = useState<String>('')
-  const [content, setContent] = useState<String>('')
+  const [title, setTitle] = useState<string>('')
+  const [content, setContent] = useState<string>('')
 
   axios(config).then(function(response: any) {
     setTitle(JSON.stringify(response.data.data.kb.map((e: any) => e.title)).replace(/[[\]"]/g, ''))
