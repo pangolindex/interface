@@ -8,10 +8,8 @@ type IChangeChain = {
 }
 
 export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
-
   const switchNetworkFantom = async () => {
     changeChain()
-    // let ethereum: any
     try {
       // @ts-ignore
       await ethereum.request({
@@ -20,7 +18,7 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
       })
     } catch (error) {
       // @ts-ignore
-      if ((error).code === 4902) {
+      if (error.code === 4902) {
         try {
           // @ts-ignore
           await ethereum.request({
@@ -41,7 +39,7 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
           })
         } catch (error) {
           // @ts-ignore
-          alert((error).message)
+          alert(error.message)
         }
       }
     }

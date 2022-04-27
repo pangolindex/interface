@@ -4,15 +4,14 @@ import { Text, Button } from '@pangolindex/components'
 import CostonLogo from 'src/assets/images/flare.jpeg'
 
 type IChangeChain = {
-    changeChainCoston: () => void
+  changeChainCoston: () => void
 }
 
 export const BoxChangeChainCoston: React.FC<IChangeChain> = ({ changeChainCoston }) => {
-
   const switchNetworkCoston = async () => {
-      console.log('hello')
+    console.log('hello')
     changeChainCoston()
-    // let ethereum: any
+
     try {
       // @ts-ignore
       await ethereum.request({
