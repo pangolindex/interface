@@ -71,9 +71,9 @@ const AirdropUI: React.FC = () => {
   function wrappedOnDismiss() {
     setModalOpen(false)
   }
-  const renderError = (modalOpen: boolean) => {
+  const renderError = (isOpened: boolean) => {
     return (
-      <Modal isOpen={modalOpen} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={30} isBeta={true}>
+      <Modal isOpen={isOpened} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={30} isBeta={true}>
         <ModalUpper>
           <CardBGImage />
           <CardNoise />
