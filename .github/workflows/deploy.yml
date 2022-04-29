@@ -5,7 +5,6 @@ on:
     branches:
       - master
       - dev
-      - patch/tests
 
 env:
   node_version: 14
