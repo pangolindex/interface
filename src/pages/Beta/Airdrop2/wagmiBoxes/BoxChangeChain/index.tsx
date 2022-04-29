@@ -37,9 +37,9 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
               }
             ]
           })
-        } catch (error) {
+        } catch (e) {
           // @ts-ignore
-          alert(error.message)
+          alert(e.message)
         }
       }
     }
