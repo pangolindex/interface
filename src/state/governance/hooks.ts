@@ -54,7 +54,7 @@ const enumerateProposalState = (state: number) => {
 }
 
 const getProposalState = (proposal: ProposalData) => {
-  const currentTimestamp = () => new Date().getTime()
+  const currentTimestamp = () => Math.floor(Date.now() / 1000)
 
   if (proposal.canceled) {
     return ProposalState.canceled
