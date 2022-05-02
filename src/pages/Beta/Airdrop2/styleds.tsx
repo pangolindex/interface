@@ -72,7 +72,6 @@ export const QuestionWrapper = styled(Box)`
     align-items: center;
     justify-content: center;
   `};
-    
 `
 export const QuestionBox = styled(Box)`
   background-color: #111111;
