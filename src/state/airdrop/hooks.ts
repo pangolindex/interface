@@ -75,3 +75,28 @@ export function useClaimCallback(
 
   return { claimCallback }
 }
+
+// export function useGetQuestions() {
+//   var axios = require('axios')
+//   var data = JSON.stringify({
+//     query: `query getKnowledge($filter: kb_filter) {
+//       kb(filter: $filter) {
+//           id
+//           title
+//           content
+//       }
+//   }`,
+//     variables: { filter: { category: { _eq: 'Airdrop' } } }
+//   })
+
+//   var config = {
+//     method: 'post',
+//     url: 'https://p7gm7mqi.directus.app/graphql',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     data: data
+//   }
+
+
+// }

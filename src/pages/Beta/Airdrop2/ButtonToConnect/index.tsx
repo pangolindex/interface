@@ -7,8 +7,8 @@ export const ButtonToConnect = () => {
   const toggleWalletModal = useWalletModalToggle()
   const { t } = useTranslation()
   return (
-    <Button variant="primary" color="white" height="46px" onClick={toggleWalletModal}>
-      <span style={{ whiteSpace: 'nowrap', color: '#000', fontSize: '20px' }}>{t('swapPage.connectWallet')}</span>
+    <Button variant="primary" color="black" height="46px" onClick={toggleWalletModal}>
+      {t('swapPage.connectWallet')}
     </Button>
   )
 }
