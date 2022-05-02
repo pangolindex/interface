@@ -26,6 +26,7 @@ export const BoxWrapper = styled(Box)`
     justify-content: center;
   `};
 `
+
 export const ClaimBox = styled(Box)`
   min-width: 27%;
   max-width: 30%;
@@ -62,17 +63,7 @@ export const StyledLogo = styled.img<{ size: string }>`
   border-radius: 24px;
 `
 
-export const QuestionWrapper = styled(Box)`
-  display: flex;
-  gap: 15px;
-  padding-bottom: 30px;
-  justify-content: center;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  `};
-`
+
 export const QuestionBox = styled(Box)`
   background-color: #111111;
   border-radius: 10px;

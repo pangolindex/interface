@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator, QuestionWrapper, MainTitle, SmallSeparator, TitleWrapper, CenterText } from './styleds'
+import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator, MainTitle, SmallSeparator, TitleWrapper, CenterText } from './styleds'
 import { Text, Box } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxNotConnected } from './wagmiBoxes'
@@ -135,12 +135,12 @@ const AirdropUI: React.FC = () => {
           <SmallSeparator />
         </ClaimBox>
       </BoxWrapper>
-      <QuestionWrapper>
+      <BoxWrapper>
         <Text fontSize={35} fontWeight={500} lineHeight="66px" color="text10">
           HAVE QUESTIONS?
         </Text>
         <QuestionAnswer />
-      </QuestionWrapper>
+      </BoxWrapper>
       {renderError(modalOpen)}
     </PageWrapper>
   )
