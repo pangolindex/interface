@@ -6,14 +6,16 @@ import { useTransactionAdder } from '../transactions/hooks'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
 import { PNG } from '../../constants/tokens'
 import { useSingleCallResult } from '../multicall/hooks'
+import axios from 'axios'
+import { useQuery } from 'react-query'
 
 export function useAirdropIsClaimingAllowed(): boolean {
   const airdropContract = useAirdropContract()
   const claimingAllowedResult = useSingleCallResult(airdropContract, 'claimingAllowed', [])
   return Boolean(
     !claimingAllowedResult.loading &&
-      claimingAllowedResult.result !== undefined &&
-      claimingAllowedResult.result[0] === true
+    claimingAllowedResult.result !== undefined &&
+    claimingAllowedResult.result[0] === true
   ) // eslint-disable-line eqeqeq
 }
 
@@ -22,9 +24,9 @@ export function useUserHasAvailableClaim(account: string | null | undefined): bo
   const withdrawAmountResult = useSingleCallResult(airdropContract, 'withdrawAmount', [account ? account : undefined])
   return Boolean(
     account &&
-      !withdrawAmountResult.loading &&
-      withdrawAmountResult.result !== undefined &&
-      !JSBI.equal(JSBI.BigInt(withdrawAmountResult.result?.[0]), JSBI.BigInt(0))
+    !withdrawAmountResult.loading &&
+    withdrawAmountResult.result !== undefined &&
+    !JSBI.equal(JSBI.BigInt(withdrawAmountResult.result?.[0]), JSBI.BigInt(0))
   ) // eslint-disable-line eqeqeq
 }
 
@@ -53,7 +55,7 @@ export function useClaimCallback(
   const addTransaction = useTransactionAdder()
   const airdropContract = useAirdropContract()
 
-  const claimCallback = async function() {
+  const claimCallback = async function () {
     if (!account || !library || !chainId || !airdropContract) return
 
     return airdropContract.estimateGas['claim']({}).then(estimatedGasLimit => {
@@ -76,27 +78,38 @@ export function useClaimCallback(
   return { claimCallback }
 }
 
-// export function useGetQuestions() {
-//   var axios = require('axios')
-//   var data = JSON.stringify({
-//     query: `query getKnowledge($filter: kb_filter) {
-//       kb(filter: $filter) {
-//           id
-//           title
-//           content
-//       }
-//   }`,
-//     variables: { filter: { category: { _eq: 'Airdrop' } } }
-//   })
+export interface Questions {
+  id: number
+  title: string
+  content: string
+}
 
-//   var config = {
-//     method: 'post',
-//     url: 'https://p7gm7mqi.directus.app/graphql',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     data: data
-//   }
+export function useGetQuestions() {
+  var queryData = JSON.stringify({
+    query: `query getKnowledge($filter: kb_filter) {
+      kb(filter: $filter) {
+          id
+          title
+          content
+      }
+  }`,
+    variables: { filter: { category: { _eq: 'Airdrop' } } }
+  })
 
+  const headers = {
+    'Content-Type': 'application/json'
+  }
 
-// }
+  return useQuery('getQuestions', async () => {
+    const response = await axios.post('https://p7gm7mqi.directus.app/graphql', queryData, { headers: headers })
+    const questions: Questions[] = response.data?.data?.kb?.map((e: any) => {
+      return {
+        id: e?.id,
+        title: e?.title,
+        content: e?.content,
+      } as Questions
+    })
+
+    return questions
+  })
+}
