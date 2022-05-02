@@ -32,6 +32,7 @@ jobs:
       - run: yarn --frozen-lockfile
         env:
           CI: true
+      - run: yarn test
       - name: Prod - Increment version & create build # incrementing version automatically creates build internally with new version
         run: npm version patch -m "[skip ci] %s"
         if: ${{ github.ref == 'refs/heads/master' }}
