@@ -24,7 +24,7 @@ export default function PortfolioWidget() {
   // }
   const { data: balances, isLoading } = useGetChainsBalances()
   const [availableBalances, setAvailableBalances] = useState<{ chainID: number; balance: number }[]>([])
-  
+
   const CLONE_ALL_CHAINS = [...ALL_CHAINS]
   CLONE_ALL_CHAINS.push(AllChain)
 

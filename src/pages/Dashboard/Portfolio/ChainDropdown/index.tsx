@@ -31,21 +31,23 @@ export default function ChainDropdown({ selectChain = AllChain, handleSelectChai
 
       {open && (
         <NarrowMenuFlyout>
-          {available_chains.filter(chain => chain.tracked_by_debank).map((chain: Chain, index: number) => {
-            return (
-              <DropdownItem
-                id="link"
-                key={index}
-                style={selectChain.symbol === chain.symbol ? { backgroundColor: '#FFC800' } : {}}
-                onClick={() => {
-                  handleSelectChain(chain)
-                  toggle()
-                }}
-              >
-                <span>{chain.symbol}</span>
-              </DropdownItem>
-            )
-          })}
+          {available_chains
+            .filter(chain => chain.tracked_by_debank)
+            .map((chain: Chain, index: number) => {
+              return (
+                <DropdownItem
+                  id="link"
+                  key={index}
+                  style={selectChain.symbol === chain.symbol ? { backgroundColor: '#FFC800' } : {}}
+                  onClick={() => {
+                    handleSelectChain(chain)
+                    toggle()
+                  }}
+                >
+                  <span>{chain.symbol}</span>
+                </DropdownItem>
+              )
+            })}
         </NarrowMenuFlyout>
       )}
     </StyledMenu>

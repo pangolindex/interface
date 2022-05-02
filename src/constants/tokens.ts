@@ -3,7 +3,13 @@ import { ChainId, Token, CHAINS } from '@pangolindex/sdk'
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 export const PNG: { [chainId in ChainId]: Token } = {
-  [ChainId.FUJI]: new Token(ChainId.FUJI, CHAINS[ChainId.FUJI].contracts!.png, 18, CHAINS[ChainId.FUJI].png_symbol, 'Pangolin'),
+  [ChainId.FUJI]: new Token(
+    ChainId.FUJI,
+    CHAINS[ChainId.FUJI].contracts!.png,
+    18,
+    CHAINS[ChainId.FUJI].png_symbol,
+    'Pangolin'
+  ),
   [ChainId.AVALANCHE]: new Token(
     ChainId.AVALANCHE,
     CHAINS[ChainId.AVALANCHE].contracts!.png,
@@ -37,7 +43,13 @@ export const OG: { [chainId in ChainId]: Token } = {
 export const wWAGMI: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OG', 'OG'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'OG', 'OG'),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, '0x3Ee7094DADda15810F191DD6AcF7E4FFa37571e4', 18, 'wWAGMI', 'Wrapped WAGMI'),
+  [ChainId.WAGMI]: new Token(
+    ChainId.WAGMI,
+    '0x3Ee7094DADda15810F191DD6AcF7E4FFa37571e4',
+    18,
+    'wWAGMI',
+    'Wrapped WAGMI'
+  ),
   [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, '', '')
 }
 
@@ -1617,4 +1629,11 @@ export const LOST: { [chainId in ChainId]: Token } = {
   ),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'LOST', 'LostToken'),
   [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, '', '')
+}
+
+export const KTE: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'KTE', 'KyteOne'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x056D114fF1e01dE3BCA30F0Efa3655DF42880e5B', 18, 'KTE', 'KyteOne'),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'KTE', 'KyteOne'),
+  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, 'KTE', 'KyteOne')
 }
