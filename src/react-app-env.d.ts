@@ -14,6 +14,7 @@ interface Window {
     isCoinbaseWallet?: boolean
     isMetaMask?: true
     isXDEFI?: true
+    isRabby?: true
     on?: (...args: any[]) => void
     removeListener?: (...args: any[]) => void
     request: (...args: any[]) => Promise<any>
