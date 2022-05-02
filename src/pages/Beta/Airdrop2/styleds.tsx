@@ -12,7 +12,7 @@ export const MainTitle = styled.p`
   line-height: 66px;
   color: white;
   ${({ theme }) => theme.mediaWidth.upToSmall`
-  font-size: 25px
+    font-size: 25px
   `}
 `
 export const BoxWrapper = styled(Box)`
@@ -20,11 +20,10 @@ export const BoxWrapper = styled(Box)`
   justify-content: center;
   gap: 15px;
   margin-bottom: 15px;
-
   ${({ theme }) => theme.mediaWidth.upToMedium`
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   `};
 `
 export const ClaimBox = styled(Box)`
@@ -34,18 +33,22 @@ export const ClaimBox = styled(Box)`
   border-radius: 7px;
   padding: 1em;
   ${({ theme }) => theme.mediaWidth.upToMedium`
-  min-width: 70%;
-  min-height: 70%
+    min-width: 70%;
+    min-height: 70%
   `};
   ${({ theme }) => theme.mediaWidth.upToSmall`
-  min-width: 100%;
-  min-height: 70%
+    min-width: 100%;
+    min-height: 70%
   `};
 `
 
 export const Separator = styled(Box)`
   border: 1px solid rgba(255, 255, 255, 0.22);
   margin-bottom: 15px;
+`
+
+export const SmallSeparator = styled.div`
+  padding: 20px;
 `
 
 export const SeparatorEmpty = styled(Box)`
@@ -68,7 +71,7 @@ export const QuestionWrapper = styled(Box)`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    `};
+  `};
     
 `
 export const QuestionBox = styled(Box)`
@@ -79,11 +82,27 @@ export const QuestionBox = styled(Box)`
   padding: 30px;
   cursor: pointer;
   ${({ theme }) => theme.mediaWidth.upToSmall`
-  min-width: 100%;
+    min-width: 100%;
   `};
 `
 export const StyledClose = styled(X)`
   :hover {
     cursor: pointer;
   }
+`
+
+export const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+`
+
+export const CenterText = styled.div`
+  text-align: center;
+`
+
+export const TextBottomWrapper = styled.div`
+  text-align: center;
+  padding-top: 10px;
 `

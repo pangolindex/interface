@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator, QuestionWrapper, MainTitle } from './styleds'
+import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator, QuestionWrapper, MainTitle, SmallSeparator, TitleWrapper, CenterText } from './styleds'
 import { Text, Box } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxNotConnected } from './wagmiBoxes'
@@ -83,7 +83,6 @@ const AirdropUI: React.FC = () => {
               fontWeight={500}
               lineHeight="50px"
               color="black"
-              style={{ textAlign: 'center', paddingTop: '30px' }}
             >
               Sorry, you are not eligible
             </Text>
@@ -97,47 +96,43 @@ const AirdropUI: React.FC = () => {
   return (
     <PageWrapper>
       <Box paddingBottom="20px">
-        <span style={{ textAlign: 'center' }}>
+        <CenterText>
           <MainTitle>Pangolin Going Crosschain</MainTitle>
           <Text fontSize={18} fontWeight={500} lineHeight="27px" color="text10">
             And we are not empty handed!
           </Text>
-        </span>
+        </CenterText>
       </Box>
       <BoxWrapper>
         {renderBoxesWagmi()}
         <Confetti start={Boolean(eligible)} />
         <ClaimBox>
-          <span
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '20px' }}
-          >
+          <TitleWrapper>
             <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
               Claim cPNG
             </Text>
             <StyledLogo src={CostonLogo} size={'50px'} />
-          </span>
+          </TitleWrapper>
           <Separator />
-          <span style={{ padding: '20px' }}></span>
+          <SmallSeparator />
           <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
             Coming soon...
           </Text>
-          <span style={{ padding: '20px' }}></span>
+          <SmallSeparator />
         </ClaimBox>
         <ClaimBox>
-          <span
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '20px' }}
-          >
+          <TitleWrapper>
             <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
               Claim nearPNG
             </Text>
             <StyledLogo src={NearLogo} size={'50px'} />
-          </span>
+          </TitleWrapper>
           <Separator />
-          <span style={{ padding: '20px' }}></span>
+          <SmallSeparator />
           <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
             Coming soon...
           </Text>
-          <span style={{ padding: '20px' }}></span>
+          <SmallSeparator />
         </ClaimBox>
       </BoxWrapper>
       <QuestionWrapper>

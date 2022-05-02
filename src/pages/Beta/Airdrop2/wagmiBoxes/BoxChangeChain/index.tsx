@@ -1,5 +1,5 @@
 import React from 'react'
-import { ClaimBox, StyledLogo, Separator } from '../../styleds'
+import { ClaimBox, StyledLogo, Separator, TitleWrapper, SmallSeparator, TextBottomWrapper } from '../../styleds'
 import { Text, Button } from '@pangolindex/components'
 import WgmLogo from 'src/assets/images/wgmlogo.png'
 
@@ -47,26 +47,26 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
 
   return (
     <ClaimBox>
-      <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '20px' }}>
+      <TitleWrapper>
         <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
           You are eligible
         </Text>
         <StyledLogo src={WgmLogo} size={'50px'} />
-      </span>
+      </TitleWrapper>
       <Separator />
-      <span style={{ padding: '20px' }}></span>
+      <SmallSeparator />
       <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
         Go to Wagmi to see if you are eligible!
       </Text>
-      <span style={{ padding: '20px' }}></span>
-      <Button height="46px" color="white"  variant="primary" onClick={switchNetworkWagmi}>
-        <span style={{ color: '#000', fontSize: '20px', whiteSpace: 'nowrap' }}>GO TO WAGMI</span>
+      <SmallSeparator />
+      <Button height="46px" color="black" variant="primary" onClick={switchNetworkWagmi}>
+        GO TO WAGMI
       </Button>
-      <span style={{ textAlign: 'center' }}>
+      <TextBottomWrapper>
         <Text fontSize={14} fontWeight={500} lineHeight="18px" color="text8">
           To be eligible or not to be eligible...
         </Text>
-      </span>
+      </TextBottomWrapper>
     </ClaimBox>
   )
 }
