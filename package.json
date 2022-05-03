@@ -166,6 +166,7 @@
     "@types/crypto-js": "^4.0.2",
     "@types/react-portal": "^4.0.4",
     "crypto-js": "^4.0.0",
+    "graphql-request": "^4.2.0",
     "lightweight-charts": "^3.7.0",
     "react-portal": "^4.2.1"
   }
