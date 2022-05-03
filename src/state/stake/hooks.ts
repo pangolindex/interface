@@ -603,7 +603,7 @@ export function useTotalPngEarned(): TokenAmount | undefined {
   const singleStakingInfo = useSingleSideStakingInfo(0, png)
 
   const earned0 = useMemo(() => {
-    if (!png) new TokenAmount(png, '0')
+    if (!png) return new TokenAmount(png, '0')
     return (
       stakingInfo0?.reduce(
         (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
@@ -613,7 +613,7 @@ export function useTotalPngEarned(): TokenAmount | undefined {
   }, [stakingInfo0, png])
 
   const earned1 = useMemo(() => {
-    if (!png) new TokenAmount(png, '0')
+    if (!png) return new TokenAmount(png, '0')
     return (
       stakingInfo1?.reduce(
         (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
@@ -623,7 +623,7 @@ export function useTotalPngEarned(): TokenAmount | undefined {
   }, [stakingInfo1, png])
 
   const earned2 = useMemo(() => {
-    if (!png) new TokenAmount(png, '0')
+    if (!png) return new TokenAmount(png, '0')
     return (
       stakingInfo2?.reduce(
         (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
