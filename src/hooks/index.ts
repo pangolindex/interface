@@ -1,5 +1,5 @@
 import { Web3Provider } from '@ethersproject/providers'
-import { ChainId } from '@pangolindex/sdk'
+import { ChainId, ALL_CHAINS } from '@pangolindex/sdk'
 import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useEffect, useState } from 'react'
@@ -41,10 +41,18 @@ export function useEagerConnect() {
               setTried(true)
             })
           } else {
-            if (isMobile && (window.ethereum || window.xfi.ethereum)) {
-              activate(existingConnector, undefined, true).catch(() => {
+            if (isMobile) {
+              if (window.ethereum) {
+                activate(injected, undefined, true).catch(() => {
+                  setTried(true)
+                })
+              } else if (window.xfi && window.xfi.ethereum) {
+                activate(xDefi, undefined, true).catch(() => {
+                  setTried(true)
+                })
+              } else {
                 setTried(true)
-              })
+              }
             } else {
               setTried(true)
             }
@@ -110,4 +118,8 @@ export function useInactiveListener(suppress = false) {
 export const useChainId = () => {
   const { chainId } = useActiveWeb3React()
   return chainId || ChainId.AVALANCHE
+}
+
+export const useChain = (chainId: number) => {
+  return ALL_CHAINS.filter(chain => chain.chain_id === chainId)[0]
 }

@@ -12,9 +12,10 @@ import Transaction from './Transaction'
 import { SUPPORTED_WALLETS } from '../../constants'
 import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
+import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { getEtherscanLink } from '../../utils'
-import { injected, walletconnect, walletlink, xDefi } from '../../connectors'
+import { gnosisSafe, injected, walletconnect, walletlink, xDefi } from '../../connectors'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
@@ -272,6 +273,12 @@ export default function AccountDetails({
       return (
         <IconWrapper size={16}>
           <img src={WalletConnectIcon} alt={'Wallet Connect logo'} />
+        </IconWrapper>
+      )
+    } else if (connector === gnosisSafe) {
+      return (
+        <IconWrapper size={16}>
+          <img src={GnosisSafeIcon} alt={'Gnosis Safe logo'} />
         </IconWrapper>
       )
     }

@@ -5,8 +5,7 @@ import { RedirectContext } from '../Beta/Swap/WatchList/CoinChart'
 import WatchList from '../Beta/Swap/WatchList'
 import NewsWidget from './News'
 import PortfolioWidget from './Portfolio'
-import { CHAINS } from 'src/constants/chains'
-import { ChainId } from '@pangolindex/sdk'
+import { ChainId, CHAINS } from '@pangolindex/sdk'
 import { useActiveWeb3React } from 'src/hooks'
 import { Hidden, Visible } from 'src/theme'
 //import Earned from './Earned'
@@ -24,7 +23,7 @@ const Dashboard = () => {
       <TopContainer>
         <StatsWrapper>
           <PortfolioWidget />
-          {CHAINS[chainId].is_mainnet && (
+          {CHAINS[chainId].mainnet && (
             <RedirectContext.Provider value={true}>
               <WatchList />
             </RedirectContext.Provider>

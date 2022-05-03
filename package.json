@@ -1,6 +1,6 @@
 {
   "name": "@pangolindex/interface",
-  "version": "1.0.21-dev.8",
+  "version": "1.0.27-dev.0",
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
@@ -12,10 +12,10 @@
     "@gelatonetwork/limit-orders-react": "^2.4.0",
     "@gnosis.pm/safe-apps-web3-react": "^0.6.7",
     "@metamask/jazzicon": "^2.0.0",
-    "@pangolindex/components": "2.0.7",
+    "@pangolindex/components": "2.0.9",
     "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.2.0",
-    "@pangolindex/sdk": "2.0.0-rc.6",
+    "@pangolindex/sdk": "2.0.1",
     "@pangolindex/token-lists": "^1.0.1",
     "@pangolindex/web3-react-injected-connector": "^1.0.0",
     "@popperjs/core": "^2.4.4",

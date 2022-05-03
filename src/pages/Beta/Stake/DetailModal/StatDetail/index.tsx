@@ -1,11 +1,10 @@
 import React from 'react'
 import { Text, Box } from '@pangolindex/components'
-import { Currency, TokenAmount } from '@pangolindex/sdk'
+import { Currency, TokenAmount, CHAINS } from '@pangolindex/sdk'
 import { StateContainer } from './styleds'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
 import useUSDCPrice from 'src/utils/useUSDCPrice'
-import { CHAINS } from 'src/constants/chains'
 import { useChainId } from 'src/hooks'
 
 interface Props {
@@ -18,8 +17,8 @@ const StatDetails: React.FC<Props> = ({ title, amountInPNG, currency0 }) => {
   const chainId = useChainId()
 
   const usdcPriceTmp = useUSDCPrice(amountInPNG?.token)
-  const usdcPrice = CHAINS[chainId].is_mainnet ? usdcPriceTmp : undefined
-  const amountInUSD = CHAINS[chainId].is_mainnet
+  const usdcPrice = CHAINS[chainId].mainnet ? usdcPriceTmp : undefined
+  const amountInUSD = CHAINS[chainId].mainnet
     ? numeral(usdcPrice?.quote(amountInPNG, chainId).toSignificant(6)).format('$0.00a')
     : undefined
 

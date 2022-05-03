@@ -15,7 +15,7 @@ import { useCurrency } from '../../hooks/Tokens'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
 import { useUserSlippageTolerance } from '../../state/user/hooks'
 import { Field } from '../../state/burn/actions'
-import { CAVAX, ChainId, currencyEquals, Percent, WAVAX } from '@pangolindex/sdk'
+import { CAVAX, ChainId, currencyEquals, Percent, WAVAX, CHAINS } from '@pangolindex/sdk'
 import { Contract } from '@ethersproject/contracts'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
 import { ROUTER_ADDRESS } from '../../constants'
@@ -71,15 +71,17 @@ export default function RemoveLiquidityModal({
   ])
 
   const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
-    [ChainId.FUJI]: 'AVAX',
-    [ChainId.AVALANCHE]: 'AVAX',
-    [ChainId.WAGMI]: 'WGM'
+    [ChainId.FUJI]: CHAINS[ChainId.FUJI].symbol,
+    [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].symbol,
+    [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].symbol,
+    [ChainId.COSTON]: CHAINS[ChainId.COSTON].symbol
   }
 
   const NETWORK_WRAPPED_CURRENCY: { [chainId in ChainId]?: string } = {
     [ChainId.FUJI]: 'WAVAX',
     [ChainId.AVALANCHE]: 'WAVAX',
-    [ChainId.WAGMI]: 'wWAGMI'
+    [ChainId.WAGMI]: 'wWAGMI',
+    [ChainId.COSTON]: 'wCFLR'
   }
 
   // toggle wallet when disconnected
