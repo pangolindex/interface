@@ -20,8 +20,8 @@ export const AllChain: Chain = {
     name: 'Ether',
     symbol: 'ETH',
     decimals: 18
-  }, 
-  supported_by_gelato: false,
+  },
+  supported_by_gelato: false
 }
 export interface Protocol {
   id: string

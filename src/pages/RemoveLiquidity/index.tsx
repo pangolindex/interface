@@ -358,7 +358,7 @@ export default function RemoveLiquidity({
     [ChainId.FUJI]: CHAINS[ChainId.FUJI].symbol,
     [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].symbol,
     [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].symbol,
-    [ChainId.COSTON]: CHAINS[ChainId.COSTON].symbol,
+    [ChainId.COSTON]: CHAINS[ChainId.COSTON].symbol
   }
 
   const NETWORK_WRAPPED_CURRENCY: { [chainId in ChainId]?: string } = {

@@ -223,20 +223,20 @@ export default function WalletModal({
         }
         setTriedSafe(true)
       })
-    } else if (activationConnector){
+    } else if (activationConnector) {
       activate(activationConnector, undefined, true)
-      .then(() => {
-        if (isCbWallet) {
-          addAvalancheNetwork()
-        }
-      })
-      .catch(error => {
-        if (error instanceof UnsupportedChainIdError) {
-          activate(activationConnector) // a little janky...can't use setError because the connector isn't set
-        } else {
-          setPendingError(true)
-        }
-      })
+        .then(() => {
+          if (isCbWallet) {
+            addAvalancheNetwork()
+          }
+        })
+        .catch(error => {
+          if (error instanceof UnsupportedChainIdError) {
+            activate(activationConnector) // a little janky...can't use setError because the connector isn't set
+          } else {
+            setPendingError(true)
+          }
+        })
     }
   }
 
@@ -343,7 +343,7 @@ export default function WalletModal({
                 id={`connect-${key}`}
                 key={key}
                 color={'#315CF5'}
-                header={'Install XDEFI'}
+                header={'Install XDEFI Wallet'}
                 subheader={null}
                 link={'https://www.xdefi.io/'}
                 icon={XDefiIcon}
