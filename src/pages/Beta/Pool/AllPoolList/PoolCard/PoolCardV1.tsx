@@ -27,13 +27,13 @@ import FarmDrawer from '../../FarmDrawer'
 import AddLiquidityDrawer from '../../AddLiquidityDrawer'
 import { useChainId } from 'src/hooks'
 
-export interface PoolCardProps {
+export interface PoolCardV1Props {
   stakingInfo: StakingInfo
   onClickViewDetail: () => void
   version: number
 }
 
-const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) => {
+const PoolCardV1 = ({ stakingInfo, onClickViewDetail, version }: PoolCardV1Props) => {
   const { t } = useTranslation()
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
 
@@ -201,4 +201,4 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
   )
 }
 
-export default PoolCard
+export default PoolCardV1

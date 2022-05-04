@@ -6,7 +6,12 @@ import AllPoolList from './AllPoolList'
 import Wallet from './Wallet'
 import { MenuType } from './Sidebar'
 import { useTranslation } from 'react-i18next'
-import { useMinichefStakingInfos, useStakingInfo } from 'src/state/stake/hooks'
+import {
+  useMinichefStakingInfos,
+  useStakingInfo,
+  useUpdateMinichefStakingInfosViaSubgraph,
+  useAllMinichefStakingInfoData
+} from 'src/state/stake/hooks'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
 
@@ -20,6 +25,12 @@ const PoolUI = () => {
   const [activeMenu, setMenu] = useState<string>(MenuType.allPoolV2)
   const { t } = useTranslation()
 
+  let miniChefStakingInfo1 = useUpdateMinichefStakingInfosViaSubgraph()
+
+  let miniChefStakingInfo = useAllMinichefStakingInfoData()
+
+  console.log('miniChefStakingInfo', miniChefStakingInfo)
+
   let stakingInfoV1 = useStakingInfo(1)
   // filter only live or needs migration pools
   stakingInfoV1 = (stakingInfoV1 || []).filter(
@@ -30,15 +41,18 @@ const PoolUI = () => {
   })
 
   let stakingInfoV2 = useMinichefStakingInfos(2)
+
+  console.log('stakingInfoV2', stakingInfoV2)
+
   // filter only live or needs migration pools
-  stakingInfoV2 = (stakingInfoV2 || []).filter(
+  miniChefStakingInfo = (miniChefStakingInfo || []).filter(
     info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
   )
-  const ownStakingInfoV2 = (stakingInfoV2 || []).filter(stakingInfo => {
+  const ownminiChefStakingInfo = (miniChefStakingInfo || []).filter(stakingInfo => {
     return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
   })
 
-  const superFarms = stakingInfoV2.filter(item => (item?.rewardTokensAddress?.length || 0) > 0)
+  const superFarms = miniChefStakingInfo.filter(item => (item?.rewardTokens?.length || 0) > 1)
 
   const menuItems: Array<{ label: string; value: string }> = []
 
@@ -50,7 +64,7 @@ const PoolUI = () => {
     })
   }
   // add v2
-  if (stakingInfoV2.length > 0) {
+  if (miniChefStakingInfo.length > 0) {
     menuItems.push({
       label: stakingInfoV1.length > 0 ? `${t('pool.allPools')} (V2)` : `${t('pool.allPools')}`,
       value: MenuType.allPoolV2
@@ -64,7 +78,7 @@ const PoolUI = () => {
     })
   }
   // add own v2
-  if (ownStakingInfoV2.length > 0) {
+  if (ownminiChefStakingInfo.length > 0) {
     menuItems.push({
       label: ownStakingInfoV1.length > 0 ? `${t('pool.yourPools')} (V2)` : `${t('pool.yourPools')}`,
       value: MenuType.yourPoolV2
@@ -114,6 +128,7 @@ const PoolUI = () => {
               version={activeMenu === MenuType.allPoolV1 || activeMenu === MenuType.yourPoolV1 ? 1 : 2}
               stakingInfoV1={stakingInfoV1}
               stakingInfoV2={stakingInfoV2}
+              miniChefStakingInfo={miniChefStakingInfo}
               activeMenu={activeMenu}
               setMenu={(value: string) => setMenu(value)}
               menuItems={menuItems}

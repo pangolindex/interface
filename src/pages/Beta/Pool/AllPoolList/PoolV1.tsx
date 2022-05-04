@@ -1,6 +1,6 @@
 import React from 'react'
 import { DoubleSideStakingInfo } from 'src/state/stake/hooks'
-import PoolList from './PoolList'
+import PoolListV1 from './PoolList/PoolListV1'
 import { PoolType } from '../index'
 interface Props {
   type: string
@@ -18,7 +18,7 @@ const PoolV1: React.FC<Props> = ({ type, stakingInfos, setMenu, activeMenu, menu
   }
 
   return (
-    <PoolList
+    <PoolListV1
       version="1"
       stakingInfos={stakingInfos}
       activeMenu={activeMenu}

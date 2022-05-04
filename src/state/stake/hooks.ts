@@ -41,6 +41,13 @@ import { maxAmountSpend } from 'src/utils/maxAmountSpend'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
 import { useChainId } from 'src/hooks'
+import { mininchefV2Client } from 'src/apollo/client'
+import { GET_MINICHEF } from 'src/apollo/minichef'
+import { useQuery } from 'react-query'
+import { BigNumber } from 'ethers'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, AppState } from '../index'
+import { updateMinichefStakingAllData, updateMinichefStakingSingleData } from 'src/state/stake/actions'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -64,6 +71,33 @@ export interface Migration {
 export interface BridgeMigrator {
   aeb: string
   ab: string
+}
+
+export interface StakingInfoBase {
+  // the address of the reward contract
+  stakingRewardAddress: string
+  // the amount of token currently staked, or undefined if no account
+  stakedAmount: TokenAmount
+  // the amount of reward token earned by the active account, or undefined if no account
+  earnedAmount: TokenAmount
+  // the total amount of token staked in the contract
+  totalStakedAmount: TokenAmount
+  // the amount of token distributed per second to all LPs, constant
+  totalRewardRatePerSecond: TokenAmount
+  totalRewardRatePerWeek: TokenAmount
+  // the current amount of token distributed to the active account per week.
+  // equivalent to percent of total supply * reward rate * (60 * 60 * 24 * 7)
+  rewardRatePerWeek: TokenAmount
+  // when the period ends
+  periodFinish: Date | undefined
+  // has the reward period expired
+  isPeriodFinished: boolean
+  // calculates a hypothetical amount of token distributed to the active account per second.
+  getHypotheticalWeeklyRewardRate: (
+    stakedAmount: TokenAmount,
+    totalStakedAmount: TokenAmount,
+    totalRewardRatePerSecond: TokenAmount
+  ) => TokenAmount
 }
 
 export interface StakingInfoBase {
@@ -123,6 +157,78 @@ export interface StakingInfo extends DoubleSideStakingInfo {
   swapFeeApr?: number
   stakingApr?: number
   combinedApr?: number
+  rewardTokens?: Array<Token>
+}
+
+export interface MinichefStakingInfo {
+  // the address of the reward contract
+  stakingRewardAddress: string
+  // the amount of token currently staked, or undefined if no account
+  stakedAmount: TokenAmount
+  // the amount of reward token earned by the active account, or undefined if no account
+  earnedAmount: TokenAmount
+  // the total amount of token staked in the contract
+  totalStakedAmount: TokenAmount
+  swapFeeApr?: number
+  stakingApr?: number
+  combinedApr?: number
+  // the tokens involved in this pair
+  tokens: [Token, Token]
+  // the pool weight
+  multiplier: JSBI
+  totalStakedInUsd: TokenAmount
+  // has the reward period expired
+  isPeriodFinished: boolean
+  rewardTokens?: Array<Token>
+  rewardsAddress?: string
+  isLoading: boolean
+  pid: string
+}
+
+export interface MinichefToken {
+  id: string
+  symbol: string
+  derivedUSD: number
+  name: string
+  decimals: number
+}
+
+export interface MinichefPair {
+  id: string
+  reserve0: number
+  reserve1: number
+  totalSupply: number
+  token0: MinichefToken
+  token1: MinichefToken
+}
+
+export interface MinichefFarmReward {
+  id: string
+  token: MinichefToken
+  multiplier: number
+}
+
+export interface MinichefFarmRewarder {
+  id: string
+  rewards: Array<MinichefFarmReward>
+}
+
+export interface LiquidityPositions {
+  id: string
+  liquidityTokenBalance: number
+}
+
+export interface MinichefFarm {
+  id: string
+  pid: string
+  tvl: number
+  allocPoint: number
+  rewarderAddress: string
+  chefAddress: string
+  pairAddress: string
+  rewarder: MinichefFarmRewarder
+  pair: MinichefPair
+  liquidityPositions: LiquidityPositions
 }
 
 const calculateTotalStakedAmountInAvaxFromPng = function(
@@ -873,6 +979,8 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     if (!poolIdArray || !account) return []
     return poolIdArray.map(pid => [pid, account])
   }, [poolIdArray, account])
+
+  console.log('====userInfoInput', userInfoInput)
   const userInfos = useSingleContractMultipleData(minichefContract, 'userInfo', userInfoInput ?? [])
 
   const pendingRewards = useSingleContractMultipleData(minichefContract, 'pendingReward', userInfoInput ?? [])
@@ -1453,4 +1561,169 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
       handleMax
     ]
   )
+}
+
+export function useGetAllFarmData(id?: string) {
+  // const { account } = useActiveWeb3React()
+
+  const account = '0x8eae80ae087efec96ac48efdf62f386c8c807251'
+
+  return useQuery(['get-farm', id], async () => {
+    const { minichefs } = await mininchefV2Client.request(GET_MINICHEF, { where: { id: id }, userAddress: account })
+
+    console.log('minichefs', minichefs)
+    return minichefs
+  })
+}
+
+export function useAllMinichefStakingInfoData(): MinichefStakingInfo[] | undefined {
+  const allMinichefStakingInfo = useSelector<AppState, AppState['stake']['minichefStakingData']>(
+    state => state?.stake?.minichefStakingData || {}
+  )
+
+  return allMinichefStakingInfo
+}
+
+// get data for all farms
+export const useUpdateMinichefStakingInfosViaSubgraph = (id?: string) => {
+  const { data, isLoading } = useGetAllFarmData()
+
+  const minichefData = data?.[0]
+  const farms = minichefData?.farms || []
+
+  const chainId = useChainId()
+  const png = PNG[chainId]
+
+  const rewardsExpiration = farms?.rewardsExpiration
+
+  const arr = useMemo(() => {
+    if (!chainId || !png) return []
+
+    let instances = farms.reduce(function(memo: any, farm: MinichefFarm) {
+      const rewardsAddress = farm?.rewarderAddress
+
+      const rewardsAddresses = farm.rewarder.rewards
+
+      let pair = farm.pair
+
+      let pairToken0 = pair?.token0
+      const token0 = new Token(chainId, pairToken0.id, pairToken0.decimals, pairToken0.symbol, pairToken0.name)
+
+      let pairToken1 = pair?.token1
+      const token1 = new Token(chainId, pairToken1.id, pairToken1.decimals, pairToken1.symbol, pairToken1.name)
+
+      const tokens = [token0, token1].sort(({ address: addressA }, { address: addressB }) => {
+        // Sort AVAX last
+        if (addressA === WAVAX[ChainId.AVALANCHE].address) return 1
+        else if (addressB === WAVAX[ChainId.AVALANCHE].address) return -1
+        // Sort PNG first
+        else if (addressA === PNG[ChainId.AVALANCHE].address) return -1
+        else if (addressB === PNG[ChainId.AVALANCHE].address) return 1
+        // Sort axlUST first
+        else if (addressA === axlUST[ChainId.AVALANCHE].address) return -1
+        else if (addressB === axlUST[ChainId.AVALANCHE].address) return 1
+        // Sort USDC first
+        else if (addressA === USDC[ChainId.AVALANCHE].address) return -1
+        else if (addressB === USDC[ChainId.AVALANCHE].address) return 1
+        // Sort USDCe first
+        else if (addressA === USDCe[ChainId.AVALANCHE].address) return -1
+        else if (addressB === USDCe[ChainId.AVALANCHE].address) return 1
+        else return 0
+      })
+
+      const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
+      const lpToken = dummyPair.liquidityToken
+
+      const poolAllocPointAmount = new TokenAmount(lpToken, JSBI.BigInt(farm?.allocPoint))
+
+      const periodFinishMs = rewardsExpiration?.[0]?.mul(1000)?.toNumber()
+      // periodFinish will be 0 immediately after a reward contract is initialized
+      const isPeriodFinished =
+        periodFinishMs === 0 ? false : periodFinishMs < Date.now() || poolAllocPointAmount.equalTo('0')
+
+      ///(minichefTvl x totalSupplyReserve0 / totalSupply) x token0UsdPrice x 2
+
+      const minichefTvl = BigNumber.from(Number(farm?.tvl).toFixed(0))
+
+      const totalSupplyReserve0 = BigNumber.from(farm?.pair?.reserve0)
+
+      // const totalSupply = JSBI.BigInt(farm?.pair?.totalSupply ?? 1)
+      const totalSupply = BigNumber.from(1)
+
+      const token0derivedUSD = BigNumber.from(farm?.pair?.token0?.derivedUSD)
+
+      const pairTokenValueInUSD = token0derivedUSD.mul(BigNumber.from('2'))
+
+      const calculatedStakedUsdValue = minichefTvl.mul(totalSupplyReserve0).div(totalSupply)
+
+      const finalStakedValueInUSD = pairTokenValueInUSD.mul(calculatedStakedUsdValue)
+
+      const totalStakedAmount = new TokenAmount(lpToken, minichefTvl.toString() || JSBI.BigInt(0))
+
+      const totalStakedInUsd = new TokenAmount(lpToken, finalStakedValueInUSD.toString() || JSBI.BigInt(0))
+
+      const stakedAmount = new TokenAmount(lpToken, JSBI.BigInt(farm.liquidityPositions.liquidityTokenBalance ?? 0))
+
+      const earnedAmount = new TokenAmount(png, JSBI.BigInt(0))
+
+      const multiplier = JSBI.BigInt(farm?.allocPoint)
+
+      const pid = farm?.pid
+
+      const rewardTokens = rewardsAddresses.map((rewardToken: MinichefFarmReward) => {
+        let tokenObj = rewardToken.token
+        const token = new Token(chainId, tokenObj.id, tokenObj.decimals, tokenObj.symbol, tokenObj.name)
+
+        return token
+      })
+
+      memo.push({
+        stakingRewardAddress: MINICHEF_ADDRESS[chainId],
+        pid,
+        tokens,
+        isLoading,
+        multiplier,
+        isPeriodFinished,
+        totalStakedAmount,
+        totalStakedInUsd,
+        stakedAmount,
+        earnedAmount,
+        rewardsAddress,
+        rewardsAddresses,
+        rewardTokens
+      })
+
+      return memo
+    }, [])
+
+    return instances
+  }, [chainId, isLoading])
+
+  const dispatch = useDispatch<AppDispatch>()
+
+  useEffect(() => {
+    dispatch(updateMinichefStakingAllData({ data: arr }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [arr])
+}
+
+export function useUpdateEarnAmount(pid: string, account: string) {
+  const chainId = useChainId()
+  const minichefContract = useStakingContract(MINICHEF_ADDRESS[chainId])
+  const png = PNG[chainId]
+
+  const inputs = useMemo(() => [pid, account], [pid, account])
+  const pendingRewardInfo = useSingleCallResult(minichefContract, 'pendingReward', inputs).result
+
+  const dispatch = useDispatch<AppDispatch>()
+
+  const earnedAmount = useMemo(
+    () => (pid && account && pendingRewardInfo ? new TokenAmount(png, pendingRewardInfo.toString() ?? 0) : undefined),
+    [pid, pendingRewardInfo, account]
+  )
+
+  useEffect(() => {
+    dispatch(updateMinichefStakingSingleData({ pid: pid, data: { earnedAmount: earnedAmount } }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [earnedAmount])
 }

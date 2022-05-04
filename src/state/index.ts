@@ -13,6 +13,7 @@ import wyre from './wyre/reducer'
 import watchlists from './watchlists/reducer'
 import token from './token/reducer'
 import pair from './pair/reducer'
+import stake from './stake/reducer'
 import { pangolinReducers, PANGOLIN_PERSISTED_KEYS } from '@pangolindex/components'
 
 const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'watchlists', ...PANGOLIN_PERSISTED_KEYS]
@@ -31,6 +32,7 @@ const store = configureStore({
     watchlists,
     token,
     pair,
+    stake,
     ...pangolinReducers
   },
   middleware: [...getDefaultMiddleware({ thunk: false }), save({ states: PERSISTED_KEYS })],

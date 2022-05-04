@@ -3,7 +3,7 @@ import { ThemeContext } from 'styled-components'
 import { TextInput, Box } from '@pangolindex/components'
 import { DoubleSideStakingInfo } from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
-import PoolCard from '../PoolCard'
+import PoolCardV1 from '../PoolCard/PoolCardV1'
 import Loader from 'src/components/Loader'
 import { useChainId } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
@@ -42,7 +42,7 @@ export interface EarnProps {
   menuItems: Array<{ label: string; value: string }>
 }
 
-const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu, activeMenu, menuItems }) => {
+const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu, activeMenu, menuItems }) => {
   const chainId = useChainId()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
@@ -89,7 +89,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
       const poolCards = stakingInfoData.map((stakingInfo, index) => {
         // console.log('stakinginfo', stakingInfo)
         return (
-          <PoolCard
+          <PoolCardV1
             key={index}
             stakingInfo={stakingInfo}
             onClickViewDetail={() => {
@@ -161,7 +161,7 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
       ).then(updatedStakingInfos => {
         const poolCards = updatedStakingInfos.map((stakingInfo, index) => {
           return (
-            <PoolCard
+            <PoolCardV1
               key={index}
               stakingInfo={stakingInfo}
               onClickViewDetail={() => {
@@ -252,4 +252,4 @@ const PoolList: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu
   )
 }
 
-export default PoolList
+export default PoolListV1

@@ -1,5 +1,5 @@
 import React from 'react'
-import { DoubleSideStakingInfo } from 'src/state/stake/hooks'
+import { DoubleSideStakingInfo, MinichefStakingInfo } from 'src/state/stake/hooks'
 import PoolV1 from './PoolV1'
 import PoolV2 from './PoolV2'
 
@@ -8,6 +8,7 @@ interface Props {
   type: string
   stakingInfoV1: DoubleSideStakingInfo[]
   stakingInfoV2: DoubleSideStakingInfo[]
+  miniChefStakingInfo: MinichefStakingInfo[]
   setMenu: (value: string) => void
   activeMenu: string
   menuItems: Array<{ label: string; value: string }>
@@ -18,6 +19,7 @@ const AllPoolList: React.FC<Props> = ({
   type,
   stakingInfoV1,
   stakingInfoV2,
+  miniChefStakingInfo,
   setMenu,
   activeMenu,
   menuItems
@@ -37,6 +39,7 @@ const AllPoolList: React.FC<Props> = ({
       activeMenu={activeMenu}
       setMenu={(value: string) => setMenu(value)}
       menuItems={menuItems}
+      miniChefStakingInfo={miniChefStakingInfo}
     />
   )
 }
