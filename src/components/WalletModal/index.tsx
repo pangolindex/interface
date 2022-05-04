@@ -337,7 +337,7 @@ export default function WalletModal({
         // don't show injected if there's no injected provider
 
         if (!(window.xfi && window.xfi.ethereum && window.xfi.ethereum.isXDEFI)) {
-          if (option.name === 'XDEFI') {
+          if (option.name === 'XDEFI Wallet') {
             return (
               <Option
                 id={`connect-${key}`}
