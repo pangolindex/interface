@@ -9,9 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'react-feather'
 import styled from 'styled-components'
 import Logo from '../../assets/svg/icon.svg'
-import LogoDark from '../../assets/svg/icon.svg'
 import { useActiveWeb3React } from '../../hooks'
-import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances, useAggregatePngBalance } from '../../state/wallet/hooks'
 import { CardNoise } from '../earn/styled'
 import { CountUp } from 'use-count-up'
@@ -303,7 +301,6 @@ export default function Header() {
   const location: any = useLocation()
 
   const userEthBalance = useETHBalances(chainId, account ? [account] : [])?.[account ?? '']
-  const [isDark] = useDarkModeManager()
 
   const aggregateBalance: TokenAmount | undefined = useAggregatePngBalance()
 
@@ -324,7 +321,7 @@ export default function Header() {
       <HeaderRow>
         <Title href=".">
           <PngIcon>
-            <img width={'24px'} src={isDark ? LogoDark : Logo} alt="logo" />
+            <img width={'24px'} src={Logo} alt="logo" />
           </PngIcon>
         </Title>
         <HeaderLinks>

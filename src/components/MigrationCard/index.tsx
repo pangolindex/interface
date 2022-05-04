@@ -5,9 +5,8 @@ import Stat from '../Stat'
 import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { AutoRow } from '../Row'
 import { useTranslation } from 'react-i18next'
-import { useGetPairDataFromPair } from '../../state/stake/hooks'
+import { useGetPairDataFromPair, StakingInfo } from '../../state/stake/hooks'
 import numeral from 'numeral'
-import { StakingInfo } from '../../state/stake/hooks'
 
 export interface StatProps {
   pair: Pair

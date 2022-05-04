@@ -147,7 +147,7 @@ export default function WalletModal({
   ENSName?: string
 }) {
   // important that these are destructed from the account-specific web3-react context
-  const { active, account, connector, activate, error } = useWeb3React()
+  const { active, account, connector, activate, error: web3Error } = useWeb3React()
 
   const [walletView, setWalletView] = useState(WALLET_VIEWS.ACCOUNT)
 
@@ -183,10 +183,10 @@ export default function WalletModal({
   const activePrevious = usePrevious(active)
   const connectorPrevious = usePrevious(connector)
   useEffect(() => {
-    if (walletModalOpen && ((active && !activePrevious) || (connector && connector !== connectorPrevious && !error))) {
+    if (walletModalOpen && ((active && !activePrevious) || (connector && connector !== connectorPrevious && !web3Error))) {
       setWalletView(WALLET_VIEWS.ACCOUNT)
     }
-  }, [setWalletView, active, error, connector, walletModalOpen, activePrevious, connectorPrevious])
+  }, [setWalletView, active, web3Error, connector, walletModalOpen, activePrevious, connectorPrevious])
 
   const isMetamask = window.ethereum && window.ethereum.isMetaMask
   const isRabby = window.ethereum && window.ethereum.isRabby
@@ -393,19 +393,19 @@ export default function WalletModal({
     const isXDEFI = window.xfi && window.xfi.ethereum && window.xfi.ethereum.isXDEFI
     const isMetamaskOrCbWallet = isMetamask || isCbWallet || isXDEFI
 
-    if (error) {
+    if (web3Error) {
       return (
         <UpperSection>
           <CloseIcon onClick={toggleWalletModal}>
             <CloseColor />
           </CloseIcon>
           <HeaderRow isBeta={isBeta}>
-            {error instanceof UnsupportedChainIdError
+            {web3Error instanceof UnsupportedChainIdError
               ? t('walletModal.wrongNetwork')
               : t('walletModal.errorConnecting')}
           </HeaderRow>
           <ContentWrapper>
-            {error instanceof UnsupportedChainIdError ? (
+            {web3Error instanceof UnsupportedChainIdError ? (
               <>
                 <h5>{t('walletModal.pleaseConnectAvalanche')}</h5>
                 {isMetamaskOrCbWallet && (
