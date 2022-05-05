@@ -600,6 +600,7 @@ export function useTotalPngEarned(): TokenAmount | undefined {
   const stakingInfo0 = useStakingInfo(0)
   const stakingInfo1 = useStakingInfo(1)
   const stakingInfo2 = useMinichefStakingInfos(2)
+  const singleStakingInfo = useSingleSideStakingInfo(0, png)
 
   const earned0 = useMemo(() => {
     if (!png) new TokenAmount(png, '0')
@@ -631,7 +632,17 @@ export function useTotalPngEarned(): TokenAmount | undefined {
     )
   }, [stakingInfo2, png])
 
-  return earned0.add(earned1).add(earned2)
+  //Get png earned from single side staking
+  const earnedSingleStaking = useMemo(() => {
+    if (!png) return new TokenAmount(png, '0')
+    const pngSingleStaking = singleStakingInfo.filter(stakingInfo => stakingInfo.stakedAmount.token === png)[0]
+    return pngSingleStaking ? pngSingleStaking.earnedAmount : new TokenAmount(png, '0')
+  }, [png, singleStakingInfo])
+
+  return earned0
+    .add(earned1)
+    .add(earned2)
+    .add(earnedSingleStaking)
   // return earned0 ? (earned1 ? earned0.add(earned1) : earned0) : earned1 ? earned1 : undefined
 }
 
