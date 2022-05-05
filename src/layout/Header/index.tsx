@@ -1,4 +1,4 @@
-import { ChainId, TokenAmount, CHAINS } from '@pangolindex/sdk'
+import { TokenAmount } from '@pangolindex/sdk'
 import { Button, Box, Text } from '@pangolindex/components'
 import React, { useContext, useState, useRef } from 'react'
 import { ThemeContext } from 'styled-components'
@@ -39,20 +39,7 @@ import { Logo } from '../../components/Icons'
 import { Hidden } from 'src/theme'
 import { useChainId } from 'src/hooks'
 import NetworkSelection from './NetworkSelection'
-
-const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
-  [ChainId.FUJI]: CHAINS[ChainId.FUJI].name,
-  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].name,
-  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].name,
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON].name
-}
-
-const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
-  [ChainId.FUJI]: CHAINS[ChainId.FUJI].symbol,
-  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].symbol,
-  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].symbol,
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON].symbol
-}
+import { NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
 
 export default function Header() {
   const { account } = useActiveWeb3React()

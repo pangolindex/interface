@@ -639,7 +639,10 @@ export function useTotalPngEarned(): TokenAmount | undefined {
     return pngSingleStaking ? pngSingleStaking.earnedAmount : new TokenAmount(png, '0')
   }, [png, singleStakingInfo])
 
-  return earned0.add(earned1).add(earned2).add(earnedSingleStaking)
+  return earned0
+    .add(earned1)
+    .add(earned2)
+    .add(earnedSingleStaking)
   // return earned0 ? (earned1 ? earned0.add(earned1) : earned0) : earned1 ? earned1 : undefined
 }
 
