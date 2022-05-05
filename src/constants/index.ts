@@ -108,7 +108,7 @@ export const TRUSTED_TOKEN_ADDRESSES: { readonly [chainId in ChainId]: string[] 
 export const SWAP_DEFAULT_CURRENCY = {
   [ChainId.AVALANCHE]: {
     inputCurrency: 'AVAX',
-    outputCurrency: axlUST[ChainId.AVALANCHE].address
+    outputCurrency: UST[ChainId.AVALANCHE].address
   },
   [ChainId.FUJI]: {
     inputCurrency: '',
