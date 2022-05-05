@@ -1228,7 +1228,7 @@ export const LOOT: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'LOOT', 'LOOT Token'),
   [ChainId.AVALANCHE]: new Token(
     ChainId.AVALANCHE,
-    '0x7f041ce89a2079873693207653b24c15b5e6a293',
+    '0x7f041ce89A2079873693207653b24C15B5e6A293',
     18,
     'LOOT',
     'LOOT Token'
@@ -1241,7 +1241,7 @@ export const FEED: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'FEED', 'Chikn feed'),
   [ChainId.AVALANCHE]: new Token(
     ChainId.AVALANCHE,
-    '0xab592d197acc575d16c3346f4eb70c703f308d1e',
+    '0xab592d197ACc575D16C3346f4EB70C703F308D1E',
     18,
     'FEED',
     'Chikn feed'
@@ -1254,7 +1254,7 @@ export const DCAU: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'DCAU', 'Dragon Crypto Aurum'),
   [ChainId.AVALANCHE]: new Token(
     ChainId.AVALANCHE,
-    '0x100cc3a819dd3e8573fd2e46d1e66ee866068f30',
+    '0x100Cc3a819Dd3e8573fD2E46D1E66ee866068f30',
     18,
     'DCAU',
     'Dragon Crypto Aurum'
@@ -1265,7 +1265,7 @@ export const DCAU: { [chainId in ChainId]: Token } = {
 
 export const agEUR: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'agEUR', 'agEUR'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x6fefd97f328342a8a840546a55fdcfee7542f9a8', 18, 'agEUR', 'agEUR'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x6feFd97F328342a8A840546A55FDcfEe7542F9A8', 18, 'agEUR', 'agEUR'),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'agEUR', 'agEUR'),
   [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, '', '')
 }
@@ -1274,7 +1274,7 @@ export const MAGE: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'MAGE', 'MetaBrands'),
   [ChainId.AVALANCHE]: new Token(
     ChainId.AVALANCHE,
-    '0x921f99719eb6c01b4b8f0ba7973a7c24891e740a',
+    '0x921f99719Eb6C01b4B8f0BA7973A7C24891e740A',
     18,
     'MAGE',
     'MetaBrands'
@@ -1298,7 +1298,7 @@ export const HTZ: { [chainId in ChainId]: Token } = {
 
 export const PLN: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'PLN', 'Pollen'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7b2b702706d9b361dfe3f00bd138c0cfda7fb2cf', 18, 'PLN', 'Pollen'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7b2B702706D9b361dfE3f00bD138C0CFDA7FB2Cf', 18, 'PLN', 'Pollen'),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'PLN', 'Pollen'),
   [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, '', '')
 }
@@ -1307,7 +1307,7 @@ export const HEC: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'HeC', 'HeroesChained'),
   [ChainId.AVALANCHE]: new Token(
     ChainId.AVALANCHE,
-    '0xc7f4debc8072e23fe9259a5c0398326d8efb7f5c',
+    '0xC7f4debC8072e23fe9259A5C0398326d8EfB7f5c',
     18,
     'HeC',
     'HeroesChained'
@@ -1377,7 +1377,7 @@ export const YDR: { [chainId in ChainId]: Token } = {
 
 export const RACEX: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'RACEX', 'RaceX'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7086e045b78e1e72f741f25231c08d238812cf8a', 18, 'RACEX', 'RaceX'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x7086e045b78E1e72F741F25231c08d238812CF8a', 18, 'RACEX', 'RaceX'),
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'RACEX', 'RaceX'),
   [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, '', '')
 }
