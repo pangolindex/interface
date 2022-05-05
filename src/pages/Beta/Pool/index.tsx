@@ -9,8 +9,8 @@ import { useTranslation } from 'react-i18next'
 import {
   useMinichefStakingInfos,
   useStakingInfo,
-  useUpdateMinichefStakingInfosViaSubgraph,
-  useAllMinichefStakingInfoData
+  useGetMinichefStakingInfosViaSubgraph,
+  useGetAllFarmData
 } from 'src/state/stake/hooks'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
@@ -25,11 +25,9 @@ const PoolUI = () => {
   const [activeMenu, setMenu] = useState<string>(MenuType.allPoolV2)
   const { t } = useTranslation()
 
-  let miniChefStakingInfo1 = useUpdateMinichefStakingInfosViaSubgraph()
+  useGetAllFarmData()
 
-  let miniChefStakingInfo = useAllMinichefStakingInfoData()
-
-  console.log('miniChefStakingInfo', miniChefStakingInfo)
+  let miniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
 
   let stakingInfoV1 = useStakingInfo(1)
   // filter only live or needs migration pools
@@ -41,8 +39,6 @@ const PoolUI = () => {
   })
 
   let stakingInfoV2 = useMinichefStakingInfos(2)
-
-  console.log('stakingInfoV2', stakingInfoV2)
 
   // filter only live or needs migration pools
   miniChefStakingInfo = (miniChefStakingInfo || []).filter(

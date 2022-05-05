@@ -4,15 +4,17 @@ import { Root } from './styled'
 import EarnOption from './EarnOption'
 import AddLiquidity from './AddLiquidity'
 import Stake from './Stake'
+import { StakingInfo } from 'src/state/stake/hooks'
 
 interface EarnWidgetProps {
   currencyA: Currency
   currencyB: Currency
   pair: Pair | null
   version: number
+  stakingInfo: StakingInfo
 }
 
-const EarnWidget = ({ currencyA, currencyB, pair, version }: EarnWidgetProps) => {
+const EarnWidget = ({ currencyA, currencyB, pair, version, stakingInfo }: EarnWidgetProps) => {
   const [type, setType] = useState('Pool' as string)
 
   return (
@@ -21,7 +23,7 @@ const EarnWidget = ({ currencyA, currencyB, pair, version }: EarnWidgetProps) =>
       {type === 'Pool' ? (
         <AddLiquidity currencyA={currencyA} currencyB={currencyB} type="detail" />
       ) : (
-        <Stake pair={pair} version={version} type="detail" />
+        <Stake pair={pair} version={version} type="detail" stakingInfo={stakingInfo} />
       )}
     </Root>
   )

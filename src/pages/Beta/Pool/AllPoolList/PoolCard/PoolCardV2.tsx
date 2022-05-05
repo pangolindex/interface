@@ -15,10 +15,10 @@ import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { MinichefStakingInfo, StakingInfo, useUpdateEarnAmount } from 'src/state/stake/hooks'
+import { MinichefStakingInfo, useUpdateEarnAmount, useUpdateAPR } from 'src/state/stake/hooks'
 import { usePair } from 'src/data/Reserves'
 // import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
-import { useTokens } from 'src/hooks/Tokens'
+// import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
@@ -26,7 +26,6 @@ import ClaimDrawer from '../../ClaimDrawer'
 import FarmDrawer from '../../FarmDrawer'
 import AddLiquidityDrawer from '../../AddLiquidityDrawer'
 import { useChainId } from 'src/hooks'
-import { useDispatch } from 'react-redux'
 
 export interface PoolCardProps {
   stakingInfo: MinichefStakingInfo
@@ -44,9 +43,9 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) 
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
-  let earnedAmount = useUpdateEarnAmount(stakingInfo?.pid, account ? account : '')
+  useUpdateEarnAmount(stakingInfo?.pid, account ? account : '')
 
-  console.log("earnedAmount",earnedAmount);
+  useUpdateAPR(stakingInfo?.pid)
 
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
@@ -70,7 +69,7 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) 
 
   const isLiquidity = Boolean(userPgl?.greaterThan('0'))
 
-  const isSuperFarm = (rewardTokens || [])?.length > 0
+  const isSuperFarm = (rewardTokens || [])?.length > 1
 
   return (
     <Panel>
@@ -169,7 +168,7 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) 
           )}
         </Box>
       </InnerWrapper>
-      {/* {isClaimDrawerVisible && (
+      {isClaimDrawerVisible && (
         <ClaimDrawer
           isOpen={isClaimDrawerVisible}
           onClose={() => {
@@ -179,7 +178,7 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) 
           version={version}
           backgroundColor="color5"
         />
-      )} */}
+      )}
 
       {isFarmDrawerVisible && (
         <FarmDrawer

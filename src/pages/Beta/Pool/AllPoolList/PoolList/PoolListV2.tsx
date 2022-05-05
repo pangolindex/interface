@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { TextInput, Box } from '@pangolindex/components'
-import { DoubleSideStakingInfo, MinichefStakingInfo } from 'src/state/stake/hooks'
+import { MinichefStakingInfo } from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCardV2 from '../PoolCard/PoolCardV2'
 import Loader from 'src/components/Loader'
@@ -9,7 +9,7 @@ import { useChainId } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
-import { BIG_INT_ZERO, PANGOLIN_API_BASE_URL } from 'src/constants'
+import { BIG_INT_ZERO } from 'src/constants'
 import Scrollbars from 'react-custom-scrollbars'
 import { PoolsWrapper, PanelWrapper, LoadingWrapper, MobileGridContainer } from './styleds'
 import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
@@ -47,12 +47,11 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
   const [poolCardsLoading, setPoolCardsLoading] = useState(false)
-  const [poolCards, setPoolCards] = useState<any[]>()
-  const [filteredPoolCards, setFilteredPoolCards] = useState<any[]>()
+
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [sortBy, setSortBy] = useState<string>('')
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
-  const [stakingInfoData, setStakingInfoData] = useState<any[]>(stakingInfos)
+  const [stakingInfoData, setStakingInfoData] = useState<MinichefStakingInfo[]>(stakingInfos)
 
   const [selectedPoolIndex, setSelectedPoolIndex] = useState(-1)
 
@@ -62,135 +61,80 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
     setSearchQuery(value.trim().toUpperCase())
   }, [])
 
-  // useEffect(() => {
-  //   const filtered = poolCards?.filter(
-  //     card =>
-  //       card?.props?.stakingInfo?.tokens[0].symbol.toUpperCase().includes(debouncedSearchQuery) ||
-  //       card?.props?.stakingInfo?.tokens[1].symbol.toUpperCase().includes(debouncedSearchQuery)
-  //   )
+  const handleClickViewDetail = useCallback(index => {
+    setSelectedPoolIndex(index)
+    togglePoolDetailModal()
+  }, [])
 
-  //   setFilteredPoolCards(filtered)
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [poolCards, debouncedSearchQuery])
+  // console.log('stakingInfoData==123', stakingInfoData)
+  console.log('stakingInfos==', stakingInfos)
+  useEffect(() => {
+    const filtered = stakingInfos.filter(function(stakingInfo) {
+      return (
+        (stakingInfo?.tokens?.[0]?.symbol || '').toUpperCase().includes(debouncedSearchQuery) ||
+        (stakingInfo?.tokens?.[1]?.symbol || '').toUpperCase().includes(debouncedSearchQuery)
+      )
+    })
 
-  // useEffect(() => {
-  //   Promise.all(
-  //     stakingInfoData.sort(function(info_a, info_b) {
-  //       if (sortBy === SortingType.totalStakedInUsd) {
-  //         return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-  //       }
+    setStakingInfoData(filtered)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearchQuery])
 
-  //       if (sortBy === SortingType.totalApr) {
-  //         return info_a.stakingApr + info_a.swapFeeApr > info_b.stakingApr + info_b.swapFeeApr ? -1 : 1
-  //       }
-  //       return 0
-  //     })
-  //   ).then(stakingInfoData => {
-  //     const poolCards = stakingInfoData.map((stakingInfo, index) => {
-  //       // console.log('stakinginfo', stakingInfo)
-  //       return (
-  //         <PoolCardV2
-  //           key={index}
-  //           stakingInfo={stakingInfo}
-  //           onClickViewDetail={() => {
-  //             // let container = {} as { [address: string]: { staking: StakingInfo } }
-  //             // container[stakingInfo.stakingRewardAddress] = stakingInfo
-  //             setSelectedPoolIndex(index)
-  //             togglePoolDetailModal()
-  //           }}
-  //           version={Number(version)}
-  //         />
-  //       )
-  //     })
-  //     setPoolCards(poolCards)
-  //   })
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [sortBy, stakingInfoData])
+  useEffect(() => {
+    const updatedStakingInfos = stakingInfoData.sort(function(info_a, info_b) {
+      if (sortBy === SortingType.totalStakedInUsd) {
+        return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
+      }
 
-  // useEffect(() => {
-  //   setPoolCardsLoading(true)
+      if (sortBy === SortingType.totalApr) {
+        return (info_a?.stakingApr || 0) + (info_a?.swapFeeApr || 0) >
+          (info_b?.stakingApr || 0) + (info_b?.swapFeeApr || 0)
+          ? -1
+          : 1
+      }
+      return 0
+    })
 
-  //   if (stakingInfos?.length > 0) {
-  //     Promise.all(
-  //       stakingInfos
-  //         .filter(function(info) {
-  //           // Only include pools that are live or require a migration
-  //           return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
-  //         })
-  //         .sort(function(info_a, info_b) {
-  //           // only first has ended
-  //           if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
-  //           // only second has ended
-  //           if (!info_a.isPeriodFinished && info_b.isPeriodFinished) return -1
-  //           // greater stake in avax comes first
-  //           return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-  //         })
-  //         .sort(function(info_a, info_b) {
-  //           // only the first is being staked, so we should bring the first up
-  //           if (info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && !info_b.stakedAmount.greaterThan(BIG_INT_ZERO))
-  //             return -1
-  //           // only the second is being staked, so we should bring the first down
-  //           if (!info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && info_b.stakedAmount.greaterThan(BIG_INT_ZERO))
-  //             return 1
-  //           return 0
-  //         })
-  //         // TODO: update here api call without staking reward address
-  //         // .map(stakingInfo => {
-  //         //   if (poolMap) {
-  //         //     return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr2/${stakingInfo.pid}`)
-  //         //       .then(res => res.json())
-  //         //       .then(res => ({
-  //         //         swapFeeApr: Number(res.swapFeeApr),
-  //         //         stakingApr: Number(res.stakingApr),
-  //         //         combinedApr: Number(res.combinedApr),
-  //         //         ...stakingInfo
-  //         //       }))
-  //         //   } else {
-  //         //     return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
-  //         //       .then(res => res.json())
-  //         //       .then(res => ({
-  //         //         swapFeeApr: Number(res.swapFeeApr),
-  //         //         stakingApr: Number(res.stakingApr),
-  //         //         combinedApr: Number(res.combinedApr),
-  //         //         ...stakingInfo
-  //         //       }))
-  //         //   }
-  //         // })
-  //     ).then(updatedStakingInfos => {
-  //       const poolCards = updatedStakingInfos.map((stakingInfo, index) => {
-  //         return (
-  //           <PoolCardV2
-  //             key={index}
-  //             stakingInfo={stakingInfo}
-  //             onClickViewDetail={() => {
-  //               // let container = {} as { [address: string]: { staking: StakingInfo } }
-  //               // container[stakingInfo.stakingRewardAddress] = { staking: stakingInfo }
-  //               setSelectedPoolIndex(index)
-  //               togglePoolDetailModal()
-  //             }}
-  //             version={Number(version)}
-  //           />
-  //         )
-  //       })
+    setStakingInfoData(updatedStakingInfos)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortBy])
 
-  //       setStakingInfoData(updatedStakingInfos)
-  //       setPoolCards(poolCards)
-  //       setPoolCardsLoading(false)
-  //     })
-  //   }
+  useEffect(() => {
+    setPoolCardsLoading(true)
 
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [stakingInfos?.length, version])
+    if (stakingInfos?.length > 0) {
+      const updatedStakingInfos = stakingInfos
+        .filter(function(info) {
+          // Only include pools that are live or require a migration
+          return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+        })
+        .sort(function(info_a, info_b) {
+          // only first has ended
+          if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
+          // only second has ended
+          if (!info_a.isPeriodFinished && info_b.isPeriodFinished) return -1
+          // greater stake in avax comes first
+          return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
+        })
+        .sort(function(info_a, info_b) {
+          // only the first is being staked, so we should bring the first up
+          if (info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && !info_b.stakedAmount.greaterThan(BIG_INT_ZERO)) return -1
+          // only the second is being staked, so we should bring the first down
+          if (!info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && info_b.stakedAmount.greaterThan(BIG_INT_ZERO)) return 1
+          return 0
+        })
+
+      setStakingInfoData(updatedStakingInfos)
+      setPoolCardsLoading(false)
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stakingInfos])
 
   const stakingRewardsExist = Boolean(
     typeof chainId === 'number' && (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0
   )
-  const selectedPool: DoubleSideStakingInfo = selectedPoolIndex !== -1 ? stakingInfoData[selectedPoolIndex] : undefined
-  console.log('filteredPoolCards', filteredPoolCards?.length)
-
-  console.log('stakingRewardsExist', stakingRewardsExist)
-  console.log('stakingInfos?.length', stakingInfos?.length)
-  console.log('poolCardsLoading', poolCardsLoading)
+  const selectedPool = selectedPoolIndex !== -1 ? stakingInfoData[selectedPoolIndex] : ({} as MinichefStakingInfo)
 
   return (
     <PoolsWrapper>
@@ -198,7 +142,7 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
         <LoadingWrapper>
           <Loader style={{ margin: 'auto' }} size="35px" stroke={theme.primary} />
         </LoadingWrapper>
-      ) : (!stakingRewardsExist || poolCards?.length === 0) && !poolCardsLoading ? (
+      ) : (!stakingRewardsExist || stakingInfoData?.length === 0) && !poolCardsLoading ? (
         t('earnPage.noActiveRewards')
       ) : (
         <>
@@ -246,15 +190,12 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
 
           <Scrollbars>
             <PanelWrapper>
-              {stakingInfos.map((stakingInfo, index) => (
+              {stakingInfoData.map((stakingInfo, index) => (
                 <PoolCardV2
                   key={index}
                   stakingInfo={stakingInfo}
                   onClickViewDetail={() => {
-                    // let container = {} as { [address: string]: { staking: StakingInfo } }
-                    // container[stakingInfo.stakingRewardAddress] = stakingInfo
-                    setSelectedPoolIndex(index)
-                    togglePoolDetailModal()
+                    handleClickViewDetail(index)
                   }}
                   version={Number(version)}
                 />

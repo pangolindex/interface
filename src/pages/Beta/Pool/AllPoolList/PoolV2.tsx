@@ -25,9 +25,6 @@ const PoolV2: React.FC<Props> = ({ type, stakingInfos, setMenu, activeMenu, menu
     miniChefStakingInfo = (miniChefStakingInfo || []).filter(item => (item?.rewardTokens?.length || 0) > 1)
   }
 
-
-  console.log("sdklfjsdlkfjlsdkfj",miniChefStakingInfo)
-
   return (
     <PoolListV2
       version="2"

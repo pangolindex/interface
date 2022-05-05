@@ -39,7 +39,13 @@ const DetailView = ({ stakingInfo, onDismiss, version }: PoolDetailProps) => {
         <Box p={10}>
           {isStaking && <EarnDetail stakingInfo={stakingInfo} version={version} />}
           <Box mt={isStaking ? '10px' : '0px'}>
-            <EarnWidget currencyA={currency0} currencyB={currency1} version={version} pair={pair} />
+            <EarnWidget
+              currencyA={currency0}
+              currencyB={currency1}
+              version={version}
+              pair={pair}
+              stakingInfo={stakingInfo}
+            />
           </Box>
 
           <Box mt={25}>
@@ -60,7 +66,13 @@ const DetailView = ({ stakingInfo, onDismiss, version }: PoolDetailProps) => {
             <Details stakingInfo={stakingInfo} />
           </LeftSection>
           <RightSection>
-            <EarnWidget currencyA={currency0} currencyB={currency1} version={version} pair={pair} />
+            <EarnWidget
+              currencyA={currency0}
+              currencyB={currency1}
+              version={version}
+              pair={pair}
+              stakingInfo={stakingInfo}
+            />
             {isStaking && <EarnDetail stakingInfo={stakingInfo} version={version} />}
           </RightSection>
         </DetailsWrapper>

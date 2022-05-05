@@ -17,7 +17,12 @@ import { Box, Text, Button, DoubleCurrencyLogo, NumberOptions } from '@pangolind
 import { useActiveWeb3React } from 'src/hooks'
 import { TokenAmount, Pair, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { useGetPoolDollerWorth, useMinichefStakingInfos, useMinichefPendingRewards } from 'src/state/stake/hooks'
+import {
+  useGetPoolDollerWorth,
+  useMinichefStakingInfos,
+  useMinichefPendingRewards,
+  StakingInfo
+} from 'src/state/stake/hooks'
 import { usePairContract, useStakingContract } from 'src/hooks/useContract'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
@@ -39,17 +44,18 @@ interface StakeProps {
   onComplete?: () => void
   type: 'card' | 'detail'
   combinedApr?: number
+  stakingInfo: StakingInfo
 }
 
-const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => {
+const Stake = ({ pair, version, onComplete, type, combinedApr, stakingInfo }: StakeProps) => {
   const { account, library } = useActiveWeb3React()
   const chainId = useChainId()
 
   const [selectedPair, setSelectedPair] = useState<Pair | null>(pair)
 
-  const stakingInfo = useMinichefStakingInfos(2, selectedPair)?.[0]
+  // const stakingInfo = useMinichefStakingInfos(2, selectedPair)?.[0]
 
-  const theme = useContext(ThemeContext)
+  // const theme = useContext(ThemeContext)
 
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, selectedPair?.liquidityToken)
   const { liquidityInUSD } = useGetPoolDollerWorth(selectedPair)
@@ -317,14 +323,14 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
         <>
           <Box flex={1}>
             {type === 'detail' && (
-              <PoolSelectWrapper onClick={() => setIsPoolDrawerOpen(true)}>
+              <PoolSelectWrapper>
                 <Box display="flex" alignItems="center">
                   <DoubleCurrencyLogo size={24} currency0={currency0} currency1={currency1} />
                   <Text color="text2" fontSize={16} fontWeight={500} lineHeight="40px" marginLeft={10}>
                     {currency0?.symbol}/{currency1?.symbol}
                   </Text>
                 </Box>
-                <ChevronDown size="16" color={theme.text1} />
+                {/* <ChevronDown size="16" color={theme.text1} /> */}
               </PoolSelectWrapper>
             )}
 
