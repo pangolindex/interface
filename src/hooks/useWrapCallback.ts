@@ -1,4 +1,4 @@
-import { Currency, currencyEquals, CAVAX, WAVAX, ChainId } from '@pangolindex/sdk'
+import { Currency, currencyEquals, CAVAX, WAVAX } from '@pangolindex/sdk'
 import { useMemo } from 'react'
 import { tryParseAmount } from '../state/swap/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
@@ -6,6 +6,7 @@ import { useCurrencyBalance } from '../state/wallet/hooks'
 import { useActiveWeb3React } from './index'
 import { useWETHContract } from './useContract'
 import { useChainId } from 'src/hooks'
+import { NETWORK_CURRENCY, NETWORK_WRAPPED_CURRENCY } from 'src/constants'
 
 export enum WrapType {
   NOT_APPLICABLE,
@@ -36,18 +37,6 @@ export default function useWrapCallback(
     typedValue
   ])
   const addTransaction = useTransactionAdder()
-
-  const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
-    [ChainId.FUJI]: 'AVAX',
-    [ChainId.AVALANCHE]: 'AVAX',
-    [ChainId.WAGMI]: 'WGM'
-  }
-
-  const NETWORK_WRAPPED_CURRENCY: { [chainId in ChainId]?: string } = {
-    [ChainId.FUJI]: 'WAVAX',
-    [ChainId.AVALANCHE]: 'WAVAX',
-    [ChainId.WAGMI]: 'wWAGMI'
-  }
 
   return useMemo(() => {
     if (!wethContract || !chainId || !inputCurrency || !outputCurrency) return NOT_APPLICABLE
@@ -97,15 +86,5 @@ export default function useWrapCallback(
     } else {
       return NOT_APPLICABLE
     }
-  }, [
-    wethContract,
-    chainId,
-    inputCurrency,
-    outputCurrency,
-    inputAmount,
-    balance,
-    addTransaction,
-    NETWORK_WRAPPED_CURRENCY,
-    NETWORK_CURRENCY
-  ])
+  }, [wethContract, chainId, inputCurrency, outputCurrency, inputAmount, balance, addTransaction])
 }

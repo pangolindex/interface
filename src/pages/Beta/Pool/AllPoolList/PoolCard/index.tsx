@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Fraction } from '@pangolindex/sdk'
+import { Fraction, CHAINS } from '@pangolindex/sdk'
 import {
   Panel,
   Divider,
@@ -21,7 +21,6 @@ import { usePair } from 'src/data/Reserves'
 import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
 import { useActiveWeb3React } from 'src/hooks'
-import { CHAINS } from 'src/constants/chains'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import ClaimDrawer from '../../ClaimDrawer'
 import FarmDrawer from '../../FarmDrawer'
@@ -56,7 +55,7 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  const yourStackedInUsd = CHAINS[chainId].is_mainnet
+  const yourStackedInUsd = CHAINS[chainId].mainnet
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
 

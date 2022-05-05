@@ -49,12 +49,7 @@ function useSwapCallArguments(
 
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
-  let deadline = useTransactionDeadline()
-
-  const currentTime = BigNumber.from(new Date().getTime())
-  if (deadline && deadline < currentTime.add(10)) {
-    deadline = currentTime.add(10)
-  }
+  const deadline = useTransactionDeadline()
 
   return useMemo(() => {
     const tradeVersion = Version.v2

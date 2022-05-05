@@ -10,7 +10,7 @@ describe('application reducer', () => {
     store = createStore(reducer, {
       popupList: [],
       blockNumber: {
-        [ChainId.MAINNET]: 3
+        [ChainId.AVALANCHE]: 3
       },
       openModal: null
     })
@@ -54,18 +54,18 @@ describe('application reducer', () => {
 
   describe('updateBlockNumber', () => {
     it('updates block number', () => {
-      store.dispatch(updateBlockNumber({ chainId: ChainId.MAINNET, blockNumber: 4 }))
-      expect(store.getState().blockNumber[ChainId.MAINNET]).toEqual(4)
+      store.dispatch(updateBlockNumber({ chainId: ChainId.AVALANCHE, blockNumber: 4 }))
+      expect(store.getState().blockNumber[ChainId.AVALANCHE]).toEqual(4)
     })
     it('no op if late', () => {
-      store.dispatch(updateBlockNumber({ chainId: ChainId.MAINNET, blockNumber: 2 }))
-      expect(store.getState().blockNumber[ChainId.MAINNET]).toEqual(3)
+      store.dispatch(updateBlockNumber({ chainId: ChainId.AVALANCHE, blockNumber: 2 }))
+      expect(store.getState().blockNumber[ChainId.AVALANCHE]).toEqual(3)
     })
     it('works with non-set chains', () => {
-      store.dispatch(updateBlockNumber({ chainId: ChainId.ROPSTEN, blockNumber: 2 }))
+      store.dispatch(updateBlockNumber({ chainId: ChainId.FUJI, blockNumber: 2 }))
       expect(store.getState().blockNumber).toEqual({
-        [ChainId.MAINNET]: 3,
-        [ChainId.ROPSTEN]: 2
+        [ChainId.AVALANCHE]: 3,
+        [ChainId.FUJI]: 2
       })
     })
   })

@@ -1,4 +1,4 @@
-import { ChainId, TokenAmount } from '@pangolindex/sdk'
+import { TokenAmount } from '@pangolindex/sdk'
 import { Button } from '@pangolindex/components'
 import React, { useState, useRef } from 'react'
 import { Text } from 'rebass'
@@ -24,13 +24,12 @@ import Web3Status from '../Web3Status'
 import Modal from '../Modal'
 import PngBalanceContent from './PngBalanceContent'
 import usePrevious from '../../hooks/usePrevious'
-import { ANALYTICS_PAGE } from '../../constants'
 import LanguageSelection from '../LanguageSelection'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { MenuFlyout, MenuNavItem } from '../StyledMenu'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
-import { BETA_MENU_LINK } from 'src/constants'
+import { BETA_MENU_LINK, ANALYTICS_PAGE, NETWORK_LABELS, NETWORK_CURRENCY } from 'src/constants'
 import { Hidden } from 'src/theme'
 import { useChainId } from 'src/hooks'
 
@@ -279,18 +278,6 @@ const NarrowMenuFlyout = styled(MenuFlyout)`
   left: 15rem;
   right: auto !important;
 `
-
-const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
-  [ChainId.FUJI]: 'Fuji',
-  [ChainId.AVALANCHE]: 'Avalanche',
-  [ChainId.WAGMI]: 'Wagmi'
-}
-
-const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
-  [ChainId.FUJI]: 'AVAX',
-  [ChainId.AVALANCHE]: 'AVAX',
-  [ChainId.WAGMI]: 'WGM'
-}
 
 export default function Header() {
   const { account } = useActiveWeb3React()

@@ -80,7 +80,7 @@ const ComponentThemeProvider = () => {
   const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
   const { library, chainId, account } = useActiveWeb3React()
-
+  //
   // useEffect(() => {
   //   if (window.pendo && account) {
   //     window.pendo.initialize({

@@ -1,7 +1,7 @@
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, CAVAX, Percent, WAVAX, ChainId } from '@pangolindex/sdk'
+import { Currency, currencyEquals, CAVAX, Percent, WAVAX } from '@pangolindex/sdk'
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { ArrowDown, Plus } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -20,7 +20,7 @@ import Row, { RowBetween, RowFixed } from '../../components/Row'
 
 import Slider from '../../components/Slider'
 import CurrencyLogo from '../../components/CurrencyLogo'
-import { ROUTER_ADDRESS } from '../../constants'
+import { NETWORK_CURRENCY, NETWORK_WRAPPED_CURRENCY, ROUTER_ADDRESS } from '../../constants'
 import { useActiveWeb3React, useChainId } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
 import { usePairContract } from '../../hooks/useContract'
@@ -352,18 +352,6 @@ export default function RemoveLiquidity({
           console.error(error)
         })
     }
-  }
-
-  const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
-    [ChainId.FUJI]: 'AVAX',
-    [ChainId.AVALANCHE]: 'AVAX',
-    [ChainId.WAGMI]: 'WGM'
-  }
-
-  const NETWORK_WRAPPED_CURRENCY: { [chainId in ChainId]?: string } = {
-    [ChainId.FUJI]: 'WAVAX',
-    [ChainId.AVALANCHE]: 'WAVAX',
-    [ChainId.WAGMI]: 'wWAGMI'
   }
 
   function modalHeader() {
