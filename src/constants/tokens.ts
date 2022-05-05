@@ -1637,3 +1637,49 @@ export const KTE: { [chainId in ChainId]: Token } = {
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'KTE', 'KyteOne'),
   [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, 'KTE', 'KyteOne')
 }
+
+export const BPT: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'BPT', 'Bold Point Token'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x1111111111182587795eF1098ac7da81a108C97a',
+    18,
+    'BPT',
+    'Bold Point Token'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'BPT', 'Bold Point Token'),
+  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, 'BPT', 'Bold Point Token')
+}
+
+export const SFI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'SFI', 'Spice'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xd13eB71515DC48a8a367D12F844e5737bab415dF', 18, 'SFI', 'Spice'),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'SFI', 'Spice'),
+  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, 'SFI', 'Spice')
+}
+
+export const FITFI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'FITFI', 'STEP.APP'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x714f020C54cc9D104B6F4f6998C63ce2a31D1888',
+    18,
+    'FITFI',
+    'STEP.APP'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'FITFI', 'STEP.APP'),
+  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, 'FITFI', 'STEP.APP')
+}
+
+export const SLIME: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'SLIME', 'Snail Trail'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x5a15Bdcf9a3A8e799fa4381E666466a516F2d9C8',
+    18,
+    'SLIME',
+    'Snail Trail'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'SLIME', 'Snail Trail'),
+  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, 'SLIME', 'Snail Trail')
+}
