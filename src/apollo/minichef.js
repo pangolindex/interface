@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const GET_MINICHEF = gql`
   query minichefs($where: Minichef_filter, $userAddress: String) {
-    minichefs(where: $where, first: 1000) {
+    minichefs(where: $where) {
       id
       totalAllocPoint
       rewardPerSecond

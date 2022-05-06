@@ -16,7 +16,7 @@ import pair from './pair/reducer'
 import stake from './stake/reducer'
 import { pangolinReducers, PANGOLIN_PERSISTED_KEYS } from '@pangolindex/components'
 
-const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'watchlists', ...PANGOLIN_PERSISTED_KEYS]
+const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'watchlists', 'stake', ...PANGOLIN_PERSISTED_KEYS]
 
 const store = configureStore({
   reducer: {
