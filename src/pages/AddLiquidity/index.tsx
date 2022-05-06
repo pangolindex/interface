@@ -212,11 +212,11 @@ export default function AddLiquidity({
           })
         })
       )
-      .catch(error => {
+      .catch(err => {
         setAttemptingTxn(false)
         // we only care if the error is something _other_ than the user rejected the tx
-        if (error?.code !== 4001) {
-          console.error(error)
+        if (err?.code !== 4001) {
+          console.error(err)
         }
       })
   }
@@ -282,8 +282,8 @@ export default function AddLiquidity({
   } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`
 
   const handleCurrencyASelect = useCallback(
-    (currencyA: Currency) => {
-      const newCurrencyIdA = currencyId(currencyA, chainId)
+    (_currencyA: Currency) => {
+      const newCurrencyIdA = currencyId(_currencyA, chainId)
       if (newCurrencyIdA === currencyIdB) {
         history.push(`/add/${currencyIdB}/${currencyIdA}`)
       } else {
@@ -293,8 +293,8 @@ export default function AddLiquidity({
     [chainId, currencyIdB, history, currencyIdA]
   )
   const handleCurrencyBSelect = useCallback(
-    (currencyB: Currency) => {
-      const newCurrencyIdB = currencyId(currencyB, chainId)
+    (_currencyB: Currency) => {
+      const newCurrencyIdB = currencyId(_currencyB, chainId)
       if (currencyIdA === newCurrencyIdB) {
         if (currencyIdB) {
           history.push(`/add/${currencyIdB}/${newCurrencyIdB}`)

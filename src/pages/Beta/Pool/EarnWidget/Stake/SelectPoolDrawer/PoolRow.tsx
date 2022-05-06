@@ -3,9 +3,8 @@ import { Text, DoubleCurrencyLogo, Box } from '@pangolindex/components'
 import { CurrencyRowRoot, Balance } from './styled'
 import { Pair } from '@pangolindex/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
-import { useChainId } from 'src/hooks'
 
 interface Props {
   pair: Pair

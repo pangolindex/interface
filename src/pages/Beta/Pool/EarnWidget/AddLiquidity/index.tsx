@@ -6,7 +6,7 @@ import { Box, Button, Text } from '@pangolindex/components'
 import { Plus } from 'react-feather'
 import { RowBetween } from 'src/components/Row'
 import { useWalletModalToggle } from 'src/state/application/hooks'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { ThemeContext } from 'styled-components'
 import { Field } from 'src/state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'src/state/mint/hooks'
@@ -25,7 +25,6 @@ import PoolPriceBar from './PoolPriceBar'
 import { PairState } from 'src/data/Reserves'
 import ConfirmPoolDrawer from './ConfirmPoolDrawer'
 import { useCurrencyBalance } from 'src/state/wallet/hooks'
-import { useChainId } from 'src/hooks'
 
 interface AddLiquidityProps {
   currencyA: Currency
@@ -189,11 +188,11 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
           })
         })
       )
-      .catch(error => {
+      .catch(err => {
         setAttemptingTxn(false)
         // we only care if the error is something _other_ than the user rejected the tx
-        if (error?.code !== 4001) {
-          console.error(error)
+        if (err?.code !== 4001) {
+          console.error(err)
         }
       })
   }
@@ -305,7 +304,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
               )
             }
             onChange={(value: any) => {
-              handleTypeInput(value as any)
+              handleTypeInput(value)
             }}
             label={`${currencyA?.symbol}`}
             fontSize={24}
@@ -349,7 +348,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
               )
             }
             onChange={(value: any) => {
-              handleTypeOutput(value as any)
+              handleTypeOutput(value)
             }}
             label={`${currencyB?.symbol}`}
             fontSize={24}
@@ -405,17 +404,6 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
           type={type}
         />
       )}
-
-      {/* {pair && !noLiquidity && pairState !== PairState.INVALID ? (
-        <LightCard>
-          <Text fontSize={12} color="text1" style={{ textAlign: 'center' }}>
-            <span role="img" aria-label="wizard-icon">
-              ⭐️
-            </span>{' '}
-            {t('positionCard.byAddingLiquidityInfo')}
-          </Text>
-        </LightCard>
-      ) : null} */}
     </AddWrapper>
   )
 }
