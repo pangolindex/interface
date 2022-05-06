@@ -1,15 +1,16 @@
 import React, { useContext, useEffect } from 'react'
-import { Currency, JSBI, TokenAmount } from '@pangolindex/sdk'
+import { Currency, JSBI, TokenAmount, Token } from '@pangolindex/sdk'
 import { Box, Text, CurrencyLogo } from '@pangolindex/components'
 import { PoolImportWrapper, ArrowWrapper, CurrencySelectWrapper, LightCard, Dots } from './styleds'
 import { Plus, ChevronDown } from 'react-feather'
 import { ThemeContext } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { PairState, usePair } from 'src/data/Reserves'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { usePairAdder } from 'src/state/user/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import PositionCard from '../PositionCard'
+import { wrappedCurrency } from 'src/utils/wrappedCurrency'
 
 enum Fields {
   TOKEN0 = 0,
@@ -30,7 +31,23 @@ const PoolImport = ({ currency0, currency1, openTokenDrawer, setActiveField, onM
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
 
-  const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
+  const chainId = useChainId()
+
+  let unwrapcurrency0 = wrappedCurrency(currency0, chainId)
+  let unwrapcurrency1 = wrappedCurrency(currency1, chainId)
+
+  if (currency0 && !(currency0 instanceof Currency)) {
+    const _currency0 = currency0 as any
+    unwrapcurrency0 = new Token(chainId, _currency0.address, _currency0.decimals, _currency0.symbol, _currency0.name)
+  }
+
+  if (currency1 && !(currency1 instanceof Currency)) {
+    const _currency1 = currency1 as any
+    unwrapcurrency1 = new Token(chainId, _currency1.address, _currency1.decimals, _currency1.symbol, _currency1.name)
+  }
+
+  const [pairState, pair] = usePair(unwrapcurrency0, unwrapcurrency1)
+
   const addPair = usePairAdder()
   useEffect(() => {
     if (pair) {
