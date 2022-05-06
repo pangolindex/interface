@@ -7,7 +7,6 @@ interface Props {
   version: number
   type: string
   stakingInfoV1: DoubleSideStakingInfo[]
-  stakingInfoV2: DoubleSideStakingInfo[]
   miniChefStakingInfo: MinichefStakingInfo[]
   setMenu: (value: string) => void
   activeMenu: string
@@ -18,7 +17,6 @@ const AllPoolList: React.FC<Props> = ({
   version,
   type,
   stakingInfoV1,
-  stakingInfoV2,
   miniChefStakingInfo,
   setMenu,
   activeMenu,
@@ -35,7 +33,6 @@ const AllPoolList: React.FC<Props> = ({
   ) : (
     <PoolV2
       type={type}
-      stakingInfos={stakingInfoV2}
       activeMenu={activeMenu}
       setMenu={(value: string) => setMenu(value)}
       menuItems={menuItems}

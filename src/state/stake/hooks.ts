@@ -1578,11 +1578,15 @@ export function useGetAllFarmData(id?: string) {
   //TODO===
   const account = '0x8eae80ae087efec96ac48efdf62f386c8c807251'
 
-  const allFarms = useQuery(['get-farm', id], async () => {
-    const { minichefs } = await mininchefV2Client.request(GET_MINICHEF, { where: { id: id }, userAddress: account })
+  const allFarms = useQuery(
+    ['get-farm', id],
+    async () => {
+      const { minichefs } = await mininchefV2Client.request(GET_MINICHEF, { where: { id: id }, userAddress: account })
 
-    return minichefs
-  })
+      return minichefs
+    },
+    { cacheTime: 10 }
+  )
 
   const dispatch = useDispatch<AppDispatch>()
 
@@ -1688,12 +1692,12 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
 
       const minichefTvl = BigNumber.from(Number(farm?.tvl).toFixed(0))
 
-      const totalSupplyReserve0 = BigNumber.from(farm?.pair?.reserve0)
+      const totalSupplyReserve0 = BigNumber.from(Number(farm?.pair?.reserve0).toFixed(0))
 
-      // const totalSupply = JSBI.BigInt(farm?.pair?.totalSupply ?? 1)
+      //const totalSupply = BigNumber.from(Number(farm?.pair?.totalSupply).toFixed(0) ?? 1)
       const totalSupply = BigNumber.from(1)
 
-      const token0derivedUSD = BigNumber.from(farm?.pair?.token0?.derivedUSD)
+      const token0derivedUSD = BigNumber.from(Number(farm?.pair?.token0?.derivedUSD).toFixed(0))
 
       const pairTokenValueInUSD = token0derivedUSD.mul(BigNumber.from('2'))
 
@@ -1823,7 +1827,7 @@ export function useUpdateAPR(pid: string) {
       stakingApr: Number(data.stakingApr),
       combinedApr: Number(data.combinedApr)
     }
-  })
+  }, {cacheTime:10})
 
   const dispatch = useDispatch<AppDispatch>()
   useEffect(() => {
