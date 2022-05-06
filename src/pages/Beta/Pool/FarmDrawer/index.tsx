@@ -10,14 +10,17 @@ type Props = {
   backgroundColor?: string
   version: number
   stakingInfo: StakingInfo
+  combinedApr?: number
 }
 
-const FarmDrawer: React.FC<Props> = ({ isOpen, onClose, backgroundColor, version, stakingInfo }) => {
+const FarmDrawer: React.FC<Props> = ({ isOpen, onClose, backgroundColor, version, stakingInfo, combinedApr }) => {
   const { t } = useTranslation()
 
   return (
     <Drawer title={t('earn.deposit')} isOpen={isOpen} onClose={onClose} backgroundColor={backgroundColor}>
-      {isOpen && <Stake version={version} onComplete={onClose} type="card" stakingInfo={stakingInfo} />}
+      {isOpen && (
+        <Stake version={version} onComplete={onClose} type="card" stakingInfo={stakingInfo} combinedApr={combinedApr} />
+      )}
     </Drawer>
   )
 }

@@ -1717,10 +1717,6 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
 
       const earnedAmount = new TokenAmount(png, JSBI.BigInt(farm?.earnedAmount ?? 0))
 
-      const swapFeeApr = farm?.swapFeeApr ?? 0
-      const stakingApr = farm?.stakingApr ?? 0
-      const combinedApr = farm?.combinedApr ?? 0
-
       const multiplier = JSBI.BigInt(farm?.allocPoint)
 
       const pid = farm?.pid
@@ -1784,10 +1780,7 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
         earnedAmount,
         rewardsAddress,
         rewardsAddresses,
-        rewardTokens,
-        swapFeeApr,
-        stakingApr,
-        combinedApr
+        rewardTokens
       })
 
       return memo
@@ -1818,7 +1811,34 @@ export function useUpdateEarnAmount(pid: string, account: string) {
   }, [earnedAmount])
 }
 
-export function useUpdateAPR(pid: string) {
+export const useGetFarmApr = (pid: string) => {
+  const swapFeeApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[pid]?.swapFeeApr)
+  const combinedApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[pid]?.combinedApr)
+  const stakingApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[pid]?.stakingApr)
+
+  return useMemo(
+    () => ({
+      swapFeeApr,
+      combinedApr,
+      stakingApr
+    }),
+    [swapFeeApr, combinedApr, stakingApr]
+  )
+}
+
+export const useSortFarmAprs = () => {
+  const aprs = useSelector<AppState, AppState['stake']['aprs']>(state => state?.stake?.aprs)
+
+  const sortedAprs = useMemo(() => Object.values(aprs).sort((a, b) => b.combinedApr - a.combinedApr), [aprs])
+
+  return sortedAprs
+}
+
+export function useFetchFarmApr(pid: string) {
+  // get data from redux first
+  const { combinedApr, stakingApr, swapFeeApr } = useGetFarmApr(pid)
+
+  // fetch apr using api
   const { isLoading, data } = useQuery(
     `getAPR-${pid}`,
     async () => {
@@ -1826,23 +1846,44 @@ export function useUpdateAPR(pid: string) {
         timeout: 5000
       })
 
-      const data = response.data
+      const res = response.data
 
       return {
-        swapFeeApr: Number(data.swapFeeApr),
-        stakingApr: Number(data.stakingApr),
-        combinedApr: Number(data.combinedApr)
+        swapFeeApr: Number(res.swapFeeApr),
+        stakingApr: Number(res.stakingApr),
+        combinedApr: Number(res.combinedApr)
       }
     },
     { cacheTime: 10 }
   )
 
+  const { combinedApr: apiCombineApr, stakingApr: apiStakingApr, swapFeeApr: apiSwapFeeApr } = data || {}
+
   const dispatch = useDispatch<AppDispatch>()
   useEffect(() => {
     if (!isLoading) {
-      dispatch(updateMinichefStakingAprs({ pid, data }))
+      dispatch(
+        updateMinichefStakingAprs({
+          pid,
+          data: {
+            swapFeeApr: apiSwapFeeApr,
+            combinedApr: apiCombineApr,
+            stakingApr: apiStakingApr
+          }
+        })
+      )
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, isLoading])
+  }, [apiCombineApr, apiStakingApr, apiSwapFeeApr, isLoading])
+
+  // if latest api data exist then return  it or else return redux data
+  return useMemo(
+    () => ({
+      swapFeeApr: apiSwapFeeApr || swapFeeApr,
+      combinedApr: apiCombineApr || combinedApr,
+      stakingApr: apiStakingApr || stakingApr
+    }),
+    [apiCombineApr, apiStakingApr, apiSwapFeeApr, combinedApr, stakingApr, swapFeeApr]
+  )
 }

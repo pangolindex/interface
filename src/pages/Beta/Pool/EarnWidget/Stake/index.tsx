@@ -37,9 +37,10 @@ interface StakeProps {
   onComplete?: () => void
   type: 'card' | 'detail'
   stakingInfo: StakingInfo
+  combinedApr?: number
 }
 
-const Stake = ({ version, onComplete, type, stakingInfo }: StakeProps) => {
+const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakeProps) => {
   const { account, library } = useActiveWeb3React()
   const chainId = useChainId()
 
@@ -389,7 +390,9 @@ const Stake = ({ version, onComplete, type, stakingInfo }: StakeProps) => {
 
                 <Stat
                   title={`APR`}
-                  stat={stakingInfo?.combinedApr ? `${stakingInfo?.combinedApr}%` : '-'}
+                  stat={
+                    combinedApr ? `${combinedApr}%` : stakingInfo?.combinedApr ? `${stakingInfo?.combinedApr}%` : '-'
+                  }
                   titlePosition="top"
                   titleFontSize={14}
                   statFontSize={16}

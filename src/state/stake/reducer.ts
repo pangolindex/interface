@@ -4,7 +4,7 @@ import { updateMinichefStakingAllData, updateMinichefStakingSingleData, updateMi
 
 export interface MinichefStakingInfoState {
   readonly minichefStakingData: MinichefV2
-  readonly aprs: { [key: string]: { pid: number; swapFeeApr: number; stakingApr: number; combinedApr: number } }
+  readonly aprs: { [key: string]: { pid: string; swapFeeApr: number; stakingApr: number; combinedApr: number } }
 }
 
 const initialState: MinichefStakingInfoState = {

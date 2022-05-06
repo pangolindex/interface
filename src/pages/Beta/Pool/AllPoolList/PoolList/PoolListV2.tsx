@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { TextInput, Box } from '@pangolindex/components'
-import { MinichefStakingInfo } from 'src/state/stake/hooks'
+import { MinichefStakingInfo, useSortFarmAprs } from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCardV2 from '../PoolCard/PoolCardV2'
 import Loader from 'src/components/Loader'
@@ -42,11 +42,11 @@ export interface EarnProps {
   menuItems: Array<{ label: string; value: string }>
 }
 
-const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu, activeMenu, menuItems }) => {
+const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activeMenu, menuItems }) => {
   const chainId = useChainId()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
-  const [poolCardsLoading, setPoolCardsLoading] = useState(false)
+  const [poolCardsLoading] = useState(false)
 
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [sortBy, setSortBy] = useState<string>('')
@@ -56,6 +56,8 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
   const [selectedPoolIndex, setSelectedPoolIndex] = useState(-1)
 
   const togglePoolDetailModal = usePoolDetailnModalToggle()
+
+  const sortedFarmsApr = useSortFarmAprs()
 
   const handleSearch = useCallback(value => {
     setSearchQuery(value.trim().toUpperCase())
@@ -82,33 +84,27 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
   }, [debouncedSearchQuery])
 
   useEffect(() => {
-    const updatedStakingInfos = stakingInfoData.sort(function(info_a, info_b) {
-      if (sortBy === SortingType.totalStakedInUsd) {
+    if (sortBy === SortingType.totalStakedInUsd) {
+      const updatedStakingInfos = stakingInfoData.sort(function(info_a, info_b) {
         return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-      }
+      })
+      setStakingInfoData(updatedStakingInfos)
+    }
 
-      if (sortBy === SortingType.totalApr) {
-        return (info_a?.stakingApr || 0) + (info_a?.swapFeeApr || 0) >
-          (info_b?.stakingApr || 0) + (info_b?.swapFeeApr || 0)
-          ? -1
-          : 1
-      }
-      return 0
-    })
+    // TODO: try this logic
+    // if (sortBy === SortingType.totalApr) {
+    //   const sortedFarms = sortedFarmsApr.map(
+    //     item => stakingInfoData.find(infoItem => infoItem?.pid === item.pid) as MinichefStakingInfo
+    //   )
+    //   setStakingInfoData(sortedFarms)
+    // }
 
-    setStakingInfoData(updatedStakingInfos)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy])
+  }, [sortBy, sortedFarmsApr])
 
   useEffect(() => {
-    setPoolCardsLoading(true)
-
     if (stakingInfos?.length > 0) {
       const updatedStakingInfos = stakingInfos
-        .filter(function(info) {
-          // Only include pools that are live or require a migration
-          return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
-        })
         .sort(function(info_a, info_b) {
           // only first has ended
           if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
@@ -126,7 +122,6 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
         })
 
       setStakingInfoData(updatedStakingInfos)
-      setPoolCardsLoading(false)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

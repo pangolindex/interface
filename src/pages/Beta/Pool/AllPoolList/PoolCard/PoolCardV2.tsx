@@ -15,7 +15,7 @@ import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { MinichefStakingInfo, useUpdateEarnAmount, useUpdateAPR } from 'src/state/stake/hooks'
+import { MinichefStakingInfo, useUpdateEarnAmount, useFetchFarmApr } from 'src/state/stake/hooks'
 import { usePair } from 'src/data/Reserves'
 // import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 // import { useTokens } from 'src/hooks/Tokens'
@@ -46,7 +46,7 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version, index }: PoolCard
 
   useUpdateEarnAmount(stakingInfo?.pid, account ? account : '')
 
-  useUpdateAPR(stakingInfo?.pid)
+  const { combinedApr } = useFetchFarmApr(stakingInfo?.pid)
 
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
@@ -112,7 +112,7 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version, index }: PoolCard
 
         <Stat
           title={`APR`}
-          stat={stakingInfo?.combinedApr ? `${stakingInfo?.combinedApr}%` : '-'}
+          stat={combinedApr ? `${combinedApr}%` : '-'}
           titlePosition="top"
           titleFontSize={16}
           statFontSize={24}
@@ -190,6 +190,7 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version, index }: PoolCard
           version={version}
           backgroundColor="color5"
           stakingInfo={stakingInfo}
+          combinedApr={combinedApr}
         />
       )}
 
