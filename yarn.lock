@@ -2170,10 +2170,10 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@pangolindex/components@2.0.10":
-  version "2.0.10"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-2.0.10.tgz#c3ee3a8ed12ec97949d1f98074277983e0014079"
-  integrity sha512-vfQr4F5RRHODd+zPAkL/jSFAt5W1qMf4SVKolvpgYAnJhfDAnOdN9okWwUgIJ6XedpETZgM19aOB6PHP4wgG8A==
+"@pangolindex/components@2.0.12":
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-2.0.12.tgz#869e5ceddccd0f61ed6e9c06b7c609bd5e6595e7"
+  integrity sha512-5xhhFaJSuvHl4Be/4QfO26RwbGdrP9aTk5bRn4gHAMqQt2CyIdyfHE5px/1al5X5UD1IwUR1OF76y/Z7pACLlg==
   dependencies:
     cids "^1.1.9"
     react-switch "^6.0.0"
