@@ -15,7 +15,7 @@ import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { MinichefStakingInfo } from 'src/state/stake/hooks'
+import { MinichefStakingInfo, useUpdateEarnAmount, useUpdateAPR } from 'src/state/stake/hooks'
 import { usePair } from 'src/data/Reserves'
 // import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 // import { useTokens } from 'src/hooks/Tokens'
@@ -44,9 +44,9 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version, index }: PoolCard
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
-  // useUpdateEarnAmount(stakingInfo?.pid, account ? account : '')
+  useUpdateEarnAmount(stakingInfo?.pid, account ? account : '')
 
-  // useUpdateAPR(stakingInfo?.pid)
+  useUpdateAPR(stakingInfo?.pid)
 
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
