@@ -1,6 +1,4 @@
-import React, { useState, useCallback, useContext, useEffect } from 'react'
-import { ThemeContext } from 'styled-components'
-import { ChevronDown } from 'react-feather'
+import React, { useState, useCallback, useEffect } from 'react'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import {
   StakeWrapper,
@@ -17,12 +15,7 @@ import { Box, Text, Button, DoubleCurrencyLogo, NumberOptions } from '@pangolind
 import { useActiveWeb3React } from 'src/hooks'
 import { TokenAmount, Pair, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import {
-  useGetPoolDollerWorth,
-  useMinichefStakingInfos,
-  useMinichefPendingRewards,
-  StakingInfo
-} from 'src/state/stake/hooks'
+import { useGetPoolDollerWorth, useMinichefPendingRewards, StakingInfo } from 'src/state/stake/hooks'
 import { usePairContract, useStakingContract } from 'src/hooks/useContract'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
@@ -37,25 +30,25 @@ import Stat from 'src/components/Stat'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 import { useChainId } from 'src/hooks'
+import { usePair } from 'src/data/Reserves'
 
 interface StakeProps {
-  pair: Pair | null
   version: number
   onComplete?: () => void
   type: 'card' | 'detail'
-  combinedApr?: number
   stakingInfo: StakingInfo
 }
 
-const Stake = ({ pair, version, onComplete, type, combinedApr, stakingInfo }: StakeProps) => {
+const Stake = ({ version, onComplete, type, stakingInfo }: StakeProps) => {
   const { account, library } = useActiveWeb3React()
   const chainId = useChainId()
 
-  const [selectedPair, setSelectedPair] = useState<Pair | null>(pair)
+  const token0 = stakingInfo.tokens[0]
+  const token1 = stakingInfo.tokens[1]
 
-  // const stakingInfo = useMinichefStakingInfos(2, selectedPair)?.[0]
+  const [, stakingTokenPair] = usePair(token0, token1)
 
-  // const theme = useContext(ThemeContext)
+  const [selectedPair, setSelectedPair] = useState<Pair | null>(stakingTokenPair)
 
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, selectedPair?.liquidityToken)
   const { liquidityInUSD } = useGetPoolDollerWorth(selectedPair)
@@ -330,7 +323,6 @@ const Stake = ({ pair, version, onComplete, type, combinedApr, stakingInfo }: St
                     {currency0?.symbol}/{currency1?.symbol}
                   </Text>
                 </Box>
-                {/* <ChevronDown size="16" color={theme.text1} /> */}
               </PoolSelectWrapper>
             )}
 
@@ -397,7 +389,7 @@ const Stake = ({ pair, version, onComplete, type, combinedApr, stakingInfo }: St
 
                 <Stat
                   title={`APR`}
-                  stat={combinedApr ? `${combinedApr}%` : '-'}
+                  stat={stakingInfo?.combinedApr ? `${stakingInfo?.combinedApr}%` : '-'}
                   titlePosition="top"
                   titleFontSize={14}
                   statFontSize={16}

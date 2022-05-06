@@ -2,9 +2,7 @@ import { Token } from '@pangolindex/sdk'
 import React from 'react'
 import { LogoSize } from 'src/constants'
 import styled from 'styled-components'
-import { PNG } from '../../constants/tokens'
 import { CurrencyLogo } from '@pangolindex/components'
-import { useChainId } from 'src/hooks'
 
 const Wrapper = styled.div<{ margin: boolean; sizeraw: number }>`
   position: relative;
@@ -25,7 +23,6 @@ const CoveredLogo = styled(CurrencyLogo)<{ sizeraw: number }>`
 `
 
 export default function RewardTokens({ rewardTokens = [], size = 24, margin = false }: RewardTokensLogoProps) {
-  const chainId = useChainId()
   const tokens = rewardTokens || [] // add PNG as default reward
 
   return (

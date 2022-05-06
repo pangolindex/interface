@@ -25,7 +25,7 @@ export default createReducer(initialState, builder =>
 
     .addCase(updateMinichefStakingSingleData, (state, { payload: { pid, data } }) => {
       //Find index of specific object using findIndex method.
-      let objIndex = (state.minichefStakingData.farms || []).findIndex(obj => obj.pid == pid)
+      let objIndex = (state.minichefStakingData.farms || []).findIndex(obj => obj.pid === pid)
 
       let existingData = { ...state.minichefStakingData }
 

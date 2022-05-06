@@ -61,13 +61,14 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
     setSearchQuery(value.trim().toUpperCase())
   }, [])
 
-  const handleClickViewDetail = useCallback(index => {
-    setSelectedPoolIndex(index)
-    togglePoolDetailModal()
-  }, [])
+  const handleClickViewDetail = useCallback(
+    index => {
+      setSelectedPoolIndex(index)
+      togglePoolDetailModal()
+    },
+    [togglePoolDetailModal]
+  )
 
-  // console.log('stakingInfoData==123', stakingInfoData)
-  console.log('stakingInfos==', stakingInfos)
   useEffect(() => {
     const filtered = stakingInfos.filter(function(stakingInfo) {
       return (

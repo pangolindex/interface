@@ -180,10 +180,9 @@ const PoolCardV1 = ({ stakingInfo, onClickViewDetail, version }: PoolCardV1Props
           onClose={() => {
             setShowFarmDrawer(false)
           }}
-          clickedLpTokens={stakingInfo?.tokens}
           version={version}
           backgroundColor="color5"
-          combinedApr={stakingInfo?.combinedApr}
+          stakingInfo={stakingInfo}
         />
       )}
 

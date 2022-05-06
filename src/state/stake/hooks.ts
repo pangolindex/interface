@@ -1586,8 +1586,6 @@ export function useGetAllFarmData(id?: string) {
 
   const dispatch = useDispatch<AppDispatch>()
 
-  console.log('allFarms?.data?.[0]', allFarms?.data?.[0])
-
   useEffect(() => {
     if (!allFarms?.isLoading) {
       dispatch(updateMinichefStakingAllData({ data: allFarms?.data?.[0] }))
@@ -1610,8 +1608,6 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
   const minichefData = useAllMinichefStakingInfoData()
 
   const farms = minichefData?.farms || []
-
-  console.log('farms', farms)
 
   const chainId = useChainId()
   const png = PNG[chainId]
@@ -1671,8 +1667,6 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
         else return 0
       })
 
-      console.log('tokens', tokens)
-
       const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
       const lpToken = dummyPair.liquidityToken
 
@@ -1691,8 +1685,6 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
       // periodFinish will be 0 immediately after a reward contract is initialized
       const isPeriodFinished =
         periodFinishMs === 0 ? false : periodFinishMs < Date.now() || poolAllocPointAmount.equalTo('0')
-
-      ///(minichefTvl x totalSupplyReserve0 / totalSupply) x token0UsdPrice x 2
 
       const minichefTvl = BigNumber.from(Number(farm?.tvl).toFixed(0))
 
@@ -1794,7 +1786,7 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
     }, [])
 
     return instances
-  }, [chainId, png, minichefData])
+  }, [chainId, png, rewardPerSecond, totalAllocPoint, rewardsExpiration, farms])
 
   return arr
 }
@@ -1836,7 +1828,6 @@ export function useUpdateAPR(pid: string) {
   const dispatch = useDispatch<AppDispatch>()
   useEffect(() => {
     if (!isLoading) {
-      console.log('========================dispatch', pid, data)
       dispatch(updateMinichefStakingSingleData({ pid: pid, data: data }))
     }
 
