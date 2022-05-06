@@ -6,11 +6,7 @@ import AllPoolList from './AllPoolList'
 import Wallet from './Wallet'
 import { MenuType } from './Sidebar'
 import { useTranslation } from 'react-i18next'
-import {
-  useStakingInfo,
-  useGetMinichefStakingInfosViaSubgraph,
-  useGetAllFarmData
-} from 'src/state/stake/hooks'
+import { useStakingInfo, useGetMinichefStakingInfosViaSubgraph, useGetAllFarmData } from 'src/state/stake/hooks'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
 
@@ -36,7 +32,6 @@ const PoolUI = () => {
   const ownStakingInfoV1 = (stakingInfoV1 || []).filter(stakingInfo => {
     return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
   })
-
 
   // filter only live or needs migration pools
   miniChefStakingInfo = (miniChefStakingInfo || []).filter(
@@ -94,7 +89,7 @@ const PoolUI = () => {
     })
   }
 
-  console.log("activeMenu",activeMenu)
+  console.log('activeMenu', activeMenu)
 
   return (
     <PageWrapper>

@@ -39,7 +39,7 @@ import { useTransactionAdder } from 'src/state/transactions/hooks'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { maxAmountSpend } from 'src/utils/maxAmountSpend'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
-import { splitSignature } from 'ethers/lib/utils'
+import { getAddress, splitSignature } from 'ethers/lib/utils'
 import { useChainId } from 'src/hooks'
 import { mininchefV2Client } from 'src/apollo/client'
 import { GET_MINICHEF } from 'src/apollo/minichef'
@@ -1575,7 +1575,7 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
 
 export function useGetAllFarmData(id?: string) {
   // const { account } = useActiveWeb3React()
-  //TODO===
+  // TODO:
   const account = '0x8eae80ae087efec96ac48efdf62f386c8c807251'
 
   const allFarms = useQuery(
@@ -1611,7 +1611,7 @@ export function useAllMinichefStakingInfoData(): MinichefV2 | undefined {
 export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStakingInfo[] => {
   const minichefData = useAllMinichefStakingInfoData()
 
-  const farms = minichefData?.farms || []
+  const farms = minichefData?.farms
 
   const chainId = useChainId()
   const png = PNG[chainId]
@@ -1621,32 +1621,32 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
   const rewardPerSecond = minichefData?.rewardPerSecond
 
   const arr = useMemo(() => {
-    if (!chainId || !png) return []
+    if (!chainId || !png || !farms?.length) return []
 
-    let instances = farms.reduce(function(memo: any, farm: MinichefFarm) {
+    const instances = farms.reduce(function(memo: any, farm: MinichefFarm) {
       const rewardsAddress = farm?.rewarderAddress
 
       const rewardsAddresses = farm.rewarder.rewards
 
-      let pair = farm.pair
+      const pair = farm.pair
 
       const axlUSTToken = axlUST[chainId]
       const axlUSTAddress = axlUSTToken.address
 
-      let pairToken0 = pair?.token0
+      const pairToken0 = pair?.token0
 
       const token0 = new Token(
         chainId,
-        pairToken0.id,
+        getAddress(pairToken0.id),
         pairToken0.decimals,
         axlUSTAddress.toLowerCase() === pairToken0.id.toLowerCase() ? axlUSTToken.symbol : pairToken0.symbol,
         pairToken0.name
       )
 
-      let pairToken1 = pair?.token1
+      const pairToken1 = pair?.token1
       const token1 = new Token(
         chainId,
-        pairToken1.id,
+        getAddress(pairToken1.id),
         pairToken1.decimals,
         axlUSTAddress.toLowerCase() === pairToken1.id.toLowerCase() ? axlUSTToken.symbol : pairToken1.symbol,
         pairToken1.name
@@ -1722,8 +1722,8 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
       const pid = farm?.pid
 
       const rewardTokens = rewardsAddresses.map((rewardToken: MinichefFarmReward) => {
-        let tokenObj = rewardToken.token
-        const token = new Token(chainId, tokenObj.id, tokenObj.decimals, tokenObj.symbol, tokenObj.name)
+        const tokenObj = rewardToken.token
+        const token = new Token(chainId, getAddress(tokenObj.id), tokenObj.decimals, tokenObj.symbol, tokenObj.name)
 
         return token
       })
@@ -1815,19 +1815,23 @@ export function useUpdateEarnAmount(pid: string, account: string) {
 }
 
 export function useUpdateAPR(pid: string) {
-  const { isLoading, data } = useQuery(`getAPR-${pid}`, async () => {
-    const response = await axios.get(`${PANGOLIN_API_BASE_URL}/pangolin/apr2/${pid}`, {
-      timeout: 5000
-    })
+  const { isLoading, data } = useQuery(
+    `getAPR-${pid}`,
+    async () => {
+      const response = await axios.get(`${PANGOLIN_API_BASE_URL}/pangolin/apr2/${pid}`, {
+        timeout: 5000
+      })
 
-    const data = response.data
+      const data = response.data
 
-    return {
-      swapFeeApr: Number(data.swapFeeApr),
-      stakingApr: Number(data.stakingApr),
-      combinedApr: Number(data.combinedApr)
-    }
-  }, {cacheTime:10})
+      return {
+        swapFeeApr: Number(data.swapFeeApr),
+        stakingApr: Number(data.stakingApr),
+        combinedApr: Number(data.combinedApr)
+      }
+    },
+    { cacheTime: 10 }
+  )
 
   const dispatch = useDispatch<AppDispatch>()
   useEffect(() => {

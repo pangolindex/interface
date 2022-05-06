@@ -15,7 +15,7 @@ interface Props {
 const PoolV2: React.FC<Props> = ({ type, setMenu, activeMenu, menuItems, miniChefStakingInfo }) => {
   const poolMap = useMinichefPools()
 
-  useTraceUpdate("PoolV2", { type, setMenu, activeMenu, menuItems, miniChefStakingInfo })
+  useTraceUpdate('PoolV2', { type, setMenu, activeMenu, menuItems, miniChefStakingInfo })
 
   if (type === PoolType.own) {
     miniChefStakingInfo = (miniChefStakingInfo || []).filter(stakingInfo => {
