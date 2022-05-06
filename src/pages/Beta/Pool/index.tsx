@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { Box } from '@pangolindex/components'
 import { PageWrapper, GridContainer, ExternalLink } from './styleds'
 import Sidebar from './Sidebar'
@@ -34,12 +34,19 @@ const PoolUI = () => {
   })
 
   // filter only live or needs migration pools
-  miniChefStakingInfo = (miniChefStakingInfo || []).filter(
-    info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+  miniChefStakingInfo = useMemo(
+    () =>
+      (miniChefStakingInfo || []).filter(info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)),
+    [miniChefStakingInfo]
   )
-  const ownminiChefStakingInfo = (miniChefStakingInfo || []).filter(stakingInfo => {
-    return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
-  })
+
+  const ownminiChefStakingInfo = useMemo(
+    () =>
+      (miniChefStakingInfo || []).filter(stakingInfo => {
+        return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
+      }),
+    [miniChefStakingInfo]
+  )
 
   const superFarms = miniChefStakingInfo.filter(item => (item?.rewardTokens?.length || 0) > 1)
 
@@ -91,13 +98,20 @@ const PoolUI = () => {
 
   console.log('activeMenu', activeMenu)
 
+  const handleSetMenu = useCallback(
+    (value: string) => {
+      setMenu(value)
+    },
+    [setMenu]
+  )
+
   return (
     <PageWrapper>
       <GridContainer>
         <Box display="flex" height="100%">
           <Sidebar
             activeMenu={activeMenu}
-            setMenu={(value: string) => setMenu(value)}
+            setMenu={handleSetMenu}
             menuItems={menuItems}
             onManagePoolsClick={() => {
               setMenu(MenuType.yourWallet)
@@ -120,12 +134,12 @@ const PoolUI = () => {
               stakingInfoV1={stakingInfoV1}
               miniChefStakingInfo={miniChefStakingInfo}
               activeMenu={activeMenu}
-              setMenu={(value: string) => setMenu(value)}
+              setMenu={handleSetMenu}
               menuItems={menuItems}
             />
           )}
           {activeMenu === MenuType.yourWallet && (
-            <Wallet activeMenu={activeMenu} setMenu={(value: string) => setMenu(value)} menuItems={menuItems} />
+            <Wallet activeMenu={activeMenu} setMenu={handleSetMenu} menuItems={menuItems} />
           )}
         </Box>
 

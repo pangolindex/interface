@@ -33,7 +33,7 @@ const PoolV2: React.FC<Props> = ({ type, setMenu, activeMenu, menuItems, miniChe
       stakingInfos={miniChefStakingInfo}
       poolMap={poolMap}
       activeMenu={activeMenu}
-      setMenu={(value: string) => setMenu(value)}
+      setMenu={setMenu}
       menuItems={menuItems}
     />
   )

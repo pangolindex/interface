@@ -62,7 +62,7 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
   }, [])
 
   const handleClickViewDetail = useCallback(
-    index => {
+    index => () => {
       setSelectedPoolIndex(index)
       togglePoolDetailModal()
     },
@@ -195,9 +195,8 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
                 <PoolCardV2
                   key={index}
                   stakingInfo={stakingInfo}
-                  onClickViewDetail={() => {
-                    handleClickViewDetail(index)
-                  }}
+                  index={index}
+                  onClickViewDetail={handleClickViewDetail}
                   version={Number(version)}
                 />
               ))}

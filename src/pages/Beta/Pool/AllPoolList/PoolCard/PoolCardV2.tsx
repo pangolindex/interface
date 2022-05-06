@@ -29,11 +29,12 @@ import { useChainId } from 'src/hooks'
 
 export interface PoolCardProps {
   stakingInfo: MinichefStakingInfo
-  onClickViewDetail: () => void
+  onClickViewDetail: (index: number) => void
   version: number
+  index: number
 }
 
-const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) => {
+const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version, index }: PoolCardProps) => {
   const { t } = useTranslation()
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
 
@@ -43,9 +44,9 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) 
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
-  useUpdateEarnAmount(stakingInfo?.pid, account ? account : '')
+  // useUpdateEarnAmount(stakingInfo?.pid, account ? account : '')
 
-  useUpdateAPR(stakingInfo?.pid)
+  // useUpdateAPR(stakingInfo?.pid)
 
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
@@ -130,7 +131,7 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) 
 
       <InnerWrapper>
         <Box>
-          <DetailButton variant="plain" onClick={() => onClickViewDetail()} color="text1" height="45px">
+          <DetailButton variant="plain" onClick={() => onClickViewDetail(index)} color="text1" height="45px">
             {t('pool.seeDetails')}
           </DetailButton>
         </Box>

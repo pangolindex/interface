@@ -27,14 +27,14 @@ const AllPoolList: React.FC<Props> = ({
       type={type}
       stakingInfos={stakingInfoV1}
       activeMenu={activeMenu}
-      setMenu={(value: string) => setMenu(value)}
+      setMenu={setMenu}
       menuItems={menuItems}
     />
   ) : (
     <PoolV2
       type={type}
       activeMenu={activeMenu}
-      setMenu={(value: string) => setMenu(value)}
+      setMenu={setMenu}
       menuItems={menuItems}
       miniChefStakingInfo={miniChefStakingInfo}
     />

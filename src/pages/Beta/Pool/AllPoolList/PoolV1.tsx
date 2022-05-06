@@ -22,7 +22,7 @@ const PoolV1: React.FC<Props> = ({ type, stakingInfos, setMenu, activeMenu, menu
       version="1"
       stakingInfos={stakingInfos}
       activeMenu={activeMenu}
-      setMenu={(value: string) => setMenu(value)}
+      setMenu={setMenu}
       menuItems={menuItems}
     />
   )
