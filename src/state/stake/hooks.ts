@@ -39,7 +39,7 @@ import { useTransactionAdder } from 'src/state/transactions/hooks'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { maxAmountSpend } from 'src/utils/maxAmountSpend'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
-import { getAddress, splitSignature } from 'ethers/lib/utils'
+import { parseUnits, getAddress, splitSignature } from 'ethers/lib/utils'
 import { useChainId } from 'src/hooks'
 import { mininchefV2Client } from 'src/apollo/client'
 import { GET_MINICHEF } from 'src/apollo/minichef'
@@ -1694,27 +1694,21 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
       const isPeriodFinished =
         periodFinishMs === 0 ? false : periodFinishMs < Date.now() || poolAllocPointAmount.equalTo('0')
 
-      const minichefTvl = BigNumber.from(Number(farm?.tvl).toFixed(0))
-
-      const totalSupplyReserve0 = BigNumber.from(Number(farm?.pair?.reserve0).toFixed(0))
-
-      //const totalSupply = BigNumber.from(Number(farm?.pair?.totalSupply).toFixed(0) ?? 1)
-      const totalSupply = BigNumber.from(1)
-
-      const token0derivedUSD = BigNumber.from(Number(farm?.pair?.token0?.derivedUSD).toFixed(0))
-
-      const pairTokenValueInUSD = token0derivedUSD.mul(BigNumber.from('2'))
-
+      const minichefTvl = parseUnits(farm?.tvl?.toString())
+      const totalSupplyReserve0 = parseUnits(farm?.pair?.reserve0.toString())
+      const totalSupply = parseUnits(
+        farm?.pair?.totalSupply.toString() === '0' ? '1' : farm?.pair?.totalSupply.toString()
+      )
+      const token0derivedUSD = BigNumber.from(Number(farm?.pair?.token0?.derivedUSD)?.toFixed(0))
+      const pairTokenValueInUSD = token0derivedUSD.mul(parseUnits('2'))
       const calculatedStakedUsdValue = minichefTvl.mul(totalSupplyReserve0).div(totalSupply)
-
       const finalStakedValueInUSD = pairTokenValueInUSD.mul(calculatedStakedUsdValue)
 
       const totalStakedAmount = new TokenAmount(lpToken, minichefTvl.toString() || JSBI.BigInt(0))
-
+      // TODO:
       const totalStakedInUsd = new TokenAmount(lpToken, finalStakedValueInUSD.toString() || JSBI.BigInt(0))
 
       const stakedAmount = new TokenAmount(lpToken, JSBI.BigInt(farm.liquidityPositions.liquidityTokenBalance ?? 0))
-
       const earnedAmount = new TokenAmount(png, JSBI.BigInt(farm?.earnedAmount ?? 0))
 
       const multiplier = JSBI.BigInt(farm?.allocPoint)

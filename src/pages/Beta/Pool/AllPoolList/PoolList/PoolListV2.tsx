@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { TextInput, Box } from '@pangolindex/components'
-import { MinichefStakingInfo, useSortFarmAprs } from 'src/state/stake/hooks'
+import { MinichefStakingInfo } from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCardV2 from '../PoolCard/PoolCardV2'
 import Loader from 'src/components/Loader'
@@ -57,7 +57,7 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
 
   const togglePoolDetailModal = usePoolDetailnModalToggle()
 
-  const sortedFarmsApr = useSortFarmAprs()
+  // const sortedFarmsApr = useSortFarmAprs()
 
   const handleSearch = useCallback(value => {
     setSearchQuery(value.trim().toUpperCase())
@@ -100,7 +100,7 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
     // }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy, sortedFarmsApr])
+  }, [sortBy])
 
   useEffect(() => {
     if (stakingInfos?.length > 0) {
