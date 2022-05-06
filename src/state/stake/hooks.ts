@@ -47,7 +47,11 @@ import { useQuery } from 'react-query'
 import { BigNumber } from 'ethers'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, AppState } from '../index'
-import { updateMinichefStakingAllData, updateMinichefStakingSingleData } from 'src/state/stake/actions'
+import {
+  updateMinichefStakingAllData,
+  updateMinichefStakingAprs,
+  updateMinichefStakingSingleData
+} from 'src/state/stake/actions'
 import axios from 'axios'
 
 export interface SingleSideStaking {
@@ -1836,7 +1840,7 @@ export function useUpdateAPR(pid: string) {
   const dispatch = useDispatch<AppDispatch>()
   useEffect(() => {
     if (!isLoading) {
-      dispatch(updateMinichefStakingSingleData({ pid: pid, data: data }))
+      dispatch(updateMinichefStakingAprs({ pid, data }))
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

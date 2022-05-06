@@ -1,13 +1,15 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { MinichefV2 } from './hooks'
-import { updateMinichefStakingAllData, updateMinichefStakingSingleData } from './actions'
+import { updateMinichefStakingAllData, updateMinichefStakingSingleData, updateMinichefStakingAprs } from './actions'
 
 export interface MinichefStakingInfoState {
   readonly minichefStakingData: MinichefV2
+  readonly aprs: { [key: string]: { pid: number; swapFeeApr: number; stakingApr: number; combinedApr: number } }
 }
 
 const initialState: MinichefStakingInfoState = {
-  minichefStakingData: {} as MinichefV2
+  minichefStakingData: {} as MinichefV2,
+  aprs: {}
 }
 
 export enum SortingType {
@@ -35,5 +37,13 @@ export default createReducer(initialState, builder =>
       existingData.farms[objIndex] = { ...existingData.farms[objIndex], ...data }
 
       state.minichefStakingData = existingData
+    })
+
+    .addCase(updateMinichefStakingAprs, (state, { payload: { pid, data } }) => {
+      console.info('updateMinichefStakingAprs')
+      state.aprs = {
+        ...state.aprs,
+        [pid]: { ...data, pid }
+      }
     })
 )
