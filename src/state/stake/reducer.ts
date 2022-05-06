@@ -18,12 +18,15 @@ export enum SortingType {
 export default createReducer(initialState, builder =>
   builder
     .addCase(updateMinichefStakingAllData, (state, { payload: { data } }) => {
+      console.info('updateMinichefStakingAllData')
+
       const existingData = { ...(state.minichefStakingData || {}), ...data }
 
       state.minichefStakingData = existingData
     })
 
     .addCase(updateMinichefStakingSingleData, (state, { payload: { pid, data } }) => {
+      console.info('updateMinichefStakingSingleData')
       //Find index of specific object using findIndex method.
       const objIndex = (state.minichefStakingData.farms || []).findIndex(obj => obj.pid === pid)
 

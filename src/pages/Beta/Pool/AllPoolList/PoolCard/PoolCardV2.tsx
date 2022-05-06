@@ -44,9 +44,9 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version, index }: PoolCard
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
-  // useUpdateEarnAmount(stakingInfo?.pid, account ? account : '')
+  useUpdateEarnAmount(stakingInfo?.pid, account ? account : '')
 
-  // useUpdateAPR(stakingInfo?.pid)
+  useUpdateAPR(stakingInfo?.pid)
 
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]

@@ -26,12 +26,18 @@ const PoolUI = () => {
 
   let stakingInfoV1 = useStakingInfo(1)
   // filter only live or needs migration pools
-  stakingInfoV1 = (stakingInfoV1 || []).filter(
-    info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+  stakingInfoV1 = useMemo(
+    () => (stakingInfoV1 || []).filter(info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)),
+    [stakingInfoV1]
   )
-  const ownStakingInfoV1 = (stakingInfoV1 || []).filter(stakingInfo => {
-    return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
-  })
+
+  const ownStakingInfoV1 = useMemo(
+    () =>
+      (stakingInfoV1 || []).filter(stakingInfo => {
+        return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
+      }),
+    [stakingInfoV1]
+  )
 
   // filter only live or needs migration pools
   miniChefStakingInfo = useMemo(
@@ -48,7 +54,9 @@ const PoolUI = () => {
     [miniChefStakingInfo]
   )
 
-  const superFarms = miniChefStakingInfo.filter(item => (item?.rewardTokens?.length || 0) > 1)
+  const superFarms = useMemo(() => miniChefStakingInfo.filter(item => (item?.rewardTokens?.length || 0) > 1), [
+    miniChefStakingInfo
+  ])
 
   const menuItems: Array<{ label: string; value: string }> = []
 

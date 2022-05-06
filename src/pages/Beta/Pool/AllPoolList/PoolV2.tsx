@@ -2,7 +2,6 @@ import React from 'react'
 import { useMinichefPools, MinichefStakingInfo } from 'src/state/stake/hooks'
 import PoolListV2 from './PoolList/PoolListV2'
 import { PoolType } from '../index'
-import { useTraceUpdate } from 'src/hooks/useTraceUpdate'
 
 interface Props {
   type: string
@@ -14,8 +13,6 @@ interface Props {
 
 const PoolV2: React.FC<Props> = ({ type, setMenu, activeMenu, menuItems, miniChefStakingInfo }) => {
   const poolMap = useMinichefPools()
-
-  useTraceUpdate('PoolV2', { type, setMenu, activeMenu, menuItems, miniChefStakingInfo })
 
   if (type === PoolType.own) {
     miniChefStakingInfo = (miniChefStakingInfo || []).filter(stakingInfo => {

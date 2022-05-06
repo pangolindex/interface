@@ -23,13 +23,7 @@ const AllPoolList: React.FC<Props> = ({
   menuItems
 }) => {
   return version === 1 ? (
-    <PoolV1
-      type={type}
-      stakingInfos={stakingInfoV1}
-      activeMenu={activeMenu}
-      setMenu={setMenu}
-      menuItems={menuItems}
-    />
+    <PoolV1 type={type} stakingInfos={stakingInfoV1} activeMenu={activeMenu} setMenu={setMenu} menuItems={menuItems} />
   ) : (
     <PoolV2
       type={type}
