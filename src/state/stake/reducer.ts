@@ -1,6 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { MinichefV2 } from './hooks'
-import { updateMinichefStakingAllData, updateMinichefStakingSingleData, updateMinichefStakingAprs } from './actions'
+import {
+  updateMinichefStakingAllData,
+  updateMinichefStakingSingleData,
+  updateMinichefStakingAprs,
+  updateMinichefStakingAllAprs
+} from './actions'
 
 export interface MinichefStakingInfoState {
   readonly minichefStakingData: MinichefV2
@@ -45,5 +50,10 @@ export default createReducer(initialState, builder =>
         ...state.aprs,
         [pid]: { ...data, pid }
       }
+    })
+
+    .addCase(updateMinichefStakingAllAprs, (state, { payload: { data } }) => {
+      console.info('updateMinichefStakingALLAprs')
+      state.aprs = data
     })
 )

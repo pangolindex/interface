@@ -1,7 +1,7 @@
 import { Box, DoubleCurrencyLogo, Text } from '@pangolindex/components'
 import React, { useContext } from 'react'
 import Stat from 'src/components/Stat'
-import { StakingInfo } from 'src/state/stake/hooks'
+import { StakingInfo, useGetFarmApr } from 'src/state/stake/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { ThemeContext } from 'styled-components'
 import { HeaderRoot, StatsWrapper, HeaderWrapper } from './styled'
@@ -32,6 +32,8 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
   // const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
   const rewardTokens = stakingInfo?.rewardTokens
 
+  const { swapFeeApr, stakingApr } = useGetFarmApr(stakingInfo?.pid as string)
+
   return (
     <HeaderRoot>
       <HeaderWrapper>
@@ -59,7 +61,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
 
         <Stat
           title={`Swap fee APR:`}
-          stat={`${stakingInfo?.swapFeeApr && !stakingInfo.isPeriodFinished ? `${stakingInfo?.swapFeeApr}%` : '-'}`}
+          stat={`${swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr}%` : '-'}`}
           titlePosition="top"
           titleFontSize={14}
           statFontSize={24}
@@ -67,7 +69,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
         />
         <Stat
           title={`Reward APR:`}
-          stat={`${stakingInfo?.stakingApr && !stakingInfo.isPeriodFinished ? `${stakingInfo?.stakingApr}%` : '-'}`}
+          stat={`${stakingApr && !stakingInfo.isPeriodFinished ? `${stakingApr}%` : '-'}`}
           titlePosition="top"
           titleFontSize={14}
           statFontSize={24}
@@ -75,11 +77,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
         />
         <Stat
           title={`Total APR:`}
-          stat={`${
-            stakingInfo?.swapFeeApr && !stakingInfo.isPeriodFinished
-              ? `${stakingInfo?.swapFeeApr + (stakingInfo?.stakingApr || 0)}%`
-              : '-'
-          }`}
+          stat={`${swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr + (stakingApr || 0)}%` : '-'}`}
           titlePosition="top"
           titleFontSize={14}
           statFontSize={24}

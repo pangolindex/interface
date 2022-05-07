@@ -14,3 +14,7 @@ export const updateMinichefStakingAprs = createAction<{
   pid: string
   data: any
 }>('pair/updateMinichefStakingAprs')
+
+export const updateMinichefStakingAllAprs = createAction<{
+  data: any
+}>('pair/updateMinichefStakingAllAprs')

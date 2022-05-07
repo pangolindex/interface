@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { TextInput, Box } from '@pangolindex/components'
-import { MinichefStakingInfo } from 'src/state/stake/hooks'
+import { MinichefStakingInfo, useFetchFarmAprs, useSortFarmAprs } from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCardV2 from '../PoolCard/PoolCardV2'
 import Loader from 'src/components/Loader'
@@ -16,6 +16,7 @@ import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
 import DetailModal from '../../DetailModal'
 import DropdownMenu from 'src/components/Beta/DropdownMenu'
 import { Hidden } from 'src/theme'
+import { useTraceUpdate } from 'src/hooks/useTraceUpdate'
 
 export enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
@@ -56,20 +57,12 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   const [selectedPoolIndex, setSelectedPoolIndex] = useState(-1)
 
   const togglePoolDetailModal = usePoolDetailnModalToggle()
-
-  // const sortedFarmsApr = useSortFarmAprs()
+  useFetchFarmAprs()
+  const sortedFarmsApr = useSortFarmAprs()
 
   const handleSearch = useCallback(value => {
     setSearchQuery(value.trim().toUpperCase())
   }, [])
-
-  const handleClickViewDetail = useCallback(
-    index => () => {
-      setSelectedPoolIndex(index)
-      togglePoolDetailModal()
-    },
-    [togglePoolDetailModal]
-  )
 
   useEffect(() => {
     const filtered = stakingInfos.filter(function(stakingInfo) {
@@ -90,14 +83,19 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
       })
       setStakingInfoData(updatedStakingInfos)
     }
+    console.log('stakingInfoData', stakingInfoData)
+    console.log('sortedFarmsApr', sortedFarmsApr)
 
     // TODO: try this logic
-    // if (sortBy === SortingType.totalApr) {
-    //   const sortedFarms = sortedFarmsApr.map(
-    //     item => stakingInfoData.find(infoItem => infoItem?.pid === item.pid) as MinichefStakingInfo
-    //   )
-    //   setStakingInfoData(sortedFarms)
-    // }
+    if (sortBy === SortingType.totalApr) {
+      const sortedFarms = sortedFarmsApr
+        .map(item => stakingInfoData.find(infoItem => infoItem?.pid === item.pid) as MinichefStakingInfo)
+        .filter(element => {
+          return element !== undefined
+        })
+      console.log('sortedFarms', sortedFarms)
+      setStakingInfoData(sortedFarms)
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortBy])
@@ -190,8 +188,10 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
                 <PoolCardV2
                   key={index}
                   stakingInfo={stakingInfo}
-                  index={index}
-                  onClickViewDetail={handleClickViewDetail}
+                  onClickViewDetail={() => {
+                    setSelectedPoolIndex(index)
+                    togglePoolDetailModal()
+                  }}
                   version={Number(version)}
                 />
               ))}

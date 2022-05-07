@@ -43,14 +43,15 @@ import { parseUnits, getAddress, splitSignature } from 'ethers/lib/utils'
 import { useChainId } from 'src/hooks'
 import { mininchefV2Client } from 'src/apollo/client'
 import { GET_MINICHEF } from 'src/apollo/minichef'
-import { useQuery } from 'react-query'
+import { useQuery, useQueries } from 'react-query'
 import { BigNumber } from 'ethers'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, AppState } from '../index'
 import {
   updateMinichefStakingAllData,
   updateMinichefStakingAprs,
-  updateMinichefStakingSingleData
+  updateMinichefStakingSingleData,
+  updateMinichefStakingAllAprs
 } from 'src/state/stake/actions'
 import axios from 'axios'
 
@@ -136,6 +137,7 @@ export interface StakingInfo extends DoubleSideStakingInfo {
   stakingApr?: number
   combinedApr?: number
   rewardTokens?: Array<Token>
+  pid?: string
 }
 
 export interface MinichefStakingInfo {
@@ -1702,7 +1704,9 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
       const token0derivedUSD = BigNumber.from(Number(farm?.pair?.token0?.derivedUSD)?.toFixed(0))
       const pairTokenValueInUSD = token0derivedUSD.mul(parseUnits('2'))
       const calculatedStakedUsdValue = minichefTvl.mul(totalSupplyReserve0).div(totalSupply)
-      const finalStakedValueInUSD = pairTokenValueInUSD.mul(calculatedStakedUsdValue)
+
+      const BIG_NUMBER_TEN_EIGHTEEN = BigNumber.from(10).pow(18)
+      const finalStakedValueInUSD = pairTokenValueInUSD.mul(calculatedStakedUsdValue).div(BIG_NUMBER_TEN_EIGHTEEN)
 
       const totalStakedAmount = new TokenAmount(lpToken, minichefTvl.toString() || JSBI.BigInt(0))
       // TODO:
@@ -1805,6 +1809,14 @@ export function useUpdateEarnAmount(pid: string, account: string) {
   }, [earnedAmount])
 }
 
+export const useGetMinichefPids = () => {
+  const allPids = useSelector<AppState, Array<string>>(state =>
+    state?.stake?.minichefStakingData?.farms?.map(farm => farm?.pid)
+  )
+
+  return allPids
+}
+
 export const useGetFarmApr = (pid: string) => {
   const swapFeeApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[pid]?.swapFeeApr)
   const combinedApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[pid]?.combinedApr)
@@ -1880,4 +1892,54 @@ export function useFetchFarmApr(pid: string) {
     }),
     [apiCombineApr, apiStakingApr, apiSwapFeeApr, combinedApr, stakingApr, swapFeeApr]
   )
+}
+
+const fetchApr = (pid: string) => async () => {
+  const response = await axios.get(`${PANGOLIN_API_BASE_URL}/pangolin/apr2/${pid}`, {
+    timeout: 5000
+  })
+
+  const res = response.data
+
+  return {
+    pid: pid,
+    swapFeeApr: Number(res.swapFeeApr),
+    stakingApr: Number(res.stakingApr),
+    combinedApr: Number(res.combinedApr)
+  }
+}
+
+export function useFetchFarmAprs() {
+  let pids = useGetMinichefPids()
+
+  const allAPRQueries = useMemo(
+    () =>
+      pids.map(pid => ({
+        queryKey: [`getAPR-${pid}`, pid],
+        queryFn: fetchApr(pid)
+      })),
+    [pids]
+  )
+
+  const results = useQueries(allAPRQueries)
+
+  const isAllFetched = results.every(item => item.isFetched)
+
+  const dispatch = useDispatch<AppDispatch>()
+
+  useEffect(() => {
+    const newResult = (results || []).reduce(
+      (a, value: any) => ({ ...a, [value?.data?.pid as string]: value?.data }),
+      {}
+    )
+    if (Object.keys(newResult).length > 0 && isAllFetched) {
+      dispatch(
+        updateMinichefStakingAllAprs({
+          data: newResult
+        })
+      )
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAllFetched])
 }

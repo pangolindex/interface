@@ -15,7 +15,7 @@ import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { MinichefStakingInfo, useUpdateEarnAmount, useFetchFarmApr } from 'src/state/stake/hooks'
+import { MinichefStakingInfo, useUpdateEarnAmount, useGetFarmApr } from 'src/state/stake/hooks'
 import { usePair } from 'src/data/Reserves'
 // import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 // import { useTokens } from 'src/hooks/Tokens'
@@ -29,12 +29,11 @@ import { useChainId } from 'src/hooks'
 
 export interface PoolCardProps {
   stakingInfo: MinichefStakingInfo
-  onClickViewDetail: (index: number) => void
+  onClickViewDetail: () => void
   version: number
-  index: number
 }
 
-const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version, index }: PoolCardProps) => {
+const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) => {
   const { t } = useTranslation()
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
 
@@ -46,7 +45,7 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version, index }: PoolCard
 
   useUpdateEarnAmount(stakingInfo?.pid, account ? account : '')
 
-  const { combinedApr } = useFetchFarmApr(stakingInfo?.pid)
+  const { combinedApr } = useGetFarmApr(stakingInfo?.pid)
 
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
@@ -131,7 +130,14 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version, index }: PoolCard
 
       <InnerWrapper>
         <Box>
-          <DetailButton variant="plain" onClick={() => onClickViewDetail(index)} color="text1" height="45px">
+          <DetailButton
+            variant="plain"
+            onClick={() => {
+              onClickViewDetail()
+            }}
+            color="text1"
+            height="45px"
+          >
             {t('pool.seeDetails')}
           </DetailButton>
         </Box>
