@@ -28,7 +28,7 @@ export enum SortingType {
 export default createReducer(initialState, builder =>
   builder
     .addCase(updateMinichefStakingAllData, (state, { payload: { data } }) => {
-      console.info('updateMinichefStakingAllData')
+      // console.info('updateMinichefStakingAllData')
 
       const existingData = { ...(state.minichefStakingData || {}), ...data }
 
@@ -36,7 +36,7 @@ export default createReducer(initialState, builder =>
     })
 
     .addCase(updateMinichefStakingSingleData, (state, { payload: { pid, data } }) => {
-      console.info('updateMinichefStakingSingleData')
+      // console.info('updateMinichefStakingSingleData')
       //Find index of specific object using findIndex method.
       const objIndex = (state.minichefStakingData.farms || []).findIndex(obj => obj.pid === pid)
 
@@ -48,7 +48,7 @@ export default createReducer(initialState, builder =>
     })
 
     .addCase(updateMinichefStakingAprs, (state, { payload: { pid, data } }) => {
-      console.info('updateMinichefStakingAprs')
+      // console.info('updateMinichefStakingAprs')
       state.aprs = {
         ...state.aprs,
         [pid]: { ...data, pid }
@@ -56,12 +56,12 @@ export default createReducer(initialState, builder =>
     })
 
     .addCase(updateMinichefStakingAllAprs, (state, { payload: { data } }) => {
-      console.info('updateMinichefStakingALLAprs')
+      // console.info('updateMinichefStakingALLAprs')
       state.aprs = data
     })
 
     .addCase(updateMinichefStakingAllFarmsEarnedAmount, (state, { payload: { data } }) => {
-      console.info('updateMinichefStakingAllFarmsEarnedAmount')
+      // console.info('updateMinichefStakingAllFarmsEarnedAmount')
       state.earnedAmounts = data
     })
 )

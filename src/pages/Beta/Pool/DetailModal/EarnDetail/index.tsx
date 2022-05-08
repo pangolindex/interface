@@ -26,12 +26,10 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 
-  console.log('rewardTokensAmount', rewardTokensAmount)
   const isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
   const png = PNG[chainId] // add PNG as default reward
 
-  console.log('version', version)
   const { earnedAmount } = useGetEarnedAmount(stakingInfo?.pid as string)
 
   const newEarnedAmount = version < 2 ? stakingInfo?.earnedAmount : earnedAmount
