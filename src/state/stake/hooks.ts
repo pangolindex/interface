@@ -55,6 +55,8 @@ import {
   updateMinichefStakingAllFarmsEarnedAmount
 } from 'src/state/stake/actions'
 import axios from 'axios'
+import usePrevious from 'src/hooks/usePrevious'
+import isEqual from 'lodash.isequal'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -1938,7 +1940,7 @@ export function useFetchFarmAprs() {
 
 export function useUpdateAllFarmsEarnAmount() {
   const poolIdArray = useGetMinichefPids()
-  //TODO
+  //TODO:
   //const { account } = useActiveWeb3React()
   const account = '0x8eae80ae087efec96ac48efdf62f386c8c807251'
   const chainId = useChainId()
@@ -1953,31 +1955,25 @@ export function useUpdateAllFarmsEarnAmount() {
   }, [poolIdArray, account])
 
   const pendingRewards = useSingleContractMultipleData(minichefContract, 'pendingReward', userInfoInput ?? [])
+  const prevPendingRewards = usePrevious(pendingRewards)
 
   useEffect(() => {
     const isAllFetched = pendingRewards.every(item => !item.loading)
-
-    const promises = []
-    if (isAllFetched)
+    const areValuesSame = isEqual(pendingRewards, prevPendingRewards)
+    if (isAllFetched && !areValuesSame) {
+      const pendingRewardsObj = {} as { [key: string]: {} }
       for (let index = 0; index < pendingRewards.length; index++) {
-        let container = {}
         const pid = poolIdArray[index]
-
         const pendingRewardInfo = pendingRewards[index]
-
-        container = {
+        pendingRewardsObj[pid] = {
           pid: pid,
           earnedAmount: pendingRewardInfo?.result?.['pending'].toString()
         }
-
-        promises.push(container)
       }
-
-    const newResult = (promises || []).reduce((acc, value: any) => ({ ...acc, [value?.pid as string]: value }), {})
-
-    dispatch(updateMinichefStakingAllFarmsEarnedAmount({ data: newResult }))
+      dispatch(updateMinichefStakingAllFarmsEarnedAmount({ data: pendingRewardsObj }))
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pendingRewards])
+  }, [pendingRewards, prevPendingRewards])
 }
 
 export const useGetEarnedAmount = (pid: string) => {

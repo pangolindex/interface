@@ -60,8 +60,12 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   const [selectedPoolIndex, setSelectedPoolIndex] = useState(-1)
 
   const togglePoolDetailModal = usePoolDetailnModalToggle()
+
+  // fetch farms earned amount
   useUpdateAllFarmsEarnAmount()
+  // fetch farms apr
   useFetchFarmAprs()
+
   const sortedFarmsApr = useSortFarmAprs()
 
   const handleSearch = useCallback(value => {
