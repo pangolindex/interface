@@ -104,8 +104,6 @@ const PoolUI = () => {
     })
   }
 
-  console.log('activeMenu', activeMenu)
-
   const handleSetMenu = useCallback(
     (value: string) => {
       setMenu(value)

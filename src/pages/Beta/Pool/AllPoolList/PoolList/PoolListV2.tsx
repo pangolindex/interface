@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState, useContext } from 'react'
+import React, { useCallback, useEffect, useState, useContext, memo } from 'react'
 import { ThemeContext } from 'styled-components'
 import { TextInput, Box } from '@pangolindex/components'
-import { MinichefStakingInfo, useFetchFarmAprs, useSortFarmAprs } from 'src/state/stake/hooks'
+import { MinichefStakingInfo, useSortFarmAprs, useFetchFarmAprs } from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCardV2 from '../PoolCard/PoolCardV2'
 import Loader from 'src/components/Loader'
@@ -16,7 +16,6 @@ import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
 import DetailModal from '../../DetailModal'
 import DropdownMenu from 'src/components/Beta/DropdownMenu'
 import { Hidden } from 'src/theme'
-import { useTraceUpdate } from 'src/hooks/useTraceUpdate'
 
 export enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
@@ -83,17 +82,11 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
       })
       setStakingInfoData(updatedStakingInfos)
     }
-    console.log('stakingInfoData', stakingInfoData)
-    console.log('sortedFarmsApr', sortedFarmsApr)
 
-    // TODO: try this logic
     if (sortBy === SortingType.totalApr) {
       const sortedFarms = sortedFarmsApr
         .map(item => stakingInfoData.find(infoItem => infoItem?.pid === item.pid) as MinichefStakingInfo)
-        .filter(element => {
-          return element !== undefined
-        })
-      console.log('sortedFarms', sortedFarms)
+        .filter(element => !!element)
       setStakingInfoData(sortedFarms)
     }
 
@@ -103,6 +96,7 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   useEffect(() => {
     if (stakingInfos?.length > 0) {
       const updatedStakingInfos = stakingInfos
+        // sort by total staked
         .sort(function(info_a, info_b) {
           // only first has ended
           if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
@@ -205,4 +199,4 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   )
 }
 
-export default PoolListV2
+export default memo(PoolListV2)
