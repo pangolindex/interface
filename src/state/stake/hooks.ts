@@ -1586,11 +1586,9 @@ export const fetchMinichefData = (account: string) => async () => {
 }
 
 export function useGetAllFarmData() {
-  // const { account } = useActiveWeb3React()
-  // TODO:
-  const account = '0x8eae80ae087efec96ac48efdf62f386c8c807251'
+  const { account } = useActiveWeb3React()
 
-  const allFarms = useQuery(['get-minichef-farms-v2', account], fetchMinichefData(account), {
+  const allFarms = useQuery(['get-minichef-farms-v2', account], fetchMinichefData(account || ''), {
     staleTime: 1000 * 60 * 5
   })
 
@@ -1865,9 +1863,7 @@ export function useFetchFarmAprs() {
 
 export function useUpdateAllFarmsEarnAmount() {
   const poolIdArray = useGetMinichefPids()
-  //TODO:
-  //const { account } = useActiveWeb3React()
-  const account = '0x8eae80ae087efec96ac48efdf62f386c8c807251'
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
   const minichefContract = useStakingContract(MINICHEF_ADDRESS[chainId])
