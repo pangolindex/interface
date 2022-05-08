@@ -51,7 +51,8 @@ import {
   updateMinichefStakingAllData,
   updateMinichefStakingAprs,
   updateMinichefStakingSingleData,
-  updateMinichefStakingAllAprs
+  updateMinichefStakingAllAprs,
+  updateMinichefStakingAllFarmsEarnedAmount
 } from 'src/state/stake/actions'
 import axios from 'axios'
 
@@ -1934,4 +1935,64 @@ export function useFetchFarmAprs() {
       }
     })()
   }, [pids, dispatch])
+}
+
+export function useUpdateAllFarmsEarnAmount() {
+  const poolIdArray = useGetMinichefPids()
+  //TODO
+  //const { account } = useActiveWeb3React()
+  const account = '0x8eae80ae087efec96ac48efdf62f386c8c807251'
+  const chainId = useChainId()
+
+  const minichefContract = useStakingContract(MINICHEF_ADDRESS[chainId])
+
+  const dispatch = useDispatch<AppDispatch>()
+
+  const userInfoInput = useMemo(() => {
+    if (!poolIdArray || !account) return []
+    return poolIdArray.map(pid => [pid, account])
+  }, [poolIdArray, account])
+
+  const pendingRewards = useSingleContractMultipleData(minichefContract, 'pendingReward', userInfoInput ?? [])
+
+  useEffect(() => {
+    const isAllFetched = pendingRewards.every(item => !item.loading)
+
+    const promises = []
+    if (isAllFetched)
+      for (let index = 0; index < pendingRewards.length; index++) {
+        let container = {}
+        const pid = poolIdArray[index]
+
+        const pendingRewardInfo = pendingRewards[index]
+
+        container = {
+          pid: pid,
+          earnedAmount: pendingRewardInfo?.result?.['pending'].toString()
+        }
+
+        promises.push(container)
+      }
+
+    const newResult = (promises || []).reduce((acc, value: any) => ({ ...acc, [value?.pid as string]: value }), {})
+
+    dispatch(updateMinichefStakingAllFarmsEarnedAmount({ data: newResult }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingRewards])
+}
+
+export const useGetEarnedAmount = (pid: string) => {
+  const chainId = useChainId()
+  const png = PNG[chainId]
+
+  const amount = useSelector<AppState, number>(state => state?.stake?.earnedAmounts?.[pid]?.earnedAmount)
+
+  const earnedAmount = new TokenAmount(png, JSBI.BigInt(amount ?? 0))
+
+  return useMemo(
+    () => ({
+      earnedAmount
+    }),
+    [earnedAmount]
+  )
 }

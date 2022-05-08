@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import Stat from 'src/components/Stat'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { BIG_INT_ZERO } from 'src/constants'
-import { useMinichefPendingRewards } from 'src/state/stake/hooks'
+import { useMinichefPendingRewards, useGetEarnedAmount } from 'src/state/stake/hooks'
 import { PNG } from 'src/constants/tokens'
 import ClaimDrawer from '../../ClaimDrawer'
 import WithdrawDrawer from '../../WithdrawDrawer'
@@ -26,9 +26,16 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 
+  console.log('rewardTokensAmount', rewardTokensAmount)
   const isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
   const png = PNG[chainId] // add PNG as default reward
+
+  console.log("version",version);
+  const { earnedAmount } = useGetEarnedAmount(stakingInfo?.pid as string)
+
+  let newEarnedAmount = version < 2 ? stakingInfo?.earnedAmount : earnedAmount
+
   return (
     <Wrapper>
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -66,7 +73,7 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
           <Box>
             <Stat
               title={t('dashboardPage.earned_totalEarned')}
-              stat={`${stakingInfo?.earnedAmount?.toFixed(6) ?? '0'}`}
+              stat={`${newEarnedAmount?.toFixed(6) ?? '0'}`}
               titlePosition="top"
               titleFontSize={14}
               statFontSize={20}

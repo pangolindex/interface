@@ -15,7 +15,7 @@ import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { MinichefStakingInfo, useGetFarmApr } from 'src/state/stake/hooks'
+import { MinichefStakingInfo, useGetFarmApr, useGetEarnedAmount } from 'src/state/stake/hooks'
 import { usePair } from 'src/data/Reserves'
 // import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 // import { useTokens } from 'src/hooks/Tokens'
@@ -43,9 +43,8 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) 
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
-  // useUpdateEarnAmount(stakingInfo?.pid, account ? account : '')
-
   const { combinedApr } = useGetFarmApr(stakingInfo?.pid)
+  const { earnedAmount } = useGetEarnedAmount(stakingInfo?.pid)
 
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
@@ -142,7 +141,7 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) 
           </DetailButton>
         </Box>
         <Box>
-          {isStaking && Boolean(stakingInfo?.earnedAmount?.greaterThan('0')) ? (
+          {isStaking && Boolean(earnedAmount?.greaterThan('0')) ? (
             <ActionButon
               variant="plain"
               onClick={() => setShowClaimDrawer(true)}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box, Text, Button } from '@pangolindex/components'
 import { ClaimWrapper, Root, RewardWrapper, StatWrapper } from './styleds'
-import { StakingInfo, useMinichefPendingRewards } from 'src/state/stake/hooks'
+import { StakingInfo, useMinichefPendingRewards, useGetEarnedAmount } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useActiveWeb3React } from 'src/hooks'
@@ -71,6 +71,10 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
     error = error ?? t('earn.enterAmount')
   }
 
+  const { earnedAmount } = useGetEarnedAmount(stakingInfo?.pid as string)
+
+  let newEarnedAmount = version < 2 ? stakingInfo?.earnedAmount : earnedAmount
+
   return (
     <ClaimWrapper>
       {!attempting && !hash && (
@@ -80,7 +84,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
               <StatWrapper>
                 <Stat
                   title={t('earn.unclaimedReward', { symbol: 'PNG' })}
-                  stat={stakingInfo?.earnedAmount?.toSignificant(6)}
+                  stat={newEarnedAmount?.toSignificant(6)}
                   titlePosition="top"
                   titleFontSize={12}
                   statFontSize={24}

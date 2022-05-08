@@ -18,3 +18,7 @@ export const updateMinichefStakingAprs = createAction<{
 export const updateMinichefStakingAllAprs = createAction<{
   data: any
 }>('pair/updateMinichefStakingAllAprs')
+
+export const updateMinichefStakingAllFarmsEarnedAmount = createAction<{
+  data: any
+}>('pair/updateMinichefStakingAllFarmsEarnedAmount')

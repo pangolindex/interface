@@ -4,17 +4,20 @@ import {
   updateMinichefStakingAllData,
   updateMinichefStakingSingleData,
   updateMinichefStakingAprs,
-  updateMinichefStakingAllAprs
+  updateMinichefStakingAllAprs,
+  updateMinichefStakingAllFarmsEarnedAmount
 } from './actions'
 
 export interface MinichefStakingInfoState {
   readonly minichefStakingData: MinichefV2
   readonly aprs: { [key: string]: { pid: string; swapFeeApr: number; stakingApr: number; combinedApr: number } }
+  readonly earnedAmounts: { [key: string]: { pid: string; earnedAmount: number } }
 }
 
 const initialState: MinichefStakingInfoState = {
   minichefStakingData: {} as MinichefV2,
-  aprs: {}
+  aprs: {},
+  earnedAmounts: {}
 }
 
 export enum SortingType {
@@ -55,5 +58,10 @@ export default createReducer(initialState, builder =>
     .addCase(updateMinichefStakingAllAprs, (state, { payload: { data } }) => {
       console.info('updateMinichefStakingALLAprs')
       state.aprs = data
+    })
+
+    .addCase(updateMinichefStakingAllFarmsEarnedAmount, (state, { payload: { data } }) => {
+      console.info('updateMinichefStakingAllFarmsEarnedAmount')
+      state.earnedAmounts = data
     })
 )

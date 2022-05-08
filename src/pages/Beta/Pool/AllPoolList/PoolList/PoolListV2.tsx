@@ -1,7 +1,12 @@
 import React, { useCallback, useEffect, useState, useContext, memo } from 'react'
 import { ThemeContext } from 'styled-components'
 import { TextInput, Box } from '@pangolindex/components'
-import { MinichefStakingInfo, useSortFarmAprs, useFetchFarmAprs } from 'src/state/stake/hooks'
+import {
+  MinichefStakingInfo,
+  useSortFarmAprs,
+  useFetchFarmAprs,
+  useUpdateAllFarmsEarnAmount
+} from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCardV2 from '../PoolCard/PoolCardV2'
 import Loader from 'src/components/Loader'
@@ -56,6 +61,7 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   const [selectedPoolIndex, setSelectedPoolIndex] = useState(-1)
 
   const togglePoolDetailModal = usePoolDetailnModalToggle()
+  useUpdateAllFarmsEarnAmount()
   useFetchFarmAprs()
   const sortedFarmsApr = useSortFarmAprs()
 
