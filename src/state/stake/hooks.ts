@@ -49,8 +49,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, AppState } from '../index'
 import {
   updateMinichefStakingAllData,
-  updateMinichefStakingAprs,
-  updateMinichefStakingSingleData,
   updateMinichefStakingAllAprs,
   updateMinichefStakingAllFarmsEarnedAmount
 } from 'src/state/stake/actions'
@@ -1795,25 +1793,6 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
   return arr
 }
 
-export function useUpdateEarnAmount(pid: string, account: string) {
-  const chainId = useChainId()
-  const minichefContract = useStakingContract(MINICHEF_ADDRESS[chainId])
-
-  const dispatch = useDispatch<AppDispatch>()
-
-  const inputs = useMemo(() => (pid && account ? [pid, account] : undefined), [pid, account])
-
-  const pendingRewardInfo = useSingleCallResult(pid && account ? minichefContract : undefined, 'pendingReward', inputs)
-    .result
-
-  const earnedAmount = pid && account && pendingRewardInfo ? pendingRewardInfo.toString() : 0
-
-  useEffect(() => {
-    dispatch(updateMinichefStakingSingleData({ pid: pid, data: { earnedAmount: earnedAmount } }))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [earnedAmount])
-}
-
 export const useGetMinichefPids = () => {
   const farms = useSelector<AppState, AppState['stake']['minichefStakingData']['farms']>(
     state => state?.stake?.minichefStakingData?.farms || []
@@ -1843,60 +1822,6 @@ export const useSortFarmAprs = () => {
   const sortedAprs = useMemo(() => Object.values(aprs).sort((a, b) => b.combinedApr - a.combinedApr), [aprs])
 
   return sortedAprs
-}
-
-export function useFetchFarmApr(pid: string) {
-  // get data from redux first
-  const { combinedApr, stakingApr, swapFeeApr } = useGetFarmApr(pid)
-
-  // fetch apr using api
-  const { isLoading, data } = useQuery(
-    `getAPR-${pid}`,
-    async () => {
-      const response = await axios.get(`${PANGOLIN_API_BASE_URL}/pangolin/apr2/${pid}`, {
-        timeout: 5000
-      })
-
-      const res = response.data
-
-      return {
-        swapFeeApr: Number(res.swapFeeApr),
-        stakingApr: Number(res.stakingApr),
-        combinedApr: Number(res.combinedApr)
-      }
-    },
-    { cacheTime: 10 }
-  )
-
-  const { combinedApr: apiCombineApr, stakingApr: apiStakingApr, swapFeeApr: apiSwapFeeApr } = data || {}
-
-  const dispatch = useDispatch<AppDispatch>()
-  useEffect(() => {
-    if (!isLoading) {
-      dispatch(
-        updateMinichefStakingAprs({
-          pid,
-          data: {
-            swapFeeApr: apiSwapFeeApr,
-            combinedApr: apiCombineApr,
-            stakingApr: apiStakingApr
-          }
-        })
-      )
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiCombineApr, apiStakingApr, apiSwapFeeApr, isLoading])
-
-  // if latest api data exist then return  it or else return redux data
-  return useMemo(
-    () => ({
-      swapFeeApr: apiSwapFeeApr || swapFeeApr,
-      combinedApr: apiCombineApr || combinedApr,
-      stakingApr: apiStakingApr || stakingApr
-    }),
-    [apiCombineApr, apiStakingApr, apiSwapFeeApr, combinedApr, stakingApr, swapFeeApr]
-  )
 }
 
 const fetchApr = async (pid: string) => {

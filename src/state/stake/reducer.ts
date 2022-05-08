@@ -2,8 +2,6 @@ import { createReducer } from '@reduxjs/toolkit'
 import { MinichefV2 } from './hooks'
 import {
   updateMinichefStakingAllData,
-  updateMinichefStakingSingleData,
-  updateMinichefStakingAprs,
   updateMinichefStakingAllAprs,
   updateMinichefStakingAllFarmsEarnedAmount
 } from './actions'
@@ -33,26 +31,6 @@ export default createReducer(initialState, builder =>
       const existingData = { ...(state.minichefStakingData || {}), ...data }
 
       state.minichefStakingData = existingData
-    })
-
-    .addCase(updateMinichefStakingSingleData, (state, { payload: { pid, data } }) => {
-      // console.info('updateMinichefStakingSingleData')
-      //Find index of specific object using findIndex method.
-      const objIndex = (state.minichefStakingData.farms || []).findIndex(obj => obj.pid === pid)
-
-      const existingData = { ...state.minichefStakingData }
-
-      existingData.farms[objIndex] = { ...existingData.farms[objIndex], ...data }
-
-      state.minichefStakingData = existingData
-    })
-
-    .addCase(updateMinichefStakingAprs, (state, { payload: { pid, data } }) => {
-      // console.info('updateMinichefStakingAprs')
-      state.aprs = {
-        ...state.aprs,
-        [pid]: { ...data, pid }
-      }
     })
 
     .addCase(updateMinichefStakingAllAprs, (state, { payload: { data } }) => {
