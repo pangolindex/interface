@@ -1580,20 +1580,19 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
   )
 }
 
-export function useGetAllFarmData(id?: string) {
+export const fetchMinichefData = (account: string) => async () => {
+  const { minichefs } = await mininchefV2Client.request(GET_MINICHEF, { userAddress: account })
+  return minichefs
+}
+
+export function useGetAllFarmData() {
   // const { account } = useActiveWeb3React()
   // TODO:
   const account = '0x8eae80ae087efec96ac48efdf62f386c8c807251'
 
-  const allFarms = useQuery(
-    ['get-farm', id],
-    async () => {
-      const { minichefs } = await mininchefV2Client.request(GET_MINICHEF, { where: { id: id }, userAddress: account })
-
-      return minichefs
-    },
-    { cacheTime: 10 }
-  )
+  const allFarms = useQuery(['get-minichef-farms-v2', account], fetchMinichefData(account), {
+    staleTime: 1000 * 60 * 5
+  })
 
   const dispatch = useDispatch<AppDispatch>()
 
@@ -1815,7 +1814,7 @@ export function useUpdateEarnAmount(pid: string, account: string) {
 
 export const useGetMinichefPids = () => {
   const farms = useSelector<AppState, AppState['stake']['minichefStakingData']['farms']>(
-    state => state?.stake?.minichefStakingData?.farms
+    state => state?.stake?.minichefStakingData?.farms || []
   )
   const allPids = useMemo(() => farms?.map(farm => farm?.pid), [farms])
   return allPids

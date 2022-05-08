@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useContext, memo } from 'react'
 import { ThemeContext } from 'styled-components'
-import { TextInput, Box } from '@pangolindex/components'
+import { TextInput, Box, Loader } from '@pangolindex/components'
 import {
   MinichefStakingInfo,
   useSortFarmAprs,
@@ -9,7 +9,6 @@ import {
 } from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCardV2 from '../PoolCard/PoolCardV2'
-import Loader from 'src/components/Loader'
 import { useChainId } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { Search } from 'react-feather'
@@ -56,7 +55,7 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [sortBy, setSortBy] = useState<string>('')
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
-  const [stakingInfoData, setStakingInfoData] = useState<MinichefStakingInfo[]>(stakingInfos)
+  const [stakingInfoData, setStakingInfoData] = useState<MinichefStakingInfo[]>([])
 
   const [selectedPoolIndex, setSelectedPoolIndex] = useState(-1)
 
@@ -132,9 +131,9 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
 
   return (
     <PoolsWrapper>
-      {(stakingRewardsExist && stakingInfos?.length === 0) || poolCardsLoading ? (
+      {(stakingRewardsExist && stakingInfoData?.length === 0) || poolCardsLoading ? (
         <LoadingWrapper>
-          <Loader style={{ margin: 'auto' }} size="35px" stroke={theme.primary} />
+          <Loader size={100} />
         </LoadingWrapper>
       ) : (!stakingRewardsExist || stakingInfoData?.length === 0) && !poolCardsLoading ? (
         t('earnPage.noActiveRewards')

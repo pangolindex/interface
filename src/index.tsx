@@ -1,6 +1,6 @@
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 import 'inter-ui'
-import React, { StrictMode, useContext } from 'react'
+import React, { StrictMode, useContext, useEffect } from 'react'
 import { isMobile } from 'react-device-detect'
 import ReactDOM from 'react-dom'
 import ReactGA from 'react-ga'
@@ -25,6 +25,7 @@ import { ThemeContext } from 'styled-components'
 import { useIsBetaUI } from './hooks/useLocation'
 import { useActiveWeb3React } from './hooks'
 import Package from '../package.json'
+import { fetchMinichefData } from './state/stake/hooks'
 
 Sentry.init({
   dsn: 'https://ff9ffce9712f415f8ad4c2a80123c984@o1080468.ingest.sentry.io/6086371',
@@ -76,10 +77,20 @@ function Updaters() {
   )
 }
 
+const prefetchImportantQueries = async (account: string) => {
+  // pre-fetch minichef query
+  await queryClient.prefetchQuery(['get-minichef-farms-v2', account], fetchMinichefData(account))
+}
+
 const ComponentThemeProvider = () => {
   const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
+
   const { library, chainId, account } = useActiveWeb3React()
+
+  useEffect(() => {
+    prefetchImportantQueries(account || '')
+  }, [account])
   //
   // useEffect(() => {
   //   if (window.pendo && account) {

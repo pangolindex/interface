@@ -73,7 +73,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
 
   const { earnedAmount } = useGetEarnedAmount(stakingInfo?.pid as string)
 
-  let newEarnedAmount = version < 2 ? stakingInfo?.earnedAmount : earnedAmount
+  const newEarnedAmount = version < 2 ? stakingInfo?.earnedAmount : earnedAmount
 
   return (
     <ClaimWrapper>

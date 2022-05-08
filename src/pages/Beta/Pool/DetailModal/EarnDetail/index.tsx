@@ -31,10 +31,10 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
 
   const png = PNG[chainId] // add PNG as default reward
 
-  console.log("version",version);
+  console.log('version', version)
   const { earnedAmount } = useGetEarnedAmount(stakingInfo?.pid as string)
 
-  let newEarnedAmount = version < 2 ? stakingInfo?.earnedAmount : earnedAmount
+  const newEarnedAmount = version < 2 ? stakingInfo?.earnedAmount : earnedAmount
 
   return (
     <Wrapper>
