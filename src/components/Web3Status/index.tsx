@@ -241,7 +241,6 @@ function Web3StatusInner() {
   const isBeta = useIsBetaUI()
   //ATTENTION ICI
   const StatusConnected: any = isBeta ? Web3StatusConnectedBeta : Web3StatusConnected
-  // const StatusConnected: any = isBeta ? Web3StatusConnected : Web3StatusConnected
   const StatusConnect: any = isBeta ? Web3StatusConnectBeta : Web3StatusConnect
   if (account) {
     return (

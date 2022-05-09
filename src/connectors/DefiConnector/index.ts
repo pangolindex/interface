@@ -35,17 +35,11 @@ export class DefiConnector extends AbstractConnector {
   }
 
   private handleChainChanged(chainId: string | number): void {
-    // if (__DEV__) {
-    //   console.log("Handling 'chainChanged' event with payload", chainId)
-    // }
     console.log("Handling 'chainChanged' event with payload", chainId)
     this.emitUpdate({ chainId, provider: window?.xfi?.ethereum })
   }
 
   private handleAccountsChanged(accounts: string[]): void {
-    // if (__DEV__) {
-    //
-    // }
     console.log("Handling 'accountsChanged' event with payload", accounts)
     if (accounts.length === 0) {
       this.emitDeactivate()
@@ -55,17 +49,11 @@ export class DefiConnector extends AbstractConnector {
   }
 
   private handleClose(code: number, reason: string): void {
-    // if (__DEV__) {
-    //
-    // }
     console.log("Handling 'close' event with payload", code, reason)
     this.emitDeactivate()
   }
 
   private handleNetworkChanged(networkId: string | number): void {
-    // if (__DEV__) {
-    //
-    // }
     console.log("Handling 'networkChanged' event with payload", networkId)
     this.emitUpdate({ chainId: networkId, provider: window?.xfi?.ethereum })
   }
@@ -82,8 +70,8 @@ export class DefiConnector extends AbstractConnector {
       window.xfi.ethereum.on('networkChanged', this.handleNetworkChanged)
     }
 
-    if ((window?.xfi?.ethereum as any).isXDEFI) {
-      ;(window.xfi.ethereum as any).autoRefreshOnNetworkChange = false
+    if (window?.xfi?.ethereum.isXDEFI) {
+      window.xfi.ethereum.autoRefreshOnNetworkChange = false
     }
 
     // try to activate + get account via eth_requestAccounts
@@ -143,14 +131,14 @@ export class DefiConnector extends AbstractConnector {
     }
 
     if (!chainId) {
-      if ((window?.xfi?.ethereum as any).isDapper) {
+      if (window?.xfi?.ethereum.isDapper) {
         chainId = parseSendReturn((window.xfi.ethereum as any).cachedResults.net_version)
       } else {
         chainId =
-          (window.xfi.ethereum as any).chainId ||
-          (window.xfi.ethereum as any).netVersion ||
-          (window.xfi.ethereum as any).networkVersion ||
-          (window.xfi.ethereum as any)._chainId
+          window.xfi.ethereum.chainId ||
+          window.xfi.ethereum.netVersion ||
+          window.xfi.ethereum.networkVersion ||
+          window.xfi.ethereum._chainId
       }
     }
 

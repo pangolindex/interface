@@ -104,12 +104,12 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
     }
   }
 
-  let error: string | undefined
+  let errorMessage: string | undefined
   if (!account) {
-    error = t('earn.connectWallet')
+    errorMessage = t('earn.connectWallet')
   }
   if (!stakingInfo?.stakedAmount) {
-    error = error ?? t('earn.enterAmount')
+    errorMessage = errorMessage ?? t('earn.enterAmount')
   }
 
   return (
@@ -129,7 +129,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
         <RowBetween>
           {choosePoolIndex === 0 && (
             <Box mr="5px" width="100%">
-              <Button variant="outline" onClick={goBack} isDisabled={!!error || attempting} loading={attempting}>
+              <Button variant="outline" onClick={goBack} isDisabled={!!errorMessage || attempting} loading={attempting}>
                 {t('migratePage.back')}
               </Button>
             </Box>
@@ -140,7 +140,7 @@ const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProp
               variant="primary"
               onClick={onWithdraw}
               loading={attempting}
-              isDisabled={!!error || attempting || !isValidAmount}
+              isDisabled={!!errorMessage || attempting || !isValidAmount}
               loadingText={t('migratePage.loading')}
             >
               {t('migratePage.unstake')}

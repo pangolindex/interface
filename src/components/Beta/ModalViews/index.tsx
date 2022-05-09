@@ -1,7 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-// import { ArrowUpCircle } from 'react-feather'
 import { Text, Box } from '@pangolindex/components'
 
 import { AutoColumn, ColumnCenter } from '../../Column'
@@ -60,7 +59,6 @@ export function SubmittedView({
   onDismiss: () => void
   hash: string | undefined
 }) {
-  // const theme = useContext(ThemeContext)
   const chainId = useChainId()
   const { t } = useTranslation()
 

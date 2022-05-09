@@ -74,9 +74,9 @@ export default function UnstakingModal({
           })
           setHash(response.hash)
         })
-        .catch((error: any) => {
+        .catch((_error: any) => {
           setAttempting(false)
-          console.log(error)
+          console.log(_error)
         })
     }
   }

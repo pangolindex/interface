@@ -3,7 +3,7 @@ import { Wrapper } from './styleds'
 import { Box, Button } from '@pangolindex/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
-import { StakingInfo } from '../../../state/stake/hooks'
+import { useDerivedStakeInfo, useMinichefPools , StakingInfo } from '../../../state/stake/hooks'
 import { tryParseAmount } from '../../../state/swap/hooks'
 import { useActiveWeb3React } from '../../../hooks'
 import { useTokenBalance } from '../../../state/wallet/hooks'
@@ -14,7 +14,6 @@ import { usePairContract, useStakingContract } from '../../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCallback'
 import { TransactionResponse } from '@ethersproject/providers'
 import { MINICHEF_ADDRESS } from '../../../constants'
-import { useDerivedStakeInfo, useMinichefPools } from '../../../state/stake/hooks'
 import { splitSignature } from 'ethers/lib/utils'
 import useTransactionDeadline from '../../../hooks/useTransactionDeadline'
 import Loader from '../Loader'
@@ -78,7 +77,7 @@ const Stake = ({
     if (value === 4) {
       setStakingAmount(userLiquidityUnstaked.toExact())
     } else {
-      const newAmount = (userLiquidityUnstaked as TokenAmount)
+      const newAmount = userLiquidityUnstaked
         .multiply(JSBI.BigInt(value * 25))
         .divide(JSBI.BigInt(100)) as TokenAmount
       setStakingAmount(newAmount.toSignificant(6))
@@ -240,12 +239,12 @@ const Stake = ({
     }
   }
 
-  let error: string | undefined
+  let errorMessage: string | undefined
   if (!account) {
-    error = t('earn.connectWallet')
+    errorMessage = t('earn.connectWallet')
   }
   if (!userLiquidityUnstaked) {
-    error = error ?? t('earn.enterAmount')
+    errorMessage = errorMessage ?? t('earn.enterAmount')
   }
 
   return (
@@ -286,7 +285,7 @@ const Stake = ({
                   variant="primary"
                   isDisabled={
                     attempting ||
-                    !!error ||
+                    !!errorMessage ||
                     (signatureData === null && approval !== ApprovalState.APPROVED) ||
                     !isValidAmount
                   }
@@ -294,7 +293,7 @@ const Stake = ({
                   loading={attempting}
                   loadingText={t('migratePage.loading')}
                 >
-                  {error ?? t('earn.deposit')}
+                  {errorMessage ?? t('earn.deposit')}
                 </Button>
               </Box>
             </RowBetween>

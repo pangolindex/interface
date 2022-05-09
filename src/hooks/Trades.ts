@@ -40,18 +40,18 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
           ]
             .filter((tokens): tokens is [Token, Token] => Boolean(tokens[0] && tokens[1]))
             .filter(([t0, t1]) => t0.address !== t1.address)
-            .filter(([tokenA, tokenB]) => {
+            .filter(([_tokenA, _tokenB]) => {
               if (!chainId) return true
               const customBases = CUSTOM_BASES[chainId]
               if (!customBases) return true
 
-              const customBasesA: Token[] | undefined = customBases[tokenA.address]
-              const customBasesB: Token[] | undefined = customBases[tokenB.address]
+              const customBasesA: Token[] | undefined = customBases[_tokenA.address]
+              const customBasesB: Token[] | undefined = customBases[_tokenB.address]
 
               if (!customBasesA && !customBasesB) return true
 
-              if (customBasesA && !customBasesA.find(base => tokenB.equals(base))) return false
-              if (customBasesB && !customBasesB.find(base => tokenA.equals(base))) return false
+              if (customBasesA && !customBasesA.find(base => _tokenB.equals(base))) return false
+              if (customBasesB && !customBasesB.find(base => _tokenA.equals(base))) return false
 
               return true
             })

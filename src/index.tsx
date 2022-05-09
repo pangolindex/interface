@@ -91,20 +91,20 @@ const ComponentThemeProvider = () => {
   useEffect(() => {
     prefetchImportantQueries(account || '')
   }, [account])
-  //
-  // useEffect(() => {
-  //   if (window.pendo && account) {
-  //     window.pendo.initialize({
-  //       visitor: {
-  //         id: account
-  //       },
 
-  //       account: {
-  //         id: account
-  //       }
-  //     })
-  //   }
-  // }, [account])
+  useEffect(() => {
+    if (window.pendo && account) {
+      window.pendo.initialize({
+        visitor: {
+          id: account
+        },
+
+        account: {
+          id: account
+        }
+      })
+    }
+  }, [account])
 
   return (
     <PangolinProvider library={library} chainId={chainId} account={account ?? undefined} theme={theme as any}>
