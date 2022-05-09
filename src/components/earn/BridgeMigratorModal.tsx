@@ -88,9 +88,9 @@ export default function BridgeMigratorModal({
             })
             setHash(response.hash)
           })
-          .catch((error: any) => {
+          .catch((_error: any) => {
             setAttempting(false)
-            console.error(error)
+            console.error(_error)
           })
       } else if (signatureData) {
         bridgeMigratorContract
@@ -110,9 +110,9 @@ export default function BridgeMigratorModal({
             })
             setHash(response.hash)
           })
-          .catch((error: any) => {
+          .catch((_error: any) => {
             setAttempting(false)
-            console.error(error)
+            console.error(_error)
           })
       } else {
         setAttempting(false)
@@ -122,9 +122,9 @@ export default function BridgeMigratorModal({
   }
 
   // wrapped onUserInput to clear signatures
-  const onUserInput = useCallback((typedValue: string) => {
+  const onUserInput = useCallback((_typedValue: string) => {
     setSignatureData(null)
-    setTypedValue(typedValue)
+    setTypedValue(_typedValue)
   }, [])
 
   // used for max input button
@@ -203,7 +203,7 @@ export default function BridgeMigratorModal({
       {!attempting && !hash && (
         <ContentWrapper gap="lg">
           <RowBetween>
-            <TYPE.mediumHeader>Migrate {/* TODO: Translate with i18n */}</TYPE.mediumHeader>
+            <TYPE.mediumHeader>{t('earnPage.migrate')}</TYPE.mediumHeader>
             <CloseIcon onClick={wrappedOnDismiss} />
           </RowBetween>
           <CurrencyInputPanel
@@ -233,8 +233,7 @@ export default function BridgeMigratorModal({
               error={!!error && !!parsedAmount}
               onClick={onMigrate}
             >
-              {/* TODO: Translate with i18n */}
-              {error ?? 'Migrate'}
+              {error ?? t('earnPage.migrate')}
             </ButtonError>
           </RowBetween>
           <ProgressCircles steps={[approval === ApprovalState.APPROVED || signatureData !== null]} disabled={true} />
@@ -243,7 +242,6 @@ export default function BridgeMigratorModal({
       {attempting && !hash && (
         <LoadingView onDismiss={wrappedOnDismiss}>
           <AutoColumn gap="12px" justify={'center'}>
-            {/* TODO: Translate with i18n */}
             <TYPE.largeHeader>Migrating Liquidity</TYPE.largeHeader>
             <TYPE.body fontSize={20}>{parsedAmount?.toSignificant(4)} PGL</TYPE.body>
           </AutoColumn>
@@ -253,7 +251,6 @@ export default function BridgeMigratorModal({
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            {/* TODO: Translate with i18n */}
             <TYPE.body fontSize={20}>Migrated {parsedAmount?.toSignificant(4)} PGL</TYPE.body>
           </AutoColumn>
         </SubmittedView>

@@ -68,8 +68,8 @@ export function colors(darkMode: boolean): Colors {
     text8: darkMode ? '#707070' : '#565A69',
     text9: darkMode ? '#A3A3A3' : '#000000',
     text10: darkMode ? '#FAF9FD' : '#000000',
-    text11: darkMode ? '#18C145' : '#18C145',
-    text12: darkMode ? '#E84142' : '#E84142',
+    text11: '#18C145',
+    text12: '#E84142',
     text13: darkMode ? '#A3A3A3' : '#000000',
     text14: darkMode ? '#8C8D93' : '#000000',
     text15: darkMode ? '#FFC800' : '#000000',
@@ -190,7 +190,7 @@ export function betaColors(darkMode: boolean): BetaColors {
     // text
     text7: darkMode ? '#e6e9ec' : '#000000',
     text8: darkMode ? '#707070' : '#565A69',
-    text9: darkMode ? '#282828' : '#282828',
+    text9: '#282828',
 
     // backgrounds / greys
     bg1: darkMode ? '#212429' : '#FFFFFF',
@@ -203,11 +203,11 @@ export function betaColors(darkMode: boolean): BetaColors {
     bg8: darkMode ? '#212427' : '#FFFFFF',
 
     //primary colors
-    primary1: darkMode ? '#FF6B00' : '#FF6B00',
-    primary2: darkMode ? '#FF6B00' : '#FF6B00',
-    primary3: darkMode ? '#FF6B00' : '#FF6B00',
-    primary4: darkMode ? '#FF6B00' : '#FF6B00',
-    primary5: darkMode ? '#FF6B00' : '#FF6B00',
+    primary1: '#FF6B00',
+    primary2: '#FF6B00',
+    primary3: '#FF6B00',
+    primary4: '#FF6B00',
+    primary5: '#FF6B00',
     primary6: darkMode ? '#FF6B00' : '#FFFFFF',
 
     // color text
