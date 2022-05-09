@@ -1615,15 +1615,13 @@ export function useGetAllFarmData() {
 }
 
 export function useAllMinichefStakingInfoData(): MinichefV2 | undefined {
-  const allMinichefStakingInfo = useSelector<AppState, AppState['stake']['minichefStakingData']>(
+  return useSelector<AppState, AppState['stake']['minichefStakingData']>(
     state => state?.stake?.minichefStakingData || {}
   )
-
-  return allMinichefStakingInfo
 }
 
 // get data for all farms
-export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStakingInfo[] => {
+export const useGetMinichefStakingInfosViaSubgraph = (): MinichefStakingInfo[] => {
   const minichefData = useAllMinichefStakingInfoData()
 
   const farms = minichefData?.farms
@@ -1635,7 +1633,7 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
   const totalAllocPoint = minichefData?.totalAllocPoint
   const rewardPerSecond = minichefData?.rewardPerSecond
 
-  const arr = useMemo(() => {
+  return useMemo(() => {
     if (!chainId || !png || !farms?.length) return []
 
     const instances = farms.reduce(function(memo: any, farm: MinichefFarm) {
@@ -1733,22 +1731,20 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
 
       const rewardTokens = rewardsAddresses.map((rewardToken: MinichefFarmReward) => {
         const tokenObj = rewardToken.token
-        const token = new Token(chainId, getAddress(tokenObj.id), tokenObj.decimals, tokenObj.symbol, tokenObj.name)
-
-        return token
+        return new Token(chainId, getAddress(tokenObj.id), tokenObj.decimals, tokenObj.symbol, tokenObj.name)
       })
 
       const getHypotheticalWeeklyRewardRate = (
-        stakedAmount: TokenAmount,
-        totalStakedAmount: TokenAmount,
-        totalRewardRatePerSecond: TokenAmount
+        _stakedAmount: TokenAmount,
+        _totalStakedAmount: TokenAmount,
+        _totalRewardRatePerSecond: TokenAmount
       ): TokenAmount => {
         return new TokenAmount(
           png,
-          JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
+          JSBI.greaterThan(_totalStakedAmount.raw, JSBI.BigInt(0))
             ? JSBI.divide(
-                JSBI.multiply(JSBI.multiply(totalRewardRatePerSecond.raw, stakedAmount.raw), BIG_INT_SECONDS_IN_WEEK),
-                totalStakedAmount.raw
+                JSBI.multiply(JSBI.multiply(_totalRewardRatePerSecond.raw, _stakedAmount.raw), BIG_INT_SECONDS_IN_WEEK),
+                _totalStakedAmount.raw
               )
             : JSBI.BigInt(0)
         )
@@ -1797,16 +1793,13 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
 
     return instances
   }, [chainId, png, rewardPerSecond, totalAllocPoint, rewardsExpiration, farms])
-
-  return arr
 }
 
 export const useGetMinichefPids = () => {
   const farms = useSelector<AppState, AppState['stake']['minichefStakingData']['farms']>(
     state => state?.stake?.minichefStakingData?.farms || []
   )
-  const allPids = useMemo(() => farms?.map(farm => farm?.pid), [farms])
-  return allPids
+  return useMemo(() => farms?.map(farm => farm?.pid), [farms])
 }
 
 export const useGetFarmApr = (pid: string) => {
@@ -1827,9 +1820,7 @@ export const useGetFarmApr = (pid: string) => {
 export const useSortFarmAprs = () => {
   const aprs = useSelector<AppState, AppState['stake']['aprs']>(state => state?.stake?.aprs)
 
-  const sortedAprs = useMemo(() => Object.values(aprs).sort((a, b) => b.combinedApr - a.combinedApr), [aprs])
-
-  return sortedAprs
+  return useMemo(() => Object.values(aprs).sort((a, b) => b.combinedApr - a.combinedApr), [aprs])
 }
 
 const fetchApr = async (pid: string) => {

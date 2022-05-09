@@ -59,7 +59,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
 
         <Stat
           title={`Swap fee APR:`}
-          stat={`${swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr}%` : '-'}`}
+          stat={swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr}%` : '-'}
           titlePosition="top"
           titleFontSize={14}
           statFontSize={24}
@@ -67,7 +67,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
         />
         <Stat
           title={`Reward APR:`}
-          stat={`${stakingApr && !stakingInfo.isPeriodFinished ? `${stakingApr}%` : '-'}`}
+          stat={stakingApr && !stakingInfo.isPeriodFinished ? `${stakingApr}%` : '-'}
           titlePosition="top"
           titleFontSize={14}
           statFontSize={24}
@@ -75,7 +75,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
         />
         <Stat
           title={`Total APR:`}
-          stat={`${swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr + (stakingApr || 0)}%` : '-'}`}
+          stat={swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr + (stakingApr || 0)}%` : '-'}
           titlePosition="top"
           titleFontSize={14}
           statFontSize={24}

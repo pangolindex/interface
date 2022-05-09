@@ -311,6 +311,16 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
     ? (Number(typedValue) * liquidityInUSD) / Number(userLiquidityUnstaked?.toExact())
     : undefined
 
+  const getApr = () => {
+    if (combinedApr) {
+      return `${combinedApr}%`
+    } else if (stakingInfo?.combinedApr) {
+      return `${stakingInfo?.combinedApr}%`
+    } else {
+      return '-'
+    }
+  }
+
   return (
     <StakeWrapper>
       {!attempting && !hash && (
@@ -390,9 +400,7 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
 
                 <Stat
                   title={`APR`}
-                  stat={
-                    combinedApr ? `${combinedApr}%` : stakingInfo?.combinedApr ? `${stakingInfo?.combinedApr}%` : '-'
-                  }
+                  stat={getApr()}
                   titlePosition="top"
                   titleFontSize={14}
                   statFontSize={16}

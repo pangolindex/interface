@@ -166,7 +166,7 @@ const PoolCardV1 = ({ stakingInfo, onClickViewDetail, version }: PoolCardV1Props
             {t('pool.seeDetails')}
           </DetailButton>
         </Box>
-        <Box>{renderButton}</Box>
+        <Box>{renderButton()}</Box>
       </InnerWrapper>
       {isClaimDrawerVisible && (
         <ClaimDrawer
