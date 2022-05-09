@@ -8,6 +8,7 @@ import { PNG } from '../../constants/tokens'
 import { useSingleCallResult } from '../multicall/hooks'
 import axios from 'axios'
 import { useQuery } from 'react-query'
+import { DIRECTUS_GRAPHQL_URL } from 'src/constants'
 
 export function useAirdropIsClaimingAllowed(): boolean {
   const airdropContract = useAirdropContract()
@@ -101,7 +102,7 @@ export function useGetQuestions() {
   }
 
   return useQuery('getQuestions', async () => {
-    const response = await axios.post('https://p7gm7mqi.directus.app/graphql', queryData, { headers: headers })
+    const response = await axios.post(DIRECTUS_GRAPHQL_URL, queryData, { headers: headers })
     const questions: Questions[] = response.data?.data?.kb?.map((e: any) => {
       return {
         id: e?.id,
