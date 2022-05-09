@@ -20,6 +20,8 @@ export const PANGOLIN_API_BASE_URL = `https://api.pangolin.exchange`
 
 export const PANGOLIN_TOKENS_REPO_RAW_BASE_URL = `https://raw.githubusercontent.com/pangolindex/tokens`
 
+export const DIRECTUS_GRAPHQL_URL = `https://p7gm7mqi.directus.app/graphql`
+
 export type LogoSize = 24 | 48
 export const getTokenLogoURL = (address: string, size: LogoSize = 24) =>
   `${PANGOLIN_TOKENS_REPO_RAW_BASE_URL}/main/assets/${address}/logo_${size}.png`
