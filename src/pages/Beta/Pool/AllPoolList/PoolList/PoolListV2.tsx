@@ -86,7 +86,7 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
 
   useEffect(() => {
     if (sortBy === SortingType.totalStakedInUsd) {
-      const sortedFarms = stakingInfoData.sort(function(info_a, info_b) {
+      const sortedFarms = [...stakingInfoData].sort(function(info_a, info_b) {
         return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
       })
       setStakingInfoData(sortedFarms)
@@ -130,7 +130,6 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
     typeof chainId === 'number' && (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0
   )
   const selectedPool = selectedPoolIndex !== -1 ? stakingInfoData[selectedPoolIndex] : ({} as MinichefStakingInfo)
-
   return (
     <PoolsWrapper>
       {(stakingRewardsExist && stakingInfoData?.length === 0) || poolCardsLoading ? (

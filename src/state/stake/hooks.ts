@@ -1823,9 +1823,7 @@ export const useSortFarmAprs = () => {
 }
 
 const fetchApr = async (pid: string) => {
-  const response = await axios.get(`${PANGOLIN_API_BASE_URL}/pangolin/apr2/${pid}`, {
-    timeout: 5000
-  })
+  const response = await axios.get(`${PANGOLIN_API_BASE_URL}/pangolin/apr2/${pid}`)
 
   const res = response.data
 
