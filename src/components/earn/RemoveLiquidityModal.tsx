@@ -81,7 +81,7 @@ export default function RemoveLiquidityModal({
     [ChainId.FUJI]: 'WAVAX',
     [ChainId.AVALANCHE]: 'WAVAX',
     [ChainId.WAGMI]: 'wWAGMI',
-    [ChainId.COSTON]: 'wCFLR',
+    [ChainId.COSTON]: 'wCFLR'
   }
 
   // toggle wallet when disconnected

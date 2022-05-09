@@ -25,7 +25,7 @@ export const QuestionAnswer = () => {
     <QuestionBox>
       {questions &&
         questions.map((e: Questions) => (
-          <div onClick={() => setVisible(!visible)}>
+          <div key={e.id} onClick={() => setVisible(!visible)}>
             <QuestionWrapper>
               {visible ? <img src={MinusLogo} alt="" /> : <StyledLogo src={PlusLogo} size={'20px'} />}
               <Text fontSize={24} fontWeight={700} lineHeight="36px" color="text10">

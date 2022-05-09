@@ -358,7 +358,7 @@ const Stake = ({ pair, version, onComplete, type, combinedApr }: StakeProps) => 
               <Box mt={type === 'card' ? '25px' : '0px'}>
                 <NumberOptions
                   onChange={value => {
-                    setStepIndex(type === 'card' ? value / 25 : value )
+                    setStepIndex(type === 'card' ? value / 25 : value)
                     onChangePercentage(type === 'card' ? value : value * 25)
                   }}
                   currentValue={type === 'card' ? stepIndex * 25 : stepIndex}

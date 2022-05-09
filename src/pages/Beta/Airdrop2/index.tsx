@@ -1,5 +1,15 @@
 import React, { useState } from 'react'
-import { PageWrapper, BoxWrapper, ClaimBox, StyledLogo, Separator, MainTitle, SmallSeparator, TitleWrapper, CenterText } from './styleds'
+import {
+  PageWrapper,
+  BoxWrapper,
+  ClaimBox,
+  StyledLogo,
+  Separator,
+  MainTitle,
+  SmallSeparator,
+  TitleWrapper,
+  CenterText
+} from './styleds'
 import { Text, Box } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
 import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxNotConnected } from './wagmiBoxes'
@@ -78,12 +88,7 @@ const AirdropUI: React.FC = () => {
           <CardBGImage />
           <CardNoise />
           <ColumnCenter>
-            <Text
-              fontSize={25}
-              fontWeight={500}
-              lineHeight="50px"
-              color="black"
-            >
+            <Text fontSize={25} fontWeight={500} lineHeight="50px" color="black">
               Sorry, you are not eligible
             </Text>
             <PngTokenAnimated width="55px" src={tokenLogo} />

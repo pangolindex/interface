@@ -63,7 +63,6 @@ export const StyledLogo = styled.img<{ size: string }>`
   border-radius: 24px;
 `
 
-
 export const QuestionBox = styled(Box)`
   background-color: #111111;
   border-radius: 10px;

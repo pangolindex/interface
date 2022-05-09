@@ -51,7 +51,7 @@ const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: CHAINS[ChainId.FUJI].symbol,
   [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].symbol,
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].symbol,
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON].symbol,
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].symbol
 }
 
 export default function Header() {

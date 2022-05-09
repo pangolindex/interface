@@ -15,8 +15,8 @@ export function useAirdropIsClaimingAllowed(): boolean {
   const claimingAllowedResult = useSingleCallResult(airdropContract, 'claimingAllowed', [])
   return Boolean(
     !claimingAllowedResult.loading &&
-    claimingAllowedResult.result !== undefined &&
-    claimingAllowedResult.result[0] === true
+      claimingAllowedResult.result !== undefined &&
+      claimingAllowedResult.result[0] === true
   ) // eslint-disable-line eqeqeq
 }
 
@@ -25,9 +25,9 @@ export function useUserHasAvailableClaim(account: string | null | undefined): bo
   const withdrawAmountResult = useSingleCallResult(airdropContract, 'withdrawAmount', [account ? account : undefined])
   return Boolean(
     account &&
-    !withdrawAmountResult.loading &&
-    withdrawAmountResult.result !== undefined &&
-    !JSBI.equal(JSBI.BigInt(withdrawAmountResult.result?.[0]), JSBI.BigInt(0))
+      !withdrawAmountResult.loading &&
+      withdrawAmountResult.result !== undefined &&
+      !JSBI.equal(JSBI.BigInt(withdrawAmountResult.result?.[0]), JSBI.BigInt(0))
   ) // eslint-disable-line eqeqeq
 }
 
@@ -56,7 +56,7 @@ export function useClaimCallback(
   const addTransaction = useTransactionAdder()
   const airdropContract = useAirdropContract()
 
-  const claimCallback = async function () {
+  const claimCallback = async function() {
     if (!account || !library || !chainId || !airdropContract) return
 
     return airdropContract.estimateGas['claim']({}).then(estimatedGasLimit => {
@@ -86,7 +86,7 @@ export interface Questions {
 }
 
 export function useGetQuestions() {
-  var queryData = JSON.stringify({
+  const queryData = JSON.stringify({
     query: `query getKnowledge($filter: kb_filter) {
       kb(filter: $filter) {
           id
@@ -107,7 +107,7 @@ export function useGetQuestions() {
       return {
         id: e?.id,
         title: e?.title,
-        content: e?.content,
+        content: e?.content
       } as Questions
     })
 

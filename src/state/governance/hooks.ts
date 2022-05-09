@@ -1,4 +1,3 @@
-
 import { PNG } from 'src/constants/tokens'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
 import { isAddress } from 'ethers/lib/utils'

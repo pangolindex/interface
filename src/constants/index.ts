@@ -10,7 +10,7 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.FUJI]: CHAINS[ChainId.FUJI].contracts!.router,
   [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.router,
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.router,
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.router,
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.router
 }
 
 export const LANDING_PAGE = 'https://pangolin.exchange'

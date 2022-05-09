@@ -7,20 +7,25 @@ type IChangeChain = {
   changeChain: () => void
 }
 
+interface MetamaskError {
+  code: number
+  message: string
+}
+
 export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
   const switchNetworkWagmi = async () => {
+    const { ethereum } = window
+
     changeChain()
-    try {
-      // @ts-ignore
-      await ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: '0x2B67' }]
-      })
-    } catch (error) {
-      // @ts-ignore
-      if (error.code === 4902) {
-        try {
-          // @ts-ignore
+    if (ethereum) {
+      try {
+        await ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x2B67' }]
+        })
+      } catch (error) {
+        const metamask = error as MetamaskError
+        if (metamask.code === 4902) {
           await ethereum.request({
             method: 'wallet_addEthereumChain',
             params: [
@@ -37,9 +42,6 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
               }
             ]
           })
-        } catch (e) {
-          // @ts-ignore
-          alert(e.message)
         }
       }
     }
