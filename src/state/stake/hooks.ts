@@ -946,6 +946,28 @@ export const useMinichefPools = (): { [key: string]: number } => {
   }, [lpTokensArr])
 }
 
+export const tokenComparator = (
+  { address: addressA }: { address: string },
+  { address: addressB }: { address: string }
+) => {
+  // Sort AVAX last
+  if (addressA === WAVAX[ChainId.AVALANCHE].address) return 1
+  else if (addressB === WAVAX[ChainId.AVALANCHE].address) return -1
+  // Sort PNG first
+  else if (addressA === PNG[ChainId.AVALANCHE].address) return -1
+  else if (addressB === PNG[ChainId.AVALANCHE].address) return 1
+  // Sort axlUST first
+  else if (addressA === axlUST[ChainId.AVALANCHE].address) return -1
+  else if (addressB === axlUST[ChainId.AVALANCHE].address) return 1
+  // Sort USDC first
+  else if (addressA === USDC[ChainId.AVALANCHE].address) return -1
+  else if (addressB === USDC[ChainId.AVALANCHE].address) return 1
+  // Sort USDCe first
+  else if (addressA === USDCe[ChainId.AVALANCHE].address) return -1
+  else if (addressB === USDCe[ChainId.AVALANCHE].address) return 1
+  else return 0
+}
+
 export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | null): DoubleSideStakingInfo[] => {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
@@ -1082,24 +1104,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
         const token0 = pair?.token0
         const token1 = pair?.token1
 
-        const tokens = [token0, token1].sort(({ address: addressA }, { address: addressB }) => {
-          // Sort AVAX last
-          if (addressA === WAVAX[ChainId.AVALANCHE].address) return 1
-          else if (addressB === WAVAX[ChainId.AVALANCHE].address) return -1
-          // Sort PNG first
-          else if (addressA === PNG[ChainId.AVALANCHE].address) return -1
-          else if (addressB === PNG[ChainId.AVALANCHE].address) return 1
-          // Sort axlUST first
-          else if (addressA === axlUST[ChainId.AVALANCHE].address) return -1
-          else if (addressB === axlUST[ChainId.AVALANCHE].address) return 1
-          // Sort USDC first
-          else if (addressA === USDC[ChainId.AVALANCHE].address) return -1
-          else if (addressB === USDC[ChainId.AVALANCHE].address) return 1
-          // Sort USDCe first
-          else if (addressA === USDCe[ChainId.AVALANCHE].address) return -1
-          else if (addressB === USDCe[ChainId.AVALANCHE].address) return 1
-          else return 0
-        })
+        const tokens = [token0, token1].sort(tokenComparator)
 
         const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
         const lpToken = dummyPair.liquidityToken
@@ -1665,24 +1670,7 @@ export const useGetMinichefStakingInfosViaSubgraph = (): MinichefStakingInfo[] =
         pairToken1.name
       )
 
-      const tokens = [token0, token1].sort(({ address: addressA }, { address: addressB }) => {
-        // Sort AVAX last
-        if (addressA === WAVAX[ChainId.AVALANCHE].address) return 1
-        else if (addressB === WAVAX[ChainId.AVALANCHE].address) return -1
-        // Sort PNG first
-        else if (addressA === PNG[ChainId.AVALANCHE].address) return -1
-        else if (addressB === PNG[ChainId.AVALANCHE].address) return 1
-        // Sort axlUST first
-        else if (addressA === axlUST[ChainId.AVALANCHE].address) return -1
-        else if (addressB === axlUST[ChainId.AVALANCHE].address) return 1
-        // Sort USDC first
-        else if (addressA === USDC[ChainId.AVALANCHE].address) return -1
-        else if (addressB === USDC[ChainId.AVALANCHE].address) return 1
-        // Sort USDCe first
-        else if (addressA === USDCe[ChainId.AVALANCHE].address) return -1
-        else if (addressB === USDCe[ChainId.AVALANCHE].address) return 1
-        else return 0
-      })
+      const tokens = [token0, token1].sort(tokenComparator)
 
       const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
       const lpToken = dummyPair.liquidityToken
