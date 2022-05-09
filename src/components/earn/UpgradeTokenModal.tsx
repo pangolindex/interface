@@ -76,9 +76,9 @@ export default function UpgradeTokenModal({
             })
             setHash(response.hash)
           })
-          .catch((error: any) => {
+          .catch((_error: any) => {
             setAttempting(false)
-            console.log(error)
+            console.log(_error)
           })
       } else {
         setAttempting(false)
@@ -88,8 +88,8 @@ export default function UpgradeTokenModal({
   }
 
   // wrapped onUserInput to clear signatures
-  const onUserInput = useCallback((typedValue: string) => {
-    setTypedValue(typedValue)
+  const onUserInput = useCallback((_typedValue: string) => {
+    setTypedValue(_typedValue)
   }, [])
 
   // used for max input button
@@ -109,9 +109,6 @@ export default function UpgradeTokenModal({
   if (!account) {
     error = t('earn.connectWallet')
   }
-  // if (!stakingInfo?.stakedAmount) {
-  //   error = error ?? t('earn.enterAmount')
-  // }
 
   return (
     <Modal isOpen={isOpen} onDismiss={wrappedOnDismiss} maxHeight={90}>

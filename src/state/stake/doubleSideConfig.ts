@@ -1366,6 +1366,31 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [WAVAX[ChainId.AVALANCHE], TOKENS.LOST[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
     version: 2
+  },
+  WAVAX_KTE_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TOKENS.KTE[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  WAVAX_BPT_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TOKENS.BPT[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  PNG_SFI_V2: {
+    tokens: [TOKENS.PNG[ChainId.AVALANCHE], TOKENS.SFI[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  WAVAX_FITFI_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TOKENS.FITFI[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  WAVAX_SLIME_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TOKENS.SLIME[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
   }
 }
 

@@ -1,4 +1,4 @@
-import { ChainId, TokenAmount, CHAINS } from '@pangolindex/sdk'
+import { TokenAmount } from '@pangolindex/sdk'
 import { Button } from '@pangolindex/components'
 import React, { useState, useRef } from 'react'
 import { Text } from 'rebass'
@@ -9,9 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'react-feather'
 import styled from 'styled-components'
 import Logo from '../../assets/svg/icon.svg'
-import LogoDark from '../../assets/svg/icon.svg'
 import { useActiveWeb3React } from '../../hooks'
-import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances, useAggregatePngBalance } from '../../state/wallet/hooks'
 import { CardNoise } from '../earn/styled'
 import { CountUp } from 'use-count-up'
@@ -24,13 +22,12 @@ import Web3Status from '../Web3Status'
 import Modal from '../Modal'
 import PngBalanceContent from './PngBalanceContent'
 import usePrevious from '../../hooks/usePrevious'
-import { ANALYTICS_PAGE } from '../../constants'
 import LanguageSelection from '../LanguageSelection'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { MenuFlyout, MenuNavItem } from '../StyledMenu'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
-import { BETA_MENU_LINK } from 'src/constants'
+import { BETA_MENU_LINK, ANALYTICS_PAGE, NETWORK_LABELS, NETWORK_CURRENCY } from 'src/constants'
 import { Hidden } from 'src/theme'
 import { useChainId } from 'src/hooks'
 
@@ -280,20 +277,6 @@ const NarrowMenuFlyout = styled(MenuFlyout)`
   right: auto !important;
 `
 
-const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
-  [ChainId.FUJI]: CHAINS[ChainId.FUJI].name,
-  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].name,
-  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].name,
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON].name
-}
-
-const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
-  [ChainId.FUJI]: CHAINS[ChainId.FUJI].symbol,
-  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].symbol,
-  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].symbol,
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON].symbol
-}
-
 export default function Header() {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
@@ -303,7 +286,6 @@ export default function Header() {
   const location: any = useLocation()
 
   const userEthBalance = useETHBalances(chainId, account ? [account] : [])?.[account ?? '']
-  const [isDark] = useDarkModeManager()
 
   const aggregateBalance: TokenAmount | undefined = useAggregatePngBalance()
 
@@ -324,7 +306,7 @@ export default function Header() {
       <HeaderRow>
         <Title href=".">
           <PngIcon>
-            <img width={'24px'} src={isDark ? LogoDark : Logo} alt="logo" />
+            <img width={'24px'} src={Logo} alt="logo" />
           </PngIcon>
         </Title>
         <HeaderLinks>

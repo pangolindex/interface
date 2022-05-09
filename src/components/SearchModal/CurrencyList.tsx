@@ -177,7 +177,6 @@ export default function CurrencyList({
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>
   showETH: boolean
 }) {
-  // const itemData = useMemo(() => (showETH ? [Currency.CAVAX, ...currencies] : currencies), [currencies, showETH])
   const itemData = useMemo(() => (showETH ? [CAVAX[chainId], ...currencies] : currencies), [
     currencies,
     showETH,

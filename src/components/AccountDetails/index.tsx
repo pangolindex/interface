@@ -4,7 +4,7 @@ import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch } from '../../state'
 import { clearAllTransactions } from '../../state/transactions/actions'
-import { shortenAddress } from '../../utils'
+import { shortenAddress, getEtherscanLink } from '../../utils'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
@@ -12,15 +12,17 @@ import Transaction from './Transaction'
 import { SUPPORTED_WALLETS } from '../../constants'
 import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
+import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { getEtherscanLink } from '../../utils'
-import { injected, walletconnect, walletlink, xDefi } from '../../connectors'
+import { gnosisSafe, injected, walletconnect, walletlink } from '../../connectors'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import { ExternalLink, LinkStyledButton, TYPE } from '../../theme'
 import { useTranslation } from 'react-i18next'
 import { useIsBetaUI } from 'src/hooks/useLocation'
+import { WalletLinkConnector } from '@web3-react/walletlink-connector'
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
 const HeaderRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};
@@ -274,6 +276,12 @@ export default function AccountDetails({
           <img src={WalletConnectIcon} alt={'Wallet Connect logo'} />
         </IconWrapper>
       )
+    } else if (connector === gnosisSafe) {
+      return (
+        <IconWrapper size={16}>
+          <img src={GnosisSafeIcon} alt={'Gnosis Safe logo'} />
+        </IconWrapper>
+      )
     }
     return null
   }
@@ -297,11 +305,11 @@ export default function AccountDetails({
               <AccountGroupingRow>
                 {formatConnectorName()}
                 <div>
-                  {connector !== injected && connector !== xDefi && (
+                  {(connector instanceof WalletLinkConnector || connector instanceof WalletConnectConnector) && (
                     <WalletAction
                       style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
                       onClick={() => {
-                        ;(connector as any).close()
+                        connector.close()
                       }}
                       isBeta={isBeta}
                     >

@@ -60,6 +60,27 @@ const WAVAX_AND_PNG_ONLY: ChainTokenList = {
   [ChainId.COSTON]: [WAVAX[ChainId.COSTON], PNG[ChainId.COSTON]]
 }
 
+export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
+  [ChainId.FUJI]: CHAINS[ChainId.FUJI].name,
+  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].name,
+  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].name,
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].name
+}
+
+export const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
+  [ChainId.FUJI]: CHAINS[ChainId.FUJI].symbol,
+  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].symbol,
+  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].symbol,
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].symbol
+}
+
+export const NETWORK_WRAPPED_CURRENCY: { [chainId in ChainId]?: string } = {
+  [ChainId.FUJI]: 'WAVAX',
+  [ChainId.AVALANCHE]: 'WAVAX',
+  [ChainId.WAGMI]: 'wWAGMI',
+  [ChainId.COSTON]: 'wCFLR'
+}
+
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.FUJI]: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
@@ -110,7 +131,7 @@ export const TRUSTED_TOKEN_ADDRESSES: { readonly [chainId in ChainId]: string[] 
 export const SWAP_DEFAULT_CURRENCY = {
   [ChainId.AVALANCHE]: {
     inputCurrency: 'AVAX',
-    outputCurrency: axlUST[ChainId.AVALANCHE].address
+    outputCurrency: UST[ChainId.AVALANCHE].address
   },
   [ChainId.FUJI]: {
     inputCurrency: '',
@@ -182,11 +203,19 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
   },
   XDEFI: {
     connector: xDefi,
-    name: 'XDEFI',
+    name: 'XDEFI Wallet',
     iconName: 'xDefi.png',
     description: window.xfi && window.xfi.ethereum ? 'Easy-to-use browser extension.' : 'Please Install',
     href: null,
     color: '#315CF5'
+  },
+  RABBY: {
+    connector: injected,
+    name: 'Rabby Wallet',
+    iconName: 'rabby.svg',
+    description: 'Easy-to-use browser extension.',
+    href: null,
+    color: '#7a7cff'
   }
 }
 

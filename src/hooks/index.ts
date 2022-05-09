@@ -41,10 +41,18 @@ export function useEagerConnect() {
               setTried(true)
             })
           } else {
-            if (isMobile && (window.ethereum || window.xfi.ethereum)) {
-              activate(existingConnector, undefined, true).catch(() => {
+            if (isMobile) {
+              if (window.ethereum) {
+                activate(injected, undefined, true).catch(() => {
+                  setTried(true)
+                })
+              } else if (window.xfi && window.xfi.ethereum) {
+                activate(xDefi, undefined, true).catch(() => {
+                  setTried(true)
+                })
+              } else {
                 setTried(true)
-              })
+              }
             } else {
               setTried(true)
             }
@@ -79,16 +87,16 @@ export function useInactiveListener(suppress = false) {
     if (ethereum && ethereum.on && !active && !error && !suppress) {
       const handleChainChanged = () => {
         // eat errors
-        activate(injected, undefined, true).catch(error => {
-          console.error('Failed to activate after chain changed', error)
+        activate(injected, undefined, true).catch(_error => {
+          console.error('Failed to activate after chain changed', _error)
         })
       }
 
       const handleAccountsChanged = (accounts: string[]) => {
         if (accounts.length > 0) {
           // eat errors
-          activate(injected, undefined, true).catch(error => {
-            console.error('Failed to activate after accounts changed', error)
+          activate(injected, undefined, true).catch(_error => {
+            console.error('Failed to activate after accounts changed', _error)
           })
         }
       }

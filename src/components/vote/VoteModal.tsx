@@ -74,13 +74,13 @@ export default function VoteModal({ isOpen, onDismiss, proposalId, support }: Vo
     if (!voteCallback) return
 
     // try delegation and store hash
-    const hash = await voteCallback(proposalId, support)?.catch(error => {
+    const _hash = await voteCallback(proposalId, support)?.catch(error => {
       setAttempting(false)
       console.log(error)
     })
 
-    if (hash) {
-      setHash(hash)
+    if (_hash) {
+      setHash(_hash)
     }
   }
 

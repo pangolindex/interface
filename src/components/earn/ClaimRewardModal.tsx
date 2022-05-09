@@ -76,12 +76,12 @@ export default function ClaimRewardModal({
     }
   }
 
-  let error: string | undefined
+  let errorMessage: string | undefined
   if (!account) {
-    error = t('earn.connectWallet')
+    errorMessage = t('earn.connectWallet')
   }
   if (!stakingInfo?.stakedAmount) {
-    error = error ?? t('earn.enterAmount')
+    errorMessage = errorMessage ?? t('earn.enterAmount')
   }
 
   return (
@@ -110,8 +110,8 @@ export default function ClaimRewardModal({
               </AutoColumn>
             ))}
           <TYPE.subHeader style={{ textAlign: 'center' }}>{t('earn.liquidityRemainsPool')}</TYPE.subHeader>
-          <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onClaimReward}>
-            {error ? error : isSuperFarm ? t('earn.claim') : t('earn.claimReward', { symbol: 'PNG' })}
+          <ButtonError disabled={!!errorMessage} error={!!errorMessage && !!stakingInfo?.stakedAmount} onClick={onClaimReward}>
+            {errorMessage ? errorMessage : isSuperFarm ? t('earn.claim') : t('earn.claimReward', { symbol: 'PNG' })}
           </ButtonError>
         </ContentWrapper>
       )}

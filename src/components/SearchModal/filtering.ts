@@ -23,7 +23,7 @@ export function filterTokens(tokens: Token[], search: string): Token[] {
     const sParts = s
       .toLowerCase()
       .split(/\s+/)
-      .filter(s => s.length > 0)
+      .filter(value => value.length > 0)
 
     return lowerSearchParts.every(p => p.length === 0 || sParts.some(sp => sp.startsWith(p) || sp.endsWith(p)))
   }
