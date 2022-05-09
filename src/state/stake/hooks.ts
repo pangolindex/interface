@@ -1760,12 +1760,11 @@ export const useGetMinichefStakingInfosViaSubgraph = (id?: string): MinichefStak
         tokenMultiplier: JSBI | undefined
       ) => {
         const TEN_EIGHTEEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
-        // const secondToWeekConversion = JSBI.BigInt(60 * 60 * 24 * 7)
+
         const rewardMultiplier = JSBI.BigInt(tokenMultiplier || 1)
 
         const unadjustedRewardPerWeek = JSBI.multiply(rewardMultiplier, rewardRatePerWeek?.raw)
 
-        // const finalReward = JSBI.divide(JSBI.multiply(unadjustedRewardPerWeek, secondToWeekConversion), TEN_EIGHTEEN)
         const finalReward = JSBI.divide(unadjustedRewardPerWeek, TEN_EIGHTEEN)
 
         return new TokenAmount(token, finalReward)

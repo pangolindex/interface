@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next'
 import { CloseIcon } from 'src/theme'
 import { Hidden, Visible } from 'src/theme'
 import RewardTokens from 'src/components/RewardTokens'
-// import { useTokens } from 'src/hooks/Tokens'
 import { useChainId } from 'src/hooks'
 
 type Props = {
@@ -29,7 +28,6 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const currency0 = unwrappedToken(token0, chainId)
   const currency1 = unwrappedToken(token1, chainId)
 
-  // const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
   const rewardTokens = stakingInfo?.rewardTokens
 
   const { swapFeeApr, stakingApr } = useGetFarmApr(stakingInfo?.pid as string)

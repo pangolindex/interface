@@ -17,15 +17,13 @@ import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { usePair } from 'src/data/Reserves'
-// import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
 import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import ClaimDrawer from '../../ClaimDrawer'
 import FarmDrawer from '../../FarmDrawer'
 import AddLiquidityDrawer from '../../AddLiquidityDrawer'
-import { useChainId } from 'src/hooks'
 
 export interface PoolCardV1Props {
   stakingInfo: StakingInfo
@@ -59,7 +57,6 @@ const PoolCardV1 = ({ stakingInfo, onClickViewDetail, version }: PoolCardV1Props
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
 
-  // const { userPgl } = useGetPoolDollerWorth(stakingTokenPair)
   const userPgl = useTokenBalance(account ?? undefined, stakingTokenPair?.liquidityToken)
 
   const isLiquidity = Boolean(userPgl?.greaterThan('0'))
