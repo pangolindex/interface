@@ -1,21 +1,19 @@
 import React from 'react'
 import { InfoWrapper, DataBox, ContentBox, TextBox, StyledBalanceMax } from './styleds'
 import { Text, Box, DoubleCurrencyLogo, Steps, Step } from '@pangolindex/components'
-import { Pair, TokenAmount } from '@pangolindex/sdk'
-import { useGetPairDataFromPair } from '../../../state/stake/hooks'
+import { Pair, TokenAmount, JSBI } from '@pangolindex/sdk'
+import { useGetPairDataFromPair, StakingInfo } from '../../../state/stake/hooks'
 import numeral from 'numeral'
 import { useTranslation } from 'react-i18next'
-import { StakingInfo } from '../../../state/stake/hooks'
 import { useTokenBalance } from '../../../state/wallet/hooks'
 import { useActiveWeb3React, useChainId } from '../../../hooks'
 import { wrappedCurrencyAmount } from '../../../utils/wrappedCurrency'
 import { tryParseAmount } from '../../../state/swap/hooks'
-import { JSBI } from '@pangolindex/sdk'
 
 export interface PoolInfoProps {
   pair: Pair
   type: 'unstake' | 'remove' | 'stake' | 'add'
-  stakingInfo?: StakingInfo | undefined
+  stakingInfo?: StakingInfo
   stepIndex?: number
   onChangeDot?: (value: number) => void
   amount?: string

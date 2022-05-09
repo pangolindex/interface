@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Price } from '@pangolindex/sdk'
-import { useContext } from 'react'
 import { Repeat } from 'react-feather'
 import { Text } from 'rebass'
 import { ThemeContext } from 'styled-components'
