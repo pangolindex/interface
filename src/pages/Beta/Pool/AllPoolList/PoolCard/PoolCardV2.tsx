@@ -65,6 +65,46 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) 
 
   const isSuperFarm = (rewardTokens || [])?.length > 1
 
+  const renderButton = () => {
+    if (isStaking && Boolean(earnedAmount.greaterThan('0')))
+      return (
+        <ActionButon
+          variant="plain"
+          onClick={() => setShowClaimDrawer(true)}
+          backgroundColor="bg2"
+          color="text1"
+          height="45px"
+        >
+          {t('earnPage.claim')}
+        </ActionButon>
+      )
+    else if (isLiquidity) {
+      return (
+        <ActionButon
+          variant="plain"
+          onClick={() => setShowFarmDrawer(true)}
+          backgroundColor="bg2"
+          color="text1"
+          height="45px"
+        >
+          {t('header.farm')}
+        </ActionButon>
+      )
+    } else {
+      return (
+        <ActionButon
+          variant="plain"
+          onClick={() => setShowAddLiquidityDrawer(true)}
+          backgroundColor="bg2"
+          color="text1"
+          height="45px"
+        >
+          {t('pool.addLiquidity')}
+        </ActionButon>
+      )
+    }
+  }
+
   return (
     <Panel>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -135,39 +175,7 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) 
             {t('pool.seeDetails')}
           </DetailButton>
         </Box>
-        <Box>
-          {isStaking && Boolean(earnedAmount?.greaterThan('0')) ? (
-            <ActionButon
-              variant="plain"
-              onClick={() => setShowClaimDrawer(true)}
-              backgroundColor="bg2"
-              color="text1"
-              height="45px"
-            >
-              {t('earnPage.claim')}
-            </ActionButon>
-          ) : isLiquidity ? (
-            <ActionButon
-              variant="plain"
-              onClick={() => setShowFarmDrawer(true)}
-              backgroundColor="bg2"
-              color="text1"
-              height="45px"
-            >
-              {t('header.farm')}
-            </ActionButon>
-          ) : (
-            <ActionButon
-              variant="plain"
-              onClick={() => setShowAddLiquidityDrawer(true)}
-              backgroundColor="bg2"
-              color="text1"
-              height="45px"
-            >
-              {t('pool.addLiquidity')}
-            </ActionButon>
-          )}
-        </Box>
+        <Box>{renderButton()}</Box>
       </InnerWrapper>
       {isClaimDrawerVisible && (
         <ClaimDrawer

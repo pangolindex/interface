@@ -1850,10 +1850,10 @@ export function useFetchFarmAprs() {
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    ;(async () => {
+    async function getFarmAprs() {
       const promises = []
-      for (let index = 0; index < pids.length; index++) {
-        const pid = pids[index]
+
+      for (let pid of pids) {
         promises.push(fetchApr(pid))
       }
       const res = await Promise.all(promises)
@@ -1865,7 +1865,9 @@ export function useFetchFarmAprs() {
           })
         )
       }
-    })()
+    }
+
+    getFarmAprs()
   }, [pids, dispatch])
 }
 

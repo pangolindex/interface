@@ -85,8 +85,8 @@ const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
         }
         return 0
       })
-    ).then(stakingInfoData => {
-      const poolCards = stakingInfoData.map((stakingInfo, index) => {
+    ).then(newStakingInfoData => {
+      const newPoolCards = newStakingInfoData.map((stakingInfo, index) => {
         return (
           <PoolCardV1
             key={index}
@@ -101,7 +101,7 @@ const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
           />
         )
       })
-      setPoolCards(poolCards)
+      setPoolCards(newPoolCards)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortBy, stakingInfoData])
@@ -158,7 +158,7 @@ const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
             }
           })
       ).then(updatedStakingInfos => {
-        const poolCards = updatedStakingInfos.map((stakingInfo, index) => {
+        const sortedPoolCards = updatedStakingInfos.map((stakingInfo, index) => {
           return (
             <PoolCardV1
               key={index}
@@ -175,7 +175,7 @@ const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
         })
 
         setStakingInfoData(updatedStakingInfos)
-        setPoolCards(poolCards)
+        setPoolCards(sortedPoolCards)
         setPoolCardsLoading(false)
       })
     }
@@ -188,15 +188,17 @@ const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
   )
   const selectedPool: DoubleSideStakingInfo = selectedPoolIndex !== -1 ? stakingInfoData[selectedPoolIndex] : undefined
 
-  return (
-    <PoolsWrapper>
-      {(stakingRewardsExist && stakingInfos?.length === 0) || poolCardsLoading ? (
+  const renderPoolCardListView = () => {
+    if ((stakingRewardsExist && stakingInfos?.length === 0) || poolCardsLoading)
+      return (
         <LoadingWrapper>
           <Loader style={{ margin: 'auto' }} size="35px" stroke={theme.primary} />
         </LoadingWrapper>
-      ) : (!stakingRewardsExist || poolCards?.length === 0) && !poolCardsLoading ? (
-        t('earnPage.noActiveRewards')
-      ) : (
+      )
+    else if ((!stakingRewardsExist || poolCards?.length === 0) && !poolCardsLoading) {
+      return <div>{t('earnPage.noActiveRewards')}</div>
+    } else {
+      return (
         <>
           <Box display="flex" justifyContent="space-between" alignItems="center" mb={10}>
             <Box width="100%">
@@ -244,7 +246,13 @@ const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
             <PanelWrapper>{filteredPoolCards}</PanelWrapper>
           </Scrollbars>
         </>
-      )}
+      )
+    }
+  }
+
+  return (
+    <PoolsWrapper>
+      {renderPoolCardListView()}
 
       <DetailModal stakingInfo={selectedPool} version={Number(version)} />
     </PoolsWrapper>

@@ -130,15 +130,18 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
     typeof chainId === 'number' && (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0
   )
   const selectedPool = selectedPoolIndex !== -1 ? stakingInfoData[selectedPoolIndex] : ({} as MinichefStakingInfo)
-  return (
-    <PoolsWrapper>
-      {(stakingRewardsExist && stakingInfoData?.length === 0) || poolCardsLoading ? (
+
+  const renderPoolCardListView = () => {
+    if ((stakingRewardsExist && stakingInfoData?.length === 0) || poolCardsLoading)
+      return (
         <LoadingWrapper>
           <Loader size={100} />
         </LoadingWrapper>
-      ) : (!stakingRewardsExist || stakingInfoData?.length === 0) && !poolCardsLoading ? (
-        t('earnPage.noActiveRewards')
-      ) : (
+      )
+    else if ((!stakingRewardsExist || stakingInfoData?.length === 0) && !poolCardsLoading) {
+      return <div>{t('earnPage.noActiveRewards')}</div>
+    } else {
+      return (
         <>
           <Box display="flex" justifyContent="space-between" alignItems="center" mb={10}>
             <Box width="100%">
@@ -198,8 +201,13 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
             </PanelWrapper>
           </Scrollbars>
         </>
-      )}
+      )
+    }
+  }
 
+  return (
+    <PoolsWrapper>
+      {renderPoolCardListView()}
       <DetailModal stakingInfo={selectedPool} version={Number(version)} />
     </PoolsWrapper>
   )
