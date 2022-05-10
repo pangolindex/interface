@@ -6,8 +6,7 @@ import { useChainId } from 'src/hooks'
 import useDebounce from 'src/hooks/useDebounce'
 import { BIG_INT_ZERO, PANGOLIN_API_BASE_URL } from 'src/constants'
 import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
-import { SortingType } from './PoolCardListView'
-import PoolCardListView from './PoolCardListView'
+import PoolCardListView, { SortingType } from './PoolCardListView'
 
 export interface EarnProps {
   version: string
