@@ -1,37 +1,13 @@
-import React, { useCallback, useEffect, useState, useContext } from 'react'
-import { ThemeContext } from 'styled-components'
-import { TextInput, Box } from '@pangolindex/components'
+import React, { useCallback, useEffect, useState } from 'react'
 import { DoubleSideStakingInfo, sortingOnAvaxStake, sortingOnStakedAmount } from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCardV1 from '../PoolCard/PoolCardV1'
-import Loader from 'src/components/Loader'
 import { useChainId } from 'src/hooks'
-import { useTranslation } from 'react-i18next'
-import { Search } from 'react-feather'
 import useDebounce from 'src/hooks/useDebounce'
 import { BIG_INT_ZERO, PANGOLIN_API_BASE_URL } from 'src/constants'
-import Scrollbars from 'react-custom-scrollbars'
-import { PoolsWrapper, PanelWrapper, LoadingWrapper, MobileGridContainer } from './styleds'
 import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
-import DetailModal from '../../DetailModal'
-import DropdownMenu from 'src/components/Beta/DropdownMenu'
-import { Hidden } from 'src/theme'
-
-export enum SortingType {
-  totalStakedInUsd = 'totalStakedInUsd',
-  totalApr = 'totalApr'
-}
-
-export const SortOptions = [
-  {
-    label: 'Liquidity',
-    value: SortingType.totalStakedInUsd
-  },
-  {
-    label: 'APR',
-    value: SortingType.totalApr
-  }
-]
+import { SortingType } from './PoolCardListView'
+import PoolCardListView from './PoolCardListView'
 
 export interface EarnProps {
   version: string
@@ -43,8 +19,7 @@ export interface EarnProps {
 
 const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activeMenu, menuItems }) => {
   const chainId = useChainId()
-  const { t } = useTranslation()
-  const theme = useContext(ThemeContext)
+
   const [poolCardsLoading, setPoolCardsLoading] = useState(false)
   const [poolCards, setPoolCards] = useState<any[]>()
   const [filteredPoolCards, setFilteredPoolCards] = useState<any[]>()
@@ -158,74 +133,24 @@ const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   )
   const selectedPool: DoubleSideStakingInfo = selectedPoolIndex !== -1 ? stakingInfoData[selectedPoolIndex] : undefined
 
-  const renderPoolCardListView = () => {
-    if ((stakingRewardsExist && stakingInfos?.length === 0) || poolCardsLoading)
-      return (
-        <LoadingWrapper>
-          <Loader style={{ margin: 'auto' }} size="35px" stroke={theme.primary} />
-        </LoadingWrapper>
-      )
-    else if ((!stakingRewardsExist || poolCards?.length === 0) && !poolCardsLoading) {
-      return <div>{t('earnPage.noActiveRewards')}</div>
-    } else {
-      return (
-        <>
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb={10}>
-            <Box width="100%">
-              <TextInput
-                placeholder={t('searchModal.tokenName')}
-                onChange={handleSearch}
-                value={searchQuery}
-                id="token-search-input"
-                addonAfter={<Search style={{ marginTop: '5px' }} color={theme.text2} size={20} />}
-              />
-            </Box>
-            <Hidden upToSmall={true}>
-              <Box ml={10}>
-                <DropdownMenu
-                  title="Sort by:"
-                  options={SortOptions}
-                  value={sortBy}
-                  onSelect={value => {
-                    setSortBy(value)
-                  }}
-                  height="54px"
-                />
-              </Box>
-            </Hidden>
-          </Box>
-          <MobileGridContainer>
-            <DropdownMenu
-              options={menuItems}
-              value={activeMenu}
-              onSelect={value => {
-                setMenu(value)
-              }}
-            />
-            <DropdownMenu
-              title="Sort by:"
-              options={SortOptions}
-              value={sortBy}
-              onSelect={value => {
-                setSortBy(value)
-              }}
-            />
-          </MobileGridContainer>
-
-          <Scrollbars>
-            <PanelWrapper>{filteredPoolCards}</PanelWrapper>
-          </Scrollbars>
-        </>
-      )
-    }
-  }
-
   return (
-    <PoolsWrapper>
-      {renderPoolCardListView()}
-
-      <DetailModal stakingInfo={selectedPool} version={Number(version)} />
-    </PoolsWrapper>
+    <PoolCardListView
+      version={version}
+      setMenu={value => setMenu(value)}
+      activeMenu={activeMenu}
+      menuItems={menuItems}
+      handleSearch={handleSearch}
+      onChangeSortBy={value => {
+        setSortBy(value)
+      }}
+      sortBy={sortBy}
+      searchQuery={searchQuery}
+      isLoading={(stakingRewardsExist && stakingInfos?.length === 0) || poolCardsLoading}
+      isNotExitsPool={(!stakingRewardsExist || poolCards?.length === 0) && !poolCardsLoading}
+      selectedPool={selectedPool}
+    >
+      {filteredPoolCards}
+    </PoolCardListView>
   )
 }
 
