@@ -135,17 +135,15 @@ const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   return (
     <PoolCardListView
       version={version}
-      setMenu={value => setMenu(value)}
+      setMenu={setMenu}
       activeMenu={activeMenu}
       menuItems={menuItems}
       handleSearch={handleSearch}
-      onChangeSortBy={value => {
-        setSortBy(value)
-      }}
+      onChangeSortBy={setSortBy}
       sortBy={sortBy}
       searchQuery={searchQuery}
       isLoading={(stakingRewardsExist && stakingInfos?.length === 0) || poolCardsLoading}
-      isNotExitsPool={(!stakingRewardsExist || poolCards?.length === 0) && !poolCardsLoading}
+      doesPoolExist={(!stakingRewardsExist || poolCards?.length === 0) && !poolCardsLoading}
       selectedPool={selectedPool}
     >
       {filteredPoolCards}

@@ -36,7 +36,7 @@ export interface PoolCardListViewProps {
   sortBy: string
   searchQuery: string
   isLoading: boolean
-  isNotExitsPool: boolean
+  doesPoolExist: boolean
   children: React.ReactNode
   selectedPool: StakingInfo
 }
@@ -51,7 +51,7 @@ const PoolCardListView = ({
   searchQuery,
   onChangeSortBy,
   isLoading,
-  isNotExitsPool,
+  doesPoolExist,
   children,
   selectedPool
 }: PoolCardListViewProps) => {
@@ -66,7 +66,7 @@ const PoolCardListView = ({
           <Loader size={100} />
         </LoadingWrapper>
       )
-    else if (isNotExitsPool) {
+    else if (doesPoolExist) {
       return <div>{t('earnPage.noActiveRewards')}</div>
     } else {
       return (
