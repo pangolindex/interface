@@ -5,7 +5,9 @@ import {
   MinichefStakingInfo,
   useSortFarmAprs,
   useFetchFarmAprs,
-  useUpdateAllFarmsEarnAmount
+  useUpdateAllFarmsEarnAmount,
+  sortingOnAvaxStake,
+  sortingOnStakedAmount
 } from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCardV2 from '../PoolCard/PoolCardV2'
@@ -104,21 +106,8 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
     if (stakingInfos?.length > 0) {
       const updatedStakingInfos = stakingInfos
         // sort by total staked
-        .sort(function(info_a, info_b) {
-          // only first has ended
-          if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
-          // only second has ended
-          if (!info_a.isPeriodFinished && info_b.isPeriodFinished) return -1
-          // greater stake in avax comes first
-          return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-        })
-        .sort(function(info_a, info_b) {
-          // only the first is being staked, so we should bring the first up
-          if (info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && !info_b.stakedAmount.greaterThan(BIG_INT_ZERO)) return -1
-          // only the second is being staked, so we should bring the first down
-          if (!info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && info_b.stakedAmount.greaterThan(BIG_INT_ZERO)) return 1
-          return 0
-        })
+        .sort(sortingOnAvaxStake)
+        .sort(sortingOnStakedAmount)
 
       setStakingInfoData(updatedStakingInfos)
     }

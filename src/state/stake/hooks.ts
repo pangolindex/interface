@@ -968,6 +968,22 @@ export const tokenComparator = (
   else return 0
 }
 
+export const getExtraTokensWeeklyRewardRate = (
+  rewardRatePerWeek: TokenAmount,
+  token: Token,
+  tokenMultiplier: JSBI | undefined
+) => {
+  const TEN_EIGHTEEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
+
+  const rewardMultiplier = JSBI.BigInt(tokenMultiplier || 1)
+
+  const unadjustedRewardPerWeek = JSBI.multiply(rewardMultiplier, rewardRatePerWeek?.raw)
+
+  const finalReward = JSBI.divide(unadjustedRewardPerWeek, TEN_EIGHTEEN)
+
+  return new TokenAmount(token, finalReward)
+}
+
 export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | null): DoubleSideStakingInfo[] => {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
@@ -990,8 +1006,8 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     [chainId, pairToFilterBy, version]
   )
 
-  const tokens = useMemo(() => info.map(({ tokens }) => tokens), [info])
-  const pairs = usePairs(tokens)
+  const _tokens = useMemo(() => info.map(({ tokens }) => tokens), [info])
+  const pairs = usePairs(_tokens)
 
   // @dev: If no farms load, you likely loaded an incorrect config from doubleSideConfig.js
   // Enable this and look for an invalid pair
@@ -1212,23 +1228,6 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
                 )
               : JSBI.BigInt(0)
           )
-        }
-
-        const getExtraTokensWeeklyRewardRate = (
-          rewardRatePerWeek: TokenAmount,
-          token: Token,
-          tokenMultiplier: JSBI | undefined
-        ) => {
-          const TEN_EIGHTEEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
-          // const secondToWeekConversion = JSBI.BigInt(60 * 60 * 24 * 7)
-          const rewardMultiplier = JSBI.BigInt(tokenMultiplier || 1)
-
-          const unadjustedRewardPerWeek = JSBI.multiply(rewardMultiplier, rewardRatePerWeek?.raw)
-
-          // const finalReward = JSBI.divide(JSBI.multiply(unadjustedRewardPerWeek, secondToWeekConversion), TEN_EIGHTEEN)
-          const finalReward = JSBI.divide(unadjustedRewardPerWeek, TEN_EIGHTEEN)
-
-          return new TokenAmount(token, finalReward)
         }
 
         const userRewardRatePerWeek = getHypotheticalWeeklyRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
@@ -1641,7 +1640,7 @@ export const useGetMinichefStakingInfosViaSubgraph = (): MinichefStakingInfo[] =
   return useMemo(() => {
     if (!chainId || !png || !farms?.length) return []
 
-    const instances = farms.reduce(function(memo: any, farm: MinichefFarm) {
+    return farms.reduce(function(memo: any, farm: MinichefFarm) {
       const rewardsAddress = farm?.rewarderAddress
 
       const rewardsAddresses = farm.rewarder.rewards
@@ -1738,22 +1737,6 @@ export const useGetMinichefStakingInfosViaSubgraph = (): MinichefStakingInfo[] =
         )
       }
 
-      const getExtraTokensWeeklyRewardRate = (
-        rewardRatePerWeek: TokenAmount,
-        token: Token,
-        tokenMultiplier: JSBI | undefined
-      ) => {
-        const TEN_EIGHTEEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
-
-        const rewardMultiplier = JSBI.BigInt(tokenMultiplier || 1)
-
-        const unadjustedRewardPerWeek = JSBI.multiply(rewardMultiplier, rewardRatePerWeek?.raw)
-
-        const finalReward = JSBI.divide(unadjustedRewardPerWeek, TEN_EIGHTEEN)
-
-        return new TokenAmount(token, finalReward)
-      }
-
       const userRewardRatePerWeek = getHypotheticalWeeklyRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
 
       memo.push({
@@ -1778,8 +1761,6 @@ export const useGetMinichefStakingInfosViaSubgraph = (): MinichefStakingInfo[] =
 
       return memo
     }, [])
-
-    return instances
   }, [chainId, png, rewardPerSecond, totalAllocPoint, rewardsExpiration, farms])
 }
 
@@ -1900,4 +1881,21 @@ export const useGetEarnedAmount = (pid: string) => {
     }),
     [earnedAmount]
   )
+}
+
+export const sortingOnAvaxStake = (info_a: DoubleSideStakingInfo, info_b: DoubleSideStakingInfo) => {
+  // only first has ended
+  if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
+  // only second has ended
+  if (!info_a.isPeriodFinished && info_b.isPeriodFinished) return -1
+  // greater stake in avax comes first
+  return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
+}
+
+export const sortingOnStakedAmount = (info_a: DoubleSideStakingInfo, info_b: DoubleSideStakingInfo) => {
+  // only the first is being staked, so we should bring the first up
+  if (info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && !info_b.stakedAmount.greaterThan(BIG_INT_ZERO)) return -1
+  // only the second is being staked, so we should bring the first down
+  if (!info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && info_b.stakedAmount.greaterThan(BIG_INT_ZERO)) return 1
+  return 0
 }

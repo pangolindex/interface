@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { TextInput, Box } from '@pangolindex/components'
-import { DoubleSideStakingInfo } from 'src/state/stake/hooks'
+import { DoubleSideStakingInfo, sortingOnAvaxStake, sortingOnStakedAmount } from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCardV1 from '../PoolCard/PoolCardV1'
 import Loader from 'src/components/Loader'
@@ -36,13 +36,12 @@ export const SortOptions = [
 export interface EarnProps {
   version: string
   stakingInfos: DoubleSideStakingInfo[]
-  poolMap?: { [key: string]: number }
   setMenu: (value: string) => void
   activeMenu: string
   menuItems: Array<{ label: string; value: string }>
 }
 
-const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMenu, activeMenu, menuItems }) => {
+const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activeMenu, menuItems }) => {
   const chainId = useChainId()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
@@ -116,46 +115,17 @@ const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, poolMap, setMe
             // Only include pools that are live or require a migration
             return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
           })
-          .sort(function(info_a, info_b) {
-            // only first has ended
-            if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
-            // only second has ended
-            if (!info_a.isPeriodFinished && info_b.isPeriodFinished) return -1
-            // greater stake in avax comes first
-            return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-          })
-          .sort(function(info_a, info_b) {
-            // only the first is being staked, so we should bring the first up
-            if (info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && !info_b.stakedAmount.greaterThan(BIG_INT_ZERO))
-              return -1
-            // only the second is being staked, so we should bring the first down
-            if (!info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && info_b.stakedAmount.greaterThan(BIG_INT_ZERO))
-              return 1
-            return 0
-          })
-          // TODO: update here api call without staking reward address
+          .sort(sortingOnAvaxStake)
+          .sort(sortingOnStakedAmount)
           .map(stakingInfo => {
-            if (poolMap) {
-              return fetch(
-                `${PANGOLIN_API_BASE_URL}/pangolin/apr2/${poolMap[stakingInfo.totalStakedAmount.token.address]}`
-              )
-                .then(res => res.json())
-                .then(res => ({
-                  swapFeeApr: Number(res.swapFeeApr),
-                  stakingApr: Number(res.stakingApr),
-                  combinedApr: Number(res.combinedApr),
-                  ...stakingInfo
-                }))
-            } else {
-              return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
-                .then(res => res.json())
-                .then(res => ({
-                  swapFeeApr: Number(res.swapFeeApr),
-                  stakingApr: Number(res.stakingApr),
-                  combinedApr: Number(res.combinedApr),
-                  ...stakingInfo
-                }))
-            }
+            return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+              .then(res => res.json())
+              .then(res => ({
+                swapFeeApr: Number(res.swapFeeApr),
+                stakingApr: Number(res.stakingApr),
+                combinedApr: Number(res.combinedApr),
+                ...stakingInfo
+              }))
           })
       ).then(updatedStakingInfos => {
         const sortedPoolCards = updatedStakingInfos.map((stakingInfo, index) => {
