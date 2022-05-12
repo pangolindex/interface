@@ -1683,3 +1683,16 @@ export const SLIME: { [chainId in ChainId]: Token } = {
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'SLIME', 'Snail Trail'),
   [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, 'SLIME', 'Snail Trail')
 }
+
+export const ZEUS: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ZEUS', 'Zeus Node Finance'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x4156F18bF7C1ef04248632C66Aa119De152D8f2E',
+    18,
+    'ZEUS',
+    'Zeus Node Finance'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'ZEUS', 'Zeus Node Finance'),
+  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, 'ZEUS', 'Zeus Node Finance')
+}
