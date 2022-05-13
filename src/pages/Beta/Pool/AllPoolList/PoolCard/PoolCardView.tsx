@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Fraction, CHAINS } from '@pangolindex/sdk'
+import { Fraction, CHAINS, TokenAmount, Token } from '@pangolindex/sdk'
 import {
   Panel,
   Divider,
@@ -17,23 +17,30 @@ import numeral from 'numeral'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { usePair } from 'src/data/Reserves'
-// import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
-import { useTokens } from 'src/hooks/Tokens'
 import RewardTokens from 'src/components/RewardTokens'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import ClaimDrawer from '../../ClaimDrawer'
 import FarmDrawer from '../../FarmDrawer'
 import AddLiquidityDrawer from '../../AddLiquidityDrawer'
-import { useChainId } from 'src/hooks'
 
-export interface PoolCardProps {
+export interface PoolCardViewProps {
   stakingInfo: StakingInfo
   onClickViewDetail: () => void
   version: number
+  combinedApr?: number
+  earnedAmount: TokenAmount
+  rewardTokens?: Array<Token | null | undefined> | null
 }
 
-const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) => {
+const PoolCardView = ({
+  stakingInfo,
+  onClickViewDetail,
+  version,
+  combinedApr,
+  earnedAmount,
+  rewardTokens
+}: PoolCardViewProps) => {
   const { t } = useTranslation()
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
 
@@ -51,20 +58,59 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
 
   const [, stakingTokenPair] = usePair(token0, token1)
 
-  const rewardTokens = useTokens(stakingInfo?.rewardTokensAddress)
-
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
   const yourStackedInUsd = CHAINS[chainId].mainnet
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
 
-  // const { userPgl } = useGetPoolDollerWorth(stakingTokenPair)
   const userPgl = useTokenBalance(account ?? undefined, stakingTokenPair?.liquidityToken)
 
   const isLiquidity = Boolean(userPgl?.greaterThan('0'))
 
-  const isSuperFarm = (stakingInfo?.rewardTokensAddress || [])?.length > 0
+  const isSuperFarm =
+    version > 1 ? (rewardTokens || [])?.length > 1 : (stakingInfo?.rewardTokensAddress || [])?.length > 0
+
+  const renderButton = () => {
+    if (isStaking && Boolean(earnedAmount.greaterThan('0')))
+      return (
+        <ActionButon
+          variant="plain"
+          onClick={() => setShowClaimDrawer(true)}
+          backgroundColor="bg2"
+          color="text1"
+          height="45px"
+        >
+          {t('earnPage.claim')}
+        </ActionButon>
+      )
+    else if (isLiquidity) {
+      return (
+        <ActionButon
+          variant="plain"
+          onClick={() => setShowFarmDrawer(true)}
+          backgroundColor="bg2"
+          color="text1"
+          height="45px"
+        >
+          {t('header.farm')}
+        </ActionButon>
+      )
+    } else {
+      return (
+        <ActionButon
+          variant="plain"
+          onClick={() => setShowAddLiquidityDrawer(true)}
+          backgroundColor="bg2"
+          color="text1"
+          height="45px"
+        >
+          {t('pool.addLiquidity')}
+        </ActionButon>
+      )
+    }
+  }
+
   return (
     <Panel>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -105,7 +151,7 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
 
         <Stat
           title={`APR`}
-          stat={stakingInfo?.combinedApr ? `${stakingInfo?.combinedApr}%` : '-'}
+          stat={combinedApr ? `${combinedApr}%` : '-'}
           titlePosition="top"
           titleFontSize={16}
           statFontSize={24}
@@ -124,43 +170,18 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
 
       <InnerWrapper>
         <Box>
-          <DetailButton variant="plain" onClick={() => onClickViewDetail()} color="text1" height="45px">
+          <DetailButton
+            variant="plain"
+            onClick={() => {
+              onClickViewDetail()
+            }}
+            color="text1"
+            height="45px"
+          >
             {t('pool.seeDetails')}
           </DetailButton>
         </Box>
-        <Box>
-          {isStaking && Boolean(stakingInfo.earnedAmount.greaterThan('0')) ? (
-            <ActionButon
-              variant="plain"
-              onClick={() => setShowClaimDrawer(true)}
-              backgroundColor="bg2"
-              color="text1"
-              height="45px"
-            >
-              {t('earnPage.claim')}
-            </ActionButon>
-          ) : isLiquidity ? (
-            <ActionButon
-              variant="plain"
-              onClick={() => setShowFarmDrawer(true)}
-              backgroundColor="bg2"
-              color="text1"
-              height="45px"
-            >
-              {t('header.farm')}
-            </ActionButon>
-          ) : (
-            <ActionButon
-              variant="plain"
-              onClick={() => setShowAddLiquidityDrawer(true)}
-              backgroundColor="bg2"
-              color="text1"
-              height="45px"
-            >
-              {t('pool.addLiquidity')}
-            </ActionButon>
-          )}
-        </Box>
+        <Box>{renderButton()}</Box>
       </InnerWrapper>
       {isClaimDrawerVisible && (
         <ClaimDrawer
@@ -180,10 +201,10 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
           onClose={() => {
             setShowFarmDrawer(false)
           }}
-          clickedLpTokens={stakingInfo?.tokens}
           version={version}
           backgroundColor="color5"
-          combinedApr={stakingInfo?.combinedApr}
+          stakingInfo={stakingInfo}
+          combinedApr={version > 1 ? combinedApr : undefined}
         />
       )}
 
@@ -201,4 +222,4 @@ const PoolCard = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) =>
   )
 }
 
-export default PoolCard
+export default PoolCardView

@@ -6,7 +6,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
-import { useMinichefPools, useMinichefPendingRewards } from 'src/state/stake/hooks'
+import { useMinichefPools, useMinichefPendingRewards, useGetEarnedAmount } from 'src/state/stake/hooks'
 import { useStakingContract } from 'src/hooks/useContract'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
@@ -79,6 +79,10 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
     error = error ?? t('earn.enterAmount')
   }
 
+  const { earnedAmount } = useGetEarnedAmount(stakingInfo?.pid as string)
+
+  const newEarnedAmount = version < 2 ? stakingInfo?.earnedAmount : earnedAmount
+
   return (
     <WithdrawWrapper>
       {!attempting && !hash && (
@@ -98,11 +102,11 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
                   />
                 </StatWrapper>
               )}
-              {stakingInfo?.earnedAmount && (
+              {newEarnedAmount && (
                 <StatWrapper>
                   <Stat
                     title={t('earn.unclaimedReward', { symbol: 'PNG' })}
-                    stat={stakingInfo?.earnedAmount?.toSignificant(4)}
+                    stat={newEarnedAmount?.toSignificant(4)}
                     titlePosition="top"
                     titleFontSize={12}
                     statFontSize={24}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { Box } from '@pangolindex/components'
 import { PageWrapper, GridContainer, ExternalLink } from './styleds'
 import Sidebar from './Sidebar'
@@ -6,7 +6,7 @@ import AllPoolList from './AllPoolList'
 import Wallet from './Wallet'
 import { MenuType } from './Sidebar'
 import { useTranslation } from 'react-i18next'
-import { useMinichefStakingInfos, useStakingInfo } from 'src/state/stake/hooks'
+import { useStakingInfo, useGetMinichefStakingInfosViaSubgraph, useGetAllFarmData } from 'src/state/stake/hooks'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
 
@@ -20,25 +20,43 @@ const PoolUI = () => {
   const [activeMenu, setMenu] = useState<string>(MenuType.allPoolV2)
   const { t } = useTranslation()
 
+  useGetAllFarmData()
+
+  let miniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
+
   let stakingInfoV1 = useStakingInfo(1)
   // filter only live or needs migration pools
-  stakingInfoV1 = (stakingInfoV1 || []).filter(
-    info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+  stakingInfoV1 = useMemo(
+    () => (stakingInfoV1 || []).filter(info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)),
+    [stakingInfoV1]
   )
-  const ownStakingInfoV1 = (stakingInfoV1 || []).filter(stakingInfo => {
-    return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
-  })
 
-  let stakingInfoV2 = useMinichefStakingInfos(2)
+  const ownStakingInfoV1 = useMemo(
+    () =>
+      (stakingInfoV1 || []).filter(stakingInfo => {
+        return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
+      }),
+    [stakingInfoV1]
+  )
+
   // filter only live or needs migration pools
-  stakingInfoV2 = (stakingInfoV2 || []).filter(
-    info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+  miniChefStakingInfo = useMemo(
+    () =>
+      (miniChefStakingInfo || []).filter(info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)),
+    [miniChefStakingInfo]
   )
-  const ownStakingInfoV2 = (stakingInfoV2 || []).filter(stakingInfo => {
-    return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
-  })
 
-  const superFarms = stakingInfoV2.filter(item => (item?.rewardTokensAddress?.length || 0) > 0)
+  const ownminiChefStakingInfo = useMemo(
+    () =>
+      (miniChefStakingInfo || []).filter(stakingInfo => {
+        return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
+      }),
+    [miniChefStakingInfo]
+  )
+
+  const superFarms = useMemo(() => miniChefStakingInfo.filter(item => (item?.rewardTokens?.length || 0) > 1), [
+    miniChefStakingInfo
+  ])
 
   const menuItems: Array<{ label: string; value: string }> = []
 
@@ -50,7 +68,7 @@ const PoolUI = () => {
     })
   }
   // add v2
-  if (stakingInfoV2.length > 0) {
+  if (miniChefStakingInfo.length > 0) {
     menuItems.push({
       label: stakingInfoV1.length > 0 ? `${t('pool.allPools')} (V2)` : `${t('pool.allPools')}`,
       value: MenuType.allPoolV2
@@ -64,7 +82,7 @@ const PoolUI = () => {
     })
   }
   // add own v2
-  if (ownStakingInfoV2.length > 0) {
+  if (ownminiChefStakingInfo.length > 0) {
     menuItems.push({
       label: ownStakingInfoV1.length > 0 ? `${t('pool.yourPools')} (V2)` : `${t('pool.yourPools')}`,
       value: MenuType.yourPoolV2
@@ -86,13 +104,20 @@ const PoolUI = () => {
     })
   }
 
+  const handleSetMenu = useCallback(
+    (value: string) => {
+      setMenu(value)
+    },
+    [setMenu]
+  )
+
   return (
     <PageWrapper>
       <GridContainer>
         <Box display="flex" height="100%">
           <Sidebar
             activeMenu={activeMenu}
-            setMenu={(value: string) => setMenu(value)}
+            setMenu={handleSetMenu}
             menuItems={menuItems}
             onManagePoolsClick={() => {
               setMenu(MenuType.yourWallet)
@@ -113,14 +138,14 @@ const PoolUI = () => {
               }
               version={activeMenu === MenuType.allPoolV1 || activeMenu === MenuType.yourPoolV1 ? 1 : 2}
               stakingInfoV1={stakingInfoV1}
-              stakingInfoV2={stakingInfoV2}
+              miniChefStakingInfo={miniChefStakingInfo}
               activeMenu={activeMenu}
-              setMenu={(value: string) => setMenu(value)}
+              setMenu={handleSetMenu}
               menuItems={menuItems}
             />
           )}
           {activeMenu === MenuType.yourWallet && (
-            <Wallet activeMenu={activeMenu} setMenu={(value: string) => setMenu(value)} menuItems={menuItems} />
+            <Wallet activeMenu={activeMenu} setMenu={handleSetMenu} menuItems={menuItems} />
           )}
         </Box>
 

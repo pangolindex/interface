@@ -1,6 +1,6 @@
 {
   "name": "@pangolindex/interface",
-  "version": "1.0.29-dev.3",
+  "version": "1.0.29-dev.4",
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
@@ -12,7 +12,7 @@
     "@gelatonetwork/limit-orders-react": "^2.4.0",
     "@gnosis.pm/safe-apps-web3-react": "^0.6.7",
     "@metamask/jazzicon": "^2.0.0",
-    "@pangolindex/components": "2.0.12",
+    "@pangolindex/components": "3.0.0",
     "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.2.0",
     "@pangolindex/sdk": "2.0.1",
@@ -24,6 +24,7 @@
     "@reduxjs/toolkit": "^1.7.2",
     "@types/jest": "^25.2.1",
     "@types/lodash.flatmap": "^4.5.6",
+    "@types/lodash.isequal": "^4.5.6",
     "@types/luxon": "^1.24.4",
     "@types/multicodec": "^1.0.0",
     "@types/node": "^13.13.5",
@@ -166,7 +167,9 @@
     "@types/crypto-js": "^4.0.2",
     "@types/react-portal": "^4.0.4",
     "crypto-js": "^4.0.0",
+    "graphql-request": "^4.2.0",
     "lightweight-charts": "^3.7.0",
+    "lodash.isequal": "^4.5.0",
     "react-portal": "^4.2.1"
   }
 }
