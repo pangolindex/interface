@@ -26,7 +26,7 @@ import { SwapState } from './reducer'
 import useToggledVersion from '../../hooks/useToggledVersion'
 import { useUserSlippageTolerance } from '../user/hooks'
 import { computeSlippageAdjustedAmounts } from '../../utils/prices'
-import { ROUTER_ADDRESS, SWAP_DEFAULT_CURRENCY } from '../../constants'
+import { ROUTER_ADDRESS } from '../../constants'
 import { useTranslation } from 'react-i18next'
 import { useChainId } from 'src/hooks'
 
