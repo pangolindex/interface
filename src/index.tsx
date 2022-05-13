@@ -25,6 +25,7 @@ import { ThemeContext } from 'styled-components'
 import { useIsBetaUI } from './hooks/useLocation'
 import { useActiveWeb3React } from './hooks'
 import Package from '../package.json'
+import { fetchMinichefData } from './state/stake/hooks'
 
 Sentry.init({
   dsn: 'https://ff9ffce9712f415f8ad4c2a80123c984@o1080468.ingest.sentry.io/6086371',
@@ -76,10 +77,20 @@ function Updaters() {
   )
 }
 
+const prefetchImportantQueries = async (account: string) => {
+  // pre-fetch minichef query
+  await queryClient.prefetchQuery(['get-minichef-farms-v2', account], fetchMinichefData(account))
+}
+
 const ComponentThemeProvider = () => {
   const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
+
   const { library, chainId, account } = useActiveWeb3React()
+
+  useEffect(() => {
+    prefetchImportantQueries(account || '')
+  }, [account])
 
   useEffect(() => {
     if (window.pendo && account) {
