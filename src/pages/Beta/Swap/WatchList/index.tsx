@@ -50,8 +50,10 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
   return (
     <WatchListRoot>
       <Box display="flex" alignItems="center" justifyContent="space-between">
+      
         <Title>{t('swapPage.watchList')}</Title>
         <Box bgColor={theme.bg5 as any} position="relative" p={'5px'} ref={node as any}>
+        {CHAINS[chainId].mainnet && (
           <Box ref={referenceElement} onClick={toggle}>
             <Button
               variant="primary"
@@ -64,7 +66,21 @@ const WatchList: React.FC<Props> = ({ isLimitOrders }) => {
               <Plus size={12} color={'black'} />
             </Button>
           </Box>
-
+        )}
+        {!CHAINS[chainId].mainnet && (
+          <Box ref={referenceElement} >
+          <Button
+            variant="primary"
+            backgroundColor="forbidden"
+            color="white"
+            width={'32px'}
+            height={'32px'}
+            padding="0px"
+          >
+            <Plus size={12} color={'black'} />
+          </Button>
+        </Box>
+        )}
           {open && (
             <CurrencyPopover
               getRef={(ref: HTMLInputElement) => ((popoverRef as any).current = ref)}

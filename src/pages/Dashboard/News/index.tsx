@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm'
 import { Box } from '@pangolindex/components'
 import Scrollbars from 'react-custom-scrollbars'
 import { ThemeContext } from 'styled-components'
-
+import { CHAINS } from '@pangolindex/sdk'
 import { News, useGetNews } from 'src/state/news/hooks'
 
 import Earth from 'src/assets/images/earth.png'
@@ -14,6 +14,7 @@ import { NewsSection, NewsTitle, NewsContent, NewsDate, SlickNext } from './styl
 import Loader from 'src/components/Loader'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { useChainId } from 'src/hooks'
 
 const NewsFeedSettings: Settings = {
   dots: true,
@@ -27,6 +28,7 @@ const NewsFeedSettings: Settings = {
 }
 
 export default function NewsWidget() {
+  const chainId = useChainId()
   const theme = useContext(ThemeContext)
   const sliderRef = useRef<Slider | null>(null)
   const handleNewsNext = () => {
@@ -39,7 +41,7 @@ export default function NewsWidget() {
 
   return (
     <NewsSection img={Earth}>
-      <Box height="25%" display="flex">
+      <Box height="20%" display="flex">
         <NewsTitle>News</NewsTitle>
         <SlickNext onClick={handleNewsBack} style={{ right: 60 }}>
           <ArrowLeft size={20} style={{ minWidth: 24 }} />
@@ -48,7 +50,7 @@ export default function NewsWidget() {
           <ArrowRight size={20} style={{ minWidth: 24 }} />
         </SlickNext>
       </Box>
-      <Box height="90%" paddingTop="10px">
+      <Box height="80%" paddingTop={CHAINS[chainId].mainnet ? "10px" : "30px"}>
         {!isLoading ? (
           <Slider ref={sliderRef} {...NewsFeedSettings}>
             {news &&
