@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Token, Currency, TokenAmount } from '@pangolindex/sdk'
+import { Token, Currency, TokenAmount, CHAINS } from '@pangolindex/sdk'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { TYPE } from '../../theme'
@@ -326,7 +326,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
           <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>
             ⭐️
           </span>
-          {t('earnPage.automagically')}
+          {t('earnPage.automagically', { pngSymbol: CHAINS[chainId].png_symbol!})}
         </TYPE.main>
 
         {!showAddLiquidityButton && (

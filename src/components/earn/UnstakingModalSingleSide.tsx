@@ -11,8 +11,9 @@ import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import FormattedCurrencyAmount from '../FormattedCurrencyAmount'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import { useTranslation } from 'react-i18next'
+import { CHAINS } from '@pangolindex/sdk'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -27,6 +28,7 @@ interface StakingModalProps {
 
 export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInfo }: StakingModalProps) {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const { t } = useTranslation()
 
@@ -94,7 +96,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
             </AutoColumn>
           )}
           <TYPE.subHeader style={{ textAlign: 'center' }}>
-            {t('earn.whenYouWithdrawSingleSideWarning', { symbol: stakingInfo?.rewardToken?.symbol })}
+            {t('earn.whenYouWithdrawSingleSideWarning', { symbol: stakingInfo?.rewardToken?.symbol, pngSymbol: CHAINS[chainId].png_symbol! })}
           </TYPE.subHeader>
           <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onWithdraw}>
             {error ?? t('earn.withdrawAndClaim')}
@@ -123,7 +125,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{t('earn.withdrewStakingToken', { symbol: 'PNG' })}</TYPE.body>
+            <TYPE.body fontSize={20}>{t('earn.withdrewStakingToken', { symbol: CHAINS[chainId].png_symbol! })}</TYPE.body>
             <TYPE.body fontSize={20}>{t('earn.claimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}</TYPE.body>
           </AutoColumn>
         </SubmittedView>

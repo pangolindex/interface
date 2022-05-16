@@ -4,10 +4,10 @@ import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/
 import { useAllProposalData, ProposalData, useUserVotes, useUserDelegatee } from '../../state/governance/hooks'
 import DelegateModal from '../../components/vote/DelegateModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import { ZERO_ADDRESS } from '../../constants'
 import { PNG } from '../../constants/tokens'
-import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
+import { JSBI, TokenAmount, ChainId, CHAINS } from '@pangolindex/sdk'
 import { shortenAddress, getEtherscanLink } from '../../utils'
 import Loader from '../../components/Loader'
 import FormattedCurrencyAmount from '../../components/FormattedCurrencyAmount'
@@ -105,7 +105,8 @@ const EmptyProposals = styled.div`
 `
 
 export default function Vote() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
 
   // toggle for showing delegation modal
@@ -142,10 +143,10 @@ export default function Vote() {
                 <TYPE.white fontWeight={600}>{t('votePage.pangolinGovernance')}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>{t('votePage.earnedPngTokens')}</TYPE.white>
+                <TYPE.white fontSize={14}>{t('votePage.earnedPngTokens', { pngSymbol: CHAINS[chainId].png_symbol! })}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>{t('votePage.eligibleToVote')}</TYPE.white>
+                <TYPE.white fontSize={14}>{t('votePage.eligibleToVote', { pngSymbol: CHAINS[chainId].png_symbol! })}</TYPE.white>
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>{t('votePage.governanceVotes')}</TYPE.white>
@@ -229,7 +230,7 @@ export default function Vote() {
           )
         })}
       </TopSection>
-      <TYPE.subHeader color="text3">{t('votePage.minimumThreshold')}</TYPE.subHeader>
+      <TYPE.subHeader color="text3">{t('votePage.pngPerAvax', { pngSymbol: CHAINS[chainId].png_symbol! })}</TYPE.subHeader>
     </PageWrapper>
   )
 }

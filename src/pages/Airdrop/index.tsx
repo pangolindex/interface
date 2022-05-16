@@ -11,11 +11,11 @@ import {
   useUserHasAvailableClaim,
   useUserUnclaimedAmount
 } from '../../state/airdrop/hooks'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import Confetti from '../../components/Confetti'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { UNI, SUSHI } from '../../constants/tokens'
-import { ChainId, JSBI } from '@pangolindex/sdk'
+import { ChainId, CHAINS, JSBI } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 
 const PageWrapper = styled(AutoColumn)``
@@ -59,7 +59,8 @@ export const Dots = styled.span`
 `
 
 export default function Vote() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const theme = useContext(ThemeContext)
 
@@ -113,7 +114,7 @@ export default function Vote() {
       <TopSection gap="2px">
         <Confetti start={Boolean(claimConfirmed)} />
         <TYPE.mediumHeader style={{ margin: '0.5rem 0' }} textAlign="center">
-          {t('airdrop.claimPngAirdrop')}
+          {t('airdrop.claimPngAirdrop', { pngSymbol: CHAINS[chainId].png_symbol })}
         </TYPE.mediumHeader>
         {!claimingAllowed ? (
           <Card padding="40px">
@@ -139,7 +140,7 @@ export default function Vote() {
               {t('airdrop.noUniNoSushi')}
             </TYPE.body>
             <TYPE.body mt="1rem" color={theme.text1} textAlign="center">
-              {t('airdrop.youHave') + claimAmount?.toFixed(0, { groupSeparator: ',' }) + t('airdrop.pngAvailableClaim')}
+              {t('airdrop.youHave') + claimAmount?.toFixed(0, { groupSeparator: ',' }) + t('airdrop.pngAvailableClaim', { symbol: CHAINS[chainId].png_symbol! })}
             </TYPE.body>
           </Card>
         ) : attempting ? (

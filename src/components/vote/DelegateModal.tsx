@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import { CHAINS } from '@pangolindex/sdk'
 import Modal from '../Modal'
 import { AutoColumn } from '../Column'
 import styled from 'styled-components'
@@ -7,7 +7,7 @@ import { RowBetween } from '../Row'
 import { TYPE } from '../../theme'
 import { X } from 'react-feather'
 import { ButtonPrimary } from '../Button'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import AddressInputPanel from '../AddressInputPanel'
 import { isAddress } from 'ethers/lib/utils'
 import useENS from '../../hooks/useENS'
@@ -41,8 +41,9 @@ interface VoteModalProps {
 }
 
 export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalProps) {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const { t } = useTranslation()
+  const chainId = useChainId()
 
   // state for delegate input
   const [usingDelegate, setUsingDelegate] = useState(false)
@@ -98,7 +99,7 @@ export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalPro
               <TYPE.mediumHeader fontWeight={500}>{title}</TYPE.mediumHeader>
               <StyledClosed stroke="black" onClick={wrappedOndismiss} />
             </RowBetween>
-            <TYPE.body>{t('vote.earnedPng')}</TYPE.body>
+            <TYPE.body>{t('vote.earnedPng', { pngSymbol: CHAINS[chainId].png_symbol!})}</TYPE.body>
             <TYPE.body>{t('vote.canEitherVote')}</TYPE.body>
             {usingDelegate && <AddressInputPanel value={typed} onChange={handleRecipientType} />}
             <ButtonPrimary disabled={!isAddress(parsedAddress ?? '')} onClick={onDelegate}>

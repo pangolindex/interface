@@ -100,7 +100,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
         <CardNoise />
         <CardSection gap="md">
           <RowBetween>
-            <TYPE.white color="white">{t('header.pngBreakDown')}</TYPE.white>
+            <TYPE.white color="white">{t('header.pngBreakDown', { symbol: CHAINS[chainId].png_symbol! })}</TYPE.white>
             <StyledClose stroke="white" onClick={() => setShowPngBalanceModal(false)} />
           </RowBetween>
         </CardSection>
@@ -141,11 +141,11 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
         <CardSection gap="sm">
           <AutoColumn gap="md">
             <RowBetween>
-              <TYPE.white color="white">{t('header.pngPrice')}</TYPE.white>
+              <TYPE.white color="white">{t('header.pngPrice', { symbol: CHAINS[chainId].png_symbol! })}</TYPE.white>
               <TYPE.white color="white">${pngPrice?.toFixed(2, { groupSeparator: ',' }) ?? '-'}</TYPE.white>
             </RowBetween>
             <RowBetween>
-              <TYPE.white color="white">{t('header.pngCirculation')}</TYPE.white>
+              <TYPE.white color="white">{t('header.pngCirculation', { symbol: CHAINS[chainId].png_symbol! })}</TYPE.white>
               <TYPE.white color="white">{circulation?.toFixed(0, { groupSeparator: ',' }) ?? '-'}</TYPE.white>
             </RowBetween>
             <RowBetween>
@@ -182,7 +182,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                     })
                   }}
                 >
-                  <TYPE.white color="white">{t('header.addMetamask')}</TYPE.white>
+                  <TYPE.white color="white">{t('header.addMetamask', { symbol: CHAINS[chainId].png_symbol! })}</TYPE.white>
                 </AddPNG>
               </AutoColumn>
             </CardSection>

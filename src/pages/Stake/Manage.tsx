@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
-import { JSBI } from '@pangolindex/sdk'
+import { JSBI, CHAINS } from '@pangolindex/sdk'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import { useCurrency } from 'src/hooks/Tokens'
 import { useWalletModalToggle } from 'src/state/application/hooks'
@@ -126,7 +126,7 @@ export default function Manage({
     <PageWrapper gap="lg" justify="center">
       <RowBetween style={{ gap: '24px' }}>
         {chainId && <CurrencyLogo currency={png} chainId={chainId} />}
-        <TYPE.mediumHeader style={{ margin: 0 }}>{t('earnPage.pngStaking')}</TYPE.mediumHeader>
+        <TYPE.mediumHeader style={{ margin: 0 }}>{t('earnPage.pngStaking', { pngSymbol: CHAINS[chainId].png_symbol! })}</TYPE.mediumHeader>
         {chainId && <CurrencyLogo currency={rewardCurrency ?? undefined} chainId={chainId} />}
       </RowBetween>
 

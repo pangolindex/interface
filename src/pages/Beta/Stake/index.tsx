@@ -11,6 +11,7 @@ import PoolCard from './PoolCard'
 import { useModalOpen, useSingleSideStakingDetailnModalToggle } from 'src/state/application/hooks'
 import DetailModal from './DetailModal'
 import { ApplicationModal } from 'src/state/application/actions'
+import { CHAINS } from '@pangolindex/sdk'
 
 interface RouteParams {
   version: string
@@ -75,7 +76,7 @@ const StakeUI = () => {
 
   return (
     <PageWrapper>
-      <PageTitle>{t('stakePage.stakeAndEarn')}</PageTitle>
+      <PageTitle>{t('stakePage.stakeAndEarn', { pngSymbol: CHAINS[chainId].png_symbol! })}</PageTitle>
       <PoolsWrapper>
         {stakingRewardsExist && stakingInfos?.length === 0 ? (
           <Loader style={{ margin: 'auto' }} />
