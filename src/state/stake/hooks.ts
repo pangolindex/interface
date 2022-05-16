@@ -218,9 +218,9 @@ export interface MinichefFarmRewarder {
   rewards: Array<MinichefFarmReward>
 }
 
-export interface LiquidityPositions {
+export interface FarmingPositions {
   id: string
-  liquidityTokenBalance: number
+  stakedTokenBalance: number
 }
 
 export interface MinichefFarm {
@@ -233,7 +233,7 @@ export interface MinichefFarm {
   pairAddress: string
   rewarder: MinichefFarmRewarder
   pair: MinichefPair
-  liquidityPositions: LiquidityPositions[]
+  farmingPositions: FarmingPositions[]
   earnedAmount?: number
   swapFeeApr?: number
   stakingApr?: number
@@ -1708,7 +1708,7 @@ export const useGetMinichefStakingInfosViaSubgraph = (): MinichefStakingInfo[] =
 
       const stakedAmount = new TokenAmount(
         lpToken,
-        parseUnits(farm?.liquidityPositions?.[0]?.liquidityTokenBalance?.toString() ?? '0').toString()
+        parseUnits(farm?.farmingPositions?.[0]?.stakedTokenBalance?.toString() ?? '0').toString()
       )
       const earnedAmount = new TokenAmount(png, JSBI.BigInt(farm?.earnedAmount ?? 0))
 

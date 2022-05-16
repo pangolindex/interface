@@ -49,9 +49,9 @@ export const GET_MINICHEF = gql`
             decimals
           }
         }
-        liquidityPositions(where: { userAddress: $userAddress }) {
+        farmingPositions(where: { userAddress: $userAddress }) {
           id
-          liquidityTokenBalance
+          stakedTokenBalance
         }
       }
     }
