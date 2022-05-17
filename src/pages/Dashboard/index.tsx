@@ -3,7 +3,7 @@ import { PageTitle, PageDescription, PageWrapper, TopContainer, StatsWrapper } f
 import { useTranslation } from 'react-i18next'
 import { RedirectContext } from '../Beta/Swap/WatchList/CoinChart'
 import WatchList from '../Beta/Swap/WatchList'
-import NewsWidget from './News'
+import { NewsWidget } from '@pangolindex/components'
 import PortfolioWidget from './Portfolio'
 import { ChainId, CHAINS } from '@pangolindex/sdk'
 import { useActiveWeb3React } from 'src/hooks'
@@ -31,12 +31,12 @@ const Dashboard = () => {
         </StatsWrapper>
 
         <Hidden upToSmall={true}>
-          <NewsWidget />
+          <NewsWidget boxHeight="400px" />
         </Hidden>
       </TopContainer>
 
       <Visible upToSmall={true}>
-        <NewsWidget />
+        <NewsWidget boxHeight="400px" />
       </Visible>
     </PageWrapper>
   )
