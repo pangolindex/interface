@@ -1,7 +1,6 @@
 import React from 'react'
-import { ZERO_ADDRESS } from 'src/constants'
+import { BETA_MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { Root, Buttons, MaxButton, StakeWrapper, GridContainer, InputText } from './styled'
-import { BETA_MENU_LINK } from 'src/constants'
 import { Box, Button, NumberOptions } from '@pangolindex/components'
 import { ApprovalState } from 'src/hooks/useApproveCallback'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
@@ -56,7 +55,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
                   </Box>
                 }
                 onChange={(value: any) => {
-                  onUserInput(value as any)
+                  onUserInput(value)
                 }}
                 label={`Enter PNG`}
                 fontSize={24}
