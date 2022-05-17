@@ -38,7 +38,7 @@ import MobileFooter from '../MobileFooter'
 import { Logo } from '../../components/Icons'
 import { Hidden } from 'src/theme'
 import { useChainId } from 'src/hooks'
-import NetworkSelection from './NetworkSelection'
+import { NetworkSelection } from '@pangolindex/components'
 import { NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
 
 export default function Header() {
