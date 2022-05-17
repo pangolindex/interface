@@ -1,29 +1,30 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { Box } from '@pangolindex/components'
+import { ThemeContext } from 'styled-components'
+import { Box, WalletModal as NewWalletModal } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken, lighten } from 'polished'
-import React, { useMemo } from 'react'
+import React, { useMemo, useContext, useState, useCallback } from 'react'
 import { Activity } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
-import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
-import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
-import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
-import XDefiIcon from '../../assets/images/xDefi.png'
-import { gnosisSafe, injected, walletlink, walletconnect, xDefi } from '../../connectors'
-import { NetworkContextName } from '../../constants'
-import { useWalletModalToggle } from '../../state/application/hooks'
-import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
-import { TransactionDetails } from '../../state/transactions/reducer'
-import { shortenAddress } from '../../utils'
+import CoinbaseWalletIcon from 'src/assets/images/coinbaseWalletIcon.svg'
+import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
+import WalletConnectIcon from 'src/assets/images/walletConnectIcon.svg'
+import XDefiIcon from 'src/assets/images/xDefi.png'
+import { gnosisSafe, injected, walletlink, walletconnect, xDefi } from 'src/connectors'
+import { NetworkContextName } from 'src/constants'
+import { useModalOpen, useWalletModalToggle, useAccountDetailToggle } from 'src/state/application/hooks'
+import { isTransactionRecent, useAllTransactions } from 'src/state/transactions/hooks'
+import { TransactionDetails } from 'src/state/transactions/reducer'
+import { shortenAddress } from 'src/utils'
 import { ButtonSecondary } from '../Button'
-import { useIsBetaUI } from '../../hooks/useLocation'
-
+import { useIsBetaUI } from 'src/hooks/useLocation'
 import Identicon from '../Identicon'
 import Loader from '../Loader'
-
 import { RowBetween } from '../Row'
 import WalletModal from '../WalletModal'
+import { ApplicationModal } from 'src/state/application/actions'
+import AccountDetailsModal from '../AccountDetailsModal'
 
 const Web3StatusGeneric = styled(ButtonSecondary)`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -237,6 +238,7 @@ function Web3StatusInner() {
 
   const hasPendingTransactions = !!pending.length
   const toggleWalletModal = useWalletModalToggle()
+  const toggleAccountDetailModal = useAccountDetailToggle()
 
   const isBeta = useIsBetaUI()
   //ATTENTION ICI
@@ -244,7 +246,11 @@ function Web3StatusInner() {
   const StatusConnect: any = isBeta ? Web3StatusConnectBeta : Web3StatusConnect
   if (account) {
     return (
-      <StatusConnected id="web3-status-connected" onClick={toggleWalletModal} pending={hasPendingTransactions}>
+      <StatusConnected
+        id="web3-status-connected"
+        onClick={isBeta ? (account ? toggleAccountDetailModal : toggleWalletModal) : toggleWalletModal}
+        pending={hasPendingTransactions}
+      >
         {hasPendingTransactions ? (
           <RowBetween>
             <Text>
@@ -277,10 +283,28 @@ function Web3StatusInner() {
 }
 
 export default function Web3Status() {
-  const { active } = useWeb3React()
+  const { account, active } = useWeb3React()
   const contextNetwork = useWeb3React(NetworkContextName)
 
+  const isBeta = useIsBetaUI()
+
+  const theme = useContext(ThemeContext)
+
   const allTransactions = useAllTransactions()
+
+  const walletModalOpen = useModalOpen(ApplicationModal.WALLET)
+  const toggleWalletModal = useWalletModalToggle()
+
+  const accountDetailModalOpen = useModalOpen(ApplicationModal.ACCOUNT_DETAIL)
+  const toggleAccountDetailModal = useAccountDetailToggle()
+
+  console.log('walletModalOpen', walletModalOpen)
+  console.log('accountDetailModalOpen', accountDetailModalOpen)
+
+  const onWalletChange = useCallback(() => {
+    toggleAccountDetailModal()
+    toggleWalletModal()
+  }, [toggleAccountDetailModal, toggleWalletModal])
 
   const sortedRecentTransactions = useMemo(() => {
     const txs = Object.values(allTransactions)
@@ -297,7 +321,22 @@ export default function Web3Status() {
   return (
     <>
       <Web3StatusInner />
-      <WalletModal ENSName={undefined} pendingTransactions={pending} confirmedTransactions={confirmed} />
+      {isBeta ? (
+        !account || walletModalOpen ? (
+          <NewWalletModal open={walletModalOpen} closeModal={toggleWalletModal} background={theme.bg2} />
+        ) : (
+          <AccountDetailsModal
+            ENSName={undefined}
+            pendingTransactions={pending}
+            confirmedTransactions={confirmed}
+            onWalletChange={onWalletChange}
+            open={accountDetailModalOpen}
+            closeModal={toggleAccountDetailModal}
+          />
+        )
+      ) : (
+        <WalletModal ENSName={undefined} pendingTransactions={pending} confirmedTransactions={confirmed} />
+      )}
     </>
   )
 }

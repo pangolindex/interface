@@ -128,7 +128,7 @@ const LimitOrderList = () => {
             {t('swapPage.limitOrders')}
           </Text>
 
-          <Box>
+          <Box width="180px">
             <ToggleButtons
               options={[t('swapPage.open'), t('swapPage.executed'), t('swapPage.cancelled')]}
               value={activeTab}

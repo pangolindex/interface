@@ -70,6 +70,11 @@ export function useToggleVoteModal(): () => void {
   return useToggleModal(ApplicationModal.VOTE)
 }
 
+
+export function useAccountDetailToggle(): () => void {
+  return useToggleModal(ApplicationModal.ACCOUNT_DETAIL)
+}
+
 // returns a function that allows adding a popup
 export function useAddPopup(): (content: PopupContent, key?: string) => void {
   const dispatch = useDispatch()
