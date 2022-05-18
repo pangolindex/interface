@@ -8,6 +8,8 @@ import PortfolioWidget from './Portfolio'
 import { ChainId, CHAINS } from '@pangolindex/sdk'
 import { useActiveWeb3React } from 'src/hooks'
 import { Hidden, Visible } from 'src/theme'
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const Dashboard = () => {
   const { t } = useTranslation()
