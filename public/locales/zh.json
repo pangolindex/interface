@@ -377,7 +377,8 @@
     "yourLockedValue": "您的锁定值",
     "allPools": "所有池",
     "yourPools": "你的游泳池",
-    "yourWallet": "你的钱包"
+    "yourWallet": "你的钱包",
+    "noFarms": "没有找到农场。"
   },
   "poolFinder": {
     "connectToFind": "连接到钱包以查找矿池",

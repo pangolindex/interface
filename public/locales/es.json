@@ -377,7 +377,8 @@
     "yourLockedValue": "Su valor bloqueado",
     "allPools": "Todos los Pools",
     "yourPools": "Tus Pools",
-    "yourWallet": "tu billetera"
+    "yourWallet": "tu billetera",
+    "noFarms": "No se encontraron granjas."
   },
   "poolFinder": {
     "connectToFind": "Conecte la cartera para encontrar pools",

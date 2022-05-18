@@ -377,7 +377,8 @@
     "yourLockedValue": "Your Locked Value",
     "allPools": "All Pools",
     "yourPools": "Your Pools",
-    "yourWallet": "Your Wallet"
+    "yourWallet": "Your Wallet",
+    "noFarms": "No farms found."
   },
   "poolFinder": {
     "connectToFind": "Connect to a wallet to find pools",
