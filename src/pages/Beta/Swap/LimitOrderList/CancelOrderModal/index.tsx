@@ -15,8 +15,6 @@ interface ClaimRewardModalProps {
 }
 
 const CancelOrderModal = ({ isOpen, onClose, order }: ClaimRewardModalProps) => {
-  // const claimRewardModalOpen = useModalOpen(ApplicationModal.CLAIM_POPUP)
-  // const toggleClaimRewardModal = useToggleShowClaimPopup()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 

@@ -1,6 +1,10 @@
 {
   "name": "@pangolindex/interface",
+<<<<<<< HEAD
   "version": "1.0.29-dev.5",
+=======
+  "version": "1.0.29-dev.9",
+>>>>>>> 47a8e624c1e985f1eaf22228277812cec8eebdf3
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
@@ -15,7 +19,7 @@
     "@pangolindex/components": "3.0.0",
     "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.2.0",
-    "@pangolindex/sdk": "2.0.1",
+    "@pangolindex/sdk": "2.0.2",
     "@pangolindex/token-lists": "^1.0.1",
     "@pangolindex/web3-react-injected-connector": "^1.0.0",
     "@popperjs/core": "^2.4.4",

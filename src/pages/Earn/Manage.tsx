@@ -364,7 +364,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
             )}
           </DataRow>
         )}
-        {!userLiquidityUnstaked ? null : userLiquidityUnstaked.equalTo('0') ? null : (
+        {!userLiquidityUnstaked || userLiquidityUnstaked.equalTo('0') ? null : (
           <TYPE.main>
             {userLiquidityUnstaked.toSignificant(6)} {t('earnPage.stakingTokensAvailable', { symbol: 'PGL' })}
           </TYPE.main>

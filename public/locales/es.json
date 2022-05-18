@@ -599,5 +599,13 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your {{ pngSymbol }} and Earn Rewards!"
+  },
+  "error": {
+    "missingCurrencyAmounts": "Cantidades de moneda faltantes",
+    "missingTokens": "Fichas faltantes",
+    "missingDependencies": "Dependencias faltantes",
+    "missingLiquidityAmount": "Cantidad de liquidez faltante",
+    "couldNotWrap": "No se pudo envolver",
+    "attemptingToConfirmApproval": "Intentando confirmar sin aprobación o firma. Comuníquese con soporte."
   }
 }

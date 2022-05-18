@@ -38,7 +38,7 @@ export default function Updater(): null {
   const lastBlockNumber = useBlockNumber()
 
   const dispatch = useDispatch<AppDispatch>()
-  const state = useSelector<AppState, AppState['transactions']>(state => state.transactions)
+  const state = useSelector<AppState, AppState['transactions']>(_state => _state.transactions)
 
   const transactions = chainId ? state[chainId] ?? {} : {} // eslint-disable-line react-hooks/exhaustive-deps
 

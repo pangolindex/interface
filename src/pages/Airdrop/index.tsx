@@ -98,15 +98,88 @@ export default function Vote() {
   function onClaim() {
     setAttempting(true)
     claimCallback()
-      .then(hash => {
+      .then(_hash => {
         setAttempting(false)
-        setHash(hash)
+        setHash(_hash)
       })
       // reset and log error
       .catch(err => {
         setAttempting(false)
         setError(err)
       })
+  }
+
+  const getCard = () => {
+    if (!claimingAllowed) {
+      return (
+        <Card padding="40px">
+          <TYPE.body color={theme.text3} textAlign="center">
+            {t('airdrop.claimPeriodEnded')}
+          </TYPE.body>
+        </Card>
+      )
+    }
+    if (!account) {
+      return (
+        <Card padding="40px">
+          <TYPE.body color={theme.text3} textAlign="center">
+            {t('airdrop.connectWalletViewLiquidity')}
+          </TYPE.body>
+        </Card>
+      )
+    }
+    if (!canClaim) {
+      return (
+        <Card padding="40px">
+          <TYPE.body color={theme.text3} textAlign="center">
+            {t('airdrop.noAvailableClaim')}
+          </TYPE.body>
+        </Card>
+      )
+    }
+    if (!hasUni && !hasSushi) {
+      return (
+        <Card padding="40px">
+          <TYPE.body color={theme.text1} textAlign="center">
+            {t('airdrop.noUniNoSushi')}
+          </TYPE.body>
+          <TYPE.body mt="1rem" color={theme.text1} textAlign="center">
+            {t('airdrop.youHave') + claimAmount?.toFixed(0, { groupSeparator: ',' }) + t('airdrop.pngAvailableClaim', { symbol: CHAINS[chainId].png_symbol! })}
+          </TYPE.body>
+        </Card>
+      )
+    }
+    if (attempting) {
+      return (
+        <EmptyProposals>
+          <TYPE.body color={theme.text3} textAlign="center">
+            <Dots>{t('airdrop.Loading')}</Dots>
+          </TYPE.body>
+        </EmptyProposals>
+      )
+    }
+    if (claimConfirmed) {
+      return (
+        <TYPE.subHeader mt="1rem" fontWeight={500} color={theme.text1}>
+          <span role="img" aria-label="party-hat">
+            🎉{' '}
+          </span>
+          {t('airdrop.welcomeToTeamPangolin')}
+          <span role="img" aria-label="party-hat">
+            {' '}
+            🎉
+          </span>
+        </TYPE.subHeader>
+      )
+    }
+
+    return (
+      <ButtonError error={!!error} padding="16px 16px" width="100%" mt="1rem" onClick={onClaim}>
+        {error
+          ? error['data']['message']
+          : t('airdrop.claim') + claimAmount?.toFixed(0, { groupSeparator: ',' }) + ' PNG'}
+      </ButtonError>
+    )
   }
 
   return (
@@ -116,57 +189,7 @@ export default function Vote() {
         <TYPE.mediumHeader style={{ margin: '0.5rem 0' }} textAlign="center">
           {t('airdrop.claimPngAirdrop', { pngSymbol: CHAINS[chainId].png_symbol })}
         </TYPE.mediumHeader>
-        {!claimingAllowed ? (
-          <Card padding="40px">
-            <TYPE.body color={theme.text3} textAlign="center">
-              {t('airdrop.claimPeriodEnded')}
-            </TYPE.body>
-          </Card>
-        ) : !account ? (
-          <Card padding="40px">
-            <TYPE.body color={theme.text3} textAlign="center">
-              {t('airdrop.connectWalletViewLiquidity')}
-            </TYPE.body>
-          </Card>
-        ) : !canClaim ? (
-          <Card padding="40px">
-            <TYPE.body color={theme.text3} textAlign="center">
-              {t('airdrop.noAvailableClaim')}
-            </TYPE.body>
-          </Card>
-        ) : !hasUni && !hasSushi ? (
-          <Card padding="40px">
-            <TYPE.body color={theme.text1} textAlign="center">
-              {t('airdrop.noUniNoSushi')}
-            </TYPE.body>
-            <TYPE.body mt="1rem" color={theme.text1} textAlign="center">
-              {t('airdrop.youHave') + claimAmount?.toFixed(0, { groupSeparator: ',' }) + t('airdrop.pngAvailableClaim', { symbol: CHAINS[chainId].png_symbol! })}
-            </TYPE.body>
-          </Card>
-        ) : attempting ? (
-          <EmptyProposals>
-            <TYPE.body color={theme.text3} textAlign="center">
-              <Dots>{t('airdrop.Loading')}</Dots>
-            </TYPE.body>
-          </EmptyProposals>
-        ) : claimConfirmed ? (
-          <TYPE.subHeader mt="1rem" fontWeight={500} color={theme.text1}>
-            <span role="img" aria-label="party-hat">
-              🎉{' '}
-            </span>
-            {t('airdrop.welcomeToTeamPangolin')}
-            <span role="img" aria-label="party-hat">
-              {' '}
-              🎉
-            </span>
-          </TYPE.subHeader>
-        ) : (
-          <ButtonError error={!!error} padding="16px 16px" width="100%" mt="1rem" onClick={onClaim}>
-            {error
-              ? error['data']['message']
-              : t('airdrop.claim') + claimAmount?.toFixed(0, { groupSeparator: ',' }) + ' PNG'}
-          </ButtonError>
-        )}
+        {getCard()}
       </TopSection>
     </PageWrapper>
   )

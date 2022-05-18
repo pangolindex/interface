@@ -599,5 +599,13 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your {{ pngSymbol }} and Earn Rewards!"
+  },
+  "error": {
+    "missingCurrencyAmounts": "Fehlende Währungsbeträge",
+    "missingTokens": "Fehlende Token",
+    "missingDependencies": "Fehlende Abhängigkeiten",
+    "missingLiquidityAmount": "Fehlender Liquiditätsbetrag",
+    "couldNotWrap": "Konnte nicht umbrechen",
+    "attemptingToConfirmApproval": "Bestätigungsversuch ohne Genehmigung oder Unterschrift. Bitte kontaktieren Sie den Support."
   }
 }

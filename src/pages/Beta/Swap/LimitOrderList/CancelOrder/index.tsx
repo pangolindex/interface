@@ -79,10 +79,10 @@ const CancelOrder = ({ order, onClose }: ClaimProps) => {
           txHash: hash
         })
       })
-      .catch(error => {
+      .catch(err => {
         setCancellationState({
           attemptingTxn: false,
-          cancellationErrorMessage: error.message,
+          cancellationErrorMessage: err.message,
           txHash: undefined
         })
       })

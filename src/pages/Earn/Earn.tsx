@@ -159,7 +159,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
       )
       finalFarms = [...stakedFarms, ...superFarms, ...nonSuperFarms]
     }
-    const poolCards = finalFarms.map((stakingInfo, index) => {
+    const _poolCards = finalFarms.map((stakingInfo, index) => {
       return (
         <DoubleSidePoolCard
           swapFeeApr={stakingInfo.swapFeeApr}
@@ -170,7 +170,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
         />
       )
     })
-    setPoolCards(poolCards)
+    setPoolCards(_poolCards)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortBy?.field, sortBy?.desc, showSuperFarm, stakingInfoData])
 
@@ -225,7 +225,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
             }
           })
       ).then(updatedStakingInfos => {
-        const poolCards = updatedStakingInfos.map((stakingInfo, index) => {
+        const _poolCards = updatedStakingInfos.map((stakingInfo, index) => {
           return (
             <DoubleSidePoolCard
               // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -241,7 +241,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
           )
         })
         setStakingInfoData(updatedStakingInfos)
-        setPoolCards(poolCards)
+        setPoolCards(_poolCards)
         setPoolCardsLoading(false)
       })
     }
@@ -253,16 +253,16 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
     typeof chainId === 'number' && (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0
   )
   /* eslint-disable @typescript-eslint/ban-types */
-  const getSortField = (label: string, field: string, sortBy: any, setSortBy: Function) => {
+  const getSortField = (label: string, field: string, _sortBy: any, _setSortBy: Function) => {
     return (
       <SortField
         onClick={() => {
-          const desc = sortBy?.field === field ? !sortBy?.desc : true
-          setSortBy({ field, desc })
+          const desc = _sortBy?.field === field ? !_sortBy?.desc : true
+          _setSortBy({ field, desc })
         }}
       >
         {label}
-        {sortBy?.field === field && (sortBy?.desc ? <ChevronDown size="16" /> : <ChevronUp size="16" />)}
+        {_sortBy?.field === field && (_sortBy?.desc ? <ChevronDown size="16" /> : <ChevronUp size="16" />)}
       </SortField>
     )
   }

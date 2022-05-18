@@ -220,8 +220,7 @@ export function useGetWalletChainTokens() {
 
       if (chainId === ChainId.AVALANCHE) {
         const pairs = await getPangolinPairs()
-        const tokens = [...requestTokens, ...pairs]
-        return tokens
+        return [...requestTokens, ...pairs]
       }
 
       return requestTokens
@@ -235,9 +234,7 @@ export function useGetWalletChainTokens() {
       const tokens = await getBalance()
       tokens.sort((a, b) => b.usdValue - a.usdValue)
 
-      const filterTokens = tokens.filter(token => token.usdValue >= 0.01)
-
-      return filterTokens
+      return tokens.filter(token => token.usdValue >= 0.01)
     },
     {
       refetchInterval: 10000

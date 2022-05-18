@@ -599,5 +599,13 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your {{ pngSymbol }} and Earn Rewards!"
+  },
+  "error": {
+    "missCurrencyAmounts": "Thiếu số tiền",
+    "missTokens": "Thiếu mã thông báo",
+    "Thiếu phụ thuộc": "Thiếu phụ thuộc",
+    "missingLiquidityAmount": "Thiếu số tiền thanh khoản",
+    "couldNotWrap": "Không thể quấn",
+    "trytingToConfirmApproval": "Đang cố gắng xác nhận mà không cần phê duyệt hoặc chữ ký. Vui lòng liên hệ với bộ phận hỗ trợ."
   }
 }
