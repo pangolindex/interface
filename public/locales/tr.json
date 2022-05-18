@@ -377,7 +377,8 @@
     "yourLockedValue": "Kilitli Değeriniz",
     "allPools": "Tüm Havuzlar",
     "yourPools": "Havuzlarınız",
-    "yourWallet": "Cüzdanın"
+    "yourWallet": "Cüzdanın",
+    "noFarms": "Çiftlik bulunamadı."
   },
   "poolFinder": {
     "connectToFind": "Havuzları bulmak için bir cüzdana bağlanın",
