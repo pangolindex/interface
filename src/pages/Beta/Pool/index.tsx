@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { useStakingInfo, useGetMinichefStakingInfosViaSubgraph, useGetAllFarmData } from 'src/state/stake/hooks'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
+import AddLiquidityModal from './AddLiquidityModal'
 
 export enum PoolType {
   own = 'own',
@@ -18,11 +19,16 @@ export enum PoolType {
 
 const PoolUI = () => {
   const [activeMenu, setMenu] = useState<string>(MenuType.allPoolV2)
+  const [isAddLiquidityModalOpen, setAddLiquidityModalOpen] = useState<boolean>(false)
   const { t } = useTranslation()
 
   useGetAllFarmData()
 
   let miniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
+
+  const handleAddLiquidityModalClose = useCallback(() => {
+    setAddLiquidityModalOpen(false)
+  }, [setAddLiquidityModalOpen])
 
   let stakingInfoV1 = useStakingInfo(1)
   // filter only live or needs migration pools
@@ -148,9 +154,11 @@ const PoolUI = () => {
             <Wallet activeMenu={activeMenu} setMenu={handleSetMenu} menuItems={menuItems} />
           )}
         </Box>
-
         <Hidden upToSmall={true}>
           <Box>
+            <ExternalLink onClick={() => setAddLiquidityModalOpen(true)} style={{ cursor: 'pointer' }}>
+              {t('navigationTabs.createPair')}
+            </ExternalLink>
             <ExternalLink
               href="https://app.nexusmutual.io/cover/buy/get-quote?address=0xefa94DE7a4656D787667C749f7E1223D71E9FD88"
               target="_blank"
@@ -167,6 +175,7 @@ const PoolUI = () => {
           </Box>
         </Hidden>
       </GridContainer>
+      <AddLiquidityModal isOpen={isAddLiquidityModalOpen} onClose={handleAddLiquidityModalClose} />
     </PageWrapper>
   )
 }
