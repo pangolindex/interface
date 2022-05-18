@@ -3,7 +3,7 @@ import { ThemeContext } from 'styled-components'
 import { Box, WalletModal as NewWalletModal } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken, lighten } from 'polished'
-import React, { useMemo, useContext, useState, useCallback } from 'react'
+import React, { useMemo, useContext, useCallback } from 'react'
 import { Activity } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
@@ -317,26 +317,37 @@ export default function Web3Status() {
   if (!contextNetwork.active && !active) {
     return null
   }
+  const renderModal = () => {
+    if (!isBeta) {
+      return <WalletModal ENSName={undefined} pendingTransactions={pending} confirmedTransactions={confirmed} />
+    } else if (!account || walletModalOpen) {
+      return (
+        <NewWalletModal
+          open={walletModalOpen}
+          closeModal={toggleWalletModal}
+          background={theme.bg2}
+          shouldShowBackButton={account ? true : false}
+        />
+      )
+    } else if (account) {
+      return (
+        <AccountDetailsModal
+          ENSName={undefined}
+          pendingTransactions={pending}
+          confirmedTransactions={confirmed}
+          onWalletChange={onWalletChange}
+          open={accountDetailModalOpen}
+          closeModal={toggleAccountDetailModal}
+        />
+      )
+    }
+    return
+  }
 
   return (
     <>
       <Web3StatusInner />
-      {isBeta ? (
-        !account || walletModalOpen ? (
-          <NewWalletModal open={walletModalOpen} closeModal={toggleWalletModal} background={theme.bg2} />
-        ) : (
-          <AccountDetailsModal
-            ENSName={undefined}
-            pendingTransactions={pending}
-            confirmedTransactions={confirmed}
-            onWalletChange={onWalletChange}
-            open={accountDetailModalOpen}
-            closeModal={toggleAccountDetailModal}
-          />
-        )
-      ) : (
-        <WalletModal ENSName={undefined} pendingTransactions={pending} confirmedTransactions={confirmed} />
-      )}
+      {renderModal()}
     </>
   )
 }
