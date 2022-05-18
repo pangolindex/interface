@@ -28,13 +28,11 @@ import useUSDCPrice from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useTotalSupply } from '../../data/TotalSupply'
-import { usePngContract, useStakingContract } from '../../hooks/useContract'
+import { usePngContract, useStakingContract, useRewardViaMultiplierContract } from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
-import { unwrappedToken } from 'src/utils/wrappedCurrency'
+import { unwrappedToken, wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
 import { useTokens } from '../../hooks/Tokens'
-import { useRewardViaMultiplierContract } from '../../hooks/useContract'
-import { wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
@@ -476,14 +474,14 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
         const totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount)
 
         const getHypotheticalWeeklyRewardRate = (
-          stakedAmount: TokenAmount,
-          totalStakedAmount: TokenAmount,
+          _stakedAmount: TokenAmount,
+          _totalStakedAmount: TokenAmount,
           totalRewardRatePerSecond: TokenAmount
         ): TokenAmount => {
           return new TokenAmount(
             png,
-            JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
-              ? JSBI.divide(JSBI.multiply(totalRewardRatePerSecond.raw, stakedAmount.raw), totalStakedAmount.raw)
+            JSBI.greaterThan(_totalStakedAmount.raw, JSBI.BigInt(0))
+              ? JSBI.divide(JSBI.multiply(totalRewardRatePerSecond.raw, _stakedAmount.raw), _totalStakedAmount.raw)
               : JSBI.BigInt(0)
           )
         }
@@ -663,16 +661,16 @@ export function useSingleSideStakingInfo(
         const apr = isPeriodFinished ? JSBI.BigInt(0) : calculateApr(rewardRateInPng, totalSupplyStaked)
 
         const getHypotheticalWeeklyRewardRate = (
-          stakedAmount: TokenAmount,
-          totalStakedAmount: TokenAmount,
-          totalRewardRatePerSecond: TokenAmount
+          _stakedAmount: TokenAmount,
+          _totalStakedAmount: TokenAmount,
+          _totalRewardRatePerSecond: TokenAmount
         ): TokenAmount => {
           return new TokenAmount(
             rewardToken,
-            JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
+            JSBI.greaterThan(_totalStakedAmount.raw, JSBI.BigInt(0))
               ? JSBI.divide(
-                  JSBI.multiply(JSBI.multiply(totalRewardRatePerSecond.raw, stakedAmount.raw), BIG_INT_SECONDS_IN_WEEK),
-                  totalStakedAmount.raw
+                  JSBI.multiply(JSBI.multiply(_totalRewardRatePerSecond.raw, _stakedAmount.raw), BIG_INT_SECONDS_IN_WEEK),
+                  _totalStakedAmount.raw
                 )
               : JSBI.BigInt(0)
           )
@@ -766,7 +764,6 @@ export function useTotalPngEarned(): TokenAmount | undefined {
     .add(earned1)
     .add(earned2)
     .add(earnedSingleStaking)
-  // return earned0 ? (earned1 ? earned0.add(earned1) : earned0) : earned1 ? earned1 : undefined
 }
 
 // based on typed value
@@ -1080,7 +1077,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const arr = useMemo(() => {
     if (!chainId || !png) return []
 
-    return pairAddresses.reduce<any[]>((memo, pairAddress, index) => {
+    return pairAddresses.reduce<any[]>((memo, _pairAddress, index) => {
       const pairTotalSupplyState = pairTotalSupplies[index]
       const balanceState = balances[index]
       const poolInfo = poolInfos[index]
@@ -1188,17 +1185,17 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
             ? new TokenAmount(USDTe[chainId], stakedValueInUSDT)
             : undefined
         } else if (isAvaxPool) {
-          const totalStakedInWavax = calculateTotalStakedAmountInAvax(
+          const _totalStakedInWavax = calculateTotalStakedAmountInAvax(
             totalSupplyStaked,
             totalSupplyAvailable,
             pair.reserveOf(WAVAX[chainId]).raw,
             chainId
           )
           totalStakedInUsd = CHAINS[chainId || ChainId].mainnet
-            ? totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount)
+            ? _totalStakedInWavax && (usdPrice?.quote(_totalStakedInWavax, chainId) as TokenAmount)
             : undefined
         } else if (isPngPool) {
-          const totalStakedInWavax = calculateTotalStakedAmountInAvaxFromPng(
+          const _totalStakedInWavax = calculateTotalStakedAmountInAvaxFromPng(
             totalSupplyStaked,
             totalSupplyAvailable,
             avaxPngPair.reserveOf(png).raw,
@@ -1207,7 +1204,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
             chainId
           )
           totalStakedInUsd = CHAINS[chainId || ChainId].mainnet
-            ? totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount)
+            ? _totalStakedInWavax && (usdPrice?.quote(_totalStakedInWavax, chainId) as TokenAmount)
             : undefined
         } else {
           // Contains no stablecoin, WAVAX, nor PNG
@@ -1215,16 +1212,16 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
         }
 
         const getHypotheticalWeeklyRewardRate = (
-          stakedAmount: TokenAmount,
-          totalStakedAmount: TokenAmount,
-          totalRewardRatePerSecond: TokenAmount
+          _stakedAmount: TokenAmount,
+          _totalStakedAmount: TokenAmount,
+          _totalRewardRatePerSecond: TokenAmount
         ): TokenAmount => {
           return new TokenAmount(
             png,
-            JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
+            JSBI.greaterThan(_totalStakedAmount.raw, JSBI.BigInt(0))
               ? JSBI.divide(
-                  JSBI.multiply(JSBI.multiply(totalRewardRatePerSecond.raw, stakedAmount.raw), BIG_INT_SECONDS_IN_WEEK),
-                  totalStakedAmount.raw
+                  JSBI.multiply(JSBI.multiply(_totalRewardRatePerSecond.raw, _stakedAmount.raw), BIG_INT_SECONDS_IN_WEEK),
+                  _totalStakedAmount.raw
                 )
               : JSBI.BigInt(0)
           )
@@ -1420,11 +1417,11 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
             })
             setHash(response.hash)
           })
-          .catch((error: any) => {
+          .catch((err: any) => {
             setAttempting(false)
             // we only care if the error is something _other_ than the user rejected the tx
-            if (error?.code !== 4001) {
-              console.error(error)
+            if (err?.code !== 4001) {
+              console.error(err)
             }
           })
       } else if (signatureData) {
@@ -1442,11 +1439,11 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
             })
             setHash(response.hash)
           })
-          .catch((error: any) => {
+          .catch((err: any) => {
             setAttempting(false)
             // we only care if the error is something _other_ than the user rejected the tx
-            if (error?.code !== 4001) {
-              console.error(error)
+            if (err?.code !== 4001) {
+              console.error(err)
             }
           })
       } else {
@@ -1476,14 +1473,14 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
   }
 
   // wrapped onUserInput to clear signatures
-  const onUserInput = useCallback((typedValue: string) => {
+  const onUserInput = useCallback((_typedValue: string) => {
     setSignatureData(null)
-    setTypedValue(typedValue)
+    setTypedValue(_typedValue)
   }, [])
 
   // used for max input button
   const maxAmountInput = maxAmountSpend(chainId, userPngUnstaked)
-  // const atMaxAmount = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
+
   const handleMax = useCallback(() => {
     maxAmountInput && onUserInput(maxAmountInput.toExact())
     setStepIndex(4)
@@ -1542,9 +1539,9 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
           deadline: deadline.toNumber()
         })
       })
-      .catch(error => {
+      .catch(err => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-        if (error?.code !== 4001) {
+        if (err?.code !== 4001) {
           approveCallback()
         }
       })

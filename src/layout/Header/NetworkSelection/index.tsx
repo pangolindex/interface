@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { ALL_CHAINS, Chain } from '@pangolindex/sdk'
 import { Box, Text, ToggleButtons } from '@pangolindex/components'
 
-//import { useActiveWeb3React } from 'src/hooks'
 import Modal from 'src/components/Beta/Modal'
 import { ChainsList, ChainButton, Frame, Logo, CloseButton, ButtonFrame } from './styled'
 import { Scrollbars } from 'react-custom-scrollbars'

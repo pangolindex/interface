@@ -36,6 +36,5 @@ export function useIsSelectedCurrency(address: string): boolean {
 
   addresses = [PNG[chainId]?.address, ...addresses]
 
-  const isSelected = (addresses || []).includes(address)
-  return isSelected
+  return (addresses || []).includes(address)
 }

@@ -11,8 +11,7 @@ export const signature = (url: string, data: string) => {
   const dataToSign = url + data
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
-  const token = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(dataToSign.toString(CryptoJS.enc.Utf8), WYRE_SECRET_KEY))
-  return token
+  return CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(dataToSign.toString(CryptoJS.enc.Utf8), WYRE_SECRET_KEY))
 }
 
 export function useQuoteRequest(account: string | null | undefined, amount: string, sourceCurrency: string): void {

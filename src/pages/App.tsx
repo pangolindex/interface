@@ -15,7 +15,6 @@ import {
   RedirectToAddLiquidity
 } from './AddLiquidity/redirects'
 import { EarnV1, EarnV2, ManageV1, ManageV2 } from './Earn'
-// import ManageEarn from './Earn/Manage'
 import Stake from './Stake'
 import ManageStake from './Stake/Manage'
 import Pool from './Pool'
