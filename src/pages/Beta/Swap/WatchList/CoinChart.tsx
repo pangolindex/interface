@@ -5,14 +5,12 @@ import { Link } from 'react-feather'
 import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts'
 import { Token } from '@pangolindex/sdk'
 import { SelectedCoinInfo, TrackIcons, DurationBtns } from './styleds'
-import { ANALYTICS_PAGE } from 'src/constants'
+import { ANALYTICS_PAGE, BETA_MENU_LINK, TIMEFRAME } from 'src/constants'
 import { Field } from 'src/state/swap/actions'
 import { useTokenPriceData } from 'src/state/token/hooks'
-import { TIMEFRAME } from 'src/constants'
 import { formattedNum, toNiceDateYear } from 'src/utils/charts'
 import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { BETA_MENU_LINK } from 'src/constants'
 import { useChainId } from 'src/hooks'
 
 type Props = {
@@ -25,7 +23,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
   const chainId = useChainId()
 
   const { t } = useTranslation()
-  const weekFrame = TIMEFRAME.find(t => t.label === '1W')
+  const weekFrame = TIMEFRAME.find(value => value.label === '1W')
 
   const [timeWindow, setTimeWindow] = useState(
     weekFrame ||
@@ -133,7 +131,7 @@ const CoinChart: React.FC<Props> = ({ coin }) => {
             formatter={(priceUSD: number) => {
               return [`${formattedNum(priceUSD, true)}`, 'USD']
             }}
-            labelFormatter={(label, data) => {
+            labelFormatter={(_label, data) => {
               return toNiceDateYear(data?.[0]?.payload?.timestamp)
             }}
             labelStyle={{ paddingTop: 4 }}

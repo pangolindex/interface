@@ -46,11 +46,11 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
           })
           setHash(response.hash)
         })
-        .catch((error: any) => {
+        .catch((err: any) => {
           setAttempting(false)
           // we only care if the error is something _other_ than the user rejected the tx
-          if (error?.code !== 4001) {
-            console.error(error)
+          if (err?.code !== 4001) {
+            console.error(err)
           }
         })
     }
@@ -88,7 +88,6 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
               </Box>
             </Box>
             <Text fontSize="14px" color="text2" mt={20}>
-              {/* {t('earn.whenYouWithdrawSingleSideWarning', { symbol: stakingInfo?.rewardToken?.symbol })} */}
               You can unstake your rewards.
             </Text>
             <Box flex={1} />

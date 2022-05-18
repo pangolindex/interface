@@ -26,6 +26,16 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
 
   const { data = [], isLoading } = useGetWalletChainTokens()
 
+  const row = (item: TokenDataUser | PairDataUser, index: number) => {
+    return (
+      <PortfolioRow
+        coin={item instanceof TokenDataUser ? item : undefined}
+        pair={item instanceof PairDataUser ? item : undefined}
+        key={index}
+      />
+    )
+  }
+
   return (
     <PageWrapper>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -58,15 +68,7 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
                 }}
               />
             ) : data.length > 0 ? (
-              <Scrollbars>
-                {data.map((item: TokenDataUser | PairDataUser, index) => (
-                  <PortfolioRow
-                    coin={item instanceof TokenDataUser ? item : undefined}
-                    pair={item instanceof PairDataUser ? item : undefined}
-                    key={index}
-                  />
-                ))}
-              </Scrollbars>
+              <Scrollbars>{data.map((item: TokenDataUser | PairDataUser, index) => row(item, index))}</Scrollbars>
             ) : (
               <Text color="text1">Not found Tokens</Text>
             )}
@@ -85,24 +87,9 @@ const MyPortfolio: React.FC<Props> = ({ isLimitOrders }) => {
               />
             ) : data.length > 0 ? (
               <>
-                {(data || []).slice(0, 3).map((item: TokenDataUser | PairDataUser, index) => (
-                  <PortfolioRow
-                    coin={item instanceof TokenDataUser ? item : undefined}
-                    pair={item instanceof PairDataUser ? item : undefined}
-                    key={index}
-                  />
-                ))}
+                {data.slice(0, 3).map((item: TokenDataUser | PairDataUser, index) => row(item, index))}
 
-                {showMore &&
-                  (data || [])
-                    .slice(3)
-                    .map((item: TokenDataUser | PairDataUser, index) => (
-                      <PortfolioRow
-                        coin={item instanceof TokenDataUser ? item : undefined}
-                        pair={item instanceof PairDataUser ? item : undefined}
-                        key={index}
-                      />
-                    ))}
+                {showMore && data.slice(3).map((item: TokenDataUser | PairDataUser, index) => row(item, index))}
 
                 {data.length > 3 && <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />}
               </>

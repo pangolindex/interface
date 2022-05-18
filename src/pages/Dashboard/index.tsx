@@ -8,8 +8,6 @@ import PortfolioWidget from './Portfolio'
 import { ChainId, CHAINS } from '@pangolindex/sdk'
 import { useActiveWeb3React } from 'src/hooks'
 import { Hidden, Visible } from 'src/theme'
-//import Earned from './Earned'
-//import FollowedWallet from './FollowWallet'
 
 const Dashboard = () => {
   const { t } = useTranslation()

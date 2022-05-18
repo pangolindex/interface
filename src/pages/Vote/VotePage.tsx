@@ -250,11 +250,11 @@ export default function VotePage({
             return (
               <DetailText key={i}>
                 {i + 1}: {linkIfAddress(d.target)}.{d.functionSig}(
-                {d.callData.split(',').map((content, i) => {
+                {d.callData.split(',').map((content, index) => {
                   return (
-                    <span key={i}>
+                    <span key={index}>
                       {linkIfAddress(content)}
-                      {d.callData.split(',').length - 1 === i ? '' : ','}
+                      {d.callData.split(',').length - 1 === index ? '' : ','}
                     </span>
                   )
                 })}
