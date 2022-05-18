@@ -56,12 +56,12 @@ const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) =
     }
   }
 
-  let error: string | undefined
+  let errorMessage: string | undefined
   if (!account) {
-    error = t('earn.connectWallet')
+    errorMessage = t('earn.connectWallet')
   }
   if (!stakingInfo?.stakedAmount) {
-    error = error ?? t('earn.enterAmount')
+    errorMessage = errorMessage ?? t('earn.enterAmount')
   }
 
   return (
@@ -82,8 +82,8 @@ const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) =
             </Text>
           </Box>
           <Box mt={'10px'}>
-            <Button variant="primary" isDisabled={!!error} onClick={onClaimReward} padding="15px 18px">
-              {error ?? t('earnPage.claim')}
+            <Button variant="primary" isDisabled={!!errorMessage} onClick={onClaimReward} padding="15px 18px">
+              {errorMessage ?? t('earnPage.claim')}
             </Button>
           </Box>
         </Root>

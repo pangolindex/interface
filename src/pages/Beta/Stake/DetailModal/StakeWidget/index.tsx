@@ -1,7 +1,6 @@
 import React from 'react'
-import { ZERO_ADDRESS } from 'src/constants'
+import { BETA_MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { Root, Buttons, MaxButton, Balance, StakeWrapper, GridContainer } from './styled'
-import { BETA_MENU_LINK } from 'src/constants'
 import { Box, Button, Text, TextInput, CurrencyLogo, NumberOptions } from '@pangolindex/components'
 import { ApprovalState } from 'src/hooks/useApproveCallback'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
@@ -83,7 +82,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
                   </Box>
                 }
                 onChange={(value: any) => {
-                  onUserInput(value as any)
+                  onUserInput(value)
                 }}
                 label={`Enter PNG`}
                 fontSize={24}
@@ -128,12 +127,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
                   <Box>
                     <Stat
                       title={`${t('earn.weeklyRewards')}`}
-                      stat={
-                        hypotheticalRewardRatePerWeek
-                          ? `${hypotheticalRewardRatePerWeek.toSignificant(4)}
-      `
-                          : '-'
-                      }
+                      stat={hypotheticalRewardRatePerWeek ? `${hypotheticalRewardRatePerWeek.toSignificant(4)}` : '-'}
                       titlePosition="top"
                       titleFontSize={14}
                       statFontSize={18}

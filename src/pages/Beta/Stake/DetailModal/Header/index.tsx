@@ -7,8 +7,7 @@ import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { ThemeContext } from 'styled-components'
 import { HeaderRoot, StatsWrapper, HeaderWrapper } from './styled'
 import { useTranslation } from 'react-i18next'
-import { CloseIcon } from 'src/theme'
-import { Hidden, Visible } from 'src/theme'
+import { CloseIcon, Hidden, Visible  } from 'src/theme'
 import { useChainId } from 'src/hooks'
 
 type Props = {

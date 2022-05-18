@@ -13,17 +13,13 @@ import { ChartState, WeeklyState } from './reducer'
 dayjs.extend(utc)
 
 export function useAllTokenWeeklyPriceChartData(): WeeklyState | undefined {
-  const allTokenCharts = useSelector<AppState, AppState['token']['weekly']>(state => state?.token?.weekly || {})
-
-  return allTokenCharts
+  return useSelector<AppState, AppState['token']['weekly']>(state => state?.token?.weekly || {})
 }
 
 export function useAllTokenPricesChartData(): ChartState | undefined {
-  const allTokenCharts = useSelector<AppState, AppState['token']['tokenPrices']>(
+  return useSelector<AppState, AppState['token']['tokenPrices']>(
     state => state?.token?.tokenPrices || {}
   )
-
-  return allTokenCharts
 }
 
 export function useTokenWeeklyChartData(tokenAddress: string) {

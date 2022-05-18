@@ -18,7 +18,7 @@ import { useGetProposalsViaSubgraph, ProposalData, useUserVotes, useUserDelegate
 import DelegateModal from 'src/components/vote/DelegateModal'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
-import { ZERO_ADDRESS } from 'src/constants'
+import { BETA_MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
 import { shortenAddress, getEtherscanLink } from 'src/utils'
@@ -27,7 +27,6 @@ import { TYPE } from 'src/theme'
 import { RowBetween, RowFixed } from 'src/components/Row'
 import { useModalOpen, useToggleDelegateModal } from 'src/state/application/hooks'
 import { ApplicationModal } from 'src/state/application/actions'
-import { BETA_MENU_LINK } from 'src/constants'
 
 const GovernanceUI = () => {
   const { account, chainId } = useActiveWeb3React()
@@ -123,14 +122,6 @@ const GovernanceUI = () => {
             <Loader size={100} />
           </div>
         )}
-        {/* {allProposals?.length === 0 && (
-          <EmptyProposals>
-            <TYPE.body style={{ marginBottom: '8px' }}>{t('votePage.noProposalsFound')}</TYPE.body>
-            <TYPE.subHeader>
-              <i>{t('votePage.proposalCommunityMembers')}</i>
-            </TYPE.subHeader>
-          </EmptyProposals>
-        )} */}
         {allProposals?.map((p: ProposalData) => {
           return (
             <GovernanceCard

@@ -132,15 +132,6 @@ const CurrencyPopover: React.FC<Props> = ({
       </Box>
 
       <CurrencyList>
-        {/* {currencies.map((currency, index) => (
-            <CurrencyRow
-              key={index}
-              currency={currency}
-              onSelect={currency => {
-                onCurrencySelection(currency)
-              }}
-            />
-          ))} */}
         <AutoSizer disableWidth>
           {({ height }) => (
             <FixedSizeList

@@ -17,11 +17,6 @@ export default function PortfolioWidget() {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
   const { account } = useActiveWeb3React()
-  // portifolio
-  // const [selectChain, setSelectChain] = useState<CHAIN>(CHAINS[ChainsId.All])
-  // const handleSelectChain = (newChain: CHAIN) => {
-  //   setSelectChain(newChain)
-  // }
   const { data: balances, isLoading } = useGetChainsBalances()
   const [availableBalances, setAvailableBalances] = useState<{ chainID: number; balance: number }[]>([])
 

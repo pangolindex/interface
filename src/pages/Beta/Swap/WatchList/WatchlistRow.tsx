@@ -22,7 +22,6 @@ type Props = {
 }
 
 const WatchlistRow: React.FC<Props> = ({ coin, onClick, onRemove, isSelected }) => {
-  // const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
   const chainId = useChainId()
   const [showChart, setShowChart] = useState(false)
   const [showDeleteButton, setShowDeleteButton] = useState(false)

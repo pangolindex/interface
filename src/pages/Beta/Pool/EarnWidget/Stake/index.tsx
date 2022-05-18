@@ -12,15 +12,13 @@ import {
   CardContentBox
 } from './styleds'
 import { Box, Text, Button, DoubleCurrencyLogo, NumberOptions } from '@pangolindex/components'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { TokenAmount, Pair, JSBI, Token } from '@pangolindex/sdk'
-import { unwrappedToken } from 'src/utils/wrappedCurrency'
-import { useGetPoolDollerWorth, useMinichefPendingRewards, StakingInfo } from 'src/state/stake/hooks'
+import { unwrappedToken, wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
+import { useGetPoolDollerWorth, useMinichefPendingRewards, useDerivedStakeInfo, useMinichefPools, StakingInfo  } from 'src/state/stake/hooks'
 import { usePairContract, useStakingContract } from 'src/hooks/useContract'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
-import { useDerivedStakeInfo, useMinichefPools } from 'src/state/stake/hooks'
-import { wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useTranslation } from 'react-i18next'
@@ -29,7 +27,6 @@ import { useTokenBalance } from 'src/state/wallet/hooks'
 import Stat from 'src/components/Stat'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
-import { useChainId } from 'src/hooks'
 import { usePair } from 'src/data/Reserves'
 
 interface StakeProps {
@@ -136,11 +133,11 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
             })
             setHash(response.hash)
           })
-          .catch((error: any) => {
+          .catch((err: any) => {
             setAttempting(false)
             // we only care if the error is something _other_ than the user rejected the tx
-            if (error?.code !== 4001) {
-              console.error(error)
+            if (err?.code !== 4001) {
+              console.error(err)
             }
           })
       } else if (signatureData) {
@@ -171,11 +168,11 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
             })
             setHash(response.hash)
           })
-          .catch((error: any) => {
+          .catch((err: any) => {
             setAttempting(false)
             // we only care if the error is something _other_ than the user rejected the tx
-            if (error?.code !== 4001) {
-              console.error(error)
+            if (err?.code !== 4001) {
+              console.error(err)
             }
           })
       } else {
@@ -186,9 +183,9 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
   }
 
   // wrapped onUserInput to clear signatures
-  const onUserInput = useCallback((typedValue: string) => {
+  const onUserInput = useCallback((_typedValue: string) => {
     setSignatureData(null)
-    setTypedValue(typedValue)
+    setTypedValue(_typedValue)
   }, [])
 
   // used for max input button
@@ -254,9 +251,9 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
           deadline: deadline.toNumber()
         })
       })
-      .catch(error => {
+      .catch(err => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-        if (error?.code !== 4001) {
+        if (err?.code !== 4001) {
           approveCallback()
         }
       })
@@ -299,8 +296,8 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
   }, [userLiquidityUnstaked?.toExact()])
 
   const onPoolSelect = useCallback(
-    pair => {
-      setSelectedPair(pair)
+    pairSelected => {
+      setSelectedPair(pairSelected)
     },
     [setSelectedPair]
   )
@@ -348,7 +345,7 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
                   </Box>
                 }
                 onChange={(value: any) => {
-                  onUserInput(value as any)
+                  onUserInput(value)
                 }}
                 fontSize={24}
                 isNumeric={true}

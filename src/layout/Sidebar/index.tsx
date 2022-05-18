@@ -33,6 +33,13 @@ interface SidebarProps {
   onCollapsed: (isCollapsed: boolean) => void
 }
 
+interface Link {
+  link: string,
+  icon: string,
+  title: string,
+  id: string
+}
+
 export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
   const { height } = useWindowSize()
   const { t } = useTranslation()
@@ -128,6 +135,20 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
     }
   ]
 
+  const createMenuLink = (
+    link: Link, 
+    index: number
+  ) => {
+    return (
+      <MenuItem key={index}>
+        <MenuExternalLink id={link.id} href={link.link}>
+          <img src={link.icon} width={16} alt={link.title} />
+          {!collapsed && <MenuName fontSize={16}>{link.title}</MenuName>}
+        </MenuExternalLink>
+      </MenuItem>
+    )
+  }
+
   return (
     <Sider
       collapsed={collapsed}
@@ -177,16 +198,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
               </Box>
             )}
 
-            {pangolinLinks.map((x, index) => {
-              return (
-                <MenuItem key={index}>
-                  <MenuExternalLink id={x.id} href={x.link}>
-                    <img src={x.icon} width={16} alt={x.title} />
-                    {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
-                  </MenuExternalLink>
-                </MenuItem>
-              )
-            })}
+            {pangolinLinks.map((x, index) => createMenuLink(x, index))}
           </Box>
           <Box mt={collapsed ? '0px' : '10px'}>
             {!collapsed && (
@@ -197,16 +209,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
               </Box>
             )}
 
-            {otherLinks.map((x, index) => {
-              return (
-                <MenuItem key={index}>
-                  <MenuExternalLink id={x.id} href={x.link}>
-                    <img src={x.icon} width={16} alt={x.title} />
-                    {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
-                  </MenuExternalLink>
-                </MenuItem>
-              )
-            })}
+            {otherLinks.map((x, index) => createMenuLink(x, index))}
           </Box>
         </MenuWrapper>
       </Scrollbars>
