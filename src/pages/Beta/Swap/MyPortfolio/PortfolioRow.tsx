@@ -40,12 +40,13 @@ const PortfolioRow: React.FC<Props> = ({ coin, pair }) => {
       <Box textAlign="right">
         <Text color="text1" fontSize={16} fontWeight={500}>
           $
-          {!!coin
+          {coin && !pair
             ? (coin?.price * coin?.amount).toLocaleString(undefined, {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
               })
-            : !!pair
+            : 0}
+          {pair && !coin
             ? pair?.usdValue.toLocaleString(undefined, {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2

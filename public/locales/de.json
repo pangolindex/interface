@@ -377,7 +377,8 @@
     "yourLockedValue": "Ihr gesperrter Wert",
     "allPools": "Alle Pools",
     "yourPools": "Ihre Pools",
-    "yourWallet": "Deine Geldbörse"
+    "yourWallet": "Deine Geldbörse",
+    "noFarms": "Keine Höfe gefunden."
   },
   "poolFinder": {
     "connectToFind": "Verbinde mit einer Wallet, um Pools zu finden",
@@ -599,5 +600,13 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
+  },
+  "error": {
+    "missingCurrencyAmounts": "Fehlende Währungsbeträge",
+    "missingTokens": "Fehlende Token",
+    "missingDependencies": "Fehlende Abhängigkeiten",
+    "missingLiquidityAmount": "Fehlender Liquiditätsbetrag",
+    "couldNotWrap": "Konnte nicht umbrechen",
+    "attemptingToConfirmApproval": "Bestätigungsversuch ohne Genehmigung oder Unterschrift. Bitte kontaktieren Sie den Support."
   }
 }

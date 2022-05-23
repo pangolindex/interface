@@ -14,9 +14,7 @@ import { ChartState } from './reducer'
 dayjs.extend(utc)
 
 export function useAllPairChartData(): ChartState | undefined {
-  const allTokenCharts = useSelector<AppState, AppState['pair']['pairData']>(state => state?.pair?.pairData || {})
-
-  return allTokenCharts
+  return useSelector<AppState, AppState['pair']['pairData']>(state => state?.pair?.pairData || {})
 }
 /* eslint-disable prefer-const */
 export function usePairHourlyRateData(pairAddress: string, timeWindow: string, interval = 3600, type = 'ALL') {
@@ -140,11 +138,9 @@ export const getPairHourlyRateData = async (
 }
 
 export function useAllPairTokensChartData(): ChartState | undefined {
-  const allTokenCharts = useSelector<AppState, AppState['pair']['tokenPairData']>(
+  return  useSelector<AppState, AppState['pair']['tokenPairData']>(
     state => state?.pair?.tokenPairData || {}
   )
-
-  return allTokenCharts
 }
 
 export function useHourlyPairTokensChartData(

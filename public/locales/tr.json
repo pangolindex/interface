@@ -377,7 +377,8 @@
     "yourLockedValue": "Kilitli Değeriniz",
     "allPools": "Tüm Havuzlar",
     "yourPools": "Havuzlarınız",
-    "yourWallet": "Cüzdanın"
+    "yourWallet": "Cüzdanın",
+    "noFarms": "Çiftlik bulunamadı."
   },
   "poolFinder": {
     "connectToFind": "Havuzları bulmak için bir cüzdana bağlanın",
@@ -599,5 +600,13 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
+  },
+  "error": {
+    "missingCurrencyAmounts": "Eksik para birimi tutarları",
+    "missingTokens": "Eksik jetonlar",
+    "missingDependencies": "Eksik bağımlılıklar",
+    "missingLiquidityAmount": "Eksik likidite tutarı",
+    "couldNotWrap": "Kaydırılamadı",
+    "attemptingToConfirmApproval": "Onay veya imza olmadan onaylamaya çalışılıyor. Lütfen destek ile iletişime geçin."
   }
 }

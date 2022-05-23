@@ -60,62 +60,73 @@ const PoolCardListView = ({
   const theme = useContext(ThemeContext)
 
   const renderPoolCardListView = () => {
-    if (isLoading)
+    if (isLoading && !searchQuery)
       return (
         <LoadingWrapper>
           <Loader size={100} />
         </LoadingWrapper>
       )
-    else if (doesNotPoolExist) {
-      return <div>{t('earnPage.noActiveRewards')}</div>
+    else if (doesNotPoolExist && !searchQuery) {
+      return (
+        <Box textAlign="center" color="color4">
+          {t('earnPage.noActiveRewards')}
+        </Box>
+      )
     } else {
       return (
         <>
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb={10}>
-            <Box width="100%">
-              <TextInput
-                placeholder={t('searchModal.tokenName')}
-                onChange={handleSearch}
-                value={searchQuery}
-                id="token-search-input"
-                addonAfter={<Search style={{ marginTop: '5px' }} color={theme.text2} size={20} />}
-              />
-            </Box>
-            <Hidden upToSmall={true}>
-              <Box ml={10}>
-                <DropdownMenu
-                  title="Sort by:"
-                  options={SortOptions}
-                  value={sortBy}
-                  onSelect={value => {
-                    onChangeSortBy(value)
-                  }}
-                  height="54px"
+          <Box>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={10}>
+              <Box width="100%">
+                <TextInput
+                  placeholder={t('searchModal.tokenName')}
+                  onChange={handleSearch}
+                  value={searchQuery}
+                  id="token-search-input"
+                  addonAfter={<Search style={{ marginTop: '5px' }} color={theme.text2} size={20} />}
                 />
               </Box>
-            </Hidden>
+              <Hidden upToSmall={true}>
+                <Box ml={10}>
+                  <DropdownMenu
+                    title="Sort by:"
+                    options={SortOptions}
+                    value={sortBy}
+                    onSelect={value => {
+                      onChangeSortBy(value)
+                    }}
+                    height="54px"
+                  />
+                </Box>
+              </Hidden>
+            </Box>
+            <MobileGridContainer>
+              <DropdownMenu
+                options={menuItems}
+                value={activeMenu}
+                onSelect={value => {
+                  setMenu(value)
+                }}
+              />
+              <DropdownMenu
+                title="Sort by:"
+                options={SortOptions}
+                value={sortBy}
+                onSelect={value => {
+                  onChangeSortBy(value)
+                }}
+              />
+            </MobileGridContainer>
           </Box>
-          <MobileGridContainer>
-            <DropdownMenu
-              options={menuItems}
-              value={activeMenu}
-              onSelect={value => {
-                setMenu(value)
-              }}
-            />
-            <DropdownMenu
-              title="Sort by:"
-              options={SortOptions}
-              value={sortBy}
-              onSelect={value => {
-                onChangeSortBy(value)
-              }}
-            />
-          </MobileGridContainer>
-
-          <Scrollbars>
-            <PanelWrapper>{children}</PanelWrapper>
-          </Scrollbars>
+          {doesNotPoolExist && searchQuery ? (
+            <Box textAlign="center" color="color4">
+              {t('pool.noFarms')}
+            </Box>
+          ) : (
+            <Scrollbars>
+              <PanelWrapper>{children}</PanelWrapper>
+            </Scrollbars>
+          )}
         </>
       )
     }

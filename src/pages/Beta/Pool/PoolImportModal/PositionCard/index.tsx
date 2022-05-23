@@ -4,11 +4,10 @@ import { Wrapper, InnerWrapper } from './styleds'
 import { Text, Box, Button, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import Stat from 'src/components/Stat'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { useTotalSupply } from 'src/data/TotalSupply'
-import { useChainId } from 'src/hooks'
 
 export interface PositionCardProps {
   pair: Pair

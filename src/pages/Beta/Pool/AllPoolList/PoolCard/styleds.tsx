@@ -35,13 +35,9 @@ export const ActionButon = styled(Button)`
   `};
 `
 
-export const DetailButton = styled(Button)`
-  width: fit-content;
+export const DetailButton = styled(ActionButon)`
   border: 1px solid !important;
   border-color: ${({ theme }) => theme.text10}!important;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    width: 48%;
-  `};
 `
 
 export const InnerWrapper = styled(Box)`
