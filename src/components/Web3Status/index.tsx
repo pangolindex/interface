@@ -298,13 +298,19 @@ export default function Web3Status() {
   const accountDetailModalOpen = useModalOpen(ApplicationModal.ACCOUNT_DETAIL)
   const toggleAccountDetailModal = useAccountDetailToggle()
 
-  console.log('walletModalOpen', walletModalOpen)
-  console.log('accountDetailModalOpen', accountDetailModalOpen)
-
   const onWalletChange = useCallback(() => {
     toggleAccountDetailModal()
     toggleWalletModal()
   }, [toggleAccountDetailModal, toggleWalletModal])
+
+  const onClickBack = useCallback(() => {
+    toggleWalletModal()
+    toggleAccountDetailModal()
+  }, [toggleAccountDetailModal, toggleWalletModal])
+
+  const onWalletConnect = useCallback(() => {
+    toggleWalletModal()
+  }, [toggleWalletModal])
 
   const sortedRecentTransactions = useMemo(() => {
     const txs = Object.values(allTransactions)
@@ -327,6 +333,8 @@ export default function Web3Status() {
           closeModal={toggleWalletModal}
           background={theme.bg2}
           shouldShowBackButton={account ? true : false}
+          onWalletConnect={onWalletConnect}
+          onClickBack={onClickBack}
         />
       )
     } else if (account) {
