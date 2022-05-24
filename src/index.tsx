@@ -7,7 +7,7 @@ import ReactGA from 'react-ga'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { NetworkContextName } from './constants'
+import { NetworkContextName } from '@pangolindex/components'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
 import './i18n'
@@ -43,7 +43,7 @@ Sentry.init({
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
 if ('ethereum' in window) {
-  (window.ethereum as any).autoRefreshOnNetworkChange = false
+  ;(window.ethereum as any).autoRefreshOnNetworkChange = false
 }
 
 const GOOGLE_ANALYTICS_ID: string | undefined = process.env.REACT_APP_GOOGLE_ANALYTICS_ID

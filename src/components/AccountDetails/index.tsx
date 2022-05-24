@@ -8,13 +8,11 @@ import { shortenAddress, getEtherscanLink } from '../../utils'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
-
-import { SUPPORTED_WALLETS } from '../../constants'
 import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { gnosisSafe, injected, walletconnect, walletlink } from '../../connectors'
+import { gnosisSafe, injected, walletconnect, walletlink, EVM_SUPPORTED_WALLETS } from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
@@ -247,13 +245,13 @@ export default function AccountDetails({
 
     const isXDEFI = !!(ethereum && ethereum.isXDEFI)
 
-    const name = Object.keys(SUPPORTED_WALLETS)
+    const name = Object.keys(EVM_SUPPORTED_WALLETS)
       .filter(
         k =>
-          SUPPORTED_WALLETS[k].connector === connector &&
+          EVM_SUPPORTED_WALLETS[k].connector === connector &&
           (connector !== injected || isMetaMask === (k === 'METAMASK') || isXDEFI === (k === 'XDEFI'))
       )
-      .map(k => SUPPORTED_WALLETS[k].name)[0]
+      .map(k => EVM_SUPPORTED_WALLETS[k].name)[0]
     return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>
   }
 

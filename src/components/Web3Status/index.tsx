@@ -1,5 +1,14 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { Box, WalletModal as NewWalletModal } from '@pangolindex/components'
+import {
+  Box,
+  WalletModal as NewWalletModal,
+  gnosisSafe,
+  injected,
+  walletconnect,
+  walletlink,
+  xDefi,
+  NetworkContextName
+} from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken, lighten } from 'polished'
 import React, { useMemo, useContext, useCallback } from 'react'
@@ -10,8 +19,6 @@ import CoinbaseWalletIcon from 'src/assets/images/coinbaseWalletIcon.svg'
 import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
 import WalletConnectIcon from 'src/assets/images/walletConnectIcon.svg'
 import XDefiIcon from 'src/assets/images/xDefi.png'
-import { gnosisSafe, injected, walletlink, walletconnect, xDefi } from 'src/connectors'
-import { NetworkContextName } from 'src/constants'
 import { useModalOpen, useWalletModalToggle, useAccountDetailToggle } from 'src/state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from 'src/state/transactions/hooks'
 import { TransactionDetails } from 'src/state/transactions/reducer'
