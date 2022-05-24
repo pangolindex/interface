@@ -248,7 +248,7 @@ function Web3StatusInner() {
       <StatusConnected
         id="web3-status-connected"
         onClick={() => {
-          if (isBeta && account) {
+          if (isBeta) {
             toggleAccountDetailModal()
           } else {
             toggleWalletModal()
