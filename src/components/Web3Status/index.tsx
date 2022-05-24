@@ -1,12 +1,11 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { ThemeContext } from 'styled-components'
 import { Box, WalletModal as NewWalletModal } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken, lighten } from 'polished'
 import React, { useMemo, useContext, useCallback } from 'react'
 import { Activity } from 'react-feather'
 import { useTranslation } from 'react-i18next'
-import styled, { css } from 'styled-components'
+import styled, { css, ThemeContext } from 'styled-components'
 import CoinbaseWalletIcon from 'src/assets/images/coinbaseWalletIcon.svg'
 import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
 import WalletConnectIcon from 'src/assets/images/walletConnectIcon.svg'
@@ -248,7 +247,13 @@ function Web3StatusInner() {
     return (
       <StatusConnected
         id="web3-status-connected"
-        onClick={isBeta ? (account ? toggleAccountDetailModal : toggleWalletModal) : toggleWalletModal}
+        onClick={() => {
+          if (isBeta && account) {
+            toggleAccountDetailModal()
+          } else {
+            toggleWalletModal()
+          }
+        }}
         pending={hasPendingTransactions}
       >
         {hasPendingTransactions ? (
@@ -349,7 +354,7 @@ export default function Web3Status() {
         />
       )
     }
-    return
+    return null
   }
 
   return (
