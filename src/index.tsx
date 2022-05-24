@@ -7,7 +7,7 @@ import ReactGA from 'react-ga'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { NetworkContextName } from '@pangolindex/components'
+import { NetworkContextName, PangolinProvider } from '@pangolindex/components'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
 import './i18n'
@@ -19,7 +19,6 @@ import TransactionUpdater from './state/transactions/updater'
 import store from './state'
 import UserUpdater from './state/user/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
-import { PangolinProvider } from '@pangolindex/components'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
 import { useIsBetaUI } from './hooks/useLocation'
@@ -41,9 +40,8 @@ Sentry.init({
 })
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
-
 if ('ethereum' in window) {
-  ;(window.ethereum as any).autoRefreshOnNetworkChange = false
+  (window.ethereum as any).autoRefreshOnNetworkChange = false
 }
 
 const GOOGLE_ANALYTICS_ID: string | undefined = process.env.REACT_APP_GOOGLE_ANALYTICS_ID
