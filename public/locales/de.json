@@ -377,7 +377,8 @@
     "yourLockedValue": "Ihr gesperrter Wert",
     "allPools": "Alle Pools",
     "yourPools": "Ihre Pools",
-    "yourWallet": "Deine Geldbörse"
+    "yourWallet": "Deine Geldbörse",
+    "noFarms": "Keine Höfe gefunden."
   },
   "poolFinder": {
     "connectToFind": "Verbinde mit einer Wallet, um Pools zu finden",
