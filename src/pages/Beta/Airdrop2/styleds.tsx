@@ -30,7 +30,7 @@ export const BoxWrapper = styled(Box)`
 export const ClaimBox = styled(Box)`
   min-width: 27%;
   max-width: 30%;
-  background-color: #111;
+  background-color: ${({ theme }) => theme.bg2};
   border-radius: 7px;
   padding: 1em;
   ${({ theme }) => theme.mediaWidth.upToMedium`
@@ -64,7 +64,7 @@ export const StyledLogo = styled.img<{ size: string }>`
 `
 
 export const QuestionBox = styled(Box)`
-  background-color: #111111;
+  background-color: ${({ theme }) => theme.bg2};
   border-radius: 10px;
   min-width: 50%;
   max-width: 50%;

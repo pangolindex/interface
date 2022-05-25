@@ -377,7 +377,8 @@
     "yourLockedValue": "Votre valeur verrouillée",
     "allPools": "Toutes les Pools",
     "yourPools": "Vos Pools",
-    "yourWallet": "Ton portefeuille"
+    "yourWallet": "Ton portefeuille",
+    "noFarms": "Aucune ferme trouvée."
   },
   "poolFinder": {
     "connectToFind": "Se connecter à un portefeuille pour trouver des pools",

@@ -105,7 +105,7 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
       onChangeSortBy={setSortBy}
       sortBy={sortBy}
       searchQuery={searchQuery}
-      isLoading={(stakingRewardsExist && stakingInfoData?.length === 0) || poolCardsLoading}
+      isLoading={(stakingRewardsExist && stakingInfoData?.length === 0 && !searchQuery) || poolCardsLoading}
       doesNotPoolExist={(!stakingRewardsExist || stakingInfoData?.length === 0) && !poolCardsLoading}
       selectedPool={selectedPool}
     >

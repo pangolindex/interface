@@ -669,7 +669,10 @@ export function useSingleSideStakingInfo(
             rewardToken,
             JSBI.greaterThan(_totalStakedAmount.raw, JSBI.BigInt(0))
               ? JSBI.divide(
-                  JSBI.multiply(JSBI.multiply(_totalRewardRatePerSecond.raw, _stakedAmount.raw), BIG_INT_SECONDS_IN_WEEK),
+                  JSBI.multiply(
+                    JSBI.multiply(_totalRewardRatePerSecond.raw, _stakedAmount.raw),
+                    BIG_INT_SECONDS_IN_WEEK
+                  ),
                   _totalStakedAmount.raw
                 )
               : JSBI.BigInt(0)
@@ -1220,7 +1223,10 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
             png,
             JSBI.greaterThan(_totalStakedAmount.raw, JSBI.BigInt(0))
               ? JSBI.divide(
-                  JSBI.multiply(JSBI.multiply(_totalRewardRatePerSecond.raw, _stakedAmount.raw), BIG_INT_SECONDS_IN_WEEK),
+                  JSBI.multiply(
+                    JSBI.multiply(_totalRewardRatePerSecond.raw, _stakedAmount.raw),
+                    BIG_INT_SECONDS_IN_WEEK
+                  ),
                   _totalStakedAmount.raw
                 )
               : JSBI.BigInt(0)
@@ -1652,7 +1658,7 @@ export const useGetMinichefStakingInfosViaSubgraph = (): MinichefStakingInfo[] =
       const token0 = new Token(
         chainId,
         getAddress(pairToken0.id),
-        pairToken0.decimals,
+        Number(pairToken0.decimals),
         axlUSTAddress.toLowerCase() === pairToken0.id.toLowerCase() ? axlUSTToken.symbol : pairToken0.symbol,
         pairToken0.name
       )
@@ -1661,7 +1667,7 @@ export const useGetMinichefStakingInfosViaSubgraph = (): MinichefStakingInfo[] =
       const token1 = new Token(
         chainId,
         getAddress(pairToken1.id),
-        pairToken1.decimals,
+        Number(pairToken1.decimals),
         axlUSTAddress.toLowerCase() === pairToken1.id.toLowerCase() ? axlUSTToken.symbol : pairToken1.symbol,
         pairToken1.name
       )
