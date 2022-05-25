@@ -501,7 +501,8 @@
     "about": "Về",
     "vote": "Bầu cử",
     "executed": "Thực thi",
-    "rejected": "Bác bỏ"
+    "rejected": "Bác bỏ",
+    "notSupported": "Không được hỗ trợ trên chuỗi này"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
