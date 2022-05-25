@@ -8,7 +8,6 @@ import { useActiveWeb3React } from 'src/hooks'
 import { Hidden, Visible } from 'src/theme'
 import { BETA_MENU_LINK } from 'src/constants'
 
-
 const Dashboard = () => {
   const { t } = useTranslation()
   const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
