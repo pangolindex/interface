@@ -1,6 +1,6 @@
 import React from 'react'
 import { PageWrapper, GridContainer, TopContainer, StatsWrapper } from './styleds'
-import { useGelatoLimitOrderList, SwapWidget, WatchList, RedirectContext } from '@pangolindex/components'
+import { useGelatoLimitOrderList, SwapWidget, WatchList } from '@pangolindex/components'
 import MyPortfolio from './MyPortfolio'
 import PairInfo from './PairInfo'
 import LimitOrderList from './LimitOrderList'
@@ -25,9 +25,7 @@ const SwapUI = () => {
         <GridContainer isLimitOrders={isLimitOrders}>
           {isLimitOrders && <LimitOrderList />}
           <MyPortfolio isLimitOrders={isLimitOrders} />
-          <RedirectContext.Provider value={false}>
             <WatchList isLimitOrders={isLimitOrders} />
-          </RedirectContext.Provider>
         </GridContainer>
       )}
     </PageWrapper>

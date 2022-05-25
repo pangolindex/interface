@@ -1,16 +1,17 @@
 import React from 'react'
 import { PageTitle, PageDescription, PageWrapper, TopContainer, StatsWrapper } from './styleds'
 import { useTranslation } from 'react-i18next'
-import { NewsWidget, WatchList, RedirectContext } from '@pangolindex/components'
+import { NewsWidget, WatchList } from '@pangolindex/components'
 import PortfolioWidget from './Portfolio'
 import { ChainId, CHAINS } from '@pangolindex/sdk'
 import { useActiveWeb3React } from 'src/hooks'
 import { Hidden, Visible } from 'src/theme'
+import { BETA_MENU_LINK } from 'src/constants'
+
 
 const Dashboard = () => {
   const { t } = useTranslation()
   const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
-
   return (
     <PageWrapper>
       <PageTitle>{t('dashboardPage.dashboard')}</PageTitle>
@@ -20,9 +21,7 @@ const Dashboard = () => {
         <StatsWrapper>
           <PortfolioWidget />
           {CHAINS[chainId].mainnet && (
-            <RedirectContext.Provider value={true}>
-              <WatchList />
-            </RedirectContext.Provider>
+            <WatchList visibleTradeButton={true} linkUrl={BETA_MENU_LINK.swap} redirect={true}/>
           )}
         </StatsWrapper>
 
