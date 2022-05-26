@@ -13,6 +13,7 @@ import { DIRECTUS_GRAPHQL_URL } from 'src/constants'
 export function useAirdropIsClaimingAllowed(): boolean {
   const airdropContract = useAirdropContract()
   const claimingAllowedResult = useSingleCallResult(airdropContract, 'claimingAllowed', [])
+
   return Boolean(
     !claimingAllowedResult.loading &&
       claimingAllowedResult.result !== undefined &&
