@@ -1,4 +1,4 @@
-import { ChainId, WAVAX } from '@pangolindex/sdk'
+import { ChainId, WAVAX, AVALANCHE_FUJI } from '@pangolindex/sdk'
 import { OOE, APEIN, ORBS, PNG } from '../../constants/tokens'
 import { SingleSideStaking } from './hooks'
 
@@ -42,8 +42,19 @@ export const SINGLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(
   ...Object.values(SINGLE_SIDE_STAKING).map(staking => staking.version)
 )
 
+const FUJI_SINGLE_SIDE_STAKING: SingleSideStaking[] =
+  AVALANCHE_FUJI.contracts?.staking
+    ?.filter(contract => contract.active)
+    .map(contract => ({
+      rewardToken: PNG[ChainId.FUJI],
+      conversionRouteHops: [WAVAX[ChainId.FUJI]],
+      stakingRewardAddress: contract.address,
+      version: 0
+    })) ?? []
+
 export const SINGLE_SIDE_STAKING_REWARDS_INFO: {
   [chainId in ChainId]?: SingleSideStaking[][]
 } = {
-  [ChainId.AVALANCHE]: [SINGLE_SIDE_STAKING_V0]
+  [ChainId.AVALANCHE]: [SINGLE_SIDE_STAKING_V0],
+  [ChainId.FUJI]: [FUJI_SINGLE_SIDE_STAKING]
 }
