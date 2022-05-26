@@ -36,7 +36,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import MobileFooter from '../MobileFooter'
 import { Logo } from '../../components/Icons'
-import { Hidden } from 'src/theme'
+import { Hidden, MEDIA_WIDTHS } from 'src/theme'
 import { useChainId } from 'src/hooks'
 import { NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
 import { useMedia } from 'react-use'
@@ -66,7 +66,7 @@ export default function Header() {
     setOpenNetworkSelection(false)
   }
 
-  const isMobile = useMedia(`(max-width: ${theme.mediaWidth.upToSmall}px)`)
+  const isMobile = useMedia(`(max-width: ${MEDIA_WIDTHS.upToSmall}px)`)
 
   return (
     <HeaderFrame>
