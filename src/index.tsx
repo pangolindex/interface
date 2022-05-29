@@ -8,8 +8,8 @@ import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { NetworkContextName } from './constants'
-import * as Sentry from '@sentry/react'
-import { Integrations } from '@sentry/tracing'
+// import * as Sentry from '@sentry/react'
+// import { Integrations } from '@sentry/tracing'
 import './i18n'
 import App from './pages/App'
 import ApplicationUpdater from './state/application/updater'
@@ -24,8 +24,10 @@ import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
 import { useIsBetaUI } from './hooks/useLocation'
 import { useActiveWeb3React } from './hooks'
-import Package from '../package.json'
+// import Package from '../package.json'
 
+// Disabling until Sarju comes online
+/*
 Sentry.init({
   dsn: 'https://ff9ffce9712f415f8ad4c2a80123c984@o1080468.ingest.sentry.io/6086371',
   integrations: [new Integrations.BrowserTracing()],
@@ -38,6 +40,7 @@ Sentry.init({
     'Blocked a frame with origin "https://app.pangolin.exchange" from accessing a cross-origin frame.'
   ]
 })
+*/
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
