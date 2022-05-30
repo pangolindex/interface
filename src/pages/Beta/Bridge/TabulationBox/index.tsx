@@ -41,7 +41,6 @@ export const QuestionAnswer = () => {
         <Text fontSize={32} fontWeight={500} lineHeight="48px" color="text10" paddingBottom={20}>
           Have Questions? Look Here:
         </Text>
-        {/* <GeneralBox subcategory={subcategory} /> */}
         {renderBox()}
       </QuestionBox>
     </FullBox>

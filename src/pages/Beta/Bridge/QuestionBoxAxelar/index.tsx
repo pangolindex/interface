@@ -8,7 +8,6 @@ import { SubCategories, useSubBridgeCategories } from 'src/state/bridge/hooks'
 export const AxelarBox = () => {
   const [active, setActive] = useState<number>()
   const [content, setContent] = useState<string>("")
-
   const { data: categories } = useSubBridgeCategories('Axelar')
 
   function activeLogo(index: number | undefined, key: number) {

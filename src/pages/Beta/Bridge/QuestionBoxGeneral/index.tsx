@@ -12,7 +12,6 @@ type ISubCategory = {
 export const GeneralBox: React.FC<ISubCategory> = ({ subcategory }) => {
   const [active, setActive] = useState<number>()
   const [content, setContent] = useState<string>("")
-  // const [data, setData] = useState<SubCategories[] | undefined>()
   const { data: categories } = useSubBridgeCategories(subcategory)
 
   function activeLogo(index: number | undefined, key: number) {
