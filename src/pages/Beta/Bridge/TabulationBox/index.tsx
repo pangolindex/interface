@@ -21,7 +21,7 @@ export const QuestionAnswer = () => {
           Table of Content
         </Text>
         {questions &&
-          questions.map((e: Questions, i: number) => (
+          questions.map((e: Questions) => (
             <Text fontSize={14} fontWeight={500} lineHeight="21px" color={activeText(active, e?.id)} padding={10} onClick={() => { setContent(e.content); setActive(e.id) }} key={e.id}>
               {e?.title}
             </Text>
