@@ -86,7 +86,7 @@ export interface Questions {
   content: string
 }
 
-export function useGetQuestions() {
+export function useGetQuestions(filter: string) {
   const queryData = JSON.stringify({
     query: `query getKnowledge($filter: kb_filter) {
       kb(filter: $filter) {
@@ -95,7 +95,7 @@ export function useGetQuestions() {
           content
       }
   }`,
-    variables: { filter: { category: { _eq: 'Airdrop' } } }
+    variables: { filter: { category: { _eq: filter } } }
   })
 
   const headers = {

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { QuestionBox, TableContent, FullBox } from '../styleds'
 import { Text } from '@pangolindex/components'
-import { Questions, useGetQuestions } from 'src/state/bridge/hooks'
+import { Questions, useGetQuestions } from 'src/state/airdrop/hooks'
 
 export const QuestionAnswer = () => {
   const [content, setContent] = useState<string>("")
   const [active, setActive] = useState<number>()
 
-  const { data: questions } = useGetQuestions()
+  const { data: questions } = useGetQuestions('Bridge')
   function activeText(index: number | undefined, key: number) {
     if (index === key)
       return "text10"

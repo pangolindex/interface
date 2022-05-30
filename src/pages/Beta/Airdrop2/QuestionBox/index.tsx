@@ -19,7 +19,7 @@ const JustifyText = styled.div`
 
 export const QuestionAnswer = () => {
   const [visible, setVisible] = useState<boolean>(false)
-  const { data: questions } = useGetQuestions()
+  const { data: questions } = useGetQuestions('Airdrop')
 
   return (
     <QuestionBox>
