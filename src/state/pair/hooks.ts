@@ -138,9 +138,7 @@ export const getPairHourlyRateData = async (
 }
 
 export function useAllPairTokensChartData(): ChartState | undefined {
-  return  useSelector<AppState, AppState['pair']['tokenPairData']>(
-    state => state?.pair?.tokenPairData || {}
-  )
+  return useSelector<AppState, AppState['pair']['tokenPairData']>(state => state?.pair?.tokenPairData || {})
 }
 
 export function useHourlyPairTokensChartData(

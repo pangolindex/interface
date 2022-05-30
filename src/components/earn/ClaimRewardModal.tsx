@@ -110,7 +110,11 @@ export default function ClaimRewardModal({
               </AutoColumn>
             ))}
           <TYPE.subHeader style={{ textAlign: 'center' }}>{t('earn.liquidityRemainsPool')}</TYPE.subHeader>
-          <ButtonError disabled={!!errorMessage} error={!!errorMessage && !!stakingInfo?.stakedAmount} onClick={onClaimReward}>
+          <ButtonError
+            disabled={!!errorMessage}
+            error={!!errorMessage && !!stakingInfo?.stakedAmount}
+            onClick={onClaimReward}
+          >
             {errorMessage ? errorMessage : isSuperFarm ? t('earn.claim') : t('earn.claimReward', { symbol: 'PNG' })}
           </ButtonError>
         </ContentWrapper>

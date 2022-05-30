@@ -36,9 +36,10 @@ import {
 import { useTranslation } from 'react-i18next'
 import MobileFooter from '../MobileFooter'
 import { Logo } from '../../components/Icons'
-import { Hidden } from 'src/theme'
+import { Hidden, MEDIA_WIDTHS } from 'src/theme'
 import { useChainId } from 'src/hooks'
 import { NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
+import { useMedia } from 'react-use'
 
 export default function Header() {
   const { account } = useActiveWeb3React()
@@ -65,29 +66,32 @@ export default function Header() {
     setOpenNetworkSelection(false)
   }
 
+  const isMobile = useMedia(`(max-width: ${MEDIA_WIDTHS.upToSmall}px)`)
+
   return (
     <HeaderFrame>
       <Modal isOpen={showPngBalanceModal} onDismiss={() => setShowPngBalanceModal(false)}>
         <PngBalanceContent setShowPngBalanceModal={setShowPngBalanceModal} />
       </Modal>
+      {isMobile && (
+        <MobileHeader>
+          <MobileLogoWrapper>
+            <Logo height={30} width={140} fillColor={theme.color6} />
+          </MobileLogoWrapper>
 
-      <MobileHeader>
-        <MobileLogoWrapper>
-          <Logo height={30} width={140} fillColor={theme.color6} />
-        </MobileLogoWrapper>
+          <Box display="flex" alignItems="center">
+            <Web3Status />
 
-        <Box display="flex" alignItems="center">
-          <Web3Status />
-
-          <ThemeMode onClick={() => toggleDarkMode()}>
-            {isDark ? (
-              <img width={'16px'} src={LightMode} alt={'Setting'} />
-            ) : (
-              <img width={'16px'} src={NightMode} alt={'NightMode'} />
-            )}
-          </ThemeMode>
-        </Box>
-      </MobileHeader>
+            <ThemeMode onClick={() => toggleDarkMode()}>
+              {isDark ? (
+                <img width={'16px'} src={LightMode} alt={'Setting'} />
+              ) : (
+                <img width={'16px'} src={NightMode} alt={'NightMode'} />
+              )}
+            </ThemeMode>
+          </Box>
+        </MobileHeader>
+      )}
 
       <FooterMobileControls>
         <MobileFooter />
