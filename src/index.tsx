@@ -24,7 +24,7 @@ import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
 import { useIsBetaUI } from './hooks/useLocation'
 import { useActiveWeb3React } from './hooks'
- import Package from '../package.json'
+import Package from '../package.json'
 
 Sentry.init({
   dsn: 'https://ff9ffce9712f415f8ad4c2a80123c984@o1080468.ingest.sentry.io/6086371',
@@ -38,7 +38,6 @@ Sentry.init({
     'Blocked a frame with origin "https://app.pangolin.exchange" from accessing a cross-origin frame.'
   ]
 })
-
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 

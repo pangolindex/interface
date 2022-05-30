@@ -97,11 +97,13 @@ export default function App() {
       <Route component={GoogleAnalyticsReporter} />
       <Route component={DarkModeQueryParamReader} />
       <AppWrapper>
-        <URLWarning />
         {!isBeta && (
-          <HeaderWrapper>
-            <Header />
-          </HeaderWrapper>
+          <>
+            <URLWarning />
+            <HeaderWrapper>
+              <Header />
+            </HeaderWrapper>
+          </>
         )}
 
         <BodyWrapper isBeta={isBeta}>
