@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyledLogo, SeparatorBorder } from '../../styleds'
+import { StyledLogo, SeparatorBorder, StyledLogoMinus } from '../../styleds'
 import { Text } from '@pangolindex/components'
 import MinusLogo from 'src/assets/images/minus.png'
 import PlusLogo from 'src/assets/images/plus.png'
@@ -16,7 +16,7 @@ export const GeneralBox: React.FC<ISubCategory> = ({ subcategory }) => {
 
   function activeLogo(key: number) {
     if (active === key)
-      return <img src={MinusLogo} alt="" />
+      return (<StyledLogoMinus src={ MinusLogo } size={ '20px'} height={'4px'} />)
     else
       return <StyledLogo src={PlusLogo} size={'20px'} />
   }
