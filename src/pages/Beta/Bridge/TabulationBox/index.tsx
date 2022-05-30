@@ -7,21 +7,23 @@ import { Questions, useGetQuestions } from 'src/state/airdrop/hooks'
 
 export const QuestionAnswer = () => {
   const [subcategory, setSubCategory] = useState<string>('General')
-  const [active, setActive] = useState<number>()
+  const [active, setActive] = useState<number>(0)
   const { data: questions } = useGetQuestions('Bridge')
   const duplicate = questions && questions.map((e: Questions) => ({ id: e.id, subcategory: e.subcategory }))
   const tabs: any = [];
 
   duplicate?.forEach(function (item) {
-    var existing = tabs.filter(function (v: any) {
+    const existing = tabs.filter(function (v: any) {
       return v.subcategory === item.subcategory;
     });
     if (!existing.length)
       tabs.push(item);
   });
 
-  function activeText(key: number) {
+  function activeTab(key: number) {
     if (active === key)
+      return "text10"
+    else if (String(active) === "0" && String(key) === "2")
       return "text10"
     else
       return "text8"
@@ -43,7 +45,7 @@ export const QuestionAnswer = () => {
         </Text>
         {tabs &&
           tabs.map((tab: any) => (
-            <Text fontSize={14} fontWeight={500} lineHeight="21px" color={activeText(tab?.id)} padding={10} onClick={() => { setActive(tab.id); setSubCategory(tab.subcategory) }} key={tab.id}>
+            <Text fontSize={14} fontWeight={500} lineHeight="21px" color={activeTab(tab?.id)} padding={10} onClick={() => { setActive(tab.id); setSubCategory(tab.subcategory) }} key={tab.id}>
               {tab.subcategory}
             </Text>
           ))}
