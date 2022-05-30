@@ -33,9 +33,9 @@ export const QuestionAnswer = () => {
       return "text8"
   }
 
-  const handleChange = (active: number, subcategory: string) => {
-    setActive(active);
-    setSubCategory(subcategory);
+  const handleChange = (selected: number, sub: string) => {
+    setActive(selected);
+    setSubCategory(sub);
   }
 
   return (
