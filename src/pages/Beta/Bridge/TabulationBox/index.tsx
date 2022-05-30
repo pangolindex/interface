@@ -3,14 +3,25 @@ import { QuestionBox, TableContent, FullBox } from '../styleds'
 import { Text } from '@pangolindex/components'
 import { GeneralBox } from './QuestionBoxGeneral'
 import { AxelarBox } from './QuestionBoxAxelar'
+import { Questions, useGetQuestions } from 'src/state/airdrop/hooks'
 
 export const QuestionAnswer = () => {
-  const categories = [{id: 0, content: 'General'}, {id: 1, content: 'Axelar'}]
   const [subcategory, setSubCategory] = useState<string>('General')
-  const [active, setActive] = useState<number>(0)
+  const [active, setActive] = useState<number>()
+  const { data: questions } = useGetQuestions('Bridge')
+  const duplicate = questions && questions.map((e: Questions) => ({ id: e.id, subcategory: e.subcategory }))
+  const tabs: any = [];
 
-  function activeText(index: number | undefined, key: number) {
-    if (index === key)
+  duplicate?.forEach(function (item) {
+    var existing = tabs.filter(function (v: any) {
+      return v.subcategory === item.subcategory;
+    });
+    if (!existing.length)
+      tabs.push(item);
+  });
+
+  function activeText(key: number) {
+    if (active === key)
       return "text10"
     else
       return "text8"
@@ -30,10 +41,10 @@ export const QuestionAnswer = () => {
         <Text fontSize={21} fontWeight={500} lineHeight="32px" color="text10" padding={10}>
           Table of Content
         </Text>
-        {categories &&
-          categories.map((tab: any) => (
-            <Text fontSize={14} fontWeight={500} lineHeight="21px" color={activeText(active, tab?.id)} padding={10} onClick={() => { setActive(tab.id); setSubCategory(tab.content) }} key={tab.id}>
-              {tab.content}
+        {tabs &&
+          tabs.map((tab: any) => (
+            <Text fontSize={14} fontWeight={500} lineHeight="21px" color={activeText(tab?.id)} padding={10} onClick={() => { setActive(tab.id); setSubCategory(tab.subcategory) }} key={tab.id}>
+              {tab.subcategory}
             </Text>
           ))}
       </TableContent>
