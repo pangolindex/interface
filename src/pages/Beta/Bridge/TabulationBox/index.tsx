@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { QuestionBox, TableContent, FullBox } from '../styleds'
 import { Text } from '@pangolindex/components'
-import { GeneralBox } from '../QuestionBoxGeneral'
-import { AxelarBox } from '../QuestionBoxAxelar'
+import { GeneralBox } from './QuestionBoxGeneral'
+import { AxelarBox } from './QuestionBoxAxelar'
 
 export const QuestionAnswer = () => {
   const categories = [{id: 0, content: 'General'}, {id: 1, content: 'Axelar'}]

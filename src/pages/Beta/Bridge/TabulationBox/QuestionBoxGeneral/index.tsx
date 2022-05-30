@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyledLogo, SeparatorBorder } from '../styleds'
+import { StyledLogo, SeparatorBorder } from '../../styleds'
 import { Text } from '@pangolindex/components'
 import MinusLogo from 'src/assets/images/minus.png'
 import PlusLogo from 'src/assets/images/plus.png'
@@ -14,15 +14,15 @@ export const GeneralBox: React.FC<ISubCategory> = ({ subcategory }) => {
   const [content, setContent] = useState<string>("")
   const { data: categories } = useSubBridgeCategories(subcategory)
 
-  function activeLogo(index: number | undefined, key: number) {
-    if (index === key)
+  function activeLogo(key: number) {
+    if (active === key)
       return <img src={MinusLogo} alt="" />
     else
       return <StyledLogo src={PlusLogo} size={'20px'} />
   }
 
-  function activeText(index: number | undefined, key: number) {
-    if (index === key)
+  function activeText(key: number) {
+    if (active === key)
     {
       return (
       <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" paddingX={33}>
@@ -36,18 +36,24 @@ export const GeneralBox: React.FC<ISubCategory> = ({ subcategory }) => {
     }
   }
 
+  function deactivateText(key: number) {
+    if (active === key) {
+      setActive(undefined)
+    }
+  }
+
   return (
     <>
       {categories &&
         categories.map((e: SubCategories) => (
-          <div key={e.id} onClick={() => { setActive(e.id); setContent(e.content) }}>
+          <div key={e.id} onClick={() => { setActive(e.id); setContent(e.content); deactivateText(e.id) }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              {activeLogo(active, e?.id)}
+              {activeLogo(e?.id)}
               <Text fontSize={24} fontWeight={500} lineHeight="36px" color="text10">
                 {e.title}
               </Text>
             </span>
-            {activeText(active, e?.id)}
+            {activeText(e?.id)}
             <span style={{ padding: '20px' }}></span>
             <SeparatorBorder />
           </div>

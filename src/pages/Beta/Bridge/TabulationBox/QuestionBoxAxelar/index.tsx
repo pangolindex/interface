@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyledLogo, SeparatorBorder } from '../styleds'
+import { StyledLogo, SeparatorBorder } from '../../styleds'
 import { Text } from '@pangolindex/components'
 import MinusLogo from 'src/assets/images/minus.png'
 import PlusLogo from 'src/assets/images/plus.png'
@@ -34,11 +34,17 @@ function activeText(index: number | undefined, key: number) {
   }
 }
 
+function deactivateText(key: number) {
+  if (active === key) {
+    setActive(undefined)
+  }
+}
+
 return (
   <>
     {categories &&
       categories.map((e: SubCategories) => (
-        <div key={e.id} onClick={() => { setActive(e.id); setContent(e.content) }}>
+        <div key={e.id} onClick={() => { setActive(e.id); setContent(e.content); deactivateText(e.id) }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             {activeLogo(active, e?.id)}
             <Text fontSize={24} fontWeight={500} lineHeight="36px" color="text10">
