@@ -230,7 +230,7 @@ export function useAllProposalData() {
       .filter((p, i) => {
         return Boolean(p.result) && Boolean(allProposalStates[i]?.result) && Boolean(formattedEvents[i])
       })
-      .map((p, i) => {
+      .map((_p, i) => {
         const description = formattedEvents[i].description
 
         const formattedProposal: ProposalData = {

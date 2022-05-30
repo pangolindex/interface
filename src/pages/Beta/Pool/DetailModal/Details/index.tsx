@@ -33,8 +33,8 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  const currency0 = pair?.token0 ? unwrappedToken(pair?.token0, chainId) : undefined
-  const currency1 = pair?.token1 ? unwrappedToken(pair?.token1, chainId) : undefined
+  const currency0 = token0 ? unwrappedToken(token0, chainId) : undefined
+  const currency1 = token1 ? unwrappedToken(token1, chainId) : undefined
 
   return (
     <>

@@ -36,7 +36,9 @@ const BridgeUI = () => {
             <Text fontSize={24} fontWeight={500} lineHeight="36px" color="text10">
               Cross Chain
             </Text>
-            <ToggleButtons options={['Bridge', 'Swap']} />
+            <Box width="120px">
+              <ToggleButtons options={['Bridge', 'Swap']} />
+            </Box>
           </Box>
           <Separator />
           <Text fontSize={16} fontWeight={500} lineHeight="24px" color="text10">

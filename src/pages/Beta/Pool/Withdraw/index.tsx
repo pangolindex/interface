@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { Box, Button } from '@pangolindex/components'
 import { WithdrawWrapper, RewardWrapper, Root, StatWrapper } from './styleds'
-import { StakingInfo } from 'src/state/stake/hooks'
+import { StakingInfo, useMinichefPools, useMinichefPendingRewards, useGetEarnedAmount } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
-import { useMinichefPools, useMinichefPendingRewards } from 'src/state/stake/hooks'
 import { useStakingContract } from 'src/hooks/useContract'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
@@ -61,11 +60,11 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
           })
           setHash(response.hash)
         })
-        .catch((error: any) => {
+        .catch((err: any) => {
           setAttempting(false)
           // we only care if the error is something _other_ than the user rejected the tx
-          if (error?.code !== 4001) {
-            console.error(error)
+          if (err?.code !== 4001) {
+            console.error(err)
           }
         })
     }
@@ -78,6 +77,10 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   if (!stakingInfo?.stakedAmount) {
     error = error ?? t('earn.enterAmount')
   }
+
+  const { earnedAmount } = useGetEarnedAmount(stakingInfo?.pid as string)
+
+  const newEarnedAmount = version < 2 ? stakingInfo?.earnedAmount : earnedAmount
 
   return (
     <WithdrawWrapper>
@@ -98,11 +101,11 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
                   />
                 </StatWrapper>
               )}
-              {stakingInfo?.earnedAmount && (
+              {newEarnedAmount && (
                 <StatWrapper>
                   <Stat
                     title={t('earn.unclaimedReward', { symbol: 'PNG' })}
-                    stat={stakingInfo?.earnedAmount?.toSignificant(4)}
+                    stat={newEarnedAmount?.toSignificant(4)}
                     titlePosition="top"
                     titleFontSize={12}
                     statFontSize={24}

@@ -66,6 +66,18 @@ const LimitOrderList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayOrders])
 
+  const mobileRow = (order: Order) => {
+    return (
+      <MobileLimitOrderRow
+        order={order}
+        key={order.id}
+        onClick={() => setSelectedOrder(order)}
+        isSelected={order?.id === selectedOrder?.id}
+        onClickCancelOrder={() => setIsCancelLimitOrderModalOpen(true)}
+      />
+    )
+  }
+
   return (
     <Box>
       <MobileLimitOrderList>
@@ -88,28 +100,9 @@ const LimitOrderList = () => {
         <Box mt={10}>
           {(displayOrders || []).length > 0 ? (
             <>
-              {(displayOrders || []).slice(0, 3).map(order => (
-                <MobileLimitOrderRow
-                  order={order}
-                  key={order.id}
-                  onClick={() => setSelectedOrder(order)}
-                  isSelected={order?.id === selectedOrder?.id}
-                  onClickCancelOrder={() => setIsCancelLimitOrderModalOpen(true)}
-                />
-              ))}
+              {(displayOrders || []).slice(0, 3).map(order => mobileRow(order))}
 
-              {showMore &&
-                (displayOrders || [])
-                  .slice(3)
-                  .map(order => (
-                    <MobileLimitOrderRow
-                      order={order}
-                      key={order.id}
-                      onClick={() => setSelectedOrder(order)}
-                      isSelected={order?.id === selectedOrder?.id}
-                      onClickCancelOrder={() => setIsCancelLimitOrderModalOpen(true)}
-                    />
-                  ))}
+              {showMore && (displayOrders || []).slice(3).map(order => mobileRow(order))}
 
               {displayOrders.length > 3 && <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />}
             </>
@@ -128,7 +121,7 @@ const LimitOrderList = () => {
             {t('swapPage.limitOrders')}
           </Text>
 
-          <Box>
+          <Box width="250px">
             <ToggleButtons
               options={[t('swapPage.open'), t('swapPage.executed'), t('swapPage.cancelled')]}
               value={activeTab}

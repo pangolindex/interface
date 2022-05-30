@@ -112,7 +112,7 @@ export function outdatedListeningKeys(
 
 export default function Updater(): null {
   const dispatch = useDispatch<AppDispatch>()
-  const state = useSelector<AppState, AppState['multicall']>(state => state.multicall)
+  const state = useSelector<AppState, AppState['multicall']>(_state => _state.multicall)
   // wait for listeners to settle before triggering updates
   const debouncedListeners = useDebounce(state.callListeners, 100)
   const latestBlockNumber = useBlockNumber()

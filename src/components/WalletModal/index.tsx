@@ -10,8 +10,16 @@ import MetamaskIcon from '../../assets/images/metamask.png'
 import XDefiIcon from '../../assets/images/xDefi.png'
 import RabbyIcon from '../../assets/images/rabby.svg'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { gnosisSafe, injected, xDefi } from '../../connectors'
-import { LANDING_PAGE, SUPPORTED_WALLETS, AVALANCHE_CHAIN_PARAMS, IS_IN_IFRAME, WalletInfo } from '../../constants'
+import {
+  gnosisSafe,
+  injected,
+  xDefi,
+  EVM_SUPPORTED_WALLETS,
+  LANDING_PAGE,
+  AVALANCHE_CHAIN_PARAMS,
+  IS_IN_IFRAME,
+  WalletInfo
+} from '@pangolindex/components'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useWalletModalToggle } from '../../state/application/hooks'
@@ -147,7 +155,7 @@ export default function WalletModal({
   ENSName?: string
 }) {
   // important that these are destructed from the account-specific web3-react context
-  const { active, account, connector, activate, error } = useWeb3React()
+  const { active, account, connector, activate, error: web3Error } = useWeb3React()
 
   const [walletView, setWalletView] = useState(WALLET_VIEWS.ACCOUNT)
 
@@ -183,10 +191,13 @@ export default function WalletModal({
   const activePrevious = usePrevious(active)
   const connectorPrevious = usePrevious(connector)
   useEffect(() => {
-    if (walletModalOpen && ((active && !activePrevious) || (connector && connector !== connectorPrevious && !error))) {
+    if (
+      walletModalOpen &&
+      ((active && !activePrevious) || (connector && connector !== connectorPrevious && !web3Error))
+    ) {
       setWalletView(WALLET_VIEWS.ACCOUNT)
     }
-  }, [setWalletView, active, error, connector, walletModalOpen, activePrevious, connectorPrevious])
+  }, [setWalletView, active, web3Error, connector, walletModalOpen, activePrevious, connectorPrevious])
 
   const isMetamask = window.ethereum && window.ethereum.isMetaMask
   const isRabby = window.ethereum && window.ethereum.isRabby
@@ -198,7 +209,9 @@ export default function WalletModal({
     activationConnector: AbstractConnector | SafeAppConnector | undefined,
     option: WalletInfo | undefined
   ) => {
-    const name = Object.keys(SUPPORTED_WALLETS).find(key => SUPPORTED_WALLETS[key].connector === activationConnector)
+    const name = Object.keys(EVM_SUPPORTED_WALLETS).find(
+      key => EVM_SUPPORTED_WALLETS[key].connector === activationConnector
+    )
     // log selected wallet
     ReactGA.event({
       category: 'Wallet',
@@ -243,15 +256,15 @@ export default function WalletModal({
   function getActiveOption(): WalletInfo | undefined {
     if (connector === injected) {
       if (isRabby) {
-        return SUPPORTED_WALLETS.RABBY
+        return EVM_SUPPORTED_WALLETS.RABBY
       } else if (isMetamask) {
-        return SUPPORTED_WALLETS.METAMASK
+        return EVM_SUPPORTED_WALLETS.METAMASK
       }
-      return SUPPORTED_WALLETS.INJECTED
+      return EVM_SUPPORTED_WALLETS.INJECTED
     }
-    const name = Object.keys(SUPPORTED_WALLETS).find(key => SUPPORTED_WALLETS[key].connector === connector)
+    const name = Object.keys(EVM_SUPPORTED_WALLETS).find(key => EVM_SUPPORTED_WALLETS[key].connector === connector)
     if (name) {
-      return SUPPORTED_WALLETS[name]
+      return EVM_SUPPORTED_WALLETS[name]
     }
     return undefined
   }
@@ -261,8 +274,8 @@ export default function WalletModal({
     const isXDEFI = window.ethereum && window.ethereum.isXDEFI
     const activeOption = getActiveOption()
 
-    return Object.keys(SUPPORTED_WALLETS).map(key => {
-      const option = SUPPORTED_WALLETS[key]
+    return Object.keys(EVM_SUPPORTED_WALLETS).map(key => {
+      const option = EVM_SUPPORTED_WALLETS[key]
       // check for mobile options
       if (isMobile) {
         if (!window.web3 && !window.ethereum && option.mobile) {
@@ -393,19 +406,19 @@ export default function WalletModal({
     const isXDEFI = window.xfi && window.xfi.ethereum && window.xfi.ethereum.isXDEFI
     const isMetamaskOrCbWallet = isMetamask || isCbWallet || isXDEFI
 
-    if (error) {
+    if (web3Error) {
       return (
         <UpperSection>
           <CloseIcon onClick={toggleWalletModal}>
             <CloseColor />
           </CloseIcon>
           <HeaderRow isBeta={isBeta}>
-            {error instanceof UnsupportedChainIdError
+            {web3Error instanceof UnsupportedChainIdError
               ? t('walletModal.wrongNetwork')
               : t('walletModal.errorConnecting')}
           </HeaderRow>
           <ContentWrapper>
-            {error instanceof UnsupportedChainIdError ? (
+            {web3Error instanceof UnsupportedChainIdError ? (
               <>
                 <h5>{t('walletModal.pleaseConnectAvalanche')}</h5>
                 {isMetamaskOrCbWallet && (

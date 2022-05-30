@@ -8,7 +8,7 @@ import { StakingInfo } from '../stake/hooks'
 import { useGetStakingDataWithAPR, useMinichefPools } from '../../state/stake/hooks'
 
 export interface SelectedPoolState {
-  selectedPool: { [address: string]: { pair: Pair; staking?: StakingInfo | undefined } }
+  selectedPool: { [address: string]: { pair: Pair; staking?: StakingInfo } }
 }
 
 export function useGetUserLP() {
@@ -45,8 +45,6 @@ export function useGetUserLP() {
     [tokenPairsWithLiquidityTokens, v2PairsBalances]
   )
 
-  //const liquidityTokensWithBalances = tokenPairsWithLiquidityTokens
-
   const lpTokensWithBalances = useMemo(() => liquidityTokensWithBalances.map(({ tokens }) => tokens), [
     liquidityTokensWithBalances
   ])
@@ -66,7 +64,7 @@ export function useGetUserLP() {
   const v2AllPairs = usePairs(pairWithLpTokens)
 
   const allV2AllPairsWithLiquidity = useMemo(
-    () => v2AllPairs.map(([, pair]) => pair).filter((v2AllPairs): v2AllPairs is Pair => Boolean(v2AllPairs)),
+    () => v2AllPairs.map(([, pair]) => pair).filter((_v2AllPairs): _v2AllPairs is Pair => Boolean(_v2AllPairs)),
     [v2AllPairs]
   )
 
@@ -89,9 +87,7 @@ export function useGetMigrationData(version: number) {
   useEffect(() => {
     let pairs = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
 
-    for (let index = 0; index < stakingInfos.length; index++) {
-      const stakingInfo = stakingInfos[index]
-
+    for (const stakingInfo of stakingInfos) {
       let pairAddress = stakingInfo?.stakedAmount?.token?.address
       let stakingData = stakingInfo
 

@@ -58,6 +58,64 @@ const PoolImport = ({ currency0, currency1, openTokenDrawer, setActiveField, onM
     </LightCard>
   )
 
+  function getCard() {
+    if (pairState === PairState.EXISTS) {
+      if (hasPosition && pair) {
+        return <PositionCard pair={pair} onManagePoolsClick={onManagePoolsClick} />
+      }
+      return (
+        <LightCard>
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <Text color="color6" fontSize={14} textAlign="center">
+              {t('poolFinder.noLiquidityYet')}
+            </Text>
+            {/* <Text color="primary" fontSize={14} textAlign="center" onClick={() => {}} cursor="pointer">
+              {t('poolFinder.addLiquidity')}
+            </Text> */}
+          </Box>
+        </LightCard>
+      )
+    }
+    if (validPairNoLiquidity) {
+      return (
+        <LightCard>
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <Text color="color6" fontSize={14} textAlign="center">
+              {t('poolFinder.noPoolFound')}
+            </Text>
+            {/* <Text color="primary" fontSize={14} textAlign="center" onClick={() => {}} cursor="pointer">
+            {t('poolFinder.createPool')}
+          </Text> */}
+          </Box>
+        </LightCard>
+      )
+    }
+    if (pairState === PairState.INVALID) {
+      return (
+        <LightCard>
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <Text color="color6" fontSize={14} textAlign="center" fontWeight={500}>
+              {t('poolFinder.invalidPair')}
+            </Text>
+          </Box>
+        </LightCard>
+      )
+    }
+    if (pairState === PairState.LOADING) {
+      return (
+        <LightCard>
+          <Box textAlign="center">
+            <Text textAlign="center" color="white">
+              {t('poolFinder.loading')}
+              <Dots />
+            </Text>
+          </Box>
+        </LightCard>
+      )
+    }
+    return null
+  }
+
   return (
     <PoolImportWrapper>
       <CurrencySelectWrapper
@@ -103,54 +161,7 @@ const PoolImport = ({ currency0, currency1, openTokenDrawer, setActiveField, onM
         <ChevronDown size="16" color={theme.text1} />
       </CurrencySelectWrapper>
 
-      {currency0 && currency1 ? (
-        pairState === PairState.EXISTS ? (
-          hasPosition && pair ? (
-            <PositionCard pair={pair} onManagePoolsClick={onManagePoolsClick} />
-          ) : (
-            <LightCard>
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <Text color="color6" fontSize={14} textAlign="center">
-                  {t('poolFinder.noLiquidityYet')}
-                </Text>
-                {/* <Text color="primary" fontSize={14} textAlign="center" onClick={() => {}} cursor="pointer">
-                  {t('poolFinder.addLiquidity')}
-                </Text> */}
-              </Box>
-            </LightCard>
-          )
-        ) : validPairNoLiquidity ? (
-          <LightCard>
-            <Box display="flex" flexDirection="column" alignItems="center">
-              <Text color="color6" fontSize={14} textAlign="center">
-                {t('poolFinder.noPoolFound')}
-              </Text>
-              {/* <Text color="primary" fontSize={14} textAlign="center" onClick={() => {}} cursor="pointer">
-                {t('poolFinder.createPool')}
-              </Text> */}
-            </Box>
-          </LightCard>
-        ) : pairState === PairState.INVALID ? (
-          <LightCard>
-            <Box display="flex" flexDirection="column" alignItems="center">
-              <Text color="color6" fontSize={14} textAlign="center" fontWeight={500}>
-                {t('poolFinder.invalidPair')}
-              </Text>
-            </Box>
-          </LightCard>
-        ) : pairState === PairState.LOADING ? (
-          <LightCard>
-            <Box textAlign="center">
-              <Text textAlign="center" color="white">
-                {t('poolFinder.loading')}
-                <Dots />
-              </Text>
-            </Box>
-          </LightCard>
-        ) : null
-      ) : (
-        prerequisiteMessage
-      )}
+      {currency0 && currency1 ? getCard() : prerequisiteMessage}
     </PoolImportWrapper>
   )
 }

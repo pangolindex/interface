@@ -377,7 +377,8 @@
     "yourLockedValue": "Votre valeur verrouillée",
     "allPools": "Toutes les Pools",
     "yourPools": "Vos Pools",
-    "yourWallet": "Ton portefeuille"
+    "yourWallet": "Ton portefeuille",
+    "noFarms": "Aucune ferme trouvée."
   },
   "poolFinder": {
     "connectToFind": "Se connecter à un portefeuille pour trouver des pools",
@@ -599,5 +600,13 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
+  },
+  "error": {
+    "missingCurrencyAmounts": "Montants en devise manquants",
+    "missingTokens": "Jetons manquants",
+    "missingDependencies": "Dépendances manquantes",
+    "missingLiquidityAmount": "Montant de liquidité manquant",
+    "couldNotWrap": "Impossible d'envelopper",
+    "attemptingToConfirmApproval": "Tentative de confirmation sans approbation ni signature. Veuillez contacter le support."
   }
 }

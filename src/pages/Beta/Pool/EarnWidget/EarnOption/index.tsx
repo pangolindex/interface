@@ -22,13 +22,15 @@ const TradeOption: React.FC<Props> = ({ type, setType }) => {
           >
             {type === 'Pool' ? t('pool.addLiquidity') : t('header.farm')}
           </Text>
-          <ToggleButtons
-            options={['Pool', 'Farm']}
-            value={type}
-            onChange={value => {
-              setType(value)
-            }}
-          />
+          <Box width="120px">
+            <ToggleButtons
+              options={['Pool', 'Farm']}
+              value={type}
+              onChange={value => {
+                setType(value)
+              }}
+            />
+          </Box>
         </Box>
       </Box>
     </EarnWrapper>

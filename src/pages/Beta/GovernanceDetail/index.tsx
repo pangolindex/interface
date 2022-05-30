@@ -29,10 +29,9 @@ import { useGetProposalDetail, useUserVotes, useUserDelegatee, ProposalData } fr
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { ExternalLink } from 'src/theme'
-import { ZERO_ADDRESS } from 'src/constants'
+import { BETA_MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
 import { isAddress, getEtherscanLink } from 'src/utils'
-import { BETA_MENU_LINK } from 'src/constants'
 
 export interface GovernanceDetailProps {
   id: string
@@ -200,11 +199,11 @@ export default function GovernanceDetail() {
                 return (
                   <DetailText key={i}>
                     {i + 1}: {linkIfAddress(d.target)}.{d.functionSig}(
-                    {d.callData.split(',').map((content, i) => {
+                    {d.callData.split(',').map((content, j) => {
                       return (
-                        <span key={i}>
+                        <span key={j}>
                           {linkIfAddress(content)}
-                          {d.callData.split(',').length - 1 === i ? '' : ','}
+                          {d.callData.split(',').length - 1 === j ? '' : ','}
                         </span>
                       )
                     })}
