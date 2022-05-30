@@ -35,9 +35,9 @@ interface SidebarProps {
 }
 
 interface Link {
-  link: string,
-  icon: string,
-  title: string,
+  link: string
+  icon: string
+  title: string
   id: string
 }
 
@@ -147,10 +147,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
     }
   ]
 
-  const createMenuLink = (
-    link: Link, 
-    index: number
-  ) => {
+  const createMenuLink = (link: Link, index: number) => {
     return (
       <MenuItem key={index}>
         <MenuExternalLink id={link.id} href={link.link}>

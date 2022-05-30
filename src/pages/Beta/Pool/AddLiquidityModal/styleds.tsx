@@ -23,7 +23,8 @@ export const ConfirmButton = styled.button`
   font-size: 16px;
   cursor: pointer;
 
-  :hover, :focus {
+  :hover,
+  :focus {
     opacity: 0.8;
   }
 `

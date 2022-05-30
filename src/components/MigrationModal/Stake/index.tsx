@@ -3,7 +3,7 @@ import { Wrapper } from './styleds'
 import { Box, Button } from '@pangolindex/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
-import { useDerivedStakeInfo, useMinichefPools , StakingInfo } from '../../../state/stake/hooks'
+import { useDerivedStakeInfo, useMinichefPools, StakingInfo } from '../../../state/stake/hooks'
 import { tryParseAmount } from '../../../state/swap/hooks'
 import { useActiveWeb3React } from '../../../hooks'
 import { useTokenBalance } from '../../../state/wallet/hooks'
@@ -77,9 +77,7 @@ const Stake = ({
     if (value === 4) {
       setStakingAmount(userLiquidityUnstaked.toExact())
     } else {
-      const newAmount = userLiquidityUnstaked
-        .multiply(JSBI.BigInt(value * 25))
-        .divide(JSBI.BigInt(100)) as TokenAmount
+      const newAmount = userLiquidityUnstaked.multiply(JSBI.BigInt(value * 25)).divide(JSBI.BigInt(100)) as TokenAmount
       setStakingAmount(newAmount.toSignificant(6))
     }
   }

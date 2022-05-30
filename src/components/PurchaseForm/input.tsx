@@ -1,4 +1,4 @@
-import React, { useContext, useEffect }  from 'react'
+import React, { useContext, useEffect } from 'react'
 import { MouseoverTooltip } from '../Tooltip'
 import styled from 'styled-components'
 import { Validator, FormContext } from './'
