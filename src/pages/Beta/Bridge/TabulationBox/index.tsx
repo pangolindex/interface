@@ -2,18 +2,22 @@ import React, { useState } from 'react'
 import { QuestionBox, TableContent, FullBox } from '../styleds'
 import { Text } from '@pangolindex/components'
 import { GeneralBox } from './QuestionBoxGeneral'
-import { AxelarBox } from './QuestionBoxAxelar'
 import { Questions, useGetQuestions } from 'src/state/airdrop/hooks'
+
+interface ShortArray {
+  id: number
+  subcategory: string
+}
 
 export const QuestionAnswer = () => {
   const [subcategory, setSubCategory] = useState<string>('General')
   const [active, setActive] = useState<number>(0)
   const { data: questions } = useGetQuestions('Bridge')
   const duplicate = questions && questions.map((e: Questions) => ({ id: e.id, subcategory: e.subcategory }))
-  const tabs: any = [];
+  const tabs:ShortArray[]  = [];
 
   duplicate?.forEach(function (item) {
-    const existing = tabs.filter(function (v: any) {
+    const existing = tabs.filter(function (v: ShortArray) {
       return v.subcategory === item.subcategory;
     });
     if (!existing.length)
@@ -29,14 +33,11 @@ export const QuestionAnswer = () => {
       return "text8"
   }
 
-  function renderBox() {
-    if (subcategory === 'General')
-      return <GeneralBox subcategory='General' />
-    else if (subcategory === 'Axelar')
-      return <AxelarBox />
-    else
-      return <></>
+  const handleChange = (active: number, subcategory: string) => {
+    setActive(active);
+    setSubCategory(subcategory);
   }
+
   return (
     <FullBox>
       <TableContent>
@@ -44,8 +45,8 @@ export const QuestionAnswer = () => {
           Table of Content
         </Text>
         {tabs &&
-          tabs.map((tab: any) => (
-            <Text fontSize={14} fontWeight={500} lineHeight="21px" color={activeTab(tab?.id)} padding={10} onClick={() => { setActive(tab.id); setSubCategory(tab.subcategory) }} key={tab.id}>
+          tabs.map((tab: ShortArray) => (
+            <Text fontSize={14} fontWeight={500} lineHeight="21px" color={activeTab(tab?.id)} padding={10} onClick={() => { handleChange(tab.id, tab.subcategory) }} key={tab.id}>
               {tab.subcategory}
             </Text>
           ))}
@@ -54,7 +55,7 @@ export const QuestionAnswer = () => {
         <Text fontSize={32} fontWeight={500} lineHeight="48px" color="text10" paddingBottom={20}>
           Have Questions? Look Here:
         </Text>
-        {renderBox()}
+        <GeneralBox subcategory={subcategory} />
       </QuestionBox>
     </FullBox>
   )

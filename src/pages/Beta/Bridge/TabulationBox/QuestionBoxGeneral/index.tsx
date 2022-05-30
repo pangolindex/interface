@@ -25,7 +25,7 @@ export const GeneralBox: React.FC<ISubCategory> = ({ subcategory }) => {
     if (active === key)
     {
       return (
-      <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" paddingX={33}>
+      <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" paddingX={31}>
         {content}
       </Text>)
     }
