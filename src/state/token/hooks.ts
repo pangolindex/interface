@@ -17,9 +17,7 @@ export function useAllTokenWeeklyPriceChartData(): WeeklyState | undefined {
 }
 
 export function useAllTokenPricesChartData(): ChartState | undefined {
-  return useSelector<AppState, AppState['token']['tokenPrices']>(
-    state => state?.token?.tokenPrices || {}
-  )
+  return useSelector<AppState, AppState['token']['tokenPrices']>(state => state?.token?.tokenPrices || {})
 }
 
 export function useTokenWeeklyChartData(tokenAddress: string) {

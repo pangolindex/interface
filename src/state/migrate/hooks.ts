@@ -88,7 +88,6 @@ export function useGetMigrationData(version: number) {
     let pairs = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
 
     for (const stakingInfo of stakingInfos) {
-
       let pairAddress = stakingInfo?.stakedAmount?.token?.address
       let stakingData = stakingInfo
 
