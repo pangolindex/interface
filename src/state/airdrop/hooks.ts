@@ -84,6 +84,7 @@ export interface Questions {
   id: number
   title: string
   content: string
+  subcategory: string
 }
 
 export function useGetQuestions(filter: string) {
@@ -93,6 +94,7 @@ export function useGetQuestions(filter: string) {
           id
           title
           content
+          subcategory
       }
   }`,
     variables: { filter: { category: { _eq: filter } } }
@@ -108,7 +110,8 @@ export function useGetQuestions(filter: string) {
       return {
         id: e?.id,
         title: e?.title,
-        content: e?.content
+        content: e?.content,
+        subcategory: e?.subcategory,
       } as Questions
     })
 
