@@ -25,7 +25,7 @@ const SwapUI = () => {
         <GridContainer isLimitOrders={isLimitOrders}>
           {isLimitOrders && <LimitOrderList />}
           <MyPortfolio isLimitOrders={isLimitOrders} />
-            <WatchList isLimitOrders={isLimitOrders} />
+          <WatchList coinChartVisible={!isLimitOrders} />
         </GridContainer>
       )}
     </PageWrapper>

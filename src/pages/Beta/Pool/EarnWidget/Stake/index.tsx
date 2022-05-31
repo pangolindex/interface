@@ -15,7 +15,13 @@ import { Box, Text, Button, DoubleCurrencyLogo, NumberOptions } from '@pangolind
 import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { TokenAmount, Pair, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken, wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
-import { useGetPoolDollerWorth, useMinichefPendingRewards, useDerivedStakeInfo, useMinichefPools, StakingInfo  } from 'src/state/stake/hooks'
+import {
+  useGetPoolDollerWorth,
+  useMinichefPendingRewards,
+  useDerivedStakeInfo,
+  useMinichefPools,
+  StakingInfo
+} from 'src/state/stake/hooks'
 import { usePairContract, useStakingContract } from 'src/hooks/useContract'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'

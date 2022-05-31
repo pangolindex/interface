@@ -183,7 +183,10 @@ export default function WalletModal({
   const activePrevious = usePrevious(active)
   const connectorPrevious = usePrevious(connector)
   useEffect(() => {
-    if (walletModalOpen && ((active && !activePrevious) || (connector && connector !== connectorPrevious && !web3Error))) {
+    if (
+      walletModalOpen &&
+      ((active && !activePrevious) || (connector && connector !== connectorPrevious && !web3Error))
+    ) {
       setWalletView(WALLET_VIEWS.ACCOUNT)
     }
   }, [setWalletView, active, web3Error, connector, walletModalOpen, activePrevious, connectorPrevious])

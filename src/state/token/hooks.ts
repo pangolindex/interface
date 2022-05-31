@@ -6,7 +6,6 @@ import utc from 'dayjs/plugin/utc'
 
 dayjs.extend(utc)
 
-
 export async function getBlocksFromTimestamps(timestamps: Array<number>, skipCount = 500) {
   if (timestamps?.length === 0) {
     return []

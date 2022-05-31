@@ -76,7 +76,7 @@ export function useTokenList(urls: string[] | undefined): TokenAddressMap {
 
   const tokenList = {} as { [chainId: string]: { [tokenAddress: string]: WrappedTokenInfo } }
   return useMemo(() => {
-    ([] as string[]).concat(urls || []).forEach(url => {
+    ;([] as string[]).concat(urls || []).forEach(url => {
       const current = lists[url]?.current
       if (url && current) {
         try {

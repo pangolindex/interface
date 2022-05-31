@@ -1816,7 +1816,7 @@ export function useFetchFarmAprs() {
     async function getFarmAprs() {
       const promises = []
 
-      for (let pid of pids) {
+      for (const pid of pids) {
         promises.push(fetchApr(pid))
       }
       const res = await Promise.all(promises)
