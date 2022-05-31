@@ -175,7 +175,7 @@ export const ThemeMode = styled(BlackCard)`
 
 export const MobileHeader = styled.div`
   height: 80px;
-  position: fixed;
+  /* position: fixed; */
   width: 100%;
   z-index: 2;
   background-color: ${({ theme }) => theme.bg2};
