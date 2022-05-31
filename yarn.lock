@@ -2170,12 +2170,14 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@pangolindex/components@3.0.2-rc.4":
-  version "3.0.2-rc.4"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-3.0.2-rc.4.tgz#b002b16a871e4a7093bbb808c5ac799518d15a9a"
-  integrity sha512-iLdyZn8vMt0irh48AIemvw4GYavJVKu023GF6VbB0xpI7IlHlUq5z2HIyZDNtGNNhvBIsVYmFVXobg+JX7EKXw==
+"@pangolindex/components@3.0.2-rc.5":
+  version "3.0.2-rc.5"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-3.0.2-rc.5.tgz#90acc1a475adee09e3d294d2b0fda48a339476dd"
+  integrity sha512-u8TBUair/uXscGE/K/PfvFVp9KwaqyLlwhCyfEtRIev8eg71i4Sg1apaGYubJQqoaiw3owaqX8INJthsIDLENQ==
   dependencies:
+    "@pangolindex/web3-react-injected-connector" "^1.0.1"
     cids "^1.1.9"
+    graphql-request "^4.2.0"
     react-switch "^6.0.0"
 
 "@pangolindex/exchange-contracts@1.0.2", "@pangolindex/exchange-contracts@^1.0.1":
@@ -2195,10 +2197,10 @@
     csv-batch "^2.0.2"
     openzeppelin-solidity "^3.4.0"
 
-"@pangolindex/sdk@2.0.6":
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-2.0.6.tgz#04c012c48b85cf5cf5b127086e6b129735f254ae"
-  integrity sha512-gORmtVFczADc+Z9wspi8AK8FypBV3p4Pzq/+9lier2GyFP6p+uaoeDcPURdFdUQA0Db+KFlfeaUb88AADqn06Q==
+"@pangolindex/sdk@2.0.8":
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-2.0.8.tgz#de696c7336776f77f7686278675ca56d93111177"
+  integrity sha512-9X1Ac/C0A2v86BugguLuuvfrar3QQzTVRTKcyXR8cLNTCZGiKq4UBlXbouQgwSVMYbDa147LKRcN3Jy3B8hq4A==
   dependencies:
     "@pangolindex/exchange-contracts" "^1.0.1"
     big.js "^5.2.2"
@@ -2213,7 +2215,7 @@
   resolved "https://registry.yarnpkg.com/@pangolindex/token-lists/-/token-lists-1.0.1.tgz#922f6e9de22a71b5d4a7ec4dc8ad183afa8f6cb1"
   integrity sha512-01MOB0lA5/Chc/g2fzzFPJVHzPAe1dNjBkD9XU6UFDupIAdwEUn9WB4ZqU0p6mAG0ASBdTB2pGEt7cWNBybyXw==
 
-"@pangolindex/web3-react-injected-connector@^1.0.0":
+"@pangolindex/web3-react-injected-connector@^1.0.0", "@pangolindex/web3-react-injected-connector@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@pangolindex/web3-react-injected-connector/-/web3-react-injected-connector-1.0.1.tgz#ab24ec51d276ae1f723393f0c4a45aa1280b8633"
   integrity sha512-W2mHL5OzL85BxJNevW/CmzxpMGf0PL2OWpGHO6nNL5sFyYjUAWxYnlDPyHnlIrHMnttVxfDg0Qn6XAcichMvHg==
