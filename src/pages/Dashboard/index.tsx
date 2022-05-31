@@ -29,12 +29,12 @@ const Dashboard = () => {
         </StatsWrapper>
 
         <Hidden upToSmall={true}>
-          <NewsWidget boxHeight="400px" />
+          <NewsWidget boxHeight="450px" />
         </Hidden>
       </TopContainer>
 
       <Visible upToSmall={true}>
-        <NewsWidget boxHeight="400px" />
+        <NewsWidget boxHeight="450px" />
       </Visible>
     </PageWrapper>
   )
