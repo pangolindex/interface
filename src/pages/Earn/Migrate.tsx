@@ -23,7 +23,7 @@ import { Token, WAVAX } from '@pangolindex/sdk'
 import { getTokenLogoURL } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { ErrorText } from '../../components/swap/styleds'
-import { injected } from '../../connectors'
+import { injected } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 
 const PageWrapper = styled(AutoColumn)`

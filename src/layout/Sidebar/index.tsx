@@ -18,7 +18,7 @@ import {
 } from './styled'
 import Backward from '../../assets/svg/backward.svg'
 import Forward from '../../assets/svg/forward.svg'
-import { Dashboard, Swap, Stake, Pool, Buy, Vote, Migration } from '../../components/Icons'
+import { Dashboard, Swap, Stake, Pool, Buy, Vote, Migration, Airdrop } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import { ANALYTICS_PAGE } from '../../constants'
 import Bridge from '../../assets/svg/menu/bridge.svg'
@@ -35,9 +35,9 @@ interface SidebarProps {
 }
 
 interface Link {
-  link: string,
-  icon: string,
-  title: string,
+  link: string
+  icon: string
+  title: string
   id: string
 }
 
@@ -110,7 +110,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
   if (claimingAllowed) {
     mainLinks.push({
       link: BETA_MENU_LINK.airdrop,
-      icon: Migration,
+      icon: Airdrop,
       title: 'Airdrop',
       id: 'airdrop',
       isActive: location?.pathname?.startsWith(BETA_MENU_LINK.airdrop)
@@ -147,10 +147,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
     }
   ]
 
-  const createMenuLink = (
-    link: Link, 
-    index: number
-  ) => {
+  const createMenuLink = (link: Link, index: number) => {
     return (
       <MenuItem key={index}>
         <MenuExternalLink id={link.id} href={link.link}>

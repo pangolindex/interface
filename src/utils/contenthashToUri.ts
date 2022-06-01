@@ -7,7 +7,7 @@ export function hexToUint8Array(hex: string): Uint8Array {
   if (hex.length % 2 !== 0) throw new Error('hex must have length that is multiple of 2')
   const arr = new Uint8Array(hex.length / 2)
   for (let i = 0; i < arr.length; i++) {
-    arr[i] = parseInt(hex.slice(i * 2, (i * 2)+2), 16)
+    arr[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16)
   }
   return arr
 }

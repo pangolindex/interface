@@ -102,10 +102,7 @@ const LimitOrderList = () => {
             <>
               {(displayOrders || []).slice(0, 3).map(order => mobileRow(order))}
 
-              {showMore &&
-                (displayOrders || [])
-                  .slice(3)
-                  .map(order => mobileRow(order))}
+              {showMore && (displayOrders || []).slice(3).map(order => mobileRow(order))}
 
               {displayOrders.length > 3 && <ShowMore showMore={showMore} onToggle={() => setShowMore(!showMore)} />}
             </>
@@ -124,7 +121,7 @@ const LimitOrderList = () => {
             {t('swapPage.limitOrders')}
           </Text>
 
-          <Box>
+          <Box width="250px">
             <ToggleButtons
               options={[t('swapPage.open'), t('swapPage.executed'), t('swapPage.cancelled')]}
               value={activeTab}
