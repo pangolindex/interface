@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, Box, Button } from '@pangolindex/components'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { BalanceInfo, DurationBtns } from './styleds'
-import { useGetChainBalance } from 'src/state/portifolio/hooks'
+import { useGetChainBalance } from 'src/state/portfolio/hooks'
 
 type Props = {
   /* */

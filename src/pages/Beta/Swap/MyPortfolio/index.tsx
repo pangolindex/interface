@@ -5,7 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import { useTranslation } from 'react-i18next'
 import { ThemeContext } from 'styled-components'
 
-import { PairDataUser, TokenDataUser, useGetWalletChainTokens } from 'src/state/portifolio/hooks'
+import { PairDataUser, TokenDataUser, useGetWalletChainTokens } from 'src/state/portfolio/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 
 import PortfolioChart from './PortfolioChart'

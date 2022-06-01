@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, Box, CurrencyLogo, DoubleCurrencyLogo } from '@pangolindex/components'
 import { RowWrapper } from './styleds'
-import { PairDataUser, TokenDataUser } from 'src/state/portifolio/hooks'
+import { PairDataUser, TokenDataUser } from 'src/state/portfolio/hooks'
 
 type Props = {
   coin?: TokenDataUser

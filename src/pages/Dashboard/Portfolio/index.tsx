@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { ThemeContext } from 'styled-components'
 
 import { useActiveWeb3React } from 'src/hooks'
-import { AllChain, useGetChainsBalances } from 'src/state/portifolio/hooks'
+import { AllChain, useGetChainsBalances } from 'src/state/portfolio/hooks'
 
 import { PortfolioToken, PortfolioInfo } from './styleds'
 import { Card, CardHeader, CardBody } from '../styleds'
