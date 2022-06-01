@@ -140,7 +140,9 @@ const GovernanceUI = () => {
           </>
         ) : (
           <Box width="100%" marginTop={20} display="flex" justifyContent="center">
-            <Text color='text1' fontSize={24}>{t('votePage.notSupported')}</Text>
+            <Text color="text1" fontSize={24}>
+              {t('votePage.notSupported')}
+            </Text>
           </Box>
         )}
       </ContentWrapper>

@@ -1876,13 +1876,11 @@ export const useGetEarnedAmount = (pid: string) => {
 
   const amount = useSelector<AppState, number>(state => state?.stake?.earnedAmounts?.[pid]?.earnedAmount)
 
-  const earnedAmount = new TokenAmount(png, JSBI.BigInt(amount ?? 0))
-
   return useMemo(
     () => ({
-      earnedAmount
+      earnedAmount: new TokenAmount(png, JSBI.BigInt(amount ?? 0))
     }),
-    [earnedAmount]
+    [png, amount]
   )
 }
 
