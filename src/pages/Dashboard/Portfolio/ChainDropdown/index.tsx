@@ -9,7 +9,7 @@ import { StyledMenu } from 'src/components/StyledMenu'
 import PolygonIcon from 'src/assets/svg/Polygon.svg'
 import { DropdownItem, NarrowMenuFlyout } from './styleds'
 import { Chain, ALL_CHAINS } from '@pangolindex/sdk'
-import { AllChain } from 'src/state/portfolio/hooks'
+import { AllChain } from 'src/state/portifolio/hooks'
 
 interface ChainDropdownProps {
   selectChain?: Chain
