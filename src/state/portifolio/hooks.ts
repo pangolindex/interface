@@ -12,6 +12,7 @@ export const AllChain: Chain = {
   name: 'All',
   symbol: 'ALL',
   mainnet: false,
+  evm: false,
   logo: Logo,
   pangolin_is_live: false,
   tracked_by_debank: true,
