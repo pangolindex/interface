@@ -143,10 +143,14 @@ export default function Vote() {
                 <TYPE.white fontWeight={600}>{t('votePage.pangolinGovernance')}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>{t('votePage.earnedPngTokens', { pngSymbol: CHAINS[chainId].png_symbol! })}</TYPE.white>
+                <TYPE.white fontSize={14}>
+                  {t('votePage.earnedPngTokens', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                </TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>{t('votePage.eligibleToVote', { pngSymbol: CHAINS[chainId].png_symbol! })}</TYPE.white>
+                <TYPE.white fontSize={14}>
+                  {t('votePage.eligibleToVote', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                </TYPE.white>
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>{t('votePage.governanceVotes')}</TYPE.white>
@@ -230,7 +234,6 @@ export default function Vote() {
           )
         })}
       </TopSection>
-      <TYPE.subHeader color="text3">{t('votePage.pngPerAvax', { pngSymbol: CHAINS[chainId].png_symbol! })}</TYPE.subHeader>
     </PageWrapper>
   )
 }

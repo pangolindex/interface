@@ -326,7 +326,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
           <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>
             ⭐️
           </span>
-          {t('earnPage.automagically', { pngSymbol: CHAINS[chainId].png_symbol!})}
+          {t('earnPage.automagically', { pngSymbol: CHAINS[chainId].png_symbol! })}
         </TYPE.main>
 
         {!showAddLiquidityButton && (

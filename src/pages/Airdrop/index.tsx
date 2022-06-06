@@ -144,7 +144,9 @@ export default function Vote() {
             {t('airdrop.noUniNoSushi')}
           </TYPE.body>
           <TYPE.body mt="1rem" color={theme.text1} textAlign="center">
-            {t('airdrop.youHave') + claimAmount?.toFixed(0, { groupSeparator: ',' }) + t('airdrop.pngAvailableClaim', { symbol: CHAINS[chainId].png_symbol! })}
+            {t('airdrop.youHave') +
+              claimAmount?.toFixed(0, { groupSeparator: ',' }) +
+              t('airdrop.pngAvailableClaim', { symbol: CHAINS[chainId].png_symbol! })}
           </TYPE.body>
         </Card>
       )

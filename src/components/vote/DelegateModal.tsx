@@ -99,7 +99,7 @@ export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalPro
               <TYPE.mediumHeader fontWeight={500}>{title}</TYPE.mediumHeader>
               <StyledClosed stroke="black" onClick={wrappedOndismiss} />
             </RowBetween>
-            <TYPE.body>{t('vote.earnedPng', { pngSymbol: CHAINS[chainId].png_symbol!})}</TYPE.body>
+            <TYPE.body>{t('vote.earnedPng', { pngSymbol: CHAINS[chainId].png_symbol! })}</TYPE.body>
             <TYPE.body>{t('vote.canEitherVote')}</TYPE.body>
             {usingDelegate && <AddressInputPanel value={typed} onChange={handleRecipientType} />}
             <ButtonPrimary disabled={!isAddress(parsedAddress ?? '')} onClick={onDelegate}>

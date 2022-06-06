@@ -92,10 +92,14 @@ export default function Earn({
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
-                <TYPE.white fontWeight={600}>{t('earnPage.pangolinLiquidityStaking', { pngSymbol: CHAINS[chainId].png_symbol!})}</TYPE.white>
+                <TYPE.white fontWeight={600}>
+                  {t('earnPage.pangolinLiquidityStaking', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                </TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>{t('earnPage.depositPangolinStaking', { pngSymbol: CHAINS[chainId].png_symbol! })}</TYPE.white>
+                <TYPE.white fontSize={14}>
+                  {t('earnPage.depositPangolinStaking', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                </TYPE.white>
               </RowBetween>
             </AutoColumn>
           </CardSection>

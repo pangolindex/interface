@@ -283,7 +283,9 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 <TYPE.white fontWeight={600}>{t('earnPage.pangolinLiquidityMining')}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>{t('earnPage.depositPangolinLiquidity', { pngSymbol: CHAINS[chainId].png_symbol!})}</TYPE.white>
+                <TYPE.white fontSize={14}>
+                  {t('earnPage.depositPangolinLiquidity', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                </TYPE.white>
               </RowBetween>{' '}
               <AutoRow justify="space-between">
                 <ExternalLink
@@ -291,7 +293,9 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                   href="https://pangolin.exchange/litepaper"
                   target="_blank"
                 >
-                  <TYPE.white fontSize={14}>{t('earnPage.readMoreAboutPng', { pngSymbol: CHAINS[chainId].png_symbol! })}</TYPE.white>
+                  <TYPE.white fontSize={14}>
+                    {t('earnPage.readMoreAboutPng', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                  </TYPE.white>
                 </ExternalLink>
                 <FlexDiv>
                   <ExternalLink
@@ -328,7 +332,9 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 </RowBetween>
                 {version !== '0' && (
                   <NavLink style={{ color: 'white', textDecoration: 'underline' }} to="/png/0">
-                    <TYPE.white fontSize={14}>{t('earnPage.oldPngPools', { pngSymbol: CHAINS[chainId].png_symbol! })}</TYPE.white>
+                    <TYPE.white fontSize={14}>
+                      {t('earnPage.oldPngPools', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                    </TYPE.white>
                   </NavLink>
                 )}
               </AutoColumn>

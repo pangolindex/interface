@@ -123,7 +123,9 @@ export default function UnstakingModal({
                 <TYPE.body>{t('earn.unclaimedReward', { symbol: rewardAmount?.token?.symbol })}</TYPE.body>
               </AutoColumn>
             ))}
-          <TYPE.subHeader style={{ textAlign: 'center' }}>{t('earn.whenYouWithdrawWarning', { symbol: CHAINS[chainId].png_symbol!})}</TYPE.subHeader>
+          <TYPE.subHeader style={{ textAlign: 'center' }}>
+            {t('earn.whenYouWithdrawWarning', { symbol: CHAINS[chainId].png_symbol! })}
+          </TYPE.subHeader>
           <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onWithdraw}>
             {error ?? t('earn.withdrawAndClaim')}
           </ButtonError>

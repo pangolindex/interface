@@ -65,7 +65,7 @@ const GovernanceUI = () => {
             {t('votePage.about')}
           </Text>
           <Text fontSize={16} lineHeight="24px" color="text10">
-            {t('votePage.earnedPngTokens', { pngSymbol: CHAINS[chainId].png_symbol!})}
+            {t('votePage.earnedPngTokens', { pngSymbol: CHAINS[chainId].png_symbol! })}
           </Text>
           <Text fontSize={16} lineHeight="24px" color="text10">
             {t('votePage.eligibleToVote', { pngSymbol: CHAINS[chainId].png_symbol! })}
