@@ -10,13 +10,12 @@ import { NavLink } from 'react-router-dom'
 import { AutoRow, RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
-import { useChainId } from '../../hooks'
+import { useChainId, getPngSymbol } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import useDebounce from '../../hooks/useDebounce'
 import { BIG_INT_ZERO, PANGOLIN_API_BASE_URL } from '../../constants'
 import Toggle from '../../components/Toggle'
-import { CHAINS } from '@pangolindex/sdk'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -284,7 +283,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  {t('earnPage.depositPangolinLiquidity', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                  {t('earnPage.depositPangolinLiquidity', { pngSymbol: getPngSymbol(chainId) })}
                 </TYPE.white>
               </RowBetween>{' '}
               <AutoRow justify="space-between">
@@ -294,7 +293,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                   target="_blank"
                 >
                   <TYPE.white fontSize={14}>
-                    {t('earnPage.readMoreAboutPng', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                    {t('earnPage.readMoreAboutPng', { pngSymbol: getPngSymbol(chainId) })}
                   </TYPE.white>
                 </ExternalLink>
                 <FlexDiv>
@@ -333,7 +332,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 {version !== '0' && (
                   <NavLink style={{ color: 'white', textDecoration: 'underline' }} to="/png/0">
                     <TYPE.white fontSize={14}>
-                      {t('earnPage.oldPngPools', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                      {t('earnPage.oldPngPools', { pngSymbol: getPngSymbol(chainId) })}
                     </TYPE.white>
                   </NavLink>
                 )}

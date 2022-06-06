@@ -17,10 +17,10 @@ import GovernanceCard, { ProposalStates } from './GovernanceCard'
 import { useGetProposalsViaSubgraph, ProposalData, useUserVotes, useUserDelegatee } from 'src/state/governance/hooks'
 import DelegateModal from 'src/components/vote/DelegateModal'
 import { useTokenBalance } from 'src/state/wallet/hooks'
-import { useActiveWeb3React, useChain, useChainId } from 'src/hooks'
+import { useActiveWeb3React, useChain, useChainId, getPngSymbol } from 'src/hooks'
 import { BETA_MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
-import { JSBI, TokenAmount, ChainId, CHAINS } from '@pangolindex/sdk'
+import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
 import { shortenAddress, getEtherscanLink } from 'src/utils'
 import FormattedCurrencyAmount from 'src/components/FormattedCurrencyAmount'
 import { TYPE } from 'src/theme'
@@ -65,10 +65,10 @@ const GovernanceUI = () => {
             {t('votePage.about')}
           </Text>
           <Text fontSize={16} lineHeight="24px" color="text10">
-            {t('votePage.earnedPngTokens', { pngSymbol: CHAINS[chainId].png_symbol! })}
+            {t('votePage.earnedPngTokens', { pngSymbol: getPngSymbol(chainId) })}
           </Text>
           <Text fontSize={16} lineHeight="24px" color="text10">
-            {t('votePage.eligibleToVote', { pngSymbol: CHAINS[chainId].png_symbol! })}
+            {t('votePage.eligibleToVote', { pngSymbol: getPngSymbol(chainId) })}
           </Text>
           <Text fontSize={16} lineHeight="24px" color="text10">
             {t('votePage.governanceVotes')}

@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
-import { JSBI, CHAINS } from '@pangolindex/sdk'
+import { JSBI } from '@pangolindex/sdk'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import { useCurrency } from 'src/hooks/Tokens'
 import { useWalletModalToggle } from 'src/state/application/hooks'
@@ -12,7 +12,7 @@ import { AutoColumn } from 'src/components/Column'
 import { CardSection, DataCard } from 'src/components/earn/styled'
 import { ButtonPrimary, ButtonEmpty, ButtonSecondary } from 'src/components/Button'
 import { useSingleSideStakingInfo } from 'src/state/stake/hooks'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
+import { useActiveWeb3React, useChainId, getPngSymbol } from 'src/hooks'
 import { useColor } from 'src/hooks/useColor'
 import { CountUp } from 'use-count-up'
 
@@ -127,7 +127,7 @@ export default function Manage({
       <RowBetween style={{ gap: '24px' }}>
         {chainId && <CurrencyLogo currency={png} chainId={chainId} />}
         <TYPE.mediumHeader style={{ margin: 0 }}>
-          {t('earnPage.pngStaking', { pngSymbol: CHAINS[chainId].png_symbol! })}
+          {t('earnPage.pngStaking', { pngSymbol: getPngSymbol(chainId) })}
         </TYPE.mediumHeader>
         {chainId && <CurrencyLogo currency={rewardCurrency ?? undefined} chainId={chainId} />}
       </RowBetween>

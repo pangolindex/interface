@@ -7,7 +7,7 @@ import { injected } from '@pangolindex/components'
 import { BETA_MENU_LINK, getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { useTotalSupply } from '../../data/TotalSupply'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, getPngSymbol } from '../../hooks'
 import { useTotalPngEarned } from '../../state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/doubleSideConfig'
 import { useAggregatePngBalance, useTokenBalance } from '../../state/wallet/hooks'
@@ -100,7 +100,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
         <CardNoise />
         <CardSection gap="md">
           <RowBetween>
-            <TYPE.white color="white">{t('header.pngBreakDown', { symbol: CHAINS[chainId].png_symbol! })}</TYPE.white>
+            <TYPE.white color="white">{t('header.pngBreakDown', { symbol: getPngSymbol(chainId) })}</TYPE.white>
             <StyledClose stroke="white" onClick={() => setShowPngBalanceModal(false)} />
           </RowBetween>
         </CardSection>
@@ -146,7 +146,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
             </RowBetween>
             <RowBetween>
               <TYPE.white color="white">
-                {t('header.pngCirculation', { symbol: CHAINS[chainId].png_symbol! })}
+                {t('header.pngCirculation', { symbol: getPngSymbol(chainId) })}
               </TYPE.white>
               <TYPE.white color="white">{circulation?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>
             </RowBetween>
@@ -185,7 +185,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                   }}
                 >
                   <TYPE.white color="white">
-                    {t('header.addMetamask', { symbol: CHAINS[chainId].png_symbol! })}
+                    {t('header.addMetamask', { symbol: getPngSymbol(chainId) })}
                   </TYPE.white>
                 </AddPNG>
               </AutoColumn>

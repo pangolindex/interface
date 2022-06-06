@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Token, Currency, TokenAmount, CHAINS } from '@pangolindex/sdk'
+import { Token, Currency, TokenAmount } from '@pangolindex/sdk'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { TYPE } from '../../theme'
@@ -14,7 +14,7 @@ import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks
 import UnstakingModal from '../../components/earn/UnstakingModal'
 import ClaimRewardModal from '../../components/earn/ClaimRewardModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
-import { useActiveWeb3React, useChainId } from '../../hooks'
+import { useActiveWeb3React, useChainId, getPngSymbol } from '../../hooks'
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
 import { BIG_INT_ZERO } from '../../constants'
@@ -326,7 +326,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
           <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>
             ⭐️
           </span>
-          {t('earnPage.automagically', { pngSymbol: CHAINS[chainId].png_symbol! })}
+          {t('earnPage.automagically', { pngSymbol: getPngSymbol(chainId) })}
         </TYPE.main>
 
         {!showAddLiquidityButton && (

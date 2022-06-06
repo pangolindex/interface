@@ -11,7 +11,7 @@ import {
   useUserHasAvailableClaim,
   useUserUnclaimedAmount
 } from '../../state/airdrop/hooks'
-import { useActiveWeb3React, useChainId } from '../../hooks'
+import { useActiveWeb3React, useChainId, getPngSymbol } from '../../hooks'
 import Confetti from '../../components/Confetti'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { UNI, SUSHI } from '../../constants/tokens'
@@ -146,7 +146,7 @@ export default function Vote() {
           <TYPE.body mt="1rem" color={theme.text1} textAlign="center">
             {t('airdrop.youHave') +
               claimAmount?.toFixed(0, { groupSeparator: ',' }) +
-              t('airdrop.pngAvailableClaim', { symbol: CHAINS[chainId].png_symbol! })}
+              t('airdrop.pngAvailableClaim', { symbol: getPngSymbol(chainId) })}
           </TYPE.body>
         </Card>
       )

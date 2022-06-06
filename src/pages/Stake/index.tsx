@@ -9,10 +9,9 @@ import { RouteComponentProps } from 'react-router-dom'
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
-import { useChainId } from '../../hooks'
+import { useChainId, getPngSymbol } from '../../hooks'
 import { BIG_INT_ZERO } from '../../constants'
 import { useTranslation } from 'react-i18next'
-import { CHAINS } from '@pangolindex/sdk'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -93,12 +92,12 @@ export default function Earn({
             <AutoColumn gap="md">
               <RowBetween>
                 <TYPE.white fontWeight={600}>
-                  {t('earnPage.pangolinLiquidityStaking', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                  {t('earnPage.pangolinLiquidityStaking', { pngSymbol: getPngSymbol(chainId) })}
                 </TYPE.white>
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  {t('earnPage.depositPangolinStaking', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                  {t('earnPage.depositPangolinStaking', { pngSymbol: getPngSymbol(chainId) })}
                 </TYPE.white>
               </RowBetween>
             </AutoColumn>

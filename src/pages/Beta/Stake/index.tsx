@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { PageWrapper, PageTitle, PoolsWrapper, PoolCards } from './styleds'
-import { useChainId } from 'src/hooks'
+import { useChainId, getPngSymbol } from 'src/hooks'
 import Loader from 'src/components/Loader'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/singleSideConfig'
 import { SingleSideStakingInfo, useSingleSideStakingInfo } from 'src/state/stake/hooks'
@@ -11,7 +11,6 @@ import PoolCard from './PoolCard'
 import { useModalOpen, useSingleSideStakingDetailnModalToggle } from 'src/state/application/hooks'
 import DetailModal from './DetailModal'
 import { ApplicationModal } from 'src/state/application/actions'
-import { CHAINS } from '@pangolindex/sdk'
 
 interface RouteParams {
   version: string
@@ -76,7 +75,7 @@ const StakeUI = () => {
 
   return (
     <PageWrapper>
-      <PageTitle>{t('stakePage.stakeAndEarn', { pngSymbol: CHAINS[chainId].png_symbol! })}</PageTitle>
+      <PageTitle>{t('stakePage.stakeAndEarn', { pngSymbol: getPngSymbol(chainId) })}</PageTitle>
       <PoolsWrapper>
         {stakingRewardsExist && stakingInfos?.length === 0 ? (
           <Loader style={{ margin: 'auto' }} />

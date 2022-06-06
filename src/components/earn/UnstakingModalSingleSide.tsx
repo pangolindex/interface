@@ -11,9 +11,8 @@ import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import FormattedCurrencyAmount from '../FormattedCurrencyAmount'
-import { useActiveWeb3React, useChainId } from '../../hooks'
+import { useActiveWeb3React, useChainId, getPngSymbol } from '../../hooks'
 import { useTranslation } from 'react-i18next'
-import { CHAINS } from '@pangolindex/sdk'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -98,7 +97,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
           <TYPE.subHeader style={{ textAlign: 'center' }}>
             {t('earn.whenYouWithdrawSingleSideWarning', {
               symbol: stakingInfo?.rewardToken?.symbol,
-              pngSymbol: CHAINS[chainId].png_symbol!
+              pngSymbol: getPngSymbol(chainId)
             })}
           </TYPE.subHeader>
           <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onWithdraw}>
@@ -129,7 +128,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
             <TYPE.body fontSize={20}>
-              {t('earn.withdrewStakingToken', { symbol: CHAINS[chainId].png_symbol! })}
+              {t('earn.withdrewStakingToken', { symbol: getPngSymbol(chainId) })}
             </TYPE.body>
             <TYPE.body fontSize={20}>{t('earn.claimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}</TYPE.body>
           </AutoColumn>

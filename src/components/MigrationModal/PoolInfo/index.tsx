@@ -6,7 +6,7 @@ import { useGetPairDataFromPair, StakingInfo } from '../../../state/stake/hooks'
 import numeral from 'numeral'
 import { useTranslation } from 'react-i18next'
 import { useTokenBalance } from '../../../state/wallet/hooks'
-import { useActiveWeb3React, useChainId } from '../../../hooks'
+import { useActiveWeb3React, useChainId, getPngSymbol } from '../../../hooks'
 import { wrappedCurrencyAmount } from '../../../utils/wrappedCurrency'
 import { tryParseAmount } from '../../../state/swap/hooks'
 
@@ -108,7 +108,7 @@ const PoolInfo = ({
   }
 
   const unClaimedRow = {
-    label: `${t('migratePage.unclaimedPng', { pngSymbol: CHAINS[chainId].png_symbol! })}`,
+    label: `${t('migratePage.unclaimedPng', { pngSymbol: getPngSymbol(chainId) })}`,
     value: userLiquidityUnstaked ? `${unClaimedPng}` : '-'
   }
   const poolShareRow = {

@@ -4,10 +4,10 @@ import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/
 import { useAllProposalData, ProposalData, useUserVotes, useUserDelegatee } from '../../state/governance/hooks'
 import DelegateModal from '../../components/vote/DelegateModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
-import { useActiveWeb3React, useChainId } from '../../hooks'
+import { useActiveWeb3React, useChainId, getPngSymbol } from '../../hooks'
 import { ZERO_ADDRESS } from '../../constants'
 import { PNG } from '../../constants/tokens'
-import { JSBI, TokenAmount, ChainId, CHAINS } from '@pangolindex/sdk'
+import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
 import { shortenAddress, getEtherscanLink } from '../../utils'
 import Loader from '../../components/Loader'
 import FormattedCurrencyAmount from '../../components/FormattedCurrencyAmount'
@@ -144,12 +144,12 @@ export default function Vote() {
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  {t('votePage.earnedPngTokens', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                  {t('votePage.earnedPngTokens', { pngSymbol: getPngSymbol(chainId) })}
                 </TYPE.white>
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  {t('votePage.eligibleToVote', { pngSymbol: CHAINS[chainId].png_symbol! })}
+                  {t('votePage.eligibleToVote', { pngSymbol: getPngSymbol(chainId) })}
                 </TYPE.white>
               </RowBetween>
               <RowBetween>
