@@ -81,7 +81,8 @@ export const MenuLink = styled(NavLink).attrs({
   color: ${({ theme }) => theme.color22};
   font-size: 1rem;
   width: fit-content;
-  margin: 0 8px;
+  padding: 0 16px;
+  margin: 0px;
   align-items: center;
   font-weight: 500;
   width: 100%;
@@ -106,7 +107,8 @@ export const MenuExternalLink = styled(ExternalLink).attrs({
   color: ${({ theme }) => theme.color22};
   font-size: 1rem;
   width: fit-content;
-  margin: 0 8px;
+  padding: 0 16px;
+  margin: 0px;
   font-weight: 500;
   overflow-y: hidden;
   white-space: nowrap;
@@ -130,7 +132,7 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
   width: 100%;
   font-weight: 500;
   line-height: 50px;
-  padding: 8px;
+  padding: 0px;
   height: 50px;
   background-color: ${({ theme, isActive }) => (isActive ? theme.primary : 'transparent')};
   border-radius: 9px;
