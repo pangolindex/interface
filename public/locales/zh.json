@@ -377,7 +377,8 @@
     "yourLockedValue": "您的锁定值",
     "allPools": "所有池",
     "yourPools": "你的游泳池",
-    "yourWallet": "你的钱包"
+    "yourWallet": "你的钱包",
+    "noFarms": "没有找到农场。"
   },
   "poolFinder": {
     "connectToFind": "连接到钱包以查找矿池",
@@ -499,7 +500,8 @@
     "about": "关于",
     "vote": "投票",
     "executed": "已执行",
-    "rejected": "拒绝"
+    "rejected": "拒绝",
+    "notSupported": "此链不支持"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -598,5 +600,13 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
+  },
+  "error": {
+    "missingCurrencyAmounts": "缺少货币金额",
+    "missingTokens": "丢失的令牌",
+    "missingDependencies": "缺少依赖",
+    "missingLiquidityAmount": "缺少流动性金额",
+    "couldNotWrap": "不能换行",
+    "attemptingToConfirmApproval": "尝试在未经批准或签名的情况下进行确认。请联系支持人员。"
   }
 }

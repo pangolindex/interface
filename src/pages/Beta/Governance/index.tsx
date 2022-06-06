@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Text, Loader } from '@pangolindex/components'
+import { Text, Loader, Box } from '@pangolindex/components'
 import {
   PageWrapper,
   PageTitle,
@@ -17,8 +17,8 @@ import GovernanceCard, { ProposalStates } from './GovernanceCard'
 import { useGetProposalsViaSubgraph, ProposalData, useUserVotes, useUserDelegatee } from 'src/state/governance/hooks'
 import DelegateModal from 'src/components/vote/DelegateModal'
 import { useTokenBalance } from 'src/state/wallet/hooks'
-import { useActiveWeb3React } from 'src/hooks'
-import { ZERO_ADDRESS } from 'src/constants'
+import { useActiveWeb3React, useChain, useChainId } from 'src/hooks'
+import { BETA_MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
 import { shortenAddress, getEtherscanLink } from 'src/utils'
@@ -27,10 +27,11 @@ import { TYPE } from 'src/theme'
 import { RowBetween, RowFixed } from 'src/components/Row'
 import { useModalOpen, useToggleDelegateModal } from 'src/state/application/hooks'
 import { ApplicationModal } from 'src/state/application/actions'
-import { BETA_MENU_LINK } from 'src/constants'
 
 const GovernanceUI = () => {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+  const chain = useChain(chainId)
   const { t } = useTranslation()
 
   // toggle for showing delegation modal
@@ -42,7 +43,7 @@ const GovernanceUI = () => {
 
   // user data
   const availableVotes: TokenAmount | undefined = useUserVotes()
-  const pngBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, chainId ? PNG[chainId] : undefined)
+  const pngBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, PNG[chainId])
   const userDelegatee: string | undefined = useUserDelegatee()
 
   // show delegation option if they have have a balance, but have not delegated
@@ -73,75 +74,77 @@ const GovernanceUI = () => {
             {t('votePage.governanceVotes')}
           </Text>
         </About>
-        <WrapSmall style={{ justifyContent: 'flex-end', marginTop: '8px' }}>
-          {showUnlockVoting ? (
-            <DefaultButton variant="primary" onClick={toggleDelegateModal}>
-              {t('votePage.unlockVoting')}
-            </DefaultButton>
-          ) : availableVotes && JSBI.notEqual(JSBI.BigInt(0), availableVotes?.raw) ? (
-            <TYPE.body fontWeight={500} mr="6px">
-              <FormattedCurrencyAmount currencyAmount={availableVotes} /> {t('votePage.votes')}
-            </TYPE.body>
-          ) : pngBalance &&
-            userDelegatee &&
-            userDelegatee !== ZERO_ADDRESS &&
-            JSBI.notEqual(JSBI.BigInt(0), pngBalance?.raw) ? (
-            <TYPE.body fontWeight={500} mr="6px">
-              <FormattedCurrencyAmount currencyAmount={pngBalance} /> {t('votePage.votes')}
-            </TYPE.body>
-          ) : (
-            ''
-          )}
-        </WrapSmall>
-        {!showUnlockVoting && (
-          <RowBetween>
-            <div />
-            {userDelegatee && userDelegatee !== ZERO_ADDRESS ? (
-              <RowFixed>
-                <TYPE.body fontWeight={500} mr="4px">
-                  {t('votePage.delegatedTo')}
+        {chain.contracts?.governor ? (
+          <>
+            <WrapSmall style={{ justifyContent: 'flex-end', marginTop: '8px' }}>
+              {showUnlockVoting ? (
+                <DefaultButton variant="primary" onClick={toggleDelegateModal}>
+                  {t('votePage.unlockVoting')}
+                </DefaultButton>
+              ) : availableVotes && JSBI.notEqual(JSBI.BigInt(0), availableVotes?.raw) ? (
+                <TYPE.body fontWeight={500} mr="6px">
+                  <FormattedCurrencyAmount currencyAmount={availableVotes} /> {t('votePage.votes')}
                 </TYPE.body>
-                <AddressButton>
-                  <StyledExternalLink
-                    href={getEtherscanLink(ChainId.FUJI, userDelegatee, 'address')}
-                    style={{ margin: '0 4px' }}
-                  >
-                    {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee)}
-                  </StyledExternalLink>
-                  <TextButton onClick={toggleDelegateModal} style={{ marginLeft: '4px' }}>
-                    ({t('votePage.edit')})
-                  </TextButton>
-                </AddressButton>
-              </RowFixed>
-            ) : (
-              ''
+              ) : pngBalance &&
+                userDelegatee &&
+                userDelegatee !== ZERO_ADDRESS &&
+                JSBI.notEqual(JSBI.BigInt(0), pngBalance?.raw) ? (
+                <TYPE.body fontWeight={500} mr="6px">
+                  <FormattedCurrencyAmount currencyAmount={pngBalance} /> {t('votePage.votes')}
+                </TYPE.body>
+              ) : (
+                ''
+              )}
+            </WrapSmall>
+            {!showUnlockVoting && (
+              <RowBetween>
+                <div />
+                {userDelegatee && userDelegatee !== ZERO_ADDRESS ? (
+                  <RowFixed>
+                    <TYPE.body fontWeight={500} mr="4px">
+                      {t('votePage.delegatedTo')}
+                    </TYPE.body>
+                    <AddressButton>
+                      <StyledExternalLink
+                        href={getEtherscanLink(ChainId.FUJI, userDelegatee, 'address')}
+                        style={{ margin: '0 4px' }}
+                      >
+                        {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee)}
+                      </StyledExternalLink>
+                      <TextButton onClick={toggleDelegateModal} style={{ marginLeft: '4px' }}>
+                        ({t('votePage.edit')})
+                      </TextButton>
+                    </AddressButton>
+                  </RowFixed>
+                ) : (
+                  ''
+                )}
+              </RowBetween>
             )}
-          </RowBetween>
+            {(!allProposals || allProposals.length === 0) && (
+              <div style={{ textAlign: 'center', margin: '30px' }}>
+                <Loader size={100} />
+              </div>
+            )}
+            {allProposals?.map((p: ProposalData) => {
+              return (
+                <GovernanceCard
+                  id={p.id}
+                  title={p.title}
+                  status={p.status as ProposalStates}
+                  to={`${BETA_MENU_LINK.vote}/${p.id}`}
+                  key={p.id}
+                />
+              )
+            })}
+          </>
+        ) : (
+          <Box width="100%" marginTop={20} display="flex" justifyContent="center">
+            <Text color="text1" fontSize={24}>
+              {t('votePage.notSupported')}
+            </Text>
+          </Box>
         )}
-        {(!allProposals || allProposals.length === 0) && (
-          <div style={{ textAlign: 'center', margin: '30px' }}>
-            <Loader size={100} />
-          </div>
-        )}
-        {/* {allProposals?.length === 0 && (
-          <EmptyProposals>
-            <TYPE.body style={{ marginBottom: '8px' }}>{t('votePage.noProposalsFound')}</TYPE.body>
-            <TYPE.subHeader>
-              <i>{t('votePage.proposalCommunityMembers')}</i>
-            </TYPE.subHeader>
-          </EmptyProposals>
-        )} */}
-        {allProposals?.map((p: ProposalData) => {
-          return (
-            <GovernanceCard
-              id={p.id}
-              title={p.title}
-              status={p.status as ProposalStates}
-              to={`${BETA_MENU_LINK.vote}/${p.id}`}
-              key={p.id}
-            />
-          )
-        })}
       </ContentWrapper>
     </PageWrapper>
   )

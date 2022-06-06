@@ -49,24 +49,28 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
           statFontSize={20}
           titleColor="text2"
         />
-        <Stat
-          title={`Underlying ${currency0?.symbol}`}
-          stat={`${token0Deposited ? numeral(parseFloat(token0Deposited?.toSignificant(6))).format('0.00a') : '-'}`}
-          titlePosition="top"
-          titleFontSize={12}
-          statFontSize={20}
-          titleColor="text2"
-          currency={currency0}
-        />
-        <Stat
-          title={`Underlying ${currency1?.symbol}`}
-          stat={`${token1Deposited ? numeral(parseFloat(token1Deposited?.toSignificant(6))).format('0.00a') : '-'}`}
-          titlePosition="top"
-          titleFontSize={12}
-          statFontSize={20}
-          titleColor="text2"
-          currency={currency1}
-        />
+        {currency0 && (
+          <Stat
+            title={`Underlying ${currency0?.symbol ? currency0?.symbol : ''}`}
+            stat={`${token0Deposited ? numeral(parseFloat(token0Deposited?.toSignificant(6))).format('0.00a') : '-'}`}
+            titlePosition="top"
+            titleFontSize={12}
+            statFontSize={20}
+            titleColor="text2"
+            currency={currency0}
+          />
+        )}
+        {currency1 && (
+          <Stat
+            title={`Underlying ${currency1?.symbol ? currency1?.symbol : ''}`}
+            stat={`${token1Deposited ? numeral(parseFloat(token1Deposited?.toSignificant(6))).format('0.00a') : '-'}`}
+            titlePosition="top"
+            titleFontSize={12}
+            statFontSize={20}
+            titleColor="text2"
+            currency={currency1}
+          />
+        )}
       </StateContainer>
     </Box>
   )

@@ -377,7 +377,8 @@
     "yourLockedValue": "Giá trị đã khóa của bạn",
     "allPools": "Tất cả các hồ bơi",
     "yourPools": "Hồ bơi của bạn",
-    "yourWallet": "Ví của bạn"
+    "yourWallet": "Ví của bạn",
+    "noFarms": "Không tìm thấy trang trại nào."
   },
   "poolFinder": {
     "connectToFind": "Kêt nối với một ví để nhìn thấy bể",
@@ -500,7 +501,8 @@
     "about": "Về",
     "vote": "Bầu cử",
     "executed": "Thực thi",
-    "rejected": "Bác bỏ"
+    "rejected": "Bác bỏ",
+    "notSupported": "Không được hỗ trợ trên chuỗi này"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -599,5 +601,13 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
+  },
+  "error": {
+    "missCurrencyAmounts": "Thiếu số tiền",
+    "missTokens": "Thiếu mã thông báo",
+    "Thiếu phụ thuộc": "Thiếu phụ thuộc",
+    "missingLiquidityAmount": "Thiếu số tiền thanh khoản",
+    "couldNotWrap": "Không thể quấn",
+    "trytingToConfirmApproval": "Đang cố gắng xác nhận mà không cần phê duyệt hoặc chữ ký. Vui lòng liên hệ với bộ phận hỗ trợ."
   }
 }

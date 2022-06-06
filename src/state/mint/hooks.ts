@@ -122,9 +122,14 @@ export function useDerivedMintInfo(
 
   const price = useMemo(() => {
     if (noLiquidity) {
-      const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts
-      if (currencyAAmount && currencyBAmount) {
-        return new Price(currencyAAmount.currency, currencyBAmount.currency, currencyAAmount.raw, currencyBAmount.raw)
+      const { [Field.CURRENCY_A]: _currencyAAmount, [Field.CURRENCY_B]: _currencyBAmount } = parsedAmounts
+      if (_currencyAAmount && _currencyBAmount) {
+        return new Price(
+          _currencyAAmount.currency,
+          _currencyBAmount.currency,
+          _currencyAAmount.raw,
+          _currencyBAmount.raw
+        )
       }
       return undefined
     } else {
@@ -135,10 +140,10 @@ export function useDerivedMintInfo(
 
   // liquidity minted
   const liquidityMinted = useMemo(() => {
-    const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts
+    const { [Field.CURRENCY_A]: _currencyAAmount, [Field.CURRENCY_B]: _currencyBAmount } = parsedAmounts
     const [tokenAmountA, tokenAmountB] = [
-      wrappedCurrencyAmount(currencyAAmount, chainId),
-      wrappedCurrencyAmount(currencyBAmount, chainId)
+      wrappedCurrencyAmount(_currencyAAmount, chainId),
+      wrappedCurrencyAmount(_currencyBAmount, chainId)
     ]
     insufficientInput = false // eslint-disable-line react-hooks/exhaustive-deps
     if (pair && totalSupply && tokenAmountA && tokenAmountB) {

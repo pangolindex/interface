@@ -6,11 +6,10 @@ import { Text, Box, DoubleCurrencyLogo } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { useGetPoolDollerWorth } from 'src/state/stake/hooks'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import RemoveLiquidityDrawer from '../../RemoveLiquidityDrawer'
 import AddLiquidityDrawer from '../../AddLiquidityDrawer'
-import { useChainId } from 'src/hooks'
 
 export interface WalletCardProps {
   pair: Pair

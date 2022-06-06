@@ -377,7 +377,8 @@
     "yourLockedValue": "Your Locked Value",
     "allPools": "All Pools",
     "yourPools": "Your Pools",
-    "yourWallet": "Your Wallet"
+    "yourWallet": "Your Wallet",
+    "noFarms": "No farms found."
   },
   "poolFinder": {
     "connectToFind": "Connect to a wallet to find pools",
@@ -500,7 +501,8 @@
     "about": "About",
     "vote": "Vote",
     "executed": "Executed",
-    "rejected": "Rejected"
+    "rejected": "Rejected",
+    "notSupported": "Not supported on this chain"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -599,5 +601,13 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
+  },
+  "error": {
+    "missingCurrencyAmounts": "Missing currency amounts",
+    "missingTokens": "Missing tokens",
+    "missingDependencies": "Missing dependencies",
+    "missingLiquidityAmount": "Missing liquidity amount",
+    "couldNotWrap": "Could not wrap",
+    "attemptingToConfirmApproval": "Attempting to confirm without approval or a signature. Please contact support."
   }
 }

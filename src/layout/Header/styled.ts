@@ -49,7 +49,7 @@ export const HeaderControls = styled.div`
     z-index: 99;
     height: 72px;
     border-radius: 12px 12px 0 0;
-    background-color: ${({ theme }) => theme.bg1};
+    background-color: ${theme.bg1};
   `};
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -72,7 +72,7 @@ export const FooterMobileControls = styled.div`
     z-index: 99;
     height: 72px;
     border-radius: 12px 12px 0 0;
-    background-color: ${({ theme }) => theme.bg1};
+    background-color: ${theme.bg1};
   `};
 `
 
@@ -169,13 +169,13 @@ export const ThemeMode = styled(BlackCard)`
     padding: 10px;
     border: none;
     height: 45px;
-    background-color: ${({ theme }) => theme.color7};
+    background-color: ${theme.color7};
   `};
 `
 
 export const MobileHeader = styled.div`
   height: 80px;
-  position: fixed;
+  /* position: fixed; */
   width: 100%;
   z-index: 2;
   background-color: ${({ theme }) => theme.bg2};

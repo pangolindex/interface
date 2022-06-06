@@ -62,12 +62,12 @@ export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingI
     }
   }
 
-  let error: string | undefined
+  let errorMessage: string | undefined
   if (!account) {
-    error = t('earn.connectWallet')
+    errorMessage = t('earn.connectWallet')
   }
   if (!stakingInfo?.stakedAmount) {
-    error = error ?? t('earn.enterAmount')
+    errorMessage = errorMessage ?? t('earn.enterAmount')
   }
 
   return (
@@ -87,8 +87,12 @@ export default function ClaimRewardModalSingleSide({ isOpen, onDismiss, stakingI
             </AutoColumn>
           )}
           <TYPE.subHeader style={{ textAlign: 'center' }}>{t('earn.liquidityRemainsPool')}</TYPE.subHeader>
-          <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onClaimReward}>
-            {error ?? t('earn.claimReward', { symbol: stakingInfo?.rewardToken?.symbol })}
+          <ButtonError
+            disabled={!!errorMessage}
+            error={!!errorMessage && !!stakingInfo?.stakedAmount}
+            onClick={onClaimReward}
+          >
+            {errorMessage ?? t('earn.claimReward', { symbol: stakingInfo?.rewardToken?.symbol })}
           </ButtonError>
         </ContentWrapper>
       )}

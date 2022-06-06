@@ -18,7 +18,7 @@ import {
 } from './styled'
 import Backward from '../../assets/svg/backward.svg'
 import Forward from '../../assets/svg/forward.svg'
-import { Dashboard, Swap, Stake, Pool, Buy, Vote, Migration } from '../../components/Icons'
+import { Dashboard, Swap, Stake, Pool, Buy, Vote, Migration, Airdrop } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import { ANALYTICS_PAGE } from '../../constants'
 import Bridge from '../../assets/svg/menu/bridge.svg'
@@ -27,10 +27,18 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import Logo from '../Logo'
 import { BETA_MENU_LINK } from 'src/constants'
 import { useGetMigrationData } from 'src/state/migrate/hooks'
+import { useAirdropIsClaimingAllowed } from 'src/state/airdrop/hooks'
 
 interface SidebarProps {
   collapsed: boolean
   onCollapsed: (isCollapsed: boolean) => void
+}
+
+interface Link {
+  link: string
+  icon: string
+  title: string
+  id: string
 }
 
 export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
@@ -40,6 +48,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
   const theme = useContext(ThemeContext)
 
   const { allPool } = useGetMigrationData(1)
+  const claimingAllowed = useAirdropIsClaimingAllowed()
 
   const mainLinks = [
     {
@@ -98,6 +107,16 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
     })
   }
 
+  if (claimingAllowed) {
+    mainLinks.push({
+      link: BETA_MENU_LINK.airdrop,
+      icon: Airdrop,
+      title: 'Airdrop',
+      id: 'airdrop',
+      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.airdrop)
+    })
+  }
+
   const pangolinLinks = [
     {
       link: ANALYTICS_PAGE,
@@ -127,6 +146,17 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
       id: 'satellite-bridge'
     }
   ]
+
+  const createMenuLink = (link: Link, index: number) => {
+    return (
+      <MenuItem key={index}>
+        <MenuExternalLink id={link.id} href={link.link}>
+          <img src={link.icon} width={16} alt={link.title} />
+          {!collapsed && <MenuName fontSize={16}>{link.title}</MenuName>}
+        </MenuExternalLink>
+      </MenuItem>
+    )
+  }
 
   return (
     <Sider
@@ -177,16 +207,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
               </Box>
             )}
 
-            {pangolinLinks.map((x, index) => {
-              return (
-                <MenuItem key={index}>
-                  <MenuExternalLink id={x.id} href={x.link}>
-                    <img src={x.icon} width={16} alt={x.title} />
-                    {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
-                  </MenuExternalLink>
-                </MenuItem>
-              )
-            })}
+            {pangolinLinks.map((x, index) => createMenuLink(x, index))}
           </Box>
           <Box mt={collapsed ? '0px' : '10px'}>
             {!collapsed && (
@@ -197,16 +218,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
               </Box>
             )}
 
-            {otherLinks.map((x, index) => {
-              return (
-                <MenuItem key={index}>
-                  <MenuExternalLink id={x.id} href={x.link}>
-                    <img src={x.icon} width={16} alt={x.title} />
-                    {!collapsed && <MenuName fontSize={16}>{x.title}</MenuName>}
-                  </MenuExternalLink>
-                </MenuItem>
-              )
-            })}
+            {otherLinks.map((x, index) => createMenuLink(x, index))}
           </Box>
         </MenuWrapper>
       </Scrollbars>

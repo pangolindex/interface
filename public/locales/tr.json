@@ -371,12 +371,13 @@
     "noSeePoolJoined": "Likidite sağladığınız bir havuzu görmüyor musunuz?",
     "migrateNow": "Şimdi taşı.",
     "importIt": "Dışarıdan ekle.",
-    "seeDetails":"DETAYLARI GÖR",
+    "seeDetails": "DETAYLARI GÖR",
     "totalLockedValue": "Toplam Kilitli Değer",
     "yourLockedValue": "Kilitli Değeriniz",
     "allPools": "Tüm Havuzlar",
     "yourPools": "Havuzlarınız",
-    "yourWallet": "Cüzdanın"
+    "yourWallet": "Cüzdanın",
+    "noFarms": "Çiftlik bulunamadı."
   },
   "poolFinder": {
     "connectToFind": "Havuzları bulmak için bir cüzdan bağlayın",
@@ -445,7 +446,7 @@
     "comingSoon": "Çok yakında",
     "connectWalletViewPortFolio": "Portföyünüzü görüntülemek için cüzdanı bağlayın.",
     "limitOrders": "Limit Emirleri",
-    "cancelOrder" : "Emri iptal et",
+    "cancelOrder": "Emri iptal et",
     "all": "TÜMÜ",
     "open": "AÇIK",
     "executed": "GERÇEKLEŞTİ",
@@ -499,7 +500,8 @@
     "about": "Hakkında",
     "vote": "Oy",
     "executed": "Kabul Edildi",
-    "rejected": "Reddedildi"
+    "rejected": "Reddedildi",
+    "notSupported": "Bu zincirde desteklenmiyor"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -544,13 +546,13 @@
     "startMigratingNowDescription": "Aşağıda Pangolin'in V2 akıllı kontratlarına geçiş sağlaması gereken tüm farmları görebilirsiniz.",
     "seeMore": "DAHA FAZLASINI GÖR",
     "migrateWithEase": "KOLAYLIKLA TAŞIYIN",
-    "migrateWithDescription":"Farmlarınızı taşıma sürecinde size rehberlik edecek bir sihirbaz tasarladık.",
+    "migrateWithDescription": "Farmlarınızı taşıma sürecinde size rehberlik edecek bir sihirbaz tasarladık.",
     "alreadyMigrate": "zaten taşındı",
     "walletMigrate": "cüzdan taşındı",
     "alreadyEarned": "zaten kazanıldı",
     "migrateNow": "ŞİMDİ TAŞI",
     "learn": "ÖĞREN",
-    "moveYourTokensToNewContracts" :"Farmlarınızı Pangolin V2'ye Taşıyın",
+    "moveYourTokensToNewContracts": "Farmlarınızı Pangolin V2'ye Taşıyın",
     "readyToMigrate": "Taşımaya hazır",
     "apr": "APR(Yıllık Getiri Oranı):",
     "totalValueLocked": "Toplam Kilitli Değer",
@@ -572,7 +574,7 @@
     "back": "Geri",
     "availableToUnstake": "Stake etmeyi durdurmaya müsait olan miktar: ",
     "submittingTransaction": "İşlem gönderiliyor",
-    "moveYourTokensToNewContractsDescription" :"Pangolin'in yeni geliştirilmiş olduğu kontratlara geçişin bir parçası olarak, farmlarınızı taşımanız gerekiyor. Herhangi bir konuda yardıma ihtiyacınız varsa, lütfen “Öğren” tuşuna tıklayın.",
+    "moveYourTokensToNewContractsDescription": "Pangolin'in yeni geliştirilmiş olduğu kontratlara geçişin bir parçası olarak, farmlarınızı taşımanız gerekiyor. Herhangi bir konuda yardıma ihtiyacınız varsa, lütfen “Öğren” tuşuna tıklayın.",
     "migrateModalHeading": "{{ total }} farmlar içinden {{ current }}'ı taşı"
   },
   "dashboardPage": {
@@ -598,5 +600,13 @@
     "stake": "STAKE ET",
     "earn": "{{symbol}} Kazan",
     "stakeAndEarn": "PNG'lerinizi stake edin ve ödüller kazanın!"
+  },
+  "error": {
+    "missingCurrencyAmounts": "Eksik para birimi tutarları",
+    "missingTokens": "Eksik jetonlar",
+    "missingDependencies": "Eksik bağımlılıklar",
+    "missingLiquidityAmount": "Eksik likidite tutarı",
+    "couldNotWrap": "Kaydırılamadı",
+    "attemptingToConfirmApproval": "Onay veya imza olmadan onaylamaya çalışılıyor. Lütfen destek ile iletişime geçin."
   }
 }

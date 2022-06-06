@@ -13,8 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { RowBetween } from 'src/components/Row'
 import { ROUTER_ADDRESS } from 'src/constants'
 import { useWalletModalToggle } from 'src/state/application/hooks'
-import { useBurnActionHandlers } from 'src/state/burn/hooks'
-import { useDerivedBurnInfo, useBurnState } from 'src/state/burn/hooks'
+import { useBurnActionHandlers, useDerivedBurnInfo, useBurnState } from 'src/state/burn/hooks'
 import { wrappedCurrency } from 'src/utils/wrappedCurrency'
 import { useUserSlippageTolerance } from 'src/state/user/hooks'
 import { Field } from 'src/state/burn/actions'
@@ -145,9 +144,9 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
           deadline: deadline.toNumber()
         })
       })
-      .catch(error => {
+      .catch(err => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-        if (error?.code !== 4001) {
+        if (err?.code !== 4001) {
           approveCallback()
         }
       })
@@ -159,9 +158,9 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
 
   // wrapped onUserInput to clear signatures
   const onUserInput = useCallback(
-    (typedValue: string) => {
+    (_typedValue: string) => {
       setSignatureData(null)
-      _onUserInput(Field.LIQUIDITY, typedValue)
+      _onUserInput(Field.LIQUIDITY, _typedValue)
     },
     [_onUserInput]
   )
@@ -169,11 +168,10 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
   // tx sending
   const addTransaction = useTransactionAdder()
   async function onRemove() {
-    if (!chainId || !library || !account || !deadline) throw new Error('missing dependencies')
+    if (!chainId || !library || !account || !deadline) throw new Error(t('error.missingDependencies'))
     const { [Field.CURRENCY_A]: currencyAmountA, [Field.CURRENCY_B]: currencyAmountB } = parsedAmounts
     if (!currencyAmountA || !currencyAmountB) {
-      // TODO: Translate using i18n
-      throw new Error('missing currency amounts')
+      throw new Error(t('error.missingCurrencyAmounts'))
     }
     const router = getRouterContract(chainId, library, account)
 
@@ -182,16 +180,14 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
       [Field.CURRENCY_B]: calculateSlippageAmount(currencyAmountB, allowedSlippage)[0]
     }
 
-    // TODO: Translate using i18n
-    if (!currencyA || !currencyB) throw new Error('missing tokens')
+    if (!currencyA || !currencyB) throw new Error(t('error.missingTokens'))
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
-    if (!liquidityAmount) throw new Error('missing liquidity amount')
+    if (!liquidityAmount) throw new Error(t('error.missingLiquidityAmount'))
 
     const currencyBIsAVAX = currencyB === CAVAX[chainId]
     const oneCurrencyIsAVAX = currencyA === CAVAX[chainId] || currencyBIsAVAX
 
-    // TODO: Translate using i18n
-    if (!tokenA || !tokenB) throw new Error('could not wrap')
+    if (!tokenA || !tokenB) throw new Error(t('error.couldNotWrap'))
 
     let methodNames: string[], args: Array<string | string[] | number | boolean>
     // we have approval, use normal remove liquidity
@@ -258,16 +254,15 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
         ]
       }
     } else {
-      // TODO: Translate using i18n
-      throw new Error('Attempting to confirm without approval or a signature. Please contact support.')
+      throw new Error(t('error.attemptingToConfirmApproval'))
     }
 
     const safeGasEstimates: (BigNumber | undefined)[] = await Promise.all(
       methodNames.map(methodName =>
         router.estimateGas[methodName](...args)
           .then(calculateGasMargin)
-          .catch(error => {
-            console.error(`estimateGas failed`, methodName, args, error)
+          .catch(err => {
+            console.error(`estimateGas failed`, methodName, args, err)
             return undefined
           })
       )
@@ -289,7 +284,6 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
         gasLimit: safeGasEstimate
       })
         .then((response: TransactionResponse) => {
-          // TODO: Translate using i18n
           addTransaction(response, {
             summary:
               t('removeLiquidity.remove') +
@@ -311,11 +305,11 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
             label: [currencyA?.symbol, currencyB?.symbol].join('/')
           })
         })
-        .catch((error: any) => {
+        .catch((err: any) => {
           setAttempting(false)
           // we only care if the error is something _other_ than the user rejected the tx
-          if (error?.code !== 4001) {
-            console.error(error)
+          if (err?.code !== 4001) {
+            console.error(err)
           }
         })
     }
@@ -338,7 +332,7 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
                     </Box>
                   }
                   onChange={(value: any) => {
-                    onUserInput(value as any)
+                    onUserInput(value)
                   }}
                   fontSize={24}
                   isNumeric={true}

@@ -74,13 +74,6 @@ export default function SocialMedia({ collapsed }: SocialMediaProps) {
           )
         })}
       </IconWrapper>
-
-      {/* {!collapsed && (
-        <Box display="inline-flex" justifyContent="space-between" alignItems="center">
-          <img height={'28px'} src={AppStore} alt={'AppStore'} style={{ marginRight: '5px' }} />
-          <img height={'28px'} src={PlayStore} alt={'PlayStore'} />
-        </Box>
-      )} */}
     </Wrapper>
   )
 }

@@ -376,7 +376,8 @@
     "yourLockedValue": "Seu valor bloqueado",
     "allPools": "Todos os pools",
     "yourPools": "Seus pools",
-    "yourWallet": "Sua carteira"
+    "yourWallet": "Sua carteira",
+    "noFarms": "Nenhuma fazenda encontrada."
   },
   "poolFinder": {
     "connectToFind": "Conecte-se a uma carteira para encontrar suas pools",
@@ -499,7 +500,8 @@
     "about": "Cerca de",
     "vote": "Voto",
     "executed": "Executado",
-    "rejected": "Rejeitado"
+    "rejected": "Rejeitado",
+    "notSupported": "Não suportado nesta cadeia"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
@@ -598,5 +600,13 @@
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
     "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
+  },
+  "error": {
+    "missingCurrencyAmounts": "Valores de moeda ausentes",
+    "missingTokens": "Tokens ausentes",
+    "missingDependencies": "Dependências ausentes",
+    "missingLiquidityAmount": "Quantidade de liquidez ausente",
+    "couldNotWrap": "Não foi possível fazer Wrap",
+    "attemptingToConfirmApproval": "Tentando confirmar sem aprovação ou assinatura. Por favor, contate o suporte."
   }
 }

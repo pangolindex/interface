@@ -28,7 +28,7 @@ export function useDerivedBurnInfo(
     [Field.CURRENCY_B]?: CurrencyAmount
   }
   error?: string
-  userLiquidity?: TokenAmount | undefined
+  userLiquidity?: TokenAmount
 } {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()

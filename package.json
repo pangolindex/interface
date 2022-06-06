@@ -1,6 +1,6 @@
 {
   "name": "@pangolindex/interface",
-  "version": "1.0.35",
+  "version": "1.0.36-dev.10",
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
@@ -12,10 +12,10 @@
     "@gelatonetwork/limit-orders-react": "^2.4.0",
     "@gnosis.pm/safe-apps-web3-react": "^0.6.7",
     "@metamask/jazzicon": "^2.0.0",
-    "@pangolindex/components": "3.0.1",
+    "@pangolindex/components": "3.0.2",
     "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.2.0",
-    "@pangolindex/sdk": "2.0.1",
+    "@pangolindex/sdk": "2.0.11",
     "@pangolindex/token-lists": "^1.0.1",
     "@pangolindex/web3-react-injected-connector": "^1.0.0",
     "@popperjs/core": "^2.4.4",
@@ -24,6 +24,7 @@
     "@reduxjs/toolkit": "^1.7.2",
     "@types/jest": "^25.2.1",
     "@types/lodash.flatmap": "^4.5.6",
+    "@types/lodash.isequal": "^4.5.6",
     "@types/luxon": "^1.24.4",
     "@types/multicodec": "^1.0.0",
     "@types/node": "^13.13.5",
@@ -35,7 +36,6 @@
     "@types/react-html-parser": "^2.0.2",
     "@types/react-redux": "^7.1.8",
     "@types/react-router-dom": "^5.0.0",
-    "@types/react-slick": "^0.23.7",
     "@types/react-virtualized-auto-sizer": "^1.0.0",
     "@types/react-window": "^1.8.2",
     "@types/rebass": "^4.0.5",
@@ -99,7 +99,6 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "^3.4.1",
-    "react-slick": "^0.28.1",
     "react-spring": "^8.0.27",
     "react-use": "^15.3.8",
     "react-use-gesture": "^6.0.14",
@@ -110,7 +109,6 @@
     "redux-localstorage-simple": "^2.3.1",
     "remark-gfm": "^3.0.1",
     "serve": "^11.3.0",
-    "slick-carousel": "^1.8.1",
     "start-server-and-test": "^1.11.0",
     "styled-components": "^4.2.0",
     "typescript": "^3.8.3",
@@ -122,7 +120,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts --max_old_space_size=4096 build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "serve": "serve build -l 3000",
@@ -166,7 +164,9 @@
     "@types/crypto-js": "^4.0.2",
     "@types/react-portal": "^4.0.4",
     "crypto-js": "^4.0.0",
+    "graphql-request": "^4.2.0",
     "lightweight-charts": "^3.7.0",
+    "lodash.isequal": "^4.5.0",
     "react-portal": "^4.2.1"
   }
 }

@@ -1,7 +1,4 @@
 import { ChainId, JSBI, Percent, Token, WAVAX, CHAINS } from '@pangolindex/sdk'
-import { AbstractConnector } from '@web3-react/abstract-connector'
-
-import { gnosisSafe, injected, walletconnect, walletlink, xDefi } from '../connectors'
 import { DAIe, PNG, USDC, USDCe, USDTe, UST, axlUST } from './tokens'
 
 export const GAS_PRICE = 225
@@ -19,6 +16,8 @@ export const ANALYTICS_PAGE = 'https://info.pangolin.exchange'
 export const PANGOLIN_API_BASE_URL = `https://api.pangolin.exchange`
 
 export const PANGOLIN_TOKENS_REPO_RAW_BASE_URL = `https://raw.githubusercontent.com/pangolindex/tokens`
+
+export const DIRECTUS_GRAPHQL_URL = `https://p7gm7mqi.directus.app/graphql`
 
 export type LogoSize = 24 | 48
 export const getTokenLogoURL = (address: string, size: LogoSize = 24) =>
@@ -143,92 +142,6 @@ export const SWAP_DEFAULT_CURRENCY = {
     inputCurrency: '',
     outputCurrency: ''
   }
-}
-
-export interface WalletInfo {
-  connector?: AbstractConnector
-  name: string
-  iconName: string
-  description: string
-  href: string | null
-  color: string
-  primary?: true
-  mobile?: true
-  mobileOnly?: true
-}
-
-export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
-  INJECTED: {
-    connector: injected,
-    name: 'Injected',
-    iconName: 'arrow-right.svg',
-    description: 'Injected web3 provider.',
-    href: null,
-    color: '#010101',
-    primary: true
-  },
-  METAMASK: {
-    connector: injected,
-    name: 'MetaMask',
-    iconName: 'metamask.png',
-    description: 'Easy-to-use browser extension.',
-    href: null,
-    color: '#E8831D'
-  },
-  GNOSISSAFE: {
-    connector: gnosisSafe,
-    name: 'Gnosis Safe',
-    iconName: 'gnosis_safe.png',
-    description: 'Gnosis Safe Multisig Wallet.',
-    href: null,
-    color: '#010101'
-  },
-  WALLET_LINK: {
-    connector: walletlink,
-    name: 'Coinbase Wallet',
-    iconName: 'coinbaseWalletIcon.svg',
-    description: 'Use Coinbase Wallet app on mobile device',
-    href: null,
-    color: '#315CF5'
-  },
-  WALLET_CONNECT: {
-    connector: walletconnect,
-    name: 'Wallet Connect',
-    iconName: 'walletConnectIcon.svg',
-    description: 'Use Wallet Connect',
-    href: null,
-    color: '#315CF5'
-  },
-  XDEFI: {
-    connector: xDefi,
-    name: 'XDEFI Wallet',
-    iconName: 'xDefi.png',
-    description: window.xfi && window.xfi.ethereum ? 'Easy-to-use browser extension.' : 'Please Install',
-    href: null,
-    color: '#315CF5'
-  },
-  RABBY: {
-    connector: injected,
-    name: 'Rabby Wallet',
-    iconName: 'rabby.svg',
-    description: 'Easy-to-use browser extension.',
-    href: null,
-    color: '#7a7cff'
-  }
-}
-
-export const NetworkContextName = 'NETWORK'
-
-export const AVALANCHE_CHAIN_PARAMS = {
-  chainId: '0xa86a', // A 0x-prefixed hexadecimal chainId
-  chainName: 'Avalanche Mainnet C-Chain',
-  nativeCurrency: {
-    name: 'Avalanche',
-    symbol: 'AVAX',
-    decimals: 18
-  },
-  rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
-  blockExplorerUrls: ['https://snowtrace.io//']
 }
 
 // default allowed slippage, in bips

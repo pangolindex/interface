@@ -215,11 +215,11 @@ export default function AddLiquidityModal({
           })
         })
       )
-      .catch(error => {
+      .catch(_error => {
         setAttemptingTxn(false)
         // we only care if the error is something _other_ than the user rejected the tx
-        if (error?.code !== 4001) {
-          console.error(error)
+        if (_error?.code !== 4001) {
+          console.error(_error)
         }
       })
   }
@@ -270,8 +270,8 @@ export default function AddLiquidityModal({
   } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`
 
   const handleCurrencyASelect = useCallback(
-    (currencyA: Currency) => {
-      const newCurrencyIdA = currencyId(currencyA, chainId)
+    (_currencyA: Currency) => {
+      const newCurrencyIdA = currencyId(_currencyA, chainId)
       if (newCurrencyIdA === currencyIdB) {
         setCurrencyIdA(currencyIdB)
         setCurrencyIdB(currencyIdA)
@@ -279,11 +279,11 @@ export default function AddLiquidityModal({
         setCurrencyIdA(newCurrencyIdA)
       }
     },
-    [currencyIdB, currencyIdA]
+    [currencyIdB, currencyIdA, chainId]
   )
   const handleCurrencyBSelect = useCallback(
-    (currencyB: Currency) => {
-      const newCurrencyIdB = currencyId(currencyB, chainId)
+    (_currencyB: Currency) => {
+      const newCurrencyIdB = currencyId(_currencyB, chainId)
       if (newCurrencyIdB === currencyIdA) {
         setCurrencyIdA(currencyIdB)
         setCurrencyIdB(currencyIdA)
@@ -291,7 +291,7 @@ export default function AddLiquidityModal({
         setCurrencyIdB(newCurrencyIdB)
       }
     },
-    [currencyIdA, currencyIdB]
+    [currencyIdA, currencyIdB, chainId]
   )
 
   const handleDismissConfirmation = useCallback(() => {
@@ -304,8 +304,6 @@ export default function AddLiquidityModal({
   }, [onFieldAInput, txHash])
 
   function wrappedOnDismiss() {
-    // setHash(undefined)
-    // setAttempting(false)
     onDismiss()
   }
 

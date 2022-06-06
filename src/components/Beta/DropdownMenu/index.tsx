@@ -40,7 +40,13 @@ const DropdownMenu: React.FC<Props> = ({ value, onSelect, title, options, height
       {open && (
         <NarrowMenuFlyout>
           {(options || []).map((option, i) => (
-            <MenuLink key={i} onClick={() => onSelect(option.value)}>
+            <MenuLink
+              key={i}
+              onClick={() => {
+                onSelect(option.value)
+                handleClose()
+              }}
+            >
               {option.label}
             </MenuLink>
           ))}
