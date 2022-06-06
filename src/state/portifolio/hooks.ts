@@ -130,7 +130,7 @@ export function useGetChainBalance() {
 
     return 0
   }
-  return useQuery('getChainBalance', getChainBalance, { refetchInterval: 10000 })
+  return useQuery('getChainBalance', getChainBalance, { refetchInterval: 600000 })
 }
 
 // Get the Tokens of wallet
@@ -238,7 +238,7 @@ export function useGetWalletChainTokens() {
       return tokens.filter(token => token.usdValue >= 0.01)
     },
     {
-      refetchInterval: 10000
+      refetchInterval: 600000
     }
   )
 }
