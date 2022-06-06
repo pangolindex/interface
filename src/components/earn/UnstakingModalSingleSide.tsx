@@ -127,9 +127,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>
-              {t('earn.withdrewStakingToken', { symbol: getPngSymbol(chainId) })}
-            </TYPE.body>
+            <TYPE.body fontSize={20}>{t('earn.withdrewStakingToken', { symbol: getPngSymbol(chainId) })}</TYPE.body>
             <TYPE.body fontSize={20}>{t('earn.claimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}</TYPE.body>
           </AutoColumn>
         </SubmittedView>

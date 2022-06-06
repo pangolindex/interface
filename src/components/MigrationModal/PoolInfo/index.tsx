@@ -1,7 +1,7 @@
 import React from 'react'
 import { InfoWrapper, DataBox, ContentBox, TextBox, StyledBalanceMax } from './styleds'
 import { Text, Box, DoubleCurrencyLogo, Steps, Step } from '@pangolindex/components'
-import { Pair, TokenAmount, JSBI, CHAINS } from '@pangolindex/sdk'
+import { Pair, TokenAmount, JSBI } from '@pangolindex/sdk'
 import { useGetPairDataFromPair, StakingInfo } from '../../../state/stake/hooks'
 import numeral from 'numeral'
 import { useTranslation } from 'react-i18next'

@@ -145,9 +145,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
               <TYPE.white color="white">${pngPrice?.toFixed(2, { groupSeparator: ',' }) ?? '-'}</TYPE.white>
             </RowBetween>
             <RowBetween>
-              <TYPE.white color="white">
-                {t('header.pngCirculation', { symbol: getPngSymbol(chainId) })}
-              </TYPE.white>
+              <TYPE.white color="white">{t('header.pngCirculation', { symbol: getPngSymbol(chainId) })}</TYPE.white>
               <TYPE.white color="white">{circulation?.toFixed(0, { groupSeparator: ',' }) ?? '-'}</TYPE.white>
             </RowBetween>
             <RowBetween>
@@ -184,9 +182,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                     })
                   }}
                 >
-                  <TYPE.white color="white">
-                    {t('header.addMetamask', { symbol: getPngSymbol(chainId) })}
-                  </TYPE.white>
+                  <TYPE.white color="white">{t('header.addMetamask', { symbol: getPngSymbol(chainId) })}</TYPE.white>
                 </AddPNG>
               </AutoColumn>
             </CardSection>
