@@ -721,7 +721,18 @@ export function useTotalPngEarned(): TokenAmount | undefined {
   const chainId = useChainId()
 
   const png = PNG[chainId]
+  const minichefInfo = useMinichefStakingInfos(2)
   const singleStakingInfo = useSingleSideStakingInfo(0, png)
+
+  const earnedMinichef = useMemo(() => {
+    if (!png) return new TokenAmount(png, '0')
+    return (
+      minichefInfo?.reduce(
+        (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
+        new TokenAmount(png, '0')
+      ) ?? new TokenAmount(png, '0')
+    )
+  }, [minichefInfo, png])
 
   //Get png earned from single side staking
   const earnedSingleStaking = useMemo(() => {
@@ -730,7 +741,7 @@ export function useTotalPngEarned(): TokenAmount | undefined {
     return pngSingleStaking ? pngSingleStaking.earnedAmount : new TokenAmount(png, '0')
   }, [png, singleStakingInfo])
 
-  return earnedSingleStaking
+  return earnedSingleStaking.add(earnedMinichef)
 }
 
 // based on typed value
