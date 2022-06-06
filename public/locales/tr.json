@@ -568,7 +568,8 @@
     "about": "Hakkında",
     "vote": "Oy",
     "executed": "Kabul Edildi",
-    "rejected": "Reddedildi"
+    "rejected": "Reddedildi",
+    "notSupported": "Bu zincirde desteklenmiyor"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",

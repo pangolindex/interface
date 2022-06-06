@@ -500,7 +500,8 @@
     "about": "Cerca de",
     "vote": "Voto",
     "executed": "Executado",
-    "rejected": "Rejeitado"
+    "rejected": "Rejeitado",
+    "notSupported": "Não suportado nesta cadeia"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",

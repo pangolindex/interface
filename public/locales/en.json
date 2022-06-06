@@ -501,7 +501,8 @@
     "about": "About",
     "vote": "Vote",
     "executed": "Executed",
-    "rejected": "Rejected"
+    "rejected": "Rejected",
+    "notSupported": "Not supported on this chain"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",
