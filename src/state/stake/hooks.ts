@@ -535,23 +535,23 @@ export function useSingleSideStakingInfo(
   version: number,
   rewardTokenToFilterBy?: Token | null
 ): SingleSideStakingInfo[] {
-  const { chainId, library, account } = useActiveWeb3React()
+  const { library, account } = useActiveWeb3React()
+
+  const chainId = useChainId()
 
   const info = useMemo(
     () =>
-      chainId
-        ? SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
-            rewardTokenToFilterBy === undefined
-              ? true
-              : rewardTokenToFilterBy === null
-              ? false
-              : rewardTokenToFilterBy.equals(stakingRewardInfo.rewardToken)
-          ) ?? []
-        : [],
+      SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
+        rewardTokenToFilterBy === undefined
+          ? true
+          : rewardTokenToFilterBy === null
+          ? false
+          : rewardTokenToFilterBy.equals(stakingRewardInfo.rewardToken)
+      ) ?? [],
     [chainId, rewardTokenToFilterBy, version]
   )
 
-  const png = PNG[ChainId.AVALANCHE]
+  const png = PNG[chainId]
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
   const routes = useMemo(
@@ -1851,13 +1851,11 @@ export const useGetEarnedAmount = (pid: string) => {
 
   const amount = useSelector<AppState, number>(state => state?.stake?.earnedAmounts?.[pid]?.earnedAmount)
 
-  const earnedAmount = new TokenAmount(png, JSBI.BigInt(amount ?? 0))
-
   return useMemo(
     () => ({
-      earnedAmount
+      earnedAmount: new TokenAmount(png, JSBI.BigInt(amount ?? 0))
     }),
-    [earnedAmount]
+    [png, amount]
   )
 }
 
