@@ -64,7 +64,7 @@ export default function Header() {
   return (
     <HeaderFrame>
       <Modal isOpen={showPngBalanceModal} onDismiss={() => setShowPngBalanceModal(false)}>
-        <PngBalanceContent setShowPngBalanceModal={setShowPngBalanceModal} />
+        {showPngBalanceModal && <PngBalanceContent setShowPngBalanceModal={setShowPngBalanceModal} />}
       </Modal>
       {isMobile && (
         <MobileHeader>
