@@ -129,7 +129,7 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
   color: ${({ theme, isActive }) => (isActive ? theme.text1 : theme.text2)};
   width: 100%;
   font-weight: 500;
-  line-height: 24px;
+  line-height: 50px;
   padding: 8px;
   height: 50px;
   background-color: ${({ theme, isActive }) => (isActive ? theme.primary : 'transparent')};
