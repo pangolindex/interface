@@ -501,7 +501,8 @@
     "about": "Etwa",
     "vote": "Abstimmung",
     "executed": "Hingerichtet",
-    "rejected": "Abgelehnt"
+    "rejected": "Abgelehnt",
+    "notSupported": "Wird auf dieser Kette nicht unterstützt"
   },
   "IDOPage": {
     "pangolinIDOs": "Initial DEX Offering (IDO)",

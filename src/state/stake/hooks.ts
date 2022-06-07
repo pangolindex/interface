@@ -535,23 +535,23 @@ export function useSingleSideStakingInfo(
   version: number,
   rewardTokenToFilterBy?: Token | null
 ): SingleSideStakingInfo[] {
-  const { chainId, library, account } = useActiveWeb3React()
+  const { library, account } = useActiveWeb3React()
+
+  const chainId = useChainId()
 
   const info = useMemo(
     () =>
-      chainId
-        ? SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
-            rewardTokenToFilterBy === undefined
-              ? true
-              : rewardTokenToFilterBy === null
-              ? false
-              : rewardTokenToFilterBy.equals(stakingRewardInfo.rewardToken)
-          ) ?? []
-        : [],
+      SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
+        rewardTokenToFilterBy === undefined
+          ? true
+          : rewardTokenToFilterBy === null
+          ? false
+          : rewardTokenToFilterBy.equals(stakingRewardInfo.rewardToken)
+      ) ?? [],
     [chainId, rewardTokenToFilterBy, version]
   )
 
-  const png = PNG[ChainId.AVALANCHE]
+  const png = PNG[chainId]
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
   const routes = useMemo(
@@ -721,40 +721,18 @@ export function useTotalPngEarned(): TokenAmount | undefined {
   const chainId = useChainId()
 
   const png = PNG[chainId]
-  const stakingInfo0 = useStakingInfo(0)
-  const stakingInfo1 = useStakingInfo(1)
-  const stakingInfo2 = useMinichefStakingInfos(2)
+  const minichefInfo = useMinichefStakingInfos(2)
   const singleStakingInfo = useSingleSideStakingInfo(0, png)
 
-  const earned0 = useMemo(() => {
+  const earnedMinichef = useMemo(() => {
     if (!png) return new TokenAmount(png, '0')
     return (
-      stakingInfo0?.reduce(
+      minichefInfo?.reduce(
         (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
         new TokenAmount(png, '0')
       ) ?? new TokenAmount(png, '0')
     )
-  }, [stakingInfo0, png])
-
-  const earned1 = useMemo(() => {
-    if (!png) return new TokenAmount(png, '0')
-    return (
-      stakingInfo1?.reduce(
-        (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
-        new TokenAmount(png, '0')
-      ) ?? new TokenAmount(png, '0')
-    )
-  }, [stakingInfo1, png])
-
-  const earned2 = useMemo(() => {
-    if (!png) return new TokenAmount(png, '0')
-    return (
-      stakingInfo2?.reduce(
-        (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
-        new TokenAmount(png, '0')
-      ) ?? new TokenAmount(png, '0')
-    )
-  }, [stakingInfo2, png])
+  }, [minichefInfo, png])
 
   //Get png earned from single side staking
   const earnedSingleStaking = useMemo(() => {
@@ -763,10 +741,7 @@ export function useTotalPngEarned(): TokenAmount | undefined {
     return pngSingleStaking ? pngSingleStaking.earnedAmount : new TokenAmount(png, '0')
   }, [png, singleStakingInfo])
 
-  return earned0
-    .add(earned1)
-    .add(earned2)
-    .add(earnedSingleStaking)
+  return earnedSingleStaking.add(earnedMinichef)
 }
 
 // based on typed value
@@ -1876,13 +1851,11 @@ export const useGetEarnedAmount = (pid: string) => {
 
   const amount = useSelector<AppState, number>(state => state?.stake?.earnedAmounts?.[pid]?.earnedAmount)
 
-  const earnedAmount = new TokenAmount(png, JSBI.BigInt(amount ?? 0))
-
   return useMemo(
     () => ({
-      earnedAmount
+      earnedAmount: new TokenAmount(png, JSBI.BigInt(amount ?? 0))
     }),
-    [earnedAmount]
+    [png, amount]
   )
 }
 
