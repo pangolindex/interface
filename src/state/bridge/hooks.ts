@@ -9,8 +9,8 @@ export interface SubCategories {
   subcategory: string
 }
 
-export function useSubBridgeCategories(subCategory: string) {
-  const queryData = JSON.stringify({
+export function useSubBridgeCategories(filter: string, subCategory: string) {
+  const queryData = subCategory !== 'undefined' ? JSON.stringify({
     query: `query getKnowledge($filter: kb_filter) {
       kb(filter: $filter) {
           id
@@ -19,24 +19,32 @@ export function useSubBridgeCategories(subCategory: string) {
           subcategory
       }
   }`,
-    variables: { filter: { _and: [{ category: { _eq: 'Bridge' } }, { subcategory: { _eq: subCategory } }] } }
+    variables: { filter: { _and: [{ category: { _eq: filter } }, { subcategory: { _eq: subCategory } }] } }
+  }) : JSON.stringify({
+    query: `query getKnowledge($filter: kb_filter) {
+      kb(filter: $filter) {
+          id
+          title
+          content
+          subcategory
+      }
+  }`,
+    variables: { filter: { category: { _eq: filter } } }
   })
 
   const headers = {
     'Content-Type': 'application/json'
   }
-
-  return useQuery(subCategory, async () => {
-    const response = await axios.post(DIRECTUS_GRAPHQL_URL, queryData, { headers: headers })
-    const categories: SubCategories[] = response.data?.data?.kb?.map((e: any) => {
-      return {
-        id: e?.id,
-        title: e?.title,
-        content: e?.content,
-        subcategory: e?.subcategory
-      } as SubCategories
+    return useQuery(subCategory, async () => {
+      const response = await axios.post(DIRECTUS_GRAPHQL_URL, queryData, { headers: headers })
+      const categories: SubCategories[] = response.data?.data?.kb?.map((e: any) => {
+        return {
+          id: e?.id,
+          title: e?.title,
+          content: e?.content,
+          subcategory: e?.subcategory
+        } as SubCategories
+      })
+      return categories
     })
-
-    return categories
-  })
 }

@@ -12,7 +12,7 @@ type ISubCategory = {
 export const GeneralBox: React.FC<ISubCategory> = ({ subcategory }) => {
   const [active, setActive] = useState<number>()
   const [content, setContent] = useState<string>('')
-  const { data: categories } = useSubBridgeCategories(subcategory)
+  const { data: categories } = useSubBridgeCategories('Bridge', subcategory)
 
   function activeLogo(key: number) {
     if (active === key) return <StyledLogoMinus src={MinusLogo} size={'20px'} height={'4px'} />

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { QuestionBox, TableContent, FullBox } from '../styleds'
 import { Text } from '@pangolindex/components'
 import { GeneralBox } from './QuestionBoxGeneral'
-import { Questions, useGetQuestions } from 'src/state/airdrop/hooks'
+import { SubCategories, useSubBridgeCategories } from 'src/state/bridge/hooks'
 
 interface ShortArray {
   id: number
@@ -12,8 +12,8 @@ interface ShortArray {
 export const QuestionAnswer = () => {
   const [subcategory, setSubCategory] = useState<string>('General')
   const [active, setActive] = useState<number>(0)
-  const { data: questions } = useGetQuestions('Bridge')
-  const duplicate = questions && questions.map((e: Questions) => ({ id: e.id, subcategory: e.subcategory }))
+  const { data: questions } = useSubBridgeCategories('Bridge', 'undefined')
+  const duplicate = questions && questions.map((e: SubCategories) => ({ id: e.id, subcategory: e.subcategory }))
   const tabs: ShortArray[] = []
 
   duplicate?.forEach(function(item) {

@@ -6,9 +6,6 @@ import { useTransactionAdder } from '../transactions/hooks'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
 import { PNG } from '../../constants/tokens'
 import { useSingleCallResult } from '../multicall/hooks'
-import axios from 'axios'
-import { useQuery } from 'react-query'
-import { DIRECTUS_GRAPHQL_URL } from 'src/constants'
 
 export function useAirdropIsClaimingAllowed(): boolean {
   const airdropContract = useAirdropContract()
@@ -78,43 +75,4 @@ export function useClaimCallback(
   }
 
   return { claimCallback }
-}
-
-export interface Questions {
-  id: number
-  title: string
-  content: string
-  subcategory: string
-}
-
-export function useGetQuestions(filter: string) {
-  const queryData = JSON.stringify({
-    query: `query getKnowledge($filter: kb_filter) {
-      kb(filter: $filter) {
-          id
-          title
-          content
-          subcategory
-      }
-  }`,
-    variables: { filter: { category: { _eq: filter } } }
-  })
-
-  const headers = {
-    'Content-Type': 'application/json'
-  }
-
-  return useQuery('getQuestions', async () => {
-    const response = await axios.post(DIRECTUS_GRAPHQL_URL, queryData, { headers: headers })
-    const questions: Questions[] = response.data?.data?.kb?.map((e: any) => {
-      return {
-        id: e?.id,
-        title: e?.title,
-        content: e?.content,
-        subcategory: e?.subcategory
-      } as Questions
-    })
-
-    return questions
-  })
 }
