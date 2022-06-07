@@ -3,7 +3,7 @@ import { StyledLogo, SeparatorBorder, StyledLogoMinus } from '../../styleds'
 import { Text } from '@pangolindex/components'
 import MinusLogo from 'src/assets/images/minus.png'
 import PlusLogo from 'src/assets/images/plus.png'
-import { SubCategories, useSubBridgeCategories } from 'src/state/bridge/hooks'
+import { SubCategories, useSubBridgeCategories, QueryType } from 'src/state/bridge/hooks'
 
 type ISubCategory = {
   subcategory: string
@@ -12,7 +12,7 @@ type ISubCategory = {
 export const GeneralBox: React.FC<ISubCategory> = ({ subcategory }) => {
   const [active, setActive] = useState<number>()
   const [content, setContent] = useState<string>('')
-  const { data: categories } = useSubBridgeCategories('Bridge', subcategory)
+  const { data: categories } = useSubBridgeCategories(QueryType.Bridge, subcategory)
 
   function activeLogo(key: number) {
     if (active === key) return <StyledLogoMinus src={MinusLogo} size={'20px'} height={'4px'} />
