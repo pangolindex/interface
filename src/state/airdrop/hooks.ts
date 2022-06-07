@@ -111,7 +111,7 @@ export function useGetQuestions(filter: string) {
         id: e?.id,
         title: e?.title,
         content: e?.content,
-        subcategory: e?.subcategory,
+        subcategory: e?.subcategory
       } as Questions
     })
 

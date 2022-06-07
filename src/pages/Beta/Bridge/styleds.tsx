@@ -66,7 +66,7 @@ export const StyledLogo = styled.img<{ size: string }>`
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.075);
   border-radius: 24px;
 `
-export const StyledLogoMinus = styled.img<{ size: string, height: string }>`
+export const StyledLogoMinus = styled.img<{ size: string; height: string }>`
   width: ${({ size }) => size};
   height: ${({ height }) => height};
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.075);

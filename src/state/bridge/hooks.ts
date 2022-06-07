@@ -3,12 +3,12 @@ import { useQuery } from 'react-query'
 import { DIRECTUS_GRAPHQL_URL } from 'src/constants'
 
 export interface SubCategories {
-    id: number
-    title: string
-    content: string
-    subcategory: string
-  }
-  
+  id: number
+  title: string
+  content: string
+  subcategory: string
+}
+
 export function useSubBridgeCategories(subCategory: string) {
   const queryData = JSON.stringify({
     query: `query getKnowledge($filter: kb_filter) {
@@ -19,7 +19,7 @@ export function useSubBridgeCategories(subCategory: string) {
           subcategory
       }
   }`,
-    variables: {filter:{_and:[{category:{_eq:'Bridge'}},{subcategory:{_eq: subCategory}}]}}
+    variables: { filter: { _and: [{ category: { _eq: 'Bridge' } }, { subcategory: { _eq: subCategory } }] } }
   })
 
   const headers = {
@@ -33,11 +33,10 @@ export function useSubBridgeCategories(subCategory: string) {
         id: e?.id,
         title: e?.title,
         content: e?.content,
-        subcategory: e?.subcategory,
+        subcategory: e?.subcategory
       } as SubCategories
     })
 
     return categories
   })
 }
-  
