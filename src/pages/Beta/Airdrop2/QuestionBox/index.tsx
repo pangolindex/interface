@@ -4,7 +4,7 @@ import { StyledLogo, QuestionBox } from '../styleds'
 import PlusLogo from 'src/assets/images/plus.png'
 import MinusLogo from 'src/assets/images/minus.png'
 import styled from 'styled-components'
-import { Questions, useGetQuestions } from 'src/state/airdrop/hooks'
+import { SubCategories, useGetKnowledgeData, QuestionAnswerType } from 'src/state/bridge/hooks'
 
 const QuestionWrapper = styled.div`
   display: flex;
@@ -19,12 +19,12 @@ const JustifyText = styled.div`
 
 export const QuestionAnswer = () => {
   const [visible, setVisible] = useState<boolean>(false)
-  const { data: questions } = useGetQuestions()
+  const { data: questions } = useGetKnowledgeData(QuestionAnswerType.Airdrop, QuestionAnswerType.Undefined)
 
   return (
     <QuestionBox>
       {questions &&
-        questions.map((e: Questions) => (
+        questions.map((e: SubCategories) => (
           <div key={e.id} onClick={() => setVisible(!visible)}>
             <QuestionWrapper>
               {visible ? <img src={MinusLogo} alt="" /> : <StyledLogo src={PlusLogo} size={'20px'} />}
