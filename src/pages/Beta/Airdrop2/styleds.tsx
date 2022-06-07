@@ -43,11 +43,6 @@ export const ClaimBox = styled(Box)`
   `};
 `
 
-export const Separator = styled(Box)`
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  margin-bottom: 15px;
-`
-
 export const SmallSeparator = styled.div`
   padding: 20px;
 `
@@ -103,8 +98,8 @@ export const StyledLogoMinus = styled.img<{ size: string; height: string }>`
   border-radius: 24px;
 `
 
-export const SeparatorBorder = styled(Box)`
-  margin-top: 15px;
+export const Separator = styled(Box)`
   margin-bottom: 35px;
+  margin-top: 15px;
   border: 1px solid #353535;
 `

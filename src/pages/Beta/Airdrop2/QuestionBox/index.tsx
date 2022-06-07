@@ -1,25 +1,25 @@
 import React, { useState } from 'react'
 import { Text } from '@pangolindex/components'
-import { StyledLogo, QuestionBox, StyledLogoMinus, SeparatorBorder } from '../styleds'
+import { StyledLogo, QuestionBox, StyledLogoMinus, Separator } from '../styleds'
 import PlusLogo from 'src/assets/images/plus.png'
 import MinusLogo from 'src/assets/images/minus.png'
 import { SubCategories, useGetKnowledgeData, QuestionAnswerType } from 'src/state/bridge/hooks'
 
 export const QuestionAnswer = () => {
-  const [active, setActive] = useState<number>()
-  const [content, setContent] = useState<string>('')
-  const { data: categories } = useGetKnowledgeData(QuestionAnswerType.Airdrop, QuestionAnswerType.Undefined)
+  const [open, setOpen] = useState<number>()
+  const [text, setText] = useState<string>('')
+  const { data: questions } = useGetKnowledgeData(QuestionAnswerType.Airdrop, QuestionAnswerType.Undefined)
 
   function activeLogo(key: number) {
-    if (active === key) return <StyledLogoMinus src={MinusLogo} size={'20px'} height={'4px'} />
+    if (open === key) return <StyledLogoMinus src={MinusLogo} size={'20px'} height={'4px'} />
     else return <StyledLogo src={PlusLogo} size={'20px'} />
   }
 
   function activeText(key: number) {
-    if (active === key) {
+    if (open === key) {
       return (
         <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" paddingX={31}>
-          {content}
+          {text}
         </Text>
       )
     } else {
@@ -27,31 +27,31 @@ export const QuestionAnswer = () => {
     }
   }
 
-  function deactivateText(key: number) {
-    if (active === key) {
-      setActive(undefined)
+  function deactivate(key: number) {
+    if (open === key) {
+      setOpen(undefined)
     }
   }
   return (
     <QuestionBox>
-      {categories &&
-        categories.map((e: SubCategories) => (
+      {questions &&
+        questions.map((question: SubCategories) => (
           <div
-            key={e.id}
+            key={question.id}
             onClick={() => {
-              setActive(e.id)
-              setContent(e.content)
-              deactivateText(e.id)
+              setOpen(question.id)
+              setText(question.content)
+              deactivate(question.id)
             }}
           >
             <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              {activeLogo(e?.id)}
+              {activeLogo(question?.id)}
               <Text fontSize={24} fontWeight={500} lineHeight="36px" color="text10">
-                {e.title}
+                {question.title}
               </Text>
             </span>
-            {activeText(e?.id)}
-            <SeparatorBorder />
+            {activeText(question?.id)}
+            <Separator />
           </div>
         ))}
     </QuestionBox>
