@@ -4,7 +4,7 @@ import { StyledLogo, QuestionBox } from '../styleds'
 import PlusLogo from 'src/assets/images/plus.png'
 import MinusLogo from 'src/assets/images/minus.png'
 import styled from 'styled-components'
-import { SubCategories, useSubBridgeCategories, QueryType } from 'src/state/bridge/hooks'
+import { SubCategories, useGetKnowledgeData, QuestionAnswerType } from 'src/state/bridge/hooks'
 
 const QuestionWrapper = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const JustifyText = styled.div`
 
 export const QuestionAnswer = () => {
   const [visible, setVisible] = useState<boolean>(false)
-  const { data: questions } = useSubBridgeCategories(QueryType.Airdrop, QueryType.Undefined)
+  const { data: questions } = useGetKnowledgeData(QuestionAnswerType.Airdrop, QuestionAnswerType.Undefined)
 
   return (
     <QuestionBox>

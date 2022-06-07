@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useQuery } from 'react-query'
 import { DIRECTUS_GRAPHQL_URL } from 'src/constants'
 
-export enum QueryType {
+export enum QuestionAnswerType {
   Bridge = 'Bridge',
   Airdrop = 'Airdrop',
   Undefined = 'Undefined'
@@ -14,29 +14,24 @@ export interface SubCategories {
   subcategory: string
 }
 
-export function useSubBridgeCategories(filter: string, subCategory: string) {
+export function useGetKnowledgeData(filter: string, subCategory: string) {
+  const jsonQuery = `query getKnowledge($filter: kb_filter) {
+    kb(filter: $filter) {
+        id
+        title
+        content
+        subcategory
+    }
+  }`
+
   const queryData =
     subCategory !== 'Undefined'
       ? JSON.stringify({
-          query: `query getKnowledge($filter: kb_filter) {
-      kb(filter: $filter) {
-          id
-          title
-          content
-          subcategory
-      }
-  }`,
+          query: jsonQuery,
           variables: { filter: { _and: [{ category: { _eq: filter } }, { subcategory: { _eq: subCategory } }] } }
         })
       : JSON.stringify({
-          query: `query getKnowledge($filter: kb_filter) {
-      kb(filter: $filter) {
-          id
-          title
-          content
-          subcategory
-      }
-  }`,
+          query: jsonQuery,
           variables: { filter: { category: { _eq: filter } } }
         })
 
