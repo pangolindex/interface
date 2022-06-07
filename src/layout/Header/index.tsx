@@ -1,15 +1,12 @@
-import { TokenAmount } from '@pangolindex/sdk'
-import { Button, Box, Text, NetworkSelection } from '@pangolindex/components'
+import { Button, Box, NetworkSelection } from '@pangolindex/components'
 import React, { useContext, useState, useRef } from 'react'
 import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
-import { useETHBalances, useAggregatePngBalance } from '../../state/wallet/hooks'
+import { useETHBalances } from '../../state/wallet/hooks'
 import { CardNoise } from '../../components/earn/styled'
-import { CountUp } from 'use-count-up'
 import Web3Status from '../../components/Web3Status'
 import Modal from '../../components/Modal'
 import PngBalanceContent from './PngBalanceContent'
-import usePrevious from '../../hooks/usePrevious'
 import LanguageSelection from '../../components/LanguageSelection'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
@@ -48,13 +45,9 @@ export default function Header() {
   const theme = useContext(ThemeContext)
   const userEthBalance = useETHBalances(chainId, account ? [account] : [])?.[account ?? '']
 
-  const aggregateBalance: TokenAmount | undefined = useAggregatePngBalance()
-
   const [showPngBalanceModal, setShowPngBalanceModal] = useState(false)
   const [openNetworkSelection, setOpenNetworkSelection] = useState(false)
 
-  const countUpValue = aggregateBalance?.toFixed(0) ?? '0'
-  const countUpValuePrevious = usePrevious(countUpValue) ?? '0'
   const node = useRef<HTMLDivElement>()
   const open = useModalOpen(ApplicationModal.FARM)
   const toggle = useToggleModal(ApplicationModal.FARM)
@@ -71,7 +64,7 @@ export default function Header() {
   return (
     <HeaderFrame>
       <Modal isOpen={showPngBalanceModal} onDismiss={() => setShowPngBalanceModal(false)}>
-        <PngBalanceContent setShowPngBalanceModal={setShowPngBalanceModal} />
+        {showPngBalanceModal && <PngBalanceContent setShowPngBalanceModal={setShowPngBalanceModal} />}
       </Modal>
       {isMobile && (
         <MobileHeader>
@@ -115,33 +108,12 @@ export default function Header() {
               </NetworkCard>
             )}
           </Hidden>
-          {aggregateBalance && (
-            <PNGWrapper onClick={() => setShowPngBalanceModal(true)}>
-              <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
-                {account && (
-                  <Hidden upToSmall>
-                    <Text
-                      color="black"
-                      style={{
-                        paddingRight: '.4rem'
-                      }}
-                    >
-                      <CountUp
-                        key={countUpValue}
-                        isCounting
-                        start={parseFloat(countUpValuePrevious)}
-                        end={parseFloat(countUpValue)}
-                        thousandsSeparator={','}
-                        duration={1}
-                      />
-                    </Text>
-                  </Hidden>
-                )}
-                PNG
-              </PNGAmount>
-              <CardNoise />
-            </PNGWrapper>
-          )}
+          <PNGWrapper onClick={() => setShowPngBalanceModal(true)}>
+            <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
+              PNG
+            </PNGAmount>
+            <CardNoise />
+          </PNGWrapper>
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
