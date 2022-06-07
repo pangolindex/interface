@@ -14,7 +14,6 @@ export interface SubCategories {
   subcategory: string
 }
 
-
 export function useSubBridgeCategories(filter: string, subCategory: string) {
   const queryData =
     subCategory !== 'Undefined'
