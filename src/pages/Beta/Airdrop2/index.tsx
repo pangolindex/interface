@@ -54,7 +54,7 @@ const AirdropUI: React.FC = () => {
   }
 
   const claimPNG = () => {
-    if (Number(amount) > 0) claimCallback()
+    claimCallback()
   }
   const renderBoxesWagmi = () => {
     if (!account && !eligible && !changeMyChain) {
