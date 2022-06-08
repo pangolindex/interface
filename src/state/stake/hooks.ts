@@ -13,7 +13,7 @@ import {
 import { DAIe, PNG, USDC, USDCe, USDTe, axlUST } from '../../constants/tokens'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { PairState, usePair, usePairs } from '../../data/Reserves'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useLibrary } from '../../hooks'
 import {
   NEVER_RELOAD,
   useMultipleContractSingleData,
@@ -535,8 +535,8 @@ export function useSingleSideStakingInfo(
   version: number,
   rewardTokenToFilterBy?: Token | null
 ): SingleSideStakingInfo[] {
-  const { chainId, library, account } = useActiveWeb3React()
-
+  const { chainId, account } = useActiveWeb3React()
+  const { library } = useLibrary()
   const info = useMemo(
     () =>
       chainId
@@ -1357,9 +1357,9 @@ export function useMinichefPendingRewards(miniChefStaking: DoubleSideStakingInfo
 }
 
 export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const { library, provider } = useLibrary()
   const { t } = useTranslation()
   const png = PNG[chainId]
 
@@ -1533,11 +1533,10 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
       primaryType: 'Permit',
       message
     })
-
-    library
-      .send('eth_signTypedData_v4', [account, data])
+    ;(provider as any)
+      .execute('eth_signTypedData_v4', [account, data])
       .then(splitSignature)
-      .then(signature => {
+      .then((signature: any) => {
         setSignatureData({
           v: signature.v,
           r: signature.r,
@@ -1545,7 +1544,7 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
           deadline: deadline.toNumber()
         })
       })
-      .catch(err => {
+      .catch((err: any) => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
         if (err?.code !== 4001) {
           approveCallback()

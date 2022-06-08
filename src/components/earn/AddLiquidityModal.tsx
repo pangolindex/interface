@@ -34,7 +34,7 @@ import { ConfirmAddModalBottom } from '../../pages/AddLiquidity/ConfirmAddModalB
 import { currencyId } from '../../utils/currencyId'
 import { PairState } from '../../data/Reserves'
 import { PoolPriceBar } from '../../pages/AddLiquidity/PoolPriceBar'
-import { useChainId } from 'src/hooks'
+import { useChainId, useLibrary } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -54,7 +54,8 @@ export default function AddLiquidityModal({
   currencyIdA: _currencyIdA,
   currencyIdB: _currencyIdB
 }: AddLiquidityModalProps) {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const { library } = useLibrary()
   const chainId = useChainId()
 
   const theme = useContext(ThemeContext)

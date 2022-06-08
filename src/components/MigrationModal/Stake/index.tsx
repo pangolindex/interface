@@ -3,7 +3,7 @@ import { Wrapper } from './styleds'
 import { Box, Button } from '@pangolindex/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
-import { useDerivedStakeInfo, useMinichefPools , StakingInfo } from '../../../state/stake/hooks'
+import { useDerivedStakeInfo, useMinichefPools, StakingInfo } from '../../../state/stake/hooks'
 import { tryParseAmount } from '../../../state/swap/hooks'
 import { useActiveWeb3React } from '../../../hooks'
 import { useTokenBalance } from '../../../state/wallet/hooks'
@@ -17,7 +17,7 @@ import { MINICHEF_ADDRESS } from '../../../constants'
 import { splitSignature } from 'ethers/lib/utils'
 import useTransactionDeadline from '../../../hooks/useTransactionDeadline'
 import Loader from '../Loader'
-import { useChainId } from 'src/hooks'
+import { useChainId, useLibrary } from 'src/hooks'
 
 export interface StakeProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
@@ -38,9 +38,9 @@ const Stake = ({
   setChoosePoolIndex,
   isStakingLoading
 }: StakeProps) => {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const { library, provider } = useLibrary()
   const { t } = useTranslation()
 
   // state for pending and submitted txn views
@@ -77,9 +77,7 @@ const Stake = ({
     if (value === 4) {
       setStakingAmount(userLiquidityUnstaked.toExact())
     } else {
-      const newAmount = userLiquidityUnstaked
-        .multiply(JSBI.BigInt(value * 25))
-        .divide(JSBI.BigInt(100)) as TokenAmount
+      const newAmount = userLiquidityUnstaked.multiply(JSBI.BigInt(value * 25)).divide(JSBI.BigInt(100)) as TokenAmount
       setStakingAmount(newAmount.toSignificant(6))
     }
   }
@@ -209,11 +207,10 @@ const Stake = ({
       primaryType: 'Permit',
       message
     })
-
-    library
-      .send('eth_signTypedData_v4', [account, data])
+    ;(provider as any)
+      .execute('eth_signTypedData_v4', [account, data])
       .then(splitSignature)
-      .then(signature => {
+      .then((signature: any) => {
         setSignatureData({
           v: signature.v,
           r: signature.r,
@@ -221,7 +218,7 @@ const Stake = ({
           deadline: deadline.toNumber()
         })
       })
-      .catch(error => {
+      .catch((error: any) => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
         if (error?.code !== 4001) {
           approveCallback()

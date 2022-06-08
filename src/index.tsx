@@ -22,7 +22,7 @@ import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
 import { useIsBetaUI } from './hooks/useLocation'
-import { useActiveWeb3React } from './hooks'
+import { useActiveWeb3React, useLibrary } from './hooks'
 import Package from '../package.json'
 import { fetchMinichefData } from './state/stake/hooks'
 
@@ -41,7 +41,7 @@ Sentry.init({
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 if ('ethereum' in window) {
-  (window.ethereum as any).autoRefreshOnNetworkChange = false
+  ;(window.ethereum as any).autoRefreshOnNetworkChange = false
 }
 
 const GOOGLE_ANALYTICS_ID: string | undefined = process.env.REACT_APP_GOOGLE_ANALYTICS_ID
@@ -84,8 +84,11 @@ const ComponentThemeProvider = () => {
   const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
 
-  const { library, chainId, account } = useActiveWeb3React()
+  const { chainId, account } = useActiveWeb3React()
 
+  console.log("chainId -index",chainId);
+  console.log("account - index",account);
+  const { library } = useLibrary()
   useEffect(() => {
     prefetchImportantQueries(account || '')
   }, [account])

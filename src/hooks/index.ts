@@ -4,7 +4,16 @@ import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
-import { gnosisSafe, injected, xDefi, IS_IN_IFRAME, NetworkContextName } from '@pangolindex/components'
+import {
+  gnosisSafe,
+  injected,
+  xDefi,
+  near,
+  IS_IN_IFRAME,
+  NetworkContextName,
+  SUPPORTED_WALLETS,
+  PROVIDER_MAPPING
+} from '@pangolindex/components'
 
 export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & { chainId?: ChainId } {
   const context = useWeb3ReactCore<Web3Provider>()
@@ -32,7 +41,9 @@ export function useEagerConnect() {
       } else {
         const isMetaMask = await injected.isAuthorized()
 
-        const existingConnector = isMetaMask ? injected : xDefi
+        const isNear = await near.isAuthorized()
+
+        const existingConnector = isMetaMask ? injected : isNear ? near : xDefi
 
         existingConnector.isAuthorized().then(isAuthorized => {
           if (isAuthorized) {
@@ -121,4 +132,48 @@ export const useChainId = () => {
 
 export const useChain = (chainId: number) => {
   return ALL_CHAINS.filter(chain => chain.chain_id === chainId)[0]
+}
+
+// export function useLibrary(): { library: Web3Provider; provider: Web3Provider } {
+//   const { connector } = useActiveWeb3React()
+
+//   return useMemo(() => {
+//     const selectedWallet = Object.values(SUPPORTED_WALLETS).find(wallet => wallet.connector === connector)
+
+//     const provider = selectedWallet?.provider || window.ethereum
+
+//     const library = new Web3Provider(provider, 'any')
+//     library.pollingInterval = 15000
+
+//     console.log("provider",provider)
+
+//     return { library, provider }
+//   }, [connector])
+// }
+
+export function useLibrary(): { library: Web3Provider; provider: Web3Provider } {
+  const [result, setResult] = useState({} as { library: Web3Provider; provider: Web3Provider })
+
+  const { connector } = useActiveWeb3React()
+
+  useEffect(() => {
+    async function load() {
+      const walletKey = Object.keys(SUPPORTED_WALLETS).find(
+        key => SUPPORTED_WALLETS[key].connector === connector
+      ) as string
+
+      const selectedProvider = await connector?.getProvider()
+
+      let provider = selectedProvider || window.ethereum
+
+      const extendedProvider = provider && walletKey && (PROVIDER_MAPPING as any)[walletKey]?.(provider)
+
+      const library = new Web3Provider(provider, 'any')
+
+      setResult({ library, provider: extendedProvider })
+    }
+    load()
+  }, [connector])
+
+  return result
 }

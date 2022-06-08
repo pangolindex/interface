@@ -8,7 +8,7 @@ import { ButtonConfirmed, ButtonError, ButtonLight, ButtonPrimary } from '../But
 import { usePairContract } from '../../hooks/useContract'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
-import { useActiveWeb3React, useChainId } from '../../hooks'
+import { useActiveWeb3React, useChainId, useLibrary } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from '../../state/burn/hooks'
 import { useCurrency } from '../../hooks/Tokens'
@@ -55,8 +55,9 @@ export default function RemoveLiquidityModal({
   currencyIdA: _currencyIdA,
   currencyIdB: _currencyIdB
 }: RemoveLiquidityModalProps) {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
+  const { library, provider } = useLibrary()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
@@ -160,11 +161,10 @@ export default function RemoveLiquidityModal({
       primaryType: 'Permit',
       message
     })
-
-    library
-      .send('eth_signTypedData_v4', [account, data])
+    ;(provider as any)
+      .execute('eth_signTypedData_v4', [account, data])
       .then(splitSignature)
-      .then(signature => {
+      .then((signature: any) => {
         setSignatureData({
           v: signature.v,
           r: signature.r,
@@ -172,7 +172,7 @@ export default function RemoveLiquidityModal({
           deadline: deadline.toNumber()
         })
       })
-      .catch(error => {
+      .catch((error: any) => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
         if (error?.code !== 4001) {
           approveCallback()

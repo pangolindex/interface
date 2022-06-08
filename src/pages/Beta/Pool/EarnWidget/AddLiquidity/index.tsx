@@ -6,7 +6,7 @@ import { Box, Button, Text } from '@pangolindex/components'
 import { Plus } from 'react-feather'
 import { RowBetween } from 'src/components/Row'
 import { useWalletModalToggle } from 'src/state/application/hooks'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
+import { useActiveWeb3React, useChainId, useLibrary } from 'src/hooks'
 import { ThemeContext } from 'styled-components'
 import { Field } from 'src/state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'src/state/mint/hooks'
@@ -34,9 +34,9 @@ interface AddLiquidityProps {
 }
 
 const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityProps) => {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const { library } = useLibrary()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 

@@ -1,5 +1,5 @@
 import { TransactionResponse } from '@ethersproject/providers'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId, useLibrary } from 'src/hooks'
 import { useAirdropContract } from '../../hooks/useContract'
 import { calculateGasMargin } from '../../utils'
 import { useTransactionAdder } from '../transactions/hooks'
@@ -52,8 +52,8 @@ export function useClaimCallback(
 ): {
   claimCallback: () => Promise<string>
 } {
-  const { library, chainId } = useActiveWeb3React()
-
+  const chainId = useChainId()
+  const { library } = useLibrary()
   const addTransaction = useTransactionAdder()
   const airdropContract = useAirdropContract()
 

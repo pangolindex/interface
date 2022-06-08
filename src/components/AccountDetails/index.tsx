@@ -12,7 +12,8 @@ import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { gnosisSafe, injected, walletconnect, walletlink, EVM_SUPPORTED_WALLETS } from '@pangolindex/components'
+import NearIcon from '../../assets/images/near.png'
+import { gnosisSafe, injected, walletconnect, walletlink, near, SUPPORTED_WALLETS } from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
@@ -245,16 +246,17 @@ export default function AccountDetails({
 
     const isXDEFI = !!(ethereum && ethereum.isXDEFI)
 
-    const name = Object.keys(EVM_SUPPORTED_WALLETS)
+    const name = Object.keys(SUPPORTED_WALLETS)
       .filter(
         k =>
-          EVM_SUPPORTED_WALLETS[k].connector === connector &&
+          SUPPORTED_WALLETS[k].connector === connector &&
           (connector !== injected || isMetaMask === (k === 'METAMASK') || isXDEFI === (k === 'XDEFI'))
       )
-      .map(k => EVM_SUPPORTED_WALLETS[k].name)[0]
+      .map(k => SUPPORTED_WALLETS[k].name)[0]
     return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>
   }
 
+  //TODO CHECK TESTING
   function getStatusIcon() {
     if (connector === injected) {
       return (
@@ -280,6 +282,12 @@ export default function AccountDetails({
           <img src={GnosisSafeIcon} alt={'Gnosis Safe logo'} />
         </IconWrapper>
       )
+    } else if (connector === near) {
+      return (
+        <IconWrapper size={16}>
+          <img src={NearIcon} alt={'Near Wallet'} />
+        </IconWrapper>
+      )
     }
     return null
   }
@@ -303,6 +311,7 @@ export default function AccountDetails({
               <AccountGroupingRow>
                 {formatConnectorName()}
                 <div>
+                  {/* TODO : CHECK on disccount  */}
                   {(connector instanceof WalletLinkConnector || connector instanceof WalletConnectConnector) && (
                     <WalletAction
                       style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}

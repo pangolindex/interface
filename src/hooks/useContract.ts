@@ -18,14 +18,21 @@ import { MULTICALL_ABI, MULTICALL_NETWORKS } from '../constants/multicall'
 import { V1_EXCHANGE_ABI, V1_FACTORY_ABI, V1_FACTORY_ADDRESSES } from '../constants/v1'
 import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
-import { AIRDROP_ADDRESS, BRIDGE_MIGRATOR_ADDRESS, MINICHEF_ADDRESS, ZERO_ADDRESS, GOVERNANCE_ADDRESS } from '../constants'
+import {
+  AIRDROP_ADDRESS,
+  BRIDGE_MIGRATOR_ADDRESS,
+  MINICHEF_ADDRESS,
+  ZERO_ADDRESS,
+  GOVERNANCE_ADDRESS
+} from '../constants'
 import { PNG } from '../constants/tokens'
 import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../constants/abis/rewarderViaMultiplier'
-import { useChainId } from 'src/hooks'
+import { useChainId, useLibrary } from 'src/hooks'
 
 // returns null on errors
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
-  const { library, account } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const { library } = useLibrary()
 
   return useMemo(() => {
     if (!address || address === ZERO_ADDRESS || !ABI || !library) return null

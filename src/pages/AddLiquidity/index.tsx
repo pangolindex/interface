@@ -39,7 +39,7 @@ import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { currencyId } from '../../utils/currencyId'
 import { PoolPriceBar } from './PoolPriceBar'
 import { useTranslation } from 'react-i18next'
-import { useChainId } from 'src/hooks'
+import { useChainId, useLibrary } from 'src/hooks'
 
 export default function AddLiquidity({
   match: {
@@ -47,9 +47,9 @@ export default function AddLiquidity({
   },
   history
 }: RouteComponentProps<{ currencyIdA?: string; currencyIdB?: string }>) {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const { library } = useLibrary()
   const theme = useContext(ThemeContext)
 
   const currencyA = useCurrency(currencyIdA)
