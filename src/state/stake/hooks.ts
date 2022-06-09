@@ -1310,30 +1310,25 @@ export function useMinichefPendingRewards(miniChefStaking: StakingInfo | null) {
   )
 
   const rewardAddress = miniChefStaking?.rewardsAddress
-
   const rewardContract = useRewardViaMultiplierContract(rewardAddress !== ZERO_ADDRESS ? rewardAddress : undefined)
-
-  const rewardTokensAddresses = useSingleContractMultipleData(rewardContract, 'getRewardTokens', [[]])
-
-  const rewardTokensMultipliers = useSingleContractMultipleData(rewardContract, 'getRewardMultipliers', [[]])
-
-  const rewardTokensAddress = rewardTokensAddresses?.[0]?.result?.[0]
-  const rewardTokensMultiplier = rewardTokensMultipliers?.[0]?.result?.[0]
-
+  const getRewardTokensRes = useSingleCallResult(rewardContract, 'getRewardTokens', undefined)
+  const getRewardMultipliersRes = useSingleCallResult(rewardContract, 'getRewardMultipliers', undefined)
   const { earnedAmount } = useGetEarnedAmount(miniChefStaking?.pid as string)
 
-  const newEarnedAmount = earnedAmount ? JSBI.BigInt(earnedAmount?.raw).toString() : JSBI.BigInt(0).toString()
+  const rewardTokensAddress = getRewardTokensRes?.result?.[0]
+  const rewardTokensMultiplier = getRewardMultipliersRes?.result?.[0]
+  const earnedAmountStr = earnedAmount ? JSBI.BigInt(earnedAmount?.raw).toString() : JSBI.BigInt(0).toString()
 
-  const rewardTokenAmounts = useSingleContractMultipleData(
+  const pendingTokensRes = useSingleContractMultipleData(
     rewardContract,
     'pendingTokens',
-    account ? [[0, account as string, newEarnedAmount]] : []
+    account ? [[0, account as string, earnedAmountStr]] : []
   )
 
-  const isLoading = rewardTokenAmounts?.[0]?.loading
+  const isLoading = pendingTokensRes?.[0]?.loading
   const rewardTokens = useTokens(rewardTokensAddress)
 
-  const rewardAmounts = rewardTokenAmounts?.[0]?.result?.amounts || [] // eslint-disable-line react-hooks/exhaustive-deps
+  const rewardAmounts = pendingTokensRes?.[0]?.result?.amounts || [] // eslint-disable-line react-hooks/exhaustive-deps
 
   const rewardTokensAmount = useMemo(() => {
     if (!rewardTokens) return []
