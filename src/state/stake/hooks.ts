@@ -1324,35 +1324,46 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
   )
 }
 
-export function useMinichefPendingRewards(miniChefStaking: DoubleSideStakingInfo | null) {
+export function useMinichefPendingRewards(miniChefStaking: StakingInfo | null) {
   const { account } = useActiveWeb3React()
 
   const rewardAddress = miniChefStaking?.rewardsAddress
 
   const rewardContract = useRewardViaMultiplierContract(rewardAddress !== ZERO_ADDRESS ? rewardAddress : undefined)
 
-  const earnedAmount = miniChefStaking?.earnedAmount
-    ? JSBI.BigInt(miniChefStaking?.earnedAmount?.raw).toString()
-    : JSBI.BigInt(0).toString()
+  const rewardTokensAddresses = useSingleContractMultipleData(rewardContract, 'getRewardTokens', [[]])
+
+  const rewardTokensMultipliers = useSingleContractMultipleData(rewardContract, 'getRewardMultipliers', [[]])
+
+  const rewardTokensAddress = rewardTokensAddresses?.[0]?.result?.[0]
+  const rewardTokensMultiplier = rewardTokensMultipliers?.[0]?.result?.[0]
+
+  const { earnedAmount } = useGetEarnedAmount(miniChefStaking?.pid as string)
+
+  const newEarnedAmount = earnedAmount ? JSBI.BigInt(earnedAmount?.raw).toString() : JSBI.BigInt(0).toString()
 
   const rewardTokenAmounts = useSingleContractMultipleData(
     rewardContract,
     'pendingTokens',
-    account ? [[0, account as string, earnedAmount]] : []
+    account ? [[0, account as string, newEarnedAmount]] : []
   )
-  const rewardTokens = useTokens(miniChefStaking?.rewardTokensAddress)
+
+  const rewardTokens = useTokens(rewardTokensAddress)
+
   const rewardAmounts = rewardTokenAmounts?.[0]?.result?.amounts || [] // eslint-disable-line react-hooks/exhaustive-deps
 
   const rewardTokensAmount = useMemo(() => {
     if (!rewardTokens) return []
+
     return rewardTokens.map((rewardToken, index) => new TokenAmount(rewardToken as Token, rewardAmounts[index] || 0))
   }, [rewardAmounts, rewardTokens])
 
   return useMemo(
     () => ({
-      rewardTokensAmount
+      rewardTokensAmount,
+      rewardTokensMultiplier
     }),
-    [rewardTokensAmount]
+    [rewardTokensAmount, rewardTokensMultiplier]
   )
 }
 
