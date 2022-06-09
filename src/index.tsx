@@ -84,10 +84,9 @@ const ComponentThemeProvider = () => {
   const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
 
-  const { chainId, account } = useActiveWeb3React()
+  const { chainId, account, connector } = useActiveWeb3React()
 
-  console.log("chainId -index",chainId);
-  console.log("account - index",account);
+  console.log('interface -- index', { connector, chainId, account })
   const { library } = useLibrary()
   useEffect(() => {
     prefetchImportantQueries(account || '')

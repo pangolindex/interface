@@ -44,7 +44,7 @@ export default function Updater(): null {
     return () => {
       library.removeListener('block', blockNumberCallback)
     }
-  }, [dispatch, chainId, library, blockNumberCallback, windowVisible])
+  }, [dispatch, chainId, library, blockNumberCallback, windowVisible, provider])
 
   const debouncedState = useDebounce(state, 100)
 

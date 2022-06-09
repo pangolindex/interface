@@ -168,7 +168,13 @@ export function useLibrary(): { library: Web3Provider; provider: Web3Provider } 
 
       const extendedProvider = provider && walletKey && (PROVIDER_MAPPING as any)[walletKey]?.(provider)
 
-      const library = new Web3Provider(provider, 'any')
+      let library
+
+      try {
+        library = new Web3Provider(provider, 'any')
+      } catch (error) {
+        library = provider
+      }
 
       setResult({ library, provider: extendedProvider })
     }
