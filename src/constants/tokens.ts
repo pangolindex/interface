@@ -1696,3 +1696,16 @@ export const ZEUS: { [chainId in ChainId]: Token } = {
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'ZEUS', 'Zeus Node Finance'),
   [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, 'ZEUS', 'Zeus Node Finance')
 }
+
+export const USDt: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 6, 'USDt', 'TetherToken'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7',
+    6,
+    'USDt',
+    'TetherToken'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 6, 'USDt', 'TetherToken'),
+  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 6, 'USDt', 'TetherToken')
+}
