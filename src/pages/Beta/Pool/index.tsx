@@ -5,7 +5,7 @@ import Sidebar, { MenuType } from './Sidebar'
 import AllPoolList from './AllPoolList'
 import Wallet from './Wallet'
 import { useTranslation } from 'react-i18next'
-import { useStakingInfo, useGetMinichefStakingInfosViaSubgraph, useGetAllFarmData } from 'src/state/stake/hooks'
+import { useStakingInfo, useGetMinichefStakingInfosViaSubgraph, useGetAllFarmData, useMinichefStakingInfos} from 'src/state/stake/hooks'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
 import AddLiquidityModal from './AddLiquidityModal'
@@ -24,6 +24,10 @@ const PoolUI = () => {
   useGetAllFarmData()
 
   let miniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
+
+  useMinichefStakingInfos()
+
+  //console.log('_miniChefStakingInfo', _miniChefStakingInfo)
 
   const handleAddLiquidityModalClose = useCallback(() => {
     setAddLiquidityModalOpen(false)

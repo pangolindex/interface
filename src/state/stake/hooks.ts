@@ -53,6 +53,7 @@ import {
 import usePrevious from 'src/hooks/usePrevious'
 import isEqual from 'lodash.isequal'
 import { useLibrary } from '@pangolindex/components'
+import { PANGOLIN_PAIR_INTERFACE } from 'src/constants/abis/pangolinPair'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -972,21 +973,57 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const poolMap = useMinichefPools()
   const png = PNG[chainId]
 
-  const info = useMemo(
-    () =>
-      chainId
-        ? DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(item =>
-            pairToFilterBy === undefined
-              ? true
-              : pairToFilterBy === null
-              ? false
-              : pairToFilterBy.involvesToken(item.tokens[0]) && pairToFilterBy.involvesToken(item.tokens[1])
-          ) ?? []
-        : [],
-    [chainId, pairToFilterBy, version]
-  )
+  const lpTokens = Object.keys(poolMap)
 
-  const _tokens = useMemo(() => info.map(({ tokens }) => tokens), [info])
+  const _tokens0Call = useMultipleContractSingleData(lpTokens, PANGOLIN_PAIR_INTERFACE, 'token0', [])
+  const _tokens1Call = useMultipleContractSingleData(lpTokens, PANGOLIN_PAIR_INTERFACE, 'token1', [])
+
+  const tokens0Adrr = useMemo(() => {
+    return _tokens0Call.map(result => {
+      return (result.result && result.result.length > 0 ? result.result[0] : null)})
+  }, [_tokens0Call])
+
+  const tokens1Adrr = useMemo(() => {
+    return _tokens1Call.map(result => (result.result && result.result.length > 0 ? result.result[0] : null))
+  }, [ _tokens1Call])
+
+  const tokens0 = useTokens(tokens0Adrr)
+  const tokens1 = useTokens(tokens1Adrr)
+
+  const info = useMemo(() => {
+    if (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]) {
+      return DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(item =>
+        pairToFilterBy === undefined
+          ? true
+          : pairToFilterBy === null
+          ? false
+          : pairToFilterBy.involvesToken(item.tokens[0]) && pairToFilterBy.involvesToken(item.tokens[1])
+      )
+    }
+    const _infoTokens: DoubleSideStaking[] = []
+    if (tokens0 && tokens1 && tokens0?.length === tokens1?.length) {
+      tokens0.forEach((token0, index) => {
+        const token1 = tokens1[index]
+        if (token0 && token1) {
+          _infoTokens.push({
+            tokens: [token0, token1],
+            stakingRewardAddress: minichefContract?.address ?? '',
+            version: version
+          })
+        }
+      })
+      _infoTokens.filter(item =>
+        pairToFilterBy === undefined
+          ? true
+          : pairToFilterBy === null
+          ? false
+          : pairToFilterBy.involvesToken(item.tokens[0]) && pairToFilterBy.involvesToken(item.tokens[1])
+      )
+    }
+    return _infoTokens
+  }, [chainId, minichefContract, tokens0, tokens1, pairToFilterBy, version])
+
+  const _tokens = useMemo(() => info ? info.map(({ tokens }) => tokens) : [], [info])
   const pairs = usePairs(_tokens)
 
   // @dev: If no farms load, you likely loaded an incorrect config from doubleSideConfig.js
