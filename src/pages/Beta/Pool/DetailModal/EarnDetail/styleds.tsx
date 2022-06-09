@@ -16,7 +16,7 @@ export const Wrapper = styled(Box)`
 
 export const InnerWrapper = styled(Box)`
   display: grid;
-  grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
+  grid-template-columns: 50% 50%;
   grid-gap: 12px;
   margin-top: 10px;
 `
