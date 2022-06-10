@@ -24,7 +24,7 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
   const [isWithdrawDrawerVisible, setShowWithdrawDrawer] = useState(false)
 
-  const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
+  const { rewardTokensAmount, rewardTokensMultiplier } = useMinichefPendingRewards(stakingInfo)
 
   const isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
@@ -84,7 +84,7 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
         {isSuperFarm && (
           <>
             {(rewardTokensAmount || []).map((reward, index) => {
-              const tokenMultiplier = stakingInfo?.rewardTokensMultiplier?.[index]
+              const tokenMultiplier = rewardTokensMultiplier?.[index]
 
               const extraTokenWeeklyRewardRate = stakingInfo?.getExtraTokensWeeklyRewardRate?.(
                 stakingInfo?.rewardRatePerWeek,
@@ -115,7 +115,7 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
       <Box mt={10}>
         <Button
           padding="15px 18px"
-          isDisabled={!stakingInfo?.earnedAmount?.greaterThan(BIG_INT_ZERO)}
+          isDisabled={!newEarnedAmount?.greaterThan(BIG_INT_ZERO)}
           variant="primary"
           onClick={() => setShowClaimDrawer(true)}
         >

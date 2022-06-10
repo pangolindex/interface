@@ -70,7 +70,6 @@ export function useToggleVoteModal(): () => void {
   return useToggleModal(ApplicationModal.VOTE)
 }
 
-
 export function useAccountDetailToggle(): () => void {
   return useToggleModal(ApplicationModal.ACCOUNT_DETAIL)
 }

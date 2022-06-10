@@ -32,7 +32,7 @@ export default function URLWarning() {
   const isBeta = useIsBetaUI()
   return isMobile ? (
     <PhishAlert isActive={showURLWarning}>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <AlertTriangle style={{ marginRight: 6 }} size={12} /> {t('header.makeSureURLWarning')}
         <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>app.pangolin.exchange</code>
         {!isBeta && (
@@ -47,15 +47,17 @@ export default function URLWarning() {
     </PhishAlert>
   ) : window.location.hostname === 'app.pangolin.exchange' ? (
     <PhishAlert isActive={showURLWarning}>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <AlertTriangle style={{ marginRight: 6 }} size={12} /> {t('header.alwaysMakeSureWarning')}
         <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>app.pangolin.exchange</code> -
         {t('header.bookmarkIt')}
-        <Text as="a" href={`#${BETA_MENU_LINK.swap}`}>
-          <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>
-            {t('header.tryOurNewBetaSite')}
-          </code>
-        </Text>
+        {!isBeta && (
+          <Text as="a" href={`#${BETA_MENU_LINK.swap}`}>
+            <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>
+              {t('header.tryOurNewBetaSite')}
+            </code>
+          </Text>
+        )}
       </div>
       <StyledClose size={12} onClick={toggleURLWarning} />
     </PhishAlert>

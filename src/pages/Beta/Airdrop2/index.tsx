@@ -16,7 +16,7 @@ import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxNotConnected } 
 import { QuestionAnswer } from './QuestionBox'
 import { useUserHasAvailableClaim, useUserUnclaimedAmount, useClaimCallback } from 'src/state/airdrop/hooks'
 import NearLogo from 'src/assets/images/near.png'
-import CostonLogo from 'src/assets/images/flare.jpeg'
+// import CostonLogo from 'src/assets/images/flare.jpeg'
 import Modal from 'src/components/Modal'
 import Confetti from 'src/components/Confetti'
 import { PngTokenAnimated } from 'src/theme'
@@ -45,12 +45,8 @@ const AirdropUI: React.FC = () => {
   const { claimCallback } = useClaimCallback(account)
 
   const checkStatus = () => {
-    if (Number(amount) > 0) {
-      if (canClaim) setEligible(true)
-      else setModalOpen(true)
-    } else {
-      setModalOpen(true)
-    }
+    if (canClaim) setEligible(true)
+    else setModalOpen(true)
   }
 
   const changeChain = () => {
@@ -58,7 +54,7 @@ const AirdropUI: React.FC = () => {
   }
 
   const claimPNG = () => {
-    if (Number(amount) > 0) claimCallback()
+    claimCallback()
   }
   const renderBoxesWagmi = () => {
     if (!account && !eligible && !changeMyChain) {
@@ -111,7 +107,7 @@ const AirdropUI: React.FC = () => {
       <BoxWrapper>
         {renderBoxesWagmi()}
         <Confetti start={Boolean(eligible)} />
-        <ClaimBox>
+        {/* <ClaimBox>
           <TitleWrapper>
             <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
               Claim cPNG
@@ -124,7 +120,7 @@ const AirdropUI: React.FC = () => {
             Coming soon...
           </Text>
           <SmallSeparator />
-        </ClaimBox>
+        </ClaimBox> */}
         <ClaimBox>
           <TitleWrapper>
             <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">

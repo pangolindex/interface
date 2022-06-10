@@ -280,7 +280,7 @@ export default function AddLiquidityModal({
         setCurrencyIdA(newCurrencyIdA)
       }
     },
-    [currencyIdB, currencyIdA]
+    [currencyIdB, currencyIdA, chainId]
   )
   const handleCurrencyBSelect = useCallback(
     (_currencyB: Currency) => {
@@ -292,7 +292,7 @@ export default function AddLiquidityModal({
         setCurrencyIdB(newCurrencyIdB)
       }
     },
-    [currencyIdA, currencyIdB]
+    [currencyIdA, currencyIdB, chainId]
   )
 
   const handleDismissConfirmation = useCallback(() => {

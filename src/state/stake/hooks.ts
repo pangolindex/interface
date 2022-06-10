@@ -1,5 +1,5 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent, CHAINS } from '@pangolindex/sdk'
-import { useMemo, useEffect, useState, useCallback } from 'react'
+import { useMemo, useEffect, useState, useCallback, useRef } from 'react'
 import {
   MINICHEF_ADDRESS,
   BIG_INT_ZERO,
@@ -535,23 +535,22 @@ export function useSingleSideStakingInfo(
   version: number,
   rewardTokenToFilterBy?: Token | null
 ): SingleSideStakingInfo[] {
-  const { chainId, account } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const { library } = useLibrary()
   const info = useMemo(
     () =>
-      chainId
-        ? SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
-            rewardTokenToFilterBy === undefined
-              ? true
-              : rewardTokenToFilterBy === null
-              ? false
-              : rewardTokenToFilterBy.equals(stakingRewardInfo.rewardToken)
-          ) ?? []
-        : [],
+      SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
+        rewardTokenToFilterBy === undefined
+          ? true
+          : rewardTokenToFilterBy === null
+          ? false
+          : rewardTokenToFilterBy.equals(stakingRewardInfo.rewardToken)
+      ) ?? [],
     [chainId, rewardTokenToFilterBy, version]
   )
 
-  const png = PNG[ChainId.AVALANCHE]
+  const png = PNG[chainId]
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
   const routes = useMemo(
@@ -721,40 +720,18 @@ export function useTotalPngEarned(): TokenAmount | undefined {
   const chainId = useChainId()
 
   const png = PNG[chainId]
-  const stakingInfo0 = useStakingInfo(0)
-  const stakingInfo1 = useStakingInfo(1)
-  const stakingInfo2 = useMinichefStakingInfos(2)
+  const minichefInfo = useMinichefStakingInfos(2)
   const singleStakingInfo = useSingleSideStakingInfo(0, png)
 
-  const earned0 = useMemo(() => {
+  const earnedMinichef = useMemo(() => {
     if (!png) return new TokenAmount(png, '0')
     return (
-      stakingInfo0?.reduce(
+      minichefInfo?.reduce(
         (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
         new TokenAmount(png, '0')
       ) ?? new TokenAmount(png, '0')
     )
-  }, [stakingInfo0, png])
-
-  const earned1 = useMemo(() => {
-    if (!png) return new TokenAmount(png, '0')
-    return (
-      stakingInfo1?.reduce(
-        (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
-        new TokenAmount(png, '0')
-      ) ?? new TokenAmount(png, '0')
-    )
-  }, [stakingInfo1, png])
-
-  const earned2 = useMemo(() => {
-    if (!png) return new TokenAmount(png, '0')
-    return (
-      stakingInfo2?.reduce(
-        (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
-        new TokenAmount(png, '0')
-      ) ?? new TokenAmount(png, '0')
-    )
-  }, [stakingInfo2, png])
+  }, [minichefInfo, png])
 
   //Get png earned from single side staking
   const earnedSingleStaking = useMemo(() => {
@@ -763,10 +740,7 @@ export function useTotalPngEarned(): TokenAmount | undefined {
     return pngSingleStaking ? pngSingleStaking.earnedAmount : new TokenAmount(png, '0')
   }, [png, singleStakingInfo])
 
-  return earned0
-    .add(earned1)
-    .add(earned2)
-    .add(earnedSingleStaking)
+  return earnedSingleStaking.add(earnedMinichef)
 }
 
 // based on typed value
@@ -1324,36 +1298,55 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
   )
 }
 
-export function useMinichefPendingRewards(miniChefStaking: DoubleSideStakingInfo | null) {
+export function useMinichefPendingRewards(miniChefStaking: StakingInfo | null) {
   const { account } = useActiveWeb3React()
 
+  const rewardData = useRef(
+    {} as {
+      rewardTokensAmount: TokenAmount[]
+      rewardTokensMultiplier: any
+    }
+  )
+
   const rewardAddress = miniChefStaking?.rewardsAddress
-
   const rewardContract = useRewardViaMultiplierContract(rewardAddress !== ZERO_ADDRESS ? rewardAddress : undefined)
+  const getRewardTokensRes = useSingleCallResult(rewardContract, 'getRewardTokens', undefined)
+  const getRewardMultipliersRes = useSingleCallResult(rewardContract, 'getRewardMultipliers', undefined)
+  const { earnedAmount } = useGetEarnedAmount(miniChefStaking?.pid as string)
 
-  const earnedAmount = miniChefStaking?.earnedAmount
-    ? JSBI.BigInt(miniChefStaking?.earnedAmount?.raw).toString()
-    : JSBI.BigInt(0).toString()
+  const rewardTokensAddress = getRewardTokensRes?.result?.[0]
+  const rewardTokensMultiplier = getRewardMultipliersRes?.result?.[0]
+  const earnedAmountStr = earnedAmount ? JSBI.BigInt(earnedAmount?.raw).toString() : JSBI.BigInt(0).toString()
 
-  const rewardTokenAmounts = useSingleContractMultipleData(
+  const pendingTokensRes = useSingleContractMultipleData(
     rewardContract,
     'pendingTokens',
-    account ? [[0, account as string, earnedAmount]] : []
+    account ? [[0, account as string, earnedAmountStr]] : []
   )
-  const rewardTokens = useTokens(miniChefStaking?.rewardTokensAddress)
-  const rewardAmounts = rewardTokenAmounts?.[0]?.result?.amounts || [] // eslint-disable-line react-hooks/exhaustive-deps
+
+  const isLoading = pendingTokensRes?.[0]?.loading
+  const rewardTokens = useTokens(rewardTokensAddress)
+
+  const rewardAmounts = pendingTokensRes?.[0]?.result?.amounts || [] // eslint-disable-line react-hooks/exhaustive-deps
 
   const rewardTokensAmount = useMemo(() => {
     if (!rewardTokens) return []
+
     return rewardTokens.map((rewardToken, index) => new TokenAmount(rewardToken as Token, rewardAmounts[index] || 0))
   }, [rewardAmounts, rewardTokens])
 
-  return useMemo(
-    () => ({
-      rewardTokensAmount
-    }),
-    [rewardTokensAmount]
-  )
+  useEffect(() => {
+    if (!isLoading) {
+      rewardData.current = {
+        rewardTokensAmount,
+        rewardTokensMultiplier
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rewardTokensAmount, rewardTokensMultiplier, isLoading])
+
+  return rewardData.current
 }
 
 export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
@@ -1815,7 +1808,7 @@ export function useFetchFarmAprs() {
     async function getFarmAprs() {
       const promises = []
 
-      for (let pid of pids) {
+      for (const pid of pids) {
         promises.push(fetchApr(pid))
       }
       const res = await Promise.all(promises)
@@ -1875,13 +1868,11 @@ export const useGetEarnedAmount = (pid: string) => {
 
   const amount = useSelector<AppState, number>(state => state?.stake?.earnedAmounts?.[pid]?.earnedAmount)
 
-  const earnedAmount = new TokenAmount(png, JSBI.BigInt(amount ?? 0))
-
   return useMemo(
     () => ({
-      earnedAmount
+      earnedAmount: new TokenAmount(png, JSBI.BigInt(amount ?? 0))
     }),
-    [earnedAmount]
+    [png, amount]
   )
 }
 

@@ -23,7 +23,7 @@ const DetailModal = ({ stakingInfo, version }: DetailModalProps) => {
 
   useEffect(() => {
     dispatch(resetMintState())
-  }, [dispatch, detailModalOpen])
+  }, [detailModalOpen, dispatch])
 
   return (
     <Modal isOpen={detailModalOpen} onDismiss={togglePoolDetailModal} overlayBG={theme.modalBG2}>

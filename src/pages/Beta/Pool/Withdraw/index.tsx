@@ -120,7 +120,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
                   <StatWrapper key={i}>
                     <Stat
                       title={t('earn.unclaimedReward', { symbol: rewardAmount?.token?.symbol })}
-                      stat={rewardAmount?.toSignificant(6)}
+                      stat={rewardAmount?.toSignificant(4)}
                       titlePosition="top"
                       titleFontSize={12}
                       statFontSize={24}

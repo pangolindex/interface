@@ -43,11 +43,6 @@ export const ClaimBox = styled(Box)`
   `};
 `
 
-export const Separator = styled(Box)`
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  margin-bottom: 15px;
-`
-
 export const SmallSeparator = styled.div`
   padding: 20px;
 `
@@ -68,7 +63,7 @@ export const QuestionBox = styled(Box)`
   border-radius: 10px;
   min-width: 50%;
   max-width: 50%;
-  padding: 30px;
+  padding: 30px 30px 0 30px;
   cursor: pointer;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     min-width: 100%;
@@ -94,4 +89,17 @@ export const CenterText = styled.div`
 export const TextBottomWrapper = styled.div`
   text-align: center;
   padding-top: 10px;
+`
+
+export const StyledLogoMinus = styled.img<{ size: string; height: string }>`
+  width: ${({ size }) => size};
+  height: ${({ height }) => height};
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.075);
+  border-radius: 24px;
+`
+
+export const Separator = styled(Box)`
+  margin-bottom: 35px;
+  margin-top: 15px;
+  border: 1px solid #353535;
 `

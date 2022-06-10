@@ -84,7 +84,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
               <StatWrapper>
                 <Stat
                   title={t('earn.unclaimedReward', { symbol: 'PNG' })}
-                  stat={newEarnedAmount?.toSignificant(6)}
+                  stat={newEarnedAmount?.toSignificant(4)}
                   titlePosition="top"
                   titleFontSize={12}
                   statFontSize={24}
@@ -98,7 +98,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
                   <StatWrapper key={i}>
                     <Stat
                       title={t('earn.unclaimedReward', { symbol: rewardAmount?.token?.symbol })}
-                      stat={rewardAmount?.toSignificant(6)}
+                      stat={rewardAmount?.toSignificant(4)}
                       titlePosition="top"
                       titleFontSize={12}
                       statFontSize={24}

@@ -26,18 +26,22 @@ import { useActiveWeb3React, useLibrary } from './hooks'
 import Package from '../package.json'
 import { fetchMinichefData } from './state/stake/hooks'
 
-Sentry.init({
-  dsn: 'https://ff9ffce9712f415f8ad4c2a80123c984@o1080468.ingest.sentry.io/6086371',
-  integrations: [new Integrations.BrowserTracing()],
-  release: `pangolin-interface@${Package.version}`, //manual for now
-  tracesSampleRate: 0.4,
-  allowUrls: ['https://app.pangolin.exchange', 'https://beta-app.pangolin.exchange'],
-  enabled: process.env.NODE_ENV === 'production',
-  ignoreErrors: [
-    'ResizeObserver loop limit exceeded',
-    'Blocked a frame with origin "https://app.pangolin.exchange" from accessing a cross-origin frame.'
-  ]
-})
+try {
+  Sentry.init({
+    dsn: 'https://ff9ffce9712f415f8ad4c2a80123c984@o1080468.ingest.sentry.io/6086371',
+    integrations: [new Integrations.BrowserTracing()],
+    release: `pangolin-interface@${Package.version}`, //manual for now
+    tracesSampleRate: 0.4,
+    allowUrls: ['https://app.pangolin.exchange', 'https://beta-app.pangolin.exchange'],
+    enabled: process.env.NODE_ENV === 'production',
+    ignoreErrors: [
+      'ResizeObserver loop limit exceeded',
+      'Blocked a frame with origin "https://app.pangolin.exchange" from accessing a cross-origin frame.'
+    ]
+  })
+} catch (error) {
+  console.log(error)
+}
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 if ('ethereum' in window) {
