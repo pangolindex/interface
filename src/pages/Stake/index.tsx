@@ -9,7 +9,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
-import { useChainId, getPngSymbol } from '../../hooks'
+import { useChainId, usePngSymbol } from '../../hooks'
 import { BIG_INT_ZERO } from '../../constants'
 import { useTranslation } from 'react-i18next'
 
@@ -38,6 +38,7 @@ export default function Earn({
   }
 }: RouteComponentProps<{ version: string }>) {
   const chainId = useChainId()
+  const pngSymbol = usePngSymbol()
   const { t } = useTranslation()
   const stakingInfos = useSingleSideStakingInfo(Number(version))
   const [stakingInfoResults, setStakingInfoResults] = useState<any[]>()
@@ -92,13 +93,11 @@ export default function Earn({
             <AutoColumn gap="md">
               <RowBetween>
                 <TYPE.white fontWeight={600}>
-                  {t('earnPage.pangolinLiquidityStaking', { pngSymbol: getPngSymbol(chainId) })}
+                  {t('earnPage.pangolinLiquidityStaking', { pngSymbol: pngSymbol })}
                 </TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>
-                  {t('earnPage.depositPangolinStaking', { pngSymbol: getPngSymbol(chainId) })}
-                </TYPE.white>
+                <TYPE.white fontSize={14}>{t('earnPage.depositPangolinStaking', { pngSymbol: pngSymbol })}</TYPE.white>
               </RowBetween>
             </AutoColumn>
           </CardSection>

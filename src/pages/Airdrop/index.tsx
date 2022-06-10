@@ -11,11 +11,11 @@ import {
   useUserHasAvailableClaim,
   useUserUnclaimedAmount
 } from '../../state/airdrop/hooks'
-import { useActiveWeb3React, useChainId, getPngSymbol } from '../../hooks'
+import { useActiveWeb3React, useChainId, usePngSymbol } from '../../hooks'
 import Confetti from '../../components/Confetti'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { UNI, SUSHI } from '../../constants/tokens'
-import { ChainId, CHAINS, JSBI } from '@pangolindex/sdk'
+import { ChainId, JSBI } from '@pangolindex/sdk'
 import { useTranslation } from 'react-i18next'
 
 const PageWrapper = styled(AutoColumn)``
@@ -61,7 +61,7 @@ export const Dots = styled.span`
 export default function Vote() {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const pngSymbol = usePngSymbol()
   const theme = useContext(ThemeContext)
 
   // used for UI loading states
@@ -132,7 +132,7 @@ export default function Vote() {
       return (
         <Card padding="40px">
           <TYPE.body color={theme.text3} textAlign="center">
-            {t('airdrop.noAvailableClaim')}
+            {t('airdrop.noAvailableClaim', { pngSymbol: pngSymbol })}
           </TYPE.body>
         </Card>
       )
@@ -146,7 +146,7 @@ export default function Vote() {
           <TYPE.body mt="1rem" color={theme.text1} textAlign="center">
             {t('airdrop.youHave') +
               claimAmount?.toFixed(0, { groupSeparator: ',' }) +
-              t('airdrop.pngAvailableClaim', { symbol: getPngSymbol(chainId) })}
+              t('airdrop.pngAvailableClaim', { symbol: pngSymbol })}
           </TYPE.body>
         </Card>
       )
@@ -189,7 +189,7 @@ export default function Vote() {
       <TopSection gap="2px">
         <Confetti start={Boolean(claimConfirmed)} />
         <TYPE.mediumHeader style={{ margin: '0.5rem 0' }} textAlign="center">
-          {t('airdrop.claimPngAirdrop', { pngSymbol: CHAINS[chainId].png_symbol })}
+          {t('airdrop.claimPngAirdrop', { pngSymbol: pngSymbol })}
         </TYPE.mediumHeader>
         {getCard()}
       </TopSection>

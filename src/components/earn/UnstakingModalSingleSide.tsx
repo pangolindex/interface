@@ -11,7 +11,7 @@ import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import FormattedCurrencyAmount from '../FormattedCurrencyAmount'
-import { useActiveWeb3React, useChainId, getPngSymbol } from '../../hooks'
+import { useActiveWeb3React, usePngSymbol } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 
 const ContentWrapper = styled(AutoColumn)`
@@ -27,8 +27,7 @@ interface StakingModalProps {
 
 export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInfo }: StakingModalProps) {
   const { account } = useActiveWeb3React()
-  const chainId = useChainId()
-
+  const pngSymbol = usePngSymbol()
   const { t } = useTranslation()
 
   // monitor call to help UI loading state
@@ -97,7 +96,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
           <TYPE.subHeader style={{ textAlign: 'center' }}>
             {t('earn.whenYouWithdrawSingleSideWarning', {
               symbol: stakingInfo?.rewardToken?.symbol,
-              pngSymbol: getPngSymbol(chainId)
+              pngSymbol: pngSymbol
             })}
           </TYPE.subHeader>
           <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onWithdraw}>
@@ -127,7 +126,7 @@ export default function UnstakingModalSingleSide({ isOpen, onDismiss, stakingInf
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader>{t('earn.transactionSubmitted')}</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{t('earn.withdrewStakingToken', { symbol: getPngSymbol(chainId) })}</TYPE.body>
+            <TYPE.body fontSize={20}>{t('earn.withdrewStakingToken', { symbol: pngSymbol })}</TYPE.body>
             <TYPE.body fontSize={20}>{t('earn.claimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}</TYPE.body>
           </AutoColumn>
         </SubmittedView>

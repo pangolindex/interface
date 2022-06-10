@@ -123,6 +123,7 @@ export const useChain = (chainId: number) => {
   return ALL_CHAINS.filter(chain => chain.chain_id === chainId)[0]
 }
 
-export const getPngSymbol = (chainId: ChainId) => {
-  return CHAINS[chainId].png_symbol!
+export const usePngSymbol = () => {
+  const { chainId } = useActiveWeb3React()
+  return CHAINS[chainId || ChainId.AVALANCHE].png_symbol!
 }

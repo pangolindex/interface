@@ -10,7 +10,7 @@ import { NavLink } from 'react-router-dom'
 import { AutoRow, RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
-import { useChainId, getPngSymbol } from '../../hooks'
+import { useChainId, usePngSymbol } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import useDebounce from '../../hooks/useDebounce'
@@ -102,6 +102,7 @@ export interface EarnProps {
 const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const chainId = useChainId()
   const { t } = useTranslation()
+  const pngSymbol = usePngSymbol()
 
   const [poolCardsLoading, setPoolCardsLoading] = useState(false)
   const [poolCards, setPoolCards] = useState<any[]>()
@@ -283,7 +284,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  {t('earnPage.depositPangolinLiquidity', { pngSymbol: getPngSymbol(chainId) })}
+                  {t('earnPage.depositPangolinLiquidity', { pngSymbol: pngSymbol })}
                 </TYPE.white>
               </RowBetween>{' '}
               <AutoRow justify="space-between">
@@ -292,9 +293,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                   href="https://pangolin.exchange/litepaper"
                   target="_blank"
                 >
-                  <TYPE.white fontSize={14}>
-                    {t('earnPage.readMoreAboutPng', { pngSymbol: getPngSymbol(chainId) })}
-                  </TYPE.white>
+                  <TYPE.white fontSize={14}>{t('earnPage.readMoreAboutPng', { pngSymbol: pngSymbol })}</TYPE.white>
                 </ExternalLink>
                 <FlexDiv>
                   <ExternalLink
@@ -331,9 +330,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 </RowBetween>
                 {version !== '0' && (
                   <NavLink style={{ color: 'white', textDecoration: 'underline' }} to="/png/0">
-                    <TYPE.white fontSize={14}>
-                      {t('earnPage.oldPngPools', { pngSymbol: getPngSymbol(chainId) })}
-                    </TYPE.white>
+                    <TYPE.white fontSize={14}>{t('earnPage.oldPngPools', { pngSymbol: pngSymbol })}</TYPE.white>
                   </NavLink>
                 )}
               </AutoColumn>

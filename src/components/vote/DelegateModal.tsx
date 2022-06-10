@@ -6,7 +6,7 @@ import { RowBetween } from '../Row'
 import { TYPE } from '../../theme'
 import { X } from 'react-feather'
 import { ButtonPrimary } from '../Button'
-import { useActiveWeb3React, useChainId, getPngSymbol } from '../../hooks'
+import { useActiveWeb3React, useChainId, usePngSymbol } from '../../hooks'
 import AddressInputPanel from '../AddressInputPanel'
 import { isAddress } from 'ethers/lib/utils'
 import useENS from '../../hooks/useENS'
@@ -43,6 +43,7 @@ export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalPro
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
   const chainId = useChainId()
+  const pngSymbol = usePngSymbol()
 
   // state for delegate input
   const [usingDelegate, setUsingDelegate] = useState(false)
@@ -98,7 +99,7 @@ export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalPro
               <TYPE.mediumHeader fontWeight={500}>{title}</TYPE.mediumHeader>
               <StyledClosed stroke="black" onClick={wrappedOndismiss} />
             </RowBetween>
-            <TYPE.body>{t('vote.earnedPng', { pngSymbol: getPngSymbol(chainId) })}</TYPE.body>
+            <TYPE.body>{t('vote.earnedPng', { pngSymbol: pngSymbol })}</TYPE.body>
             <TYPE.body>{t('vote.canEitherVote')}</TYPE.body>
             {usingDelegate && <AddressInputPanel value={typed} onChange={handleRecipientType} />}
             <ButtonPrimary disabled={!isAddress(parsedAddress ?? '')} onClick={onDelegate}>
