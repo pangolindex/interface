@@ -18,7 +18,7 @@ import {
 } from './styled'
 import Backward from '../../assets/svg/backward.svg'
 import Forward from '../../assets/svg/forward.svg'
-import { Dashboard, Swap, Stake, Pool, Buy, Vote, Migration, Airdrop } from '../../components/Icons'
+import { Dashboard, Swap, Stake, Pool, Buy, Vote, Airdrop } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import { ANALYTICS_PAGE } from '../../constants'
 import Bridge from '../../assets/svg/menu/bridge.svg'
@@ -26,7 +26,6 @@ import Governance from '../../assets/svg/menu/governance.svg'
 import { Scrollbars } from 'react-custom-scrollbars'
 import Logo from '../Logo'
 import { BETA_MENU_LINK } from 'src/constants'
-import { useGetMigrationData } from 'src/state/migrate/hooks'
 import { useAirdropIsClaimingAllowed } from 'src/state/airdrop/hooks'
 
 interface SidebarProps {
@@ -47,7 +46,6 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
   const location: any = useLocation()
   const theme = useContext(ThemeContext)
 
-  const { allPool } = useGetMigrationData(1)
   const claimingAllowed = useAirdropIsClaimingAllowed()
 
   const mainLinks = [
@@ -96,17 +94,6 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
     }
   ]
 
-  // add v1
-  if (Object.keys(allPool)?.length > 0) {
-    mainLinks.push({
-      link: `${BETA_MENU_LINK.migrate}/1`,
-      icon: Migration,
-      title: 'Migrate',
-      id: 'migrate',
-      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.migrate)
-    })
-  }
-
   if (claimingAllowed) {
     mainLinks.push({
       link: BETA_MENU_LINK.airdrop,
@@ -136,7 +123,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
     {
       link: 'https://bridge.avax.network/',
       icon: Bridge,
-      title: t('header.bridge'),
+      title: `Avalanche ${t('header.bridge')}`,
       id: 'bridge'
     },
     {
