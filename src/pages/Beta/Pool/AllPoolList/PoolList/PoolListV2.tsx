@@ -11,7 +11,7 @@ import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConf
 import PoolCardV2 from '../PoolCard/PoolCardV2'
 import { useChainId } from 'src/hooks'
 import useDebounce from 'src/hooks/useDebounce'
-import { BIG_INT_ZERO } from 'src/constants'
+import { BIG_INT_ZERO, MINICHEF_ADDRESS } from 'src/constants'
 import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
 import PoolCardListView, { SortingType } from './PoolCardListView'
 
@@ -91,7 +91,8 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   }, [stakingInfos])
 
   const stakingRewardsExist = Boolean(
-    typeof chainId === 'number' && (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0
+    //@dev if exist minicheft in chain then exist staking rewards because in deploy we added in minicheft pool PNG/WAVAX
+    typeof chainId === 'number' && ((DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0 || MINICHEF_ADDRESS[chainId])
   )
   const selectedPool = selectedPoolIndex !== -1 ? stakingInfoData[selectedPoolIndex] : ({} as MinichefStakingInfo)
 

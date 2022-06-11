@@ -5,7 +5,7 @@ import Sidebar, { MenuType } from './Sidebar'
 import AllPoolList from './AllPoolList'
 import Wallet from './Wallet'
 import { useTranslation } from 'react-i18next'
-import { useStakingInfo, useGetMinichefStakingInfosViaSubgraph, useGetAllFarmData, useMinichefStakingInfos} from 'src/state/stake/hooks'
+import { useStakingInfo, useGetMinichefStakingInfosViaSubgraph, useGetAllFarmData, useMinichefStakingInfos, MinichefStakingInfo} from 'src/state/stake/hooks'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
 import AddLiquidityModal from './AddLiquidityModal'
@@ -24,10 +24,8 @@ const PoolUI = () => {
   useGetAllFarmData()
 
   let miniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
-
-  useMinichefStakingInfos()
-
-  //console.log('_miniChefStakingInfo', _miniChefStakingInfo)
+  const onChainMiniChefStakingInfo = useMinichefStakingInfos()
+  console.log('onChainMiniChefStakingInfo', onChainMiniChefStakingInfo)
 
   const handleAddLiquidityModalClose = useCallback(() => {
     setAddLiquidityModalOpen(false)
@@ -50,9 +48,13 @@ const PoolUI = () => {
 
   // filter only live or needs migration pools
   miniChefStakingInfo = useMemo(
-    () =>
-      (miniChefStakingInfo || []).filter(info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)),
-    [miniChefStakingInfo]
+    () =>{
+      if (miniChefStakingInfo.length === 0 && onChainMiniChefStakingInfo.length > 0) {
+        return onChainMiniChefStakingInfo.filter(info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)) as MinichefStakingInfo[]
+      }
+      return (miniChefStakingInfo || []).filter(info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO))
+    },
+    [miniChefStakingInfo, onChainMiniChefStakingInfo]
   )
 
   const ownminiChefStakingInfo = useMemo(

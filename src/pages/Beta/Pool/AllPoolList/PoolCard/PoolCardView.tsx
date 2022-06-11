@@ -60,7 +60,11 @@ const PoolCardView = ({
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
+<<<<<<< HEAD
   const yourStackedInUsd = CHAINS[chainId]?.mainnet
+=======
+  const yourStackedInUsd = CHAINS[chainId].mainnet && stakingInfo?.totalStakedInUsd
+>>>>>>> b9b03ef7 (added multichain pool via contract calls)
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
 
