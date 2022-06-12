@@ -535,9 +535,10 @@ export function useSingleSideStakingInfo(
   version: number,
   rewardTokenToFilterBy?: Token | null
 ): SingleSideStakingInfo[] {
-  const { account } = useActiveWeb3React()
+  // TODO: Take library from useLibrary 
+  const { library, account } = useActiveWeb3React()
   const chainId = useChainId()
-  const { library } = useLibrary()
+
   const info = useMemo(
     () =>
       SINGLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>

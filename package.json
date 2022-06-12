@@ -130,7 +130,8 @@
     "integration-test": "start-server-and-test 'serve build -l 3000' http://localhost:3000 'cypress run'",
     "prepare": "husky install",
     "type-check": "tsc --noEmit",
-    "pre-commit-hook": "lint-staged"
+    "pre-commit-hook": "lint-staged",
+    "postinstall": "patch-package"
   },
   "lint-staged": {
     "*.{jsx,js,ts,tsx}": [
@@ -168,6 +169,8 @@
     "lightweight-charts": "^3.7.0",
     "lodash.isequal": "^4.5.0",
     "near-api-js": "0.44.2",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "react-portal": "^4.2.1"
   }
 }
