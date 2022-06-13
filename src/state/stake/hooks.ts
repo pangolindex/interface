@@ -977,7 +977,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const png = PNG[chainId]
   const lpTokens = Object.keys(poolMap)
 
-  // if chain is not avalanche skip the first pool because it's dummyERC20  
+  // if chain is not avalanche skip the first pool because it's dummyERC20
   if (chainId !== ChainId.AVALANCHE) {
     lpTokens.shift()
   }
@@ -999,14 +999,18 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const tokens1 = useTokens(tokens1Adrr)
 
   const info = useMemo(() => {
+    const filterPair = (item: DoubleSideStaking) => {
+      if (pairToFilterBy === undefined) {
+        return true
+      }
+      if (pairToFilterBy === null) {
+        return false
+      }
+      return pairToFilterBy.involvesToken(item.tokens[0]) && pairToFilterBy.involvesToken(item.tokens[1])
+    }
+
     if (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]) {
-      return DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(item =>
-        pairToFilterBy === undefined
-          ? true
-          : pairToFilterBy === null
-          ? false
-          : pairToFilterBy.involvesToken(item.tokens[0]) && pairToFilterBy.involvesToken(item.tokens[1])
-      )
+      return DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(filterPair)
     }
     const _infoTokens: DoubleSideStaking[] = []
     if (tokens0 && tokens1 && tokens0?.length === tokens1?.length) {
@@ -1020,13 +1024,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           })
         }
       })
-      _infoTokens.filter(item =>
-        pairToFilterBy === undefined
-          ? true
-          : pairToFilterBy === null
-          ? false
-          : pairToFilterBy.involvesToken(item.tokens[0]) && pairToFilterBy.involvesToken(item.tokens[1])
-      )
+      return _infoTokens.filter(filterPair)
     }
     return _infoTokens
   }, [chainId, minichefContract, tokens0, tokens1, pairToFilterBy, version])

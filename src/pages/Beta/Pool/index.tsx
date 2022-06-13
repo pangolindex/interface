@@ -25,7 +25,6 @@ const PoolUI = () => {
 
   let miniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
   const onChainMiniChefStakingInfo = useMinichefStakingInfos()
-  console.log('onChainMiniChefStakingInfo', onChainMiniChefStakingInfo)
 
   const handleAddLiquidityModalClose = useCallback(() => {
     setAddLiquidityModalOpen(false)
