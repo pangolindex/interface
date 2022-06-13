@@ -375,9 +375,9 @@
     "seeDetails":"VOIR LES DÉTAILS",
     "totalLockedValue": "Valeur totale verrouillée",
     "yourLockedValue": "Votre valeur verrouillée",
-    "allPools": "Toutes les Pools",
+    "allFarms": "Toutes les Farms",
+    "yourFarms": "Voos Farms",
     "yourPools": "Vos Pools",
-    "yourWallet": "Ton portefeuille",
     "noFarms": "Aucune ferme trouvée."
   },
   "poolFinder": {

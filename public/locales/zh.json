@@ -375,9 +375,9 @@
     "seeDetails":"阅读详情",
     "totalLockedValue": "总锁定值",
     "yourLockedValue": "您的锁定值",
-    "allPools": "所有池",
+    "allFarms": "所有农场",
+    "yourFarms": "你的农场",
     "yourPools": "你的游泳池",
-    "yourWallet": "你的钱包",
     "noFarms": "没有找到农场。"
   },
   "poolFinder": {

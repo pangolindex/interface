@@ -375,9 +375,9 @@
     "seeDetails":"XEM CHI TIẾT",
     "totalLockedValue": "Tổng giá trị đã khóa",
     "yourLockedValue": "Giá trị đã khóa của bạn",
-    "allPools": "Tất cả các hồ bơi",
+    "allFarms": "tất cả các trang trại",
+    "yourFarms": "trang trại của bạn",
     "yourPools": "Hồ bơi của bạn",
-    "yourWallet": "Ví của bạn",
     "noFarms": "Không tìm thấy trang trại nào."
   },
   "poolFinder": {

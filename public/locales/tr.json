@@ -374,9 +374,9 @@
     "seeDetails": "DETAYLARI GÖR",
     "totalLockedValue": "Toplam Kilitli Değer",
     "yourLockedValue": "Kilitli Değeriniz",
-    "allPools": "Tüm Havuzlar",
+    "allFarms": "Tüm çiftlikler",
+    "yourFarms": "senin çiftliklerin",
     "yourPools": "Havuzlarınız",
-    "yourWallet": "Cüzdanın",
     "noFarms": "Çiftlik bulunamadı."
   },
   "poolFinder": {

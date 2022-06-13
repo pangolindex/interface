@@ -17,7 +17,7 @@ export enum PoolType {
 }
 
 const PoolUI = () => {
-  const [activeMenu, setMenu] = useState<string>(MenuType.allPoolV2)
+  const [activeMenu, setMenu] = useState<string>(MenuType.allFarmV2)
   const [isAddLiquidityModalOpen, setAddLiquidityModalOpen] = useState<boolean>(false)
   const { t } = useTranslation()
 
@@ -68,29 +68,29 @@ const PoolUI = () => {
   // add v1
   if (stakingInfoV1.length > 0) {
     menuItems.push({
-      label: `${t('pool.allPools')} (V1)`,
-      value: MenuType.allPoolV1
+      label: `${t('pool.allFarms')} (V1)`,
+      value: MenuType.allFarmV1
     })
   }
   // add v2
   if (miniChefStakingInfo.length > 0) {
     menuItems.push({
-      label: stakingInfoV1.length > 0 ? `${t('pool.allPools')} (V2)` : `${t('pool.allPools')}`,
-      value: MenuType.allPoolV2
+      label: stakingInfoV1.length > 0 ? `${t('pool.allFarms')} (V2)` : `${t('pool.allFarms')}`,
+      value: MenuType.allFarmV2
     })
   }
   // add own v1
   if (ownStakingInfoV1.length > 0) {
     menuItems.push({
-      label: `${t('pool.yourPools')} (V1)`,
-      value: MenuType.yourPoolV1
+      label: `${t('pool.yourFarms')} (V1)`,
+      value: MenuType.yourFarmV1
     })
   }
   // add own v2
   if (ownminiChefStakingInfo.length > 0) {
     menuItems.push({
-      label: ownStakingInfoV1.length > 0 ? `${t('pool.yourPools')} (V2)` : `${t('pool.yourPools')}`,
-      value: MenuType.yourPoolV2
+      label: ownStakingInfoV1.length > 0 ? `${t('pool.yourFarms')} (V2)` : `${t('pool.yourFarms')}`,
+      value: MenuType.yourFarmV2
     })
   }
   // add superfarm
@@ -104,8 +104,8 @@ const PoolUI = () => {
   if (menuItems.length > 0) {
     // add wallet
     menuItems.push({
-      label: `${t('pool.yourWallet')}`,
-      value: MenuType.yourWallet
+      label: `${t('pool.yourPools')}`,
+      value: MenuType.yourPool
     })
   }
 
@@ -125,23 +125,23 @@ const PoolUI = () => {
             setMenu={handleSetMenu}
             menuItems={menuItems}
             onManagePoolsClick={() => {
-              setMenu(MenuType.yourWallet)
+              setMenu(MenuType.yourPool)
             }}
           />
-          {(activeMenu === MenuType.allPoolV1 ||
-            activeMenu === MenuType.allPoolV2 ||
-            activeMenu === MenuType.yourPoolV2 ||
-            activeMenu === MenuType.yourPoolV1 ||
+          {(activeMenu === MenuType.allFarmV1 ||
+            activeMenu === MenuType.allFarmV2 ||
+            activeMenu === MenuType.yourFarmV1 ||
+            activeMenu === MenuType.yourFarmV2 ||
             activeMenu === MenuType.superFarm) && (
             <AllPoolList
               type={
-                activeMenu === MenuType.allPoolV1 || activeMenu === MenuType.allPoolV2
+                activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.allFarmV2
                   ? PoolType.all
                   : activeMenu === MenuType.superFarm
                   ? PoolType.superFarms
                   : PoolType.own
               }
-              version={activeMenu === MenuType.allPoolV1 || activeMenu === MenuType.yourPoolV1 ? 1 : 2}
+              version={activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.yourFarmV1 ? 1 : 2}
               stakingInfoV1={stakingInfoV1}
               miniChefStakingInfo={miniChefStakingInfo}
               activeMenu={activeMenu}
@@ -149,7 +149,7 @@ const PoolUI = () => {
               menuItems={menuItems}
             />
           )}
-          {activeMenu === MenuType.yourWallet && (
+          {activeMenu === MenuType.yourPool && (
             <Wallet activeMenu={activeMenu} setMenu={handleSetMenu} menuItems={menuItems} />
           )}
         </Box>
