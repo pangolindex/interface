@@ -92,7 +92,7 @@ const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
           .sort(sortingOnAvaxStake)
           .sort(sortingOnStakedAmount)
           .map(stakingInfo => {
-            return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+            return fetch(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
               .then(res => res.json())
               .then(res => ({
                 swapFeeApr: Number(res.swapFeeApr),

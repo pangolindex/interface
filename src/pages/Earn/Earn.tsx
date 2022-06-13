@@ -204,7 +204,9 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
           .map(stakingInfo => {
             if (poolMap) {
               return fetch(
-                `${PANGOLIN_API_BASE_URL}/pangolin/apr2/${poolMap[stakingInfo.totalStakedAmount.token.address]}`
+                `${PANGOLIN_API_BASE_URL}/v2/${chainId}/pangolin/apr/${
+                  poolMap[stakingInfo.totalStakedAmount.token.address]
+                }`
               )
                 .then(res => res.json())
                 .then(res => ({
@@ -214,14 +216,13 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                   ...stakingInfo
                 }))
             } else {
-              return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
-                .then(res => res.json())
-                .then(res => ({
-                  swapFeeApr: Number(res.swapFeeApr),
-                  stakingApr: Number(res.stakingApr),
-                  combinedApr: Number(res.combinedApr),
-                  ...stakingInfo
-                }))
+              // Legacy (expired) staking via LiquidityPoolManager and StakingRewards
+              return {
+                swapFeeApr: 0,
+                stakingApr: 0,
+                combinedApr: 0,
+                ...stakingInfo
+              }
             }
           })
       ).then(updatedStakingInfos => {

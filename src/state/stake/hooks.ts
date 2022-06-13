@@ -811,6 +811,7 @@ export function useDerivedUnstakeInfo(
 }
 
 export function useGetStakingDataWithAPR(version: number) {
+  const chainId = useChainId()
   const stakingInfos = useStakingInfo(version)
   const [stakingInfoData, setStakingInfoData] = useState<StakingInfo[]>(stakingInfos)
 
@@ -818,18 +819,24 @@ export function useGetStakingDataWithAPR(version: number) {
     if (stakingInfos?.length > 0) {
       Promise.all(
         stakingInfos.map(stakingInfo => {
-          const APR_URL =
-            version < 2
-              ? `${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress}`
-              : `${PANGOLIN_API_BASE_URL}/pangolin/apr2/${stakingInfo.stakingRewardAddress}`
-          return fetch(APR_URL)
-            .then(res => res.json())
-            .then(res => ({
-              swapFeeApr: Number(res.swapFeeApr),
-              stakingApr: Number(res.stakingApr),
-              combinedApr: Number(res.combinedApr),
+          if (version < 2) {
+            // Legacy (expired) staking via LiquidityPoolManager and StakingRewards
+            return Promise.resolve({
+              swapFeeApr: 0,
+              stakingApr: 0,
+              combinedApr: 0,
               ...stakingInfo
-            }))
+            })
+          } else {
+            return fetch(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
+              .then(res => res.json())
+              .then(res => ({
+                swapFeeApr: Number(res.swapFeeApr),
+                stakingApr: Number(res.stakingApr),
+                combinedApr: Number(res.combinedApr),
+                ...stakingInfo
+              }))
+          }
         })
       ).then(updatedStakingInfos => {
         setStakingInfoData(updatedStakingInfos)
@@ -837,7 +844,7 @@ export function useGetStakingDataWithAPR(version: number) {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stakingInfos?.length, version])
+  }, [stakingInfos?.length, version, chainId])
 
   return stakingInfoData
 }
@@ -1789,8 +1796,8 @@ export const useSortFarmAprs = () => {
   return useMemo(() => Object.values(aprs).sort((a, b) => b.combinedApr - a.combinedApr), [aprs])
 }
 
-const fetchApr = async (pid: string) => {
-  const response = await axios.get(`${PANGOLIN_API_BASE_URL}/pangolin/apr2/${pid}`)
+const fetchApr = async (pid: string, chainId: ChainId) => {
+  const response = await axios.get(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/pangolin/apr/${pid}`)
 
   const res = response.data
 
@@ -1803,6 +1810,7 @@ const fetchApr = async (pid: string) => {
 }
 
 export function useFetchFarmAprs() {
+  const chainId = useChainId()
   const pids = useGetMinichefPids()
   const dispatch = useDispatch<AppDispatch>()
 
@@ -1811,7 +1819,7 @@ export function useFetchFarmAprs() {
       const promises = []
 
       for (const pid of pids) {
-        promises.push(fetchApr(pid))
+        promises.push(fetchApr(pid, chainId))
       }
       const res = await Promise.all(promises)
       const newResult = (res || []).reduce((acc, value: any) => ({ ...acc, [value?.pid as string]: value }), {})
@@ -1825,7 +1833,7 @@ export function useFetchFarmAprs() {
     }
 
     getFarmAprs()
-  }, [pids, dispatch])
+  }, [pids, chainId, dispatch])
 }
 
 export function useUpdateAllFarmsEarnAmount() {

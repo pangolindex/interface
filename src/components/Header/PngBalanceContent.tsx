@@ -88,10 +88,10 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
 
   useMemo(() => {
     if (png === undefined) return
-    fetch(`${PANGOLIN_API_BASE_URL}/png/circulating-supply`)
+    fetch(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/png/circulating-supply`)
       .then(res => res.text())
       .then(val => setCirculation(new TokenAmount(png, val)))
-  }, [png])
+  }, [png, chainId])
 
   return (
     <ContentWrapper gap="lg">
