@@ -231,7 +231,7 @@ export default function Vote() {
           )
         })}
       </TopSection>
-      <TYPE.subHeader color="text3">{t('votePage.minimumThreshold')}</TYPE.subHeader>
+      <TYPE.subHeader color="text3">{t('votePage.minimumThreshold', { pngSymbol: pngSymbol })}</TYPE.subHeader>
     </PageWrapper>
   )
 }

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const PageWrapper = styled(Box)`
   width: 100%;
-  height: 500px;
+  height: 100%;
   border-radius: 10px;
   padding: 20px;
   background-color: ${({ theme }) => theme.color2};
