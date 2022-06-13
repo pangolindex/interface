@@ -1,7 +1,11 @@
 import React from 'react'
 import { Text, Box, CurrencyLogo } from '@pangolindex/components'
-import { Currency } from '@pangolindex/sdk'
+import { Currency, Token, WAVAX } from '@pangolindex/sdk'
 import { Colors } from 'src/theme/styled'
+import { useChainId } from 'src/hooks'
+import { ANALYTICS_PAGE } from 'src/constants'
+import {ReactComponent as AnalyticsIcon} from 'src/assets/svg/menu/analytics.svg'
+import { AnalyticsLink } from './styled'
 
 export interface StatProps {
   title?: React.ReactNode
@@ -13,6 +17,7 @@ export interface StatProps {
   statFontSize?: number
   currency?: Currency
   statAlign?: 'center' | 'right' | 'left'
+  showAnalytics?: boolean
 }
 
 const Stat = ({
@@ -24,14 +29,24 @@ const Stat = ({
   statColor,
   statFontSize,
   currency,
-  statAlign
+  statAlign,
+  showAnalytics = false
 }: StatProps) => {
+  const chainId = useChainId()
+  const token = currency instanceof Currency && currency instanceof Token ? currency : WAVAX[chainId]
   return (
     <Box display="inline-block">
       {titlePosition === 'top' && title && (
-        <Text color={titleColor || 'text1'} fontSize={titleFontSize || 20}>
-          {title}
-        </Text>
+        <Box display="flex" flexDirection="row" style={{gap: "5px"}} alignItems="center">
+          <Text color={titleColor || 'text1'} fontSize={titleFontSize || 20}>
+            {title}
+          </Text>
+          {showAnalytics && (
+            <AnalyticsLink href={`${ANALYTICS_PAGE}/#/token/${token.address}`} target="_blank">
+              <AnalyticsIcon/>
+            </AnalyticsLink>
+          )}
+        </Box>
       )}
 
       <Box
