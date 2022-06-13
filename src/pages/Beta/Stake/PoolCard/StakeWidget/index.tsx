@@ -124,7 +124,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
                   onClick={onStake}
                   height="46px"
                 >
-                  {error ?? t('earn.deposit')}
+                  {error ?? t('earnPage.stake')}
                 </Button>
               </>
             ) : (
