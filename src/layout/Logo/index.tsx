@@ -1,8 +1,7 @@
 import React from 'react'
-import { Text, Box } from '@pangolindex/components'
-import { useDarkModeManager } from '../../state/user/hooks'
-import Logo from 'src/assets/images/logo_light.svg'
-import LogoDark from 'src/assets/images/logo_dark.svg'
+import { Box } from '@pangolindex/components'
+import Logo from 'src/assets/svg/logoIcon.svg'
+import LogoSlogan from 'src/assets/svg/logoWithSlogan.svg'
 import { Title, LogoWrapper } from './styled'
 
 interface LogoProps {
@@ -10,22 +9,17 @@ interface LogoProps {
 }
 
 export default function LogoIcon({ collapsed }: LogoProps) {
-  const [isDark] = useDarkModeManager()
-
   return (
     <LogoWrapper collapsed={collapsed}>
       <Box>
         <Title href=".">
-          <img width={'28px'} src={isDark ? LogoDark : Logo} alt="logo" />
+          {!collapsed ? (
+            <img height="28px" src={LogoSlogan} alt="logo" />
+          ) : (
+            <img width="28px" src={Logo} alt="logo" />
+          )}
         </Title>
       </Box>
-      {!collapsed && (
-        <Box ml={12}>
-          <Text color="text1" fontSize={16}>
-            Pangolin
-          </Text>
-        </Box>
-      )}
     </LogoWrapper>
   )
 }
