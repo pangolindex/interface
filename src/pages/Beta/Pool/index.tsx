@@ -158,19 +158,6 @@ const PoolUI = () => {
             <ExternalLink onClick={() => setAddLiquidityModalOpen(true)} style={{ cursor: 'pointer' }}>
               {t('navigationTabs.createPair')}
             </ExternalLink>
-            <ExternalLink
-              href="https://app.nexusmutual.io/cover/buy/get-quote?address=0xefa94DE7a4656D787667C749f7E1223D71E9FD88"
-              target="_blank"
-            >
-              {t('earnPage.getCoverNexusMutual')}
-            </ExternalLink>
-            <ExternalLink
-              href="https://app.insurace.io/Insurance/BuyCovers?referrer=565928487188065888397039055593264600345483712698"
-              target="_blank"
-            >
-              {t('earnPage.getInsuranceCoverage')}
-            </ExternalLink>
-            {/* <Migration /> */}
           </Box>
         </Hidden>
       </GridContainer>
