@@ -12,7 +12,7 @@ import { AutoColumn } from 'src/components/Column'
 import { CardSection, DataCard } from 'src/components/earn/styled'
 import { ButtonPrimary, ButtonEmpty, ButtonSecondary } from 'src/components/Button'
 import { useSingleSideStakingInfo } from 'src/state/stake/hooks'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
+import { useActiveWeb3React, useChainId, usePngSymbol } from 'src/hooks'
 import { useColor } from 'src/hooks/useColor'
 import { CountUp } from 'use-count-up'
 
@@ -87,7 +87,7 @@ export default function Manage({
 }: RouteComponentProps<{ rewardCurrencyId: string; version: string }>) {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const pngSymbol = usePngSymbol()
   const { t } = useTranslation()
 
   const rewardCurrency = useCurrency(rewardCurrencyId)
@@ -126,7 +126,9 @@ export default function Manage({
     <PageWrapper gap="lg" justify="center">
       <RowBetween style={{ gap: '24px' }}>
         {chainId && <CurrencyLogo currency={png} chainId={chainId} />}
-        <TYPE.mediumHeader style={{ margin: 0 }}>{t('earnPage.pngStaking')}</TYPE.mediumHeader>
+        <TYPE.mediumHeader style={{ margin: 0 }}>
+          {t('earnPage.pngStaking', { pngSymbol: pngSymbol })}
+        </TYPE.mediumHeader>
         {chainId && <CurrencyLogo currency={rewardCurrency ?? undefined} chainId={chainId} />}
       </RowBetween>
 

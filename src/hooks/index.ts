@@ -1,5 +1,5 @@
 import { Web3Provider } from '@ethersproject/providers'
-import { ChainId, ALL_CHAINS } from '@pangolindex/sdk'
+import { ChainId, ALL_CHAINS, CHAINS } from '@pangolindex/sdk'
 import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useEffect, useState } from 'react'
@@ -121,4 +121,9 @@ export const useChainId = () => {
 
 export const useChain = (chainId: number) => {
   return ALL_CHAINS.filter(chain => chain.chain_id === chainId)[0]
+}
+
+export const usePngSymbol = () => {
+  const { chainId } = useActiveWeb3React()
+  return CHAINS[chainId || ChainId.AVALANCHE].png_symbol!
 }

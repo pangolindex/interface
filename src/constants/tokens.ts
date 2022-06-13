@@ -29,7 +29,7 @@ export const PNG: { [chainId in ChainId]: Token } = {
     CHAINS[ChainId.COSTON].contracts!.png,
     18,
     CHAINS[ChainId.COSTON].png_symbol,
-    'Wagmi Pangolin'
+    'Coston Pangolin'
   )
 }
 

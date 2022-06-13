@@ -4,7 +4,7 @@ import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/
 import { useAllProposalData, ProposalData, useUserVotes, useUserDelegatee } from '../../state/governance/hooks'
 import DelegateModal from '../../components/vote/DelegateModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId, usePngSymbol } from '../../hooks'
 import { ZERO_ADDRESS } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
@@ -105,7 +105,9 @@ const EmptyProposals = styled.div`
 `
 
 export default function Vote() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+  const pngSymbol = usePngSymbol()
   const { t } = useTranslation()
 
   // toggle for showing delegation modal
@@ -142,10 +144,10 @@ export default function Vote() {
                 <TYPE.white fontWeight={600}>{t('votePage.pangolinGovernance')}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>{t('votePage.earnedPngTokens')}</TYPE.white>
+                <TYPE.white fontSize={14}>{t('votePage.earnedPngTokens', { pngSymbol: pngSymbol })}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>{t('votePage.eligibleToVote')}</TYPE.white>
+                <TYPE.white fontSize={14}>{t('votePage.eligibleToVote', { pngSymbol: pngSymbol })}</TYPE.white>
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>{t('votePage.governanceVotes')}</TYPE.white>
@@ -229,7 +231,7 @@ export default function Vote() {
           )
         })}
       </TopSection>
-      <TYPE.subHeader color="text3">{t('votePage.minimumThreshold')}</TYPE.subHeader>
+      <TYPE.subHeader color="text3">{t('votePage.minimumThreshold', { pngSymbol: pngSymbol })}</TYPE.subHeader>
     </PageWrapper>
   )
 }

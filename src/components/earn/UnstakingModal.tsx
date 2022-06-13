@@ -11,7 +11,7 @@ import { SubmittedView, LoadingView } from '../ModalViews'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import FormattedCurrencyAmount from '../FormattedCurrencyAmount'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, usePngSymbol } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import { TokenAmount } from '@pangolindex/sdk'
 
@@ -37,6 +37,7 @@ export default function UnstakingModal({
 }: StakingModalProps) {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
+  const pngSymbol = usePngSymbol()
 
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()
@@ -110,7 +111,7 @@ export default function UnstakingModal({
               <TYPE.body fontWeight={600} fontSize={36}>
                 {<FormattedCurrencyAmount currencyAmount={stakingInfo?.earnedAmount} />}
               </TYPE.body>
-              <TYPE.body>{t('earn.unclaimedReward', { symbol: 'PNG' })}</TYPE.body>
+              <TYPE.body>{t('earn.unclaimedReward', { symbol: pngSymbol })}</TYPE.body>
             </AutoColumn>
           )}
           {isSuperFarm &&
@@ -122,7 +123,9 @@ export default function UnstakingModal({
                 <TYPE.body>{t('earn.unclaimedReward', { symbol: rewardAmount?.token?.symbol })}</TYPE.body>
               </AutoColumn>
             ))}
-          <TYPE.subHeader style={{ textAlign: 'center' }}>{t('earn.whenYouWithdrawWarning')}</TYPE.subHeader>
+          <TYPE.subHeader style={{ textAlign: 'center' }}>
+            {t('earn.whenYouWithdrawWarning', { symbol: pngSymbol })}
+          </TYPE.subHeader>
           <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onWithdraw}>
             {error ?? t('earn.withdrawAndClaim')}
           </ButtonError>
