@@ -50,7 +50,6 @@ import {
   updateMinichefStakingAllAprs,
   updateMinichefStakingAllFarmsEarnedAmount
 } from 'src/state/stake/actions'
-import axios from 'axios'
 import usePrevious from 'src/hooks/usePrevious'
 import isEqual from 'lodash.isequal'
 
@@ -817,30 +816,28 @@ export function useGetStakingDataWithAPR(version: number) {
 
   useEffect(() => {
     if (stakingInfos?.length > 0) {
-      Promise.all(
-        stakingInfos.map(stakingInfo => {
-          if (version < 2) {
-            // Legacy (expired) staking via LiquidityPoolManager and StakingRewards
-            return Promise.resolve({
-              swapFeeApr: 0,
-              stakingApr: 0,
-              combinedApr: 0,
-              ...stakingInfo
-            })
-          } else {
-            return fetch(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
-              .then(res => res.json())
-              .then(res => ({
-                swapFeeApr: Number(res.swapFeeApr),
-                stakingApr: Number(res.stakingApr),
-                combinedApr: Number(res.combinedApr),
-                ...stakingInfo
-              }))
-          }
-        })
-      ).then(updatedStakingInfos => {
-        setStakingInfoData(updatedStakingInfos)
-      })
+      let aprRequest: Promise<Array<{ swapFeeApr: number; stakingApr: number; combinedApr: number }>>
+      if (version < 2) {
+        aprRequest = Promise.resolve(
+          stakingInfos.map(() => ({
+            swapFeeApr: 0,
+            stakingApr: 0,
+            combinedApr: 0
+          }))
+        )
+      } else {
+        const pids = stakingInfos.map(stakingInfo => stakingInfo.stakingRewardAddress)
+        aprRequest = fetchChunkedAprs(pids, chainId)
+      }
+
+      aprRequest
+        .then(aprResponses =>
+          stakingInfos.map((stakingInfo, i) => ({
+            ...stakingInfo,
+            ...aprResponses[i]
+          }))
+        )
+        .then(setStakingInfoData)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1796,17 +1793,30 @@ export const useSortFarmAprs = () => {
   return useMemo(() => Object.values(aprs).sort((a, b) => b.combinedApr - a.combinedApr), [aprs])
 }
 
-const fetchApr = async (pid: string, chainId: ChainId) => {
-  const response = await axios.get(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/pangolin/apr/${pid}`)
-
-  const res = response.data
-
-  return {
-    pid: pid,
-    swapFeeApr: Number(res.swapFeeApr),
-    stakingApr: Number(res.stakingApr),
-    combinedApr: Number(res.combinedApr)
+// Each APR request performs an upper bound of (6 + 11n) subrequests where n = pid count
+// API requests cannot exceed 50 subrequests and therefore `chunkSize` is set to 4
+// ie (6 + 11(4)) = 50
+export const fetchChunkedAprs = async (pids: string[], chainId: ChainId, chunkSize = 4) => {
+  interface AprResult {
+    swapFeeApr: number
+    stakingApr: number
+    combinedApr: number
   }
+
+  const pidChunks: string[][] = []
+
+  for (let i = 0; i < pids.length; i += chunkSize) {
+    const pidChunk = pids.slice(i, i + chunkSize)
+    pidChunks.push(pidChunk)
+  }
+
+  const chunkedResults = await Promise.all<AprResult[]>(
+    pidChunks.map(chunk =>
+      fetch(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/pangolin/aprs/${chunk.join(',')}`).then(res => res.json())
+    )
+  )
+
+  return chunkedResults.flat()
 }
 
 export function useFetchFarmAprs() {
@@ -1815,14 +1825,10 @@ export function useFetchFarmAprs() {
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    async function getFarmAprs() {
-      const promises = []
+    if (!chainId || !pids || pids.length === 0) return
 
-      for (const pid of pids) {
-        promises.push(fetchApr(pid, chainId))
-      }
-      const res = await Promise.all(promises)
-      const newResult = (res || []).reduce((acc, value: any) => ({ ...acc, [value?.pid as string]: value }), {})
+    fetchChunkedAprs(pids, chainId).then(res => {
+      const newResult = res.reduce((acc, value: any, i) => ({ ...acc, [pids[i] as string]: value }), {})
       if (res.length > 0) {
         dispatch(
           updateMinichefStakingAllAprs({
@@ -1830,9 +1836,7 @@ export function useFetchFarmAprs() {
           })
         )
       }
-    }
-
-    getFarmAprs()
+    })
   }, [pids, chainId, dispatch])
 }
 

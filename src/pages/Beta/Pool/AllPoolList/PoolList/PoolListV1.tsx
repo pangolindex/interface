@@ -1,10 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { DoubleSideStakingInfo, sortingOnAvaxStake, sortingOnStakedAmount } from 'src/state/stake/hooks'
+import {
+  DoubleSideStakingInfo,
+  fetchChunkedAprs,
+  sortingOnAvaxStake,
+  sortingOnStakedAmount
+} from 'src/state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/doubleSideConfig'
 import PoolCardV1 from '../PoolCard/PoolCardV1'
 import { useChainId } from 'src/hooks'
 import useDebounce from 'src/hooks/useDebounce'
-import { BIG_INT_ZERO, PANGOLIN_API_BASE_URL } from 'src/constants'
+import { BIG_INT_ZERO } from 'src/constants'
 import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
 import PoolCardListView, { SortingType } from './PoolCardListView'
 
@@ -83,49 +88,48 @@ const PoolListV1: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
     setPoolCardsLoading(true)
 
     if (stakingInfos?.length > 0) {
-      Promise.all(
-        stakingInfos
-          .filter(function(info) {
-            // Only include pools that are live or require a migration
-            return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
-          })
-          .sort(sortingOnAvaxStake)
-          .sort(sortingOnStakedAmount)
-          .map(stakingInfo => {
-            return fetch(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
-              .then(res => res.json())
-              .then(res => ({
-                swapFeeApr: Number(res.swapFeeApr),
-                stakingApr: Number(res.stakingApr),
-                combinedApr: Number(res.combinedApr),
-                ...stakingInfo
-              }))
-          })
-      ).then(updatedStakingInfos => {
-        const sortedPoolCards = updatedStakingInfos.map((stakingInfo, index) => {
-          return (
-            <PoolCardV1
-              key={index}
-              stakingInfo={stakingInfo}
-              onClickViewDetail={() => {
-                // let container = {} as { [address: string]: { staking: StakingInfo } }
-                // container[stakingInfo.stakingRewardAddress] = { staking: stakingInfo }
-                setSelectedPoolIndex(index)
-                togglePoolDetailModal()
-              }}
-              version={Number(version)}
-            />
-          )
+      const filteredStakingInfos = stakingInfos
+        .filter(function(info) {
+          // Only include pools that are live or require a migration
+          return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
         })
+        .sort(sortingOnAvaxStake)
+        .sort(sortingOnStakedAmount)
 
-        setStakingInfoData(updatedStakingInfos)
-        setPoolCards(sortedPoolCards)
-        setPoolCardsLoading(false)
-      })
+      const pids = filteredStakingInfos.map(stakingInfo => stakingInfo.stakingRewardAddress)
+      fetchChunkedAprs(pids, chainId)
+        .then(aprResponses => {
+          return filteredStakingInfos.map((filteredStakingInfo, i) => ({
+            ...filteredStakingInfo,
+            ...aprResponses[i]
+          }))
+        })
+        .then(updatedStakingInfos => {
+          const sortedPoolCards = updatedStakingInfos.map((stakingInfo, index) => {
+            return (
+              <PoolCardV1
+                key={index}
+                stakingInfo={stakingInfo}
+                onClickViewDetail={() => {
+                  // let container = {} as { [address: string]: { staking: StakingInfo } }
+                  // container[stakingInfo.stakingRewardAddress] = { staking: stakingInfo }
+                  setSelectedPoolIndex(index)
+                  togglePoolDetailModal()
+                }}
+                version={Number(version)}
+              />
+            )
+          })
+          setStakingInfoData(updatedStakingInfos)
+          setPoolCards(sortedPoolCards)
+        })
+        .finally(() => {
+          setPoolCardsLoading(false)
+        })
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stakingInfos?.length, version])
+  }, [stakingInfos?.length, chainId, version])
 
   const stakingRewardsExist = Boolean(
     typeof chainId === 'number' && (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0
