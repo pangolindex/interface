@@ -12,6 +12,17 @@ export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & 
   return context.active ? context : contextNetwork
 }
 
+const getExistingConnector = async () => {
+  const isMetaMask = await injected.isAuthorized()
+
+  const isNear = await near.isAuthorized()
+
+  if (isMetaMask) {
+    return injected
+  }
+  return isNear ? near : xDefi
+}
+
 export function useEagerConnect() {
   const { activate, active } = useWeb3ReactCore() // specifically using useWeb3ReactCore because of what this hook does
   const [tried, setTried] = useState(false)
@@ -30,11 +41,7 @@ export function useEagerConnect() {
           }
         })
       } else {
-        const isMetaMask = await injected.isAuthorized()
-
-        const isNear = await near.isAuthorized()
-
-        const existingConnector = isMetaMask ? injected : isNear ? near : xDefi
+        const existingConnector = await getExistingConnector()
 
         existingConnector.isAuthorized().then(isAuthorized => {
           if (isAuthorized) {

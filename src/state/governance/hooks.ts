@@ -111,7 +111,6 @@ export async function getBlockFromTimestamp(timestamp: number) {
  * new proposal event.
  */
 export function useDataFromEventLogs() {
-  // const { library } = useActiveWeb3React()
   const { library } = useLibrary()
   const [formattedEvents, setFormattedEvents] = useState<any>()
   const govContract = useGovernanceContract()

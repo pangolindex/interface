@@ -18,7 +18,7 @@ import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../earn/st
 import { useTranslation } from 'react-i18next'
 import useUSDCPrice from '../../utils/useUSDCPrice'
 import { useChainId } from 'src/hooks'
-import { useTokenBalanceHook } from 'src/constants/hooks'
+import { useTokenBalanceHook } from 'src/hooks/multiChainsHooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;

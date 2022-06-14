@@ -7,11 +7,10 @@ import { useTransactionAdder } from '../state/transactions/hooks'
 import { calculateGasMargin, getRouterContract, isAddress } from '../utils'
 import isZero from '../utils/isZero'
 import { useActiveWeb3React, useChainId } from './index'
-import { useLibrary } from '@pangolindex/components'
+import { useLibrary, shortenAddress } from '@pangolindex/components'
 import useTransactionDeadline from './useTransactionDeadline'
 import useENS from './useENS'
 import { Version } from './useToggledVersion'
-import { shortenAddress } from '@pangolindex/components'
 
 export enum SwapCallbackState {
   INVALID,

@@ -51,6 +51,13 @@ const GovernanceUI = () => {
     pngBalance && JSBI.notEqual(pngBalance.raw, JSBI.BigInt(0)) && userDelegatee === ZERO_ADDRESS
   )
 
+  function getAddress() {
+    if (userDelegatee === account) {
+      return 'Self'
+    }
+    return userDelegatee ? shortenAddress(userDelegatee, chainId) : ''
+  }
+
   return (
     <PageWrapper>
       <DelegateModal
@@ -109,7 +116,7 @@ const GovernanceUI = () => {
                         href={getEtherscanLink(ChainId.FUJI, userDelegatee, 'address')}
                         style={{ margin: '0 4px' }}
                       >
-                        {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee, chainId)}
+                        {getAddress()}
                       </StyledExternalLink>
                       <TextButton onClick={toggleDelegateModal} style={{ marginLeft: '4px' }}>
                         ({t('votePage.edit')})

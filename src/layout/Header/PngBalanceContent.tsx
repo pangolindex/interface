@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next'
 import { useIsBetaUI } from '../../hooks/useLocation'
 import useUSDCPrice from '../../utils/useUSDCPrice'
 import { useChainId } from 'src/hooks'
-import { useTokenBalanceHook } from 'src/constants/hooks'
+import { useTokenBalanceHook } from 'src/hooks/multiChainsHooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
