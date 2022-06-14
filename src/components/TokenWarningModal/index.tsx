@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { useChainId } from '../../hooks'
 import { useAllTokens } from '../../hooks/Tokens'
 import { ExternalLink, TYPE } from '../../theme'
-import { getEtherscanLink, shortenAddress } from '../../utils'
+import { getEtherscanLink } from '../../utils'
 import CurrencyLogo from '../CurrencyLogo'
 import Modal from '../Modal'
 import { AutoRow, RowBetween } from '../Row'
@@ -14,6 +14,7 @@ import { AlertTriangle } from 'react-feather'
 import { ButtonError } from '../Button'
 import { useTranslation } from 'react-i18next'
 import ReactHtmlParser from 'react-html-parser'
+import { shortenAddress } from '@pangolindex/components'
 
 const Wrapper = styled.div<{ error: boolean }>`
   background: ${({ theme }) => transparentize(0.6, theme.bg3)};
@@ -78,7 +79,7 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
           {chainId && (
             <ExternalLink style={{ fontWeight: 400 }} href={getEtherscanLink(chainId, token.address, 'token')}>
               <TYPE.blue title={token.address}>
-                {shortenAddress(token.address)} ({t('tokenWarningModal.viewExplorer')})
+                {shortenAddress(token.address, chainId)} ({t('tokenWarningModal.viewExplorer')})
               </TYPE.blue>
             </ExternalLink>
           )}

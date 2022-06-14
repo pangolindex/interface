@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useChainId, useLibrary } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 import useDebounce from '../../hooks/useDebounce'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { updateBlockNumber } from './actions'
 import { useDispatch } from 'react-redux'
+import { useLibrary } from '@pangolindex/components'
 
 export default function Updater(): null {
   const chainId = useChainId()
@@ -40,9 +41,9 @@ export default function Updater(): null {
       .then(blockNumberCallback)
       .catch((error: any) => console.error(`Failed to get block number for chainId: ${chainId}`, error))
 
-    library.on('block', blockNumberCallback)
+    library.on && library.on('block', blockNumberCallback)
     return () => {
-      library.removeListener('block', blockNumberCallback)
+      library.removeListener && library.removeListener('block', blockNumberCallback)
     }
   }, [dispatch, chainId, library, blockNumberCallback, windowVisible, provider])
 

@@ -11,8 +11,8 @@ import {
   Buttons,
   CardContentBox
 } from './styleds'
-import { Box, Text, Button, DoubleCurrencyLogo, NumberOptions } from '@pangolindex/components'
-import { useActiveWeb3React, useChainId, useLibrary } from 'src/hooks'
+import { Box, Text, Button, DoubleCurrencyLogo, NumberOptions, useLibrary } from '@pangolindex/components'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { TokenAmount, Pair, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken, wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
 import {

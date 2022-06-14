@@ -7,7 +7,7 @@ import ReactGA from 'react-ga'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { NetworkContextName, PangolinProvider } from '@pangolindex/components'
+import { NetworkContextName, PangolinProvider, useLibrary } from '@pangolindex/components'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
 import './i18n'
@@ -22,9 +22,10 @@ import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
 import { useIsBetaUI } from './hooks/useLocation'
-import { useActiveWeb3React, useLibrary } from './hooks'
+import { useActiveWeb3React } from './hooks'
 import Package from '../package.json'
 import { fetchMinichefData } from './state/stake/hooks'
+import { ChainId } from '@pangolindex/sdk'
 
 try {
   Sentry.init({
@@ -88,13 +89,14 @@ const ComponentThemeProvider = () => {
   const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
 
-  const { chainId, account, connector } = useActiveWeb3React()
+  const { chainId, account } = useActiveWeb3React()
 
-  console.log('interface -- index', { connector, chainId, account })
   const { library } = useLibrary()
   useEffect(() => {
-    prefetchImportantQueries(account || '')
-  }, [account])
+    if (chainId === ChainId.AVALANCHE) {
+      prefetchImportantQueries(account || '')
+    }
+  }, [account, chainId])
 
   useEffect(() => {
     if (window.pendo && account) {

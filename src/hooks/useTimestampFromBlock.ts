@@ -1,4 +1,4 @@
-import { useLibrary } from '.'
+import { useLibrary } from '@pangolindex/components'
 import { useState, useEffect } from 'react'
 
 export function useTimestampFromBlock(block: number | undefined): number | undefined {

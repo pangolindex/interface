@@ -20,7 +20,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
   const chainId = useChainId()
 
   const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
-  pgl = CHAINS[chainId].mainnet ? pgl : undefined
+  pgl = CHAINS[chainId]?.mainnet ? pgl : undefined
 
   const [token0Deposited, token1Deposited] =
     !!pair &&

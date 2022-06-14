@@ -98,6 +98,11 @@ export function useTokenBalance(account?: string, token?: Token): TokenAmount | 
   return tokenBalances[token.address]
 }
 
+//TODO : need to add logic
+export function useNearTokenBalance(account?: string): TokenAmount | undefined {
+  return undefined
+}
+
 export function useCurrencyBalances(
   chainId: ChainId,
   account?: string,

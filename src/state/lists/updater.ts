@@ -1,7 +1,6 @@
 import { getVersionUpgrade, minVersionBump, VersionUpgrade } from '@pangolindex/token-lists'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLibrary } from 'src/hooks'
 import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import useInterval from '../../hooks/useInterval'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
@@ -10,6 +9,7 @@ import { addPopup } from '../application/actions'
 import { AppDispatch, AppState } from '../index'
 import { acceptListUpdate } from './actions'
 import { DEFAULT_TOKEN_LISTS } from '../../constants/lists'
+import { useLibrary } from '@pangolindex/components'
 
 export default function Updater(): null {
   const { library } = useLibrary()

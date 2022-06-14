@@ -4,14 +4,13 @@ import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/
 import { useAllProposalData, ProposalData, useUserVotes, useUserDelegatee } from '../../state/governance/hooks'
 import DelegateModal from '../../components/vote/DelegateModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import { ZERO_ADDRESS } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
-import { shortenAddress, getEtherscanLink } from '../../utils'
+import { getEtherscanLink } from '../../utils'
 import Loader from '../../components/Loader'
 import FormattedCurrencyAmount from '../../components/FormattedCurrencyAmount'
-
 import React from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
@@ -20,10 +19,10 @@ import { RowBetween, RowFixed } from '../../components/Row'
 import { Link } from 'react-router-dom'
 import { ProposalStatus } from './styled'
 import { ButtonPrimary } from '../../components/Button'
-
 import { useModalOpen, useToggleDelegateModal } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/actions'
 import { useTranslation } from 'react-i18next'
+import { shortenAddress } from '@pangolindex/components'
 
 const PageWrapper = styled(AutoColumn)``
 
@@ -105,7 +104,8 @@ const EmptyProposals = styled.div`
 `
 
 export default function Vote() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
 
   // toggle for showing delegation modal
@@ -199,7 +199,7 @@ export default function Vote() {
                     href={getEtherscanLink(ChainId.FUJI, userDelegatee, 'address')}
                     style={{ margin: '0 4px' }}
                   >
-                    {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee)}
+                    {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee, chainId)}
                   </StyledExternalLink>
                   <TextButton onClick={toggleDelegateModal} style={{ marginLeft: '4px' }}>
                     ({t('votePage.edit')})

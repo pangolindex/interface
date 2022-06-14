@@ -59,13 +59,11 @@ export function getEtherscanLink(
   }
 }
 
-// shorten the checksummed version of the input address to have 0x + 4 characters at start and end
-export function shortenAddress(address: string, chars = 4): string {
-  const parsed = isAddress(address)
-  if (!parsed) {
-    throw Error(`Invalid 'address' parameter '${address}'.`)
+export function isEvmChain(chainId: ChainId = 43114): boolean {
+  if (CHAINS[chainId]?.evm) {
+    return true
   }
-  return `${parsed.substring(0, chars + 2)}...${parsed.substring(42 - chars)}`
+  return false
 }
 
 // add 10%

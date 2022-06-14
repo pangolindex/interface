@@ -27,7 +27,8 @@ import {
 } from '../constants'
 import { PNG } from '../constants/tokens'
 import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../constants/abis/rewarderViaMultiplier'
-import { useChainId, useLibrary } from 'src/hooks'
+import { useLibrary } from '@pangolindex/components'
+import { useChainId } from 'src/hooks'
 
 // returns null on errors
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {

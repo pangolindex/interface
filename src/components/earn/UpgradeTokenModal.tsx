@@ -17,7 +17,8 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
 import { tryParseAmount } from '../../state/swap/hooks'
-import { useChainId, useLibrary } from 'src/hooks'
+import { useChainId } from 'src/hooks'
+import { useLibrary } from '@pangolindex/components'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Wrapper } from './styleds'
-import { Box, Button } from '@pangolindex/components'
+import { Box, Button, useLibrary } from '@pangolindex/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
 import { useDerivedStakeInfo, useMinichefPools, StakingInfo } from '../../../state/stake/hooks'
@@ -17,7 +17,7 @@ import { MINICHEF_ADDRESS } from '../../../constants'
 import { splitSignature } from 'ethers/lib/utils'
 import useTransactionDeadline from '../../../hooks/useTransactionDeadline'
 import Loader from '../Loader'
-import { useChainId, useLibrary } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 
 export interface StakeProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }

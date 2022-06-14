@@ -39,7 +39,8 @@ import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { currencyId } from '../../utils/currencyId'
 import { PoolPriceBar } from './PoolPriceBar'
 import { useTranslation } from 'react-i18next'
-import { useChainId, useLibrary } from 'src/hooks'
+import { useLibrary } from '@pangolindex/components'
+import { useChainId } from 'src/hooks'
 
 export default function AddLiquidity({
   match: {

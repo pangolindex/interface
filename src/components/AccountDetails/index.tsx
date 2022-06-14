@@ -1,10 +1,10 @@
 import React, { useCallback, useContext } from 'react'
 import { useDispatch } from 'react-redux'
 import styled, { ThemeContext } from 'styled-components'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import { AppDispatch } from '../../state'
 import { clearAllTransactions } from '../../state/transactions/actions'
-import { shortenAddress, getEtherscanLink } from '../../utils'
+import { getEtherscanLink } from 'src/utils'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
@@ -12,8 +12,17 @@ import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import NearIcon from '../../assets/images/near.png'
-import { gnosisSafe, injected, walletconnect, walletlink, near, SUPPORTED_WALLETS } from '@pangolindex/components'
+import NearIcon from '../../assets/images/near.svg'
+import {
+  gnosisSafe,
+  injected,
+  walletconnect,
+  walletlink,
+  near,
+  SUPPORTED_WALLETS,
+  shortenAddress,
+  NearConnector
+} from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
@@ -235,7 +244,8 @@ export default function AccountDetails({
   ENSName,
   openOptions
 }: AccountDetailsProps) {
-  const { chainId, account, connector } = useActiveWeb3React()
+  const { account, connector } = useActiveWeb3React()
+  const chainId = useChainId()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
@@ -312,17 +322,23 @@ export default function AccountDetails({
                 {formatConnectorName()}
                 <div>
                   {/* TODO : CHECK on disccount  */}
-                  {(connector instanceof WalletLinkConnector || connector instanceof WalletConnectConnector) && (
+                  {(connector instanceof WalletLinkConnector ||
+                    connector instanceof WalletConnectConnector ||
+                    connector instanceof NearConnector) && (
                     <WalletAction
                       style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
                       onClick={() => {
                         connector.close()
+                        if (connector instanceof NearConnector) {
+                          window.location.reload()
+                        }
                       }}
                       isBeta={isBeta}
                     >
                       {t('accountDetails.disconnect')}
                     </WalletAction>
                   )}
+
                   <WalletAction
                     style={{ fontSize: '.825rem', fontWeight: 400 }}
                     onClick={() => {
@@ -347,7 +363,7 @@ export default function AccountDetails({
                     <>
                       <div>
                         {getStatusIcon()}
-                        <p> {account && shortenAddress(account)}</p>
+                        <p> {account && shortenAddress(account, chainId)}</p>
                       </div>
                     </>
                   )}

@@ -19,11 +19,11 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
   const token1 = stakingInfo?.tokens[1]
   const chainId = useChainId()
 
-  const totalStakedInUsd = CHAINS[chainId].mainnet
+  const totalStakedInUsd = CHAINS[chainId]?.mainnet
     ? numeral(stakingInfo.totalStakedInUsd.toSignificant(4)).format('$0.00a')
     : numeral(stakingInfo.totalStakedInUsd).format('$0.00a')
 
-  const yourStakeInUsd = CHAINS[chainId].mainnet
+  const yourStakeInUsd = CHAINS[chainId]?.mainnet
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
 

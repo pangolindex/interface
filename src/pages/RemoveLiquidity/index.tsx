@@ -21,11 +21,10 @@ import Row, { RowBetween, RowFixed } from '../../components/Row'
 import Slider from '../../components/Slider'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import { NETWORK_CURRENCY, NETWORK_WRAPPED_CURRENCY, ROUTER_ADDRESS } from '../../constants'
-import { useActiveWeb3React, useChainId, useLibrary } from '../../hooks'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
 import { usePairContract } from '../../hooks/useContract'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
-
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { StyledInternalLink, TYPE } from '../../theme'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from '../../utils'
@@ -43,6 +42,7 @@ import { useWalletModalToggle } from '../../state/application/hooks'
 import { useUserSlippageTolerance } from '../../state/user/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useTranslation } from 'react-i18next'
+import { useLibrary } from '@pangolindex/components'
 
 export default function RemoveLiquidity({
   history,

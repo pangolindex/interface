@@ -1,15 +1,8 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { AddressZero } from '@ethersproject/constants'
 import { TokenAmount, Token, ChainId, Percent, JSBI } from '@pangolindex/sdk'
-
-import {
-  getEtherscanLink,
-  calculateSlippageAmount,
-  isAddress,
-  shortenAddress,
-  calculateGasMargin,
-  basisPointsToPercent
-} from '.'
+import { getEtherscanLink, calculateSlippageAmount, isAddress, calculateGasMargin, basisPointsToPercent } from '.'
+import { shortenAddress } from '@pangolindex/components'
 
 describe('utils', () => {
   describe('#getEtherscanLink', () => {
@@ -69,19 +62,21 @@ describe('utils', () => {
 
   describe('#shortenAddress', () => {
     it('throws on invalid address', () => {
-      expect(() => shortenAddress('abc')).toThrow("Invalid 'address'")
+      expect(() => shortenAddress('abc', ChainId.AVALANCHE)).toThrow("Invalid 'address'")
     })
 
     it('truncates middle characters', () => {
-      expect(shortenAddress('0xf164fc0ec4e93095b804a4795bbe1e041497b92a')).toBe('0xf164...b92a')
+      expect(shortenAddress('0xf164fc0ec4e93095b804a4795bbe1e041497b92a', ChainId.AVALANCHE)).toBe('0xf164...b92a')
     })
 
     it('truncates middle characters even without prefix', () => {
-      expect(shortenAddress('f164fc0ec4e93095b804a4795bbe1e041497b92a')).toBe('0xf164...b92a')
+      expect(shortenAddress('f164fc0ec4e93095b804a4795bbe1e041497b92a', ChainId.AVALANCHE)).toBe('0xf164...b92a')
     })
 
     it('renders checksummed address', () => {
-      expect(shortenAddress('0x2E1b342132A67Ea578e4E3B814bae2107dc254CC'.toLowerCase())).toBe('0x2E1b...54CC')
+      expect(shortenAddress('0x2E1b342132A67Ea578e4E3B814bae2107dc254CC'.toLowerCase(), ChainId.AVALANCHE)).toBe(
+        '0x2E1b...54CC'
+      )
     })
   })
 

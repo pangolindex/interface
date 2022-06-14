@@ -13,7 +13,7 @@ import GOV from '@pangolindex/governance/artifacts/contracts/GovernorAlpha.sol/G
 import { GET_BLOCK } from 'src/apollo/block'
 import { blockClient, governanceClient } from 'src/apollo/client'
 import { GET_PROPOSALS } from 'src/apollo/vote'
-import { useLibrary } from 'src/hooks'
+import { useLibrary } from '@pangolindex/components'
 
 interface ProposalDetail {
   target: string

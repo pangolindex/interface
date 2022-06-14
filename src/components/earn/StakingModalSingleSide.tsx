@@ -20,7 +20,8 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
 import { splitSignature } from 'ethers/lib/utils'
-import { useChainId, useLibrary } from 'src/hooks'
+import { useLibrary } from '@pangolindex/components'
+import { useChainId } from 'src/hooks'
 
 const HypotheticalRewardRate = styled.div<{ dim: boolean }>`
   display: flex;

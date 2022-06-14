@@ -34,7 +34,8 @@ import { ConfirmAddModalBottom } from '../../pages/AddLiquidity/ConfirmAddModalB
 import { currencyId } from '../../utils/currencyId'
 import { PairState } from '../../data/Reserves'
 import { PoolPriceBar } from '../../pages/AddLiquidity/PoolPriceBar'
-import { useChainId, useLibrary } from 'src/hooks'
+import { useLibrary } from '@pangolindex/components'
+import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;

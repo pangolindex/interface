@@ -10,7 +10,7 @@ import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
 import { useTotalPngEarned } from '../../state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/doubleSideConfig'
-import { useAggregatePngBalance, useTokenBalance } from '../../state/wallet/hooks'
+import { useAggregatePngBalance } from '../../state/wallet/hooks'
 import { StyledInternalLink, TYPE, PngTokenAnimated } from '../../theme'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
@@ -18,6 +18,7 @@ import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../earn/st
 import { useTranslation } from 'react-i18next'
 import useUSDCPrice from '../../utils/useUSDCPrice'
 import { useChainId } from 'src/hooks'
+import { useTokenBalanceHook } from 'src/constants/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -64,7 +65,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const png = chainId ? PNG[chainId] : undefined
-
+  const useTokenBalance = useTokenBalanceHook[chainId]
   const total = useAggregatePngBalance()
   const pngBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, png)
   const pngToClaim: TokenAmount | undefined = useTotalPngEarned()
@@ -76,7 +77,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const { t } = useTranslation()
 
   const usdcPriceTmp = useUSDCPrice(png)
-  const usdcPrice = CHAINS[chainId].mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = CHAINS[chainId]?.mainnet ? usdcPriceTmp : undefined
 
   let pngPrice
 
