@@ -41,6 +41,13 @@ export default function SwapModalHeader({
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
+  function getAddress() {
+    if (isAddress(recipient)) {
+      return shortenAddress(recipient, chainId)
+    }
+    return recipient
+  }
+
   return (
     <AutoColumn gap={'md'} style={{ marginTop: '20px' }}>
       <RowBetween align="flex-end">
@@ -139,7 +146,7 @@ export default function SwapModalHeader({
         <AutoColumn justify="flex-start" gap="sm" style={{ padding: '12px 0 0 0px' }}>
           <TYPE.main>
             {t('swap.outputSentTo')}
-            <b title={recipient}>{isAddress(recipient) ? shortenAddress(recipient, chainId) : recipient}</b>
+            <b title={recipient}>{getAddress()}</b>
           </TYPE.main>
         </AutoColumn>
       ) : null}

@@ -173,9 +173,9 @@ export default function RemoveLiquidityModal({
           deadline: deadline.toNumber()
         })
       })
-      .catch((error: any) => {
+      .catch((err: any) => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-        if (error?.code !== 4001) {
+        if (err?.code !== 4001) {
           approveCallback()
         }
       })
