@@ -375,9 +375,9 @@
     "seeDetails":"SIEHE EINZELHEITEN",
     "totalLockedValue": "Gesperrter Gesamtwert",
     "yourLockedValue": "Ihr gesperrter Wert",
-    "allPools": "Alle Pools",
+    "allFarms": "Alle Bauernhöfe",
+    "yourFarms": "Ihre Höfe",
     "yourPools": "Ihre Pools",
-    "yourWallet": "Deine Geldbörse",
     "noFarms": "Keine Höfe gefunden."
   },
   "poolFinder": {

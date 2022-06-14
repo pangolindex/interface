@@ -203,7 +203,7 @@ export function betaColors(darkMode: boolean): BetaColors {
     bg8: darkMode ? '#212427' : '#FFFFFF',
 
     //primary colors
-    primary1: '#FF6B00',
+    primary1: '#ffc800',
     primary2: '#FF6B00',
     primary3: '#FF6B00',
     primary4: '#FF6B00',

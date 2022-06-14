@@ -375,9 +375,9 @@
     "seeDetails":"SEE DETAILS",
     "totalLockedValue": "Total Locked Value",
     "yourLockedValue": "Your Locked Value",
-    "allPools": "All Pools",
+    "allFarms": "All Farms",
+    "yourFarms": "Your Farms",
     "yourPools": "Your Pools",
-    "yourWallet": "Your Wallet",
     "noFarms": "No farms found."
   },
   "poolFinder": {

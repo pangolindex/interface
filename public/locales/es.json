@@ -375,10 +375,10 @@
     "seeDetails":"VER DETALLES",
     "totalLockedValue": "Valor bloqueado total",
     "yourLockedValue": "Su valor bloqueado",
-    "allPools": "Todos los Pools",
+    "allPools": "Todas las Farms",
+    "yourFars": "Tus Farms",
     "yourPools": "Tus Pools",
-    "yourWallet": "tu billetera",
-    "noFarms": "No se encontraron granjas."
+    "noFarms": "No se encontraron farms."
   },
   "poolFinder": {
     "connectToFind": "Conecte la cartera para encontrar pools",

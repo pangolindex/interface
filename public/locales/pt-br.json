@@ -374,9 +374,9 @@
     "seeDetails":"VEJA DETALHES",
     "totalLockedValue": "Valor total bloqueado",
     "yourLockedValue": "Seu valor bloqueado",
-    "allPools": "Todos os pools",
-    "yourPools": "Seus pools",
-    "yourWallet": "Sua carteira",
+    "allFarms": "Todas as farms",
+    "yourFarms": "Suas farms",
+    "yourPools": "Suas pools",
     "noFarms": "Nenhuma fazenda encontrada."
   },
   "poolFinder": {

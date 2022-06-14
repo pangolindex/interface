@@ -58,6 +58,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
             statFontSize={20}
             titleColor="text2"
             currency={currency0}
+            showAnalytics={true}
           />
         )}
         {currency1 && (
@@ -69,6 +70,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
             statFontSize={20}
             titleColor="text2"
             currency={currency1}
+            showAnalytics={true}
           />
         )}
       </StateContainer>
