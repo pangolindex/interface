@@ -2170,10 +2170,10 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@pangolindex/components@3.0.5":
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-3.0.5.tgz#a01b84667aafe8ca426a78560d61402be5e7cf6a"
-  integrity sha512-siAqC44I8JgEqAF3S7jrIkWMVm7iVwHZnX68ydfxJdDQCobSoHtohMomQiwc8l9PQ4ha7jTmWnY5UZhmvoFsPQ==
+"@pangolindex/components@3.0.6":
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-3.0.6.tgz#11a93c68a3ae5247a83ce20783a58336946c2ef9"
+  integrity sha512-wRVo8QyMU62Y3C1qnKNxTiKMR7xwiUT+luqlgfv0Un8cjeZfempN7zhH7NimjFKVdpDyN5Ip1y3yJkq4NJ+CmQ==
   dependencies:
     "@pangolindex/web3-react-injected-connector" "^1.0.1"
     cids "^1.1.9"
