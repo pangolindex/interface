@@ -4,7 +4,7 @@ import { Currency, Token, WAVAX } from '@pangolindex/sdk'
 import { Colors } from 'src/theme/styled'
 import { useChainId } from 'src/hooks'
 import { ANALYTICS_PAGE } from 'src/constants'
-import {ReactComponent as AnalyticsIcon} from 'src/assets/svg/menu/analytics.svg'
+import { ReactComponent as AnalyticsIcon } from 'src/assets/svg/menu/analytics.svg'
 import { AnalyticsLink } from './styled'
 
 export interface StatProps {
@@ -37,13 +37,13 @@ const Stat = ({
   return (
     <Box display="inline-block">
       {titlePosition === 'top' && title && (
-        <Box display="flex" flexDirection="row" style={{gap: "5px"}} alignItems="center">
+        <Box display="flex" flexDirection="row" style={{ gap: '5px' }} alignItems="center">
           <Text color={titleColor || 'text1'} fontSize={titleFontSize || 20}>
             {title}
           </Text>
           {showAnalytics && (
             <AnalyticsLink href={`${ANALYTICS_PAGE}/#/token/${token.address}`} target="_blank">
-              <AnalyticsIcon/>
+              <AnalyticsIcon />
             </AnalyticsLink>
           )}
         </Box>
