@@ -7,7 +7,7 @@ import { injected } from '@pangolindex/components'
 import { getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { useTotalSupply } from '../../data/TotalSupply'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, usePngSymbol } from '../../hooks'
 import { useTotalPngEarned } from '../../state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/doubleSideConfig'
 import { useAggregatePngBalance } from '../../state/wallet/hooks'
@@ -66,6 +66,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const chainId = useChainId()
   const png = chainId ? PNG[chainId] : undefined
   const useTokenBalance = useTokenBalanceHook[chainId]
+  const pngSymbol = usePngSymbol()
   const total = useAggregatePngBalance()
   const pngBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, png)
   const pngToClaim: TokenAmount | undefined = useTotalPngEarned()
@@ -101,7 +102,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
         <CardNoise />
         <CardSection gap="md">
           <RowBetween>
-            <TYPE.white color="white">{t('header.pngBreakDown')}</TYPE.white>
+            <TYPE.white color="white">{t('header.pngBreakDown', { symbol: pngSymbol })}</TYPE.white>
             <StyledClose stroke="white" onClick={() => setShowPngBalanceModal(false)} />
           </RowBetween>
         </CardSection>
@@ -142,11 +143,11 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
         <CardSection gap="sm">
           <AutoColumn gap="md">
             <RowBetween>
-              <TYPE.white color="white">{t('header.pngPrice')}</TYPE.white>
+              <TYPE.white color="white">{t('header.pngPrice', { symbol: pngSymbol })}</TYPE.white>
               <TYPE.white color="white">${pngPrice?.toFixed(2, { groupSeparator: ',' }) ?? '-'}</TYPE.white>
             </RowBetween>
             <RowBetween>
-              <TYPE.white color="white">{t('header.pngCirculation')}</TYPE.white>
+              <TYPE.white color="white">{t('header.pngCirculation', { symbol: pngSymbol })}</TYPE.white>
               <TYPE.white color="white">{circulation?.toFixed(0, { groupSeparator: ',' }) ?? '-'}</TYPE.white>
             </RowBetween>
             <RowBetween>
@@ -183,7 +184,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                     })
                   }}
                 >
-                  <TYPE.white color="white">{t('header.addMetamask')}</TYPE.white>
+                  <TYPE.white color="white">{t('header.addMetamask', { symbol: pngSymbol })}</TYPE.white>
                 </AddPNG>
               </AutoColumn>
             </CardSection>

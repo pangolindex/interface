@@ -1401,6 +1401,21 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [TOKENS.PNG[ChainId.AVALANCHE], TOKENS.USDC[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
     version: 2
+  },
+  WAVAX_USDt_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TOKENS.USDt[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  USDC_WETHe_V2: {
+    tokens: [TOKENS.USDC[ChainId.AVALANCHE], TOKENS.WETHe[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  USDC_WBTCe_V2: {
+    tokens: [TOKENS.USDC[ChainId.AVALANCHE], TOKENS.WBTCe[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
   }
 }
 

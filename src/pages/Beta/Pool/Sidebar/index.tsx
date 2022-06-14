@@ -5,12 +5,12 @@ import { useTranslation } from 'react-i18next'
 import PoolImportModal from '../PoolImportModal'
 
 export enum MenuType {
-  allPoolV1 = 'allPoolV1',
-  allPoolV2 = 'allPoolV2',
-  yourPoolV1 = 'yourPoolV1',
-  yourPoolV2 = 'yourPoolV2',
+  allFarmV1 = 'allFarmV1',
+  allFarmV2 = 'allFarmV2',
+  yourFarmV1 = 'yourFarmV1',
+  yourFarmV2 = 'yourFarmV2',
   superFarm = 'superFarm',
-  yourWallet = 'your-wallet'
+  yourPool = 'your-pool'
 }
 
 interface MenuProps {
