@@ -1,13 +1,12 @@
 {
   "name": "@pangolindex/interface",
-  "version": "1.0.40",
+  "version": "1.0.41-dev.0",
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
     "node": ">=14.17.0"
   },
   "private": true,
-  
   "devDependencies": {
     "@ethersproject/experimental": "^5.0.1",
     "@gelatonetwork/limit-orders-react": "^2.4.0",
