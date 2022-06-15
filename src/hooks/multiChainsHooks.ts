@@ -6,6 +6,6 @@ export const useTokenBalanceHook = {
   [ChainId.AVALANCHE]: useTokenBalance,
   [ChainId.WAGMI]: useTokenBalance,
   [ChainId.COSTON]: useTokenBalance,
-  329847900: useNearTokenBalance,
-  329847901: useNearTokenBalance
+  [ChainId.NEAR_MAINNET]: useNearTokenBalance,
+  [ChainId.NEAR_TESTNET]: useNearTokenBalance
 }
