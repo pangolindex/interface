@@ -24,7 +24,7 @@ const SwapUI = () => {
       {CHAINS[chainId]?.mainnet && isEvmChain(chainId) && (
         <GridContainer isLimitOrders={isLimitOrders}>
           {isLimitOrders && <LimitOrderList />}
-          <MyPortfolio/>
+          <MyPortfolio />
           <WatchList coinChartVisible={!isLimitOrders} />
         </GridContainer>
       )}
