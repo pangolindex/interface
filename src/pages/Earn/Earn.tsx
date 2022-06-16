@@ -243,6 +243,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
         setPoolCards(_poolCards)
         setPoolCardsLoading(false)
       })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingInfos?.length, version, chainId])
 
   const stakingRewardsExist = Boolean(
