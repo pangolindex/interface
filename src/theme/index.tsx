@@ -201,7 +201,6 @@ export function betaColors(darkMode: boolean): BetaColors {
     bg6: darkMode ? '#1c1c1c' : '#FFFFFF',
     bg7: darkMode ? '#2C2D33' : '#FFFFFF',
     bg8: darkMode ? '#212427' : '#FFFFFF',
-    bg9: darkMode ? '#454545' : '#CED0D9',
 
     //primary colors
     primary1: '#ffc800',
