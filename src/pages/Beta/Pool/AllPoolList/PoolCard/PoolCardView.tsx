@@ -60,7 +60,7 @@ const PoolCardView = ({
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  const yourStackedInUsd =  CHAINS[chainId]?.mainnet
+  const yourStackedInUsd = CHAINS[chainId]?.mainnet
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
 
