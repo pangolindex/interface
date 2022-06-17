@@ -8,7 +8,9 @@ const V1_FACTORY_ADDRESSES: { [chainId in ChainId]: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: ZERO_ADDRESS,
   [ChainId.WAGMI]: ZERO_ADDRESS,
-  [ChainId.COSTON]: ZERO_ADDRESS
+  [ChainId.COSTON]: ZERO_ADDRESS,
+  [ChainId.NEAR_MAINNET]: ZERO_ADDRESS,
+  [ChainId.NEAR_TESTNET]: ZERO_ADDRESS
 }
 
 const V1_FACTORY_INTERFACE = new Interface(V1_FACTORY_ABI)

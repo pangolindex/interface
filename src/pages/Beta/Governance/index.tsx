@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Text, Loader, Box } from '@pangolindex/components'
+import { Text, Loader, Box, shortenAddress } from '@pangolindex/components'
 import {
   PageWrapper,
   PageTitle,
@@ -21,7 +21,7 @@ import { useActiveWeb3React, useChain, useChainId, usePngSymbol } from 'src/hook
 import { BETA_MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
-import { shortenAddress, getEtherscanLink } from 'src/utils'
+import { getEtherscanLink } from 'src/utils'
 import FormattedCurrencyAmount from 'src/components/FormattedCurrencyAmount'
 import { TYPE } from 'src/theme'
 import { RowBetween, RowFixed } from 'src/components/Row'
@@ -51,6 +51,13 @@ const GovernanceUI = () => {
   const showUnlockVoting = Boolean(
     pngBalance && JSBI.notEqual(pngBalance.raw, JSBI.BigInt(0)) && userDelegatee === ZERO_ADDRESS
   )
+
+  function getAddress() {
+    if (userDelegatee === account) {
+      return 'Self'
+    }
+    return userDelegatee ? shortenAddress(userDelegatee, chainId) : ''
+  }
 
   return (
     <PageWrapper>
@@ -110,7 +117,7 @@ const GovernanceUI = () => {
                         href={getEtherscanLink(ChainId.FUJI, userDelegatee, 'address')}
                         style={{ margin: '0 4px' }}
                       >
-                        {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee)}
+                        {getAddress()}
                       </StyledExternalLink>
                       <TextButton onClick={toggleDelegateModal} style={{ marginLeft: '4px' }}>
                         ({t('votePage.edit')})

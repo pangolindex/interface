@@ -4,6 +4,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { useAddPopup, useBlockNumber } from '../application/hooks'
 import { AppDispatch, AppState } from '../index'
 import { checkedTransaction, finalizeTransaction } from './actions'
+import { useLibrary } from '@pangolindex/components'
 
 export function shouldCheck(
   lastBlockNumber: number,
@@ -33,8 +34,8 @@ export function shouldCheck(
 }
 
 export default function Updater(): null {
-  const { chainId, library } = useActiveWeb3React()
-
+  const { chainId } = useActiveWeb3React()
+  const { library, provider } = useLibrary()
   const lastBlockNumber = useBlockNumber()
 
   const dispatch = useDispatch<AppDispatch>()
@@ -46,51 +47,54 @@ export default function Updater(): null {
   const addPopup = useAddPopup()
 
   useEffect(() => {
-    if (!chainId || !library || !lastBlockNumber) return
+    if (!chainId || !library || !provider || !lastBlockNumber) return
 
     Object.keys(transactions)
       .filter(hash => shouldCheck(lastBlockNumber, transactions[hash]))
-      .forEach(hash => {
-        library
-          .getTransactionReceipt(hash)
-          .then(receipt => {
-            if (receipt) {
-              dispatch(
-                finalizeTransaction({
-                  chainId,
-                  hash,
-                  receipt: {
-                    blockHash: receipt.blockHash,
-                    blockNumber: receipt.blockNumber,
-                    contractAddress: receipt.contractAddress,
-                    from: receipt.from,
-                    status: receipt.status,
-                    to: receipt.to,
-                    transactionHash: receipt.transactionHash,
-                    transactionIndex: receipt.transactionIndex
-                  }
-                })
-              )
+      .forEach(async hash => {
+        try {
+          const receipt = await (provider as any).getTransactionReceipt(hash)
 
-              addPopup(
-                {
-                  txn: {
-                    hash,
-                    success: receipt.status === 1,
-                    summary: transactions[hash]?.summary
-                  }
-                },
-                hash
-              )
-            } else {
-              dispatch(checkedTransaction({ chainId, hash, blockNumber: lastBlockNumber }))
-            }
-          })
-          .catch(error => {
-            console.error(`failed to check transaction hash: ${hash}`, error)
-          })
+          if (receipt) {
+            dispatch(
+              finalizeTransaction({
+                chainId,
+                hash,
+                receipt: {
+                  blockHash: receipt.blockHash,
+                  blockNumber: receipt.blockNumber,
+                  // contractAddress: receipt.contractAddress,
+                  contractAddress: '',
+                  from: receipt.from,
+                  // status: receipt.status,
+                  status: 1,
+                  to: receipt.to,
+                  // transactionHash: receipt.transactionHash,
+                  transactionHash: receipt.hash,
+                  transactionIndex: receipt.transactionIndex
+                }
+              })
+            )
+
+            addPopup(
+              {
+                txn: {
+                  hash,
+                  // success: receipt.status === 1,
+                  success: true,
+                  summary: transactions[hash]?.summary
+                }
+              },
+              hash
+            )
+          } else {
+            dispatch(checkedTransaction({ chainId, hash, blockNumber: lastBlockNumber }))
+          }
+        } catch (error) {
+          console.error(`failed to check transaction hash: ${hash}`, error)
+        }
       })
-  }, [chainId, library, transactions, lastBlockNumber, dispatch, addPopup])
+  }, [chainId, library, provider, transactions, lastBlockNumber, dispatch, addPopup])
 
   return null
 }

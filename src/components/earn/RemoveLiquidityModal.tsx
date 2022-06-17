@@ -36,6 +36,7 @@ import CurrencyInputPanel from '../CurrencyInputPanel'
 import { Dots } from '../swap/styleds'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import DoubleCurrencyLogo from '../DoubleLogo'
+import { useLibrary } from '@pangolindex/components'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -55,8 +56,9 @@ export default function RemoveLiquidityModal({
   currencyIdA: _currencyIdA,
   currencyIdB: _currencyIdB
 }: RemoveLiquidityModalProps) {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
+  const { library, provider } = useLibrary()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
@@ -160,11 +162,10 @@ export default function RemoveLiquidityModal({
       primaryType: 'Permit',
       message
     })
-
-    library
-      .send('eth_signTypedData_v4', [account, data])
+    ;(provider as any)
+      .execute('eth_signTypedData_v4', [account, data])
       .then(splitSignature)
-      .then(signature => {
+      .then((signature: any) => {
         setSignatureData({
           v: signature.v,
           r: signature.r,
@@ -172,9 +173,9 @@ export default function RemoveLiquidityModal({
           deadline: deadline.toNumber()
         })
       })
-      .catch(error => {
+      .catch((err: any) => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
-        if (error?.code !== 4001) {
+        if (err?.code !== 4001) {
           approveCallback()
         }
       })

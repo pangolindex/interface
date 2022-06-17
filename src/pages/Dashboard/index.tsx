@@ -18,7 +18,7 @@ const Dashboard = () => {
       <TopContainer>
         <StatsWrapper>
           <Portifolio />
-          {CHAINS[chainId].mainnet && (
+          {CHAINS[chainId]?.mainnet && (
             <WatchList visibleTradeButton={true} tradeLinkUrl={BETA_MENU_LINK.swap} redirect={true} />
           )}
         </StatsWrapper>

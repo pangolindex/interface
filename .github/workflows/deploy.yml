@@ -21,7 +21,7 @@ jobs:
       - uses: actions/cache@v2.1.4
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Configure Git
         run: |
           git config --global user.name 'Pangolin'
@@ -29,10 +29,10 @@ jobs:
       - uses: actions/setup-node@v2.1.4
         with:
           node-version: ${{ env.node_version }}
-      - run: yarn --frozen-lockfile
+      - run: npm ci
         env:
           CI: true
-      - run: yarn test
+      - run: npm test
       - name: Prod - Increment version & create build # incrementing version automatically creates build internally with new version
         run: npm version patch -m "[skip ci] %s"
         if: ${{ github.ref == 'refs/heads/master' }}

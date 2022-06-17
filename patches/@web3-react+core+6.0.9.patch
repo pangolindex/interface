@@ -1,0 +1,27 @@
+diff --git a/node_modules/@web3-react/core/dist/core.esm.js b/node_modules/@web3-react/core/dist/core.esm.js
+index e5bea1e..55f37ff 100644
+--- a/node_modules/@web3-react/core/dist/core.esm.js
++++ b/node_modules/@web3-react/core/dist/core.esm.js
+@@ -179,18 +179,20 @@ var augmentConnectorUpdate = function augmentConnectorUpdate(connector, update)
+       return Promise.resolve(Promise.all([update.chainId === undefined ? connector.getChainId() : update.chainId, update.account === undefined ? connector.getAccount() : update.account])).then(function (_ref2) {
+         var _chainId = _ref2[0],
+             _account = _ref2[1];
+-        var chainId = normalizeChainId(_chainId);
++
++        var chainId = connector.normalizeChainId === false ? _chainId : normalizeChainId(_chainId);
+ 
+         if (!!connector.supportedChainIds && !connector.supportedChainIds.includes(chainId)) {
+           throw new UnsupportedChainIdError(chainId, connector.supportedChainIds);
+         }
+ 
+-        var account = _account === null ? _account : normalizeAccount(_account);
++        var account = _account === null ? _account : connector.normalizeAccount === false ? _account : normalizeAccount(_account);
+         return {
+           provider: provider,
+           chainId: chainId,
+           account: account
+         };
++
+       });
+     };
+ 

@@ -116,7 +116,7 @@ export default function DoubleSidePoolCard({
       ? token1
       : token0
 
-  const totalStakedInUsd = CHAINS[chainId].mainnet
+  const totalStakedInUsd = CHAINS[chainId]?.mainnet
     ? stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
     : 0
 

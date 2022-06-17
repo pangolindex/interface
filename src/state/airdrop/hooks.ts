@@ -1,11 +1,12 @@
 import { TransactionResponse } from '@ethersproject/providers'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { useAirdropContract } from '../../hooks/useContract'
 import { calculateGasMargin } from '../../utils'
 import { useTransactionAdder } from '../transactions/hooks'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
 import { PNG } from '../../constants/tokens'
 import { useSingleCallResult } from '../multicall/hooks'
+import { useLibrary } from '@pangolindex/components'
 
 export function useAirdropIsClaimingAllowed(): boolean {
   const airdropContract = useAirdropContract()
@@ -49,8 +50,8 @@ export function useClaimCallback(
 ): {
   claimCallback: () => Promise<string>
 } {
-  const { library, chainId } = useActiveWeb3React()
-
+  const chainId = useChainId()
+  const { library } = useLibrary()
   const addTransaction = useTransactionAdder()
   const airdropContract = useAirdropContract()
 

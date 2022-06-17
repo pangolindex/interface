@@ -52,6 +52,7 @@ import {
 } from 'src/state/stake/actions'
 import usePrevious from 'src/hooks/usePrevious'
 import isEqual from 'lodash.isequal'
+import { useLibrary } from '@pangolindex/components'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -380,7 +381,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
   )
 
   const usdPriceTmp = useUSDCPrice(WAVAX[chainId])
-  const usdPrice = CHAINS[chainId].mainnet ? usdPriceTmp : undefined
+  const usdPrice = CHAINS[chainId]?.mainnet ? usdPriceTmp : undefined
 
   return useMemo(() => {
     if (!chainId || !png) return []
@@ -534,8 +535,8 @@ export function useSingleSideStakingInfo(
   version: number,
   rewardTokenToFilterBy?: Token | null
 ): SingleSideStakingInfo[] {
+  // TODO: Take library from useLibrary
   const { library, account } = useActiveWeb3React()
-
   const chainId = useChainId()
 
   const info = useMemo(
@@ -856,9 +857,9 @@ export function useGetPairDataFromPair(pair: Pair) {
   const token1 = pair?.token1 || dummyToken
 
   const usdPriceCurrency0Tmp = useUSDCPrice(token0)
-  const usdPriceCurrency0 = CHAINS[chainId].mainnet ? usdPriceCurrency0Tmp : undefined
+  const usdPriceCurrency0 = CHAINS[chainId]?.mainnet ? usdPriceCurrency0Tmp : undefined
   const usdPriceCurrency1Tmp = useUSDCPrice(token1)
-  const usdPriceCurrency1 = CHAINS[chainId].mainnet ? usdPriceCurrency1Tmp : undefined
+  const usdPriceCurrency1 = CHAINS[chainId]?.mainnet ? usdPriceCurrency1Tmp : undefined
 
   const zeroTokenAmount0 = new TokenAmount(token0, '0')
   const zeroTokenAmount1 = new TokenAmount(token1, '0')
@@ -1054,7 +1055,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
   const rewardsExpiration = useSingleCallResult(minichefContract, 'rewardsExpiration', []).result
   const usdPriceTmp = useUSDCPrice(WAVAX[chainId])
-  const usdPrice = CHAINS[chainId].mainnet ? usdPriceTmp : undefined
+  const usdPrice = CHAINS[chainId]?.mainnet ? usdPriceTmp : undefined
 
   const arr = useMemo(() => {
     if (!chainId || !png) return []
@@ -1269,10 +1270,10 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
   const token0 = pair?.token0
   const currency0 = unwrappedToken(token0 as Token, chainId)
   const currency0PriceTmp = useUSDCPrice(currency0)
-  const currency0Price = CHAINS[chainId].mainnet ? currency0PriceTmp : undefined
+  const currency0Price = CHAINS[chainId]?.mainnet ? currency0PriceTmp : undefined
 
   const userPglTmp = useTokenBalance(account ?? undefined, pair?.liquidityToken)
-  const userPgl = CHAINS[chainId].mainnet ? userPglTmp : undefined
+  const userPgl = CHAINS[chainId]?.mainnet ? userPglTmp : undefined
 
   const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
 
@@ -1288,7 +1289,7 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
         ]
       : [undefined, undefined]
 
-  const liquidityInUSD = CHAINS[chainId].mainnet
+  const liquidityInUSD = CHAINS[chainId]?.mainnet
     ? currency0Price && token0Deposited
       ? Number(currency0Price.toFixed()) * 2 * Number(token0Deposited?.toSignificant(6))
       : 0
@@ -1355,9 +1356,9 @@ export function useMinichefPendingRewards(miniChefStaking: StakingInfo | null) {
 }
 
 export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const { library, provider } = useLibrary()
   const { t } = useTranslation()
   const png = PNG[chainId]
 
@@ -1531,11 +1532,10 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
       primaryType: 'Permit',
       message
     })
-
-    library
-      .send('eth_signTypedData_v4', [account, data])
+    ;(provider as any)
+      .execute('eth_signTypedData_v4', [account, data])
       .then(splitSignature)
-      .then(signature => {
+      .then((signature: any) => {
         setSignatureData({
           v: signature.v,
           r: signature.r,
@@ -1543,7 +1543,7 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
           deadline: deadline.toNumber()
         })
       })
-      .catch(err => {
+      .catch((err: any) => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
         if (err?.code !== 4001) {
           approveCallback()

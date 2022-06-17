@@ -6,7 +6,8 @@ import { ThemeContext } from 'styled-components'
 import { Field } from '../../state/swap/actions'
 import { TYPE } from '../../theme'
 import { ButtonPrimary } from '../Button'
-import { isAddress, shortenAddress } from '../../utils'
+import { isAddress } from '../../utils'
+import { shortenAddress } from '@pangolindex/components'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 import { AutoColumn } from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
@@ -39,6 +40,13 @@ export default function SwapModalHeader({
 
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
+
+  function getAddress() {
+    if (isAddress(recipient)) {
+      return shortenAddress(recipient, chainId)
+    }
+    return recipient
+  }
 
   return (
     <AutoColumn gap={'md'} style={{ marginTop: '20px' }}>
@@ -138,7 +146,7 @@ export default function SwapModalHeader({
         <AutoColumn justify="flex-start" gap="sm" style={{ padding: '12px 0 0 0px' }}>
           <TYPE.main>
             {t('swap.outputSentTo')}
-            <b title={recipient}>{isAddress(recipient) ? shortenAddress(recipient) : recipient}</b>
+            <b title={recipient}>{getAddress()}</b>
           </TYPE.main>
         </AutoColumn>
       ) : null}
