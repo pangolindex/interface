@@ -17,8 +17,8 @@ const StatDetails: React.FC<Props> = ({ title, amountInPNG, currency0 }) => {
   const chainId = useChainId()
 
   const usdcPriceTmp = useUSDCPrice(amountInPNG?.token)
-  const usdcPrice = CHAINS[chainId].mainnet ? usdcPriceTmp : undefined
-  const amountInUSD = CHAINS[chainId].mainnet
+  const usdcPrice = CHAINS[chainId]?.mainnet ? usdcPriceTmp : undefined
+  const amountInUSD = CHAINS[chainId]?.mainnet
     ? numeral(usdcPrice?.quote(amountInPNG, chainId).toSignificant(6)).format('$0.00a')
     : undefined
 

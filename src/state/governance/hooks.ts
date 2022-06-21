@@ -13,6 +13,7 @@ import GOV from '@pangolindex/governance/artifacts/contracts/GovernorAlpha.sol/G
 import { GET_BLOCK } from 'src/apollo/block'
 import { blockClient, governanceClient } from 'src/apollo/client'
 import { GET_PROPOSALS } from 'src/apollo/vote'
+import { useLibrary } from '@pangolindex/components'
 
 interface ProposalDetail {
   target: string
@@ -110,7 +111,7 @@ export async function getBlockFromTimestamp(timestamp: number) {
  * new proposal event.
  */
 export function useDataFromEventLogs() {
-  const { library } = useActiveWeb3React()
+  const { library } = useLibrary()
   const [formattedEvents, setFormattedEvents] = useState<any>()
   const govContract = useGovernanceContract()
 
@@ -335,7 +336,8 @@ export function useUserVotes(): TokenAmount | undefined {
 }
 
 export function useDelegateCallback(): (delegatee: string | undefined) => undefined | Promise<string> {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
+  const { library } = useLibrary()
   const addTransaction = useTransactionAdder()
 
   const uniContract = usePngContract()

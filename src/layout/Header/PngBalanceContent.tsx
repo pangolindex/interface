@@ -10,7 +10,7 @@ import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React, usePngSymbol } from '../../hooks'
 import { useTotalPngEarned } from '../../state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/doubleSideConfig'
-import { useAggregatePngBalance, useTokenBalance } from '../../state/wallet/hooks'
+import { useAggregatePngBalance } from '../../state/wallet/hooks'
 import { StyledInternalLink, TYPE, PngTokenAnimated } from '../../theme'
 import { AutoColumn } from '../../components/Column'
 import { RowBetween } from '../../components/Row'
@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next'
 import { useIsBetaUI } from '../../hooks/useLocation'
 import useUSDCPrice from '../../utils/useUSDCPrice'
 import { useChainId } from 'src/hooks'
+import { useTokenBalanceHook } from 'src/hooks/multiChainsHooks'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -68,6 +69,8 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const png = chainId ? PNG[chainId] : undefined
   const pngSymbol = usePngSymbol()
 
+  const useTokenBalance = useTokenBalanceHook[chainId]
+
   const total = useAggregatePngBalance()
   const pngBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, png)
   const pngToClaim: TokenAmount | undefined = useTotalPngEarned()
@@ -79,7 +82,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   let pngPrice
 
   const usdcPriceTmp = useUSDCPrice(png)
-  const usdcPrice = CHAINS[chainId].mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = CHAINS[chainId]?.mainnet ? usdcPriceTmp : undefined
 
   if (usdcPrice && png) {
     pngPrice = usdcPrice.quote(new TokenAmount(png, oneToken), chainId)
@@ -89,10 +92,10 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
 
   useMemo(() => {
     if (png === undefined) return
-    fetch(`${PANGOLIN_API_BASE_URL}/png/circulating-supply`)
+    fetch(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/png/circulating-supply`)
       .then(res => res.text())
       .then(val => setCirculation(new TokenAmount(png, val)))
-  }, [png])
+  }, [png, chainId])
 
   return (
     <ContentWrapper gap="lg">

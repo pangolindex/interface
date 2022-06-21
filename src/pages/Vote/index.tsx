@@ -8,10 +8,9 @@ import { useActiveWeb3React, useChainId, usePngSymbol } from '../../hooks'
 import { ZERO_ADDRESS } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
-import { shortenAddress, getEtherscanLink } from '../../utils'
+import { getEtherscanLink } from '../../utils'
 import Loader from '../../components/Loader'
 import FormattedCurrencyAmount from '../../components/FormattedCurrencyAmount'
-
 import React from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
@@ -20,10 +19,10 @@ import { RowBetween, RowFixed } from '../../components/Row'
 import { Link } from 'react-router-dom'
 import { ProposalStatus } from './styled'
 import { ButtonPrimary } from '../../components/Button'
-
 import { useModalOpen, useToggleDelegateModal } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/actions'
 import { useTranslation } from 'react-i18next'
+import { shortenAddress } from '@pangolindex/components'
 
 const PageWrapper = styled(AutoColumn)``
 
@@ -127,6 +126,13 @@ export default function Vote() {
     pngBalance && JSBI.notEqual(pngBalance.raw, JSBI.BigInt(0)) && userDelegatee === ZERO_ADDRESS
   )
 
+  function getAddress() {
+    if (userDelegatee === account) {
+      return 'Self'
+    }
+    return userDelegatee ? shortenAddress(userDelegatee, chainId) : ''
+  }
+
   return (
     <PageWrapper gap="lg" justify="center">
       <DelegateModal
@@ -201,7 +207,7 @@ export default function Vote() {
                     href={getEtherscanLink(ChainId.FUJI, userDelegatee, 'address')}
                     style={{ margin: '0 4px' }}
                   >
-                    {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee)}
+                    {getAddress()}
                   </StyledExternalLink>
                   <TextButton onClick={toggleDelegateModal} style={{ marginLeft: '4px' }}>
                     ({t('votePage.edit')})

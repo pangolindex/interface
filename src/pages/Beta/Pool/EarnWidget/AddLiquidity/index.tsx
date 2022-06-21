@@ -2,7 +2,7 @@ import React, { useContext, useCallback, useState } from 'react'
 import { Currency, CAVAX, TokenAmount } from '@pangolindex/sdk'
 import { AddWrapper, InputText, StyledBalanceMax, ArrowWrapper, LightCard, InputWrapper, Buttons } from './styleds'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Text } from '@pangolindex/components'
+import { Box, Button, Text, useLibrary } from '@pangolindex/components'
 import { Plus } from 'react-feather'
 import { RowBetween } from 'src/components/Row'
 import { useWalletModalToggle } from 'src/state/application/hooks'
@@ -34,9 +34,9 @@ interface AddLiquidityProps {
 }
 
 const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityProps) => {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const { library } = useLibrary()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 

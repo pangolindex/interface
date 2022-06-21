@@ -4,12 +4,23 @@ import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
-import { gnosisSafe, injected, xDefi, IS_IN_IFRAME, NetworkContextName } from '@pangolindex/components'
+import { gnosisSafe, injected, xDefi, near, IS_IN_IFRAME, NetworkContextName } from '@pangolindex/components'
 
 export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & { chainId?: ChainId } {
   const context = useWeb3ReactCore<Web3Provider>()
   const contextNetwork = useWeb3ReactCore<Web3Provider>(NetworkContextName)
   return context.active ? context : contextNetwork
+}
+
+const getExistingConnector = async () => {
+  const isMetaMask = await injected.isAuthorized()
+
+  const isNear = await near.isAuthorized()
+
+  if (isMetaMask) {
+    return injected
+  }
+  return isNear ? near : xDefi
 }
 
 export function useEagerConnect() {
@@ -30,9 +41,7 @@ export function useEagerConnect() {
           }
         })
       } else {
-        const isMetaMask = await injected.isAuthorized()
-
-        const existingConnector = isMetaMask ? injected : xDefi
+        const existingConnector = await getExistingConnector()
 
         existingConnector.isAuthorized().then(isAuthorized => {
           if (isAuthorized) {

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { RemoveWrapper, InputText, ContentBox } from './styleds'
-import { Box, Text, Button, NumberOptions } from '@pangolindex/components'
+import { Box, Text, Button, NumberOptions, useLibrary } from '@pangolindex/components'
 import ReactGA from 'react-ga'
 import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { Currency, Percent, CAVAX } from '@pangolindex/sdk'
@@ -30,9 +30,9 @@ interface RemoveLiquidityProps {
 }
 
 const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const { library, provider } = useLibrary()
   const [tokenA, tokenB] = useMemo(() => [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)], [
     currencyA,
     currencyB,
@@ -132,11 +132,10 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
       primaryType: 'Permit',
       message
     })
-
-    library
-      .send('eth_signTypedData_v4', [account, data])
+    ;(provider as any)
+      .execute('eth_signTypedData_v4', [account, data])
       .then(splitSignature)
-      .then(signature => {
+      .then((signature: any) => {
         setSignatureData({
           v: signature.v,
           r: signature.r,
@@ -144,7 +143,7 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
           deadline: deadline.toNumber()
         })
       })
-      .catch(err => {
+      .catch((err: any) => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
         if (err?.code !== 4001) {
           approveCallback()

@@ -1,7 +1,7 @@
 import { Contract } from '@ethersproject/contracts'
 import { getAddress } from '@ethersproject/address'
 import { AddressZero } from '@ethersproject/constants'
-import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
+import { JsonRpcSigner, JsonRpcProvider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import IPangolinRouter from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-periphery/interfaces/IPangolinRouter.sol/IPangolinRouter.json'
 import { ROUTER_ADDRESS } from '../constants'
@@ -29,10 +29,12 @@ export function isAddress(value: any): string | false {
 }
 
 const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
-  43113: CHAINS[ChainId.FUJI].blockExplorerUrls![0],
-  43114: CHAINS[ChainId.AVALANCHE].blockExplorerUrls![0],
-  11111: CHAINS[ChainId.WAGMI].blockExplorerUrls![0],
-  16: CHAINS[ChainId.COSTON].blockExplorerUrls![0]
+  43113: CHAINS[ChainId.FUJI].blockExplorerUrls?.[0] || '',
+  43114: CHAINS[ChainId.AVALANCHE].blockExplorerUrls?.[0] || '',
+  11111: CHAINS[ChainId.WAGMI].blockExplorerUrls?.[0] || '',
+  16: CHAINS[ChainId.COSTON].blockExplorerUrls?.[0] || '',
+  329847900: CHAINS[ChainId.NEAR_MAINNET].blockExplorerUrls?.[0] || '',
+  329847901: CHAINS[ChainId.NEAR_TESTNET].blockExplorerUrls?.[0] || ''
 }
 
 export function getEtherscanLink(
@@ -59,13 +61,11 @@ export function getEtherscanLink(
   }
 }
 
-// shorten the checksummed version of the input address to have 0x + 4 characters at start and end
-export function shortenAddress(address: string, chars = 4): string {
-  const parsed = isAddress(address)
-  if (!parsed) {
-    throw Error(`Invalid 'address' parameter '${address}'.`)
+export function isEvmChain(chainId: ChainId = 43114): boolean {
+  if (CHAINS[chainId]?.evm) {
+    return true
   }
-  return `${parsed.substring(0, chars + 2)}...${parsed.substring(42 - chars)}`
+  return false
 }
 
 // add 10%
@@ -89,17 +89,17 @@ export function calculateSlippageAmount(value: CurrencyAmount, slippage: number)
 }
 
 // account is not optional
-export function getSigner(library: Web3Provider, account: string): JsonRpcSigner {
+export function getSigner(library: JsonRpcProvider, account: string): JsonRpcSigner {
   return library.getSigner(account).connectUnchecked()
 }
 
 // account is optional
-export function getProviderOrSigner(library: Web3Provider, account?: string): Web3Provider | JsonRpcSigner {
+export function getProviderOrSigner(library: JsonRpcProvider, account?: string): JsonRpcProvider | JsonRpcSigner {
   return account ? getSigner(library, account) : library
 }
 
 // account is optional
-export function getContract(address: string, ABI: any, library: Web3Provider, account?: string): Contract {
+export function getContract(address: string, ABI: any, library: JsonRpcProvider, account?: string): Contract {
   if (!isAddress(address) || address === AddressZero) {
     throw Error(`Invalid 'address' parameter '${address}'.`)
   }
@@ -108,7 +108,7 @@ export function getContract(address: string, ABI: any, library: Web3Provider, ac
 }
 
 // account is optional
-export function getRouterContract(chainId: ChainId, library: Web3Provider, account?: string): Contract {
+export function getRouterContract(chainId: ChainId, library: JsonRpcProvider, account?: string): Contract {
   return getContract(ROUTER_ADDRESS[chainId], IPangolinRouter.abi, library, account)
 }
 

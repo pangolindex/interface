@@ -7,7 +7,9 @@ import {
   walletconnect,
   walletlink,
   xDefi,
-  NetworkContextName
+  NetworkContextName,
+  near,
+  shortenAddress
 } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken, lighten } from 'polished'
@@ -19,10 +21,10 @@ import CoinbaseWalletIcon from 'src/assets/images/coinbaseWalletIcon.svg'
 import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
 import WalletConnectIcon from 'src/assets/images/walletConnectIcon.svg'
 import XDefiIcon from 'src/assets/images/xDefi.png'
+import NearIcon from 'src/assets/images/near.svg'
 import { useModalOpen, useWalletModalToggle, useAccountDetailToggle } from 'src/state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from 'src/state/transactions/hooks'
 import { TransactionDetails } from 'src/state/transactions/reducer'
-import { shortenAddress } from 'src/utils'
 import { ButtonSecondary } from '../Button'
 import { useIsBetaUI } from 'src/hooks/useLocation'
 import Identicon from '../Identicon'
@@ -31,6 +33,7 @@ import { RowBetween } from '../Row'
 import WalletModal from '../WalletModal'
 import { ApplicationModal } from 'src/state/application/actions'
 import AccountDetailsModal from '../AccountDetailsModal'
+import { useChainId } from 'src/hooks'
 
 const Web3StatusGeneric = styled(ButtonSecondary)`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -225,6 +228,12 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
         <img src={XDefiIcon} alt={'XDEFIWalletConnect'} />
       </IconWrapper>
     )
+  } else if (connector === near) {
+    return (
+      <IconWrapper size={16}>
+        <img src={NearIcon} alt={'Near Wallet'} />
+      </IconWrapper>
+    )
   }
   return null
 }
@@ -232,6 +241,7 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
 function Web3StatusInner() {
   const { t } = useTranslation()
   const { account, connector, error } = useWeb3React()
+  const chainId = useChainId()
 
   const allTransactions = useAllTransactions()
 
@@ -272,7 +282,7 @@ function Web3StatusInner() {
           </RowBetween>
         ) : (
           <>
-            <Text>{shortenAddress(account)}</Text>
+            <Text>{shortenAddress(account, chainId)}</Text>
           </>
         )}
         {!hasPendingTransactions && connector && <StatusIcon connector={connector} />}
