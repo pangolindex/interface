@@ -38,21 +38,18 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
   async function onWithdraw() {
     if (stakingContract && stakingInfo?.stakedAmount) {
       setAttempting(true)
-      await stakingContract
-        .exit({ gasLimit: 300000 })
-        .then((response: TransactionResponse) => {
-          addTransaction(response, {
-            summary: t('earn.withdrawDepositedLiquidity')
-          })
-          setHash(response.hash)
+
+      try {
+        const response: TransactionResponse = await stakingContract.exit({ gasLimit: 300000 })
+        await response.wait(1)
+        addTransaction(response, {
+          summary: t('earn.withdrawDepositedLiquidity')
         })
-        .catch((err: any) => {
-          setAttempting(false)
-          // we only care if the error is something _other_ than the user rejected the tx
-          if (err?.code !== 4001) {
-            console.error(err)
-          }
-        })
+        setHash(response.hash)
+      } catch (err) {
+        setAttempting(false)
+        console.error(err)
+      }
     }
   }
 

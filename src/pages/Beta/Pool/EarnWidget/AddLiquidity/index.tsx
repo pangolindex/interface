@@ -159,42 +159,38 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
     }
 
     setAttemptingTxn(true)
-    await estimate(...args, value ? { value } : {})
-      .then(estimatedGasLimit =>
-        method(...args, {
-          ...(value ? { value } : {}),
-          gasLimit: calculateGasMargin(estimatedGasLimit)
-        }).then(response => {
-          setAttemptingTxn(false)
-
-          addTransaction(response, {
-            summary:
-              'Add ' +
-              parsedAmounts[Field.CURRENCY_A]?.toSignificant(3) +
-              ' ' +
-              currencies[Field.CURRENCY_A]?.symbol +
-              ' and ' +
-              parsedAmounts[Field.CURRENCY_B]?.toSignificant(3) +
-              ' ' +
-              currencies[Field.CURRENCY_B]?.symbol
-          })
-
-          setTxHash(response.hash)
-
-          ReactGA.event({
-            category: 'Liquidity',
-            action: 'Add',
-            label: [currencies[Field.CURRENCY_A]?.symbol, currencies[Field.CURRENCY_B]?.symbol].join('/')
-          })
-        })
-      )
-      .catch(err => {
-        setAttemptingTxn(false)
-        // we only care if the error is something _other_ than the user rejected the tx
-        if (err?.code !== 4001) {
-          console.error(err)
-        }
+    try {
+      const estimatedGasLimit = await estimate(...args, value ? { value } : {})
+      const response = await method(...args, {
+        ...(value ? { value } : {}),
+        gasLimit: calculateGasMargin(estimatedGasLimit)
       })
+      await response.wait(1)
+
+      addTransaction(response, {
+        summary:
+          'Add ' +
+          parsedAmounts[Field.CURRENCY_A]?.toSignificant(3) +
+          ' ' +
+          currencies[Field.CURRENCY_A]?.symbol +
+          ' and ' +
+          parsedAmounts[Field.CURRENCY_B]?.toSignificant(3) +
+          ' ' +
+          currencies[Field.CURRENCY_B]?.symbol
+      })
+
+      setTxHash(response.hash)
+
+      ReactGA.event({
+        category: 'Liquidity',
+        action: 'Add',
+        label: [currencies[Field.CURRENCY_A]?.symbol, currencies[Field.CURRENCY_B]?.symbol].join('/')
+      })
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setAttemptingTxn(false)
+    }
   }
 
   const handleDismissConfirmation = useCallback(() => {
