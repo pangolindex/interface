@@ -1,7 +1,6 @@
 import React from 'react'
 import { PageWrapper, GridContainer, TopContainer, StatsWrapper } from './styleds'
-import { useGelatoLimitOrderList, SwapWidget, WatchList } from '@pangolindex/components'
-import MyPortfolio from './MyPortfolio'
+import { useGelatoLimitOrderList, MyPortfolio, SwapWidget, WatchList } from '@pangolindex/components'
 import PairInfo from './PairInfo'
 import LimitOrderList from './LimitOrderList'
 import { useChainId } from 'src/hooks'
@@ -25,7 +24,7 @@ const SwapUI = () => {
       {CHAINS[chainId]?.mainnet && isEvmChain(chainId) && (
         <GridContainer isLimitOrders={isLimitOrders}>
           {isLimitOrders && <LimitOrderList />}
-          <MyPortfolio isLimitOrders={isLimitOrders} />
+          <MyPortfolio />
           <WatchList coinChartVisible={!isLimitOrders} />
         </GridContainer>
       )}
