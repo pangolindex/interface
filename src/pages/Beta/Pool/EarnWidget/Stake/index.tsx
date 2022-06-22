@@ -141,7 +141,11 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
           setHash(response.hash)
         } catch (err) {
           setAttempting(false)
-          console.error(err)
+          const _err = err as any
+          // we only care if the error is something _other_ than the user rejected the tx
+          if (_err?.code !== 4001) {
+            console.error(error)
+          }
         }
       } else if (signatureData) {
         const permitMethod = version < 2 ? 'stakeWithPermit' : 'depositWithPermit'
@@ -172,7 +176,11 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
           setHash(response.hash)
         } catch (err) {
           setAttempting(false)
-          console.error(err)
+          const _err = err as any
+          // we only care if the error is something _other_ than the user rejected the tx
+          if (_err?.code !== 4001) {
+            console.error(_err)
+          }
         }
       } else {
         setAttempting(false)

@@ -187,7 +187,11 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
         label: [currencies[Field.CURRENCY_A]?.symbol, currencies[Field.CURRENCY_B]?.symbol].join('/')
       })
     } catch (err) {
-      console.error(err)
+      const _err = err as any
+      // we only care if the error is something _other_ than the user rejected the tx
+      if (_err?.code !== 4001) {
+        console.error(_err)
+      }
     } finally {
       setAttemptingTxn(false)
     }

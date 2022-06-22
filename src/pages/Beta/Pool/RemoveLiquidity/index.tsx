@@ -306,7 +306,11 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
         })
       } catch (err) {
         setAttempting(false)
-        console.error(err)
+        const _err = err as any
+        // we only care if the error is something _other_ than the user rejected the tx
+        if (_err?.code !== 4001) {
+          console.error(_err)
+        }
       }
     }
   }

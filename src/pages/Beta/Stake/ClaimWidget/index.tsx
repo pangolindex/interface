@@ -46,7 +46,11 @@ const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) =
         setHash(response.hash)
       } catch (error) {
         setAttempting(false)
-        console.log(error)
+        const err = error as any
+        // we only care if the error is something _other_ than the user rejected the tx
+        if (err?.code !== 4001) {
+          console.error(err)
+        }
       }
     }
   }
