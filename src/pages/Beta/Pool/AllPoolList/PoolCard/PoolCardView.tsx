@@ -71,6 +71,11 @@ const PoolCardView = ({
   const isSuperFarm =
     version > 1 ? (rewardTokens || [])?.length > 1 : (stakingInfo?.rewardTokensAddress || [])?.length > 0
 
+  const redirectToFarmDrawer = () => {
+    setShowFarmDrawer(true)
+    setShowAddLiquidityDrawer(false)
+  }
+
   const renderButton = () => {
     if (isStaking && Boolean(earnedAmount.greaterThan('0')))
       return (
@@ -214,6 +219,7 @@ const PoolCardView = ({
           onClose={() => {
             setShowAddLiquidityDrawer(false)
           }}
+          redirect={redirectToFarmDrawer}
           clickedLpTokens={stakingInfo?.tokens}
           backgroundColor="color5"
         />
