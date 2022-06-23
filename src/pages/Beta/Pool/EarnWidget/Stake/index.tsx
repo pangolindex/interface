@@ -132,20 +132,21 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
           : [poolMap[stakingInfo?.stakedAmount.token.address], `0x${parsedAmount.raw.toString(16)}`, account]
 
       if (approval === ApprovalState.APPROVED) {
-        stakingContract[method](...args)
-          .then((response: TransactionResponse) => {
-            addTransaction(response, {
-              summary: t('earn.depositLiquidity')
-            })
-            setHash(response.hash)
+        try {
+          const response: TransactionResponse = await stakingContract[method](...args)
+          await response.wait(1)
+          addTransaction(response, {
+            summary: t('earn.depositLiquidity')
           })
-          .catch((err: any) => {
-            setAttempting(false)
-            // we only care if the error is something _other_ than the user rejected the tx
-            if (err?.code !== 4001) {
-              console.error(err)
-            }
-          })
+          setHash(response.hash)
+        } catch (err) {
+          setAttempting(false)
+          const _err = err as any
+          // we only care if the error is something _other_ than the user rejected the tx
+          if (_err?.code !== 4001) {
+            console.error(error)
+          }
+        }
       } else if (signatureData) {
         const permitMethod = version < 2 ? 'stakeWithPermit' : 'depositWithPermit'
         const permitArgs =
@@ -166,21 +167,21 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
                 signatureData.r,
                 signatureData.s
               ]
-
-        stakingContract[permitMethod](...permitArgs)
-          .then((response: TransactionResponse) => {
-            addTransaction(response, {
-              summary: t('earn.depositLiquidity')
-            })
-            setHash(response.hash)
+        try {
+          const response: TransactionResponse = await stakingContract[permitMethod](...permitArgs)
+          await response.wait(1)
+          addTransaction(response, {
+            summary: t('earn.depositLiquidity')
           })
-          .catch((err: any) => {
-            setAttempting(false)
-            // we only care if the error is something _other_ than the user rejected the tx
-            if (err?.code !== 4001) {
-              console.error(err)
-            }
-          })
+          setHash(response.hash)
+        } catch (err) {
+          setAttempting(false)
+          const _err = err as any
+          // we only care if the error is something _other_ than the user rejected the tx
+          if (_err?.code !== 4001) {
+            console.error(_err)
+          }
+        }
       } else {
         setAttempting(false)
         throw new Error(t('earn.attemptingToStakeError'))

@@ -279,38 +279,39 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
       const safeGasEstimate = safeGasEstimates[indexOfSuccessfulEstimation]
 
       setAttempting(true)
-      await router[methodName](...args, {
-        gasLimit: safeGasEstimate
-      })
-        .then((response: TransactionResponse) => {
-          addTransaction(response, {
-            summary:
-              t('removeLiquidity.remove') +
-              ' ' +
-              parsedAmounts[Field.CURRENCY_A]?.toSignificant(3) +
-              ' ' +
-              currencyA?.symbol +
-              ' and ' +
-              parsedAmounts[Field.CURRENCY_B]?.toSignificant(3) +
-              ' ' +
-              currencyB?.symbol
-          })
-
-          setHash(response.hash)
-
-          ReactGA.event({
-            category: 'Liquidity',
-            action: 'Remove',
-            label: [currencyA?.symbol, currencyB?.symbol].join('/')
-          })
+      try {
+        const response: TransactionResponse = await router[methodName](...args, {
+          gasLimit: safeGasEstimate
         })
-        .catch((err: any) => {
-          setAttempting(false)
-          // we only care if the error is something _other_ than the user rejected the tx
-          if (err?.code !== 4001) {
-            console.error(err)
-          }
+        await response.wait(1)
+        addTransaction(response, {
+          summary:
+            t('removeLiquidity.remove') +
+            ' ' +
+            parsedAmounts[Field.CURRENCY_A]?.toSignificant(3) +
+            ' ' +
+            currencyA?.symbol +
+            ' and ' +
+            parsedAmounts[Field.CURRENCY_B]?.toSignificant(3) +
+            ' ' +
+            currencyB?.symbol
         })
+
+        setHash(response.hash)
+
+        ReactGA.event({
+          category: 'Liquidity',
+          action: 'Remove',
+          label: [currencyA?.symbol, currencyB?.symbol].join('/')
+        })
+      } catch (err) {
+        setAttempting(false)
+        const _err = err as any
+        // we only care if the error is something _other_ than the user rejected the tx
+        if (_err?.code !== 4001) {
+          console.error(_err)
+        }
+      }
     }
   }
 
