@@ -29,11 +29,11 @@ jobs:
       - uses: actions/setup-node@v2.1.4
         with:
           node-version: ${{ env.node_version }}
-      - run: git diff | cat
       - run: npm ci
         env:
           CI: true
       - run: npm test
+      - run: git diff | cat
       - name: Prod - Increment version & create build # incrementing version automatically creates build internally with new version
         run: npm version patch -m "[skip ci] %s"
         if: ${{ github.ref == 'refs/heads/master' }}
