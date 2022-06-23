@@ -29,6 +29,7 @@ jobs:
       - uses: actions/setup-node@v2.1.4
         with:
           node-version: ${{ env.node_version }}
+      - run: git diff | cat
       - run: npm ci
         env:
           CI: true
