@@ -43,12 +43,12 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
       </HeaderWrapper>
 
       <StatsWrapper isStake={stakingInfo.stakedAmount.greaterThan('0')}>
-        <Box display="inline-block">
+        <Box display="inline-block" height={'100%'}>
           <Text color="text2" fontSize={14}>
             {t('earn.poolRewards')}
           </Text>
 
-          <Box display="flex" alignItems="center" mt="10px">
+          <Box display="flex" alignItems="center" mt="8px">
             <CurrencyLogo currency={currency1} size={24} imageSize={48} />
           </Box>
         </Box>
@@ -62,7 +62,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
           }
           titlePosition="top"
           titleFontSize={14}
-          statFontSize={20}
+          statFontSize={24}
           titleColor="text2"
         />
         {stakingInfo.stakedAmount.greaterThan('0') && (
@@ -71,7 +71,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
             stat={userRewardRate ? `${userRewardRate}` : '-'}
             titlePosition="top"
             titleFontSize={14}
-            statFontSize={20}
+            statFontSize={24}
             titleColor="text2"
             currency={currency1}
           />
@@ -81,7 +81,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
           stat={totalRewardRate ? `${totalRewardRate}` : '-'}
           titlePosition="top"
           titleFontSize={14}
-          statFontSize={20}
+          statFontSize={24}
           titleColor="text2"
           currency={currency1}
         />
