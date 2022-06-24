@@ -33,8 +33,12 @@ const Details: React.FC<Props> = ({ stakingInfo }) => {
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
-  const currency0 = token0 ? unwrappedToken(token0, chainId) : undefined
-  const currency1 = token1 ? unwrappedToken(token1, chainId) : undefined
+  // if pair is available then taking tokens from pair otherwise display tokens from staking info
+  // we are taking token from pair because sometime order of tokens is different
+  const tokenA = pair?.token0 || token0
+  const tokenB = pair?.token1 || token1
+  const currency0 = tokenA ? unwrappedToken(tokenA, chainId) : undefined
+  const currency1 = tokenB ? unwrappedToken(tokenB, chainId) : undefined
 
   return (
     <>
