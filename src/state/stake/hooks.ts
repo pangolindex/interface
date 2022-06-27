@@ -1317,7 +1317,9 @@ export const useMinichefStakingInfosMapping: {
   [ChainId.FUJI]: useMinichefStakingInfos,
   [ChainId.AVALANCHE]: useDummyEmptyHook,
   [ChainId.WAGMI]: useMinichefStakingInfos,
-  [ChainId.COSTON]: useMinichefStakingInfos
+  [ChainId.COSTON]: useMinichefStakingInfos,
+  [ChainId.NEAR_MAINNET]: useDummyEmptyHook,
+  [ChainId.NEAR_TESTNET]: useDummyEmptyHook
 }
 
 export function useGetPoolDollerWorth(pair: Pair | null) {
@@ -1909,15 +1911,8 @@ export function useFetchFarmAprs() {
           })
         )
       }
-<<<<<<< HEAD
     })
   }, [pids, chainId, dispatch])
-=======
-    }
-
-    getFarmAprs()
-  }, [chainId, pids, dispatch])
->>>>>>> b9b03ef7 (added multichain pool via contract calls)
 }
 
 export function useUpdateAllFarmsEarnAmount() {

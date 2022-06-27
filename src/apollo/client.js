@@ -31,7 +31,9 @@ export const mininchefV2Clients = {
   [ChainId.AVALANCHE]: avalancheMininchefV2Client,
   [ChainId.FUJI]: undefined,
   [ChainId.WAGMI]: undefined,
-  [ChainId.COSTON]: undefined
+  [ChainId.COSTON]: undefined,
+  [ChainId.NEAR_MAINNET]: undefined,
+  [ChainId.NEAR_TESTNET]: undefined
 }
 
 export const avalancheBlockClient = new ApolloClient({

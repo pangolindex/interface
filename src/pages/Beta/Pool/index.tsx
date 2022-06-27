@@ -24,12 +24,8 @@ export enum PoolType {
 }
 
 const PoolUI = () => {
-<<<<<<< HEAD
-  const [activeMenu, setMenu] = useState<string>(MenuType.allFarmV2)
-=======
   const chainId = useChainId()
-  const [activeMenu, setMenu] = useState<string>(MenuType.allPoolV2)
->>>>>>> 0a7de0d2 (Fix issues)
+  const [activeMenu, setMenu] = useState<string>(MenuType.allFarmV2)
   const [isAddLiquidityModalOpen, setAddLiquidityModalOpen] = useState<boolean>(false)
   const { t } = useTranslation()
 
