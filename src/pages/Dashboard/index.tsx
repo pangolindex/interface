@@ -1,7 +1,7 @@
 import React from 'react'
 import { PageTitle, PageDescription, PageWrapper, TopContainer, StatsWrapper } from './styleds'
 import { useTranslation } from 'react-i18next'
-import { NewsWidget, WatchList, Portifolio } from '@pangolindex/components'
+import { NewsWidget, WatchList, Portfolio } from '@pangolindex/components'
 import { ChainId, CHAINS } from '@pangolindex/sdk'
 import { useActiveWeb3React } from 'src/hooks'
 import { Hidden, Visible } from 'src/theme'
@@ -17,7 +17,7 @@ const Dashboard = () => {
 
       <TopContainer>
         <StatsWrapper>
-          <Portifolio />
+          <Portfolio />
           {CHAINS[chainId]?.mainnet && (
             <WatchList visibleTradeButton={true} tradeLinkUrl={BETA_MENU_LINK.swap} redirect={true} />
           )}
