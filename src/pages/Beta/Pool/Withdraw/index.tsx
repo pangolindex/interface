@@ -53,20 +53,21 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
             ]
 
       // TODO: Support withdrawing partial amounts for v2+
-      await stakingContract[method](...args)
-        .then((response: TransactionResponse) => {
-          addTransaction(response, {
-            summary: t('earn.withdrawDepositedLiquidity')
-          })
-          setHash(response.hash)
+      try {
+        const response: TransactionResponse = await stakingContract[method](...args)
+        await response.wait(1)
+        addTransaction(response, {
+          summary: t('earn.withdrawDepositedLiquidity')
         })
-        .catch((err: any) => {
-          setAttempting(false)
-          // we only care if the error is something _other_ than the user rejected the tx
-          if (err?.code !== 4001) {
-            console.error(err)
-          }
-        })
+        setHash(response.hash)
+      } catch (err) {
+        setAttempting(false)
+        const _err = err as any
+        // we only care if the error is something _other_ than the user rejected the tx
+        if (_err?.code !== 4001) {
+          console.error(err)
+        }
+      }
     }
   }
 

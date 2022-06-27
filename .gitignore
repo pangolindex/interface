@@ -29,6 +29,7 @@ notes.txt
 
 yarn.lock
 
+
 cypress/videos
 cypress/screenshots
 cypress/fixtures/example.json

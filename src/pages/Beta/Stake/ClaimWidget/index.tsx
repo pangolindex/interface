@@ -36,23 +36,22 @@ const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) =
   async function onClaimReward() {
     if (stakingContract && stakingInfo?.stakedAmount) {
       setAttempting(true)
-      await stakingContract
-        .getReward({ gasLimit: 350000 })
-        .then((response: TransactionResponse) => {
-          addTransaction(response, {
-            summary: t('earn.claimAccumulated', { symbol: stakingInfo?.rewardToken?.symbol })
-          })
-          setHash(response.hash)
-        })
-        .catch((error: any) => {
-          setAttempting(false)
 
-          // we only care if the error is something _other_ than the user rejected the tx
-          if (error?.code !== 4001) {
-            console.error(error)
-          }
-          console.log(error)
+      try {
+        const response: TransactionResponse = await stakingContract.getReward({ gasLimit: 350000 })
+        await response.wait(1)
+        addTransaction(response, {
+          summary: t('earn.claimAccumulated', { symbol: stakingInfo?.rewardToken?.symbol })
         })
+        setHash(response.hash)
+      } catch (error) {
+        setAttempting(false)
+        const err = error as any
+        // we only care if the error is something _other_ than the user rejected the tx
+        if (err?.code !== 4001) {
+          console.error(err)
+        }
+      }
     }
   }
 
