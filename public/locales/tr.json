@@ -119,6 +119,7 @@
     "pool": "Havuz",
     "importPool": "Dışarıdan Havuz Ekle",
     "createPair": "İşlem çifti oluştur",
+    "findPool": "Havuzunu bul",
     "addLiquidity": "Likidite Ekle",
     "removeLiquidity": "Likidite Çıkar",
     "whenYouAddLiquidityInfo": "Likidite eklediğinizde tarafınıza pozisyonunuzu temsil eden havuz tokenları verilir. Bu tokenlar, havuzdaki payınıza göre Pangolin üzerinde gerçekleşen işlemlerden komisyon ücreti kazanır ve istenildiği zaman talep edilebilir.",

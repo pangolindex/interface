@@ -158,6 +158,9 @@ const PoolUI = () => {
             <ExternalLink onClick={() => setAddLiquidityModalOpen(true)} style={{ cursor: 'pointer' }}>
               {t('navigationTabs.createPair')}
             </ExternalLink>
+            <ExternalLink onClick={() => setAddLiquidityModalOpen(true)} style={{ cursor: 'pointer' }}>
+              {t('navigationTabs.findPool')}
+            </ExternalLink>
           </Box>
         </Hidden>
       </GridContainer>

@@ -119,6 +119,7 @@
     "pool": "Pool",
     "importPool": "Importer une Pool",
     "createPair": "Créer une paire",
+    "findPool": "Trouvez votre piscine",
     "addLiquidity": "Ajouter de la liquidité",
     "removeLiquidity": "Supprimer la liquidité",
     "whenYouAddLiquidityInfo": "Lorsque vous ajoutez des liquidités, vous recevez des jetons de pool représentant votre position. Ces jetons rapportent automatiquement des frais proportionnels à votre part du pool, et peuvent être échangés à tout moment.",

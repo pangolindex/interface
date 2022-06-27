@@ -119,6 +119,7 @@
     "pool": "Pool",
     "importPool": "Pool importieren",
     "createPair": "Erstelle ein Paar",
+    "findPool": "Finden Sie Ihr Becken",
     "addLiquidity": "Füge Liquidität hinzu",
     "removeLiquidity": "Entferne Liquidität",
     "whenYouAddLiquidityInfo": "Wenn du Liquidität hinzufügst, erhältst du Pool-Token, die Deine Position im Pool repräsentieren. Diese Token schütten automatisch Vergütungen aus, die abhängig von deinem Anteil am Pool sind. Du kannst deine Pool-Token können jederzeit einlösen!",
