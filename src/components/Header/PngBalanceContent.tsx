@@ -16,7 +16,7 @@ import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
 import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../earn/styled'
 import { useTranslation } from 'react-i18next'
-import useUSDCPrice from '../../utils/useUSDCPrice'
+import { useUSDCPrice } from '../../utils/useUSDCPrice'
 import { useChainId } from 'src/hooks'
 import { useTokenBalanceHook } from 'src/hooks/multiChainsHooks'
 

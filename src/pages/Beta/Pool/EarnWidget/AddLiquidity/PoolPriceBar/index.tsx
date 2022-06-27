@@ -6,7 +6,7 @@ import { Root, GridContainer } from './styled'
 import { Field } from 'src/state/mint/actions'
 import { useTranslation } from 'react-i18next'
 import { ONE_BIPS } from 'src/constants'
-import useUSDCPrice from 'src/utils/useUSDCPrice'
+import { useUSDCPrice } from 'src/utils/useUSDCPrice'
 import { useChainId } from 'src/hooks'
 
 interface BarProps {

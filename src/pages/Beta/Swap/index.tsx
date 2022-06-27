@@ -1,12 +1,13 @@
 import React from 'react'
-import { PageWrapper, GridContainer, TopContainer, StatsWrapper } from './styleds'
-import { useGelatoLimitOrderList, SwapWidget, WatchList } from '@pangolindex/components'
+import { PageWrapper, TopContainer, StatsWrapper, GridContainer } from './styleds'
+import { SwapWidget, WatchList, useGelatoLimitOrderList } from '@pangolindex/components'
 import MyPortfolio from './MyPortfolio'
 import PairInfo from './PairInfo'
 import LimitOrderList from './LimitOrderList'
 import { useChainId } from 'src/hooks'
 import { CHAINS } from '@pangolindex/sdk'
 import { isEvmChain } from 'src/utils'
+import ComingSoon from 'src/components/Beta/ComingSoon'
 
 const SwapUI = () => {
   const { allOrders } = useGelatoLimitOrderList()
@@ -16,9 +17,7 @@ const SwapUI = () => {
   return (
     <PageWrapper>
       <TopContainer>
-        <StatsWrapper>
-          <PairInfo />
-        </StatsWrapper>
+        <StatsWrapper>{isEvmChain(chainId) ? <PairInfo /> : <ComingSoon />}</StatsWrapper>
         <SwapWidget isLimitOrderVisible={CHAINS[chainId]?.mainnet} />
       </TopContainer>
 

@@ -6,9 +6,7 @@ import tokenLogo from 'src/assets/images/logo.png'
 import { injected } from '@pangolindex/components'
 import { BETA_MENU_LINK, getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
 import { PNG } from '../../constants/tokens'
-import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React, usePngSymbol } from '../../hooks'
-import { useTotalPngEarned } from '../../state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/doubleSideConfig'
 import { useAggregatePngBalance } from '../../state/wallet/hooks'
 import { StyledInternalLink, TYPE, PngTokenAnimated } from '../../theme'
@@ -17,9 +15,11 @@ import { RowBetween } from '../../components/Row'
 import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../../components/earn/styled'
 import { useTranslation } from 'react-i18next'
 import { useIsBetaUI } from '../../hooks/useLocation'
-import useUSDCPrice from '../../utils/useUSDCPrice'
 import { useChainId } from 'src/hooks'
-import { useTokenBalanceHook } from 'src/hooks/multiChainsHooks'
+import { useTotalSupplyHook } from 'src/data/TotalSupply'
+import { useTokenBalanceHook } from 'src/state/wallet/multiChainsHooks'
+import { useTotalPngEarnedHook } from 'src/state/stake/multiChainsHooks'
+import { useUSDCPriceHook } from 'src/utils/useUSDCPrice'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -70,11 +70,13 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const pngSymbol = usePngSymbol()
 
   const useTokenBalance = useTokenBalanceHook[chainId]
+  const useTotalPngEarned = useTotalPngEarnedHook[chainId]
+  const useTotalSupply = useTotalSupplyHook[chainId]
+  const useUSDCPrice = useUSDCPriceHook[chainId]
 
   const total = useAggregatePngBalance()
   const pngBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, png)
   const pngToClaim: TokenAmount | undefined = useTotalPngEarned()
-
   const totalSupply: TokenAmount | undefined = useTotalSupply(png)
 
   const oneToken = JSBI.BigInt(1000000000000000000)

@@ -24,7 +24,7 @@ import { tryParseAmount } from '../swap/hooks'
 import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../../constants/abis/rewarderViaMultiplier'
-import useUSDCPrice from '../../utils/useUSDCPrice'
+import { useUSDCPrice } from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useTotalSupply } from '../../data/TotalSupply'
@@ -743,6 +743,11 @@ export function useTotalPngEarned(): TokenAmount | undefined {
   }, [png, singleStakingInfo])
 
   return earnedSingleStaking.add(earnedMinichef)
+}
+
+// TODO : need to add logic
+export function useNearTotalPngEarned(): TokenAmount | undefined {
+  return undefined
 }
 
 // based on typed value

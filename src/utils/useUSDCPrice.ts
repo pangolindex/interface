@@ -11,7 +11,7 @@ import { wrappedCurrency } from './wrappedCurrency'
  * Returns the price in USDC of the input currency
  * @param currency currency to compute the USDC price of
  */
-export default function useUSDCPrice(currency?: Currency): Price | undefined {
+export function useUSDCPrice(currency?: Currency): Price | undefined {
   const chainId = useChainId()
   const wrapped = wrappedCurrency(currency, chainId)
   const USDC = USDCe[chainId]
@@ -79,4 +79,17 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
     wrapped,
     USDC
   ])
+}
+
+export function useNearUSDCPrice(currency?: Currency): Price | undefined {
+  return undefined
+}
+
+export const useUSDCPriceHook = {
+  [ChainId.FUJI]: useUSDCPrice,
+  [ChainId.AVALANCHE]: useUSDCPrice,
+  [ChainId.WAGMI]: useUSDCPrice,
+  [ChainId.COSTON]: useUSDCPrice,
+  [ChainId.NEAR_MAINNET]: useNearUSDCPrice,
+  [ChainId.NEAR_TESTNET]: useNearUSDCPrice
 }
