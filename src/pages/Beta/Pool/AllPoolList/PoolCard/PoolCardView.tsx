@@ -61,12 +61,19 @@ const PoolCardView = ({
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   const yourStackedInUsd = CHAINS[chainId]?.mainnet
 =======
   const yourStackedInUsd = CHAINS[chainId].mainnet && stakingInfo?.totalStakedInUsd
 >>>>>>> b9b03ef7 (added multichain pool via contract calls)
     ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
     : undefined
+=======
+  const yourStackedInUsd =
+    CHAINS[chainId].mainnet && stakingInfo?.totalStakedInUsd
+      ? stakingInfo?.totalStakedInUsd.multiply(stakingInfo?.stakedAmount).divide(stakingInfo?.totalStakedAmount)
+      : undefined
+>>>>>>> 0a7de0d2 (Fix issues)
 
   const userPgl = useTokenBalance(account ?? undefined, stakingTokenPair?.liquidityToken)
 

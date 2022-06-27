@@ -968,6 +968,11 @@ export const getExtraTokensWeeklyRewardRate = (
   return new TokenAmount(token, finalReward)
 }
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
+const useDummyEmptyHook = (version?: number, pairToFilterBy?: Pair | null) => {
+  return [] as StakingInfo[]
+}
+
 export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | null): StakingInfo[] => {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
@@ -1304,6 +1309,15 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     poolMap
   ])
   return arr
+}
+
+export const useMinichefStakingInfosMapping: {
+  [chainId in ChainId]: (version?: number, pairToFilterBy?: Pair | null) => StakingInfo[]
+} = {
+  [ChainId.FUJI]: useMinichefStakingInfos,
+  [ChainId.AVALANCHE]: useDummyEmptyHook,
+  [ChainId.WAGMI]: useMinichefStakingInfos,
+  [ChainId.COSTON]: useMinichefStakingInfos
 }
 
 export function useGetPoolDollerWorth(pair: Pair | null) {
@@ -1676,8 +1690,8 @@ export function useGetAllFarmData() {
 
 export function useAllMinichefStakingInfoData(): MinichefV2 | undefined {
   const chainId = useChainId()
-  return useSelector<AppState, AppState['stake']['minichefStakingData']['43114']>(
-    state => state?.stake?.minichefStakingData[chainId] || {}
+  return useSelector<AppState, AppState['stake']['minichefStakingData'][ChainId.AVALANCHE]>(
+    state => state?.stake?.minichefStakingData?.[chainId] || {}
   )
 }
 
@@ -1823,7 +1837,7 @@ export const useGetMinichefStakingInfosViaSubgraph = (): MinichefStakingInfo[] =
 
 export const useGetMinichefPids = () => {
   const chainId = useChainId()
-  const farms = useSelector<AppState, AppState['stake']['minichefStakingData']['43114']['farms']>(
+  const farms = useSelector<AppState, AppState['stake']['minichefStakingData'][ChainId.AVALANCHE]['farms']>(
     state => state?.stake?.minichefStakingData[chainId]?.farms || []
   )
   return useMemo(() => farms?.map(farm => farm?.pid), [farms])
@@ -1831,9 +1845,9 @@ export const useGetMinichefPids = () => {
 
 export const useGetFarmApr = (pid: string) => {
   const chainId = useChainId()
-  const swapFeeApr = useSelector<AppState, number>(state => state?.stake?.aprs[chainId]?.[pid]?.swapFeeApr)
-  const combinedApr = useSelector<AppState, number>(state => state?.stake?.aprs[chainId]?.[pid]?.combinedApr)
-  const stakingApr = useSelector<AppState, number>(state => state?.stake?.aprs[chainId]?.[pid]?.stakingApr)
+  const swapFeeApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[chainId]?.[pid]?.swapFeeApr)
+  const combinedApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[chainId]?.[pid]?.combinedApr)
+  const stakingApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[chainId]?.[pid]?.stakingApr)
 
   return useMemo(
     () => ({
@@ -1847,7 +1861,7 @@ export const useGetFarmApr = (pid: string) => {
 
 export const useSortFarmAprs = () => {
   const chainId = useChainId()
-  const aprs = useSelector<AppState, AppState['stake']['aprs']['43114']>(state => state?.stake?.aprs[chainId])
+  const aprs = useSelector<AppState, AppState['stake']['aprs'][ChainId.AVALANCHE]>(state => state?.stake?.aprs[chainId])
 
   return useMemo(() => (aprs ? Object.values(aprs).sort((a, b) => b.combinedApr - a.combinedApr) : []), [aprs])
 }
@@ -1946,7 +1960,7 @@ export const useGetEarnedAmount = (pid: string) => {
   const chainId = useChainId()
   const png = PNG[chainId]
 
-  const amount = useSelector<AppState, number>(state => state?.stake?.earnedAmounts[chainId]?.[pid]?.earnedAmount)
+  const amount = useSelector<AppState, number>(state => state?.stake?.earnedAmounts?.[chainId]?.[pid]?.earnedAmount)
 
   return useMemo(
     () => ({

@@ -21,8 +21,8 @@ const PoolCardV2 = ({ stakingInfo, onClickViewDetail, version }: PoolCardProps) 
 
   const _rewardTokens = useTokens(stakingInfo.rewardTokensAddress)
 
-  rewardTokens = useMemo(()=> {
-    if (!rewardTokens && _rewardTokens){
+  rewardTokens = useMemo(() => {
+    if (!rewardTokens && _rewardTokens) {
       // filter only tokens
       const tokens = _rewardTokens.filter(token => token && token instanceof Token) as Token[]
       return [PNG[chainId], ...tokens]

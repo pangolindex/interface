@@ -28,10 +28,10 @@ export const avalancheMininchefV2Client = new GraphQLClient(
 )
 
 export const mininchefV2Clients = {
-    [ChainId.AVALANCHE]: avalancheMininchefV2Client,
-    [ChainId.FUJI]: undefined,
-    [ChainId.WAGMI]: undefined,
-    [ChainId.COSTON]: undefined,
+  [ChainId.AVALANCHE]: avalancheMininchefV2Client,
+  [ChainId.FUJI]: undefined,
+  [ChainId.WAGMI]: undefined,
+  [ChainId.COSTON]: undefined
 }
 
 export const avalancheBlockClient = new ApolloClient({
@@ -41,10 +41,9 @@ export const avalancheBlockClient = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-
 export const blockClients = {
   [ChainId.AVALANCHE]: avalancheBlockClient,
   [ChainId.FUJI]: undefined,
   [ChainId.WAGMI]: undefined,
-  [ChainId.COSTON]: undefined,
+  [ChainId.COSTON]: undefined
 }
