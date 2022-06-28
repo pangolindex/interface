@@ -169,12 +169,12 @@ export function useAggregatePngBalance(): TokenAmount | undefined {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
-  const useTokenBalance = useTokenBalanceHook[chainId]
+  const useTokenBalance_ = useTokenBalanceHook[chainId]
   const useTotalPngEarned = useTotalPngEarnedHook[chainId]
 
   const png = chainId ? PNG[chainId] : undefined
 
-  const pngBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, png)
+  const pngBalance: TokenAmount | undefined = useTokenBalance_(account ?? undefined, png)
   const pngUnHarvested: TokenAmount | undefined = useTotalPngEarned()
 
   if (!png) return undefined

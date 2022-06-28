@@ -81,7 +81,7 @@ export function useUSDCPrice(currency?: Currency): Price | undefined {
   ])
 }
 
-export function useNearUSDCPrice(currency?: Currency): Price | undefined {
+export function useNearUSDCPrice(_currency?: Currency): Price | undefined {
   return undefined
 }
 
