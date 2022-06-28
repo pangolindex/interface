@@ -70,7 +70,7 @@ const PoolCardListView = ({
 
   const theme = useContext(ThemeContext)
 
-  const searchToken = useContext(SearchTokenContext)
+  const { token: searchToken } = useContext(SearchTokenContext)
 
   const toggleAddLiquidityModalOpen = useToggleModal(ApplicationModal.ADD_LIQUIDITY)
 
