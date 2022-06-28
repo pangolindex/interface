@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Box, TextInput } from '@pangolindex/components'
+import { Box, Button, TextInput } from '@pangolindex/components'
 
 export const PoolsWrapper = styled(Box)`
   width: 100%;
@@ -29,6 +29,11 @@ export const PanelWrapper = styled.div`
   align-items: start;
   padding-bottom: 65px;
 
+  button {
+    grid-column-start: 1
+    grid-column-end: 3
+  }
+
   @media screen and (max-width: 1024px) {
     grid-template-columns: 1fr;
     align-items: stretch;
@@ -40,6 +45,10 @@ export const PanelWrapper = styled.div`
       &:first-child {
         width: 100%;
       }
+    }
+
+    button {
+      grid-column-start: 1
     }
   }
 `
@@ -54,4 +63,12 @@ export const MobileGridContainer = styled(Box)`
     grid-gap: 8px;
     margin-bottom : 10px;
   `};
+`
+
+export const FindButton = styled(Button)`
+  max-width: 400px !important;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  flex-grow: 1;
 `

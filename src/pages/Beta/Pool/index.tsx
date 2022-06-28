@@ -9,6 +9,10 @@ import { useStakingInfo, useGetMinichefStakingInfosViaSubgraph, useGetAllFarmDat
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
 import AddLiquidityModal from './AddLiquidityModal'
+import { useModalOpen, useToggleModal } from 'src/state/application/hooks'
+import { ApplicationModal } from 'src/state/application/actions'
+import { SearchTokenContext } from './AllPoolList/PoolList/PoolCardListView'
+import { Currency } from '@pangolindex/sdk'
 
 export enum PoolType {
   own = 'own',
@@ -18,16 +22,15 @@ export enum PoolType {
 
 const PoolUI = () => {
   const [activeMenu, setMenu] = useState<string>(MenuType.allFarmV2)
-  const [isAddLiquidityModalOpen, setAddLiquidityModalOpen] = useState<boolean>(false)
+  const isAddLiquidityModalOpen = useModalOpen(ApplicationModal.ADD_LIQUIDITY)
+  const toggleAddLiquidityModalOpen = useToggleModal(ApplicationModal.ADD_LIQUIDITY)
   const { t } = useTranslation()
+
+  const [searchToken, setSearchToken] = useState<Currency | undefined>(undefined)
 
   useGetAllFarmData()
 
   let miniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
-
-  const handleAddLiquidityModalClose = useCallback(() => {
-    setAddLiquidityModalOpen(false)
-  }, [setAddLiquidityModalOpen])
 
   let stakingInfoV1 = useStakingInfo(1)
   // filter only live or needs migration pools
@@ -115,54 +118,61 @@ const PoolUI = () => {
     },
     [setMenu]
   )
-
   return (
-    <PageWrapper>
-      <GridContainer>
-        <Box display="flex" height="100%">
-          <Sidebar
-            activeMenu={activeMenu}
-            setMenu={handleSetMenu}
-            menuItems={menuItems}
-            onManagePoolsClick={() => {
-              setMenu(MenuType.yourPool)
-            }}
-          />
-          {(activeMenu === MenuType.allFarmV1 ||
-            activeMenu === MenuType.allFarmV2 ||
-            activeMenu === MenuType.yourFarmV1 ||
-            activeMenu === MenuType.yourFarmV2 ||
-            activeMenu === MenuType.superFarm) && (
-            <AllPoolList
-              type={
-                activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.allFarmV2
-                  ? PoolType.all
-                  : activeMenu === MenuType.superFarm
-                  ? PoolType.superFarms
-                  : PoolType.own
-              }
-              version={activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.yourFarmV1 ? 1 : 2}
-              stakingInfoV1={stakingInfoV1}
-              miniChefStakingInfo={miniChefStakingInfo}
+    <SearchTokenContext.Provider value={{ token: searchToken, setToken: token => setSearchToken(token) }}>
+      <PageWrapper>
+        <GridContainer>
+          <Box display="flex" height="100%">
+            <Sidebar
               activeMenu={activeMenu}
               setMenu={handleSetMenu}
               menuItems={menuItems}
+              onManagePoolsClick={() => {
+                setMenu(MenuType.yourPool)
+              }}
             />
-          )}
-          {activeMenu === MenuType.yourPool && (
-            <Wallet activeMenu={activeMenu} setMenu={handleSetMenu} menuItems={menuItems} />
-          )}
-        </Box>
-        <Hidden upToSmall={true}>
-          <Box>
-            <ExternalLink onClick={() => setAddLiquidityModalOpen(true)} style={{ cursor: 'pointer' }}>
-              {t('navigationTabs.createPair')}
-            </ExternalLink>
+            {(activeMenu === MenuType.allFarmV1 ||
+              activeMenu === MenuType.allFarmV2 ||
+              activeMenu === MenuType.yourFarmV1 ||
+              activeMenu === MenuType.yourFarmV2 ||
+              activeMenu === MenuType.superFarm) && (
+              <AllPoolList
+                type={
+                  activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.allFarmV2
+                    ? PoolType.all
+                    : activeMenu === MenuType.superFarm
+                    ? PoolType.superFarms
+                    : PoolType.own
+                }
+                version={activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.yourFarmV1 ? 1 : 2}
+                stakingInfoV1={stakingInfoV1}
+                miniChefStakingInfo={miniChefStakingInfo}
+                activeMenu={activeMenu}
+                setMenu={handleSetMenu}
+                menuItems={menuItems}
+              />
+            )}
+            {activeMenu === MenuType.yourPool && (
+              <Wallet activeMenu={activeMenu} setMenu={handleSetMenu} menuItems={menuItems} />
+            )}
           </Box>
-        </Hidden>
-      </GridContainer>
-      <AddLiquidityModal isOpen={isAddLiquidityModalOpen} onClose={handleAddLiquidityModalClose} />
-    </PageWrapper>
+          <Hidden upToSmall={true}>
+            <Box>
+              <ExternalLink onClick={toggleAddLiquidityModalOpen} style={{ cursor: 'pointer' }}>
+                {t('navigationTabs.createPair')}
+              </ExternalLink>
+            </Box>
+          </Hidden>
+        </GridContainer>
+        {isAddLiquidityModalOpen && (
+          <AddLiquidityModal
+            token0={searchToken}
+            isOpen={isAddLiquidityModalOpen}
+            onClose={toggleAddLiquidityModalOpen}
+          />
+        )}
+      </PageWrapper>
+    </SearchTokenContext.Provider>
   )
 }
 export default PoolUI

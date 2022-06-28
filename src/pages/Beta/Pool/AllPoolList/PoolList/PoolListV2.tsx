@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, memo } from 'react'
+import React, { useCallback, useEffect, useState, memo, useMemo, useContext } from 'react'
 import {
   MinichefStakingInfo,
   useSortFarmAprs,
@@ -12,8 +12,12 @@ import PoolCardV2 from '../PoolCard/PoolCardV2'
 import { useChainId } from 'src/hooks'
 import useDebounce from 'src/hooks/useDebounce'
 import { BIG_INT_ZERO } from 'src/constants'
-import { usePoolDetailnModalToggle } from 'src/state/application/hooks'
-import PoolCardListView, { SortingType } from './PoolCardListView'
+import { usePoolDetailnModalToggle, useToggleModal } from 'src/state/application/hooks'
+import PoolCardListView, { SearchTokenContext, SortingType } from './PoolCardListView'
+import { useAllTokens } from '@pangolindex/components'
+import { FindButton } from './styleds'
+import { ApplicationModal } from 'src/state/application/actions'
+import { CAVAX, Currency } from '@pangolindex/sdk'
 
 export interface EarnProps {
   version: string
@@ -37,6 +41,7 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   const [selectedPoolIndex, setSelectedPoolIndex] = useState(-1)
 
   const togglePoolDetailModal = usePoolDetailnModalToggle()
+  const toggleAddLiquidityModalOpen = useToggleModal(ApplicationModal.ADD_LIQUIDITY)
 
   // fetch farms earned amount
   useUpdateAllFarmsEarnAmount()
@@ -95,6 +100,18 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   )
   const selectedPool = selectedPoolIndex !== -1 ? stakingInfoData[selectedPoolIndex] : ({} as MinichefStakingInfo)
 
+  const allTokens = useAllTokens()
+  const searchToken = useMemo(() => {
+    const tokens = Object.values(allTokens) as Currency[]
+    tokens.unshift(CAVAX[chainId])
+    return tokens.find(token => token.symbol === searchQuery || token.name === searchQuery)
+  }, [allTokens, searchQuery, chainId])
+
+  const { setToken } = useContext(SearchTokenContext)
+  useEffect(() => {
+    setToken(searchToken)
+  }, [searchToken, setToken])
+
   return (
     <PoolCardListView
       version={version}
@@ -120,6 +137,12 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
           version={Number(version)}
         />
       ))}
+
+      {searchToken && (
+        <FindButton variant="primary" onClick={toggleAddLiquidityModalOpen}>
+          Find pools
+        </FindButton>
+      )}
     </PoolCardListView>
   )
 }

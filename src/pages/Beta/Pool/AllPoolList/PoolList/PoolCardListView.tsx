@@ -1,14 +1,17 @@
-import React, { useContext } from 'react'
+import React, { createContext, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { TextInput, Box, Loader } from '@pangolindex/components'
 import { useTranslation } from 'react-i18next'
 import { Search } from 'react-feather'
 import Scrollbars from 'react-custom-scrollbars'
-import { PanelWrapper, LoadingWrapper, MobileGridContainer, PoolsWrapper } from './styleds'
+import { PanelWrapper, LoadingWrapper, MobileGridContainer, PoolsWrapper, FindButton } from './styleds'
 import DetailModal from '../../DetailModal'
 import DropdownMenu from 'src/components/Beta/DropdownMenu'
 import { Hidden } from 'src/theme'
 import { StakingInfo } from 'src/state/stake/hooks'
+import { Currency } from '@pangolindex/sdk'
+import { useToggleModal } from 'src/state/application/hooks'
+import { ApplicationModal } from 'src/state/application/actions'
 
 export enum SortingType {
   totalStakedInUsd = 'totalStakedInUsd',
@@ -41,6 +44,14 @@ export interface PoolCardListViewProps {
   selectedPool: StakingInfo
 }
 
+export const SearchTokenContext = createContext<{
+  token: Currency | undefined
+  setToken: (token: Currency | undefined) => void
+}>({
+  token: undefined,
+  setToken: () => {} // eslint-disable-line @typescript-eslint/no-empty-function
+})
+
 const PoolCardListView = ({
   version,
   setMenu,
@@ -59,6 +70,10 @@ const PoolCardListView = ({
 
   const theme = useContext(ThemeContext)
 
+  const searchToken = useContext(SearchTokenContext)
+
+  const toggleAddLiquidityModalOpen = useToggleModal(ApplicationModal.ADD_LIQUIDITY)
+
   const renderPoolCardListView = () => {
     if (isLoading && !searchQuery)
       return (
@@ -70,6 +85,11 @@ const PoolCardListView = ({
       return (
         <Box textAlign="center" color="color4">
           {t('earnPage.noActiveRewards')}
+          {searchToken && (
+            <FindButton variant="primary" onClick={toggleAddLiquidityModalOpen}>
+              Find pools
+            </FindButton>
+          )}
         </Box>
       )
     } else {
@@ -121,6 +141,11 @@ const PoolCardListView = ({
           {doesNotPoolExist && searchQuery ? (
             <Box textAlign="center" color="color4">
               {t('pool.noFarms')}
+              {searchToken && (
+                <FindButton variant="primary" onClick={toggleAddLiquidityModalOpen}>
+                  Find pools
+                </FindButton>
+              )}
             </Box>
           ) : (
             <Scrollbars>

@@ -12,19 +12,21 @@ import { useChainId } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 
 interface Props {
+  token0?: Currency
+  token1?: Currency
   isOpen: boolean
   onClose: () => void
 }
 
-const AddLiquidityModal = ({ isOpen, onClose }: Props) => {
+const AddLiquidityModal = ({ token0, token1, isOpen, onClose }: Props) => {
   const theme = useContext(ThemeContext)
   const chainId = useChainId()
 
   const { t } = useTranslation()
 
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN0)
-  const [currency0, setCurrency0] = useState<Currency | undefined>(CAVAX[chainId])
-  const [currency1, setCurrency1] = useState<Currency | undefined>(undefined)
+  const [currency0, setCurrency0] = useState<Currency | undefined>(token0 ?? CAVAX[chainId])
+  const [currency1, setCurrency1] = useState<Currency | undefined>(token1)
 
   const [showSearch, setShowSearch] = useState<boolean>(false)
 
