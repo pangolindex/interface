@@ -119,7 +119,6 @@
     "pool": "矿池",
     "importPool": "导入矿池中",
     "createPair": "创建一个交易对",
-    "findPool": "找到你的游泳池",
     "addLiquidity": "增加流动性",
     "removeLiquidity": "去除流动性",
     "whenYouAddLiquidityInfo": "当您增加流动性时，您将获得代表您部位的LP代币。这些代币会自动赚取与您在池中所占份额成比例的费用，并且可以随时赎回。",

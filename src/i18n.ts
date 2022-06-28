@@ -5,7 +5,7 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 
 export const availableLanguages = ['en', 'de', 'tr', 'zh', 'es', 'fr', 'pt-br', 'vn']
 export const defaultLocale = 'en'
-const LOCALE_VERSION = '1.6.5'
+const LOCALE_VERSION = '1.6.4'
 
 const determineLngFn = (code: string): string => {
   if (!code || code.length === 0) {

@@ -119,7 +119,6 @@
     "pool": "Bể",
     "importPool": "Nhập bể",
     "createPair": "Tạo cặp",
-    "findPool": "Tìm hồ bơi của bạn",
     "addLiquidity": "Thêm thanh khoản",
     "removeLiquidity": "Loại bỏ thanh khoản",
     "whenYouAddLiquidityInfo": "Khi bạn thêm thanh khoản, bạn sẽ nhận được mã token chung đại diện cho cổ phần của bạn trong bể. Các mã token này sẽ được tự động phân phối phần thưởng dựa vào cổ phần của bạn trong bể. Bạn có thể đổi mã token của mình trong bể bất cứ lúc nào!",

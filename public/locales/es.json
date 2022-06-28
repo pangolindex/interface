@@ -119,7 +119,6 @@
     "pool": "Pool",
     "importPool": "Importar Pool",
     "createPair": "Crear una pareja",
-    "findPool": "Encuentra tu Pool",
     "addLiquidity": "Añadir Liquidez",
     "removeLiquidity": "Retirar Liquidez",
     "whenYouAddLiquidityInfo": "Cuando añade liquidez, se le dan pool tokens que represenan su posición. Estos tokens recolectan las tasas automáticamente de forma proporcional a su parte total de la pool, y pueden ser reclamados en cualquier momento.",
