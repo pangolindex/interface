@@ -4,7 +4,7 @@ import { Currency, TokenAmount, CHAINS } from '@pangolindex/sdk'
 import { StateContainer } from './styleds'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
-import useUSDCPrice from 'src/utils/useUSDCPrice'
+import { useUSDCPrice } from 'src/utils/useUSDCPrice'
 import { useChainId } from 'src/hooks'
 
 interface Props {
