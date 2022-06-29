@@ -39,7 +39,7 @@ export default function CurrencyLogo({
     if (chainId && currency === CAVAX[chainId]) return []
 
     if (currency instanceof Token) {
-      const primarySrc = getTokenLogoURL(currency.address, imageSize)
+      const primarySrc = getTokenLogoURL(currency.address, chainId, imageSize)
       return [primarySrc, ...uriLocations]
     }
 

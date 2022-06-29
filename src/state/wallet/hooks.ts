@@ -106,7 +106,7 @@ export function useNearTokenBalance(account?: string, token?: Token): TokenAmoun
   useEffect(() => {
     async function checkTokenBalance() {
       if (token) {
-        const balance = await nearFn.getNearTokenBalance(token?.address, account)
+        const balance = await nearFn.getTokenBalance(token?.address, account)
         const nearBalance = new TokenAmount(token, balance)
 
         setTokenBalance(nearBalance)

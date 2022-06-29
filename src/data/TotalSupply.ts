@@ -27,7 +27,7 @@ export function useNearTotalSupply(token?: Token): TokenAmount | undefined {
   useEffect(() => {
     async function checkTokenBalance() {
       if (token) {
-        const balance = await nearFn.getNearTotalSupply(token?.address)
+        const balance = await nearFn.getTotalSupply(token?.address)
         const nearBalance = new TokenAmount(token, balance)
 
         setTotalSupply(nearBalance)

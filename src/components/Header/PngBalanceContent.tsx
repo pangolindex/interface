@@ -173,7 +173,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                                 address: png?.address,
                                 symbol: png?.symbol,
                                 decimals: png?.decimals,
-                                image: getTokenLogoURL(PNG[ChainId.AVALANCHE].address, 48)
+                                image: getTokenLogoURL(PNG[ChainId.AVALANCHE].address, chainId, 48)
                               }
                             }
                           })
