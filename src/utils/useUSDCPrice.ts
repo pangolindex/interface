@@ -81,6 +81,7 @@ export function useUSDCPrice(currency?: Currency): Price | undefined {
   ])
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function useNearUSDCPrice(_currency?: Currency): Price | undefined {
   return undefined
 }

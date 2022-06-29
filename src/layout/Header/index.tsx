@@ -45,13 +45,7 @@ export default function Header() {
 
   const useETHBalances = useAccountBalanceHook[chainId]
 
-  const accounts = useMemo(() => {
-    if (account) {
-      return [account]
-    } else {
-      return []
-    }
-  }, [account])
+  const accounts = useMemo(() => (account ? [account] : []), [account])
 
   const userEthBalance = useETHBalances(chainId, accounts)?.[account ?? '']
 
