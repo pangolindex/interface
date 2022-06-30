@@ -24,20 +24,21 @@ import {
   NetworkCard,
   BalanceText,
   ThemeMode,
-  MobileHeader,
-  FooterMobileControls,
-  MobileLogoWrapper,
   LegacyButtonWrapper
 } from './styled'
 import { useTranslation } from 'react-i18next'
-import MobileFooter from '../MobileFooter'
-import { Logo } from '../../components/Icons'
 import { Hidden, MEDIA_WIDTHS } from 'src/theme'
 import { useChainId } from 'src/hooks'
 import { NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
 import { useMedia } from 'react-use'
+import { MobileHeader } from './MobileHeader'
 
-export default function Header() {
+interface Props {
+  activedMobileMenu: boolean
+  handleMobileMenu: () => void
+}
+
+export default function Header({ activedMobileMenu, handleMobileMenu }: Props) {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const { t } = useTranslation()
@@ -70,15 +71,44 @@ export default function Header() {
       <Modal isOpen={showPngBalanceModal} onDismiss={() => setShowPngBalanceModal(false)}>
         {showPngBalanceModal && <PngBalanceContent setShowPngBalanceModal={setShowPngBalanceModal} />}
       </Modal>
-      {isMobile && (
-        <MobileHeader>
-          <MobileLogoWrapper>
-            <Logo height={30} width={140} fillColor={theme.color6} />
-          </MobileLogoWrapper>
-
-          <Box display="flex" alignItems="center">
-            <Web3Status />
-
+      {isMobile ? (
+        <MobileHeader activedMobileMenu={activedMobileMenu} handleMobileMenu={handleMobileMenu} />
+      ) : (
+        <HeaderControls>
+          <HeaderElement>
+            <LegacyButtonWrapper>
+              <Button variant="primary" height={36} padding="4px 6px" href="/" as="a">
+                <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
+              </Button>
+            </LegacyButtonWrapper>
+            <Hidden upToSmall={true}>
+              <NetworkSelection open={openNetworkSelection} closeModal={closeNetworkSelection} />
+              {chainId && NETWORK_LABELS[chainId] && (
+                <NetworkCard
+                  title={NETWORK_LABELS[chainId]}
+                  onClick={() => setOpenNetworkSelection(!openNetworkSelection)}
+                >
+                  {NETWORK_LABELS[chainId]}
+                </NetworkCard>
+              )}
+            </Hidden>
+            <PNGWrapper onClick={() => setShowPngBalanceModal(true)}>
+              <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
+                PNG
+              </PNGAmount>
+              <CardNoise />
+            </PNGWrapper>
+            <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
+              {account && userEthBalance ? (
+                <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
+                  {userEthBalance?.toSignificant(4)} {NETWORK_CURRENCY[chainId]}
+                </BalanceText>
+              ) : null}
+              <Web3Status />
+            </AccountElement>
+          </HeaderElement>
+          <HeaderElementWrap>
+            <LanguageSelection isBeta={true} />
             <ThemeMode onClick={() => toggleDarkMode()}>
               {isDark ? (
                 <img width={'16px'} src={LightMode} alt={'Setting'} />
@@ -86,58 +116,9 @@ export default function Header() {
                 <img width={'16px'} src={NightMode} alt={'NightMode'} />
               )}
             </ThemeMode>
-          </Box>
-        </MobileHeader>
+          </HeaderElementWrap>
+        </HeaderControls>
       )}
-
-      <FooterMobileControls>
-        <MobileFooter />
-      </FooterMobileControls>
-
-      <HeaderControls>
-        <HeaderElement>
-          <LegacyButtonWrapper>
-            <Button variant="primary" height={36} padding="4px 6px" href="/" as="a">
-              <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
-            </Button>
-          </LegacyButtonWrapper>
-          <Hidden upToSmall={true}>
-            <NetworkSelection open={openNetworkSelection} closeModal={closeNetworkSelection} />
-            {chainId && NETWORK_LABELS[chainId] && (
-              <NetworkCard
-                title={NETWORK_LABELS[chainId]}
-                onClick={() => setOpenNetworkSelection(!openNetworkSelection)}
-              >
-                {NETWORK_LABELS[chainId]}
-              </NetworkCard>
-            )}
-          </Hidden>
-          <PNGWrapper onClick={() => setShowPngBalanceModal(true)}>
-            <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
-              PNG
-            </PNGAmount>
-            <CardNoise />
-          </PNGWrapper>
-          <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
-            {account && userEthBalance ? (
-              <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                {userEthBalance?.toSignificant(4)} {NETWORK_CURRENCY[chainId]}
-              </BalanceText>
-            ) : null}
-            <Web3Status />
-          </AccountElement>
-        </HeaderElement>
-        <HeaderElementWrap>
-          <LanguageSelection isBeta={true} />
-          <ThemeMode onClick={() => toggleDarkMode()}>
-            {isDark ? (
-              <img width={'16px'} src={LightMode} alt={'Setting'} />
-            ) : (
-              <img width={'16px'} src={NightMode} alt={'NightMode'} />
-            )}
-          </ThemeMode>
-        </HeaderElementWrap>
-      </HeaderControls>
     </HeaderFrame>
   )
 }

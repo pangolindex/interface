@@ -9,17 +9,24 @@ export const FooterFrame = styled.footer`
   grid-template-columns: 75% 25%;
   align-items: center;
   background-color: ${({ theme }) => theme.color2};
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    grid-template-columns: 1fr;
+  `};
 `
 
 export const Policies = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    justify-content: center;
+  `};
 `
 
 export const Button = styled(Text)`
   color: ${({ theme }) => theme.text1};
-  font-size: 14px;
   cursor: pointer;
   &:hover {
     text-decoration: underline;
@@ -37,6 +44,11 @@ export const Content = styled(Box)`
   width: 70vw;
   height: 70vh;
   padding: 30px;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    width: 100%;
+    height: 100%;
+  `};
 `
 
 export const PolicyText = styled(Box)`

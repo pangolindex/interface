@@ -22,6 +22,10 @@ export const IconWrapper = styled.div<{ collapsed: boolean }>`
 export const Icon = styled.img`
   margin-right: 5px;
   margin-top: 5px;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    height: 24px;
+  `};
 `
 
 export const Link = styled(ExternalLink)`

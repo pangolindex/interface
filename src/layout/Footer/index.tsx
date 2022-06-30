@@ -25,11 +25,17 @@ export default function Footer() {
     <FooterFrame>
       <PolicyModal selectPolicy={selectedPolicy} open={selectedPolicy.length > 0} closeModal={closeModal} />
       <Policies>
-        <Button onClick={() => openModal(PrivacyPolicy)}>Privacy Policy</Button>
+        <Button fontSize={['12px', '16px']} onClick={() => openModal(PrivacyPolicy)}>
+          Privacy Policy
+        </Button>
         <Circle style={{ marginLeft: 10, marginRight: 10 }} size={5} stroke={theme.text1} fill={theme.text1} />
-        <Button onClick={() => openModal(TermsService)}>Terms of Service</Button>
+        <Button fontSize={['12px', '16px']} onClick={() => openModal(TermsService)}>
+          Terms of Service
+        </Button>
         <Circle style={{ marginLeft: 10, marginRight: 10 }} size={5} stroke={theme.text1} fill={theme.text1} />
-        <Button onClick={() => openModal(CookiePolicy)}>Cookie Policy</Button>
+        <Button fontSize={['12px', '16px']} onClick={() => openModal(CookiePolicy)}>
+          Cookie Policy
+        </Button>
       </Policies>
       <Box display="flex" justifyContent="center">
         <Text color="text1">Powered by</Text>
