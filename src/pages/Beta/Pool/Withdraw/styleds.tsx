@@ -21,6 +21,6 @@ export const RewardWrapper = styled(Box)`
 export const StatWrapper = styled(Box)`
   text-align: center;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 `
