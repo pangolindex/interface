@@ -5,10 +5,17 @@ import Sidebar, { MenuType } from './Sidebar'
 import AllPoolList from './AllPoolList'
 import Wallet from './Wallet'
 import { useTranslation } from 'react-i18next'
-import { useStakingInfo, useGetMinichefStakingInfosViaSubgraph, useGetAllFarmData } from 'src/state/stake/hooks'
+import {
+  useStakingInfo,
+  useGetMinichefStakingInfosViaSubgraph,
+  useGetAllFarmData,
+  useMinichefStakingInfosMapping,
+  MinichefStakingInfo
+} from 'src/state/stake/hooks'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
 import AddLiquidityModal from './AddLiquidityModal'
+import { useChainId } from 'src/hooks'
 
 export enum PoolType {
   own = 'own',
@@ -17,6 +24,7 @@ export enum PoolType {
 }
 
 const PoolUI = () => {
+  const chainId = useChainId()
   const [activeMenu, setMenu] = useState<string>(MenuType.allFarmV2)
   const [isAddLiquidityModalOpen, setAddLiquidityModalOpen] = useState<boolean>(false)
   const { t } = useTranslation()
@@ -24,6 +32,7 @@ const PoolUI = () => {
   useGetAllFarmData()
 
   let miniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
+  const onChainMiniChefStakingInfo = useMinichefStakingInfosMapping[chainId]()
 
   const handleAddLiquidityModalClose = useCallback(() => {
     setAddLiquidityModalOpen(false)
@@ -45,11 +54,16 @@ const PoolUI = () => {
   )
 
   // filter only live or needs migration pools
-  miniChefStakingInfo = useMemo(
-    () =>
-      (miniChefStakingInfo || []).filter(info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)),
-    [miniChefStakingInfo]
-  )
+  miniChefStakingInfo = useMemo(() => {
+    if (miniChefStakingInfo.length === 0 && onChainMiniChefStakingInfo.length > 0) {
+      return onChainMiniChefStakingInfo.filter(
+        info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+      ) as MinichefStakingInfo[]
+    }
+    return (miniChefStakingInfo || []).filter(
+      info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+    )
+  }, [miniChefStakingInfo, onChainMiniChefStakingInfo])
 
   const ownminiChefStakingInfo = useMemo(
     () =>

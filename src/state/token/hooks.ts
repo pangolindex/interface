@@ -1,4 +1,4 @@
-import { blockClient } from '../../apollo/client'
+import { avalancheBlockClient as blockClient } from '../../apollo/client'
 import { GET_BLOCKS } from '../../apollo/block'
 import { splitQuery } from 'src/utils/query'
 import dayjs from 'dayjs'
