@@ -1,6 +1,5 @@
-import { Button, Box, NetworkSelection, useAccountBalanceHook } from '@pangolindex/components'
-import React, { useContext, useState, useRef, useMemo } from 'react'
-import { ThemeContext } from 'styled-components'
+import { Button, NetworkSelection, useAccountBalanceHook } from '@pangolindex/components'
+import React, { useState, useRef, useMemo } from 'react'
 import { useActiveWeb3React } from '../../hooks'
 import { CardNoise } from '../../components/earn/styled'
 import Web3Status from '../../components/Web3Status'
@@ -42,7 +41,6 @@ export default function Header({ activedMobileMenu, handleMobileMenu }: Props) {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const { t } = useTranslation()
-  const theme = useContext(ThemeContext)
 
   const useETHBalances = useAccountBalanceHook[chainId]
 
