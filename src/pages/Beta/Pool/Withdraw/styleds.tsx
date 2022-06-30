@@ -4,12 +4,12 @@ import styled from 'styled-components'
 export const WithdrawWrapper = styled(Box)`
   width: 100%;
   height: 100%;
+  padding: 10px;
 `
 export const Root = styled(Box)`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0px 10px;
 `
 export const RewardWrapper = styled(Box)`
   display: grid;

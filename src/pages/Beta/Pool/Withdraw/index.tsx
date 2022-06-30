@@ -10,6 +10,8 @@ import { useStakingContract } from 'src/hooks/useContract'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 import Stat from 'src/components/Stat'
+import RemoveLiquidityDrawer from '../RemoveLiquidityDrawer'
+import { usePair } from 'src/data/Reserves'
 
 interface WithdrawProps {
   stakingInfo: StakingInfo
@@ -18,7 +20,7 @@ interface WithdrawProps {
 }
 const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   const { account } = useActiveWeb3React()
-
+  const [isRemoveLiquidityDrawerVisible, setShowRemoveLiquidityDrawer] = useState(false)
   const { t } = useTranslation()
 
   // monitor call to help UI loading state
@@ -55,6 +57,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
       // TODO: Support withdrawing partial amounts for v2+
       try {
         const response: TransactionResponse = await stakingContract[method](...args)
+        console.log('response', response)
         await response.wait(1)
         addTransaction(response, {
           summary: t('earn.withdrawDepositedLiquidity')
@@ -82,6 +85,13 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   const { earnedAmount } = useGetEarnedAmount(stakingInfo?.pid as string)
 
   const newEarnedAmount = version < 2 ? stakingInfo?.earnedAmount : earnedAmount
+
+  const token0 = stakingInfo.tokens[0]
+  const token1 = stakingInfo.tokens[1]
+
+  const [, stakingTokenPair] = usePair(token0, token1)
+
+  console.log('hash', hash)
 
   return (
     <WithdrawWrapper>
@@ -133,7 +143,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
             </RewardWrapper>
           </Box>
 
-          <Box my={'10px'}>
+          <Box>
             <Button variant="primary" onClick={onWithdraw}>
               {error ?? t('earn.withdrawAndClaim')}
             </Button>
@@ -146,9 +156,20 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
       {hash && (
         <TransactionCompleted
           onClose={wrappedOnDismiss}
-          submitText={`${t('earn.withdrewStakingToken', { symbol: 'PGL' })} & ${t('earn.claimedReward', {
-            symbol: 'PNG'
-          })}`}
+          submitText={t('pool.successWithdraw')}
+          isShowButtton={true}
+          onButtonClick={() => setShowRemoveLiquidityDrawer(true)}
+          buttonText={t('navigationTabs.removeLiquidity')}
+        />
+      )}
+
+      {isRemoveLiquidityDrawerVisible && stakingTokenPair && (
+        <RemoveLiquidityDrawer
+          isOpen={isRemoveLiquidityDrawerVisible}
+          onClose={() => {
+            setShowRemoveLiquidityDrawer(false)
+          }}
+          clickedLpTokens={[stakingTokenPair?.token0, stakingTokenPair?.token1]}
         />
       )}
     </WithdrawWrapper>

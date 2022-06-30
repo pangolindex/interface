@@ -378,7 +378,8 @@
     "allFarms": "Alle Bauernhöfe",
     "yourFarms": "Ihre Höfe",
     "yourPools": "Ihre Pools",
-    "noFarms": "Keine Höfe gefunden."
+    "noFarms": "Keine Höfe gefunden.",
+    "successWithdraw": "Ihre Liquidität wurde aus der Farm entfernt und aufgelaufene Prämien eingefordert!"
   },
   "poolFinder": {
     "connectToFind": "Verbinde mit einer Wallet, um Pools zu finden",
