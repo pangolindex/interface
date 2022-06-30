@@ -974,7 +974,7 @@ export const getExtraTokensWeeklyRewardRate = (
 }
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-const useDummyEmptyHook = (version?: number, pairToFilterBy?: Pair | null) => {
+const useDummyMinichefHook = (version?: number, pairToFilterBy?: Pair | null) => {
   return [] as StakingInfo[]
 }
 
@@ -1320,11 +1320,11 @@ export const useMinichefStakingInfosMapping: {
   [chainId in ChainId]: (version?: number, pairToFilterBy?: Pair | null) => StakingInfo[]
 } = {
   [ChainId.FUJI]: useMinichefStakingInfos,
-  [ChainId.AVALANCHE]: useDummyEmptyHook,
+  [ChainId.AVALANCHE]: useDummyMinichefHook,
   [ChainId.WAGMI]: useMinichefStakingInfos,
   [ChainId.COSTON]: useMinichefStakingInfos,
-  [ChainId.NEAR_MAINNET]: useDummyEmptyHook,
-  [ChainId.NEAR_TESTNET]: useDummyEmptyHook
+  [ChainId.NEAR_MAINNET]: useDummyMinichefHook,
+  [ChainId.NEAR_TESTNET]: useDummyMinichefHook
 }
 
 export function useGetPoolDollerWorth(pair: Pair | null) {
@@ -1868,7 +1868,9 @@ export const useGetFarmApr = (pid: string) => {
 
 export const useSortFarmAprs = () => {
   const chainId = useChainId()
-  const aprs = useSelector<AppState, AppState['stake']['aprs'][ChainId.AVALANCHE]>(state => state?.stake?.aprs[chainId])
+  const aprs = useSelector<AppState, AppState['stake']['aprs'][ChainId.AVALANCHE]>(
+    state => state?.stake?.aprs?.[chainId]
+  )
 
   return useMemo(() => (aprs ? Object.values(aprs).sort((a, b) => b.combinedApr - a.combinedApr) : []), [aprs])
 }
