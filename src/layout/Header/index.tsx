@@ -1,8 +1,7 @@
-import { Button, Box, NetworkSelection } from '@pangolindex/components'
-import React, { useContext, useState, useRef } from 'react'
+import { Button, Box, NetworkSelection, useAccountBalanceHook } from '@pangolindex/components'
+import React, { useContext, useState, useRef, useMemo } from 'react'
 import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
-import { useETHBalances } from '../../state/wallet/hooks'
 import { CardNoise } from '../../components/earn/styled'
 import Web3Status from '../../components/Web3Status'
 import Modal from '../../components/Modal'
@@ -43,7 +42,12 @@ export default function Header() {
   const chainId = useChainId()
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
-  const userEthBalance = useETHBalances(chainId, account ? [account] : [])?.[account ?? '']
+
+  const useETHBalances = useAccountBalanceHook[chainId]
+
+  const accounts = useMemo(() => (account ? [account] : []), [account])
+
+  const userEthBalance = useETHBalances(chainId, accounts)?.[account ?? '']
 
   const [showPngBalanceModal, setShowPngBalanceModal] = useState(false)
   const [openNetworkSelection, setOpenNetworkSelection] = useState(false)

@@ -6,6 +6,7 @@ import LimitOrderList from './LimitOrderList'
 import { useChainId } from 'src/hooks'
 import { CHAINS } from '@pangolindex/sdk'
 import { isEvmChain } from 'src/utils'
+import ComingSoon from 'src/components/Beta/ComingSoon'
 
 const SwapUI = () => {
   const { allOrders } = useGelatoLimitOrderList()
@@ -15,9 +16,7 @@ const SwapUI = () => {
   return (
     <PageWrapper>
       <TopContainer>
-        <StatsWrapper>
-          <PairInfo />
-        </StatsWrapper>
+        <StatsWrapper>{isEvmChain(chainId) ? <PairInfo /> : <ComingSoon />}</StatsWrapper>
         <SwapWidget isLimitOrderVisible={CHAINS[chainId]?.mainnet} />
       </TopContainer>
 

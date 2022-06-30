@@ -115,7 +115,7 @@ export default function Migrate({
                     address: token.address,
                     symbol: token.symbol,
                     decimals: token.decimals,
-                    image: getTokenLogoURL(token.address, 48)
+                    image: getTokenLogoURL(token.address, chainId, 48)
                   }
                 }
               })

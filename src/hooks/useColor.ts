@@ -4,9 +4,10 @@ import Vibrant from 'node-vibrant'
 import { hex } from 'wcag-contrast'
 import { Token } from '@pangolindex/sdk'
 import { getTokenLogoURL } from '../constants'
+import { useChainId } from 'src/hooks'
 
-async function getColorFromToken(token: Token): Promise<string | null> {
-  const path = getTokenLogoURL(token.address)
+async function getColorFromToken(token: Token, chainId: number): Promise<string | null> {
+  const path = getTokenLogoURL(token.address, chainId)
 
   return Vibrant.from(path)
     .getPalette()
@@ -27,12 +28,13 @@ async function getColorFromToken(token: Token): Promise<string | null> {
 
 export function useColor(token?: Token) {
   const [color, setColor] = useState('#2172E5')
+  const chainId = useChainId()
 
   useLayoutEffect(() => {
     let stale = false
 
     if (token) {
-      getColorFromToken(token).then(tokenColor => {
+      getColorFromToken(token, chainId).then(tokenColor => {
         if (!stale && tokenColor !== null) {
           setColor(tokenColor)
         }
@@ -43,7 +45,7 @@ export function useColor(token?: Token) {
       stale = true
       setColor('#2172E5')
     }
-  }, [token])
+  }, [token, chainId])
 
   return color
 }
