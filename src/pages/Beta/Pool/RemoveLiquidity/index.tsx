@@ -25,8 +25,8 @@ import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 
 interface RemoveLiquidityProps {
-  currencyA: Currency
-  currencyB: Currency
+  currencyA?: Currency
+  currencyB?: Currency
 }
 
 const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {

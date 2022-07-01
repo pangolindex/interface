@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Box, Button } from '@pangolindex/components'
-import { WithdrawWrapper, RewardWrapper, Root, StatWrapper } from './styleds'
+import { FarmRemoveWrapper, RewardWrapper, Root, StatWrapper } from './styleds'
 import { StakingInfo, useMinichefPools, useMinichefPendingRewards, useGetEarnedAmount } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
@@ -11,14 +11,13 @@ import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 import Stat from 'src/components/Stat'
 import RemoveLiquidityDrawer from '../RemoveLiquidityDrawer'
-import { usePair } from 'src/data/Reserves'
 
 interface WithdrawProps {
   stakingInfo: StakingInfo
   version: number
   onClose: () => void
 }
-const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
+const FarmRemove = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   const { account } = useActiveWeb3React()
   const [isRemoveLiquidityDrawerVisible, setShowRemoveLiquidityDrawer] = useState(false)
   const { t } = useTranslation()
@@ -57,7 +56,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
       // TODO: Support withdrawing partial amounts for v2+
       try {
         const response: TransactionResponse = await stakingContract[method](...args)
-        console.log('response', response)
+
         await response.wait(1)
         addTransaction(response, {
           summary: t('earn.withdrawDepositedLiquidity')
@@ -89,12 +88,8 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
-  const [, stakingTokenPair] = usePair(token0, token1)
-
-  console.log('hash', hash)
-
   return (
-    <WithdrawWrapper>
+    <FarmRemoveWrapper>
       {!attempting && !hash && (
         <Root>
           <Box flex="1">
@@ -102,11 +97,11 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
               {stakingInfo?.stakedAmount && (
                 <StatWrapper>
                   <Stat
-                    title={t('earn.unclaimedReward', { symbol: 'PGL' })}
+                    title={t('earn.depositedToken', { symbol: 'PGL' })}
                     stat={stakingInfo?.stakedAmount?.toSignificant(4)}
                     titlePosition="top"
                     titleFontSize={12}
-                    statFontSize={24}
+                    statFontSize={20}
                     titleColor="text1"
                     statAlign="center"
                   />
@@ -119,7 +114,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
                     stat={newEarnedAmount?.toSignificant(4)}
                     titlePosition="top"
                     titleFontSize={12}
-                    statFontSize={24}
+                    statFontSize={20}
                     titleColor="text1"
                     statAlign="center"
                   />
@@ -134,7 +129,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
                       stat={rewardAmount?.toSignificant(4)}
                       titlePosition="top"
                       titleFontSize={12}
-                      statFontSize={24}
+                      statFontSize={20}
                       titleColor="text1"
                       statAlign="center"
                     />
@@ -163,16 +158,16 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
         />
       )}
 
-      {isRemoveLiquidityDrawerVisible && stakingTokenPair && (
+      {isRemoveLiquidityDrawerVisible && (
         <RemoveLiquidityDrawer
           isOpen={isRemoveLiquidityDrawerVisible}
           onClose={() => {
             setShowRemoveLiquidityDrawer(false)
           }}
-          clickedLpTokens={[stakingTokenPair?.token0, stakingTokenPair?.token1]}
+          clickedLpTokens={[token0, token1]}
         />
       )}
-    </WithdrawWrapper>
+    </FarmRemoveWrapper>
   )
 }
-export default Withdraw
+export default FarmRemove
