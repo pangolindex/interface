@@ -22,6 +22,7 @@ interface WithdrawProps {
 const Remove = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   const chainId = useChainId()
   const [removeType, setRemoveType] = useState(REMOVE_TYPE.FARM as string)
+  const [showRemoveTab, setShowRemoveTab] = useState<boolean>(true)
   const { t } = useTranslation()
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
@@ -33,7 +34,15 @@ const Remove = ({ stakingInfo, version, onClose }: WithdrawProps) => {
 
   const renderRemoveContent = () => {
     if (!!userLiquidity && Number(userLiquidity?.toSignificant()) > 0) {
-      return <RemoveLiquidity currencyA={currencyA} currencyB={currencyB} />
+      return (
+        <RemoveLiquidity
+          currencyA={currencyA}
+          currencyB={currencyB}
+          showTab={(show: boolean) => {
+            setShowRemoveTab(show)
+          }}
+        />
+      )
     } else {
       return (
         <Box display="flex" justifyContent="center" alignItems="center" height="100%">
@@ -47,17 +56,27 @@ const Remove = ({ stakingInfo, version, onClose }: WithdrawProps) => {
 
   return (
     <RemoveWrapper>
-      <Box mt="5px" width="100%" mb="5px">
-        <ToggleButtons
-          options={[REMOVE_TYPE.FARM, REMOVE_TYPE.LIQUIDITY]}
-          value={removeType}
-          onChange={value => {
-            setRemoveType(value)
+      {showRemoveTab && (
+        <Box mt="5px" width="100%" mb="5px">
+          <ToggleButtons
+            options={[REMOVE_TYPE.FARM, REMOVE_TYPE.LIQUIDITY]}
+            value={removeType}
+            onChange={value => {
+              setRemoveType(value)
+            }}
+          />
+        </Box>
+      )}
+
+      {removeType === REMOVE_TYPE.FARM ? (
+        <RemoveFarm
+          stakingInfo={stakingInfo}
+          onClose={onClose}
+          version={version}
+          showTab={(show: boolean) => {
+            setShowRemoveTab(show)
           }}
         />
-      </Box>
-      {removeType === REMOVE_TYPE.FARM ? (
-        <RemoveFarm stakingInfo={stakingInfo} onClose={onClose} version={version} />
       ) : (
         renderRemoveContent()
       )}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, Button } from '@pangolindex/components'
 import { FarmRemoveWrapper, RewardWrapper, Root, StatWrapper } from './styleds'
 import { StakingInfo, useMinichefPools, useMinichefPendingRewards, useGetEarnedAmount } from 'src/state/stake/hooks'
@@ -16,8 +16,9 @@ interface WithdrawProps {
   stakingInfo: StakingInfo
   version: number
   onClose: () => void
+  showTab?: (value: boolean) => void
 }
-const RemoveFarm = ({ stakingInfo, version, onClose }: WithdrawProps) => {
+const RemoveFarm = ({ stakingInfo, version, onClose, showTab }: WithdrawProps) => {
   const { account } = useActiveWeb3React()
   const [isRemoveLiquidityDrawerVisible, setShowRemoveLiquidityDrawer] = useState(false)
   const { t } = useTranslation()
@@ -33,6 +34,18 @@ const RemoveFarm = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 
   const isSuperFarm = (rewardTokensAmount || [])?.length > 0
+
+  useEffect(() => {
+    if (showTab) {
+      if (hash || attempting) {
+        showTab(false)
+      } else {
+        showTab(true)
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hash, attempting])
 
   function wrappedOnDismiss() {
     setHash(undefined)

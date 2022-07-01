@@ -27,9 +27,10 @@ import Loader from 'src/components/Beta/Loader'
 interface RemoveLiquidityProps {
   currencyA?: Currency
   currencyB?: Currency
+  showTab?: (value: boolean) => void
 }
 
-const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
+const RemoveLiquidity = ({ currencyA, currencyB, showTab }: RemoveLiquidityProps) => {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const { library, provider } = useLibrary()
@@ -87,6 +88,18 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
   useEffect(() => {
     _onUserInput(Field.LIQUIDITY_PERCENT, `100`)
   }, [_onUserInput])
+
+  useEffect(() => {
+    if (showTab) {
+      if (hash || attempting) {
+        showTab(false)
+      } else {
+        showTab(true)
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hash, attempting])
 
   async function onAttemptToApprove() {
     if (!pairContract || !pair || !library || !deadline || !chainId || !account)
