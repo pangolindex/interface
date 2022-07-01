@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { Box, ToggleButtons } from '@pangolindex/components'
+import { Box, ToggleButtons, Text } from '@pangolindex/components'
 import { RemoveWrapper } from './styleds'
 import { StakingInfo } from 'src/state/stake/hooks'
 import RemoveLiquidity from '../RemoveLiquidity'
 import FarmRemove from '../FarmRemove'
 import { useChainId } from 'src/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
+import { useDerivedBurnInfo } from 'src/state/burn/hooks'
+import { useTranslation } from 'react-i18next'
 
 enum REMOVE_TYPE {
   FARM = 'Farm',
@@ -20,12 +22,28 @@ interface WithdrawProps {
 const Remove = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   const chainId = useChainId()
   const [removeType, setRemoveType] = useState(REMOVE_TYPE.FARM as string)
-
+  const { t } = useTranslation()
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
   const currencyA = unwrappedToken(token0, chainId)
   const currencyB = unwrappedToken(token1, chainId)
+
+  const { userLiquidity } = useDerivedBurnInfo(currencyA ?? undefined, currencyB ?? undefined)
+
+  const renderRemoveContent = () => {
+    if (!!userLiquidity && Number(userLiquidity?.toSignificant()) > 0) {
+      return <RemoveLiquidity currencyA={currencyA} currencyB={currencyB} />
+    } else {
+      return (
+        <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+          <Text color="text2" fontSize={16} fontWeight={500} textAlign="center">
+            {t('pool.noLiquidity')}
+          </Text>
+        </Box>
+      )
+    }
+  }
 
   return (
     <RemoveWrapper>
@@ -41,7 +59,7 @@ const Remove = ({ stakingInfo, version, onClose }: WithdrawProps) => {
       {removeType === REMOVE_TYPE.FARM ? (
         <FarmRemove stakingInfo={stakingInfo} onClose={onClose} version={version} />
       ) : (
-        <RemoveLiquidity currencyA={currencyA} currencyB={currencyB} />
+        renderRemoveContent()
       )}
     </RemoveWrapper>
   )
