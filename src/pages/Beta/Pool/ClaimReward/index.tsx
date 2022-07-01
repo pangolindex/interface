@@ -88,7 +88,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
                   stat={newEarnedAmount?.toSignificant(4)}
                   titlePosition="top"
                   titleFontSize={12}
-                  statFontSize={24}
+                  statFontSize={[24, 18]}
                   titleColor="text1"
                   statAlign="center"
                 />
@@ -102,7 +102,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
                       stat={rewardAmount?.toSignificant(4)}
                       titlePosition="top"
                       titleFontSize={12}
-                      statFontSize={24}
+                      statFontSize={[24, 18]}
                       titleColor="text1"
                       statAlign="center"
                     />

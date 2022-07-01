@@ -72,23 +72,23 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
           <ConfirmWrapper>
             <Box display="flex" alignItems="center">
               <Box width="50%">
-                <Text fontSize="26px" fontWeight={500} color="text1">
+                <Text fontSize={['26px', '22px']} fontWeight={500} color="text1">
                   {stakingInfo.stakedAmount?.toSignificant(6)}
                 </Text>
-                <Text fontSize="16px" fontWeight={500} color="text1">
+                <Text fontSize={['16px', '12px']} fontWeight={500} color="text1">
                   {t('earn.depositedToken', { symbol: 'PNG' })}
                 </Text>
               </Box>
               <Box width="50%">
-                <Text fontSize="26px" fontWeight={500} color="text1">
+                <Text fontSize={['26px', '22px']} fontWeight={500} color="text1">
                   {stakingInfo.earnedAmount?.toSignificant(6)}
                 </Text>
-                <Text fontSize="16px" fontWeight={500} color="text1">
+                <Text fontSize={['16px', '12px']} fontWeight={500} color="text1">
                   {t('earn.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}
                 </Text>
               </Box>
             </Box>
-            <Text fontSize="14px" color="text2" mt={20}>
+            <Text fontSize={['14px', '12px']} color="text2" mt={20}>
               You can unstake your rewards.
             </Text>
             <Box flex={1} />

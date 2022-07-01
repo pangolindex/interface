@@ -13,8 +13,8 @@ export interface StatProps {
   stat?: any
   titleColor?: keyof Colors
   statColor?: keyof Colors
-  titleFontSize?: number
-  statFontSize?: number
+  titleFontSize?: number | number[]
+  statFontSize?: number | number[]
   currency?: Currency
   statAlign?: 'center' | 'right' | 'left'
   showAnalytics?: boolean

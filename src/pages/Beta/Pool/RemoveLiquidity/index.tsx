@@ -326,7 +326,7 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
                   value={parsedAmounts[Field.LIQUIDITY]?.toExact() || ''}
                   addonAfter={
                     <Box display="flex" alignItems="center">
-                      <Text color="text4" fontSize={24}>
+                      <Text color="text4" fontSize={[24, 18]}>
                         PGL
                       </Text>
                     </Box>

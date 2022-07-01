@@ -29,7 +29,7 @@ export const DetailsButton = styled(Button)`
   background-color: ${({ theme }) => theme.color2} !important;
   border: solid 1px ${({ theme }) => theme.color4} !important;
   color: ${({ theme }) => theme.color4} !important;
-  font-size: 21px;
+  font-size: 16px;
   font-weight: normal !important;
   line-height: 25px;
   border-radius: 8px !important;
@@ -45,7 +45,7 @@ export const DetailsButton = styled(Button)`
 `
 
 export const VoteButton = styled(Button)`
-  font-size: 21px;
+  font-size: 16px;
   font-weight: normal !important;
   line-height: 25px;
   border-radius: 8px !important;
@@ -60,7 +60,7 @@ export const VoteButton = styled(Button)`
 `
 
 export const Number = styled(Text)`
-  font-size: 28px;
+  font-size: 22px;
   line-height: 42px;
   margin-right: 21px;
   color: ${({ theme }) => theme.text10};
@@ -71,7 +71,7 @@ export const Number = styled(Text)`
 `
 
 export const Title = styled(Text)`
-  font-size: 28px;
+  font-size: 22px;
   line-height: 42px;
   white-space: nowrap;
   overflow: hidden;

@@ -85,8 +85,8 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
                     title={`${t('migratePage.dollarWorth')}`}
                     stat={`${dollerWorth ? `$${dollerWorth?.toFixed(4)}` : '-'}`}
                     titlePosition="top"
-                    titleFontSize={14}
-                    statFontSize={18}
+                    titleFontSize={[14, 12]}
+                    statFontSize={[18, 14]}
                     titleColor="text2"
                   />
                 </Box>
@@ -96,8 +96,8 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
                     title={`${t('earn.weeklyRewards')}`}
                     stat={hypotheticalRewardRatePerWeek ? `${hypotheticalRewardRatePerWeek.toSignificant(4)}` : '-'}
                     titlePosition="top"
-                    titleFontSize={14}
-                    statFontSize={18}
+                    titleFontSize={[14, 12]}
+                    statFontSize={[18, 14]}
                     titleColor="text2"
                     currency={stakingInfo?.rewardToken}
                   />

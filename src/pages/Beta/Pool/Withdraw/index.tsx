@@ -96,7 +96,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
                     stat={stakingInfo?.stakedAmount?.toSignificant(4)}
                     titlePosition="top"
                     titleFontSize={12}
-                    statFontSize={24}
+                    statFontSize={[24, 18]}
                     titleColor="text1"
                     statAlign="center"
                   />
@@ -109,7 +109,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
                     stat={newEarnedAmount?.toSignificant(4)}
                     titlePosition="top"
                     titleFontSize={12}
-                    statFontSize={24}
+                    statFontSize={[24, 18]}
                     titleColor="text1"
                     statAlign="center"
                   />
@@ -124,7 +124,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
                       stat={rewardAmount?.toSignificant(4)}
                       titlePosition="top"
                       titleFontSize={12}
-                      statFontSize={24}
+                      statFontSize={[24, 18]}
                       titleColor="text1"
                       statAlign="center"
                     />

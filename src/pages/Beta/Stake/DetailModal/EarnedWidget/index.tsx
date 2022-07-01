@@ -40,7 +40,7 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
   return (
     <Root>
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Text color="text10" fontSize={24} fontWeight={500}>
+        <Text color="text10" fontSize={['24px', '20px']} fontWeight={500}>
           Earned
         </Text>
 
@@ -65,8 +65,8 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
             title={t('dashboardPage.earned_weeklyIncome')}
             stat={numeral(weeklyRewardUSD).format('$0.00a')}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={[16, 12]}
+            statFontSize={[24, 20]}
             titleColor="text2"
           />
         </Box>
@@ -76,8 +76,8 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
             title={t('dashboardPage.earned_weeklyIncome')}
             stat={weeklyRewardInToken}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={[16, 12]}
+            statFontSize={[24, 20]}
             titleColor="text2"
             currency={rewardToken}
           />
@@ -90,8 +90,8 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
             title={t('dashboardPage.earned_totalEarned')}
             stat={numeral(unclaimedAmountInUSD).format('$0.00a')}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={[16, 12]}
+            statFontSize={[24, 20]}
             titleColor="text2"
           />
         </Box>
@@ -101,8 +101,8 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
             title={t('dashboardPage.earned_totalEarned')}
             stat={unclaimedAmountInToken}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={[16, 12]}
+            statFontSize={[24, 20]}
             titleColor="text2"
             currency={rewardToken}
           />

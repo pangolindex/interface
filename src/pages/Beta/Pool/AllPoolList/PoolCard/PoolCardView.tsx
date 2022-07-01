@@ -141,16 +141,16 @@ const PoolCardView = ({
             title={'Your TVL'}
             stat={numeral((yourStackedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={[16, 14]}
+            statFontSize={[24, 18]}
           />
         ) : (
           <Stat
             title={'TVL'}
             stat={numeral((stakingInfo?.totalStakedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={[16, 14]}
+            statFontSize={[24, 18]}
           />
         )}
 
@@ -158,12 +158,12 @@ const PoolCardView = ({
           title={`APR`}
           stat={combinedApr ? `${combinedApr}%` : '-'}
           titlePosition="top"
-          titleFontSize={16}
-          statFontSize={24}
+          titleFontSize={[16, 14]}
+          statFontSize={[24, 18]}
         />
 
         <Box display="inline-block">
-          <Text color="text1" fontSize={16}>
+          <Text color="text1" fontSize={[16, 14]}>
             {t('earn.rewardsIn')}
           </Text>
 

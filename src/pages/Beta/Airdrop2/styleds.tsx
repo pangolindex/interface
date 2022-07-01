@@ -7,7 +7,7 @@ export const PageWrapper = styled(Box)`
 `
 
 export const MainTitle = styled.p`
-  font-size: 44px;
+  font-size: 32px;
   font-weight: 500;
   line-height: 66px;
   color: white;
