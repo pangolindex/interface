@@ -42,14 +42,7 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
         </Text>
 
         {/* show unstak button */}
-        <Button
-          variant="primary"
-          backgroundColor="color9"
-          color="color4"
-          width="100px"
-          height="30px"
-          onClick={() => setShowRemoveDrawer(true)}
-        >
+        <Button variant="primary" width="100px" height="30px" onClick={() => setShowRemoveDrawer(true)}>
           {t('removeLiquidity.remove')}
         </Button>
       </Box>

@@ -384,7 +384,7 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
               </ContentBox>
             </Box> */}
           </Box>
-          <Box mt={10}>
+          <Box mt={0}>
             {!account ? (
               <Button
                 variant="primary"

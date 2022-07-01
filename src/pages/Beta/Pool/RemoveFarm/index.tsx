@@ -17,7 +17,7 @@ interface WithdrawProps {
   version: number
   onClose: () => void
 }
-const FarmRemove = ({ stakingInfo, version, onClose }: WithdrawProps) => {
+const RemoveFarm = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   const { account } = useActiveWeb3React()
   const [isRemoveLiquidityDrawerVisible, setShowRemoveLiquidityDrawer] = useState(false)
   const { t } = useTranslation()
@@ -170,4 +170,4 @@ const FarmRemove = ({ stakingInfo, version, onClose }: WithdrawProps) => {
     </FarmRemoveWrapper>
   )
 }
-export default FarmRemove
+export default RemoveFarm

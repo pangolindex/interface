@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const FarmRemoveWrapper = styled(Box)`
   width: 100%;
-  height: 100%;
+  flex: 1;
 `
 export const Root = styled(Box)`
   height: 100%;
