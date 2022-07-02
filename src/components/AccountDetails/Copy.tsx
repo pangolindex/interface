@@ -39,12 +39,12 @@ export default function CopyHelper(props: {
     <CopyIcon onClick={() => setCopied(props.toCopy)}>
       {isCopied ? (
         <TransactionStatusText>
-          <CheckCircle size={props.size ?? '16px'} color={props.color} />
+          <CheckCircle size={props?.size ?? '16px'} color={props?.color} />
           <TransactionStatusText>{t('accountDetails.copied')}</TransactionStatusText>
         </TransactionStatusText>
       ) : (
         <TransactionStatusText>
-          <Copy size={props.size ?? '16px'} color={props.color} />
+          <Copy size={props?.size ?? '16px'} color={props?.color} />
         </TransactionStatusText>
       )}
       {isCopied ? '' : props.children}

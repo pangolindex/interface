@@ -9,14 +9,14 @@ import MobileMenu from './Header/MobileMenu'
 const Layout: React.FC<unknown> = ({ children }) => {
   const [isDrawerCollapsed, setIsDrawerCollapsed] = useState(true)
 
-  const [activedMobileMenu, setActivedMobileMenu] = useState(false)
+  const [activeMobileMenu, setActiveMobileMenu] = useState(false)
 
   const handleMobileMenu = () => {
-    if (activedMobileMenu) {
+    if (activeMobileMenu) {
       // when desactive mobile menu then close it and scroll to top
       window.scrollTo(0, 0)
     }
-    setActivedMobileMenu(!activedMobileMenu)
+    setActiveMobileMenu(!activeMobileMenu)
   }
 
   return (
@@ -24,9 +24,9 @@ const Layout: React.FC<unknown> = ({ children }) => {
       <Sidebar collapsed={isDrawerCollapsed} onCollapsed={value => setIsDrawerCollapsed(value)} />
       <MainContent collapsed={isDrawerCollapsed}>
         <URLWarning />
-        <Header activedMobileMenu={activedMobileMenu} handleMobileMenu={handleMobileMenu} />
+        <Header activeMobileMenu={activeMobileMenu} handleMobileMenu={handleMobileMenu} />
         <AppContent>{children}</AppContent>
-        {activedMobileMenu && <MobileMenu activedMobileMenu={activedMobileMenu} handleMobileMenu={handleMobileMenu} />}
+        {activeMobileMenu && <MobileMenu activeMobileMenu={activeMobileMenu} handleMobileMenu={handleMobileMenu} />}
         <Footer />
       </MainContent>
     </Wrapper>

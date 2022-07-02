@@ -33,11 +33,11 @@ import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
 
 interface Props {
-  activedMobileMenu: boolean
+  activeMobileMenu: boolean
   handleMobileMenu: () => void
 }
 
-export default function Header({ activedMobileMenu, handleMobileMenu }: Props) {
+export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const { t } = useTranslation()
@@ -70,7 +70,7 @@ export default function Header({ activedMobileMenu, handleMobileMenu }: Props) {
         {showPngBalanceModal && <PngBalanceContent setShowPngBalanceModal={setShowPngBalanceModal} />}
       </Modal>
       {isMobile ? (
-        <MobileHeader activedMobileMenu={activedMobileMenu} handleMobileMenu={handleMobileMenu} />
+        <MobileHeader activeMobileMenu={activeMobileMenu} handleMobileMenu={handleMobileMenu} />
       ) : (
         <HeaderControls>
           <HeaderElement>

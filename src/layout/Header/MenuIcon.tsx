@@ -8,12 +8,7 @@ interface Props {
 
 export const MenuIcon: React.FC<Props> = ({ active, handleMobileMenu }) => {
   return (
-    <IconMenu
-      className={active ? 'clicked' : undefined}
-      onClick={() => {
-        handleMobileMenu()
-      }}
-    >
+    <IconMenu className={active ? 'clicked' : undefined} onClick={handleMobileMenu}>
       <div className="dot" />
       <div className="dot" />
       <div className="dot" />

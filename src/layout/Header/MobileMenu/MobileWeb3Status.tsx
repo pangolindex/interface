@@ -57,8 +57,8 @@ const MobileWeb3Status: React.FC = () => {
       <WalletModal
         open={walletModalOpen}
         closeModal={toggleWalletModal}
-        background={theme.bg2}
-        shouldShowBackButton={account ? true : false}
+        background={theme.color2}
+        shouldShowBackButton={true}
         onWalletConnect={onWalletConnect}
         onClickBack={toggleWalletModal}
       />

@@ -28,15 +28,10 @@ export const Items = styled(Box)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   background-color: ${({ theme }) => theme.color3};
-
   padding: 12px;
-
   gap: 15px;
-
   margin-bottom: 15px;
-
   border-radius: 5px;
 `
 

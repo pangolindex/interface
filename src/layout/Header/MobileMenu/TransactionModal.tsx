@@ -49,7 +49,7 @@ const TransactionModal: React.FC<Props> = ({ onClose }) => {
   }, [allTransactions])
 
   const pendingTransactions = sortedRecentTransactions.filter(tx => !tx.receipt).map(tx => tx.hash)
-  const confirmed = sortedRecentTransactions.filter(tx => tx.receipt).map(tx => tx.hash)
+  const confirmedTransactions = sortedRecentTransactions.filter(tx => tx.receipt).map(tx => tx.hash)
 
   const dispatch = useDispatch<AppDispatch>()
 
@@ -92,7 +92,7 @@ const TransactionModal: React.FC<Props> = ({ onClose }) => {
       padding="20px"
     >
       <CloseButton onClick={onClose} />
-      {pending.length || confirmed.length ? (
+      {pendingTransactions.length || confirmedTransactions.length ? (
         <Box display="flex" flexDirection="column" style={{ gap: '10px' }} height="100%">
           <Box width="100%" justifyContent="space-between" display="flex" alignItems="center">
             <Text fontSize="16px" color="text1" fontWeight={500}>
@@ -107,7 +107,7 @@ const TransactionModal: React.FC<Props> = ({ onClose }) => {
           <Box height="100%" minHeight="200px" flexGrow={1}>
             <Scrollbars style={{ width: '100%', height: '100%' }}>
               {renderTransactions(pendingTransactions)}
-              {renderTransactions(confirmed)}
+              {renderTransactions(confirmedTransactions)}
             </Scrollbars>
           </Box>
         </Box>

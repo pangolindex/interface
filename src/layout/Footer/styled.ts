@@ -52,9 +52,10 @@ export const Content = styled(Box)`
 `
 
 export const PolicyText = styled(Box)`
-  margin: 10px;
+  width: 100%;
   color: ${({ theme }) => theme.text1};
   & a {
     color: ${({ theme }) => theme.text1};
   }
+  overflow-x: hidden;
 `

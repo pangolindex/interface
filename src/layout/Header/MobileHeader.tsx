@@ -6,11 +6,11 @@ import { MenuIcon } from './MenuIcon'
 import { MobileHeaderFrame, MobileLogoWrapper } from './styled'
 
 interface Props {
-  activedMobileMenu: boolean
+  activeMobileMenu: boolean
   handleMobileMenu: () => void
 }
 
-export const MobileHeader: React.FC<Props> = ({ activedMobileMenu, handleMobileMenu }) => {
+export const MobileHeader: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => {
   const theme = useContext(ThemeContext)
   return (
     <MobileHeaderFrame>
@@ -19,7 +19,7 @@ export const MobileHeader: React.FC<Props> = ({ activedMobileMenu, handleMobileM
       </MobileLogoWrapper>
 
       <Box display="flex" alignItems="center" position="relative">
-        <MenuIcon active={activedMobileMenu} handleMobileMenu={handleMobileMenu} />
+        <MenuIcon active={activeMobileMenu} handleMobileMenu={handleMobileMenu} />
       </Box>
     </MobileHeaderFrame>
   )

@@ -24,11 +24,11 @@ import TransactionModal from './TransactionModal'
 import Modal from 'src/components/Beta/Modal'
 
 interface Props {
-  activedMobileMenu: boolean
+  activeMobileMenu: boolean
   handleMobileMenu: () => void
 }
 
-const MobileMenu: React.FC<Props> = ({ activedMobileMenu, handleMobileMenu }) => {
+const MobileMenu: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => {
   const [isDark, toggleDarkMode] = useDarkModeManager()
 
   const [openTransactions, setOpenTransactions] = useState(false)
@@ -42,7 +42,7 @@ const MobileMenu: React.FC<Props> = ({ activedMobileMenu, handleMobileMenu }) =>
   return (
     <Frame>
       <Scrollbars>
-        <MobileHeader activedMobileMenu={activedMobileMenu} handleMobileMenu={handleMobileMenu} />
+        <MobileHeader activeMobileMenu={activeMobileMenu} handleMobileMenu={handleMobileMenu} />
         <Box display="flex" flexDirection="column" padding="15px">
           <Line />
           <Items>
