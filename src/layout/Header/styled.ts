@@ -198,10 +198,3 @@ export const StyledMenuIcon = styled(MenuIcon)`
 export const MobileLogoWrapper = styled.div`
   flex: 1;
 `
-
-export const LegacyButtonWrapper = styled.div`
-  display: block;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
-  `};
-`

@@ -1,4 +1,4 @@
-import { Button, Box, NetworkSelection, useAccountBalanceHook } from '@pangolindex/components'
+import { Box, NetworkSelection, useAccountBalanceHook } from '@pangolindex/components'
 import React, { useContext, useState, useRef, useMemo } from 'react'
 import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
@@ -26,10 +26,8 @@ import {
   ThemeMode,
   MobileHeader,
   FooterMobileControls,
-  MobileLogoWrapper,
-  LegacyButtonWrapper
+  MobileLogoWrapper
 } from './styled'
-import { useTranslation } from 'react-i18next'
 import MobileFooter from '../MobileFooter'
 import { Logo } from '../../components/Icons'
 import { Hidden, MEDIA_WIDTHS } from 'src/theme'
@@ -40,7 +38,7 @@ import { useMedia } from 'react-use'
 export default function Header() {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
-  const { t } = useTranslation()
+
   const theme = useContext(ThemeContext)
 
   const useETHBalances = useAccountBalanceHook[chainId]
@@ -96,11 +94,6 @@ export default function Header() {
 
       <HeaderControls>
         <HeaderElement>
-          <LegacyButtonWrapper>
-            <Button variant="primary" height={36} padding="4px 6px" href="/" as="a">
-              <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
-            </Button>
-          </LegacyButtonWrapper>
           <Hidden upToSmall={true}>
             <NetworkSelection open={openNetworkSelection} closeModal={closeNetworkSelection} />
             {chainId && NETWORK_LABELS[chainId] && (
@@ -128,7 +121,7 @@ export default function Header() {
           </AccountElement>
         </HeaderElement>
         <HeaderElementWrap>
-          <LanguageSelection isBeta={true} />
+          <LanguageSelection />
           <ThemeMode onClick={() => toggleDarkMode()}>
             {isDark ? (
               <img width={'16px'} src={LightMode} alt={'Setting'} />

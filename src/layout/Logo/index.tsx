@@ -16,7 +16,7 @@ export default function LogoIcon({ collapsed }: LogoProps) {
   return (
     <LogoWrapper collapsed={collapsed}>
       <Box>
-        <Title href="./#/beta/dashboard">
+        <Title href="./#/dashboard">
           {!collapsed ? (
             <img height="28px" src={isDark ? LogoDark : LogoLight} alt="logo" />
           ) : (

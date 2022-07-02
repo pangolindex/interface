@@ -21,7 +21,6 @@ import UserUpdater from './state/user/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
-import { useIsBetaUI } from './hooks/useLocation'
 import { useActiveWeb3React } from './hooks'
 import Package from '../package.json'
 import { fetchMinichefData } from './state/stake/hooks'
@@ -86,7 +85,6 @@ const prefetchImportantQueries = async (account: string) => {
 }
 
 const ComponentThemeProvider = () => {
-  const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
 
   const { chainId, account } = useActiveWeb3React()
@@ -114,8 +112,8 @@ const ComponentThemeProvider = () => {
 
   return (
     <PangolinProvider library={library} chainId={chainId} account={account ?? undefined} theme={theme as any}>
-      <FixedGlobalStyle isBeta={isBeta} />
-      <ThemedGlobalStyle isBeta={isBeta} />
+      <FixedGlobalStyle />
+      <ThemedGlobalStyle />
       <HashRouter>
         <App />
       </HashRouter>

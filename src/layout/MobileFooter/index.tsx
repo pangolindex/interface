@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router'
 import { Menu, MenuItem, MenuLink, MenuWrapper } from './styled'
 import { Dashboard, Swap, Stake, Pool } from '../../components/Icons'
-import { BETA_MENU_LINK } from 'src/constants'
+import { MENU_LINK } from 'src/constants'
 
 export default function MobileFooter() {
   const { t } = useTranslation()
@@ -13,32 +13,32 @@ export default function MobileFooter() {
   const theme = useContext(ThemeContext)
   const mainLinks = [
     {
-      link: BETA_MENU_LINK.dashboard,
+      link: MENU_LINK.dashboard,
       icon: Dashboard,
       title: t('header.dashboard'),
       id: 'dashboard',
-      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.dashboard)
+      isActive: location?.pathname?.startsWith(MENU_LINK.dashboard)
     },
     {
-      link: BETA_MENU_LINK.swap,
+      link: MENU_LINK.swap,
       icon: Swap,
       title: t('header.swap'),
       id: 'swap',
-      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.swap)
+      isActive: location?.pathname?.startsWith(MENU_LINK.swap)
     },
     {
-      link: BETA_MENU_LINK.pool,
+      link: MENU_LINK.pool,
       icon: Pool,
       title: `${t('header.pool')} & ${t('header.farm')}`,
       id: 'pool',
-      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.pool)
+      isActive: location?.pathname?.startsWith(MENU_LINK.pool)
     },
     {
-      link: `${BETA_MENU_LINK.stake}/0`,
+      link: `${MENU_LINK.stake}/0`,
       icon: Stake,
       title: t('header.stake'),
       id: 'stake',
-      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.stake)
+      isActive: location?.pathname?.startsWith(MENU_LINK.stake)
     }
   ]
 

@@ -8,7 +8,6 @@ import { ExternalLink } from '../../theme'
 import { useAllTransactions } from '../../state/transactions/hooks'
 import { RowFixed } from '../Row'
 import Loader from '../Loader'
-import { useIsBetaUI } from 'src/hooks/useLocation'
 
 const TransactionWrapper = styled.div``
 
@@ -21,7 +20,7 @@ const TransactionStatusText = styled.div`
   }
 `
 
-const TransactionState = styled(ExternalLink)<{ pending: boolean; success?: boolean; isBeta: boolean }>`
+const TransactionState = styled(ExternalLink)<{ pending: boolean; success?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,7 +29,7 @@ const TransactionState = styled(ExternalLink)<{ pending: boolean; success?: bool
   padding: 0.25rem 0rem;
   font-weight: 500;
   font-size: 0.825rem;
-  color: ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary1)};
+  color: ${({ theme }) => theme.primary};
 `
 
 const IconWrapper = styled.div<{ pending: boolean; success?: boolean }>`
@@ -43,7 +42,6 @@ const IconWrapper = styled.div<{ pending: boolean; success?: boolean }>`
 export default function Transaction({ hash }: { hash: string }) {
   const chainId = useChainId()
   const allTransactions = useAllTransactions()
-  const isBeta = useIsBetaUI()
   const tx = allTransactions?.[hash]
   const summary = tx?.summary
   const pending = !tx?.receipt
@@ -53,12 +51,7 @@ export default function Transaction({ hash }: { hash: string }) {
 
   return (
     <TransactionWrapper>
-      <TransactionState
-        href={getEtherscanLink(chainId, hash, 'transaction')}
-        pending={pending}
-        success={success}
-        isBeta={isBeta}
-      >
+      <TransactionState href={getEtherscanLink(chainId, hash, 'transaction')} pending={pending} success={success}>
         <RowFixed>
           <TransactionStatusText>{summary ?? hash} ↗</TransactionStatusText>
         </RowFixed>

@@ -1,4 +1,3 @@
-import { transparentize } from 'polished'
 import React, { useMemo } from 'react'
 import styled, {
   ThemeProvider as StyledComponentsThemeProvider,
@@ -9,7 +8,6 @@ import styled, {
 import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
 import { BetaColors, Colors } from './styled'
-import { useIsBetaUI } from '../hooks/useLocation'
 
 export * from './components'
 
@@ -270,16 +268,10 @@ export function betaThemeFn(darkMode: boolean): DefaultTheme {
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const darkMode = useIsDarkMode()
-  const isBeta = useIsBetaUI()
 
-  const themeObject = useMemo(() => theme(darkMode), [darkMode])
   const betaThemeObject = useMemo(() => betaThemeFn(darkMode), [darkMode])
 
-  return (
-    <StyledComponentsThemeProvider theme={isBeta ? betaThemeObject : themeObject}>
-      {children}
-    </StyledComponentsThemeProvider>
-  )
+  return <StyledComponentsThemeProvider theme={betaThemeObject}>{children}</StyledComponentsThemeProvider>
 }
 
 const TextWrapper = styled(Text)<{ color: keyof Colors }>`
@@ -334,14 +326,14 @@ export const TYPE = {
   }
 }
 
-export const FixedGlobalStyle = createGlobalStyle<{ isBeta: boolean }>`
+export const FixedGlobalStyle = createGlobalStyle`
 html, input, textarea, button {
-  font-family: ${({ isBeta }) => (isBeta ? "'Poppins', sans-serif" : "'Inter', sans-serif")};
+  font-family: 'Poppins', sans-serif;
   font-display: fallback;
 }
 @supports (font-variation-settings: normal) {
   html, input, textarea, button {
-    font-family: ${({ isBeta }) => (isBeta ? "'Poppins', sans-serif" : "'Inter var', sans-serif")};
+    font-family: 'Poppins', sans-serif;
   }
 }
 
@@ -378,23 +370,17 @@ html {
 
 `
 
-export const ThemedGlobalStyle = createGlobalStyle<{ isBeta: boolean }>`
+export const ThemedGlobalStyle = createGlobalStyle`
 html {
   color: ${({ theme }) => theme.text1};
   background-color: ${({ theme }) => theme.bg2};
 }
 
 body {
-  min-height: ${({ isBeta }) => (isBeta ? 'unset' : '100vh')};
+  min-height: unset;
   background-position: 0 -30vh;
   background-repeat: no-repeat;
-  background-image: ${({ theme, isBeta }) =>
-    isBeta
-      ? 'unset'
-      : `radial-gradient(50% 50% at 50% 50%, ${transparentize(0.85, theme.primary1)} 0%, ${transparentize(
-          1,
-          theme.bg1
-        )} 100%)`};
-  background-color:  ${({ theme, isBeta }) => (isBeta ? theme.bg6 : 'unset')};
+  background-image: 'unset';
+  background-color:  ${({ theme }) => theme.bg6}
 }
 `

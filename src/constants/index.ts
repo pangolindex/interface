@@ -245,14 +245,14 @@ export const TIMEFRAME = [
   }
 ]
 
-export enum BETA_MENU_LINK {
-  dashboard = '/beta/dashboard',
-  swap = '/beta/swap',
-  buy = '/beta/buy',
-  pool = '/beta/pool',
-  stake = '/beta/stake',
-  vote = '/beta/vote',
-  migrate = '/beta/migrate',
-  bridge = '/beta/bridge',
-  airdrop = '/beta/airdrop'
+export enum MENU_LINK {
+  dashboard = '/dashboard',
+  swap = '/swap',
+  buy = '/buy',
+  pool = '/pool',
+  stake = '/stake',
+  vote = '/vote',
+  migrate = '/migrate',
+  bridge = '/bridge',
+  airdrop = '/airdrop'
 }

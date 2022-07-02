@@ -29,7 +29,7 @@ import { useGetProposalDetail, useUserVotes, useUserDelegatee, ProposalData } fr
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { ExternalLink } from 'src/theme'
-import { BETA_MENU_LINK, ZERO_ADDRESS } from 'src/constants'
+import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
 import { isAddress, getEtherscanLink } from 'src/utils'
 
@@ -91,7 +91,7 @@ export default function GovernanceDetail() {
       />
       <ProposalInfo gap="lg" justify="start">
         <RowBetween style={{ width: '100%' }}>
-          <ArrowWrapper to={BETA_MENU_LINK.vote}>
+          <ArrowWrapper to={MENU_LINK.vote}>
             <ArrowLeft size={20} /> {t('votePage.backToProposals')}
           </ArrowWrapper>
           {proposalData && <ProposalStatus status={proposalData?.status ?? ''}>{proposalData?.status}</ProposalStatus>}

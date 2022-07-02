@@ -25,7 +25,7 @@ import Bridge from '../../assets/svg/menu/bridge.svg'
 import Governance from '../../assets/svg/menu/governance.svg'
 import { Scrollbars } from 'react-custom-scrollbars'
 import Logo from '../Logo'
-import { BETA_MENU_LINK } from 'src/constants'
+import { MENU_LINK } from 'src/constants'
 import { useAirdropIsClaimingAllowed } from 'src/state/airdrop/hooks'
 
 interface SidebarProps {
@@ -50,57 +50,57 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
 
   const mainLinks = [
     {
-      link: BETA_MENU_LINK.dashboard,
+      link: MENU_LINK.dashboard,
       icon: Dashboard,
       title: t('header.dashboard'),
       id: 'dashboard',
-      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.dashboard)
+      isActive: location?.pathname?.startsWith(MENU_LINK.dashboard)
     },
     {
-      link: BETA_MENU_LINK.swap,
+      link: MENU_LINK.swap,
       icon: Swap,
       title: t('header.swap'),
       id: 'swap',
-      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.swap)
+      isActive: location?.pathname?.startsWith(MENU_LINK.swap)
     },
     {
-      link: BETA_MENU_LINK.buy,
+      link: MENU_LINK.buy,
       icon: Buy,
       title: t('header.buy'),
       id: 'buy',
-      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.buy)
+      isActive: location?.pathname?.startsWith(MENU_LINK.buy)
     },
     {
-      link: BETA_MENU_LINK.pool,
+      link: MENU_LINK.pool,
       icon: Pool,
       title: `${t('header.pool')} & ${t('header.farm')}`,
       id: 'pool',
-      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.pool)
+      isActive: location?.pathname?.startsWith(MENU_LINK.pool)
     },
     {
-      link: `${BETA_MENU_LINK.stake}/0`,
+      link: `${MENU_LINK.stake}/0`,
       icon: Stake,
       title: t('header.stake'),
       id: 'stake',
-      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.stake)
+      isActive: location?.pathname?.startsWith(MENU_LINK.stake)
     },
 
     {
-      link: BETA_MENU_LINK.vote,
+      link: MENU_LINK.vote,
       icon: Vote,
       title: t('header.vote'),
       id: 'vote',
-      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.vote)
+      isActive: location?.pathname?.startsWith(MENU_LINK.vote)
     }
   ]
 
   if (claimingAllowed) {
     mainLinks.push({
-      link: BETA_MENU_LINK.airdrop,
+      link: MENU_LINK.airdrop,
       icon: Airdrop,
       title: 'Airdrop',
       id: 'airdrop',
-      isActive: location?.pathname?.startsWith(BETA_MENU_LINK.airdrop)
+      isActive: location?.pathname?.startsWith(MENU_LINK.airdrop)
     })
   }
 

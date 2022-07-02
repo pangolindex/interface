@@ -4,17 +4,15 @@ import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from 'src/assets/images/logo.png'
 import { injected } from '@pangolindex/components'
-import { BETA_MENU_LINK, getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
+import { MENU_LINK, getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { useActiveWeb3React, usePngSymbol } from '../../hooks'
-import { DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/doubleSideConfig'
 import { useAggregatePngBalance } from '../../state/wallet/hooks'
 import { StyledInternalLink, TYPE, PngTokenAnimated } from '../../theme'
 import { AutoColumn } from '../../components/Column'
 import { RowBetween } from '../../components/Row'
 import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../../components/earn/styled'
 import { useTranslation } from 'react-i18next'
-import { useIsBetaUI } from '../../hooks/useLocation'
 import { useChainId } from 'src/hooks'
 import { useTotalSupplyHook } from 'src/data/TotalSupply'
 import { useTokenBalanceHook } from 'src/state/wallet/multiChainsHooks'
@@ -63,7 +61,6 @@ const AddPNG = styled.span`
  * Content for balance stats modal
  */
 export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowPngBalanceModal: any }) {
-  const isBeta = useIsBetaUI()
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const png = chainId ? PNG[chainId] : undefined
@@ -130,10 +127,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                   <TYPE.white color="white">
                     {pngToClaim?.toFixed(4, { groupSeparator: ',' })}{' '}
                     {pngToClaim && pngToClaim.greaterThan('0') && (
-                      <StyledInternalLink
-                        onClick={() => setShowPngBalanceModal(false)}
-                        to={isBeta ? BETA_MENU_LINK.pool : `/png/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}`}
-                      >
+                      <StyledInternalLink onClick={() => setShowPngBalanceModal(false)} to={MENU_LINK.pool}>
                         ({t('earn.claim')})
                       </StyledInternalLink>
                     )}

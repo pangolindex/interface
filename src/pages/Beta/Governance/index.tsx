@@ -18,7 +18,7 @@ import { useGetProposalsViaSubgraph, ProposalData, useUserVotes, useUserDelegate
 import DelegateModal from 'src/components/vote/DelegateModal'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React, useChain, useChainId, usePngSymbol } from 'src/hooks'
-import { BETA_MENU_LINK, ZERO_ADDRESS } from 'src/constants'
+import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
 import { getEtherscanLink } from 'src/utils'
@@ -140,7 +140,7 @@ const GovernanceUI = () => {
                   id={p.id}
                   title={p.title}
                   status={p.status as ProposalStates}
-                  to={`${BETA_MENU_LINK.vote}/${p.id}`}
+                  to={`${MENU_LINK.vote}/${p.id}`}
                   key={p.id}
                 />
               )

@@ -28,7 +28,6 @@ import { ButtonSecondary } from '../Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import { ExternalLink, LinkStyledButton, TYPE } from '../../theme'
 import { useTranslation } from 'react-i18next'
-import { useIsBetaUI } from 'src/hooks/useLocation'
 import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
@@ -194,8 +193,8 @@ const TransactionListWrapper = styled.div`
   ${({ theme }) => theme.flexColumnNoWrap};
 `
 
-const WalletAction = styled(ButtonSecondary)<{ isBeta: boolean }>`
-  color: ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary1)};
+const WalletAction = styled(ButtonSecondary)`
+  color: ${({ theme }) => theme.primary};
   width: fit-content;
   font-weight: 400;
   margin-left: 8px;
@@ -207,15 +206,15 @@ const WalletAction = styled(ButtonSecondary)<{ isBeta: boolean }>`
   }
 
   &:focus {
-    box-shadow: 0 0 0 1pt ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
-    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary};
+    border: 1px solid ${({ theme }) => theme.primary};
   }
   &:hover {
-    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+    border: 1px solid ${({ theme }) => theme.primary};
   }
   &:active {
-    box-shadow: 0 0 0 1pt ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
-    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary};
+    border: 1px solid ${({ theme }) => theme.primary};
   }
 `
 
@@ -306,8 +305,6 @@ export default function AccountDetails({
     if (chainId) dispatch(clearAllTransactions({ chainId }))
   }, [dispatch, chainId])
 
-  const isBeta = useIsBetaUI()
-
   return (
     <>
       <UpperSection>
@@ -333,7 +330,6 @@ export default function AccountDetails({
                           window.location.reload()
                         }
                       }}
-                      isBeta={isBeta}
                     >
                       {t('accountDetails.disconnect')}
                     </WalletAction>
@@ -344,7 +340,6 @@ export default function AccountDetails({
                     onClick={() => {
                       openOptions()
                     }}
-                    isBeta={isBeta}
                   >
                     {t('accountDetails.change')}
                   </WalletAction>
@@ -424,9 +419,7 @@ export default function AccountDetails({
         <LowerSection>
           <AutoRow mb={'1rem'} style={{ justifyContent: 'space-between' }}>
             <TYPE.body>{t('accountDetails.recentTransactions')}</TYPE.body>
-            <LinkStyledButton onClick={clearAllTransactionsCallback} isBeta={isBeta}>
-              {t('accountDetails.clearAll')}
-            </LinkStyledButton>
+            <LinkStyledButton onClick={clearAllTransactionsCallback}>{t('accountDetails.clearAll')}</LinkStyledButton>
           </AutoRow>
           {renderTransactions(pendingTransactions)}
           {renderTransactions(confirmedTransactions)}
