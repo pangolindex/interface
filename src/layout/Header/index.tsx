@@ -62,7 +62,7 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
     setOpenNetworkSelection(false)
   }
 
-  const isMobile = useMedia(`(max-width: ${MEDIA_WIDTHS.upToSmall}px)`)
+  const isMobile = useMedia(`(max-width: ${MEDIA_WIDTHS.upToMedium}px)`)
 
   return (
     <HeaderFrame>

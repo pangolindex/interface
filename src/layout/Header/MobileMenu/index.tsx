@@ -49,7 +49,7 @@ const MobileMenu: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => 
             <Box width="100%">
               <MobileWeb3Status />
             </Box>
-            <Box display="flex" style={{ gap: '20px' }}>
+            <Box display="flex" style={{ gap: '20px' }} width="100%" justifyContent="center">
               <TransactionButton onClick={() => setOpenTransactions(true)}>
                 <Box width="20px" height="20px">
                   <TransactionIcon />
