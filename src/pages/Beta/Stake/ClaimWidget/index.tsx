@@ -68,15 +68,15 @@ const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) =
       {!attempting && !hash && (
         <Root>
           <Box textAlign="center" display="flex" flexDirection="column" justifyContent="center">
-            <Text fontSize="26px" fontWeight={500} color="text1">
+            <Text fontSize={['26px', '22px']} fontWeight={500} color="text1">
               {stakingInfo?.earnedAmount?.toSignificant(6)}
             </Text>
 
-            <Text fontSize="16px" color="text1">
+            <Text fontSize={['16px', '14px']} color="text1">
               {t('earn.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}
             </Text>
 
-            <Text fontSize="14px" color="text2" textAlign="center" mt={20}>
+            <Text fontSize={['14px', '12px']} color="text2" textAlign="center" mt={20}>
               Claim your rewards
             </Text>
           </Box>

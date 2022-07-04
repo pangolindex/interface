@@ -37,7 +37,7 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
   return (
     <Wrapper>
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Text color="text1" fontSize={24} fontWeight={500}>
+        <Text color="text1" fontSize={[24, 18]} fontWeight={500}>
           {t('dashboardPage.earned')}
         </Text>
 
@@ -62,7 +62,7 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
               stat={`${stakingInfo?.rewardRatePerWeek?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}`}
               titlePosition="top"
               titleFontSize={14}
-              statFontSize={20}
+              statFontSize={[20, 18]}
               titleColor="text2"
               currency={png}
             />
@@ -74,7 +74,7 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
               stat={`${newEarnedAmount?.toFixed(6) ?? '0'}`}
               titlePosition="top"
               titleFontSize={14}
-              statFontSize={20}
+              statFontSize={[20, 18]}
               titleColor="text2"
               currency={png}
             />
@@ -97,13 +97,13 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
                   <Box>
                     <Stat
                       stat={`${extraTokenWeeklyRewardRate?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} `}
-                      statFontSize={20}
+                      statFontSize={[20, 18]}
                       currency={reward?.token}
                     />
                   </Box>
 
                   <Box>
-                    <Stat stat={`${reward?.toFixed(6) ?? '0'}`} statFontSize={20} currency={reward?.token} />
+                    <Stat stat={`${reward?.toFixed(6) ?? '0'}`} statFontSize={[20, 18]} currency={reward?.token} />
                   </Box>
                 </InnerWrapper>
               )

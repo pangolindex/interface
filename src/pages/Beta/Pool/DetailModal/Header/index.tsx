@@ -37,7 +37,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
       <HeaderWrapper>
         <Box display="flex" alignItems="center">
           <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={48} />
-          <Text color="text1" fontSize={24} fontWeight={500} marginLeft={10}>
+          <Text color="text1" fontSize={[24, 18]} fontWeight={500} marginLeft={10}>
             {currency0?.symbol}/{currency1?.symbol}
           </Text>
         </Box>
@@ -48,7 +48,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
 
       <StatsWrapper>
         <Box display="inline-block">
-          <Text color="text2" fontSize={14}>
+          <Text color="text2" fontSize={[14, 12]}>
             {t('earn.poolRewards')}
           </Text>
 
@@ -62,7 +62,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
           stat={swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr}%` : '-'}
           titlePosition="top"
           titleFontSize={14}
-          statFontSize={24}
+          statFontSize={[24, 18]}
           titleColor="text2"
         />
         <Stat
@@ -70,7 +70,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
           stat={stakingApr && !stakingInfo.isPeriodFinished ? `${stakingApr}%` : '-'}
           titlePosition="top"
           titleFontSize={14}
-          statFontSize={24}
+          statFontSize={[24, 18]}
           titleColor="text2"
         />
         <Stat
@@ -78,7 +78,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
           stat={swapFeeApr && !stakingInfo.isPeriodFinished ? `${swapFeeApr + (stakingApr || 0)}%` : '-'}
           titlePosition="top"
           titleFontSize={14}
-          statFontSize={24}
+          statFontSize={[24, 18]}
           titleColor="text2"
         />
         <Hidden upToSmall={true}>

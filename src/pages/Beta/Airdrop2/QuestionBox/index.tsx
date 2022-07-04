@@ -46,7 +46,7 @@ export const QuestionAnswer = () => {
           >
             <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               {activeLogo(question?.id)}
-              <Text fontSize={24} fontWeight={500} lineHeight="36px" color="text10">
+              <Text fontSize={[24, 18]} fontWeight={500} lineHeight="36px" color="text10">
                 {question.title}
               </Text>
             </span>

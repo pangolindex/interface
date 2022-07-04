@@ -49,7 +49,7 @@ const PoolImportModal = ({ isOpen, onClose, onManagePoolsClick }: ImportPoolModa
     <Modal isOpen={isOpen} onDismiss={onClose} overlayBG={theme.modalBG2}>
       <Wrapper>
         <Box p={10} display="flex" justifyContent="space-between" alignItems="center" width="100%">
-          <Text color="text1" fontSize={24} fontWeight={500}>
+          <Text color="text1" fontSize={[24, 18]} fontWeight={500}>
             {t('navigationTabs.importPool')}
           </Text>
           <CloseIcon onClick={() => onClose()} color={theme.text1} />

@@ -360,7 +360,7 @@ button {
 }
 
 html {
-  font-size: 16px;
+  font-size: 14px;
   font-variant: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

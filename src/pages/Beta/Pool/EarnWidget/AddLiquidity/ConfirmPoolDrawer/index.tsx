@@ -62,7 +62,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
       <Header>
         {noLiquidity ? (
           <Box display="flex">
-            <Text fontSize="26px" fontWeight={500} lineHeight="42px" marginRight={10} color="text1">
+            <Text fontSize={['26px', '22px']} fontWeight={500} lineHeight="42px" marginRight={10} color="text1">
               {currencies[Field.CURRENCY_A]?.symbol + '/' + currencies[Field.CURRENCY_B]?.symbol}
             </Text>
             <DoubleCurrencyLogo
@@ -74,7 +74,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
         ) : (
           <Box>
             <Box display="flex">
-              <Text fontSize="26px" fontWeight={500} lineHeight="42px" marginRight={10} color="text1">
+              <Text fontSize={['26px', '22px']} fontWeight={500} lineHeight="42px" marginRight={10} color="text1">
                 {liquidityMinted?.toSignificant(6)}
               </Text>
               <DoubleCurrencyLogo
@@ -85,7 +85,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
             </Box>
 
             <Box>
-              <Text fontSize="20px" color="text1" lineHeight="40px">
+              <Text fontSize={['20px', '16px']} color="text1" lineHeight="40px">
                 {currencies[Field.CURRENCY_A]?.symbol +
                   '/' +
                   currencies[Field.CURRENCY_B]?.symbol +
@@ -165,12 +165,12 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
       <Box flex={1}>
         <StatWrapper>
           <Box display="inline-block">
-            <Text color={'text1'} fontSize={16}>
+            <Text color={'text1'} fontSize={[16, 14]}>
               {t('addLiquidity.deposited')}
             </Text>
 
             <Box display="flex" alignItems="center">
-              <Text color={'text1'} fontSize={20}>
+              <Text color={'text1'} fontSize={[20, 16]}>
                 {parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}
               </Text>
 
@@ -180,7 +180,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
             </Box>
 
             <Box display="flex" alignItems="center">
-              <Text color={'text1'} fontSize={20}>
+              <Text color={'text1'} fontSize={[20, 16]}>
                 {parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}
               </Text>
 
@@ -195,7 +195,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
             stat={noLiquidity ? '-' : `     ${liquidityMinted?.toSignificant(6)}`}
             titlePosition="top"
             titleFontSize={16}
-            statFontSize={20}
+            statFontSize={[20, 16]}
           />
 
           <Stat
@@ -223,7 +223,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
     <ErrorWrapper>
       <ErrorBox>
         <AlertTriangle color={theme.red1} style={{ strokeWidth: 1.5 }} size={64} />
-        <Text fontWeight={500} fontSize={16} color={'red1'} style={{ textAlign: 'center', width: '85%' }}>
+        <Text fontWeight={500} fontSize={[16, 14]} color={'red1'} style={{ textAlign: 'center', width: '85%' }}>
           {poolErrorMessage}
         </Text>
       </ErrorBox>
