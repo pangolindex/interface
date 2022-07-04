@@ -35,7 +35,11 @@ const Stat = ({
   const chainId = useChainId()
   const token = currency instanceof Currency && currency instanceof Token ? currency : WAVAX[chainId]
   return (
-    <Box display="inline-block">
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems={statAlign === 'center' ? 'center' : statAlign === 'right' ? 'flex-end' : 'flex-start'}
+    >
       {titlePosition === 'top' && title && (
         <Box display="flex" flexDirection="row" style={{ gap: '5px' }} alignItems="center">
           <Text color={titleColor || 'text1'} fontSize={titleFontSize || 20}>
@@ -49,11 +53,7 @@ const Stat = ({
         </Box>
       )}
 
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent={statAlign === 'center' ? 'center' : statAlign === 'right' ? 'flex-end' : 'flex-start'}
-      >
+      <Box display="flex" alignItems="center">
         <Text color={statColor || 'text1'} fontSize={statFontSize || 16}>
           {stat}
         </Text>

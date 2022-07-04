@@ -377,7 +377,8 @@
     "allFarms": "Tüm çiftlikler",
     "yourFarms": "senin çiftliklerin",
     "yourPools": "Havuzlarınız",
-    "noFarms": "Çiftlik bulunamadı."
+    "noFarms": "Çiftlik bulunamadı.",
+    "successWithdraw": "Likiditeniz çiftlikten kaldırıldı ve tahakkuk eden ödüller talep edildi!"
   },
   "poolFinder": {
     "connectToFind": "Havuzları bulmak için bir cüzdan bağlayın",

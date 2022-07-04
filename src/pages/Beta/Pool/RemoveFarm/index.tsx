@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, Button } from '@pangolindex/components'
-import { WithdrawWrapper, RewardWrapper, Root, StatWrapper } from './styleds'
+import { FarmRemoveWrapper, RewardWrapper, Root, StatWrapper } from './styleds'
 import { StakingInfo, useMinichefPools, useMinichefPendingRewards, useGetEarnedAmount } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
@@ -10,15 +10,18 @@ import { useStakingContract } from 'src/hooks/useContract'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 import Stat from 'src/components/Stat'
+import RemoveLiquidityDrawer from '../RemoveLiquidityDrawer'
 
-interface WithdrawProps {
+interface RemoveFarmProps {
   stakingInfo: StakingInfo
   version: number
   onClose: () => void
+  // this prop will be used if user move away from first step
+  onLoadingOrComplete?: (value: boolean) => void
 }
-const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
+const RemoveFarm = ({ stakingInfo, version, onClose, onLoadingOrComplete }: RemoveFarmProps) => {
   const { account } = useActiveWeb3React()
-
+  const [isRemoveLiquidityDrawerVisible, setShowRemoveLiquidityDrawer] = useState(false)
   const { t } = useTranslation()
 
   // monitor call to help UI loading state
@@ -32,6 +35,18 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 
   const isSuperFarm = (rewardTokensAmount || [])?.length > 0
+
+  useEffect(() => {
+    if (onLoadingOrComplete) {
+      if (hash || attempting) {
+        onLoadingOrComplete(true)
+      } else {
+        onLoadingOrComplete(false)
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hash, attempting])
 
   function wrappedOnDismiss() {
     setHash(undefined)
@@ -55,6 +70,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
       // TODO: Support withdrawing partial amounts for v2+
       try {
         const response: TransactionResponse = await stakingContract[method](...args)
+
         await response.wait(1)
         addTransaction(response, {
           summary: t('earn.withdrawDepositedLiquidity')
@@ -83,8 +99,11 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
 
   const newEarnedAmount = version < 2 ? stakingInfo?.earnedAmount : earnedAmount
 
+  const token0 = stakingInfo.tokens[0]
+  const token1 = stakingInfo.tokens[1]
+
   return (
-    <WithdrawWrapper>
+    <FarmRemoveWrapper>
       {!attempting && !hash && (
         <Root>
           <Box flex="1">
@@ -92,11 +111,11 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
               {stakingInfo?.stakedAmount && (
                 <StatWrapper>
                   <Stat
-                    title={t('earn.unclaimedReward', { symbol: 'PGL' })}
+                    title={t('earn.depositedToken', { symbol: 'PGL' })}
                     stat={stakingInfo?.stakedAmount?.toSignificant(4)}
                     titlePosition="top"
                     titleFontSize={12}
-                    statFontSize={[24, 18]}
+                    statFontSize={[20, 18]}
                     titleColor="text1"
                     statAlign="center"
                   />
@@ -109,7 +128,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
                     stat={newEarnedAmount?.toSignificant(4)}
                     titlePosition="top"
                     titleFontSize={12}
-                    statFontSize={[24, 18]}
+                    statFontSize={[20, 18]}
                     titleColor="text1"
                     statAlign="center"
                   />
@@ -124,7 +143,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
                       stat={rewardAmount?.toSignificant(4)}
                       titlePosition="top"
                       titleFontSize={12}
-                      statFontSize={[24, 18]}
+                      statFontSize={[20, 18]}
                       titleColor="text1"
                       statAlign="center"
                     />
@@ -133,7 +152,7 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
             </RewardWrapper>
           </Box>
 
-          <Box my={'10px'}>
+          <Box>
             <Button variant="primary" onClick={onWithdraw}>
               {error ?? t('earn.withdrawAndClaim')}
             </Button>
@@ -146,12 +165,24 @@ const Withdraw = ({ stakingInfo, version, onClose }: WithdrawProps) => {
       {hash && (
         <TransactionCompleted
           onClose={wrappedOnDismiss}
-          submitText={`${t('earn.withdrewStakingToken', { symbol: 'PGL' })} & ${t('earn.claimedReward', {
-            symbol: 'PNG'
-          })}`}
+          submitText={t('pool.successWithdraw')}
+          isShowButtton={true}
+          onButtonClick={() => setShowRemoveLiquidityDrawer(true)}
+          buttonText={t('navigationTabs.removeLiquidity')}
         />
       )}
-    </WithdrawWrapper>
+
+      {isRemoveLiquidityDrawerVisible && (
+        <RemoveLiquidityDrawer
+          isOpen={isRemoveLiquidityDrawerVisible}
+          onClose={() => {
+            setShowRemoveLiquidityDrawer(false)
+            wrappedOnDismiss()
+          }}
+          clickedLpTokens={[token0, token1]}
+        />
+      )}
+    </FarmRemoveWrapper>
   )
 }
-export default Withdraw
+export default RemoveFarm

@@ -377,7 +377,8 @@
     "allFarms": "Todas as farms",
     "yourFarms": "Suas farms",
     "yourPools": "Suas pools",
-    "noFarms": "Nenhuma fazenda encontrada."
+    "noFarms": "Nenhuma fazenda encontrada.",
+    "successWithdraw": "Sua liquidez removida da fazenda e recompensas acumuladas reivindicadas!"
   },
   "poolFinder": {
     "connectToFind": "Conecte-se a uma carteira para encontrar suas pools",

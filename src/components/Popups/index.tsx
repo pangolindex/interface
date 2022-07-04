@@ -4,13 +4,14 @@ import { useActivePopups } from '../../state/application/hooks'
 import { AutoColumn } from '../Column'
 import PopupItem from './PopupItem'
 import { useURLWarningVisible } from '../../state/user/hooks'
+import { Portal } from 'react-portal'
 
 const MobilePopupWrapper = styled.div<{ height: string | number }>`
   position: relative;
   max-width: 100%;
   height: ${({ height }) => height};
   margin: ${({ height }) => (height ? '0 auto;' : 0)};
-  margin-bottom: ${({ height }) => (height ? '20px' : 0)}};
+  margin-bottom: ${({ height }) => (height ? '20px' : 0)};
 
   display: none;
   ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -36,7 +37,7 @@ const FixedPopupColumn = styled(AutoColumn)<{ extraPadding: boolean }>`
   right: 1rem;
   max-width: 355px !important;
   width: 100%;
-  z-index: 3;
+  z-index: 1000;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;
@@ -50,7 +51,7 @@ export default function Popups() {
   const urlWarningActive = useURLWarningVisible()
 
   return (
-    <>
+    <Portal>
       <FixedPopupColumn gap="20px" extraPadding={urlWarningActive}>
         {activePopups.map(item => (
           <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
@@ -66,6 +67,6 @@ export default function Popups() {
             ))}
         </MobilePopupInner>
       </MobilePopupWrapper>
-    </>
+    </Portal>
   )
 }

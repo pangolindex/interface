@@ -9,7 +9,7 @@ import { BIG_INT_ZERO } from 'src/constants'
 import { useMinichefPendingRewards, useGetEarnedAmount } from 'src/state/stake/hooks'
 import { PNG } from 'src/constants/tokens'
 import ClaimDrawer from '../../ClaimDrawer'
-import WithdrawDrawer from '../../WithdrawDrawer'
+import RemoveDrawer from '../../RemoveDrawer'
 import { useChainId } from 'src/hooks'
 
 export interface EarnDetailProps {
@@ -22,7 +22,7 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
   const chainId = useChainId()
 
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
-  const [isWithdrawDrawerVisible, setShowWithdrawDrawer] = useState(false)
+  const [isRemoveDrawerVisible, setShowRemoveDrawer] = useState(false)
 
   const { rewardTokensAmount, rewardTokensMultiplier } = useMinichefPendingRewards(stakingInfo)
 
@@ -42,15 +42,8 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
         </Text>
 
         {/* show unstak button */}
-        <Button
-          variant="primary"
-          backgroundColor="color9"
-          color="color4"
-          width="100px"
-          height="30px"
-          onClick={() => setShowWithdrawDrawer(true)}
-        >
-          {t('earn.withdraw')}
+        <Button variant="primary" width="100px" height="30px" onClick={() => setShowRemoveDrawer(true)}>
+          {t('removeLiquidity.remove')}
         </Button>
       </Box>
 
@@ -131,10 +124,10 @@ const EarnDetail = ({ stakingInfo, version }: EarnDetailProps) => {
         stakingInfo={stakingInfo}
         version={version}
       />
-      <WithdrawDrawer
-        isOpen={isWithdrawDrawerVisible}
+      <RemoveDrawer
+        isOpen={isRemoveDrawerVisible}
         onClose={() => {
-          setShowWithdrawDrawer(false)
+          setShowRemoveDrawer(false)
         }}
         stakingInfo={stakingInfo}
         version={version}

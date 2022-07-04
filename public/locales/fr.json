@@ -378,7 +378,8 @@
     "allFarms": "Toutes les Farms",
     "yourFarms": "Voos Farms",
     "yourPools": "Vos Pools",
-    "noFarms": "Aucune ferme trouvée."
+    "noFarms": "Aucune ferme trouvée.",
+    "successWithdraw": "Vos liquidités retirées de la ferme, et les récompenses accumulées réclamées !"
   },
   "poolFinder": {
     "connectToFind": "Se connecter à un portefeuille pour trouver des pools",
