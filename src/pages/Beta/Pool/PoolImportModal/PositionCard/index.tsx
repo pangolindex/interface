@@ -71,7 +71,7 @@ const PositionCard = ({ pair, onManagePoolsClick }: PositionCardProps) => {
             stat={`${userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}`}
             titlePosition="top"
             titleFontSize={14}
-            statFontSize={20}
+            statFontSize={[20, 16]}
             titleColor="text2"
           />
         </Box>
@@ -82,7 +82,7 @@ const PositionCard = ({ pair, onManagePoolsClick }: PositionCardProps) => {
             stat={`${poolTokenPercentage ? poolTokenPercentage.toFixed(6) + '%' : '-'}`}
             titlePosition="top"
             titleFontSize={14}
-            statFontSize={20}
+            statFontSize={[20, 16]}
             titleColor="text2"
           />
         </Box>
@@ -95,7 +95,7 @@ const PositionCard = ({ pair, onManagePoolsClick }: PositionCardProps) => {
             stat={`${token0Deposited ? token0Deposited?.toSignificant(6) : '-'}`}
             titlePosition="top"
             titleFontSize={14}
-            statFontSize={20}
+            statFontSize={[20, 16]}
             titleColor="text2"
           />
         </Box>
@@ -106,7 +106,7 @@ const PositionCard = ({ pair, onManagePoolsClick }: PositionCardProps) => {
             stat={`${token1Deposited ? token1Deposited?.toSignificant(6) : '-'}`}
             titlePosition="top"
             titleFontSize={14}
-            statFontSize={20}
+            statFontSize={[20, 16]}
             titleColor="text2"
           />
         </Box>

@@ -84,7 +84,7 @@ const AirdropUI: React.FC = () => {
           <CardBGImage />
           <CardNoise />
           <ColumnCenter>
-            <Text fontSize={25} fontWeight={500} lineHeight="50px" color="black">
+            <Text fontSize={[24, 18]} fontWeight={500} lineHeight="50px" color="black">
               Sorry, you are not eligible
             </Text>
             <PngTokenAnimated width="55px" src={tokenLogo} />
@@ -99,7 +99,7 @@ const AirdropUI: React.FC = () => {
       <Box paddingBottom="20px">
         <CenterText>
           <MainTitle>Pangolin Going Crosschain</MainTitle>
-          <Text fontSize={18} fontWeight={500} lineHeight="27px" color="text10">
+          <Text fontSize={[18, 14]} fontWeight={500} lineHeight="27px" color="text10">
             And we are not empty handed!
           </Text>
         </CenterText>
@@ -123,7 +123,7 @@ const AirdropUI: React.FC = () => {
         </ClaimBox> */}
         <ClaimBox>
           <TitleWrapper>
-            <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
+            <Text fontSize={[28, 22]} fontWeight={700} lineHeight="33px" color="text10">
               Claim nearPNG
             </Text>
             <StyledLogo src={NearLogo} size={'50px'} />
@@ -137,7 +137,7 @@ const AirdropUI: React.FC = () => {
         </ClaimBox>
       </BoxWrapper>
       <BoxWrapper>
-        <Text fontSize={35} fontWeight={500} lineHeight="66px" color="text10">
+        <Text fontSize={[32, 24]} fontWeight={500} lineHeight="66px" color="text10">
           HAVE QUESTIONS?
         </Text>
         <QuestionAnswer />

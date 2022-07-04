@@ -31,10 +31,10 @@ const LimitOrderDetail: React.FC<Props> = ({ order, onClickCancelOrder }) => {
           <DoubleCurrencyLogo size={48} currency0={currency0 as Currency} currency1={currency1 as Currency} />
 
           <Box marginLeft={10}>
-            <Text color="text1" fontSize={20} fontWeight={500} lineHeight="30px">
+            <Text color="text1" fontSize="16px" fontWeight={500} lineHeight="30px">
               {currency0?.symbol}/{currency1?.symbol}
             </Text>
-            <Text color="platinum" fontSize="16px">
+            <Text color="platinum" fontSize="12px">
               {t('header.buy')} {currency1?.symbol}
             </Text>
           </Box>
@@ -48,7 +48,7 @@ const LimitOrderDetail: React.FC<Props> = ({ order, onClickCancelOrder }) => {
             stat={inputAmount ? inputAmount.toSignificant(4) : '-'}
             titlePosition="top"
             titleFontSize={14}
-            statFontSize={18}
+            statFontSize={14}
             titleColor="text2"
             currency={currency0 as Currency}
           />
@@ -60,7 +60,7 @@ const LimitOrderDetail: React.FC<Props> = ({ order, onClickCancelOrder }) => {
             stat={outputAmount ? outputAmount.toSignificant(4) : '-'}
             titlePosition="top"
             titleFontSize={14}
-            statFontSize={18}
+            statFontSize={14}
             titleColor="text2"
             currency={currency1 as Currency}
           />
@@ -74,7 +74,7 @@ const LimitOrderDetail: React.FC<Props> = ({ order, onClickCancelOrder }) => {
             stat={executionPrice ? executionPrice.toSignificant(4) : '-'}
             titlePosition="top"
             titleFontSize={14}
-            statFontSize={18}
+            statFontSize={14}
             titleColor="text2"
           />
         </Box>
@@ -85,7 +85,7 @@ const LimitOrderDetail: React.FC<Props> = ({ order, onClickCancelOrder }) => {
             stat={`${order?.status} ${order?.pending ? `(${t('web3Status.pending')})` : ''}`}
             titlePosition="top"
             titleFontSize={14}
-            statFontSize={18}
+            statFontSize={14}
             titleColor="text2"
           />
         </Box>

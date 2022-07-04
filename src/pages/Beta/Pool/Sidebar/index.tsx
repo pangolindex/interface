@@ -29,7 +29,7 @@ const Sidebar = ({ setMenu, activeMenu, menuItems, onManagePoolsClick }: MenuPro
   }, [setIsPoolImportModalOpen])
   return (
     <SidebarWrapper>
-      <Text color="text1" fontSize={32} fontWeight={500} ml={20} mt={10}>
+      <Text color="text1" fontSize={[32, 28]} fontWeight={500} ml={20} mt={10}>
         {t('header.pool')}
       </Text>
 

@@ -135,43 +135,45 @@ const PoolCardView = ({
       </Box>
       <Divider />
 
-      <StatWrapper>
-        {isStaking ? (
+      <Box display="flex" flex="1" alignItems="center">
+        <StatWrapper>
+          {isStaking ? (
+            <Stat
+              title={'Your TVL'}
+              stat={numeral((yourStackedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}
+              titlePosition="top"
+              titleFontSize={[16, 14]}
+              statFontSize={[24, 18]}
+            />
+          ) : (
+            <Stat
+              title={'TVL'}
+              stat={numeral((stakingInfo?.totalStakedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}
+              titlePosition="top"
+              titleFontSize={16}
+              statFontSize={24}
+            />
+          )}
+
           <Stat
-            title={'Your TVL'}
-            stat={numeral((yourStackedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}
+            title={`APR`}
+            stat={combinedApr ? `${combinedApr}%` : '-'}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={[16, 14]}
+            statFontSize={[24, 18]}
           />
-        ) : (
-          <Stat
-            title={'TVL'}
-            stat={numeral((stakingInfo?.totalStakedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}
-            titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
-          />
-        )}
 
-        <Stat
-          title={`APR`}
-          stat={combinedApr ? `${combinedApr}%` : '-'}
-          titlePosition="top"
-          titleFontSize={16}
-          statFontSize={24}
-        />
+          <Box display="inline-block">
+            <Text color="text1" fontSize={[16, 14]}>
+              {t('earn.rewardsIn')}
+            </Text>
 
-        <Box display="inline-block">
-          <Text color="text1" fontSize={16}>
-            {t('earn.rewardsIn')}
-          </Text>
-
-          <Box display="flex" alignItems="center" mt="5px">
-            <RewardTokens rewardTokens={rewardTokens} size={24} />
+            <Box display="flex" alignItems="center" mt="5px">
+              <RewardTokens rewardTokens={rewardTokens} size={24} />
+            </Box>
           </Box>
-        </Box>
-      </StatWrapper>
+        </StatWrapper>
+      </Box>
 
       <InnerWrapper>
         <Box>

@@ -117,7 +117,7 @@ const LimitOrderList = () => {
       </MobileLimitOrderList>
       <DesktopLimitOrderList>
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Text color="text1" fontSize={32} fontWeight={500}>
+          <Text color="text1" fontSize={24} fontWeight={500}>
             {t('swapPage.limitOrders')}
           </Text>
 
@@ -146,7 +146,7 @@ const LimitOrderList = () => {
                 ))}
               </Scrollbars>
             ) : (
-              <Text color="text1" fontSize={18} fontWeight={500} marginLeft={'6px'} textAlign="center">
+              <Text color="text1" fontSize={14} fontWeight={500} marginLeft={'6px'} textAlign="center">
                 {t('swapPage.noLimitOrder', {
                   orderType: activeTab
                 })}

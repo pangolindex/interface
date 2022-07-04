@@ -378,7 +378,8 @@
     "allFarms": "所有农场",
     "yourFarms": "你的农场",
     "yourPools": "你的游泳池",
-    "noFarms": "没有找到农场。"
+    "noFarms": "没有找到农场。",
+    "successWithdraw": "您的流动性从农场中移除，并获得了应计奖励"
   },
   "poolFinder": {
     "connectToFind": "连接到钱包以查找矿池",

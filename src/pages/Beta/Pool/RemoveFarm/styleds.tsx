@@ -1,20 +1,20 @@
 import { Box } from '@pangolindex/components'
 import styled from 'styled-components'
 
-export const WithdrawWrapper = styled(Box)`
+export const FarmRemoveWrapper = styled(Box)`
   width: 100%;
-  height: 100%;
+  flex: 1;
 `
 export const Root = styled(Box)`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0px 10px;
 `
 export const RewardWrapper = styled(Box)`
   display: grid;
   grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
-  grid-gap: 8px;
+  grid-row-gap: 0px;
+  grid-column-gap: 5px;
   justify-content: center;
   height: 100%;
 `

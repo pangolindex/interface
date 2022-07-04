@@ -24,6 +24,8 @@ export interface EarnProps {
   menuItems: Array<{ label: string; value: string }>
 }
 
+type StakingInfoByPid = { [pid: string]: MinichefStakingInfo }
+
 const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activeMenu, menuItems }) => {
   const chainId = useChainId()
 
@@ -33,8 +35,9 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   const [sortBy, setSortBy] = useState<string>('')
   const debouncedSearchQuery = useDebounce(searchQuery, 250)
   const [stakingInfoData, setStakingInfoData] = useState<MinichefStakingInfo[]>([])
+  const [stakingInfoByPid, setStakingInfoByPid] = useState<StakingInfoByPid>({})
 
-  const [selectedPoolIndex, setSelectedPoolIndex] = useState(-1)
+  const [selectedPoolIndex, setSelectedPoolIndex] = useState('')
 
   const togglePoolDetailModal = usePoolDetailnModalToggle()
 
@@ -48,18 +51,6 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   const handleSearch = useCallback(value => {
     setSearchQuery(value.trim().toUpperCase())
   }, [])
-
-  useEffect(() => {
-    const filtered = stakingInfos.filter(function(stakingInfo) {
-      return (
-        (stakingInfo?.tokens?.[0]?.symbol || '').toUpperCase().includes(debouncedSearchQuery) ||
-        (stakingInfo?.tokens?.[1]?.symbol || '').toUpperCase().includes(debouncedSearchQuery)
-      )
-    })
-
-    setStakingInfoData(filtered)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedSearchQuery])
 
   useEffect(() => {
     if (sortBy === SortingType.totalStakedInUsd) {
@@ -84,18 +75,38 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
         .sort(sortingOnAvaxStake)
         .sort(sortingOnStakedAmount)
 
-      setStakingInfoData(updatedStakingInfos)
+      let finalArr = updatedStakingInfos
+
+      // if user has searched something, then filter those results
+      if (debouncedSearchQuery) {
+        const filtered = stakingInfos.filter(function(stakingInfo) {
+          return (
+            (stakingInfo?.tokens?.[0]?.symbol || '').toUpperCase().includes(debouncedSearchQuery) ||
+            (stakingInfo?.tokens?.[1]?.symbol || '').toUpperCase().includes(debouncedSearchQuery)
+          )
+        })
+
+        finalArr = filtered
+      }
+
+      const finalArrByPid = finalArr.reduce((acc, info) => {
+        acc[info?.pid] = info
+        return acc
+      }, {} as StakingInfoByPid)
+
+      setStakingInfoByPid(finalArrByPid)
+      setStakingInfoData(finalArr)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stakingInfos])
+  }, [stakingInfos, debouncedSearchQuery])
 
   const stakingRewardsExist = Boolean(
     //@dev if exist minicheft in chain then exist staking rewards because in deploy we added in minicheft pool PNG/WAVAX
     typeof chainId === 'number' &&
       ((DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0 || MINICHEF_ADDRESS[chainId])
   )
-  const selectedPool = selectedPoolIndex !== -1 ? stakingInfoData[selectedPoolIndex] : ({} as MinichefStakingInfo)
+  const selectedPool = !!selectedPoolIndex ? stakingInfoByPid[selectedPoolIndex] : ({} as MinichefStakingInfo)
 
   return (
     <PoolCardListView
@@ -111,12 +122,12 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
       doesNotPoolExist={(!stakingRewardsExist || stakingInfoData?.length === 0) && !poolCardsLoading}
       selectedPool={selectedPool}
     >
-      {stakingInfoData.map((stakingInfo, index) => (
+      {stakingInfoData.map(stakingInfo => (
         <PoolCardV2
           key={stakingInfo?.pid}
           stakingInfo={stakingInfo}
           onClickViewDetail={() => {
-            setSelectedPoolIndex(index)
+            setSelectedPoolIndex(stakingInfo?.pid)
             togglePoolDetailModal()
           }}
           version={Number(version)}

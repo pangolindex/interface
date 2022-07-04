@@ -378,7 +378,8 @@
     "allPools": "Todas las Farms",
     "yourFars": "Tus Farms",
     "yourPools": "Tus Pools",
-    "noFarms": "No se encontraron farms."
+    "noFarms": "No se encontraron farms.",
+    "successWithdraw": "¡Su liquidez eliminada de la granja y las recompensas acumuladas reclamadas!"
   },
   "poolFinder": {
     "connectToFind": "Conecte la cartera para encontrar pools",

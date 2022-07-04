@@ -20,7 +20,7 @@ export const ConfirmButton = styled.button`
   padding: 10px;
   border: none;
   color: ${({ theme }) => theme.text1};
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
 
   :hover,

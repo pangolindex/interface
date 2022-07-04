@@ -378,7 +378,8 @@
     "allFarms": "tất cả các trang trại",
     "yourFarms": "trang trại của bạn",
     "yourPools": "Hồ bơi của bạn",
-    "noFarms": "Không tìm thấy trang trại nào."
+    "noFarms": "Không tìm thấy trang trại nào.",
+    "successWithdraw": "Thanh khoản của bạn đã bị xóa khỏi trang trại và đã nhận được phần thưởng tích lũy!"
   },
   "poolFinder": {
     "connectToFind": "Kêt nối với một ví để nhìn thấy bể",
