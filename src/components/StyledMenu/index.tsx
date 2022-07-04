@@ -10,11 +10,10 @@ export const StyledMenuButton = styled.button<{ isBeta?: boolean }>`
   background-color: transparent;
   margin: 0;
   padding: 0;
-  height: 35px;
   background-color: ${({ theme, isBeta }) => (isBeta ? theme.bg2 : theme.bg3)};
 
   padding: 0.15rem 0.5rem;
-  border-radius: 0.5rem;
+  border-radius: 4px;
 
   :hover,
   :focus {

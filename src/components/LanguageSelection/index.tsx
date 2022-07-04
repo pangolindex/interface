@@ -11,6 +11,10 @@ const NarrowMenuFlyout = styled(MenuFlyout)`
   ${({ theme }) => theme.mediaWidth.upToMedium`
     top: -14.25rem;
   `};
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    top: 50px;
+  `};
 `
 
 export const ClickableMenuItem = styled.a`
