@@ -7,7 +7,8 @@ import {
   TransactionIcon,
   Items,
   Line,
-  ThemeMode
+  ThemeMode,
+  Wrapper
 } from './styled'
 import { MenuLinks } from '../../Sidebar/MenuLinks'
 import SocialMedia from 'src/layout/SocialMedia'
@@ -49,7 +50,7 @@ const MobileMenu: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => 
             <Box width="100%">
               <MobileWeb3Status />
             </Box>
-            <Box display="flex" style={{ gap: '20px' }} width="100%" justifyContent="center">
+            <Wrapper width="100%" justifyContent="center">
               <TransactionButton onClick={() => setOpenTransactions(true)}>
                 <Box width="20px" height="20px">
                   <TransactionIcon />
@@ -61,7 +62,7 @@ const MobileMenu: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => 
                   {isDark ? <LightModeIcon /> : <NightModeIcon />}
                 </Box>
               </ThemeMode>
-            </Box>
+            </Wrapper>
           </Items>
           <Box style={{ flexGrow: 1 }}>
             <MenuLinks onClick={handleMobileMenu} />

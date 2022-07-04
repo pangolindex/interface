@@ -138,3 +138,9 @@ export const CloseButton = styled(CloseIcon)`
   right: 5px;
   top: 5px;
 `
+
+export const Wrapper = styled(Box)`
+  display: inline-grid;
+  grid-template-columns: 42px 42px 42px;
+  grid-gap: 20px;
+`
