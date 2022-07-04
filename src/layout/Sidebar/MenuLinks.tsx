@@ -117,7 +117,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       <MenuItem key={index}>
         <MenuExternalLink id={link.id} href={link.link}>
           <img src={link.icon} width={16} alt={link.title} />
-          {!collapsed && <MenuName fontSize={16}>{link.title}</MenuName>}
+          {!collapsed && <MenuName fontSize={[16, 14]}>{link.title}</MenuName>}
         </MenuExternalLink>
       </MenuItem>
     )
@@ -134,7 +134,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
               <MenuLink id={x.id} to={x.link} onClick={onClick}>
                 <Icon size={16} fillColor={x.isActive ? theme.black : theme.color22} />
                 {!collapsed && (
-                  <MenuName fontSize={16} color={x.isActive ? 'black' : undefined}>
+                  <MenuName fontSize={[16, 14]} color={x.isActive ? 'black' : undefined}>
                     {x.title}
                   </MenuName>
                 )}
