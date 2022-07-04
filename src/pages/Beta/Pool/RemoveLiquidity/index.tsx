@@ -27,10 +27,11 @@ import Loader from 'src/components/Beta/Loader'
 interface RemoveLiquidityProps {
   currencyA?: Currency
   currencyB?: Currency
-  showTab?: (value: boolean) => void
+  // this prop will be used if user move away from first step
+  onLoadingOrComplete?: (value: boolean) => void
 }
 
-const RemoveLiquidity = ({ currencyA, currencyB, showTab }: RemoveLiquidityProps) => {
+const RemoveLiquidity = ({ currencyA, currencyB, onLoadingOrComplete }: RemoveLiquidityProps) => {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const { library, provider } = useLibrary()
@@ -90,11 +91,11 @@ const RemoveLiquidity = ({ currencyA, currencyB, showTab }: RemoveLiquidityProps
   }, [_onUserInput])
 
   useEffect(() => {
-    if (showTab) {
+    if (onLoadingOrComplete) {
       if (hash || attempting) {
-        showTab(false)
+        onLoadingOrComplete(true)
       } else {
-        showTab(true)
+        onLoadingOrComplete(false)
       }
     }
 

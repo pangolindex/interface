@@ -12,13 +12,14 @@ import Loader from 'src/components/Beta/Loader'
 import Stat from 'src/components/Stat'
 import RemoveLiquidityDrawer from '../RemoveLiquidityDrawer'
 
-interface WithdrawProps {
+interface RemoveFarmProps {
   stakingInfo: StakingInfo
   version: number
   onClose: () => void
-  showTab?: (value: boolean) => void
+  // this prop will be used if user move away from first step
+  onLoadingOrComplete?: (value: boolean) => void
 }
-const RemoveFarm = ({ stakingInfo, version, onClose, showTab }: WithdrawProps) => {
+const RemoveFarm = ({ stakingInfo, version, onClose, onLoadingOrComplete }: RemoveFarmProps) => {
   const { account } = useActiveWeb3React()
   const [isRemoveLiquidityDrawerVisible, setShowRemoveLiquidityDrawer] = useState(false)
   const { t } = useTranslation()
@@ -36,11 +37,11 @@ const RemoveFarm = ({ stakingInfo, version, onClose, showTab }: WithdrawProps) =
   const isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
   useEffect(() => {
-    if (showTab) {
+    if (onLoadingOrComplete) {
       if (hash || attempting) {
-        showTab(false)
+        onLoadingOrComplete(true)
       } else {
-        showTab(true)
+        onLoadingOrComplete(false)
       }
     }
 
@@ -176,6 +177,7 @@ const RemoveFarm = ({ stakingInfo, version, onClose, showTab }: WithdrawProps) =
           isOpen={isRemoveLiquidityDrawerVisible}
           onClose={() => {
             setShowRemoveLiquidityDrawer(false)
+            wrappedOnDismiss()
           }}
           clickedLpTokens={[token0, token1]}
         />

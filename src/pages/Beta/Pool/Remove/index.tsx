@@ -38,8 +38,8 @@ const Remove = ({ stakingInfo, version, onClose }: WithdrawProps) => {
         <RemoveLiquidity
           currencyA={currencyA}
           currencyB={currencyB}
-          showTab={(show: boolean) => {
-            setShowRemoveTab(show)
+          onLoadingOrComplete={(isLoadingOrComplete: boolean) => {
+            setShowRemoveTab(!isLoadingOrComplete)
           }}
         />
       )
@@ -73,8 +73,8 @@ const Remove = ({ stakingInfo, version, onClose }: WithdrawProps) => {
           stakingInfo={stakingInfo}
           onClose={onClose}
           version={version}
-          showTab={(show: boolean) => {
-            setShowRemoveTab(show)
+          onLoadingOrComplete={(isLoadingOrComplete: boolean) => {
+            setShowRemoveTab(!isLoadingOrComplete)
           }}
         />
       ) : (
