@@ -24,8 +24,8 @@ export const Frame = styled(Box)`
 `
 
 export const Items = styled(Box)`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   justify-content: center;
   align-items: center;
   background-color: ${({ theme }) => theme.color3};
@@ -41,7 +41,7 @@ export const ThemeMode = styled(BlackCard)`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  margin-left: 0.5rem;
   border-radius: 4px;
 
   cursor: pointer;
@@ -142,5 +142,5 @@ export const CloseButton = styled(CloseIcon)`
 export const Wrapper = styled(Box)`
   display: inline-grid;
   grid-template-columns: 42px 42px 42px;
-  grid-gap: 20px;
+  grid-gap: 10px;
 `
