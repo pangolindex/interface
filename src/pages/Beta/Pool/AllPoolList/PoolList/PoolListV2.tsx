@@ -122,7 +122,7 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
       doesNotPoolExist={(!stakingRewardsExist || stakingInfoData?.length === 0) && !poolCardsLoading}
       selectedPool={selectedPool}
     >
-      {stakingInfoData.map((stakingInfo, index) => (
+      {stakingInfoData.map(stakingInfo => (
         <PoolCardV2
           key={stakingInfo?.pid}
           stakingInfo={stakingInfo}
