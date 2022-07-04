@@ -34,7 +34,7 @@ const WalletCard = ({ pair }: WalletCardProps) => {
     <Panel>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Box>
-          <Text color="text1" fontSize={24} fontWeight={500}>
+          <Text color="text1" fontSize={[24, 18]} fontWeight={500}>
             {currency0.symbol}-{currency1.symbol}
           </Text>
         </Box>
@@ -49,7 +49,7 @@ const WalletCard = ({ pair }: WalletCardProps) => {
           stat={`${liquidityInUSD ? `$${liquidityInUSD?.toFixed(4)}` : '-'}`}
           titlePosition="top"
           titleFontSize={16}
-          statFontSize={24}
+          statFontSize={[24, 18]}
         />
 
         <Stat
@@ -57,7 +57,7 @@ const WalletCard = ({ pair }: WalletCardProps) => {
           stat={userPgl ? userPgl.toSignificant(4) : '-'}
           titlePosition="top"
           titleFontSize={16}
-          statFontSize={24}
+          statFontSize={[24, 18]}
         />
       </StatWrapper>
 

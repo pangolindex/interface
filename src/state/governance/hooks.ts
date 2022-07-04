@@ -11,7 +11,7 @@ import { useTransactionAdder } from '../transactions/hooks'
 import { useState, useEffect, useCallback } from 'react'
 import GOV from '@pangolindex/governance/artifacts/contracts/GovernorAlpha.sol/GovernorAlpha.json'
 import { GET_BLOCK } from 'src/apollo/block'
-import { blockClient, governanceClient } from 'src/apollo/client'
+import { avalancheBlockClient as blockClient, governanceClient } from 'src/apollo/client'
 import { GET_PROPOSALS } from 'src/apollo/vote'
 import { useLibrary } from '@pangolindex/components'
 

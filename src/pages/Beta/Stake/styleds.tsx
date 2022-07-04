@@ -7,7 +7,7 @@ export const PageWrapper = styled(Box)`
 
 export const PageTitle = styled(Box)`
   font-weight: 500;
-  font-size: 44px;
+  font-size: 32px;
   color: ${({ theme }) => theme.text7};
   margin-top: 105px;
   margin-bottom: 92px;

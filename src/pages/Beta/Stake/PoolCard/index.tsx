@@ -34,7 +34,7 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
       <CardStats>
         {stakingInfo.stakedAmount.greaterThan('0') ? (
           <Stats>
-            <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
+            <Text fontSize={[16, 12]} fontWeight={500} lineHeight="19px" color="text1">
               Your staked
             </Text>
             <StatValue color="text1">
@@ -43,7 +43,7 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
           </Stats>
         ) : (
           <Stats>
-            <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
+            <Text fontSize={[16, 12]} fontWeight={500} lineHeight="19px" color="text1">
               {t('stakePage.totalStaked')}
             </Text>
             <StatValue color="text1">
@@ -52,7 +52,7 @@ const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
           </Stats>
         )}
         <Stats>
-          <Text fontSize={16} fontWeight={500} lineHeight="19px" color="text1">
+          <Text fontSize={[16, 12]} fontWeight={500} lineHeight="19px" color="text1">
             APR
           </Text>
           <StatValue color="text1">

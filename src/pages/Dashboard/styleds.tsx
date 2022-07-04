@@ -32,16 +32,16 @@ export const StatsWrapper = styled(Box)`
 `
 
 export const PageTitle = styled.div`
-  font-size: 36px;
+  font-size: 28px;
   color: ${({ theme }) => theme.text7};
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-   font-size: 24px;
+   font-size: 22px;
   `};
 `
 
 export const PageDescription = styled.div`
-  font-size: 24px;
+  font-size: 18px;
   margin-bottom: 16px;
   color: ${({ theme }) => theme.text8};
 

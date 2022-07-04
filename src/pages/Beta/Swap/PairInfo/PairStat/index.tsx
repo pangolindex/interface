@@ -66,7 +66,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
           minWidth={270}
         >
           <DoubleCurrencyLogo size={24} currency0={inputCurrency} currency1={outputCurrency} />
-          <Text color="text1" fontSize={24} fontWeight={500} lineHeight="55px" marginLeft={10}>
+          <Text color="text1" fontSize={20} fontWeight={500} lineHeight="55px" marginLeft={10}>
             {inputCurrency?.symbol}/{outputCurrency?.symbol}
           </Text>
         </Box>
@@ -76,7 +76,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             stat={`$${inputUsdcPrice ? inputUsdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}`}
             titlePosition="top"
             titleFontSize={16}
-            statFontSize={24}
+            statFontSize={20}
             titleColor="text2"
           />
         </Box>
@@ -87,7 +87,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             stat={`$${outputUsdcPrice ? outputUsdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}`}
             titlePosition="top"
             titleFontSize={16}
-            statFontSize={24}
+            statFontSize={20}
             titleColor="text2"
           />
         </Box>
@@ -98,7 +98,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             stat={`${Pair0UsdcPrice ? Pair0UsdcPrice?.toFixed(4) : '-'}`}
             titlePosition="top"
             titleFontSize={16}
-            statFontSize={24}
+            statFontSize={20}
             titleColor="text2"
           />
         </Box>
@@ -109,7 +109,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             stat={`${Pair1UsdcPrice ? Pair1UsdcPrice?.toFixed(4) : '-'}`}
             titlePosition="top"
             titleFontSize={16}
-            statFontSize={24}
+            statFontSize={20}
             titleColor="text2"
           />
         </Box>
@@ -120,7 +120,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             stat={perc ? `${perc.toFixed(3)}%` : '-'}
             titlePosition="top"
             titleFontSize={16}
-            statFontSize={24}
+            statFontSize={20}
             titleColor="text2"
           />
         </Box>

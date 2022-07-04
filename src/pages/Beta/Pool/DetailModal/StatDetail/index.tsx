@@ -46,7 +46,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
           stat={`${totalAmount ? `${totalAmount}` : '-'}`}
           titlePosition="top"
           titleFontSize={12}
-          statFontSize={20}
+          statFontSize={[20, 16]}
           titleColor="text2"
         />
         {currency0 && (
@@ -55,7 +55,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
             stat={`${token0Deposited ? numeral(parseFloat(token0Deposited?.toSignificant(6))).format('0.00a') : '-'}`}
             titlePosition="top"
             titleFontSize={12}
-            statFontSize={20}
+            statFontSize={[20, 16]}
             titleColor="text2"
             currency={currency0}
             showAnalytics={true}
@@ -67,7 +67,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
             stat={`${token1Deposited ? numeral(parseFloat(token1Deposited?.toSignificant(6))).format('0.00a') : '-'}`}
             titlePosition="top"
             titleFontSize={12}
-            statFontSize={20}
+            statFontSize={[20, 16]}
             titleColor="text2"
             currency={currency1}
             showAnalytics={true}

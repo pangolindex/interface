@@ -22,7 +22,7 @@ import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
 import { useIsBetaUI } from './hooks/useLocation'
-import { useActiveWeb3React } from './hooks'
+import { useActiveWeb3React, useChainId } from './hooks'
 import Package from '../package.json'
 import { fetchMinichefData } from './state/stake/hooks'
 import { ChainId } from '@pangolindex/sdk'
@@ -80,21 +80,22 @@ function Updaters() {
   )
 }
 
-const prefetchImportantQueries = async (account: string) => {
+const prefetchImportantQueries = async (account: string, chainId: ChainId) => {
   // pre-fetch minichef query
-  await queryClient.prefetchQuery(['get-minichef-farms-v2', account], fetchMinichefData(account))
+  await queryClient.prefetchQuery(['get-minichef-farms-v2', account], fetchMinichefData(account, chainId))
 }
 
 const ComponentThemeProvider = () => {
+  const chainId = useChainId()
   const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
 
-  const { chainId, account } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
 
   const { library } = useLibrary()
   useEffect(() => {
     if (chainId === ChainId.AVALANCHE) {
-      prefetchImportantQueries(account || '')
+      prefetchImportantQueries(account || '', chainId)
     }
   }, [account, chainId])
 

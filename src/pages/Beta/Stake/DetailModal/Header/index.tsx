@@ -33,7 +33,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
       <HeaderWrapper>
         <Box display="flex" alignItems="center">
           <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={48} />
-          <Text color="text1" fontSize={24} fontWeight={500} marginLeft={10}>
+          <Text color="text1" fontSize={[24, 20]} fontWeight={500} marginLeft={10}>
             {currency0?.symbol}/{currency1?.symbol}
           </Text>
         </Box>
@@ -44,7 +44,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
 
       <StatsWrapper isStake={stakingInfo.stakedAmount.greaterThan('0')}>
         <Box display="inline-block">
-          <Text color="text2" fontSize={14}>
+          <Text color="text2" fontSize={[14, 12]}>
             {t('earn.poolRewards')}
           </Text>
 
@@ -61,8 +61,8 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
               : ' - '
           }
           titlePosition="top"
-          titleFontSize={14}
-          statFontSize={20}
+          titleFontSize={[14, 12]}
+          statFontSize={[20, 16]}
           titleColor="text2"
         />
         {stakingInfo.stakedAmount.greaterThan('0') && (
@@ -70,8 +70,8 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
             title={`Your Weekly Rate`}
             stat={userRewardRate ? `${userRewardRate}` : '-'}
             titlePosition="top"
-            titleFontSize={14}
-            statFontSize={20}
+            titleFontSize={[14, 12]}
+            statFontSize={[20, 16]}
             titleColor="text2"
             currency={currency1}
           />
@@ -80,8 +80,8 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
           title={`Weekly Pool Rate`}
           stat={totalRewardRate ? `${totalRewardRate}` : '-'}
           titlePosition="top"
-          titleFontSize={14}
-          statFontSize={20}
+          titleFontSize={[14, 12]}
+          statFontSize={[20, 16]}
           titleColor="text2"
           currency={currency1}
         />

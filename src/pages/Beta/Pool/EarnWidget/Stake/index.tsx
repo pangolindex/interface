@@ -345,7 +345,7 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
                 value={typedValue}
                 addonAfter={
                   <Box display="flex" alignItems="center">
-                    <Text color="text4" fontSize={24}>
+                    <Text color="text4" fontSize={[24, 18]}>
                       PGL
                     </Text>
                   </Box>

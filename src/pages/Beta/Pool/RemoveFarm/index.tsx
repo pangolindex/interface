@@ -115,7 +115,7 @@ const RemoveFarm = ({ stakingInfo, version, onClose, onLoadingOrComplete }: Remo
                     stat={stakingInfo?.stakedAmount?.toSignificant(4)}
                     titlePosition="top"
                     titleFontSize={12}
-                    statFontSize={20}
+                    statFontSize={[20, 18]}
                     titleColor="text1"
                     statAlign="center"
                   />
@@ -128,7 +128,7 @@ const RemoveFarm = ({ stakingInfo, version, onClose, onLoadingOrComplete }: Remo
                     stat={newEarnedAmount?.toSignificant(4)}
                     titlePosition="top"
                     titleFontSize={12}
-                    statFontSize={20}
+                    statFontSize={[20, 18]}
                     titleColor="text1"
                     statAlign="center"
                   />
@@ -143,7 +143,7 @@ const RemoveFarm = ({ stakingInfo, version, onClose, onLoadingOrComplete }: Remo
                       stat={rewardAmount?.toSignificant(4)}
                       titlePosition="top"
                       titleFontSize={12}
-                      statFontSize={20}
+                      statFontSize={[20, 18]}
                       titleColor="text1"
                       statAlign="center"
                     />

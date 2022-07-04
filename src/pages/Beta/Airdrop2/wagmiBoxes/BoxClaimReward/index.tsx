@@ -12,7 +12,7 @@ export const BoxClaimReward: React.FC<IclaimPNG> = ({ claimPNG, amount }) => {
   return (
     <ClaimBox>
       <TitleWrapper>
-        <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
+        <Text fontSize={[28, 22]} fontWeight={700} lineHeight="33px" color="text10">
           Claim Your Reward
         </Text>
         <StyledLogo src={WgmLogo} size={'50px'} />
@@ -22,7 +22,7 @@ export const BoxClaimReward: React.FC<IclaimPNG> = ({ claimPNG, amount }) => {
       <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
         You are eligible for:
       </Text>
-      <Text fontSize={22} fontWeight={500} lineHeight="22px" color="text10" textAlign="center">
+      <Text fontSize={[22, 18]} fontWeight={500} lineHeight="22px" color="text10" textAlign="center">
         {amount}
       </Text>
       <SmallSeparator />

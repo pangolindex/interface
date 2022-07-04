@@ -41,7 +41,7 @@ const SearchToken = ({ currency0, currency1, onTokenClick, onClick }: Props) => 
     if (!account) {
       return (
         <LightCard>
-          <Text textAlign="center" color="color6" fontSize={14}>
+          <Text textAlign="center" color="color6" fontSize={[14, 12]}>
             {t('walletModal.connectToWallet')}
           </Text>
         </LightCard>
@@ -51,7 +51,7 @@ const SearchToken = ({ currency0, currency1, onTokenClick, onClick }: Props) => 
     if (!currency0 || !currency1) {
       return (
         <LightCard>
-          <Text textAlign="center" color="text1" fontSize={14}>
+          <Text textAlign="center" color="text1" fontSize={[14, 12]}>
             {t('poolFinder.selectToken')}
           </Text>
         </LightCard>
@@ -74,7 +74,7 @@ const SearchToken = ({ currency0, currency1, onTokenClick, onClick }: Props) => 
 
     return (
       <LightCard>
-        <Text textAlign="center" color="text1" fontSize={16}>
+        <Text textAlign="center" color="text1" fontSize={[16, 12]}>
           {t('poolFinder.invalidPair')}
         </Text>
       </LightCard>
@@ -84,7 +84,7 @@ const SearchToken = ({ currency0, currency1, onTokenClick, onClick }: Props) => 
   function renderCurrency(currency: Currency | undefined) {
     if (!currency) {
       return (
-        <Text color="text1" fontSize={16}>
+        <Text color="text1" fontSize={[16, 12]}>
           {t('poolFinder.selectToken')}
         </Text>
       )
@@ -93,7 +93,7 @@ const SearchToken = ({ currency0, currency1, onTokenClick, onClick }: Props) => 
     return (
       <>
         <CurrencyLogo size={24} currency={currency} imageSize={48} />
-        <Text color="text2" fontSize={16} fontWeight={500} lineHeight="40px" marginLeft={10}>
+        <Text color="text2" fontSize={[16, 14]} fontWeight={500} lineHeight="40px" marginLeft={10}>
           {currency?.symbol}
         </Text>
       </>
