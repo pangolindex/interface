@@ -247,7 +247,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
           onComplete()
         }
       }}
-      buttonText={onAddToFarm ? 'Add to Farm' : t('transactionConfirmation.close')}
+      buttonText={onAddToFarm ? t('transactionConfirmation.addToFarm') : t('transactionConfirmation.close')}
     />
   )
 

@@ -227,7 +227,8 @@
     "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avalanche",
     "close": "Đóng",
     "error": "Lỗi",
-    "dismiss": "Bỏ qua"
+    "dismiss": "Bỏ qua",
+    "addToFarm": "Thêm vào trang trại"
   },
   "transactionSettings": {
     "slippageTolerance": "Chống trượt giá",

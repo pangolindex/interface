@@ -227,7 +227,8 @@
     "viewExplorer": "Voir sur le Snowtrace Explorer",
     "close": "Fermer",
     "error": "Erreur",
-    "dismiss": "Rejeter"
+    "dismiss": "Rejeter",
+    "addToFarm": "Ajouter à la ferme"
   },
   "transactionSettings": {
     "slippageTolerance": "Tolérance du slippage",
