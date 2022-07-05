@@ -75,7 +75,7 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
         <HeaderControls>
           <HeaderElement>
             <LegacyButtonWrapper>
-              <Button variant="primary" height={36} padding="4px 6px" href="/" as="a">
+              <Button variant="primary" height={36} padding="4px 6px" href="https://legacy.pangolin.exchange" as="a">
                 <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
               </Button>
             </LegacyButtonWrapper>
