@@ -27,7 +27,13 @@ const AddLiquidityDrawer: React.FC<Props> = ({ isOpen, onClose, onComplete, clic
   return (
     <Drawer title={t('pool.addLiquidity')} isOpen={isOpen} onClose={onClose} backgroundColor={backgroundColor}>
       {isOpen && (
-        <AddLiquidity currencyA={currencyA} currencyB={currencyB} onComplete={onComplete ?? onClose} type="card" />
+        <AddLiquidity
+          currencyA={currencyA}
+          currencyB={currencyB}
+          onComplete={onClose}
+          onAddToFarm={onComplete}
+          type="card"
+        />
       )}
     </Drawer>
   )
