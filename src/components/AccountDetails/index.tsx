@@ -21,7 +21,8 @@ import {
   near,
   SUPPORTED_WALLETS,
   shortenAddress,
-  NearConnector
+  NearConnector,
+  transactionActions
 } from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
@@ -302,7 +303,10 @@ export default function AccountDetails({
   }
 
   const clearAllTransactionsCallback = useCallback(() => {
-    if (chainId) dispatch(clearAllTransactions({ chainId }))
+    if (chainId) {
+      dispatch(clearAllTransactions({ chainId }))
+      dispatch(transactionActions.clearAllTransactions({ chainId }))
+    }
   }, [dispatch, chainId])
 
   return (
