@@ -16,8 +16,3 @@ export const useLocationHash = () => {
 
   return hash
 }
-
-export const useIsBetaUI = () => {
-  const hash = useLocationHash()
-  return hash.includes('beta')
-}

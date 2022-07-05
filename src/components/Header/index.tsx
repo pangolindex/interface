@@ -27,7 +27,7 @@ import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { MenuFlyout, MenuNavItem } from '../StyledMenu'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
-import { BETA_MENU_LINK, ANALYTICS_PAGE, NETWORK_LABELS, NETWORK_CURRENCY } from 'src/constants'
+import { MENU_LINK, ANALYTICS_PAGE, NETWORK_LABELS, NETWORK_CURRENCY } from 'src/constants'
 import { Hidden } from 'src/theme'
 import { useChainId } from 'src/hooks'
 
@@ -368,7 +368,7 @@ export default function Header() {
               variant="primary"
               height={36}
               padding="4px 6px"
-              href={`#${BETA_MENU_LINK.dashboard}`}
+              href={`#${MENU_LINK.dashboard}`}
               backgroundColor={'#f05629'}
               as="a"
               target=""

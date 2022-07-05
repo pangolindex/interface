@@ -5,7 +5,7 @@ import { NewsWidget, WatchList, Portfolio } from '@pangolindex/components'
 import { ChainId, CHAINS } from '@pangolindex/sdk'
 import { useActiveWeb3React } from 'src/hooks'
 import { Hidden, Visible } from 'src/theme'
-import { BETA_MENU_LINK } from 'src/constants'
+import { MENU_LINK } from 'src/constants'
 
 const Dashboard = () => {
   const { t } = useTranslation()
@@ -19,7 +19,7 @@ const Dashboard = () => {
         <StatsWrapper>
           <Portfolio />
           {CHAINS[chainId]?.mainnet && (
-            <WatchList visibleTradeButton={true} tradeLinkUrl={BETA_MENU_LINK.swap} redirect={true} />
+            <WatchList visibleTradeButton={true} tradeLinkUrl={MENU_LINK.swap} redirect={true} />
           )}
         </StatsWrapper>
 

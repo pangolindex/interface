@@ -1,5 +1,5 @@
 import React from 'react'
-import { BETA_MENU_LINK, ZERO_ADDRESS } from 'src/constants'
+import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { Root, Buttons, MaxButton, StakeWrapper, GridContainer, InputText } from './styled'
 import { Box, Button, NumberOptions } from '@pangolindex/components'
 import { ApprovalState } from 'src/hooks/useApproveCallback'
@@ -132,7 +132,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
                 padding="15px 18px"
                 variant="primary"
                 as="a"
-                href={`/#${BETA_MENU_LINK.swap}?inputCurrency=${ZERO_ADDRESS}&outputCurrency=${png.address}`}
+                href={`/#${MENU_LINK.swap}?inputCurrency=${ZERO_ADDRESS}&outputCurrency=${png.address}`}
               >
                 {t('header.buy', { symbol: stakeToken })}
               </Button>

@@ -37,11 +37,7 @@ const FlagIcon = styled.img`
   margin-top: 3px;
 `
 
-interface Props {
-  isBeta?: boolean
-}
-
-export default function LanguageSelection({ isBeta = false }: Props) {
+export default function LanguageSelection() {
   const node = useRef<HTMLDivElement>()
   const open = useModalOpen(ApplicationModal.LANGUAGE)
   const toggle = useToggleModal(ApplicationModal.LANGUAGE)
@@ -50,7 +46,7 @@ export default function LanguageSelection({ isBeta = false }: Props) {
 
   return (
     <StyledMenu ref={node as any}>
-      <StyledMenuButton onClick={toggle} isBeta={isBeta}>
+      <StyledMenuButton onClick={toggle}>
         <FlagIcon src={`./images/flags/${i18n.language}.svg`} />
       </StyledMenuButton>
       {open && (

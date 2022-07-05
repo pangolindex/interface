@@ -56,7 +56,7 @@ const MobileMenu: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => 
                   <TransactionIcon />
                 </Box>
               </TransactionButton>
-              <LanguageSelection isBeta={true} />
+              <LanguageSelection />
               <ThemeMode onClick={() => toggleDarkMode()}>
                 <Box width="20px" height="20px">
                   {isDark ? <LightModeIcon /> : <NightModeIcon />}

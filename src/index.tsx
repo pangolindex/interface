@@ -21,7 +21,6 @@ import UserUpdater from './state/user/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
-import { useIsBetaUI } from './hooks/useLocation'
 import { useActiveWeb3React, useChainId } from './hooks'
 import Package from '../package.json'
 import { fetchMinichefData } from './state/stake/hooks'
@@ -33,7 +32,7 @@ try {
     integrations: [new Integrations.BrowserTracing()],
     release: `pangolin-interface@${Package.version}`, //manual for now
     tracesSampleRate: 0.4,
-    allowUrls: ['https://app.pangolin.exchange', 'https://beta-app.pangolin.exchange'],
+    allowUrls: ['https://app.pangolin.exchange', 'https://dev.pangolin.exchange'],
     enabled: process.env.NODE_ENV === 'production',
     ignoreErrors: [
       'ResizeObserver loop limit exceeded',
@@ -87,7 +86,6 @@ const prefetchImportantQueries = async (account: string, chainId: ChainId) => {
 
 const ComponentThemeProvider = () => {
   const chainId = useChainId()
-  const isBeta = useIsBetaUI()
   const theme = useContext(ThemeContext)
 
   const { account } = useActiveWeb3React()
@@ -115,8 +113,8 @@ const ComponentThemeProvider = () => {
 
   return (
     <PangolinProvider library={library} chainId={chainId} account={account ?? undefined} theme={theme as any}>
-      <FixedGlobalStyle isBeta={isBeta} />
-      <ThemedGlobalStyle isBeta={isBeta} />
+      <FixedGlobalStyle />
+      <ThemedGlobalStyle />
       <HashRouter>
         <App />
       </HashRouter>
