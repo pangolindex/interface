@@ -1,51 +1,26 @@
 import React, { Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
+import { MENU_LINK } from 'src/constants'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
-// import Header from '../components/Header'
 import Polling from '../components/Header/Polling'
-// import URLWarning from '../components/Header/URLWarning'
 import Popups from '../components/Popups'
 import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
-// import AddLiquidity from './AddLiquidity'
-// import {
-//   RedirectDuplicateTokenIds,
-//   RedirectOldAddLiquidityPathStructure,
-//   RedirectToAddLiquidity
-// } from './AddLiquidity/redirects'
-// import { EarnV1, EarnV2, ManageV1, ManageV2 } from './Earn'
-// import Stake from './Stake'
-// import ManageStake from './Stake/Manage'
-// import Pool from './Pool'
-// import Buy from './Buy'
-// import PoolFinder from './PoolFinder'
-// import RemoveLiquidity from './RemoveLiquidity'
-// import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 import Dashboard from './Dashboard'
-// import Swap from './Swap'
 import { RedirectPathToSwapOnly } from './Swap/redirects'
-// import Airdrop from './Airdrop'
-// import Vote from './Vote'
-// import VotePage from './Vote/VotePage'
-// import IDO from './IDO'
 import Migrate from './Earn/Migrate'
-
 import MigrateV2 from './Migrate'
 import CustomRoute from './Route'
 import Layout from '../layout'
-
 import SwapV2 from './Beta/Swap'
 import StakeV2 from './Beta/Stake'
-
 import GovernanceV2 from './Beta/Governance'
 import GovernanceDetailV2 from './Beta/GovernanceDetail'
 import BuyV2 from './Beta/Buy'
 import PoolV2 from './Beta/Pool'
 import BridgeV2 from './Beta/Bridge'
 import AirdropV2 from './Beta/Airdrop2'
-import { MENU_LINK } from 'src/constants'
-
 import Policy from './Beta/Policy'
 
 const AppWrapper = styled.div`
@@ -54,12 +29,6 @@ const AppWrapper = styled.div`
   align-items: flex-start;
   overflow-x: hidden;
 `
-
-// const HeaderWrapper = styled.div`
-//   ${({ theme }) => theme.flexRowNoWrap}
-//   width: 100%;
-//   justify-content: space-between;
-// `
 
 const BodyWrapper = styled.div`
   display: flex;
@@ -81,57 +50,17 @@ const BodyWrapper = styled.div`
   z-index: 1;
 `
 
-// const Marginer = styled.div`
-//   margin-top: 5rem;
-// `
-
 export default function App() {
   return (
     <Suspense fallback={null}>
       <Route component={GoogleAnalyticsReporter} />
       <Route component={DarkModeQueryParamReader} />
       <AppWrapper>
-        {/* {!isBeta && (
-          <>
-            <URLWarning />
-            <HeaderWrapper>
-              <Header />
-            </HeaderWrapper>
-          </>
-        )} */}
-
         <BodyWrapper>
           <Popups />
           <Polling />
           <Web3ReactManager>
             <Switch>
-              {/* <Route exact strict path="/swap" component={Swap} />
-              <Route exact strict path="/swap/:outputCurrency" component={RedirectToSwap} />
-              <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
-              <Route exact strict path="/buy" component={Buy} />
-              <Route exact strict path="/find" component={PoolFinder} />
-              <Route exact strict path="/pool" component={Pool} />
-              <Route exact strict path="/png/2" component={EarnV2} />
-              <Route exact strict path="/png/:version" component={EarnV1} />
-              <Route exact strict path="/stake/:version" component={Stake} />
-              <Route exact strict path="/vote" component={Vote} />
-              <Route exact strict path="/ido" component={IDO} />
-              <Route exact strict path="/airdrop" component={Airdrop} />
-              <Route exact strict path="/create" component={RedirectToAddLiquidity} />
-              <Route exact path="/add" component={AddLiquidity} />
-              <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
-              <Route exact path="/add/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
-              <Route exact path="/create" component={AddLiquidity} />
-              <Route exact path="/create/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
-              <Route exact path="/create/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
-              <Route exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
-              <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
-
-              <Route exact strict path="/png/:currencyIdA/:currencyIdB/2" component={ManageV2} />
-              <Route exact strict path="/png/:currencyIdA/:currencyIdB/:version" component={ManageV1} />
-
-              <Route exact strict path="/stake/:version/:rewardCurrencyId" component={ManageStake} />
-              <Route exact strict path="/vote/:id" component={VotePage} /> */}
               <Route
                 exact
                 path="/migrate/:currencyIdFromA/:currencyIdFromB/:versionFrom/:currencyIdToA/:currencyIdToB/:versionTo/"
@@ -166,7 +95,6 @@ export default function App() {
               <Route component={RedirectPathToSwapOnly} />
             </Switch>
           </Web3ReactManager>
-          {/* {!isBeta && <Marginer />} */}
         </BodyWrapper>
       </AppWrapper>
     </Suspense>

@@ -32,7 +32,7 @@ try {
     integrations: [new Integrations.BrowserTracing()],
     release: `pangolin-interface@${Package.version}`, //manual for now
     tracesSampleRate: 0.4,
-    allowUrls: ['https://app.pangolin.exchange', 'https://beta-app.pangolin.exchange'],
+    allowUrls: ['https://app.pangolin.exchange', 'https://dev.pangolin.exchange'],
     enabled: process.env.NODE_ENV === 'production',
     ignoreErrors: [
       'ResizeObserver loop limit exceeded',
