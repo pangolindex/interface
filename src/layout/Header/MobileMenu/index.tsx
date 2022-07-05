@@ -23,6 +23,7 @@ import { useTranslation } from 'react-i18next'
 import MobileWeb3Status from './MobileWeb3Status'
 import TransactionModal from './TransactionModal'
 import Modal from 'src/components/Beta/Modal'
+import { LEGACY_PAGE } from 'src/constants'
 
 interface Props {
   activeMobileMenu: boolean
@@ -67,7 +68,7 @@ const MobileMenu: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => 
           <Box style={{ flexGrow: 1 }}>
             <MenuLinks onClick={handleMobileMenu} />
           </Box>
-          <a href="/" style={{ width: '100%', textDecoration: 'none', marginTop: '100px' }}>
+          <a href={LEGACY_PAGE} style={{ width: '100%', textDecoration: 'none', marginTop: '100px' }}>
             <Box width="100%" display="flex" flexDirection="row" alignItems="center" style={{ gap: 20 }}>
               <img src={Logout} alt="Logout" height="20px" />
               <Text fontSize="16px" color="color22" fontWeight={500}>

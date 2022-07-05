@@ -25,7 +25,7 @@ export const Frame = styled(Box)`
 
 export const Items = styled(Box)`
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(100px, 1fr);
   justify-content: center;
   align-items: center;
   background-color: ${({ theme }) => theme.color3};

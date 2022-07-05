@@ -14,6 +14,7 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
 
 export const LANDING_PAGE = 'https://pangolin.exchange'
 export const ANALYTICS_PAGE = 'https://info.pangolin.exchange'
+export const LEGACY_PAGE = 'https://legacy.pangolin.exchange'
 
 export const PANGOLIN_API_BASE_URL = `https://api.pangolin.exchange`
 
