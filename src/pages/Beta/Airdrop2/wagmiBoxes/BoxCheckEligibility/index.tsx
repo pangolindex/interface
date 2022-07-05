@@ -11,7 +11,7 @@ export const BoxCheckEligibility: React.FC<IStatus> = ({ checkStatus }) => {
   return (
     <ClaimBox>
       <TitleWrapper>
-        <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
+        <Text fontSize={[28, 22]} fontWeight={700} lineHeight="33px" color="text10">
           Claim wagmiPNG
         </Text>
         <StyledLogo src={WgmLogo} size={'50px'} />

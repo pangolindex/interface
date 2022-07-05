@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
-import { RemoveWrapper, InputText, ContentBox } from './styleds'
+import { RemoveWrapper, InputText } from './styleds'
 import { Box, Text, Button, NumberOptions, useLibrary } from '@pangolindex/components'
 import ReactGA from 'react-ga'
 import { useActiveWeb3React, useChainId } from 'src/hooks'
-import { Currency, Percent, CAVAX } from '@pangolindex/sdk'
+import { Currency, CAVAX } from '@pangolindex/sdk'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -13,23 +13,25 @@ import { useTranslation } from 'react-i18next'
 import { RowBetween } from 'src/components/Row'
 import { ROUTER_ADDRESS } from 'src/constants'
 import { useWalletModalToggle } from 'src/state/application/hooks'
-import { useBurnActionHandlers, useDerivedBurnInfo, useBurnState } from 'src/state/burn/hooks'
+import { useBurnActionHandlers, useDerivedBurnInfo } from 'src/state/burn/hooks'
 import { wrappedCurrency } from 'src/utils/wrappedCurrency'
 import { useUserSlippageTolerance } from 'src/state/user/hooks'
 import { Field } from 'src/state/burn/actions'
 import { BigNumber, Contract } from 'ethers'
 import { usePairContract } from 'src/hooks/useContract'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from 'src/utils'
-import Stat from 'src/components/Stat'
+// import Stat from 'src/components/Stat'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 
 interface RemoveLiquidityProps {
-  currencyA: Currency
-  currencyB: Currency
+  currencyA?: Currency
+  currencyB?: Currency
+  // this prop will be used if user move away from first step
+  onLoadingOrComplete?: (value: boolean) => void
 }
 
-const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
+const RemoveLiquidity = ({ currencyA, currencyB, onLoadingOrComplete }: RemoveLiquidityProps) => {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const { library, provider } = useLibrary()
@@ -42,7 +44,7 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
   // toggle wallet when disconnected
   const toggleWalletModal = useWalletModalToggle()
 
-  const { independentField, typedValue } = useBurnState()
+  // const { independentField, typedValue } = useBurnState()
   const { pair, parsedAmounts, error, userLiquidity } = useDerivedBurnInfo(
     currencyA ?? undefined,
     currencyB ?? undefined
@@ -56,19 +58,19 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
   const deadline = useTransactionDeadline()
   const [allowedSlippage] = useUserSlippageTolerance()
 
-  const formattedAmounts = {
-    [Field.LIQUIDITY_PERCENT]: parsedAmounts[Field.LIQUIDITY_PERCENT].equalTo('0')
-      ? '0'
-      : parsedAmounts[Field.LIQUIDITY_PERCENT].lessThan(new Percent('1', '100'))
-      ? '<1'
-      : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
-    [Field.LIQUIDITY]:
-      independentField === Field.LIQUIDITY ? typedValue : parsedAmounts[Field.LIQUIDITY]?.toSignificant(6) ?? '',
-    [Field.CURRENCY_A]:
-      independentField === Field.CURRENCY_A ? typedValue : parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) ?? '',
-    [Field.CURRENCY_B]:
-      independentField === Field.CURRENCY_B ? typedValue : parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) ?? ''
-  }
+  // const formattedAmounts = {
+  //   [Field.LIQUIDITY_PERCENT]: parsedAmounts[Field.LIQUIDITY_PERCENT].equalTo('0')
+  //     ? '0'
+  //     : parsedAmounts[Field.LIQUIDITY_PERCENT].lessThan(new Percent('1', '100'))
+  //     ? '<1'
+  //     : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
+  //   [Field.LIQUIDITY]:
+  //     independentField === Field.LIQUIDITY ? typedValue : parsedAmounts[Field.LIQUIDITY]?.toSignificant(6) ?? '',
+  //   [Field.CURRENCY_A]:
+  //     independentField === Field.CURRENCY_A ? typedValue : parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) ?? '',
+  //   [Field.CURRENCY_B]:
+  //     independentField === Field.CURRENCY_B ? typedValue : parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) ?? ''
+  // }
 
   // pair contract
   const pairContract: Contract | null = usePairContract(pair?.liquidityToken?.address)
@@ -87,6 +89,18 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
   useEffect(() => {
     _onUserInput(Field.LIQUIDITY_PERCENT, `100`)
   }, [_onUserInput])
+
+  useEffect(() => {
+    if (onLoadingOrComplete) {
+      if (hash || attempting) {
+        onLoadingOrComplete(true)
+      } else {
+        onLoadingOrComplete(false)
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hash, attempting])
 
   async function onAttemptToApprove() {
     if (!pairContract || !pair || !library || !deadline || !chainId || !account)
@@ -321,12 +335,12 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
         <>
           <Box flex={1}>
             <Box>
-              <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Box display="flex" flexDirection="column">
                 <InputText
                   value={parsedAmounts[Field.LIQUIDITY]?.toExact() || ''}
                   addonAfter={
                     <Box display="flex" alignItems="center">
-                      <Text color="text4" fontSize={24}>
+                      <Text color="text4" fontSize={[24, 18]}>
                         PGL
                       </Text>
                     </Box>
@@ -346,21 +360,21 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
                   }
                 />
 
-                <Box ml="5px" mt="25px">
+                <Box>
                   <NumberOptions
                     onChange={value => {
                       setPercetage(value)
-                      onChangePercentage(value)
+                      onChangePercentage(value * 25)
                     }}
                     currentValue={percetage}
-                    variant="box"
+                    variant="step"
                     isPercentage={true}
                   />
                 </Box>
               </Box>
             </Box>
 
-            <Box>
+            {/* <Box>
               <ContentBox>
                 <Stat
                   title={tokenA?.symbol}
@@ -382,9 +396,9 @@ const RemoveLiquidity = ({ currencyA, currencyB }: RemoveLiquidityProps) => {
                   statAlign="center"
                 />
               </ContentBox>
-            </Box>
+            </Box> */}
           </Box>
-          <Box mt={10}>
+          <Box mt={0}>
             {!account ? (
               <Button
                 variant="primary"

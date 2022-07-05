@@ -50,7 +50,7 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
   return (
     <ClaimBox>
       <TitleWrapper>
-        <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
+        <Text fontSize={[28, 22]} fontWeight={700} lineHeight="33px" color="text10">
           You are eligible
         </Text>
         <StyledLogo src={WgmLogo} size={'50px'} />

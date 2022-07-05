@@ -32,7 +32,7 @@ export const GOVERNANCE_ADDRESS = '0xb0Ff2b1047d9E8d294c2eD798faE3fA817F43Ee1'
 export const BRIDGE_MIGRATOR_ADDRESS = '0x4b23Aa72A1214d0E4fd3f2c8Da7C6ba660F7483C'
 
 export const MINICHEF_ADDRESS: { [chainId in ChainId]: string } = {
-  [ChainId.FUJI]: ZERO_ADDRESS,
+  [ChainId.FUJI]: CHAINS[ChainId.FUJI].contracts!.mini_chef!,
   [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.mini_chef!,
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.mini_chef!,
   [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.mini_chef!,

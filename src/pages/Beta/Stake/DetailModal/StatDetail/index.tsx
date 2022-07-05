@@ -24,7 +24,7 @@ const StatDetails: React.FC<Props> = ({ title, amountInPNG, currency0 }) => {
 
   return (
     <Box>
-      <Text color="text1" fontSize={24} fontWeight={400}>
+      <Text color="text1" fontSize={[24, 18]} fontWeight={400}>
         {title}
       </Text>
 
@@ -33,16 +33,16 @@ const StatDetails: React.FC<Props> = ({ title, amountInPNG, currency0 }) => {
           title={title}
           stat={`${amountInUSD ? amountInUSD : '-'}`}
           titlePosition="top"
-          titleFontSize={16}
-          statFontSize={24}
+          titleFontSize={[16, 14]}
+          statFontSize={[24, 18]}
           titleColor="text2"
         />
         <Stat
           title={`Underlying ${currency0?.symbol}`}
           stat={`${amountInPNG ? amountInPNG.toSignificant(6, { groupSeparator: ',' }) : '-'}`}
           titlePosition="top"
-          titleFontSize={16}
-          statFontSize={24}
+          titleFontSize={[16, 14]}
+          statFontSize={[24, 18]}
           titleColor="text2"
           currency={currency0}
         />

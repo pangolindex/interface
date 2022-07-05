@@ -378,7 +378,8 @@
     "allFarms": "All Farms",
     "yourFarms": "Your Farms",
     "yourPools": "Your Pools",
-    "noFarms": "No farms found."
+    "noFarms": "No farms found.",
+    "successWithdraw": "Your liquidity removed from farm, And accrued rewards claimed!"
   },
   "poolFinder": {
     "connectToFind": "Connect to a wallet to find pools",
