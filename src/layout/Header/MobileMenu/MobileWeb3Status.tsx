@@ -1,4 +1,4 @@
-import { Box, Text, WalletModal } from '@pangolindex/components'
+import { Box, shortenAddress, Text, WalletModal } from '@pangolindex/components'
 import React, { useCallback, useContext } from 'react'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import { useActiveWeb3React, useChainId } from 'src/hooks'
@@ -30,13 +30,8 @@ const MobileWeb3Status: React.FC = () => {
             <Box width="20px" height="23px">
               <WalletIcon />
             </Box>
-            <Text
-              fontSize="14px"
-              color="text1"
-              fontWeight={500}
-              style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
-            >
-              {account}
+            <Text fontSize="14px" color="text1" fontWeight={500}>
+              {shortenAddress(account, chainId, 10)}
             </Text>
           </ToggleWalletButton>
           <Box display="flex" flexDirection="row">

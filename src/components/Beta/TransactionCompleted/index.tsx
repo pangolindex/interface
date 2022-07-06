@@ -42,11 +42,9 @@ const TransactionCompleted = ({
         )}
       </Box>
       {isShowButtton && (
-        <Box width="100%" paddingX={10} mb={10}>
-          <Button variant="primary" onClick={onButtonClick}>
-            {buttonText}
-          </Button>
-        </Box>
+        <Button variant="primary" onClick={onButtonClick}>
+          {buttonText}
+        </Button>
       )}
     </Root>
   )

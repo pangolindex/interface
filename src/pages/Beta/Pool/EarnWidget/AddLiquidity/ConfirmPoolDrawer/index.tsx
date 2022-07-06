@@ -236,19 +236,21 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
   )
 
   const SubmittedContent = (
-    <TransactionCompleted
-      submitText={`Liquidity Added`}
-      isShowButtton={Boolean((type === 'card' && onAddToFarm) || type === 'detail')}
-      onButtonClick={() => {
-        onClose()
-        if (onAddToFarm) {
-          onAddToFarm()
-        } else {
-          onComplete()
-        }
-      }}
-      buttonText={onAddToFarm ? t('transactionConfirmation.addToFarm') : t('transactionConfirmation.close')}
-    />
+    <Box padding="10px" height="100%">
+      <TransactionCompleted
+        submitText={`Liquidity Added`}
+        isShowButtton={Boolean((type === 'card' && onAddToFarm) || type === 'detail')}
+        onButtonClick={() => {
+          onClose()
+          if (onAddToFarm) {
+            onAddToFarm()
+          } else {
+            onComplete()
+          }
+        }}
+        buttonText={onAddToFarm ? t('transactionConfirmation.addToFarm') : t('transactionConfirmation.close')}
+      />
+    </Box>
   )
 
   const renderBody = () => {
