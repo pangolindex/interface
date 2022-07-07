@@ -9,7 +9,8 @@ import {
   xDefi,
   NetworkContextName,
   near,
-  shortenAddress
+  shortenAddress,
+  useAllTransactions as useAllTransactionsComponents
 } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken } from 'polished'
@@ -233,7 +234,12 @@ export default function Web3Status() {
 
   const theme = useContext(ThemeContext)
 
-  const allTransactions = useAllTransactions()
+  const allTransactionsInterface = useAllTransactions()
+  const allTransactionsComponents = useAllTransactionsComponents()
+
+  const allTransactions: { [txHash: string]: TransactionDetails } = useMemo(() => {
+    return { ...allTransactionsInterface, ...allTransactionsComponents }
+  }, [allTransactionsInterface, allTransactionsComponents])
 
   const walletModalOpen = useModalOpen(ApplicationModal.WALLET)
   const toggleWalletModal = useWalletModalToggle()

@@ -221,7 +221,7 @@ const PoolCardView = ({
           onClose={() => {
             setShowAddLiquidityDrawer(false)
           }}
-          onComplete={redirectToFarmDrawer}
+          onAddToFarm={redirectToFarmDrawer}
           clickedLpTokens={stakingInfo?.tokens}
           backgroundColor="color5"
         />

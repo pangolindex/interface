@@ -30,13 +30,8 @@ const MobileWeb3Status: React.FC = () => {
             <Box width="20px" height="23px">
               <WalletIcon />
             </Box>
-            <Text
-              fontSize="14px"
-              color="text1"
-              fontWeight={500}
-              style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
-            >
-              {shortenAddress(account, chainId, 6)}
+            <Text fontSize="14px" color="text1" fontWeight={500}>
+              {shortenAddress(account, chainId, 10)}
             </Text>
           </ToggleWalletButton>
           <Box display="flex" flexDirection="row">

@@ -226,7 +226,8 @@
     "viewExplorer": "Ver no explorador",
     "close": "Fechar",
     "error": "Erro",
-    "dismiss": "Dispensar"
+    "dismiss": "Dispensar",
+    "addToFarm": "Adicionar à Farm"
   },
   "transactionSettings": {
     "slippageTolerance": "Tolerância de variação de preço",

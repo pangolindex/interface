@@ -227,7 +227,8 @@
     "viewExplorer": "View on explorer",
     "close": "Close",
     "error": "Error",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss",
+    "addToFarm": "Add to Farm"
   },
   "transactionSettings": {
     "slippageTolerance": "Slippage tolerance",

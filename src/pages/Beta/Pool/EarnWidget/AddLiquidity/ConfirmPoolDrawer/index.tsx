@@ -26,6 +26,7 @@ interface Props {
   parsedAmounts: { [field in Field]?: CurrencyAmount }
   poolTokenPercentage?: Percent
   onAdd: () => void
+  onAddToFarm?: () => void
   type: 'card' | 'detail'
 }
 
@@ -47,6 +48,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
     onComplete = () => {
       /**/
     },
+    onAddToFarm,
     type
   } = props
 
@@ -234,16 +236,42 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
   )
 
   const SubmittedContent = (
-    <TransactionCompleted
-      submitText={`Liquidity Added`}
-      isShowButtton={type === 'card' ? false : true}
-      onButtonClick={() => {
-        onClose()
-        onComplete()
-      }}
-      buttonText="Close"
-    />
+    <Box padding="10px" height="100%">
+      <TransactionCompleted
+        submitText={`Liquidity Added`}
+        isShowButtton={Boolean((type === 'card' && onAddToFarm) || type === 'detail')}
+        onButtonClick={() => {
+          onClose()
+          if (onAddToFarm) {
+            onAddToFarm()
+          } else {
+            onComplete()
+          }
+        }}
+        buttonText={onAddToFarm ? t('transactionConfirmation.addToFarm') : t('transactionConfirmation.close')}
+      />
+    </Box>
   )
+
+  const renderBody = () => {
+    if (txHash) {
+      return SubmittedContent
+    }
+
+    if (attemptingTxn) {
+      return PendingContent
+    }
+
+    if (poolErrorMessage) {
+      return ErroContent
+    }
+
+    if (type === 'detail') {
+      return DetailConfirmContent
+    }
+
+    return CardConfirmContent
+  }
 
   return (
     <Drawer
@@ -254,15 +282,7 @@ const ConfirmSwapDrawer: React.FC<Props> = props => {
       }}
       backgroundColor={type === 'card' ? 'color5' : 'bg2'}
     >
-      {poolErrorMessage
-        ? ErroContent
-        : txHash
-        ? SubmittedContent
-        : attemptingTxn
-        ? PendingContent
-        : type === 'detail'
-        ? DetailConfirmContent
-        : CardConfirmContent}
+      {renderBody()}
     </Drawer>
   )
 }

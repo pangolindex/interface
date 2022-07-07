@@ -30,10 +30,11 @@ interface AddLiquidityProps {
   currencyA: Currency
   currencyB: Currency
   onComplete?: () => void
+  onAddToFarm?: () => void
   type: 'card' | 'detail'
 }
 
-const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityProps) => {
+const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: AddLiquidityProps) => {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const { library } = useLibrary()
@@ -401,6 +402,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
           txHash={txHash}
           onClose={handleDismissConfirmation}
           onComplete={onComplete}
+          onAddToFarm={onAddToFarm}
           type={type}
         />
       )}

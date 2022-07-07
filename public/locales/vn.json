@@ -227,7 +227,8 @@
     "viewExplorer": "Xem trên explorer",
     "close": "Đóng",
     "error": "Lỗi",
-    "dismiss": "Bỏ qua"
+    "dismiss": "Bỏ qua",
+    "addToFarm": "Thêm vào trang trại"
   },
   "transactionSettings": {
     "slippageTolerance": "Chống trượt giá",

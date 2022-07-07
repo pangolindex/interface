@@ -227,7 +227,8 @@
     "viewExplorer": "在资源管理器上查看",
     "close": "关闭",
     "error": "错误",
-    "dismiss": "撤回"
+    "dismiss": "撤回",
+    "addToFarm": "添加到农场"
   },
   "transactionSettings": {
     "slippageTolerance": "滑点公差",

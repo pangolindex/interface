@@ -28,7 +28,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Hidden, MEDIA_WIDTHS } from 'src/theme'
 import { useChainId } from 'src/hooks'
-import { NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
+import { LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
 
@@ -75,7 +75,7 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
         <HeaderControls>
           <HeaderElement>
             <LegacyButtonWrapper>
-              <Button variant="primary" height={36} padding="4px 6px" href="https://legacy.pangolin.exchange" as="a">
+              <Button variant="primary" height={36} padding="4px 6px" href={LEGACY_PAGE} as="a">
                 <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
               </Button>
             </LegacyButtonWrapper>

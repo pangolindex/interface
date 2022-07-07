@@ -227,7 +227,8 @@
     "viewExplorer": "Gezginde görüntüle",
     "close": "Kapat",
     "error": "Hata",
-    "dismiss": "Yoksay"
+    "dismiss": "Yoksay",
+    "addToFarm": "çiftliğe ekle"
   },
   "transactionSettings": {
     "slippageTolerance": "Slipaj toleransı",

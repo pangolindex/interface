@@ -227,7 +227,8 @@
     "viewExplorer": "Ver en el explorador",
     "close": "Cerrar",
     "error": "Error",
-    "dismiss": "Descartar"
+    "dismiss": "Descartar",
+    "addToFarm": "Agregar a la Farm"
   },
   "transactionSettings": {
     "slippageTolerance": "Tolerancia del deslizamiento",
