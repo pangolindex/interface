@@ -38,7 +38,7 @@
     "disconnect": "Bağlantıyı Kes",
     "change": "Değiştir",
     "copy": "Adresi Kopyala",
-    "viewExplorer": "Snowtrace Explorer’da Görüntüle",
+    "viewExplorer": "Gezginde görüntüle",
     "clearAll": "(hepsini temizle)",
     "transactionAppear": "İşlemleriniz burada görünecektir...",
     "recentTransactions": "Son İşlemler",
@@ -46,7 +46,7 @@
   },
   "addressInputPanel": {
     "recipient": "Alıcı",
-    "viewExplorer": "(Snowtrace Explorer’da Görüntüle)",
+    "viewExplorer": "(Gezginde görüntüle)",
     "walletAddress": "Cüzdan Adresi"
   },
   "currencyInputPanel": {
@@ -111,7 +111,7 @@
   },
   "modalView": {
     "confirmTransaction": "Bu işlemi cüzdanınızda onaylayın",
-    "viewTransaction": "İşlemi Snowtrace Explorer’da Görüntüle"
+    "viewTransaction": "İşlemi Explorer'da görüntüleyin"
   },
   "navigationTabs": {
     "useThisTool": "Otomatik olarak görünmeyen havuzlara erişmek için bu aracı kullanın.",
@@ -127,7 +127,7 @@
   "popups": {
     "tokenListUpdated": "\" {{oldList}} \" token listesi güncellendi: ",
     "updateAvailable": "Token listesi için bir güncelleme mevcut: \" {{oldList}} \"",
-    "viewExplorer": "Snowtrace Explorer’da Görüntüle",
+    "viewExplorer": "Gezginde görüntüle",
     "hash": "Hash: ",
     "added": "eklendi",
     "removed": "çıkarıldı",
@@ -218,13 +218,13 @@
     "purchaseArbitraryWarning": "Eğer rastgele bir token alırsanız, <strong>geri satamayabilirsiniz.</strong>",
     "understand": "Anladım",
     "continue": "Devam et",
-    "viewExplorer": "Snowtrace Explorer’da Görüntüle"
+    "viewExplorer": "Gezginde görüntüle"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "Onay Bekleniyor",
     "confirmTransaction": "Bu işlemi cüzdanınızda onaylayın",
     "transactionSubmitted": "İşlem Gönderildi",
-    "viewExplorer": "Snowtrace Explorer’da Görüntüle",
+    "viewExplorer": "Gezginde görüntüle",
     "close": "Kapat",
     "error": "Hata",
     "dismiss": "Yoksay",
@@ -258,7 +258,7 @@
     "votes": "Oylar",
     "submittingVote": "Oy Gönderiliyor",
     "confirmTransaction": "Bu işlemi cüzdanınızda onaylayın",
-    "viewExplorer": "Snowtrace Explorer’da Görüntüle"
+    "viewExplorer": "Gezginde görüntüle"
   },
   "walletModal": {
     "wrongNetwork": "Yanlış Ağ",

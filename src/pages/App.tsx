@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import { MENU_LINK } from 'src/constants'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
@@ -8,7 +8,7 @@ import Popups from '../components/Popups'
 import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 import Dashboard from './Dashboard'
-import { RedirectPathToSwapOnly } from './Swap/redirects'
+// import { RedirectPathToSwapOnly } from './Swap/redirects'
 import Migrate from './Earn/Migrate'
 import MigrateV2 from './Migrate'
 import CustomRoute from './Route'
@@ -92,7 +92,8 @@ export default function App() {
               <CustomRoute exact path="/policy/cookie" component={() => <Policy policy="cookie" />} layout={Layout} />
               <CustomRoute exact path="/policy/terms" component={() => <Policy policy="terms" />} layout={Layout} />
 
-              <Route component={RedirectPathToSwapOnly} />
+              {/* <Route component={RedirectPathToSwapOnly} /> */}
+              <Redirect to={MENU_LINK.dashboard} />
             </Switch>
           </Web3ReactManager>
         </BodyWrapper>

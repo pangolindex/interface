@@ -5,16 +5,16 @@ import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import useInterval from '../../hooks/useInterval'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import ReactGA from 'react-ga'
-import { addPopup } from '../application/actions'
 import { AppDispatch, AppState } from '../index'
 import { acceptListUpdate } from './actions'
 import { DEFAULT_TOKEN_LISTS } from '../../constants/lists'
-import { useLibrary } from '@pangolindex/components'
+import { useLibrary, useAddPopup } from '@pangolindex/components'
 
 export default function Updater(): null {
   const { library } = useLibrary()
   const dispatch = useDispatch<AppDispatch>()
   const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
+  const addPopup = useAddPopup()
 
   const isWindowVisible = useIsWindowVisible()
 
@@ -67,17 +67,17 @@ export default function Updater(): null {
               } else {
                 // show prompts for user added token list
                 dispatch(
-                  addPopup({
-                    key: listUrl,
-                    content: {
+                  addPopup(
+                    {
                       listUpdate: {
                         listUrl,
                         oldList: list.current,
                         newList: list.pendingUpdate,
                         auto: true
                       }
-                    }
-                  })
+                    },
+                    listUrl
+                  )
                 )
               }
             } else {
@@ -99,9 +99,8 @@ export default function Updater(): null {
             } else {
               // show prompts for user added token list
               dispatch(
-                addPopup({
-                  key: listUrl,
-                  content: {
+                addPopup(
+                  {
                     listUpdate: {
                       listUrl,
                       auto: false,
@@ -109,14 +108,14 @@ export default function Updater(): null {
                       newList: list.pendingUpdate
                     }
                   },
-                  removeAfterMs: null
-                })
+                  listUrl
+                )
               )
             }
         }
       }
     })
-  }, [dispatch, lists])
+  }, [dispatch, lists, addPopup])
 
   return null
 }
