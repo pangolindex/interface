@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useActiveWeb3React } from '../../hooks'
-import { useAddPopup, useBlockNumber } from '../application/hooks'
+import { useBlockNumber } from '../application/hooks'
 import { AppDispatch, AppState } from '../index'
 import { checkedTransaction, finalizeTransaction } from './actions'
-import { useLibrary } from '@pangolindex/components'
+import { useLibrary, useAddPopup } from '@pangolindex/components'
 
 export function shouldCheck(
   lastBlockNumber: number,

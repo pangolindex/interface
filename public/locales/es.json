@@ -38,7 +38,7 @@
     "disconnect": "Desconectar",
     "change": "Cambiar",
     "copy": "Copiar dirección",
-    "viewExplorer": "Ver en el Explorador Snowtrace",
+    "viewExplorer": "Ver en el explorador",
     "clearAll": "(borrar todo)",
     "transactionAppear": "Tus transacciones aparecerán aquí...",
     "recentTransactions": "Transacciones recientes",
@@ -46,7 +46,7 @@
   },
   "addressInputPanel": {
     "recipient": "Recipient",
-    "viewExplorer": "(Ver en el  Explorador Snowtrace de Avalanche)",
+    "viewExplorer": "(Ver en el explorador)",
     "walletAddress": "Dirección de la cartera"
   },
   "currencyInputPanel": {
@@ -111,7 +111,7 @@
   },
   "modalView": {
     "confirmTransaction": "Confirma esta transacción en tu cartera",
-    "viewTransaction": "Ver la transacción en el Explorador Snowtrace"
+    "viewTransaction": "Ver transacción en el Explorador"
   },
   "navigationTabs": {
     "useThisTool": "Usa esta herramienta para encontrar parejas que no aparecen automáticamente en la interfaz.",
@@ -127,7 +127,7 @@
   "popups": {
     "tokenListUpdated": "la lista de Tokens \" {{oldList}} \" se ha actualizado a ",
     "updateAvailable": "Hay una actualización disponible para la lista de Tokens \" {{oldList}} \"",
-    "viewExplorer": "Ver en el Explorador Snowtrace",
+    "viewExplorer": "Ver en el explorador",
     "hash": "Hash: ",
     "added": "añadido",
     "removed": "retirado",
@@ -218,13 +218,13 @@
     "purchaseArbitraryWarning": "Si compras un token arbitrario, <strong>puede que no pueda venderlo devuelta.</strong>",
     "understand": "Lo entiendo",
     "continue": "Continuar",
-    "viewExplorer": "Ver en el Explorador Snowtrace"
+    "viewExplorer": "Ver en el explorador"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "Esperando confirmación",
     "confirmTransaction": "Confirme esta transacción en su cartera",
     "transactionSubmitted": "Transacción enviada",
-    "viewExplorer": "Ver en el Explorador Snowtrace",
+    "viewExplorer": "Ver en el explorador",
     "close": "Cerrar",
     "error": "Error",
     "dismiss": "Descartar"
@@ -257,7 +257,7 @@
     "votes": "Votos",
     "submittingVote": "Enviando voto",
     "confirmTransaction": "Confirme esta transacción en su cartera",
-    "viewExplorer": "Ver en el Explorador Snowtrace"
+    "viewExplorer": "Ver en el explorador"
   },
   "walletModal": {
     "wrongNetwork": "Red errónea",
