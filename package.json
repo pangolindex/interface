@@ -12,7 +12,7 @@
     "@gelatonetwork/limit-orders-react": "2.5.0",
     "@gnosis.pm/safe-apps-web3-react": "0.6.8",
     "@metamask/jazzicon": "2.0.0",
-    "@pangolindex/components": "3.0.6-rc.8",
+    "@pangolindex/components": "3.0.6-rc.9",
     "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.2.0",
     "@pangolindex/sdk": "2.1.3",

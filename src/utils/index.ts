@@ -37,6 +37,42 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   329847901: CHAINS[ChainId.NEAR_TESTNET].blockExplorerUrls?.[0] || ''
 }
 
+const transactionPath = {
+  [ChainId.FUJI]: 'tx',
+  [ChainId.AVALANCHE]: 'tx',
+  [ChainId.WAGMI]: 'tx',
+  [ChainId.COSTON]: 'tx',
+  [ChainId.NEAR_MAINNET]: 'transactions',
+  [ChainId.NEAR_TESTNET]: 'transactions'
+}
+
+const addressPath = {
+  [ChainId.FUJI]: 'address',
+  [ChainId.AVALANCHE]: 'address',
+  [ChainId.WAGMI]: 'address',
+  [ChainId.COSTON]: 'address',
+  [ChainId.NEAR_MAINNET]: 'accounts',
+  [ChainId.NEAR_TESTNET]: 'accounts'
+}
+
+const blockPath = {
+  [ChainId.FUJI]: 'block',
+  [ChainId.AVALANCHE]: 'block',
+  [ChainId.WAGMI]: 'block',
+  [ChainId.COSTON]: 'block',
+  [ChainId.NEAR_MAINNET]: 'blocks',
+  [ChainId.NEAR_TESTNET]: 'blocks'
+}
+
+const tokenPath = {
+  [ChainId.FUJI]: 'token',
+  [ChainId.AVALANCHE]: 'token',
+  [ChainId.WAGMI]: 'token',
+  [ChainId.COSTON]: 'token',
+  [ChainId.NEAR_MAINNET]: 'accounts',
+  [ChainId.NEAR_TESTNET]: 'accounts'
+}
+
 export function getEtherscanLink(
   chainId: ChainId,
   data: string,
@@ -46,17 +82,17 @@ export function getEtherscanLink(
 
   switch (type) {
     case 'transaction': {
-      return `${prefix}/tx/${data}`
+      return `${prefix}/${transactionPath[chainId]}/${data}`
     }
     case 'token': {
-      return `${prefix}/token/${data}`
+      return `${prefix}/${tokenPath[chainId]}/${data}`
     }
     case 'block': {
-      return `${prefix}/block/${data}`
+      return `${prefix}/${blockPath[chainId]}/${data}`
     }
     case 'address':
     default: {
-      return `${prefix}/address/${data}`
+      return `${prefix}/${addressPath[chainId]}/${data}`
     }
   }
 }

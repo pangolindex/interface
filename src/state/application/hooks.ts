@@ -1,8 +1,9 @@
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useActivePopups as useActiveComponentsPopup } from '@pangolindex/components'
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch, AppState } from '../index'
-import { addPopup, ApplicationModal, PopupContent, removePopup, setOpenModal } from './actions'
+import { ApplicationModal, setOpenModal } from './actions'
 
 export function useBlockNumber(): number | undefined {
   const { chainId } = useActiveWeb3React()
@@ -74,31 +75,8 @@ export function useAccountDetailToggle(): () => void {
   return useToggleModal(ApplicationModal.ACCOUNT_DETAIL)
 }
 
-// returns a function that allows adding a popup
-export function useAddPopup(): (content: PopupContent, key?: string) => void {
-  const dispatch = useDispatch()
-
-  return useCallback(
-    (content: PopupContent, key?: string) => {
-      dispatch(addPopup({ content, key }))
-    },
-    [dispatch]
-  )
-}
-
-// returns a function that allows removing a popup via its key
-export function useRemovePopup(): (key: string) => void {
-  const dispatch = useDispatch()
-  return useCallback(
-    (key: string) => {
-      dispatch(removePopup({ key }))
-    },
-    [dispatch]
-  )
-}
-
 // get the list of active popups
-export function useActivePopups(): AppState['application']['popupList'] {
-  const list = useSelector((state: AppState) => state.application.popupList)
-  return useMemo(() => list.filter(item => item.show), [list])
+export function useActivePopups(): AppState['papplication']['popupList'] {
+  const popups = useActiveComponentsPopup()
+  return useMemo(() => popups.filter((item: any) => item.show), [popups])
 }
