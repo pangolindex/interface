@@ -10,6 +10,8 @@ import { ANALYTICS_PAGE } from '../../constants'
 import Bridge from '../../assets/svg/menu/bridge.svg'
 import Governance from '../../assets/svg/menu/governance.svg'
 import { useLocation } from 'react-router-dom'
+import { useChainId } from 'src/hooks'
+import { CHAINS } from '@pangolindex/sdk'
 
 interface Props {
   collapsed?: boolean
@@ -26,6 +28,8 @@ interface Link {
 export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
+  const chainId = useChainId()
+  const chain = CHAINS[chainId]
 
   const location: any = useLocation()
 
@@ -81,6 +85,11 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       isActive: location?.pathname?.startsWith(MENU_LINK.airdrop)
     }
   ]
+
+  // for now, for non evm chain, hide all other menus except dashboard and swap
+  if (!chain.evm) {
+    mainLinks.splice(2)
+  }
 
   const pangolinLinks = [
     {
