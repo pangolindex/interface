@@ -52,7 +52,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
             {t('earn.poolRewards')}
           </Text>
 
-          <Box display="flex" alignItems="center" mt="5px">
+          <Box display="flex" alignItems="center" mt="8px">
             <RewardTokens rewardTokens={rewardTokens} size={24} />
           </Box>
         </Box>
