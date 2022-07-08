@@ -230,7 +230,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
   const renderButton = () => {
     if (!account) {
       return (
-        <Button variant="primary" onClick={toggleWalletModal} height="46px">
+        <Button variant="primary" onClick={toggleWalletModal} height="38px">
           {t('swapPage.connectWallet')}
         </Button>
       )
@@ -251,7 +251,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
                     width={approvalB !== ApprovalState.APPROVED ? '48%' : '100%'}
                     loading={approvalA === ApprovalState.PENDING}
                     loadingText={`${t('swapPage.approving')} ${currencies[Field.CURRENCY_A]?.symbol}`}
-                    height="46px"
+                    height="38px"
                   >
                     {t('addLiquidity.approve') + currencies[Field.CURRENCY_A]?.symbol}
                   </Button>
@@ -264,7 +264,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
                     width={approvalA !== ApprovalState.APPROVED ? '48%' : '100%'}
                     loading={approvalB === ApprovalState.PENDING}
                     loadingText={`${t('swapPage.approving')} ${currencies[Field.CURRENCY_B]?.symbol}`}
-                    height="46px"
+                    height="38px"
                   >
                     {t('addLiquidity.approve') + currencies[Field.CURRENCY_B]?.symbol}
                   </Button>
@@ -272,7 +272,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
               </RowBetween>
             )}
           <Button
-            height="46px"
+            height="38px"
             variant="primary"
             onClick={() => {
               expertMode ? onAdd() : setShowConfirm(true)
@@ -308,7 +308,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
               handleTypeInput(value)
             }}
             label={`${currencyA?.symbol}`}
-            fontSize={24}
+            fontSize={16}
             isNumeric={true}
             placeholder="0.00"
             addonLabel={
@@ -352,7 +352,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
               handleTypeOutput(value)
             }}
             label={`${currencyB?.symbol}`}
-            fontSize={24}
+            fontSize={16}
             isNumeric={true}
             placeholder="0.00"
             addonLabel={
