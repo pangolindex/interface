@@ -98,14 +98,13 @@ const ComponentThemeProvider = () => {
   }, [account, chainId])
 
   useEffect(() => {
-    if (window.pendo && account) {
+    if (window.pendo) {
       window.pendo.initialize({
         visitor: {
-          id: account
+          id: account || ''
         },
-
         account: {
-          id: account
+          id: account || ''
         }
       })
     }
