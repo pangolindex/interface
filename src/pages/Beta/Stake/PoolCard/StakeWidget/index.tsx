@@ -1,5 +1,5 @@
 import React from 'react'
-import { BETA_MENU_LINK, ZERO_ADDRESS } from 'src/constants'
+import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { Root, Buttons, MaxButton, StakeWrapper, GridContainer, InputText } from './styled'
 import { Box, Button, NumberOptions } from '@pangolindex/components'
 import { ApprovalState } from 'src/hooks/useApproveCallback'
@@ -85,8 +85,8 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
                     title={`${t('migratePage.dollarWorth')}`}
                     stat={`${dollerWorth ? `$${dollerWorth?.toFixed(4)}` : '-'}`}
                     titlePosition="top"
-                    titleFontSize={14}
-                    statFontSize={18}
+                    titleFontSize={[14, 12]}
+                    statFontSize={[18, 14]}
                     titleColor="text2"
                   />
                 </Box>
@@ -96,8 +96,8 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
                     title={`${t('earn.weeklyRewards')}`}
                     stat={hypotheticalRewardRatePerWeek ? `${hypotheticalRewardRatePerWeek.toSignificant(4)}` : '-'}
                     titlePosition="top"
-                    titleFontSize={14}
-                    statFontSize={18}
+                    titleFontSize={[14, 12]}
+                    statFontSize={[18, 14]}
                     titleColor="text2"
                     currency={stakingInfo?.rewardToken}
                   />
@@ -124,7 +124,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
                   onClick={onStake}
                   height="46px"
                 >
-                  {error ?? t('earn.deposit')}
+                  {error ?? t('earnPage.stake')}
                 </Button>
               </>
             ) : (
@@ -132,7 +132,7 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
                 padding="15px 18px"
                 variant="primary"
                 as="a"
-                href={`/#${BETA_MENU_LINK.swap}?inputCurrency=${ZERO_ADDRESS}&outputCurrency=${png.address}`}
+                href={`/#${MENU_LINK.swap}?inputCurrency=${ZERO_ADDRESS}&outputCurrency=${png.address}`}
               >
                 {t('header.buy', { symbol: stakeToken })}
               </Button>

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import RemoveLiquidity from '../RemoveLiquidity'
 import { useChainId } from 'src/hooks'
+import { Box } from '@pangolindex/components'
 
 type Props = {
   isOpen: boolean
@@ -30,7 +31,11 @@ const RemoveLiquidityDrawer: React.FC<Props> = ({ isOpen, onClose, clickedLpToke
       onClose={onClose}
       backgroundColor={backgroundColor}
     >
-      {isOpen && <RemoveLiquidity currencyA={currencyA} currencyB={currencyB} />}
+      {isOpen && (
+        <Box padding="10px" display="flex" flexDirection="column" flex="1">
+          <RemoveLiquidity currencyA={currencyA} currencyB={currencyB} />
+        </Box>
+      )}
     </Drawer>
   )
 }

@@ -18,6 +18,7 @@ import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
 import { tryParseAmount } from '../../state/swap/hooks'
 import { useChainId } from 'src/hooks'
+import { useLibrary } from '@pangolindex/components'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -37,9 +38,9 @@ export default function UpgradeTokenModal({
   aebTokenBalance,
   abTokenAddress
 }: UpgradeTokenModalModalProps) {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const { library } = useLibrary()
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
   const parsedAmount: CurrencyAmount | undefined = tryParseAmount(

@@ -1,14 +1,16 @@
 import { PNG } from '../../constants/tokens'
 import { Currency, CurrencyAmount, CAVAX, JSBI, Token, TokenAmount, ChainId } from '@pangolindex/sdk'
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { useAllTokens } from '../../hooks/Tokens'
 import { useActiveWeb3React } from '../../hooks'
 import { useMulticallContract } from '../../hooks/useContract'
 import { isAddress } from '../../utils'
 import { useSingleContractMultipleData, useMultipleContractSingleData } from '../multicall/hooks'
-import { useTotalPngEarned } from '../stake/hooks'
 import { useChainId } from 'src/hooks'
+import { useTokenBalanceHook } from './multiChainsHooks'
+import { useTotalPngEarnedHook } from 'src/state/stake/multiChainsHooks'
+import { nearFn } from '@pangolindex/components'
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
@@ -98,6 +100,25 @@ export function useTokenBalance(account?: string, token?: Token): TokenAmount | 
   return tokenBalances[token.address]
 }
 
+export function useNearTokenBalance(account?: string, token?: Token): TokenAmount | undefined {
+  const [tokenBalance, setTokenBalance] = useState<TokenAmount>()
+
+  useEffect(() => {
+    async function checkTokenBalance() {
+      if (token) {
+        const balance = await nearFn.getTokenBalance(token?.address, account)
+        const nearBalance = new TokenAmount(token, balance)
+
+        setTokenBalance(nearBalance)
+      }
+    }
+
+    checkTokenBalance()
+  }, [account, token])
+
+  return useMemo(() => tokenBalance, [tokenBalance])
+}
+
 export function useCurrencyBalances(
   chainId: ChainId,
   account?: string,
@@ -148,9 +169,12 @@ export function useAggregatePngBalance(): TokenAmount | undefined {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
+  const useTokenBalance_ = useTokenBalanceHook[chainId]
+  const useTotalPngEarned = useTotalPngEarnedHook[chainId]
+
   const png = chainId ? PNG[chainId] : undefined
 
-  const pngBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, png)
+  const pngBalance: TokenAmount | undefined = useTokenBalance_(account ?? undefined, png)
   const pngUnHarvested: TokenAmount | undefined = useTotalPngEarned()
 
   if (!png) return undefined

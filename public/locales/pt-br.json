@@ -8,22 +8,22 @@
     "version1": "Versão 1",
     "version2": "Versão 2",
     "stake": "Stake",
-    "newPng": "Novo PNG",
-    "oldPng": "Antigo PNG",
+    "newPng": "Novo {{ pngSymbol }}",
+    "oldPng": "Antigo {{ pngSymbol }}",
     "vote": "Votar",
     "ido": "IDO",
     "charts": "Gráficos",
     "forum": "Fórum",
-    "pngBreakDown": "Sua análise de PNG",
+    "pngBreakDown": "Sua análise de {{ symbol }}",
     "balance": "Saldo: ",
     "unclaimed": "Não resgatado: ",
-    "pngPrice": "Preço do PNG:",
-    "pngCirculation": "PNG em circulação:",
+    "pngPrice": "Preço do {{ symbol }}:",
+    "pngCirculation": "{{ symbol }} em circulação:",
     "totalSupply": "Suprimento total",
     "makeSureURLWarning": "Certifique-se que a URL seja",
     "alwaysMakeSureWarning": "Certifique-se sempre que a URL seja",
     "bookmarkIt": "marque para ser seguro.",
-    "addMetamask": "Adicionar PNG no MetaMask",
+    "addMetamask": "Adicionar {{ symbol }} no MetaMask",
     "bridge": "Ponte",
     "ourPartners": "Nossos Parceiros",
     "usefulLinks": "LINKS ÚTEIS",
@@ -38,7 +38,7 @@
     "disconnect": "Desconectar",
     "change": "Trocar",
     "copy": "Copiar endereço",
-    "viewExplorer": "Vizualize no Snowtrace Explorer",
+    "viewExplorer": "Ver no explorador",
     "clearAll": "(limpar tudo)",
     "transactionAppear": "Suas transações aparecerão aqui ... ",
     "recentTransactions": "Transações recentes",
@@ -46,7 +46,7 @@
   },
   "addressInputPanel": {
     "recipient": "Recebedor",
-    "viewExplorer": "(Visualize no Avalanche Snowtrace Explorer)",
+    "viewExplorer": "(Ver no explorador)",
     "walletAddress": "Endereço da carteira"
   },
   "currencyInputPanel": {
@@ -70,7 +70,7 @@
     "deposit": "Deposite",
     "poolRate": "Ganhos da pool",
     "currentReward": "Recompensa atual",
-    "pngPerAvax": "PNG / Semana por AVAX",
+    "pngPerAvax": "{{ pngSymbol }} / Semana por AVAX",
     "rewardPerWeek": "{{ symbol }} / Semana",
     "earnUpTo": "Ganhe até (anual)",
     "yourRate": "Sua taxa",
@@ -89,8 +89,8 @@
     "deposited": "Depositado",
     "withdrawDepositedLiquidity": "Retirar a liquidez depositada",
     "depositedPglLiquidity": "Deposited PGL liquidity:",
-    "whenYouWithdrawWarning": "Quando você retirar, seu PNG é resgatado e seus tokens de liquidez do Pangolin, PGL, são devolvidos para você. Você não vai mais ganhar recompensas de PNG nessa liquidez. Sua liquidez original de token permanecerá na sua pool de liquidez.",
-    "whenYouWithdrawSingleSideWarning": "When you withdraw, your {{ symbol }} is claimed and your PNG is returned to you. You will no longer earn {{ symbol }} rewards on this PNG.",
+    "whenYouWithdrawWarning": "Quando você retirar, seu {{ symbol }} é resgatado e seus tokens de liquidez do Pangolin, PGL, são devolvidos para você. Você não vai mais ganhar recompensas de {{ symbol }} nessa liquidez. Sua liquidez original de token permanecerá na sua pool de liquidez.",
+    "whenYouWithdrawSingleSideWarning": "When you withdraw, your {{ symbol }} is claimed and your {{ pngSymbol }} is returned to you. You will no longer earn {{ symbol }} rewards on this {{ pngSymbol }}.",
     "withdrawAndClaim": "Retirar & resgatar",
     "withdrewStakingToken": "Retirar {{ symbol }}!",
     "approve": "Aprovar",
@@ -110,7 +110,7 @@
   },
   "modalView": {
     "confirmTransaction": "Confirme esta transação em sua carteira",
-    "viewTransaction": "Visualize a transação no Snowtrace Explorer"
+    "viewTransaction": "Ver transação no Explorer"
   },
   "navigationTabs": {
     "useThisTool": "Use esta ferramenta para encontrar pares que não aparecem automaticamente na interface.",
@@ -126,7 +126,7 @@
   "popups": {
     "tokenListUpdated": "A lista de tokens \" {{oldList}} \" foi atualizada para ",
     "updateAvailable": "Uma atualização disponível para lista de tokens \" {{oldList}} \"",
-    "viewExplorer": "Vizualize no Snowtrace Explorer",
+    "viewExplorer": "Ver no explorador",
     "hash": "Hash: ",
     "added": "adicionado",
     "removed": "removido",
@@ -217,16 +217,17 @@
     "purchaseArbitraryWarning": "Se você comprar um token arbitrário, <strong>você pode não conseguir vendê-lo de volta.</strong>",
     "understand": "Compreendo",
     "continue": "Continuar",
-    "viewExplorer": "Visualize no Snowtrace Explorer"
+    "viewExplorer": "Ver no explorador"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "Esperando por confirmação",
     "confirmTransaction": "Confirme esta transação em sua carteira",
     "transactionSubmitted": "Transação enviada",
-    "viewExplorer": "Visualize no Snowtrace Explorer",
+    "viewExplorer": "Ver no explorador",
     "close": "Fechar",
     "error": "Erro",
-    "dismiss": "Dispensar"
+    "dismiss": "Dispensar",
+    "addToFarm": "Adicionar à Farm"
   },
   "transactionSettings": {
     "slippageTolerance": "Tolerância de variação de preço",
@@ -239,7 +240,7 @@
     "minutes": "minutos"
   },
   "vote": {
-    "earnedPng": "Os tokens PNG ganhos representam ações de votação na governança do Pangolin.",
+    "earnedPng": "Os tokens {{ pngSymbol }} ganhos representam ações de votação na governança do Pangolin.",
     "canEitherVote": "Você pode votar em cada proposta você mesmo ou delegar seus votos a um terceiro.",
     "delegateVotes": "Delegar votos",
     "selfDelegate": "Delegar você mesmo",
@@ -256,7 +257,7 @@
     "votes": "Votos",
     "submittingVote": "Enviar voto",
     "confirmTransaction": "Confirme essa transação na sua carteira",
-    "viewExplorer": "Visualize no Snowtrace Explorer"
+    "viewExplorer": "Ver no explorador"
   },
   "walletModal": {
     "wrongNetwork": "Rede errada",
@@ -305,35 +306,35 @@
     "poolTokens": " Pool Tokens"
   },
   "airdrop": {
-    "claimPngAirdrop": "Resgatar PNG do Airdrop",
+    "claimPngAirdrop": "Resgatar {{ pngSymbol }} do Airdrop",
     "claimPeriodEnded": "O perído de resgate do airdrop acabou.",
     "connectWalletViewLiquidity": "Conecte-se a uma carteira para ver sua liquidez.",
     "noAvailableClaim": "Você não tem resgate diponível.",
     "noUniNoSushi": "Você não tem tokens UNI ou SUSHI, Por favor, siga o tutorial para adicionar os tokens UNI ou SUSHI na sua carteira.",
     "youHave": "Você tem ",
-    "pngAvailableClaim": " PNG disponível para resgate",
+    "pngAvailableClaim": " {{ pngSymbol }} disponível para resgate",
     "loading": "Carregando",
     "welcomeToTeamPangolin": "Bem vindo à equipe do Pangolin",
     "claim": "Resgatar "
   },
   "earnPage": {
     "pangolinLiquidityMining": "Mineração de liquidez do Pangolin",
-    "pangolinLiquidityStaking": "Pangolin PNG staking",
-    "depositPangolinLiquidity": "Deposite seus tokens PGL (Pangolin Liquidity Provider) para receber PNG, o token de governança do protocolo Pangolin.",
-    "depositPangolinStaking": "Deposit and stake your PNG tokens to earn more tokens.",
+    "pangolinLiquidityStaking": "Pangolin {{ pngSymbol }} staking",
+    "depositPangolinLiquidity": "Deposite seus tokens PGL (Pangolin Liquidity Provider) para receber {{ pngSymbol }}, o token de governança do protocolo Pangolin.",
+    "depositPangolinStaking": "Deposit and stake your {{ pngSymbol }} tokens to earn more tokens.",
     "currentOpportunities": "Current opportunities",
-    "readMoreAboutPng": "Leia mais sobre PNG",
+    "readMoreAboutPng": "Leia mais sobre {{ pngSymbol }}",
     "getInsuranceCoverage": "Obtenha cobertura em InsurAce.io",
     "getCoverNexusMutual": "Obtenha cobertura no Nexus Mutual",
     "importantUpdate": "ATUALIZAÇÃO IMPORTANTE",
     "pangolinGovernanceProposalResult": "Como resultado da proposta de governança 1 do Pangolin, O Pangolin está mudando contratos de staking! Aproximadamente cerca de depois de 08:59 UTC no dia 19/4, todas as recompensas de staking serão distribuídas para os novos contratos de staking. Antes da mudança, todas as recompensas ainda serão distribuídas para os contratos antigos. Para evitar interrupções nas recompensas de yield farming, Você precisa remover sua liquidez dos contratos antigos e delegar novamente nos novos contratos. Você não precisa remover liquidez das suas pools ou alterar suas posições.",
-    "oldPngPools": "Pools antigas de PNG",
-    "newPngPools": "Novas pools de PNG",
+    "oldPngPools": "Pools antigas de {{ pngSymbol }}",
+    "newPngPools": "Novas pools de {{ pngSymbol }}",
     "participatingPools": "Pools participantes",
     "rewardsNeverEnd": "As recompensas nunca terminam!",
     "noActiveRewards": "Não há recompensas ativas",
     "liquidityMining": "Mineração de liquidez",
-    "pngStaking": "PNG Staking",
+    "pngStaking": "{{ pngSymbol }} Staking",
     "totalStaked": "Total depositado",
     "poolRate": "Proporção da Pool",
     "step1": "Etapa 1. Obtenha Tokens Pangolin Liquidity (PGL)",
@@ -344,7 +345,7 @@
     "unclaimedReward": "{{ symbol }} não resgatado",
     "claim": "Resgate",
     "rewardPerWeek": " {{ symbol }} / Semana",
-    "automagically": "Quando você retirar, o contrato automagicamente irá resgatar PNG em seu nome!",
+    "automagically": "Quando você retirar, o contrato automagicamente irá resgatar {{ pngSymbol }} em seu nome!",
     "deposit": "Deposite",
     "depositStakingTokens": "Deposite Tokens {{ symbol }}",
     "stake": "Stake",
@@ -374,10 +375,11 @@
     "seeDetails":"VEJA DETALHES",
     "totalLockedValue": "Valor total bloqueado",
     "yourLockedValue": "Seu valor bloqueado",
-    "allPools": "Todos os pools",
-    "yourPools": "Seus pools",
-    "yourWallet": "Sua carteira",
-    "noFarms": "Nenhuma fazenda encontrada."
+    "allFarms": "Todas as farms",
+    "yourFarms": "Suas farms",
+    "yourPools": "Suas pools",
+    "noFarms": "Nenhuma fazenda encontrada.",
+    "successWithdraw": "Sua liquidez removida da fazenda e recompensas acumuladas reivindicadas!"
   },
   "poolFinder": {
     "connectToFind": "Conecte-se a uma carteira para encontrar suas pools",
@@ -473,8 +475,8 @@
     "unlockVotes": "Desbloquear votos",
     "updateDelegation": "Atualizar delegação",
     "pangolinGovernance": "Governaça do Pangolin",
-    "earnedPngTokens": "Os tokens PNG representam ações de votação na governança do Pangolin. Você pode votar em cada proposta você mesmo ou delegar seus votos a um terceiro .",
-    "eligibleToVote": "Para ser elegível para votar, você deve ter PNG em sua carteira e deve delegar eles ao início da votação. Após o início da votação, você pode pode colocá-los em uma pool ou gastá-los.",
+    "earnedPngTokens": "Os tokens {{ pngSymbol }} representam ações de votação na governança do Pangolin. Você pode votar em cada proposta você mesmo ou delegar seus votos a um terceiro .",
+    "eligibleToVote": "Para ser elegível para votar, você deve ter {{ pngSymbol }} em sua carteira e deve delegar eles ao início da votação. Após o início da votação, você pode pode colocá-los em uma pool ou gastá-los.",
     "governanceVotes": "Votações de governança são decididas por maioria simples. Não há quórum necessário.",
     "proposals": "Propostas",
     "allProposals": "Todas as propostas",
@@ -485,7 +487,7 @@
     "edit": "editar",
     "noProposalsFound": "Nenhuma proposta encontrada.",
     "proposalCommunityMembers": "Propostas submetidas por membros da comunidade irão aparecer aqui.",
-    "minimumThreshold": "Um mínimo de 1,000,000 PNG é requerido para submeter propostas",
+    "minimumThreshold": "Um mínimo de 1,000,000 {{ pngSymbol }} é requerido para submeter propostas",
     "votingStarted": "Votação iniciada ",
     "votingStarts": "Votação inicia em ",
     "votingEnded": "Votação terminou ",
@@ -566,7 +568,7 @@
     "poolInfoDescription": "Agora que você escolheu sua piscina, vamos desamarrá-lo dela.",
     "dollarWorth": "Valor em dólar: ",
     "yourRate": "Sua taxa: ",
-    "unclaimedPng": "PNG não reivindicado: ",
+    "unclaimedPng": "{{ pngSymbol }} não reivindicado: ",
     "shareOfPool": "Participação na Pool: ",
     "choose": "ESCOLHER",
     "selectAll": "Selecionar tudo",
@@ -599,7 +601,7 @@
     "seeDetails": "SEE DETAILS",
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
-    "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
+    "stakeAndEarn": "Stake Your {{ pngSymbol }} and Earn Rewards!"
   },
   "error": {
     "missingCurrencyAmounts": "Valores de moeda ausentes",

@@ -29,7 +29,7 @@ import { useGetProposalDetail, useUserVotes, useUserDelegatee, ProposalData } fr
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { ExternalLink } from 'src/theme'
-import { BETA_MENU_LINK, ZERO_ADDRESS } from 'src/constants'
+import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
 import { isAddress, getEtherscanLink } from 'src/utils'
 
@@ -91,18 +91,18 @@ export default function GovernanceDetail() {
       />
       <ProposalInfo gap="lg" justify="start">
         <RowBetween style={{ width: '100%' }}>
-          <ArrowWrapper to={BETA_MENU_LINK.vote}>
+          <ArrowWrapper to={MENU_LINK.vote}>
             <ArrowLeft size={20} /> {t('votePage.backToProposals')}
           </ArrowWrapper>
           {proposalData && <ProposalStatus status={proposalData?.status ?? ''}>{proposalData?.status}</ProposalStatus>}
         </RowBetween>
         <AutoColumn gap="10px" style={{ width: '100%' }}>
-          <Text fontSize={44} lineHeight="52px" color="text1" style={{ marginBottom: '.5rem' }}>
+          <Text fontSize={32} lineHeight="52px" color="text1" style={{ marginBottom: '.5rem' }}>
             {proposalData?.title}
           </Text>
 
           <RowBetween>
-            <Text fontSize={18} color="text1">
+            <Text fontSize={14} color="text1">
               {startDate && startDate <= now
                 ? t('votePage.votingStarted') + (startDate && startDate.toLocaleString(DateTime.DATETIME_FULL))
                 : proposalData
@@ -111,7 +111,7 @@ export default function GovernanceDetail() {
             </Text>
           </RowBetween>
           <RowBetween>
-            <Text fontSize={18} color="text1">
+            <Text fontSize={14} color="text1">
               {endDate && endDate < now
                 ? t('votePage.votingEnded') + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
                 : proposalData
@@ -158,10 +158,10 @@ export default function GovernanceDetail() {
             <CardSection>
               <AutoColumn gap="md">
                 <WrapSmall>
-                  <Text fontWeight={500} fontSize={16} lineHeight="24px" color="text1">
+                  <Text fontWeight={500} fontSize={12} lineHeight="24px" color="text1">
                     {t('votePage.for')}
                   </Text>
-                  <Text fontWeight={500} fontSize={16} lineHeight="24px" color="text11">
+                  <Text fontWeight={500} fontSize={12} lineHeight="24px" color="text11">
                     {proposalData?.forCount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </Text>
                 </WrapSmall>
@@ -175,10 +175,10 @@ export default function GovernanceDetail() {
             <CardSection>
               <AutoColumn gap="md">
                 <WrapSmall>
-                  <Text fontWeight={500} fontSize={16} lineHeight="24px" color="text1">
+                  <Text fontWeight={500} fontSize={12} lineHeight="24px" color="text1">
                     {t('votePage.against')}
                   </Text>
-                  <Text fontWeight={500} fontSize={16} lineHeight="24px" color="text12">
+                  <Text fontWeight={500} fontSize={12} lineHeight="24px" color="text12">
                     {proposalData?.againstCount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </Text>
                 </WrapSmall>
@@ -192,7 +192,7 @@ export default function GovernanceDetail() {
         <StyledDataCard style={{ borderRadius: '0px' }}>
           <CardSection style={{ padding: '25px 30px', display: 'block' }}>
             <AutoColumn gap="md">
-              <Text fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
+              <Text fontWeight={800} fontSize={22} lineHeight="33px" color="text1">
                 {t('votePage.details')}
               </Text>
               {proposalData?.details?.map((d, i) => {
@@ -215,7 +215,7 @@ export default function GovernanceDetail() {
             <AutoColumn gap="md" style={{ marginTop: '30px' }}>
               {proposalData?.description ? (
                 <>
-                  <Text fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
+                  <Text fontWeight={800} fontSize={22} lineHeight="33px" color="text1">
                     {t('votePage.overview')}
                   </Text>
                   <MarkDownWrapper>
@@ -229,7 +229,7 @@ export default function GovernanceDetail() {
             <Box style={{ wordWrap: 'break-word' }}>
               {proposalData?.proposer && (
                 <>
-                  <Text fontWeight={800} fontSize={28} lineHeight="33px" color="text1">
+                  <Text fontWeight={800} fontSize={22} lineHeight="33px" color="text1">
                     {t('votePage.proposer')}
                   </Text>
                   <ExternalLink

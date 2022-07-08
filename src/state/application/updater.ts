@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useActiveWeb3React } from '../../hooks'
+import { useChainId } from 'src/hooks'
 import useDebounce from '../../hooks/useDebounce'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { updateBlockNumber } from './actions'
 import { useDispatch } from 'react-redux'
+import { useLibrary } from '@pangolindex/components'
 
 export default function Updater(): null {
-  const { library, chainId } = useActiveWeb3React()
+  const chainId = useChainId()
+  const { library, provider } = useLibrary()
   const dispatch = useDispatch()
 
   const windowVisible = useIsWindowVisible()
@@ -34,17 +36,16 @@ export default function Updater(): null {
     if (!library || !chainId || !windowVisible) return undefined
 
     setState({ chainId, blockNumber: null })
-
-    library
-      .getBlockNumber()
+    ;(provider as any)
+      ?.getBlockNumber()
       .then(blockNumberCallback)
-      .catch(error => console.error(`Failed to get block number for chainId: ${chainId}`, error))
+      .catch((error: any) => console.error(`Failed to get block number for chainId: ${chainId}`, error))
 
-    library.on('block', blockNumberCallback)
+    library.on && library.on('block', blockNumberCallback)
     return () => {
-      library.removeListener('block', blockNumberCallback)
+      library.removeListener && library.removeListener('block', blockNumberCallback)
     }
-  }, [dispatch, chainId, library, blockNumberCallback, windowVisible])
+  }, [dispatch, chainId, library, blockNumberCallback, windowVisible, provider])
 
   const debouncedState = useDebounce(state, 100)
 

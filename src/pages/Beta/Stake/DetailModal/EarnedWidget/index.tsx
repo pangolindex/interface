@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
-import useUSDCPrice from 'src/utils/useUSDCPrice'
+import { useUSDCPrice } from 'src/utils/useUSDCPrice'
 import { Root, StatWrapper } from './styled'
 import ClaimDrawer from '../../ClaimDrawer'
 import UnstakeDrawer from '../UnstakeDrawer'
@@ -25,22 +25,22 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
 
   const rewardToken = stakingInfo?.rewardToken
   const usdcPriceTmp = useUSDCPrice(rewardToken)
-  const usdcPrice = CHAINS[chainId].mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = CHAINS[chainId]?.mainnet ? usdcPriceTmp : undefined
 
   const weeklyRewardInToken = stakingInfo?.rewardRatePerWeek.toSignificant(4)
   const unclaimedAmountInToken = stakingInfo?.earnedAmount.toSignificant(4)
 
-  const weeklyRewardUSD = CHAINS[chainId].mainnet
+  const weeklyRewardUSD = CHAINS[chainId]?.mainnet
     ? Number(weeklyRewardInToken) * Number(usdcPrice?.toSignificant(6))
     : undefined
-  const unclaimedAmountInUSD = CHAINS[chainId].mainnet
+  const unclaimedAmountInUSD = CHAINS[chainId]?.mainnet
     ? Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6))
     : undefined
 
   return (
     <Root>
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Text color="text10" fontSize={24} fontWeight={500}>
+        <Text color="text10" fontSize={['24px', '20px']} fontWeight={500}>
           Earned
         </Text>
 
@@ -65,8 +65,8 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
             title={t('dashboardPage.earned_weeklyIncome')}
             stat={numeral(weeklyRewardUSD).format('$0.00a')}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={[16, 12]}
+            statFontSize={[24, 20]}
             titleColor="text2"
           />
         </Box>
@@ -76,8 +76,8 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
             title={t('dashboardPage.earned_weeklyIncome')}
             stat={weeklyRewardInToken}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={[16, 12]}
+            statFontSize={[24, 20]}
             titleColor="text2"
             currency={rewardToken}
           />
@@ -90,8 +90,8 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
             title={t('dashboardPage.earned_totalEarned')}
             stat={numeral(unclaimedAmountInUSD).format('$0.00a')}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={[16, 12]}
+            statFontSize={[24, 20]}
             titleColor="text2"
           />
         </Box>
@@ -101,8 +101,8 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
             title={t('dashboardPage.earned_totalEarned')}
             stat={unclaimedAmountInToken}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={24}
+            titleFontSize={[16, 12]}
+            statFontSize={[24, 20]}
             titleColor="text2"
             currency={rewardToken}
           />

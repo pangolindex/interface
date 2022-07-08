@@ -5,17 +5,28 @@ import {
   updateMinichefStakingAllAprs,
   updateMinichefStakingAllFarmsEarnedAmount
 } from './actions'
+import { ChainId } from '@pangolindex/sdk'
 
+interface Apr {
+  pid: string
+  swapFeeApr: number
+  stakingApr: number
+  combinedApr: number
+}
+
+type MinichefStakingData = { [chainId in ChainId]: MinichefV2 }
+type Aprs = { [chainId in ChainId]: { [key: string]: Apr } }
+type EarnerdAmounts = { [chainId in ChainId]: { [key: string]: { pid: string; earnedAmount: number } } }
 export interface MinichefStakingInfoState {
-  readonly minichefStakingData: MinichefV2
-  readonly aprs: { [key: string]: { pid: string; swapFeeApr: number; stakingApr: number; combinedApr: number } }
-  readonly earnedAmounts: { [key: string]: { pid: string; earnedAmount: number } }
+  readonly minichefStakingData: MinichefStakingData
+  readonly aprs: Aprs
+  readonly earnedAmounts: EarnerdAmounts
 }
 
 const initialState: MinichefStakingInfoState = {
-  minichefStakingData: {} as MinichefV2,
-  aprs: {},
-  earnedAmounts: {}
+  minichefStakingData: {} as MinichefStakingData,
+  aprs: {} as Aprs,
+  earnedAmounts: {} as EarnerdAmounts
 }
 
 export enum SortingType {
@@ -25,21 +36,50 @@ export enum SortingType {
 
 export default createReducer(initialState, builder =>
   builder
-    .addCase(updateMinichefStakingAllData, (state, { payload: { data } }) => {
-      // console.info('updateMinichefStakingAllData')
+    .addCase(
+      updateMinichefStakingAllData,
+      (
+        state,
+        {
+          payload: {
+            data: { chainId, data }
+          }
+        }
+      ) => {
+        // console.info('updateMinichefStakingAllData')
 
-      const existingData = { ...(state.minichefStakingData || {}), ...data }
+        const existingData = { ...(state.minichefStakingData[chainId] || {}), ...data }
+        state.minichefStakingData[chainId] = existingData
+      }
+    )
 
-      state.minichefStakingData = existingData
-    })
+    .addCase(
+      updateMinichefStakingAllAprs,
+      (
+        state,
+        {
+          payload: {
+            data: { chainId, data }
+          }
+        }
+      ) => {
+        // console.info('updateMinichefStakingALLAprs')
+        state.aprs[chainId] = data
+      }
+    )
 
-    .addCase(updateMinichefStakingAllAprs, (state, { payload: { data } }) => {
-      // console.info('updateMinichefStakingALLAprs')
-      state.aprs = data
-    })
-
-    .addCase(updateMinichefStakingAllFarmsEarnedAmount, (state, { payload: { data } }) => {
-      // console.info('updateMinichefStakingAllFarmsEarnedAmount')
-      state.earnedAmounts = data
-    })
+    .addCase(
+      updateMinichefStakingAllFarmsEarnedAmount,
+      (
+        state,
+        {
+          payload: {
+            data: { chainId, data }
+          }
+        }
+      ) => {
+        // console.info('updateMinichefStakingAllFarmsEarnedAmount')
+        state.earnedAmounts[chainId] = data
+      }
+    )
 )

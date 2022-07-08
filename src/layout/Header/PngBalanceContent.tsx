@@ -4,21 +4,20 @@ import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from 'src/assets/images/logo.png'
 import { injected } from '@pangolindex/components'
-import { BETA_MENU_LINK, getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
+import { MENU_LINK, getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
 import { PNG } from '../../constants/tokens'
-import { useTotalSupply } from '../../data/TotalSupply'
-import { useActiveWeb3React } from '../../hooks'
-import { useTotalPngEarned } from '../../state/stake/hooks'
-import { DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION } from '../../state/stake/doubleSideConfig'
-import { useAggregatePngBalance, useTokenBalance } from '../../state/wallet/hooks'
+import { useActiveWeb3React, usePngSymbol } from '../../hooks'
+import { useAggregatePngBalance } from '../../state/wallet/hooks'
 import { StyledInternalLink, TYPE, PngTokenAnimated } from '../../theme'
 import { AutoColumn } from '../../components/Column'
 import { RowBetween } from '../../components/Row'
 import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../../components/earn/styled'
 import { useTranslation } from 'react-i18next'
-import { useIsBetaUI } from '../../hooks/useLocation'
-import useUSDCPrice from '../../utils/useUSDCPrice'
 import { useChainId } from 'src/hooks'
+import { useTotalSupplyHook } from 'src/data/TotalSupply'
+import { useTokenBalanceHook } from 'src/state/wallet/multiChainsHooks'
+import { useTotalPngEarnedHook } from 'src/state/stake/multiChainsHooks'
+import { useUSDCPriceHook } from 'src/utils/useUSDCPrice'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -62,15 +61,19 @@ const AddPNG = styled.span`
  * Content for balance stats modal
  */
 export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowPngBalanceModal: any }) {
-  const isBeta = useIsBetaUI()
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const png = chainId ? PNG[chainId] : undefined
+  const pngSymbol = usePngSymbol()
+
+  const useTokenBalance = useTokenBalanceHook[chainId]
+  const useTotalPngEarned = useTotalPngEarnedHook[chainId]
+  const useTotalSupply = useTotalSupplyHook[chainId]
+  const useUSDCPrice = useUSDCPriceHook[chainId]
 
   const total = useAggregatePngBalance()
   const pngBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, png)
   const pngToClaim: TokenAmount | undefined = useTotalPngEarned()
-
   const totalSupply: TokenAmount | undefined = useTotalSupply(png)
 
   const oneToken = JSBI.BigInt(1000000000000000000)
@@ -78,7 +81,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   let pngPrice
 
   const usdcPriceTmp = useUSDCPrice(png)
-  const usdcPrice = CHAINS[chainId].mainnet ? usdcPriceTmp : undefined
+  const usdcPrice = CHAINS[chainId]?.mainnet ? usdcPriceTmp : undefined
 
   if (usdcPrice && png) {
     pngPrice = usdcPrice.quote(new TokenAmount(png, oneToken), chainId)
@@ -88,10 +91,10 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
 
   useMemo(() => {
     if (png === undefined) return
-    fetch(`${PANGOLIN_API_BASE_URL}/png/circulating-supply`)
+    fetch(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/png/circulating-supply`)
       .then(res => res.text())
       .then(val => setCirculation(new TokenAmount(png, val)))
-  }, [png])
+  }, [png, chainId])
 
   return (
     <ContentWrapper gap="lg">
@@ -100,7 +103,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
         <CardNoise />
         <CardSection gap="md">
           <RowBetween>
-            <TYPE.white color="white">{t('header.pngBreakDown')}</TYPE.white>
+            <TYPE.white color="white">{t('header.pngBreakDown', { symbol: pngSymbol })}</TYPE.white>
             <StyledClose stroke="white" onClick={() => setShowPngBalanceModal(false)} />
           </RowBetween>
         </CardSection>
@@ -124,10 +127,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                   <TYPE.white color="white">
                     {pngToClaim?.toFixed(4, { groupSeparator: ',' })}{' '}
                     {pngToClaim && pngToClaim.greaterThan('0') && (
-                      <StyledInternalLink
-                        onClick={() => setShowPngBalanceModal(false)}
-                        to={isBeta ? BETA_MENU_LINK.pool : `/png/${DOUBLE_SIDE_STAKING_REWARDS_CURRENT_VERSION}`}
-                      >
+                      <StyledInternalLink onClick={() => setShowPngBalanceModal(false)} to={MENU_LINK.pool}>
                         ({t('earn.claim')})
                       </StyledInternalLink>
                     )}
@@ -141,11 +141,11 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
         <CardSection gap="sm">
           <AutoColumn gap="md">
             <RowBetween>
-              <TYPE.white color="white">{t('header.pngPrice')}</TYPE.white>
+              <TYPE.white color="white">{t('header.pngPrice', { symbol: pngSymbol })}</TYPE.white>
               <TYPE.white color="white">${pngPrice?.toFixed(2, { groupSeparator: ',' }) ?? '-'}</TYPE.white>
             </RowBetween>
             <RowBetween>
-              <TYPE.white color="white">{t('header.pngCirculation')}</TYPE.white>
+              <TYPE.white color="white">{t('header.pngCirculation', { symbol: pngSymbol })}</TYPE.white>
               <TYPE.white color="white">{circulation?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>
             </RowBetween>
             <RowBetween>
@@ -171,7 +171,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                                 address: png?.address,
                                 symbol: png?.symbol,
                                 decimals: png?.decimals,
-                                image: getTokenLogoURL(PNG[ChainId.AVALANCHE].address, 48)
+                                image: getTokenLogoURL(PNG[ChainId.AVALANCHE].address, chainId, 48)
                               }
                             }
                           })
@@ -182,7 +182,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
                     })
                   }}
                 >
-                  <TYPE.white color="white">{t('header.addMetamask')}</TYPE.white>
+                  <TYPE.white color="white">{t('header.addMetamask', { symbol: pngSymbol })}</TYPE.white>
                 </AddPNG>
               </AutoColumn>
             </CardSection>

@@ -1,10 +1,10 @@
 import React, { useCallback, useContext } from 'react'
 import { useDispatch } from 'react-redux'
 import styled, { ThemeContext } from 'styled-components'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId } from '../../hooks'
 import { AppDispatch } from '../../state'
 import { clearAllTransactions } from '../../state/transactions/actions'
-import { shortenAddress, getEtherscanLink } from '../../utils'
+import { getEtherscanLink } from 'src/utils'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
@@ -12,13 +12,23 @@ import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { gnosisSafe, injected, walletconnect, walletlink, EVM_SUPPORTED_WALLETS } from '@pangolindex/components'
+import NearIcon from '../../assets/images/near.svg'
+import {
+  gnosisSafe,
+  injected,
+  walletconnect,
+  walletlink,
+  near,
+  SUPPORTED_WALLETS,
+  shortenAddress,
+  NearConnector,
+  transactionActions
+} from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import { ExternalLink, LinkStyledButton, TYPE } from '../../theme'
 import { useTranslation } from 'react-i18next'
-import { useIsBetaUI } from 'src/hooks/useLocation'
 import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
@@ -184,8 +194,8 @@ const TransactionListWrapper = styled.div`
   ${({ theme }) => theme.flexColumnNoWrap};
 `
 
-const WalletAction = styled(ButtonSecondary)<{ isBeta: boolean }>`
-  color: ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary1)};
+const WalletAction = styled(ButtonSecondary)`
+  color: ${({ theme }) => theme.primary};
   width: fit-content;
   font-weight: 400;
   margin-left: 8px;
@@ -197,15 +207,15 @@ const WalletAction = styled(ButtonSecondary)<{ isBeta: boolean }>`
   }
 
   &:focus {
-    box-shadow: 0 0 0 1pt ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
-    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary};
+    border: 1px solid ${({ theme }) => theme.primary};
   }
   &:hover {
-    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+    border: 1px solid ${({ theme }) => theme.primary};
   }
   &:active {
-    box-shadow: 0 0 0 1pt ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary4)};
-    border: 1px solid ${({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary3)};
+    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary};
+    border: 1px solid ${({ theme }) => theme.primary};
   }
 `
 
@@ -234,7 +244,8 @@ export default function AccountDetails({
   ENSName,
   openOptions
 }: AccountDetailsProps) {
-  const { chainId, account, connector } = useActiveWeb3React()
+  const { account, connector } = useActiveWeb3React()
+  const chainId = useChainId()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
@@ -245,16 +256,17 @@ export default function AccountDetails({
 
     const isXDEFI = !!(ethereum && ethereum.isXDEFI)
 
-    const name = Object.keys(EVM_SUPPORTED_WALLETS)
+    const name = Object.keys(SUPPORTED_WALLETS)
       .filter(
         k =>
-          EVM_SUPPORTED_WALLETS[k].connector === connector &&
+          SUPPORTED_WALLETS[k].connector === connector &&
           (connector !== injected || isMetaMask === (k === 'METAMASK') || isXDEFI === (k === 'XDEFI'))
       )
-      .map(k => EVM_SUPPORTED_WALLETS[k].name)[0]
+      .map(k => SUPPORTED_WALLETS[k].name)[0]
     return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>
   }
 
+  //TODO CHECK TESTING
   function getStatusIcon() {
     if (connector === injected) {
       return (
@@ -280,15 +292,22 @@ export default function AccountDetails({
           <img src={GnosisSafeIcon} alt={'Gnosis Safe logo'} />
         </IconWrapper>
       )
+    } else if (connector === near) {
+      return (
+        <IconWrapper size={16}>
+          <img src={NearIcon} alt={'Near Wallet'} />
+        </IconWrapper>
+      )
     }
     return null
   }
 
   const clearAllTransactionsCallback = useCallback(() => {
-    if (chainId) dispatch(clearAllTransactions({ chainId }))
+    if (chainId) {
+      dispatch(clearAllTransactions({ chainId }))
+      dispatch(transactionActions.clearAllTransactions({ chainId }))
+    }
   }, [dispatch, chainId])
-
-  const isBeta = useIsBetaUI()
 
   return (
     <>
@@ -303,23 +322,28 @@ export default function AccountDetails({
               <AccountGroupingRow>
                 {formatConnectorName()}
                 <div>
-                  {(connector instanceof WalletLinkConnector || connector instanceof WalletConnectConnector) && (
+                  {/* TODO : CHECK on disccount  */}
+                  {(connector instanceof WalletLinkConnector ||
+                    connector instanceof WalletConnectConnector ||
+                    connector instanceof NearConnector) && (
                     <WalletAction
                       style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
                       onClick={() => {
                         connector.close()
+                        if (connector instanceof NearConnector) {
+                          window.location.reload()
+                        }
                       }}
-                      isBeta={isBeta}
                     >
                       {t('accountDetails.disconnect')}
                     </WalletAction>
                   )}
+
                   <WalletAction
                     style={{ fontSize: '.825rem', fontWeight: 400 }}
                     onClick={() => {
                       openOptions()
                     }}
-                    isBeta={isBeta}
                   >
                     {t('accountDetails.change')}
                   </WalletAction>
@@ -338,7 +362,7 @@ export default function AccountDetails({
                     <>
                       <div>
                         {getStatusIcon()}
-                        <p> {account && shortenAddress(account)}</p>
+                        <p> {account && shortenAddress(account, chainId)}</p>
                       </div>
                     </>
                   )}
@@ -399,9 +423,7 @@ export default function AccountDetails({
         <LowerSection>
           <AutoRow mb={'1rem'} style={{ justifyContent: 'space-between' }}>
             <TYPE.body>{t('accountDetails.recentTransactions')}</TYPE.body>
-            <LinkStyledButton onClick={clearAllTransactionsCallback} isBeta={isBeta}>
-              {t('accountDetails.clearAll')}
-            </LinkStyledButton>
+            <LinkStyledButton onClick={clearAllTransactionsCallback}>{t('accountDetails.clearAll')}</LinkStyledButton>
           </AutoRow>
           {renderTransactions(pendingTransactions)}
           {renderTransactions(confirmedTransactions)}

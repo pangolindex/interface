@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import styled from 'styled-components'
-import { DoubleSideStakingInfo } from '../../state/stake/hooks'
+import { DoubleSideStakingInfo, fetchChunkedAprs } from '../../state/stake/hooks'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from '../../state/stake/doubleSideConfig'
 import { TYPE, ExternalLink } from '../../theme'
 import DoubleSidePoolCard from '../../components/earn/DoubleSidePoolCard'
@@ -10,11 +10,11 @@ import { NavLink } from 'react-router-dom'
 import { AutoRow, RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
-import { useChainId } from '../../hooks'
+import { useChainId, usePngSymbol } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/SearchModal/styleds'
 import useDebounce from '../../hooks/useDebounce'
-import { BIG_INT_ZERO, PANGOLIN_API_BASE_URL } from '../../constants'
+import { BIG_INT_ZERO } from '../../constants'
 import Toggle from '../../components/Toggle'
 
 const PageWrapper = styled(AutoColumn)`
@@ -102,6 +102,7 @@ export interface EarnProps {
 const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   const chainId = useChainId()
   const { t } = useTranslation()
+  const pngSymbol = usePngSymbol()
 
   const [poolCardsLoading, setPoolCardsLoading] = useState(false)
   const [poolCards, setPoolCards] = useState<any[]>()
@@ -174,56 +175,55 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
   }, [sortBy?.field, sortBy?.desc, showSuperFarm, stakingInfoData])
 
   useEffect(() => {
+    if (!chainId || stakingInfos?.length === 0) return
+
     setPoolCardsLoading(true)
-    if (stakingInfos?.length > 0) {
-      Promise.all(
-        stakingInfos
-          .filter(function(info) {
-            // Only include pools that are live or require a migration
-            return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
-          })
-          .sort(function(info_a, info_b) {
-            // only first has ended
-            if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
-            // only second has ended
-            if (!info_a.isPeriodFinished && info_b.isPeriodFinished) return -1
-            // greater stake in avax comes first
-            return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
-          })
-          .sort(function(info_a, info_b) {
-            // only the first is being staked, so we should bring the first up
-            if (info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && !info_b.stakedAmount.greaterThan(BIG_INT_ZERO))
-              return -1
-            // only the second is being staked, so we should bring the first down
-            if (!info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && info_b.stakedAmount.greaterThan(BIG_INT_ZERO))
-              return 1
-            return 0
-          })
-          // TODO: update here api call without staking reward address
-          .map(stakingInfo => {
-            if (poolMap) {
-              return fetch(
-                `${PANGOLIN_API_BASE_URL}/pangolin/apr2/${poolMap[stakingInfo.totalStakedAmount.token.address]}`
-              )
-                .then(res => res.json())
-                .then(res => ({
-                  swapFeeApr: Number(res.swapFeeApr),
-                  stakingApr: Number(res.stakingApr),
-                  combinedApr: Number(res.combinedApr),
-                  ...stakingInfo
-                }))
-            } else {
-              return fetch(`${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress}`)
-                .then(res => res.json())
-                .then(res => ({
-                  swapFeeApr: Number(res.swapFeeApr),
-                  stakingApr: Number(res.stakingApr),
-                  combinedApr: Number(res.combinedApr),
-                  ...stakingInfo
-                }))
-            }
-          })
-      ).then(updatedStakingInfos => {
+
+    const adjustedStakingInfos = stakingInfos
+      .filter(function(info) {
+        // Only include pools that are live or require a migration
+        return !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+      })
+      .sort(function(info_a, info_b) {
+        // only first has ended
+        if (info_a.isPeriodFinished && !info_b.isPeriodFinished) return 1
+        // only second has ended
+        if (!info_a.isPeriodFinished && info_b.isPeriodFinished) return -1
+        // greater stake in avax comes first
+        return info_a.totalStakedInUsd?.greaterThan(info_b.totalStakedInUsd ?? BIG_INT_ZERO) ? -1 : 1
+      })
+      .sort(function(info_a, info_b) {
+        // only the first is being staked, so we should bring the first up
+        if (info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && !info_b.stakedAmount.greaterThan(BIG_INT_ZERO)) return -1
+        // only the second is being staked, so we should bring the first down
+        if (!info_a.stakedAmount.greaterThan(BIG_INT_ZERO) && info_b.stakedAmount.greaterThan(BIG_INT_ZERO)) return 1
+        return 0
+      })
+
+    let aprRequest: Promise<Array<{ swapFeeApr: number; stakingApr: number; combinedApr: number }>>
+    if (poolMap) {
+      const pids = adjustedStakingInfos.map(stakingInfo =>
+        poolMap[stakingInfo.totalStakedAmount.token.address].toString()
+      )
+      aprRequest = fetchChunkedAprs(pids, chainId)
+    } else {
+      aprRequest = Promise.resolve(
+        adjustedStakingInfos.map(() => ({
+          swapFeeApr: 0,
+          stakingApr: 0,
+          combinedApr: 0
+        }))
+      )
+    }
+
+    aprRequest
+      .then(aprResponses =>
+        adjustedStakingInfos.map((adjustedStakingInfo, i) => ({
+          ...adjustedStakingInfo,
+          ...aprResponses[i]
+        }))
+      )
+      .then(updatedStakingInfos => {
         const _poolCards = updatedStakingInfos.map((stakingInfo, index) => {
           return (
             <DoubleSidePoolCard
@@ -243,10 +243,8 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
         setPoolCards(_poolCards)
         setPoolCardsLoading(false)
       })
-    }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stakingInfos?.length, version])
+  }, [stakingInfos?.length, version, chainId])
 
   const stakingRewardsExist = Boolean(
     typeof chainId === 'number' && (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0
@@ -282,7 +280,9 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 <TYPE.white fontWeight={600}>{t('earnPage.pangolinLiquidityMining')}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>{t('earnPage.depositPangolinLiquidity')}</TYPE.white>
+                <TYPE.white fontSize={14}>
+                  {t('earnPage.depositPangolinLiquidity', { pngSymbol: pngSymbol })}
+                </TYPE.white>
               </RowBetween>{' '}
               <AutoRow justify="space-between">
                 <ExternalLink
@@ -290,7 +290,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                   href="https://pangolin.exchange/litepaper"
                   target="_blank"
                 >
-                  <TYPE.white fontSize={14}>{t('earnPage.readMoreAboutPng')}</TYPE.white>
+                  <TYPE.white fontSize={14}>{t('earnPage.readMoreAboutPng', { pngSymbol: pngSymbol })}</TYPE.white>
                 </ExternalLink>
                 <FlexDiv>
                   <ExternalLink
@@ -327,7 +327,7 @@ const Earn: React.FC<EarnProps> = ({ version, stakingInfos, poolMap }) => {
                 </RowBetween>
                 {version !== '0' && (
                   <NavLink style={{ color: 'white', textDecoration: 'underline' }} to="/png/0">
-                    <TYPE.white fontSize={14}>{t('earnPage.oldPngPools')}</TYPE.white>
+                    <TYPE.white fontSize={14}>{t('earnPage.oldPngPools', { pngSymbol: pngSymbol })}</TYPE.white>
                   </NavLink>
                 )}
               </AutoColumn>

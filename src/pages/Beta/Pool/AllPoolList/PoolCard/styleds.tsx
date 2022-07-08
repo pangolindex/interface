@@ -52,8 +52,6 @@ export const StatWrapper = styled(Box)`
   grid-gap: 12px;
   margin-top: 10px;
   flex: 1;
-  height: 100%;
-  align-items: center;
 `
 export const OptionButton = styled.div`
   font-weight: 500;

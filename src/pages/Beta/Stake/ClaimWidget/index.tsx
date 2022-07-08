@@ -36,23 +36,22 @@ const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) =
   async function onClaimReward() {
     if (stakingContract && stakingInfo?.stakedAmount) {
       setAttempting(true)
-      await stakingContract
-        .getReward({ gasLimit: 350000 })
-        .then((response: TransactionResponse) => {
-          addTransaction(response, {
-            summary: t('earn.claimAccumulated', { symbol: stakingInfo?.rewardToken?.symbol })
-          })
-          setHash(response.hash)
-        })
-        .catch((error: any) => {
-          setAttempting(false)
 
-          // we only care if the error is something _other_ than the user rejected the tx
-          if (error?.code !== 4001) {
-            console.error(error)
-          }
-          console.log(error)
+      try {
+        const response: TransactionResponse = await stakingContract.getReward({ gasLimit: 350000 })
+        await response.wait(1)
+        addTransaction(response, {
+          summary: t('earn.claimAccumulated', { symbol: stakingInfo?.rewardToken?.symbol })
         })
+        setHash(response.hash)
+      } catch (error) {
+        setAttempting(false)
+        const err = error as any
+        // we only care if the error is something _other_ than the user rejected the tx
+        if (err?.code !== 4001) {
+          console.error(err)
+        }
+      }
     }
   }
 
@@ -69,15 +68,15 @@ const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) =
       {!attempting && !hash && (
         <Root>
           <Box textAlign="center" display="flex" flexDirection="column" justifyContent="center">
-            <Text fontSize="26px" fontWeight={500} color="text1">
+            <Text fontSize={['26px', '22px']} fontWeight={500} color="text1">
               {stakingInfo?.earnedAmount?.toSignificant(6)}
             </Text>
 
-            <Text fontSize="16px" color="text1">
+            <Text fontSize={['16px', '14px']} color="text1">
               {t('earn.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}
             </Text>
 
-            <Text fontSize="14px" color="text2" textAlign="center" mt={20}>
+            <Text fontSize={['14px', '12px']} color="text2" textAlign="center" mt={20}>
               Claim your rewards
             </Text>
           </Box>

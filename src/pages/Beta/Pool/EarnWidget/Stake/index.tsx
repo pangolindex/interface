@@ -11,7 +11,7 @@ import {
   Buttons,
   CardContentBox
 } from './styleds'
-import { Box, Text, Button, DoubleCurrencyLogo, NumberOptions } from '@pangolindex/components'
+import { Box, Text, Button, DoubleCurrencyLogo, NumberOptions, useLibrary } from '@pangolindex/components'
 import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { TokenAmount, Pair, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken, wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
@@ -44,9 +44,9 @@ interface StakeProps {
 }
 
 const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakeProps) => {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const { library, provider } = useLibrary()
   const token0 = stakingInfo.tokens[0]
   const token1 = stakingInfo.tokens[1]
 
@@ -132,20 +132,21 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
           : [poolMap[stakingInfo?.stakedAmount.token.address], `0x${parsedAmount.raw.toString(16)}`, account]
 
       if (approval === ApprovalState.APPROVED) {
-        stakingContract[method](...args)
-          .then((response: TransactionResponse) => {
-            addTransaction(response, {
-              summary: t('earn.depositLiquidity')
-            })
-            setHash(response.hash)
+        try {
+          const response: TransactionResponse = await stakingContract[method](...args)
+          await response.wait(1)
+          addTransaction(response, {
+            summary: t('earn.depositLiquidity')
           })
-          .catch((err: any) => {
-            setAttempting(false)
-            // we only care if the error is something _other_ than the user rejected the tx
-            if (err?.code !== 4001) {
-              console.error(err)
-            }
-          })
+          setHash(response.hash)
+        } catch (err) {
+          setAttempting(false)
+          const _err = err as any
+          // we only care if the error is something _other_ than the user rejected the tx
+          if (_err?.code !== 4001) {
+            console.error(error)
+          }
+        }
       } else if (signatureData) {
         const permitMethod = version < 2 ? 'stakeWithPermit' : 'depositWithPermit'
         const permitArgs =
@@ -166,21 +167,21 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
                 signatureData.r,
                 signatureData.s
               ]
-
-        stakingContract[permitMethod](...permitArgs)
-          .then((response: TransactionResponse) => {
-            addTransaction(response, {
-              summary: t('earn.depositLiquidity')
-            })
-            setHash(response.hash)
+        try {
+          const response: TransactionResponse = await stakingContract[permitMethod](...permitArgs)
+          await response.wait(1)
+          addTransaction(response, {
+            summary: t('earn.depositLiquidity')
           })
-          .catch((err: any) => {
-            setAttempting(false)
-            // we only care if the error is something _other_ than the user rejected the tx
-            if (err?.code !== 4001) {
-              console.error(err)
-            }
-          })
+          setHash(response.hash)
+        } catch (err) {
+          setAttempting(false)
+          const _err = err as any
+          // we only care if the error is something _other_ than the user rejected the tx
+          if (_err?.code !== 4001) {
+            console.error(_err)
+          }
+        }
       } else {
         setAttempting(false)
         throw new Error(t('earn.attemptingToStakeError'))
@@ -245,11 +246,10 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
       primaryType: 'Permit',
       message
     })
-
-    library
-      .send('eth_signTypedData_v4', [account, data])
+    ;(provider as any)
+      .execute('eth_signTypedData_v4', [account, data])
       .then(splitSignature)
-      .then(signature => {
+      .then((signature: any) => {
         setSignatureData({
           v: signature.v,
           r: signature.r,
@@ -257,7 +257,7 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
           deadline: deadline.toNumber()
         })
       })
-      .catch(err => {
+      .catch((err: any) => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
         if (err?.code !== 4001) {
           approveCallback()
@@ -345,7 +345,7 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
                 value={typedValue}
                 addonAfter={
                   <Box display="flex" alignItems="center">
-                    <Text color="text4" fontSize={24}>
+                    <Text color="text4" fontSize={[24, 18]}>
                       PGL
                     </Text>
                   </Box>

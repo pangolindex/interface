@@ -8,22 +8,22 @@
     "version1": "Phiên bản 1",
     "version2": "Phiên bản 2",
     "stake": "Stake",
-    "newPng": "PNG mới",
-    "oldPng": "PNG cũ",
+    "newPng": "{{ pngSymbol }} mới",
+    "oldPng": "{{ pngSymbol }} cũ",
     "vote": "Bình chọn",
     "ido": "IDO",
     "charts": "Bảng",
     "forum": "Diễn đàn",
-    "pngBreakDown": "PNG của bạn gặp sự cố",
+    "pngBreakDown": "{{ symbol }} của bạn gặp sự cố",
     "balance": "Số dư: ",
     "unclaimed": "Chưa được nhận: ",
-    "pngPrice": "Giá PNG:",
-    "pngCirculation": "Tổng PNG đang lưu thông:",
+    "pngPrice": "Giá {{ symbol }}:",
+    "pngCirculation": "Tổng {{ symbol }} đang lưu thông:",
     "totalSupply": "Tổng cung",
     "makeSureURLWarning": "Đảm bảo rằng URL là:",
     "alwaysMakeSureWarning": "Luôn đảm bảo rằng URL là:",
     "bookmarkIt": "Đánh dấu nó để an toàn.",
-    "addMetamask": "Thêm PNG vào MetaMask",
+    "addMetamask": "Thêm {{ symbol }} vào MetaMask",
     "bridge": "Cầu",
     "ourPartners": "Những cộng sự của chúng ta",
     "usefulLinks": "LIÊN KẾT HỮU ÍCH",
@@ -38,7 +38,7 @@
     "disconnect": "Mất kết nối",
     "change": "Thay đổi",
     "copy": "Sao chép địa chỉ",
-    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avalanche",
+    "viewExplorer": "Xem trên explorer",
     "clearAll": "(xóa tất cả)",
     "transactionAppear": "Các giao dịch của bạn sẽ xuất hiện tại đây ...",
     "recentTransactions": "Các giao dịch gần đây",
@@ -46,7 +46,7 @@
   },
   "addressInputPanel": {
     "recipient": "Người nhận",
-    "viewExplorer": "(Xem trong trình khám phá chuỗi Snowtrace Avalanche)",
+    "viewExplorer": "(Xem trên explorer)",
     "walletAddress": "Địa chỉ ví"
   },
   "currencyInputPanel": {
@@ -70,7 +70,7 @@
     "deposit": "Gửi",
     "poolRate": "Tỷ suất bể",
     "currentReward": "Phần thưởng hiện tại",
-    "pngPerAvax": "PNG/tuần trên mỗi AVAX",
+    "pngPerAvax": "{{ pngSymbol }}/tuần trên mỗi AVAX",
     "rewardPerWeek": "{{ symbol }} / Tuần",
     "earnUpTo": "Lợi nhuận hàng năm lên đến",
     "yourRate": "Tỷ lệ của bạn",
@@ -89,8 +89,8 @@
     "deposited": "Đã gửi",
     "withdrawDepositedLiquidity": "Rút thanh khoản đã gửi",
     "depositedPglLiquidity": "Thanh khoản PGL đã gửi:",
-    "whenYouWithdrawWarning": "Khi bạn rút tiền, số phần thưởng PNG được nhận và mã thông báo Pangolin Liquidity của bạn, PGL, được trả lại cho bạn. Bạn sẽ không được thưởng thêm PNG trên mã thanh khoản này nữa. Số token thanh khoản ban đầu vẫn còn lại trong bể",
-    "whenYouWithdrawSingleSideWarning": "Khi bạn rút tiền, {{symbol}} của bạn sẽ được nhận và PNG của bạn sẽ được trả lại. Bạn sẽ không còn kiếm được phần thưởng {{Symbol}} trên token PNG này nữa.",
+    "whenYouWithdrawWarning": "Khi bạn rút tiền, số phần thưởng {{ symbol }} được nhận và mã thông báo Pangolin Liquidity của bạn, PGL, được trả lại cho bạn. Bạn sẽ không được thưởng thêm {{ symbol }} trên mã thanh khoản này nữa. Số token thanh khoản ban đầu vẫn còn lại trong bể",
+    "whenYouWithdrawSingleSideWarning": "Khi bạn rút tiền, {{symbol}} của bạn sẽ được nhận và {{ pngSymbol }} của bạn sẽ được trả lại. Bạn sẽ không còn kiếm được phần thưởng {{Symbol}} trên token {{ pngSymbol }} này nữa.",
     "withdrawAndClaim": "Rút và nhận",
     "withdrewStakingToken": "Đã rút!{{ symbol }}",
     "approve": "Chấp nhận",
@@ -111,7 +111,7 @@
   },
   "modalView": {
     "confirmTransaction": "Xác nhận giao dịch này trong ví của bạn",
-    "viewTransaction": "Xem giao dịch trên trình phám khá Snowtrace Avalanche"
+    "viewTransaction": "Xem giao dịch trên Explorer"
   },
   "navigationTabs": {
     "useThisTool": "Sử dụng công cụ này để tìm các cặp không tự động xuất hiện trong giao diện.",
@@ -127,7 +127,7 @@
   "popups": {
     "tokenListUpdated": "Danh sách mã token \" {{oldList}} \" đã được cập nhật đến ",
     "updateAvailable": "Bản cập nhật khả dụng cho danh sách token\" {{oldList}} \"",
-    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avalanche",
+    "viewExplorer": "Xem trên explorer",
     "hash": "Băm:",
     "added": "thêm",
     "removed": "loại bỏ",
@@ -218,16 +218,17 @@
     "purchaseArbitraryWarning": "Nếu bạn mua một mã token tùy chỉnh, <strong>bạn có thể không bán lại được.</strong>",
     "understand": "Tôi hiểu",
     "continue": "Tiếp tục",
-    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avalanche"
+    "viewExplorer": "Xem trên explorer"
   },
   "transactionConfirmation": {
     "waitingConfirmation": "Đang chờ xác nhận",
     "confirmTransaction": "Xác nhận giao dịch này trong ví của bạn",
     "transactionSubmitted": "Giao dịch đã được gửi đi",
-    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avalanche",
+    "viewExplorer": "Xem trên explorer",
     "close": "Đóng",
     "error": "Lỗi",
-    "dismiss": "Bỏ qua"
+    "dismiss": "Bỏ qua",
+    "addToFarm": "Thêm vào trang trại"
   },
   "transactionSettings": {
     "slippageTolerance": "Chống trượt giá",
@@ -240,7 +241,7 @@
     "minutes": "phút"
   },
   "vote": {
-    "earnedPng": "Mã token PNG kiếm được đại diện cho cổ phần biểu quyết trong quản trị Pangolin.",
+    "earnedPng": "Mã token {{ pngSymbol }} kiếm được đại diện cho cổ phần biểu quyết trong quản trị Pangolin.",
     "canEitherVote": "Bạn có thể tự bỏ phiếu cho từng đề xuất hoặc ủy thác phiếu bầu của mình cho bên thứ ba. ",
     "delegateVotes": "Phiếu bầu ủy quyền",
     "selfDelegate": "Tự ủy quyền",
@@ -257,7 +258,7 @@
     "votes": "những phiếu bầu",
     "submittingVote": "Đang gửi phiếu bầu",
     "confirmTransaction": "Xác nhận giao dịch này trên ví của bạn",
-    "viewExplorer": "Xem trong trình khám phá chuỗi Snowtrace Avalanche"
+    "viewExplorer": "Xem trên explorer"
   },
   "walletModal": {
     "wrongNetwork": "Sai mạng lưới",
@@ -306,35 +307,35 @@
     "poolTokens": " Bể token"
   },
   "airdrop": {
-    "claimPngAirdrop": "Nhận PNG từ Aidrop",
+    "claimPngAirdrop": "Nhận {{ pngSymbol }} từ Aidrop",
     "claimPeriodEnded": "Thời gian nhận airdrop đã kết thúc.",
     "connectWalletViewLiquidity": "Kết nối với ví để tìm hiều thanh khoản của bạn.",
     "noAvailableClaim": "Bạn không có phần thưởng nào.",
     "noUniNoSushi": "Bạn không có mã token UNI hoặc SUSHI. Vui lòng làm theo hướng dẫn tại đây để thêm mã token UNI hoặc SUSHI vào ví của bạn .",
     "youHave": "Bạn có ",
-    "pngAvailableClaim": " PNG khả dụng để nhận",
+    "pngAvailableClaim": " {{ pngSymbol }} khả dụng để nhận",
     "loading": "Đang tải",
     "welcomeToTeamPangolin": "Chào mừng đến đội Pagonlin",
     "claim": "Nhận "
   },
   "earnPage": {
     "pangolinLiquidityMining": "Khai thác thanh khoản Pangolin",
-    "pangolinLiquidityStaking": "Đặt cổ phần Pangolin PNG ",
-    "depositPangolinLiquidity": "Gửi mã token PGL của vị thế cung cấp thanh khoản Pangolin của bạn để nhận PNG, mã thông báo quản trị giao thức Pangolin.",
-    "depositPangolinStaking": "Gửi và đặt cổ phần mã token PNG của bạn để nhận được nhiều token hơn.",
+    "pangolinLiquidityStaking": "Đặt cổ phần Pangolin {{ pngSymbol }} ",
+    "depositPangolinLiquidity": "Gửi mã token PGL của vị thế cung cấp thanh khoản Pangolin của bạn để nhận {{ pngSymbol }}, mã thông báo quản trị giao thức Pangolin.",
+    "depositPangolinStaking": "Gửi và đặt cổ phần mã token {{ pngSymbol }} của bạn để nhận được nhiều token hơn.",
     "currentOpportunities": "Cơ hội hiện tại",
-    "readMoreAboutPng": "Tìm hiểu nhiều hơn về PNG",
+    "readMoreAboutPng": "Tìm hiểu nhiều hơn về {{ pngSymbol }}",
     "getInsuranceCoverage": "Nhận trang bìa trên InsurAce.io",
     "getCoverNexusMutual": "Nhận trang bìa trên Nexus Mutual",
     "importantUpdate": "CẬP NHẬT QUAN TRỌNG",
     "pangolinGovernanceProposalResult": "Theo kết quả của đề xuất quản trị Pangolin 1, Pangolin đang thay đổi các hợp đồng đặt cổ phần! Sau khoảng 08:59 UTC vào ngày 19 tháng 4, tất cả phần thưởng đặt cổ phần sẽ được phân phối cho các hợp đồng đặt cổ phần mới. Trước khi chuyển đổi, tất cả phần thưởng sẽ vẫn được phân phối cho các hợp đồng cũ. Để tránh bị gián đoạn việc kiếm phần thưởng farming, bạn cần loại bỏ thanh khoản của mình khỏi các hợp đồng cũ và thực hiện lại các hợp đồng mới. Bạn không cần phải xóa thanh khoản khỏi bể của mình hoặc thay đổi vị thế của mình. ",
-    "oldPngPools": "Những bể PNG cũ",
-    "newPngPools": "Những bể PNG mới",
+    "oldPngPools": "Những bể {{ pngSymbol }} cũ",
+    "newPngPools": "Những bể {{ pngSymbol }} mới",
     "participatingPools": "Đang tham gia vào các bể",
     "rewardsNeverEnd": "Phần thưởng không bao giờ kết thúc!",
     "noActiveRewards": "Không có phần thưởng hoạt động",
     "liquidityMining": "Khai thác thanh khoản",
-    "pngStaking": "Đang đặt cổ phần PNG",
+    "pngStaking": "Đang đặt cổ phần {{ pngSymbol }}",
     "totalStaked": "Tổng số cổ phần đã đặt",
     "poolRate": "Tỷ suất bể",
     "step1": "Bước 1. Nhận token thanh khoản Pangolin (PGL)",
@@ -345,7 +346,7 @@
     "unclaimedReward": "Số {{ symbol }} của bạn chưa nhận",
     "claim": "Nhận",
     "rewardPerWeek": " {{ symbol }} / tuần",
-    "automagically": "Khi bạn rút tiền, hợp đồng sẽ tự động nhận phần thưởng PNG thay cho bạn! ",
+    "automagically": "Khi bạn rút tiền, hợp đồng sẽ tự động nhận phần thưởng {{ pngSymbol }} thay cho bạn! ",
     "deposit": "Gửi",
     "depositStakingTokens": "Gửi token {{ symbol }}",
     "stake": "Đặt cổ phần",
@@ -375,10 +376,11 @@
     "seeDetails":"XEM CHI TIẾT",
     "totalLockedValue": "Tổng giá trị đã khóa",
     "yourLockedValue": "Giá trị đã khóa của bạn",
-    "allPools": "Tất cả các hồ bơi",
+    "allFarms": "tất cả các trang trại",
+    "yourFarms": "trang trại của bạn",
     "yourPools": "Hồ bơi của bạn",
-    "yourWallet": "Ví của bạn",
-    "noFarms": "Không tìm thấy trang trại nào."
+    "noFarms": "Không tìm thấy trang trại nào.",
+    "successWithdraw": "Thanh khoản của bạn đã bị xóa khỏi trang trại và đã nhận được phần thưởng tích lũy!"
   },
   "poolFinder": {
     "connectToFind": "Kêt nối với một ví để nhìn thấy bể",
@@ -474,8 +476,8 @@
     "unlockVotes": "Mở khóa phiếu bầu",
     "updateDelegation": "Cập nhật ủy quyền",
     "pangolinGovernance": "Quản trị Pangolin",
-    "earnedPngTokens": "Các mã token PNG đại diện cho cổ phần có quyền biểu quyết trong quản trị Pangolin. Bạn có thể tự bỏ phiếu cho từng đề xuất hoặc ủy thác phiếu bầu của mình cho bên thứ ba.",
-    "eligibleToVote": "Để đủ điều kiện bỏ phiếu, bạn phải giữ PNG trong ví của mình và ủy quyền khi bắt đầu bỏ phiếu. Sau khi bắt đầu bỏ phiếu, bạn có thể gộp hoặc sử dụng PNG của mình.",
+    "earnedPngTokens": "Các mã token {{ pngSymbol }} đại diện cho cổ phần có quyền biểu quyết trong quản trị Pangolin. Bạn có thể tự bỏ phiếu cho từng đề xuất hoặc ủy thác phiếu bầu của mình cho bên thứ ba.",
+    "eligibleToVote": "Để đủ điều kiện bỏ phiếu, bạn phải giữ {{ pngSymbol }} trong ví của mình và ủy quyền khi bắt đầu bỏ phiếu. Sau khi bắt đầu bỏ phiếu, bạn có thể gộp hoặc sử dụng {{ pngSymbol }} của mình.",
     "governanceVotes": "Các phiếu bầu quản trị được quyết định theo đa số. Không có ngưỡng đại biểu. ",
     "proposals": "Đề xuất",
     "allProposals": "Tất cả đề xuất",
@@ -486,7 +488,7 @@
     "edit": "sửa",
     "noProposalsFound": "Không đề xuất nào được tìm thấy.",
     "proposalCommunityMembers": "Các đề xuất do các thành viên cộng đồng gửi sẽ xuất hiện ở đây.",
-    "minimumThreshold": "Yêu cầu ngưỡng tối thiểu 1.000.000 PNG để gửi đề xuất ",
+    "minimumThreshold": "Yêu cầu ngưỡng tối thiểu 1.000.000 {{ pngSymbol }} để gửi đề xuất ",
     "votingStarted": "Bỏ phiếu đã bắt đầu",
     "votingStarts": "Bắt đầu bỏ phiếu ",
     "votingEnded": "Bỏ phiếu đã kết thúc ",
@@ -567,7 +569,7 @@
     "poolInfoDescription": "Bây giờ bạn đã chọn hồ bơi của mình, sau đó cho phép bạn rời khỏi đó.",
     "dollarWorth": "Giá trị đô la: ",
     "yourRate": "Tỷ lệ của bạn: ",
-    "unclaimedPng": "PNG vô thừa nhận: ",
+    "unclaimedPng": "{{ pngSymbol }} vô thừa nhận: ",
     "shareOfPool": "Chia sẻ của Pool: ",
     "choose": "LỰA CHỌN",
     "selectAll": "Chọn tất cả",
@@ -600,7 +602,7 @@
     "seeDetails": "SEE DETAILS",
     "stake": "STAKE",
     "earn": "Earn {{symbol}}",
-    "stakeAndEarn": "Stake Your PNG and Earn Rewards!"
+    "stakeAndEarn": "Stake Your {{ pngSymbol }} and Earn Rewards!"
   },
   "error": {
     "missCurrencyAmounts": "Thiếu số tiền",

@@ -14,7 +14,7 @@ import {
   gnosisSafe,
   injected,
   xDefi,
-  EVM_SUPPORTED_WALLETS,
+  SUPPORTED_WALLETS,
   LANDING_PAGE,
   AVALANCHE_CHAIN_PARAMS,
   IS_IN_IFRAME,
@@ -31,7 +31,6 @@ import Modal from '../Modal'
 import Option from './Option'
 import PendingView from './PendingView'
 import { useTranslation } from 'react-i18next'
-import { useIsBetaUI } from 'src/hooks/useLocation'
 
 const WALLET_TUTORIAL = `${LANDING_PAGE}/tutorials/getting-started/#set-up-metamask`
 
@@ -58,12 +57,11 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
-const HeaderRow = styled.div<{ isBeta: boolean }>`
+const HeaderRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};
   padding: 1rem 1rem;
   font-weight: 500;
-  color: ${props =>
-    props.color === 'blue' ? ({ theme, isBeta }) => (isBeta ? theme.primary : theme.primary1) : 'inherit'};
+  color: ${props => (props.color === 'blue' ? ({ theme }) => theme.primary : 'inherit')};
   ${({ theme }) => theme.mediaWidth.upToMedium`
     padding: 1rem;
   `};
@@ -171,7 +169,7 @@ export default function WalletModal({
 
   const previousAccount = usePrevious(account)
   const { t } = useTranslation()
-  const isBeta = useIsBetaUI()
+
   // close on connection, when logged out before
   useEffect(() => {
     if (account && !previousAccount && walletModalOpen) {
@@ -209,9 +207,7 @@ export default function WalletModal({
     activationConnector: AbstractConnector | SafeAppConnector | undefined,
     option: WalletInfo | undefined
   ) => {
-    const name = Object.keys(EVM_SUPPORTED_WALLETS).find(
-      key => EVM_SUPPORTED_WALLETS[key].connector === activationConnector
-    )
+    const name = Object.keys(SUPPORTED_WALLETS).find(key => SUPPORTED_WALLETS[key].connector === activationConnector)
     // log selected wallet
     ReactGA.event({
       category: 'Wallet',
@@ -256,15 +252,15 @@ export default function WalletModal({
   function getActiveOption(): WalletInfo | undefined {
     if (connector === injected) {
       if (isRabby) {
-        return EVM_SUPPORTED_WALLETS.RABBY
+        return SUPPORTED_WALLETS.RABBY
       } else if (isMetamask) {
-        return EVM_SUPPORTED_WALLETS.METAMASK
+        return SUPPORTED_WALLETS.METAMASK
       }
-      return EVM_SUPPORTED_WALLETS.INJECTED
+      return SUPPORTED_WALLETS.INJECTED
     }
-    const name = Object.keys(EVM_SUPPORTED_WALLETS).find(key => EVM_SUPPORTED_WALLETS[key].connector === connector)
+    const name = Object.keys(SUPPORTED_WALLETS).find(key => SUPPORTED_WALLETS[key].connector === connector)
     if (name) {
-      return EVM_SUPPORTED_WALLETS[name]
+      return SUPPORTED_WALLETS[name]
     }
     return undefined
   }
@@ -274,132 +270,134 @@ export default function WalletModal({
     const isXDEFI = window.ethereum && window.ethereum.isXDEFI
     const activeOption = getActiveOption()
 
-    return Object.keys(EVM_SUPPORTED_WALLETS).map(key => {
-      const option = EVM_SUPPORTED_WALLETS[key]
-      // check for mobile options
-      if (isMobile) {
-        if (!window.web3 && !window.ethereum && option.mobile) {
-          return (
+    return Object.keys(SUPPORTED_WALLETS)
+      .filter(key => SUPPORTED_WALLETS[key].isEVM)
+      .map(key => {
+        const option = SUPPORTED_WALLETS[key]
+        // check for mobile options
+        if (isMobile) {
+          if (!window.web3 && !window.ethereum && option.mobile) {
+            return (
+              <Option
+                onClick={() => {
+                  option.connector !== connector && !option.href && tryActivation(option.connector, option)
+                }}
+                id={`connect-${key}`}
+                key={key}
+                active={activeOption && option.name === activeOption.name}
+                color={option.color}
+                link={option.href}
+                header={option.name}
+                subheader={null}
+                icon={option.iconName}
+              />
+            )
+          }
+          return null
+        }
+
+        // overwrite injected when needed
+        if (option.connector === injected) {
+          if (option.name === 'Rabby Wallet') {
+            if (!isRabby) {
+              return (
+                <Option
+                  id={`connect-${key}`}
+                  key={key}
+                  color={'#7a7cff'}
+                  header={'Install Rabby Wallet'}
+                  subheader={null}
+                  link={'https://rabby.io/'}
+                  icon={RabbyIcon}
+                />
+              )
+            }
+          }
+
+          // don't show injected if there's no injected provider
+          if (!(window.web3 || window.ethereum)) {
+            if (option.name === 'MetaMask') {
+              return (
+                <Option
+                  id={`connect-${key}`}
+                  key={key}
+                  color={'#E8831D'}
+                  header={'Install Metamask'}
+                  subheader={null}
+                  link={'https://metamask.io/'}
+                  icon={MetamaskIcon}
+                />
+              )
+            } else {
+              return null //dont want to return install twice
+            }
+          }
+          // don't return metamask if injected provider isn't metamask
+          else if (option.name === 'MetaMask' && !isMetamask) {
+            return null
+          }
+
+          // likewise for generic
+          else if (option.name === 'Injected' && isMetamask) {
+            return null
+          }
+        }
+
+        // overwrite injected when needed
+        else if (option.connector === xDefi) {
+          // don't show injected if there's no injected provider
+
+          if (!(window.xfi && window.xfi.ethereum && window.xfi.ethereum.isXDEFI)) {
+            if (option.name === 'XDEFI Wallet') {
+              return (
+                <Option
+                  id={`connect-${key}`}
+                  key={key}
+                  color={'#315CF5'}
+                  header={'Install XDEFI Wallet'}
+                  subheader={null}
+                  link={'https://www.xdefi.io/'}
+                  icon={XDefiIcon}
+                />
+              )
+            } else {
+              return null //dont want to return install twice
+            }
+          }
+
+          // likewise for generic
+          else if (option.name === 'Injected' && (isMetamask || isXDEFI)) {
+            return null
+          }
+        }
+
+        // Not show Gnosis Safe option without Gnosis Interface
+        if (option.connector === gnosisSafe && !IS_IN_IFRAME) {
+          return null
+        }
+
+        // return rest of options
+        return (
+          !isMobile &&
+          !option.mobileOnly && (
             <Option
-              onClick={() => {
-                option.connector !== connector && !option.href && tryActivation(option.connector, option)
-              }}
               id={`connect-${key}`}
+              onClick={() => {
+                option.connector === connector
+                  ? setWalletView(WALLET_VIEWS.ACCOUNT)
+                  : !option.href && tryActivation(option.connector, option)
+              }}
               key={key}
               active={activeOption && option.name === activeOption.name}
               color={option.color}
               link={option.href}
               header={option.name}
-              subheader={null}
-              icon={require('../../assets/images/' + option.iconName)}
+              subheader={null} //use option.descriptio to bring back multi-line
+              icon={option.iconName}
             />
           )
-        }
-        return null
-      }
-
-      // overwrite injected when needed
-      if (option.connector === injected) {
-        if (option.name === 'Rabby Wallet') {
-          if (!isRabby) {
-            return (
-              <Option
-                id={`connect-${key}`}
-                key={key}
-                color={'#7a7cff'}
-                header={'Install Rabby Wallet'}
-                subheader={null}
-                link={'https://rabby.io/'}
-                icon={RabbyIcon}
-              />
-            )
-          }
-        }
-
-        // don't show injected if there's no injected provider
-        if (!(window.web3 || window.ethereum)) {
-          if (option.name === 'MetaMask') {
-            return (
-              <Option
-                id={`connect-${key}`}
-                key={key}
-                color={'#E8831D'}
-                header={'Install Metamask'}
-                subheader={null}
-                link={'https://metamask.io/'}
-                icon={MetamaskIcon}
-              />
-            )
-          } else {
-            return null //dont want to return install twice
-          }
-        }
-        // don't return metamask if injected provider isn't metamask
-        else if (option.name === 'MetaMask' && !isMetamask) {
-          return null
-        }
-
-        // likewise for generic
-        else if (option.name === 'Injected' && isMetamask) {
-          return null
-        }
-      }
-
-      // overwrite injected when needed
-      else if (option.connector === xDefi) {
-        // don't show injected if there's no injected provider
-
-        if (!(window.xfi && window.xfi.ethereum && window.xfi.ethereum.isXDEFI)) {
-          if (option.name === 'XDEFI Wallet') {
-            return (
-              <Option
-                id={`connect-${key}`}
-                key={key}
-                color={'#315CF5'}
-                header={'Install XDEFI Wallet'}
-                subheader={null}
-                link={'https://www.xdefi.io/'}
-                icon={XDefiIcon}
-              />
-            )
-          } else {
-            return null //dont want to return install twice
-          }
-        }
-
-        // likewise for generic
-        else if (option.name === 'Injected' && (isMetamask || isXDEFI)) {
-          return null
-        }
-      }
-
-      // Not show Gnosis Safe option without Gnosis Interface
-      if (option.connector === gnosisSafe && !IS_IN_IFRAME) {
-        return null
-      }
-
-      // return rest of options
-      return (
-        !isMobile &&
-        !option.mobileOnly && (
-          <Option
-            id={`connect-${key}`}
-            onClick={() => {
-              option.connector === connector
-                ? setWalletView(WALLET_VIEWS.ACCOUNT)
-                : !option.href && tryActivation(option.connector, option)
-            }}
-            key={key}
-            active={activeOption && option.name === activeOption.name}
-            color={option.color}
-            link={option.href}
-            header={option.name}
-            subheader={null} //use option.descriptio to bring back multi-line
-            icon={require('../../assets/images/' + option.iconName)}
-          />
         )
-      )
-    })
+      })
   }
 
   function getModalContent() {
@@ -412,7 +410,7 @@ export default function WalletModal({
           <CloseIcon onClick={toggleWalletModal}>
             <CloseColor />
           </CloseIcon>
-          <HeaderRow isBeta={isBeta}>
+          <HeaderRow>
             {web3Error instanceof UnsupportedChainIdError
               ? t('walletModal.wrongNetwork')
               : t('walletModal.errorConnecting')}
@@ -449,7 +447,7 @@ export default function WalletModal({
           <CloseColor />
         </CloseIcon>
         {walletView !== WALLET_VIEWS.ACCOUNT ? (
-          <HeaderRow color="blue" isBeta={isBeta}>
+          <HeaderRow color="blue">
             <HoverText
               onClick={() => {
                 setPendingError(false)
@@ -460,7 +458,7 @@ export default function WalletModal({
             </HoverText>
           </HeaderRow>
         ) : (
-          <HeaderRow isBeta={isBeta}>
+          <HeaderRow>
             <HoverText>{t('walletModal.connectToWallet')}</HoverText>
           </HeaderRow>
         )}

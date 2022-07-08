@@ -40,7 +40,7 @@ export const Tabs = styled(Box)`
 
 export const Tab = styled(Box)`
   padding: 15px 50px;
-  font-size: 18px;
+  font-size: 14px;
   color: ${({ theme }) => theme.text10};
   background-color: ${({ theme }) => theme.bg2};
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { ExternalLink } from '../../theme'
-import { useIsBetaUI } from 'src/hooks/useLocation'
 
 const InfoCard = styled.button<{ active?: boolean }>`
   background-color: ${({ theme, active }) => (active ? theme.bg3 : theme.bg2)};
@@ -31,12 +30,11 @@ const OptionCardLeft = styled.div`
   height: 100%;
 `
 
-const OptionCardClickable = styled(OptionCard as any)<{ clickable?: boolean; isBeta: boolean }>`
+const OptionCardClickable = styled(OptionCard as any)<{ clickable?: boolean }>`
   margin-top: 0;
   &:hover {
     cursor: ${({ clickable }) => (clickable ? 'pointer' : '')};
-    border: ${({ clickable, theme, isBeta }) =>
-      clickable ? `1px solid ${isBeta ? theme.primary : theme.primary1}` : ``};
+    border: ${({ clickable, theme }) => (clickable ? `1px solid ${theme.primary}` : ``)};
   }
   opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
 `
@@ -112,10 +110,8 @@ export default function Option({
   active?: boolean
   id: string
 }) {
-  const isBeta = useIsBetaUI()
-
   const content = (
-    <OptionCardClickable id={id} onClick={onClick} clickable={clickable && !active} active={active} isBeta={isBeta}>
+    <OptionCardClickable id={id} onClick={onClick} clickable={clickable && !active} active={active}>
       <OptionCardLeft>
         <HeaderText color={color}>
           {active ? (

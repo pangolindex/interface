@@ -2,7 +2,7 @@ import React, { useContext, useCallback, useState } from 'react'
 import { Currency, CAVAX, TokenAmount } from '@pangolindex/sdk'
 import { AddWrapper, InputText, StyledBalanceMax, ArrowWrapper, LightCard, InputWrapper, Buttons } from './styleds'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Text } from '@pangolindex/components'
+import { Box, Button, Text, useLibrary } from '@pangolindex/components'
 import { Plus } from 'react-feather'
 import { RowBetween } from 'src/components/Row'
 import { useWalletModalToggle } from 'src/state/application/hooks'
@@ -30,13 +30,14 @@ interface AddLiquidityProps {
   currencyA: Currency
   currencyB: Currency
   onComplete?: () => void
+  onAddToFarm?: () => void
   type: 'card' | 'detail'
 }
 
-const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityProps) => {
-  const { account, library } = useActiveWeb3React()
+const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: AddLiquidityProps) => {
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const { library } = useLibrary()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
@@ -159,42 +160,42 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
     }
 
     setAttemptingTxn(true)
-    await estimate(...args, value ? { value } : {})
-      .then(estimatedGasLimit =>
-        method(...args, {
-          ...(value ? { value } : {}),
-          gasLimit: calculateGasMargin(estimatedGasLimit)
-        }).then(response => {
-          setAttemptingTxn(false)
-
-          addTransaction(response, {
-            summary:
-              'Add ' +
-              parsedAmounts[Field.CURRENCY_A]?.toSignificant(3) +
-              ' ' +
-              currencies[Field.CURRENCY_A]?.symbol +
-              ' and ' +
-              parsedAmounts[Field.CURRENCY_B]?.toSignificant(3) +
-              ' ' +
-              currencies[Field.CURRENCY_B]?.symbol
-          })
-
-          setTxHash(response.hash)
-
-          ReactGA.event({
-            category: 'Liquidity',
-            action: 'Add',
-            label: [currencies[Field.CURRENCY_A]?.symbol, currencies[Field.CURRENCY_B]?.symbol].join('/')
-          })
-        })
-      )
-      .catch(err => {
-        setAttemptingTxn(false)
-        // we only care if the error is something _other_ than the user rejected the tx
-        if (err?.code !== 4001) {
-          console.error(err)
-        }
+    try {
+      const estimatedGasLimit = await estimate(...args, value ? { value } : {})
+      const response = await method(...args, {
+        ...(value ? { value } : {}),
+        gasLimit: calculateGasMargin(estimatedGasLimit)
       })
+      await response.wait(1)
+
+      addTransaction(response, {
+        summary:
+          'Add ' +
+          parsedAmounts[Field.CURRENCY_A]?.toSignificant(3) +
+          ' ' +
+          currencies[Field.CURRENCY_A]?.symbol +
+          ' and ' +
+          parsedAmounts[Field.CURRENCY_B]?.toSignificant(3) +
+          ' ' +
+          currencies[Field.CURRENCY_B]?.symbol
+      })
+
+      setTxHash(response.hash)
+
+      ReactGA.event({
+        category: 'Liquidity',
+        action: 'Add',
+        label: [currencies[Field.CURRENCY_A]?.symbol, currencies[Field.CURRENCY_B]?.symbol].join('/')
+      })
+    } catch (err) {
+      const _err = err as any
+      // we only care if the error is something _other_ than the user rejected the tx
+      if (_err?.code !== 4001) {
+        console.error(_err)
+      }
+    } finally {
+      setAttemptingTxn(false)
+    }
   }
 
   const handleDismissConfirmation = useCallback(() => {
@@ -401,6 +402,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, type }: AddLiquidityPr
           txHash={txHash}
           onClose={handleDismissConfirmation}
           onComplete={onComplete}
+          onAddToFarm={onAddToFarm}
           type={type}
         />
       )}

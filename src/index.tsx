@@ -7,7 +7,7 @@ import ReactGA from 'react-ga'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { NetworkContextName, PangolinProvider } from '@pangolindex/components'
+import { NetworkContextName, PangolinProvider, useLibrary } from '@pangolindex/components'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
 import './i18n'
@@ -21,10 +21,10 @@ import UserUpdater from './state/user/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
-import { useIsBetaUI } from './hooks/useLocation'
-import { useActiveWeb3React } from './hooks'
+import { useActiveWeb3React, useChainId } from './hooks'
 import Package from '../package.json'
 import { fetchMinichefData } from './state/stake/hooks'
+import { ChainId } from '@pangolindex/sdk'
 
 try {
   Sentry.init({
@@ -32,7 +32,7 @@ try {
     integrations: [new Integrations.BrowserTracing()],
     release: `pangolin-interface@${Package.version}`, //manual for now
     tracesSampleRate: 0.4,
-    allowUrls: ['https://app.pangolin.exchange', 'https://beta-app.pangolin.exchange'],
+    allowUrls: ['https://app.pangolin.exchange', 'https://dev.pangolin.exchange'],
     enabled: process.env.NODE_ENV === 'production',
     ignoreErrors: [
       'ResizeObserver loop limit exceeded',
@@ -79,30 +79,32 @@ function Updaters() {
   )
 }
 
-const prefetchImportantQueries = async (account: string) => {
+const prefetchImportantQueries = async (account: string, chainId: ChainId) => {
   // pre-fetch minichef query
-  await queryClient.prefetchQuery(['get-minichef-farms-v2', account], fetchMinichefData(account))
+  await queryClient.prefetchQuery(['get-minichef-farms-v2', account], fetchMinichefData(account, chainId))
 }
 
 const ComponentThemeProvider = () => {
-  const isBeta = useIsBetaUI()
+  const chainId = useChainId()
   const theme = useContext(ThemeContext)
 
-  const { library, chainId, account } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+
+  const { library } = useLibrary()
+  useEffect(() => {
+    if (chainId === ChainId.AVALANCHE) {
+      prefetchImportantQueries(account || '', chainId)
+    }
+  }, [account, chainId])
 
   useEffect(() => {
-    prefetchImportantQueries(account || '')
-  }, [account])
-
-  useEffect(() => {
-    if (window.pendo && account) {
+    if (window.pendo) {
       window.pendo.initialize({
         visitor: {
-          id: account
+          id: account || ''
         },
-
         account: {
-          id: account
+          id: account || ''
         }
       })
     }
@@ -110,8 +112,8 @@ const ComponentThemeProvider = () => {
 
   return (
     <PangolinProvider library={library} chainId={chainId} account={account ?? undefined} theme={theme as any}>
-      <FixedGlobalStyle isBeta={isBeta} />
-      <ThemedGlobalStyle isBeta={isBeta} />
+      <FixedGlobalStyle />
+      <ThemedGlobalStyle />
       <HashRouter>
         <App />
       </HashRouter>

@@ -16,7 +16,7 @@ const TradeOption: React.FC<Props> = ({ type, setType }) => {
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Text
             color="text1"
-            fontSize={20}
+            fontSize={[20, 16]}
             fontWeight={500}
             style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
           >

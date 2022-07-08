@@ -15,7 +15,7 @@ import { useActiveWeb3React } from 'src/hooks'
 import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxNotConnected } from './wagmiBoxes'
 import { QuestionAnswer } from './QuestionBox'
 import { useUserHasAvailableClaim, useUserUnclaimedAmount, useClaimCallback } from 'src/state/airdrop/hooks'
-import NearLogo from 'src/assets/images/near.png'
+import NearLogo from 'src/assets/images/near.svg'
 // import CostonLogo from 'src/assets/images/flare.jpeg'
 import Modal from 'src/components/Modal'
 import Confetti from 'src/components/Confetti'
@@ -79,12 +79,12 @@ const AirdropUI: React.FC = () => {
   }
   const renderError = (isOpened: boolean) => {
     return (
-      <Modal isOpen={isOpened} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={30} isBeta={true}>
+      <Modal isOpen={isOpened} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={30}>
         <ModalUpper>
           <CardBGImage />
           <CardNoise />
           <ColumnCenter>
-            <Text fontSize={25} fontWeight={500} lineHeight="50px" color="black">
+            <Text fontSize={[24, 18]} fontWeight={500} lineHeight="50px" color="black">
               Sorry, you are not eligible
             </Text>
             <PngTokenAnimated width="55px" src={tokenLogo} />
@@ -99,7 +99,7 @@ const AirdropUI: React.FC = () => {
       <Box paddingBottom="20px">
         <CenterText>
           <MainTitle>Pangolin Going Crosschain</MainTitle>
-          <Text fontSize={18} fontWeight={500} lineHeight="27px" color="text10">
+          <Text fontSize={[18, 14]} fontWeight={500} lineHeight="27px" color="text10">
             And we are not empty handed!
           </Text>
         </CenterText>
@@ -123,7 +123,7 @@ const AirdropUI: React.FC = () => {
         </ClaimBox> */}
         <ClaimBox>
           <TitleWrapper>
-            <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
+            <Text fontSize={[28, 22]} fontWeight={700} lineHeight="33px" color="text10">
               Claim nearPNG
             </Text>
             <StyledLogo src={NearLogo} size={'50px'} />
@@ -137,7 +137,7 @@ const AirdropUI: React.FC = () => {
         </ClaimBox>
       </BoxWrapper>
       <BoxWrapper>
-        <Text fontSize={35} fontWeight={500} lineHeight="66px" color="text10">
+        <Text fontSize={[32, 24]} fontWeight={500} lineHeight="66px" color="text10">
           HAVE QUESTIONS?
         </Text>
         <QuestionAnswer />

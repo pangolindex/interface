@@ -20,6 +20,7 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
 import { splitSignature } from 'ethers/lib/utils'
+import { useLibrary } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 
 const HypotheticalRewardRate = styled.div<{ dim: boolean }>`
@@ -49,9 +50,9 @@ export default function StakingModalSingleSide({
   stakingInfo,
   userLiquidityUnstaked
 }: StakingModalProps) {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const { library, provider } = useLibrary()
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
   const { parsedAmount, error } = useDerivedStakeInfo(typedValue, stakingInfo.stakedAmount.token, userLiquidityUnstaked)
@@ -188,11 +189,10 @@ export default function StakingModalSingleSide({
       primaryType: 'Permit',
       message
     })
-
-    library
-      .send('eth_signTypedData_v4', [account, data])
+    ;(provider as any)
+      .execute('eth_signTypedData_v4', [account, data])
       .then(splitSignature)
-      .then(signature => {
+      .then((signature: any) => {
         setSignatureData({
           v: signature.v,
           r: signature.r,
@@ -200,7 +200,7 @@ export default function StakingModalSingleSide({
           deadline: deadline.toNumber()
         })
       })
-      .catch(_error => {
+      .catch((_error: any) => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
         if (_error?.code !== 4001) {
           approveCallback()

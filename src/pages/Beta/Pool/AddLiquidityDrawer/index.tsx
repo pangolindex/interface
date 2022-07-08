@@ -10,10 +10,11 @@ type Props = {
   isOpen: boolean
   clickedLpTokens: Array<Token>
   onClose: () => void
+  onAddToFarm?: () => void
   backgroundColor?: string
 }
 
-const AddLiquidityDrawer: React.FC<Props> = ({ isOpen, onClose, clickedLpTokens, backgroundColor }) => {
+const AddLiquidityDrawer: React.FC<Props> = ({ isOpen, onClose, onAddToFarm, clickedLpTokens, backgroundColor }) => {
   const { t } = useTranslation()
   const chainId = useChainId()
 
@@ -25,7 +26,15 @@ const AddLiquidityDrawer: React.FC<Props> = ({ isOpen, onClose, clickedLpTokens,
 
   return (
     <Drawer title={t('pool.addLiquidity')} isOpen={isOpen} onClose={onClose} backgroundColor={backgroundColor}>
-      {isOpen && <AddLiquidity currencyA={currencyA} currencyB={currencyB} onComplete={onClose} type="card" />}
+      {isOpen && (
+        <AddLiquidity
+          currencyA={currencyA}
+          currencyB={currencyB}
+          onComplete={onClose}
+          onAddToFarm={onAddToFarm}
+          type="card"
+        />
+      )}
     </Drawer>
   )
 }

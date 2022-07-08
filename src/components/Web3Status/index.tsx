@@ -7,30 +7,32 @@ import {
   walletconnect,
   walletlink,
   xDefi,
-  NetworkContextName
+  NetworkContextName,
+  near,
+  shortenAddress,
+  useAllTransactions as useAllTransactionsComponents
 } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
-import { darken, lighten } from 'polished'
+import { darken } from 'polished'
 import React, { useMemo, useContext, useCallback } from 'react'
 import { Activity } from 'react-feather'
 import { useTranslation } from 'react-i18next'
-import styled, { css, ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import CoinbaseWalletIcon from 'src/assets/images/coinbaseWalletIcon.svg'
 import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
 import WalletConnectIcon from 'src/assets/images/walletConnectIcon.svg'
 import XDefiIcon from 'src/assets/images/xDefi.png'
+import NearIcon from 'src/assets/images/near.svg'
 import { useModalOpen, useWalletModalToggle, useAccountDetailToggle } from 'src/state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from 'src/state/transactions/hooks'
 import { TransactionDetails } from 'src/state/transactions/reducer'
-import { shortenAddress } from 'src/utils'
 import { ButtonSecondary } from '../Button'
-import { useIsBetaUI } from 'src/hooks/useLocation'
 import Identicon from '../Identicon'
 import Loader from '../Loader'
 import { RowBetween } from '../Row'
-import WalletModal from '../WalletModal'
 import { ApplicationModal } from 'src/state/application/actions'
 import AccountDetailsModal from '../AccountDetailsModal'
+import { useChainId } from 'src/hooks'
 
 const Web3StatusGeneric = styled(ButtonSecondary)`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -55,48 +57,7 @@ const Web3StatusError = styled(Web3StatusGeneric)`
   }
 `
 
-const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
-  background-color: ${({ theme }) => theme.primary4};
-  border: none;
-  color: ${({ theme }) => theme.primaryText1};
-  font-weight: 500;
-  padding: 0.5rem;
-
-  :hover,
-  :focus,
-  :active {
-    border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
-    color: ${({ theme }) => theme.primaryText1};
-  }
-
-  &:focus {
-    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
-    border: 1px solid ${({ theme }) => theme.primary3};
-  }
-  &:hover {
-    border: 1px solid ${({ theme }) => theme.primary3};
-  }
-  &:active {
-    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
-    border: 1px solid ${({ theme }) => theme.primary3};
-  }
-
-  ${({ faded }) =>
-    faded &&
-    css`
-      background-color: ${({ theme }) => theme.primary5};
-      border: 1px solid ${({ theme }) => theme.primary5};
-      color: ${({ theme }) => theme.primaryText1};
-
-      :hover,
-      :focus {
-        border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
-        color: ${({ theme }) => darken(0.05, theme.primaryText1)};
-      }
-    `}
-`
-
-const Web3StatusConnectBeta = styled(Box)<{ faded?: boolean }>`
+const Web3StatusConnect = styled(Box)<{ faded?: boolean }>`
   align-items: center;
   border-radius: 10px;
   cursor: pointer;
@@ -112,36 +73,7 @@ const Web3StatusConnectBeta = styled(Box)<{ faded?: boolean }>`
   }
 `
 
-const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
-  background-color: ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg2)};
-  border: 1px solid ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg3)};
-  color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
-  font-weight: 500;
-  :hover,
-  :focus {
-    background-color: ${({ pending, theme }) => (pending ? darken(0.05, theme.primary1) : lighten(0.05, theme.bg2))};
-
-    :focus {
-      border: 1px solid ${({ pending, theme }) => (pending ? darken(0.1, theme.primary1) : darken(0.1, theme.bg3))};
-    }
-  }
-
-  &:focus {
-    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
-    border: 1px solid ${({ theme }) => theme.primary3};
-  }
-
-  &:hover {
-    border: 1px solid ${({ theme }) => theme.primary3};
-  }
-
-  &:active {
-    box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
-    border: 1px solid ${({ theme }) => theme.primary3};
-  }
-`
-
-const Web3StatusConnectedBeta = styled(Box)<{ pending?: boolean }>`
+const Web3StatusConnected = styled(Box)<{ pending?: boolean }>`
   align-items: center;
   border-radius: 10px;
   cursor: pointer;
@@ -225,6 +157,12 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
         <img src={XDefiIcon} alt={'XDEFIWalletConnect'} />
       </IconWrapper>
     )
+  } else if (connector === near) {
+    return (
+      <IconWrapper size={16}>
+        <img src={NearIcon} alt={'Near Wallet'} />
+      </IconWrapper>
+    )
   }
   return null
 }
@@ -232,6 +170,7 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
 function Web3StatusInner() {
   const { t } = useTranslation()
   const { account, connector, error } = useWeb3React()
+  const chainId = useChainId()
 
   const allTransactions = useAllTransactions()
 
@@ -246,20 +185,15 @@ function Web3StatusInner() {
   const toggleWalletModal = useWalletModalToggle()
   const toggleAccountDetailModal = useAccountDetailToggle()
 
-  const isBeta = useIsBetaUI()
   //ATTENTION ICI
-  const StatusConnected: any = isBeta ? Web3StatusConnectedBeta : Web3StatusConnected
-  const StatusConnect: any = isBeta ? Web3StatusConnectBeta : Web3StatusConnect
+  const StatusConnected: any = Web3StatusConnected
+  const StatusConnect: any = Web3StatusConnect
   if (account) {
     return (
       <StatusConnected
         id="web3-status-connected"
         onClick={() => {
-          if (isBeta) {
-            toggleAccountDetailModal()
-          } else {
-            toggleWalletModal()
-          }
+          toggleAccountDetailModal()
         }}
         pending={hasPendingTransactions}
       >
@@ -272,7 +206,7 @@ function Web3StatusInner() {
           </RowBetween>
         ) : (
           <>
-            <Text>{shortenAddress(account)}</Text>
+            <Text>{shortenAddress(account, chainId)}</Text>
           </>
         )}
         {!hasPendingTransactions && connector && <StatusIcon connector={connector} />}
@@ -298,11 +232,14 @@ export default function Web3Status() {
   const { account, active } = useWeb3React()
   const contextNetwork = useWeb3React(NetworkContextName)
 
-  const isBeta = useIsBetaUI()
-
   const theme = useContext(ThemeContext)
 
-  const allTransactions = useAllTransactions()
+  const allTransactionsInterface = useAllTransactions()
+  const allTransactionsComponents = useAllTransactionsComponents()
+
+  const allTransactions: { [txHash: string]: TransactionDetails } = useMemo(() => {
+    return { ...allTransactionsInterface, ...allTransactionsComponents }
+  }, [allTransactionsInterface, allTransactionsComponents])
 
   const walletModalOpen = useModalOpen(ApplicationModal.WALLET)
   const toggleWalletModal = useWalletModalToggle()
@@ -336,9 +273,7 @@ export default function Web3Status() {
     return null
   }
   const renderModal = () => {
-    if (!isBeta) {
-      return <WalletModal ENSName={undefined} pendingTransactions={pending} confirmedTransactions={confirmed} />
-    } else if (!account || walletModalOpen) {
+    if (!account || walletModalOpen) {
       return (
         <NewWalletModal
           open={walletModalOpen}

@@ -7,7 +7,7 @@ export const BoxNotConnected = () => {
   return (
     <ClaimBox>
       <TitleWrapper>
-        <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
+        <Text fontSize={[28, 22]} fontWeight={700} lineHeight="33px" color="text10">
           Claim your rewards
         </Text>
       </TitleWrapper>

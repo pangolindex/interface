@@ -4,14 +4,13 @@ import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/
 import { useAllProposalData, ProposalData, useUserVotes, useUserDelegatee } from '../../state/governance/hooks'
 import DelegateModal from '../../components/vote/DelegateModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useChainId, usePngSymbol } from '../../hooks'
 import { ZERO_ADDRESS } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
-import { shortenAddress, getEtherscanLink } from '../../utils'
+import { getEtherscanLink } from '../../utils'
 import Loader from '../../components/Loader'
 import FormattedCurrencyAmount from '../../components/FormattedCurrencyAmount'
-
 import React from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
@@ -20,10 +19,10 @@ import { RowBetween, RowFixed } from '../../components/Row'
 import { Link } from 'react-router-dom'
 import { ProposalStatus } from './styled'
 import { ButtonPrimary } from '../../components/Button'
-
 import { useModalOpen, useToggleDelegateModal } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/actions'
 import { useTranslation } from 'react-i18next'
+import { shortenAddress } from '@pangolindex/components'
 
 const PageWrapper = styled(AutoColumn)``
 
@@ -105,7 +104,9 @@ const EmptyProposals = styled.div`
 `
 
 export default function Vote() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+  const pngSymbol = usePngSymbol()
   const { t } = useTranslation()
 
   // toggle for showing delegation modal
@@ -125,6 +126,13 @@ export default function Vote() {
     pngBalance && JSBI.notEqual(pngBalance.raw, JSBI.BigInt(0)) && userDelegatee === ZERO_ADDRESS
   )
 
+  function getAddress() {
+    if (userDelegatee === account) {
+      return 'Self'
+    }
+    return userDelegatee ? shortenAddress(userDelegatee, chainId) : ''
+  }
+
   return (
     <PageWrapper gap="lg" justify="center">
       <DelegateModal
@@ -142,10 +150,10 @@ export default function Vote() {
                 <TYPE.white fontWeight={600}>{t('votePage.pangolinGovernance')}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>{t('votePage.earnedPngTokens')}</TYPE.white>
+                <TYPE.white fontSize={14}>{t('votePage.earnedPngTokens', { pngSymbol: pngSymbol })}</TYPE.white>
               </RowBetween>
               <RowBetween>
-                <TYPE.white fontSize={14}>{t('votePage.eligibleToVote')}</TYPE.white>
+                <TYPE.white fontSize={14}>{t('votePage.eligibleToVote', { pngSymbol: pngSymbol })}</TYPE.white>
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>{t('votePage.governanceVotes')}</TYPE.white>
@@ -199,7 +207,7 @@ export default function Vote() {
                     href={getEtherscanLink(ChainId.FUJI, userDelegatee, 'address')}
                     style={{ margin: '0 4px' }}
                   >
-                    {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee)}
+                    {getAddress()}
                   </StyledExternalLink>
                   <TextButton onClick={toggleDelegateModal} style={{ marginLeft: '4px' }}>
                     ({t('votePage.edit')})
@@ -229,7 +237,7 @@ export default function Vote() {
           )
         })}
       </TopSection>
-      <TYPE.subHeader color="text3">{t('votePage.minimumThreshold')}</TYPE.subHeader>
+      <TYPE.subHeader color="text3">{t('votePage.minimumThreshold', { pngSymbol: pngSymbol })}</TYPE.subHeader>
     </PageWrapper>
   )
 }

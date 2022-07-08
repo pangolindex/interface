@@ -7,11 +7,14 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.FUJI]: CHAINS[ChainId.FUJI].contracts!.router,
   [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.router,
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.router,
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.router
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.router,
+  [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET]?.contracts!.router,
+  [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET]?.contracts!.router
 }
 
 export const LANDING_PAGE = 'https://pangolin.exchange'
 export const ANALYTICS_PAGE = 'https://info.pangolin.exchange'
+export const LEGACY_PAGE = 'https://legacy.pangolin.exchange'
 
 export const PANGOLIN_API_BASE_URL = `https://api.pangolin.exchange`
 
@@ -20,8 +23,8 @@ export const PANGOLIN_TOKENS_REPO_RAW_BASE_URL = `https://raw.githubusercontent.
 export const DIRECTUS_GRAPHQL_URL = `https://p7gm7mqi.directus.app/graphql`
 
 export type LogoSize = 24 | 48
-export const getTokenLogoURL = (address: string, size: LogoSize = 24) =>
-  `${PANGOLIN_TOKENS_REPO_RAW_BASE_URL}/main/assets/${address}/logo_${size}.png`
+export const getTokenLogoURL = (address: string, chainId: number, size: LogoSize = 24) =>
+  `${PANGOLIN_TOKENS_REPO_RAW_BASE_URL}/main/assets/${chainId}/${address}/logo_${size}.png`
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -30,10 +33,12 @@ export const GOVERNANCE_ADDRESS = '0xb0Ff2b1047d9E8d294c2eD798faE3fA817F43Ee1'
 export const BRIDGE_MIGRATOR_ADDRESS = '0x4b23Aa72A1214d0E4fd3f2c8Da7C6ba660F7483C'
 
 export const MINICHEF_ADDRESS: { [chainId in ChainId]: string } = {
-  [ChainId.FUJI]: ZERO_ADDRESS,
+  [ChainId.FUJI]: CHAINS[ChainId.FUJI].contracts!.mini_chef!,
   [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.mini_chef!,
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.mini_chef!,
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.mini_chef!
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.mini_chef!,
+  [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].contracts!.mini_chef!,
+  [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].contracts!.mini_chef!
 }
 
 export const NATIVE = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
@@ -54,21 +59,27 @@ const WAVAX_AND_PNG_ONLY: ChainTokenList = {
   [ChainId.FUJI]: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
   [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
   [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI], PNG[ChainId.WAGMI]],
-  [ChainId.COSTON]: [WAVAX[ChainId.COSTON], PNG[ChainId.COSTON]]
+  [ChainId.COSTON]: [WAVAX[ChainId.COSTON], PNG[ChainId.COSTON]],
+  [ChainId.NEAR_MAINNET]: [WAVAX[ChainId.NEAR_MAINNET], PNG[ChainId.NEAR_MAINNET]],
+  [ChainId.NEAR_TESTNET]: [WAVAX[ChainId.NEAR_TESTNET], PNG[ChainId.NEAR_TESTNET]]
 }
 
 export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: CHAINS[ChainId.FUJI].name,
   [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].name,
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].name,
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON].name
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].name,
+  [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].name,
+  [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].name
 }
 
 export const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: CHAINS[ChainId.FUJI].symbol,
   [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].symbol,
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].symbol,
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON].symbol
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].symbol,
+  [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].symbol,
+  [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].symbol
 }
 
 export const NETWORK_WRAPPED_CURRENCY: { [chainId in ChainId]?: string } = {
@@ -92,7 +103,9 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     USDC[ChainId.AVALANCHE]
   ],
   [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI], PNG[ChainId.WAGMI]],
-  [ChainId.COSTON]: [WAVAX[ChainId.COSTON], PNG[ChainId.COSTON]]
+  [ChainId.COSTON]: [WAVAX[ChainId.COSTON], PNG[ChainId.COSTON]],
+  [ChainId.NEAR_MAINNET]: [WAVAX[ChainId.NEAR_MAINNET], PNG[ChainId.NEAR_MAINNET]],
+  [ChainId.NEAR_TESTNET]: [WAVAX[ChainId.NEAR_TESTNET], PNG[ChainId.NEAR_TESTNET]]
 }
 
 /**
@@ -122,7 +135,9 @@ export const TRUSTED_TOKEN_ADDRESSES: { readonly [chainId in ChainId]: string[] 
   [ChainId.FUJI]: [],
   [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE].address, PNG[ChainId.AVALANCHE].address],
   [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI].address, PNG[ChainId.WAGMI].address],
-  [ChainId.COSTON]: [WAVAX[ChainId.COSTON].address, PNG[ChainId.COSTON].address]
+  [ChainId.COSTON]: [WAVAX[ChainId.COSTON].address, PNG[ChainId.COSTON].address],
+  [ChainId.NEAR_MAINNET]: [WAVAX[ChainId.NEAR_MAINNET].address, PNG[ChainId.NEAR_MAINNET].address],
+  [ChainId.NEAR_TESTNET]: [WAVAX[ChainId.NEAR_TESTNET].address, PNG[ChainId.NEAR_TESTNET].address]
 }
 
 export const SWAP_DEFAULT_CURRENCY = {
@@ -139,6 +154,14 @@ export const SWAP_DEFAULT_CURRENCY = {
     outputCurrency: ''
   },
   [ChainId.COSTON]: {
+    inputCurrency: '',
+    outputCurrency: ''
+  },
+  [ChainId.NEAR_MAINNET]: {
+    inputCurrency: '',
+    outputCurrency: ''
+  },
+  [ChainId.NEAR_TESTNET]: {
     inputCurrency: '',
     outputCurrency: ''
   }
@@ -223,14 +246,14 @@ export const TIMEFRAME = [
   }
 ]
 
-export enum BETA_MENU_LINK {
-  dashboard = '/beta/dashboard',
-  swap = '/beta/swap',
-  buy = '/beta/buy',
-  pool = '/beta/pool',
-  stake = '/beta/stake',
-  vote = '/beta/vote',
-  migrate = '/beta/migrate',
-  bridge = '/beta/bridge',
-  airdrop = '/beta/airdrop'
+export enum MENU_LINK {
+  dashboard = '/dashboard',
+  swap = '/swap',
+  buy = '/buy',
+  pool = '/pool',
+  stake = '/stake',
+  vote = '/vote',
+  migrate = '/migrate',
+  bridge = '/bridge',
+  airdrop = '/airdrop'
 }

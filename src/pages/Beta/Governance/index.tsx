@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Text, Loader, Box } from '@pangolindex/components'
+import { Text, Loader, Box, shortenAddress } from '@pangolindex/components'
 import {
   PageWrapper,
   PageTitle,
@@ -17,11 +17,11 @@ import GovernanceCard, { ProposalStates } from './GovernanceCard'
 import { useGetProposalsViaSubgraph, ProposalData, useUserVotes, useUserDelegatee } from 'src/state/governance/hooks'
 import DelegateModal from 'src/components/vote/DelegateModal'
 import { useTokenBalance } from 'src/state/wallet/hooks'
-import { useActiveWeb3React, useChain, useChainId } from 'src/hooks'
-import { BETA_MENU_LINK, ZERO_ADDRESS } from 'src/constants'
+import { useActiveWeb3React, useChain, useChainId, usePngSymbol } from 'src/hooks'
+import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
-import { shortenAddress, getEtherscanLink } from 'src/utils'
+import { getEtherscanLink } from 'src/utils'
 import FormattedCurrencyAmount from 'src/components/FormattedCurrencyAmount'
 import { TYPE } from 'src/theme'
 import { RowBetween, RowFixed } from 'src/components/Row'
@@ -33,6 +33,7 @@ const GovernanceUI = () => {
   const chainId = useChainId()
   const chain = useChain(chainId)
   const { t } = useTranslation()
+  const pngSymbol = usePngSymbol()
 
   // toggle for showing delegation modal
   const showDelegateModal = useModalOpen(ApplicationModal.DELEGATE)
@@ -51,6 +52,13 @@ const GovernanceUI = () => {
     pngBalance && JSBI.notEqual(pngBalance.raw, JSBI.BigInt(0)) && userDelegatee === ZERO_ADDRESS
   )
 
+  function getAddress() {
+    if (userDelegatee === account) {
+      return 'Self'
+    }
+    return userDelegatee ? shortenAddress(userDelegatee, chainId) : ''
+  }
+
   return (
     <PageWrapper>
       <DelegateModal
@@ -61,16 +69,16 @@ const GovernanceUI = () => {
       <PageTitle>{t('votePage.pangolinGovernance')}</PageTitle>
       <ContentWrapper>
         <About>
-          <Text fontSize={28} fontWeight={800} lineHeight="33px" color="text10" style={{ marginBottom: '14px' }}>
+          <Text fontSize={22} fontWeight={800} lineHeight="33px" color="text10" style={{ marginBottom: '14px' }}>
             {t('votePage.about')}
           </Text>
-          <Text fontSize={16} lineHeight="24px" color="text10">
-            {t('votePage.earnedPngTokens')}
+          <Text fontSize={14} lineHeight="24px" color="text10">
+            {t('votePage.earnedPngTokens', { pngSymbol: pngSymbol })}
           </Text>
-          <Text fontSize={16} lineHeight="24px" color="text10">
-            {t('votePage.eligibleToVote')}
+          <Text fontSize={14} lineHeight="24px" color="text10">
+            {t('votePage.eligibleToVote', { pngSymbol: pngSymbol })}
           </Text>
-          <Text fontSize={16} lineHeight="24px" color="text10">
+          <Text fontSize={14} lineHeight="24px" color="text10">
             {t('votePage.governanceVotes')}
           </Text>
         </About>
@@ -109,7 +117,7 @@ const GovernanceUI = () => {
                         href={getEtherscanLink(ChainId.FUJI, userDelegatee, 'address')}
                         style={{ margin: '0 4px' }}
                       >
-                        {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee)}
+                        {getAddress()}
                       </StyledExternalLink>
                       <TextButton onClick={toggleDelegateModal} style={{ marginLeft: '4px' }}>
                         ({t('votePage.edit')})
@@ -132,7 +140,7 @@ const GovernanceUI = () => {
                   id={p.id}
                   title={p.title}
                   status={p.status as ProposalStates}
-                  to={`${BETA_MENU_LINK.vote}/${p.id}`}
+                  to={`${MENU_LINK.vote}/${p.id}`}
                   key={p.id}
                 />
               )
@@ -140,7 +148,7 @@ const GovernanceUI = () => {
           </>
         ) : (
           <Box width="100%" marginTop={20} display="flex" justifyContent="center">
-            <Text color="text1" fontSize={24}>
+            <Text color="text1" fontSize={22}>
               {t('votePage.notSupported')}
             </Text>
           </Box>

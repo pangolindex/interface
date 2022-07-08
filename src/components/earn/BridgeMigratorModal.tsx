@@ -20,6 +20,7 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation } from 'react-i18next'
 import { BRIDGE_MIGRATOR_ADDRESS } from '../../constants'
+import { useLibrary } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`
@@ -42,9 +43,9 @@ export default function BridgeMigratorModal({
   pairTo,
   userLiquidityUnstaked
 }: BridgeMigratorModalProps) {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const { library, provider } = useLibrary()
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
   const { parsedAmount, error } = useDerivedStakeInfo(typedValue, pairFrom.liquidityToken, userLiquidityUnstaked)
@@ -177,11 +178,10 @@ export default function BridgeMigratorModal({
       primaryType: 'Permit',
       message
     })
-
-    library
-      .send('eth_signTypedData_v4', [account, data])
+    ;(provider as any)
+      .execute('eth_signTypedData_v4', [account, data])
       .then(splitSignature)
-      .then(signature => {
+      .then((signature: any) => {
         setSignatureData({
           v: signature.v,
           r: signature.r,

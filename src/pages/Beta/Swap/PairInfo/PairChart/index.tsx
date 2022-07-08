@@ -161,7 +161,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
 
   return (
     <ChartWrapper>
-      {!CHAINS[chainId].tracked_by_debank ? (
+      {!CHAINS[chainId]?.tracked_by_debank ? (
         <ChartContainer id="chart-container-id" ref={ref as any}>
           {(formattedData || []).length === 0 && (
             <Box

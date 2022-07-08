@@ -38,21 +38,22 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
   async function onWithdraw() {
     if (stakingContract && stakingInfo?.stakedAmount) {
       setAttempting(true)
-      await stakingContract
-        .exit({ gasLimit: 300000 })
-        .then((response: TransactionResponse) => {
-          addTransaction(response, {
-            summary: t('earn.withdrawDepositedLiquidity')
-          })
-          setHash(response.hash)
+
+      try {
+        const response: TransactionResponse = await stakingContract.exit({ gasLimit: 300000 })
+        await response.wait(1)
+        addTransaction(response, {
+          summary: t('earn.withdrawDepositedLiquidity')
         })
-        .catch((err: any) => {
-          setAttempting(false)
-          // we only care if the error is something _other_ than the user rejected the tx
-          if (err?.code !== 4001) {
-            console.error(err)
-          }
-        })
+        setHash(response.hash)
+      } catch (err) {
+        setAttempting(false)
+        const _err = err as any
+        // we only care if the error is something _other_ than the user rejected the tx
+        if (_err?.code !== 4001) {
+          console.error(_err)
+        }
+      }
     }
   }
 
@@ -71,23 +72,23 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
           <ConfirmWrapper>
             <Box display="flex" alignItems="center">
               <Box width="50%">
-                <Text fontSize="26px" fontWeight={500} color="text1">
+                <Text fontSize={['26px', '22px']} fontWeight={500} color="text1">
                   {stakingInfo.stakedAmount?.toSignificant(6)}
                 </Text>
-                <Text fontSize="16px" fontWeight={500} color="text1">
+                <Text fontSize={['16px', '12px']} fontWeight={500} color="text1">
                   {t('earn.depositedToken', { symbol: 'PNG' })}
                 </Text>
               </Box>
               <Box width="50%">
-                <Text fontSize="26px" fontWeight={500} color="text1">
+                <Text fontSize={['26px', '22px']} fontWeight={500} color="text1">
                   {stakingInfo.earnedAmount?.toSignificant(6)}
                 </Text>
-                <Text fontSize="16px" fontWeight={500} color="text1">
+                <Text fontSize={['16px', '12px']} fontWeight={500} color="text1">
                   {t('earn.unclaimedReward', { symbol: stakingInfo?.rewardToken?.symbol })}
                 </Text>
               </Box>
             </Box>
-            <Text fontSize="14px" color="text2" mt={20}>
+            <Text fontSize={['14px', '12px']} color="text2" mt={20}>
               You can unstake your rewards.
             </Text>
             <Box flex={1} />

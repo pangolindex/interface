@@ -30,7 +30,7 @@ export const CardHeader = styled(Box)`
 export const Stats = styled(Box)``
 
 export const StatValue = styled(Text)`
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 500;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -48,7 +48,7 @@ export const CardStats = styled(Box)`
 
 export const TokenName = styled(Box)`
   font-weight: 800;
-  font-size: 28px;
+  font-size: 24px;
   line-height: 33px;
   color: ${({ theme }) => theme.text7};
 `
@@ -57,12 +57,20 @@ export const StakeButton = styled(Button)`
   /* background-color: ${({ theme }) => theme.color5} !important; */
   height: 46px;
   border-radius: 4px !important;
-  font-size: 16px;
+  font-size: 14px;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    font-size: 16px;
+  `};
 `
 
 export const DetailButton = styled(Button)`
   border: solid 1px ${({ theme }) => theme.color4} !important;
   height: 46px;
   border-radius: 4px !important;
-  font-size: 16px;
+  font-size: 14px;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    font-size: 16px;
+  `};
 `

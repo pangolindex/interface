@@ -36,7 +36,7 @@ const TransactionCompleted = ({
           <img src={CircleTick} alt="circle-tick" />
         </Box>
         {submitText && (
-          <Text fontWeight={500} fontSize={16} color="text1">
+          <Text fontWeight={500} fontSize={16} color="text1" textAlign="center">
             {submitText}
           </Text>
         )}

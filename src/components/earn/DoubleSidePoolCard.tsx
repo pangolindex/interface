@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next'
 import RewardTokens from '../RewardTokens'
 import { Box } from '@pangolindex/components'
 import { useTokens } from '../../hooks/Tokens'
-import { BETA_MENU_LINK } from 'src/constants'
+import { MENU_LINK } from 'src/constants'
 import { useChainId } from 'src/hooks'
 
 const StatContainer = styled.div`
@@ -116,7 +116,7 @@ export default function DoubleSidePoolCard({
       ? token1
       : token0
 
-  const totalStakedInUsd = CHAINS[chainId].mainnet
+  const totalStakedInUsd = CHAINS[chainId]?.mainnet
     ? stakingInfo.totalStakedInUsd.toSignificant(4, { groupSeparator: ',' })
     : 0
 
@@ -147,7 +147,7 @@ export default function DoubleSidePoolCard({
 
           {/* Beta Migration */}
           {isStaking && Number(version) === 1 && poolMap.hasOwnProperty(pairAddress) ? (
-            <StyledInternalLink to={`${BETA_MENU_LINK.migrate}/${version}`} style={{ marginRight: '10px' }}>
+            <StyledInternalLink to={`${MENU_LINK.migrate}/${version}`} style={{ marginRight: '10px' }}>
               <ButtonPrimary padding="8px" borderRadius="8px">
                 Migrate
               </ButtonPrimary>

@@ -4,9 +4,10 @@ import { JSBI, Percent, Router, SwapParameters, Trade, TradeType } from '@pangol
 import { useMemo } from 'react'
 import { BIPS_BASE, INITIAL_ALLOWED_SLIPPAGE } from '../constants'
 import { useTransactionAdder } from '../state/transactions/hooks'
-import { calculateGasMargin, getRouterContract, isAddress, shortenAddress } from '../utils'
+import { calculateGasMargin, getRouterContract, isAddress } from '../utils'
 import isZero from '../utils/isZero'
-import { useActiveWeb3React } from './index'
+import { useActiveWeb3React, useChainId } from './index'
+import { useLibrary, shortenAddress } from '@pangolindex/components'
 import useTransactionDeadline from './useTransactionDeadline'
 import useENS from './useENS'
 import { Version } from './useToggledVersion'
@@ -45,8 +46,9 @@ function useSwapCallArguments(
   recipientAddressOrName: string | null, // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
   allowedSlippage: number = INITIAL_ALLOWED_SLIPPAGE // in bips
 ): SwapCall[] {
-  const { account, chainId, library } = useActiveWeb3React()
-
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+  const { library } = useLibrary()
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
   const deadline = useTransactionDeadline()
@@ -101,8 +103,9 @@ export function useSwapCallback(
   recipientAddressOrName: string | null, // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
   allowedSlippage: number = INITIAL_ALLOWED_SLIPPAGE // in bips
 ): { state: SwapCallbackState; callback: null | (() => Promise<string>); error: string | null } {
-  const { account, chainId, library } = useActiveWeb3React()
-
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+  const { library } = useLibrary()
   const swapCalls = useSwapCallArguments(trade, recipientAddressOrName, allowedSlippage)
 
   const addTransaction = useTransactionAdder()
@@ -204,7 +207,7 @@ export function useSwapCallback(
                 ? base
                 : `${base} to ${
                     recipientAddressOrName && isAddress(recipientAddressOrName)
-                      ? shortenAddress(recipientAddressOrName)
+                      ? shortenAddress(recipientAddressOrName, chainId)
                       : recipientAddressOrName
                   }`
 

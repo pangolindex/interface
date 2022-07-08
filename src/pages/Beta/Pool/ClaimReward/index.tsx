@@ -46,20 +46,21 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
       const method = version < 2 ? 'getReward' : 'harvest'
       const args = version < 2 ? [] : [poolMap[stakingInfo.stakedAmount.token.address], account]
 
-      await stakingContract[method](...args)
-        .then((response: TransactionResponse) => {
-          addTransaction(response, {
-            summary: t('earn.claimAccumulated', { symbol: 'PNG' })
-          })
-          setHash(response.hash)
+      try {
+        const response: TransactionResponse = await stakingContract[method](...args)
+        await response.wait(1)
+        addTransaction(response, {
+          summary: t('earn.claimAccumulated', { symbol: 'PNG' })
         })
-        .catch((error: any) => {
-          setAttempting(false)
-          // we only care if the error is something _other_ than the user rejected the tx
-          if (error?.code !== 4001) {
-            console.error(error)
-          }
-        })
+        setHash(response.hash)
+      } catch (error) {
+        setAttempting(false)
+        const err = error as any
+        // we only care if the error is something _other_ than the user rejected the tx
+        if (err?.code !== 4001) {
+          console.error(err)
+        }
+      }
     }
   }
 
@@ -87,7 +88,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
                   stat={newEarnedAmount?.toSignificant(4)}
                   titlePosition="top"
                   titleFontSize={12}
-                  statFontSize={24}
+                  statFontSize={[24, 18]}
                   titleColor="text1"
                   statAlign="center"
                 />
@@ -101,7 +102,7 @@ const ClaimReward = ({ stakingInfo, version, onClose }: ClaimProps) => {
                       stat={rewardAmount?.toSignificant(4)}
                       titlePosition="top"
                       titleFontSize={12}
-                      statFontSize={24}
+                      statFontSize={[24, 18]}
                       titleColor="text1"
                       statAlign="center"
                     />

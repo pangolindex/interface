@@ -14,13 +14,13 @@ import { DoubleSideStakingInfo, useMinichefPools } from '../../state/stake/hooks
 import UnstakingModal from '../../components/earn/UnstakingModal'
 import ClaimRewardModal from '../../components/earn/ClaimRewardModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
-import { useActiveWeb3React, useChainId } from '../../hooks'
+import { useActiveWeb3React, useChainId, usePngSymbol } from '../../hooks'
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
 import { BIG_INT_ZERO } from '../../constants'
 import { useTranslation } from 'react-i18next'
 import RewardCard from './RewardCard'
-import { BETA_MENU_LINK } from 'src/constants'
+import { MENU_LINK } from 'src/constants'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -92,6 +92,7 @@ export interface ManageProps {
 const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, currencyB, extraRewardTokensAmount }) => {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
+  const pngSymbol = usePngSymbol()
   let backgroundColor: string
   let token: Token | undefined
 
@@ -195,7 +196,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
               <RowBetween style={{ marginBottom: '1rem' }}>
                 <TYPE.white fontSize={14}>{t('earnPage.migrateDescription')}</TYPE.white>
               </RowBetween>
-              <ButtonPrimary padding="8px" width={'fit-content'} as={Link} to={`${BETA_MENU_LINK.migrate}/1`}>
+              <ButtonPrimary padding="8px" width={'fit-content'} as={Link} to={`${MENU_LINK.migrate}/1`}>
                 {t('earnPage.migrate')}
               </ButtonPrimary>
             </AutoColumn>
@@ -326,7 +327,7 @@ const Manage: React.FC<ManageProps> = ({ version, stakingInfo, currencyA, curren
           <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>
             ⭐️
           </span>
-          {t('earnPage.automagically')}
+          {t('earnPage.automagically', { pngSymbol: pngSymbol })}
         </TYPE.main>
 
         {!showAddLiquidityButton && (

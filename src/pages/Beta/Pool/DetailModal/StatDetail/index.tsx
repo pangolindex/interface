@@ -20,7 +20,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
   const chainId = useChainId()
 
   const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
-  pgl = CHAINS[chainId].mainnet ? pgl : undefined
+  pgl = CHAINS[chainId]?.mainnet ? pgl : undefined
 
   const [token0Deposited, token1Deposited] =
     !!pair &&
@@ -46,7 +46,7 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
           stat={`${totalAmount ? `${totalAmount}` : '-'}`}
           titlePosition="top"
           titleFontSize={12}
-          statFontSize={20}
+          statFontSize={[20, 16]}
           titleColor="text2"
         />
         {currency0 && (
@@ -55,9 +55,10 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
             stat={`${token0Deposited ? numeral(parseFloat(token0Deposited?.toSignificant(6))).format('0.00a') : '-'}`}
             titlePosition="top"
             titleFontSize={12}
-            statFontSize={20}
+            statFontSize={[20, 16]}
             titleColor="text2"
             currency={currency0}
+            showAnalytics={true}
           />
         )}
         {currency1 && (
@@ -66,9 +67,10 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
             stat={`${token1Deposited ? numeral(parseFloat(token1Deposited?.toSignificant(6))).format('0.00a') : '-'}`}
             titlePosition="top"
             titleFontSize={12}
-            statFontSize={20}
+            statFontSize={[20, 16]}
             titleColor="text2"
             currency={currency1}
+            showAnalytics={true}
           />
         )}
       </StateContainer>

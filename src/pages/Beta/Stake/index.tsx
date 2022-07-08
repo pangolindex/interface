@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { PageWrapper, PageTitle, PoolsWrapper, PoolCards } from './styleds'
-import { useChainId } from 'src/hooks'
+import { useChainId, usePngSymbol } from 'src/hooks'
 import Loader from 'src/components/Loader'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from 'src/state/stake/singleSideConfig'
 import { SingleSideStakingInfo, useSingleSideStakingInfo } from 'src/state/stake/hooks'
@@ -20,6 +20,7 @@ const StakeUI = () => {
   const params = useParams<RouteParams>()
   const { t } = useTranslation()
   const chainId = useChainId()
+  const pngSymbol = usePngSymbol()
   const stakingInfos = useSingleSideStakingInfo(Number(params.version))
   const [stakingInfoResults, setStakingInfoResults] = useState<SingleSideStakingInfo[]>()
   const [selectedStakingInfoIndex, setSelectedStakingInfoIndex] = useState<number>(-1)
@@ -75,7 +76,7 @@ const StakeUI = () => {
 
   return (
     <PageWrapper>
-      <PageTitle>{t('stakePage.stakeAndEarn')}</PageTitle>
+      <PageTitle>{t('stakePage.stakeAndEarn', { pngSymbol: pngSymbol })}</PageTitle>
       <PoolsWrapper>
         {stakingRewardsExist && stakingInfos?.length === 0 ? (
           <Loader style={{ margin: 'auto' }} />

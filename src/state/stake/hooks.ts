@@ -24,11 +24,16 @@ import { tryParseAmount } from '../swap/hooks'
 import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../../constants/abis/rewarderViaMultiplier'
-import useUSDCPrice from '../../utils/useUSDCPrice'
+import { useUSDCPrice } from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useTotalSupply } from '../../data/TotalSupply'
-import { usePngContract, useStakingContract, useRewardViaMultiplierContract } from '../../hooks/useContract'
+import {
+  usePngContract,
+  useStakingContract,
+  useRewardViaMultiplierContract,
+  useMiniChefContract
+} from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
 import { unwrappedToken, wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
@@ -40,7 +45,7 @@ import { maxAmountSpend } from 'src/utils/maxAmountSpend'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { parseUnits, getAddress, splitSignature } from 'ethers/lib/utils'
 import { useChainId } from 'src/hooks'
-import { mininchefV2Client } from 'src/apollo/client'
+import { mininchefV2Clients } from 'src/apollo/client'
 import { GET_MINICHEF } from 'src/apollo/minichef'
 import { useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
@@ -50,9 +55,10 @@ import {
   updateMinichefStakingAllAprs,
   updateMinichefStakingAllFarmsEarnedAmount
 } from 'src/state/stake/actions'
-import axios from 'axios'
 import usePrevious from 'src/hooks/usePrevious'
 import isEqual from 'lodash.isequal'
+import { useLibrary } from '@pangolindex/components'
+import { PANGOLIN_PAIR_INTERFACE } from 'src/constants/abis/pangolinPair'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -160,7 +166,6 @@ export interface MinichefStakingInfo {
   isPeriodFinished: boolean
   rewardTokens?: Array<Token>
   rewardsAddress?: string
-  isLoading: boolean
   pid: string
 
   // Extra Fields
@@ -381,7 +386,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
   )
 
   const usdPriceTmp = useUSDCPrice(WAVAX[chainId])
-  const usdPrice = CHAINS[chainId].mainnet ? usdPriceTmp : undefined
+  const usdPrice = CHAINS[chainId]?.mainnet ? usdPriceTmp : undefined
 
   return useMemo(() => {
     if (!chainId || !png) return []
@@ -535,8 +540,8 @@ export function useSingleSideStakingInfo(
   version: number,
   rewardTokenToFilterBy?: Token | null
 ): SingleSideStakingInfo[] {
+  // TODO: Take library from useLibrary
   const { library, account } = useActiveWeb3React()
-
   const chainId = useChainId()
 
   const info = useMemo(
@@ -744,6 +749,11 @@ export function useTotalPngEarned(): TokenAmount | undefined {
   return earnedSingleStaking.add(earnedMinichef)
 }
 
+// TODO : need to add logic
+export function useNearTotalPngEarned(): TokenAmount | undefined {
+  return undefined
+}
+
 // based on typed value
 export function useDerivedStakeInfo(
   typedValue: string,
@@ -811,33 +821,38 @@ export function useDerivedUnstakeInfo(
 }
 
 export function useGetStakingDataWithAPR(version: number) {
+  const chainId = useChainId()
   const stakingInfos = useStakingInfo(version)
   const [stakingInfoData, setStakingInfoData] = useState<StakingInfo[]>(stakingInfos)
 
   useEffect(() => {
     if (stakingInfos?.length > 0) {
-      Promise.all(
-        stakingInfos.map(stakingInfo => {
-          const APR_URL =
-            version < 2
-              ? `${PANGOLIN_API_BASE_URL}/pangolin/apr/${stakingInfo.stakingRewardAddress}`
-              : `${PANGOLIN_API_BASE_URL}/pangolin/apr2/${stakingInfo.stakingRewardAddress}`
-          return fetch(APR_URL)
-            .then(res => res.json())
-            .then(res => ({
-              swapFeeApr: Number(res.swapFeeApr),
-              stakingApr: Number(res.stakingApr),
-              combinedApr: Number(res.combinedApr),
-              ...stakingInfo
-            }))
-        })
-      ).then(updatedStakingInfos => {
-        setStakingInfoData(updatedStakingInfos)
-      })
+      let aprRequest: Promise<Array<{ swapFeeApr: number; stakingApr: number; combinedApr: number }>>
+      if (version < 2) {
+        aprRequest = Promise.resolve(
+          stakingInfos.map(() => ({
+            swapFeeApr: 0,
+            stakingApr: 0,
+            combinedApr: 0
+          }))
+        )
+      } else {
+        const pids = stakingInfos.map(stakingInfo => stakingInfo.stakingRewardAddress)
+        aprRequest = fetchChunkedAprs(pids, chainId)
+      }
+
+      aprRequest
+        .then(aprResponses =>
+          stakingInfos.map((stakingInfo, i) => ({
+            ...stakingInfo,
+            ...aprResponses[i]
+          }))
+        )
+        .then(setStakingInfoData)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stakingInfos?.length, version])
+  }, [stakingInfos?.length, version, chainId])
 
   return stakingInfoData
 }
@@ -852,9 +867,9 @@ export function useGetPairDataFromPair(pair: Pair) {
   const token1 = pair?.token1 || dummyToken
 
   const usdPriceCurrency0Tmp = useUSDCPrice(token0)
-  const usdPriceCurrency0 = CHAINS[chainId].mainnet ? usdPriceCurrency0Tmp : undefined
+  const usdPriceCurrency0 = CHAINS[chainId]?.mainnet ? usdPriceCurrency0Tmp : undefined
   const usdPriceCurrency1Tmp = useUSDCPrice(token1)
-  const usdPriceCurrency1 = CHAINS[chainId].mainnet ? usdPriceCurrency1Tmp : undefined
+  const usdPriceCurrency1 = CHAINS[chainId]?.mainnet ? usdPriceCurrency1Tmp : undefined
 
   const zeroTokenAmount0 = new TokenAmount(token0, '0')
   const zeroTokenAmount1 = new TokenAmount(token1, '0')
@@ -905,8 +920,7 @@ export function useGetPairDataFromPair(pair: Pair) {
 }
 
 export const useMinichefPools = (): { [key: string]: number } => {
-  const chainId = useChainId()
-  const minichefContract = useStakingContract(MINICHEF_ADDRESS[chainId])
+  const minichefContract = useMiniChefContract()
   const lpTokens = useSingleCallResult(minichefContract, 'lpTokens', []).result
   const lpTokensArr = lpTokens?.[0]
 
@@ -959,31 +973,74 @@ export const getExtraTokensWeeklyRewardRate = (
   return new TokenAmount(token, finalReward)
 }
 
-export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | null): DoubleSideStakingInfo[] => {
+/* eslint-disable @typescript-eslint/no-unused-vars */
+const useDummyMinichefHook = (version?: number, pairToFilterBy?: Pair | null) => {
+  return [] as StakingInfo[]
+}
+
+export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | null): StakingInfo[] => {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
-  const minichefContract = useStakingContract(MINICHEF_ADDRESS[chainId])
+  const minichefContract = useMiniChefContract()
   const poolMap = useMinichefPools()
   const png = PNG[chainId]
+  const lpTokens = Object.keys(poolMap)
 
-  const info = useMemo(
-    () =>
-      chainId
-        ? DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(item =>
-            pairToFilterBy === undefined
-              ? true
-              : pairToFilterBy === null
-              ? false
-              : pairToFilterBy.involvesToken(item.tokens[0]) && pairToFilterBy.involvesToken(item.tokens[1])
-          ) ?? []
-        : [],
-    [chainId, pairToFilterBy, version]
-  )
+  // if chain is not avalanche skip the first pool because it's dummyERC20
+  if (chainId !== ChainId.AVALANCHE) {
+    lpTokens.shift()
+  }
 
-  const _tokens = useMemo(() => info.map(({ tokens }) => tokens), [info])
+  const _tokens0Call = useMultipleContractSingleData(lpTokens, PANGOLIN_PAIR_INTERFACE, 'token0', [])
+  const _tokens1Call = useMultipleContractSingleData(lpTokens, PANGOLIN_PAIR_INTERFACE, 'token1', [])
+
+  const tokens0Adrr = useMemo(() => {
+    return _tokens0Call.map(result => {
+      return result.result && result.result.length > 0 ? result.result[0] : null
+    })
+  }, [_tokens0Call])
+
+  const tokens1Adrr = useMemo(() => {
+    return _tokens1Call.map(result => (result.result && result.result.length > 0 ? result.result[0] : null))
+  }, [_tokens1Call])
+
+  const tokens0 = useTokens(tokens0Adrr)
+  const tokens1 = useTokens(tokens1Adrr)
+
+  const info = useMemo(() => {
+    const filterPair = (item: DoubleSideStaking) => {
+      if (pairToFilterBy === undefined) {
+        return true
+      }
+      if (pairToFilterBy === null) {
+        return false
+      }
+      return pairToFilterBy.involvesToken(item.tokens[0]) && pairToFilterBy.involvesToken(item.tokens[1])
+    }
+
+    if (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]) {
+      return DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(filterPair)
+    }
+    const _infoTokens: DoubleSideStaking[] = []
+    if (tokens0 && tokens1 && tokens0?.length === tokens1?.length) {
+      tokens0.forEach((token0, index) => {
+        const token1 = tokens1[index]
+        if (token0 && token1) {
+          _infoTokens.push({
+            tokens: [token0, token1],
+            stakingRewardAddress: minichefContract?.address ?? '',
+            version: version
+          })
+        }
+      })
+      return _infoTokens.filter(filterPair)
+    }
+    return _infoTokens
+  }, [chainId, minichefContract, tokens0, tokens1, pairToFilterBy, version])
+
+  const _tokens = useMemo(() => (info ? info.map(({ tokens }) => tokens) : []), [info])
   const pairs = usePairs(_tokens)
-
   // @dev: If no farms load, you likely loaded an incorrect config from doubleSideConfig.js
   // Enable this and look for an invalid pair
   // console.log(pairs)
@@ -1050,7 +1107,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
   const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
   const rewardsExpiration = useSingleCallResult(minichefContract, 'rewardsExpiration', []).result
   const usdPriceTmp = useUSDCPrice(WAVAX[chainId])
-  const usdPrice = CHAINS[chainId].mainnet ? usdPriceTmp : undefined
+  const usdPrice = CHAINS[chainId]?.mainnet ? usdPriceTmp : undefined
 
   const arr = useMemo(() => {
     if (!chainId || !png) return []
@@ -1090,7 +1147,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
           console.error('Failed to load staking rewards info')
           return memo
         }
-
+        const pid = poolMap[pair.liquidityToken.address].toString()
         // get the LP token
         const token0 = pair?.token0
         const token1 = pair?.token1
@@ -1211,6 +1268,7 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
         const userRewardRatePerWeek = getHypotheticalWeeklyRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
 
         memo.push({
+          pid,
           stakingRewardAddress: MINICHEF_ADDRESS[chainId],
           tokens,
           earnedAmount,
@@ -1252,10 +1310,21 @@ export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | nul
     pairAddresses,
     rewardTokensAddresses,
     rewardsAddresses,
-    rewardTokensMultipliers
+    rewardTokensMultipliers,
+    poolMap
   ])
-
   return arr
+}
+
+export const useMinichefStakingInfosMapping: {
+  [chainId in ChainId]: (version?: number, pairToFilterBy?: Pair | null) => StakingInfo[]
+} = {
+  [ChainId.FUJI]: useMinichefStakingInfos,
+  [ChainId.AVALANCHE]: useDummyMinichefHook,
+  [ChainId.WAGMI]: useMinichefStakingInfos,
+  [ChainId.COSTON]: useMinichefStakingInfos,
+  [ChainId.NEAR_MAINNET]: useDummyMinichefHook,
+  [ChainId.NEAR_TESTNET]: useDummyMinichefHook
 }
 
 export function useGetPoolDollerWorth(pair: Pair | null) {
@@ -1265,10 +1334,10 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
   const token0 = pair?.token0
   const currency0 = unwrappedToken(token0 as Token, chainId)
   const currency0PriceTmp = useUSDCPrice(currency0)
-  const currency0Price = CHAINS[chainId].mainnet ? currency0PriceTmp : undefined
+  const currency0Price = CHAINS[chainId]?.mainnet ? currency0PriceTmp : undefined
 
   const userPglTmp = useTokenBalance(account ?? undefined, pair?.liquidityToken)
-  const userPgl = CHAINS[chainId].mainnet ? userPglTmp : undefined
+  const userPgl = CHAINS[chainId]?.mainnet ? userPglTmp : undefined
 
   const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
 
@@ -1284,7 +1353,7 @@ export function useGetPoolDollerWorth(pair: Pair | null) {
         ]
       : [undefined, undefined]
 
-  const liquidityInUSD = CHAINS[chainId].mainnet
+  const liquidityInUSD = CHAINS[chainId]?.mainnet
     ? currency0Price && token0Deposited
       ? Number(currency0Price.toFixed()) * 2 * Number(token0Deposited?.toSignificant(6))
       : 0
@@ -1351,9 +1420,9 @@ export function useMinichefPendingRewards(miniChefStaking: StakingInfo | null) {
 }
 
 export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
-
+  const { library, provider } = useLibrary()
   const { t } = useTranslation()
   const png = PNG[chainId]
 
@@ -1527,11 +1596,10 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
       primaryType: 'Permit',
       message
     })
-
-    library
-      .send('eth_signTypedData_v4', [account, data])
+    ;(provider as any)
+      .execute('eth_signTypedData_v4', [account, data])
       .then(splitSignature)
-      .then(signature => {
+      .then((signature: any) => {
         setSignatureData({
           v: signature.v,
           r: signature.r,
@@ -1539,7 +1607,7 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
           deadline: deadline.toNumber()
         })
       })
-      .catch(err => {
+      .catch((err: any) => {
         // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
         if (err?.code !== 4001) {
           approveCallback()
@@ -1592,15 +1660,20 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
   )
 }
 
-export const fetchMinichefData = (account: string) => async () => {
+export const fetchMinichefData = (account: string, chainId: ChainId) => async () => {
+  const mininchefV2Client = mininchefV2Clients[chainId]
+  if (!mininchefV2Client) {
+    return null
+  }
   const { minichefs } = await mininchefV2Client.request(GET_MINICHEF, { userAddress: account })
   return minichefs
 }
 
 export function useGetAllFarmData() {
   const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
-  const allFarms = useQuery(['get-minichef-farms-v2', account], fetchMinichefData(account || ''), {
+  const allFarms = useQuery(['get-minichef-farms-v2', account], fetchMinichefData(account || '', chainId), {
     staleTime: 1000 * 60 * 5
   })
 
@@ -1608,7 +1681,14 @@ export function useGetAllFarmData() {
 
   useEffect(() => {
     if (!allFarms?.isLoading) {
-      dispatch(updateMinichefStakingAllData({ data: allFarms?.data?.[0] }))
+      dispatch(
+        updateMinichefStakingAllData({
+          data: {
+            chainId: chainId,
+            data: allFarms?.data?.[0]
+          }
+        })
+      )
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1616,8 +1696,9 @@ export function useGetAllFarmData() {
 }
 
 export function useAllMinichefStakingInfoData(): MinichefV2 | undefined {
-  return useSelector<AppState, AppState['stake']['minichefStakingData']>(
-    state => state?.stake?.minichefStakingData || {}
+  const chainId = useChainId()
+  return useSelector<AppState, AppState['stake']['minichefStakingData'][ChainId.AVALANCHE]>(
+    state => state?.stake?.minichefStakingData?.[chainId] || {}
   )
 }
 
@@ -1762,16 +1843,18 @@ export const useGetMinichefStakingInfosViaSubgraph = (): MinichefStakingInfo[] =
 }
 
 export const useGetMinichefPids = () => {
-  const farms = useSelector<AppState, AppState['stake']['minichefStakingData']['farms']>(
-    state => state?.stake?.minichefStakingData?.farms || []
+  const chainId = useChainId()
+  const farms = useSelector<AppState, AppState['stake']['minichefStakingData'][ChainId.AVALANCHE]['farms']>(
+    state => state?.stake?.minichefStakingData[chainId]?.farms || []
   )
   return useMemo(() => farms?.map(farm => farm?.pid), [farms])
 }
 
 export const useGetFarmApr = (pid: string) => {
-  const swapFeeApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[pid]?.swapFeeApr)
-  const combinedApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[pid]?.combinedApr)
-  const stakingApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[pid]?.stakingApr)
+  const chainId = useChainId()
+  const swapFeeApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[chainId]?.[pid]?.swapFeeApr)
+  const combinedApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[chainId]?.[pid]?.combinedApr)
+  const stakingApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[chainId]?.[pid]?.stakingApr)
 
   return useMemo(
     () => ({
@@ -1784,48 +1867,59 @@ export const useGetFarmApr = (pid: string) => {
 }
 
 export const useSortFarmAprs = () => {
-  const aprs = useSelector<AppState, AppState['stake']['aprs']>(state => state?.stake?.aprs)
+  const chainId = useChainId()
+  const aprs = useSelector<AppState, AppState['stake']['aprs'][ChainId.AVALANCHE]>(
+    state => state?.stake?.aprs?.[chainId]
+  )
 
-  return useMemo(() => Object.values(aprs).sort((a, b) => b.combinedApr - a.combinedApr), [aprs])
+  return useMemo(() => (aprs ? Object.values(aprs).sort((a, b) => b.combinedApr - a.combinedApr) : []), [aprs])
 }
 
-const fetchApr = async (pid: string) => {
-  const response = await axios.get(`${PANGOLIN_API_BASE_URL}/pangolin/apr2/${pid}`)
-
-  const res = response.data
-
-  return {
-    pid: pid,
-    swapFeeApr: Number(res.swapFeeApr),
-    stakingApr: Number(res.stakingApr),
-    combinedApr: Number(res.combinedApr)
+// Each APR request performs an upper bound of (6 + 11n) subrequests where n = pid count
+// API requests cannot exceed 50 subrequests and therefore `chunkSize` is set to 4
+// ie (6 + 11(4)) = 50
+export const fetchChunkedAprs = async (pids: string[], chainId: ChainId, chunkSize = 4) => {
+  interface AprResult {
+    swapFeeApr: number
+    stakingApr: number
+    combinedApr: number
   }
+
+  const pidChunks: string[][] = []
+
+  for (let i = 0; i < pids.length; i += chunkSize) {
+    const pidChunk = pids.slice(i, i + chunkSize)
+    pidChunks.push(pidChunk)
+  }
+
+  const chunkedResults = await Promise.all<AprResult[]>(
+    pidChunks.map(chunk =>
+      fetch(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/pangolin/aprs/${chunk.join(',')}`).then(res => res.json())
+    )
+  )
+
+  return chunkedResults.flat()
 }
 
 export function useFetchFarmAprs() {
+  const chainId = useChainId()
   const pids = useGetMinichefPids()
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    async function getFarmAprs() {
-      const promises = []
+    if (!chainId || !pids || pids.length === 0) return
 
-      for (const pid of pids) {
-        promises.push(fetchApr(pid))
-      }
-      const res = await Promise.all(promises)
-      const newResult = (res || []).reduce((acc, value: any) => ({ ...acc, [value?.pid as string]: value }), {})
+    fetchChunkedAprs(pids, chainId).then(res => {
+      const newResult = res.reduce((acc, value: any, i) => ({ ...acc, [pids[i] as string]: value }), {})
       if (res.length > 0) {
         dispatch(
           updateMinichefStakingAllAprs({
-            data: newResult
+            data: { chainId: chainId, data: newResult }
           })
         )
       }
-    }
-
-    getFarmAprs()
-  }, [pids, dispatch])
+    })
+  }, [pids, chainId, dispatch])
 }
 
 export function useUpdateAllFarmsEarnAmount() {
@@ -1858,7 +1952,7 @@ export function useUpdateAllFarmsEarnAmount() {
           earnedAmount: pendingRewardInfo?.result?.['pending'].toString()
         }
       }
-      dispatch(updateMinichefStakingAllFarmsEarnedAmount({ data: pendingRewardsObj }))
+      dispatch(updateMinichefStakingAllFarmsEarnedAmount({ data: { chainId: chainId, data: pendingRewardsObj } }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingRewards, prevPendingRewards])
@@ -1868,7 +1962,7 @@ export const useGetEarnedAmount = (pid: string) => {
   const chainId = useChainId()
   const png = PNG[chainId]
 
-  const amount = useSelector<AppState, number>(state => state?.stake?.earnedAmounts?.[pid]?.earnedAmount)
+  const amount = useSelector<AppState, number>(state => state?.stake?.earnedAmounts?.[chainId]?.[pid]?.earnedAmount)
 
   return useMemo(
     () => ({
