@@ -1,7 +1,7 @@
 import getCountry from '../../utils/extractCountry'
 import { useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, AppState } from '../../state'
+import { useDispatch } from 'src/state'
+import { AppState, useSelector } from '../../state'
 import { updateQuote } from './actions'
 import { WYRE_API_KEY, WYRE_ID, WYRE_API_URL, WYRE_QUOTE_API_ENDPOINT, WYRE_SECRET_KEY } from '../../constants'
 import CryptoJS from 'crypto-js'
@@ -15,7 +15,7 @@ export const signature = (url: string, data: string) => {
 }
 
 export function useQuoteRequest(account: string | null | undefined, amount: string, sourceCurrency: string): void {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
 
   const getQuote = useCallback(async () => {
     if (!account || Number(amount) <= 0 || !Number(amount)) {
@@ -63,6 +63,6 @@ export function useQuoteRequest(account: string | null | undefined, amount: stri
 
 export function useGetQuote() {
   return {
-    quote: useSelector<AppState, AppState['wyre']['quote']>(state => state.wyre.quote)
+    quote: useSelector<AppState['wyre']['quote']>(state => state.wyre.quote)
   }
 }

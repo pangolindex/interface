@@ -1,8 +1,7 @@
 import React, { useCallback, useContext } from 'react'
-import { useDispatch } from 'react-redux'
 import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React, useChainId } from '../../hooks'
-import { AppDispatch } from '../../state'
+import { useDispatch } from '../../state'
 import { clearAllTransactions } from '../../state/transactions/actions'
 import { getEtherscanLink } from 'src/utils'
 import { AutoRow } from '../Row'
@@ -248,7 +247,7 @@ export default function AccountDetails({
   const chainId = useChainId()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
 
   function formatConnectorName() {
     const { ethereum } = window

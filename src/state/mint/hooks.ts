@@ -10,13 +10,13 @@ import {
   TokenAmount
 } from '@pangolindex/sdk'
 import { useCallback, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'src/state'
 import { PairState, usePair } from '../../data/Reserves'
 import { useTotalSupply } from '../../data/TotalSupply'
 
 import { useActiveWeb3React } from '../../hooks'
 import { wrappedCurrency, wrappedCurrencyAmount } from '../../utils/wrappedCurrency'
-import { AppDispatch, AppState } from '../index'
+import { AppState, useSelector } from '../index'
 import { tryParseAmount } from '../swap/hooks'
 import { useCurrencyBalances } from '../wallet/hooks'
 import { Field, typeInput } from './actions'
@@ -26,7 +26,7 @@ import { useChainId } from 'src/hooks'
 const ZERO = JSBI.BigInt(0)
 
 export function useMintState(): AppState['mint'] {
-  return useSelector<AppState, AppState['mint']>(state => state.mint)
+  return useSelector<AppState['mint']>(state => state.mint)
 }
 
 export function useDerivedMintInfo(
@@ -218,7 +218,7 @@ export function useMintActionHandlers(
   onFieldAInput: (typedValue: string) => void
   onFieldBInput: (typedValue: string) => void
 } {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
 
   const onFieldAInput = useCallback(
     (typedValue: string) => {

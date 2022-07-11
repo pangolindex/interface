@@ -1,20 +1,20 @@
 import { getVersionUpgrade, minVersionBump, VersionUpgrade } from '@pangolindex/token-lists'
 import { useCallback, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'src/state'
 import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import useInterval from '../../hooks/useInterval'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import ReactGA from 'react-ga'
-import { AppDispatch, AppState } from '../index'
+import { AppState, useSelector } from '../index'
 import { acceptListUpdate } from './actions'
 import { DEFAULT_TOKEN_LISTS } from '../../constants/lists'
-import { useLibrary, useAddPopup } from '@pangolindex/components'
+import { useLibrary } from '@pangolindex/components'
 
 export default function Updater(): null {
   const { library } = useLibrary()
-  const dispatch = useDispatch<AppDispatch>()
-  const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
-  const addPopup = useAddPopup()
+  const dispatch = useDispatch()
+  const lists = useSelector<AppState['lists']['byUrl']>(state => state.lists.byUrl)
+  // const addPopup = useAddPopup()
 
   const isWindowVisible = useIsWindowVisible()
 
@@ -66,19 +66,19 @@ export default function Updater(): null {
                 dispatch(acceptListUpdate(listUrl))
               } else {
                 // show prompts for user added token list
-                dispatch(
-                  addPopup(
-                    {
-                      listUpdate: {
-                        listUrl,
-                        oldList: list.current,
-                        newList: list.pendingUpdate,
-                        auto: true
-                      }
-                    },
-                    listUrl
-                  )
-                )
+                // dispatch(
+                //   addPopup(
+                //     {
+                //       listUpdate: {
+                //         listUrl,
+                //         oldList: list.current,
+                //         newList: list.pendingUpdate,
+                //         auto: true
+                //       }
+                //     },
+                //     listUrl
+                //   )
+                // )
               }
             } else {
               console.error(
@@ -98,24 +98,24 @@ export default function Updater(): null {
               dispatch(acceptListUpdate(listUrl))
             } else {
               // show prompts for user added token list
-              dispatch(
-                addPopup(
-                  {
-                    listUpdate: {
-                      listUrl,
-                      auto: false,
-                      oldList: list.current,
-                      newList: list.pendingUpdate
-                    }
-                  },
-                  listUrl
-                )
-              )
+              // dispatch(
+              //   addPopup(
+              //     {
+              //       listUpdate: {
+              //         listUrl,
+              //         auto: false,
+              //         oldList: list.current,
+              //         newList: list.pendingUpdate
+              //       }
+              //     },
+              //     listUrl
+              //   )
+              // )
             }
         }
       }
     })
-  }, [dispatch, lists, addPopup])
+  }, [dispatch, lists])
 
   return null
 }

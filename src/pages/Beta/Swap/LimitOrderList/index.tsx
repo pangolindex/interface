@@ -5,7 +5,7 @@ import { DesktopLimitOrderList, GridContainer, MobileLimitOrderList } from './st
 import Scrollbars from 'react-custom-scrollbars'
 import LimitOrderDetail from './LimitOrderDetail'
 import { useTranslation } from 'react-i18next'
-import { Order } from '@gelatonetwork/limit-orders-react'
+// import { Order } from '@gelatonetwork/limit-orders-react'
 import CancelOrderModal from './CancelOrderModal'
 import MobileLimitOrderRow from './MobileLimitOrderRow'
 import ShowMore from 'src/components/Beta/ShowMore'
@@ -47,9 +47,9 @@ const LimitOrderList = () => {
     setIsCancelLimitOrderModalOpen(false)
   }, [setIsCancelLimitOrderModalOpen])
 
-  const [selectedOrder, setSelectedOrder] = useState({} as Order)
+  const [selectedOrder, setSelectedOrder] = useState({} as any)
 
-  let displayOrders: Order[]
+  let displayOrders: any[]
 
   if (activeTab === TabType.open) {
     displayOrders = allOpenOrders
@@ -66,7 +66,7 @@ const LimitOrderList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayOrders])
 
-  const mobileRow = (order: Order) => {
+  const mobileRow = (order: any) => {
     return (
       <MobileLimitOrderRow
         order={order}

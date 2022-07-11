@@ -1,19 +1,19 @@
 import { Currency, CurrencyAmount, JSBI, Pair, Percent, TokenAmount } from '@pangolindex/sdk'
 import { useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'src/state'
 import { usePair } from '../../data/Reserves'
 import { useTotalSupply } from '../../data/TotalSupply'
 
 import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
-import { AppDispatch, AppState } from '../index'
+import { AppState, useSelector } from '../index'
 import { tryParseAmount } from '../swap/hooks'
 import { useTokenBalances } from '../wallet/hooks'
 import { Field, typeInput } from './actions'
 import { useTranslation } from 'react-i18next'
 
 export function useBurnState(): AppState['burn'] {
-  return useSelector<AppState, AppState['burn']>(state => state.burn)
+  return useSelector<AppState['burn']>(state => state.burn)
 }
 
 export function useDerivedBurnInfo(
@@ -137,7 +137,7 @@ export function useDerivedBurnInfo(
 export function useBurnActionHandlers(): {
   onUserInput: (field: Field, typedValue: string) => void
 } {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
 
   const onUserInput = useCallback(
     (field: Field, typedValue: string) => {

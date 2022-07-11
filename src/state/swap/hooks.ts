@@ -13,13 +13,13 @@ import {
 } from '@pangolindex/sdk'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'src/state'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
 import { useTradeExactIn, useTradeExactOut } from '../../hooks/Trades'
 import useParsedQueryString from '../../hooks/useParsedQueryString'
 import { isAddress } from '../../utils'
-import { AppDispatch, AppState } from '../index'
+import { AppState, useSelector } from '../index'
 import { useCurrencyBalances } from '../wallet/hooks'
 import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
 import { SwapState } from './reducer'
@@ -30,7 +30,7 @@ import { useTranslation } from 'react-i18next'
 import { useChainId } from 'src/hooks'
 
 export function useSwapState(): AppState['swap'] {
-  return useSelector<AppState, AppState['swap']>(state => state.swap)
+  return useSelector<AppState['swap']>(state => state.swap)
 }
 
 export function useSwapActionHandlers(
@@ -41,7 +41,7 @@ export function useSwapActionHandlers(
   onUserInput: (field: Field, typedValue: string) => void
   onChangeRecipient: (recipient: string | null) => void
 } {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
   const onCurrencySelection = useCallback(
     (field: Field, currency: Currency) => {
       dispatch(
@@ -294,7 +294,7 @@ export function useDefaultsFromURLSearch():
   | undefined {
   const chainId = useChainId()
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
   const parsedQs = useParsedQueryString()
   const [result, setResult] = useState<
     { inputCurrencyId: string | undefined; outputCurrencyId: string | undefined } | undefined

@@ -3,7 +3,7 @@ import { useChainId } from 'src/hooks'
 import useDebounce from '../../hooks/useDebounce'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { updateBlockNumber } from './actions'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'src/state'
 import { useLibrary } from '@pangolindex/components'
 
 export default function Updater(): null {

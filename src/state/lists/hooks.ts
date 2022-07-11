@@ -1,8 +1,7 @@
 import { ChainId, Token } from '@pangolindex/sdk'
 import { Tags, TokenInfo, TokenList } from '@pangolindex/token-lists'
 import { useMemo } from 'react'
-import { useSelector } from 'react-redux'
-import { AppState } from '../index'
+import { AppState, useSelector } from '../index'
 import { AEB_TOKENS } from '../../constants/lists'
 
 type TagDetails = Tags[keyof Tags]
@@ -74,7 +73,7 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
 }
 
 export function useTokenList(urls: string[] | undefined): TokenAddressMap {
-  const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
+  const lists = useSelector<AppState['lists']['byUrl']>(state => state.lists.byUrl)
 
   const tokenList = {} as { [chainId: string]: { [tokenAddress: string]: WrappedTokenInfo } }
   return useMemo(() => {
@@ -101,7 +100,7 @@ export function useTokenList(urls: string[] | undefined): TokenAddressMap {
 }
 
 export function useSelectedListUrl(): string[] | undefined {
-  return useSelector<AppState, AppState['lists']['selectedListUrl']>(state =>
+  return useSelector<AppState['lists']['selectedListUrl']>(state =>
     ([] as string[]).concat(state?.lists?.selectedListUrl || [])
   )
 }
@@ -119,7 +118,7 @@ export function useSelectedListInfo(): {
 } {
   const selectedListUrl = useSelectedListUrl()
   const firstSelectedUrl = (selectedListUrl || [])?.[0]
-  const listsByUrl = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
+  const listsByUrl = useSelector<AppState['lists']['byUrl']>(state => state.lists.byUrl)
   const list = firstSelectedUrl ? listsByUrl[firstSelectedUrl] : undefined
   return {
     current: list?.current ?? null,
@@ -132,7 +131,7 @@ export function useSelectedListInfo(): {
 
 // returns all downloaded current lists
 export function useAllLists(): TokenList[] {
-  const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
+  const lists = useSelector<AppState['lists']['byUrl']>(state => state.lists.byUrl)
 
   return useMemo(
     () =>
@@ -144,6 +143,6 @@ export function useAllLists(): TokenList[] {
 }
 
 export function useIsSelectedAEBToken(): boolean {
-  const selectedOutputToken = useSelector<AppState, AppState['swap']['OUTPUT']>(state => state.swap.OUTPUT)
+  const selectedOutputToken = useSelector<AppState['swap']['OUTPUT']>(state => state.swap.OUTPUT)
   return AEB_TOKENS.some(tokenAddress => tokenAddress === selectedOutputToken?.currencyId)
 }

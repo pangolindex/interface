@@ -3,7 +3,7 @@ import { Text, Box } from '@pangolindex/components'
 import { Wrapper } from './styleds'
 import Modal from 'src/components/Beta/Modal'
 import { ThemeContext } from 'styled-components'
-import { Order } from '@gelatonetwork/limit-orders-react'
+// import { Order } from '@gelatonetwork/limit-orders-react'
 import { CloseIcon } from 'src/theme/components'
 import { useTranslation } from 'react-i18next'
 import CancelOrder from '../CancelOrder'
@@ -11,7 +11,7 @@ import CancelOrder from '../CancelOrder'
 interface ClaimRewardModalProps {
   isOpen: boolean
   onClose: () => void
-  order: Order
+  order: any
 }
 
 const CancelOrderModal = ({ isOpen, onClose, order }: ClaimRewardModalProps) => {

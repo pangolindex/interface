@@ -1,12 +1,12 @@
 import { ChainId, Pair, Token } from '@pangolindex/sdk'
 import flatMap from 'lodash.flatmap'
 import { useCallback, useMemo } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { shallowEqual } from 'react-redux'
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from '../../constants'
 
 import { useActiveWeb3React } from '../../hooks'
 import { useAllTokens } from '../../hooks/Tokens'
-import { AppDispatch, AppState } from '../index'
+import { AppState, useDispatch, useSelector } from '../index'
 import {
   addSerializedPair,
   addSerializedToken,
@@ -41,10 +41,7 @@ function deserializeToken(serializedToken: SerializedToken): Token {
 }
 
 export function useIsDarkMode(): boolean {
-  const { userDarkMode, matchesDarkMode } = useSelector<
-    AppState,
-    { userDarkMode: boolean | null; matchesDarkMode: boolean }
-  >(
+  const { userDarkMode, matchesDarkMode } = useSelector<{ userDarkMode: boolean | null; matchesDarkMode: boolean }>(
     ({ user: { matchesDarkMode, userDarkMode } }) => ({
       userDarkMode,
       matchesDarkMode
@@ -61,7 +58,7 @@ export function useIsDarkMode(): boolean {
 }
 
 export function useDarkModeManager(): [boolean, () => void] {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
   const darkMode = useIsDarkMode()
 
   const toggleSetDarkMode = useCallback(() => {
@@ -72,11 +69,11 @@ export function useDarkModeManager(): [boolean, () => void] {
 }
 
 export function useIsExpertMode(): boolean {
-  return useSelector<AppState, AppState['user']['userExpertMode']>(state => state.user.userExpertMode)
+  return useSelector<AppState['user']['userExpertMode']>(state => state.user.userExpertMode)
 }
 
 export function useExpertModeManager(): [boolean, () => void] {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
   const expertMode = useIsExpertMode()
 
   const toggleSetExpertMode = useCallback(() => {
@@ -87,8 +84,8 @@ export function useExpertModeManager(): [boolean, () => void] {
 }
 
 export function useUserSlippageTolerance(): [number, (slippage: number) => void] {
-  const dispatch = useDispatch<AppDispatch>()
-  const userSlippageTolerance = useSelector<AppState, AppState['user']['userSlippageTolerance']>(state => {
+  const dispatch = useDispatch()
+  const userSlippageTolerance = useSelector<AppState['user']['userSlippageTolerance']>(state => {
     return state.user.userSlippageTolerance
   })
 
@@ -103,8 +100,8 @@ export function useUserSlippageTolerance(): [number, (slippage: number) => void]
 }
 
 export function useUserTransactionTTL(): [number, (slippage: number) => void] {
-  const dispatch = useDispatch<AppDispatch>()
-  const userDeadline = useSelector<AppState, AppState['user']['userDeadline']>(state => {
+  const dispatch = useDispatch()
+  const userDeadline = useSelector<AppState['user']['userDeadline']>(state => {
     return state.user.userDeadline
   })
 
@@ -119,7 +116,7 @@ export function useUserTransactionTTL(): [number, (slippage: number) => void] {
 }
 
 export function useAddUserToken(): (token: Token) => void {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
   return useCallback(
     (token: Token) => {
       dispatch(addSerializedToken({ serializedToken: serializeToken(token) }))
@@ -129,7 +126,7 @@ export function useAddUserToken(): (token: Token) => void {
 }
 
 export function useRemoveUserAddedToken(): (chainId: number, address: string) => void {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
   return useCallback(
     (chainId: number, address: string) => {
       dispatch(removeSerializedToken({ chainId, address }))
@@ -140,7 +137,7 @@ export function useRemoveUserAddedToken(): (chainId: number, address: string) =>
 
 export function useUserAddedTokens(): Token[] {
   const { chainId } = useActiveWeb3React()
-  const serializedTokensMap = useSelector<AppState, AppState['user']['tokens']>(({ user: { tokens } }) => tokens)
+  const serializedTokensMap = useSelector<AppState['user']['tokens']>(({ user: { tokens } }) => tokens)
 
   return useMemo(() => {
     if (!chainId) return []
@@ -156,7 +153,7 @@ function serializePair(pair: Pair): SerializedPair {
 }
 
 export function usePairAdder(): (pair: Pair) => void {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
 
   return useCallback(
     (pair: Pair) => {
@@ -220,7 +217,7 @@ export function useTrackedTokenPairs(): [Token, Token][] {
   )
 
   // pairs saved by users
-  const savedSerializedPairs = useSelector<AppState, AppState['user']['pairs']>(({ user: { pairs } }) => pairs)
+  const savedSerializedPairs = useSelector<AppState['user']['pairs']>(({ user: { pairs } }) => pairs)
 
   const userPairs: [Token, Token][] = useMemo(() => {
     if (!chainId || !savedSerializedPairs) return []

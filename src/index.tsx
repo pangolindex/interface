@@ -16,7 +16,7 @@ import ApplicationUpdater from './state/application/updater'
 import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
-import store from './state'
+import store, { InterfaceContext } from './state'
 import UserUpdater from './state/user/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
@@ -112,11 +112,14 @@ const ComponentThemeProvider = () => {
 
   return (
     <PangolinProvider library={library} chainId={chainId} account={account ?? undefined} theme={theme as any}>
-      <FixedGlobalStyle />
-      <ThemedGlobalStyle />
-      <HashRouter>
-        <App />
-      </HashRouter>
+      <QueryClientProvider client={queryClient}>
+        <Updaters />
+        <FixedGlobalStyle />
+        <ThemedGlobalStyle />
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </QueryClientProvider>
     </PangolinProvider>
   )
 }
@@ -125,13 +128,10 @@ ReactDOM.render(
   <StrictMode>
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
-        <Provider store={store}>
-          <QueryClientProvider client={queryClient}>
-            <Updaters />
-            <ThemeProvider>
-              <ComponentThemeProvider />
-            </ThemeProvider>
-          </QueryClientProvider>
+        <Provider store={store} context={InterfaceContext}>
+          <ThemeProvider>
+            <ComponentThemeProvider />
+          </ThemeProvider>
         </Provider>
       </Web3ProviderNetwork>
     </Web3ReactProvider>
