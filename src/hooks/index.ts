@@ -4,7 +4,15 @@ import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
-import { gnosisSafe, injected, xDefi, near, IS_IN_IFRAME, NetworkContextName } from '@pangolindex/components'
+import {
+  gnosisSafe,
+  injected,
+  xDefi,
+  near,
+  IS_IN_IFRAME,
+  NetworkContextName,
+  avalancheCore
+} from '@pangolindex/components'
 
 export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & { chainId?: ChainId } {
   const context = useWeb3ReactCore<Web3Provider>()
@@ -17,9 +25,14 @@ const getExistingConnector = async () => {
 
   const isNear = await near.isAuthorized()
 
+  const isAvalancheCore = await avalancheCore.isAuthorized()
+
   if (isMetaMask) {
     return injected
+  } else if (isAvalancheCore) {
+    return avalancheCore
   }
+
   return isNear ? near : xDefi
 }
 
@@ -56,6 +69,10 @@ export function useEagerConnect() {
                 })
               } else if (window.xfi && window.xfi.ethereum) {
                 activate(xDefi, undefined, true).catch(() => {
+                  setTried(true)
+                })
+              } else if (window.avalanche) {
+                activate(avalancheCore, undefined, true).catch(() => {
                   setTried(true)
                 })
               } else {

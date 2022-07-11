@@ -9,11 +9,13 @@ import styled from 'styled-components'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import XDefiIcon from '../../assets/images/xDefi.png'
 import RabbyIcon from '../../assets/images/rabby.svg'
+import avalancheCoreIcon from 'src/assets/images/avalancheCore.svg'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import {
   gnosisSafe,
   injected,
   xDefi,
+  avalancheCore,
   SUPPORTED_WALLETS,
   LANDING_PAGE,
   AVALANCHE_CHAIN_PARAMS,
@@ -202,6 +204,7 @@ export default function WalletModal({
   const isCbWalletDappBrowser = window?.ethereum?.isCoinbaseWallet
   const isWalletlink = !!window?.WalletLinkProvider || !!window?.walletLinkExtension
   const isCbWallet = isCbWalletDappBrowser || isWalletlink
+  const isAvalancheCore = window.avalanche && window.avalanche.isAvalanche
 
   const tryActivation = async (
     activationConnector: AbstractConnector | SafeAppConnector | undefined,
@@ -255,6 +258,8 @@ export default function WalletModal({
         return SUPPORTED_WALLETS.RABBY
       } else if (isMetamask) {
         return SUPPORTED_WALLETS.METAMASK
+      } else if (isAvalancheCore) {
+        return SUPPORTED_WALLETS.AVALANCHECORE
       }
       return SUPPORTED_WALLETS.INJECTED
     }
@@ -371,6 +376,28 @@ export default function WalletModal({
           }
         }
 
+        // overwrite avalanche when needed
+        else if (option.connector === avalancheCore) {
+          // don't show avalanche if there's no avalanche provider
+          if (!window.avalanche) {
+            if (option.name === 'Avalanche Core Wallet') {
+              return (
+                <Option
+                  id={`connect-${key}`}
+                  key={key}
+                  color={'#E8831D'}
+                  header={'Install Avalanche Core Wallet'}
+                  subheader={null}
+                  link={'https://chrome.google.com/webstore/detail/core/agoakfejjabomempkjlepdflaleeobhb'}
+                  icon={avalancheCoreIcon}
+                />
+              )
+            } else {
+              return null //dont want to return install twice
+            }
+          }
+        }
+
         // Not show Gnosis Safe option without Gnosis Interface
         if (option.connector === gnosisSafe && !IS_IN_IFRAME) {
           return null
@@ -402,7 +429,7 @@ export default function WalletModal({
 
   function getModalContent() {
     const isXDEFI = window.xfi && window.xfi.ethereum && window.xfi.ethereum.isXDEFI
-    const isMetamaskOrCbWallet = isMetamask || isCbWallet || isXDEFI
+    const isMetamaskOrCbWallet = isMetamask || isCbWallet || isXDEFI || isAvalancheCore
 
     if (web3Error) {
       return (

@@ -13,12 +13,14 @@ import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import NearIcon from '../../assets/images/near.svg'
+import avalancheCoreIcon from 'src/assets/images/avalancheCore.svg'
 import {
   gnosisSafe,
   injected,
   walletconnect,
   walletlink,
   near,
+  avalancheCore,
   SUPPORTED_WALLETS,
   shortenAddress,
   NearConnector,
@@ -251,18 +253,24 @@ export default function AccountDetails({
   const dispatch = useDispatch<AppDispatch>()
 
   function formatConnectorName() {
-    const { ethereum } = window
+    const { ethereum, avalanche } = window
     const isMetaMask = !!(ethereum && ethereum.isMetaMask)
 
     const isXDEFI = !!(ethereum && ethereum.isXDEFI)
+
+    const isAvalancheCore = !!(avalanche && avalanche.isAvalanche)
 
     const name = Object.keys(SUPPORTED_WALLETS)
       .filter(
         k =>
           SUPPORTED_WALLETS[k].connector === connector &&
-          (connector !== injected || isMetaMask === (k === 'METAMASK') || isXDEFI === (k === 'XDEFI'))
+          (connector !== injected ||
+            isAvalancheCore === (k === 'AVALANCHECORE') ||
+            isMetaMask === (k === 'METAMASK') ||
+            isXDEFI === (k === 'XDEFI'))
       )
       .map(k => SUPPORTED_WALLETS[k].name)[0]
+
     return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>
   }
 
@@ -296,6 +304,12 @@ export default function AccountDetails({
       return (
         <IconWrapper size={16}>
           <img src={NearIcon} alt={'Near Wallet'} />
+        </IconWrapper>
+      )
+    } else if (connector === avalancheCore) {
+      return (
+        <IconWrapper size={16}>
+          <img src={avalancheCoreIcon} alt={'Avalanche Core Wallet'} />
         </IconWrapper>
       )
     }
