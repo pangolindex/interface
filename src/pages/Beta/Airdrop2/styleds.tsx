@@ -61,8 +61,7 @@ export const StyledLogo = styled.img<{ size: string }>`
 export const QuestionBox = styled(Box)`
   background-color: ${({ theme }) => theme.bg2};
   border-radius: 10px;
-  min-width: 50%;
-  max-width: 50%;
+  width: 70%;
   padding: 30px 30px 0 30px;
   cursor: pointer;
   ${({ theme }) => theme.mediaWidth.upToSmall`

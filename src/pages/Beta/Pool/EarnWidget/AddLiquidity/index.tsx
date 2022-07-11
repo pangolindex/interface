@@ -308,7 +308,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
               handleTypeInput(value)
             }}
             label={`${currencyA?.symbol}`}
-            fontSize={24}
+            fontSize={16}
             isNumeric={true}
             placeholder="0.00"
             addonLabel={
@@ -352,7 +352,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
               handleTypeOutput(value)
             }}
             label={`${currencyB?.symbol}`}
-            fontSize={24}
+            fontSize={16}
             isNumeric={true}
             placeholder="0.00"
             addonLabel={

@@ -150,8 +150,8 @@ const PoolCardView = ({
               title={'TVL'}
               stat={numeral((stakingInfo?.totalStakedInUsd as Fraction)?.toFixed(2)).format('$0.00a')}
               titlePosition="top"
-              titleFontSize={16}
-              statFontSize={24}
+              titleFontSize={14}
+              statFontSize={18}
             />
           )}
 

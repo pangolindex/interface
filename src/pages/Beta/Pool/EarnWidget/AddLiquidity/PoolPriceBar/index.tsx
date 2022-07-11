@@ -35,8 +35,8 @@ const PoolPriceBar = ({ currencies, noLiquidity, poolTokenPercentage, price, par
             title={`${t('migratePage.dollarWorth')}`}
             stat={`${multipyAmount ? `$${multipyAmount?.toFixed(4)}` : '-'}`}
             titlePosition="top"
-            titleFontSize={14}
-            statFontSize={18}
+            titleFontSize={12}
+            statFontSize={14}
             titleColor="text2"
           />
         </Box>
@@ -51,8 +51,8 @@ const PoolPriceBar = ({ currencies, noLiquidity, poolTokenPercentage, price, par
             }
             %`}
             titlePosition="top"
-            titleFontSize={14}
-            statFontSize={18}
+            titleFontSize={12}
+            statFontSize={14}
             titleColor="text2"
           />
         </Box>
