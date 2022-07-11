@@ -11,7 +11,7 @@ export const Panel = styled(Box)`
   justify-content: flex-start;
   padding: 20px;
   border-radius: 10px;
-  height: 240px;
+  height: 295px;
 `
 
 export const ContentWrapper = styled.div`

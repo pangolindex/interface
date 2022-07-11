@@ -230,7 +230,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
   const renderButton = () => {
     if (!account) {
       return (
-        <Button variant="primary" onClick={toggleWalletModal} height="38px">
+        <Button variant="primary" onClick={toggleWalletModal} height="46px">
           {t('swapPage.connectWallet')}
         </Button>
       )
@@ -251,7 +251,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
                     width={approvalB !== ApprovalState.APPROVED ? '48%' : '100%'}
                     loading={approvalA === ApprovalState.PENDING}
                     loadingText={`${t('swapPage.approving')} ${currencies[Field.CURRENCY_A]?.symbol}`}
-                    height="38px"
+                    height="46px"
                   >
                     {t('addLiquidity.approve') + currencies[Field.CURRENCY_A]?.symbol}
                   </Button>
@@ -264,7 +264,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
                     width={approvalA !== ApprovalState.APPROVED ? '48%' : '100%'}
                     loading={approvalB === ApprovalState.PENDING}
                     loadingText={`${t('swapPage.approving')} ${currencies[Field.CURRENCY_B]?.symbol}`}
-                    height="38px"
+                    height="46px"
                   >
                     {t('addLiquidity.approve') + currencies[Field.CURRENCY_B]?.symbol}
                   </Button>
@@ -272,7 +272,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
               </RowBetween>
             )}
           <Button
-            height="38px"
+            height="46px"
             variant="primary"
             onClick={() => {
               expertMode ? onAdd() : setShowConfirm(true)
