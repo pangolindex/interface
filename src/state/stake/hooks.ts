@@ -1910,7 +1910,11 @@ export function useFetchFarmAprs() {
     if (!chainId || !pids || pids.length === 0) return
 
     fetchChunkedAprs(pids, chainId).then(res => {
-      const newResult = res.reduce((acc, value: any, i) => ({ ...acc, [pids[i] as string]: value }), {})
+      const newResult = res.reduce(
+        (acc, value: any, i) => ({ ...acc, [pids[i] as string]: { ...value, pid: pids[i] } }),
+        {}
+      )
+
       if (res.length > 0) {
         dispatch(
           updateMinichefStakingAllAprs({
