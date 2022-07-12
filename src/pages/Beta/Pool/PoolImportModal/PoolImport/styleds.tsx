@@ -40,7 +40,7 @@ export const CurrencySelectWrapper = styled(Box)`
   box-sizing: border-box;
   justify-content: space-between;
   align-items: center;
-  background-color: ${({ theme }) => theme.bg6};
+  background-color: ${({ theme }) => theme.color3};
   color: ${({ theme }) => theme.text4};
   cursor: pointer;
 `
