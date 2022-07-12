@@ -20,7 +20,7 @@ import {
   useSingleCallResult,
   useSingleContractMultipleData
 } from '../multicall/hooks'
-import { tryParseAmount } from 'src/utils'
+import { tryParseAmount, maxAmountSpend } from 'src/utils'
 import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../../constants/abis/rewarderViaMultiplier'
@@ -41,7 +41,6 @@ import { useTokens } from '../../hooks/Tokens'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
-import { maxAmountSpend } from 'src/utils'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { parseUnits, getAddress, splitSignature } from 'ethers/lib/utils'
 import { useChainId } from 'src/hooks'

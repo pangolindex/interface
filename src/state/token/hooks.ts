@@ -7,7 +7,7 @@ import { ChainId } from '@pangolindex/sdk'
 
 dayjs.extend(utc)
 
-export async function getBlocksFromTimestamps(timestamps: Array<number>, skipCount = 500, chainId: ChainId) {
+export async function getBlocksFromTimestamps(timestamps: Array<number>, chainId: ChainId, skipCount = 500) {
   const blockClient = blockClients[chainId]
   if (timestamps?.length === 0 || !blockClient) {
     return []

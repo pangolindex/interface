@@ -42,7 +42,7 @@ export function usePairHourlyRateData(pairAddress: string, timeWindow: string, i
             .unix()
 
     async function fetch() {
-      let data = await getPairHourlyRateData(pairAddress, startTime, undefined, interval, chainId)
+      let data = await getPairHourlyRateData(pairAddress, chainId, startTime, undefined, interval)
 
       dispatch(updatePairChartData({ address: pairAddress, chartData: data }))
     }
@@ -56,10 +56,10 @@ export function usePairHourlyRateData(pairAddress: string, timeWindow: string, i
 
 export const getPairHourlyRateData = async (
   pairAddress: string,
+  chainId: ChainId,
   startTime: number,
   to = dayjs.utc().unix(),
-  interval = 3600 * 24,
-  chainId: ChainId
+  interval = 3600 * 24
 ) => {
   try {
     const utcEndTime = to
@@ -81,7 +81,7 @@ export const getPairHourlyRateData = async (
     // once you have all the timestamps, get the blocks for each timestamp in a bulk query
     let blocks
 
-    blocks = await getBlocksFromTimestamps(timestamps, 100, chainId)
+    blocks = await getBlocksFromTimestamps(timestamps, chainId, 100)
 
     // catch failing case
     if (!blocks || blocks?.length === 0) {
@@ -182,10 +182,10 @@ export function useHourlyPairTokensChartData(
       let data = await getHourlyPairTokensChartData(
         tokenAddress0,
         tokenAddress1,
+        chainId,
         startTime,
         undefined,
-        interval,
-        chainId
+        interval
       )
 
       dispatch(updatePairTokensChartData({ address: pairAddress, chartData: data }))
@@ -203,10 +203,10 @@ export function useHourlyPairTokensChartData(
 export const getHourlyPairTokensChartData = async (
   tokenAddress0: string,
   tokenAddress1: string,
+  chainId: ChainId,
   startTime: number,
   to = dayjs.utc().unix(),
-  interval = 3600 * 24,
-  chainId: ChainId
+  interval = 3600 * 24
 ) => {
   const utcEndTime = to
   let time = startTime
@@ -228,7 +228,7 @@ export const getHourlyPairTokensChartData = async (
   // once you have all the timestamps, get the blocks for each timestamp in a bulk query
   let blocks
   try {
-    blocks = await getBlocksFromTimestamps(timestamps, 100, chainId)
+    blocks = await getBlocksFromTimestamps(timestamps, chainId, 100)
 
     // catch failing case
     if (!blocks || blocks.length === 0) {
