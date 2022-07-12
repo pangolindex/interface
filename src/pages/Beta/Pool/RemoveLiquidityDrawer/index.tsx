@@ -1,11 +1,10 @@
 import React from 'react'
 import Drawer from 'src/components/Drawer'
 import { Token } from '@pangolindex/sdk'
-import { useTranslation } from 'react-i18next'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import RemoveLiquidity from '../RemoveLiquidity'
 import { useChainId } from 'src/hooks'
-import { Box } from '@pangolindex/components'
+import { Box, useTranslation } from '@pangolindex/components'
 
 type Props = {
   isOpen: boolean

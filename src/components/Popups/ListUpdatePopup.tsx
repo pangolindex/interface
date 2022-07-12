@@ -11,7 +11,7 @@ import listVersionLabel from '../../utils/listVersionLabel'
 import { ButtonSecondary } from '../Button'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import styled from 'styled-components'
 
 const PopupUnorderedList = styled.ul`

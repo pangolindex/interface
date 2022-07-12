@@ -3,7 +3,7 @@ import { StyledMenu, MenuFlyout, StyledMenuButton } from '../StyledMenu'
 import styled from 'styled-components'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/actions'
-import i18n, { availableLanguages } from '../../i18n'
+import { availableLanguages, i18n } from '@pangolindex/components'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 
 const NarrowMenuFlyout = styled(MenuFlyout)`

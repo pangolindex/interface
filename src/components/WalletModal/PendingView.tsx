@@ -2,11 +2,9 @@ import { AbstractConnector } from '@web3-react/abstract-connector'
 import React from 'react'
 import styled from 'styled-components'
 import Option from './Option'
-import { WalletInfo } from '@pangolindex/components'
-
+import { WalletInfo, useTranslation } from '@pangolindex/components'
 import { darken } from 'polished'
 import Loader from '../Loader'
-import { useTranslation } from 'react-i18next'
 
 const PendingSection = styled.div`
   ${({ theme }) => theme.flexColumnNoWrap};

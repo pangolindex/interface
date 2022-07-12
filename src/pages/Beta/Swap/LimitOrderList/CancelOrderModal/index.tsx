@@ -1,11 +1,10 @@
 import React, { useContext } from 'react'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box, useTranslation } from '@pangolindex/components'
 import { Wrapper } from './styleds'
 import Modal from 'src/components/Beta/Modal'
 import { ThemeContext } from 'styled-components'
 import { Order } from '@gelatonetwork/limit-orders-react'
 import { CloseIcon } from 'src/theme/components'
-import { useTranslation } from 'react-i18next'
 import CancelOrder from '../CancelOrder'
 
 interface ClaimRewardModalProps {

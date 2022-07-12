@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import { MENU_LINK } from 'src/constants'
 import { ThemeContext } from 'styled-components'
 import { Menu, MenuItem, MenuLink, MenuName, MenuExternalLink, MenuWrapper } from './styled'

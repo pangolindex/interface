@@ -21,7 +21,6 @@ import {
   useSingleContractMultipleData
 } from '../multicall/hooks'
 import { tryParseAmount } from '../swap/hooks'
-import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../../constants/abis/rewarderViaMultiplier'
 import { useUSDCPrice } from '../../utils/useUSDCPrice'
@@ -57,7 +56,7 @@ import {
 } from 'src/state/stake/actions'
 import usePrevious from 'src/hooks/usePrevious'
 import isEqual from 'lodash.isequal'
-import { useLibrary } from '@pangolindex/components'
+import { useLibrary, useTranslation } from '@pangolindex/components'
 import { PANGOLIN_PAIR_INTERFACE } from 'src/constants/abis/pangolinPair'
 
 export interface SingleSideStaking {

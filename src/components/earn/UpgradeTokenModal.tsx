@@ -15,10 +15,9 @@ import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallbac
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
-import { useTranslation } from 'react-i18next'
 import { tryParseAmount } from '../../state/swap/hooks'
 import { useChainId } from 'src/hooks'
-import { useLibrary } from '@pangolindex/components'
+import { useLibrary, useTranslation } from '@pangolindex/components'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;

@@ -1,4 +1,4 @@
-import { Button, NetworkSelection, useAccountBalanceHook } from '@pangolindex/components'
+import { Button, NetworkSelection, useAccountBalanceHook, useTranslation } from '@pangolindex/components'
 import React, { useState, useRef, useMemo } from 'react'
 import { useActiveWeb3React } from '../../hooks'
 import { CardNoise } from '../../components/earn/styled'
@@ -25,7 +25,6 @@ import {
   ThemeMode,
   LegacyButtonWrapper
 } from './styled'
-import { useTranslation } from 'react-i18next'
 import { Hidden, MEDIA_WIDTHS } from 'src/theme'
 import { useChainId } from 'src/hooks'
 import { LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'

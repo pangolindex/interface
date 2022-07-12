@@ -1,11 +1,10 @@
 import React, { useContext } from 'react'
 import { PanelWrapper, MobileStat } from './styleds'
-import { Text, Box, DoubleCurrencyLogo, useUSDCPrice } from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo, useUSDCPrice, useTranslation } from '@pangolindex/components'
 import Stat from 'src/components/Stat'
 import { ThemeContext } from 'styled-components'
 import { Pair, Currency, Token } from '@pangolindex/sdk'
 import { useAllPairChartData, useAllPairTokensChartData } from 'src/state/pair/hooks'
-import { useTranslation } from 'react-i18next'
 
 type Props = { pair?: Pair | null; inputCurrency?: Currency; outputCurrency?: Currency; tokenB?: Token; tokenA?: Token }
 

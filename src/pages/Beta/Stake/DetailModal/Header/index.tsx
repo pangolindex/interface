@@ -1,4 +1,4 @@
-import { Box, DoubleCurrencyLogo, Text, CurrencyLogo } from '@pangolindex/components'
+import { Box, DoubleCurrencyLogo, Text, CurrencyLogo, useTranslation } from '@pangolindex/components'
 import React, { useContext } from 'react'
 import { JSBI } from '@pangolindex/sdk'
 import Stat from 'src/components/Stat'
@@ -6,7 +6,6 @@ import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { ThemeContext } from 'styled-components'
 import { HeaderRoot, StatsWrapper, HeaderWrapper } from './styled'
-import { useTranslation } from 'react-i18next'
 import { CloseIcon, Hidden, Visible } from 'src/theme'
 import { useChainId } from 'src/hooks'
 

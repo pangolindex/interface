@@ -19,7 +19,7 @@ import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks
 import { Dots } from '../../components/swap/styleds'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
 import { LANDING_PAGE, ANALYTICS_PAGE } from '../../constants'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 
 const LiquidityTutorial = `${LANDING_PAGE}/tutorials/manage-liquidity`
 

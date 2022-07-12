@@ -18,9 +18,8 @@ import { useDerivedStakeInfo } from '../../state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
-import { useTranslation } from 'react-i18next'
 import { BRIDGE_MIGRATOR_ADDRESS } from '../../constants'
-import { useLibrary } from '@pangolindex/components'
+import { useLibrary, useTranslation } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`

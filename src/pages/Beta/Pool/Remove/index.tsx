@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, ToggleButtons, Text } from '@pangolindex/components'
+import { Box, ToggleButtons, Text, useTranslation } from '@pangolindex/components'
 import { RemoveWrapper } from './styleds'
 import { StakingInfo } from 'src/state/stake/hooks'
 import RemoveLiquidity from '../RemoveLiquidity'
@@ -7,7 +7,6 @@ import RemoveFarm from '../RemoveFarm'
 import { useChainId } from 'src/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { useDerivedBurnInfo } from 'src/state/burn/hooks'
-import { useTranslation } from 'react-i18next'
 
 enum REMOVE_TYPE {
   FARM = 'Farm',

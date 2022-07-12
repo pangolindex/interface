@@ -20,7 +20,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { ZERO_ADDRESS } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { isAddress, getEtherscanLink } from '../../utils'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 
 const PageWrapper = styled(AutoColumn)`
   width: 100%;

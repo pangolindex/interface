@@ -1,9 +1,8 @@
 import React from 'react'
 import { Pair } from '@pangolindex/sdk'
 import { PairBox } from './styleds'
-import { Text, Box, DoubleCurrencyLogo, Checkbox } from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo, Checkbox, useTranslation } from '@pangolindex/components'
 import { useGetPairDataFromPair, StakingInfo } from '../../../state/stake/hooks'
-import { useTranslation } from 'react-i18next'
 
 export interface PairDataProps {
   pair: Pair

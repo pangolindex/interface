@@ -21,8 +21,7 @@ import { ProposalStatus } from './styled'
 import { ButtonPrimary } from '../../components/Button'
 import { useModalOpen, useToggleDelegateModal } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/actions'
-import { useTranslation } from 'react-i18next'
-import { shortenAddress } from '@pangolindex/components'
+import { shortenAddress, useTranslation } from '@pangolindex/components'
 
 const PageWrapper = styled(AutoColumn)``
 

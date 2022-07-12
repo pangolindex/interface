@@ -12,9 +12,8 @@ import { AutoRow, RowBetween } from '../Row'
 import { AutoColumn } from '../Column'
 import { AlertTriangle } from 'react-feather'
 import { ButtonError } from '../Button'
-import { useTranslation } from 'react-i18next'
 import ReactHtmlParser from 'react-html-parser'
-import { shortenAddress } from '@pangolindex/components'
+import { shortenAddress, useTranslation } from '@pangolindex/components'
 
 const Wrapper = styled.div<{ error: boolean }>`
   background: ${({ theme }) => transparentize(0.6, theme.bg3)};
