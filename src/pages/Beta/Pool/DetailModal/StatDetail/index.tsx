@@ -41,14 +41,18 @@ export default function StatDetail({ title, totalAmount, pair, pgl, currency0, c
       </Text>
 
       <StateContainer>
-        <Stat
-          title={title}
-          stat={`${totalAmount ? `${totalAmount}` : '-'}`}
-          titlePosition="top"
-          titleFontSize={12}
-          statFontSize={[20, 16]}
-          titleColor="text2"
-        />
+        <Box display="flex" flexDirection="column" height="100%">
+          <Box display="flex" flexDirection="row" style={{ gap: '5px' }} alignItems="center">
+            <Text color={'text2'} fontSize={12}>
+              {title}
+            </Text>
+          </Box>
+          <Box display="flex" alignItems="center" flexGrow={1}>
+            <Text color={'text1'} fontSize={[20, 16]}>
+              {`${totalAmount ? `${totalAmount}` : '-'}`}
+            </Text>
+          </Box>
+        </Box>
         {currency0 && (
           <Stat
             title={`Underlying ${currency0?.symbol ? currency0?.symbol : ''}`}
