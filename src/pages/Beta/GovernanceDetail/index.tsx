@@ -16,10 +16,10 @@ import {
   WrapSmall,
   ProgressWrapper,
   Progress,
+  ProposalStatus,
   DetailText,
   MarkDownWrapper
 } from './styleds'
-import { ProposalStatus } from 'src/pages/Vote/styled'
 import { RowFixed, RowBetween } from 'src/components/Row'
 import { AutoColumn } from 'src/components/Column'
 import { CardSection } from 'src/components/earn/styled'

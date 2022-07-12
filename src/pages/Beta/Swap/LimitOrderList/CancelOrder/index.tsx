@@ -11,7 +11,7 @@ import { CancelOrderRoot, PendingWrapper, Root, Footer, Header } from './styleds
 import { useActiveWeb3React } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 import { CustomLightSpinner } from 'src/theme'
-import Circle from 'src/assets/images/blue-loader.svg'
+import Circle from 'src/assets/svg/blue-loader.svg'
 import TransactionSubmitted from 'src/components/Beta/TransactionSubmitted'
 
 interface ClaimProps {

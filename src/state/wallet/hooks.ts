@@ -2,7 +2,6 @@ import { PNG } from '../../constants/tokens'
 import { Currency, CurrencyAmount, CAVAX, JSBI, Token, TokenAmount, ChainId } from '@pangolindex/sdk'
 import { useMemo, useState, useEffect } from 'react'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
-import { useAllTokens } from '../../hooks/Tokens'
 import { useActiveWeb3React } from '../../hooks'
 import { useMulticallContract } from '../../hooks/useContract'
 import { isAddress } from '../../utils'
@@ -153,15 +152,6 @@ export function useCurrencyBalance(
   currency?: Currency
 ): CurrencyAmount | undefined {
   return useCurrencyBalances(chainId, account, [currency])[0]
-}
-
-// mimics useAllBalances
-export function useAllTokenBalances(): { [tokenAddress: string]: TokenAmount | undefined } {
-  const { account } = useActiveWeb3React()
-  const allTokens = useAllTokens()
-  const allTokensArray = useMemo(() => Object.values(allTokens ?? {}), [allTokens])
-  const balances = useTokenBalances(account ?? undefined, allTokensArray)
-  return balances ?? {}
 }
 
 // get the total owned and unharvested PNG for account

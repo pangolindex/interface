@@ -12,5 +12,3 @@ export const ButtonToConnect = () => {
     </Button>
   )
 }
-
-export default [ButtonToConnect]

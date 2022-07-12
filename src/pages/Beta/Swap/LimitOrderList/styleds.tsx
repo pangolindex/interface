@@ -21,19 +21,6 @@ export const GridContainer = styled(Box)`
   padding: 10px 0px;
   flex: 1;
 `
-
-export const Divider = styled(Box)`
-  height: 1px;
-  background-color: ${({ theme }) => theme.bg7};
-  margin: 10px 0px 10px 0px;
-  width: 100%;
-`
-
-export const CoinList = styled(Box)`
-  max-height: 200px;
-  overflow-y: auto;
-`
-
 // WatchList Row Styles
 export const DesktopRowWrapper = styled(Box)<{ isSelected: boolean }>`
   padding: 0px 10px;
@@ -57,18 +44,6 @@ export const DesktopRowWrapper = styled(Box)<{ isSelected: boolean }>`
     display: none;
   `};
 `
-export const DeleteButton = styled.button`
-  background-image: linear-gradient(to right, rgba(255, 0, 0, 0), ${({ theme }) => theme.bg6});
-  background-color: transparent;
-  border: 0px;
-  color: ${({ theme }) => theme.text1};
-  cursor: pointer;
-  display: block;
-  height: 64px;
-  width: 100%;
-  position: absolute;
-`
-
 // Coin Chart Styles
 
 export const SelectedCoinInfo = styled(Box)`
@@ -78,11 +53,6 @@ export const SelectedCoinInfo = styled(Box)`
   align-items: center;
 `
 
-export const DurationBtns = styled(Box)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`
 export const StatWrapper = styled(Box)`
   display: grid;
   grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);

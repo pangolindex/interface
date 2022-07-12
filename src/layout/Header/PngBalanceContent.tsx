@@ -11,7 +11,7 @@ import { useAggregatePngBalance } from '../../state/wallet/hooks'
 import { StyledInternalLink, TYPE, PngTokenAnimated } from '../../theme'
 import { AutoColumn } from '../../components/Column'
 import { RowBetween } from '../../components/Row'
-import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../../components/earn/styled'
+import { Break, CardBGImage, CardSection, DataCard } from '../../components/earn/styled'
 import { useTranslation } from 'react-i18next'
 import { useChainId } from 'src/hooks'
 import { useTotalSupplyHook } from 'src/data/TotalSupply'
@@ -100,7 +100,6 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
     <ContentWrapper gap="lg">
       <ModalUpper>
         <CardBGImage />
-        <CardNoise />
         <CardSection gap="md">
           <RowBetween>
             <TYPE.white color="white">{t('header.pngBreakDown', { symbol: pngSymbol })}</TYPE.white>

@@ -9,7 +9,6 @@ import mint from './mint/reducer'
 import lists from './lists/reducer'
 import burn from './burn/reducer'
 import multicall from './multicall/reducer'
-import wyre from './wyre/reducer'
 import watchlists from './watchlists/reducer'
 import token from './token/reducer'
 import pair from './pair/reducer'
@@ -27,7 +26,6 @@ const store = configureStore({
     mint,
     burn,
     multicall,
-    wyre,
     lists,
     watchlists,
     token,

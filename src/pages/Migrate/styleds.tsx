@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Button } from '@pangolindex/components'
 import styled from 'styled-components'
 import { RowFixed } from '../../components/Row'
-import { Settings, ChevronRight } from 'react-feather'
+import { ChevronRight } from 'react-feather'
 
 export const PageWrapper = styled(Box)`
   width: 100%;
@@ -39,22 +39,6 @@ export const ResponsiveButtonOutline = styled(props => <Button {...props} as="a"
   ${({ theme }) => theme.mediaWidth.upToSmall`
     width: 48%;
   `};
-`
-
-export const MigrateStateCard = styled(Box)`
-  background-color: #111111;
-  padding: 20px;
-  border-radius: 10px;
-  width: 100%;
-`
-
-export const StyledMenuIcon = styled(Settings)`
-  height: 70px;
-  width: 70px;
-
-  > * {
-    stroke: ${({ theme }) => theme.text1};
-  }
 `
 
 export const StatisticImage = styled.img`
@@ -133,4 +117,25 @@ export const EmptyProposals = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 10px;
+`
+
+export const Dots = styled.span`
+  &::after {
+    display: inline-block;
+    animation: ellipsis 1.25s infinite;
+    content: '.';
+    width: 1em;
+    text-align: left;
+  }
+  @keyframes ellipsis {
+    0% {
+      content: '.';
+    }
+    33% {
+      content: '..';
+    }
+    66% {
+      content: '...';
+    }
+  }
 `

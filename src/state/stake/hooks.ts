@@ -20,7 +20,7 @@ import {
   useSingleCallResult,
   useSingleContractMultipleData
 } from '../multicall/hooks'
-import { tryParseAmount } from '../swap/hooks'
+import { tryParseAmount } from 'src/utils'
 import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../../constants/abis/rewarderViaMultiplier'
@@ -41,7 +41,7 @@ import { useTokens } from '../../hooks/Tokens'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
-import { maxAmountSpend } from 'src/utils/maxAmountSpend'
+import { maxAmountSpend } from 'src/utils'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { parseUnits, getAddress, splitSignature } from 'ethers/lib/utils'
 import { useChainId } from 'src/hooks'
@@ -72,16 +72,6 @@ export interface DoubleSideStaking {
   stakingRewardAddress: string
   version: number
   multiplier?: number
-}
-
-export interface Migration {
-  from: DoubleSideStaking
-  to: DoubleSideStaking
-}
-
-export interface BridgeMigrator {
-  aeb: string
-  ab: string
 }
 
 export interface StakingInfoBase {
@@ -774,37 +764,6 @@ export function useDerivedStakeInfo(
     parsedInput && userLiquidityUnstaked && JSBI.lessThanOrEqual(parsedInput.raw, userLiquidityUnstaked.raw)
       ? parsedInput
       : undefined
-
-  let error: string | undefined
-  if (!account) {
-    error = t('stakeHooks.connectWallet')
-  }
-  if (!parsedAmount) {
-    error = error ?? t('stakeHooks.enterAmount')
-  }
-
-  return {
-    parsedAmount,
-    error
-  }
-}
-
-// based on typed value
-export function useDerivedUnstakeInfo(
-  typedValue: string,
-  stakingAmount: TokenAmount
-): {
-  parsedAmount?: CurrencyAmount
-  error?: string
-} {
-  const { account } = useActiveWeb3React()
-  const chainId = useChainId()
-
-  const { t } = useTranslation()
-
-  const parsedInput: CurrencyAmount | undefined = tryParseAmount(chainId, typedValue, stakingAmount.token)
-
-  const parsedAmount = parsedInput && JSBI.lessThanOrEqual(parsedInput.raw, stakingAmount.raw) ? parsedInput : undefined
 
   let error: string | undefined
   if (!account) {
