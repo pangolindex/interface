@@ -12,7 +12,6 @@ import { useTranslation } from '@pangolindex/components'
 import CurrencyLogo from '../CurrencyLogo'
 import { JSBI } from '@pangolindex/sdk'
 import { useChainId } from 'src/hooks'
-useTranslation
 
 const StatContainer = styled.div`
   display: flex;
