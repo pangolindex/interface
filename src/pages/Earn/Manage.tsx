@@ -18,7 +18,7 @@ import { useActiveWeb3React, useChainId, usePngSymbol } from '../../hooks'
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
 import { BIG_INT_ZERO } from '../../constants'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import RewardCard from './RewardCard'
 import { MENU_LINK } from 'src/constants'
 

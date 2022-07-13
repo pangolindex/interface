@@ -13,7 +13,7 @@ import Circle from '../../assets/images/blue-loader.svg'
 
 import { getEtherscanLink } from '../../utils'
 import { useChainId } from '../../hooks'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 
 const Wrapper = styled.div`
   width: 100%;

@@ -1,7 +1,6 @@
 import React from 'react'
 import { PageTitle, PageDescription, PageWrapper, TopContainer, StatsWrapper } from './styleds'
-import { useTranslation } from 'react-i18next'
-import { NewsWidget, WatchList, Portfolio } from '@pangolindex/components'
+import { NewsWidget, WatchList, Portfolio, useTranslation } from '@pangolindex/components'
 import { ChainId, CHAINS } from '@pangolindex/sdk'
 import { useActiveWeb3React } from 'src/hooks'
 import { Hidden, Visible } from 'src/theme'

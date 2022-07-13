@@ -12,7 +12,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import FormattedCurrencyAmount from '../FormattedCurrencyAmount'
 import { useActiveWeb3React, usePngSymbol } from '../../hooks'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import { TokenAmount } from '@pangolindex/sdk'
 
 const ContentWrapper = styled(AutoColumn)`

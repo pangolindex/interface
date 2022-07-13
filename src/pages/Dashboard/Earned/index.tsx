@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import { Link } from 'react-router-dom'
 
 import { useDarkModeManager } from 'src/state/user/hooks'

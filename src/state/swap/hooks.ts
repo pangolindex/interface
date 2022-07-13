@@ -26,7 +26,7 @@ import { SwapState } from './reducer'
 import { useUserSlippageTolerance } from '../user/hooks'
 import { computeSlippageAdjustedAmounts } from '../../utils/prices'
 import { ROUTER_ADDRESS, SWAP_DEFAULT_CURRENCY } from '../../constants'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 
 export function useSwapState(): AppState['swap'] {

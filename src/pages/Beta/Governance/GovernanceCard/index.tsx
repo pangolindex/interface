@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import { Card, CardTitle, CardButtons, DetailsButton, VoteButton, Title, Number } from './styleds'
 import { StyledInternalLink, colors } from 'src/theme'
 import { useDarkModeManager } from 'src/state/user/hooks'

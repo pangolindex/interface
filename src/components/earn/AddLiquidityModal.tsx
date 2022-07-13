@@ -8,7 +8,6 @@ import { ButtonError, ButtonLight, ButtonPrimary } from '../Button'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { useActiveWeb3React } from '../../hooks'
-import { useTranslation } from 'react-i18next'
 import { useCurrency } from '../../hooks/Tokens'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
 import { useIsExpertMode, useUserSlippageTolerance } from '../../state/user/hooks'
@@ -34,7 +33,7 @@ import { ConfirmAddModalBottom } from '../../pages/AddLiquidity/ConfirmAddModalB
 import { currencyId } from '../../utils/currencyId'
 import { PairState } from '../../data/Reserves'
 import { PoolPriceBar } from '../../pages/AddLiquidity/PoolPriceBar'
-import { useLibrary } from '@pangolindex/components'
+import { useLibrary, useTranslation } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 
 const ContentWrapper = styled(AutoColumn)`

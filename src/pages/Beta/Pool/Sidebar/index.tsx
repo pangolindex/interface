@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { SidebarWrapper, Menu, MenuLink, MenuName, MenuItem, Circle } from './styleds'
-import { Text, Box } from '@pangolindex/components'
-import { useTranslation } from 'react-i18next'
+import { Text, Box, useTranslation } from '@pangolindex/components'
 import PoolImportModal from '../PoolImportModal'
 
 export enum MenuType {

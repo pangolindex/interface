@@ -1,10 +1,9 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { Box } from '@pangolindex/components'
+import { Box, useTranslation } from '@pangolindex/components'
 import { PageWrapper, GridContainer, ExternalLink } from './styleds'
 import Sidebar, { MenuType } from './Sidebar'
 import AllPoolList from './AllPoolList'
 import Wallet from './Wallet'
-import { useTranslation } from 'react-i18next'
 import {
   useStakingInfo,
   useGetMinichefStakingInfosViaSubgraph,

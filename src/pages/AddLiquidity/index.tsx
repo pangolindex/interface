@@ -38,8 +38,7 @@ import { Dots, Wrapper } from '../Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { currencyId } from '../../utils/currencyId'
 import { PoolPriceBar } from './PoolPriceBar'
-import { useTranslation } from 'react-i18next'
-import { useLibrary } from '@pangolindex/components'
+import { useLibrary, useTranslation } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 
 export default function AddLiquidity({

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import { useParams } from 'react-router-dom'
 import { PageWrapper, PageTitle, PoolsWrapper, PoolCards } from './styleds'
 import { useChainId, usePngSymbol } from 'src/hooks'

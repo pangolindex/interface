@@ -24,7 +24,7 @@ import ListLogo from '../ListLogo'
 import QuestionHelper from '../QuestionHelper'
 import Row, { RowBetween } from '../Row'
 import { PaddedColumn, SearchInput, Separator, SeparatorDark } from './styleds'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import Toggle from '../../components/Toggle'
 import TokenListOrigin from '../TokenListOrigin'
 

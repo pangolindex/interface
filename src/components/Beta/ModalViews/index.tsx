@@ -1,7 +1,6 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box, useTranslation } from '@pangolindex/components'
 
 import { AutoColumn, ColumnCenter } from '../../Column'
 import { RowBetween } from '../../Row'

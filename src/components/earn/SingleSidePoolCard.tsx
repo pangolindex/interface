@@ -8,7 +8,7 @@ import { SingleSideStaking, SingleSideStakingInfo } from '../../state/stake/hook
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
 import { Break } from './styled'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import CurrencyLogo from '../CurrencyLogo'
 import { JSBI } from '@pangolindex/sdk'
 import { useChainId } from 'src/hooks'

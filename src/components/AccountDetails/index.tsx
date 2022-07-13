@@ -22,13 +22,13 @@ import {
   SUPPORTED_WALLETS,
   shortenAddress,
   NearConnector,
-  transactionActions
+  transactionActions,
+  useTranslation
 } from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import { ExternalLink, LinkStyledButton, TYPE } from '../../theme'
-import { useTranslation } from 'react-i18next'
 import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 

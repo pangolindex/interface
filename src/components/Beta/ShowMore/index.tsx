@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
-import { Text } from '@pangolindex/components'
-import { useTranslation } from 'react-i18next'
+import { Text, useTranslation } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import { Wrapper } from './styled'

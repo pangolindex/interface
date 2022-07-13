@@ -1,8 +1,8 @@
 import React from 'react'
 import Drawer from 'src/components/Drawer'
 import { StakingInfo } from 'src/state/stake/hooks'
-import { useTranslation } from 'react-i18next'
 import ClaimReward from '../ClaimReward'
+import { useTranslation } from '@pangolindex/components'
 
 type Props = {
   isOpen: boolean

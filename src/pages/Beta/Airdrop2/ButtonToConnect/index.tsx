@@ -1,7 +1,6 @@
 import React from 'react'
-import { Button } from '@pangolindex/components'
+import { Button, useTranslation } from '@pangolindex/components'
 import { useWalletModalToggle } from 'src/state/application/hooks'
-import { useTranslation } from 'react-i18next'
 
 export const ButtonToConnect = () => {
   const toggleWalletModal = useWalletModalToggle()

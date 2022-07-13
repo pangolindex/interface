@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { Box, SelectTokenDrawer, Text } from '@pangolindex/components'
+import { Box, SelectTokenDrawer, Text, useTranslation } from '@pangolindex/components'
 import Modal from 'src/components/Beta/Modal'
 import { CloseIcon } from 'src/theme/components'
 import SearchToken, { Fields, BodyState } from './SearchToken'
@@ -8,8 +8,6 @@ import { Wrapper } from './styleds'
 import { ThemeContext } from 'styled-components'
 import { CAVAX, Currency } from '@pangolindex/sdk'
 import { useChainId } from 'src/hooks'
-
-import { useTranslation } from 'react-i18next'
 
 interface Props {
   isOpen: boolean

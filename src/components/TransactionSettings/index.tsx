@@ -6,7 +6,7 @@ import { TYPE } from '../../theme'
 import { AutoColumn } from '../Column'
 import { RowBetween, RowFixed } from '../Row'
 import { darken } from 'polished'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 
 enum SlippageError {
   InvalidInput = 'InvalidInput',

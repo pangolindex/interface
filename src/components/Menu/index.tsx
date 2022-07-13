@@ -6,10 +6,8 @@ import { LANDING_PAGE } from '../../constants'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
-
+import { useTranslation } from '@pangolindex/components'
 import { StyledMenu, StyledMenuButton, MenuFlyout, MenuItem, MenuNavItem } from '../StyledMenu'
-
-import { useTranslation } from 'react-i18next'
 
 const TutorialPage = `${LANDING_PAGE}/tutorials`
 
