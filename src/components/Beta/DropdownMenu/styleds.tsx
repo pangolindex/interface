@@ -51,6 +51,6 @@ export const NarrowMenuFlyout = styled(MenuFlyout)`
 `
 export const MenuLink = styled.div`
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   padding: 4px 0px;
 `
