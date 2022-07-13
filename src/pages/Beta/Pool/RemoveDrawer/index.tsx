@@ -1,7 +1,7 @@
 import React from 'react'
 import Drawer from 'src/components/Drawer'
 import { StakingInfo } from 'src/state/stake/hooks'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import Remove from '../Remove'
 
 type Props = {

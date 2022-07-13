@@ -11,7 +11,15 @@ import {
   Buttons,
   CardContentBox
 } from './styleds'
-import { Box, Text, Button, DoubleCurrencyLogo, NumberOptions, useLibrary } from '@pangolindex/components'
+import {
+  Box,
+  Text,
+  Button,
+  DoubleCurrencyLogo,
+  NumberOptions,
+  useLibrary,
+  useTranslation
+} from '@pangolindex/components'
 import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { TokenAmount, Pair, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken, wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
@@ -27,7 +35,6 @@ import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
-import { useTranslation } from 'react-i18next'
 import SelectPoolDrawer from './SelectPoolDrawer'
 import { useTokenBalance } from 'src/state/wallet/hooks'
 import Stat from 'src/components/Stat'

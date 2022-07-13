@@ -1,6 +1,5 @@
 import React from 'react'
-import { Text } from '@pangolindex/components'
-import { useTranslation } from 'react-i18next'
+import { Text, useTranslation } from '@pangolindex/components'
 import { Wrapper } from './styled'
 
 const ComingSoon = () => {

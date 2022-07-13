@@ -10,7 +10,7 @@ import { ArrowUpCircle } from 'react-feather'
 import Circle from '../../assets/svg/blue-loader.svg'
 import { getEtherscanLink } from '../../utils'
 import { ExternalLink } from '../../theme/components'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 
 const ConfirmOrLoadingWrapper = styled.div`
   width: 100%;

@@ -4,9 +4,8 @@ import { ArrowLeft } from 'react-feather'
 import { DateTime } from 'luxon'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { useTranslation } from 'react-i18next'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
-import { Text, Box, Loader } from '@pangolindex/components'
+import { Text, Box, Loader, useTranslation } from '@pangolindex/components'
 import {
   PageWrapper,
   CardWrapper,

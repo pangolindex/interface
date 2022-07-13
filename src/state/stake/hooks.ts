@@ -21,7 +21,6 @@ import {
   useSingleContractMultipleData
 } from '../multicall/hooks'
 import { tryParseAmount, maxAmountSpend } from 'src/utils'
-import { useTranslation } from 'react-i18next'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../../constants/abis/rewarderViaMultiplier'
 import { useUSDCPrice } from '../../utils/useUSDCPrice'
@@ -56,7 +55,7 @@ import {
 } from 'src/state/stake/actions'
 import usePrevious from 'src/hooks/usePrevious'
 import isEqual from 'lodash.isequal'
-import { useLibrary } from '@pangolindex/components'
+import { useLibrary, useTranslation } from '@pangolindex/components'
 import { PANGOLIN_PAIR_INTERFACE } from 'src/constants/abis/pangolinPair'
 
 export interface SingleSideStaking {
@@ -1868,7 +1867,11 @@ export function useFetchFarmAprs() {
     if (!chainId || !pids || pids.length === 0) return
 
     fetchChunkedAprs(pids, chainId).then(res => {
-      const newResult = res.reduce((acc, value: any, i) => ({ ...acc, [pids[i] as string]: value }), {})
+      const newResult = res.reduce(
+        (acc, value: any, i) => ({ ...acc, [pids[i] as string]: { ...value, pid: pids[i] } }),
+        {}
+      )
+
       if (res.length > 0) {
         dispatch(
           updateMinichefStakingAllAprs({

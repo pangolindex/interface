@@ -20,7 +20,7 @@ import { AppDispatch, AppState } from '../index'
 import { tryParseAmount } from 'src/utils'
 import { useCurrencyBalances } from '../wallet/hooks'
 import { Field, typeInput } from './actions'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 
 const ZERO = JSBI.BigInt(0)

@@ -10,13 +10,13 @@ import {
   NetworkContextName,
   near,
   shortenAddress,
-  useAllTransactions as useAllTransactionsComponents
+  useAllTransactions as useAllTransactionsComponents,
+  useTranslation
 } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken } from 'polished'
 import React, { useMemo, useContext, useCallback } from 'react'
 import { Activity } from 'react-feather'
-import { useTranslation } from 'react-i18next'
 import styled, { ThemeContext } from 'styled-components'
 import CoinbaseWalletIcon from 'src/assets/svg/coinbaseWalletIcon.svg'
 import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
