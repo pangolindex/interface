@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { Pair, Token, CHAINS } from '@pangolindex/sdk'
+import { Pair, Token, CHAINS, WAVAX } from '@pangolindex/sdk'
 import { createChart, CrosshairMode, IChartApi, ISeriesApi } from 'lightweight-charts'
 import { useMeasure } from 'react-use'
 import { useDarkModeManager } from 'src/state/user/hooks'
 import { TIMEFRAME } from 'src/constants'
-import { usePairHourlyRateData, useHourlyPairTokensChartData } from 'src/state/pair/hooks'
+import { usePairHourlyRateData, useHourlyPairTokensChartData, useCoingeckoChartData } from 'src/state/pair/hooks'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/images/blue-loader.svg'
 import { Box } from '@pangolindex/components'
 import { ChartWrapper, ChartContainer } from './styleds'
 import { useChainId } from 'src/hooks'
+import { PNG } from 'src/constants/tokens'
 
 type Props = { pair?: Pair | null; tokenB?: Token; tokenA?: Token }
 
 const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
+  const chainId = useChainId()
+
   const [ref, { width, height }] = useMeasure()
 
   const [chartCreated, setChartCreated] = useState<IChartApi>()
@@ -50,7 +53,11 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
       ? pairTokensChartData[1]
       : []
 
-  const formattedData = (chartData || []).length > 0 ? chartData : chartData1
+  const coingeckoData = useCoingeckoChartData(tokenA || WAVAX[chainId], tokenB || PNG[chainId])
+  const chartData2 =
+    !coingeckoData || coingeckoData.length === 0 ? [] : pair?.token0 === tokenB ? coingeckoData[0] : coingeckoData[1]
+
+  const formattedData = chartData2.length > 0 ? chartData2 : (chartData1 || []).length > 0 ? chartData1 : chartData
 
   // if no chart created yet, create one with options and add to DOM manually
   useEffect(() => {
@@ -156,8 +163,6 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
       height
     })
   }, [width, height, chartCreated])
-
-  const chainId = useChainId()
 
   return (
     <ChartWrapper>

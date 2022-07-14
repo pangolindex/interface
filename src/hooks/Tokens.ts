@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { parseBytes32String } from '@ethersproject/strings'
 import { Currency, CAVAX, Token, currencyEquals, CHAINS, ChainId } from '@pangolindex/sdk'
 import ERC20_INTERFACE, { ERC20_BYTES32_INTERFACE } from '../constants/abis/erc20'
@@ -8,6 +8,8 @@ import { useUserAddedTokens } from '../state/user/hooks'
 import { isAddress } from '../utils'
 import { useChainId } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
+import { useQuery } from 'react-query'
+import { COINGECKO_API } from 'src/constants'
 
 export function useAllTokens(): { [address: string]: Token } {
   const chainId = useChainId()
@@ -169,26 +171,31 @@ export function useCurrency(currencyId: string | undefined): Currency | null | u
   return isAVAX ? chainId && CAVAX[chainId] : token
 }
 
+export interface CoingeckoData {
+  coinId: string
+  homePage: string
+  description: string
+}
+
+/**
+ * Get the coingecko data for a token
+ * @param coin - Token or Currency
+ * @returns CoingeckoData of token if exist in coingecko else null
+ * */
+
 export function useCoinGeckoTokenData(coin: Token) {
-  const [result, setResult] = useState({} as { coinId: string; homePage: string; description: string })
+  const chain = CHAINS[coin.chainId].mainnet ? CHAINS[coin.chainId] : CHAINS[ChainId.AVALANCHE]
 
-  useEffect(() => {
-    const getCoinData = async () => {
-      const chain = coin.chainId === 43113 ? CHAINS[ChainId.AVALANCHE] : CHAINS[coin.chainId]
-
-      const response = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`
-      )
-      const data = await response.json()
-
-      setResult({
-        coinId: data?.id,
-        homePage: data?.links?.homepage[0],
-        description: data?.description?.en
-      })
+  return useQuery(['coingeckoToken', coin.address, chain.name], async () => {
+    if (!chain.coingecko_id) {
+      return null
     }
-    getCoinData()
-  }, [coin])
-
-  return result
+    const response = await fetch(`${COINGECKO_API}/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`)
+    const data = await response.json()
+    return {
+      coinId: data?.id,
+      homePage: data?.links?.homepage[0],
+      description: data?.description?.en
+    } as CoingeckoData
+  })
 }
