@@ -47,8 +47,8 @@ import { useChainId } from 'src/hooks'
 import { mininchefV2Clients } from 'src/apollo/client'
 import { GET_MINICHEF } from 'src/apollo/minichef'
 import { useQuery } from 'react-query'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, AppState } from '../index'
+import { useDispatch } from 'src/state'
+import { AppState, useSelector } from '../index'
 import {
   updateMinichefStakingAllData,
   updateMinichefStakingAllAprs,
@@ -1676,7 +1676,7 @@ export function useGetAllFarmData() {
     staleTime: 1000 * 60 * 5
   })
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (!allFarms?.isLoading) {
@@ -1696,7 +1696,7 @@ export function useGetAllFarmData() {
 
 export function useAllMinichefStakingInfoData(): MinichefV2 | undefined {
   const chainId = useChainId()
-  return useSelector<AppState, AppState['stake']['minichefStakingData'][ChainId.AVALANCHE]>(
+  return useSelector<AppState['stake']['minichefStakingData'][ChainId.AVALANCHE]>(
     state => state?.stake?.minichefStakingData?.[chainId] || {}
   )
 }
@@ -1843,7 +1843,7 @@ export const useGetMinichefStakingInfosViaSubgraph = (): MinichefStakingInfo[] =
 
 export const useGetMinichefPids = () => {
   const chainId = useChainId()
-  const farms = useSelector<AppState, AppState['stake']['minichefStakingData'][ChainId.AVALANCHE]['farms']>(
+  const farms = useSelector<AppState['stake']['minichefStakingData'][ChainId.AVALANCHE]['farms']>(
     state => state?.stake?.minichefStakingData[chainId]?.farms || []
   )
   return useMemo(() => farms?.map(farm => farm?.pid), [farms])
@@ -1851,9 +1851,9 @@ export const useGetMinichefPids = () => {
 
 export const useGetFarmApr = (pid: string) => {
   const chainId = useChainId()
-  const swapFeeApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[chainId]?.[pid]?.swapFeeApr)
-  const combinedApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[chainId]?.[pid]?.combinedApr)
-  const stakingApr = useSelector<AppState, number>(state => state?.stake?.aprs?.[chainId]?.[pid]?.stakingApr)
+  const swapFeeApr = useSelector<number>(state => state?.stake?.aprs?.[chainId]?.[pid]?.swapFeeApr)
+  const combinedApr = useSelector<number>(state => state?.stake?.aprs?.[chainId]?.[pid]?.combinedApr)
+  const stakingApr = useSelector<number>(state => state?.stake?.aprs?.[chainId]?.[pid]?.stakingApr)
 
   return useMemo(
     () => ({
@@ -1867,9 +1867,7 @@ export const useGetFarmApr = (pid: string) => {
 
 export const useSortFarmAprs = () => {
   const chainId = useChainId()
-  const aprs = useSelector<AppState, AppState['stake']['aprs'][ChainId.AVALANCHE]>(
-    state => state?.stake?.aprs?.[chainId]
-  )
+  const aprs = useSelector<AppState['stake']['aprs'][ChainId.AVALANCHE]>(state => state?.stake?.aprs?.[chainId])
 
   return useMemo(() => (aprs ? Object.values(aprs).sort((a, b) => b.combinedApr - a.combinedApr) : []), [aprs])
 }
@@ -1903,7 +1901,7 @@ export const fetchChunkedAprs = async (pids: string[], chainId: ChainId, chunkSi
 export function useFetchFarmAprs() {
   const chainId = useChainId()
   const pids = useGetMinichefPids()
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (!chainId || !pids || pids.length === 0) return
@@ -1932,7 +1930,7 @@ export function useUpdateAllFarmsEarnAmount() {
 
   const minichefContract = useStakingContract(MINICHEF_ADDRESS[chainId])
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
 
   const userInfoInput = useMemo(() => {
     if (!poolIdArray || !account) return []
@@ -1965,7 +1963,7 @@ export const useGetEarnedAmount = (pid: string) => {
   const chainId = useChainId()
   const png = PNG[chainId]
 
-  const amount = useSelector<AppState, number>(state => state?.stake?.earnedAmounts?.[chainId]?.[pid]?.earnedAmount)
+  const amount = useSelector<number>(state => state?.stake?.earnedAmounts?.[chainId]?.[pid]?.earnedAmount)
 
   return useMemo(
     () => ({

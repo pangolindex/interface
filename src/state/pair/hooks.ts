@@ -5,8 +5,8 @@ import { PRICES_BY_BLOCK } from '../../apollo/block'
 import { splitQuery } from 'src/utils/query'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, AppState } from '../index'
+import { useDispatch } from 'src/state'
+import { AppState, useSelector } from '../index'
 import { updatePairChartData, updatePairTokensChartData } from 'src/state/pair/actions'
 import { getBlocksFromTimestamps } from 'src/state/token/hooks'
 import { ChartState } from './reducer'
@@ -14,7 +14,7 @@ import { ChartState } from './reducer'
 dayjs.extend(utc)
 
 export function useAllPairChartData(): ChartState | undefined {
-  return useSelector<AppState, AppState['pair']['pairData']>(state => state?.pair?.pairData || {})
+  return useSelector<AppState['pair']['pairData']>(state => state?.pair?.pairData || {})
 }
 /* eslint-disable prefer-const */
 export function usePairHourlyRateData(pairAddress: string, timeWindow: string, interval = 3600, type = 'ALL') {
@@ -22,7 +22,7 @@ export function usePairHourlyRateData(pairAddress: string, timeWindow: string, i
 
   const chartData = data1?.[pairAddress]
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const currentTime = dayjs.utc()
@@ -138,7 +138,7 @@ export const getPairHourlyRateData = async (
 }
 
 export function useAllPairTokensChartData(): ChartState | undefined {
-  return useSelector<AppState, AppState['pair']['tokenPairData']>(state => state?.pair?.tokenPairData || {})
+  return useSelector<AppState['pair']['tokenPairData']>(state => state?.pair?.tokenPairData || {})
 }
 
 export function useHourlyPairTokensChartData(
@@ -156,7 +156,7 @@ export function useHourlyPairTokensChartData(
 
   const chartData = data1?.[pairAddress]
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const currentTime = dayjs.utc()

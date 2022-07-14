@@ -2,7 +2,6 @@ import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { ArrowLeft } from 'react-feather'
 import ReactGA from 'react-ga'
 import { usePopper } from 'react-popper'
-import { useDispatch, useSelector } from 'react-redux'
 import { Text } from 'rebass'
 import styled from 'styled-components'
 import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg'
@@ -10,7 +9,7 @@ import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 
 import useToggle from '../../hooks/useToggle'
-import { AppDispatch, AppState } from '../../state'
+import { AppState, useDispatch, useSelector } from '../../state'
 import { acceptListUpdate, removeList, selectList } from '../../state/lists/actions'
 import { useSelectedListUrl } from '../../state/lists/hooks'
 import { CloseIcon, ExternalLink, LinkStyledButton, TYPE } from '../../theme'
@@ -75,11 +74,11 @@ function listUrlRowHTMLId(listUrl: string) {
 }
 
 const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; onBack: () => void }) {
-  const listsByUrl = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
+  const listsByUrl = useSelector<AppState['lists']['byUrl']>(state => state.lists.byUrl)
   const selectedListUrl = useSelectedListUrl()
 
   const { t } = useTranslation()
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
   const { current: list, pendingUpdate: pending } = listsByUrl[listUrl]
 
   const isSelected = (selectedListUrl || []).includes(listUrl)
@@ -217,8 +216,8 @@ const ListContainer = styled.div`
 export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBack: () => void }) {
   const [listUrlInput, setListUrlInput] = useState<string>('')
 
-  const dispatch = useDispatch<AppDispatch>()
-  const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
+  const dispatch = useDispatch()
+  const lists = useSelector<AppState['lists']['byUrl']>(state => state.lists.byUrl)
   const adding = Boolean(lists[listUrlInput]?.loadingRequestId)
   const [addError, setAddError] = useState<string | null>(null)
 
