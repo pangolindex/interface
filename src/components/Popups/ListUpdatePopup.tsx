@@ -1,9 +1,8 @@
 import { diffTokenLists, TokenList } from '@pangolindex/token-lists'
 import React, { useCallback, useMemo } from 'react'
 import ReactGA from 'react-ga'
-import { useDispatch } from 'react-redux'
 import { Text } from 'rebass'
-import { AppDispatch } from '../../state'
+import { useDispatch } from '../../state'
 import { useRemovePopup, useTranslation } from '@pangolindex/components'
 import { acceptListUpdate } from '../../state/lists/actions'
 import { TYPE } from '../../theme'
@@ -36,7 +35,7 @@ export default function ListUpdatePopup({
 }) {
   const removePopup = useRemovePopup()
   const removeThisPopup = useCallback(() => removePopup(popKey), [popKey, removePopup])
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
   const { t } = useTranslation()
   const handleAcceptUpdate = useCallback(() => {
     if (auto) return

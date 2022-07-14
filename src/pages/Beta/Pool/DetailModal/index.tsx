@@ -5,9 +5,8 @@ import Modal from 'src/components/Beta/Modal'
 import { StakingInfo } from 'src/state/stake/hooks'
 import { ThemeContext } from 'styled-components'
 import DetailView from './DetailView'
-import { AppDispatch } from 'src/state'
+import { useDispatch } from 'src/state'
 import { resetMintState } from 'src/state/mint/actions'
-import { useDispatch } from 'react-redux'
 
 export interface DetailModalProps {
   stakingInfo: StakingInfo
@@ -19,7 +18,7 @@ const DetailModal = ({ stakingInfo, version }: DetailModalProps) => {
   const togglePoolDetailModal = usePoolDetailnModalToggle()
   const theme = useContext(ThemeContext)
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(resetMintState())
