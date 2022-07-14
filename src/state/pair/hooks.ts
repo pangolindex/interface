@@ -429,8 +429,8 @@ export function useCoingeckoChartData(tokenA: Token, tokenB: Token) {
     let chartData0: Candle[] = []
     let chartData1: Candle[] = []
 
-    for (const candle of token0Candles) {
-      const [timestamp, open0, high0, low0, close0] = candle
+    for (const candle0 of token0Candles) {
+      const [timestamp, open0, high0, low0, close0] = candle0
       const candle1 = token1Candles.find(candle => candle[0] === timestamp)
 
       if (!candle1) {
