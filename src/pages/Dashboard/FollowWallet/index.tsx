@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import makeBlockie from 'ethereum-blockies-base64'
 
 import DeleteIcon from 'src/assets/svg/delete.svg'

@@ -18,7 +18,8 @@ import {
   LANDING_PAGE,
   AVALANCHE_CHAIN_PARAMS,
   IS_IN_IFRAME,
-  WalletInfo
+  WalletInfo,
+  useTranslation
 } from '@pangolindex/components'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/actions'
@@ -30,7 +31,6 @@ import { ButtonLight } from '../../components/Button'
 import Modal from '../Modal'
 import Option from './Option'
 import PendingView from './PendingView'
-import { useTranslation } from 'react-i18next'
 
 const WALLET_TUTORIAL = `${LANDING_PAGE}/tutorials/getting-started/#set-up-metamask`
 

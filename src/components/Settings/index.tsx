@@ -19,7 +19,7 @@ import QuestionHelper from '../QuestionHelper'
 import { RowBetween, RowFixed } from '../Row'
 import Toggle from '../Toggle'
 import TransactionSettings from '../TransactionSettings'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import { StyledMenu, StyledMenuButton, MenuFlyout } from '../StyledMenu'
 
 const StyledMenuIcon = styled(Settings)`

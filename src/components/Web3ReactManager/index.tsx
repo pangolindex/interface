@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import styled from 'styled-components'
-import { useTranslation } from 'react-i18next'
-import { network, NetworkContextName } from '@pangolindex/components'
+import { network, NetworkContextName, useTranslation } from '@pangolindex/components'
 import { useEagerConnect, useInactiveListener } from '../../hooks'
 import Loader from '../Loader'
 

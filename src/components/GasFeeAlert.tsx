@@ -6,7 +6,7 @@ import { AlertTriangle } from 'react-feather'
 import { TYPE } from '../theme'
 import { RowFixed } from './Row'
 import { GAS_PRICE } from '../constants'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 
 export const GasFee = styled(AutoColumn)`
   background-color: ${({ theme }) => transparentize(0.9, theme.primary1)};

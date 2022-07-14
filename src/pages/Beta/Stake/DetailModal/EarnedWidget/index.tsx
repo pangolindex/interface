@@ -1,7 +1,6 @@
-import { Box, Button, Text } from '@pangolindex/components'
+import { Box, Button, Text, useTranslation } from '@pangolindex/components'
 import { JSBI, CHAINS } from '@pangolindex/sdk'
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'

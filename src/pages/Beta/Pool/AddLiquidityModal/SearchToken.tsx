@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Box, Text, CurrencyLogo } from '@pangolindex/components'
+import { Box, Text, CurrencyLogo, useTranslation } from '@pangolindex/components'
 import { CurrencySelectWrapper, LightCard } from '../PoolImportModal/PoolImport/styleds'
 import { Plus, ChevronDown } from 'react-feather'
 import { Currency } from '@pangolindex/sdk'
@@ -8,7 +8,6 @@ import { ThemeContext } from 'styled-components'
 import { PairState, usePair } from 'src/data/Reserves'
 //import { usePairAdder } from 'src/state/user/hooks'
 import { useActiveWeb3React } from 'src/hooks'
-import { useTranslation } from 'react-i18next'
 
 export enum Fields {
   TOKEN0 = 0,

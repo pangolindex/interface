@@ -9,7 +9,6 @@ import { usePairContract } from '../../hooks/useContract'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { useActiveWeb3React, useChainId } from '../../hooks'
-import { useTranslation } from 'react-i18next'
 import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from '../../state/burn/hooks'
 import { useCurrency } from '../../hooks/Tokens'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
@@ -36,7 +35,7 @@ import CurrencyInputPanel from '../CurrencyInputPanel'
 import { Dots } from '../swap/styleds'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import DoubleCurrencyLogo from '../DoubleLogo'
-import { useLibrary } from '@pangolindex/components'
+import { useLibrary, useTranslation } from '@pangolindex/components'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;

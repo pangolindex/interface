@@ -16,7 +16,7 @@ import Confetti from '../../components/Confetti'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { UNI, SUSHI } from '../../constants/tokens'
 import { ChainId, JSBI } from '@pangolindex/sdk'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 
 const PageWrapper = styled(AutoColumn)``
 

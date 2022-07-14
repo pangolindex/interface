@@ -6,7 +6,7 @@ import { RowBetween, RowFixed } from '../../components/Row'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import { Field } from '../../state/mint/actions'
 import { TYPE } from '../../theme'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 
 export function ConfirmAddModalBottom({

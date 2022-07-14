@@ -1,6 +1,6 @@
 import React from 'react'
 import Drawer from 'src/components/Drawer'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import Stake from '../EarnWidget/Stake'
 import { StakingInfo } from 'src/state/stake/hooks'
 

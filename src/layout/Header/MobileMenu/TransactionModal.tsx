@@ -3,12 +3,12 @@ import {
   Button,
   Text,
   useAllTransactions as useAllTransactionsComponents,
-  useAllTransactionsClearer
+  useAllTransactionsClearer,
+  useTranslation
 } from '@pangolindex/components'
 import React, { useCallback, useContext, useMemo } from 'react'
 import Scrollbars from 'react-custom-scrollbars'
 import { CheckCircle, Triangle } from 'react-feather'
-import { useTranslation } from 'react-i18next'
 import Loader from 'src/components/Loader'
 import { useChainId } from 'src/hooks'
 import { useDispatch } from 'src/state'

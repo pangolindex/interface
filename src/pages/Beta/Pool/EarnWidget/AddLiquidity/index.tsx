@@ -1,8 +1,7 @@
 import React, { useContext, useCallback, useState } from 'react'
 import { Currency, CAVAX, TokenAmount } from '@pangolindex/sdk'
 import { AddWrapper, InputText, StyledBalanceMax, ArrowWrapper, LightCard, InputWrapper, Buttons } from './styleds'
-import { useTranslation } from 'react-i18next'
-import { Box, Button, Text, useLibrary } from '@pangolindex/components'
+import { Box, Button, Text, useLibrary, useTranslation } from '@pangolindex/components'
 import { Plus } from 'react-feather'
 import { RowBetween } from 'src/components/Row'
 import { useWalletModalToggle } from 'src/state/application/hooks'
@@ -308,7 +307,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
               handleTypeInput(value)
             }}
             label={`${currencyA?.symbol}`}
-            fontSize={24}
+            fontSize={16}
             isNumeric={true}
             placeholder="0.00"
             addonLabel={
@@ -352,7 +351,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
               handleTypeOutput(value)
             }}
             label={`${currencyB?.symbol}`}
-            fontSize={24}
+            fontSize={16}
             isNumeric={true}
             placeholder="0.00"
             addonLabel={

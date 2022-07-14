@@ -107,20 +107,6 @@ const AirdropUI: React.FC = () => {
       <BoxWrapper>
         {renderBoxesWagmi()}
         <Confetti start={Boolean(eligible)} />
-        {/* <ClaimBox>
-          <TitleWrapper>
-            <Text fontSize={28} fontWeight={700} lineHeight="33px" color="text10">
-              Claim cPNG
-            </Text>
-            <StyledLogo src={CostonLogo} size={'50px'} />
-          </TitleWrapper>
-          <Separator />
-          <SmallSeparator />
-          <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
-            Coming soon...
-          </Text>
-          <SmallSeparator />
-        </ClaimBox> */}
         <ClaimBox>
           <TitleWrapper>
             <Text fontSize={[28, 22]} fontWeight={700} lineHeight="33px" color="text10">
@@ -136,12 +122,12 @@ const AirdropUI: React.FC = () => {
           <SmallSeparator />
         </ClaimBox>
       </BoxWrapper>
-      <BoxWrapper>
+      <Box display="flex" flexDirection="column" alignItems="center" mb="20px">
         <Text fontSize={[32, 24]} fontWeight={500} lineHeight="66px" color="text10">
           HAVE QUESTIONS?
         </Text>
         <QuestionAnswer />
-      </BoxWrapper>
+      </Box>
       {renderError(modalOpen)}
     </PageWrapper>
   )

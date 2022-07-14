@@ -25,7 +25,7 @@ import StakingModalSingleSide from 'src/components/earn/StakingModalSingleSide'
 import UnstakingModalSingleSide from 'src/components/earn/UnstakingModalSingleSide'
 import ClaimRewardModalSingleSide from 'src/components/earn/ClaimRewardModalSingleSide'
 import { useTokenBalance } from 'src/state/wallet/hooks'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import Loader from 'src/components/Loader'
 
 const PageWrapper = styled(AutoColumn)`

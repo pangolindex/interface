@@ -10,7 +10,7 @@ import { AppState, useSelector } from '../index'
 import { tryParseAmount } from '../swap/hooks'
 import { useTokenBalances } from '../wallet/hooks'
 import { Field, typeInput } from './actions'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 
 export function useBurnState(): AppState['burn'] {
   return useSelector<AppState['burn']>(state => state.burn)

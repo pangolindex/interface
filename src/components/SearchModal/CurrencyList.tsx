@@ -16,7 +16,7 @@ import { MouseoverTooltip } from '../Tooltip'
 import { FadedSpan, MenuItem } from './styleds'
 import Loader from '../Loader'
 import { isTokenOnList } from '../../utils'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 
 function currencyKey(currency: Currency, chainId: ChainId): string {

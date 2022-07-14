@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { ThemeContext } from 'styled-components'
-import { TextInput, Box, Loader } from '@pangolindex/components'
-import { useTranslation } from 'react-i18next'
+import { TextInput, Box, Loader, useTranslation } from '@pangolindex/components'
 import { Search } from 'react-feather'
 import Scrollbars from 'react-custom-scrollbars'
 import { PanelWrapper, LoadingWrapper, MobileGridContainer, PoolsWrapper } from './styleds'

@@ -7,13 +7,12 @@ import { Field } from '../../state/swap/actions'
 import { TYPE } from '../../theme'
 import { ButtonPrimary } from '../Button'
 import { isAddress } from '../../utils'
-import { shortenAddress } from '@pangolindex/components'
+import { shortenAddress, useTranslation } from '@pangolindex/components'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 import { AutoColumn } from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
 import { RowBetween, RowFixed } from '../Row'
 import { TruncatedText, SwapShowAcceptChanges } from './styleds'
-import { useTranslation } from 'react-i18next'
 
 export default function SwapModalHeader({
   chainId,

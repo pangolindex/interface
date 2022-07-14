@@ -11,7 +11,7 @@ import { CardSection, DataCard } from '../../components/earn/styled'
 import Loader from '../../components/Loader'
 import { useChainId, usePngSymbol } from '../../hooks'
 import { BIG_INT_ZERO } from '../../constants'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;

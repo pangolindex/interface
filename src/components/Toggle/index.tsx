@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 
 const ToggleElement = styled.span<{ isActive?: boolean; isOnSwitch?: boolean }>`
   padding: 0.25rem 0.5rem;

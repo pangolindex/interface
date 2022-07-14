@@ -10,7 +10,7 @@ import { TYPE, ExternalLink } from '../../theme'
 
 import { RowBetween } from '../../components/Row'
 
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 
 const PageWrapper = styled(AutoColumn)``
 

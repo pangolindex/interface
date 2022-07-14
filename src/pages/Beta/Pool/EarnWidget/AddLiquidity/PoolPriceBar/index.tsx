@@ -1,10 +1,9 @@
 import React from 'react'
 import { Currency, Percent, Price, CurrencyAmount, CHAINS } from '@pangolindex/sdk'
-import { Box } from '@pangolindex/components'
+import { Box, useTranslation } from '@pangolindex/components'
 import Stat from 'src/components/Stat'
 import { Root, GridContainer } from './styled'
 import { Field } from 'src/state/mint/actions'
-import { useTranslation } from 'react-i18next'
 import { ONE_BIPS } from 'src/constants'
 import { useUSDCPrice } from 'src/utils/useUSDCPrice'
 import { useChainId } from 'src/hooks'
@@ -35,8 +34,8 @@ const PoolPriceBar = ({ currencies, noLiquidity, poolTokenPercentage, price, par
             title={`${t('migratePage.dollarWorth')}`}
             stat={`${multipyAmount ? `$${multipyAmount?.toFixed(4)}` : '-'}`}
             titlePosition="top"
-            titleFontSize={14}
-            statFontSize={18}
+            titleFontSize={12}
+            statFontSize={14}
             titleColor="text2"
           />
         </Box>
@@ -51,8 +50,8 @@ const PoolPriceBar = ({ currencies, noLiquidity, poolTokenPercentage, price, par
             }
             %`}
             titlePosition="top"
-            titleFontSize={14}
-            statFontSize={18}
+            titleFontSize={12}
+            statFontSize={14}
             titleColor="text2"
           />
         </Box>

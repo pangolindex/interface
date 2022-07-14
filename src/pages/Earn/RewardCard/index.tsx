@@ -9,7 +9,7 @@ import { ButtonEmpty } from '../../../components/Button'
 import { CountUp } from 'use-count-up'
 import usePrevious from '../../../hooks/usePrevious'
 import { BIG_INT_ZERO } from '../../../constants'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 
 const StyledBottomCard = styled(DataCard)<{ dim: any; isOverlay: boolean }>`
   background: ${({ theme }) => theme.bg3};

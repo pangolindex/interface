@@ -17,7 +17,7 @@ import QuestionHelper from '../QuestionHelper'
 import { AutoRow, RowBetween, RowFixed } from '../Row'
 import FormattedPriceImpact from './FormattedPriceImpact'
 import { StyledBalanceMaxMini, SwapCallbackError } from './styleds'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 
 export default function SwapModalFooter({
