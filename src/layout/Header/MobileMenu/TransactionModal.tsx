@@ -3,7 +3,7 @@ import {
   Button,
   Text,
   useAllTransactions as useAllTransactionsComponents,
-  transactionActions
+  useAllTransactionsClearer
 } from '@pangolindex/components'
 import React, { useCallback, useContext, useMemo } from 'react'
 import Scrollbars from 'react-custom-scrollbars'
@@ -37,6 +37,7 @@ const TransactionModal: React.FC<Props> = ({ onClose }) => {
   const allTransactionsInterface = useAllTransactions()
 
   const allTransactionsComponents = useAllTransactionsComponents()
+  const clearAllTxComponents = useAllTransactionsClearer()
 
   const allTransactions: { [txHash: string]: TransactionDetails } = useMemo(() => {
     return { ...allTransactionsInterface, ...allTransactionsComponents }
@@ -55,9 +56,9 @@ const TransactionModal: React.FC<Props> = ({ onClose }) => {
   const clearAllTransactionsCallback = useCallback(() => {
     if (chainId) {
       dispatch(clearAllTransactions({ chainId }))
-      dispatch(transactionActions.clearAllTransactions({ chainId }))
+      clearAllTxComponents()
     }
-  }, [dispatch, chainId])
+  }, [dispatch, chainId, clearAllTxComponents])
 
   function renderTransactions(transactions: string[]) {
     return transactions.map((hash, index) => {

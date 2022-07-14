@@ -21,7 +21,7 @@ import {
   SUPPORTED_WALLETS,
   shortenAddress,
   NearConnector,
-  transactionActions
+  useAllTransactionsClearer
 } from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
@@ -248,6 +248,7 @@ export default function AccountDetails({
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const clearAllTxComponents = useAllTransactionsClearer()
 
   function formatConnectorName() {
     const { ethereum } = window
@@ -304,9 +305,9 @@ export default function AccountDetails({
   const clearAllTransactionsCallback = useCallback(() => {
     if (chainId) {
       dispatch(clearAllTransactions({ chainId }))
-      dispatch(transactionActions.clearAllTransactions({ chainId }))
+      clearAllTxComponents()
     }
-  }, [dispatch, chainId])
+  }, [dispatch, chainId, clearAllTxComponents])
 
   return (
     <>
