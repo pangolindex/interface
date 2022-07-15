@@ -14,15 +14,3 @@ export const InputText = styled(TextInput)`
   align-items: center;
   border-radius: 4px;
 `
-
-export const ContentBox = styled(Box)`
-  width: 100%;
-  border-radius: 10px;
-  background-color: ${({ theme }) => theme.bg6};
-  margin-top: 10px;
-  padding: 6px;
-  display: grid;
-  grid-template-columns: minmax(auto, 50%) minmax(auto, 50%);
-  grid-gap: 12px;
-  text-align: center;
-`

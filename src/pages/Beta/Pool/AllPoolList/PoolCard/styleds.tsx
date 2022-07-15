@@ -14,13 +14,6 @@ export const Panel = styled(Box)`
   height: 295px;
 `
 
-export const ContentWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  grid-column-gap: 40px;
-`
-
 export const Divider = styled(Box)`
   height: 1px;
   background-color: ${({ theme }) => theme.bg7};

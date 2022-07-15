@@ -1,18 +1,17 @@
 import React, { useCallback, useContext } from 'react'
-import { useDispatch } from 'react-redux'
 import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React, useChainId } from '../../hooks'
-import { AppDispatch } from '../../state'
+import { useDispatch } from '../../state'
 import { clearAllTransactions } from '../../state/transactions/actions'
 import { getEtherscanLink } from 'src/utils'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
-import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
-import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
+import CoinbaseWalletIcon from '../../assets/svg/coinbaseWalletIcon.svg'
+import WalletConnectIcon from '../../assets/svg/walletConnectIcon.svg'
 import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
-import { ReactComponent as Close } from '../../assets/images/x.svg'
-import NearIcon from '../../assets/images/near.svg'
+import { ReactComponent as Close } from '../../assets/svg/x.svg'
+import NearIcon from '../../assets/svg/near.svg'
 import {
   gnosisSafe,
   injected,
@@ -22,7 +21,7 @@ import {
   SUPPORTED_WALLETS,
   shortenAddress,
   NearConnector,
-  transactionActions,
+  useAllTransactionsClearer,
   useTranslation
 } from '@pangolindex/components'
 import Identicon from '../Identicon'
@@ -248,7 +247,8 @@ export default function AccountDetails({
   const chainId = useChainId()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
+  const clearAllTxComponents = useAllTransactionsClearer()
 
   function formatConnectorName() {
     const { ethereum } = window
@@ -305,9 +305,9 @@ export default function AccountDetails({
   const clearAllTransactionsCallback = useCallback(() => {
     if (chainId) {
       dispatch(clearAllTransactions({ chainId }))
-      dispatch(transactionActions.clearAllTransactions({ chainId }))
+      clearAllTxComponents()
     }
-  }, [dispatch, chainId])
+  }, [dispatch, chainId, clearAllTxComponents])
 
   return (
     <>

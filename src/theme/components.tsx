@@ -2,48 +2,12 @@ import React, { HTMLProps, useCallback } from 'react'
 import ReactGA from 'react-ga'
 import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
-import { darken } from 'polished'
-import { ArrowLeft, X } from 'react-feather'
-import CrossIcon from 'src/assets/svg/cross.svg'
+import { X } from 'react-feather'
 import { Box } from '@pangolindex/components'
-
-export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColor: string }>(({ warning, theme }) => ({
-  backgroundColor: warning ? theme.red1 : theme.primary1
-}))`
-  padding: 1rem 2rem 1rem 2rem;
-  border-radius: 3rem;
-  cursor: pointer;
-  user-select: none;
-  font-size: 1rem;
-  border: none;
-  outline: none;
-  background-color: ${({ backgroundColor }) => backgroundColor};
-  color: ${({ theme }) => theme.white};
-  width: 100%;
-
-  :hover,
-  :focus {
-    background-color: ${({ backgroundColor }) => darken(0.05, backgroundColor)};
-  }
-
-  :active {
-    background-color: ${({ backgroundColor }) => darken(0.1, backgroundColor)};
-  }
-
-  :disabled {
-    background-color: ${({ theme }) => theme.bg1};
-    color: ${({ theme }) => theme.text4};
-    cursor: auto;
-  }
-`
 
 export const CloseIcon = styled(X)<{ onClick: () => void }>`
   cursor: pointer;
 `
-
-export const BetaCloseIcon = ({ onDismiss }: { onDismiss: () => void }) => {
-  return <img src={CrossIcon} onClick={onDismiss} alt="cross icon" style={{ cursor: 'pointer' }} />
-}
 
 // A button that triggers some onClick result, but looks like a link.
 export const LinkStyledButton = styled.button<{ disabled?: boolean }>`
@@ -164,32 +128,15 @@ const rotate = keyframes`
   }
 `
 
-export const Spinner = styled.img`
+const Spinner = styled.img`
   animation: 2s ${rotate} linear infinite;
   width: 16px;
   height: 16px;
 `
 
-const BackArrowLink = styled(StyledInternalLink)`
-  color: ${({ theme }) => theme.text1};
-`
-export function BackArrow({ to }: { to: string }) {
-  return (
-    <BackArrowLink to={to}>
-      <ArrowLeft />
-    </BackArrowLink>
-  )
-}
-
 export const CustomLightSpinner = styled(Spinner)<{ size: string }>`
   height: ${({ size }) => size};
   width: ${({ size }) => size};
-`
-
-export const HideSmall = styled.span`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
-  `};
 `
 
 export const Hidden = styled(Box)<{

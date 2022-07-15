@@ -10,9 +10,7 @@ import {
   SerializedToken,
   updateMatchesDarkMode,
   updateUserDarkMode,
-  updateUserExpertMode,
   updateUserSlippageTolerance,
-  updateUserDeadline,
   toggleURLWarning
 } from './actions'
 
@@ -91,16 +89,8 @@ export default createReducer(initialState, builder =>
       state.matchesDarkMode = action.payload.matchesDarkMode
       state.timestamp = currentTimestamp()
     })
-    .addCase(updateUserExpertMode, (state, action) => {
-      state.userExpertMode = action.payload.userExpertMode
-      state.timestamp = currentTimestamp()
-    })
     .addCase(updateUserSlippageTolerance, (state, action) => {
       state.userSlippageTolerance = action.payload.userSlippageTolerance
-      state.timestamp = currentTimestamp()
-    })
-    .addCase(updateUserDeadline, (state, action) => {
-      state.userDeadline = action.payload.userDeadline
       state.timestamp = currentTimestamp()
     })
     .addCase(addSerializedToken, (state, { payload: { serializedToken } }) => {

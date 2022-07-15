@@ -29,11 +29,6 @@ const initialState: MinichefStakingInfoState = {
   earnedAmounts: {} as EarnerdAmounts
 }
 
-export enum SortingType {
-  totalStakedInUsd = 'totalStakedInUsd',
-  totalApr = 'totalApr'
-}
-
 export default createReducer(initialState, builder =>
   builder
     .addCase(

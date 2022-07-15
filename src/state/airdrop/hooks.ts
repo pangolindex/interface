@@ -8,17 +8,6 @@ import { PNG } from '../../constants/tokens'
 import { useSingleCallResult } from '../multicall/hooks'
 import { useLibrary } from '@pangolindex/components'
 
-export function useAirdropIsClaimingAllowed(): boolean {
-  const airdropContract = useAirdropContract()
-  const claimingAllowedResult = useSingleCallResult(airdropContract, 'claimingAllowed', [])
-
-  return Boolean(
-    !claimingAllowedResult.loading &&
-      claimingAllowedResult.result !== undefined &&
-      claimingAllowedResult.result[0] === true
-  ) // eslint-disable-line eqeqeq
-}
-
 export function useUserHasAvailableClaim(account: string | null | undefined): boolean {
   const airdropContract = useAirdropContract()
   const withdrawAmountResult = useSingleCallResult(airdropContract, 'withdrawAmount', [account ? account : undefined])

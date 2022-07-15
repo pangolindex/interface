@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { Box } from '@pangolindex/components'
-import { X } from 'react-feather'
 
 export const PageWrapper = styled(Box)`
   width: 100%;
@@ -47,10 +46,6 @@ export const SmallSeparator = styled.div`
   padding: 20px;
 `
 
-export const SeparatorEmpty = styled(Box)`
-  margin-bottom: 15px;
-`
-
 export const StyledLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
@@ -67,11 +62,6 @@ export const QuestionBox = styled(Box)`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     min-width: 100%;
   `};
-`
-export const StyledClose = styled(X)`
-  :hover {
-    cursor: pointer;
-  }
 `
 
 export const TitleWrapper = styled.div`

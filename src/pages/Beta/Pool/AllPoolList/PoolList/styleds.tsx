@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Box, TextInput } from '@pangolindex/components'
+import { Box } from '@pangolindex/components'
 
 export const PoolsWrapper = styled(Box)`
   width: 100%;
@@ -43,9 +43,7 @@ export const PanelWrapper = styled.div`
     }
   }
 `
-export const SearchInput = styled(TextInput)`
-  background-color: ${({ theme }) => theme.bg8};
-`
+
 export const MobileGridContainer = styled(Box)`
   display: none;
   ${({ theme }) => theme.mediaWidth.upToSmall`

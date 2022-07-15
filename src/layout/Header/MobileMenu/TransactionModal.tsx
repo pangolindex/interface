@@ -3,16 +3,15 @@ import {
   Button,
   Text,
   useAllTransactions as useAllTransactionsComponents,
-  transactionActions,
+  useAllTransactionsClearer,
   useTranslation
 } from '@pangolindex/components'
 import React, { useCallback, useContext, useMemo } from 'react'
 import Scrollbars from 'react-custom-scrollbars'
 import { CheckCircle, Triangle } from 'react-feather'
-import { useDispatch } from 'react-redux'
 import Loader from 'src/components/Loader'
 import { useChainId } from 'src/hooks'
-import { AppDispatch } from 'src/state'
+import { useDispatch } from 'src/state'
 import { clearAllTransactions } from 'src/state/transactions/actions'
 import { isTransactionRecent, useAllTransactions } from 'src/state/transactions/hooks'
 import { TransactionDetails } from 'src/state/transactions/reducer'
@@ -38,6 +37,7 @@ const TransactionModal: React.FC<Props> = ({ onClose }) => {
   const allTransactionsInterface = useAllTransactions()
 
   const allTransactionsComponents = useAllTransactionsComponents()
+  const clearAllTxComponents = useAllTransactionsClearer()
 
   const allTransactions: { [txHash: string]: TransactionDetails } = useMemo(() => {
     return { ...allTransactionsInterface, ...allTransactionsComponents }
@@ -51,14 +51,14 @@ const TransactionModal: React.FC<Props> = ({ onClose }) => {
   const pendingTransactions = sortedRecentTransactions.filter(tx => !tx.receipt).map(tx => tx.hash)
   const confirmedTransactions = sortedRecentTransactions.filter(tx => tx.receipt).map(tx => tx.hash)
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
 
   const clearAllTransactionsCallback = useCallback(() => {
     if (chainId) {
       dispatch(clearAllTransactions({ chainId }))
-      dispatch(transactionActions.clearAllTransactions({ chainId }))
+      clearAllTxComponents()
     }
-  }, [dispatch, chainId])
+  }, [dispatch, chainId, clearAllTxComponents])
 
   function renderTransactions(transactions: string[]) {
     return transactions.map((hash, index) => {
