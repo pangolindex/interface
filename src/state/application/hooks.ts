@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'src/state'
 import { useActivePopups as useActiveComponentsPopup } from '@pangolindex/components'
 import { useActiveWeb3React } from '../../hooks'
-import { AppDispatch, AppState } from '../index'
+import { AppState, useSelector } from '../index'
 import { ApplicationModal, setOpenModal } from './actions'
 
 export function useBlockNumber(): number | undefined {
@@ -17,7 +17,7 @@ export function useModalOpen(modal: ApplicationModal): boolean {
 
 export function useToggleModal(modal: ApplicationModal): () => void {
   const open = useModalOpen(modal)
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
   return useCallback(() => dispatch(setOpenModal(open ? null : modal)), [dispatch, modal, open])
 }
 
@@ -46,7 +46,7 @@ export function useAccountDetailToggle(): () => void {
 }
 
 // get the list of active popups
-export function useActivePopups(): AppState['papplication']['popupList'] {
+export function useActivePopups() {
   const popups = useActiveComponentsPopup()
   return useMemo(() => popups.filter((item: any) => item.show), [popups])
 }

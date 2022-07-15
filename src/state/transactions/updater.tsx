@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'src/state'
 import { useActiveWeb3React } from '../../hooks'
 import { useBlockNumber } from '../application/hooks'
-import { AppDispatch, AppState } from '../index'
+import { AppState, useSelector } from '../index'
 import { checkedTransaction, finalizeTransaction } from './actions'
 import { useLibrary, useAddPopup } from '@pangolindex/components'
 
@@ -38,8 +38,8 @@ export default function Updater(): null {
   const { library, provider } = useLibrary()
   const lastBlockNumber = useBlockNumber()
 
-  const dispatch = useDispatch<AppDispatch>()
-  const state = useSelector<AppState, AppState['transactions']>(_state => _state.transactions)
+  const dispatch = useDispatch()
+  const state = useSelector<AppState['transactions']>(_state => _state.transactions)
 
   const transactions = chainId ? state[chainId] ?? {} : {} // eslint-disable-line react-hooks/exhaustive-deps
 

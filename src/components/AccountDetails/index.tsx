@@ -1,8 +1,7 @@
 import React, { useCallback, useContext } from 'react'
-import { useDispatch } from 'react-redux'
 import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React, useChainId } from '../../hooks'
-import { AppDispatch } from '../../state'
+import { useDispatch } from '../../state'
 import { clearAllTransactions } from '../../state/transactions/actions'
 import { getEtherscanLink } from 'src/utils'
 import { AutoRow } from '../Row'
@@ -22,7 +21,7 @@ import {
   SUPPORTED_WALLETS,
   shortenAddress,
   NearConnector,
-  transactionActions,
+  useAllTransactionsClearer,
   useTranslation
 } from '@pangolindex/components'
 import Identicon from '../Identicon'
@@ -248,7 +247,8 @@ export default function AccountDetails({
   const chainId = useChainId()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
+  const clearAllTxComponents = useAllTransactionsClearer()
 
   function formatConnectorName() {
     const { ethereum } = window
@@ -305,9 +305,9 @@ export default function AccountDetails({
   const clearAllTransactionsCallback = useCallback(() => {
     if (chainId) {
       dispatch(clearAllTransactions({ chainId }))
-      dispatch(transactionActions.clearAllTransactions({ chainId }))
+      clearAllTxComponents()
     }
-  }, [dispatch, chainId])
+  }, [dispatch, chainId, clearAllTxComponents])
 
   return (
     <>

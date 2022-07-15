@@ -1,8 +1,7 @@
 import { ChainId, Token } from '@pangolindex/sdk'
 import { Tags, TokenInfo, TokenList } from '@pangolindex/token-lists'
 import { useMemo } from 'react'
-import { useSelector } from 'react-redux'
-import { AppState } from '../index'
+import { AppState, useSelector } from '../index'
 
 type TagDetails = Tags[keyof Tags]
 export interface TagInfo extends TagDetails {
@@ -73,7 +72,7 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
 }
 
 export function useTokenList(urls: string[] | undefined): TokenAddressMap {
-  const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
+  const lists = useSelector<AppState['lists']['byUrl']>(state => state.lists.byUrl)
 
   const tokenList = {} as { [chainId: string]: { [tokenAddress: string]: WrappedTokenInfo } }
   return useMemo(() => {
@@ -100,7 +99,7 @@ export function useTokenList(urls: string[] | undefined): TokenAddressMap {
 }
 
 export function useSelectedListUrl(): string[] | undefined {
-  return useSelector<AppState, AppState['lists']['selectedListUrl']>(state =>
+  return useSelector<AppState['lists']['selectedListUrl']>(state =>
     ([] as string[]).concat(state?.lists?.selectedListUrl || [])
   )
 }
