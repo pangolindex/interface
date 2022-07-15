@@ -47,31 +47,6 @@ export const PNG: { [chainId in ChainId]: Token } = {
   )
 }
 
-export const OG: { [chainId in ChainId]: Token } = {
-  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OG', 'OG'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'OG', 'OG'),
-  [ChainId.WAGMI]: new Token(ChainId.WAGMI, '0xf1db872E6454D553686b088c1Ea3889cF2FE3ABe', 18, 'OG', 'OG'),
-  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, '', ''),
-
-  [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 18, '', ''),
-  [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 18, '', '')
-}
-
-export const wWAGMI: { [chainId in ChainId]: Token } = {
-  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OG', 'OG'),
-  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'OG', 'OG'),
-  [ChainId.WAGMI]: new Token(
-    ChainId.WAGMI,
-    '0x3Ee7094DADda15810F191DD6AcF7E4FFa37571e4',
-    18,
-    'wWAGMI',
-    'Wrapped WAGMI'
-  ),
-  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, '', ''),
-  [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 18, '', ''),
-  [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 18, '', '')
-}
-
 export const ETH: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ETH', 'Ether'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xf20d962a6c8f70c731bd838a3a388D7d48fA6e15', 18, 'ETH', 'Ether'),

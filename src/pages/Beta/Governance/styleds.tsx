@@ -59,16 +59,6 @@ export const StyledExternalLink = styled(ExternalLink)`
   color: ${({ theme }) => theme.text1};
 `
 
-export const EmptyProposals = styled.div`
-  border: 1px solid ${({ theme }) => theme.text4};
-  padding: 16px 12px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
-
 export const DefaultButton = styled(Button)`
   font-size: 18px;
   font-weight: normal !important;

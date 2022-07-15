@@ -15,14 +15,14 @@ import { useActiveWeb3React } from 'src/hooks'
 import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxNotConnected } from './wagmiBoxes'
 import { QuestionAnswer } from './QuestionBox'
 import { useUserHasAvailableClaim, useUserUnclaimedAmount, useClaimCallback } from 'src/state/airdrop/hooks'
-import NearLogo from 'src/assets/images/near.svg'
+import NearLogo from 'src/assets/svg/near.svg'
 // import CostonLogo from 'src/assets/images/flare.jpeg'
 import Modal from 'src/components/Modal'
 import Confetti from 'src/components/Confetti'
 import { PngTokenAnimated } from 'src/theme'
 import tokenLogo from 'src/assets/images/logo.png'
 import { ColumnCenter } from 'src/components/Column'
-import { CardBGImage, CardNoise, DataCard } from 'src/components/earn/styled'
+import { CardBGImage, DataCard } from 'src/components/earn/styled'
 import styled from 'styled-components'
 import { ChainId } from '@pangolindex/sdk'
 
@@ -82,7 +82,6 @@ const AirdropUI: React.FC = () => {
       <Modal isOpen={isOpened} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={30}>
         <ModalUpper>
           <CardBGImage />
-          <CardNoise />
           <ColumnCenter>
             <Text fontSize={[24, 18]} fontWeight={500} lineHeight="50px" color="black">
               Sorry, you are not eligible

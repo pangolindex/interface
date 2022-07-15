@@ -9,13 +9,9 @@ import { useAllTokens } from '../../hooks/Tokens'
 import { AppState, useDispatch, useSelector } from '../index'
 import {
   addSerializedPair,
-  addSerializedToken,
-  removeSerializedToken,
   SerializedPair,
   SerializedToken,
   updateUserDarkMode,
-  updateUserDeadline,
-  updateUserExpertMode,
   updateUserSlippageTolerance,
   toggleURLWarning
 } from './actions'
@@ -72,17 +68,6 @@ export function useIsExpertMode(): boolean {
   return useSelector<AppState['user']['userExpertMode']>(state => state.user.userExpertMode)
 }
 
-export function useExpertModeManager(): [boolean, () => void] {
-  const dispatch = useDispatch()
-  const expertMode = useIsExpertMode()
-
-  const toggleSetExpertMode = useCallback(() => {
-    dispatch(updateUserExpertMode({ userExpertMode: !expertMode }))
-  }, [expertMode, dispatch])
-
-  return [expertMode, toggleSetExpertMode]
-}
-
 export function useUserSlippageTolerance(): [number, (slippage: number) => void] {
   const dispatch = useDispatch()
   const userSlippageTolerance = useSelector<AppState['user']['userSlippageTolerance']>(state => {
@@ -97,42 +82,6 @@ export function useUserSlippageTolerance(): [number, (slippage: number) => void]
   )
 
   return [userSlippageTolerance, setUserSlippageTolerance]
-}
-
-export function useUserTransactionTTL(): [number, (slippage: number) => void] {
-  const dispatch = useDispatch()
-  const userDeadline = useSelector<AppState['user']['userDeadline']>(state => {
-    return state.user.userDeadline
-  })
-
-  const setUserDeadline = useCallback(
-    (userDeadline: number) => {
-      dispatch(updateUserDeadline({ userDeadline }))
-    },
-    [dispatch]
-  )
-
-  return [userDeadline, setUserDeadline]
-}
-
-export function useAddUserToken(): (token: Token) => void {
-  const dispatch = useDispatch()
-  return useCallback(
-    (token: Token) => {
-      dispatch(addSerializedToken({ serializedToken: serializeToken(token) }))
-    },
-    [dispatch]
-  )
-}
-
-export function useRemoveUserAddedToken(): (chainId: number, address: string) => void {
-  const dispatch = useDispatch()
-  return useCallback(
-    (chainId: number, address: string) => {
-      dispatch(removeSerializedToken({ chainId, address }))
-    },
-    [dispatch]
-  )
 }
 
 export function useUserAddedTokens(): Token[] {

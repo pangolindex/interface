@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const HOURLY_PAIR_RATES = (pairAddress, blocks) => {
+export const HOURLY_PAIR_RATES = (pairAddress: string, blocks: Array<any>) => {
   let queryString = 'query blocks {'
   queryString += blocks.map(
     block => `

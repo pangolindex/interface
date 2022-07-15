@@ -38,9 +38,6 @@ export const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
 export const SINGLE_SIDE_STAKING_V0: SingleSideStaking[] = Object.values(SINGLE_SIDE_STAKING).filter(
   staking => staking.version === 0
 )
-export const SINGLE_SIDE_STAKING_REWARDS_CURRENT_VERSION = Math.max(
-  ...Object.values(SINGLE_SIDE_STAKING).map(staking => staking.version)
-)
 
 const FUJI_SINGLE_SIDE_STAKING: SingleSideStaking[] =
   AVALANCHE_FUJI.contracts?.staking

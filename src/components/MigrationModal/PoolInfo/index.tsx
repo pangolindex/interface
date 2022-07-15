@@ -7,7 +7,7 @@ import numeral from 'numeral'
 import { useTokenBalance } from '../../../state/wallet/hooks'
 import { useActiveWeb3React, useChainId, usePngSymbol } from '../../../hooks'
 import { wrappedCurrencyAmount } from '../../../utils/wrappedCurrency'
-import { tryParseAmount } from '../../../state/swap/hooks'
+import { tryParseAmount } from 'src/utils'
 
 export interface PoolInfoProps {
   pair: Pair

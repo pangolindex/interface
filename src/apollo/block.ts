@@ -15,7 +15,7 @@ export const GET_BLOCK = gql`
   }
 `
 
-export const GET_BLOCKS = timestamps => {
+export const GET_BLOCKS = (timestamps: Array<number>) => {
   let queryString = 'query blocks {'
   queryString += timestamps.map(timestamp => {
     return `t${timestamp}:blocks(first: 1, orderBy: timestamp, orderDirection: asc, where: { timestamp_gt: ${timestamp}, timestamp_lt: ${timestamp +
@@ -27,7 +27,7 @@ export const GET_BLOCKS = timestamps => {
   return gql(queryString)
 }
 
-export const PRICES_BY_BLOCK = (tokenAddress, blocks) => {
+export const PRICES_BY_BLOCK = (tokenAddress: string, blocks: Array<any>) => {
   let queryString = 'query blocks {'
   queryString += blocks.map(
     block => `

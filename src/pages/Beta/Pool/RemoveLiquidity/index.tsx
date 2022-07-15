@@ -16,7 +16,7 @@ import { useBurnActionHandlers, useDerivedBurnInfo } from 'src/state/burn/hooks'
 import { wrappedCurrency } from 'src/utils/wrappedCurrency'
 import { useUserSlippageTolerance } from 'src/state/user/hooks'
 import { Field } from 'src/state/burn/actions'
-import { BigNumber, Contract } from 'ethers'
+import { BigNumber } from 'ethers'
 import { usePairContract } from 'src/hooks/useContract'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from 'src/utils'
 // import Stat from 'src/components/Stat'
@@ -72,7 +72,7 @@ const RemoveLiquidity = ({ currencyA, currencyB, onLoadingOrComplete }: RemoveLi
   // }
 
   // pair contract
-  const pairContract: Contract | null = usePairContract(pair?.liquidityToken?.address)
+  const pairContract = usePairContract(pair?.liquidityToken?.address)
 
   // allowance handling
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)

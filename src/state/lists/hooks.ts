@@ -2,7 +2,6 @@ import { ChainId, Token } from '@pangolindex/sdk'
 import { Tags, TokenInfo, TokenList } from '@pangolindex/token-lists'
 import { useMemo } from 'react'
 import { AppState, useSelector } from '../index'
-import { AEB_TOKENS } from '../../constants/lists'
 
 type TagDetails = Tags[keyof Tags]
 export interface TagInfo extends TagDetails {
@@ -107,42 +106,4 @@ export function useSelectedListUrl(): string[] | undefined {
 
 export function useSelectedTokenList(): TokenAddressMap {
   return useTokenList(useSelectedListUrl())
-}
-
-export function useSelectedListInfo(): {
-  current: TokenList | null
-  pending: TokenList | null
-  loading: boolean
-  multipleSelected: boolean
-  selectedCount: number
-} {
-  const selectedListUrl = useSelectedListUrl()
-  const firstSelectedUrl = (selectedListUrl || [])?.[0]
-  const listsByUrl = useSelector<AppState['lists']['byUrl']>(state => state.lists.byUrl)
-  const list = firstSelectedUrl ? listsByUrl[firstSelectedUrl] : undefined
-  return {
-    current: list?.current ?? null,
-    pending: list?.pendingUpdate ?? null,
-    loading: list?.loadingRequestId !== null,
-    multipleSelected: (selectedListUrl || [])?.length > 1,
-    selectedCount: (selectedListUrl || [])?.length
-  }
-}
-
-// returns all downloaded current lists
-export function useAllLists(): TokenList[] {
-  const lists = useSelector<AppState['lists']['byUrl']>(state => state.lists.byUrl)
-
-  return useMemo(
-    () =>
-      Object.keys(lists)
-        .map(url => lists[url].current)
-        .filter((l): l is TokenList => Boolean(l)),
-    [lists]
-  )
-}
-
-export function useIsSelectedAEBToken(): boolean {
-  const selectedOutputToken = useSelector<AppState['swap']['OUTPUT']>(state => state.swap.OUTPUT)
-  return AEB_TOKENS.some(tokenAddress => tokenAddress === selectedOutputToken?.currencyId)
 }

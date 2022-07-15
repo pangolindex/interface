@@ -10,6 +10,8 @@ import { AppState, useSelector } from '../index'
 import { updatePairChartData, updatePairTokensChartData } from 'src/state/pair/actions'
 import { getBlocksFromTimestamps } from 'src/state/token/hooks'
 import { ChartState } from './reducer'
+import { ChainId } from '@pangolindex/sdk'
+import { useChainId } from 'src/hooks'
 
 dayjs.extend(utc)
 
@@ -19,6 +21,7 @@ export function useAllPairChartData(): ChartState | undefined {
 /* eslint-disable prefer-const */
 export function usePairHourlyRateData(pairAddress: string, timeWindow: string, interval = 3600, type = 'ALL') {
   const data1 = useAllPairChartData()
+  const chainId = useChainId()
 
   const chartData = data1?.[pairAddress]
 
@@ -39,7 +42,7 @@ export function usePairHourlyRateData(pairAddress: string, timeWindow: string, i
             .unix()
 
     async function fetch() {
-      let data = await getPairHourlyRateData(pairAddress, startTime, undefined, interval)
+      let data = await getPairHourlyRateData(pairAddress, chainId, startTime, undefined, interval)
 
       dispatch(updatePairChartData({ address: pairAddress, chartData: data }))
     }
@@ -53,6 +56,7 @@ export function usePairHourlyRateData(pairAddress: string, timeWindow: string, i
 
 export const getPairHourlyRateData = async (
   pairAddress: string,
+  chainId: ChainId,
   startTime: number,
   to = dayjs.utc().unix(),
   interval = 3600 * 24
@@ -77,7 +81,7 @@ export const getPairHourlyRateData = async (
     // once you have all the timestamps, get the blocks for each timestamp in a bulk query
     let blocks
 
-    blocks = await getBlocksFromTimestamps(timestamps, 100)
+    blocks = await getBlocksFromTimestamps(timestamps, chainId, 100)
 
     // catch failing case
     if (!blocks || blocks?.length === 0) {
@@ -154,6 +158,8 @@ export function useHourlyPairTokensChartData(
 
   const data1 = useAllPairTokensChartData()
 
+  const chainId = useChainId()
+
   const chartData = data1?.[pairAddress]
 
   const dispatch = useDispatch()
@@ -173,7 +179,14 @@ export function useHourlyPairTokensChartData(
             .unix()
 
     async function fetch() {
-      let data = await getHourlyPairTokensChartData(tokenAddress0, tokenAddress1, startTime, undefined, interval)
+      let data = await getHourlyPairTokensChartData(
+        tokenAddress0,
+        tokenAddress1,
+        chainId,
+        startTime,
+        undefined,
+        interval
+      )
 
       dispatch(updatePairTokensChartData({ address: pairAddress, chartData: data }))
     }
@@ -190,6 +203,7 @@ export function useHourlyPairTokensChartData(
 export const getHourlyPairTokensChartData = async (
   tokenAddress0: string,
   tokenAddress1: string,
+  chainId: ChainId,
   startTime: number,
   to = dayjs.utc().unix(),
   interval = 3600 * 24
@@ -214,7 +228,7 @@ export const getHourlyPairTokensChartData = async (
   // once you have all the timestamps, get the blocks for each timestamp in a bulk query
   let blocks
   try {
-    blocks = await getBlocksFromTimestamps(timestamps, 100)
+    blocks = await getBlocksFromTimestamps(timestamps, chainId, 100)
 
     // catch failing case
     if (!blocks || blocks.length === 0) {
