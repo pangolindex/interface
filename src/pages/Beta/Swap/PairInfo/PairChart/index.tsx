@@ -32,6 +32,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
       momentIdentifier: string
     })
 
+  // get pair chart data directly from contract
   const pairChartData = usePairHourlyRateData(
     (pair?.liquidityToken?.address || '').toLowerCase(),
     timeWindow?.momentIdentifier,
@@ -39,6 +40,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
   )
   const chartData = pairChartData && pair?.token0 === tokenB ? pairChartData[0] : pairChartData ? pairChartData[1] : []
 
+  // get tokens data directly from contract incase pair doesn't exist
   const pairTokensChartData = useHourlyPairTokensChartData(
     tokenA?.address || '',
     tokenB?.address || '',
@@ -57,6 +59,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
   const chartData2 =
     !coingeckoData || coingeckoData.length === 0 ? [] : pair?.token0 === tokenB ? coingeckoData[0] : coingeckoData[1]
 
+  // priority wise => coingecko data -> pair data -> individual token data
   const formattedData = chartData2.length > 0 ? chartData2 : (chartData1 || []).length > 0 ? chartData1 : chartData
 
   // if no chart created yet, create one with options and add to DOM manually
