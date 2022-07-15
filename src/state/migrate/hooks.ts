@@ -7,10 +7,6 @@ import { toV2LiquidityToken, useTrackedTokenPairs } from '../user/hooks'
 import { StakingInfo } from '../stake/hooks'
 import { useGetStakingDataWithAPR, useMinichefPools } from '../../state/stake/hooks'
 
-export interface SelectedPoolState {
-  selectedPool: { [address: string]: { pair: Pair; staking?: StakingInfo } }
-}
-
 export function useGetUserLP() {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()

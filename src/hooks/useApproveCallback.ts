@@ -1,12 +1,9 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Trade, TokenAmount, CurrencyAmount, CAVAX, ChainId } from '@pangolindex/sdk'
+import { TokenAmount, CurrencyAmount, CAVAX, ChainId } from '@pangolindex/sdk'
 import { useCallback, useMemo } from 'react'
-import { ROUTER_ADDRESS } from '../constants'
 import { useTokenAllowance } from '../data/Allowances'
-import { Field } from '../state/swap/actions'
 import { useTransactionAdder, useHasPendingApproval } from '../state/transactions/hooks'
-import { computeSlippageAdjustedAmounts } from '../utils/prices'
 import { calculateGasMargin } from '../utils'
 import { useTokenContract } from './useContract'
 import { useActiveWeb3React } from './index'
@@ -97,13 +94,4 @@ export function useApproveCallback(
   }, [approvalState, token, tokenContract, amountToApprove, spender, addTransaction])
 
   return [approvalState, approve]
-}
-
-// wraps useApproveCallback in the context of a swap
-export function useApproveCallbackFromTrade(chainId: ChainId, trade?: Trade, allowedSlippage = 0) {
-  const amountToApprove = useMemo(
-    () => (trade ? computeSlippageAdjustedAmounts(trade, allowedSlippage, chainId)[Field.INPUT] : undefined),
-    [trade, allowedSlippage, chainId]
-  )
-  return useApproveCallback(chainId, amountToApprove, ROUTER_ADDRESS[chainId])
 }

@@ -17,8 +17,6 @@ type Props = {
   onClickCancelOrder: () => void
 }
 
-export const RedirectContext = React.createContext<boolean>(false)
-
 const LimitOrderDetail: React.FC<Props> = ({ order, onClickCancelOrder }) => {
   const { t } = useTranslation()
 

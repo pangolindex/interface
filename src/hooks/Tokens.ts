@@ -1,13 +1,14 @@
-import { useMemo, useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { parseBytes32String } from '@ethersproject/strings'
-import { Currency, CAVAX, Token, currencyEquals, CHAINS, ChainId } from '@pangolindex/sdk'
+import { Token, CHAINS, ChainId } from '@pangolindex/sdk'
 import ERC20_INTERFACE, { ERC20_BYTES32_INTERFACE } from '../constants/abis/erc20'
 import { useSelectedTokenList } from '../state/lists/hooks'
-import { NEVER_RELOAD, useMultipleContractSingleData, useSingleCallResult } from '../state/multicall/hooks'
+import { NEVER_RELOAD, useMultipleContractSingleData } from '../state/multicall/hooks'
 import { useUserAddedTokens } from '../state/user/hooks'
 import { isAddress } from '../utils'
 import { useChainId } from './index'
-import { useBytes32TokenContract, useTokenContract } from './useContract'
+import { useQuery } from 'react-query'
+import { COINGECKO_API } from 'src/constants'
 
 export function useAllTokens(): { [address: string]: Token } {
   const chainId = useChainId()
@@ -32,12 +33,6 @@ export function useAllTokens(): { [address: string]: Token } {
   }, [chainId, userAddedTokens, allTokens])
 }
 
-// Check if currency is included in custom list from user storage
-export function useIsUserAddedToken(currency: Currency): boolean {
-  const userAddedTokens = useUserAddedTokens()
-  return !!userAddedTokens.find(token => currencyEquals(currency, token))
-}
-
 // parse a name or symbol from a token response
 const BYTES32_REGEX = /^0x[a-fA-F0-9]{64}$/
 function parseStringOrBytes32(str: string | undefined, bytes32: string | undefined, defaultValue: string): string {
@@ -46,59 +41,6 @@ function parseStringOrBytes32(str: string | undefined, bytes32: string | undefin
     : bytes32 && BYTES32_REGEX.test(bytes32)
     ? parseBytes32String(bytes32)
     : defaultValue
-}
-
-// undefined if invalid or does not exist
-// null if loading
-// otherwise returns the token
-export function useToken(tokenAddress?: string): Token | undefined | null {
-  const chainId = useChainId()
-  const tokens = useAllTokens()
-
-  const address = isAddress(tokenAddress)
-
-  const tokenContract = useTokenContract(address ? address : undefined, false)
-  const tokenContractBytes32 = useBytes32TokenContract(address ? address : undefined, false)
-  const token: Token | undefined = address ? tokens[address] : undefined
-
-  const tokenName = useSingleCallResult(token ? undefined : tokenContract, 'name', undefined, NEVER_RELOAD)
-  const tokenNameBytes32 = useSingleCallResult(
-    token ? undefined : tokenContractBytes32,
-    'name',
-    undefined,
-    NEVER_RELOAD
-  )
-  const symbol = useSingleCallResult(token ? undefined : tokenContract, 'symbol', undefined, NEVER_RELOAD)
-  const symbolBytes32 = useSingleCallResult(token ? undefined : tokenContractBytes32, 'symbol', undefined, NEVER_RELOAD)
-  const decimals = useSingleCallResult(token ? undefined : tokenContract, 'decimals', undefined, NEVER_RELOAD)
-
-  return useMemo(() => {
-    if (token) return token
-    if (!chainId || !address) return undefined
-    if (decimals.loading || symbol.loading || tokenName.loading) return null
-    if (decimals.result) {
-      return new Token(
-        chainId,
-        address,
-        decimals.result[0],
-        parseStringOrBytes32(symbol.result?.[0], symbolBytes32.result?.[0], 'UNKNOWN'),
-        parseStringOrBytes32(tokenName.result?.[0], tokenNameBytes32.result?.[0], 'Unknown Token')
-      )
-    }
-    return undefined
-  }, [
-    address,
-    chainId,
-    decimals.loading,
-    decimals.result,
-    symbol.loading,
-    symbol.result,
-    symbolBytes32.result,
-    token,
-    tokenName.loading,
-    tokenName.result,
-    tokenNameBytes32.result
-  ])
 }
 
 export function useTokens(tokensAddress: string[] = []): Array<Token | undefined | null> | undefined | null {
@@ -162,33 +104,31 @@ export function useTokens(tokensAddress: string[] = []): Array<Token | undefined
   }, [chainId, decimals, symbols, symbolsBytes32, tokensName, tokensNameBytes32, tokens, tokensAddress])
 }
 
-export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
-  const chainId = useChainId()
-  const isAVAX = currencyId?.toUpperCase() === 'AVAX'
-  const token = useToken(isAVAX ? undefined : currencyId)
-  return isAVAX ? chainId && CAVAX[chainId] : token
+export interface CoingeckoData {
+  coinId: string
+  homePage: string
+  description: string
 }
 
+/**
+ * Get the coingecko data for a token
+ * @param coin - Token or Currency
+ * @returns CoingeckoData of token if exist in coingecko else null
+ * */
+
 export function useCoinGeckoTokenData(coin: Token) {
-  const [result, setResult] = useState({} as { coinId: string; homePage: string; description: string })
+  const chain = CHAINS[coin.chainId].mainnet ? CHAINS[coin.chainId] : CHAINS[ChainId.AVALANCHE]
 
-  useEffect(() => {
-    const getCoinData = async () => {
-      const chain = coin.chainId === 43113 ? CHAINS[ChainId.AVALANCHE] : CHAINS[coin.chainId]
-
-      const response = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`
-      )
-      const data = await response.json()
-
-      setResult({
-        coinId: data?.id,
-        homePage: data?.links?.homepage[0],
-        description: data?.description?.en
-      })
+  return useQuery(['coingeckoToken', coin.address, chain.name], async () => {
+    if (!chain.coingecko_id) {
+      return null
     }
-    getCoinData()
-  }, [coin])
-
-  return result
+    const response = await fetch(`${COINGECKO_API}/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`)
+    const data = await response.json()
+    return {
+      coinId: data?.id,
+      homePage: data?.links?.homepage[0],
+      description: data?.description?.en
+    } as CoingeckoData
+  })
 }

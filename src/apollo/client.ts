@@ -1,5 +1,5 @@
 import { ApolloClient } from 'apollo-client'
-import { InMemoryCache } from 'apollo-cache-inmemory'
+import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory'
 import { HttpLink } from 'apollo-link-http'
 import { SUBGRAPH_BASE_URL } from 'src/constants'
 
@@ -10,16 +10,14 @@ export const client = new ApolloClient({
   link: new HttpLink({
     uri: `${SUBGRAPH_BASE_URL}/exchange`
   }),
-  cache: new InMemoryCache(),
-  shouldBatch: true
+  cache: new InMemoryCache()
 })
 
 export const governanceClient = new ApolloClient({
   link: new HttpLink({
     uri: `${SUBGRAPH_BASE_URL}/governance`
   }),
-  cache: new InMemoryCache(),
-  shouldBatch: true
+  cache: new InMemoryCache()
 })
 
 export const avalancheMininchefV2Client = new GraphQLClient(
@@ -27,7 +25,7 @@ export const avalancheMininchefV2Client = new GraphQLClient(
   { headers: {} }
 )
 
-export const mininchefV2Clients = {
+export const mininchefV2Clients: { [chainId in ChainId]: GraphQLClient | undefined } = {
   [ChainId.AVALANCHE]: avalancheMininchefV2Client,
   [ChainId.FUJI]: undefined,
   [ChainId.WAGMI]: undefined,
@@ -43,9 +41,11 @@ export const avalancheBlockClient = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-export const blockClients = {
+export const blockClients: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> | undefined } = {
   [ChainId.AVALANCHE]: avalancheBlockClient,
   [ChainId.FUJI]: undefined,
   [ChainId.WAGMI]: undefined,
-  [ChainId.COSTON]: undefined
+  [ChainId.COSTON]: undefined,
+  [ChainId.NEAR_MAINNET]: undefined,
+  [ChainId.NEAR_TESTNET]: undefined
 }

@@ -26,16 +26,6 @@ export const TextBox = styled(TextInput)`
   border-radius: 4px;
 `
 
-export const IconWrapper = styled.div<{ size?: number }>`
-  ${({ theme }) => theme.flexColumnNoWrap};
-  align-items: center;
-  justify-content: center;
-  & > * {
-    height: ${({ size }) => (size ? size + 'px' : '32px')};
-    width: ${({ size }) => (size ? size + 'px' : '32px')};
-  }
-`
-
 export const StyledBalanceMax = styled.button`
   height: 28px;
   background-color: ${({ theme }) => theme.bg2};

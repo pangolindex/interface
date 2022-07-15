@@ -1,7 +1,6 @@
 import { Button, NetworkSelection, useAccountBalanceHook, useTranslation } from '@pangolindex/components'
 import React, { useState, useRef, useMemo } from 'react'
 import { useActiveWeb3React } from '../../hooks'
-import { CardNoise } from '../../components/earn/styled'
 import Web3Status from '../../components/Web3Status'
 import Modal from '../../components/Modal'
 import PngBalanceContent from './PngBalanceContent'
@@ -93,7 +92,6 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
               <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
                 PNG
               </PNGAmount>
-              <CardNoise />
             </PNGWrapper>
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
               {account && userEthBalance ? (

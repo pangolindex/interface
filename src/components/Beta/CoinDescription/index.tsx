@@ -10,21 +10,21 @@ interface Props {
 }
 
 export default function CoinDescription({ coin }: Props) {
-  const { homePage, description } = useCoinGeckoTokenData(coin)
+  const { data } = useCoinGeckoTokenData(coin)
   return (
     <>
-      {(description || homePage) && (
+      {data && (
         <Box>
           <Text color="text1" fontSize={16} fontWeight="bold" mb="15px">
             {coin?.name}
           </Text>
 
           <Text color="text1" fontSize={14}>
-            {ReactHtmlParser(description)}
+            {ReactHtmlParser(data.description)}
           </Text>
 
           <Box mt="5px">
-            <ExternalLink style={{ color: 'white', textDecoration: 'underline' }} href={homePage} target="_blank">
+            <ExternalLink style={{ color: 'white', textDecoration: 'underline' }} href={data.homePage} target="_blank">
               <Text color="text1" fontSize={16} fontWeight={500}>
                 Visit Website
               </Text>

@@ -7,7 +7,7 @@ import { RowBetween } from '../Row'
 import { TYPE, CloseIcon, CustomLightSpinner } from '../../theme'
 import { ArrowUpCircle } from 'react-feather'
 
-import Circle from '../../assets/images/blue-loader.svg'
+import Circle from '../../assets/svg/blue-loader.svg'
 import { getEtherscanLink } from '../../utils'
 import { ExternalLink } from '../../theme/components'
 import { useTranslation } from '@pangolindex/components'

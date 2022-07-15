@@ -4,7 +4,7 @@ import { Box, Button, useLibrary, useTranslation } from '@pangolindex/components
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
 import { useDerivedStakeInfo, useMinichefPools, StakingInfo } from '../../../state/stake/hooks'
-import { tryParseAmount } from '../../../state/swap/hooks'
+import { tryParseAmount } from 'src/utils'
 import { useActiveWeb3React } from '../../../hooks'
 import { useTokenBalance } from '../../../state/wallet/hooks'
 import { RowBetween } from '../../Row'

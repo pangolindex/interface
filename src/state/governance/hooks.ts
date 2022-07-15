@@ -1,9 +1,9 @@
 import { PNG } from 'src/constants/tokens'
-import { TokenAmount, JSBI } from '@pangolindex/sdk'
+import { TokenAmount, JSBI, ChainId } from '@pangolindex/sdk'
 import { isAddress } from 'ethers/lib/utils'
 import { useGovernanceContract, usePngContract } from 'src/hooks/useContract'
 import { useSingleCallResult, useSingleContractMultipleData } from '../multicall/hooks'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { ethers, utils } from 'ethers'
 import { calculateGasMargin } from 'src/utils'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -11,7 +11,7 @@ import { useTransactionAdder } from '../transactions/hooks'
 import { useState, useEffect, useCallback } from 'react'
 import GOV from '@pangolindex/governance/artifacts/contracts/GovernorAlpha.sol/GovernorAlpha.json'
 import { GET_BLOCK } from 'src/apollo/block'
-import { avalancheBlockClient as blockClient, governanceClient } from 'src/apollo/client'
+import { blockClients, governanceClient } from 'src/apollo/client'
 import { GET_PROPOSALS } from 'src/apollo/vote'
 import { useLibrary } from '@pangolindex/components'
 
@@ -94,7 +94,12 @@ export function useProposalCount(): number | undefined {
  * @dev Query speed is optimized by limiting to a 600-second period
  * @param {Number} timestamp in seconds
  */
-export async function getBlockFromTimestamp(timestamp: number) {
+export async function getBlockFromTimestamp(timestamp: number, chainId: ChainId) {
+  const blockClient = blockClients[chainId]
+  if (!blockClient) {
+    return null
+  }
+
   const result = await blockClient.query({
     query: GET_BLOCK,
     variables: {
@@ -112,6 +117,7 @@ export async function getBlockFromTimestamp(timestamp: number) {
  */
 export function useDataFromEventLogs() {
   const { library } = useLibrary()
+  const chainId = useChainId()
   const [formattedEvents, setFormattedEvents] = useState<any>()
   const govContract = useGovernanceContract()
 
@@ -135,7 +141,7 @@ export function useDataFromEventLogs() {
         const startTime: number = parseInt(proposal?.result?.startTime?.toString())
         if (startTime) {
           const eventTime: number = startTime - voteDelay
-          const block: number = parseInt(await getBlockFromTimestamp(eventTime)) // Actual returns the "next" block
+          const block: number = parseInt(await getBlockFromTimestamp(eventTime, chainId)) // Actual returns the "next" block
           const filter = {
             ...govContract?.filters?.['ProposalCreated'](),
             fromBlock: block - 10,
@@ -179,7 +185,7 @@ export function useDataFromEventLogs() {
     ) {
       fetchData()
     }
-  }, [library, govContract, proposalCount, allProposals, formattedEvents])
+  }, [library, govContract, proposalCount, allProposals, formattedEvents, chainId])
 
   return formattedEvents
 }

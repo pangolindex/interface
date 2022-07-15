@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { client } from '../../apollo/client'
 import { HOURLY_PAIR_RATES } from '../../apollo/pair'
 import { PRICES_BY_BLOCK } from '../../apollo/block'
@@ -10,6 +10,12 @@ import { AppState, useSelector } from '../index'
 import { updatePairChartData, updatePairTokensChartData } from 'src/state/pair/actions'
 import { getBlocksFromTimestamps } from 'src/state/token/hooks'
 import { ChartState } from './reducer'
+import { Token, ChainId } from '@pangolindex/sdk'
+import { useCoinGeckoTokenData } from 'src/hooks/Tokens'
+import { useChainId } from 'src/hooks'
+import { COINGECKO_API } from 'src/constants'
+import { Time } from 'lightweight-charts'
+import { useQuery } from 'react-query'
 
 dayjs.extend(utc)
 
@@ -19,6 +25,7 @@ export function useAllPairChartData(): ChartState | undefined {
 /* eslint-disable prefer-const */
 export function usePairHourlyRateData(pairAddress: string, timeWindow: string, interval = 3600, type = 'ALL') {
   const data1 = useAllPairChartData()
+  const chainId = useChainId()
 
   const chartData = data1?.[pairAddress]
 
@@ -39,7 +46,7 @@ export function usePairHourlyRateData(pairAddress: string, timeWindow: string, i
             .unix()
 
     async function fetch() {
-      let data = await getPairHourlyRateData(pairAddress, startTime, undefined, interval)
+      let data = await getPairHourlyRateData(pairAddress, chainId, startTime, undefined, interval)
 
       dispatch(updatePairChartData({ address: pairAddress, chartData: data }))
     }
@@ -53,6 +60,7 @@ export function usePairHourlyRateData(pairAddress: string, timeWindow: string, i
 
 export const getPairHourlyRateData = async (
   pairAddress: string,
+  chainId: ChainId,
   startTime: number,
   to = dayjs.utc().unix(),
   interval = 3600 * 24
@@ -77,7 +85,7 @@ export const getPairHourlyRateData = async (
     // once you have all the timestamps, get the blocks for each timestamp in a bulk query
     let blocks
 
-    blocks = await getBlocksFromTimestamps(timestamps, 100)
+    blocks = await getBlocksFromTimestamps(timestamps, chainId, 100)
 
     // catch failing case
     if (!blocks || blocks?.length === 0) {
@@ -154,6 +162,8 @@ export function useHourlyPairTokensChartData(
 
   const data1 = useAllPairTokensChartData()
 
+  const chainId = useChainId()
+
   const chartData = data1?.[pairAddress]
 
   const dispatch = useDispatch()
@@ -173,7 +183,14 @@ export function useHourlyPairTokensChartData(
             .unix()
 
     async function fetch() {
-      let data = await getHourlyPairTokensChartData(tokenAddress0, tokenAddress1, startTime, undefined, interval)
+      let data = await getHourlyPairTokensChartData(
+        tokenAddress0,
+        tokenAddress1,
+        chainId,
+        startTime,
+        undefined,
+        interval
+      )
 
       dispatch(updatePairTokensChartData({ address: pairAddress, chartData: data }))
     }
@@ -190,6 +207,7 @@ export function useHourlyPairTokensChartData(
 export const getHourlyPairTokensChartData = async (
   tokenAddress0: string,
   tokenAddress1: string,
+  chainId: ChainId,
   startTime: number,
   to = dayjs.utc().unix(),
   interval = 3600 * 24
@@ -214,7 +232,7 @@ export const getHourlyPairTokensChartData = async (
   // once you have all the timestamps, get the blocks for each timestamp in a bulk query
   let blocks
   try {
-    blocks = await getBlocksFromTimestamps(timestamps, 100)
+    blocks = await getBlocksFromTimestamps(timestamps, chainId, 100)
 
     // catch failing case
     if (!blocks || blocks.length === 0) {
@@ -361,4 +379,102 @@ export const getHourlyPairTokensChartData = async (
     console.log('error fetching blocks')
     return []
   }
+}
+
+type OHLC = [
+  number, // timestamp
+  number, // open
+  number, // high
+  number, // low
+  number //close
+]
+
+interface Candle {
+  time: Time
+  open: number
+  high: number
+  low: number
+  close: number
+}
+
+/**
+ *
+ * @param token - Token class of pangolin sdk
+ * @returns OHLC[] (in useQuery format) if exist coin on coingecko, else null
+ */
+function useGetCoingeckoOHLC(token: Token) {
+  const { data, isLoading } = useCoinGeckoTokenData(token)
+  return useQuery(['getCoingeckOHLC', token.address, isLoading, data?.coinId], async () => {
+    if (!data || isLoading) {
+      return null
+    }
+    const response = await fetch(`${COINGECKO_API}/coins/${data.coinId}/ohlc?vs_currency=usd&days=max`)
+    const candles = (await response.json()) as OHLC[]
+    return candles
+  })
+}
+
+/**
+ * @param tokenA - Token class of pangolin sdk
+ * @param tokenB - Token class of pangolin sdk
+ * @returns Candle[][] if both coins exist on coingecko, else null
+ */
+export function useCoingeckoChartData(tokenA: Token, tokenB: Token) {
+  let token0
+  let token1
+
+  if (tokenA.address < tokenB.address) {
+    token0 = tokenA
+    token1 = tokenB
+  } else {
+    token0 = tokenB
+    token1 = tokenA
+  }
+
+  const { data: token0Candles, isLoading: isLoadingToken0 } = useGetCoingeckoOHLC(token0)
+  const { data: token1Candles, isLoading: isLoadingToken1 } = useGetCoingeckoOHLC(token1)
+
+  const data = useMemo(() => {
+    if (!token0Candles || isLoadingToken0 || !token1Candles || isLoadingToken1) {
+      return []
+    }
+
+    let chartData0: Candle[] = []
+    let chartData1: Candle[] = []
+
+    for (const candle0 of token0Candles) {
+      const [timestamp, open0, high0, low0, close0] = candle0
+      const candle1 = token1Candles.find(candle => candle[0] === timestamp)
+
+      if (!candle1) {
+        continue
+      }
+
+      const [, open1, high1, low1, close1] = candle1
+
+      let dayjsTimestamp = dayjs.utc(dayjs.unix(Number(timestamp / 1000)))
+
+      const year = dayjsTimestamp.get('year')
+      const month = dayjsTimestamp.get('month') + 1
+      const day = dayjsTimestamp.get('date')
+      chartData0.push({
+        time: { year: year, month: month, day: day },
+        open: open1 / open0,
+        high: high1 / high0,
+        low: low1 / low0,
+        close: close1 / close0
+      })
+
+      chartData1.push({
+        time: { year: year, month: month, day: day },
+        open: open0 / open1,
+        high: high0 / high1,
+        low: low0 / low1,
+        close: close0 / close1
+      })
+    }
+    return [chartData0, chartData1]
+  }, [isLoadingToken0, isLoadingToken1, token0Candles, token1Candles])
+
+  return data
 }
