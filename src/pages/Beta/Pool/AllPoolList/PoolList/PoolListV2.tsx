@@ -49,7 +49,7 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
   const sortedFarmsApr = useSortFarmAprs()
 
   const handleSearch = useCallback(value => {
-    setSearchQuery(value.trim().toUpperCase())
+    setSearchQuery(value.trim())
   }, [])
 
   useEffect(() => {
@@ -81,8 +81,8 @@ const PoolListV2: React.FC<EarnProps> = ({ version, stakingInfos, setMenu, activ
       if (debouncedSearchQuery) {
         const filtered = stakingInfos.filter(function(stakingInfo) {
           return (
-            (stakingInfo?.tokens?.[0]?.symbol || '').toUpperCase().includes(debouncedSearchQuery) ||
-            (stakingInfo?.tokens?.[1]?.symbol || '').toUpperCase().includes(debouncedSearchQuery)
+            (stakingInfo?.tokens?.[0]?.symbol || '').toUpperCase().includes(debouncedSearchQuery.toUpperCase()) ||
+            (stakingInfo?.tokens?.[1]?.symbol || '').toUpperCase().includes(debouncedSearchQuery.toUpperCase())
           )
         })
 
