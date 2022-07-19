@@ -1,6 +1,6 @@
 {
   "name": "@pangolindex/interface",
-  "version": "1.0.44-dev.5",
+  "version": "1.0.44-dev.7",
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
@@ -19,7 +19,7 @@
     "@ethersproject/wallet": "5.6.2",
     "@gnosis.pm/safe-apps-web3-react": "0.6.8",
     "@metamask/jazzicon": "2.0.0",
-    "@pangolindex/components": "4.0.0-rc.0",
+    "@pangolindex/components": "4.0.0-dev.1",
     "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.2.0",
     "@pangolindex/sdk": "2.1.3",
@@ -46,8 +46,8 @@
     "@types/rebass": "4.0.10",
     "@types/styled-components": "5.1.24",
     "@types/testing-library__cypress": "5.0.9",
-    "@typescript-eslint/eslint-plugin": "2.34.0",
-    "@typescript-eslint/parser": "2.34.0",
+    "@typescript-eslint/eslint-plugin": "4.6.0",
+    "@typescript-eslint/parser": "4.6.0",
     "@web3-react/abstract-connector": "6.0.7",
     "@web3-react/core": "6.0.9",
     "@web3-react/walletconnect-connector": "6.1.1",
@@ -57,13 +57,14 @@
     "apollo-client": "2.6.10",
     "apollo-link-http": "1.5.17",
     "axios": "0.26.1",
+    "babel-jest": "26.6.3",
     "babel-plugin-styled-components": "2.0.6",
     "cids": "1.1.9",
     "copy-to-clipboard": "3.3.1",
     "cross-env": "7.0.3",
     "cypress": "4.12.1",
     "dayjs": "1.11.0",
-    "eslint": "6.8.0",
+    "eslint": "7.11.0",
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-prettier": "3.4.1",
     "eslint-plugin-react": "7.29.4",
@@ -73,6 +74,7 @@
     "graphql-tag": "2.12.6",
     "husky": "7.0.4",
     "inter-ui": "3.19.3",
+    "jest": "26.6.0",
     "lint-staged": "12.3.7",
     "lodash.flatmap": "4.5.0",
     "luxon": "1.28.0",
@@ -87,6 +89,7 @@
     "react-custom-scrollbars": "4.2.1",
     "react-device-detect": "1.17.0",
     "react-dom": "16.14.0",
+    "react-error-overlay": "6.0.9",
     "react-feather": "2.0.9",
     "react-ga": "2.7.0",
     "react-html-parser": "2.0.2",
@@ -94,7 +97,7 @@
     "react-query": "3.34.16",
     "react-redux": "7.2.6",
     "react-router-dom": "5.3.0",
-    "react-scripts": "3.4.4",
+    "react-scripts": "4.0.3",
     "react-spring": "8.0.27",
     "react-use": "15.3.8",
     "react-use-gesture": "6.0.14",
@@ -106,11 +109,12 @@
     "serve": "11.3.2",
     "start-server-and-test": "1.14.0",
     "styled-components": "4.4.1",
-    "typescript": "3.9.10"
+    "typescript": "4.0.5"
   },
   "resolutions": {
     "@walletconnect/web3-provider": "1.1.1-alpha.0",
-    "@types/react": "16.14.24"
+    "@types/react": "16.14.24",
+    "react-error-overlay": "6.0.9"
   },
   "scripts": {
     "start": "react-scripts start",
