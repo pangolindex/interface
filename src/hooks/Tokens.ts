@@ -1,14 +1,15 @@
 import { useMemo } from 'react'
 import { parseBytes32String } from '@ethersproject/strings'
-import { Token, CHAINS, ChainId } from '@pangolindex/sdk'
+import { Token } from '@pangolindex/sdk'
 import ERC20_INTERFACE, { ERC20_BYTES32_INTERFACE } from '../constants/abis/erc20'
 import { useSelectedTokenList } from '../state/lists/hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../state/multicall/hooks'
 import { useUserAddedTokens } from '../state/user/hooks'
 import { isAddress } from '../utils'
-import { useChainId } from './index'
+import { useChain, useChainId } from './index'
 import { useQuery } from 'react-query'
 import { COINGECKO_API } from 'src/constants'
+import axios from 'axios'
 
 export function useAllTokens(): { [address: string]: Token } {
   const chainId = useChainId()
@@ -117,14 +118,19 @@ export interface CoingeckoData {
  * */
 
 export function useCoinGeckoTokenData(coin: Token) {
-  const chain = CHAINS[coin.chainId].mainnet ? CHAINS[coin.chainId] : CHAINS[ChainId.AVALANCHE]
+  const chain = useChain(coin.chainId)
 
   return useQuery(['coingeckoToken', coin.address, chain.name], async () => {
-    if (!chain.coingecko_id) {
+    if (!chain.coingecko_id || !chain.evm) {
       return null
     }
-    const response = await fetch(`${COINGECKO_API}/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`)
-    const data = await response.json()
+    const response = await axios.get(
+      `${COINGECKO_API}/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`,
+      {
+        timeout: 1000
+      }
+    )
+    const data = response.data
     return {
       coinId: data?.id,
       homePage: data?.links?.homepage[0],
