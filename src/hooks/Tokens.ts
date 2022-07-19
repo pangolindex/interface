@@ -9,7 +9,7 @@ import { isAddress } from '../utils'
 import { useChain, useChainId } from './index'
 import { useQuery } from 'react-query'
 import { COINGECKO_API } from 'src/constants'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 export function useAllTokens(): { [address: string]: Token } {
   const chainId = useChainId()
@@ -124,13 +124,26 @@ export function useCoinGeckoTokenData(coin: Token) {
     if (!chain.coingecko_id || !chain.evm) {
       return null
     }
-    const response = await axios.get(
-      `${COINGECKO_API}/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`,
-      {
+    const response = await axios
+      .get(`${COINGECKO_API}/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`, {
         timeout: 1000
-      }
-    )
+      })
+      .catch((error: AxiosError) => {
+        if (error.response) {
+          return error.response
+        }
+        return null
+      })
+
+    if (!response || response.status !== 200) {
+      return null
+    }
+
     const data = response.data
+    if (!data?.id) {
+      return null
+    }
+
     return {
       coinId: data?.id,
       homePage: data?.links?.homepage[0],
