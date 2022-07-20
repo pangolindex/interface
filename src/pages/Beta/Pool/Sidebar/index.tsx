@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { SidebarWrapper, Menu, MenuLink, MenuName, MenuItem, Circle } from './styleds'
-import { Text, Box, useTranslation } from '@pangolindex/components'
-import PoolImportModal from '../PoolImportModal'
+import { Text, Box, useTranslation, PoolImportModal } from '@pangolindex/components'
 
 export enum MenuType {
   allFarmV1 = 'allFarmV1',
