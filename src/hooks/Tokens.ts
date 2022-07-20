@@ -133,10 +133,7 @@ export function useCoinGeckoTokenData(coin: Token) {
         }
       )
     } catch (error) {
-      const err = error as any
-      if (err?.response) {
-        response = err.response
-      }
+      console.error(error)
     }
 
     if (!response || response.status !== 200) {
