@@ -1,44 +1,34 @@
-import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WAVAX, Pair, Percent, CHAINS } from '@pangolindex/sdk'
+import { CurrencyAmount, JSBI, Token, TokenAmount, Pair, Percent, CHAINS } from '@pangolindex/sdk'
 import { useMemo, useEffect, useState, useCallback } from 'react'
-import {
-  MINICHEF_ADDRESS,
-  BIG_INT_ZERO,
-  BIG_INT_TWO,
-  BIG_INT_ONE,
-  BIG_INT_SECONDS_IN_WEEK,
-  PANGOLIN_API_BASE_URL,
-  ZERO_ADDRESS
-} from '../../constants'
-import { DAIe, PNG, USDC, USDCe, USDTe, axlUST } from '../../constants/tokens'
+import { BIG_INT_ZERO, BIG_INT_ONE, BIG_INT_SECONDS_IN_WEEK, ZERO_ADDRESS } from '../../constants'
+import { PNG } from '../../constants/tokens'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
-import { PairState, usePair, usePairs } from '../../data/Reserves'
 import { useActiveWeb3React } from '../../hooks'
-import {
-  NEVER_RELOAD,
-  useMultipleContractSingleData,
-  useSingleCallResult,
-  useSingleContractMultipleData
-} from '../multicall/hooks'
-import { tryParseAmount, maxAmountSpend } from 'src/utils'
-import ERC20_INTERFACE from '../../constants/abis/erc20'
-import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../../constants/abis/rewarderViaMultiplier'
+import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
+import { maxAmountSpend } from 'src/utils'
 import { useUSDCPrice } from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useTotalSupply } from '../../data/TotalSupply'
-import { usePngContract, useStakingContract, useMiniChefContract } from '../../hooks/useContract'
+import { usePngContract, useStakingContract } from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
-import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
 import { wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
-import { useTokens } from '../../hooks/Tokens'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
 import { useChainId } from 'src/hooks'
-import { useLibrary, useTranslation, useStakingInfo } from '@pangolindex/components'
-import { PANGOLIN_PAIR_INTERFACE } from 'src/constants/abis/pangolinPair'
+import {
+  useLibrary,
+  useTranslation,
+  useStakingInfo,
+  useMinichefStakingInfos,
+  StakingInfo,
+  DoubleSideStakingInfo,
+  fetchChunkedAprs,
+  useDerivedStakeInfo
+} from '@pangolindex/components'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -89,60 +79,6 @@ export interface SingleSideStakingInfo extends StakingInfoBase {
   apr: JSBI
 }
 
-export interface DoubleSideStakingInfo extends StakingInfoBase {
-  // the tokens involved in this pair
-  tokens: [Token, Token]
-  // the pool weight
-  multiplier: JSBI
-  // total staked AVAX in the pool
-  totalStakedInWavax: TokenAmount
-  totalStakedInUsd: TokenAmount
-  rewardTokensAddress?: Array<string>
-  rewardsAddress?: string
-  rewardTokensMultiplier?: Array<JSBI>
-  getExtraTokensWeeklyRewardRate?: (
-    rewardRatePerWeek: TokenAmount,
-    token: Token,
-    tokenMultiplier: JSBI | undefined
-  ) => TokenAmount
-}
-
-export interface StakingInfo extends DoubleSideStakingInfo {
-  swapFeeApr?: number
-  stakingApr?: number
-  combinedApr?: number
-  rewardTokens?: Array<Token>
-  pid?: string
-}
-
-const calculateTotalStakedAmountInAvaxFromPng = function(
-  amountStaked: JSBI,
-  amountAvailable: JSBI,
-  avaxPngPairReserveOfPng: JSBI,
-  avaxPngPairReserveOfWavax: JSBI,
-  reserveInPng: JSBI,
-  chainId: ChainId
-): TokenAmount {
-  if (JSBI.EQ(amountAvailable, JSBI.BigInt(0))) {
-    return new TokenAmount(WAVAX[chainId], JSBI.BigInt(0))
-  }
-
-  const oneToken = JSBI.BigInt(1000000000000000000)
-  const avaxPngRatio = JSBI.divide(JSBI.multiply(oneToken, avaxPngPairReserveOfWavax), avaxPngPairReserveOfPng)
-  const valueOfPngInAvax = JSBI.divide(JSBI.multiply(reserveInPng, avaxPngRatio), oneToken)
-
-  return new TokenAmount(
-    WAVAX[chainId],
-    JSBI.divide(
-      JSBI.multiply(
-        JSBI.multiply(amountStaked, valueOfPngInAvax),
-        JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
-      ),
-      amountAvailable
-    )
-  )
-}
-
 const calculateRewardRateInPng = function(rewardRate: JSBI, valueOfPng: JSBI | null): JSBI {
   if (!valueOfPng || JSBI.EQ(valueOfPng, 0)) return JSBI.BigInt(0)
 
@@ -166,29 +102,6 @@ const calculateApr = function(rewardRatePerSecond: JSBI, totalSupply: JSBI): JSB
   )
 
   return JSBI.divide(JSBI.multiply(rewardsPerYear, JSBI.BigInt(100)), totalSupply)
-}
-
-const calculateTotalStakedAmountInAvax = function(
-  amountStaked: JSBI,
-  amountAvailable: JSBI,
-  reserveInWavax: JSBI,
-  chainId: ChainId
-): TokenAmount {
-  if (JSBI.GT(amountAvailable, 0)) {
-    // take the total amount of LP tokens staked, multiply by AVAX value of all LP tokens, divide by all LP tokens
-    return new TokenAmount(
-      WAVAX[chainId],
-      JSBI.divide(
-        JSBI.multiply(
-          JSBI.multiply(amountStaked, reserveInWavax),
-          JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the wavax they entitle owner to
-        ),
-        amountAvailable
-      )
-    )
-  } else {
-    return new TokenAmount(WAVAX[chainId], JSBI.BigInt(0))
-  }
 }
 
 export function useSingleSideStakingInfo(
@@ -388,7 +301,7 @@ export function useTotalPngEarned(): TokenAmount | undefined {
     if (!png) return new TokenAmount(png, '0')
     return (
       minichefInfo?.reduce(
-        (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
+        (accumulator: StakingInfo, stakingInfo: StakingInfo) => accumulator.add(stakingInfo.earnedAmount),
         new TokenAmount(png, '0')
       ) ?? new TokenAmount(png, '0')
     )
@@ -407,41 +320,6 @@ export function useTotalPngEarned(): TokenAmount | undefined {
 // TODO : need to add logic
 export function useNearTotalPngEarned(): TokenAmount | undefined {
   return undefined
-}
-
-// based on typed value
-export function useDerivedStakeInfo(
-  typedValue: string,
-  stakingToken: Token,
-  userLiquidityUnstaked: TokenAmount | undefined
-): {
-  parsedAmount?: CurrencyAmount
-  error?: string
-} {
-  const { account } = useActiveWeb3React()
-  const chainId = useChainId()
-
-  const { t } = useTranslation()
-
-  const parsedInput: CurrencyAmount | undefined = tryParseAmount(chainId, typedValue, stakingToken)
-
-  const parsedAmount =
-    parsedInput && userLiquidityUnstaked && JSBI.lessThanOrEqual(parsedInput.raw, userLiquidityUnstaked.raw)
-      ? parsedInput
-      : undefined
-
-  let error: string | undefined
-  if (!account) {
-    error = t('stakeHooks.connectWallet')
-  }
-  if (!parsedAmount) {
-    error = error ?? t('stakeHooks.enterAmount')
-  }
-
-  return {
-    parsedAmount,
-    error
-  }
 }
 
 export function useGetStakingDataWithAPR(version: number) {
@@ -541,398 +419,6 @@ export function useGetPairDataFromPair(pair: Pair) {
     poolTokenPercentage: poolTokenPercentage,
     getHypotheticalPoolOwnership
   }
-}
-
-export const useMinichefPools = (): { [key: string]: number } => {
-  const minichefContract = useMiniChefContract()
-  const lpTokens = useSingleCallResult(minichefContract, 'lpTokens', []).result
-  const lpTokensArr = lpTokens?.[0]
-
-  return useMemo(() => {
-    const poolMap: { [key: string]: number } = {}
-    if (lpTokensArr) {
-      lpTokensArr.forEach((address: string, index: number) => {
-        poolMap[address] = index
-      })
-    }
-    return poolMap
-  }, [lpTokensArr])
-}
-
-export const tokenComparator = (
-  { address: addressA }: { address: string },
-  { address: addressB }: { address: string }
-) => {
-  // Sort AVAX last
-  if (addressA === WAVAX[ChainId.AVALANCHE].address) return 1
-  else if (addressB === WAVAX[ChainId.AVALANCHE].address) return -1
-  // Sort PNG first
-  else if (addressA === PNG[ChainId.AVALANCHE].address) return -1
-  else if (addressB === PNG[ChainId.AVALANCHE].address) return 1
-  // Sort axlUST first
-  else if (addressA === axlUST[ChainId.AVALANCHE].address) return -1
-  else if (addressB === axlUST[ChainId.AVALANCHE].address) return 1
-  // Sort USDC first
-  else if (addressA === USDC[ChainId.AVALANCHE].address) return -1
-  else if (addressB === USDC[ChainId.AVALANCHE].address) return 1
-  // Sort USDCe first
-  else if (addressA === USDCe[ChainId.AVALANCHE].address) return -1
-  else if (addressB === USDCe[ChainId.AVALANCHE].address) return 1
-  else return 0
-}
-
-export const getExtraTokensWeeklyRewardRate = (
-  rewardRatePerWeek: TokenAmount,
-  token: Token,
-  tokenMultiplier: JSBI | undefined
-) => {
-  const TEN_EIGHTEEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
-
-  const rewardMultiplier = JSBI.BigInt(tokenMultiplier || 1)
-
-  const unadjustedRewardPerWeek = JSBI.multiply(rewardMultiplier, rewardRatePerWeek?.raw)
-
-  const finalReward = JSBI.divide(unadjustedRewardPerWeek, TEN_EIGHTEEN)
-
-  return new TokenAmount(token, finalReward)
-}
-
-export const useMinichefStakingInfos = (version = 2, pairToFilterBy?: Pair | null): StakingInfo[] => {
-  const { account } = useActiveWeb3React()
-  const chainId = useChainId()
-
-  const minichefContract = useMiniChefContract()
-  const poolMap = useMinichefPools()
-  const png = PNG[chainId]
-  const lpTokens = Object.keys(poolMap)
-
-  // if chain is not avalanche skip the first pool because it's dummyERC20
-  if (chainId !== ChainId.AVALANCHE) {
-    lpTokens.shift()
-  }
-
-  const _tokens0Call = useMultipleContractSingleData(lpTokens, PANGOLIN_PAIR_INTERFACE, 'token0', [])
-  const _tokens1Call = useMultipleContractSingleData(lpTokens, PANGOLIN_PAIR_INTERFACE, 'token1', [])
-
-  const tokens0Adrr = useMemo(() => {
-    return _tokens0Call.map(result => {
-      return result.result && result.result.length > 0 ? result.result[0] : null
-    })
-  }, [_tokens0Call])
-
-  const tokens1Adrr = useMemo(() => {
-    return _tokens1Call.map(result => (result.result && result.result.length > 0 ? result.result[0] : null))
-  }, [_tokens1Call])
-
-  const tokens0 = useTokens(tokens0Adrr)
-  const tokens1 = useTokens(tokens1Adrr)
-
-  const info = useMemo(() => {
-    const filterPair = (item: DoubleSideStaking) => {
-      if (pairToFilterBy === undefined) {
-        return true
-      }
-      if (pairToFilterBy === null) {
-        return false
-      }
-      return pairToFilterBy.involvesToken(item.tokens[0]) && pairToFilterBy.involvesToken(item.tokens[1])
-    }
-
-    if (DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]) {
-      return DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(filterPair)
-    }
-    const _infoTokens: DoubleSideStaking[] = []
-    if (tokens0 && tokens1 && tokens0?.length === tokens1?.length) {
-      tokens0.forEach((token0, index) => {
-        const token1 = tokens1[index]
-        if (token0 && token1) {
-          _infoTokens.push({
-            tokens: [token0, token1],
-            stakingRewardAddress: minichefContract?.address ?? '',
-            version: version
-          })
-        }
-      })
-      return _infoTokens.filter(filterPair)
-    }
-    return _infoTokens
-  }, [chainId, minichefContract, tokens0, tokens1, pairToFilterBy, version])
-
-  const _tokens = useMemo(() => (info ? info.map(({ tokens }) => tokens) : []), [info])
-  const pairs = usePairs(_tokens)
-  // @dev: If no farms load, you likely loaded an incorrect config from doubleSideConfig.js
-  // Enable this and look for an invalid pair
-  // console.log(pairs)
-
-  const pairAddresses = useMemo(() => {
-    return pairs.map(([, pair]) => pair?.liquidityToken.address)
-  }, [pairs])
-
-  const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
-  const balances = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'balanceOf', [
-    MINICHEF_ADDRESS[chainId]
-  ])
-
-  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[chainId], png)
-
-  const poolIdArray = useMemo(() => {
-    if (!pairAddresses || !poolMap) return []
-    // TODO: clean up this logic. seems like a lot of work to ensure correct types
-    const NOT_FOUND = -1
-    const results = pairAddresses.map(address => poolMap[address ?? ''] ?? NOT_FOUND)
-    if (results.some(result => result === NOT_FOUND)) return []
-    return results
-  }, [poolMap, pairAddresses])
-
-  const poolsIdInput = useMemo(() => {
-    if (!poolIdArray) return []
-    return poolIdArray.map(pid => [pid])
-  }, [poolIdArray])
-
-  const poolInfos = useSingleContractMultipleData(minichefContract, 'poolInfo', poolsIdInput ?? [])
-
-  const rewarders = useSingleContractMultipleData(minichefContract, 'rewarder', poolsIdInput ?? [])
-
-  const userInfoInput = useMemo(() => {
-    if (!poolIdArray || !account) return []
-    return poolIdArray.map(pid => [pid, account])
-  }, [poolIdArray, account])
-
-  const userInfos = useSingleContractMultipleData(minichefContract, 'userInfo', userInfoInput ?? [])
-
-  const pendingRewards = useSingleContractMultipleData(minichefContract, 'pendingReward', userInfoInput ?? [])
-
-  const rewardsAddresses = useMemo(() => {
-    if ((rewarders || []).length === 0) return []
-    if (rewarders.some(item => item.loading)) return []
-    return rewarders.map(reward => reward?.result?.[0])
-  }, [rewarders])
-
-  const rewardTokensAddresses = useMultipleContractSingleData(
-    rewardsAddresses,
-    REWARDER_VIA_MULTIPLIER_INTERFACE,
-    'getRewardTokens',
-    []
-  )
-
-  const rewardTokensMultipliers = useMultipleContractSingleData(
-    rewardsAddresses,
-    REWARDER_VIA_MULTIPLIER_INTERFACE,
-    'getRewardMultipliers',
-    []
-  )
-
-  const rewardPerSecond = useSingleCallResult(minichefContract, 'rewardPerSecond', []).result
-  const totalAllocPoint = useSingleCallResult(minichefContract, 'totalAllocPoint', []).result
-  const rewardsExpiration = useSingleCallResult(minichefContract, 'rewardsExpiration', []).result
-  const usdPriceTmp = useUSDCPrice(WAVAX[chainId])
-  const usdPrice = CHAINS[chainId]?.mainnet ? usdPriceTmp : undefined
-
-  const arr = useMemo(() => {
-    if (!chainId || !png) return []
-
-    return pairAddresses.reduce<any[]>((memo, _pairAddress, index) => {
-      const pairTotalSupplyState = pairTotalSupplies[index]
-      const balanceState = balances[index]
-      const poolInfo = poolInfos[index]
-      const userPoolInfo = userInfos[index]
-      const [pairState, pair] = pairs[index]
-      const pendingRewardInfo = pendingRewards[index]
-      const rewardTokensAddress = rewardTokensAddresses[index]
-      const rewardTokensMultiplier = rewardTokensMultipliers[index]
-      const rewardsAddress = rewardsAddresses[index]
-
-      if (
-        pairTotalSupplyState?.loading === false &&
-        poolInfo?.loading === false &&
-        balanceState?.loading === false &&
-        pair &&
-        avaxPngPair &&
-        pairState !== PairState.LOADING &&
-        avaxPngPairState !== PairState.LOADING &&
-        rewardPerSecond &&
-        totalAllocPoint &&
-        rewardsExpiration?.[0] &&
-        rewardTokensAddress?.loading === false
-      ) {
-        if (
-          balanceState?.error ||
-          pairTotalSupplyState.error ||
-          pairState === PairState.INVALID ||
-          pairState === PairState.NOT_EXISTS ||
-          avaxPngPairState === PairState.INVALID ||
-          avaxPngPairState === PairState.NOT_EXISTS
-        ) {
-          console.error('Failed to load staking rewards info')
-          return memo
-        }
-        const pid = poolMap[pair.liquidityToken.address].toString()
-        // get the LP token
-        const token0 = pair?.token0
-        const token1 = pair?.token1
-
-        const tokens = [token0, token1].sort(tokenComparator)
-
-        const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
-        const lpToken = dummyPair.liquidityToken
-
-        const poolAllocPointAmount = new TokenAmount(lpToken, JSBI.BigInt(poolInfo?.result?.['allocPoint']))
-        const totalAllocPointAmount = new TokenAmount(lpToken, JSBI.BigInt(totalAllocPoint?.[0]))
-        const rewardRatePerSecAmount = new TokenAmount(png, JSBI.BigInt(rewardPerSecond?.[0]))
-        const poolRewardRate = new TokenAmount(
-          png,
-          JSBI.divide(JSBI.multiply(poolAllocPointAmount.raw, rewardRatePerSecAmount.raw), totalAllocPointAmount.raw)
-        )
-
-        const totalRewardRatePerWeek = new TokenAmount(png, JSBI.multiply(poolRewardRate.raw, BIG_INT_SECONDS_IN_WEEK))
-
-        const periodFinishMs = rewardsExpiration?.[0]?.mul(1000)?.toNumber()
-        // periodFinish will be 0 immediately after a reward contract is initialized
-        const isPeriodFinished =
-          periodFinishMs === 0 ? false : periodFinishMs < Date.now() || poolAllocPointAmount.equalTo('0')
-
-        const totalSupplyStaked = JSBI.BigInt(balanceState?.result?.[0])
-        const totalSupplyAvailable = JSBI.BigInt(pairTotalSupplyState?.result?.[0])
-        const totalStakedAmount = new TokenAmount(lpToken, JSBI.BigInt(balanceState?.result?.[0]))
-        const stakedAmount = new TokenAmount(lpToken, JSBI.BigInt(userPoolInfo?.result?.['amount'] ?? 0))
-        const earnedAmount = new TokenAmount(png, JSBI.BigInt(pendingRewardInfo?.result?.['pending'] ?? 0))
-        const multiplier = JSBI.BigInt(poolInfo?.result?.['allocPoint'])
-
-        const isAvaxPool = pair.involvesToken(WAVAX[chainId])
-        const isPngPool = pair.involvesToken(PNG[chainId])
-
-        let totalStakedInUsd = CHAINS[chainId || ChainId].mainnet
-          ? new TokenAmount(DAIe[chainId], BIG_INT_ZERO)
-          : undefined
-        const totalStakedInWavax = new TokenAmount(WAVAX[chainId], BIG_INT_ZERO)
-
-        if (JSBI.equal(totalSupplyAvailable, BIG_INT_ZERO)) {
-          // Default to 0 values above avoiding division by zero errors
-        } else if (pair.involvesToken(DAIe[chainId])) {
-          const pairValueInDAI = JSBI.multiply(pair.reserveOf(DAIe[chainId]).raw, BIG_INT_TWO)
-          const stakedValueInDAI = JSBI.divide(JSBI.multiply(pairValueInDAI, totalSupplyStaked), totalSupplyAvailable)
-          totalStakedInUsd = CHAINS[chainId || ChainId].mainnet
-            ? new TokenAmount(DAIe[chainId], stakedValueInDAI)
-            : undefined
-        } else if (pair.involvesToken(USDCe[chainId])) {
-          const pairValueInUSDC = JSBI.multiply(pair.reserveOf(USDCe[chainId]).raw, BIG_INT_TWO)
-          const stakedValueInUSDC = JSBI.divide(JSBI.multiply(pairValueInUSDC, totalSupplyStaked), totalSupplyAvailable)
-          totalStakedInUsd = CHAINS[chainId || ChainId].mainnet
-            ? new TokenAmount(USDCe[chainId], stakedValueInUSDC)
-            : undefined
-        } else if (pair.involvesToken(USDC[chainId])) {
-          const pairValueInUSDC = JSBI.multiply(pair.reserveOf(USDC[chainId]).raw, BIG_INT_TWO)
-          const stakedValueInUSDC = JSBI.divide(JSBI.multiply(pairValueInUSDC, totalSupplyStaked), totalSupplyAvailable)
-          totalStakedInUsd = CHAINS[chainId || ChainId].mainnet
-            ? new TokenAmount(USDC[chainId], stakedValueInUSDC)
-            : undefined
-        } else if (pair.involvesToken(axlUST[chainId])) {
-          const pairValueInUST = JSBI.multiply(pair.reserveOf(axlUST[chainId]).raw, BIG_INT_TWO)
-          const stakedValueInUST = JSBI.divide(JSBI.multiply(pairValueInUST, totalSupplyStaked), totalSupplyAvailable)
-          totalStakedInUsd = CHAINS[chainId || ChainId].mainnet
-            ? new TokenAmount(axlUST[chainId], stakedValueInUST)
-            : undefined
-        } else if (pair.involvesToken(USDTe[chainId])) {
-          const pairValueInUSDT = JSBI.multiply(pair.reserveOf(USDTe[chainId]).raw, BIG_INT_TWO)
-          const stakedValueInUSDT = JSBI.divide(JSBI.multiply(pairValueInUSDT, totalSupplyStaked), totalSupplyAvailable)
-          totalStakedInUsd = CHAINS[chainId || ChainId].mainnet
-            ? new TokenAmount(USDTe[chainId], stakedValueInUSDT)
-            : undefined
-        } else if (isAvaxPool) {
-          const _totalStakedInWavax = calculateTotalStakedAmountInAvax(
-            totalSupplyStaked,
-            totalSupplyAvailable,
-            pair.reserveOf(WAVAX[chainId]).raw,
-            chainId
-          )
-          totalStakedInUsd = CHAINS[chainId || ChainId].mainnet
-            ? _totalStakedInWavax && (usdPrice?.quote(_totalStakedInWavax, chainId) as TokenAmount)
-            : undefined
-        } else if (isPngPool) {
-          const _totalStakedInWavax = calculateTotalStakedAmountInAvaxFromPng(
-            totalSupplyStaked,
-            totalSupplyAvailable,
-            avaxPngPair.reserveOf(png).raw,
-            avaxPngPair.reserveOf(WAVAX[chainId]).raw,
-            pair.reserveOf(png).raw,
-            chainId
-          )
-          totalStakedInUsd = CHAINS[chainId || ChainId].mainnet
-            ? _totalStakedInWavax && (usdPrice?.quote(_totalStakedInWavax, chainId) as TokenAmount)
-            : undefined
-        } else {
-          // Contains no stablecoin, WAVAX, nor PNG
-          console.error(`Could not identify total staked value for pair ${pair.liquidityToken.address}`)
-        }
-
-        const getHypotheticalWeeklyRewardRate = (
-          _stakedAmount: TokenAmount,
-          _totalStakedAmount: TokenAmount,
-          _totalRewardRatePerSecond: TokenAmount
-        ): TokenAmount => {
-          return new TokenAmount(
-            png,
-            JSBI.greaterThan(_totalStakedAmount.raw, JSBI.BigInt(0))
-              ? JSBI.divide(
-                  JSBI.multiply(
-                    JSBI.multiply(_totalRewardRatePerSecond.raw, _stakedAmount.raw),
-                    BIG_INT_SECONDS_IN_WEEK
-                  ),
-                  _totalStakedAmount.raw
-                )
-              : JSBI.BigInt(0)
-          )
-        }
-
-        const userRewardRatePerWeek = getHypotheticalWeeklyRewardRate(stakedAmount, totalStakedAmount, poolRewardRate)
-
-        memo.push({
-          pid,
-          stakingRewardAddress: MINICHEF_ADDRESS[chainId],
-          tokens,
-          earnedAmount,
-          rewardRatePerWeek: userRewardRatePerWeek,
-          totalRewardRatePerSecond: poolRewardRate,
-          totalRewardRatePerWeek: totalRewardRatePerWeek,
-          stakedAmount,
-          totalStakedAmount,
-          totalStakedInWavax,
-          totalStakedInUsd,
-          multiplier: JSBI.divide(multiplier, JSBI.BigInt(100)),
-          periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
-          isPeriodFinished,
-          getHypotheticalWeeklyRewardRate,
-          getExtraTokensWeeklyRewardRate,
-          rewardTokensAddress: rewardTokensAddress?.result?.[0],
-          rewardTokensMultiplier: rewardTokensMultiplier?.result?.[0],
-          rewardsAddress
-        })
-      }
-
-      return memo
-    }, [])
-  }, [
-    chainId,
-    png,
-    pairTotalSupplies,
-    poolInfos,
-    userInfos,
-    pairs,
-    avaxPngPair,
-    avaxPngPairState,
-    rewardPerSecond,
-    totalAllocPoint,
-    pendingRewards,
-    rewardsExpiration,
-    balances,
-    usdPrice,
-    pairAddresses,
-    rewardTokensAddresses,
-    rewardsAddresses,
-    rewardTokensMultipliers,
-    poolMap
-  ])
-  return arr
 }
 
 export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
@@ -1174,30 +660,4 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
       handleMax
     ]
   )
-}
-
-// Each APR request performs an upper bound of (6 + 11n) subrequests where n = pid count
-// API requests cannot exceed 50 subrequests and therefore `chunkSize` is set to 4
-// ie (6 + 11(4)) = 50
-export const fetchChunkedAprs = async (pids: string[], chainId: ChainId, chunkSize = 4) => {
-  interface AprResult {
-    swapFeeApr: number
-    stakingApr: number
-    combinedApr: number
-  }
-
-  const pidChunks: string[][] = []
-
-  for (let i = 0; i < pids.length; i += chunkSize) {
-    const pidChunk = pids.slice(i, i + chunkSize)
-    pidChunks.push(pidChunk)
-  }
-
-  const chunkedResults = await Promise.all<AprResult[]>(
-    pidChunks.map(chunk =>
-      fetch(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/pangolin/aprs/${chunk.join(',')}`).then(res => res.json())
-    )
-  )
-
-  return chunkedResults.flat()
 }

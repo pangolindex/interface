@@ -68,7 +68,6 @@ export const DEFAULT_DEADLINE_FROM_NOW = 10 * 60
 
 export const BIG_INT_ZERO = JSBI.BigInt(0)
 export const BIG_INT_ONE = JSBI.BigInt(1)
-export const BIG_INT_TWO = JSBI.BigInt(2)
 export const BIG_INT_SECONDS_IN_WEEK = JSBI.BigInt(60 * 60 * 24 * 7)
 
 // used to ensure the user doesn't send so much ETH so they end up with <.01
