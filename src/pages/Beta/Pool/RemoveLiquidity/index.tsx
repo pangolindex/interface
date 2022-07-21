@@ -22,6 +22,7 @@ import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from '
 // import Stat from 'src/components/Stat'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
+import { useQueryClient } from 'react-query'
 
 interface RemoveLiquidityProps {
   currencyA?: Currency
@@ -100,6 +101,8 @@ const RemoveLiquidity = ({ currencyA, currencyB, onLoadingOrComplete }: RemoveLi
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hash, attempting])
+
+  const queryClient = useQueryClient()
 
   async function onAttemptToApprove() {
     if (!pairContract || !pair || !library || !deadline || !chainId || !account)
@@ -309,7 +312,7 @@ const RemoveLiquidity = ({ currencyA, currencyB, onLoadingOrComplete }: RemoveLi
             ' ' +
             currencyB?.symbol
         })
-
+        queryClient.refetchQueries(['get-minichef-farms-v2', account])
         setHash(response.hash)
 
         ReactGA.event({

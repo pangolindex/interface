@@ -20,7 +20,9 @@ interface WithdrawProps {
 }
 const Remove = ({ stakingInfo, version, onClose }: WithdrawProps) => {
   const chainId = useChainId()
-  const [removeType, setRemoveType] = useState(REMOVE_TYPE.FARM as string)
+  const [removeType, setRemoveType] = useState(
+    stakingInfo.stakedAmount?.greaterThan('0') ? (REMOVE_TYPE.FARM as string) : (REMOVE_TYPE.LIQUIDITY as string)
+  )
   const [showRemoveTab, setShowRemoveTab] = useState<boolean>(true)
   const { t } = useTranslation()
   const token0 = stakingInfo.tokens[0]

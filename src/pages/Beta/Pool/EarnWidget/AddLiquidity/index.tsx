@@ -23,6 +23,7 @@ import PoolPriceBar from './PoolPriceBar'
 import { PairState } from 'src/data/Reserves'
 import ConfirmPoolDrawer from './ConfirmPoolDrawer'
 import { useCurrencyBalance } from 'src/state/wallet/hooks'
+import { useQueryClient } from 'react-query'
 
 interface AddLiquidityProps {
   currencyA: Currency
@@ -110,6 +111,8 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
 
   const addTransaction = useTransactionAdder()
 
+  const queryClient = useQueryClient()
+
   async function onAdd() {
     if (!chainId || !library || !account) return
     const router = getRouterContract(chainId, library, account)
@@ -177,7 +180,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
           ' ' +
           currencies[Field.CURRENCY_B]?.symbol
       })
-
+      queryClient.refetchQueries(['get-minichef-farms-v2', account])
       setTxHash(response.hash)
 
       ReactGA.event({

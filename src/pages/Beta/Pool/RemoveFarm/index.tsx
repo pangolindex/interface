@@ -10,6 +10,7 @@ import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 import Stat from 'src/components/Stat'
 import RemoveLiquidityDrawer from '../RemoveLiquidityDrawer'
+import { useQueryClient } from 'react-query'
 
 interface RemoveFarmProps {
   stakingInfo: StakingInfo
@@ -32,6 +33,8 @@ const RemoveFarm = ({ stakingInfo, version, onClose, onLoadingOrComplete }: Remo
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
+
+  const queryClient = useQueryClient()
 
   const isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
@@ -74,6 +77,7 @@ const RemoveFarm = ({ stakingInfo, version, onClose, onLoadingOrComplete }: Remo
         addTransaction(response, {
           summary: t('earn.withdrawDepositedLiquidity')
         })
+        queryClient.refetchQueries(['get-minichef-farms-v2', account])
         setHash(response.hash)
       } catch (err) {
         setAttempting(false)

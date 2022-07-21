@@ -41,6 +41,7 @@ import Stat from 'src/components/Stat'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 import { usePair } from 'src/data/Reserves'
+import { useQueryClient } from 'react-query'
 
 interface StakeProps {
   version: number
@@ -114,6 +115,8 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
   const currency1 = unwrappedToken(selectedPair?.token1 as Token, chainId)
   const poolMap = useMinichefPools()
 
+  const queryClient = useQueryClient()
+
   const onChangePercentage = (value: number) => {
     if (!userLiquidityUnstaked) {
       setTypedValue('0')
@@ -145,6 +148,7 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
           addTransaction(response, {
             summary: t('earn.depositLiquidity')
           })
+          queryClient.refetchQueries(['get-minichef-farms-v2', account])
           setHash(response.hash)
         } catch (err) {
           setAttempting(false)
