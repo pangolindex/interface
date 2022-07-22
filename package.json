@@ -27,6 +27,7 @@
     "@pangolindex/web3-react-injected-connector": "1.0.1",
     "@reach/dialog": "0.10.5",
     "@reduxjs/toolkit": "1.8.0",
+    "@talismn/web3react-v6-connector": "6.0.1",
     "@types/jest": "25.2.3",
     "@types/lodash.flatmap": "4.5.6",
     "@types/lodash.isequal": "4.5.6",
