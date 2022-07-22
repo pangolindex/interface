@@ -16,6 +16,7 @@ import { useChainId } from 'src/hooks'
 import { COINGECKO_API } from 'src/constants'
 import { Time } from 'lightweight-charts'
 import { useQuery } from 'react-query'
+import axios from 'axios'
 
 dayjs.extend(utc)
 
@@ -408,9 +409,18 @@ function useGetCoingeckoOHLC(token: Token) {
     if (!data || isLoading) {
       return null
     }
-    const response = await fetch(`${COINGECKO_API}/coins/${data.coinId}/ohlc?vs_currency=usd&days=max`)
-    const candles = (await response.json()) as OHLC[]
-    return candles
+    try {
+      const response = await axios.get(`${COINGECKO_API}/coins/${data.coinId}/ohlc?vs_currency=usd&days=max`)
+      if (response.status !== 200) {
+        return null
+      }
+
+      const candles = response.data as OHLC[]
+      return candles
+    } catch (error) {
+      console.log(error)
+      return null
+    }
   })
 }
 
@@ -419,62 +429,45 @@ function useGetCoingeckoOHLC(token: Token) {
  * @param tokenB - Token class of pangolin sdk
  * @returns Candle[][] if both coins exist on coingecko, else null
  */
-export function useCoingeckoChartData(tokenA: Token, tokenB: Token) {
-  let token0
-  let token1
-
-  if (tokenA.address < tokenB.address) {
-    token0 = tokenA
-    token1 = tokenB
-  } else {
-    token0 = tokenB
-    token1 = tokenA
-  }
-
-  const { data: token0Candles, isLoading: isLoadingToken0 } = useGetCoingeckoOHLC(token0)
-  const { data: token1Candles, isLoading: isLoadingToken1 } = useGetCoingeckoOHLC(token1)
+export function useCoingeckoChartData(tokenA: Token) {
+  const { data: tokenCandles, isLoading } = useGetCoingeckoOHLC(tokenA)
 
   const data = useMemo(() => {
-    if (!token0Candles || isLoadingToken0 || !token1Candles || isLoadingToken1) {
+    if (!tokenCandles || isLoading) {
       return []
     }
 
     let chartData0: Candle[] = []
     let chartData1: Candle[] = []
-
-    for (const candle0 of token0Candles) {
-      const [timestamp, open0, high0, low0, close0] = candle0
-      const candle1 = token1Candles.find(candle => candle[0] === timestamp)
-
-      if (!candle1) {
-        continue
-      }
-
-      const [, open1, high1, low1, close1] = candle1
+    for (const candle of tokenCandles) {
+      const [timestamp, open, high, low, close] = candle
 
       let dayjsTimestamp = dayjs.utc(dayjs.unix(Number(timestamp / 1000)))
 
       const year = dayjsTimestamp.get('year')
       const month = dayjsTimestamp.get('month') + 1
       const day = dayjsTimestamp.get('date')
+
+      //usd / token
       chartData0.push({
         time: { year: year, month: month, day: day },
-        open: open1 / open0,
-        high: high1 / high0,
-        low: low1 / low0,
-        close: close1 / close0
+        open: 1 / open,
+        high: 1 / high,
+        low: 1 / low,
+        close: 1 / close
       })
 
+      // token / usd
       chartData1.push({
         time: { year: year, month: month, day: day },
-        open: open0 / open1,
-        high: high0 / high1,
-        low: low0 / low1,
-        close: close0 / close1
+        open: open,
+        high: high,
+        low: low,
+        close: close
       })
     }
     return [chartData0, chartData1]
-  }, [isLoadingToken0, isLoadingToken1, token0Candles, token1Candles])
+  }, [isLoading, tokenCandles])
 
   return data
 }
