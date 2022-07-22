@@ -772,9 +772,9 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
         }
 
         // get the LP token
-        const tokens = info[index].tokens as Token[]
-        const wavax = tokens[0].equals(WAVAX[tokens[0].chainId]) ? tokens[0] : tokens[1]
-        const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
+        const _tokens = info[index].tokens as Token[]
+        const wavax = _tokens[0].equals(WAVAX[_tokens[0].chainId]) ? _tokens[0] : _tokens[1]
+        const dummyPair = new Pair(new TokenAmount(_tokens[0], '0'), new TokenAmount(_tokens[1], '0'), chainId)
         // check for account, if no account set to 0
 
         const periodFinishMs = periodFinishState.result?.[0]?.mul(1000)?.toNumber()
@@ -797,7 +797,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
           JSBI.multiply(totalRewardRatePerSecond.raw, BIG_INT_SECONDS_IN_WEEK)
         )
 
-        const isAvaxPool = tokens[0].equals(WAVAX[tokens[0].chainId])
+        const isAvaxPool = _tokens[0].equals(WAVAX[_tokens[0].chainId])
         const totalStakedInWavax = isAvaxPool
           ? calculateTotalStakedAmountInAvax(
               totalSupplyStaked,
@@ -809,7 +809,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
               totalSupplyStaked,
               totalSupplyAvailable,
               avaxPngPair.reserveOf(png).raw,
-              avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
+              avaxPngPair.reserveOf(WAVAX[_tokens[1].chainId]).raw,
               pair.reserveOf(png).raw,
               chainId
             )
@@ -839,7 +839,7 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
 
         memo.push({
           stakingRewardAddress: rewardsAddress,
-          tokens: tokens,
+          tokens: _tokens,
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
           isPeriodFinished: isPeriodFinished,
           earnedAmount: new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
