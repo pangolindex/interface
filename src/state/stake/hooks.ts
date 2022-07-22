@@ -1,4 +1,4 @@
-import { CurrencyAmount, JSBI, Token, TokenAmount, Pair, Percent, CHAINS } from '@pangolindex/sdk'
+import { CHAINS, CurrencyAmount, JSBI, Pair, Token, TokenAmount, WAVAX, Percent } from '@pangolindex/sdk'
 import { useMemo, useEffect, useState, useCallback } from 'react'
 import { BIG_INT_ZERO, BIG_INT_ONE, BIG_INT_SECONDS_IN_WEEK, ZERO_ADDRESS } from '../../constants'
 import { PNG } from '../../constants/tokens'
@@ -18,17 +18,21 @@ import { useTransactionAdder } from 'src/state/transactions/hooks'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
+import { PairState, usePair, usePairs } from 'src/data/Reserves'
 import { useChainId } from 'src/hooks'
 import {
   useLibrary,
   useTranslation,
-  useStakingInfo,
   useMinichefStakingInfos,
   StakingInfo,
   DoubleSideStakingInfo,
   fetchChunkedAprs,
-  useDerivedStakeInfo
+  useDerivedStakeInfo,
+  calculateTotalStakedAmountInAvax,
+  calculateTotalStakedAmountInAvaxFromPng
 } from '@pangolindex/components'
+import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
+import ERC20_INTERFACE from 'src/constants/abis/erc20'
 
 export interface SingleSideStaking {
   rewardToken: Token
@@ -660,4 +664,212 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
       handleMax
     ]
   )
+}
+
+export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): DoubleSideStakingInfo[] {
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
+
+  const info = useMemo(
+    () =>
+      chainId
+        ? DOUBLE_SIDE_STAKING_REWARDS_INFO[chainId]?.[version]?.filter(stakingRewardInfo =>
+            pairToFilterBy === undefined
+              ? true
+              : pairToFilterBy === null
+              ? false
+              : pairToFilterBy.involvesToken(stakingRewardInfo.tokens[0]) &&
+                pairToFilterBy.involvesToken(stakingRewardInfo.tokens[1])
+          ) ?? []
+        : [],
+    [chainId, pairToFilterBy, version]
+  )
+
+  const png = PNG[chainId]
+
+  const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
+  const accountArg = useMemo(() => [account ?? undefined], [account])
+
+  // get all the info from the staking rewards contracts
+  const tokens = useMemo(() => info.map(({ tokens }) => tokens), [info])
+  const balances = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'balanceOf', accountArg)
+  const earnedAmounts = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'earned', accountArg)
+  const stakingTotalSupplies = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'totalSupply')
+  const pairs = usePairs(tokens)
+
+  const pairAddresses = useMemo(() => {
+    const pairsHaveLoaded = pairs?.every(([state]) => state === PairState.EXISTS)
+    if (!pairsHaveLoaded) return []
+    else return pairs.map(([, pair]) => pair?.liquidityToken.address)
+  }, [pairs])
+
+  const pairTotalSupplies = useMultipleContractSingleData(pairAddresses, ERC20_INTERFACE, 'totalSupply')
+
+  const [avaxPngPairState, avaxPngPair] = usePair(WAVAX[chainId], png)
+
+  // tokens per second, constants
+  const rewardRates = useMultipleContractSingleData(
+    rewardsAddresses,
+    STAKING_REWARDS_INTERFACE,
+    'rewardRate',
+    undefined,
+    NEVER_RELOAD
+  )
+  const periodFinishes = useMultipleContractSingleData(
+    rewardsAddresses,
+    STAKING_REWARDS_INTERFACE,
+    'periodFinish',
+    undefined,
+    NEVER_RELOAD
+  )
+
+  const usdPriceTmp = useUSDCPrice(WAVAX[chainId])
+  const usdPrice = CHAINS[chainId]?.mainnet ? usdPriceTmp : undefined
+
+  return useMemo(() => {
+    if (!chainId || !png) return []
+
+    return rewardsAddresses.reduce<DoubleSideStakingInfo[]>((memo, rewardsAddress, index) => {
+      // these two are dependent on account
+      const balanceState = balances[index]
+      const earnedAmountState = earnedAmounts[index]
+
+      // these get fetched regardless of account
+      const stakingTotalSupplyState = stakingTotalSupplies[index]
+      const rewardRateState = rewardRates[index]
+      const periodFinishState = periodFinishes[index]
+      const [pairState, pair] = pairs[index]
+      const pairTotalSupplyState = pairTotalSupplies[index]
+
+      if (
+        // these may be undefined if not logged in
+        !balanceState?.loading &&
+        !earnedAmountState?.loading &&
+        // always need these
+        stakingTotalSupplyState?.loading === false &&
+        rewardRateState?.loading === false &&
+        periodFinishState?.loading === false &&
+        pairTotalSupplyState?.loading === false &&
+        pair &&
+        avaxPngPair &&
+        pairState !== PairState.LOADING &&
+        avaxPngPairState !== PairState.LOADING
+      ) {
+        if (
+          balanceState?.error ||
+          earnedAmountState?.error ||
+          stakingTotalSupplyState.error ||
+          rewardRateState.error ||
+          periodFinishState.error ||
+          pairTotalSupplyState.error ||
+          pairState === PairState.INVALID ||
+          pairState === PairState.NOT_EXISTS ||
+          avaxPngPairState === PairState.INVALID ||
+          avaxPngPairState === PairState.NOT_EXISTS
+        ) {
+          console.error('Failed to load staking rewards info')
+          return memo
+        }
+
+        // get the LP token
+        const tokens = info[index].tokens as Token[]
+        const wavax = tokens[0].equals(WAVAX[tokens[0].chainId]) ? tokens[0] : tokens[1]
+        const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'), chainId)
+        // check for account, if no account set to 0
+
+        const periodFinishMs = periodFinishState.result?.[0]?.mul(1000)?.toNumber()
+
+        // periodFinish will be 0 immediately after a reward contract is initialized
+        const isPeriodFinished = periodFinishMs === 0 ? false : periodFinishMs < Date.now()
+
+        const totalSupplyStaked = JSBI.BigInt(stakingTotalSupplyState.result?.[0])
+        const totalSupplyAvailable = JSBI.BigInt(pairTotalSupplyState.result?.[0])
+
+        const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
+        const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(totalSupplyStaked))
+        const totalRewardRatePerSecond = new TokenAmount(
+          png,
+          JSBI.BigInt(isPeriodFinished ? 0 : rewardRateState.result?.[0])
+        )
+
+        const totalRewardRatePerWeek = new TokenAmount(
+          png,
+          JSBI.multiply(totalRewardRatePerSecond.raw, BIG_INT_SECONDS_IN_WEEK)
+        )
+
+        const isAvaxPool = tokens[0].equals(WAVAX[tokens[0].chainId])
+        const totalStakedInWavax = isAvaxPool
+          ? calculateTotalStakedAmountInAvax(
+              totalSupplyStaked,
+              totalSupplyAvailable,
+              pair.reserveOf(wavax).raw,
+              chainId
+            )
+          : calculateTotalStakedAmountInAvaxFromPng(
+              totalSupplyStaked,
+              totalSupplyAvailable,
+              avaxPngPair.reserveOf(png).raw,
+              avaxPngPair.reserveOf(WAVAX[tokens[1].chainId]).raw,
+              pair.reserveOf(png).raw,
+              chainId
+            )
+
+        const totalStakedInUsd = totalStakedInWavax && (usdPrice?.quote(totalStakedInWavax, chainId) as TokenAmount)
+
+        const getHypotheticalWeeklyRewardRate = (
+          _stakedAmount: TokenAmount,
+          _totalStakedAmount: TokenAmount,
+          totalRewardRatePerSecond: TokenAmount
+        ): TokenAmount => {
+          return new TokenAmount(
+            png,
+            JSBI.greaterThan(_totalStakedAmount.raw, JSBI.BigInt(0))
+              ? JSBI.divide(JSBI.multiply(totalRewardRatePerSecond.raw, _stakedAmount.raw), _totalStakedAmount.raw)
+              : JSBI.BigInt(0)
+          )
+        }
+
+        const individualRewardRatePerWeek = getHypotheticalWeeklyRewardRate(
+          stakedAmount,
+          totalStakedAmount,
+          totalRewardRatePerSecond
+        )
+
+        const multiplier = info[index].multiplier
+
+        memo.push({
+          stakingRewardAddress: rewardsAddress,
+          tokens: tokens,
+          periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
+          isPeriodFinished: isPeriodFinished,
+          earnedAmount: new TokenAmount(png, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
+          rewardRatePerWeek: individualRewardRatePerWeek,
+          totalRewardRatePerSecond: totalRewardRatePerSecond,
+          totalRewardRatePerWeek: totalRewardRatePerWeek,
+          stakedAmount: stakedAmount,
+          totalStakedAmount: totalStakedAmount,
+          totalStakedInWavax: totalStakedInWavax,
+          totalStakedInUsd: totalStakedInUsd,
+          multiplier: JSBI.BigInt(multiplier ?? 0),
+          getHypotheticalWeeklyRewardRate
+        })
+      }
+      return memo
+    }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    chainId,
+    png,
+    rewardsAddresses,
+    balances,
+    earnedAmounts,
+    stakingTotalSupplies,
+    rewardRates,
+    periodFinishes,
+    pairs,
+    pairTotalSupplies,
+    avaxPngPair,
+    avaxPngPairState,
+    info
+  ])
 }

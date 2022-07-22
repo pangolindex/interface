@@ -9,11 +9,11 @@ import {
   MinichefStakingInfo,
   useGetAllFarmData,
   useGetMinichefStakingInfosViaSubgraph,
-  useStakingInfo,
   DoubleSideStakingInfo,
   PoolType
 } from '@pangolindex/components'
 import { PageWrapper, GridContainer, ExternalLink } from './styleds'
+import { useStakingInfo } from 'src/state/stake/hooks'
 import Sidebar, { MenuType } from './Sidebar'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
