@@ -153,5 +153,6 @@ export enum MENU_LINK {
   vote = '/vote',
   migrate = '/migrate',
   bridge = '/bridge',
-  airdrop = '/airdrop'
+  airdrop = '/airdrop',
+  sar = '/sar'
 }

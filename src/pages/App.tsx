@@ -20,6 +20,7 @@ const PoolV2 = React.lazy(() => import('./Beta/Pool'))
 const BridgeV2 = React.lazy(() => import('./Beta/Bridge'))
 const AirdropV2 = React.lazy(() => import('./Beta/Airdrop2'))
 const Policy = React.lazy(() => import('./Beta/Policy'))
+const SarStake = React.lazy(() => import('./SarStake'))
 
 const AppWrapper = styled.div`
   display: flex;
@@ -77,6 +78,7 @@ export default function App() {
               <CustomRoute exact path={`${MENU_LINK.pool}`} component={PoolV2} layout={Layout} />
               <CustomRoute exact path={`${MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} />
               <CustomRoute exact path={`${MENU_LINK.airdrop}`} component={AirdropV2} layout={Layout} />
+              <CustomRoute exact path={`${MENU_LINK.sar}`} component={SarStake} layout={Layout} />
 
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
 
