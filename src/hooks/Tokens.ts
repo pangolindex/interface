@@ -1,10 +1,11 @@
 import { useMemo } from 'react'
-import { Token, CHAINS, ChainId } from '@pangolindex/sdk'
+import { Token } from '@pangolindex/sdk'
 import { useSelectedTokenList } from '../state/lists/hooks'
 import { useUserAddedTokens } from '../state/user/hooks'
-import { useChainId } from './index'
+import { useChain, useChainId } from './index'
 import { useQuery } from 'react-query'
 import { COINGECKO_API } from 'src/constants'
+import axios, { AxiosResponse } from 'axios'
 
 export function useAllTokens(): { [address: string]: Token } {
   const chainId = useChainId()
@@ -42,14 +43,33 @@ export interface CoingeckoData {
  * */
 
 export function useCoinGeckoTokenData(coin: Token) {
-  const chain = CHAINS[coin.chainId].mainnet ? CHAINS[coin.chainId] : CHAINS[ChainId.AVALANCHE]
+  const chain = useChain(coin.chainId)
 
   return useQuery(['coingeckoToken', coin.address, chain.name], async () => {
-    if (!chain.coingecko_id) {
+    if (!chain.coingecko_id || !chain.evm) {
       return null
     }
-    const response = await fetch(`${COINGECKO_API}/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`)
-    const data = await response.json()
+    let response: AxiosResponse | null = null
+    try {
+      response = await axios.get(
+        `${COINGECKO_API}/coins/${chain.coingecko_id}/contract/${coin.address.toLowerCase()}`,
+        {
+          timeout: 60000
+        }
+      )
+    } catch (error) {
+      console.error(error)
+    }
+
+    if (!response || response.status !== 200) {
+      return null
+    }
+
+    const data = response.data
+    if (!data?.id) {
+      return null
+    }
+
     return {
       coinId: data?.id,
       homePage: data?.links?.homepage[0],
