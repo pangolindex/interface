@@ -4,13 +4,12 @@ import { FarmRemoveWrapper, RewardWrapper, Root, StatWrapper } from './styleds'
 import { StakingInfo, useMinichefPools, useMinichefPendingRewards, useGetEarnedAmount } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useRefetchMinichefSubgraph } from 'src/hooks'
 import { useStakingContract } from 'src/hooks/useContract'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 import Stat from 'src/components/Stat'
 import RemoveLiquidityDrawer from '../RemoveLiquidityDrawer'
-import { useQueryClient } from 'react-query'
 
 interface RemoveFarmProps {
   stakingInfo: StakingInfo
@@ -34,7 +33,7 @@ const RemoveFarm = ({ stakingInfo, version, onClose, onLoadingOrComplete }: Remo
 
   const { rewardTokensAmount } = useMinichefPendingRewards(stakingInfo)
 
-  const queryClient = useQueryClient()
+  const refetchMinichefSubgraph = useRefetchMinichefSubgraph()
 
   const isSuperFarm = (rewardTokensAmount || [])?.length > 0
 
@@ -73,11 +72,11 @@ const RemoveFarm = ({ stakingInfo, version, onClose, onLoadingOrComplete }: Remo
       try {
         const response: TransactionResponse = await stakingContract[method](...args)
 
-        await response.wait(1)
+        await response.wait(5)
         addTransaction(response, {
           summary: t('earn.withdrawDepositedLiquidity')
         })
-        queryClient.refetchQueries(['get-minichef-farms-v2', account])
+        await refetchMinichefSubgraph()
         setHash(response.hash)
       } catch (err) {
         setAttempting(false)

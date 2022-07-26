@@ -5,7 +5,7 @@ import { Box, Button, Text, useLibrary, useTranslation } from '@pangolindex/comp
 import { Plus } from 'react-feather'
 import { RowBetween } from 'src/components/Row'
 import { useWalletModalToggle } from 'src/state/application/hooks'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
+import { useActiveWeb3React, useChainId, useRefetchMinichefSubgraph } from 'src/hooks'
 import { ThemeContext } from 'styled-components'
 import { Field } from 'src/state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'src/state/mint/hooks'
@@ -23,7 +23,6 @@ import PoolPriceBar from './PoolPriceBar'
 import { PairState } from 'src/data/Reserves'
 import ConfirmPoolDrawer from './ConfirmPoolDrawer'
 import { useCurrencyBalance } from 'src/state/wallet/hooks'
-import { useQueryClient } from 'react-query'
 
 interface AddLiquidityProps {
   currencyA: Currency
@@ -111,7 +110,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
 
   const addTransaction = useTransactionAdder()
 
-  const queryClient = useQueryClient()
+  const refetchMinichefSubgraph = useRefetchMinichefSubgraph()
 
   async function onAdd() {
     if (!chainId || !library || !account) return
@@ -167,7 +166,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
         ...(value ? { value } : {}),
         gasLimit: calculateGasMargin(estimatedGasLimit)
       })
-      await response.wait(1)
+      await response.wait(5)
 
       addTransaction(response, {
         summary:
@@ -180,7 +179,7 @@ const AddLiquidity = ({ currencyA, currencyB, onComplete, onAddToFarm, type }: A
           ' ' +
           currencies[Field.CURRENCY_B]?.symbol
       })
-      queryClient.refetchQueries(['get-minichef-farms-v2', account])
+      await refetchMinichefSubgraph()
       setTxHash(response.hash)
 
       ReactGA.event({

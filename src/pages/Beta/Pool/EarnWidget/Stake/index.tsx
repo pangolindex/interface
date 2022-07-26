@@ -20,7 +20,7 @@ import {
   useLibrary,
   useTranslation
 } from '@pangolindex/components'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
+import { useActiveWeb3React, useChainId, useRefetchMinichefSubgraph } from 'src/hooks'
 import { TokenAmount, Pair, JSBI, Token } from '@pangolindex/sdk'
 import { unwrappedToken, wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
 import {
@@ -41,7 +41,6 @@ import Stat from 'src/components/Stat'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
 import { usePair } from 'src/data/Reserves'
-import { useQueryClient } from 'react-query'
 
 interface StakeProps {
   version: number
@@ -115,7 +114,7 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
   const currency1 = unwrappedToken(selectedPair?.token1 as Token, chainId)
   const poolMap = useMinichefPools()
 
-  const queryClient = useQueryClient()
+  const refetchMinichefSubgraph = useRefetchMinichefSubgraph()
 
   const onChangePercentage = (value: number) => {
     if (!userLiquidityUnstaked) {
@@ -144,11 +143,11 @@ const Stake = ({ version, onComplete, type, stakingInfo, combinedApr }: StakePro
       if (approval === ApprovalState.APPROVED) {
         try {
           const response: TransactionResponse = await stakingContract[method](...args)
-          await response.wait(1)
+          await response.wait(5)
           addTransaction(response, {
             summary: t('earn.depositLiquidity')
           })
-          queryClient.refetchQueries(['get-minichef-farms-v2', account])
+          await refetchMinichefSubgraph()
           setHash(response.hash)
         } catch (err) {
           setAttempting(false)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { MobileWrapper, DesktopWrapper, DetailsWrapper, Tab, Tabs, LeftSection, RightSection } from './styleds'
-import { StakingInfo, useGetPoolDollerWorth } from 'src/state/stake/hooks'
-import { Box, usePair } from '@pangolindex/components'
+import { StakingInfo } from 'src/state/stake/hooks'
+import { Box } from '@pangolindex/components'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import EarnWidget from '../../EarnWidget'
 import EarnDetail from '../EarnDetail'
@@ -27,17 +27,14 @@ const DetailView = ({ stakingInfo, onDismiss, version }: PoolDetailProps) => {
   const currency1 = unwrappedToken(token1, chainId)
 
   const isStaking = Boolean(stakingInfo?.stakedAmount?.greaterThan('0'))
-  const [, pair] = usePair(token0, token1)
-  const { userPgl, liquidityInUSD } = useGetPoolDollerWorth(pair)
 
-  const hasliquidity = isStaking || userPgl?.greaterThan('0') || liquidityInUSD > 0
   return (
     <>
       <MobileWrapper>
         <Header stakingInfo={stakingInfo} onClose={onDismiss} />
         <Box p={10}>
-          {hasliquidity && <EarnDetail stakingInfo={stakingInfo} version={version} />}
-          <Box mt={hasliquidity ? '10px' : '0px'}>
+          {isStaking && <EarnDetail stakingInfo={stakingInfo} version={version} />}
+          <Box mt={isStaking ? '10px' : '0px'}>
             <EarnWidget currencyA={currency0} currencyB={currency1} version={version} stakingInfo={stakingInfo} />
           </Box>
 
@@ -60,7 +57,7 @@ const DetailView = ({ stakingInfo, onDismiss, version }: PoolDetailProps) => {
           </LeftSection>
           <RightSection>
             <EarnWidget currencyA={currency0} currencyB={currency1} version={version} stakingInfo={stakingInfo} />
-            {hasliquidity && <EarnDetail stakingInfo={stakingInfo} version={version} />}
+            {isStaking && <EarnDetail stakingInfo={stakingInfo} version={version} />}
           </RightSection>
         </DetailsWrapper>
       </DesktopWrapper>

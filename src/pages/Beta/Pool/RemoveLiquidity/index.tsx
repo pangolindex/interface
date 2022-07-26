@@ -3,7 +3,7 @@ import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { RemoveWrapper, InputText } from './styleds'
 import { Box, Text, Button, NumberOptions, useLibrary, useTranslation } from '@pangolindex/components'
 import ReactGA from 'react-ga'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
+import { useActiveWeb3React, useChainId, useRefetchMinichefSubgraph } from 'src/hooks'
 import { Currency, CAVAX } from '@pangolindex/sdk'
 import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
@@ -22,7 +22,6 @@ import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from '
 // import Stat from 'src/components/Stat'
 import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
 import Loader from 'src/components/Beta/Loader'
-import { useQueryClient } from 'react-query'
 
 interface RemoveLiquidityProps {
   currencyA?: Currency
@@ -102,7 +101,7 @@ const RemoveLiquidity = ({ currencyA, currencyB, onLoadingOrComplete }: RemoveLi
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hash, attempting])
 
-  const queryClient = useQueryClient()
+  const refetchMinichefSubgraph = useRefetchMinichefSubgraph()
 
   async function onAttemptToApprove() {
     if (!pairContract || !pair || !library || !deadline || !chainId || !account)
@@ -299,7 +298,7 @@ const RemoveLiquidity = ({ currencyA, currencyB, onLoadingOrComplete }: RemoveLi
         const response: TransactionResponse = await router[methodName](...args, {
           gasLimit: safeGasEstimate
         })
-        await response.wait(1)
+        await response.wait(5)
         addTransaction(response, {
           summary:
             t('removeLiquidity.remove') +
@@ -312,7 +311,7 @@ const RemoveLiquidity = ({ currencyA, currencyB, onLoadingOrComplete }: RemoveLi
             ' ' +
             currencyB?.symbol
         })
-        queryClient.refetchQueries(['get-minichef-farms-v2', account])
+        await refetchMinichefSubgraph()
         setHash(response.hash)
 
         ReactGA.event({

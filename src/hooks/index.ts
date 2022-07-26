@@ -5,6 +5,7 @@ import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import { gnosisSafe, injected, xDefi, near, IS_IN_IFRAME, NetworkContextName } from '@pangolindex/components'
+import { useQueryClient } from 'react-query'
 
 export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & { chainId?: ChainId } {
   const context = useWeb3ReactCore<Web3Provider>()
@@ -135,4 +136,11 @@ export const useChain = (chainId: number) => {
 export const usePngSymbol = () => {
   const { chainId } = useActiveWeb3React()
   return CHAINS[chainId || ChainId.AVALANCHE].png_symbol!
+}
+
+export const useRefetchMinichefSubgraph = () => {
+  const { account } = useActiveWeb3React()
+  const queryClient = useQueryClient()
+
+  return async () => await queryClient.refetchQueries(['get-minichef-farms-v2', account])
 }

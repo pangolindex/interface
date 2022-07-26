@@ -1631,7 +1631,7 @@ export function useGetAllFarmData() {
   const chainId = useChainId()
 
   const allFarms = useQuery(['get-minichef-farms-v2', account], fetchMinichefData(account || '', chainId), {
-    staleTime: 1000 * 60 * 5
+    refetchInterval: 1000 * 60 * 5 // 5 minutes
   })
 
   const dispatch = useDispatch()
