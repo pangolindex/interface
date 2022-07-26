@@ -9,7 +9,6 @@ import { maxAmountSpend } from 'src/utils'
 import { useUSDCPrice } from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
 import { useTokenBalance } from '../../state/wallet/hooks'
-import { useTotalSupply } from '../../data/TotalSupply'
 import { usePngContract, useStakingContract } from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
 import { wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
@@ -29,7 +28,8 @@ import {
   fetchChunkedAprs,
   useDerivedStakeInfo,
   calculateTotalStakedAmountInAvax,
-  calculateTotalStakedAmountInAvaxFromPng
+  calculateTotalStakedAmountInAvaxFromPng,
+  useTotalSupply
 } from '@pangolindex/components'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
 import ERC20_INTERFACE from 'src/constants/abis/erc20'
