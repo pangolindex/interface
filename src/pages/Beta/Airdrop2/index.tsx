@@ -86,7 +86,7 @@ const AirdropUI: React.FC = () => {
         </CenterText>
       </Box>
       <BoxWrapper>
-        {activeAirdrops.map((chain, index) => renderAirdrop(chain, index))}
+        {activeAirdrops.map(renderAirdrop)}
         <Confetti start={Boolean(eligible)} />
         {commingSoonAirdrops.map((chain, index) => (
           <BoxCommingSoon key={index} chain={chain} />

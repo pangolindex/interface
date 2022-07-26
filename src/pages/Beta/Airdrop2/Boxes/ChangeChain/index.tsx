@@ -18,7 +18,7 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain, chain }) =
     const { ethereum } = window
 
     changeChain()
-    if (ethereum) {
+    if (ethereum && chain?.evm) {
       try {
         await ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -49,7 +49,7 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain, chain }) =
     <ClaimBox>
       <TitleWrapper>
         <Text fontSize={[28, 22]} fontWeight={700} lineHeight="33px" color="text10">
-          Change Chain
+          Change to {chain?.name}
         </Text>
         <StyledLogo src={chain?.logo} size={'50px'} />
       </TitleWrapper>
