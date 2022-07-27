@@ -1,9 +1,8 @@
 import React from 'react'
 import { Wrapper } from './styleds'
-import { Text, Checkbox, Box, Button, useTranslation } from '@pangolindex/components'
+import { Text, Checkbox, Box, Button, useTranslation, StakingInfo } from '@pangolindex/components'
 import { Pair } from '@pangolindex/sdk'
 import PairData from './PairData'
-import { StakingInfo } from '../../../state/stake/hooks'
 
 export interface ChoosePoolProps {
   allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
