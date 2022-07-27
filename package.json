@@ -1,6 +1,6 @@
 {
   "name": "@pangolindex/interface",
-  "version": "1.0.44-dev.9",
+  "version": "1.0.44-dev.11",
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
@@ -22,7 +22,7 @@
     "@pangolindex/components": "4.0.0-rc.5",
     "@pangolindex/exchange-contracts": "1.0.2",
     "@pangolindex/governance": "1.2.0",
-    "@pangolindex/sdk": "2.1.3",
+    "@pangolindex/sdk": "2.1.5",
     "@pangolindex/token-lists": "1.0.2",
     "@pangolindex/web3-react-injected-connector": "1.0.1",
     "@reach/dialog": "0.10.5",
