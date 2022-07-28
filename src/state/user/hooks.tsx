@@ -67,8 +67,8 @@ export function useWallet(): [string | null, (wallet: string | null) => void] {
   const wallet = useSelector<AppState['user']['wallet']>(state => state.user.wallet)
 
   const setWallet = useCallback(
-    (wallet: string | null) => {
-      dispatch(updateWallet({ wallet }))
+    (walletKey: string | null) => {
+      dispatch(updateWallet({ wallet: walletKey }))
     },
     [dispatch]
   )

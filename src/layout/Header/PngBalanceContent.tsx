@@ -90,7 +90,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   useMemo(() => {
     if (png === undefined) return
     fetch(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/png/circulating-supply`)
-      .then(async res => (res.ok ? await res.text() : '0')) // TODO : there is probably a better way to handle server error
+      .then(res => (res.ok ? res.text() : '0')) // there is probably a better way to handle server error
       .then(val => setCirculation(new TokenAmount(png, val)))
   }, [png, chainId])
 
