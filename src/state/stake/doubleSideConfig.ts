@@ -1421,6 +1421,11 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [TOKENS.USDC[ChainId.AVALANCHE], TOKENS.BRZ[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
     version: 2
+  },
+  USDC_UND_V2: {
+    tokens: [TOKENS.USDC[ChainId.AVALANCHE], TOKENS.UND[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
   }
 }
 
