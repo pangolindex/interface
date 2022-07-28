@@ -13,7 +13,8 @@ import {
   SerializedToken,
   updateUserDarkMode,
   updateUserSlippageTolerance,
-  toggleURLWarning
+  toggleURLWarning,
+  updateWallet
 } from './actions'
 
 function serializeToken(token: Token): SerializedToken {
@@ -196,4 +197,18 @@ export function useTrackedTokenPairs(): [Token, Token][] {
 
     return Object.keys(keyed).map(key => keyed[key])
   }, [combinedList])
+}
+
+export function useWallet(): [string | null, (wallet: string | null) => void] {
+  const dispatch = useDispatch()
+  const wallet = useSelector<AppState['user']['wallet']>(state => state.user.wallet)
+
+  const setWallet = useCallback(
+    (wallet: string | null) => {
+      dispatch(updateWallet({ wallet }))
+    },
+    [dispatch]
+  )
+
+  return [wallet, setWallet]
 }

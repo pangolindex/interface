@@ -11,7 +11,8 @@ import {
   updateMatchesDarkMode,
   updateUserDarkMode,
   updateUserSlippageTolerance,
-  toggleURLWarning
+  toggleURLWarning,
+  updateWallet
 } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
@@ -46,6 +47,9 @@ export interface UserState {
 
   timestamp: number
   URLWarningVisible: boolean
+
+  // key of SUPPORTED_WALLETS used to know which connector to auto connect
+  wallet: string | null
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -61,7 +65,8 @@ export const initialState: UserState = {
   tokens: {},
   pairs: {},
   timestamp: currentTimestamp(),
-  URLWarningVisible: true
+  URLWarningVisible: true,
+  wallet: null
 }
 
 export default createReducer(initialState, builder =>
@@ -124,5 +129,8 @@ export default createReducer(initialState, builder =>
     })
     .addCase(toggleURLWarning, state => {
       state.URLWarningVisible = !state.URLWarningVisible
+    })
+    .addCase(updateWallet, (state, { payload: { wallet } }) => {
+      state.wallet = wallet
     })
 )
