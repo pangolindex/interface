@@ -15,6 +15,7 @@ interface Window {
     isMetaMask?: true
     isXDEFI?: true
     isRabby?: true
+    isTalisman?: true
     on?: (...args: any[]) => void
     removeListener?: (...args: any[]) => void
     request: (...args: any[]) => Promise<any>

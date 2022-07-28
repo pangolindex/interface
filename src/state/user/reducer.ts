@@ -1,7 +1,14 @@
 import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW } from '../../constants'
 import { createReducer } from '@reduxjs/toolkit'
 import { updateVersion } from '../global/actions'
-import { SerializedPair, SerializedToken, updateMatchesDarkMode, updateUserDarkMode, toggleURLWarning } from './actions'
+import {
+  SerializedPair,
+  SerializedToken,
+  updateMatchesDarkMode,
+  updateUserDarkMode,
+  toggleURLWarning,
+  updateWallet
+} from './actions'
 
 const currentTimestamp = () => new Date().getTime()
 
@@ -33,6 +40,9 @@ export interface UserState {
 
   timestamp: number
   URLWarningVisible: boolean
+
+  // key of SUPPORTED_WALLETS used to know which connector to auto connect
+  wallet: string | null
 }
 
 export const initialState: UserState = {
@@ -43,7 +53,8 @@ export const initialState: UserState = {
   tokens: {},
   pairs: {},
   timestamp: currentTimestamp(),
-  URLWarningVisible: true
+  URLWarningVisible: true,
+  wallet: null
 }
 
 export default createReducer(initialState, builder =>
@@ -74,5 +85,8 @@ export default createReducer(initialState, builder =>
 
     .addCase(toggleURLWarning, state => {
       state.URLWarningVisible = !state.URLWarningVisible
+    })
+    .addCase(updateWallet, (state, { payload: { wallet } }) => {
+      state.wallet = wallet
     })
 )

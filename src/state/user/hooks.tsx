@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react'
 import { shallowEqual } from 'react-redux'
 import { useActiveWeb3React } from '../../hooks'
 import { AppState, useDispatch, useSelector } from '../index'
-import { SerializedToken, updateUserDarkMode, toggleURLWarning } from './actions'
+import { SerializedToken, updateUserDarkMode, toggleURLWarning, updateWallet } from './actions'
 
 function deserializeToken(serializedToken: SerializedToken): Token {
   return new Token(
@@ -60,4 +60,18 @@ export function useURLWarningVisible(): boolean {
 export function useURLWarningToggle(): () => void {
   const dispatch = useDispatch()
   return useCallback(() => dispatch(toggleURLWarning()), [dispatch])
+}
+
+export function useWallet(): [string | null, (wallet: string | null) => void] {
+  const dispatch = useDispatch()
+  const wallet = useSelector<AppState['user']['wallet']>(state => state.user.wallet)
+
+  const setWallet = useCallback(
+    (walletKey: string | null) => {
+      dispatch(updateWallet({ wallet: walletKey }))
+    },
+    [dispatch]
+  )
+
+  return [wallet, setWallet]
 }
