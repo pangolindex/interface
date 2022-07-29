@@ -1,14 +1,13 @@
 import React from 'react'
 import { InfoWrapper, DataBox, ContentBox, TextBox, StyledBalanceMax } from './styleds'
-import { Text, Box, DoubleCurrencyLogo, Steps, Step } from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo, Steps, Step, useTranslation, StakingInfo } from '@pangolindex/components'
 import { Pair, TokenAmount, JSBI } from '@pangolindex/sdk'
-import { useGetPairDataFromPair, StakingInfo } from '../../../state/stake/hooks'
+import { useGetPairDataFromPair } from '../../../state/stake/hooks'
 import numeral from 'numeral'
-import { useTranslation } from 'react-i18next'
 import { useTokenBalance } from '../../../state/wallet/hooks'
 import { useActiveWeb3React, useChainId, usePngSymbol } from '../../../hooks'
 import { wrappedCurrencyAmount } from '../../../utils/wrappedCurrency'
-import { tryParseAmount } from '../../../state/swap/hooks'
+import { tryParseAmount } from 'src/utils'
 
 export interface PoolInfoProps {
   pair: Pair

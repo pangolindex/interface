@@ -1,9 +1,8 @@
 import React from 'react'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box, Stat } from '@pangolindex/components'
 import { Currency, TokenAmount, CHAINS } from '@pangolindex/sdk'
 import { StateContainer } from './styleds'
 import numeral from 'numeral'
-import Stat from 'src/components/Stat'
 import { useUSDCPrice } from 'src/utils/useUSDCPrice'
 import { useChainId } from 'src/hooks'
 

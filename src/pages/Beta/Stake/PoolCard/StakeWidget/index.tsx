@@ -1,13 +1,9 @@
 import React from 'react'
 import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { Root, Buttons, MaxButton, StakeWrapper, GridContainer, InputText } from './styled'
-import { Box, Button, NumberOptions } from '@pangolindex/components'
+import { Box, Button, NumberOptions, useTranslation, Loader, Stat, TransactionCompleted } from '@pangolindex/components'
 import { ApprovalState } from 'src/hooks/useApproveCallback'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
-import { useTranslation } from 'react-i18next'
-import TransactionCompleted from 'src/components/Beta/TransactionCompleted'
-import Stat from 'src/components/Stat'
-import Loader from 'src/components/Beta/Loader'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo

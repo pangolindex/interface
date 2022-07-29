@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from '@pangolindex/components'
-import Circle from '../../../assets/images/blue-loader.svg'
+import Circle from '../../../assets/svg/blue-loader.svg'
 import { CustomLightSpinner } from '../../../theme/components'
 import { Wrapper, ConfirmedIcon, Section } from './styleds'
 import { AutoColumn } from '../../Column'

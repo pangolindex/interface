@@ -1,9 +1,9 @@
 import { TransactionResponse } from '@ethersproject/providers'
 import { useCallback, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'src/state'
 
 import { useActiveWeb3React } from '../../hooks'
-import { AppDispatch, AppState } from '../index'
+import { AppState, useSelector } from '../index'
 import { addTransaction } from './actions'
 import { TransactionDetails } from './reducer'
 
@@ -13,7 +13,7 @@ export function useTransactionAdder(): (
   customData?: { summary?: string; approval?: { tokenAddress: string; spender: string }; claim?: { recipient: string } }
 ) => void {
   const { chainId, account } = useActiveWeb3React()
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
 
   return useCallback(
     (
@@ -41,17 +41,9 @@ export function useTransactionAdder(): (
 export function useAllTransactions(): { [txHash: string]: TransactionDetails } {
   const { chainId } = useActiveWeb3React()
 
-  const state = useSelector<AppState, AppState['transactions']>(_state => _state.transactions)
+  const state = useSelector<AppState['transactions']>(_state => _state.transactions)
 
   return chainId ? state[chainId] ?? {} : {}
-}
-
-export function useIsTransactionPending(transactionHash?: string): boolean {
-  const transactions = useAllTransactions()
-
-  if (!transactionHash || !transactions[transactionHash]) return false
-
-  return !transactions[transactionHash].receipt
 }
 
 /**
@@ -82,23 +74,4 @@ export function useHasPendingApproval(tokenAddress: string | undefined, spender:
       }),
     [allTransactions, spender, tokenAddress]
   )
-}
-
-// watch for submissions to claim
-// return null if not done loading, return undefined if not found
-export function useUserHasSubmittedClaim(
-  account?: string
-): { claimSubmitted: boolean; claimTxn: TransactionDetails | undefined } {
-  const allTransactions = useAllTransactions()
-
-  // get the txn if it has been submitted
-  const claimTxn = useMemo(() => {
-    const txnIndex = Object.keys(allTransactions).find(hash => {
-      const tx = allTransactions[hash]
-      return tx.claim && tx.claim.recipient === account
-    })
-    return txnIndex && allTransactions[txnIndex] ? allTransactions[txnIndex] : undefined
-  }, [account, allTransactions])
-
-  return { claimSubmitted: Boolean(claimTxn), claimTxn }
 }

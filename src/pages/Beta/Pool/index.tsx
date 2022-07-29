@@ -1,27 +1,23 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { Box } from '@pangolindex/components'
-import { PageWrapper, GridContainer, ExternalLink } from './styleds'
-import Sidebar, { MenuType } from './Sidebar'
-import AllPoolList from './AllPoolList'
-import Wallet from './Wallet'
-import { useTranslation } from 'react-i18next'
 import {
-  useStakingInfo,
-  useGetMinichefStakingInfosViaSubgraph,
-  useGetAllFarmData,
+  Box,
+  useTranslation,
+  Pools,
+  AddLiquidityModal,
+  Wallet,
   useMinichefStakingInfosMapping,
-  MinichefStakingInfo
-} from 'src/state/stake/hooks'
+  MinichefStakingInfo,
+  useGetAllFarmData,
+  useGetMinichefStakingInfosViaSubgraph,
+  DoubleSideStakingInfo,
+  PoolType
+} from '@pangolindex/components'
+import { PageWrapper, GridContainer, ExternalLink } from './styleds'
+import { useStakingInfo } from 'src/state/stake/hooks'
+import Sidebar, { MenuType } from './Sidebar'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
-import AddLiquidityModal from './AddLiquidityModal'
 import { useChainId } from 'src/hooks'
-
-export enum PoolType {
-  own = 'own',
-  all = 'all',
-  superFarms = 'superFarms'
-}
 
 const PoolUI = () => {
   const chainId = useChainId()
@@ -31,7 +27,7 @@ const PoolUI = () => {
 
   useGetAllFarmData()
 
-  let miniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
+  const subgraphMiniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
   const onChainMiniChefStakingInfo = useMinichefStakingInfosMapping[chainId]()
 
   const handleAddLiquidityModalClose = useCallback(() => {
@@ -41,41 +37,45 @@ const PoolUI = () => {
   let stakingInfoV1 = useStakingInfo(1)
   // filter only live or needs migration pools
   stakingInfoV1 = useMemo(
-    () => (stakingInfoV1 || []).filter(info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)),
+    () =>
+      (stakingInfoV1 || []).filter(
+        (info: DoubleSideStakingInfo) => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+      ),
     [stakingInfoV1]
   )
 
   const ownStakingInfoV1 = useMemo(
     () =>
-      (stakingInfoV1 || []).filter(stakingInfo => {
+      (stakingInfoV1 || []).filter((stakingInfo: DoubleSideStakingInfo) => {
         return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
       }),
     [stakingInfoV1]
   )
 
   // filter only live or needs migration pools
-  miniChefStakingInfo = useMemo(() => {
-    if (miniChefStakingInfo.length === 0 && onChainMiniChefStakingInfo.length > 0) {
+  const miniChefStakingInfo = useMemo(() => {
+    if (subgraphMiniChefStakingInfo.length === 0 && onChainMiniChefStakingInfo.length > 0) {
       return onChainMiniChefStakingInfo.filter(
-        info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+        (info: MinichefStakingInfo) => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
       ) as MinichefStakingInfo[]
     }
-    return (miniChefStakingInfo || []).filter(
-      info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+    return (subgraphMiniChefStakingInfo || []).filter(
+      (info: MinichefStakingInfo) => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
     )
-  }, [miniChefStakingInfo, onChainMiniChefStakingInfo])
+  }, [subgraphMiniChefStakingInfo, onChainMiniChefStakingInfo])
 
   const ownminiChefStakingInfo = useMemo(
     () =>
-      (miniChefStakingInfo || []).filter(stakingInfo => {
+      (miniChefStakingInfo || []).filter((stakingInfo: MinichefStakingInfo) => {
         return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
       }),
     [miniChefStakingInfo]
   )
 
-  const superFarms = useMemo(() => miniChefStakingInfo.filter(item => (item?.rewardTokens?.length || 0) > 1), [
-    miniChefStakingInfo
-  ])
+  const superFarms = useMemo(
+    () => miniChefStakingInfo.filter((item: MinichefStakingInfo) => (item?.rewardTokensAddress?.length || 0) > 1),
+    [miniChefStakingInfo]
+  )
 
   const menuItems: Array<{ label: string; value: string }> = []
 
@@ -147,7 +147,7 @@ const PoolUI = () => {
             activeMenu === MenuType.yourFarmV1 ||
             activeMenu === MenuType.yourFarmV2 ||
             activeMenu === MenuType.superFarm) && (
-            <AllPoolList
+            <Pools
               type={
                 activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.allFarmV2
                   ? PoolType.all

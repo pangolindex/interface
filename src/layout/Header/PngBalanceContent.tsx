@@ -1,9 +1,9 @@
 import { TokenAmount, JSBI, ChainId, CHAINS } from '@pangolindex/sdk'
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from 'src/assets/images/logo.png'
-import { injected } from '@pangolindex/components'
+import { useTranslation, useTotalSupplyHook } from '@pangolindex/components'
 import { MENU_LINK, getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { useActiveWeb3React, usePngSymbol } from '../../hooks'
@@ -11,10 +11,8 @@ import { useAggregatePngBalance } from '../../state/wallet/hooks'
 import { StyledInternalLink, TYPE, PngTokenAnimated } from '../../theme'
 import { AutoColumn } from '../../components/Column'
 import { RowBetween } from '../../components/Row'
-import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../../components/earn/styled'
-import { useTranslation } from 'react-i18next'
+import { Break, CardBGImage, CardSection, DataCard } from '../../components/earn/styled'
 import { useChainId } from 'src/hooks'
-import { useTotalSupplyHook } from 'src/data/TotalSupply'
 import { useTokenBalanceHook } from 'src/state/wallet/multiChainsHooks'
 import { useTotalPngEarnedHook } from 'src/state/stake/multiChainsHooks'
 import { useUSDCPriceHook } from 'src/utils/useUSDCPrice'
@@ -61,7 +59,7 @@ const AddPNG = styled.span`
  * Content for balance stats modal
  */
 export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowPngBalanceModal: any }) {
-  const { account } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
   const chainId = useChainId()
   const png = chainId ? PNG[chainId] : undefined
   const pngSymbol = usePngSymbol()
@@ -92,15 +90,39 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   useMemo(() => {
     if (png === undefined) return
     fetch(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/png/circulating-supply`)
-      .then(res => res.text())
+      .then(res => (res.ok ? res.text() : '0')) // there is probably a better way to handle server error
       .then(val => setCirculation(new TokenAmount(png, val)))
   }, [png, chainId])
+
+  const provider = useMemo(() => library?.provider as Window['ethereum'] | undefined, [library?.provider])
+
+  const canAddTokenToWallet = useMemo(() => provider?.isMetaMask || provider?.isTalisman, [provider])
+
+  const addTokenToWallet = useCallback(() => {
+    if (provider) {
+      provider
+        .request?.({
+          method: 'wallet_watchAsset',
+          params: {
+            type: 'ERC20',
+            options: {
+              address: png?.address,
+              symbol: png?.symbol,
+              decimals: png?.decimals,
+              image: getTokenLogoURL(PNG[ChainId.AVALANCHE].address, chainId, 48)
+            }
+          }
+        })
+        .catch((error: any) => {
+          console.error(error)
+        })
+    }
+  }, [chainId, png?.address, png?.decimals, png?.symbol, provider])
 
   return (
     <ContentWrapper gap="lg">
       <ModalUpper>
         <CardBGImage />
-        <CardNoise />
         <CardSection gap="md">
           <RowBetween>
             <TYPE.white color="white">{t('header.pngBreakDown', { symbol: pngSymbol })}</TYPE.white>
@@ -154,34 +176,11 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
             </RowBetween>
           </AutoColumn>
         </CardSection>
-        {account && (
+        {canAddTokenToWallet && (
           <>
             <CardSection gap="sm">
               <AutoColumn gap="md">
-                <AddPNG
-                  onClick={() => {
-                    injected.getProvider().then(provider => {
-                      if (provider) {
-                        provider
-                          .request({
-                            method: 'wallet_watchAsset',
-                            params: {
-                              type: 'ERC20',
-                              options: {
-                                address: png?.address,
-                                symbol: png?.symbol,
-                                decimals: png?.decimals,
-                                image: getTokenLogoURL(PNG[ChainId.AVALANCHE].address, chainId, 48)
-                              }
-                            }
-                          })
-                          .catch((error: any) => {
-                            console.error(error)
-                          })
-                      }
-                    })
-                  }}
-                >
+                <AddPNG onClick={addTokenToWallet}>
                   <TYPE.white color="white">{t('header.addMetamask', { symbol: pngSymbol })}</TYPE.white>
                 </AddPNG>
               </AutoColumn>

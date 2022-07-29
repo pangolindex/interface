@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { Wrapper } from './styleds'
-import { Box, Button, useLibrary } from '@pangolindex/components'
+import {
+  Box,
+  Button,
+  useLibrary,
+  useTranslation,
+  useMinichefPools,
+  StakingInfo,
+  useDerivedStakeInfo
+} from '@pangolindex/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
-import { useDerivedStakeInfo, useMinichefPools, StakingInfo } from '../../../state/stake/hooks'
-import { tryParseAmount } from '../../../state/swap/hooks'
+import { tryParseAmount } from 'src/utils'
 import { useActiveWeb3React } from '../../../hooks'
 import { useTokenBalance } from '../../../state/wallet/hooks'
 import { RowBetween } from '../../Row'
-import { useTranslation } from 'react-i18next'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
 import { usePairContract, useStakingContract } from '../../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCallback'

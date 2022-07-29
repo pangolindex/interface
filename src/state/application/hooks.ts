@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'src/state'
 import { useActivePopups as useActiveComponentsPopup } from '@pangolindex/components'
 import { useActiveWeb3React } from '../../hooks'
-import { AppDispatch, AppState } from '../index'
+import { AppState, useSelector } from '../index'
 import { ApplicationModal, setOpenModal } from './actions'
 
 export function useBlockNumber(): number | undefined {
@@ -17,18 +17,8 @@ export function useModalOpen(modal: ApplicationModal): boolean {
 
 export function useToggleModal(modal: ApplicationModal): () => void {
   const open = useModalOpen(modal)
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
   return useCallback(() => dispatch(setOpenModal(open ? null : modal)), [dispatch, modal, open])
-}
-
-export function useOpenModal(modal: ApplicationModal): () => void {
-  const dispatch = useDispatch<AppDispatch>()
-  return useCallback(() => dispatch(setOpenModal(modal)), [dispatch, modal])
-}
-
-export function useCloseModals(): () => void {
-  const dispatch = useDispatch<AppDispatch>()
-  return useCallback(() => dispatch(setOpenModal(null)), [dispatch])
 }
 
 export function useWalletModalToggle(): () => void {
@@ -39,36 +29,12 @@ export function useMigrationModalToggle(): () => void {
   return useToggleModal(ApplicationModal.MIGRATION)
 }
 
-export function usePoolDetailnModalToggle(): () => void {
-  return useToggleModal(ApplicationModal.POOL_DETAIL)
-}
-
 export function useSingleSideStakingDetailnModalToggle(): () => void {
   return useToggleModal(ApplicationModal.SINGLE_SIDE_STAKE_DETAIL)
 }
 
-export function useToggleSettingsMenu(): () => void {
-  return useToggleModal(ApplicationModal.SETTINGS)
-}
-
-export function useShowClaimPopup(): boolean {
-  return useModalOpen(ApplicationModal.CLAIM_POPUP)
-}
-
-export function useToggleShowClaimPopup(): () => void {
-  return useToggleModal(ApplicationModal.CLAIM_POPUP)
-}
-
-export function useToggleSelfClaimModal(): () => void {
-  return useToggleModal(ApplicationModal.SELF_CLAIM)
-}
-
 export function useToggleDelegateModal(): () => void {
   return useToggleModal(ApplicationModal.DELEGATE)
-}
-
-export function useToggleVoteModal(): () => void {
-  return useToggleModal(ApplicationModal.VOTE)
 }
 
 export function useAccountDetailToggle(): () => void {
@@ -76,7 +42,7 @@ export function useAccountDetailToggle(): () => void {
 }
 
 // get the list of active popups
-export function useActivePopups(): AppState['papplication']['popupList'] {
+export function useActivePopups() {
   const popups = useActiveComponentsPopup()
   return useMemo(() => popups.filter((item: any) => item.show), [popups])
 }

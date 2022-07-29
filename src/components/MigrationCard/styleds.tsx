@@ -13,12 +13,6 @@ export const Panel = styled(Box)`
   border-radius: 10px;
 `
 
-export const ContentWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  grid-column-gap: 40px;
-`
 export const OptionButton = styled.div<{ active?: boolean; disabled?: boolean }>`
   font-weight: 500;
   width: fit-content;

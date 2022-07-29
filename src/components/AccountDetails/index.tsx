@@ -1,18 +1,17 @@
 import React, { useCallback, useContext } from 'react'
-import { useDispatch } from 'react-redux'
 import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React, useChainId } from '../../hooks'
-import { AppDispatch } from '../../state'
+import { useDispatch } from '../../state'
 import { clearAllTransactions } from '../../state/transactions/actions'
 import { getEtherscanLink } from 'src/utils'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
-import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
-import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
+import CoinbaseWalletIcon from '../../assets/svg/coinbaseWalletIcon.svg'
+import WalletConnectIcon from '../../assets/svg/walletConnectIcon.svg'
 import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
-import { ReactComponent as Close } from '../../assets/images/x.svg'
-import NearIcon from '../../assets/images/near.svg'
+import { ReactComponent as Close } from '../../assets/svg/x.svg'
+import NearIcon from '../../assets/svg/near.svg'
 import {
   gnosisSafe,
   injected,
@@ -22,13 +21,13 @@ import {
   SUPPORTED_WALLETS,
   shortenAddress,
   NearConnector,
-  transactionActions
+  useAllTransactionsClearer,
+  useTranslation
 } from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import { ExternalLink, LinkStyledButton, TYPE } from '../../theme'
-import { useTranslation } from 'react-i18next'
 import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
@@ -248,21 +247,31 @@ export default function AccountDetails({
   const chainId = useChainId()
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
+  const clearAllTxComponents = useAllTransactionsClearer()
 
   function formatConnectorName() {
     const { ethereum } = window
+    const isTalisman = !!(ethereum && ethereum.isTalisman)
     const isMetaMask = !!(ethereum && ethereum.isMetaMask)
-
     const isXDEFI = !!(ethereum && ethereum.isXDEFI)
+    const isRabby = !!(ethereum && ethereum.isRabby)
+    const isCoinbase = !!(ethereum && ethereum.isCoinbaseWallet)
 
-    const name = Object.keys(SUPPORTED_WALLETS)
-      .filter(
-        k =>
-          SUPPORTED_WALLETS[k].connector === connector &&
-          (connector !== injected || isMetaMask === (k === 'METAMASK') || isXDEFI === (k === 'XDEFI'))
-      )
+    let name = Object.keys(SUPPORTED_WALLETS)
+      .filter(k => SUPPORTED_WALLETS[k].connector === connector)
       .map(k => SUPPORTED_WALLETS[k].name)[0]
+
+    // If injected connector, try to guess which one it is
+    if (name === 'Injected') {
+      if (isXDEFI) name = SUPPORTED_WALLETS.XDEFI.name
+      else if (isTalisman) name = SUPPORTED_WALLETS.TALISMAN.name
+      else if (isRabby) name = SUPPORTED_WALLETS.RABBY.name
+      else if (isCoinbase) name = SUPPORTED_WALLETS.WALLET_LINK.name
+      // metamask as last check, because most of the wallets above are likely to set isMetaMask to true too
+      else if (isMetaMask) name = SUPPORTED_WALLETS.METAMASK.name
+    }
+
     return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>
   }
 
@@ -305,9 +314,9 @@ export default function AccountDetails({
   const clearAllTransactionsCallback = useCallback(() => {
     if (chainId) {
       dispatch(clearAllTransactions({ chainId }))
-      dispatch(transactionActions.clearAllTransactions({ chainId }))
+      clearAllTxComponents()
     }
-  }, [dispatch, chainId])
+  }, [dispatch, chainId, clearAllTxComponents])
 
   return (
     <>
