@@ -2023,3 +2023,18 @@ export const BRZ: { [chainId in ChainId]: Token } = {
   [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 4, 'BRZ', 'BRZToken'),
   [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 4, 'BRZ', 'BRZToken')
 }
+
+export const UND: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'UND', 'Unbound Dollar'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x6B56Ec4a92765203508FB40feC9fa23E549B705a',
+    18,
+    'UND',
+    'Unbound Dollar'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'UND', 'Unbound Dollar'),
+  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, 'UND', 'Unbound Dollar'),
+  [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 18, 'UND', 'Unbound Dollar'),
+  [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 18, 'UND', 'Unbound Dollar')
+}
