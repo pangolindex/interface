@@ -1,4 +1,4 @@
-import { CHAINS, ChainId, Token } from '@pangolindex/sdk'
+import { ChainId, Token, CHAINS } from '@pangolindex/sdk'
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -2013,4 +2013,13 @@ export const USDt: { [chainId in ChainId]: Token } = {
   [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 6, 'USDt', 'TetherToken'),
   [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 18, '', ''),
   [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 18, '', '')
+}
+
+export const BRZ: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 4, 'BRZ', 'BRZToken'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x491a4eB4f1FC3BfF8E1d2FC856a6A46663aD556f', 4, 'BRZ', 'BRZToken'),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 4, 'BRZ', 'BRZToken'),
+  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 4, 'BRZ', 'BRZToken'),
+  [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 4, 'BRZ', 'BRZToken'),
+  [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 4, 'BRZ', 'BRZToken')
 }
