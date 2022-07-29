@@ -27,7 +27,7 @@ const PoolUI = () => {
 
   useGetAllFarmData()
 
-  let miniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
+  const subgraphMiniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
   const onChainMiniChefStakingInfo = useMinichefStakingInfosMapping[chainId]()
 
   const handleAddLiquidityModalClose = useCallback(() => {
@@ -53,16 +53,16 @@ const PoolUI = () => {
   )
 
   // filter only live or needs migration pools
-  miniChefStakingInfo = useMemo(() => {
-    if (miniChefStakingInfo.length === 0 && onChainMiniChefStakingInfo.length > 0) {
+  const miniChefStakingInfo = useMemo(() => {
+    if (subgraphMiniChefStakingInfo.length === 0 && onChainMiniChefStakingInfo.length > 0) {
       return onChainMiniChefStakingInfo.filter(
         (info: MinichefStakingInfo) => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
       ) as MinichefStakingInfo[]
     }
-    return (miniChefStakingInfo || []).filter(
+    return (subgraphMiniChefStakingInfo || []).filter(
       (info: MinichefStakingInfo) => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
     )
-  }, [miniChefStakingInfo, onChainMiniChefStakingInfo])
+  }, [subgraphMiniChefStakingInfo, onChainMiniChefStakingInfo])
 
   const ownminiChefStakingInfo = useMemo(
     () =>
