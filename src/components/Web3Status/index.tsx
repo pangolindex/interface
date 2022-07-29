@@ -33,6 +33,7 @@ import { RowBetween } from '../Row'
 import { ApplicationModal } from 'src/state/application/actions'
 import AccountDetailsModal from '../AccountDetailsModal'
 import { useChainId } from 'src/hooks'
+import { useWallet } from 'src/state/user/hooks'
 
 const Web3StatusGeneric = styled(ButtonSecondary)`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -243,6 +244,7 @@ export default function Web3Status() {
 
   const walletModalOpen = useModalOpen(ApplicationModal.WALLET)
   const toggleWalletModal = useWalletModalToggle()
+  const [, setWallet] = useWallet()
 
   const accountDetailModalOpen = useModalOpen(ApplicationModal.ACCOUNT_DETAIL)
   const toggleAccountDetailModal = useAccountDetailToggle()
@@ -257,9 +259,13 @@ export default function Web3Status() {
     toggleAccountDetailModal()
   }, [toggleAccountDetailModal, toggleWalletModal])
 
-  const onWalletConnect = useCallback(() => {
-    toggleWalletModal()
-  }, [toggleWalletModal])
+  const onWalletConnect = useCallback(
+    connectorKey => {
+      toggleWalletModal()
+      setWallet(connectorKey)
+    },
+    [setWallet, toggleWalletModal]
+  )
 
   const sortedRecentTransactions = useMemo(() => {
     const txs = Object.values(allTransactions)
