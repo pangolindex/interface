@@ -73,7 +73,7 @@ const PoolUI = () => {
   )
 
   const superFarms = useMemo(
-    () => miniChefStakingInfo.filter((item: MinichefStakingInfo) => (item?.rewardTokens?.length || 0) > 1),
+    () => miniChefStakingInfo.filter((item: MinichefStakingInfo) => (item?.rewardTokensAddress?.length || 0) > 1),
     [miniChefStakingInfo]
   )
 
