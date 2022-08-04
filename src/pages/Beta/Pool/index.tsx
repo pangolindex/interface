@@ -7,17 +7,18 @@ import {
   Wallet,
   useMinichefStakingInfosMapping,
   MinichefStakingInfo,
-  useGetAllFarmData,
-  useGetMinichefStakingInfosViaSubgraph,
+  useGetAllFarmDataHook,
+  useGetMinichefStakingInfosViaSubgraphMapping,
   DoubleSideStakingInfo,
   PoolType
 } from '@pangolindex/components'
 import { PageWrapper, GridContainer, ExternalLink } from './styleds'
-import { useStakingInfo } from 'src/state/stake/hooks'
+import { useStakingInfoMapping } from 'src/state/stake/multiChainsHooks'
 import Sidebar, { MenuType } from './Sidebar'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
 import { useChainId } from 'src/hooks'
+import { isEvmChain } from 'src/utils'
 
 const PoolUI = () => {
   const chainId = useChainId()
@@ -25,16 +26,18 @@ const PoolUI = () => {
   const [isAddLiquidityModalOpen, setAddLiquidityModalOpen] = useState<boolean>(false)
   const { t } = useTranslation()
 
+  const useGetAllFarmData = useGetAllFarmDataHook[chainId]
+
   useGetAllFarmData()
 
-  const subgraphMiniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
+  const subgraphMiniChefStakingInfo = useGetMinichefStakingInfosViaSubgraphMapping[chainId]()
   const onChainMiniChefStakingInfo = useMinichefStakingInfosMapping[chainId]()
 
   const handleAddLiquidityModalClose = useCallback(() => {
     setAddLiquidityModalOpen(false)
   }, [setAddLiquidityModalOpen])
 
-  let stakingInfoV1 = useStakingInfo(1)
+  let stakingInfoV1 = useStakingInfoMapping[chainId](1)
   // filter only live or needs migration pools
   stakingInfoV1 = useMemo(
     () =>
@@ -76,6 +79,12 @@ const PoolUI = () => {
     () => miniChefStakingInfo.filter((item: MinichefStakingInfo) => (item?.rewardTokensAddress?.length || 0) > 1),
     [miniChefStakingInfo]
   )
+
+  // const stakingInfoV1 = []
+  // const miniChefStakingInfo = []
+  // const ownStakingInfoV1 = []
+  // const ownminiChefStakingInfo = []
+  // const superFarms = []
 
   const menuItems: Array<{ label: string; value: string }> = []
 
@@ -142,28 +151,30 @@ const PoolUI = () => {
               setMenu(MenuType.yourPool)
             }}
           />
+
           {(activeMenu === MenuType.allFarmV1 ||
             activeMenu === MenuType.allFarmV2 ||
             activeMenu === MenuType.yourFarmV1 ||
             activeMenu === MenuType.yourFarmV2 ||
-            activeMenu === MenuType.superFarm) && (
-            <Pools
-              type={
-                activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.allFarmV2
-                  ? PoolType.all
-                  : activeMenu === MenuType.superFarm
-                  ? PoolType.superFarms
-                  : PoolType.own
-              }
-              version={activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.yourFarmV1 ? 1 : 2}
-              stakingInfoV1={stakingInfoV1}
-              miniChefStakingInfo={miniChefStakingInfo}
-              activeMenu={activeMenu}
-              setMenu={handleSetMenu}
-              menuItems={menuItems}
-            />
-          )}
-          {activeMenu === MenuType.yourPool && (
+            activeMenu === MenuType.superFarm) &&
+            isEvmChain(chainId) && (
+              <Pools
+                type={
+                  activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.allFarmV2
+                    ? PoolType.all
+                    : activeMenu === MenuType.superFarm
+                    ? PoolType.superFarms
+                    : PoolType.own
+                }
+                version={activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.yourFarmV1 ? 1 : 2}
+                stakingInfoV1={stakingInfoV1}
+                miniChefStakingInfo={miniChefStakingInfo}
+                activeMenu={activeMenu}
+                setMenu={handleSetMenu}
+                menuItems={menuItems}
+              />
+            )}
+          {activeMenu === MenuType.yourPool && isEvmChain(chainId) && (
             <Wallet activeMenu={activeMenu} setMenu={handleSetMenu} menuItems={menuItems} />
           )}
         </Box>

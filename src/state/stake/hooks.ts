@@ -873,3 +873,8 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
     info
   ])
 }
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+export const useDummyStakingInfo = (_version: number, _pairToFilterBy?: Pair | null) => {
+  return [] as DoubleSideStakingInfo[]
+}
