@@ -1,12 +1,35 @@
-import { CurrencyLogo, Text } from '@pangolindex/components'
-import React from 'react'
+import React, { useMemo } from 'react'
+import { CurrencyLogo, Text, useSarStakeInfo, useSarPositions } from '@pangolindex/components'
+import { BigNumber } from '@ethersproject/bignumber'
+import numeral from 'numeral'
 import Stat from 'src/components/Stat'
 import { PNG } from 'src/constants/tokens'
 import { useChainId } from 'src/hooks'
 import { DestkopDetails, MobileDetails, Title, Wrapper } from './styleds'
+import { formatEther } from 'ethers/lib/utils'
 
 const StakeStat: React.FC = () => {
   const chainId = useChainId()
+  const { APR, totalStaked } = useSarStakeInfo()
+  const { positions } = useSarPositions()
+
+  const userTotalStaked = useMemo(() => {
+    if (positions.length === 0) return BigNumber.from(0)
+
+    return positions.reduce((acc, cur) => {
+      return acc.add(cur.balance)
+    }, BigNumber.from(0))
+  }, [positions])
+
+  const userAvaregeApr = useMemo(() => {
+    if (positions.length === 0) return BigNumber.from(0)
+
+    const totalAPR = positions.reduce((acc, cur) => {
+      return acc.add(cur.apr)
+    }, BigNumber.from(0))
+    return totalAPR.div(positions.length)
+  }, [positions])
+
   return (
     <Wrapper>
       <Title>
@@ -16,11 +39,11 @@ const StakeStat: React.FC = () => {
         </Text>
       </Title>
 
-      <DestkopDetails upToSmall={true}>
+      <DestkopDetails upToMedium={true}>
         <Stat
           title="Your Stake"
           titlePosition="top"
-          stat="0.00"
+          stat={`${numeral(formatEther(userTotalStaked)).format('0.00a')} ${PNG[chainId].symbol}`}
           titleColor="text2"
           statColor="text1"
           titleFontSize={16}
@@ -29,7 +52,7 @@ const StakeStat: React.FC = () => {
         <Stat
           title="Your Avarege APR"
           titlePosition="top"
-          stat="0.00"
+          stat={`${userAvaregeApr.toString()}%`}
           titleColor="text2"
           statColor="text1"
           titleFontSize={16}
@@ -38,7 +61,7 @@ const StakeStat: React.FC = () => {
         <Stat
           title="Total PNG"
           titlePosition="top"
-          stat="0.00"
+          stat={`${numeral(parseFloat(totalStaked.toSignificant(6))).format('0.00a')} `}
           titleColor="text2"
           statColor="text1"
           titleFontSize={16}
@@ -47,7 +70,7 @@ const StakeStat: React.FC = () => {
         <Stat
           title="APR"
           titlePosition="top"
-          stat="25%"
+          stat={`${APR ? APR.toString() : '-'}%`}
           titleColor="text2"
           statColor="text1"
           titleFontSize={16}
@@ -58,7 +81,7 @@ const StakeStat: React.FC = () => {
         <Stat
           title="APR"
           titlePosition="top"
-          stat="25%"
+          stat={`${APR ? APR.toString() : '-'}%`}
           titleColor="text2"
           statColor="text1"
           titleFontSize={12}
