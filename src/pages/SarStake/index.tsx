@@ -1,6 +1,6 @@
 import { Box, SarStakingWidget, SarNFTPortfolio, Position } from '@pangolindex/components'
 import React, { useState } from 'react'
-import StakeStat from './StakeStat/StakeStat'
+import StakeStat from './StakeStat'
 import { PageWrapper } from './styleds'
 
 export default function SarStaking() {

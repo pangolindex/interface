@@ -10,7 +10,7 @@ import { formatEther } from 'ethers/lib/utils'
 
 const StakeStat: React.FC = () => {
   const chainId = useChainId()
-  const { APR, totalStaked } = useSarStakeInfo()
+  const { apr, totalStaked } = useSarStakeInfo()
   const { positions } = useSarPositions()
 
   const userTotalStaked = useMemo(() => {
@@ -70,7 +70,7 @@ const StakeStat: React.FC = () => {
         <Stat
           title="APR"
           titlePosition="top"
-          stat={`${APR ? APR.toString() : '-'}%`}
+          stat={`${(apr ?? '-').toString()}%`}
           titleColor="text2"
           statColor="text1"
           titleFontSize={16}
@@ -81,7 +81,7 @@ const StakeStat: React.FC = () => {
         <Stat
           title="APR"
           titlePosition="top"
-          stat={`${APR ? APR.toString() : '-'}%`}
+          stat={`${(apr ?? '-').toString()}%`}
           titleColor="text2"
           statColor="text1"
           titleFontSize={12}
