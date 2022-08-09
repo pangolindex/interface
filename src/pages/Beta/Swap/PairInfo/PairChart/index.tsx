@@ -32,6 +32,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
     })
 
   // get pair chart data directly from contract
+  // [tokenB/tokenA, tokenA/tokenB]
   const pairChartData = usePairHourlyRateData(
     (pair?.liquidityToken?.address || '').toLowerCase(),
     timeWindow?.momentIdentifier,
@@ -40,6 +41,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
   const chartData = pairChartData && pair?.token0 === tokenB ? pairChartData[0] : pairChartData ? pairChartData[1] : []
 
   // get tokens data directly from contract incase pair doesn't exist
+  // [tokenB/tokenA, tokenA/tokenB]
   const pairTokensChartData = useHourlyPairTokensChartData(
     tokenA?.address || '',
     tokenB?.address || '',
@@ -54,6 +56,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
       ? pairTokensChartData[1]
       : []
 
+  // usd price of tokenB via coingecko
   const coingeckoData = useCoingeckoChartData(tokenB || WAVAX[chainId])
   const chartData2 =
     !coingeckoData || coingeckoData.length === 0 ? [] : pair?.token0 === tokenB ? coingeckoData[0] : coingeckoData[1]

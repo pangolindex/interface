@@ -426,8 +426,7 @@ function useGetCoingeckoOHLC(token: Token) {
 
 /**
  * @param tokenA - Token class of pangolin sdk
- * @param tokenB - Token class of pangolin sdk
- * @returns Candle[][] if both coins exist on coingecko, else null
+ * @returns Candle[][] if the coin exist on coingecko, else empty array
  */
 export function useCoingeckoChartData(tokenA: Token) {
   const { data: tokenCandles, isLoading } = useGetCoingeckoOHLC(tokenA)
