@@ -1,4 +1,4 @@
-import { Box, SarStakingWidget, SarNFTPortfolio, Position } from '@pangolindex/components'
+import { Box, SarStakeWidget, SarManageWidget, SarNFTPortfolio, Position } from '@pangolindex/components'
 import React, { useState } from 'react'
 import StakeStat from './StakeStat'
 import { PageWrapper } from './styleds'
@@ -18,8 +18,13 @@ export default function SarStaking() {
       <Box style={{ gridArea: 'images' }}>
         <SarNFTPortfolio onSelectPosition={onSelectPosition} />
       </Box>
-      <Box style={{ gridArea: 'stake' }}>
-        <SarStakingWidget selectedPosition={selectedPosition} />
+      <Box style={{ gridArea: 'stake' }} display="flex" flexDirection="column">
+        <Box>
+          <SarManageWidget selectedPosition={selectedPosition} />
+        </Box>
+        <Box mt={10} mb={10}>
+          <SarStakeWidget />
+        </Box>
       </Box>
     </PageWrapper>
   )
