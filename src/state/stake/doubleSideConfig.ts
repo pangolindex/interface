@@ -1,7 +1,8 @@
+/* eslint-disable max-lines */
 import { ChainId, WAVAX } from '@pangolindex/sdk'
 import { MINICHEF_ADDRESS } from '../../constants'
 import * as TOKENS from '../../constants/tokens'
-import { DoubleSideStaking } from './hooks'
+import { DoubleSideStaking } from '@pangolindex/components'
 
 export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
   WAVAX_ETH_V0: {
@@ -1416,6 +1417,29 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [TOKENS.USDC[ChainId.AVALANCHE], TOKENS.WBTCe[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
     version: 2
+  },
+  USDC_BRZ_V2: {
+    tokens: [TOKENS.USDC[ChainId.AVALANCHE], TOKENS.BRZ[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  },
+  USDC_UND_V2: {
+    tokens: [TOKENS.USDC[ChainId.AVALANCHE], TOKENS.UND[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
+  }
+}
+
+export const DOUBLE_SIDE_STAKING_WAGMI: { [key: string]: DoubleSideStaking } = {
+  wWAGMI_OG_V2: {
+    tokens: [TOKENS.wWAGMI[ChainId.WAGMI], TOKENS.OG[ChainId.WAGMI]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.WAGMI],
+    version: 2
+  },
+  wWAGMI_PNG_V2: {
+    tokens: [TOKENS.wWAGMI[ChainId.WAGMI], TOKENS.PNG[ChainId.WAGMI]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.WAGMI],
+    version: 2
   }
 }
 
@@ -1436,3 +1460,4 @@ export const DOUBLE_SIDE_STAKING_REWARDS_INFO: {
   [ChainId.AVALANCHE]: [DOUBLE_SIDE_STAKING_V0, DOUBLE_SIDE_STAKING_V1, DOUBLE_SIDE_STAKING_V2],
   [ChainId.WAGMI]: []
 }
+/* eslint-enable max-lines */

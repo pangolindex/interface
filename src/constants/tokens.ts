@@ -47,6 +47,31 @@ export const PNG: { [chainId in ChainId]: Token } = {
   )
 }
 
+export const OG: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OG', 'OG'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'OG', 'OG'),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, '0xf1db872E6454D553686b088c1Ea3889cF2FE3ABe', 18, 'OG', 'OG'),
+  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, '', ''),
+
+  [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 18, '', ''),
+  [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 18, '', '')
+}
+
+export const wWAGMI: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'OG', 'OG'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, ZERO_ADDRESS, 18, 'OG', 'OG'),
+  [ChainId.WAGMI]: new Token(
+    ChainId.WAGMI,
+    '0x3Ee7094DADda15810F191DD6AcF7E4FFa37571e4',
+    18,
+    'wWAGMI',
+    'Wrapped WAGMI'
+  ),
+  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, '', ''),
+  [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 18, '', ''),
+  [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 18, '', '')
+}
+
 export const ETH: { [chainId in ChainId]: Token } = {
   [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'ETH', 'Ether'),
   [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0xf20d962a6c8f70c731bd838a3a388D7d48fA6e15', 18, 'ETH', 'Ether'),
@@ -1988,4 +2013,28 @@ export const USDt: { [chainId in ChainId]: Token } = {
   [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 6, 'USDt', 'TetherToken'),
   [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 18, '', ''),
   [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 18, '', '')
+}
+
+export const BRZ: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 4, 'BRZ', 'BRZToken'),
+  [ChainId.AVALANCHE]: new Token(ChainId.AVALANCHE, '0x491a4eB4f1FC3BfF8E1d2FC856a6A46663aD556f', 4, 'BRZ', 'BRZToken'),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 4, 'BRZ', 'BRZToken'),
+  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 4, 'BRZ', 'BRZToken'),
+  [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 4, 'BRZ', 'BRZToken'),
+  [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 4, 'BRZ', 'BRZToken')
+}
+
+export const UND: { [chainId in ChainId]: Token } = {
+  [ChainId.FUJI]: new Token(ChainId.FUJI, ZERO_ADDRESS, 18, 'UND', 'Unbound Dollar'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0x6B56Ec4a92765203508FB40feC9fa23E549B705a',
+    18,
+    'UND',
+    'Unbound Dollar'
+  ),
+  [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'UND', 'Unbound Dollar'),
+  [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, 'UND', 'Unbound Dollar'),
+  [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 18, 'UND', 'Unbound Dollar'),
+  [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 18, 'UND', 'Unbound Dollar')
 }

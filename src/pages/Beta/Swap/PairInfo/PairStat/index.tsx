@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { PanelWrapper, MobileStat } from './styleds'
-import { Text, Box, DoubleCurrencyLogo, useUSDCPrice, useTranslation } from '@pangolindex/components'
-import Stat from 'src/components/Stat'
+import { Text, Box, DoubleCurrencyLogo, useUSDCPrice, useTranslation, Stat } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import { Pair, Currency, Token } from '@pangolindex/sdk'
 import { useAllPairChartData, useAllPairTokensChartData } from 'src/state/pair/hooks'
