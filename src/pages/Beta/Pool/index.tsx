@@ -80,12 +80,6 @@ const PoolUI = () => {
     [miniChefStakingInfo]
   )
 
-  // const stakingInfoV1 = []
-  // const miniChefStakingInfo = []
-  // const ownStakingInfoV1 = []
-  // const ownminiChefStakingInfo = []
-  // const superFarms = []
-
   const menuItems: Array<{ label: string; value: string }> = []
 
   // add v1
