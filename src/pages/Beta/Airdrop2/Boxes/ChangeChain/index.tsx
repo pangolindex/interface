@@ -1,10 +1,11 @@
 import React from 'react'
 import { ClaimBox, StyledLogo, Separator, TitleWrapper, SmallSeparator, TextBottomWrapper } from '../../styleds'
 import { Text, Button } from '@pangolindex/components'
-import WgmLogo from 'src/assets/images/wgmlogo.png'
+import { Chain } from '@pangolindex/sdk'
 
 type IChangeChain = {
   changeChain: () => void
+  chain: Chain
 }
 
 interface MetamaskError {
@@ -12,16 +13,16 @@ interface MetamaskError {
   message: string
 }
 
-export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
+export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain, chain }) => {
   const switchNetworkWagmi = async () => {
     const { ethereum } = window
 
     changeChain()
-    if (ethereum) {
+    if (ethereum && chain?.evm) {
       try {
         await ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x2B67' }]
+          params: [{ chainId: `0x${chain?.chain_id?.toString(16)}` }]
         })
       } catch (error) {
         const metamask = error as MetamaskError
@@ -30,15 +31,12 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
             method: 'wallet_addEthereumChain',
             params: [
               {
-                chainId: '0x2B67',
-                chainName: 'WAGMI',
-                rpcUrls: ['https://subnets.avax.network/wagmi/wagmi-chain-testnet/rpc'],
-                nativeCurrency: {
-                  name: 'WGM',
-                  symbol: 'WGM',
-                  decimals: 18
-                },
-                blockExplorerUrls: ['https://subnets.avax.network/wagmi/wagmi-chain-testnet/explorer']
+                chainName: chain.name,
+                chainId: `0x${chain?.chain_id?.toString(16)}`,
+                rpcUrls: [chain.rpc_uri],
+                blockExplorerUrls: chain.blockExplorerUrls,
+                iconUrls: chain.logo,
+                nativeCurrency: chain.nativeCurrency
               }
             ]
           })
@@ -51,18 +49,18 @@ export const BoxChangeChain: React.FC<IChangeChain> = ({ changeChain }) => {
     <ClaimBox>
       <TitleWrapper>
         <Text fontSize={[28, 22]} fontWeight={700} lineHeight="33px" color="text10">
-          You are eligible
+          Change to {chain?.name}
         </Text>
-        <StyledLogo src={WgmLogo} size={'50px'} />
+        <StyledLogo src={chain?.logo} size={'50px'} />
       </TitleWrapper>
       <Separator />
       <SmallSeparator />
       <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
-        Go to Wagmi to see if you are eligible!
+        Go to {chain.name} to see if you are eligible!
       </Text>
       <SmallSeparator />
       <Button height="46px" color="black" variant="primary" onClick={switchNetworkWagmi}>
-        GO TO WAGMI
+        GO TO {chain.name.toUpperCase()}
       </Button>
       <TextBottomWrapper>
         <Text fontSize={14} fontWeight={500} lineHeight="18px" color="text8">
