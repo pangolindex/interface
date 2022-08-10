@@ -124,13 +124,13 @@ const PoolUI = () => {
     })
   }
 
-  if (menuItems.length > 0) {
-    // add wallet
-    menuItems.push({
-      label: `${t('pool.yourPools')}`,
-      value: MenuType.yourPool
-    })
-  }
+  // if (menuItems.length > 0) { // TODO remove comment
+  // add wallet
+  menuItems.push({
+    label: `${t('pool.yourPools')}`,
+    value: MenuType.yourPool
+  })
+  //}
 
   const handleSetMenu = useCallback(
     (value: string) => {
@@ -174,7 +174,7 @@ const PoolUI = () => {
                 menuItems={menuItems}
               />
             )}
-          {activeMenu === MenuType.yourPool && isEvmChain(chainId) && (
+          {activeMenu === MenuType.yourPool && (
             <Wallet activeMenu={activeMenu} setMenu={handleSetMenu} menuItems={menuItems} />
           )}
         </Box>
