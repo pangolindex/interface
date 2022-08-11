@@ -68,6 +68,13 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       id: 'stake',
       isActive: location?.pathname?.startsWith(MENU_LINK.stake)
     },
+    {
+      link: MENU_LINK.sar,
+      icon: Stake,
+      title: `Sar ${t('header.stake')}`,
+      id: 'sarStake',
+      isActive: location?.pathname?.startsWith(MENU_LINK.sar)
+    },
 
     {
       link: MENU_LINK.vote,
