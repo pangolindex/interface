@@ -35,45 +35,52 @@ export function useEagerConnect() {
     wallet
   ])
 
-  const activateMobile = useCallback(() => {
+  const activateMobile = useCallback(async () => {
     if (window.ethereum) {
-      activate(injected, undefined, true).catch(error => {
+      try {
+        await activate(injected, undefined, true)
+        setTried(true)
+      } catch (error) {
         if (error instanceof UnsupportedChainIdError) {
-          window?.ethereum
-            ?.request({
+          try {
+            await window?.ethereum?.request({
               method: 'wallet_switchEthereumChain',
               params: [{ chainId: `0x${AVALANCHE_MAINNET?.chain_id?.toString(16)}` }]
             })
-            .catch(() => {
-              window?.ethereum
-                ?.request({
-                  method: 'wallet_addEthereumChain',
-                  params: [
-                    {
-                      chainName: AVALANCHE_MAINNET.name,
-                      chainId: `0x${AVALANCHE_MAINNET?.chain_id?.toString(16)}`,
-                      rpcUrls: [AVALANCHE_MAINNET.rpc_uri],
-                      blockExplorerUrls: AVALANCHE_MAINNET.blockExplorerUrls,
-                      iconUrls: AVALANCHE_MAINNET.logo,
-                      nativeCurrency: AVALANCHE_MAINNET.nativeCurrency
-                    }
-                  ]
-                })
-                .catch(() => {
-                  setWallet(null)
-                  setTried(true)
-                })
-            })
+            setTried(true)
+          } catch (error) {
+            try {
+              await window?.ethereum?.request({
+                method: 'wallet_addEthereumChain',
+                params: [
+                  {
+                    chainName: AVALANCHE_MAINNET.name,
+                    chainId: `0x${AVALANCHE_MAINNET?.chain_id?.toString(16)}`,
+                    rpcUrls: [AVALANCHE_MAINNET.rpc_uri],
+                    blockExplorerUrls: AVALANCHE_MAINNET.blockExplorerUrls,
+                    iconUrls: AVALANCHE_MAINNET.logo,
+                    nativeCurrency: AVALANCHE_MAINNET.nativeCurrency
+                  }
+                ]
+              })
+            } catch (error) {
+              setWallet(null)
+              setTried(true)
+            }
+          }
         } else {
           setWallet(null)
           setTried(true)
         }
-      })
+      }
     } else if (window.xfi && window.xfi.ethereum) {
-      activate(xDefi, undefined, true).catch(() => {
+      try {
+        await activate(xDefi, undefined, true)
+        setTried(true)
+      } catch (error) {
         setWallet(null)
         setTried(true)
-      })
+      }
     } else {
       setWallet(null)
       setTried(true)
@@ -100,22 +107,21 @@ export function useEagerConnect() {
               setTried(true)
             })
           } else {
-            if (isMobile) {
-              activateMobile()
-            }
+            setWallet(null)
+            setTried(true)
           }
         })
       } else {
-        if (isMobile) {
-          activateMobile()
-        } else {
-          setWallet(null)
-          setTried(true)
-        }
+        setWallet(null)
+        setTried(true)
       }
     }
 
-    eagerConnect()
+    if (isMobile) {
+      activateMobile()
+    } else {
+      eagerConnect()
+    }
   }, [activate, activateMobile, triedSafe, setTriedSafe, connector, setWallet, tried]) // intentionally only running on mount (make sure it's only mounted once :))
 
   // if the connection worked, wait until we get confirmation of that to flip the flag
