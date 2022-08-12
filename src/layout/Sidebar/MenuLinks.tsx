@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { MENU_LINK } from 'src/constants'
 import { ThemeContext } from 'styled-components'
 import { Menu, MenuItem, MenuLink, MenuName, MenuExternalLink, MenuWrapper } from './styled'
-import { Box, Text, useTranslation } from '@pangolindex/components'
+import { Box, existSarContract, Text, useTranslation } from '@pangolindex/components'
 import { Dashboard, Swap, Stake, Pool, Buy, Vote, Airdrop } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import { ANALYTICS_PAGE } from '../../constants'
@@ -75,7 +75,6 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       id: 'stakev2',
       isActive: location?.pathname?.startsWith(MENU_LINK.stakev2)
     },
-
     {
       link: MENU_LINK.vote,
       icon: Vote,
@@ -95,6 +94,11 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
   // for now, for non evm chain, hide all other menus except dashboard and swap
   if (!chain.evm) {
     mainLinks.splice(2)
+  }
+
+  // remove stakvev2 if not exist sar contract
+  if (!existSarContract(chainId)) {
+    mainLinks.splice(5, 1)
   }
 
   const pangolinLinks = [
