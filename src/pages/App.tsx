@@ -78,7 +78,7 @@ export default function App() {
               <CustomRoute exact path={`${MENU_LINK.pool}`} component={PoolV2} layout={Layout} />
               <CustomRoute exact path={`${MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} />
               <CustomRoute exact path={`${MENU_LINK.airdrop}`} component={AirdropV2} layout={Layout} />
-              <CustomRoute exact path={`${MENU_LINK.sar}`} component={SarStake} layout={Layout} />
+              <CustomRoute exact path={`${MENU_LINK.stakev2}`} component={SarStake} layout={Layout} />
 
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
 

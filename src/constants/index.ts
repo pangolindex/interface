@@ -125,5 +125,5 @@ export enum MENU_LINK {
   migrate = '/migrate',
   bridge = '/bridge',
   airdrop = '/airdrop',
-  sar = '/sar'
+  stakev2 = '/stakev2'
 }
