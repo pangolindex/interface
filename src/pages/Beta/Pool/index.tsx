@@ -5,15 +5,15 @@ import {
   Pools,
   AddLiquidityModal,
   Wallet,
-  useMinichefStakingInfosMapping,
+  useMinichefStakingInfosHook,
   MinichefStakingInfo,
   useGetAllFarmDataHook,
-  useGetMinichefStakingInfosViaSubgraphMapping,
+  useGetMinichefStakingInfosViaSubgraphHook,
   DoubleSideStakingInfo,
   PoolType
 } from '@pangolindex/components'
 import { PageWrapper, GridContainer, ExternalLink } from './styleds'
-import { useStakingInfoMapping } from 'src/state/stake/multiChainsHooks'
+import { useStakingInfoHook } from 'src/state/stake/multiChainsHooks'
 import Sidebar, { MenuType } from './Sidebar'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
@@ -30,14 +30,14 @@ const PoolUI = () => {
 
   useGetAllFarmData()
 
-  const subgraphMiniChefStakingInfo = useGetMinichefStakingInfosViaSubgraphMapping[chainId]()
-  const onChainMiniChefStakingInfo = useMinichefStakingInfosMapping[chainId]()
+  const subgraphMiniChefStakingInfo = useGetMinichefStakingInfosViaSubgraphHook[chainId]()
+  const onChainMiniChefStakingInfo = useMinichefStakingInfosHook[chainId]()
 
   const handleAddLiquidityModalClose = useCallback(() => {
     setAddLiquidityModalOpen(false)
   }, [setAddLiquidityModalOpen])
 
-  let stakingInfoV1 = useStakingInfoMapping[chainId](1)
+  let stakingInfoV1 = useStakingInfoHook[chainId](1)
   // filter only live or needs migration pools
   stakingInfoV1 = useMemo(
     () =>
@@ -117,14 +117,14 @@ const PoolUI = () => {
       value: MenuType.superFarm
     })
   }
-
-  // if (menuItems.length > 0) { // TODO remove comment
-  // add wallet
-  menuItems.push({
-    label: `${t('pool.yourPools')}`,
-    value: MenuType.yourPool
-  })
-  //}
+  // TODO remove comment
+  if (menuItems.length > 0 || miniChefStakingInfo.length > 0 || ownminiChefStakingInfo.length > 0) {
+    // add wallet
+    menuItems.push({
+      label: `${t('pool.yourPools')}`,
+      value: MenuType.yourPool
+    })
+  }
 
   const handleSetMenu = useCallback(
     (value: string) => {

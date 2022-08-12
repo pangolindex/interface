@@ -11,7 +11,7 @@ export const useTotalPngEarnedHook = {
   [ChainId.NEAR_TESTNET]: useNearTotalPngEarned
 }
 
-export const useStakingInfoMapping: {
+export const useStakingInfoHook: {
   [chainId in ChainId]: (version: number, pairToFilterBy?: Pair | null) => DoubleSideStakingInfo[]
 } = {
   [ChainId.FUJI]: useStakingInfo,
