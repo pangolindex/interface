@@ -118,13 +118,13 @@ const PoolUI = () => {
     })
   }
   // TODO remove comment
-  if (menuItems.length > 0 || miniChefStakingInfo.length > 0 || ownminiChefStakingInfo.length > 0) {
-    // add wallet
-    menuItems.push({
-      label: `${t('pool.yourPools')}`,
-      value: MenuType.yourPool
-    })
-  }
+  // if (menuItems.length > 0) {
+  // add wallet
+  menuItems.push({
+    label: `${t('pool.yourPools')}`,
+    value: MenuType.yourPool
+  })
+  //}
 
   const handleSetMenu = useCallback(
     (value: string) => {
