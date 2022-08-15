@@ -8,7 +8,6 @@ import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleD
 import { maxAmountSpend } from 'src/utils'
 import { useUSDCPrice } from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
-import { useTokenBalance } from '../../state/wallet/hooks'
 import { usePngContract, useStakingContract } from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
 import { wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
@@ -29,7 +28,8 @@ import {
   useDerivedStakeInfo,
   calculateTotalStakedAmountInAvax,
   calculateTotalStakedAmountInAvaxFromPng,
-  useTotalSupply
+  useTotalSupply,
+  useTokenBalance
 } from '@pangolindex/components'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
 import ERC20_INTERFACE from 'src/constants/abis/erc20'
@@ -872,4 +872,9 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
     avaxPngPairState,
     info
   ])
+}
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+export const useDummyStakingInfo = (_version: number, _pairToFilterBy?: Pair | null) => {
+  return [] as DoubleSideStakingInfo[]
 }
