@@ -13,6 +13,10 @@ export const PageWrapper = styled(Box)`
     'details stake'
     'images stake';
 
+  ${({ theme }) => theme.mediaWidth.upToLarge`
+    grid-template-columns: 65% 35%;
+  `}
+
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   `}
