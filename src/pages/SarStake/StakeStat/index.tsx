@@ -23,11 +23,11 @@ const StakeStat: React.FC = () => {
 
   const userAvaregeApr = useMemo(() => {
     if (positions.length === 0) return BigNumber.from(0)
-
-    const totalAPR = positions.reduce((acc, cur) => {
+    const _positions = positions.filter(position => !position.balance.isZero()) // remove zero balances
+    const totalAPR = _positions.reduce((acc, cur) => {
       return acc.add(cur.apr)
     }, BigNumber.from(0))
-    return totalAPR.div(positions.length)
+    return totalAPR.div(_positions.length)
   }, [positions])
 
   return (
