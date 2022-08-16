@@ -62,10 +62,6 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
     !coingeckoData || coingeckoData.length === 0 ? [] : pair?.token1 === tokenB ? coingeckoData[0] : coingeckoData[1]
 
   // priority wise => coingecko data -> pair data -> individual token data
-  console.log('chartData ', chartData)
-  console.log('chartData1 ', chartData1)
-  console.log('chartData2 ', chartData2)
-
   const formattedData = chartData2.length > 0 ? chartData2 : (chartData1 || []).length > 0 ? chartData1 : chartData
 
   // if no chart created yet, create one with options and add to DOM manually
