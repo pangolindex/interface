@@ -66,7 +66,14 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       icon: Stake,
       title: t('header.stake'),
       id: 'stake',
-      isActive: location?.pathname?.startsWith(MENU_LINK.stake)
+      isActive: location?.pathname?.startsWith(`${MENU_LINK.stake}/`)
+    },
+    {
+      link: MENU_LINK.stakev2,
+      icon: Stake,
+      title: `${t('header.stake')} V2`,
+      id: 'stakev2',
+      isActive: location?.pathname?.startsWith(MENU_LINK.stakev2)
     },
 
     {
@@ -87,7 +94,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
 
   // for now, for non evm chain, hide all other menus except dashboard and swap
   if (!chain.evm) {
-    mainLinks.splice(2)
+    mainLinks.splice(4)
   }
 
   const pangolinLinks = [

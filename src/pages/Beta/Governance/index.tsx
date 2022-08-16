@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Loader, Box, shortenAddress, useTranslation } from '@pangolindex/components'
+import { Text, Loader, Box, shortenAddress, useTranslation, useTokenBalance } from '@pangolindex/components'
 import {
   PageWrapper,
   PageTitle,
@@ -15,7 +15,6 @@ import {
 import GovernanceCard, { ProposalStates } from './GovernanceCard'
 import { useGetProposalsViaSubgraph, ProposalData, useUserVotes, useUserDelegatee } from 'src/state/governance/hooks'
 import DelegateModal from 'src/components/vote/DelegateModal'
-import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React, useChain, useChainId, usePngSymbol } from 'src/hooks'
 import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'

@@ -7,7 +7,7 @@ import ReactGA from 'react-ga'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { NetworkContextName, PangolinProvider, useLibrary } from '@pangolindex/components'
+import { NetworkContextName, PangolinProvider, useLibrary, fetchMinichefData } from '@pangolindex/components'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
 import App from './pages/App'
@@ -22,7 +22,6 @@ import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React, useChainId } from './hooks'
 import Package from '../package.json'
-import { fetchMinichefData } from './state/stake/hooks'
 import { ChainId } from '@pangolindex/sdk'
 
 try {
@@ -64,7 +63,14 @@ window.addEventListener('error', error => {
   })
 })
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 1000 * 60,
+      refetchOnWindowFocus: false
+    }
+  }
+})
 
 function Updaters() {
   return (

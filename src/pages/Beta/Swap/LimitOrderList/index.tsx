@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Text, Box, ToggleButtons, useGelatoLimitOrderList, useTranslation } from '@pangolindex/components'
+import {
+  Text,
+  Box,
+  ToggleButtons,
+  useGelatoLimitOrderList,
+  useTranslation,
+  DropdownMenu
+} from '@pangolindex/components'
 import LimitOrderRow from './LimitOrderRow'
 import { DesktopLimitOrderList, GridContainer, MobileLimitOrderList } from './styleds'
 import Scrollbars from 'react-custom-scrollbars'
@@ -8,7 +15,6 @@ import LimitOrderDetail from './LimitOrderDetail'
 import CancelOrderModal from './CancelOrderModal'
 import MobileLimitOrderRow from './MobileLimitOrderRow'
 import ShowMore from 'src/components/Beta/ShowMore'
-import DropdownMenu from 'src/components/Beta/DropdownMenu'
 
 export enum TabType {
   open = 'OPEN',

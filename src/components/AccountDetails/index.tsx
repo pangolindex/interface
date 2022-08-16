@@ -252,17 +252,26 @@ export default function AccountDetails({
 
   function formatConnectorName() {
     const { ethereum } = window
+    const isTalisman = !!(ethereum && ethereum.isTalisman)
     const isMetaMask = !!(ethereum && ethereum.isMetaMask)
-
     const isXDEFI = !!(ethereum && ethereum.isXDEFI)
+    const isRabby = !!(ethereum && ethereum.isRabby)
+    const isCoinbase = !!(ethereum && ethereum.isCoinbaseWallet)
 
-    const name = Object.keys(SUPPORTED_WALLETS)
-      .filter(
-        k =>
-          SUPPORTED_WALLETS[k].connector === connector &&
-          (connector !== injected || isMetaMask === (k === 'METAMASK') || isXDEFI === (k === 'XDEFI'))
-      )
+    let name = Object.keys(SUPPORTED_WALLETS)
+      .filter(k => SUPPORTED_WALLETS[k].connector === connector)
       .map(k => SUPPORTED_WALLETS[k].name)[0]
+
+    // If injected connector, try to guess which one it is
+    if (name === 'Injected') {
+      if (isXDEFI) name = SUPPORTED_WALLETS.XDEFI.name
+      else if (isTalisman) name = SUPPORTED_WALLETS.TALISMAN.name
+      else if (isRabby) name = SUPPORTED_WALLETS.RABBY.name
+      else if (isCoinbase) name = SUPPORTED_WALLETS.WALLET_LINK.name
+      // metamask as last check, because most of the wallets above are likely to set isMetaMask to true too
+      else if (isMetaMask) name = SUPPORTED_WALLETS.METAMASK.name
+    }
+
     return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>
   }
 

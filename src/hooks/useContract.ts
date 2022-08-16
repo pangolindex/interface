@@ -12,7 +12,6 @@ import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
 import { AIRDROP_ADDRESS, MINICHEF_ADDRESS, ZERO_ADDRESS, GOVERNANCE_ADDRESS } from '../constants'
 import { PNG } from '../constants/tokens'
-import { REWARDER_VIA_MULTIPLIER_INTERFACE } from '../constants/abis/rewarderViaMultiplier'
 import { useLibrary } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 
@@ -30,11 +29,6 @@ function useContract(address: string | undefined, ABI: any, withSignerIfPossible
       return null
     }
   }, [address, ABI, library, withSignerIfPossible, account])
-}
-
-export function useMiniChefContract(): Contract | null {
-  const chainId = useChainId()
-  return useContract(MINICHEF_ADDRESS[chainId], MiniChefV2.abi, true)
 }
 
 export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
@@ -66,10 +60,6 @@ export function useStakingContract(stakingAddress?: string, withSignerIfPossible
     stakingAddress === MINICHEF_ADDRESS[chainId] ? MiniChefV2.abi : StakingRewards.abi,
     withSignerIfPossible
   )
-}
-
-export function useRewardViaMultiplierContract(address?: string, withSignerIfPossible?: boolean): Contract | null {
-  return useContract(address, REWARDER_VIA_MULTIPLIER_INTERFACE, withSignerIfPossible)
 }
 
 export function useAirdropContract(): Contract | null {

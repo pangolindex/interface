@@ -2,9 +2,9 @@ import React from 'react'
 import { Pair, Fraction } from '@pangolindex/sdk'
 import { Panel, OptionButton, OptionsWrapper, Divider, MigrateButton, InnerWrapper } from './styleds'
 import Stat from '../Stat'
-import { Text, Box, DoubleCurrencyLogo, useTranslation } from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo, useTranslation, StakingInfo } from '@pangolindex/components'
 import { AutoRow } from '../Row'
-import { useGetPairDataFromPair, StakingInfo } from '../../state/stake/hooks'
+import { useGetPairDataFromPair } from '../../state/stake/hooks'
 import numeral from 'numeral'
 
 export interface StatProps {

@@ -1,10 +1,18 @@
 import React from 'react'
 import { InfoWrapper, DataBox, ContentBox, TextBox, StyledBalanceMax } from './styleds'
-import { Text, Box, DoubleCurrencyLogo, Steps, Step, useTranslation } from '@pangolindex/components'
+import {
+  Text,
+  Box,
+  DoubleCurrencyLogo,
+  Steps,
+  Step,
+  useTranslation,
+  StakingInfo,
+  useTokenBalance
+} from '@pangolindex/components'
 import { Pair, TokenAmount, JSBI } from '@pangolindex/sdk'
-import { useGetPairDataFromPair, StakingInfo } from '../../../state/stake/hooks'
+import { useGetPairDataFromPair } from '../../../state/stake/hooks'
 import numeral from 'numeral'
-import { useTokenBalance } from '../../../state/wallet/hooks'
 import { useActiveWeb3React, useChainId, usePngSymbol } from '../../../hooks'
 import { wrappedCurrencyAmount } from '../../../utils/wrappedCurrency'
 import { tryParseAmount } from 'src/utils'

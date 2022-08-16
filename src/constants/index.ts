@@ -1,5 +1,4 @@
-import { ChainId, JSBI, Percent, Token, WAVAX, CHAINS } from '@pangolindex/sdk'
-import { PNG } from './tokens'
+import { ChainId, JSBI, CHAINS } from '@pangolindex/sdk'
 
 export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.FUJI]: CHAINS[ChainId.FUJI].contracts!.router,
@@ -37,25 +36,11 @@ export const MINICHEF_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].contracts!.mini_chef!
 }
 
-// a list of tokens by chain
-type ChainTokenList = {
-  readonly [chainId in ChainId]: Token[]
-}
-
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.airdrop!,
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.airdrop!,
   [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.airdrop!
-}
-
-const WAVAX_AND_PNG_ONLY: ChainTokenList = {
-  [ChainId.FUJI]: [WAVAX[ChainId.FUJI], PNG[ChainId.FUJI]],
-  [ChainId.AVALANCHE]: [WAVAX[ChainId.AVALANCHE], PNG[ChainId.AVALANCHE]],
-  [ChainId.WAGMI]: [WAVAX[ChainId.WAGMI], PNG[ChainId.WAGMI]],
-  [ChainId.COSTON]: [WAVAX[ChainId.COSTON], PNG[ChainId.COSTON]],
-  [ChainId.NEAR_MAINNET]: [WAVAX[ChainId.NEAR_MAINNET], PNG[ChainId.NEAR_MAINNET]],
-  [ChainId.NEAR_TESTNET]: [WAVAX[ChainId.NEAR_TESTNET], PNG[ChainId.NEAR_TESTNET]]
 }
 
 export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
@@ -76,15 +61,6 @@ export const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].symbol
 }
 
-// used to construct the list of all pairs we consider by default in the frontend
-export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
-  ...WAVAX_AND_PNG_ONLY
-}
-
-export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
-  [ChainId.AVALANCHE]: []
-}
-
 // default allowed slippage, in bips
 export const INITIAL_ALLOWED_SLIPPAGE = 50
 // 10 minutes, denominated in seconds
@@ -92,12 +68,7 @@ export const DEFAULT_DEADLINE_FROM_NOW = 10 * 60
 
 export const BIG_INT_ZERO = JSBI.BigInt(0)
 export const BIG_INT_ONE = JSBI.BigInt(1)
-export const BIG_INT_TWO = JSBI.BigInt(2)
 export const BIG_INT_SECONDS_IN_WEEK = JSBI.BigInt(60 * 60 * 24 * 7)
-export const ONE_TOKEN = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
-
-// one basis point
-export const ONE_BIPS = new Percent(JSBI.BigInt(1), JSBI.BigInt(10000))
 
 // used to ensure the user doesn't send so much ETH so they end up with <.01
 export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)) // .01 ETH
@@ -153,5 +124,6 @@ export enum MENU_LINK {
   vote = '/vote',
   migrate = '/migrate',
   bridge = '/bridge',
-  airdrop = '/airdrop'
+  airdrop = '/airdrop',
+  stakev2 = '/stakev2'
 }

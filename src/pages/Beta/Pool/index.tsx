@@ -1,26 +1,24 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { Box, useTranslation } from '@pangolindex/components'
-import { PageWrapper, GridContainer, ExternalLink } from './styleds'
-import Sidebar, { MenuType } from './Sidebar'
-import AllPoolList from './AllPoolList'
-import Wallet from './Wallet'
 import {
-  useStakingInfo,
-  useGetMinichefStakingInfosViaSubgraph,
-  useGetAllFarmData,
-  useMinichefStakingInfosMapping,
-  MinichefStakingInfo
-} from 'src/state/stake/hooks'
+  Box,
+  useTranslation,
+  Pools,
+  AddLiquidityModal,
+  Wallet,
+  useMinichefStakingInfosHook,
+  MinichefStakingInfo,
+  useGetAllFarmDataHook,
+  useGetMinichefStakingInfosViaSubgraphHook,
+  DoubleSideStakingInfo,
+  PoolType
+} from '@pangolindex/components'
+import { PageWrapper, GridContainer, ExternalLink } from './styleds'
+import { useStakingInfoHook } from 'src/state/stake/multiChainsHooks'
+import Sidebar, { MenuType } from './Sidebar'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
-import AddLiquidityModal from './AddLiquidityModal'
 import { useChainId } from 'src/hooks'
-
-export enum PoolType {
-  own = 'own',
-  all = 'all',
-  superFarms = 'superFarms'
-}
+import { isEvmChain } from 'src/utils'
 
 const PoolUI = () => {
   const chainId = useChainId()
@@ -28,53 +26,59 @@ const PoolUI = () => {
   const [isAddLiquidityModalOpen, setAddLiquidityModalOpen] = useState<boolean>(false)
   const { t } = useTranslation()
 
+  const useGetAllFarmData = useGetAllFarmDataHook[chainId]
+
   useGetAllFarmData()
 
-  let miniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
-  const onChainMiniChefStakingInfo = useMinichefStakingInfosMapping[chainId]()
+  const subgraphMiniChefStakingInfo = useGetMinichefStakingInfosViaSubgraphHook[chainId]()
+  const onChainMiniChefStakingInfo = useMinichefStakingInfosHook[chainId]()
 
   const handleAddLiquidityModalClose = useCallback(() => {
     setAddLiquidityModalOpen(false)
   }, [setAddLiquidityModalOpen])
 
-  let stakingInfoV1 = useStakingInfo(1)
+  let stakingInfoV1 = useStakingInfoHook[chainId](1)
   // filter only live or needs migration pools
   stakingInfoV1 = useMemo(
-    () => (stakingInfoV1 || []).filter(info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)),
+    () =>
+      (stakingInfoV1 || []).filter(
+        (info: DoubleSideStakingInfo) => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+      ),
     [stakingInfoV1]
   )
 
   const ownStakingInfoV1 = useMemo(
     () =>
-      (stakingInfoV1 || []).filter(stakingInfo => {
+      (stakingInfoV1 || []).filter((stakingInfo: DoubleSideStakingInfo) => {
         return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
       }),
     [stakingInfoV1]
   )
 
   // filter only live or needs migration pools
-  miniChefStakingInfo = useMemo(() => {
-    if (miniChefStakingInfo.length === 0 && onChainMiniChefStakingInfo.length > 0) {
+  const miniChefStakingInfo = useMemo(() => {
+    if (subgraphMiniChefStakingInfo.length === 0 && onChainMiniChefStakingInfo.length > 0) {
       return onChainMiniChefStakingInfo.filter(
-        info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+        (info: MinichefStakingInfo) => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
       ) as MinichefStakingInfo[]
     }
-    return (miniChefStakingInfo || []).filter(
-      info => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
+    return (subgraphMiniChefStakingInfo || []).filter(
+      (info: MinichefStakingInfo) => !info.isPeriodFinished || info.stakedAmount.greaterThan(BIG_INT_ZERO)
     )
-  }, [miniChefStakingInfo, onChainMiniChefStakingInfo])
+  }, [subgraphMiniChefStakingInfo, onChainMiniChefStakingInfo])
 
   const ownminiChefStakingInfo = useMemo(
     () =>
-      (miniChefStakingInfo || []).filter(stakingInfo => {
+      (miniChefStakingInfo || []).filter((stakingInfo: MinichefStakingInfo) => {
         return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
       }),
     [miniChefStakingInfo]
   )
 
-  const superFarms = useMemo(() => miniChefStakingInfo.filter(item => (item?.rewardTokens?.length || 0) > 1), [
-    miniChefStakingInfo
-  ])
+  const superFarms = useMemo(
+    () => miniChefStakingInfo.filter((item: MinichefStakingInfo) => (item?.rewardTokensAddress?.length || 0) > 1),
+    [miniChefStakingInfo]
+  )
 
   const menuItems: Array<{ label: string; value: string }> = []
 
@@ -113,14 +117,14 @@ const PoolUI = () => {
       value: MenuType.superFarm
     })
   }
-
-  if (menuItems.length > 0) {
-    // add wallet
-    menuItems.push({
-      label: `${t('pool.yourPools')}`,
-      value: MenuType.yourPool
-    })
-  }
+  // TODO remove comment
+  // if (menuItems.length > 0) {
+  // add wallet
+  menuItems.push({
+    label: `${t('pool.yourPools')}`,
+    value: MenuType.yourPool
+  })
+  //}
 
   const handleSetMenu = useCallback(
     (value: string) => {
@@ -141,27 +145,29 @@ const PoolUI = () => {
               setMenu(MenuType.yourPool)
             }}
           />
+
           {(activeMenu === MenuType.allFarmV1 ||
             activeMenu === MenuType.allFarmV2 ||
             activeMenu === MenuType.yourFarmV1 ||
             activeMenu === MenuType.yourFarmV2 ||
-            activeMenu === MenuType.superFarm) && (
-            <AllPoolList
-              type={
-                activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.allFarmV2
-                  ? PoolType.all
-                  : activeMenu === MenuType.superFarm
-                  ? PoolType.superFarms
-                  : PoolType.own
-              }
-              version={activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.yourFarmV1 ? 1 : 2}
-              stakingInfoV1={stakingInfoV1}
-              miniChefStakingInfo={miniChefStakingInfo}
-              activeMenu={activeMenu}
-              setMenu={handleSetMenu}
-              menuItems={menuItems}
-            />
-          )}
+            activeMenu === MenuType.superFarm) &&
+            isEvmChain(chainId) && (
+              <Pools
+                type={
+                  activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.allFarmV2
+                    ? PoolType.all
+                    : activeMenu === MenuType.superFarm
+                    ? PoolType.superFarms
+                    : PoolType.own
+                }
+                version={activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.yourFarmV1 ? 1 : 2}
+                stakingInfoV1={stakingInfoV1}
+                miniChefStakingInfo={miniChefStakingInfo}
+                activeMenu={activeMenu}
+                setMenu={handleSetMenu}
+                menuItems={menuItems}
+              />
+            )}
           {activeMenu === MenuType.yourPool && (
             <Wallet activeMenu={activeMenu} setMenu={handleSetMenu} menuItems={menuItems} />
           )}

@@ -1,22 +1,10 @@
 import React, { useState } from 'react'
-import {
-  PageWrapper,
-  BoxWrapper,
-  ClaimBox,
-  StyledLogo,
-  Separator,
-  MainTitle,
-  SmallSeparator,
-  TitleWrapper,
-  CenterText
-} from './styleds'
+import { PageWrapper, BoxWrapper, MainTitle, CenterText } from './styleds'
 import { Text, Box } from '@pangolindex/components'
 import { useActiveWeb3React } from 'src/hooks'
-import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxNotConnected } from './wagmiBoxes'
+import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxCommingSoon, BoxNotConnected } from './Boxes'
 import { QuestionAnswer } from './QuestionBox'
 import { useUserHasAvailableClaim, useUserUnclaimedAmount, useClaimCallback } from 'src/state/airdrop/hooks'
-import NearLogo from 'src/assets/svg/near.svg'
-// import CostonLogo from 'src/assets/images/flare.jpeg'
 import Modal from 'src/components/Modal'
 import Confetti from 'src/components/Confetti'
 import { PngTokenAnimated } from 'src/theme'
@@ -24,7 +12,8 @@ import tokenLogo from 'src/assets/images/logo.png'
 import { ColumnCenter } from 'src/components/Column'
 import { CardBGImage, DataCard } from 'src/components/earn/styled'
 import styled from 'styled-components'
-import { ChainId } from '@pangolindex/sdk'
+import { Chain } from '@pangolindex/sdk'
+import { activeAirdrops, commingSoonAirdrops } from 'src/constants/airdrop'
 
 const ModalUpper = styled(DataCard)`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -53,30 +42,23 @@ const AirdropUI: React.FC = () => {
     setChangeChain(true)
   }
 
-  const claimPNG = () => {
-    claimCallback()
-  }
-  const renderBoxesWagmi = () => {
+  const renderAirdrop = (chain: Chain, key: number) => {
     if (!account && !eligible && !changeMyChain) {
-      return <BoxNotConnected />
+      return <BoxNotConnected key={key} chain={chain} />
     }
-    if (account && !eligible && !changeMyChain) {
-      return <BoxChangeChain changeChain={changeChain} />
+    if (chainId !== chain?.chain_id) {
+      return <BoxChangeChain key={key} changeChain={changeChain} chain={chain} />
     }
     if (account && changeMyChain && !eligible) {
-      if (chainId === ChainId.WAGMI) return <BoxCheckEligibility checkStatus={checkStatus} />
-      else return <BoxChangeChain changeChain={changeChain} />
+      return <BoxCheckEligibility key={key} checkStatus={checkStatus} chain={chain} />
     }
-    if (account && changeMyChain && eligible) {
-      return <BoxClaimReward claimPNG={claimPNG} amount={amount} />
-    } else {
-      return <></>
-    }
+    return <BoxClaimReward key={key} claimPNG={claimCallback} amount={amount} chain={chain} />
   }
 
   function wrappedOnDismiss() {
     setModalOpen(false)
   }
+
   const renderError = (isOpened: boolean) => {
     return (
       <Modal isOpen={isOpened} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={30}>
@@ -104,22 +86,11 @@ const AirdropUI: React.FC = () => {
         </CenterText>
       </Box>
       <BoxWrapper>
-        {renderBoxesWagmi()}
+        {activeAirdrops.map(renderAirdrop)}
         <Confetti start={Boolean(eligible)} />
-        <ClaimBox>
-          <TitleWrapper>
-            <Text fontSize={[28, 22]} fontWeight={700} lineHeight="33px" color="text10">
-              Claim nearPNG
-            </Text>
-            <StyledLogo src={NearLogo} size={'50px'} />
-          </TitleWrapper>
-          <Separator />
-          <SmallSeparator />
-          <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
-            Coming soon...
-          </Text>
-          <SmallSeparator />
-        </ClaimBox>
+        {commingSoonAirdrops.map((chain, index) => (
+          <BoxCommingSoon key={index} chain={chain} />
+        ))}
       </BoxWrapper>
       <Box display="flex" flexDirection="column" alignItems="center" mb="20px">
         <Text fontSize={[32, 24]} fontWeight={500} lineHeight="66px" color="text10">

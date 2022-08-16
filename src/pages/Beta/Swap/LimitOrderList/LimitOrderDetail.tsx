@@ -6,11 +6,11 @@ import {
   Button,
   useGelatoLimitOrderDetail,
   LimitOrderInfo,
-  useTranslation
+  useTranslation,
+  Stat
 } from '@pangolindex/components'
 import { Currency } from '@pangolindex/sdk'
 import { SelectedCoinInfo, StatWrapper } from './styleds'
-import Stat from 'src/components/Stat'
 
 type Props = {
   order: LimitOrderInfo
