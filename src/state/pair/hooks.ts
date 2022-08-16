@@ -428,8 +428,8 @@ function useGetCoingeckoOHLC(token: Token) {
  * @param tokenA - Token class of pangolin sdk
  * @returns Candle[][] if the coin exist on coingecko, else empty array
  */
-export function useCoingeckoChartData(tokenA: Token) {
-  const { data: tokenCandles, isLoading } = useGetCoingeckoOHLC(tokenA)
+export function useCoingeckoChartData(token: Token) {
+  const { data: tokenCandles, isLoading } = useGetCoingeckoOHLC(token)
 
   const data = useMemo(() => {
     if (!tokenCandles || isLoading) {

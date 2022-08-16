@@ -38,7 +38,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
     timeWindow?.momentIdentifier,
     86400
   )
-  const chartData = pairChartData && pair?.token0 === tokenB ? pairChartData[0] : pairChartData ? pairChartData[1] : []
+  const chartData = pairChartData && pair?.token1 === tokenB ? pairChartData[0] : pairChartData ? pairChartData[1] : []
 
   // get tokens data directly from contract incase pair doesn't exist
   // [tokenB/tokenA, tokenA/tokenB]
@@ -50,7 +50,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
   )
 
   const chartData1 =
-    pairTokensChartData && pair?.token0 === tokenB
+    pairTokensChartData && pair?.token1 === tokenB
       ? pairTokensChartData[0]
       : pairTokensChartData
       ? pairTokensChartData[1]
@@ -59,9 +59,13 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
   // usd price of tokenB via coingecko
   const coingeckoData = useCoingeckoChartData(tokenB || WAVAX[chainId])
   const chartData2 =
-    !coingeckoData || coingeckoData.length === 0 ? [] : pair?.token0 === tokenB ? coingeckoData[0] : coingeckoData[1]
+    !coingeckoData || coingeckoData.length === 0 ? [] : pair?.token1 === tokenB ? coingeckoData[0] : coingeckoData[1]
 
   // priority wise => coingecko data -> pair data -> individual token data
+  console.log('chartData ', chartData)
+  console.log('chartData1 ', chartData1)
+  console.log('chartData2 ', chartData2)
+
   const formattedData = chartData2.length > 0 ? chartData2 : (chartData1 || []).length > 0 ? chartData1 : chartData
 
   // if no chart created yet, create one with options and add to DOM manually
