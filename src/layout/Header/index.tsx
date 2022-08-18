@@ -1,4 +1,4 @@
-import { Button, NetworkSelection, useAccountBalanceHook, useTranslation } from '@pangolindex/components'
+import { NetworkSelection, useAccountBalanceHook } from '@pangolindex/components'
 import React, { useState, useRef, useMemo } from 'react'
 import { useActiveWeb3React } from '../../hooks'
 import Web3Status from '../../components/Web3Status'
@@ -17,28 +17,27 @@ import {
   HeaderElement,
   HeaderElementWrap,
   AccountElement,
-  PNGAmount,
-  PNGWrapper,
   NetworkCard,
   BalanceText,
-  ThemeMode,
-  LegacyButtonWrapper
+  ThemeMode
 } from './styled'
 import { Hidden, MEDIA_WIDTHS } from 'src/theme'
 import { useChainId } from 'src/hooks'
-import { LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
+import { NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
+import { DesktopHamburger } from './DesktopHamburger'
 
 interface Props {
   activeMobileMenu: boolean
   handleMobileMenu: () => void
+  activeDesktopMenu: boolean
+  handleDesktopMenu: () => void
 }
 
-export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
+export default function Header({ activeMobileMenu, handleMobileMenu, activeDesktopMenu, handleDesktopMenu }: Props) {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
-  const { t } = useTranslation()
 
   const useETHBalances = useAccountBalanceHook[chainId]
 
@@ -72,11 +71,6 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
       ) : (
         <HeaderControls>
           <HeaderElement>
-            <LegacyButtonWrapper>
-              <Button variant="primary" height={36} padding="4px 6px" href={LEGACY_PAGE} as="a">
-                <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
-              </Button>
-            </LegacyButtonWrapper>
             <Hidden upToSmall={true}>
               <NetworkSelection open={openNetworkSelection} closeModal={closeNetworkSelection} />
               {chainId && NETWORK_LABELS[chainId] && (
@@ -88,11 +82,6 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
                 </NetworkCard>
               )}
             </Hidden>
-            <PNGWrapper onClick={() => setShowPngBalanceModal(true)}>
-              <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
-                PNG
-              </PNGAmount>
-            </PNGWrapper>
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
               {account && userEthBalance ? (
                 <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
@@ -111,6 +100,7 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
                 <img width={'16px'} src={NightMode} alt={'NightMode'} />
               )}
             </ThemeMode>
+            <DesktopHamburger activeDesktopMenu={activeDesktopMenu} handleDesktopMenu={handleDesktopMenu} />
           </HeaderElementWrap>
         </HeaderControls>
       )}
