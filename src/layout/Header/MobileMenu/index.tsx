@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import {
   Frame,
   LightModeIcon,
@@ -12,9 +13,8 @@ import {
 } from './styled'
 import { MenuLinks } from '../../Sidebar/MenuLinks'
 import SocialMedia from 'src/layout/SocialMedia'
-import { Box, Text, useTranslation } from '@pangolindex/components'
+import { Box, useTranslation } from '@pangolindex/components'
 import { Scrollbars } from 'react-custom-scrollbars'
-import Logout from 'src/assets/svg/menu/logout.svg'
 import { useDarkModeManager } from 'src/state/user/hooks'
 import LanguageSelection from 'src/components/LanguageSelection'
 import { MobileHeader } from '../MobileHeader'
@@ -22,7 +22,12 @@ import Footer from 'src/layout/Footer'
 import MobileWeb3Status from './MobileWeb3Status'
 import TransactionModal from './TransactionModal'
 import Modal from 'src/components/Beta/Modal'
-import { LEGACY_PAGE } from 'src/constants'
+import { MENU_LINK } from 'src/constants'
+import { ANALYTICS_PAGE } from '../../../constants'
+import { Dashboard, Swap, Stake, Pool, Buy, Vote, Airdrop } from '../../../components/Icons'
+import ChartsIcon from '../../../assets/svg/menu/analytics.svg'
+import BridgeIcon from '../../../assets/svg/menu/bridge.svg'
+import GovernanceIcon from '../../../assets/svg/menu/governance.svg'
 
 interface Props {
   activeMobileMenu: boolean
@@ -39,6 +44,98 @@ const MobileMenu: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => 
   const onCloseTransactions = () => {
     setOpenTransactions(false)
   }
+
+  const location: any = useLocation()
+
+  const mainLinks = [
+    {
+      link: MENU_LINK.dashboard,
+      icon: Dashboard,
+      title: t('header.dashboard'),
+      id: 'dashboard',
+      isActive: location?.pathname?.startsWith(MENU_LINK.dashboard)
+    },
+    {
+      link: MENU_LINK.swap,
+      icon: Swap,
+      title: t('header.swap'),
+      id: 'swap',
+      isActive: location?.pathname?.startsWith(MENU_LINK.swap)
+    },
+    {
+      link: MENU_LINK.buy,
+      icon: Buy,
+      title: t('header.buy'),
+      id: 'buy',
+      isActive: location?.pathname?.startsWith(MENU_LINK.buy)
+    },
+    {
+      link: MENU_LINK.pool,
+      icon: Pool,
+      title: `${t('header.pool')} & ${t('header.farm')}`,
+      id: 'pool',
+      isActive: location?.pathname?.startsWith(MENU_LINK.pool)
+    },
+    {
+      link: `${MENU_LINK.stake}/0`,
+      icon: Stake,
+      title: t('header.stake'),
+      id: 'stake',
+      isActive: location?.pathname?.startsWith(`${MENU_LINK.stake}/`)
+    },
+    {
+      link: MENU_LINK.stakev2,
+      icon: Stake,
+      title: `${t('header.stake')} V2`,
+      id: 'stakev2',
+      isActive: location?.pathname?.startsWith(MENU_LINK.stakev2)
+    },
+
+    {
+      link: MENU_LINK.vote,
+      icon: Vote,
+      title: t('header.vote'),
+      id: 'vote',
+      isActive: location?.pathname?.startsWith(MENU_LINK.vote)
+    },
+    {
+      link: MENU_LINK.airdrop,
+      icon: Airdrop,
+      title: 'Airdrop',
+      id: 'airdrop',
+      isActive: location?.pathname?.startsWith(MENU_LINK.airdrop)
+    }
+  ]
+
+  const pangolinLinks = [
+    {
+      link: ANALYTICS_PAGE,
+      icon: ChartsIcon,
+      title: t('header.charts'),
+      id: 'charts'
+    },
+    {
+      link: 'https://gov.pangolin.exchange',
+      icon: GovernanceIcon,
+      title: t('header.forum'),
+      id: 'forum'
+    }
+  ]
+
+  const otherLinks = [
+    {
+      link: 'https://bridge.avax.network/',
+      icon: BridgeIcon,
+      title: `Avalanche ${t('header.bridge')}`,
+      id: 'bridge'
+    },
+    {
+      link: 'https://satellite.axelar.network/',
+      icon: BridgeIcon,
+      title: `Satellite ${t('header.bridge')}`,
+      id: 'satellite-bridge'
+    }
+  ]
 
   return (
     <Frame>
@@ -65,16 +162,13 @@ const MobileMenu: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => 
             </Wrapper>
           </Items>
           <Box style={{ flexGrow: 1 }}>
-            <MenuLinks onClick={handleMobileMenu} />
+            <MenuLinks
+              onClick={handleMobileMenu}
+              mainLinks={mainLinks}
+              pangolinLinks={pangolinLinks}
+              otherLinks={otherLinks}
+            />
           </Box>
-          <a href={LEGACY_PAGE} style={{ width: '100%', textDecoration: 'none', marginTop: '100px' }}>
-            <Box width="100%" display="flex" flexDirection="row" alignItems="center" style={{ gap: 20 }}>
-              <img src={Logout} alt="Logout" height="20px" />
-              <Text fontSize="16px" color="color22" fontWeight={500}>
-                {t('header.returnToLegacySite')}
-              </Text>
-            </Box>
-          </a>
           <Box width="100%" marginBottom="20px" marginTop="20px">
             <SocialMedia collapsed={false} />
           </Box>

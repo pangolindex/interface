@@ -8,6 +8,7 @@ import PolicyModal from './PolicyModal'
 import { PrivacyPolicy } from '../../constants/Policies/PrivacyPolicy'
 import { TermsService } from '../../constants/Policies/TermsService'
 import { CookiePolicy } from '../../constants/Policies/CookiePolicy'
+import { ExternalLink } from 'src/theme'
 
 export default function Footer() {
   const [selectedPolicy, setSelectPolicy] = useState<string>('')
@@ -25,6 +26,10 @@ export default function Footer() {
     <FooterFrame>
       <PolicyModal selectPolicy={selectedPolicy} open={selectedPolicy.length > 0} closeModal={closeModal} />
       <Policies>
+        <ExternalLink href="https://docs.pangolin.exchange/" style={{ textDecoration: 'none', fontWeight: 'normal' }}>
+          <Button fontSize={['12px', '16px']}>Docs</Button>
+        </ExternalLink>
+        <Circle style={{ marginLeft: 10, marginRight: 10 }} size={5} stroke={theme.text1} fill={theme.text1} />
         <Button fontSize={['12px', '16px']} onClick={() => openModal(PrivacyPolicy)}>
           Privacy Policy
         </Button>
