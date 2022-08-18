@@ -3,15 +3,14 @@ import { useLocation } from 'react-router-dom'
 import { useWindowSize } from '../../../hooks/useWindowSize'
 import { LEGACY_PAGE, MENU_LINK } from '../../../constants'
 import { Button, useTranslation } from '@pangolindex/components'
-import { Sider, TopBar } from './styled'
+import { Sider, TopBar, LegacyButtonWrapper } from './styled'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { MenuLinks } from '../../Sidebar/MenuLinks'
-import { mainLink, otherLink } from '../../types'
+import { MainLink, OtherLink } from '../../types'
 import { Vote } from '../../../components/Icons'
 import BridgeIcon from '../../../assets/svg/menu/bridge.svg'
 import GovernanceIcon from '../../../assets/svg/menu/governance.svg'
 import { MenuIcon } from '../MenuIcon'
-import { LegacyButtonWrapper } from './styled'
 interface SidebarProps {
   activeDesktopMenu: boolean
   handleDesktopMenu: () => void
@@ -22,7 +21,7 @@ export default function DesktopMenu({ activeDesktopMenu, handleDesktopMenu }: Si
   const { t } = useTranslation()
   const location: any = useLocation()
 
-  const mainLinks: mainLink[] = [
+  const mainLinks: MainLink[] = [
     {
       link: MENU_LINK.vote,
       icon: Vote,
@@ -32,7 +31,7 @@ export default function DesktopMenu({ activeDesktopMenu, handleDesktopMenu }: Si
     }
   ]
 
-  const pangolinLinks: otherLink[] = [
+  const pangolinLinks: OtherLink[] = [
     {
       link: 'https://docs.pangolin.exchange/pangolin/team',
       icon: GovernanceIcon,
@@ -59,7 +58,7 @@ export default function DesktopMenu({ activeDesktopMenu, handleDesktopMenu }: Si
     }
   ]
 
-  const otherLinks = [
+  const otherLinks: OtherLink[] = [
     {
       link: 'https://bridge.avax.network/',
       icon: BridgeIcon,

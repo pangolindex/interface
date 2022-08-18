@@ -3,7 +3,7 @@ interface Props {
   fillColor: string
 }
 
-export interface mainLink {
+export interface MainLink {
   link: string
   icon: React.FC<Props>
   title: string
@@ -11,7 +11,7 @@ export interface mainLink {
   isActive?: boolean
 }
 
-export interface otherLink {
+export interface OtherLink {
   link: string
   icon: string
   title: string

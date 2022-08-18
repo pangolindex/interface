@@ -4,14 +4,14 @@ import { Menu, MenuItem, MenuLink, MenuName, MenuExternalLink, MenuWrapper } fro
 import { Box, Text, useTranslation } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 import { CHAINS } from '@pangolindex/sdk'
-import { mainLink, otherLink } from '../types'
+import { MainLink, OtherLink } from '../types'
 
 interface Props {
   collapsed?: boolean
   onClick?: () => void
-  mainLinks: mainLink[]
-  pangolinLinks?: otherLink[]
-  otherLinks?: otherLink[]
+  mainLinks: MainLink[]
+  pangolinLinks?: OtherLink[]
+  otherLinks?: OtherLink[]
 }
 
 export const MenuLinks: React.FC<Props> = ({
@@ -31,7 +31,7 @@ export const MenuLinks: React.FC<Props> = ({
     mainLinks.splice(4)
   }
 
-  const createMenuLink = (link: otherLink, index: number) => {
+  const createMenuLink = (link: OtherLink, index: number) => {
     return (
       <MenuItem key={index}>
         <MenuExternalLink id={link.id} href={link.link}>

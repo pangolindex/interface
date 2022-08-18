@@ -11,7 +11,7 @@ import Forward from '../../assets/svg/forward.svg'
 import { Scrollbars } from 'react-custom-scrollbars'
 import Logo from '../Logo'
 import { MenuLinks } from './MenuLinks'
-import { mainLink, otherLink } from '../types'
+import { MainLink, OtherLink } from '../types'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import { ANALYTICS_PAGE } from '../../constants'
 interface SidebarProps {
@@ -24,7 +24,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
   const { t } = useTranslation()
   const location: any = useLocation()
 
-  const mainLinks: mainLink[] = [
+  const mainLinks: MainLink[] = [
     {
       link: MENU_LINK.dashboard,
       icon: Dashboard,
@@ -83,7 +83,7 @@ export default function Sidebar({ collapsed, onCollapsed }: SidebarProps) {
     }
   ]
 
-  const pangolinLinks: otherLink[] = [
+  const pangolinLinks: OtherLink[] = [
     {
       link: ANALYTICS_PAGE,
       icon: Charts,
