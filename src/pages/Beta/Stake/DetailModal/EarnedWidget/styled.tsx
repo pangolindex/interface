@@ -9,7 +9,7 @@ export const Root = styled(Box)`
   width: 100%;
   position: relative;
   overflow: hidden;
-  height: 280px;
+  height: auto;
 `
 
 export const StatWrapper = styled(Box)`
