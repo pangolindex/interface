@@ -1,5 +1,5 @@
-import { WAGMI_FUJI_SUBNET, NEAR_MAINNET } from '@pangolindex/sdk'
+import { NEAR_MAINNET, Chain, COSTON_TESTNET, SONGBIRD_MAINNET } from '@pangolindex/sdk'
 
-export const activeAirdrops = [WAGMI_FUJI_SUBNET]
+export const activeAirdrops: Chain[] = [COSTON_TESTNET]
 
-export const commingSoonAirdrops = [NEAR_MAINNET]
+export const commingSoonAirdrops = [NEAR_MAINNET, SONGBIRD_MAINNET]

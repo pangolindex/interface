@@ -16,7 +16,7 @@ export const PANGOLIN_API_BASE_URL = `https://api.pangolin.exchange`
 
 export const PANGOLIN_TOKENS_REPO_RAW_BASE_URL = `https://raw.githubusercontent.com/pangolindex/tokens`
 
-export const DIRECTUS_GRAPHQL_URL = `https://p7gm7mqi.directus.app/graphql`
+export const DIRECTUS_GRAPHQL_URL = `https://pangolin.directus.app/graphql`
 export const COINGECKO_API = 'https://api.coingecko.com/api/v3'
 
 export type LogoSize = 24 | 48
@@ -40,6 +40,10 @@ export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.airdrop!,
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.airdrop!,
+  [ChainId.COSTON]: ZERO_ADDRESS
+}
+
+export const MERKLEDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.airdrop!
 }
 

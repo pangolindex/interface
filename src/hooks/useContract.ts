@@ -2,6 +2,7 @@ import { Contract } from '@ethersproject/contracts'
 import IPangolinPair from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-core/interfaces/IPangolinPair.sol/IPangolinPair.json'
 import StakingRewards from '@pangolindex/governance/artifacts/contracts/StakingRewards.sol/StakingRewards.json'
 import Airdrop from '@pangolindex/governance/artifacts/contracts/Airdrop.sol/Airdrop.json'
+import MerkleAirdrop from 'src/constants/abis/Merkledrop.json'
 import GovernorAlpha from '@pangolindex/governance/artifacts/contracts/GovernorAlpha.sol/GovernorAlpha.json'
 import Png from '@pangolindex/governance/artifacts/contracts/PNG.sol/Png.json'
 import MiniChefV2 from '@pangolindex/governance/artifacts/contracts/MiniChefV2.sol/MiniChefV2.json'
@@ -10,7 +11,7 @@ import ERC20_ABI from '../constants/abis/erc20.json'
 import { MULTICALL_ABI, MULTICALL_NETWORKS } from '../constants/multicall'
 import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
-import { AIRDROP_ADDRESS, MINICHEF_ADDRESS, ZERO_ADDRESS, GOVERNANCE_ADDRESS } from '../constants'
+import { AIRDROP_ADDRESS, MINICHEF_ADDRESS, ZERO_ADDRESS, GOVERNANCE_ADDRESS, MERKLEDROP_ADDRESS } from '../constants'
 import { PNG } from '../constants/tokens'
 import { useLibrary } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
@@ -65,4 +66,9 @@ export function useStakingContract(stakingAddress?: string, withSignerIfPossible
 export function useAirdropContract(): Contract | null {
   const chainId = useChainId()
   return useContract(chainId ? AIRDROP_ADDRESS[chainId] : undefined, Airdrop.abi, true)
+}
+
+export const useMerkledropContract = () => {
+  const chainId = useChainId()
+  return useContract(MERKLEDROP_ADDRESS[chainId], MerkleAirdrop.abi, true)
 }

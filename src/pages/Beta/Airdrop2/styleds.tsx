@@ -14,32 +14,20 @@ export const MainTitle = styled.p`
     font-size: 25px
   `}
 `
-export const BoxWrapper = styled(Box)`
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 15px;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  `};
+export const Frame = styled(Box)`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
 `
 
-export const ClaimBox = styled(Box)`
-  min-width: 27%;
-  max-width: 30%;
+export const Wrapper = styled(Box)`
   background-color: ${({ theme }) => theme.bg2};
   border-radius: 7px;
   padding: 1em;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    min-width: 70%;
-    min-height: 70%
-  `};
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    min-width: 100%;
-    min-height: 70%
-  `};
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: scroll;
 `
 
 export const SmallSeparator = styled.div`
