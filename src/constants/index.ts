@@ -28,18 +28,18 @@ export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 export const GOVERNANCE_ADDRESS = '0xb0Ff2b1047d9E8d294c2eD798faE3fA817F43Ee1'
 
 export const MINICHEF_ADDRESS: { [chainId in ChainId]: string } = {
-  [ChainId.FUJI]: CHAINS[ChainId.FUJI].contracts!.mini_chef!,
-  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.mini_chef!,
-  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.mini_chef!,
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.mini_chef!,
-  [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].contracts!.mini_chef!,
-  [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].contracts!.mini_chef!
+  [ChainId.FUJI]: CHAINS[ChainId.FUJI].contracts!.mini_chef!.address,
+  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.mini_chef!.address,
+  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.mini_chef!.address,
+  [ChainId.COSTON]: ZERO_ADDRESS,
+  [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].contracts!.mini_chef!.address,
+  [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].contracts!.mini_chef!.address
 }
 
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
-  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.airdrop!,
-  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.airdrop!,
+  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.airdrop!.address,
+  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.airdrop!.address,
   [ChainId.COSTON]: ZERO_ADDRESS
 }
 
