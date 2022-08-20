@@ -20,7 +20,7 @@ export function useMerkledropClaimedAmounts(account: string | null | undefined) 
 
   return useMemo(() => {
     if (!account) {
-      new TokenAmount(PNG[chaindId], '0')
+      return new TokenAmount(PNG[chaindId], '0')
     }
     return new TokenAmount(PNG[chaindId], claimedAmountsState.result?.[0]?.toString() || '0')
   }, [chaindId, account, claimedAmountsState])
