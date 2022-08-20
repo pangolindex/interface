@@ -38,7 +38,9 @@ export function useMerkledropProof(account: string | null | undefined) {
           root: ''
         }
       try {
-        const response = await axios.get(`https://storage.googleapis.com/merkle-drop/${chaindId}/${account}.json`)
+        const response = await axios.get(
+          `https://storage.googleapis.com/merkle-drop/${chaindId}/${account.toLocaleLowerCase()}.json`
+        )
         if (response.status !== 200) {
           return {
             amount: new TokenAmount(PNG[chaindId], '0'),
