@@ -1,6 +1,6 @@
 import React from 'react'
-import { Button, Text, useTranslation } from '@pangolindex/components'
-import { TextBottomWrapper, SmallSeparator, Wrapper } from '../styleds'
+import { Box, Button, Text, useTranslation } from '@pangolindex/components'
+import { Wrapper } from '../styleds'
 import { Chain } from '@pangolindex/sdk'
 import { useWalletModalToggle } from 'src/state/application/hooks'
 import Title from '../Title'
@@ -15,18 +15,14 @@ const NotConnected: React.FC<Props> = ({ chain }) => {
   return (
     <Wrapper>
       <Title chain={chain} title="Connect Your Wallet" />
-      <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
-        Let&apos;s check if you are eligible!
-      </Text>
-      <SmallSeparator />
+      <Box display="flex" alignItems="center" justifyContent="center" minHeight="150px">
+        <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
+          Let&apos;s check if you are eligible!
+        </Text>
+      </Box>
       <Button variant="primary" color="black" height="46px" onClick={toggleWalletModal}>
         {t('swapPage.connectWallet')}
       </Button>
-      <TextBottomWrapper>
-        <Text fontSize={14} fontWeight={500} lineHeight="18px" color="text8">
-          To be eligible or not to be eligible...
-        </Text>
-      </TextBottomWrapper>
     </Wrapper>
   )
 }

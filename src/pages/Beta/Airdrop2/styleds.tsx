@@ -27,11 +27,10 @@ export const Wrapper = styled(Box)`
   width: 100%;
   height: 100%;
   position: relative;
-  overflow: scroll;
-`
-
-export const SmallSeparator = styled.div`
-  padding: 20px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 `
 
 export const StyledLogo = styled.img<{ size: string }>`
@@ -56,7 +55,7 @@ export const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 `
 
 export const CenterText = styled.div`
@@ -76,7 +75,5 @@ export const StyledLogoMinus = styled.img<{ size: string; height: string }>`
 `
 
 export const Separator = styled(Box)`
-  margin-bottom: 35px;
-  margin-top: 15px;
   border: 1px solid #353535;
 `

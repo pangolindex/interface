@@ -1,8 +1,9 @@
 import React from 'react'
 import { AVALANCHE_MAINNET, Chain } from '@pangolindex/sdk'
-import { Button, Text } from '@pangolindex/components'
-import { StyledLogo, Separator, TitleWrapper, SmallSeparator, Wrapper, TextBottomWrapper } from '../styleds'
+import { Box, Button, Text } from '@pangolindex/components'
+import { Wrapper, TextBottomWrapper } from '../styleds'
 import { switchNetwork } from 'src/utils'
+import Title from '../Title'
 
 interface Props {
   chain: Chain
@@ -11,18 +12,12 @@ interface Props {
 const NotEligible: React.FC<Props> = ({ chain }) => {
   return (
     <Wrapper>
-      <TitleWrapper>
-        <Text fontSize={[28, 22]} fontWeight={800} color="text1">
-          Try Next One!
+      <Title chain={chain} title="Try Next One!" />
+      <Box display="flex" alignItems="center" justifyContent="center" minHeight="150px">
+        <Text fontSize={16} fontWeight={500} color="text1" textAlign="center">
+          Sadly you are not eligible for this airdrop.
         </Text>
-        <StyledLogo src={chain?.logo ?? AVALANCHE_MAINNET?.logo} size={'50px'} />
-      </TitleWrapper>
-      <Separator />
-      <SmallSeparator />
-      <Text fontSize={16} fontWeight={500} color="text1" textAlign="center">
-        Sadly you are not eligible for this airdrop.
-      </Text>
-      <SmallSeparator />
+      </Box>
       <Button variant="primary" color="black" height="46px" onClick={() => switchNetwork(AVALANCHE_MAINNET)}>
         GO BACK TO AVALANCHE
       </Button>

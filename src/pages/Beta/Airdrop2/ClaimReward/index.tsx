@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Wrapper, SmallSeparator } from '../styleds'
+import { Wrapper } from '../styleds'
 import { Text, Button, Box } from '@pangolindex/components'
 import { Chain, TokenAmount } from '@pangolindex/sdk'
-import { useClaimV2, useMerkledropClaimedAmounts, useMerkledropProof } from 'src/state/airdrop/hooks'
+import { useClaimAirdrop, useMerkledropClaimedAmounts, useMerkledropProof } from 'src/state/airdrop/hooks'
 import { useWeb3React } from '@web3-react/core'
 import { PNG } from 'src/constants/tokens'
 import { useChainId } from 'src/hooks'
@@ -21,7 +21,7 @@ const ClaimReward: React.FC<Props> = ({ chain }) => {
 
   const [openDrawer, setOpenDrawer] = useState(false)
 
-  const { onClaim, hash, attempting, error } = useClaimV2(account)
+  const { onClaim, hash, attempting, error } = useClaimAirdrop(account)
 
   const { data } = useMerkledropProof(account)
   const claimedAmount = useMerkledropClaimedAmounts(account)
@@ -54,7 +54,7 @@ const ClaimReward: React.FC<Props> = ({ chain }) => {
   return (
     <Wrapper>
       <Title chain={chain} title="You Are Eligible!" />
-      <Box display="flex" alignItems="center">
+      <Box display="flex" alignItems="center" minHeight="150px">
         <Text fontSize={16} fontWeight={500} color="text10">
           You are eligible for:
         </Text>
@@ -62,7 +62,6 @@ const ClaimReward: React.FC<Props> = ({ chain }) => {
           {totalToClaim.lessThan('0') ? '0.00' : totalToClaim.toFixed(2)}
         </Text>
       </Box>
-      <SmallSeparator />
       <Button variant="primary" color="black" height="46px" onClick={onClaim}>
         CLAIM
       </Button>

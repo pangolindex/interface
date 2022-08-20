@@ -44,7 +44,7 @@ export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
 }
 
 export const MERKLEDROP_ADDRESS: { [chainId in ChainId]?: string } = {
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.airdrop!
+  [ChainId.COSTON]: '0x2D018d02D81386e351c3077982F196DECb80E61F'
 }
 
 export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
