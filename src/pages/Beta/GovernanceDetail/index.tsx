@@ -5,7 +5,7 @@ import { DateTime } from 'luxon'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
-import { Text, Box, Loader, useTranslation } from '@pangolindex/components'
+import { Text, Box, Loader, useTranslation, useTokenBalance } from '@pangolindex/components'
 import {
   PageWrapper,
   CardWrapper,
@@ -25,7 +25,6 @@ import { CardSection } from 'src/components/earn/styled'
 import { ButtonPrimary } from 'src/components/Button'
 import VoteModal from 'src/components/vote/VoteModal'
 import { useGetProposalDetail, useUserVotes, useUserDelegatee, ProposalData } from 'src/state/governance/hooks'
-import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { ExternalLink } from 'src/theme'
 import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'

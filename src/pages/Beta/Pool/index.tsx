@@ -5,19 +5,20 @@ import {
   Pools,
   AddLiquidityModal,
   Wallet,
-  useMinichefStakingInfosMapping,
+  useMinichefStakingInfosHook,
   MinichefStakingInfo,
-  useGetAllFarmData,
-  useGetMinichefStakingInfosViaSubgraph,
+  useGetAllFarmDataHook,
+  useGetMinichefStakingInfosViaSubgraphHook,
   DoubleSideStakingInfo,
   PoolType
 } from '@pangolindex/components'
 import { PageWrapper, GridContainer, ExternalLink } from './styleds'
-import { useStakingInfo } from 'src/state/stake/hooks'
+import { useStakingInfoHook } from 'src/state/stake/multiChainsHooks'
 import Sidebar, { MenuType } from './Sidebar'
 import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
 import { useChainId } from 'src/hooks'
+import { isEvmChain } from 'src/utils'
 
 const PoolUI = () => {
   const chainId = useChainId()
@@ -25,16 +26,18 @@ const PoolUI = () => {
   const [isAddLiquidityModalOpen, setAddLiquidityModalOpen] = useState<boolean>(false)
   const { t } = useTranslation()
 
+  const useGetAllFarmData = useGetAllFarmDataHook[chainId]
+
   useGetAllFarmData()
 
-  const subgraphMiniChefStakingInfo = useGetMinichefStakingInfosViaSubgraph()
-  const onChainMiniChefStakingInfo = useMinichefStakingInfosMapping[chainId]()
+  const subgraphMiniChefStakingInfo = useGetMinichefStakingInfosViaSubgraphHook[chainId]()
+  const onChainMiniChefStakingInfo = useMinichefStakingInfosHook[chainId]()
 
   const handleAddLiquidityModalClose = useCallback(() => {
     setAddLiquidityModalOpen(false)
   }, [setAddLiquidityModalOpen])
 
-  let stakingInfoV1 = useStakingInfo(1)
+  let stakingInfoV1 = useStakingInfoHook[chainId](1)
   // filter only live or needs migration pools
   stakingInfoV1 = useMemo(
     () =>
@@ -114,14 +117,14 @@ const PoolUI = () => {
       value: MenuType.superFarm
     })
   }
-
-  if (menuItems.length > 0) {
-    // add wallet
-    menuItems.push({
-      label: `${t('pool.yourPools')}`,
-      value: MenuType.yourPool
-    })
-  }
+  // TODO remove comment
+  // if (menuItems.length > 0) {
+  // add wallet
+  menuItems.push({
+    label: `${t('pool.yourPools')}`,
+    value: MenuType.yourPool
+  })
+  //}
 
   const handleSetMenu = useCallback(
     (value: string) => {
@@ -142,27 +145,29 @@ const PoolUI = () => {
               setMenu(MenuType.yourPool)
             }}
           />
+
           {(activeMenu === MenuType.allFarmV1 ||
             activeMenu === MenuType.allFarmV2 ||
             activeMenu === MenuType.yourFarmV1 ||
             activeMenu === MenuType.yourFarmV2 ||
-            activeMenu === MenuType.superFarm) && (
-            <Pools
-              type={
-                activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.allFarmV2
-                  ? PoolType.all
-                  : activeMenu === MenuType.superFarm
-                  ? PoolType.superFarms
-                  : PoolType.own
-              }
-              version={activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.yourFarmV1 ? 1 : 2}
-              stakingInfoV1={stakingInfoV1}
-              miniChefStakingInfo={miniChefStakingInfo}
-              activeMenu={activeMenu}
-              setMenu={handleSetMenu}
-              menuItems={menuItems}
-            />
-          )}
+            activeMenu === MenuType.superFarm) &&
+            isEvmChain(chainId) && (
+              <Pools
+                type={
+                  activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.allFarmV2
+                    ? PoolType.all
+                    : activeMenu === MenuType.superFarm
+                    ? PoolType.superFarms
+                    : PoolType.own
+                }
+                version={activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.yourFarmV1 ? 1 : 2}
+                stakingInfoV1={stakingInfoV1}
+                miniChefStakingInfo={miniChefStakingInfo}
+                activeMenu={activeMenu}
+                setMenu={handleSetMenu}
+                menuItems={menuItems}
+              />
+            )}
           {activeMenu === MenuType.yourPool && (
             <Wallet activeMenu={activeMenu} setMenu={handleSetMenu} menuItems={menuItems} />
           )}

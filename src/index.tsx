@@ -63,7 +63,14 @@ window.addEventListener('error', error => {
   })
 })
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 1000 * 60,
+      refetchOnWindowFocus: false
+    }
+  }
+})
 
 function Updaters() {
   return (
