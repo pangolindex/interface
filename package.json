@@ -22,7 +22,7 @@
     "@pangolindex/components": "4.0.4-rc.4",
     "@pangolindex/exchange-contracts": "2.1.2",
     "@pangolindex/governance": "1.2.0",
-    "@pangolindex/sdk": "2.1.8",
+    "@pangolindex/sdk": "2.1.10",
     "@pangolindex/token-lists": "1.0.2",
     "@pangolindex/web3-react-injected-connector": "1.0.1",
     "@reach/dialog": "0.10.5",
