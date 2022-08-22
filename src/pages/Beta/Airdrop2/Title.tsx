@@ -1,5 +1,5 @@
 import { Text } from '@pangolindex/components'
-import { AVALANCHE_MAINNET, Chain } from '@pangolindex/sdk'
+import { AVALANCHE_MAINNET, Chain, ChainId } from '@pangolindex/sdk'
 import React from 'react'
 import { logoMapping } from 'src/constants/airdrop'
 import { Colors } from 'src/theme/styled'
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const Title: React.FC<Props> = ({ chain, color, title }) => {
-  const id = chain.chain_id ?? 43114
+  const id = (chain.chain_id as ChainId) ?? (16 as ChainId)
   const logo = logoMapping[id]
 
   return (

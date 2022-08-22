@@ -9,8 +9,12 @@ export const activeAirdrops: Chain[] = [COSTON_TESTNET]
 export const commingSoonAirdrops = [NEAR_MAINNET, SONGBIRD_MAINNET, FLARE_MAINNET]
 
 export const logoMapping = {
-  [COSTON_TESTNET.chain_id as ChainId]: PNG,
-  [FLARE_MAINNET.chain_id as ChainId]: PNG,
-  [SONGBIRD_MAINNET.chain_id as ChainId]: PSB,
-  [NEAR_MAINNET.chain_id as ChainId]: PNR
+  [ChainId.COSTON]: PNG,
+  [ChainId.FUJI]: PNG,
+  [ChainId.AVALANCHE]: PNG,
+  [ChainId.WAGMI]: PNG,
+  14: PNG, // Don't have flare and songbird on chain id mapping
+  19: PSB,
+  [ChainId.NEAR_MAINNET]: PNR,
+  [ChainId.NEAR_TESTNET]: PNR
 }
