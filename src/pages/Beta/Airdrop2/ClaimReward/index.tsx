@@ -19,6 +19,8 @@ const ClaimReward: React.FC<Props> = ({ chain }) => {
   const { account } = useWeb3React()
   const chainId = useChainId()
 
+  const png = PNG[chainId]
+
   const [openDrawer, setOpenDrawer] = useState(false)
 
   const { onClaim, onDimiss, hash, attempting, error } = useClaimAirdrop(account)
@@ -59,7 +61,7 @@ const ClaimReward: React.FC<Props> = ({ chain }) => {
           You are eligible for:
         </Text>
         <Text fontSize={[22, 18]} fontWeight={700} color="primary" ml="10px">
-          {totalToClaim.lessThan('0') ? '0.00' : totalToClaim.toFixed(2)}
+          {totalToClaim.lessThan('0') ? '0.00' : totalToClaim.toFixed(2)} {png.symbol}
         </Text>
       </Box>
       <Button variant="primary" color="black" height="46px" onClick={onClaim}>

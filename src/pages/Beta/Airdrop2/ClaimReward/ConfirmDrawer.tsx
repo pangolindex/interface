@@ -36,7 +36,7 @@ const ConfirmDrawer: React.FC<Props> = props => {
   )
 
   const ErroContent = (
-    <Wrapper>
+    <Wrapper style={{ overflowY: 'scroll' }}>
       <Title chain={chain} title="Error" color="red1" />
       <Box
         display="flex"
@@ -47,7 +47,7 @@ const ConfirmDrawer: React.FC<Props> = props => {
         paddingY="20px"
       >
         <AlertTriangle color={theme.red1} style={{ strokeWidth: 1.5 }} size={64} />
-        <Text fontWeight={500} fontSize={16} color={'red1'} textAlign="center" style={{ width: '85%' }}>
+        <Text fontWeight={500} fontSize={16} color={'red1'} textAlign="justify" style={{ width: '85%' }}>
           {errorMessage}
         </Text>
       </Box>

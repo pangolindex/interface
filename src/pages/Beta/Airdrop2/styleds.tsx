@@ -27,8 +27,7 @@ export const Wrapper = styled(Box)`
   width: 100%;
   height: 100%;
   position: relative;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 `
