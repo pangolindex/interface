@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Wrapper } from '../styleds'
 import { Text, Button, Box } from '@pangolindex/components'
 import { Chain, TokenAmount } from '@pangolindex/sdk'
@@ -21,13 +21,18 @@ const ClaimReward: React.FC<Props> = ({ chain }) => {
 
   const [openDrawer, setOpenDrawer] = useState(false)
 
-  const { onClaim, hash, attempting, error } = useClaimAirdrop(account)
+  const { onClaim, onDimiss, hash, attempting, error } = useClaimAirdrop(account)
 
   const { data } = useMerkledropProof(account)
   const claimedAmount = useMerkledropClaimedAmounts(account)
 
   const claimAmount = data?.amount ?? new TokenAmount(PNG[chainId], '0')
   const totalToClaim = claimAmount.subtract(claimedAmount)
+
+  const handleConfirmDismiss = useCallback(() => {
+    onDimiss()
+    setOpenDrawer(false)
+  }, [onDimiss])
 
   useEffect(() => {
     if (openDrawer && !attempting && !hash && !error) {
@@ -36,7 +41,7 @@ const ClaimReward: React.FC<Props> = ({ chain }) => {
     if (!openDrawer && attempting) {
       setOpenDrawer(true)
     }
-  }, [attempting, error, hash, openDrawer])
+  }, [handleConfirmDismiss, attempting, error, hash, openDrawer])
 
   if (claimAmount.lessThan('0') || claimAmount.equalTo('0')) {
     return <NotEligible chain={chain} />
@@ -46,11 +51,6 @@ const ClaimReward: React.FC<Props> = ({ chain }) => {
     return <AlreadyClaimed chain={chain} />
   }
 
-  const handleConfirmDismiss = () => {
-    setOpenDrawer(false)
-  }
-
-  // <Confetti start={Boolean(eligible)} />
   return (
     <Wrapper>
       <Title chain={chain} title="You Are Eligible!" />

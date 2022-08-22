@@ -83,12 +83,18 @@ export function useClaimAirdrop(account: string | null | undefined) {
 
   const addTransaction = useTransactionAdder()
 
+  const onDimiss = () => {
+    setHash(null)
+    setAttempting(false)
+    setError(null)
+  }
+
   const onClaim = async () => {
     if (!merkledropContract || !data || data.proof.length === 0 || !account) return
     setAttempting(true)
     try {
       const response: TransactionResponse = await merkledropContract.claim(data.amount.raw.toString(), data.proof, {
-        gasLimit: BigNumber.from(200000000)
+        gasLimit: BigNumber.from(100000)
       })
       await waitForTransaction(library, response, 5)
 
@@ -109,5 +115,5 @@ export function useClaimAirdrop(account: string | null | undefined) {
     }
   }
 
-  return { onClaim, hash, attempting, error }
+  return { onClaim, onDimiss, hash, attempting, error }
 }
