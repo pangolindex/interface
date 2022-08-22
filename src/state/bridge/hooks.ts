@@ -28,7 +28,11 @@ export function useGetKnowledgeData(filter: string, subCategory: string) {
     subCategory !== 'Undefined'
       ? JSON.stringify({
           query: jsonQuery,
-          variables: { filter: { _and: [{ category: { _eq: filter } }, { subcategory: { _eq: subCategory } }] } }
+          variables: {
+            filter: {
+              _and: [{ category: { _eq: filter.toLowerCase() } }, { subcategory: { _eq: subCategory.toLowerCase() } }]
+            }
+          }
         })
       : JSON.stringify({
           query: jsonQuery,

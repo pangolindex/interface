@@ -44,7 +44,7 @@ export const QuestionBox = styled(Box)`
   background-color: ${({ theme }) => theme.bg2};
   border-radius: 10px;
   width: 70%;
-  padding: 30px 30px 0 30px;
+  padding: 30px;
   cursor: pointer;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     min-width: 100%;
