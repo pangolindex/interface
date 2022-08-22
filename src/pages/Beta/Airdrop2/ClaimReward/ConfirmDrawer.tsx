@@ -51,7 +51,7 @@ const ConfirmDrawer: React.FC<Props> = props => {
           {errorMessage}
         </Text>
       </Box>
-      <Button variant="primary" onClick={onClose}>
+      <Button variant="primary" height="46px" onClick={onClose}>
         Dimiss
       </Button>
     </Wrapper>
