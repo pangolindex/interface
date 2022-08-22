@@ -4,11 +4,15 @@ import { Hidden, Visible } from 'src/theme'
 
 export const Wrapper = styled(Box)`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-  gap: 40px;
+  grid-template-columns: max-content 1fr;
+  gap: 30px;
   background-color: ${({ theme }) => theme.color2};
   border-radius: 10px;
   padding: 16px;
+
+  @media (max-width: 920px) {
+    grid-template-columns: 1fr 1fr;
+  }
 `
 
 export const Title = styled(Box)`
@@ -17,15 +21,21 @@ export const Title = styled(Box)`
   gap: 8px;
   align-items: center;
   justify-items: center;
-  width: max-content;
+  width: auto;
 `
 
 export const DestkopDetails = styled(Hidden)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(0, max-content));
-  gap: 40px;
+  gap: 20px;
   justify-content: end;
   align-items: center;
+  flex-wrap: wrap;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
 `
 
 export const MobileDetails = styled(Visible)`

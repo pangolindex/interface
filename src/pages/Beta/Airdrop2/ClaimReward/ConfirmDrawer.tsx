@@ -22,7 +22,7 @@ const ConfirmDrawer: React.FC<Props> = props => {
 
   const [openModal, setOpenModal] = useState(false)
 
-  const { positions } = useSarPositions()
+  const { data: positions } = useSarPositions()
 
   const theme = useContext(ThemeContext)
 
