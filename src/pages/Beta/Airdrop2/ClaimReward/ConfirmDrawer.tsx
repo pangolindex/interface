@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { AlertTriangle } from 'react-feather'
 import { ThemeContext } from 'styled-components'
-import { Box, Button, Drawer, Loader, Modal, Text, useSarPositions } from '@pangolindex/components'
+import { Box, Button, Drawer, Loader, Text } from '@pangolindex/components'
 import { Chain } from '@pangolindex/sdk'
 import { Wrapper } from '../styleds'
 import Title from '../Title'
 import GiftBox from 'src/assets/images/giftbox.png'
-import Confetti from 'src/components/Confetti'
+import { MENU_LINK } from 'src/constants'
 
 interface Props {
   isOpen: boolean
@@ -19,10 +19,6 @@ interface Props {
 
 const ConfirmDrawer: React.FC<Props> = props => {
   const { isOpen, attemptingTxn, errorMessage, txHash, chain, onClose } = props
-
-  const [openModal, setOpenModal] = useState(false)
-
-  const { data: positions } = useSarPositions()
 
   const theme = useContext(ThemeContext)
 
@@ -66,7 +62,14 @@ const ConfirmDrawer: React.FC<Props> = props => {
           Wait its not over yet
         </Text>
       </Box>
-      <Button variant="primary" color="black" height="46px" onClick={() => setOpenModal(true)}>
+      <Button
+        variant="primary"
+        color="black"
+        height="46px"
+        as="a"
+        href={`/#${MENU_LINK.stakev2}?showClaimed=true`}
+        target=""
+      >
         CHECK SURPRISE
       </Button>
     </Wrapper>
@@ -85,17 +88,9 @@ const ConfirmDrawer: React.FC<Props> = props => {
     return null
   }
 
-  const lastPostion = positions && positions.length > 0 ? positions[positions.length - 1] : null
-
   return (
     <Drawer isOpen={isOpen} onClose={onClose}>
       {renderBody()}
-      <Modal isOpen={openModal} onDismiss={() => setOpenModal(false)}>
-        <Confetti start={openModal} />
-        {positions && positions.length > 0 && (
-          <img src={lastPostion?.uri?.image} alt="NFT" style={{ height: '400px' }} />
-        )}
-      </Modal>
     </Drawer>
   )
 }
