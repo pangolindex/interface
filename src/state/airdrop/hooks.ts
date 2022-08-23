@@ -1,7 +1,7 @@
 import { TransactionResponse } from '@ethersproject/providers'
 import { useChainId, usePngSymbol } from 'src/hooks'
 import { useMerkledropContract } from '../../hooks/useContract'
-import { waitForTransaction } from '../../utils'
+import { calculateGasMargin, waitForTransaction } from '../../utils'
 import { useTransactionAdder } from '../transactions/hooks'
 import { TokenAmount } from '@pangolindex/sdk'
 import { PNG } from '../../constants/tokens'
@@ -11,7 +11,6 @@ import { ZERO_ADDRESS } from 'src/constants'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import { useMemo, useState } from 'react'
-import { BigNumber } from 'ethers'
 
 export function useMerkledropClaimedAmounts(account: string | null | undefined) {
   const chaindId = useChainId()
@@ -93,8 +92,9 @@ export function useClaimAirdrop(account: string | null | undefined) {
     if (!merkledropContract || !data || data.proof.length === 0 || !account) return
     setAttempting(true)
     try {
+      const estimedGas = await merkledropContract.estimateGas.claim(data.amount.raw.toString(), data.proof)
       const response: TransactionResponse = await merkledropContract.claim(data.amount.raw.toString(), data.proof, {
-        gasLimit: BigNumber.from(100000)
+        gasLimit: calculateGasMargin(estimedGas)
       })
       await waitForTransaction(library, response, 5)
 
