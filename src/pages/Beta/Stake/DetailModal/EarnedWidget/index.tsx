@@ -61,7 +61,7 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
         <Box>
           <Stat
             title={t('dashboardPage.earned_weeklyIncome')}
-            stat={numeral(weeklyRewardUSD && isNaN(weeklyRewardUSD) ? weeklyRewardUSD : 0).format('$0.00a')}
+            stat={!isNaN(weeklyRewardUSD as number) ? numeral(weeklyRewardUSD).format('$0.00a') : '0'}
             titlePosition="top"
             titleFontSize={[16, 12]}
             statFontSize={[24, 20]}
@@ -86,9 +86,7 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
         <Box>
           <Stat
             title={t('dashboardPage.earned_totalEarned')}
-            stat={numeral(unclaimedAmountInUSD && isNaN(unclaimedAmountInUSD) ? unclaimedAmountInUSD : 0).format(
-              '$0.00a'
-            )}
+            stat={!isNaN(unclaimedAmountInUSD as number) ? numeral(unclaimedAmountInUSD).format('$0.00a') : '0'}
             titlePosition="top"
             titleFontSize={[16, 12]}
             statFontSize={[24, 20]}
