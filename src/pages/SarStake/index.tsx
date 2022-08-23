@@ -22,7 +22,6 @@ export default function SarStaking() {
   const [selectedPosition, setSelectedPosition] = useState<Position | null>(null)
 
   const params = useParsedQueryString()
-  console.log(params)
   const chainId = useChainId()
 
   const { t } = useTranslation()
