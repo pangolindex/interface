@@ -36,7 +36,7 @@ export function useGetKnowledgeData(filter: string, subCategory: string) {
         })
       : JSON.stringify({
           query: jsonQuery,
-          variables: { filter: { category: { _eq: filter } } }
+          variables: { filter: { category: { _eq: filter.toLowerCase() } } }
         })
 
   const headers = {

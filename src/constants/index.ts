@@ -36,6 +36,7 @@ export const MINICHEF_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].contracts!.mini_chef!.address
 }
 
+// LEGACY AIRDROPS ADRESSES
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
   [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.airdrop!.address,
@@ -44,7 +45,7 @@ export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
 }
 
 export const MERKLEDROP_ADDRESS: { [chainId in ChainId]?: string } = {
-  [ChainId.COSTON]: '0x851e530cA86fD32e885086EA89D8890A8742F98E'
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.airdrop!.address!
 }
 
 export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
