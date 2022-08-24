@@ -6,10 +6,10 @@ import { useActiveWeb3React } from '../../hooks'
 import Jazzicon from '@metamask/jazzicon'
 
 const StyledIdenticonContainer = styled.div`
-  height: 1rem;
-  width: 1rem;
-  border-radius: 1.125rem;
-  background-color: ${({ theme }) => theme.bg4};
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 export default function Identicon() {
