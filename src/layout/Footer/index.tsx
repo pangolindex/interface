@@ -27,18 +27,18 @@ export default function Footer() {
       <PolicyModal selectPolicy={selectedPolicy} open={selectedPolicy.length > 0} closeModal={closeModal} />
       <Policies>
         <ExternalLink href="https://docs.pangolin.exchange/" style={{ textDecoration: 'none', fontWeight: 'normal' }}>
-          <Button fontSize={['12px', '16px']}>Docs</Button>
+          <Button fontSize={['12px', '14px']}>Docs</Button>
         </ExternalLink>
         <Circle style={{ marginLeft: 10, marginRight: 10 }} size={5} stroke={theme.text1} fill={theme.text1} />
-        <Button fontSize={['12px', '16px']} onClick={() => openModal(PrivacyPolicy)}>
+        <Button fontSize={['12px', '14px']} onClick={() => openModal(PrivacyPolicy)}>
           Privacy Policy
         </Button>
         <Circle style={{ marginLeft: 10, marginRight: 10 }} size={5} stroke={theme.text1} fill={theme.text1} />
-        <Button fontSize={['12px', '16px']} onClick={() => openModal(TermsService)}>
+        <Button fontSize={['12px', '14px']} onClick={() => openModal(TermsService)}>
           Terms of Service
         </Button>
         <Circle style={{ marginLeft: 10, marginRight: 10 }} size={5} stroke={theme.text1} fill={theme.text1} />
-        <Button fontSize={['12px', '16px']} onClick={() => openModal(CookiePolicy)}>
+        <Button fontSize={['12px', '14px']} onClick={() => openModal(CookiePolicy)}>
           Cookie Policy
         </Button>
       </Policies>

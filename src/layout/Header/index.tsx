@@ -1,6 +1,6 @@
 import { NetworkSelection, useAccountBalanceHook } from '@pangolindex/components'
 import React, { useState, useRef, useMemo } from 'react'
-import { useActiveWeb3React } from 'src/hooks'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import Web3Status from 'src/components/Web3Status'
 import Modal from 'src/components/Modal'
 import PngBalanceContent from './PngBalanceContent'
@@ -22,7 +22,6 @@ import {
   ThemeMode
 } from './styled'
 import { Hidden, MEDIA_WIDTHS } from 'src/theme'
-import { useChainId } from 'src/hooks'
 import { NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
