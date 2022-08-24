@@ -114,6 +114,7 @@ export const NetworkCard = styled(BlackCard)`
   border-radius: 12px;
   padding: 8px 12px;
   cursor: pointer;
+  width: max-content;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: 0;
     margin-right: 0.5rem;
