@@ -1,96 +1,27 @@
-import React, { useState } from 'react'
-import {
-  PageWrapper,
-  BoxWrapper,
-  ClaimBox,
-  StyledLogo,
-  Separator,
-  MainTitle,
-  SmallSeparator,
-  TitleWrapper,
-  CenterText
-} from './styleds'
+import React from 'react'
+import { PageWrapper, MainTitle, CenterText, Frame } from './styleds'
 import { Text, Box } from '@pangolindex/components'
-import { useActiveWeb3React } from 'src/hooks'
-import { BoxChangeChain, BoxCheckEligibility, BoxClaimReward, BoxNotConnected } from './wagmiBoxes'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { QuestionAnswer } from './QuestionBox'
-import { useUserHasAvailableClaim, useUserUnclaimedAmount, useClaimCallback } from 'src/state/airdrop/hooks'
-import NearLogo from 'src/assets/svg/near.svg'
-// import CostonLogo from 'src/assets/images/flare.jpeg'
-import Modal from 'src/components/Modal'
-import Confetti from 'src/components/Confetti'
-import { PngTokenAnimated } from 'src/theme'
-import tokenLogo from 'src/assets/images/logo.png'
-import { ColumnCenter } from 'src/components/Column'
-import { CardBGImage, DataCard } from 'src/components/earn/styled'
-import styled from 'styled-components'
-import { ChainId } from '@pangolindex/sdk'
+import { Chain } from '@pangolindex/sdk'
+import { activeAirdrops, commingSoonAirdrops } from 'src/constants/airdrop'
+import NotConnected from './NotConnected'
+import ChangeChain from './ChangeChain'
+import ClaimReward from './ClaimReward'
+import CommingSoon from './CommingSoon'
 
-const ModalUpper = styled(DataCard)`
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ffc800 0%, #e1aa00 100%);
-  padding: 0.5rem;
-`
 const AirdropUI: React.FC = () => {
-  const { account, chainId } = useActiveWeb3React()
-  const [eligible, setEligible] = useState<boolean>(false)
+  const { account } = useActiveWeb3React()
+  const chainId = useChainId()
 
-  const [changeMyChain, setChangeChain] = useState<boolean>(false)
-
-  const [modalOpen, setModalOpen] = useState<boolean>(false)
-
-  const canClaim = useUserHasAvailableClaim(account)
-  const claimAmount = useUserUnclaimedAmount(account)
-  const amount = claimAmount?.toFixed(0, { groupSeparator: ',' })
-  const { claimCallback } = useClaimCallback(account)
-
-  const checkStatus = () => {
-    if (canClaim) setEligible(true)
-    else setModalOpen(true)
-  }
-
-  const changeChain = () => {
-    setChangeChain(true)
-  }
-
-  const claimPNG = () => {
-    claimCallback()
-  }
-  const renderBoxesWagmi = () => {
-    if (!account && !eligible && !changeMyChain) {
-      return <BoxNotConnected />
+  const renderAirdrop = (chain: Chain, key: number) => {
+    if (!account) {
+      return <NotConnected key={key} chain={chain} />
     }
-    if (account && !eligible && !changeMyChain) {
-      return <BoxChangeChain changeChain={changeChain} />
+    if (chainId !== chain?.chain_id) {
+      return <ChangeChain key={key} chain={chain} />
     }
-    if (account && changeMyChain && !eligible) {
-      if (chainId === ChainId.WAGMI) return <BoxCheckEligibility checkStatus={checkStatus} />
-      else return <BoxChangeChain changeChain={changeChain} />
-    }
-    if (account && changeMyChain && eligible) {
-      return <BoxClaimReward claimPNG={claimPNG} amount={amount} />
-    } else {
-      return <></>
-    }
-  }
-
-  function wrappedOnDismiss() {
-    setModalOpen(false)
-  }
-  const renderError = (isOpened: boolean) => {
-    return (
-      <Modal isOpen={isOpened} onDismiss={wrappedOnDismiss} maxHeight={250} minHeight={30}>
-        <ModalUpper>
-          <CardBGImage />
-          <ColumnCenter>
-            <Text fontSize={[24, 18]} fontWeight={500} lineHeight="50px" color="black">
-              Sorry, you are not eligible
-            </Text>
-            <PngTokenAnimated width="55px" src={tokenLogo} />
-          </ColumnCenter>
-        </ModalUpper>
-      </Modal>
-    )
+    return <ClaimReward key={key} chain={chain} />
   }
 
   return (
@@ -103,31 +34,18 @@ const AirdropUI: React.FC = () => {
           </Text>
         </CenterText>
       </Box>
-      <BoxWrapper>
-        {renderBoxesWagmi()}
-        <Confetti start={Boolean(eligible)} />
-        <ClaimBox>
-          <TitleWrapper>
-            <Text fontSize={[28, 22]} fontWeight={700} lineHeight="33px" color="text10">
-              Claim nearPNG
-            </Text>
-            <StyledLogo src={NearLogo} size={'50px'} />
-          </TitleWrapper>
-          <Separator />
-          <SmallSeparator />
-          <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
-            Coming soon...
-          </Text>
-          <SmallSeparator />
-        </ClaimBox>
-      </BoxWrapper>
+      <Frame>
+        {activeAirdrops.map(renderAirdrop)}
+        {commingSoonAirdrops.map((chain, index) => (
+          <CommingSoon key={index} chain={chain} />
+        ))}
+      </Frame>
       <Box display="flex" flexDirection="column" alignItems="center" mb="20px">
         <Text fontSize={[32, 24]} fontWeight={500} lineHeight="66px" color="text10">
           HAVE QUESTIONS?
         </Text>
         <QuestionAnswer />
       </Box>
-      {renderError(modalOpen)}
     </PageWrapper>
   )
 }

@@ -1,12 +1,13 @@
 import { Contract } from '@ethersproject/contracts'
 import { getAddress } from '@ethersproject/address'
 import { AddressZero } from '@ethersproject/constants'
-import { JsonRpcSigner, JsonRpcProvider } from '@ethersproject/providers'
+import { JsonRpcSigner, JsonRpcProvider, TransactionResponse, TransactionReceipt } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import IPangolinRouter from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-periphery/interfaces/IPangolinRouter.sol/IPangolinRouter.json'
 import { MIN_ETH, ROUTER_ADDRESS } from '../constants'
-import { ChainId, JSBI, CurrencyAmount, CHAINS, TokenAmount, Currency, Token, CAVAX } from '@pangolindex/sdk'
+import { ChainId, JSBI, CurrencyAmount, CHAINS, TokenAmount, Currency, Token, CAVAX, Chain } from '@pangolindex/sdk'
 import { parseUnits } from 'ethers/lib/utils'
+import { wait } from './retry'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -166,4 +167,51 @@ export function maxAmountSpend(chainId: ChainId, currencyAmount?: CurrencyAmount
     }
   }
   return currencyAmount
+}
+
+export async function waitForTransaction(
+  provider: any,
+  tx: TransactionResponse,
+  confirmations?: number,
+  timeout = 7000 // 7 seconds
+) {
+  const result = await Promise.race([
+    tx.wait(confirmations),
+    (async () => {
+      await wait(timeout)
+      const mempoolTx: TransactionReceipt | undefined = await provider.getTransactionReceipt(tx.hash)
+      return mempoolTx
+    })()
+  ])
+  return result
+}
+
+export async function switchNetwork(chain: Chain) {
+  const { ethereum } = window
+
+  if (ethereum && chain?.evm) {
+    try {
+      await ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: `0x${chain?.chain_id?.toString(16)}` }]
+      })
+    } catch (error) {
+      const err = error as any
+      if (err.code === 4902) {
+        await ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainName: chain.name,
+              chainId: `0x${chain?.chain_id?.toString(16)}`,
+              rpcUrls: [chain.rpc_uri],
+              blockExplorerUrls: chain.blockExplorerUrls,
+              iconUrls: chain.logo,
+              nativeCurrency: chain.nativeCurrency
+            }
+          ]
+        })
+      }
+    }
+  }
 }

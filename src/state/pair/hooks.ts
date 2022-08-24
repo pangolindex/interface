@@ -409,8 +409,12 @@ function useGetCoingeckoOHLC(token: Token) {
       return null
     }
     const response = await fetch(`${COINGECKO_API}/coins/${data.coinId}/ohlc?vs_currency=usd&days=max`)
-    const candles = (await response.json()) as OHLC[]
-    return candles
+    const parsed = await response.json()
+    if (parsed.error) {
+      return null
+    } else {
+      return parsed as OHLC[]
+    }
   })
 }
 
