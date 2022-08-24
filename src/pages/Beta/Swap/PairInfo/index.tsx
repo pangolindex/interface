@@ -11,10 +11,8 @@ const PairInfo = () => {
 
   const { currencies } = useDerivedSwapInfo()
 
-  const token0 = currencies[Field.INPUT]
   const token1 = currencies[Field.OUTPUT]
 
-  const tokenA = wrappedCurrency(token0 ?? undefined, chainId)
   const tokenB = wrappedCurrency(token1 ?? undefined, chainId)
 
   // should show the price of tokenB in USD
@@ -22,7 +20,13 @@ const PairInfo = () => {
 
   return (
     <>
-      <PairStat pair={tokenPair} inputCurrency={token0} outputCurrency={token1} tokenA={tokenA} tokenB={tokenB} />
+      <PairStat
+        pair={tokenPair}
+        inputCurrency={token1}
+        outputCurrency={USDC[chainId]}
+        tokenA={tokenB}
+        tokenB={USDC[chainId]}
+      />
       <PairChart pair={tokenPair} tokenA={USDC[chainId]} tokenB={tokenB} />
     </>
   )
