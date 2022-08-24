@@ -9,7 +9,10 @@ export const Root = styled(Box)`
   width: 100%;
   position: relative;
   overflow: hidden;
-  height: auto;
+  height: 280px;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    padding: 10px 20px;
+  `};
 `
 
 export const StatWrapper = styled(Box)`
