@@ -1,16 +1,16 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import { useWindowSize } from '../../../hooks/useWindowSize'
-import { LEGACY_PAGE, MENU_LINK } from '../../../constants'
+import { useWindowSize } from 'src/hooks/useWindowSize'
+import { LEGACY_PAGE, MENU_LINK } from 'src/constants'
 import { Button, useTranslation } from '@pangolindex/components'
 import { Sider, TopBar, LegacyButtonWrapper } from './styled'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { MenuLinks } from '../../Sidebar/MenuLinks'
-import { MainLink, OtherLink } from '../../types'
-import { Vote } from '../../../components/Icons'
-import BridgeIcon from '../../../assets/svg/menu/bridge.svg'
-import GovernanceIcon from '../../../assets/svg/menu/governance.svg'
-import { MenuIcon } from '../MenuIcon'
+import { MenuLinks } from 'src/layout/Sidebar/MenuLinks'
+import { MainLink, OtherLink } from 'src/layout/types'
+import { MenuIcon } from 'src/layout/Header/MenuIcon'
+import BridgeIcon from 'src/assets/svg/menu/bridge.svg'
+import { externalLinks, internalLinks } from 'src/layout/Header/MenuItems'
+
 interface SidebarProps {
   activeDesktopMenu: boolean
   handleDesktopMenu: () => void
@@ -19,42 +19,32 @@ interface SidebarProps {
 export default function DesktopMenu({ activeDesktopMenu, handleDesktopMenu }: SidebarProps) {
   const { height } = useWindowSize()
   const { t } = useTranslation()
-  const location: any = useLocation()
+  const location = useLocation()
 
   const mainLinks: MainLink[] = [
     {
-      link: MENU_LINK.vote,
-      icon: Vote,
+      ...internalLinks.Vote,
       title: t('header.vote'),
-      id: 'vote',
       isActive: location?.pathname?.startsWith(MENU_LINK.vote)
     }
   ]
 
   const pangolinLinks: OtherLink[] = [
     {
-      link: 'https://docs.pangolin.exchange/pangolin/team',
-      icon: GovernanceIcon,
-      title: `${t('Team')}`,
-      id: 'team'
+      ...externalLinks.Team,
+      title: `${t('Team')}`
     },
     {
-      link: 'https://docs.pangolin.exchange',
-      icon: GovernanceIcon,
-      title: `${t('Docs')}`,
-      id: 'docs'
+      ...externalLinks.Docs,
+      title: `${t('Docs')}`
     },
     {
-      link: 'https://gov.pangolin.exchange',
-      icon: GovernanceIcon,
-      title: t('header.forum'),
-      id: 'forum'
+      ...externalLinks.Forum,
+      title: t('header.forum')
     },
     {
-      link: 'https://docs.pangolin.exchange/security-and-contracts/audits',
-      icon: GovernanceIcon,
-      title: t('Audits'),
-      id: 'audits'
+      ...externalLinks.Audits,
+      title: t('Audits')
     }
   ]
 
