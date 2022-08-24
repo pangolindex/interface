@@ -1,68 +1,119 @@
 import { TransactionResponse } from '@ethersproject/providers'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
-import { useAirdropContract } from '../../hooks/useContract'
-import { calculateGasMargin } from '../../utils'
+import { useChainId, usePngSymbol } from 'src/hooks'
+import { useMerkledropContract } from '../../hooks/useContract'
+import { calculateGasMargin, waitForTransaction } from '../../utils'
 import { useTransactionAdder } from '../transactions/hooks'
-import { TokenAmount, JSBI } from '@pangolindex/sdk'
+import { TokenAmount } from '@pangolindex/sdk'
 import { PNG } from '../../constants/tokens'
 import { useSingleCallResult } from '../multicall/hooks'
 import { useLibrary } from '@pangolindex/components'
+import { ZERO_ADDRESS } from 'src/constants'
+import { useQuery } from 'react-query'
+import axios from 'axios'
+import { useMemo, useState } from 'react'
 
-export function useUserHasAvailableClaim(account: string | null | undefined): boolean {
-  const airdropContract = useAirdropContract()
-  const withdrawAmountResult = useSingleCallResult(airdropContract, 'withdrawAmount', [account ? account : undefined])
-  return Boolean(
-    account &&
-      !withdrawAmountResult.loading &&
-      withdrawAmountResult.result !== undefined &&
-      !JSBI.equal(JSBI.BigInt(withdrawAmountResult.result?.[0]), JSBI.BigInt(0))
-  ) // eslint-disable-line eqeqeq
+export function useMerkledropClaimedAmounts(account: string | null | undefined) {
+  const chaindId = useChainId()
+  const merkledropContract = useMerkledropContract()
+  const claimedAmountsState = useSingleCallResult(merkledropContract, 'claimedAmounts', [account ?? ZERO_ADDRESS])
+
+  return useMemo(() => {
+    if (!account) {
+      return new TokenAmount(PNG[chaindId], '0')
+    }
+    return new TokenAmount(PNG[chaindId], claimedAmountsState.result?.[0]?.toString() || '0')
+  }, [chaindId, account, claimedAmountsState])
 }
 
-export function useUserUnclaimedAmount(account: string | null | undefined): TokenAmount | undefined {
-  const { chainId } = useActiveWeb3React()
-
-  const canClaim = useUserHasAvailableClaim(account)
-  const airdropContract = useAirdropContract()
-  const withdrawAmountResult = useSingleCallResult(airdropContract, 'withdrawAmount', [account ? account : undefined])
-
-  const png = chainId ? PNG[chainId] : undefined
-  if (!png) return undefined
-  if (!canClaim) {
-    return new TokenAmount(png, JSBI.BigInt(0))
-  }
-  return new TokenAmount(png, JSBI.BigInt(withdrawAmountResult.result?.[0]))
+export function useMerkledropProof(account: string | null | undefined) {
+  const chaindId = useChainId()
+  return useQuery(
+    ['MerkledropProof', account, chaindId],
+    async () => {
+      if (!account)
+        return {
+          amount: new TokenAmount(PNG[chaindId], '0'),
+          proof: [],
+          root: ''
+        }
+      try {
+        const response = await axios.get(
+          `https://storage.googleapis.com/merkle-drop/${chaindId}/${account.toLocaleLowerCase()}.json`
+        )
+        if (response.status !== 200) {
+          return {
+            amount: new TokenAmount(PNG[chaindId], '0'),
+            proof: [],
+            root: ''
+          }
+        }
+        const data = response.data
+        return {
+          amount: new TokenAmount(PNG[chaindId], data.amount),
+          proof: data.proof as string[],
+          root: data.root as string
+        }
+      } catch (error) {
+        return {
+          amount: new TokenAmount(PNG[chaindId], '0'),
+          proof: [],
+          root: ''
+        }
+      }
+    },
+    {
+      cacheTime: 1000 * 60 * 60 * 1, // 1 hour
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 60 * 1 // 1 hour
+    }
+  )
 }
 
-export function useClaimCallback(
-  account: string | null | undefined
-): {
-  claimCallback: () => Promise<string>
-} {
-  const chainId = useChainId()
+export function useClaimAirdrop(account: string | null | undefined) {
   const { library } = useLibrary()
+  const pngSymbol = usePngSymbol()
+
+  const merkledropContract = useMerkledropContract()
+  const { data } = useMerkledropProof(account)
+
+  const [hash, setHash] = useState<string | null>(null)
+  const [attempting, setAttempting] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
+
   const addTransaction = useTransactionAdder()
-  const airdropContract = useAirdropContract()
 
-  const claimCallback = async function() {
-    if (!account || !library || !chainId || !airdropContract) return
-
-    return airdropContract.estimateGas['claim']({}).then(estimatedGasLimit => {
-      return airdropContract
-        .claim({ value: null, gasLimit: calculateGasMargin(estimatedGasLimit) })
-        .then((response: TransactionResponse) => {
-          addTransaction(response, {
-            summary: `Claimed PNG`,
-            claim: { recipient: account }
-          })
-          return response.hash
-        })
-        .catch((error: any) => {
-          console.log(error)
-          return ''
-        })
-    })
+  const onDimiss = () => {
+    setHash(null)
+    setAttempting(false)
+    setError(null)
   }
 
-  return { claimCallback }
+  const onClaim = async () => {
+    if (!merkledropContract || !data || data.proof.length === 0 || !account) return
+    setAttempting(true)
+    try {
+      const estimedGas = await merkledropContract.estimateGas.claim(data.amount.raw.toString(), data.proof)
+      const response: TransactionResponse = await merkledropContract.claim(data.amount.raw.toString(), data.proof, {
+        gasLimit: calculateGasMargin(estimedGas)
+      })
+      await waitForTransaction(library, response, 5)
+
+      addTransaction(response, {
+        summary: `Claimed ${pngSymbol} and deposited in the SAR`,
+        claim: { recipient: account }
+      })
+      setHash(response.hash)
+    } catch (err) {
+      // we only care if the error is something _other_ than the user rejected the tx
+      const _err = err as any
+      if (_err?.code !== 4001) {
+        console.error(_err)
+        setError(_err.message)
+      }
+    } finally {
+      setAttempting(false)
+    }
+  }
+
+  return { onClaim, onDimiss, hash, attempting, error }
 }
