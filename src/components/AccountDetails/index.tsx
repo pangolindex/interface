@@ -12,6 +12,7 @@ import WalletConnectIcon from '../../assets/svg/walletConnectIcon.svg'
 import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
 import { ReactComponent as Close } from '../../assets/svg/x.svg'
 import NearIcon from '../../assets/svg/near.svg'
+import HashIcon from 'src/assets/images/hashConnect.png'
 import {
   gnosisSafe,
   injected,
@@ -22,7 +23,9 @@ import {
   shortenAddress,
   NearConnector,
   useAllTransactionsClearer,
-  useTranslation
+  useTranslation,
+  hashConnect,
+  HashConnector
 } from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
@@ -307,6 +310,12 @@ export default function AccountDetails({
           <img src={NearIcon} alt={'Near Wallet'} />
         </IconWrapper>
       )
+    } else if (connector === hashConnect) {
+      return (
+        <IconWrapper size={16}>
+          <img src={HashIcon} alt={'HashPack Wallet'} />
+        </IconWrapper>
+      )
     }
     return null
   }
@@ -334,7 +343,8 @@ export default function AccountDetails({
                   {/* TODO : CHECK on disccount  */}
                   {(connector instanceof WalletLinkConnector ||
                     connector instanceof WalletConnectConnector ||
-                    connector instanceof NearConnector) && (
+                    connector instanceof NearConnector ||
+                    connector instanceof HashConnector) && (
                     <WalletAction
                       style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
                       onClick={() => {
