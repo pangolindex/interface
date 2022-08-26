@@ -10,6 +10,9 @@ export const Root = styled(Box)`
   position: relative;
   overflow: hidden;
   height: 280px;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    padding: 10px 20px;
+  `};
 `
 
 export const StatWrapper = styled(Box)`
