@@ -10,7 +10,8 @@ import {
   useGetAllFarmDataHook,
   useGetMinichefStakingInfosViaSubgraphHook,
   DoubleSideStakingInfo,
-  PoolType
+  PoolType,
+  usePangoChefInfos
 } from '@pangolindex/components'
 import { PageWrapper, GridContainer, ExternalLink } from './styleds'
 import { useStakingInfoHook } from 'src/state/stake/multiChainsHooks'
@@ -29,7 +30,7 @@ const PoolUI = () => {
   const useGetAllFarmData = useGetAllFarmDataHook[chainId]
 
   useGetAllFarmData()
-
+  const pangoChefStakingInfos = usePangoChefInfos()
   const subgraphMiniChefStakingInfo = useGetMinichefStakingInfosViaSubgraphHook[chainId]()
   const onChainMiniChefStakingInfo = useMinichefStakingInfosHook[chainId]()
 
@@ -96,6 +97,12 @@ const PoolUI = () => {
       value: MenuType.allFarmV2
     })
   }
+  if (pangoChefStakingInfos.length > 0) {
+    menuItems.push({
+      label: miniChefStakingInfo.length > 0 ? `${t('pool.allFarms')} (V3)` : `${t('pool.allFarms')}`,
+      value: MenuType.allFarmV3
+    })
+  }
   // add own v1
   if (ownStakingInfoV1.length > 0) {
     menuItems.push({
@@ -133,6 +140,8 @@ const PoolUI = () => {
     [setMenu]
   )
 
+  const version = activeMenu === MenuType.allFarmV1 ? 1 : activeMenu === MenuType.allFarmV3 ? 3 : 2
+
   return (
     <PageWrapper>
       <GridContainer>
@@ -148,21 +157,26 @@ const PoolUI = () => {
 
           {(activeMenu === MenuType.allFarmV1 ||
             activeMenu === MenuType.allFarmV2 ||
+            activeMenu === MenuType.allFarmV3 ||
             activeMenu === MenuType.yourFarmV1 ||
             activeMenu === MenuType.yourFarmV2 ||
+            activeMenu === MenuType.yourFarmV3 ||
             activeMenu === MenuType.superFarm) &&
             isEvmChain(chainId) && (
               <Pools
                 type={
-                  activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.allFarmV2
+                  activeMenu === MenuType.allFarmV1 ||
+                  activeMenu === MenuType.allFarmV2 ||
+                  activeMenu === MenuType.allFarmV3
                     ? PoolType.all
                     : activeMenu === MenuType.superFarm
                     ? PoolType.superFarms
                     : PoolType.own
                 }
-                version={activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.yourFarmV1 ? 1 : 2}
+                version={version}
                 stakingInfoV1={stakingInfoV1}
                 miniChefStakingInfo={miniChefStakingInfo}
+                pangoChefStakingInfo={pangoChefStakingInfos}
                 activeMenu={activeMenu}
                 setMenu={handleSetMenu}
                 menuItems={menuItems}
