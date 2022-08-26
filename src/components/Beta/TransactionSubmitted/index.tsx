@@ -1,9 +1,8 @@
 import React, { useContext } from 'react'
-import { Box, Text, Button, useTranslation } from '@pangolindex/components'
+import { Box, Text, Button, useTranslation, getEtherscanLink } from '@pangolindex/components'
 import { Root, Link } from './styled'
 import { ArrowUpCircle } from 'react-feather'
 import { useChainId } from 'src/hooks'
-import { getEtherscanLink } from 'src/utils'
 import { ThemeContext } from 'styled-components'
 
 interface Props {
