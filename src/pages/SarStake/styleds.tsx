@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Box } from '@pangolindex/components'
+import { CloseIcon } from 'src/theme'
 
 export const PageWrapper = styled(Box)`
   width: 100%;
@@ -13,6 +14,10 @@ export const PageWrapper = styled(Box)`
     'details stake'
     'images stake';
 
+  ${({ theme }) => theme.mediaWidth.upToLarge`
+    grid-template-columns: 65% 35%;
+  `}
+
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   `}
@@ -24,4 +29,10 @@ export const PageWrapper = styled(Box)`
       'stake'
       'images';
   `};
+`
+export const CloseButton = styled(CloseIcon)`
+  color: ${({ theme }) => theme.text1};
+  position: absolute;
+  right: 9px;
+  top: 9px;
 `

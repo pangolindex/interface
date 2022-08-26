@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { CurrencyLogo, Text, useSarStakeInfo, useSarPositions } from '@pangolindex/components'
+import { CurrencyLogo, Text, useSarStakeInfo, useSarPositions, Position } from '@pangolindex/components'
 import { BigNumber } from '@ethersproject/bignumber'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
@@ -11,31 +11,32 @@ import { formatEther } from 'ethers/lib/utils'
 const StakeStat: React.FC = () => {
   const chainId = useChainId()
   const { apr, totalStaked } = useSarStakeInfo()
-  const { positions } = useSarPositions()
+  const { data: positions = [] as Position[] } = useSarPositions()
+
+  const filteredPositions = positions.filter(position => !position.balance.isZero()) // remove zero balances
 
   const userTotalStaked = useMemo(() => {
-    if (positions.length === 0) return BigNumber.from(0)
+    if (filteredPositions.length === 0) return BigNumber.from(0)
 
-    return positions.reduce((acc, cur) => {
+    return filteredPositions.reduce((acc, cur) => {
       return acc.add(cur.balance)
     }, BigNumber.from(0))
-  }, [positions])
+  }, [filteredPositions])
 
-  const userAvaregeApr = useMemo(() => {
-    if (positions.length === 0) return BigNumber.from(0)
-
-    const totalAPR = positions.reduce((acc, cur) => {
+  const userAverageApr = useMemo(() => {
+    if (filteredPositions.length === 0) return BigNumber.from(0)
+    const totalAPR = filteredPositions.reduce((acc, cur) => {
       return acc.add(cur.apr)
     }, BigNumber.from(0))
-    return totalAPR.div(positions.length)
-  }, [positions])
+    return totalAPR.div(filteredPositions.length)
+  }, [filteredPositions])
 
   return (
     <Wrapper>
       <Title>
         <CurrencyLogo currency={PNG[chainId]} size={48} />
         <Text color="text1" fontSize="24px">
-          {PNG[chainId].symbol} Single Stake
+          {PNG[chainId].symbol} Stake
         </Text>
       </Title>
 
@@ -47,16 +48,16 @@ const StakeStat: React.FC = () => {
           titleColor="text2"
           statColor="text1"
           titleFontSize={16}
-          statFontSize={24}
+          statFontSize={18}
         />
         <Stat
-          title="Your Avarege APR"
+          title="Your Average APR"
           titlePosition="top"
-          stat={`${userAvaregeApr.toString()}%`}
+          stat={`${userAverageApr.toString()}%`}
           titleColor="text2"
           statColor="text1"
           titleFontSize={16}
-          statFontSize={24}
+          statFontSize={18}
         />
         <Stat
           title="Total PNG"
@@ -65,7 +66,7 @@ const StakeStat: React.FC = () => {
           titleColor="text2"
           statColor="text1"
           titleFontSize={16}
-          statFontSize={24}
+          statFontSize={18}
         />
         <Stat
           title="APR"
@@ -74,7 +75,7 @@ const StakeStat: React.FC = () => {
           titleColor="text2"
           statColor="text1"
           titleFontSize={16}
-          statFontSize={24}
+          statFontSize={18}
         />
       </DestkopDetails>
       <MobileDetails upToSmall={true}>
