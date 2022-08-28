@@ -4,7 +4,7 @@ import { MyPortfolio, SwapWidget, WatchList } from '@pangolindex/components'
 import PairInfo from './PairInfo'
 import LimitOrderList from './LimitOrderList'
 import { useChainId } from 'src/hooks'
-import { CHAINS } from '@pangolindex/sdk'
+import { CHAINS, ChainId } from '@pangolindex/sdk'
 import { isEvmChain } from 'src/utils'
 import ComingSoon from 'src/components/Beta/ComingSoon'
 import { useGelatoLimitOrdersHook } from 'src/state/swap/multiChainsHooks'
@@ -18,11 +18,13 @@ const SwapUI = () => {
   return (
     <PageWrapper>
       <TopContainer>
-        <StatsWrapper>{isEvmChain(chainId) ? <PairInfo /> : <ComingSoon />}</StatsWrapper>
+        <StatsWrapper>
+          {isEvmChain(chainId) && chainId !== ChainId.SONGBIRD ? <PairInfo /> : <ComingSoon />}
+        </StatsWrapper>
         <SwapWidget isLimitOrderVisible={CHAINS[chainId]?.mainnet} />
       </TopContainer>
 
-      {CHAINS[chainId]?.mainnet && isEvmChain(chainId) && (
+      {CHAINS[chainId]?.mainnet && isEvmChain(chainId) && chainId !== ChainId.SONGBIRD && (
         <GridContainer isLimitOrders={isLimitOrders}>
           {isLimitOrders && <LimitOrderList />}
           <MyPortfolio />

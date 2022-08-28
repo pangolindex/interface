@@ -5,6 +5,7 @@ import { ChainId, CHAINS } from '@pangolindex/sdk'
 import { useActiveWeb3React } from 'src/hooks'
 import { Hidden, Visible } from 'src/theme'
 import { MENU_LINK } from 'src/constants'
+import { isEvmChain } from 'src/utils'
 
 const Dashboard = () => {
   const { t } = useTranslation()
@@ -15,12 +16,13 @@ const Dashboard = () => {
       <PageDescription>{t('dashboardPage.greetings')}</PageDescription>
 
       <TopContainer>
-        <StatsWrapper>
-          <Portfolio />
-          {CHAINS[chainId]?.mainnet && (
+        {CHAINS[chainId]?.mainnet && isEvmChain(chainId) && chainId !== ChainId.SONGBIRD && (
+          <StatsWrapper>
+            <Portfolio />
+
             <WatchList visibleTradeButton={true} tradeLinkUrl={MENU_LINK.swap} redirect={true} />
-          )}
-        </StatsWrapper>
+          </StatsWrapper>
+        )}
 
         <Hidden upToSmall={true}>
           <NewsWidget boxHeight="450px" />
