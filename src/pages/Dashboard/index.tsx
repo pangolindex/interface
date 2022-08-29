@@ -1,26 +1,28 @@
 import React from 'react'
 import { PageTitle, PageDescription, PageWrapper, TopContainer, StatsWrapper } from './styleds'
 import { NewsWidget, WatchList, Portfolio, useTranslation } from '@pangolindex/components'
-import { ChainId, CHAINS } from '@pangolindex/sdk'
-import { useActiveWeb3React } from 'src/hooks'
+import { CHAINS } from '@pangolindex/sdk'
+import { useChainId } from 'src/hooks'
 import { Hidden, Visible } from 'src/theme'
 import { MENU_LINK } from 'src/constants'
-import { isEvmChain } from 'src/utils'
+import { WATCHLIST_ACCESS } from 'src/constants/accessPermissions'
 
 const Dashboard = () => {
   const { t } = useTranslation()
-  const { chainId = ChainId.AVALANCHE } = useActiveWeb3React()
+  const chainId = useChainId()
   return (
     <PageWrapper>
       <PageTitle>{t('dashboardPage.dashboard')}</PageTitle>
       <PageDescription>{t('dashboardPage.greetings')}</PageDescription>
 
       <TopContainer>
-        {CHAINS[chainId]?.mainnet && isEvmChain(chainId) && chainId !== ChainId.SONGBIRD && (
+        {CHAINS[chainId]?.mainnet && (
           <StatsWrapper>
             <Portfolio />
 
-            <WatchList visibleTradeButton={true} tradeLinkUrl={MENU_LINK.swap} redirect={true} />
+            {WATCHLIST_ACCESS[chainId] && (
+              <WatchList visibleTradeButton={true} tradeLinkUrl={MENU_LINK.swap} redirect={true} />
+            )}
           </StatsWrapper>
         )}
 

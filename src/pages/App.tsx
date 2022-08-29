@@ -3,6 +3,8 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import { MENU_LINK } from 'src/constants'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
+import { useChainId } from 'src/hooks'
+import { VOTE_PAGE_ACCESS } from 'src/constants/accessPermissions'
 const Polling = React.lazy(() => import('../components/Header/Polling'))
 const Popups = React.lazy(() => import('../components/Popups'))
 const Web3ReactManager = React.lazy(() => import('../components/Web3ReactManager'))
@@ -50,6 +52,7 @@ const BodyWrapper = styled.div`
 `
 
 export default function App() {
+  const chainId = useChainId()
   return (
     <Suspense fallback={null}>
       <Route component={GoogleAnalyticsReporter} />
@@ -72,8 +75,19 @@ export default function App() {
                 component={ManageStakeV2}
                 layout={Layout}
               /> */}
-              <CustomRoute exact path={`${MENU_LINK.vote}`} component={GovernanceV2} layout={Layout} />
-              <CustomRoute exact strict path={`${MENU_LINK.vote}/:id`} component={GovernanceDetailV2} layout={Layout} />
+              {VOTE_PAGE_ACCESS[chainId] && (
+                <>
+                  <CustomRoute exact path={`${MENU_LINK.vote}`} component={GovernanceV2} layout={Layout} />
+                  <CustomRoute
+                    exact
+                    strict
+                    path={`${MENU_LINK.vote}/:id`}
+                    component={GovernanceDetailV2}
+                    layout={Layout}
+                  />
+                </>
+              )}
+
               <CustomRoute exact strict path={`${MENU_LINK.buy}`} component={BuyV2} layout={Layout} />
               <CustomRoute exact path={`${MENU_LINK.pool}`} component={PoolV2} layout={Layout} />
               <CustomRoute exact path={`${MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} />
