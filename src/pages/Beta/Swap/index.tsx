@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { PageWrapper, GridContainer, TopContainer, StatsWrapper } from './styleds'
 import { MyPortfolio, SwapWidget, WatchList } from '@pangolindex/components'
 import PairInfo from './PairInfo'
@@ -8,23 +8,24 @@ import { CHAINS } from '@pangolindex/sdk'
 import { isEvmChain } from 'src/utils'
 import ComingSoon from 'src/components/Beta/ComingSoon'
 import { useGelatoLimitOrdersHook } from 'src/state/swap/multiChainsHooks'
+import { SwapTypes } from '@pangolindex/components'
 
 const SwapUI = () => {
   const chainId = useChainId()
   const useGelatoLimitOrders = useGelatoLimitOrdersHook[chainId]
   const { allOrders } = useGelatoLimitOrders()
-
+  const [swapType, onSwapTypeChange] = useState(SwapTypes.MARKET)
   const isLimitOrders = (allOrders || []).length > 0
   return (
     <PageWrapper>
       <TopContainer>
         <StatsWrapper>{isEvmChain(chainId) ? <PairInfo /> : <ComingSoon />}</StatsWrapper>
-        <SwapWidget isLimitOrderVisible={CHAINS[chainId]?.mainnet} />
+        <SwapWidget onSwapTypeChange={onSwapTypeChange} isLimitOrderVisible={CHAINS[chainId]?.mainnet} />
       </TopContainer>
 
       {CHAINS[chainId]?.mainnet && isEvmChain(chainId) && (
         <GridContainer isLimitOrders={isLimitOrders}>
-          {isLimitOrders && <LimitOrderList />}
+          {isLimitOrders && swapType == SwapTypes.LIMIT && <LimitOrderList />}
           <MyPortfolio />
           <WatchList coinChartVisible={!isLimitOrders} />
         </GridContainer>
