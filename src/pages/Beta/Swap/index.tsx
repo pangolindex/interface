@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { PageWrapper, GridContainer, TopContainer, StatsWrapper } from './styleds'
-import { MyPortfolio, SwapWidget, WatchList } from '@pangolindex/components'
+import { MyPortfolio, SwapWidget, WatchList, SwapTypes } from '@pangolindex/components'
 import PairInfo from './PairInfo'
 import LimitOrderList from './LimitOrderList'
 import { useChainId } from 'src/hooks'
@@ -8,7 +8,6 @@ import { CHAINS } from '@pangolindex/sdk'
 import { isEvmChain } from 'src/utils'
 import ComingSoon from 'src/components/Beta/ComingSoon'
 import { useGelatoLimitOrdersHook } from 'src/state/swap/multiChainsHooks'
-import { SwapTypes } from '@pangolindex/components'
 
 const SwapUI = () => {
   const chainId = useChainId()
