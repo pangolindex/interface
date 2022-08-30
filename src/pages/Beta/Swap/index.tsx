@@ -14,7 +14,7 @@ const SwapUI = () => {
   const useGelatoLimitOrders = useGelatoLimitOrdersHook[chainId]
   const { allOrders } = useGelatoLimitOrders()
   const [swapType, onSwapTypeChange] = useState(SwapTypes.MARKET)
-  const isLimitOrders = (allOrders || []).length > 0
+  const isLimitOrders = (allOrders || []).length > 0 && swapType === SwapTypes.LIMIT
   return (
     <PageWrapper>
       <TopContainer>
@@ -24,7 +24,7 @@ const SwapUI = () => {
 
       {CHAINS[chainId]?.mainnet && isEvmChain(chainId) && (
         <GridContainer isLimitOrders={isLimitOrders}>
-          {isLimitOrders && swapType == SwapTypes.LIMIT && <LimitOrderList />}
+          {isLimitOrders && <LimitOrderList />}
           <MyPortfolio />
           <WatchList coinChartVisible={!isLimitOrders} />
         </GridContainer>
