@@ -35,7 +35,7 @@ export function useUSDCPrice(currency?: Currency): Price | undefined {
     // handle wavax/avax
     if (wrapped.equals(WAVAX[chainId])) {
       if (usdcPair) {
-        const price = usdcPair.priceOf(WAVAX[chainId])
+        const price = usdcPair.priceOf(WAVAX[chainId], USDC)
         return new Price(currency, USDC, price.denominator, price.numerator)
       } else {
         return undefined
@@ -46,22 +46,29 @@ export function useUSDCPrice(currency?: Currency): Price | undefined {
       return new Price(USDC, USDC, '1', '1')
     }
 
-    const avaxPairAVAXAmount = avaxPair?.reserveOf(WAVAX[chainId])
+    const avaxPairAVAXAmount = avaxPair?.reserveOfToken(WAVAX[chainId])
     const avaxPairAVAXUSDCValue: JSBI =
       avaxPairAVAXAmount && usdcAvaxPair
-        ? usdcAvaxPair.priceOf(WAVAX[chainId]).quote(avaxPairAVAXAmount, chainId).raw
+        ? usdcAvaxPair.priceOf(WAVAX[chainId], USDC).quote(avaxPairAVAXAmount, chainId).raw
         : JSBI.BigInt(0)
 
     // all other tokens
     // first try the usdc pair
-    if (usdcPairState === PairState.EXISTS && usdcPair && usdcPair.reserveOf(USDC).greaterThan(avaxPairAVAXUSDCValue)) {
-      const price = usdcPair.priceOf(wrapped)
+    if (
+      usdcPairState === PairState.EXISTS &&
+      usdcPair &&
+      usdcPair.reserveOfToken(USDC).greaterThan(avaxPairAVAXUSDCValue)
+    ) {
+      const price = usdcPair.priceOf(wrapped, USDC)
       return new Price(currency, USDC, price.denominator, price.numerator)
     }
     if (avaxPairState === PairState.EXISTS && avaxPair && usdcAvaxPairState === PairState.EXISTS && usdcAvaxPair) {
-      if (usdcAvaxPair.reserveOf(USDC).greaterThan('0') && avaxPair.reserveOf(WAVAX[chainId]).greaterThan('0')) {
-        const avaxUsdcPrice = usdcAvaxPair.priceOf(USDC)
-        const currencyAvaxPrice = avaxPair.priceOf(WAVAX[chainId])
+      if (
+        usdcAvaxPair.reserveOfToken(USDC).greaterThan('0') &&
+        avaxPair.reserveOfToken(WAVAX[chainId]).greaterThan('0')
+      ) {
+        const avaxUsdcPrice = usdcAvaxPair.priceOf(USDC, WAVAX[chainId])
+        const currencyAvaxPrice = avaxPair.priceOf(WAVAX[chainId], wrapped)
         const usdcPrice = avaxUsdcPrice.multiply(currencyAvaxPrice).invert()
         return new Price(currency, USDC, usdcPrice.denominator, usdcPrice.numerator)
       }

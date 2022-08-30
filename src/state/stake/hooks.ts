@@ -401,10 +401,7 @@ export function useGetPairDataFromPair(pair: Pair) {
     !!userPoolBalance &&
     // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
     JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
-      ? [
-          pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
-          pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false)
-        ]
+      ? pair.getLiquidityValues(totalPoolTokens, userPoolBalance, { feeOn: false })
       : [zeroTokenAmount0, zeroTokenAmount1]
 
   const usdAmountCurrency0: CurrencyAmount = usdPriceCurrency0?.quote(token0Deposited, chainId) ?? zeroTokenAmount0
@@ -802,15 +799,15 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
           ? calculateTotalStakedAmountInAvax(
               totalSupplyStaked,
               totalSupplyAvailable,
-              pair.reserveOf(wavax).raw,
+              pair.reserveOfToken(wavax).raw,
               chainId
             )
           : calculateTotalStakedAmountInAvaxFromPng(
               totalSupplyStaked,
               totalSupplyAvailable,
-              avaxPngPair.reserveOf(png).raw,
-              avaxPngPair.reserveOf(WAVAX[_tokens[1].chainId]).raw,
-              pair.reserveOf(png).raw,
+              avaxPngPair.reserveOfToken(png).raw,
+              avaxPngPair.reserveOfToken(WAVAX[_tokens[1].chainId]).raw,
+              pair.reserveOfToken(png).raw,
               chainId
             )
 

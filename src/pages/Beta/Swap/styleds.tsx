@@ -4,6 +4,9 @@ import styled from 'styled-components'
 export const PageWrapper = styled(Box)`
   width: 100%;
   padding-top: 25px;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    padding-top: 10px;
+`};
 `
 
 export const TopContainer = styled(Box)`

@@ -35,7 +35,8 @@ export const PoolCards = styled(Box)`
   grid-auto-columns: minmax(0, 1fr);
   grid-auto-flow: column;
   grid-gap: 20px;
-
+  min-width: 320px;
+  margin: auto;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-auto-columns:  minmax(0, 1fr);
     grid-auto-flow: row;

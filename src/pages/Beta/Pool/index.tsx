@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import {
   Box,
   useTranslation,
@@ -11,6 +11,7 @@ import {
   useGetMinichefStakingInfosViaSubgraphHook,
   DoubleSideStakingInfo,
   PoolType,
+  useParsedQueryString,
   usePangoChefInfos
 } from '@pangolindex/components'
 import { PageWrapper, GridContainer, ExternalLink } from './styleds'
@@ -26,6 +27,17 @@ const PoolUI = () => {
   const [activeMenu, setMenu] = useState<string>(MenuType.allFarmV2)
   const [isAddLiquidityModalOpen, setAddLiquidityModalOpen] = useState<boolean>(false)
   const { t } = useTranslation()
+
+  const parsedQs = useParsedQueryString()
+
+  const currency0 = parsedQs?.currency0
+  const currency1 = parsedQs?.currency1
+
+  useEffect(() => {
+    if (currency0 && currency1) {
+      setAddLiquidityModalOpen(true)
+    }
+  }, [currency0, currency1])
 
   const useGetAllFarmData = useGetAllFarmDataHook[chainId]
 
