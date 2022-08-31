@@ -46,6 +46,8 @@ const darkSilver = '#717171'
 const venetianRed = '#CC1512'
 const oceanBlue = '#18C145'
 const quickSilver = '#A3A3A3'
+const warning = '#F3841E'
+const success = '#18C145'
 
 // beta theme color
 
@@ -141,7 +143,10 @@ export function colors(darkMode: boolean): Colors {
     venetianRed,
     oceanBlue,
     quickSilver,
+
     error: venetianRed,
+    warning: warning,
+    success,
 
     color2: darkMode ? chineseBlack : ghostWhite,
     color3: darkMode ? eerieBlack : platinum,
@@ -239,7 +244,7 @@ export function betaColors(darkMode: boolean): BetaColors {
       text: darkMode ? darkSilver : quickSilver,
       labelText: darkMode ? darkSilver : quickSilver,
       placeholderText: darkMode ? darkSilver : quickSilver,
-      backgroundColor: darkMode ? black : white
+      backgroundColor: darkMode ? eerieBlack : white
     },
 
     currencySelect: {
