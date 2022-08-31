@@ -20,7 +20,7 @@ import { useChainId } from 'src/hooks'
 import {
   useLibrary,
   useTranslation,
-  useMinichefStakingInfos,
+  useMinichefStakingInfosHook,
   StakingInfo,
   DoubleSideStakingInfo,
   fetchChunkedAprs,
@@ -298,6 +298,7 @@ export function useTotalPngEarned(): TokenAmount | undefined {
   const chainId = useChainId()
 
   const png = PNG[chainId]
+  const useMinichefStakingInfos = useMinichefStakingInfosHook[chainId]
   const minichefInfo = useMinichefStakingInfos(2)
   const singleStakingInfo = useSingleSideStakingInfo(0, png)
 
