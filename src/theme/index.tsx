@@ -141,6 +141,7 @@ export function colors(darkMode: boolean): Colors {
     venetianRed,
     oceanBlue,
     quickSilver,
+    error: venetianRed,
 
     color2: darkMode ? chineseBlack : ghostWhite,
     color3: darkMode ? eerieBlack : platinum,
@@ -150,7 +151,8 @@ export function colors(darkMode: boolean): Colors {
     color7: darkMode ? darkGunmetal : ghostWhite,
     color8: darkMode ? chineseBlack : platinum,
     color9: darkMode ? darkSilver : quickSilver,
-    color10: darkMode ? eerieBlack : white
+    color10: darkMode ? eerieBlack : white,
+    color12: darkMode ? darkSilver : platinum
   }
 }
 
@@ -218,6 +220,46 @@ export function betaColors(darkMode: boolean): BetaColors {
     secondary3: darkMode ? '#17000b26' : '#FDEAF1',
 
     yellow2: '#FF6B00',
+
+    swapWidget: {
+      primary: darkMode ? white : black,
+      secondary: darkMode ? darkSilver : quickSilver,
+      backgroundColor: darkMode ? chineseBlack : ghostWhite,
+      detailsBackground: darkMode ? black : white,
+      interactiveColor: darkMode ? darkSilver : quickSilver,
+      interactiveBgColor: darkMode ? darkGunmetal : ghostWhite
+    },
+
+    drawer: {
+      text: darkMode ? white : black,
+      backgroundColor: darkMode ? chineseBlack : ghostWhite
+    },
+
+    textInput: {
+      text: darkMode ? darkSilver : quickSilver,
+      labelText: darkMode ? darkSilver : quickSilver,
+      placeholderText: darkMode ? darkSilver : quickSilver,
+      backgroundColor: darkMode ? black : white
+    },
+
+    currencySelect: {
+      defaultText: darkMode ? black : white,
+      selectedText: darkMode ? white : black,
+      defaultBackgroundColor: philippineYellow,
+      selectedBackgroundColor: darkMode ? chineseBlack : ghostWhite
+    },
+
+    loader: {
+      text: darkMode ? white : black
+    },
+
+    numberOptions: {
+      text: darkMode ? white : black,
+      activeTextColor: black,
+      activeBackgroundColor: philippineYellow,
+      inactiveBackgroundColor: darkMode ? chineseBlack : ghostWhite,
+      borderColor: ghostWhite1
+    },
 
     switch: {
       onColor: philippineYellow,
