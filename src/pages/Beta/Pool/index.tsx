@@ -81,8 +81,10 @@ const PoolUI = () => {
   )
   // here if farm is not avaialble your pool menu default active
   useEffect(() => {
-    if ((miniChefStakingInfo || []).length === 0 || (stakingInfoV1 || []).length === 0) {
+    if ((miniChefStakingInfo || []).length === 0 && (stakingInfoV1 || []).length === 0) {
       setMenu(MenuType.yourPool)
+    } else {
+      setMenu(MenuType.allFarmV2)
     }
   }, [(miniChefStakingInfo || []).length, (stakingInfoV1 || []).length])
 
