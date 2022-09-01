@@ -232,7 +232,7 @@ export function betaColors(darkMode: boolean): BetaColors {
       backgroundColor: darkMode ? chineseBlack : ghostWhite,
       detailsBackground: darkMode ? black : white,
       interactiveColor: darkMode ? darkSilver : quickSilver,
-      interactiveBgColor: darkMode ? darkGunmetal : ghostWhite
+      interactiveBgColor: darkMode ? darkGunmetal : platinum
     },
 
     drawer: {
