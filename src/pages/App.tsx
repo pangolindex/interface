@@ -76,16 +76,16 @@ export default function App() {
                 layout={Layout}
               /> */}
               {VOTE_PAGE_ACCESS[chainId] && (
-                <>
-                  <CustomRoute exact path={`${MENU_LINK.vote}`} component={GovernanceV2} layout={Layout} />
-                  <CustomRoute
-                    exact
-                    strict
-                    path={`${MENU_LINK.vote}/:id`}
-                    component={GovernanceDetailV2}
-                    layout={Layout}
-                  />
-                </>
+                <CustomRoute exact path={`${MENU_LINK.vote}`} component={GovernanceV2} layout={Layout} />
+              )}
+              {VOTE_PAGE_ACCESS[chainId] && (
+                <CustomRoute
+                  exact
+                  strict
+                  path={`${MENU_LINK.vote}/:id`}
+                  component={GovernanceDetailV2}
+                  layout={Layout}
+                />
               )}
 
               <CustomRoute exact strict path={`${MENU_LINK.buy}`} component={BuyV2} layout={Layout} />

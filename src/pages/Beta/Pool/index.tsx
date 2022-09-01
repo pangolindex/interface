@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import {
   Box,
   useTranslation,
@@ -79,6 +79,12 @@ const PoolUI = () => {
     () => miniChefStakingInfo.filter((item: MinichefStakingInfo) => (item?.rewardTokensAddress?.length || 0) > 1),
     [miniChefStakingInfo]
   )
+  // here if farm is not avaialble your pool menu default active
+  useEffect(() => {
+    if ((miniChefStakingInfo || []).length === 0 || (stakingInfoV1 || []).length === 0) {
+      setMenu(MenuType.yourPool)
+    }
+  }, [(miniChefStakingInfo || []).length, (stakingInfoV1 || []).length])
 
   const menuItems: Array<{ label: string; value: string }> = []
 
