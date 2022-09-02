@@ -4,9 +4,28 @@ import styled from 'styled-components'
 export const PageWrapper = styled(Box)`
   width: 100%;
   padding-top: 25px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     padding-top: 10px;
-`};
+  `};
+`
+
+export const SwapWidgetWrapper = styled(Box)`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  min-width: 320px;
+  width: 400px;
+  margin: auto;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    margin: initial;
+    flex:0;
+  `};
 `
 
 export const TopContainer = styled(Box)`

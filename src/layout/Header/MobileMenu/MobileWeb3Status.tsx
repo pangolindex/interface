@@ -1,10 +1,9 @@
-import { Box, shortenAddress, Text, WalletModal } from '@pangolindex/components'
+import { Box, shortenAddress, Text, WalletModal, getEtherscanLink } from '@pangolindex/components'
 import React, { useCallback, useContext } from 'react'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { ApplicationModal } from 'src/state/application/actions'
 import { useModalOpen, useWalletModalToggle } from 'src/state/application/hooks'
-import { getEtherscanLink } from 'src/utils'
 import { ThemeContext } from 'styled-components'
 import { AccountLink, Copy, ToggleWalletButton, WalletIcon } from './styled'
 

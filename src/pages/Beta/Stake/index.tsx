@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from '@pangolindex/components'
+import { useTranslation, Text } from '@pangolindex/components'
 import { useParams } from 'react-router-dom'
 import { PageWrapper, PageTitle, PoolsWrapper, PoolCards } from './styleds'
 import { useChainId, usePngSymbol } from 'src/hooks'
@@ -81,7 +81,9 @@ const StakeUI = () => {
         {stakingRewardsExist && stakingInfos?.length === 0 ? (
           <Loader style={{ margin: 'auto' }} />
         ) : !stakingRewardsExist ? (
-          t('earnPage.noActiveRewards')
+          <Text color="text1" fontSize={[24, 20]} fontWeight={500}>
+            {t('earnPage.noActiveRewards')}
+          </Text>
         ) : (
           <PoolCards>
             {stakingInfoResults?.map((stakingInfo, index) => (

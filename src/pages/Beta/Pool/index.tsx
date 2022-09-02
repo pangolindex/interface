@@ -91,6 +91,16 @@ const PoolUI = () => {
     () => miniChefStakingInfo.filter((item: MinichefStakingInfo) => (item?.rewardTokensAddress?.length || 0) > 1),
     [miniChefStakingInfo]
   )
+  // here if farm is not avaialble your pool menu default active
+  const minichefLength = (miniChefStakingInfo || []).length
+  const stakingInfoV1Length = (miniChefStakingInfo || []).length
+  useEffect(() => {
+    if (minichefLength === 0 && stakingInfoV1Length === 0) {
+      setMenu(MenuType.yourPool)
+    } else {
+      setMenu(MenuType.allFarmV2)
+    }
+  }, [minichefLength, stakingInfoV1Length])
 
   const menuItems: Array<{ label: string; value: string }> = []
 

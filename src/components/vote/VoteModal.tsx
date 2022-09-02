@@ -10,10 +10,9 @@ import { X, ArrowUpCircle } from 'react-feather'
 import { ButtonPrimary } from '../Button'
 import Circle from '../../assets/svg/blue-loader.svg'
 import { useVoteCallback, useUserVotes } from '../../state/governance/hooks'
-import { getEtherscanLink } from '../../utils'
 import { ExternalLink } from '../../theme/components'
 import { TokenAmount } from '@pangolindex/sdk'
-import { useTranslation } from '@pangolindex/components'
+import { useTranslation, getEtherscanLink } from '@pangolindex/components'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
