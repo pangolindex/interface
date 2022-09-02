@@ -3,7 +3,6 @@ import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React, useChainId } from '../../hooks'
 import { useDispatch } from '../../state'
 import { clearAllTransactions } from '../../state/transactions/actions'
-import { getEtherscanLink } from 'src/utils'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
@@ -24,6 +23,7 @@ import {
   NearConnector,
   useAllTransactionsClearer,
   useTranslation,
+  getEtherscanLink,
   hashConnect,
   HashConnector
 } from '@pangolindex/components'

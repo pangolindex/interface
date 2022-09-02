@@ -11,6 +11,7 @@ import Governance from '../../assets/svg/menu/governance.svg'
 import { useLocation } from 'react-router-dom'
 import { useChainId } from 'src/hooks'
 import { CHAINS } from '@pangolindex/sdk'
+import { VOTE_PAGE_ACCESS } from 'src/constants/accessPermissions'
 
 interface Props {
   collapsed?: boolean
@@ -96,9 +97,15 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
     mainLinks.splice(4)
   }
 
+  if (!VOTE_PAGE_ACCESS[chainId]) {
+    const votePageIndex = mainLinks.findIndex(element => element?.id === 'vote')
+    mainLinks.splice(votePageIndex, 1)
+  }
+
   // remove stakvev2 if not exist sar contract
   if (!existSarContract(chainId)) {
-    mainLinks.splice(5, 1)
+    const stakeV2PageIndex = mainLinks.findIndex(element => element?.id === 'stakev2')
+    mainLinks.splice(stakeV2PageIndex, 1)
   }
 
   const pangolinLinks = [

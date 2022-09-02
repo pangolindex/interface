@@ -1,5 +1,13 @@
 import React from 'react'
-import { Text, Loader, Box, shortenAddress, useTranslation, useTokenBalance } from '@pangolindex/components'
+import {
+  Text,
+  Loader,
+  Box,
+  shortenAddress,
+  useTranslation,
+  useTokenBalance,
+  getEtherscanLink
+} from '@pangolindex/components'
 import {
   PageWrapper,
   PageTitle,
@@ -19,7 +27,6 @@ import { useActiveWeb3React, useChain, useChainId, usePngSymbol } from 'src/hook
 import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
-import { getEtherscanLink } from 'src/utils'
 import FormattedCurrencyAmount from 'src/components/FormattedCurrencyAmount'
 import { TYPE } from 'src/theme'
 import { RowBetween, RowFixed } from 'src/components/Row'

@@ -38,7 +38,7 @@ export function useMerkledropProof(account: string | null | undefined) {
         }
       try {
         const response = await axios.get(
-          `https://storage.googleapis.com/merkle-drop/${chaindId}/${account.toLocaleLowerCase()}.json`
+          `https://static.pangolin.exchange/merkle-drop/${chaindId}/${account.toLocaleLowerCase()}.json`
         )
         if (response.status !== 200) {
           return {

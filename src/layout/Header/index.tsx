@@ -29,6 +29,7 @@ import { useChainId } from 'src/hooks'
 import { LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
+import { CHAINS } from '@pangolindex/sdk'
 
 interface Props {
   activeMobileMenu: boolean
@@ -90,7 +91,7 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
             </Hidden>
             <PNGWrapper onClick={() => setShowPngBalanceModal(true)}>
               <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
-                PNG
+                {CHAINS[chainId].png_symbol}
               </PNGAmount>
             </PNGWrapper>
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>

@@ -6,7 +6,6 @@ import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
 import { maxAmountSpend } from 'src/utils'
-import { useUSDCPrice } from '../../utils/useUSDCPrice'
 import { getRouterContract } from '../../utils'
 import { usePngContract, useStakingContract } from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
@@ -21,7 +20,7 @@ import { useChainId } from 'src/hooks'
 import {
   useLibrary,
   useTranslation,
-  useMinichefStakingInfos,
+  useMinichefStakingInfosHook,
   StakingInfo,
   DoubleSideStakingInfo,
   fetchChunkedAprs,
@@ -29,7 +28,8 @@ import {
   calculateTotalStakedAmountInAvax,
   calculateTotalStakedAmountInAvaxFromPng,
   useTotalSupply,
-  useTokenBalance
+  useTokenBalance,
+  useUSDCPrice
 } from '@pangolindex/components'
 import { DOUBLE_SIDE_STAKING_REWARDS_INFO } from './doubleSideConfig'
 import ERC20_INTERFACE from 'src/constants/abis/erc20'
@@ -298,6 +298,7 @@ export function useTotalPngEarned(): TokenAmount | undefined {
   const chainId = useChainId()
 
   const png = PNG[chainId]
+  const useMinichefStakingInfos = useMinichefStakingInfosHook[chainId]
   const minichefInfo = useMinichefStakingInfos(2)
   const singleStakingInfo = useSingleSideStakingInfo(0, png)
 
@@ -401,10 +402,7 @@ export function useGetPairDataFromPair(pair: Pair) {
     !!userPoolBalance &&
     // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
     JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
-      ? [
-          pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
-          pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false)
-        ]
+      ? pair.getLiquidityValues(totalPoolTokens, userPoolBalance, { feeOn: false })
       : [zeroTokenAmount0, zeroTokenAmount1]
 
   const usdAmountCurrency0: CurrencyAmount = usdPriceCurrency0?.quote(token0Deposited, chainId) ?? zeroTokenAmount0
@@ -802,15 +800,15 @@ export function useStakingInfo(version: number, pairToFilterBy?: Pair | null): D
           ? calculateTotalStakedAmountInAvax(
               totalSupplyStaked,
               totalSupplyAvailable,
-              pair.reserveOf(wavax).raw,
+              pair.reserveOfToken(wavax).raw,
               chainId
             )
           : calculateTotalStakedAmountInAvaxFromPng(
               totalSupplyStaked,
               totalSupplyAvailable,
-              avaxPngPair.reserveOf(png).raw,
-              avaxPngPair.reserveOf(WAVAX[_tokens[1].chainId]).raw,
-              pair.reserveOf(png).raw,
+              avaxPngPair.reserveOfToken(png).raw,
+              avaxPngPair.reserveOfToken(WAVAX[_tokens[1].chainId]).raw,
+              pair.reserveOfToken(png).raw,
               chainId
             )
 

@@ -5,7 +5,7 @@ import { DateTime } from 'luxon'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
-import { Text, Box, Loader, useTranslation, useTokenBalance } from '@pangolindex/components'
+import { Text, Box, Loader, useTranslation, useTokenBalance, getEtherscanLink } from '@pangolindex/components'
 import {
   PageWrapper,
   CardWrapper,
@@ -29,7 +29,7 @@ import { useActiveWeb3React } from 'src/hooks'
 import { ExternalLink } from 'src/theme'
 import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
-import { isAddress, getEtherscanLink } from 'src/utils'
+import { isAddress } from 'src/utils'
 
 export interface GovernanceDetailProps {
   id: string
@@ -187,7 +187,7 @@ export default function GovernanceDetail() {
             </CardSection>
           </StyledDataCard>
         </CardWrapper>
-        <StyledDataCard style={{ borderRadius: '0px' }}>
+        <StyledDataCard style={{ borderRadius: '12px' }}>
           <CardSection style={{ padding: '25px 30px', display: 'block' }}>
             <AutoColumn gap="md">
               <Text fontWeight={800} fontSize={22} lineHeight="33px" color="text1">
