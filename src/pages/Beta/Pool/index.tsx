@@ -103,13 +103,16 @@ const PoolUI = () => {
   // here if farm is not avaialble your pool menu default active
   const minichefLength = (miniChefStakingInfo || []).length
   const stakingInfoV1Length = (miniChefStakingInfo || []).length
+  const pangoChefStakingLength = pangoChefStakingInfos.length
   useEffect(() => {
-    if (minichefLength === 0 && stakingInfoV1Length === 0) {
+    if (minichefLength === 0 && stakingInfoV1Length === 0 && pangoChefStakingLength === 0) {
       setMenu(MenuType.yourPool)
+    } else if (pangoChefStakingLength > 0) {
+      setMenu(MenuType.allFarmV3)
     } else {
       setMenu(MenuType.allFarmV2)
     }
-  }, [minichefLength, stakingInfoV1Length])
+  }, [minichefLength, stakingInfoV1Length, pangoChefStakingLength])
 
   const menuItems: Array<{ label: string; value: string }> = []
 
