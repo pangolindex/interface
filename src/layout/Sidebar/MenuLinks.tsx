@@ -98,23 +98,13 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
   }
 
   if (!VOTE_PAGE_ACCESS[chainId]) {
-    const votePageIndex = mainLinks.findIndex(element => {
-      if (element?.id === 'vote') return true
-
-      return false
-    })
-
+    const votePageIndex = mainLinks.findIndex(element => element?.id === 'vote')
     mainLinks.splice(votePageIndex, 1)
   }
 
   // remove stakvev2 if not exist sar contract
   if (!existSarContract(chainId)) {
-    const stakeV2PageIndex = mainLinks.findIndex(element => {
-      if (element?.id === 'stakev2') return true
-
-      return false
-    })
-
+    const stakeV2PageIndex = mainLinks.findIndex(element => element?.id === 'stakev2')
     mainLinks.splice(stakeV2PageIndex, 1)
   }
 
