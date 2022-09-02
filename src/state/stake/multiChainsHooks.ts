@@ -1,11 +1,11 @@
 import { ChainId } from '@pangolindex/sdk'
 import { useTotalPngEarned, useNearTotalPngEarned, useDummyStakingInfo, useStakingInfo } from 'src/state/stake/hooks'
 
-export type useTotalPngEarnedHookType = {
+export type UseTotalPngEarnedHookType = {
   [chainId in ChainId]: typeof useTotalPngEarned | typeof useNearTotalPngEarned
 }
 
-export const useTotalPngEarnedHook: useTotalPngEarnedHookType = {
+export const useTotalPngEarnedHook: UseTotalPngEarnedHookType = {
   [ChainId.FUJI]: useTotalPngEarned,
   [ChainId.AVALANCHE]: useTotalPngEarned,
   [ChainId.WAGMI]: useTotalPngEarned,
@@ -15,11 +15,11 @@ export const useTotalPngEarnedHook: useTotalPngEarnedHookType = {
   [ChainId.NEAR_TESTNET]: useNearTotalPngEarned
 }
 
-export type useStakingInfoHookType = {
+export type UseStakingInfoHookType = {
   [chainId in ChainId]: typeof useStakingInfo | typeof useDummyStakingInfo
 }
 
-export const useStakingInfoHook: useStakingInfoHookType = {
+export const useStakingInfoHook: UseStakingInfoHookType = {
   [ChainId.FUJI]: useStakingInfo,
   [ChainId.AVALANCHE]: useStakingInfo,
   [ChainId.WAGMI]: useStakingInfo,

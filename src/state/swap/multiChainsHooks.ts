@@ -1,13 +1,13 @@
 import { useGelatoLimitOrderList } from '@pangolindex/components'
 import { ChainId } from '@pangolindex/sdk'
 
-export type useGelatoLimitOrdersHookType = {
+export type UseGelatoLimitOrdersHookType = {
   [chainId in ChainId]: typeof useGelatoLimitOrderList | typeof useDummyGelatoLimitOrders
 }
 
 const useDummyGelatoLimitOrders = () => []
 
-export const useGelatoLimitOrdersHook: useGelatoLimitOrdersHookType = {
+export const useGelatoLimitOrdersHook: UseGelatoLimitOrdersHookType = {
   [ChainId.AVALANCHE]: useGelatoLimitOrderList,
   [ChainId.FUJI]: useGelatoLimitOrderList,
   [ChainId.WAGMI]: useGelatoLimitOrderList,
