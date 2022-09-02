@@ -21,10 +21,18 @@ import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
 import { useChainId } from 'src/hooks'
 import { isEvmChain } from 'src/utils'
+import { CHAINS, ChefType } from '@pangolindex/sdk'
 
 const PoolUI = () => {
   const chainId = useChainId()
-  const [activeMenu, setMenu] = useState<string>(MenuType.allFarmV2)
+  const minichef = CHAINS[chainId].contracts?.mini_chef
+  const [activeMenu, setMenu] = useState<string>(
+    minichef?.type === ChefType.MINI_CHEF
+      ? MenuType.allFarmV1
+      : minichef?.type === ChefType.MINI_CHEF_V2
+      ? MenuType.allFarmV2
+      : MenuType.allFarmV3
+  )
   const [isAddLiquidityModalOpen, setAddLiquidityModalOpen] = useState<boolean>(false)
   const { t } = useTranslation()
 
