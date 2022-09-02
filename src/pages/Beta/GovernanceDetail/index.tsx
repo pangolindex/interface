@@ -187,7 +187,7 @@ export default function GovernanceDetail() {
             </CardSection>
           </StyledDataCard>
         </CardWrapper>
-        <StyledDataCard style={{ borderRadius: '0px' }}>
+        <StyledDataCard style={{ borderRadius: '12px' }}>
           <CardSection style={{ padding: '25px 30px', display: 'block' }}>
             <AutoColumn gap="md">
               <Text fontWeight={800} fontSize={22} lineHeight="33px" color="text1">

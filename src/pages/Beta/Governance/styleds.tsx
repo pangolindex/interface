@@ -16,6 +16,9 @@ export const PageTitle = styled(Box)`
   margin-bottom: 28px;
   display: flex;
   justify-content: center;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    margin-top: 12px;
+  `};
 `
 
 export const ContentWrapper = styled(Box)`
@@ -30,6 +33,7 @@ export const ContentWrapper = styled(Box)`
 export const About = styled(Box)`
   padding: 18px 30px 32px;
   background: ${({ theme }) => theme.bg2};
+  border-radius: 8px;
 `
 
 export const WrapSmall = styled(RowBetween)`

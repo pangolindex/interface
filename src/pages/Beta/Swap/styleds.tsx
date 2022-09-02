@@ -7,6 +7,9 @@ export const PageWrapper = styled(Box)`
   display: flex;
   flex-direction: column;
   flex: 1;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    padding-top: 10px;
+  `};
 `
 
 export const SwapWidgetWrapper = styled(Box)`
