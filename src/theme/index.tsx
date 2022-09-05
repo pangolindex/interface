@@ -158,7 +158,7 @@ export function colors(darkMode: boolean): Colors {
     color8: darkMode ? chineseBlack : platinum,
     color9: darkMode ? darkSilver : quickSilver,
     color10: darkMode ? eerieBlack : white,
-    color11: darkMode ? white : black
+    color11: darkMode ? white : black,
     color12: darkMode ? darkSilver : platinum
   }
 }
