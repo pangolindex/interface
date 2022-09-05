@@ -37,6 +37,7 @@ export interface Colors {
   modalBG: Color
   modalBG2: Color
   advancedBG: Color
+  closeCircleBG: Color
 
   //blues
   primary1: Color
@@ -69,7 +70,7 @@ export interface Colors {
 
   avaxRed: Color
 
-  color11: Color
+  colorBeta11: Color
   color22: Color
   color33: Color
 
@@ -95,6 +96,7 @@ export interface Colors {
   color8: Color
   color9: Color
   color10: Color
+  color11: Color
 }
 
 export interface BetaColors extends Colors {
