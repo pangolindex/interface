@@ -86,6 +86,9 @@ export interface Colors {
   venetianRed: Color
   oceanBlue: Color
   quickSilver: Color
+  error: Color
+  warning: Color
+  success: Color
 
   color2: Color
   color3: Color
@@ -97,9 +100,51 @@ export interface Colors {
   color9: Color
   color10: Color
   color11: Color
+  color12: Color
 }
 
 export interface BetaColors extends Colors {
+  // theme color objects for components
+  swapWidget?: {
+    primary?: Color
+    secondary?: Color
+    backgroundColor?: Color
+    detailsBackground?: Color
+    interactiveColor?: Color
+    interactiveBgColor: Color
+  }
+
+  drawer?: {
+    text?: Color
+    backgroundColor?: Color
+  }
+
+  textInput?: {
+    text?: Color
+    labelText?: Color
+    placeholderText?: Color
+    backgroundColor?: Color
+  }
+
+  currencySelect?: {
+    defaultText?: Color
+    selectedText?: Color
+    defaultBackgroundColor?: Color
+    selectedBackgroundColor?: Color
+  }
+
+  loader?: {
+    text?: Color
+  }
+
+  numberOptions?: {
+    text: Color
+    activeTextColor: Color
+    activeBackgroundColor?: Color
+    inactiveBackgroundColor?: Color
+    borderColor?: Color
+  }
+
   switch?: {
     onColor: Color
     offColor: Color

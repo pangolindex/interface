@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { CheckCircle, Triangle } from 'react-feather'
-
+import { getEtherscanLink } from '@pangolindex/components'
 import { useChainId } from '../../hooks'
-import { getEtherscanLink } from '../../utils'
 import { ExternalLink } from '../../theme'
 import { useAllTransactions } from '../../state/transactions/hooks'
 import { RowFixed } from '../Row'
