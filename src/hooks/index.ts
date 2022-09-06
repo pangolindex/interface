@@ -11,7 +11,8 @@ import {
   // near,
   IS_IN_IFRAME,
   NetworkContextName,
-  SUPPORTED_WALLETS
+  SUPPORTED_WALLETS,
+  bitKeep
 } from '@pangolindex/components'
 import { useWallet } from 'src/state/user/hooks'
 import { AbstractConnector } from '@web3-react/abstract-connector'
@@ -73,14 +74,6 @@ export function useEagerConnect() {
           setTried(true)
         }
       }
-    } else if (window.xfi && window.xfi.ethereum) {
-      try {
-        await activate(xDefi, undefined, true)
-        setTried(true)
-      } catch (error) {
-        setWallet(null)
-        setTried(true)
-      }
     } else {
       setWallet(null)
       setTried(true)
@@ -111,6 +104,22 @@ export function useEagerConnect() {
             setTried(true)
           }
         })
+      } else if (window.xfi && window.xfi.ethereum) {
+        try {
+          await activate(xDefi, undefined, true)
+          setTried(true)
+        } catch (error) {
+          setWallet(null)
+          setTried(true)
+        }
+      } else if (window.bitkeep && window.isBitKeep) {
+        try {
+          await activate(bitKeep, undefined, true)
+          setTried(true)
+        } catch (error) {
+          setWallet(null)
+          setTried(true)
+        }
       } else {
         setWallet(null)
         setTried(true)

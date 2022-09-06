@@ -10,6 +10,8 @@ interface Window {
   WalletLinkProvider?: any
   walletLinkExtension?: any
   xfi?: any
+  bitkeep?: any
+  isBitKeep?: true
   ethereum?: {
     isCoinbaseWallet?: boolean
     isMetaMask?: true

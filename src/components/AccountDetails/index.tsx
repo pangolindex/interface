@@ -256,7 +256,7 @@ export default function AccountDetails({
     const isMetaMask = !!(ethereum && ethereum.isMetaMask)
     const isXDEFI = !!(ethereum && ethereum.isXDEFI)
     const isRabby = !!(ethereum && ethereum.isRabby)
-    const isBitKeep = !!(ethereum && ethereum.isBitKeep)
+    const isBitKeep = !!(ethereum && ethereum.isBitKeep) || !!(window.isBitKeep && window.bitkeep)
     const isCoinbase = !!(ethereum && ethereum.isCoinbaseWallet)
 
     let name = Object.keys(SUPPORTED_WALLETS)
