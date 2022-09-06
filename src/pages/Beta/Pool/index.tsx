@@ -26,13 +26,8 @@ import { CHAINS, ChefType } from '@pangolindex/sdk'
 const PoolUI = () => {
   const chainId = useChainId()
   const minichef = CHAINS[chainId].contracts?.mini_chef
-  const [activeMenu, setMenu] = useState<string>(
-    minichef?.type === ChefType.MINI_CHEF
-      ? MenuType.allFarmV1
-      : minichef?.type === ChefType.MINI_CHEF_V2
-      ? MenuType.allFarmV2
-      : MenuType.allFarmV3
-  )
+
+  const [activeMenu, setMenu] = useState<string>(MenuType.yourPool)
   const [isAddLiquidityModalOpen, setAddLiquidityModalOpen] = useState<boolean>(false)
   const { t } = useTranslation()
 
@@ -173,7 +168,21 @@ const PoolUI = () => {
     [setMenu]
   )
 
-  const version = activeMenu === MenuType.allFarmV1 ? 1 : activeMenu === MenuType.allFarmV3 ? 3 : 2
+  const getVersion = () => {
+    const chefType = minichef?.type
+    switch (chefType) {
+      case ChefType.MINI_CHEF:
+        return 1
+      case ChefType.MINI_CHEF_V2:
+        return 2
+      case ChefType.PANGO_CHEF:
+        return 3
+      default:
+        return 2
+    }
+  }
+
+  const version = getVersion()
 
   return (
     <PageWrapper>
