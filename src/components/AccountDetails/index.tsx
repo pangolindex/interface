@@ -9,7 +9,7 @@ import Transaction from './Transaction'
 import CoinbaseWalletIcon from '../../assets/svg/coinbaseWalletIcon.svg'
 import WalletConnectIcon from '../../assets/svg/walletConnectIcon.svg'
 import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
-import BitKeep from '../../assets/svg/bitkeep.png'
+import BitKeep from '../../assets/svg/bitkeep.svg'
 import { ReactComponent as Close } from '../../assets/svg/x.svg'
 import NearIcon from '../../assets/svg/near.svg'
 import {
