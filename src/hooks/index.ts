@@ -5,14 +5,14 @@ import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import {
+  bitKeep,
   gnosisSafe,
   injected,
-  xDefi,
   // near,
   IS_IN_IFRAME,
   NetworkContextName,
   SUPPORTED_WALLETS,
-  bitKeep
+  xDefi
 } from '@pangolindex/components'
 import { useWallet } from 'src/state/user/hooks'
 import { AbstractConnector } from '@web3-react/abstract-connector'
@@ -26,15 +26,24 @@ export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & 
 type Connector = AbstractConnector & { isAuthorized?: () => Promise<boolean> }
 
 export function useEagerConnect() {
-  const { activate, active } = useWeb3ReactCore() // specifically using useWeb3ReactCore because of what this hook does
+  const { activate, active, connector: _connector } = useWeb3ReactCore() // specifically using useWeb3ReactCore because of what this hook does
   const [tried, setTried] = useState(false)
   const [triedSafe, setTriedSafe] = useState<boolean>(!IS_IN_IFRAME)
   const [wallet, setWallet] = useWallet()
-
+  console.log('_connector', _connector)
+  console.log('_connector?.getAccount', _connector?.getAccount)
   // either previously used connector, or window.ethereum if exists (important for mobile)
-  const connector: Connector | null = useMemo(() => (wallet ? SUPPORTED_WALLETS[wallet]?.connector : window.ethereum), [
-    wallet
-  ])
+  const connector: Connector | null = useMemo(() => {
+    if (wallet) {
+      return SUPPORTED_WALLETS[wallet]?.connector
+    }
+    if (window.xfi && window.xfi.ethereum) {
+      return xDefi
+    } else if (window.bitkeep && window.isBitKeep) {
+      return bitKeep
+    }
+    return window.ethereum
+  }, [wallet])
 
   const activateMobile = useCallback(async () => {
     if (window.ethereum) {
@@ -82,6 +91,10 @@ export function useEagerConnect() {
 
   useEffect(() => {
     const eagerConnect = async () => {
+      console.log('connector', connector)
+      console.log('connector', connector?.getAccount)
+      // const account = connector?.getAccount()
+      // console.log('account', account)
       if (!triedSafe && connector === gnosisSafe) {
         gnosisSafe.isSafeApp().then(loadedInSafe => {
           if (loadedInSafe) {
@@ -104,22 +117,6 @@ export function useEagerConnect() {
             setTried(true)
           }
         })
-      } else if (window.xfi && window.xfi.ethereum) {
-        try {
-          await activate(xDefi, undefined, true)
-          setTried(true)
-        } catch (error) {
-          setWallet(null)
-          setTried(true)
-        }
-      } else if (!!window.bitkeep.ethereum && window.isBitKeep) {
-        try {
-          await activate(bitKeep, undefined, true)
-          setTried(true)
-        } catch (error) {
-          setWallet(null)
-          setTried(true)
-        }
       } else {
         setWallet(null)
         setTried(true)
