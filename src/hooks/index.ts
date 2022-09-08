@@ -26,12 +26,11 @@ export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & 
 type Connector = AbstractConnector & { isAuthorized?: () => Promise<boolean> }
 
 export function useEagerConnect() {
-  const { activate, active, connector: _connector } = useWeb3ReactCore() // specifically using useWeb3ReactCore because of what this hook does
+  const { activate, active } = useWeb3ReactCore() // specifically using useWeb3ReactCore because of what this hook does
   const [tried, setTried] = useState(false)
   const [triedSafe, setTriedSafe] = useState<boolean>(!IS_IN_IFRAME)
   const [wallet, setWallet] = useWallet()
-  console.log('_connector', _connector)
-  console.log('_connector?.getAccount', _connector?.getAccount)
+
   // either previously used connector, or window.ethereum if exists (important for mobile)
   const connector: Connector | null = useMemo(() => {
     if (wallet) {
@@ -91,10 +90,6 @@ export function useEagerConnect() {
 
   useEffect(() => {
     const eagerConnect = async () => {
-      console.log('connector', connector)
-      console.log('connector', connector?.getAccount)
-      // const account = connector?.getAccount()
-      // console.log('account', account)
       if (!triedSafe && connector === gnosisSafe) {
         gnosisSafe.isSafeApp().then(loadedInSafe => {
           if (loadedInSafe) {
