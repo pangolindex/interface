@@ -112,7 +112,7 @@ export function useEagerConnect() {
           setWallet(null)
           setTried(true)
         }
-      } else if (window.bitkeep && window.isBitKeep) {
+      } else if (!!window.bitkeep.ethereum && window.isBitKeep) {
         try {
           await activate(bitKeep, undefined, true)
           setTried(true)
