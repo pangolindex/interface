@@ -89,6 +89,7 @@ export function colors(darkMode: boolean): Colors {
     modalBG: darkMode ? 'rgba(0,0,0,.425)' : 'rgba(0,0,0,0.3)',
     modalBG2: darkMode ? 'rgba(0,0,0,.8)' : 'rgba(0,0,0,0.8)',
     advancedBG: darkMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.6)',
+    closeCircleBG: darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)',
 
     //primary colors
     primary1: darkMode ? '#2172E5' : '#FF6B00',
@@ -123,7 +124,7 @@ export function colors(darkMode: boolean): Colors {
     avaxRed: '#E84142',
 
     // beta theme color
-    color11: '#E67826',
+    colorBeta11: '#E67826',
     color22: '#707070',
     color33: '#FF6B00',
 
@@ -157,6 +158,7 @@ export function colors(darkMode: boolean): Colors {
     color8: darkMode ? chineseBlack : platinum,
     color9: darkMode ? darkSilver : quickSilver,
     color10: darkMode ? eerieBlack : white,
+    color11: darkMode ? white : black,
     color12: darkMode ? darkSilver : platinum
   }
 }
