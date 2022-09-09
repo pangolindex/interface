@@ -11,7 +11,8 @@ import {
   useGetMinichefStakingInfosViaSubgraphHook,
   DoubleSideStakingInfo,
   PoolType,
-  useParsedQueryString
+  useParsedQueryString,
+  usePangoChefInfos
 } from '@pangolindex/components'
 import { PageWrapper, GridContainer, ExternalLink } from './styleds'
 import { useStakingInfoHook } from 'src/state/stake/multiChainsHooks'
@@ -20,10 +21,13 @@ import { BIG_INT_ZERO } from 'src/constants'
 import { Hidden } from 'src/theme'
 import { useChainId } from 'src/hooks'
 import { isEvmChain } from 'src/utils'
+import { CHAINS, ChefType } from '@pangolindex/sdk'
 
 const PoolUI = () => {
   const chainId = useChainId()
-  const [activeMenu, setMenu] = useState<string>(MenuType.allFarmV2)
+  const minichef = CHAINS[chainId].contracts?.mini_chef
+
+  const [activeMenu, setMenu] = useState<string>(MenuType.yourPool)
   const [isAddLiquidityModalOpen, setAddLiquidityModalOpen] = useState<boolean>(false)
   const { t } = useTranslation()
 
@@ -41,7 +45,7 @@ const PoolUI = () => {
   const useGetAllFarmData = useGetAllFarmDataHook[chainId]
 
   useGetAllFarmData()
-
+  const pangoChefStakingInfos = usePangoChefInfos()
   const subgraphMiniChefStakingInfo = useGetMinichefStakingInfosViaSubgraphHook[chainId]()
   const onChainMiniChefStakingInfo = useMinichefStakingInfosHook[chainId]()
 
@@ -94,13 +98,16 @@ const PoolUI = () => {
   // here if farm is not avaialble your pool menu default active
   const minichefLength = (miniChefStakingInfo || []).length
   const stakingInfoV1Length = (miniChefStakingInfo || []).length
+  const pangoChefStakingLength = pangoChefStakingInfos.length
   useEffect(() => {
-    if (minichefLength === 0 && stakingInfoV1Length === 0) {
+    if (minichefLength === 0 && stakingInfoV1Length === 0 && pangoChefStakingLength === 0) {
       setMenu(MenuType.yourPool)
+    } else if (pangoChefStakingLength > 0) {
+      setMenu(MenuType.allFarmV3)
     } else {
       setMenu(MenuType.allFarmV2)
     }
-  }, [minichefLength, stakingInfoV1Length])
+  }, [minichefLength, stakingInfoV1Length, pangoChefStakingLength])
 
   const menuItems: Array<{ label: string; value: string }> = []
 
@@ -116,6 +123,12 @@ const PoolUI = () => {
     menuItems.push({
       label: stakingInfoV1.length > 0 ? `${t('pool.allFarms')} (V2)` : `${t('pool.allFarms')}`,
       value: MenuType.allFarmV2
+    })
+  }
+  if (pangoChefStakingInfos.length > 0) {
+    menuItems.push({
+      label: miniChefStakingInfo.length > 0 ? `${t('pool.allFarms')} (V3)` : `${t('pool.allFarms')}`,
+      value: MenuType.allFarmV3
     })
   }
   // add own v1
@@ -155,6 +168,22 @@ const PoolUI = () => {
     [setMenu]
   )
 
+  const getVersion = () => {
+    const chefType = minichef?.type
+    switch (chefType) {
+      case ChefType.MINI_CHEF:
+        return 1
+      case ChefType.MINI_CHEF_V2:
+        return 2
+      case ChefType.PANGO_CHEF:
+        return 3
+      default:
+        return 2
+    }
+  }
+
+  const version = getVersion()
+
   return (
     <PageWrapper>
       <GridContainer>
@@ -170,21 +199,26 @@ const PoolUI = () => {
 
           {(activeMenu === MenuType.allFarmV1 ||
             activeMenu === MenuType.allFarmV2 ||
+            activeMenu === MenuType.allFarmV3 ||
             activeMenu === MenuType.yourFarmV1 ||
             activeMenu === MenuType.yourFarmV2 ||
+            activeMenu === MenuType.yourFarmV3 ||
             activeMenu === MenuType.superFarm) &&
             isEvmChain(chainId) && (
               <Pools
                 type={
-                  activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.allFarmV2
+                  activeMenu === MenuType.allFarmV1 ||
+                  activeMenu === MenuType.allFarmV2 ||
+                  activeMenu === MenuType.allFarmV3
                     ? PoolType.all
                     : activeMenu === MenuType.superFarm
                     ? PoolType.superFarms
                     : PoolType.own
                 }
-                version={activeMenu === MenuType.allFarmV1 || activeMenu === MenuType.yourFarmV1 ? 1 : 2}
+                version={version}
                 stakingInfoV1={stakingInfoV1}
                 miniChefStakingInfo={miniChefStakingInfo}
+                pangoChefStakingInfo={pangoChefStakingInfos}
                 activeMenu={activeMenu}
                 setMenu={handleSetMenu}
                 menuItems={menuItems}
