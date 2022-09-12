@@ -29,7 +29,7 @@ const StakeStat: React.FC = () => {
       .mul(365)
       .mul(100)
       .div(userTotalStaked)
-  }, [filteredPositions])
+  }, [filteredPositions, userTotalStaked])
 
   return (
     <Wrapper>
