@@ -37,6 +37,7 @@ export interface Colors {
   modalBG: Color
   modalBG2: Color
   advancedBG: Color
+  closeCircleBG: Color
 
   //blues
   primary1: Color
@@ -69,7 +70,7 @@ export interface Colors {
 
   avaxRed: Color
 
-  color11: Color
+  colorBeta11: Color
   color22: Color
   color33: Color
 
@@ -85,6 +86,9 @@ export interface Colors {
   venetianRed: Color
   oceanBlue: Color
   quickSilver: Color
+  error: Color
+  warning: Color
+  success: Color
 
   color2: Color
   color3: Color
@@ -95,9 +99,52 @@ export interface Colors {
   color8: Color
   color9: Color
   color10: Color
+  color11: Color
+  color12: Color
 }
 
 export interface BetaColors extends Colors {
+  // theme color objects for components
+  swapWidget?: {
+    primary?: Color
+    secondary?: Color
+    backgroundColor?: Color
+    detailsBackground?: Color
+    interactiveColor?: Color
+    interactiveBgColor: Color
+  }
+
+  drawer?: {
+    text?: Color
+    backgroundColor?: Color
+  }
+
+  textInput?: {
+    text?: Color
+    labelText?: Color
+    placeholderText?: Color
+    backgroundColor?: Color
+  }
+
+  currencySelect?: {
+    defaultText?: Color
+    selectedText?: Color
+    defaultBackgroundColor?: Color
+    selectedBackgroundColor?: Color
+  }
+
+  loader?: {
+    text?: Color
+  }
+
+  numberOptions?: {
+    text: Color
+    activeTextColor: Color
+    activeBackgroundColor?: Color
+    inactiveBackgroundColor?: Color
+    borderColor?: Color
+  }
+
   switch?: {
     onColor: Color
     offColor: Color

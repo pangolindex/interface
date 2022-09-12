@@ -4,7 +4,8 @@ import {
   Text,
   useAllTransactions as useAllTransactionsComponents,
   useAllTransactionsClearer,
-  useTranslation
+  useTranslation,
+  getEtherscanLink
 } from '@pangolindex/components'
 import React, { useCallback, useContext, useMemo } from 'react'
 import Scrollbars from 'react-custom-scrollbars'
@@ -15,7 +16,6 @@ import { useDispatch } from 'src/state'
 import { clearAllTransactions } from 'src/state/transactions/actions'
 import { isTransactionRecent, useAllTransactions } from 'src/state/transactions/hooks'
 import { TransactionDetails } from 'src/state/transactions/reducer'
-import { getEtherscanLink } from 'src/utils'
 import { ThemeContext } from 'styled-components'
 import { CloseButton, TransactionState } from './styled'
 

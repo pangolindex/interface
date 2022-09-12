@@ -26,7 +26,7 @@ export const StatsWrapper = styled(Box)<{ isStake?: boolean }>`
     grid-gap: 10px;
     margin-top: 10px;
     grid-template-columns: ${isStake ? '50% 50%' : 'repeat(3, auto)'};
-`};
+  `};
 `
 
 export const HeaderWrapper = styled(Box)`
@@ -36,4 +36,9 @@ export const HeaderWrapper = styled(Box)`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     width: 100%
   `};
+`
+export const PoolRewardsWrapper = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `

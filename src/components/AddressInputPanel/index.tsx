@@ -5,8 +5,7 @@ import { useChainId } from '../../hooks'
 import { ExternalLink, TYPE } from '../../theme'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
-import { getEtherscanLink } from '../../utils'
-import { useTranslation } from '@pangolindex/components'
+import { useTranslation, getEtherscanLink } from '@pangolindex/components'
 
 const InputPanel = styled.div`
   ${({ theme }) => theme.flexColumnNoWrap}

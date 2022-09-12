@@ -7,10 +7,9 @@ import { TIMEFRAME } from 'src/constants'
 import { usePairHourlyRateData, useHourlyPairTokensChartData, useCoingeckoChartData } from 'src/state/pair/hooks'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/svg/blue-loader.svg'
-import { Box } from '@pangolindex/components'
+import { Box, Text } from '@pangolindex/components'
 import { ChartWrapper, ChartContainer } from './styleds'
 import { useChainId } from 'src/hooks'
-import { PNG } from 'src/constants/tokens'
 
 type Props = { pair?: Pair | null; tokenB?: Token; tokenA?: Token }
 
@@ -33,14 +32,16 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
     })
 
   // get pair chart data directly from contract
+  // [tokenB/tokenA, tokenA/tokenB]
   const pairChartData = usePairHourlyRateData(
     (pair?.liquidityToken?.address || '').toLowerCase(),
     timeWindow?.momentIdentifier,
     86400
   )
-  const chartData = pairChartData && pair?.token0 === tokenB ? pairChartData[0] : pairChartData ? pairChartData[1] : []
+  const chartData = pairChartData && pair?.token1 === tokenB ? pairChartData[0] : pairChartData ? pairChartData[1] : []
 
   // get tokens data directly from contract incase pair doesn't exist
+  // [tokenB/tokenA, tokenA/tokenB]
   const pairTokensChartData = useHourlyPairTokensChartData(
     tokenA?.address || '',
     tokenB?.address || '',
@@ -49,15 +50,16 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
   )
 
   const chartData1 =
-    pairTokensChartData && pair?.token0 === tokenB
+    pairTokensChartData && pair?.token1 === tokenB
       ? pairTokensChartData[0]
       : pairTokensChartData
       ? pairTokensChartData[1]
       : []
 
-  const coingeckoData = useCoingeckoChartData(tokenA || WAVAX[chainId], tokenB || PNG[chainId])
+  // usd price of tokenB via coingecko
+  const coingeckoData = useCoingeckoChartData(tokenB || WAVAX[chainId])
   const chartData2 =
-    !coingeckoData || coingeckoData.length === 0 ? [] : pair?.token0 === tokenB ? coingeckoData[0] : coingeckoData[1]
+    !coingeckoData || coingeckoData.length === 0 ? [] : pair?.token1 === tokenB ? coingeckoData[0] : coingeckoData[1]
 
   // priority wise => coingecko data -> pair data -> individual token data
   const formattedData = chartData2.length > 0 ? chartData2 : (chartData1 || []).length > 0 ? chartData1 : chartData
@@ -182,7 +184,9 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
               alignItems="center"
               justifyContent="center"
             >
-              <h1>Not supported on this chain</h1>
+              <Text color="text1" fontSize="24px">
+                Not supported on this chain
+              </Text>
             </Box>
           )}
         </ChartContainer>

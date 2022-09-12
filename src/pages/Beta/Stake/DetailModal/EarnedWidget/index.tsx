@@ -1,9 +1,8 @@
-import { Box, Button, Text, useTranslation, Stat } from '@pangolindex/components'
+import { Box, Button, Text, useTranslation, Stat, useUSDCPrice } from '@pangolindex/components'
 import { JSBI, CHAINS } from '@pangolindex/sdk'
 import React, { useState } from 'react'
 import numeral from 'numeral'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
-import { useUSDCPrice } from 'src/utils/useUSDCPrice'
 import { Root, StatWrapper } from './styled'
 import ClaimDrawer from '../../ClaimDrawer'
 import UnstakeDrawer from '../UnstakeDrawer'
@@ -29,10 +28,10 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
   const unclaimedAmountInToken = stakingInfo?.earnedAmount.toSignificant(4)
 
   const weeklyRewardUSD = CHAINS[chainId]?.mainnet
-    ? Number(weeklyRewardInToken) * Number(usdcPrice?.toSignificant(6))
+    ? Number(weeklyRewardInToken) * Number(usdcPrice?.toSignificant(4))
     : undefined
   const unclaimedAmountInUSD = CHAINS[chainId]?.mainnet
-    ? Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(6))
+    ? Number(unclaimedAmountInToken) * Number(usdcPrice?.toSignificant(4))
     : undefined
 
   return (
@@ -61,7 +60,7 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
         <Box>
           <Stat
             title={t('dashboardPage.earned_weeklyIncome')}
-            stat={numeral(weeklyRewardUSD).format('$0.00a')}
+            stat={!isNaN(weeklyRewardUSD as number) ? numeral(weeklyRewardUSD).format('$0.00a') : '0'}
             titlePosition="top"
             titleFontSize={[16, 12]}
             statFontSize={[24, 20]}
@@ -72,7 +71,7 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
         <Box>
           <Stat
             title={t('dashboardPage.earned_weeklyIncome')}
-            stat={weeklyRewardInToken}
+            stat={numeral(weeklyRewardInToken).format('0.0000a')}
             titlePosition="top"
             titleFontSize={[16, 12]}
             statFontSize={[24, 20]}
@@ -86,7 +85,7 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
         <Box>
           <Stat
             title={t('dashboardPage.earned_totalEarned')}
-            stat={numeral(unclaimedAmountInUSD).format('$0.00a')}
+            stat={!isNaN(unclaimedAmountInUSD as number) ? numeral(unclaimedAmountInUSD).format('$0.00a') : '0'}
             titlePosition="top"
             titleFontSize={[16, 12]}
             statFontSize={[24, 20]}
@@ -97,7 +96,7 @@ const EarnedWidget: React.FC<Props> = ({ stakingInfo }) => {
         <Box>
           <Stat
             title={t('dashboardPage.earned_totalEarned')}
-            stat={unclaimedAmountInToken}
+            stat={numeral(unclaimedAmountInToken).format('0.0000a')}
             titlePosition="top"
             titleFontSize={[16, 12]}
             statFontSize={[24, 20]}

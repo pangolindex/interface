@@ -13,22 +13,23 @@ const StakeStat: React.FC = () => {
   const { apr, totalStaked } = useSarStakeInfo()
   const { data: positions = [] as Position[] } = useSarPositions()
 
-  const userTotalStaked = useMemo(() => {
-    if (positions.length === 0) return BigNumber.from(0)
+  const filteredPositions = positions.filter(position => !position.balance.isZero()) // remove zero balances
 
-    return positions.reduce((acc, cur) => {
-      return acc.add(cur.balance)
-    }, BigNumber.from(0))
-  }, [positions])
+  const userTotalStaked = useMemo(() => {
+    if (filteredPositions.length === 0) return BigNumber.from(0)
+
+    return filteredPositions.reduce((acc, cur) => acc.add(cur.balance), BigNumber.from(0))
+  }, [filteredPositions])
 
   const userAverageApr = useMemo(() => {
-    if (positions.length === 0) return BigNumber.from(0)
-    const _positions = positions.filter(position => !position.balance.isZero()) // remove zero balances
-    const totalAPR = _positions.reduce((acc, cur) => {
-      return acc.add(cur.apr)
-    }, BigNumber.from(0))
-    return totalAPR.div(_positions.length)
-  }, [positions])
+    if (filteredPositions.length === 0 || userTotalStaked.isZero()) return BigNumber.from(0)
+    const totalRewardRate = filteredPositions.reduce((acc, cur) => acc.add(cur.rewardRate), BigNumber.from(0))
+    return totalRewardRate
+      .mul(86400)
+      .mul(365)
+      .mul(100)
+      .div(userTotalStaked)
+  }, [filteredPositions, userTotalStaked])
 
   return (
     <Wrapper>

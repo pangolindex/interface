@@ -4,10 +4,9 @@ import styled, { ThemeContext } from 'styled-components'
 import { useChainId } from '../../hooks'
 import { TYPE } from '../../theme'
 import { ExternalLink } from '../../theme/components'
-import { getEtherscanLink } from '../../utils'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
-import { useTranslation } from '@pangolindex/components'
+import { useTranslation, getEtherscanLink } from '@pangolindex/components'
 
 const RowNoFlex = styled(AutoRow)`
   flex-wrap: nowrap;

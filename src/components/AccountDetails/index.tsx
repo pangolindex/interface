@@ -3,13 +3,13 @@ import styled, { ThemeContext } from 'styled-components'
 import { useActiveWeb3React, useChainId } from '../../hooks'
 import { useDispatch } from '../../state'
 import { clearAllTransactions } from '../../state/transactions/actions'
-import { getEtherscanLink } from 'src/utils'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
 import CoinbaseWalletIcon from '../../assets/svg/coinbaseWalletIcon.svg'
 import WalletConnectIcon from '../../assets/svg/walletConnectIcon.svg'
 import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
+import BitKeep from '../../assets/svg/bitkeep.svg'
 import { ReactComponent as Close } from '../../assets/svg/x.svg'
 import NearIcon from '../../assets/svg/near.svg'
 import {
@@ -22,7 +22,9 @@ import {
   shortenAddress,
   NearConnector,
   useAllTransactionsClearer,
-  useTranslation
+  useTranslation,
+  getEtherscanLink,
+  bitKeep
 } from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
@@ -256,6 +258,7 @@ export default function AccountDetails({
     const isMetaMask = !!(ethereum && ethereum.isMetaMask)
     const isXDEFI = !!(ethereum && ethereum.isXDEFI)
     const isRabby = !!(ethereum && ethereum.isRabby)
+    const isBitKeep = !!(ethereum && ethereum.isBitKeep) || !!(window.isBitKeep && window.bitkeep)
     const isCoinbase = !!(ethereum && ethereum.isCoinbaseWallet)
 
     let name = Object.keys(SUPPORTED_WALLETS)
@@ -267,6 +270,7 @@ export default function AccountDetails({
       if (isXDEFI) name = SUPPORTED_WALLETS.XDEFI.name
       else if (isTalisman) name = SUPPORTED_WALLETS.TALISMAN.name
       else if (isRabby) name = SUPPORTED_WALLETS.RABBY.name
+      else if (isBitKeep) name = SUPPORTED_WALLETS.BITKEEP.name
       else if (isCoinbase) name = SUPPORTED_WALLETS.WALLET_LINK.name
       // metamask as last check, because most of the wallets above are likely to set isMetaMask to true too
       else if (isMetaMask) name = SUPPORTED_WALLETS.METAMASK.name
@@ -299,6 +303,12 @@ export default function AccountDetails({
       return (
         <IconWrapper size={16}>
           <img src={GnosisSafeIcon} alt={'Gnosis Safe logo'} />
+        </IconWrapper>
+      )
+    } else if (connector === bitKeep) {
+      return (
+        <IconWrapper size={16}>
+          <img src={BitKeep} alt={'BitKeep logo'} />
         </IconWrapper>
       )
     } else if (connector === near) {

@@ -19,7 +19,6 @@ import { useDarkModeManager } from 'src/state/user/hooks'
 import LanguageSelection from 'src/components/LanguageSelection'
 import { MobileHeader } from '../MobileHeader'
 import Footer from 'src/layout/Footer'
-import MobileWeb3Status from './MobileWeb3Status'
 import TransactionModal from './TransactionModal'
 import Modal from 'src/components/Beta/Modal'
 import { LEGACY_PAGE } from 'src/constants'
@@ -47,9 +46,6 @@ const MobileMenu: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => 
         <Box display="flex" flexDirection="column" padding="15px">
           <Line />
           <Items>
-            <Box width="100%">
-              <MobileWeb3Status />
-            </Box>
             <Wrapper width="100%" justifyContent="center">
               <TransactionButton onClick={() => setOpenTransactions(true)}>
                 <Box width="20px" height="20px">

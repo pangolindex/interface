@@ -5,13 +5,14 @@ import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import {
+  bitKeep,
   gnosisSafe,
   injected,
-  xDefi,
   // near,
   IS_IN_IFRAME,
   NetworkContextName,
-  SUPPORTED_WALLETS
+  SUPPORTED_WALLETS,
+  xDefi
 } from '@pangolindex/components'
 import { useWallet } from 'src/state/user/hooks'
 import { AbstractConnector } from '@web3-react/abstract-connector'
@@ -31,9 +32,17 @@ export function useEagerConnect() {
   const [wallet, setWallet] = useWallet()
 
   // either previously used connector, or window.ethereum if exists (important for mobile)
-  const connector: Connector | null = useMemo(() => (wallet ? SUPPORTED_WALLETS[wallet]?.connector : window.ethereum), [
-    wallet
-  ])
+  const connector: Connector | null = useMemo(() => {
+    if (wallet) {
+      return SUPPORTED_WALLETS[wallet]?.connector
+    }
+    if (window.xfi && window.xfi.ethereum) {
+      return xDefi
+    } else if (window.bitkeep && window.isBitKeep) {
+      return bitKeep
+    }
+    return window.ethereum
+  }, [wallet])
 
   const activateMobile = useCallback(async () => {
     if (window.ethereum) {
@@ -72,14 +81,6 @@ export function useEagerConnect() {
           setWallet(null)
           setTried(true)
         }
-      }
-    } else if (window.xfi && window.xfi.ethereum) {
-      try {
-        await activate(xDefi, undefined, true)
-        setTried(true)
-      } catch (error) {
-        setWallet(null)
-        setTried(true)
       }
     } else {
       setWallet(null)

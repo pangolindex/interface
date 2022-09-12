@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from 'src/assets/images/logo.png'
-import { useTranslation, useTotalSupplyHook, useTokenBalanceHook } from '@pangolindex/components'
+import { useTranslation, useTotalSupplyHook, useTokenBalanceHook, useUSDCPriceHook } from '@pangolindex/components'
 import { MENU_LINK, getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
 import { PNG } from '../../constants/tokens'
 import { useActiveWeb3React, usePngSymbol } from '../../hooks'
@@ -14,7 +14,6 @@ import { RowBetween } from '../../components/Row'
 import { Break, CardBGImage, CardSection, DataCard } from '../../components/earn/styled'
 import { useChainId } from 'src/hooks'
 import { useTotalPngEarnedHook } from 'src/state/stake/multiChainsHooks'
-import { useUSDCPriceHook } from 'src/utils/useUSDCPrice'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;

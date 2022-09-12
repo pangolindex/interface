@@ -46,6 +46,8 @@ const darkSilver = '#717171'
 const venetianRed = '#CC1512'
 const oceanBlue = '#18C145'
 const quickSilver = '#A3A3A3'
+const warning = '#F3841E'
+const success = '#18C145'
 
 // beta theme color
 
@@ -87,6 +89,7 @@ export function colors(darkMode: boolean): Colors {
     modalBG: darkMode ? 'rgba(0,0,0,.425)' : 'rgba(0,0,0,0.3)',
     modalBG2: darkMode ? 'rgba(0,0,0,.8)' : 'rgba(0,0,0,0.8)',
     advancedBG: darkMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.6)',
+    closeCircleBG: darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)',
 
     //primary colors
     primary1: darkMode ? '#2172E5' : '#FF6B00',
@@ -121,7 +124,7 @@ export function colors(darkMode: boolean): Colors {
     avaxRed: '#E84142',
 
     // beta theme color
-    color11: '#E67826',
+    colorBeta11: '#E67826',
     color22: '#707070',
     color33: '#FF6B00',
 
@@ -142,6 +145,10 @@ export function colors(darkMode: boolean): Colors {
     oceanBlue,
     quickSilver,
 
+    error: venetianRed,
+    warning: warning,
+    success,
+
     color2: darkMode ? chineseBlack : ghostWhite,
     color3: darkMode ? eerieBlack : platinum,
     color4: darkMode ? ghostWhite1 : chineseBlack,
@@ -150,7 +157,9 @@ export function colors(darkMode: boolean): Colors {
     color7: darkMode ? darkGunmetal : ghostWhite,
     color8: darkMode ? chineseBlack : platinum,
     color9: darkMode ? darkSilver : quickSilver,
-    color10: darkMode ? eerieBlack : white
+    color10: darkMode ? eerieBlack : white,
+    color11: darkMode ? white : black,
+    color12: darkMode ? darkSilver : platinum
   }
 }
 
@@ -218,6 +227,46 @@ export function betaColors(darkMode: boolean): BetaColors {
     secondary3: darkMode ? '#17000b26' : '#FDEAF1',
 
     yellow2: '#FF6B00',
+
+    swapWidget: {
+      primary: darkMode ? white : black,
+      secondary: darkMode ? darkSilver : quickSilver,
+      backgroundColor: darkMode ? chineseBlack : ghostWhite,
+      detailsBackground: darkMode ? black : white,
+      interactiveColor: darkMode ? darkSilver : quickSilver,
+      interactiveBgColor: darkMode ? darkGunmetal : platinum
+    },
+
+    drawer: {
+      text: darkMode ? white : black,
+      backgroundColor: darkMode ? chineseBlack : ghostWhite
+    },
+
+    textInput: {
+      text: darkMode ? darkSilver : quickSilver,
+      labelText: darkMode ? darkSilver : quickSilver,
+      placeholderText: darkMode ? darkSilver : quickSilver,
+      backgroundColor: darkMode ? eerieBlack : white
+    },
+
+    currencySelect: {
+      defaultText: darkMode ? black : white,
+      selectedText: darkMode ? white : black,
+      defaultBackgroundColor: philippineYellow,
+      selectedBackgroundColor: darkMode ? chineseBlack : ghostWhite
+    },
+
+    loader: {
+      text: darkMode ? white : black
+    },
+
+    numberOptions: {
+      text: darkMode ? white : black,
+      activeTextColor: black,
+      activeBackgroundColor: philippineYellow,
+      inactiveBackgroundColor: darkMode ? chineseBlack : ghostWhite,
+      borderColor: ghostWhite1
+    },
 
     switch: {
       onColor: philippineYellow,
