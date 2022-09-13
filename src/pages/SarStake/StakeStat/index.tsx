@@ -18,18 +18,18 @@ const StakeStat: React.FC = () => {
   const userTotalStaked = useMemo(() => {
     if (filteredPositions.length === 0) return BigNumber.from(0)
 
-    return filteredPositions.reduce((acc, cur) => {
-      return acc.add(cur.balance)
-    }, BigNumber.from(0))
+    return filteredPositions.reduce((acc, cur) => acc.add(cur.balance), BigNumber.from(0))
   }, [filteredPositions])
 
   const userAverageApr = useMemo(() => {
-    if (filteredPositions.length === 0) return BigNumber.from(0)
-    const totalAPR = filteredPositions.reduce((acc, cur) => {
-      return acc.add(cur.apr)
-    }, BigNumber.from(0))
-    return totalAPR.div(filteredPositions.length)
-  }, [filteredPositions])
+    if (filteredPositions.length === 0 || userTotalStaked.isZero()) return BigNumber.from(0)
+    const totalRewardRate = filteredPositions.reduce((acc, cur) => acc.add(cur.rewardRate), BigNumber.from(0))
+    return totalRewardRate
+      .mul(86400)
+      .mul(365)
+      .mul(100)
+      .div(userTotalStaked)
+  }, [filteredPositions, userTotalStaked])
 
   return (
     <Wrapper>
