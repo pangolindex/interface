@@ -72,7 +72,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
     {
       link: MENU_LINK.stakev2,
       icon: Stake,
-      title: `${t('header.stake')} V2`,
+      title: `${t('header.stake')}`,
       id: 'stakev2',
       isActive: location?.pathname?.startsWith(MENU_LINK.stakev2)
     },
@@ -106,6 +106,9 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
   if (!existSarContract(chainId)) {
     const stakeV2PageIndex = mainLinks.findIndex(element => element?.id === 'stakev2')
     mainLinks.splice(stakeV2PageIndex, 1)
+  } else {
+    const stakePageIndex = mainLinks.findIndex(element => element?.id === 'stake')
+    mainLinks.splice(stakePageIndex, 1)
   }
 
   const pangolinLinks = [
