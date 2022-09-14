@@ -70,7 +70,7 @@ export function useMerkledropProof(account: string | null | undefined) {
 }
 
 export function useClaimAirdrop(account: string | null | undefined) {
-  const { library } = useLibrary()
+  const { library, provider } = useLibrary()
   const pngSymbol = usePngSymbol()
 
   const merkledropContract = useMerkledropContract()
@@ -92,6 +92,14 @@ export function useClaimAirdrop(account: string | null | undefined) {
     if (!merkledropContract || !data || data.proof.length === 0 || !account) return
     setAttempting(true)
     try {
+      const message =
+        'By signing this transaction, I hereby acknowledge that I am not a US resident or citizen.(Citizens or residents of the United States of America are not allowed to the PSB token airdrop due to applicable law.)'
+
+      await provider?.request({
+        method: 'personal_sign',
+        params: [message, account, '']
+      })
+
       const estimedGas = await merkledropContract.estimateGas.claim(data.amount.raw.toString(), data.proof)
       const response: TransactionResponse = await merkledropContract.claim(data.amount.raw.toString(), data.proof, {
         gasLimit: calculateGasMargin(estimedGas)
