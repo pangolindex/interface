@@ -11,6 +11,7 @@ import { ZERO_ADDRESS } from 'src/constants'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import { useMemo, useState } from 'react'
+import { splitSignature } from 'ethers/lib/utils'
 
 export function useMerkledropClaimedAmounts(account: string | null | undefined) {
   const chaindId = useChainId()
@@ -95,10 +96,20 @@ export function useClaimAirdrop(account: string | null | undefined) {
       const message =
         'By signing this transaction, I hereby acknowledge that I am not a US resident or citizen.(Citizens or residents of the United States of America are not allowed to the PSB token airdrop due to applicable law.)'
 
-      await provider?.request({
+      const signature = await provider?.request({
         method: 'personal_sign',
         params: [message, account, '']
       })
+
+      const splitSign = splitSignature(signature)
+
+      const signatureData = {
+        v: splitSign.v,
+        r: splitSign.r,
+        s: splitSign.s
+      }
+
+      console.log('signatureData', signatureData)
 
       const estimedGas = await merkledropContract.estimateGas.claim(data.amount.raw.toString(), data.proof)
       const response: TransactionResponse = await merkledropContract.claim(data.amount.raw.toString(), data.proof, {
