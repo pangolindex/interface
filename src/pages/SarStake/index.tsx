@@ -16,7 +16,7 @@ import Confetti from 'src/components/Confetti'
 import { useChainId } from 'src/hooks'
 import useParsedQueryString from 'src/hooks/useParsedQueryString'
 import StakeStat from './StakeStat'
-import { CloseButton, PageWrapper } from './styleds'
+import { CloseButton, PageWrapper, StyledSVG } from './styleds'
 
 export default function SarStaking() {
   const [selectedPosition, setSelectedPosition] = useState<Position | null>(null)
@@ -73,7 +73,13 @@ export default function SarStaking() {
           {isLoading ? (
             <Loader size={100} />
           ) : (
-            <img src={lastPostion?.uri?.image} alt="NFT" style={{ height: '400px' }} />
+            <StyledSVG
+              dangerouslySetInnerHTML={{
+                __html: lastPostion
+                  ? Buffer.from(lastPostion.uri.image.replace('data:image/svg+xml;base64,', ''), 'base64').toString()
+                  : ''
+              }}
+            />
           )}
         </Box>
       </Modal>
