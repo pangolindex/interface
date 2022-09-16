@@ -97,10 +97,20 @@ export function useClaimAirdrop(account: string | null | undefined, airdropAddre
       const message =
         'By signing this transaction, I hereby acknowledge that I am not a US resident or citizen. (Citizens or residents of the United States of America are not allowed to the PSB token airdrop due to applicable law.)'
 
-      const signature = await provider?.request({
+      let signature = await provider?.request({
         method: 'personal_sign',
         params: [message, account]
       })
+
+      const v = parseInt(signature.slice(130, 132), 16)
+
+      // Ensure v is 27+ (generally 27|28)
+      // Ledger and perhaps other signing methods utilize a 'v' of 0|1 instead of 27|28
+      if (v < 27) {
+        const vAdjusted = v + 27
+        console.log(`Adjusting ECDSA 'v' from ${v} to ${vAdjusted}`)
+        signature = signature.slice(0, -2).concat(vAdjusted.toString(16))
+      }
 
       const estimedGas = await merkledropContract.estimateGas.claim(data.amount.raw.toString(), data.proof, signature)
       const response: TransactionResponse = await merkledropContract.claim(
