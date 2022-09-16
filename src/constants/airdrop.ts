@@ -6,6 +6,18 @@ import { NEAR_MAINNET, Chain, COSTON_TESTNET, SONGBIRD_CANARY, FLARE_MAINNET, Ch
 
 export const activeAirdrops: Chain[] = [COSTON_TESTNET]
 
+export type SpecialAirdropData = { title: string; merkledropContractAddress: string; isActive: boolean }
+
+export const specialAirdrops: { [chainId in ChainId]?: SpecialAirdropData[] } = {
+  [ChainId.SONGBIRD]: [
+    {
+      title: 'Old PSB Reimbursement 1',
+      merkledropContractAddress: '0x78407686458ACf7FceA53Cf73697d0ff51052ca6',
+      isActive: true
+    }
+  ]
+}
+
 export const commingSoonAirdrops = [NEAR_MAINNET, SONGBIRD_CANARY, FLARE_MAINNET]
 
 export const logoMapping = {
