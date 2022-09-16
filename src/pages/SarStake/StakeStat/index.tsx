@@ -31,12 +31,14 @@ const StakeStat: React.FC = () => {
       .div(userTotalStaked)
   }, [filteredPositions, userTotalStaked])
 
+  const png = PNG[chainId]
+
   return (
     <Wrapper>
       <Title>
-        <CurrencyLogo currency={PNG[chainId]} size={48} />
+        <CurrencyLogo currency={png} size={48} />
         <Text color="text1" fontSize="24px">
-          {PNG[chainId].symbol} Stake
+          {png.symbol} Stake
         </Text>
       </Title>
 
@@ -60,7 +62,7 @@ const StakeStat: React.FC = () => {
           statFontSize={18}
         />
         <Stat
-          title="Total PNG"
+          title={`Total ${png.symbol}`}
           titlePosition="top"
           stat={`${numeral(parseFloat(totalStaked.toSignificant(6))).format('0.00a')} `}
           titleColor="text2"

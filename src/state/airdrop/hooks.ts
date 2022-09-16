@@ -7,56 +7,58 @@ import { TokenAmount } from '@pangolindex/sdk'
 import { PNG } from '../../constants/tokens'
 import { useSingleCallResult } from '../multicall/hooks'
 import { useLibrary } from '@pangolindex/components'
-import { ZERO_ADDRESS } from 'src/constants'
+import { MERKLEDROP_ADDRESS, ZERO_ADDRESS } from 'src/constants'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import { useMemo, useState } from 'react'
 import { splitSignature } from 'ethers/lib/utils'
 
-export function useMerkledropClaimedAmounts(account: string | null | undefined) {
-  const chaindId = useChainId()
-  const merkledropContract = useMerkledropContract()
+export function useMerkledropClaimedAmounts(account: string | null | undefined, airdropAddress?: string) {
+  const chainId = useChainId()
+  const merkledropContract = useMerkledropContract(airdropAddress)
   const claimedAmountsState = useSingleCallResult(merkledropContract, 'claimedAmounts', [account ?? ZERO_ADDRESS])
 
   return useMemo(() => {
     if (!account) {
-      return new TokenAmount(PNG[chaindId], '0')
+      return new TokenAmount(PNG[chainId], '0')
     }
-    return new TokenAmount(PNG[chaindId], claimedAmountsState.result?.[0]?.toString() || '0')
-  }, [chaindId, account, claimedAmountsState])
+    return new TokenAmount(PNG[chainId], claimedAmountsState.result?.[0]?.toString() || '0')
+  }, [chainId, account, claimedAmountsState])
 }
 
-export function useMerkledropProof(account: string | null | undefined) {
-  const chaindId = useChainId()
+export function useMerkledropProof(account: string | null | undefined, airdropAddress?: string) {
+  const chainId = useChainId()
   return useQuery(
-    ['MerkledropProof', account, chaindId],
+    ['MerkledropProof', account, chainId],
     async () => {
       if (!account)
         return {
-          amount: new TokenAmount(PNG[chaindId], '0'),
+          amount: new TokenAmount(PNG[chainId], '0'),
           proof: [],
           root: ''
         }
+
+      const airdropContractAddress = airdropAddress || MERKLEDROP_ADDRESS[chainId] || ''
       try {
         const response = await axios.get(
-          `https://static.pangolin.exchange/merkle-drop/${chaindId}/${account.toLocaleLowerCase()}.json`
+          `https://static.pangolin.exchange/merkle-drop/${chainId}/${airdropContractAddress.toLocaleLowerCase()}/${account.toLocaleLowerCase()}.json`
         )
         if (response.status !== 200) {
           return {
-            amount: new TokenAmount(PNG[chaindId], '0'),
+            amount: new TokenAmount(PNG[chainId], '0'),
             proof: [],
             root: ''
           }
         }
         const data = response.data
         return {
-          amount: new TokenAmount(PNG[chaindId], data.amount),
+          amount: new TokenAmount(PNG[chainId], data.amount),
           proof: data.proof as string[],
           root: data.root as string
         }
       } catch (error) {
         return {
-          amount: new TokenAmount(PNG[chaindId], '0'),
+          amount: new TokenAmount(PNG[chainId], '0'),
           proof: [],
           root: ''
         }
@@ -70,12 +72,12 @@ export function useMerkledropProof(account: string | null | undefined) {
   )
 }
 
-export function useClaimAirdrop(account: string | null | undefined) {
+export function useClaimAirdrop(account: string | null | undefined, airdropAddress?: string) {
   const { library, provider } = useLibrary()
   const pngSymbol = usePngSymbol()
 
-  const merkledropContract = useMerkledropContract()
-  const { data } = useMerkledropProof(account)
+  const merkledropContract = useMerkledropContract(airdropAddress)
+  const { data } = useMerkledropProof(account, airdropAddress)
 
   const [hash, setHash] = useState<string | null>(null)
   const [attempting, setAttempting] = useState<boolean>(false)
