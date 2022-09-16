@@ -26,7 +26,7 @@ export default function SarStaking() {
 
   const { t } = useTranslation()
 
-  const { data: positions, isLoading } = useSarPositions()
+  const { positions, isLoading } = useSarPositions()
 
   const onSelectPosition = (position: Position | null) => {
     setSelectedPosition(position)
