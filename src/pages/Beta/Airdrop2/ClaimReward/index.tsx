@@ -50,11 +50,11 @@ const ClaimReward: React.FC<Props> = ({ chain, merkledropContractAddress, subtit
   }, [handleConfirmDismiss, attempting, error, hash, openDrawer])
 
   if (claimAmount.lessThan('0') || claimAmount.equalTo('0')) {
-    return <NotEligible chain={chain} />
+    return <NotEligible chain={chain} subtitle={subtitle} />
   }
 
   if (totalToClaim.lessThan('0') || totalToClaim.equalTo('0')) {
-    return <AlreadyClaimed chain={chain} />
+    return <AlreadyClaimed chain={chain} subtitle={subtitle} />
   }
 
   return (

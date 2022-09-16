@@ -6,12 +6,13 @@ import Title from '../Title'
 
 interface Props {
   chain: Chain
+  subtitle?: string
 }
 
-const NotEligible: React.FC<Props> = ({ chain }) => {
+const NotEligible: React.FC<Props> = ({ chain, subtitle }) => {
   return (
     <Wrapper>
-      <Title chain={chain} title="Try Next One!" subtitle="Old PSB Reimbursement 1" />
+      <Title chain={chain} title="Try Next One!" subtitle={subtitle} />
       <Box display="flex" alignItems="center" justifyContent="center" minHeight="150px">
         <Text fontSize={16} fontWeight={500} color="text1" textAlign="center">
           Sadly you are not eligible for this airdrop.
