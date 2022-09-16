@@ -31,7 +31,9 @@ const ClaimReward: React.FC<Props> = ({ chain, merkledropContractAddress, subtit
   const claimedAmount = useMerkledropClaimedAmounts(account, merkledropContractAddress)
 
   const claimAmount = data?.amount ?? new TokenAmount(PNG[chainId], '0')
-  const totalToClaim = claimAmount.subtract(claimedAmount)
+  const totalToClaim = claimAmount.equalTo('0')
+    ? new TokenAmount(PNG[chainId], '0')
+    : claimAmount.subtract(claimedAmount)
 
   const handleConfirmDismiss = useCallback(() => {
     onDimiss()
