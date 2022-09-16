@@ -31,7 +31,9 @@ const ClaimReward: React.FC<Props> = ({ chain, merkledropContractAddress, subtit
   const claimedAmount = useMerkledropClaimedAmounts(account, merkledropContractAddress)
 
   const claimAmount = data?.amount ?? new TokenAmount(PNG[chainId], '0')
-  const totalToClaim = claimAmount.subtract(claimedAmount)
+  const totalToClaim = claimAmount.equalTo('0')
+    ? new TokenAmount(PNG[chainId], '0')
+    : claimAmount.subtract(claimedAmount)
 
   const handleConfirmDismiss = useCallback(() => {
     onDimiss()
@@ -48,11 +50,11 @@ const ClaimReward: React.FC<Props> = ({ chain, merkledropContractAddress, subtit
   }, [handleConfirmDismiss, attempting, error, hash, openDrawer])
 
   if (claimAmount.lessThan('0') || claimAmount.equalTo('0')) {
-    return <NotEligible chain={chain} />
+    return <NotEligible chain={chain} subtitle={subtitle} />
   }
 
   if (totalToClaim.lessThan('0') || totalToClaim.equalTo('0')) {
-    return <AlreadyClaimed chain={chain} />
+    return <AlreadyClaimed chain={chain} subtitle={subtitle} />
   }
 
   return (

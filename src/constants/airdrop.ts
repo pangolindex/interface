@@ -12,7 +12,7 @@ export const specialAirdrops: { [chainId in ChainId]?: SpecialAirdropData[] } = 
   [ChainId.SONGBIRD]: [
     {
       title: 'Old PSB Reimbursement 1',
-      merkledropContractAddress: '0x1b40cC3c0Da7D3419BBF0D34a2171966b42646CE',
+      merkledropContractAddress: '0x78407686458ACf7FceA53Cf73697d0ff51052ca6',
       isActive: true
     }
   ]
