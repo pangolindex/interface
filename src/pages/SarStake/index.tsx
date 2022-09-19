@@ -58,7 +58,7 @@ export default function SarStaking() {
       <Box style={{ gridArea: 'images' }}>
         <SarNFTPortfolio onSelectPosition={onSelectPosition} />
       </Box>
-      <Box style={{ gridArea: 'stake' }} display="flex" flexDirection="column">
+      <Box style={{ gridArea: 'stake' }} minWidth="330px" display="flex" flexDirection="column">
         <Box>
           <SarManageWidget selectedPosition={selectedPosition} />
         </Box>
