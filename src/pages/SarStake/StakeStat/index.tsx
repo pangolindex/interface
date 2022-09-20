@@ -11,7 +11,7 @@ import { formatEther } from 'ethers/lib/utils'
 const StakeStat: React.FC = () => {
   const chainId = useChainId()
   const { apr, totalStaked } = useSarStakeInfo()
-  const { data: positions = [] as Position[] } = useSarPositions()
+  const { positions = [] as Position[] } = useSarPositions()
 
   const filteredPositions = positions.filter(position => !position.balance.isZero()) // remove zero balances
 

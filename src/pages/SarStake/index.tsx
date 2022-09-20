@@ -16,7 +16,7 @@ import Confetti from 'src/components/Confetti'
 import { useChainId } from 'src/hooks'
 import useParsedQueryString from 'src/hooks/useParsedQueryString'
 import StakeStat from './StakeStat'
-import { CloseButton, PageWrapper } from './styleds'
+import { CloseButton, PageWrapper, StyledSVG } from './styleds'
 
 export default function SarStaking() {
   const [selectedPosition, setSelectedPosition] = useState<Position | null>(null)
@@ -26,7 +26,7 @@ export default function SarStaking() {
 
   const { t } = useTranslation()
 
-  const { data: positions, isLoading } = useSarPositions()
+  const { positions, isLoading } = useSarPositions()
 
   const onSelectPosition = (position: Position | null) => {
     setSelectedPosition(position)
@@ -58,7 +58,7 @@ export default function SarStaking() {
       <Box style={{ gridArea: 'images' }}>
         <SarNFTPortfolio onSelectPosition={onSelectPosition} />
       </Box>
-      <Box style={{ gridArea: 'stake' }} display="flex" flexDirection="column">
+      <Box style={{ gridArea: 'stake' }} minWidth="330px" display="flex" flexDirection="column">
         <Box>
           <SarManageWidget selectedPosition={selectedPosition} />
         </Box>
@@ -73,7 +73,13 @@ export default function SarStaking() {
           {isLoading ? (
             <Loader size={100} />
           ) : (
-            <img src={lastPostion?.uri?.image} alt="NFT" style={{ height: '400px' }} />
+            <StyledSVG
+              dangerouslySetInnerHTML={{
+                __html: lastPostion
+                  ? Buffer.from(lastPostion.uri.image.replace('data:image/svg+xml;base64,', ''), 'base64').toString()
+                  : ''
+              }}
+            />
           )}
         </Box>
       </Modal>
