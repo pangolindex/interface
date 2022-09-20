@@ -36,3 +36,12 @@ export const CloseButton = styled(CloseIcon)`
   right: 9px;
   top: 9px;
 `
+
+export const StyledSVG = styled(Box)`
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  height: 400px;
+`

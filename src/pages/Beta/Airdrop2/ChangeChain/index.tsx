@@ -13,7 +13,7 @@ const ChangeChain: React.FC<Props> = ({ chain }) => {
   return (
     <Wrapper>
       <Title chain={chain} title={`Change to ${chain?.name}`} />
-      <Box display="flex" alignItems="center" justifyContent="center" minHeight="120px">
+      <Box display="flex" alignItems="center" justifyContent="center" minHeight="120px" flex={1}>
         <Text fontSize={16} fontWeight={500} color="text1">
           Go to {chain.name} to see if you are eligible!
         </Text>

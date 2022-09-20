@@ -9,6 +9,7 @@ import Transaction from './Transaction'
 import CoinbaseWalletIcon from '../../assets/svg/coinbaseWalletIcon.svg'
 import WalletConnectIcon from '../../assets/svg/walletConnectIcon.svg'
 import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
+import BitKeep from '../../assets/svg/bitkeep.svg'
 import { ReactComponent as Close } from '../../assets/svg/x.svg'
 import NearIcon from '../../assets/svg/near.svg'
 import {
@@ -22,7 +23,8 @@ import {
   NearConnector,
   useAllTransactionsClearer,
   useTranslation,
-  getEtherscanLink
+  getEtherscanLink,
+  bitKeep
 } from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ButtonSecondary } from '../Button'
@@ -256,7 +258,7 @@ export default function AccountDetails({
     const isMetaMask = !!(ethereum && ethereum.isMetaMask)
     const isXDEFI = !!(ethereum && ethereum.isXDEFI)
     const isRabby = !!(ethereum && ethereum.isRabby)
-    const isBitKeep = !!(ethereum && ethereum.isBitKeep)
+    const isBitKeep = !!(ethereum && ethereum.isBitKeep) || !!(window.isBitKeep && window.bitkeep)
     const isCoinbase = !!(ethereum && ethereum.isCoinbaseWallet)
 
     let name = Object.keys(SUPPORTED_WALLETS)
@@ -301,6 +303,12 @@ export default function AccountDetails({
       return (
         <IconWrapper size={16}>
           <img src={GnosisSafeIcon} alt={'Gnosis Safe logo'} />
+        </IconWrapper>
+      )
+    } else if (connector === bitKeep) {
+      return (
+        <IconWrapper size={16}>
+          <img src={BitKeep} alt={'BitKeep logo'} />
         </IconWrapper>
       )
     } else if (connector === near) {

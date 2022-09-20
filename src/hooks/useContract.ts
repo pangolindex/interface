@@ -68,7 +68,7 @@ export function useAirdropContract(): Contract | null {
   return useContract(chainId ? AIRDROP_ADDRESS[chainId] : undefined, Airdrop.abi, true)
 }
 
-export const useMerkledropContract = () => {
+export const useMerkledropContract = (address?: string) => {
   const chainId = useChainId()
-  return useContract(MERKLEDROP_ADDRESS[chainId], MerkleAirdrop.abi, true)
+  return useContract(address || MERKLEDROP_ADDRESS[chainId], MerkleAirdrop.abi, true)
 }

@@ -5,8 +5,10 @@ import { Text, Box, useTranslation, PoolImportModal } from '@pangolindex/compone
 export enum MenuType {
   allFarmV1 = 'allFarmV1',
   allFarmV2 = 'allFarmV2',
+  allFarmV3 = 'allFarmV3',
   yourFarmV1 = 'yourFarmV1',
   yourFarmV2 = 'yourFarmV2',
+  yourFarmV3 = 'yourFarmV3',
   superFarm = 'superFarm',
   yourPool = 'your-pool'
 }

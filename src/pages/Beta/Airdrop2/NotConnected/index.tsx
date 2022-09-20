@@ -7,15 +7,16 @@ import Title from '../Title'
 
 interface Props {
   chain: Chain
+  title?: string
 }
 
-const NotConnected: React.FC<Props> = ({ chain }) => {
+const NotConnected: React.FC<Props> = ({ chain, title }) => {
   const toggleWalletModal = useWalletModalToggle()
   const { t } = useTranslation()
   return (
     <Wrapper>
-      <Title chain={chain} title="Connect Your Wallet" />
-      <Box display="flex" alignItems="center" justifyContent="center" minHeight="150px">
+      <Title chain={chain} title={title || `Claim ${chain.png_symbol}`} />
+      <Box display="flex" alignItems="center" justifyContent="center" minHeight="150px" flex={1}>
         <Text fontSize={16} fontWeight={500} lineHeight="18px" color="text10">
           Let&apos;s check if you are eligible!
         </Text>
