@@ -19,11 +19,13 @@ export const SwapWidgetWrapper = styled(Box)`
   flex-direction: column;
   justify-content: center;
   flex: 1;
-  min-width: 320px;
-  width: 400px;
+  min-width: 280px;
+  max-width: 400px
   margin: auto;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: initial;
+    margin-right: auto;
+    margin-left: auto;
     flex:0;
   `};
 `
