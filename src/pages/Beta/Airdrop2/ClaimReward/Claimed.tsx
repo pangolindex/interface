@@ -7,12 +7,13 @@ import Title from '../Title'
 
 interface Props {
   chain: Chain
+  subtitle?: string
 }
 
-const AlreadyClaimed: React.FC<Props> = ({ chain }) => {
+const AlreadyClaimed: React.FC<Props> = ({ chain, subtitle }) => {
   return (
     <Wrapper>
-      <Title chain={chain} title="You Already Claimed" />
+      <Title chain={chain} title="You Already Claimed" subtitle={subtitle} />
       <Box display="flex" alignItems="center" justifyContent="center" minHeight="150px">
         <Text fontSize={16} fontWeight={500} color="text1">
           If you think there is a problem contact us via discord.
