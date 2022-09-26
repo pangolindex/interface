@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { CheckCircle, Triangle } from 'react-feather'
-import { getEtherscanLink } from '@pangolindex/components'
+import { getEtherscanLink, useAllTransactions as useAllTransactionsComponents } from '@pangolindex/components'
 import { useChainId } from '../../hooks'
 import { ExternalLink } from '../../theme'
 import { useAllTransactions } from '../../state/transactions/hooks'
 import { RowFixed } from '../Row'
 import Loader from '../Loader'
+import { TransactionDetails } from 'src/state/transactions/reducer'
 
 const TransactionWrapper = styled.div``
 
@@ -40,7 +41,13 @@ const IconWrapper = styled.div<{ pending: boolean; success?: boolean }>`
 
 export default function Transaction({ hash }: { hash: string }) {
   const chainId = useChainId()
-  const allTransactions = useAllTransactions()
+  const allTransactionsInterface = useAllTransactions()
+  const allTransactionsComponents = useAllTransactionsComponents()
+
+  const allTransactions: { [txHash: string]: TransactionDetails } = useMemo(() => {
+    return { ...allTransactionsInterface, ...allTransactionsComponents }
+  }, [allTransactionsInterface, allTransactionsComponents])
+
   const tx = allTransactions?.[hash]
   const summary = tx?.summary
   const pending = !tx?.receipt
