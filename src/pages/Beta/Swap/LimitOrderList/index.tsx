@@ -15,7 +15,6 @@ import LimitOrderDetail from './LimitOrderDetail'
 import CancelOrderModal from './CancelOrderModal'
 import MobileLimitOrderRow from './MobileLimitOrderRow'
 import ShowMore from 'src/components/Beta/ShowMore'
-import { MultiValue } from 'react-select'
 
 export enum TabType {
   open = 'OPEN',
@@ -41,7 +40,7 @@ export const LimitOrderTypeOptions = [
 const LimitOrderList = () => {
   const { t } = useTranslation()
 
-  const [activeTab, setActiveTab] = useState<MultiValue<string> | string>(TabType.open as string)
+  const [activeTab, setActiveTab] = useState<string>(TabType.open as string)
 
   const [showMore, setShowMore] = useState(false as boolean)
 
@@ -97,7 +96,7 @@ const LimitOrderList = () => {
               options={LimitOrderTypeOptions}
               defaultValue={activeTab}
               onSelect={selected => {
-                setActiveTab(selected)
+                setActiveTab(selected as string)
               }}
             />
           </Box>
