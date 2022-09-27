@@ -306,9 +306,9 @@ export function betaColors(darkMode: boolean): BetaColors {
       }
     },
     bridge: {
-      backgroundColor: darkMode ? eerieBlack : white, //color10
-      secondBackgroundColor: darkMode ? chineseBlack : ghostWhite, //color2
-      text: darkMode ? white : black //text1
+      backgroundColor: darkMode ? eerieBlack : white,
+      secondBackgroundColor: darkMode ? chineseBlack : ghostWhite,
+      text: darkMode ? white : black
     }
   }
 }
