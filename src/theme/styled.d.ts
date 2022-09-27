@@ -195,6 +195,10 @@ export interface BetaColors extends Colors {
     tabListColor?: Color
     tabPanelBorderColor?: Color
   }
+  dropdown?: {
+    color?: Color
+    backgroundColor?: Color
+  }
 }
 
 export interface Grids {
