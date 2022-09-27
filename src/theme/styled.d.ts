@@ -187,6 +187,13 @@ export interface BetaColors extends Colors {
     text?: Color
     routeInfoColor?: Color
     transferKeyColor?: Color
+    loaderCloseIconColor?: Color
+    informationBoxesBackgroundColor?: Color
+  }
+  tabs?: {
+    tabColor?: Color
+    tabListColor?: Color
+    tabPanelBorderColor?: Color
   }
 }
 
