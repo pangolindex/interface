@@ -181,6 +181,11 @@ export interface BetaColors extends Colors {
       borderColor?: Color
     }
   }
+  bridge?: {
+    backgroundColor?: Color
+    secondBackgroundColor?: Color
+    text?: Color
+  }
 }
 
 export interface Grids {

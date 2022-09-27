@@ -304,6 +304,11 @@ export function betaColors(darkMode: boolean): BetaColors {
         color: oceanBlue,
         borderColor: oceanBlue
       }
+    },
+    bridge: {
+      backgroundColor: darkMode ? eerieBlack : white, //color10
+      secondBackgroundColor: darkMode ? chineseBlack : ghostWhite, //color2
+      text: darkMode ? white : black //text1
     }
   }
 }
