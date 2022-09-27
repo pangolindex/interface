@@ -321,8 +321,8 @@ export function betaColors(darkMode: boolean): BetaColors {
       tabPanelBorderColor: darkMode ? darkSilver : quickSilver
     },
     dropdown: {
-      color: darkMode ? darkGunmetal : white,
-      backgroundColor: darkMode ? white : black
+      color: darkMode ? white : black,
+      backgroundColor: darkMode ? darkGunmetal : white
     }
   }
 }
