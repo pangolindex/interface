@@ -308,7 +308,9 @@ export function betaColors(darkMode: boolean): BetaColors {
     bridge: {
       backgroundColor: darkMode ? eerieBlack : white,
       secondBackgroundColor: darkMode ? chineseBlack : ghostWhite,
-      text: darkMode ? white : black
+      text: darkMode ? white : black,
+      routeInfoColor: darkMode ? darkSilver : platinum,
+      transferKeyColor: darkMode ? darkSilver : quickSilver
     }
   }
 }
