@@ -306,8 +306,8 @@ export function betaColors(darkMode: boolean): BetaColors {
       }
     },
     bridge: {
-      backgroundColor: darkMode ? eerieBlack : white,
-      secondBackgroundColor: darkMode ? chineseBlack : ghostWhite,
+      primaryBgColor: darkMode ? eerieBlack : white,
+      secondaryBgColor: darkMode ? chineseBlack : ghostWhite,
       text: darkMode ? white : black,
       infoIconColor: darkMode ? white : black,
       routeInfoColor: darkMode ? darkSilver : platinum,
@@ -322,7 +322,7 @@ export function betaColors(darkMode: boolean): BetaColors {
     },
     dropdown: {
       color: darkMode ? white : black,
-      backgroundColor: darkMode ? darkGunmetal : white
+      primaryBgColor: darkMode ? darkGunmetal : white
     }
   }
 }

@@ -182,8 +182,8 @@ export interface BetaColors extends Colors {
     }
   }
   bridge?: {
-    backgroundColor?: Color
-    secondBackgroundColor?: Color
+    primaryBgColor?: Color
+    secondaryBgColor?: Color
     text?: Color
     infoIconColor?: Color
     routeInfoColor?: Color
@@ -198,7 +198,7 @@ export interface BetaColors extends Colors {
   }
   dropdown?: {
     color?: Color
-    backgroundColor?: Color
+    primaryBgColor?: Color
   }
 }
 
