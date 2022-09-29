@@ -165,9 +165,6 @@
     "near-api-js": "0.44.2",
     "npm-force-resolutions": "0.0.10",
     "patch-package": "6.4.7",
-    "react-collapsed": "^3.4.0",
-    "react-portal": "4.2.1",
-    "react-select": "^5.4.0",
-    "react-tooltip": "^4.2.21"
+    "react-portal": "4.2.1"
   }
 }
