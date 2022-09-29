@@ -11,7 +11,7 @@ export type SpecialAirdropData = { title: string; merkledropContractAddress: str
 export const specialAirdrops: { [chainId in ChainId]?: SpecialAirdropData[] } = {
   [ChainId.SONGBIRD]: [
     {
-      title: 'Old PSB Reimbursement 1',
+      title: 'Old PSB Reimbursement 2',
       merkledropContractAddress: '0x78407686458ACf7FceA53Cf73697d0ff51052ca6',
       isActive: true
     }
