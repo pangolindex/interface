@@ -40,7 +40,7 @@ export const LimitOrderTypeOptions = [
 const LimitOrderList = () => {
   const { t } = useTranslation()
 
-  const [activeTab, setActiveTab] = useState(TabType.open as string)
+  const [activeTab, setActiveTab] = useState<string>(TabType.open as string)
 
   const [showMore, setShowMore] = useState(false as boolean)
 
@@ -94,9 +94,9 @@ const LimitOrderList = () => {
           <Box>
             <DropdownMenu
               options={LimitOrderTypeOptions}
-              value={activeTab}
-              onSelect={value => {
-                setActiveTab(value)
+              defaultValue={activeTab}
+              onSelect={selected => {
+                setActiveTab(selected as string)
               }}
             />
           </Box>
