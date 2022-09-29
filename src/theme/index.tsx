@@ -304,6 +304,25 @@ export function betaColors(darkMode: boolean): BetaColors {
         color: oceanBlue,
         borderColor: oceanBlue
       }
+    },
+    bridge: {
+      primaryBgColor: darkMode ? eerieBlack : white,
+      secondaryBgColor: darkMode ? chineseBlack : ghostWhite,
+      text: darkMode ? white : black,
+      infoIconColor: darkMode ? white : black,
+      routeInfoColor: darkMode ? darkSilver : platinum,
+      transferKeyColor: darkMode ? darkSilver : quickSilver,
+      loaderCloseIconColor: mustardYellow,
+      informationBoxesBackgroundColor: chineseBlack
+    },
+    tabs: {
+      tabColor: darkMode ? darkSilver : quickSilver,
+      tabListColor: darkMode ? white : black,
+      tabPanelBorderColor: darkMode ? darkSilver : quickSilver
+    },
+    dropdown: {
+      color: darkMode ? white : black,
+      primaryBgColor: darkMode ? darkGunmetal : white
     }
   }
 }
