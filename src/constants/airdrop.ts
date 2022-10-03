@@ -2,23 +2,25 @@ import PNG from 'src/assets/svg/PNG/PNG.svg'
 import PNR from 'src/assets/svg/PNG/PNR.svg'
 import PSB from 'src/assets/svg/PNG/PSB.svg'
 
-import { NEAR_MAINNET, Chain, COSTON_TESTNET, SONGBIRD_CANARY, FLARE_MAINNET, ChainId } from '@pangolindex/sdk'
+import { NEAR_MAINNET, FLARE_MAINNET, ChainId, AirdropType, CHAINS } from '@pangolindex/sdk'
 
-export const activeAirdrops: Chain[] = [COSTON_TESTNET]
-
-export type SpecialAirdropData = { title: string; merkledropContractAddress: string; isActive: boolean }
-
-export const specialAirdrops: { [chainId in ChainId]?: SpecialAirdropData[] } = {
-  [ChainId.SONGBIRD]: [
-    {
-      title: 'Old PSB Reimbursement 2',
-      merkledropContractAddress: '0x78407686458ACf7FceA53Cf73697d0ff51052ca6',
-      isActive: true
-    }
-  ]
+export interface AirdropData {
+  address: string
+  active: boolean
+  type: AirdropType
+  title?: string
 }
 
-export const commingSoonAirdrops = [NEAR_MAINNET, SONGBIRD_CANARY, FLARE_MAINNET]
+export const activeAirdrops: { [chainId in ChainId]?: AirdropData } = {
+  [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD]!.contracts!.airdrop,
+  [ChainId.COSTON]: CHAINS[ChainId.COSTON]!.contracts!.airdrop
+}
+
+export const specialAirdrops: { [chainId in ChainId]?: AirdropData[] } = {
+  [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD]!.contracts!.specialAirdrops
+}
+
+export const commingSoonAirdrops = [NEAR_MAINNET, FLARE_MAINNET]
 
 export const logoMapping = {
   [ChainId.COSTON]: PNG,

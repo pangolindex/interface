@@ -79,7 +79,8 @@
       "name": "claim",
       "inputs": [
         { "type": "uint96", "name": "amount", "internalType": "uint96" },
-        { "type": "bytes32[]", "name": "merkleProof", "internalType": "bytes32[]" }
+        { "type": "bytes32[]", "name": "merkleProof", "internalType": "bytes32[]" },
+        { "type": "bytes", "name": "signature", "internalType": "bytes" }
       ]
     },
     {
@@ -90,7 +91,8 @@
       "inputs": [
         { "type": "address", "name": "to", "internalType": "address" },
         { "type": "uint96", "name": "amount", "internalType": "uint96" },
-        { "type": "bytes32[]", "name": "merkleProof", "internalType": "bytes32[]" }
+        { "type": "bytes32[]", "name": "merkleProof", "internalType": "bytes32[]" },
+        { "type": "bytes", "name": "signature", "internalType": "bytes" }
       ]
     },
     {

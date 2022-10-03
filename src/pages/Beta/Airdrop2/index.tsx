@@ -4,7 +4,7 @@ import { Text, Box } from '@pangolindex/components'
 import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { QuestionAnswer } from './QuestionBox'
 import { Chain, CHAINS } from '@pangolindex/sdk'
-import { activeAirdrops, commingSoonAirdrops, SpecialAirdropData, specialAirdrops } from 'src/constants/airdrop'
+import { activeAirdrops, commingSoonAirdrops, AirdropData, specialAirdrops } from 'src/constants/airdrop'
 import NotConnected from './NotConnected'
 import ChangeChain from './ChangeChain'
 import ClaimReward from './ClaimReward'
@@ -14,21 +14,14 @@ const AirdropUI: React.FC = () => {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
-  const renderAirdrop = (chain: Chain, key: number, extraData?: SpecialAirdropData) => {
+  const renderAirdrop = (chain: Chain, key: number, airdropData: AirdropData) => {
     if (!account) {
-      return <NotConnected key={key} chain={chain} title={extraData?.title} />
+      return <NotConnected key={key} chain={chain} title={airdropData?.title} />
     }
     if (chainId !== chain?.chain_id) {
       return <ChangeChain key={key} chain={chain} />
     }
-    return (
-      <ClaimReward
-        key={key}
-        chain={chain}
-        subtitle={extraData?.title}
-        merkledropContractAddress={extraData?.merkledropContractAddress}
-      />
-    )
+    return <ClaimReward key={key} chain={chain} {...airdropData} />
   }
 
   return (
@@ -44,10 +37,15 @@ const AirdropUI: React.FC = () => {
       <Frame>
         {Object.entries(specialAirdrops).map(([chainId, airdrops], index) => {
           return airdrops
-            ?.filter(data => data.isActive)
+            ?.filter(data => data.active)
             ?.map(data => renderAirdrop((CHAINS as any)[chainId], index, data))
         })}
-        {activeAirdrops.map((chain, index) => renderAirdrop(chain, index))}
+        {Object.entries(activeAirdrops).map(([chainId, airdrop], index) => {
+          if (!!airdrop && airdrop.active) {
+            return renderAirdrop((CHAINS as any)[chainId], index, airdrop)
+          }
+          return null
+        })}
         {commingSoonAirdrops.map((chain, index) => (
           <CommingSoon key={index} chain={chain} />
         ))}
