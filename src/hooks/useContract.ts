@@ -15,7 +15,7 @@ import { PNG } from '../constants/tokens'
 import { useLibrary } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 import { AirdropType } from '@pangolindex/sdk'
-import { airdropAbi } from 'src/constants/airdrop'
+import { airdropAbiMapping } from 'src/constants/airdrop'
 
 // returns null on errors
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
@@ -70,6 +70,6 @@ export function useAirdropContract(): Contract | null {
 }
 
 export const useMerkledropContract = (address: string, type: AirdropType) => {
-  const abi = airdropAbi[type]
+  const abi = airdropAbiMapping[type]
   return useContract(address, abi, true)
 }

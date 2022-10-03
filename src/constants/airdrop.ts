@@ -1,9 +1,10 @@
 import PNG from 'src/assets/svg/PNG/PNG.svg'
 import PNR from 'src/assets/svg/PNG/PNR.svg'
 import PSB from 'src/assets/svg/PNG/PSB.svg'
-import Airdrop from '@pangolindex/governance/artifacts/contracts/Airdrop.sol/Airdrop.json'
-import MerkleAirdrop from 'src/constants/abis/Merkledrop.json'
-import MerkleAirdropCompliant from 'src/constants/abis/MerkledropCompliant.json'
+import Airdrop from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/Airdrop.sol/Airdrop.json'
+import MerkleAirdrop from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/Merkledrop.sol/Merkledrop.json'
+import MerkleAirdropToStaking from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/MerkledropToStaking.sol/MerkledropToStaking.json'
+import MerkleAirdropCompliant from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/MerkledropToStakingCompliant.sol/MerkledropToStakingCompliant.json'
 import { NEAR_MAINNET, FLARE_MAINNET, ChainId, AirdropType, CHAINS } from '@pangolindex/sdk'
 
 export interface AirdropData {
@@ -35,10 +36,10 @@ export const logoMapping = {
   [ChainId.NEAR_TESTNET]: PNR
 }
 
-export const airdropAbi = {
+export const airdropAbiMapping = {
   [AirdropType.LEGACY]: Airdrop.abi,
   [AirdropType.MERKLE]: MerkleAirdrop.abi,
-  [AirdropType.MERKLE_TO_STAKING]: MerkleAirdrop.abi,
+  [AirdropType.MERKLE_TO_STAKING]: MerkleAirdropToStaking.abi,
   [AirdropType.MERKLE_TO_STAKING_COMPLIANT]: MerkleAirdropCompliant.abi,
   [AirdropType.NEAR_AIRDROP]: undefined
 }
