@@ -103,7 +103,7 @@ export function useClaimAirdrop(airdropAddress: string, airdropType: AirdropType
       let summary = `Claimed ${pngSymbol}`
 
       if (airdropType === AirdropType.MERKLE_TO_STAKING_COMPLIANT) {
-        summary += 'and deposited in the SAR'
+        summary += ' and deposited in the SAR'
 
         const message = `By signing this transaction, I hereby acknowledge that I am not a US resident or citizen. (Citizens or residents of the United States of America are not allowed to the ${pngSymbol} token airdrop due to applicable law.)`
         let signature = await provider?.request({
