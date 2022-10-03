@@ -1,7 +1,9 @@
 import PNG from 'src/assets/svg/PNG/PNG.svg'
 import PNR from 'src/assets/svg/PNG/PNR.svg'
 import PSB from 'src/assets/svg/PNG/PSB.svg'
-
+import Airdrop from '@pangolindex/governance/artifacts/contracts/Airdrop.sol/Airdrop.json'
+import MerkleAirdrop from 'src/constants/abis/Merkledrop.json'
+import MerkleAirdropCompliant from 'src/constants/abis/MerkledropCompliant.json'
 import { NEAR_MAINNET, FLARE_MAINNET, ChainId, AirdropType, CHAINS } from '@pangolindex/sdk'
 
 export interface AirdropData {
@@ -31,4 +33,12 @@ export const logoMapping = {
   14: PNG, // Don't have flare on chain id mapping
   [ChainId.NEAR_MAINNET]: PNR,
   [ChainId.NEAR_TESTNET]: PNR
+}
+
+export const airdropAbi = {
+  [AirdropType.LEGACY]: Airdrop.abi,
+  [AirdropType.MERKLE]: MerkleAirdrop.abi,
+  [AirdropType.MERKLE_TO_STAKING]: MerkleAirdrop.abi,
+  [AirdropType.MERKLE_TO_STAKING_COMPLIANT]: MerkleAirdropCompliant.abi,
+  [AirdropType.NEAR_AIRDROP]: undefined
 }

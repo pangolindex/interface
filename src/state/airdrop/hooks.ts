@@ -99,7 +99,7 @@ export function useClaimAirdrop(airdropAddress: string, airdropType: AirdropType
     if (!merkledropContract || !data || data.proof.length === 0 || !account) return
     setAttempting(true)
     try {
-      const args = [data.amount.raw.toString(), data.proof]
+      const args = airdropType === AirdropType.LEGACY ? [] : [data.amount.raw.toString(), data.proof]
       let summary = `Claimed ${pngSymbol}`
 
       if (airdropType === AirdropType.MERKLE_TO_STAKING_COMPLIANT) {
