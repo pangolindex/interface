@@ -47,10 +47,6 @@ export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.SONGBIRD]: ZERO_ADDRESS
 }
 
-export const MERKLEDROP_ADDRESS: { [chainId in ChainId]?: string } = {
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.airdrop!.address!
-}
-
 export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: CHAINS[ChainId.FUJI].name,
   [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].name,

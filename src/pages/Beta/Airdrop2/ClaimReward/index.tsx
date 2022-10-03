@@ -3,32 +3,29 @@ import { Wrapper } from '../styleds'
 import { Text, Button, Box } from '@pangolindex/components'
 import { Chain, TokenAmount } from '@pangolindex/sdk'
 import { useClaimAirdrop, useMerkledropClaimedAmounts, useMerkledropProof } from 'src/state/airdrop/hooks'
-import { useWeb3React } from '@web3-react/core'
 import { PNG } from 'src/constants/tokens'
 import { useChainId } from 'src/hooks'
 import ConfirmDrawer from './ConfirmDrawer'
 import NotEligible from './NotEligible'
 import AlreadyClaimed from './Claimed'
 import Title from '../Title'
+import { AirdropData } from 'src/constants/airdrop'
 
-interface Props {
+interface Props extends AirdropData {
   chain: Chain
-  merkledropContractAddress?: string
-  subtitle?: string
 }
 
-const ClaimReward: React.FC<Props> = ({ chain, merkledropContractAddress, subtitle }) => {
-  const { account } = useWeb3React()
+const ClaimReward: React.FC<Props> = ({ address, type, chain, title }) => {
   const chainId = useChainId()
 
   const png = PNG[chainId]
 
   const [openDrawer, setOpenDrawer] = useState(false)
 
-  const { onClaim, onDimiss, hash, attempting, error } = useClaimAirdrop(account, merkledropContractAddress)
+  const { onClaim, onDimiss, hash, attempting, error } = useClaimAirdrop(address, type)
 
-  const { data } = useMerkledropProof(account, merkledropContractAddress)
-  const claimedAmount = useMerkledropClaimedAmounts(account, merkledropContractAddress)
+  const { data } = useMerkledropProof(address)
+  const claimedAmount = useMerkledropClaimedAmounts(address)
 
   const claimAmount = data?.amount ?? new TokenAmount(PNG[chainId], '0')
   const totalToClaim = claimAmount.equalTo('0')
@@ -50,16 +47,16 @@ const ClaimReward: React.FC<Props> = ({ chain, merkledropContractAddress, subtit
   }, [handleConfirmDismiss, attempting, error, hash, openDrawer])
 
   if (claimAmount.lessThan('0') || claimAmount.equalTo('0')) {
-    return <NotEligible chain={chain} subtitle={subtitle} />
+    return <NotEligible chain={chain} subtitle={title} />
   }
 
-  if (totalToClaim.lessThan('0') || totalToClaim.equalTo('0')) {
-    return <AlreadyClaimed chain={chain} subtitle={subtitle} />
+  if ((totalToClaim.lessThan('0') || totalToClaim.equalTo('0')) && !hash && !attempting && !error) {
+    return <AlreadyClaimed chain={chain} subtitle={title} />
   }
 
   return (
     <Wrapper>
-      <Title chain={chain} title="You Are Eligible!" subtitle={subtitle} />
+      <Title chain={chain} title="You Are Eligible!" subtitle={title} />
       <Box display="flex" alignItems="center" minHeight="150px">
         <Text fontSize={16} fontWeight={500} color="text10">
           You are eligible for:
@@ -78,6 +75,7 @@ const ClaimReward: React.FC<Props> = ({ chain, merkledropContractAddress, subtit
         txHash={hash}
         errorMessage={error}
         chain={chain}
+        airdropType={type}
       />
     </Wrapper>
   )

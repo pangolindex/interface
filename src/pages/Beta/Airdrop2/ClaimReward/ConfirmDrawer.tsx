@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
-import { AlertTriangle } from 'react-feather'
+import { AlertTriangle, CheckCircle } from 'react-feather'
 import { ThemeContext } from 'styled-components'
-import { Box, Button, Drawer, Loader, Text } from '@pangolindex/components'
-import { Chain } from '@pangolindex/sdk'
+import { Box, Button, Drawer, getEtherscanLink, Loader, Text, useTranslation } from '@pangolindex/components'
+import { AirdropType, Chain } from '@pangolindex/sdk'
 import { Wrapper } from '../styleds'
 import Title from '../Title'
 import GiftBox from 'src/assets/images/giftbox.png'
 import { MENU_LINK } from 'src/constants'
+import { useChainId } from 'src/hooks'
 
 interface Props {
   isOpen: boolean
@@ -14,13 +15,17 @@ interface Props {
   txHash: string | null
   errorMessage: string | null
   chain: Chain
+  airdropType: AirdropType
   onClose: () => void
 }
 
 const ConfirmDrawer: React.FC<Props> = props => {
-  const { isOpen, attemptingTxn, errorMessage, txHash, chain, onClose } = props
+  const { isOpen, attemptingTxn, errorMessage, txHash, chain, airdropType, onClose } = props
+
+  const chainId = useChainId()
 
   const theme = useContext(ThemeContext)
+  const { t } = useTranslation()
 
   const PendingContent = (
     <Wrapper>
@@ -56,22 +61,52 @@ const ConfirmDrawer: React.FC<Props> = props => {
   const SubmittedContent = (
     <Wrapper>
       <Title chain={chain} title="Success" color="green1" />
-      <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column" flexGrow={1}>
-        <img src={GiftBox} alt="GiftBox" />
-        <Text fontSize={[22, 18]} fontWeight={700} color="primary" ml="10px">
-          Wait its not over yet
-        </Text>
-      </Box>
-      <Button
-        variant="primary"
-        color="black"
-        height="46px"
-        as="a"
-        href={`/#${MENU_LINK.stakev2}?showClaimed=true`}
-        target=""
-      >
-        CHECK SURPRISE
-      </Button>
+      {airdropType === AirdropType.MERKLE_TO_STAKING || airdropType === AirdropType.MERKLE_TO_STAKING_COMPLIANT ? (
+        <>
+          <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column" flexGrow={1}>
+            <img src={GiftBox} alt="GiftBox" />
+            <Text fontSize={[22, 18]} fontWeight={700} color="primary" ml="10px">
+              Wait its not over yet
+            </Text>
+          </Box>
+          <Button
+            variant="primary"
+            color="black"
+            height="46px"
+            as="a"
+            href={`/#${MENU_LINK.stakev2}?showClaimed=true`}
+            target=""
+          >
+            CHECK SURPRISE
+          </Button>
+        </>
+      ) : (
+        <>
+          <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" paddingY={'20px'}>
+            <Box flex="1" display="flex" alignItems="center">
+              <CheckCircle color={theme.green1} style={{ strokeWidth: 1.5 }} size={64} />
+            </Box>
+            <Text fontSize={16} color="text1" textAlign="center">
+              {t('earn.claimedReward')}
+            </Text>
+            {chainId && txHash && (
+              <Button
+                variant="primary"
+                color="black"
+                height="46px"
+                as="a"
+                href={getEtherscanLink(chainId, txHash, 'transaction')}
+                target=""
+              >
+                {t('transactionConfirmation.viewExplorer')}
+              </Button>
+            )}
+          </Box>
+          <Button variant="primary" onClick={onClose}>
+            {t('transactionConfirmation.close')}
+          </Button>
+        </>
+      )}
     </Wrapper>
   )
 
