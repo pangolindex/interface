@@ -33,7 +33,7 @@ export function useMerkledropProof(airdropAddress: string) {
   const chainId = useChainId()
 
   return useQuery(
-    ['MerkledropProof', account, chainId],
+    ['MerkledropProof', account, chainId, airdropAddress],
     async () => {
       if (!account)
         return {
