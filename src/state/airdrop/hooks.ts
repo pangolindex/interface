@@ -3,18 +3,21 @@ import { useChainId, usePngSymbol } from 'src/hooks'
 import { useMerkledropContract } from '../../hooks/useContract'
 import { calculateGasMargin, waitForTransaction } from '../../utils'
 import { useTransactionAdder } from '../transactions/hooks'
-import { TokenAmount } from '@pangolindex/sdk'
+import { AirdropType, TokenAmount } from '@pangolindex/sdk'
 import { PNG } from '../../constants/tokens'
 import { useSingleCallResult } from '../multicall/hooks'
 import { useLibrary } from '@pangolindex/components'
-import { MERKLEDROP_ADDRESS, ZERO_ADDRESS } from 'src/constants'
+import { ZERO_ADDRESS } from 'src/constants'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import { useMemo, useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
 
-export function useMerkledropClaimedAmounts(account: string | null | undefined, airdropAddress?: string) {
+export function useMerkledropClaimedAmounts(airdropAddress: string) {
+  const { account } = useWeb3React()
   const chainId = useChainId()
-  const merkledropContract = useMerkledropContract(airdropAddress)
+
+  const merkledropContract = useMerkledropContract(airdropAddress, AirdropType.MERKLE)
   const claimedAmountsState = useSingleCallResult(merkledropContract, 'claimedAmounts', [account ?? ZERO_ADDRESS])
 
   return useMemo(() => {
@@ -25,8 +28,10 @@ export function useMerkledropClaimedAmounts(account: string | null | undefined, 
   }, [chainId, account, claimedAmountsState])
 }
 
-export function useMerkledropProof(account: string | null | undefined, airdropAddress?: string) {
+export function useMerkledropProof(airdropAddress: string) {
+  const { account } = useWeb3React()
   const chainId = useChainId()
+
   return useQuery(
     ['MerkledropProof', account, chainId],
     async () => {
@@ -37,10 +42,9 @@ export function useMerkledropProof(account: string | null | undefined, airdropAd
           root: ''
         }
 
-      const airdropContractAddress = airdropAddress || MERKLEDROP_ADDRESS[chainId] || ''
       try {
         const response = await axios.get(
-          `https://static.pangolin.exchange/merkle-drop/${chainId}/${airdropContractAddress.toLocaleLowerCase()}/${account.toLocaleLowerCase()}.json`
+          `https://static.pangolin.exchange/merkle-drop/${chainId}/${airdropAddress.toLocaleLowerCase()}/${account.toLocaleLowerCase()}.json`
         )
         if (response.status !== 200) {
           return {
@@ -71,12 +75,13 @@ export function useMerkledropProof(account: string | null | undefined, airdropAd
   )
 }
 
-export function useClaimAirdrop(account: string | null | undefined, airdropAddress?: string) {
+export function useClaimAirdrop(airdropAddress: string, airdropType: AirdropType) {
+  const { account } = useWeb3React()
   const { library, provider } = useLibrary()
   const pngSymbol = usePngSymbol()
 
-  const merkledropContract = useMerkledropContract(airdropAddress)
-  const { data } = useMerkledropProof(account, airdropAddress)
+  const merkledropContract = useMerkledropContract(airdropAddress, airdropType)
+  const { data } = useMerkledropProof(airdropAddress)
 
   const [hash, setHash] = useState<string | null>(null)
   const [attempting, setAttempting] = useState<boolean>(false)
@@ -94,37 +99,39 @@ export function useClaimAirdrop(account: string | null | undefined, airdropAddre
     if (!merkledropContract || !data || data.proof.length === 0 || !account) return
     setAttempting(true)
     try {
-      const message =
-        'By signing this transaction, I hereby acknowledge that I am not a US resident or citizen. (Citizens or residents of the United States of America are not allowed to the PSB token airdrop due to applicable law.)'
+      const args = airdropType === AirdropType.LEGACY ? [] : [data.amount.raw.toString(), data.proof]
+      let summary = `Claimed ${pngSymbol}`
 
-      let signature = await provider?.request({
-        method: 'personal_sign',
-        params: [message, account]
-      })
+      if (airdropType === AirdropType.MERKLE_TO_STAKING_COMPLIANT) {
+        summary += ' and deposited in the SAR'
 
-      const v = parseInt(signature.slice(130, 132), 16)
+        const message = `By signing this transaction, I hereby acknowledge that I am not a US resident or citizen. (Citizens or residents of the United States of America are not allowed to the ${pngSymbol} token airdrop due to applicable law.)`
+        let signature = await provider?.request({
+          method: 'personal_sign',
+          params: [message, account]
+        })
 
-      // Ensure v is 27+ (generally 27|28)
-      // Ledger and perhaps other signing methods utilize a 'v' of 0|1 instead of 27|28
-      if (v < 27) {
-        const vAdjusted = v + 27
-        console.log(`Adjusting ECDSA 'v' from ${v} to ${vAdjusted}`)
-        signature = signature.slice(0, -2).concat(vAdjusted.toString(16))
+        const v = parseInt(signature.slice(130, 132), 16)
+
+        // Ensure v is 27+ (generally 27|28)
+        // Ledger and perhaps other signing methods utilize a 'v' of 0|1 instead of 27|28
+        if (v < 27) {
+          const vAdjusted = v + 27
+          console.log(`Adjusting ECDSA 'v' from ${v} to ${vAdjusted}`)
+          signature = signature.slice(0, -2).concat(vAdjusted.toString(16))
+        }
+
+        args.push(signature)
       }
 
-      const estimedGas = await merkledropContract.estimateGas.claim(data.amount.raw.toString(), data.proof, signature)
-      const response: TransactionResponse = await merkledropContract.claim(
-        data.amount.raw.toString(),
-        data.proof,
-        signature,
-        {
-          gasLimit: calculateGasMargin(estimedGas)
-        }
-      )
-      await waitForTransaction(library, response, 5)
+      const estimedGas = await merkledropContract.estimateGas.claim(...args)
+      const response: TransactionResponse = await merkledropContract.claim(...args, {
+        gasLimit: calculateGasMargin(estimedGas)
+      })
+      await waitForTransaction(library, response, 3)
 
       addTransaction(response, {
-        summary: `Claimed ${pngSymbol} and deposited in the SAR`,
+        summary: summary,
         claim: { recipient: account }
       })
       setHash(response.hash)
