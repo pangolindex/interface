@@ -15,8 +15,7 @@ export interface AirdropData {
 }
 
 export const activeAirdrops: { [chainId in ChainId]?: AirdropData } = {
-  [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD]!.contracts!.airdrop,
-  [ChainId.COSTON]: CHAINS[ChainId.COSTON]!.contracts!.airdrop
+  [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD]!.contracts!.airdrop
 }
 
 export const specialAirdrops: { [chainId in ChainId]?: AirdropData[] } = {
