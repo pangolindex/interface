@@ -6,6 +6,7 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.router,
   [ChainId.COSTON]: CHAINS[ChainId.COSTON].contracts!.router,
   [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD].contracts!.router,
+  [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].contracts!.router,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET]?.contracts!.router,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET]?.contracts!.router
 }
@@ -34,6 +35,7 @@ export const MINICHEF_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.mini_chef!.address,
   [ChainId.COSTON]: ZERO_ADDRESS,
   [ChainId.SONGBIRD]: ZERO_ADDRESS,
+  [ChainId.HEDERA_TESTNET]: ZERO_ADDRESS,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].contracts!.mini_chef!.address,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].contracts!.mini_chef!.address
 }
@@ -44,7 +46,8 @@ export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.airdrop!.address,
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.airdrop!.address,
   [ChainId.COSTON]: ZERO_ADDRESS,
-  [ChainId.SONGBIRD]: ZERO_ADDRESS
+  [ChainId.SONGBIRD]: ZERO_ADDRESS,
+  [ChainId.HEDERA_TESTNET]: ZERO_ADDRESS
 }
 
 export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
@@ -53,6 +56,7 @@ export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].name,
   [ChainId.COSTON]: CHAINS[ChainId.COSTON].name,
   [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD].name,
+  [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].name,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].name,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].name
 }
@@ -63,6 +67,7 @@ export const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].symbol,
   [ChainId.COSTON]: CHAINS[ChainId.COSTON].symbol,
   [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD].symbol,
+  [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].symbol,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].symbol,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].symbol
 }
