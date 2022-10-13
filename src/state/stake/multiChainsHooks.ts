@@ -11,6 +11,7 @@ export const useTotalPngEarnedHook: UseTotalPngEarnedHookType = {
   [ChainId.WAGMI]: useTotalPngEarned,
   [ChainId.COSTON]: useTotalPngEarned,
   [ChainId.SONGBIRD]: useTotalPngEarned,
+  [ChainId.FLARE_MAINNET]: useTotalPngEarned,
   [ChainId.HEDERA_TESTNET]: useTotalPngEarned,
   [ChainId.NEAR_MAINNET]: useNearTotalPngEarned,
   [ChainId.NEAR_TESTNET]: useNearTotalPngEarned
@@ -26,6 +27,7 @@ export const useStakingInfoHook: UseStakingInfoHookType = {
   [ChainId.WAGMI]: useStakingInfo,
   [ChainId.COSTON]: useStakingInfo,
   [ChainId.SONGBIRD]: useStakingInfo,
+  [ChainId.FLARE_MAINNET]: useStakingInfo,
   [ChainId.HEDERA_TESTNET]: useStakingInfo,
   [ChainId.NEAR_MAINNET]: useDummyStakingInfo,
   [ChainId.NEAR_TESTNET]: useDummyStakingInfo
