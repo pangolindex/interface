@@ -11,7 +11,8 @@ import {
   near,
   shortenAddress,
   useAllTransactions as useAllTransactionsComponents,
-  useTranslation
+  useTranslation,
+  hashConnect
 } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken } from 'polished'
@@ -23,6 +24,7 @@ import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
 import WalletConnectIcon from 'src/assets/svg/walletConnectIcon.svg'
 import XDefiIcon from 'src/assets/images/xDefi.png'
 import NearIcon from 'src/assets/svg/near.svg'
+import HashIcon from 'src/assets/images/hashConnect.png'
 import { useModalOpen, useWalletModalToggle, useAccountDetailToggle } from 'src/state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from 'src/state/transactions/hooks'
 import { TransactionDetails } from 'src/state/transactions/reducer'
@@ -164,6 +166,12 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
         <img src={NearIcon} alt={'Near Wallet'} />
       </IconWrapper>
     )
+  } else if (connector === hashConnect) {
+    return (
+      <IconWrapper size={16}>
+        <img src={HashIcon} alt={'HashPack Wallet'} />
+      </IconWrapper>
+    )
   }
   return null
 }
@@ -171,6 +179,7 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
 function Web3StatusInner() {
   const { t } = useTranslation()
   const { account, connector, error } = useWeb3React()
+
   const chainId = useChainId()
 
   const allTransactions = useAllTransactions()
