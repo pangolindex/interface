@@ -106,7 +106,7 @@ export function useClaimAirdrop(airdropAddress: string, airdropType: AirdropType
         summary += ' and deposited in the SAR'
 
         const message = `By signing this transaction, I hereby acknowledge that I am not a US resident or citizen. (Citizens or residents of the United States of America are not allowed to the ${pngSymbol} token airdrop due to applicable law.)`
-        let signature = await provider?.execute("personal_sign", [message, account]);
+        let signature = await provider?.execute('personal_sign', [message, account])
 
         const v = parseInt(signature.slice(130, 132), 16)
 
