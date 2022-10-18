@@ -1,8 +1,7 @@
 import React from 'react'
-import { Box, Button, Text, useTranslation } from '@pangolindex/components'
+import { Box, Button, Text, useTranslation, useWalletModalToggle } from '@pangolindex/components'
 import { Wrapper } from '../styleds'
 import { Chain } from '@pangolindex/sdk'
-import { useWalletModalToggle } from 'src/state/application/hooks'
 import Title from '../Title'
 
 interface Props {

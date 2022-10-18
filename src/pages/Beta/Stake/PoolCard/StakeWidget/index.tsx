@@ -1,11 +1,19 @@
 import React from 'react'
 import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { Root, Buttons, MaxButton, StakeWrapper, GridContainer, InputText } from './styled'
-import { Box, Button, NumberOptions, useTranslation, Loader, Stat, TransactionCompleted } from '@pangolindex/components'
+import {
+  Box,
+  Button,
+  NumberOptions,
+  useTranslation,
+  Loader,
+  Stat,
+  TransactionCompleted,
+  useWalletModalToggle
+} from '@pangolindex/components'
 import { ApprovalState } from 'src/hooks/useApproveCallback'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
 import { useActiveWeb3React } from 'src/hooks'
-import { useWalletModalToggle } from 'src/state/application/hooks'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
