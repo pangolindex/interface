@@ -1432,6 +1432,11 @@ export const DOUBLE_SIDE_STAKING: { [key: string]: DoubleSideStaking } = {
     tokens: [TOKENS.XETA[ChainId.AVALANCHE], TOKENS.USDC[ChainId.AVALANCHE]],
     stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
     version: 2
+  },
+  WAVAX_BUSD_V2: {
+    tokens: [WAVAX[ChainId.AVALANCHE], TOKENS.BUSD[ChainId.AVALANCHE]],
+    stakingRewardAddress: MINICHEF_ADDRESS[ChainId.AVALANCHE],
+    version: 2
   }
 }
 
