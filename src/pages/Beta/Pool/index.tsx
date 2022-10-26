@@ -110,7 +110,7 @@ const PoolUI = () => {
     return (miniChefStakingInfo || onChainMiniChefStakingInfo || []).filter(
       (item: MinichefStakingInfo) => (item?.rewardTokensAddress?.length || 0) > 1
     )
-  }, [miniChefStakingInfo])
+  }, [miniChefStakingInfo, onChainMiniChefStakingInfo, pangoChefStakingInfos, pangoChefStakingLength])
 
   // here if farm is not avaialble your pool menu default active
   useEffect(() => {
