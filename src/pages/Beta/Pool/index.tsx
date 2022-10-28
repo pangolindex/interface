@@ -12,7 +12,7 @@ import {
   DoubleSideStakingInfo,
   PoolType,
   useParsedQueryString,
-  usePangoChefInfos
+  usePangoChefInfosHook
 } from '@pangolindex/components'
 import { PageWrapper, GridContainer, ExternalLink } from './styleds'
 import { useStakingInfoHook } from 'src/state/stake/multiChainsHooks'
@@ -45,7 +45,7 @@ const PoolUI = () => {
   const useGetAllFarmData = useGetAllFarmDataHook[chainId]
 
   useGetAllFarmData()
-  const pangoChefStakingInfos = usePangoChefInfos()
+  const pangoChefStakingInfos = usePangoChefInfosHook[chainId]()
   const subgraphMiniChefStakingInfo = useGetMinichefStakingInfosViaSubgraphHook[chainId]()
   const onChainMiniChefStakingInfo = useMinichefStakingInfosHook[chainId]()
 

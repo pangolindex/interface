@@ -26,7 +26,7 @@ export const useStakingInfoHook: UseStakingInfoHookType = {
   [ChainId.WAGMI]: useStakingInfo,
   [ChainId.COSTON]: useStakingInfo,
   [ChainId.SONGBIRD]: useStakingInfo,
-  [ChainId.HEDERA_TESTNET]: useStakingInfo,
+  [ChainId.HEDERA_TESTNET]: useDummyStakingInfo,
   [ChainId.NEAR_MAINNET]: useDummyStakingInfo,
   [ChainId.NEAR_TESTNET]: useDummyStakingInfo
 }
