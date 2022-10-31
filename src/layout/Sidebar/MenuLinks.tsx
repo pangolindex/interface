@@ -93,9 +93,9 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
   ]
 
   // for now, for non evm chain, hide all other menus except dashboard and swap
-  // if (!chain.evm) { // TODO-1
-  //   mainLinks.splice(4)
-  // }
+  if (!chain.evm) {
+    mainLinks.splice(4)
+  }
 
   if (!VOTE_PAGE_ACCESS[chainId]) {
     const votePageIndex = mainLinks.findIndex(element => element?.id === 'vote')

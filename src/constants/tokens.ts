@@ -40,7 +40,7 @@ export const PNG: { [chainId in ChainId]: Token } = {
   ),
   [ChainId.HEDERA_TESTNET]: new Token(
     ChainId.HEDERA_TESTNET,
-    CHAINS[ChainId.HEDERA_TESTNET].contracts!.png,
+    '0x0000000000000000000000000000000002DfA5b2',
     18,
     CHAINS[ChainId.HEDERA_TESTNET].png_symbol,
     'Songbird Pangolin'
@@ -2352,6 +2352,7 @@ export const XETA: { [chainId in ChainId]: Token } = {
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 18, 'XETA', 'XETA'),
   [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, 'XETA', 'XETA'),
   [ChainId.SONGBIRD]: new Token(ChainId.SONGBIRD, ZERO_ADDRESS, 18, 'XETA', 'XETA'),
+  [ChainId.HEDERA_TESTNET]: new Token(ChainId.HEDERA_TESTNET, ZERO_ADDRESS, 18, 'XETA', 'XETA'),
   [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 18, 'XETA', 'XETA'),
   [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 18, 'XETA', 'XETA')
 }
