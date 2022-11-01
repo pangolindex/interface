@@ -4,7 +4,6 @@ import { Contract } from '@ethersproject/contracts'
 import { useEffect, useMemo } from 'react'
 import { useDispatch } from 'src/state'
 import { useActiveWeb3React } from '../../hooks'
-import { useBlockNumber } from '../application/hooks'
 import { AppState, useSelector } from '../index'
 import {
   addMulticallListeners,
@@ -14,6 +13,7 @@ import {
   toCallKey,
   ListenerOptions
 } from './actions'
+import { useBlockNumber } from '@pangolindex/components'
 
 export interface Result extends ReadonlyArray<any> {
   readonly [key: string]: any
