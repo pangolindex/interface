@@ -323,10 +323,6 @@ export function betaColors(darkMode: boolean): BetaColors {
     dropdown: {
       color: darkMode ? white : black,
       primaryBgColor: darkMode ? darkGunmetal : white
-    },
-    chainInput: {
-      text: darkMode ? white : black,
-      primaryBgColor: darkMode ? chineseBlack : ghostWhite
     }
   }
 }
