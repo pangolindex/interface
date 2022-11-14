@@ -6,7 +6,6 @@ import { useMulticallContract } from '../../hooks/useContract'
 import useDebounce from '../../hooks/useDebounce'
 import chunkArray from '../../utils/chunkArray'
 import { CancelledError, retry, RetryableError } from '../../utils/retry'
-import { useBlockNumber } from '../application/hooks'
 import { AppState, useSelector } from '../index'
 import {
   Call,
@@ -15,6 +14,7 @@ import {
   parseCallKey,
   updateMulticallResults
 } from './actions'
+import { useBlockNumber } from '@pangolindex/components'
 
 // chunk calls so we do not exceed the gas limit
 const CALL_CHUNK_SIZE = 500
