@@ -11,7 +11,6 @@ import { NetworkContextName, PangolinProvider, useLibrary, fetchMinichefData } f
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
 import App from './pages/App'
-import ApplicationUpdater from './state/application/updater'
 import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
@@ -77,7 +76,6 @@ function Updaters() {
     <>
       <ListsUpdater />
       <UserUpdater />
-      <ApplicationUpdater />
       <TransactionUpdater />
       <MulticallUpdater />
     </>
