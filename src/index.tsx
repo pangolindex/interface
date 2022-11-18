@@ -100,19 +100,6 @@ const ComponentThemeProvider = () => {
     }
   }, [account, chainId])
 
-  useEffect(() => {
-    if (window.pendo) {
-      window.pendo.initialize({
-        visitor: {
-          id: account || ''
-        },
-        account: {
-          id: account || ''
-        }
-      })
-    }
-  }, [account])
-
   return (
     <PangolinProvider library={library} chainId={chainId} account={account ?? undefined} theme={theme as any}>
       <QueryClientProvider client={queryClient}>
