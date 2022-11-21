@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { BlackCard } from '../../components/Card'
-import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg'
 import { Text } from 'rebass'
 
 export const HeaderFrame = styled.div`
@@ -54,25 +53,6 @@ export const HeaderControls = styled.div`
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;
-  `};
-`
-
-export const FooterMobileControls = styled.div`
-  display: none;
-
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    flex-direction: row;
-    display: flex;
-    width: 100%
-    justify-content: flex-end;
-    justify-self: center;
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    z-index: 99;
-    height: 72px;
-    border-radius: 12px 12px 0 0;
-    background-color: ${theme.bg1};
   `};
 `
 
@@ -134,6 +114,7 @@ export const NetworkCard = styled(BlackCard)`
   border-radius: 12px;
   padding: 8px 12px;
   cursor: pointer;
+  width: max-content;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: 0;
     margin-right: 0.5rem;
@@ -182,13 +163,6 @@ export const MobileHeaderFrame = styled.div`
   flex-direction: row;
   display: flex;
   align-items: center;
-`
-
-export const StyledMenuIcon = styled(MenuIcon)`
-  cursor: pointer;
-  path {
-    stroke: ${({ theme }) => theme.text1};
-  }
 `
 
 export const MobileLogoWrapper = styled.div`

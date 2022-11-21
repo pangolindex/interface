@@ -4,9 +4,8 @@ import { ArrowLeft } from 'react-feather'
 import { DateTime } from 'luxon'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { useTranslation } from 'react-i18next'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
-import { Text, Box, Loader } from '@pangolindex/components'
+import { Text, Box, Loader, useTranslation, useTokenBalance, getEtherscanLink } from '@pangolindex/components'
 import {
   PageWrapper,
   CardWrapper,
@@ -16,22 +15,21 @@ import {
   WrapSmall,
   ProgressWrapper,
   Progress,
+  ProposalStatus,
   DetailText,
   MarkDownWrapper
 } from './styleds'
-import { ProposalStatus } from 'src/pages/Vote/styled'
 import { RowFixed, RowBetween } from 'src/components/Row'
 import { AutoColumn } from 'src/components/Column'
 import { CardSection } from 'src/components/earn/styled'
 import { ButtonPrimary } from 'src/components/Button'
 import VoteModal from 'src/components/vote/VoteModal'
 import { useGetProposalDetail, useUserVotes, useUserDelegatee, ProposalData } from 'src/state/governance/hooks'
-import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { ExternalLink } from 'src/theme'
 import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
-import { isAddress, getEtherscanLink } from 'src/utils'
+import { isAddress } from 'src/utils'
 
 export interface GovernanceDetailProps {
   id: string
@@ -189,7 +187,7 @@ export default function GovernanceDetail() {
             </CardSection>
           </StyledDataCard>
         </CardWrapper>
-        <StyledDataCard style={{ borderRadius: '0px' }}>
+        <StyledDataCard style={{ borderRadius: '12px' }}>
           <CardSection style={{ padding: '25px 30px', display: 'block' }}>
             <AutoColumn gap="md">
               <Text fontWeight={800} fontSize={22} lineHeight="33px" color="text1">

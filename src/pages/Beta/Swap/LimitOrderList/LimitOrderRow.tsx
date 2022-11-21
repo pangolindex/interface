@@ -1,6 +1,5 @@
 import React from 'react'
-import { Text, Box, useGelatoLimitOrderDetail, LimitOrderInfo } from '@pangolindex/components'
-import { useTranslation } from 'react-i18next'
+import { Text, Box, useGelatoLimitOrderDetail, LimitOrderInfo, useTranslation } from '@pangolindex/components'
 import { DesktopRowWrapper } from './styleds'
 
 type Props = {

@@ -12,15 +12,13 @@ import {
 } from './styled'
 import { MenuLinks } from '../../Sidebar/MenuLinks'
 import SocialMedia from 'src/layout/SocialMedia'
-import { Box, Text } from '@pangolindex/components'
+import { Box, Text, useTranslation } from '@pangolindex/components'
 import { Scrollbars } from 'react-custom-scrollbars'
 import Logout from 'src/assets/svg/menu/logout.svg'
 import { useDarkModeManager } from 'src/state/user/hooks'
 import LanguageSelection from 'src/components/LanguageSelection'
 import { MobileHeader } from '../MobileHeader'
 import Footer from 'src/layout/Footer'
-import { useTranslation } from 'react-i18next'
-import MobileWeb3Status from './MobileWeb3Status'
 import TransactionModal from './TransactionModal'
 import Modal from 'src/components/Beta/Modal'
 import { LEGACY_PAGE } from 'src/constants'
@@ -48,9 +46,6 @@ const MobileMenu: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => 
         <Box display="flex" flexDirection="column" padding="15px">
           <Line />
           <Items>
-            <Box width="100%">
-              <MobileWeb3Status />
-            </Box>
             <Wrapper width="100%" justifyContent="center">
               <TransactionButton onClick={() => setOpenTransactions(true)}>
                 <Box width="20px" height="20px">

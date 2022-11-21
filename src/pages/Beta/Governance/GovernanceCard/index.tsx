@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '@pangolindex/components'
 import { Card, CardTitle, CardButtons, DetailsButton, VoteButton, Title, Number } from './styleds'
 import { StyledInternalLink, colors } from 'src/theme'
 import { useDarkModeManager } from 'src/state/user/hooks'
@@ -26,7 +26,7 @@ const GovernanceCard = ({ id, title, to, status }: GovernanceCardProps) => {
   const [isDark] = useDarkModeManager()
 
   const bgColors = {
-    vote: colors(isDark).color11,
+    vote: colors(isDark).colorBeta11,
     executed: colors(isDark).green2Gradient,
     defeated: colors(isDark).red3Gradient
   }

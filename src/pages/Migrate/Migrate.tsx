@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import {
+  Dots,
   PageWrapper,
   ResponsiveButtonPrimary,
   ResponsiveButtonOutline,
@@ -16,14 +17,11 @@ import {
 import { Pair } from '@pangolindex/sdk'
 import { useParams } from 'react-router-dom'
 import { useActiveWeb3React } from '../../hooks'
-import { Dots } from '../../components/swap/styleds'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box, useTranslation, StakingInfo } from '@pangolindex/components'
 import MigrationCard from '../../components/MigrationCard'
-import { useTranslation } from 'react-i18next'
 import MigrationModal from '../../components/MigrationModal'
 import { useMigrationModalToggle } from '../../state/application/hooks'
 import { useGetMigrationData } from '../../state/migrate/hooks'
-import { StakingInfo } from '../../state/stake/hooks'
 import MigrationVector from '../../assets/images/migration_vector.png'
 import Stake from '../../assets/svg/stake.svg'
 import Unstake from '../../assets/svg/unstake.svg'

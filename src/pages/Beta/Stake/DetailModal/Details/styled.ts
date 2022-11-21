@@ -9,4 +9,7 @@ export const DetailsContainer = styled(Box)`
   flex: 1;
   display: flex;
   flex-direction: column;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    border-radius: 0 10px 10px 10px;
+`};
 `

@@ -1,12 +1,10 @@
-import { Box, DoubleCurrencyLogo, Text, CurrencyLogo } from '@pangolindex/components'
+import { Box, DoubleCurrencyLogo, Text, CurrencyLogo, useTranslation, Stat } from '@pangolindex/components'
 import React, { useContext } from 'react'
 import { JSBI } from '@pangolindex/sdk'
-import Stat from 'src/components/Stat'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { ThemeContext } from 'styled-components'
-import { HeaderRoot, StatsWrapper, HeaderWrapper } from './styled'
-import { useTranslation } from 'react-i18next'
+import { HeaderRoot, StatsWrapper, HeaderWrapper, PoolRewardsWrapper } from './styled'
 import { CloseIcon, Hidden, Visible } from 'src/theme'
 import { useChainId } from 'src/hooks'
 
@@ -43,15 +41,15 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
       </HeaderWrapper>
 
       <StatsWrapper isStake={stakingInfo.stakedAmount.greaterThan('0')}>
-        <Box display="inline-block">
+        <PoolRewardsWrapper>
           <Text color="text2" fontSize={[14, 12]}>
             {t('earn.poolRewards')}
           </Text>
 
-          <Box display="flex" alignItems="center" mt="10px">
+          <Box display="flex" alignItems="center" mt="8px">
             <CurrencyLogo currency={currency1} size={24} imageSize={48} />
           </Box>
-        </Box>
+        </PoolRewardsWrapper>
 
         <Stat
           title={`APR`}

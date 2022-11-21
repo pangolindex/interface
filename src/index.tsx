@@ -7,23 +7,20 @@ import ReactGA from 'react-ga'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { NetworkContextName, PangolinProvider, useLibrary } from '@pangolindex/components'
+import { NetworkContextName, PangolinProvider, useLibrary, fetchMinichefData } from '@pangolindex/components'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
-import './i18n'
 import App from './pages/App'
-import ApplicationUpdater from './state/application/updater'
 import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
-import store from './state'
+import store, { InterfaceContext } from './state'
 import UserUpdater from './state/user/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React, useChainId } from './hooks'
 import Package from '../package.json'
-import { fetchMinichefData } from './state/stake/hooks'
 import { ChainId } from '@pangolindex/sdk'
 
 try {
@@ -65,14 +62,20 @@ window.addEventListener('error', error => {
   })
 })
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 1000 * 60,
+      refetchOnWindowFocus: false
+    }
+  }
+})
 
 function Updaters() {
   return (
     <>
       <ListsUpdater />
       <UserUpdater />
-      <ApplicationUpdater />
       <TransactionUpdater />
       <MulticallUpdater />
     </>
@@ -98,14 +101,13 @@ const ComponentThemeProvider = () => {
   }, [account, chainId])
 
   useEffect(() => {
-    if (window.pendo && account) {
+    if (window.pendo) {
       window.pendo.initialize({
         visitor: {
-          id: account
+          id: account || ''
         },
-
         account: {
-          id: account
+          id: account || ''
         }
       })
     }
@@ -113,11 +115,14 @@ const ComponentThemeProvider = () => {
 
   return (
     <PangolinProvider library={library} chainId={chainId} account={account ?? undefined} theme={theme as any}>
-      <FixedGlobalStyle />
-      <ThemedGlobalStyle />
-      <HashRouter>
-        <App />
-      </HashRouter>
+      <QueryClientProvider client={queryClient}>
+        <Updaters />
+        <FixedGlobalStyle />
+        <ThemedGlobalStyle />
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </QueryClientProvider>
     </PangolinProvider>
   )
 }
@@ -126,13 +131,10 @@ ReactDOM.render(
   <StrictMode>
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
-        <Provider store={store}>
-          <QueryClientProvider client={queryClient}>
-            <Updaters />
-            <ThemeProvider>
-              <ComponentThemeProvider />
-            </ThemeProvider>
-          </QueryClientProvider>
+        <Provider store={store} context={InterfaceContext}>
+          <ThemeProvider>
+            <ComponentThemeProvider />
+          </ThemeProvider>
         </Provider>
       </Web3ProviderNetwork>
     </Web3ReactProvider>

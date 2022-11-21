@@ -10,11 +10,14 @@ interface Window {
   WalletLinkProvider?: any
   walletLinkExtension?: any
   xfi?: any
+  bitkeep?: any
+  isBitKeep?: true
   ethereum?: {
     isCoinbaseWallet?: boolean
     isMetaMask?: true
     isXDEFI?: true
     isRabby?: true
+    isTalisman?: true
     on?: (...args: any[]) => void
     removeListener?: (...args: any[]) => void
     request: (...args: any[]) => Promise<any>

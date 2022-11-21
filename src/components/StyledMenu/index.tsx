@@ -1,6 +1,4 @@
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
-import { ExternalLink } from '../../theme'
 
 export const StyledMenuButton = styled.button`
   position: relative;
@@ -50,32 +48,4 @@ export const MenuFlyout = styled.span`
   top: 4rem;
   right: 0rem;
   z-index: 100;
-`
-
-export const MenuItem = styled(ExternalLink)`
-  flex: 1;
-  padding: 0.5rem 0.5rem;
-  color: ${({ theme }) => theme.text2};
-  :hover {
-    color: ${({ theme }) => theme.text1};
-    cursor: pointer;
-    text-decoration: none;
-  }
-  > svg {
-    margin-right: 8px;
-  }
-`
-export const MenuNavItem = styled(NavLink)`
-  flex: 1;
-  padding: 0.5rem 0.5rem;
-  color: ${({ theme }) => theme.text2};
-  text-decoration: none;
-  :hover {
-    color: ${({ theme }) => theme.text1};
-    cursor: pointer;
-    text-decoration: none;
-  }
-  > svg {
-    margin-right: 8px;
-  }
 `

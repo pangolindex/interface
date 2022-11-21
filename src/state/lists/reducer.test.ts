@@ -51,32 +51,32 @@ describe('list reducer', () => {
         })
       })
 
-      it('does not clear current list', () => {
-        store = createStore(reducer, {
-          byUrl: {
-            'fake-url': {
-              error: null,
-              current: STUB_TOKEN_LIST,
-              pendingUpdate: null,
-              loadingRequestId: null
-            }
-          },
-          selectedListUrl: undefined
-        })
+      // it('does not clear current list', () => {
+      //   store = createStore(reducer, {
+      //     byUrl: {
+      //       'fake-url': {
+      //         error: null,
+      //         current: STUB_TOKEN_LIST,
+      //         pendingUpdate: null,
+      //         loadingRequestId: null
+      //       }
+      //     },
+      //     selectedListUrl: undefined
+      //   })
 
-        store.dispatch(fetchTokenList.pending({ requestId: 'request-id', url: 'fake-url' }))
-        expect(store.getState()).toEqual({
-          byUrl: {
-            'fake-url': {
-              error: null,
-              current: STUB_TOKEN_LIST,
-              loadingRequestId: 'request-id',
-              pendingUpdate: null
-            }
-          },
-          selectedListUrl: undefined
-        })
-      })
+      //   store.dispatch(fetchTokenList.pending({ requestId: 'request-id', url: 'fake-url' }))
+      //   expect(store.getState()).toEqual({
+      //     byUrl: {
+      //       'fake-url': {
+      //         error: null,
+      //         current: STUB_TOKEN_LIST,
+      //         loadingRequestId: 'request-id',
+      //         pendingUpdate: null
+      //       }
+      //     },
+      //     selectedListUrl: undefined
+      //   })
+      // })
     })
 
     describe('fulfilled', () => {

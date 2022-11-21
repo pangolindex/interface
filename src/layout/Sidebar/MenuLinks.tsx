@@ -1,15 +1,17 @@
 import React, { useContext } from 'react'
-import { useTranslation } from 'react-i18next'
 import { MENU_LINK } from 'src/constants'
 import { ThemeContext } from 'styled-components'
 import { Menu, MenuItem, MenuLink, MenuName, MenuExternalLink, MenuWrapper } from './styled'
-import { Box, Text } from '@pangolindex/components'
+import { Box, existSarContract, Text, useTranslation } from '@pangolindex/components'
 import { Dashboard, Swap, Stake, Pool, Buy, Vote, Airdrop } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import { ANALYTICS_PAGE } from '../../constants'
 import Bridge from '../../assets/svg/menu/bridge.svg'
 import Governance from '../../assets/svg/menu/governance.svg'
 import { useLocation } from 'react-router-dom'
+import { useChainId } from 'src/hooks'
+import { CHAINS } from '@pangolindex/sdk'
+import { VOTE_PAGE_ACCESS } from 'src/constants/accessPermissions'
 
 interface Props {
   collapsed?: boolean
@@ -26,6 +28,8 @@ interface Link {
 export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
+  const chainId = useChainId()
+  const chain = CHAINS[chainId]
 
   const location: any = useLocation()
 
@@ -63,9 +67,15 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       icon: Stake,
       title: t('header.stake'),
       id: 'stake',
-      isActive: location?.pathname?.startsWith(MENU_LINK.stake)
+      isActive: location?.pathname?.startsWith(`${MENU_LINK.stake}/`)
     },
-
+    {
+      link: MENU_LINK.stakev2,
+      icon: Stake,
+      title: `${t('header.stake')}`,
+      id: 'stakev2',
+      isActive: location?.pathname?.startsWith(MENU_LINK.stakev2)
+    },
     {
       link: MENU_LINK.vote,
       icon: Vote,
@@ -81,6 +91,25 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       isActive: location?.pathname?.startsWith(MENU_LINK.airdrop)
     }
   ]
+
+  // for now, for non evm chain, hide all other menus except dashboard and swap
+  if (!chain.evm) {
+    mainLinks.splice(4)
+  }
+
+  if (!VOTE_PAGE_ACCESS[chainId]) {
+    const votePageIndex = mainLinks.findIndex(element => element?.id === 'vote')
+    mainLinks.splice(votePageIndex, 1)
+  }
+
+  // remove stakvev2 if not exist sar contract
+  if (!existSarContract(chainId)) {
+    const stakeV2PageIndex = mainLinks.findIndex(element => element?.id === 'stakev2')
+    mainLinks.splice(stakeV2PageIndex, 1)
+  } else {
+    const stakePageIndex = mainLinks.findIndex(element => element?.id === 'stake')
+    mainLinks.splice(stakePageIndex, 1)
+  }
 
   const pangolinLinks = [
     {

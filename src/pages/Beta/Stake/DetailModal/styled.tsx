@@ -4,7 +4,7 @@ import styled from 'styled-components'
 export const DesktopWrapper = styled(Box)`
   width: 1080px;
   overflow: auto;
-
+  border-radius: 10px;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;
   `};

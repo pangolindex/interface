@@ -1,11 +1,9 @@
 import React, { useContext } from 'react'
 import { PanelWrapper, MobileStat } from './styleds'
-import { Text, Box, DoubleCurrencyLogo, useUSDCPrice } from '@pangolindex/components'
-import Stat from 'src/components/Stat'
+import { Text, Box, DoubleCurrencyLogo, useUSDCPrice, useTranslation, Stat } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 import { Pair, Currency, Token } from '@pangolindex/sdk'
 import { useAllPairChartData, useAllPairTokensChartData } from 'src/state/pair/hooks'
-import { useTranslation } from 'react-i18next'
 
 type Props = { pair?: Pair | null; inputCurrency?: Currency; outputCurrency?: Currency; tokenB?: Token; tokenA?: Token }
 
@@ -48,12 +46,12 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
       <MobileStat>
         <Box display="flex" alignItems="center">
           <DoubleCurrencyLogo size={24} currency0={inputCurrency} currency1={outputCurrency} />
-          <Text color="text1" fontSize={20} fontWeight={500} lineHeight="55px" marginLeft={10}>
+          <Text color="text1" fontSize={16} fontWeight={500} lineHeight="55px" marginLeft={10}>
             {inputCurrency?.symbol}/{outputCurrency?.symbol}
           </Text>
         </Box>
 
-        <Stat stat={`${Pair0UsdcPrice ? Pair0UsdcPrice?.toFixed(4) : '-'}`} statFontSize={20} />
+        <Stat stat={`${Pair0UsdcPrice ? Pair0UsdcPrice?.toFixed(4) : '-'}`} statFontSize={16} />
       </MobileStat>
 
       <PanelWrapper>
@@ -66,7 +64,7 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
           minWidth={270}
         >
           <DoubleCurrencyLogo size={24} currency0={inputCurrency} currency1={outputCurrency} />
-          <Text color="text1" fontSize={20} fontWeight={500} lineHeight="55px" marginLeft={10}>
+          <Text color="text1" fontSize={16} fontWeight={500} lineHeight="55px" marginLeft={10}>
             {inputCurrency?.symbol}/{outputCurrency?.symbol}
           </Text>
         </Box>
@@ -75,8 +73,8 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             title={`${inputCurrency?.symbol} ${t('swap.price')}`}
             stat={`$${inputUsdcPrice ? inputUsdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}`}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={20}
+            titleFontSize={14}
+            statFontSize={16}
             titleColor="text2"
           />
         </Box>
@@ -86,8 +84,8 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             title={`${outputCurrency?.symbol} ${t('swap.price')}`}
             stat={`$${outputUsdcPrice ? outputUsdcPrice?.toSignificant(4, { groupSeparator: ',' }) : '-'}`}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={20}
+            titleFontSize={14}
+            statFontSize={16}
             titleColor="text2"
           />
         </Box>
@@ -97,8 +95,8 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             title={`${inputCurrency?.symbol}/${outputCurrency?.symbol}`}
             stat={`${Pair0UsdcPrice ? Pair0UsdcPrice?.toFixed(4) : '-'}`}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={20}
+            titleFontSize={14}
+            statFontSize={16}
             titleColor="text2"
           />
         </Box>
@@ -108,8 +106,8 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             title={`${outputCurrency?.symbol}/${inputCurrency?.symbol}`}
             stat={`${Pair1UsdcPrice ? Pair1UsdcPrice?.toFixed(4) : '-'}`}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={20}
+            titleFontSize={14}
+            statFontSize={16}
             titleColor="text2"
           />
         </Box>
@@ -119,8 +117,8 @@ const PairStat: React.FC<Props> = ({ pair, inputCurrency, outputCurrency, tokenA
             title={`24H ${t('accountDetails.change')}`}
             stat={perc ? `${perc.toFixed(3)}%` : '-'}
             titlePosition="top"
-            titleFontSize={16}
-            statFontSize={20}
+            titleFontSize={14}
+            statFontSize={16}
             titleColor="text2"
           />
         </Box>

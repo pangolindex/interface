@@ -1,79 +1,148 @@
 import { TransactionResponse } from '@ethersproject/providers'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
-import { useAirdropContract } from '../../hooks/useContract'
-import { calculateGasMargin } from '../../utils'
+import { useChainId, usePngSymbol } from 'src/hooks'
+import { useMerkledropContract } from '../../hooks/useContract'
+import { calculateGasMargin, waitForTransaction } from '../../utils'
 import { useTransactionAdder } from '../transactions/hooks'
-import { TokenAmount, JSBI } from '@pangolindex/sdk'
+import { AirdropType, TokenAmount } from '@pangolindex/sdk'
 import { PNG } from '../../constants/tokens'
 import { useSingleCallResult } from '../multicall/hooks'
 import { useLibrary } from '@pangolindex/components'
+import { ZERO_ADDRESS } from 'src/constants'
+import { useQuery } from 'react-query'
+import axios from 'axios'
+import { useMemo, useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
 
-export function useAirdropIsClaimingAllowed(): boolean {
-  const airdropContract = useAirdropContract()
-  const claimingAllowedResult = useSingleCallResult(airdropContract, 'claimingAllowed', [])
-
-  return Boolean(
-    !claimingAllowedResult.loading &&
-      claimingAllowedResult.result !== undefined &&
-      claimingAllowedResult.result[0] === true
-  ) // eslint-disable-line eqeqeq
-}
-
-export function useUserHasAvailableClaim(account: string | null | undefined): boolean {
-  const airdropContract = useAirdropContract()
-  const withdrawAmountResult = useSingleCallResult(airdropContract, 'withdrawAmount', [account ? account : undefined])
-  return Boolean(
-    account &&
-      !withdrawAmountResult.loading &&
-      withdrawAmountResult.result !== undefined &&
-      !JSBI.equal(JSBI.BigInt(withdrawAmountResult.result?.[0]), JSBI.BigInt(0))
-  ) // eslint-disable-line eqeqeq
-}
-
-export function useUserUnclaimedAmount(account: string | null | undefined): TokenAmount | undefined {
-  const { chainId } = useActiveWeb3React()
-
-  const canClaim = useUserHasAvailableClaim(account)
-  const airdropContract = useAirdropContract()
-  const withdrawAmountResult = useSingleCallResult(airdropContract, 'withdrawAmount', [account ? account : undefined])
-
-  const png = chainId ? PNG[chainId] : undefined
-  if (!png) return undefined
-  if (!canClaim) {
-    return new TokenAmount(png, JSBI.BigInt(0))
-  }
-  return new TokenAmount(png, JSBI.BigInt(withdrawAmountResult.result?.[0]))
-}
-
-export function useClaimCallback(
-  account: string | null | undefined
-): {
-  claimCallback: () => Promise<string>
-} {
+export function useMerkledropClaimedAmounts(airdropAddress: string) {
+  const { account } = useWeb3React()
   const chainId = useChainId()
-  const { library } = useLibrary()
+
+  const merkledropContract = useMerkledropContract(airdropAddress, AirdropType.MERKLE)
+  const claimedAmountsState = useSingleCallResult(merkledropContract, 'claimedAmounts', [account ?? ZERO_ADDRESS])
+
+  return useMemo(() => {
+    if (!account) {
+      return new TokenAmount(PNG[chainId], '0')
+    }
+    return new TokenAmount(PNG[chainId], claimedAmountsState.result?.[0]?.toString() || '0')
+  }, [chainId, account, claimedAmountsState])
+}
+
+export function useMerkledropProof(airdropAddress: string) {
+  const { account } = useWeb3React()
+  const chainId = useChainId()
+
+  return useQuery(
+    ['MerkledropProof', account, chainId, airdropAddress],
+    async () => {
+      if (!account)
+        return {
+          amount: new TokenAmount(PNG[chainId], '0'),
+          proof: [],
+          root: ''
+        }
+
+      try {
+        const response = await axios.get(
+          `https://static.pangolin.exchange/merkle-drop/${chainId}/${airdropAddress.toLocaleLowerCase()}/${account.toLocaleLowerCase()}.json`
+        )
+        if (response.status !== 200) {
+          return {
+            amount: new TokenAmount(PNG[chainId], '0'),
+            proof: [],
+            root: ''
+          }
+        }
+        const data = response.data
+        return {
+          amount: new TokenAmount(PNG[chainId], data.amount),
+          proof: data.proof as string[],
+          root: data.root as string
+        }
+      } catch (error) {
+        return {
+          amount: new TokenAmount(PNG[chainId], '0'),
+          proof: [],
+          root: ''
+        }
+      }
+    },
+    {
+      cacheTime: 1000 * 60 * 60 * 1, // 1 hour
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 60 * 1 // 1 hour
+    }
+  )
+}
+
+export function useClaimAirdrop(airdropAddress: string, airdropType: AirdropType) {
+  const { account } = useWeb3React()
+  const { library, provider } = useLibrary()
+  const pngSymbol = usePngSymbol()
+
+  const merkledropContract = useMerkledropContract(airdropAddress, airdropType)
+  const { data } = useMerkledropProof(airdropAddress)
+
+  const [hash, setHash] = useState<string | null>(null)
+  const [attempting, setAttempting] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
+
   const addTransaction = useTransactionAdder()
-  const airdropContract = useAirdropContract()
 
-  const claimCallback = async function() {
-    if (!account || !library || !chainId || !airdropContract) return
-
-    return airdropContract.estimateGas['claim']({}).then(estimatedGasLimit => {
-      return airdropContract
-        .claim({ value: null, gasLimit: calculateGasMargin(estimatedGasLimit) })
-        .then((response: TransactionResponse) => {
-          addTransaction(response, {
-            summary: `Claimed PNG`,
-            claim: { recipient: account }
-          })
-          return response.hash
-        })
-        .catch((error: any) => {
-          console.log(error)
-          return ''
-        })
-    })
+  const onDimiss = () => {
+    setHash(null)
+    setAttempting(false)
+    setError(null)
   }
 
-  return { claimCallback }
+  const onClaim = async () => {
+    if (!merkledropContract || !data || data.proof.length === 0 || !account) return
+    setAttempting(true)
+    try {
+      const args = airdropType === AirdropType.LEGACY ? [] : [data.amount.raw.toString(), data.proof]
+      let summary = `Claimed ${pngSymbol}`
+
+      if (airdropType === AirdropType.MERKLE_TO_STAKING_COMPLIANT) {
+        summary += ' and deposited in the SAR'
+
+        const message = `By signing this transaction, I hereby acknowledge that I am not a US resident or citizen. (Citizens or residents of the United States of America are not allowed to the ${pngSymbol} token airdrop due to applicable law.)`
+        let signature = await provider?.execute('personal_sign', [message, account])
+
+        const v = parseInt(signature.slice(130, 132), 16)
+
+        // Ensure v is 27+ (generally 27|28)
+        // Ledger and perhaps other signing methods utilize a 'v' of 0|1 instead of 27|28
+        if (v < 27) {
+          const vAdjusted = v + 27
+          console.log(`Adjusting ECDSA 'v' from ${v} to ${vAdjusted}`)
+          signature = signature.slice(0, -2).concat(vAdjusted.toString(16))
+        }
+
+        args.push(signature)
+      }
+
+      const estimedGas = await merkledropContract.estimateGas.claim(...args)
+      const response: TransactionResponse = await merkledropContract.claim(...args, {
+        gasLimit: calculateGasMargin(estimedGas)
+      })
+      await waitForTransaction(library, response, 3)
+
+      addTransaction(response, {
+        summary: summary,
+        claim: { recipient: account }
+      })
+      setHash(response.hash)
+    } catch (err) {
+      // we only care if the error is something _other_ than the user rejected the tx
+      const _err = err as any
+      if (_err?.code !== 4001) {
+        console.error(_err)
+        setError(_err.message)
+      }
+    } finally {
+      setAttempting(false)
+    }
+  }
+
+  return { onClaim, onDimiss, hash, attempting, error }
 }

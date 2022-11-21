@@ -1,14 +1,14 @@
 import React, { useState, useCallback } from 'react'
 import { SidebarWrapper, Menu, MenuLink, MenuName, MenuItem, Circle } from './styleds'
-import { Text, Box } from '@pangolindex/components'
-import { useTranslation } from 'react-i18next'
-import PoolImportModal from '../PoolImportModal'
+import { Text, Box, useTranslation, PoolImportModal } from '@pangolindex/components'
 
 export enum MenuType {
   allFarmV1 = 'allFarmV1',
   allFarmV2 = 'allFarmV2',
+  allFarmV3 = 'allFarmV3',
   yourFarmV1 = 'yourFarmV1',
   yourFarmV2 = 'yourFarmV2',
+  yourFarmV3 = 'yourFarmV3',
   superFarm = 'superFarm',
   yourPool = 'your-pool'
 }

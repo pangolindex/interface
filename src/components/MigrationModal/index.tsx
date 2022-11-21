@@ -5,7 +5,7 @@ import { Wrapper } from './styleds'
 import Modal from '../Modal'
 import StepView from './StepView'
 import { Pair } from '@pangolindex/sdk'
-import { StakingInfo } from '../../state/stake/hooks'
+import { StakingInfo } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 
 export interface MigrationModalProps {

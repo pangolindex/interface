@@ -1,7 +1,6 @@
-import { Button, NetworkSelection, useAccountBalanceHook } from '@pangolindex/components'
+import { Button, NetworkSelection, useAccountBalanceHook, useTranslation } from '@pangolindex/components'
 import React, { useState, useRef, useMemo } from 'react'
 import { useActiveWeb3React } from '../../hooks'
-import { CardNoise } from '../../components/earn/styled'
 import Web3Status from '../../components/Web3Status'
 import Modal from '../../components/Modal'
 import PngBalanceContent from './PngBalanceContent'
@@ -25,12 +24,12 @@ import {
   ThemeMode,
   LegacyButtonWrapper
 } from './styled'
-import { useTranslation } from 'react-i18next'
 import { Hidden, MEDIA_WIDTHS } from 'src/theme'
 import { useChainId } from 'src/hooks'
 import { LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
+import { CHAINS } from '@pangolindex/sdk'
 
 interface Props {
   activeMobileMenu: boolean
@@ -92,9 +91,8 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
             </Hidden>
             <PNGWrapper onClick={() => setShowPngBalanceModal(true)}>
               <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
-                PNG
+                {CHAINS[chainId].png_symbol}
               </PNGAmount>
-              <CardNoise />
             </PNGWrapper>
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
               {account && userEthBalance ? (

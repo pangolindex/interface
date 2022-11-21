@@ -1,6 +1,13 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { Text, Loader, Box, shortenAddress } from '@pangolindex/components'
+import {
+  Text,
+  Loader,
+  Box,
+  shortenAddress,
+  useTranslation,
+  useTokenBalance,
+  getEtherscanLink
+} from '@pangolindex/components'
 import {
   PageWrapper,
   PageTitle,
@@ -16,12 +23,10 @@ import {
 import GovernanceCard, { ProposalStates } from './GovernanceCard'
 import { useGetProposalsViaSubgraph, ProposalData, useUserVotes, useUserDelegatee } from 'src/state/governance/hooks'
 import DelegateModal from 'src/components/vote/DelegateModal'
-import { useTokenBalance } from 'src/state/wallet/hooks'
 import { useActiveWeb3React, useChain, useChainId, usePngSymbol } from 'src/hooks'
 import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { PNG } from 'src/constants/tokens'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
-import { getEtherscanLink } from 'src/utils'
 import FormattedCurrencyAmount from 'src/components/FormattedCurrencyAmount'
 import { TYPE } from 'src/theme'
 import { RowBetween, RowFixed } from 'src/components/Row'

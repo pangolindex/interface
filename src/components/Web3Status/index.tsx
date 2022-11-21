@@ -11,20 +11,22 @@ import {
   NetworkContextName,
   near,
   shortenAddress,
-  useAllTransactions as useAllTransactionsComponents
+  useAllTransactions as useAllTransactionsComponents,
+  useTranslation,
+  hashConnect
 } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken } from 'polished'
 import React, { useMemo, useContext, useCallback } from 'react'
 import { Activity } from 'react-feather'
-import { useTranslation } from 'react-i18next'
 import styled, { ThemeContext } from 'styled-components'
-import CoinbaseWalletIcon from 'src/assets/images/coinbaseWalletIcon.svg'
+import CoinbaseWalletIcon from 'src/assets/svg/coinbaseWalletIcon.svg'
 import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
-import WalletConnectIcon from 'src/assets/images/walletConnectIcon.svg'
+import WalletConnectIcon from 'src/assets/svg/walletConnectIcon.svg'
 import XDefiIcon from 'src/assets/images/xDefi.png'
 import NearIcon from 'src/assets/images/near.svg'
 import avalancheCoreIcon from 'src/assets/images/avalancheCore.svg'
+import HashIcon from 'src/assets/images/hashConnect.png'
 import { useModalOpen, useWalletModalToggle, useAccountDetailToggle } from 'src/state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from 'src/state/transactions/hooks'
 import { TransactionDetails } from 'src/state/transactions/reducer'
@@ -35,6 +37,7 @@ import { RowBetween } from '../Row'
 import { ApplicationModal } from 'src/state/application/actions'
 import AccountDetailsModal from '../AccountDetailsModal'
 import { useChainId } from 'src/hooks'
+import { useWallet } from 'src/state/user/hooks'
 
 const Web3StatusGeneric = styled(ButtonSecondary)`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -169,6 +172,11 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
     return (
       <IconWrapper size={16}>
         <img src={avalancheCoreIcon} alt={'Avalanche Core Wallet'} />
+        </IconWrapper>
+  } else if (connector === hashConnect) {
+    return (
+      <IconWrapper size={16}>
+        <img src={HashIcon} alt={'HashPack Wallet'} />
       </IconWrapper>
     )
   }
@@ -178,6 +186,7 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
 function Web3StatusInner() {
   const { t } = useTranslation()
   const { account, connector, error } = useWeb3React()
+
   const chainId = useChainId()
 
   const allTransactions = useAllTransactions()
@@ -251,6 +260,7 @@ export default function Web3Status() {
 
   const walletModalOpen = useModalOpen(ApplicationModal.WALLET)
   const toggleWalletModal = useWalletModalToggle()
+  const [, setWallet] = useWallet()
 
   const accountDetailModalOpen = useModalOpen(ApplicationModal.ACCOUNT_DETAIL)
   const toggleAccountDetailModal = useAccountDetailToggle()
@@ -265,9 +275,13 @@ export default function Web3Status() {
     toggleAccountDetailModal()
   }, [toggleAccountDetailModal, toggleWalletModal])
 
-  const onWalletConnect = useCallback(() => {
-    toggleWalletModal()
-  }, [toggleWalletModal])
+  const onWalletConnect = useCallback(
+    connectorKey => {
+      toggleWalletModal()
+      setWallet(connectorKey)
+    },
+    [setWallet, toggleWalletModal]
+  )
 
   const sortedRecentTransactions = useMemo(() => {
     const txs = Object.values(allTransactions)

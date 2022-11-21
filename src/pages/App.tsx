@@ -3,25 +3,26 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import { MENU_LINK } from 'src/constants'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
-import Polling from '../components/Header/Polling'
-import Popups from '../components/Popups'
-import Web3ReactManager from '../components/Web3ReactManager'
-import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
-import Dashboard from './Dashboard'
-// import { RedirectPathToSwapOnly } from './Swap/redirects'
-import Migrate from './Earn/Migrate'
-import MigrateV2 from './Migrate'
-import CustomRoute from './Route'
-import Layout from '../layout'
-import SwapV2 from './Beta/Swap'
-import StakeV2 from './Beta/Stake'
-import GovernanceV2 from './Beta/Governance'
-import GovernanceDetailV2 from './Beta/GovernanceDetail'
-import BuyV2 from './Beta/Buy'
-import PoolV2 from './Beta/Pool'
-import BridgeV2 from './Beta/Bridge'
-import AirdropV2 from './Beta/Airdrop2'
-import Policy from './Beta/Policy'
+import { useChainId } from 'src/hooks'
+import { VOTE_PAGE_ACCESS } from 'src/constants/accessPermissions'
+const Polling = React.lazy(() => import('../components/Header/Polling'))
+const Popups = React.lazy(() => import('../components/Popups'))
+const Web3ReactManager = React.lazy(() => import('../components/Web3ReactManager'))
+const DarkModeQueryParamReader = React.lazy(() => import('../theme/DarkModeQueryParamReader'))
+const Dashboard = React.lazy(() => import('./Dashboard'))
+const MigrateV2 = React.lazy(() => import('./Migrate'))
+const CustomRoute = React.lazy(() => import('./Route'))
+const Layout = React.lazy(() => import('../layout'))
+const SwapV2 = React.lazy(() => import('./Beta/Swap'))
+const StakeV2 = React.lazy(() => import('./Beta/Stake'))
+const GovernanceV2 = React.lazy(() => import('./Beta/Governance'))
+const GovernanceDetailV2 = React.lazy(() => import('./Beta/GovernanceDetail'))
+const BuyV2 = React.lazy(() => import('./Beta/Buy'))
+const PoolV2 = React.lazy(() => import('./Beta/Pool'))
+const BridgeV2 = React.lazy(() => import('./Beta/Bridge'))
+const AirdropV2 = React.lazy(() => import('./Beta/Airdrop2'))
+const Policy = React.lazy(() => import('./Beta/Policy'))
+const SarStake = React.lazy(() => import('./SarStake'))
 
 const AppWrapper = styled.div`
   display: flex;
@@ -51,6 +52,7 @@ const BodyWrapper = styled.div`
 `
 
 export default function App() {
+  const chainId = useChainId()
   return (
     <Suspense fallback={null}>
       <Route component={GoogleAnalyticsReporter} />
@@ -61,12 +63,6 @@ export default function App() {
           <Polling />
           <Web3ReactManager>
             <Switch>
-              <Route
-                exact
-                path="/migrate/:currencyIdFromA/:currencyIdFromB/:versionFrom/:currencyIdToA/:currencyIdToB/:versionTo/"
-                component={Migrate}
-              />
-
               <CustomRoute exact path={`${MENU_LINK.dashboard}`} component={Dashboard} layout={Layout} />
               <CustomRoute exact path={`${MENU_LINK.migrate}/:version`} component={MigrateV2} layout={Layout} />
 
@@ -79,12 +75,24 @@ export default function App() {
                 component={ManageStakeV2}
                 layout={Layout}
               /> */}
-              <CustomRoute exact path={`${MENU_LINK.vote}`} component={GovernanceV2} layout={Layout} />
-              <CustomRoute exact strict path={`${MENU_LINK.vote}/:id`} component={GovernanceDetailV2} layout={Layout} />
+              {VOTE_PAGE_ACCESS[chainId] && (
+                <CustomRoute exact path={`${MENU_LINK.vote}`} component={GovernanceV2} layout={Layout} />
+              )}
+              {VOTE_PAGE_ACCESS[chainId] && (
+                <CustomRoute
+                  exact
+                  strict
+                  path={`${MENU_LINK.vote}/:id`}
+                  component={GovernanceDetailV2}
+                  layout={Layout}
+                />
+              )}
+
               <CustomRoute exact strict path={`${MENU_LINK.buy}`} component={BuyV2} layout={Layout} />
               <CustomRoute exact path={`${MENU_LINK.pool}`} component={PoolV2} layout={Layout} />
               <CustomRoute exact path={`${MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} />
               <CustomRoute exact path={`${MENU_LINK.airdrop}`} component={AirdropV2} layout={Layout} />
+              <CustomRoute exact path={`${MENU_LINK.stakev2}`} component={SarStake} layout={Layout} />
 
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
 
