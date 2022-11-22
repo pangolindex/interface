@@ -11,6 +11,8 @@ env:
 
 jobs:
   Release:
+    # for now we want to ignore this job so keeping always false condition
+    if: ${{ 1 === 2 }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,7 +22,7 @@ jobs:
           fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
       - uses: actions/cache@v2.1.4
         with:
-          path: "**/node_modules"
+          path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Configure Git
         run: |
@@ -61,15 +63,15 @@ jobs:
           tags: true
       - name: set versions to env
         run: |
-            echo "TAG_VERSION=v$(npm run get:version --silent)" >> $GITHUB_ENV
-            echo "SENTRY_VERSION=pangolin-interface@$(npm run get:version --silent)" >> $GITHUB_ENV
+          echo "TAG_VERSION=v$(npm run get:version --silent)" >> $GITHUB_ENV
+          echo "SENTRY_VERSION=pangolin-interface@$(npm run get:version --silent)" >> $GITHUB_ENV
       - run: echo ${{ env.TAG_VERSION }}
       - name: install sentry-cli
         run: npm install -g @sentry/cli
       - name: upload sourcemaps to sentry
         run: |
-              sentry-cli --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }} releases --org pangolin-tq --project pangolin-tq new ${{env.SENTRY_VERSION}} --finalize
-              sentry-cli --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }} releases --org pangolin-tq --project pangolin-tq files "${{env.SENTRY_VERSION}}" upload-sourcemaps ./build/static/js
+          sentry-cli --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }} releases --org pangolin-tq --project pangolin-tq new ${{env.SENTRY_VERSION}} --finalize
+          sentry-cli --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }} releases --org pangolin-tq --project pangolin-tq files "${{env.SENTRY_VERSION}}" upload-sourcemaps ./build/static/js
       - name: Zip Assets
         run: zip -r build.zip build
       - name: Release
