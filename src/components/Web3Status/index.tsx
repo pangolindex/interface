@@ -172,7 +172,8 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
     return (
       <IconWrapper size={16}>
         <img src={avalancheCoreIcon} alt={'Avalanche Core Wallet'} />
-        </IconWrapper>
+      </IconWrapper>
+    )
   } else if (connector === hashConnect) {
     return (
       <IconWrapper size={16}>

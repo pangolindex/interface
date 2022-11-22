@@ -9,7 +9,6 @@ import Transaction from './Transaction'
 import CoinbaseWalletIcon from '../../assets/svg/coinbaseWalletIcon.svg'
 import WalletConnectIcon from '../../assets/svg/walletConnectIcon.svg'
 import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
-import { ReactComponent as Close } from '../../assets/images/x.svg'
 import NearIcon from '../../assets/images/near.svg'
 import avalancheCoreIcon from 'src/assets/images/avalancheCore.svg'
 import BitKeep from '../../assets/svg/bitkeep.svg'
@@ -109,7 +108,7 @@ export default function AccountDetails({
       else if (isCoinbase) name = SUPPORTED_WALLETS.WALLET_LINK.name
       // metamask as last check, because most of the wallets above are likely to set isMetaMask to true too
       else if (isMetaMask) name = SUPPORTED_WALLETS.METAMASK.name
-      else if (isAvalancheCore) name = SUPPORTED_WALLETS.
+      else if (isAvalancheCore) name = SUPPORTED_WALLETS.AVALANCHECORE.name
     }
 
     return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>
@@ -159,8 +158,7 @@ export default function AccountDetails({
           <img src={HashIcon} alt={'HashPack Wallet'} />
         </IconWrapper>
       )
-    }
-    else if (connector === avalancheCore) {
+    } else if (connector === avalancheCore) {
       return (
         <IconWrapper size={16}>
           <img src={avalancheCoreIcon} alt={'Avalanche Core Wallet'} />
