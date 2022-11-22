@@ -22,6 +22,7 @@ import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React, useChainId } from './hooks'
 import Package from '../package.json'
 import { ChainId } from '@pangolindex/sdk'
+import { MixPanelProvider } from './hooks/mixpanel'
 
 try {
   Sentry.init({
@@ -54,6 +55,8 @@ if (typeof GOOGLE_ANALYTICS_ID === 'string') {
 } else {
   ReactGA.initialize('test', { testMode: true, debug: true })
 }
+
+const mixpanelToken = process.env.REACT_APP_MIXPANEL
 
 window.addEventListener('error', error => {
   ReactGA.exception({
@@ -101,15 +104,23 @@ const ComponentThemeProvider = () => {
   }, [account, chainId])
 
   return (
-    <PangolinProvider library={library} chainId={chainId} account={account ?? undefined} theme={theme as any}>
-      <QueryClientProvider client={queryClient}>
-        <Updaters />
-        <FixedGlobalStyle />
-        <ThemedGlobalStyle />
-        <HashRouter>
-          <App />
-        </HashRouter>
-      </QueryClientProvider>
+    <PangolinProvider
+      library={library}
+      chainId={chainId}
+      account={account ?? undefined}
+      theme={theme as any}
+      mixpanelToken={mixpanelToken}
+    >
+      <MixPanelProvider mixpanelToken={mixpanelToken}>
+        <QueryClientProvider client={queryClient}>
+          <Updaters />
+          <FixedGlobalStyle />
+          <ThemedGlobalStyle />
+          <HashRouter>
+            <App />
+          </HashRouter>
+        </QueryClientProvider>
+      </MixPanelProvider>
     </PangolinProvider>
   )
 }
