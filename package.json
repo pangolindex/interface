@@ -4,7 +4,7 @@
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
-    "node": ">=14.17.0"
+    "node": ">=14.21.1 <=16.18.1"
   },
   "private": true,
   "devDependencies": {
