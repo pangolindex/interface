@@ -200,6 +200,10 @@ export interface BetaColors extends Colors {
     color?: Color
     primaryBgColor?: Color
   }
+  chainInput?: {
+    text?: Color
+    primaryBgColor?: Color
+  }
 }
 
 export interface Grids {
