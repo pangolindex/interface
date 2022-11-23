@@ -44,7 +44,6 @@ if ('ethereum' in window) {
   ;(window.ethereum as any).autoRefreshOnNetworkChange = false
 }
 
-
 const mixpanelToken = process.env.REACT_APP_MIXPANEL
 
 const queryClient = new QueryClient({
