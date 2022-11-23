@@ -89,7 +89,6 @@
     "react-dom": "16.14.0",
     "react-error-overlay": "6.0.9",
     "react-feather": "2.0.9",
-    "react-ga": "2.7.0",
     "react-markdown": "8.0.1",
     "react-query": "3.34.16",
     "react-redux": "7.2.6",

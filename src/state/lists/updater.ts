@@ -4,7 +4,6 @@ import { useDispatch } from 'src/state'
 import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import useInterval from '../../hooks/useInterval'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
-import ReactGA from 'react-ga'
 import { AppState, useSelector } from '../index'
 import { acceptListUpdate } from './actions'
 import { DEFAULT_TOKEN_LISTS } from '../../constants/lists'
@@ -58,11 +57,6 @@ export default function Updater(): null {
             if (bump >= min) {
               if (isDefaultList) {
                 // if its pangolin hosted token list then we will autoupdate it
-                ReactGA.event({
-                  category: 'Lists',
-                  action: 'Update List from Popup',
-                  label: listUrl
-                })
                 dispatch(acceptListUpdate(listUrl))
               } else {
                 // show prompts for user added token list
@@ -90,11 +84,6 @@ export default function Updater(): null {
           case VersionUpgrade.MAJOR:
             if (isDefaultList) {
               // if its pangolin hosted token list then we will autoupdate it
-              ReactGA.event({
-                category: 'Lists',
-                action: 'Update List from Popup',
-                label: listUrl
-              })
               dispatch(acceptListUpdate(listUrl))
             } else {
               // show prompts for user added token list

@@ -1,6 +1,5 @@
 import { diffTokenLists, TokenList } from '@pangolindex/token-lists'
 import React, { useCallback, useMemo } from 'react'
-import ReactGA from 'react-ga'
 import { Text } from 'rebass'
 import { useDispatch } from '../../state'
 import { useRemovePopup, useTranslation } from '@pangolindex/components'
@@ -39,11 +38,6 @@ export default function ListUpdatePopup({
   const { t } = useTranslation()
   const handleAcceptUpdate = useCallback(() => {
     if (auto) return
-    ReactGA.event({
-      category: 'Lists',
-      action: 'Update List from Popup',
-      label: listUrl
-    })
     dispatch(acceptListUpdate(listUrl))
     removeThisPopup()
   }, [auto, dispatch, listUrl, removeThisPopup])
