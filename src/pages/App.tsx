@@ -2,7 +2,6 @@ import React, { Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import { MENU_LINK } from 'src/constants'
-import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 import { useChainId } from 'src/hooks'
 import { VOTE_PAGE_ACCESS } from 'src/constants/accessPermissions'
 const Polling = React.lazy(() => import('../components/Header/Polling'))
@@ -55,7 +54,6 @@ export default function App() {
   const chainId = useChainId()
   return (
     <Suspense fallback={null}>
-      <Route component={GoogleAnalyticsReporter} />
       <Route component={DarkModeQueryParamReader} />
       <AppWrapper>
         <BodyWrapper>

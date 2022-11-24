@@ -27,7 +27,6 @@ interface Window {
     execute?: (method, params) => Promise<any>
   }
   web3?: {}
-  pendo?: any
   avalanche?: {
     isAvalanche?: boolean
     once(eventName: string | symbol, listener: (...args: any[]) => void): this
