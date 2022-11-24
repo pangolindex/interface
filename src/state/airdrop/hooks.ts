@@ -12,7 +12,7 @@ import { useQuery } from 'react-query'
 import axios from 'axios'
 import { useMemo, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
-import { useMixpanel } from 'src/hooks/mixpanel'
+import { MixPanelEvents, useMixpanel } from 'src/hooks/mixpanel'
 
 export function useMerkledropClaimedAmounts(airdropAddress: string) {
   const { account } = useWeb3React()
@@ -137,7 +137,7 @@ export function useClaimAirdrop(airdropAddress: string, airdropType: AirdropType
       })
       setHash(response.hash)
 
-      mixpanel.track('Claimed Airdrop', {
+      mixpanel.track(MixPanelEvents.CLAIM_AIRDROP, {
         chainId: chainId,
         airdropType: airdropType
       })
