@@ -7,6 +7,7 @@ import {
   walletconnect,
   walletlink,
   xDefi,
+  avalancheCore,
   NetworkContextName,
   near,
   shortenAddress,
@@ -24,6 +25,7 @@ import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
 import WalletConnectIcon from 'src/assets/svg/walletConnectIcon.svg'
 import XDefiIcon from 'src/assets/images/xDefi.png'
 import NearIcon from 'src/assets/svg/near.svg'
+import avalancheCoreIcon from 'src/assets/svg/avalancheCore.svg'
 import HashIcon from 'src/assets/images/hashConnect.png'
 import { useModalOpen, useWalletModalToggle, useAccountDetailToggle } from 'src/state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from 'src/state/transactions/hooks'
@@ -164,6 +166,12 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
     return (
       <IconWrapper size={16}>
         <img src={NearIcon} alt={'Near Wallet'} />
+      </IconWrapper>
+    )
+  } else if (connector === avalancheCore) {
+    return (
+      <IconWrapper size={16}>
+        <img src={avalancheCoreIcon} alt={'Avalanche Core Wallet'} />
       </IconWrapper>
     )
   } else if (connector === hashConnect) {

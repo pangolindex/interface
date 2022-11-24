@@ -20,7 +20,6 @@ import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React, useChainId } from './hooks'
 import Package from '../package.json'
 import { ChainId } from '@pangolindex/sdk'
-import { MixPanelProvider } from './hooks/mixpanel'
 
 try {
   Sentry.init({
@@ -92,16 +91,14 @@ const ComponentThemeProvider = () => {
       theme={theme as any}
       mixpanelToken={mixpanelToken}
     >
-      <MixPanelProvider mixpanelToken={mixpanelToken}>
-        <QueryClientProvider client={queryClient}>
-          <Updaters />
-          <FixedGlobalStyle />
-          <ThemedGlobalStyle />
-          <HashRouter>
-            <App />
-          </HashRouter>
-        </QueryClientProvider>
-      </MixPanelProvider>
+      <QueryClientProvider client={queryClient}>
+        <Updaters />
+        <FixedGlobalStyle />
+        <ThemedGlobalStyle />
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </QueryClientProvider>
     </PangolinProvider>
   )
 }
