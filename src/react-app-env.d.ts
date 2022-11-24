@@ -27,7 +27,15 @@ interface Window {
     execute?: (method, params) => Promise<any>
   }
   web3?: {}
-  pendo?: any
+  avalanche?: {
+    isAvalanche?: boolean
+    once(eventName: string | symbol, listener: (...args: any[]) => void): this
+    on(eventName: string | symbol, listener: (...args: any[]) => void): this
+    off(eventName: string | symbol, listener: (...args: any[]) => void): this
+    addListener(eventName: string | symbol, listener: (...args: any[]) => void): this
+    removeListener(eventName: string | symbol, listener: (...args: any[]) => void): this
+    removeAllListeners(event?: string | symbol): this
+  }
 }
 
 declare module 'content-hash' {
