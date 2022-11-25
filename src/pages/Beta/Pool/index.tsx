@@ -155,20 +155,14 @@ const PoolUI = () => {
   // add own v2
   if (ownminiChefStakingInfo.length > 0) {
     menuItems.push({
-      label:
-        ownStakingInfoV1.length > 0 || ownPangoCheftStakingInfo.length > 0
-          ? `${t('pool.yourFarms')} (V2)`
-          : `${t('pool.yourFarms')}`,
+      label: ownStakingInfoV1.length > 0 ? `${t('pool.yourFarms')} (V2)` : `${t('pool.yourFarms')}`,
       value: MenuType.yourFarmV2
     })
   }
   // add own pangochef
   if (ownPangoCheftStakingInfo.length > 0) {
     menuItems.push({
-      label:
-        ownStakingInfoV1.length > 0 || ownminiChefStakingInfo.length > 0
-          ? `${t('pool.yourFarms')} (V3)`
-          : `${t('pool.yourFarms')}`,
+      label: ownStakingInfoV1.length > 0 ? `${t('pool.yourFarms')} (V3)` : `${t('pool.yourFarms')}`,
       value: MenuType.yourFarmV3
     })
   }
