@@ -12,7 +12,8 @@ import {
   DoubleSideStakingInfo,
   PoolType,
   useParsedQueryString,
-  usePangoChefInfosHook
+  usePangoChefInfosHook,
+  PangoChefInfo
 } from '@pangolindex/components'
 import { PageWrapper, GridContainer, ExternalLink } from './styleds'
 import { useStakingInfoHook } from 'src/state/stake/multiChainsHooks'
@@ -91,14 +92,27 @@ const PoolUI = () => {
     [miniChefStakingInfo]
   )
 
-  const superFarms = useMemo(
-    () => miniChefStakingInfo.filter((item: MinichefStakingInfo) => (item?.rewardTokensAddress?.length || 0) > 1),
-    [miniChefStakingInfo]
+  const ownPangoCheftStakingInfo = useMemo(
+    () =>
+      (pangoChefStakingInfos || []).filter((stakingInfo: MinichefStakingInfo) => {
+        return Boolean(stakingInfo.stakedAmount.greaterThan('0'))
+      }),
+    [pangoChefStakingInfos]
   )
-  // here if farm is not avaialble your pool menu default active
+
   const minichefLength = (miniChefStakingInfo || []).length
   const stakingInfoV1Length = (miniChefStakingInfo || []).length
   const pangoChefStakingLength = pangoChefStakingInfos.length
+  const superFarms = useMemo(() => {
+    if (pangoChefStakingLength > 0) {
+      return pangoChefStakingInfos.filter((item: PangoChefInfo) => (item?.rewardTokensAddress?.length || 0) > 1)
+    }
+    return (miniChefStakingInfo || onChainMiniChefStakingInfo || []).filter(
+      (item: MinichefStakingInfo) => (item?.rewardTokensAddress?.length || 0) > 1
+    )
+  }, [miniChefStakingInfo, onChainMiniChefStakingInfo, pangoChefStakingInfos, pangoChefStakingLength])
+
+  // here if farm is not avaialble your pool menu default active
   useEffect(() => {
     if (minichefLength === 0 && stakingInfoV1Length === 0 && pangoChefStakingLength === 0) {
       setMenu(MenuType.yourPool)
@@ -143,6 +157,13 @@ const PoolUI = () => {
     menuItems.push({
       label: ownStakingInfoV1.length > 0 ? `${t('pool.yourFarms')} (V2)` : `${t('pool.yourFarms')}`,
       value: MenuType.yourFarmV2
+    })
+  }
+  // add own pangochef
+  if (ownPangoCheftStakingInfo.length > 0) {
+    menuItems.push({
+      label: ownStakingInfoV1.length > 0 ? `${t('pool.yourFarms')} (V3)` : `${t('pool.yourFarms')}`,
+      value: MenuType.yourFarmV3
     })
   }
   // add superfarm

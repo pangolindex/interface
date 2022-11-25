@@ -1,10 +1,9 @@
 import React, { useContext } from 'react'
 import { ApplicationModal } from 'src/state/application/actions'
-import { Box } from '@pangolindex/components'
+import { Box, Modal } from '@pangolindex/components'
 import { useModalOpen, useSingleSideStakingDetailnModalToggle } from 'src/state/application/hooks'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { ThemeContext } from 'styled-components'
-import Modal from 'src/components/Beta/Modal'
 import { DesktopWrapper, MobileWrapper, DetailsWrapper, Tab, Tabs, LeftSection, RightSection } from './styled'
 import Header from './Header'
 import Details from './Details'
@@ -24,7 +23,7 @@ const DetailModal: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const theme = useContext(ThemeContext)
 
   return (
-    <Modal isOpen={isDetailModalOpen} onDismiss={toggleModal} overlayBG={theme.modalBG2}>
+    <Modal isOpen={isDetailModalOpen} onDismiss={toggleModal} overlayBG={theme.modalBG2} closeOnClickOutside={false}>
       <MobileWrapper>
         <Header stakingInfo={stakingInfo} onClose={onClose} />
         <Box p={10}>

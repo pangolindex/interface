@@ -13,7 +13,10 @@ import {
   shortenAddress,
   useAllTransactions as useAllTransactionsComponents,
   useTranslation,
-  hashConnect
+  hashConnect,
+  useWalletModalToggle,
+  useModalOpen as useModalOpenComponents,
+  ApplicationModal as ApplicationModalComponents
 } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken } from 'polished'
@@ -27,7 +30,7 @@ import XDefiIcon from 'src/assets/images/xDefi.png'
 import NearIcon from 'src/assets/svg/near.svg'
 import avalancheCoreIcon from 'src/assets/svg/avalancheCore.svg'
 import HashIcon from 'src/assets/images/hashConnect.png'
-import { useModalOpen, useWalletModalToggle, useAccountDetailToggle } from 'src/state/application/hooks'
+import { useModalOpen, useAccountDetailToggle } from 'src/state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from 'src/state/transactions/hooks'
 import { TransactionDetails } from 'src/state/transactions/reducer'
 import { ButtonSecondary } from '../Button'
@@ -259,7 +262,7 @@ export default function Web3Status() {
     return { ...allTransactionsInterface, ...allTransactionsComponents }
   }, [allTransactionsInterface, allTransactionsComponents])
 
-  const walletModalOpen = useModalOpen(ApplicationModal.WALLET)
+  const walletModalOpen = useModalOpenComponents(ApplicationModalComponents.WALLET)
   const toggleWalletModal = useWalletModalToggle()
   const [, setWallet] = useWallet()
 

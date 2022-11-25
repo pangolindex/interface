@@ -50,6 +50,49 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
 
   const isDisabled = !userPngUnstaked?.greaterThan('0')
 
+  const renderButtons = () => {
+    if (!account) {
+      return (
+        <Button padding="15px 18px" variant="primary" isDisabled>
+          {t('swapPage.connectWallet')}
+        </Button>
+      )
+    }
+
+    if (userPngUnstaked?.greaterThan('0')) {
+      return (
+        <>
+          <Button
+            padding="15px 18px"
+            variant={approval === ApprovalState.APPROVED || signatureData !== null ? 'confirm' : 'primary'}
+            isDisabled={approval !== ApprovalState.NOT_APPROVED || signatureData !== null}
+            onClick={onAttemptToApprove}
+          >
+            {t('earn.approve')}
+          </Button>
+          <Button
+            padding="15px 18px"
+            variant={'primary'}
+            isDisabled={!!error || (signatureData === null && approval !== ApprovalState.APPROVED)}
+            onClick={onStake}
+          >
+            {error ?? t('earn.deposit')}
+          </Button>
+        </>
+      )
+    }
+    return (
+      <Button
+        padding="15px 18px"
+        variant="primary"
+        as="a"
+        href={`/#${MENU_LINK.swap}?inputCurrency=${ZERO_ADDRESS}&outputCurrency=${png.address}`}
+      >
+        {t('header.buy', { symbol: stakeToken })}
+      </Button>
+    )
+  }
+
   return (
     <Root>
       {!attempting && !hash && (
@@ -147,37 +190,9 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
             </Box>
           )}
 
-          <Buttons isStaked={userPngUnstaked?.greaterThan('0')}>
+          <Buttons isStaked={userPngUnstaked?.greaterThan('0') && !!account}>
             {/* show staked or get png button */}
-            {userPngUnstaked?.greaterThan('0') ? (
-              <>
-                <Button
-                  padding="15px 18px"
-                  variant={approval === ApprovalState.APPROVED || signatureData !== null ? 'confirm' : 'primary'}
-                  isDisabled={approval !== ApprovalState.NOT_APPROVED || signatureData !== null}
-                  onClick={onAttemptToApprove}
-                >
-                  {t('earn.approve')}
-                </Button>
-                <Button
-                  padding="15px 18px"
-                  variant={'primary'}
-                  isDisabled={!!error || (signatureData === null && approval !== ApprovalState.APPROVED)}
-                  onClick={onStake}
-                >
-                  {error ?? t('earn.deposit')}
-                </Button>
-              </>
-            ) : (
-              <Button
-                padding="15px 18px"
-                variant="primary"
-                as="a"
-                href={`/#${MENU_LINK.swap}?inputCurrency=${ZERO_ADDRESS}&outputCurrency=${png.address}`}
-              >
-                {t('header.buy', { symbol: stakeToken })}
-              </Button>
-            )}
+            {renderButtons()}
           </Buttons>
         </>
       )}
