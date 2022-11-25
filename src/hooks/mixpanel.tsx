@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import {
   useMixpanel as useComponentMixpanel,
   MixPanelEvents as ComponentsMixPanelEvents
-} from '@pangolindex/components/src/hooks/mixpanel'
+} from '@pangolindex/components'
 
 export enum MixPanelEvents {
   CLAIM_AIRDROP = 'Claimed Airdrop'
