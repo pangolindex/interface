@@ -3,7 +3,7 @@ import { MENU_LINK } from 'src/constants'
 import { ThemeContext } from 'styled-components'
 import { Menu, MenuItem, MenuLink, MenuName, MenuExternalLink, MenuWrapper } from './styled'
 import { Box, existSarContract, Text, useTranslation } from '@pangolindex/components'
-import { Dashboard, Swap, Stake, Pool, Buy, Vote, Airdrop } from '../../components/Icons'
+import { Dashboard, Swap, Stake, Pool, Buy, Vote, Airdrop, Bridge as BridgeIcon } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import { ANALYTICS_PAGE } from '../../constants'
 import Bridge from '../../assets/svg/menu/bridge.svg'
@@ -11,7 +11,7 @@ import Governance from '../../assets/svg/menu/governance.svg'
 import { useLocation } from 'react-router-dom'
 import { useChainId } from 'src/hooks'
 import { CHAINS } from '@pangolindex/sdk'
-import { VOTE_PAGE_ACCESS } from 'src/constants/accessPermissions'
+import { ONLY_BRIDGE_ACCESS, VOTE_PAGE_ACCESS } from 'src/constants/accessPermissions'
 
 interface Props {
   collapsed?: boolean
@@ -89,6 +89,13 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       title: 'Airdrop',
       id: 'airdrop',
       isActive: location?.pathname?.startsWith(MENU_LINK.airdrop)
+    },
+    {
+      link: MENU_LINK.bridge,
+      icon: BridgeIcon,
+      title: `${t('header.bridge')}`,
+      id: 'bridge',
+      isActive: location?.pathname?.startsWith(MENU_LINK.bridge)
     }
   ]
 
@@ -100,6 +107,10 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
   if (!VOTE_PAGE_ACCESS[chainId]) {
     const votePageIndex = mainLinks.findIndex(element => element?.id === 'vote')
     mainLinks.splice(votePageIndex, 1)
+  }
+
+  if (ONLY_BRIDGE_ACCESS[chainId]) {
+    mainLinks.reverse().splice(2)
   }
 
   // remove stakvev2 if not exist sar contract
