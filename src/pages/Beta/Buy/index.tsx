@@ -62,7 +62,7 @@ export default function BuyV2() {
           </CardTitle>
           <PayButton variant="primary" onClick={() => buy('coinbase')} isDisabled={!account}>
             <CBIcon src="./images/coinbase_coin_pay_blue.svg" />
-            {t('buyPage.buy')}
+            {t('buyPage.buy', { defaultValue: 'Buy Now' })}
           </PayButton>
           {!account && (
             <WalletText>{t('buyPage.connectWallet', { defaultValue: 'Please connect a wallet' })}</WalletText>
