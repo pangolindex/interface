@@ -8,6 +8,7 @@ import { TopContainer } from 'src/pages/Dashboard/styleds'
 
 import { CardTitle, Title } from '../Governance/GovernanceCard/styleds'
 import { WalletText, PayButton, CBIcon, BackButton, BackRow } from './styleds'
+import CoinbasePayIcon from 'src/assets/svg/coinbase_coin_pay_blue.svg'
 
 export default function BuyV2() {
   const { t } = useTranslation()
@@ -61,7 +62,7 @@ export default function BuyV2() {
             <Title>Coinbase Pay</Title>
           </CardTitle>
           <PayButton variant="primary" onClick={() => buy('coinbase')} isDisabled={!account}>
-            <CBIcon src="./images/coinbase_coin_pay_blue.svg" />
+            <CBIcon src={CoinbasePayIcon} />
             {t('buyPage.buy', { defaultValue: 'Buy Now' })}
           </PayButton>
           {!account && (
