@@ -10,8 +10,7 @@ import Bridge from '../../assets/svg/menu/bridge.svg'
 import Governance from '../../assets/svg/menu/governance.svg'
 import { useLocation } from 'react-router-dom'
 import { useChainId } from 'src/hooks'
-import { CHAINS } from '@pangolindex/sdk'
-import { ONLY_BRIDGE_ACCESS, VOTE_PAGE_ACCESS } from 'src/constants/accessPermissions'
+import { hideCheck } from 'src/utils'
 
 interface Props {
   collapsed?: boolean
@@ -19,17 +18,17 @@ interface Props {
 }
 
 interface Link {
-  link: string
-  icon: string
+  link: MENU_LINK | string
+  icon: string | React.FC<Props>
   title: string
   id: string
+  isActive?: boolean
 }
 
 export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
   const chainId = useChainId()
-  const chain = CHAINS[chainId]
 
   const location: any = useLocation()
 
@@ -97,21 +96,12 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       id: 'bridge',
       isActive: location?.pathname?.startsWith(MENU_LINK.bridge)
     }
-  ]
+  ].filter(link => !hideCheck(chainId, link.link as MENU_LINK))
 
   // for now, for non evm chain, hide all other menus except dashboard and swap
-  if (!chain.evm) {
-    mainLinks.splice(4)
-  }
-
-  if (!VOTE_PAGE_ACCESS[chainId]) {
-    const votePageIndex = mainLinks.findIndex(element => element?.id === 'vote')
-    mainLinks.splice(votePageIndex, 1)
-  }
-
-  if (ONLY_BRIDGE_ACCESS[chainId]) {
-    mainLinks.reverse().splice(2)
-  }
+  // if (!chain.evm) {
+  //   mainLinks.splice(4)
+  // }
 
   // remove stakvev2 if not exist sar contract
   if (!existSarContract(chainId)) {
@@ -156,7 +146,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
     return (
       <MenuItem key={index}>
         <MenuExternalLink id={link.id} href={link.link}>
-          <img src={link.icon} width={16} alt={link.title} />
+          <img src={link.icon as string} width={16} alt={link.title} />
           {!collapsed && <MenuName fontSize={[16, 14]}>{link.title}</MenuName>}
         </MenuExternalLink>
       </MenuItem>
