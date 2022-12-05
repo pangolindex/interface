@@ -132,7 +132,7 @@ export const HIDE_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: MENU_LINK[] }
   [ChainId.WAGMI]: [],
   [ChainId.COSTON]: [],
   [ChainId.SONGBIRD]: [MENU_LINK.vote],
-  [ChainId.HEDERA_TESTNET]: nonEvmHideList,
+  [ChainId.HEDERA_TESTNET]: [MENU_LINK.vote, MENU_LINK.migrate, MENU_LINK.airdrop],
   [ChainId.NEAR_MAINNET]: nonEvmHideList,
   [ChainId.NEAR_TESTNET]: nonEvmHideList,
   [ChainId.ETHEREUM]: onlyBridgeHideOtherMenus,

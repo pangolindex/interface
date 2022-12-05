@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import { MENU_LINK } from 'src/constants'
 import { useChainId } from 'src/hooks'
-import { hideCheck } from 'src/utils'
+import { shouldHideMenuItem } from 'src/utils'
 const Polling = React.lazy(() => import('../components/Header/Polling'))
 const Popups = React.lazy(() => import('../components/Popups'))
 const Web3ReactManager = React.lazy(() => import('../components/Web3ReactManager'))
@@ -137,7 +137,7 @@ export default function App() {
             <Switch>
               {routes.map(
                 (route, i) =>
-                  !hideCheck(chainId, route?.menuLink || (route.path as MENU_LINK)) && (
+                  !shouldHideMenuItem(chainId, route?.menuLink || (route.path as MENU_LINK)) && (
                     <CustomRoute
                       key={i}
                       exact

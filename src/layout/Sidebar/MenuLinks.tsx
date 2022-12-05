@@ -10,7 +10,7 @@ import Bridge from '../../assets/svg/menu/bridge.svg'
 import Governance from '../../assets/svg/menu/governance.svg'
 import { useLocation } from 'react-router-dom'
 import { useChainId } from 'src/hooks'
-import { hideCheck } from 'src/utils'
+import { shouldHideMenuItem } from 'src/utils'
 
 interface Props {
   collapsed?: boolean
@@ -96,7 +96,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       id: 'bridge',
       isActive: location?.pathname?.startsWith(MENU_LINK.bridge)
     }
-  ].filter(link => !hideCheck(chainId, link.link as MENU_LINK))
+  ].filter(link => !shouldHideMenuItem(chainId, link.link as MENU_LINK))
 
   // for now, for non evm chain, hide all other menus except dashboard and swap
   // if (!chain.evm) {
