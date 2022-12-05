@@ -8,7 +8,8 @@ export const VOTE_PAGE_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.SONGBIRD]: false,
   [ChainId.HEDERA_TESTNET]: false,
   [ChainId.NEAR_MAINNET]: false,
-  [ChainId.NEAR_TESTNET]: false
+  [ChainId.NEAR_TESTNET]: false,
+  [ChainId.EVMOS_TESTNET]: false
 }
 
 export const LIMITORDERLIST_ACCESS: { [chainId in ChainId]: boolean } = {
@@ -19,7 +20,8 @@ export const LIMITORDERLIST_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.SONGBIRD]: false,
   [ChainId.HEDERA_TESTNET]: false,
   [ChainId.NEAR_MAINNET]: false,
-  [ChainId.NEAR_TESTNET]: false
+  [ChainId.NEAR_TESTNET]: false,
+  [ChainId.EVMOS_TESTNET]: false
 }
 
 export const MYPORTFOLIO_ACCESS: { [chainId in ChainId]: boolean } = {
@@ -30,7 +32,8 @@ export const MYPORTFOLIO_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.SONGBIRD]: false,
   [ChainId.HEDERA_TESTNET]: false,
   [ChainId.NEAR_MAINNET]: false,
-  [ChainId.NEAR_TESTNET]: false
+  [ChainId.NEAR_TESTNET]: false,
+  [ChainId.EVMOS_TESTNET]: false
 }
 
 export const WATCHLIST_ACCESS: { [chainId in ChainId]: boolean } = {
@@ -41,7 +44,8 @@ export const WATCHLIST_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.SONGBIRD]: false,
   [ChainId.HEDERA_TESTNET]: false,
   [ChainId.NEAR_MAINNET]: false,
-  [ChainId.NEAR_TESTNET]: false
+  [ChainId.NEAR_TESTNET]: false,
+  [ChainId.EVMOS_TESTNET]: false
 }
 
 export const PAIRINFO_ACCESS: { [chainId in ChainId]: boolean } = {
@@ -52,5 +56,6 @@ export const PAIRINFO_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.SONGBIRD]: false,
   [ChainId.HEDERA_TESTNET]: false,
   [ChainId.NEAR_MAINNET]: false,
-  [ChainId.NEAR_TESTNET]: false
+  [ChainId.NEAR_TESTNET]: false,
+  [ChainId.EVMOS_TESTNET]: false
 }

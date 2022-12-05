@@ -37,7 +37,8 @@ const EMPTY_LIST: TokenAddressMap = {
   [ChainId.SONGBIRD]: {},
   [ChainId.HEDERA_TESTNET]: {},
   [ChainId.NEAR_MAINNET]: {},
-  [ChainId.NEAR_TESTNET]: {}
+  [ChainId.NEAR_TESTNET]: {},
+  [ChainId.EVMOS_TESTNET]: {}
 }
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =

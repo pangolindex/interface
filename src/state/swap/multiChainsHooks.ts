@@ -15,5 +15,6 @@ export const useGelatoLimitOrdersHook: UseGelatoLimitOrdersHookType = {
   [ChainId.SONGBIRD]: useDummyGelatoLimitOrders,
   [ChainId.HEDERA_TESTNET]: useDummyGelatoLimitOrders,
   [ChainId.NEAR_MAINNET]: useDummyGelatoLimitOrders,
-  [ChainId.NEAR_TESTNET]: useDummyGelatoLimitOrders
+  [ChainId.NEAR_TESTNET]: useDummyGelatoLimitOrders,
+  [ChainId.EVMOS_TESTNET]: useDummyGelatoLimitOrders
 }
