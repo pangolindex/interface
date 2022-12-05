@@ -1,9 +1,19 @@
 import React from 'react'
 import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { Root, Buttons, MaxButton, StakeWrapper, GridContainer, InputText } from './styled'
-import { Box, Button, NumberOptions, useTranslation, Loader, Stat, TransactionCompleted } from '@pangolindex/components'
+import {
+  Box,
+  Button,
+  NumberOptions,
+  useTranslation,
+  Loader,
+  Stat,
+  TransactionCompleted,
+  useWalletModalToggle
+} from '@pangolindex/components'
 import { ApprovalState } from 'src/hooks/useApproveCallback'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
+import { useActiveWeb3React } from 'src/hooks'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
@@ -12,6 +22,9 @@ type Props = {
 
 const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const { t } = useTranslation()
+  const { account } = useActiveWeb3React()
+
+  const toggleWalletModal = useWalletModalToggle()
 
   const {
     stakeToken,
@@ -104,7 +117,12 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
 
           <Buttons isStaked={userPngUnstaked?.greaterThan('0')}>
             {/* show staked or get png button */}
-            {userPngUnstaked?.greaterThan('0') ? (
+
+            {!account ? (
+              <Button variant="primary" onClick={toggleWalletModal}>
+                {t('web3Status.connectToWallet')}
+              </Button>
+            ) : userPngUnstaked?.greaterThan('0') ? (
               <>
                 <Button
                   variant={approval === ApprovalState.APPROVED || signatureData !== null ? 'confirm' : 'primary'}

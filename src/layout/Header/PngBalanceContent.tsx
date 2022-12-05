@@ -1,8 +1,7 @@
-import { TokenAmount, JSBI, ChainId, CHAINS } from '@pangolindex/sdk'
+import { TokenAmount, JSBI, CHAINS } from '@pangolindex/sdk'
 import React, { useCallback, useMemo, useState } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
-import tokenLogo from 'src/assets/images/logo.png'
 import { useTranslation, useTotalSupplyHook, useTokenBalanceHook, useUSDCPriceHook } from '@pangolindex/components'
 import { MENU_LINK, getTokenLogoURL, PANGOLIN_API_BASE_URL } from '../../constants'
 import { PNG } from '../../constants/tokens'
@@ -59,7 +58,7 @@ const AddPNG = styled.span`
 export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowPngBalanceModal: any }) {
   const { account, library } = useActiveWeb3React()
   const chainId = useChainId()
-  const png = chainId ? PNG[chainId] : undefined
+  const png = PNG[chainId]
   const pngSymbol = usePngSymbol()
 
   const useTokenBalance = useTokenBalanceHook[chainId]
@@ -107,7 +106,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
               address: png?.address,
               symbol: png?.symbol,
               decimals: png?.decimals,
-              image: getTokenLogoURL(PNG[ChainId.AVALANCHE].address, chainId, 48)
+              image: getTokenLogoURL(png.address, chainId, 48)
             }
           }
         })
@@ -132,7 +131,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
           <>
             <CardSection gap="sm">
               <AutoColumn gap="md" justify="center">
-                <PngTokenAnimated width="48px" src={tokenLogo} />{' '}
+                <PngTokenAnimated width="48px" src={getTokenLogoURL(png.address, chainId, 48)} />{' '}
                 <TYPE.white fontSize={48} fontWeight={600} color="white">
                   {total?.toFixed(2, { groupSeparator: ',' })}
                 </TYPE.white>

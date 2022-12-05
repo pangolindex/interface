@@ -12,6 +12,7 @@ import { useQuery } from 'react-query'
 import axios from 'axios'
 import { useMemo, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
+import { MixPanelEvents, useMixpanel } from 'src/hooks/mixpanel'
 
 export function useMerkledropClaimedAmounts(airdropAddress: string) {
   const { account } = useWeb3React()
@@ -77,6 +78,7 @@ export function useMerkledropProof(airdropAddress: string) {
 
 export function useClaimAirdrop(airdropAddress: string, airdropType: AirdropType) {
   const { account } = useWeb3React()
+  const chainId = useChainId()
   const { library, provider } = useLibrary()
   const pngSymbol = usePngSymbol()
 
@@ -88,6 +90,8 @@ export function useClaimAirdrop(airdropAddress: string, airdropType: AirdropType
   const [error, setError] = useState<string | null>(null)
 
   const addTransaction = useTransactionAdder()
+
+  const mixpanel = useMixpanel()
 
   const onDimiss = () => {
     setHash(null)
@@ -132,6 +136,11 @@ export function useClaimAirdrop(airdropAddress: string, airdropType: AirdropType
         claim: { recipient: account }
       })
       setHash(response.hash)
+
+      mixpanel.track(MixPanelEvents.CLAIM_AIRDROP, {
+        chainId: chainId,
+        airdropType: airdropType
+      })
     } catch (err) {
       // we only care if the error is something _other_ than the user rejected the tx
       const _err = err as any

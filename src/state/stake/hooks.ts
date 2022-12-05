@@ -482,43 +482,39 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
     setAttempting(true)
     if (stakingContract && parsedAmount && deadline) {
       if (approval === ApprovalState.APPROVED) {
-        stakingContract
-          .stake(`0x${parsedAmount.raw.toString(16)}`)
-          .then((response: TransactionResponse) => {
-            addTransaction(response, {
-              summary: t('earnPage.stakeStakingTokens', { symbol: 'PNG' })
-            })
-            setHash(response.hash)
+        try {
+          const response: TransactionResponse = await stakingContract.stake(`0x${parsedAmount.raw.toString(16)}`)
+          addTransaction(response, {
+            summary: t('earnPage.stakeStakingTokens', { symbol: png.symbol })
           })
-          .catch((err: any) => {
-            setAttempting(false)
-            // we only care if the error is something _other_ than the user rejected the tx
-            if (err?.code !== 4001) {
-              console.error(err)
-            }
-          })
+          setHash(response.hash)
+        } catch (err) {
+          setAttempting(false)
+          // we only care if the error is something _other_ than the user rejected the tx
+          if ((err as any)?.code !== 4001) {
+            console.error(err)
+          }
+        }
       } else if (signatureData) {
-        stakingContract
-          .stakeWithPermit(
+        try {
+          const response: TransactionResponse = await stakingContract.stakeWithPermit(
             `0x${parsedAmount.raw.toString(16)}`,
             signatureData.deadline,
             signatureData.v,
             signatureData.r,
             signatureData.s
           )
-          .then((response: TransactionResponse) => {
-            addTransaction(response, {
-              summary: t('earnPage.stakeStakingTokens', { symbol: 'PNG' })
-            })
-            setHash(response.hash)
+          addTransaction(response, {
+            summary: t('earnPage.stakeStakingTokens', { symbol: png.symbol })
           })
-          .catch((err: any) => {
-            setAttempting(false)
-            // we only care if the error is something _other_ than the user rejected the tx
-            if (err?.code !== 4001) {
-              console.error(err)
-            }
-          })
+          setHash(response.hash)
+        } catch (err) {
+          setAttempting(false)
+          // we only care if the error is something _other_ than the user rejected the tx
+          if ((err as any)?.code !== 4001) {
+            console.error(err)
+          }
+        }
       } else {
         setAttempting(false)
         throw new Error(t('earn.attemptingToStakeError'))
