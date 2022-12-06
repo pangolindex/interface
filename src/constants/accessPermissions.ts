@@ -127,12 +127,12 @@ const nonEvmHideList: MENU_LINK[] = [
 ]
 
 export const HIDE_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: MENU_LINK[] } = {
-  [ChainId.FUJI]: [],
-  [ChainId.AVALANCHE]: [],
+  [ChainId.FUJI]: [MENU_LINK.stakev2],
+  [ChainId.AVALANCHE]: [MENU_LINK.stakev2],
   [ChainId.WAGMI]: [],
-  [ChainId.COSTON]: [],
-  [ChainId.SONGBIRD]: [MENU_LINK.vote],
-  [ChainId.HEDERA_TESTNET]: [MENU_LINK.vote, MENU_LINK.migrate, MENU_LINK.airdrop],
+  [ChainId.COSTON]: [MENU_LINK.stake],
+  [ChainId.SONGBIRD]: [MENU_LINK.vote, MENU_LINK.stake],
+  [ChainId.HEDERA_TESTNET]: [MENU_LINK.vote, MENU_LINK.migrate, MENU_LINK.airdrop, MENU_LINK.stake],
   [ChainId.NEAR_MAINNET]: nonEvmHideList,
   [ChainId.NEAR_TESTNET]: nonEvmHideList,
   [ChainId.ETHEREUM]: onlyBridgeHideOtherMenus,
