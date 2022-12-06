@@ -34,7 +34,22 @@ export const logoMapping = {
   [ChainId.WAGMI]: PNG,
   14: PNG, // Don't have flare on chain id mapping
   [ChainId.NEAR_MAINNET]: PNR,
-  [ChainId.NEAR_TESTNET]: PNR
+  [ChainId.NEAR_TESTNET]: PNR,
+  [ChainId.ETHEREUM]: '',
+  [ChainId.POLYGON]: '',
+  [ChainId.FANTOM]: '',
+  [ChainId.XDAI]: '',
+  [ChainId.BSC]: '',
+  [ChainId.ARBITRUM]: '',
+  [ChainId.CELO]: '',
+  [ChainId.OKXCHAIN]: '',
+  [ChainId.VELAS]: '',
+  [ChainId.AURORA]: '',
+  [ChainId.CRONOS]: '',
+  [ChainId.FUSE]: '',
+  [ChainId.MOONRIVER]: '',
+  [ChainId.MOONBEAM]: '',
+  [ChainId.OP]: ''
 }
 
 export const airdropAbiMapping = {

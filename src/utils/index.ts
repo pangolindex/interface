@@ -4,10 +4,11 @@ import { AddressZero } from '@ethersproject/constants'
 import { JsonRpcSigner, JsonRpcProvider, TransactionResponse, TransactionReceipt } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import IPangolinRouter from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-periphery/interfaces/IPangolinRouter.sol/IPangolinRouter.json'
-import { MIN_ETH, ROUTER_ADDRESS } from '../constants'
+import { MENU_LINK, MIN_ETH, ROUTER_ADDRESS } from '../constants'
 import { ChainId, JSBI, CurrencyAmount, CHAINS, TokenAmount, Currency, Token, CAVAX, Chain } from '@pangolindex/sdk'
 import { parseUnits } from 'ethers/lib/utils'
 import { wait } from './retry'
+import { HIDE_MENU_ACCESS_MANAGEMENT } from 'src/constants/accessPermissions'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -38,6 +39,12 @@ export function calculateSlippageAmount(value: CurrencyAmount, slippage: number)
     JSBI.divide(JSBI.multiply(value.raw, JSBI.BigInt(10000 - slippage)), JSBI.BigInt(10000)),
     JSBI.divide(JSBI.multiply(value.raw, JSBI.BigInt(10000 + slippage)), JSBI.BigInt(10000))
   ]
+}
+
+// menu access check
+export const shouldHideMenuItem = (chainId: ChainId, menuLink: MENU_LINK): boolean => {
+  const hideMenus = HIDE_MENU_ACCESS_MANAGEMENT[chainId]
+  return hideMenus?.some(menu => menu === menuLink) ?? false
 }
 
 // account is not optional
