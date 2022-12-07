@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import { MENU_LINK } from 'src/constants'
 import { useChainId } from 'src/hooks'
-import { VOTE_PAGE_ACCESS } from 'src/constants/accessPermissions'
+import { shouldHideMenuItem } from 'src/utils'
 const Polling = React.lazy(() => import('../components/Header/Polling'))
 const Popups = React.lazy(() => import('../components/Popups'))
 const Web3ReactManager = React.lazy(() => import('../components/Web3ReactManager'))
@@ -50,8 +50,82 @@ const BodyWrapper = styled.div`
   z-index: 1;
 `
 
+interface IRoute {
+  menuLink?: MENU_LINK //Bring it blank if it is same with path
+  path: string | MENU_LINK
+  component: React.FC
+  layout: React.FC
+  strict?: boolean
+  exact?: boolean
+}
+
 export default function App() {
   const chainId = useChainId()
+  const routes: IRoute[] = [
+    {
+      path: MENU_LINK.dashboard,
+      component: Dashboard,
+      layout: Layout
+    },
+    {
+      menuLink: MENU_LINK.migrate,
+      path: `${MENU_LINK.migrate}/:version`,
+      component: MigrateV2,
+      layout: Layout
+    },
+    {
+      path: MENU_LINK.swap,
+      component: SwapV2,
+      layout: Layout
+    },
+    {
+      menuLink: MENU_LINK.stake,
+      path: `${MENU_LINK.stake}/:version`,
+      strict: true,
+      component: StakeV2,
+      layout: Layout
+    },
+    {
+      path: MENU_LINK.vote,
+      strict: true,
+      component: GovernanceV2,
+      layout: Layout
+    },
+    {
+      menuLink: MENU_LINK.vote,
+      path: `${MENU_LINK.vote}/:id`,
+      strict: true,
+      component: GovernanceDetailV2,
+      layout: Layout
+    },
+    {
+      path: MENU_LINK.pool,
+      component: PoolV2,
+      layout: Layout
+    },
+    {
+      path: MENU_LINK.buy,
+      strict: true,
+      component: BuyV2,
+      layout: Layout
+    },
+    {
+      path: MENU_LINK.bridge,
+      component: BridgeV2,
+      layout: Layout
+    },
+    {
+      path: MENU_LINK.airdrop,
+      component: AirdropV2,
+      layout: Layout
+    },
+    {
+      path: MENU_LINK.stakev2,
+      component: SarStake,
+      layout: Layout
+    }
+  ]
+
   return (
     <Suspense fallback={null}>
       <Route component={DarkModeQueryParamReader} />
@@ -61,11 +135,19 @@ export default function App() {
           <Polling />
           <Web3ReactManager>
             <Switch>
-              <CustomRoute exact path={`${MENU_LINK.dashboard}`} component={Dashboard} layout={Layout} />
-              <CustomRoute exact path={`${MENU_LINK.migrate}/:version`} component={MigrateV2} layout={Layout} />
-
-              <CustomRoute exact path={`${MENU_LINK.swap}`} component={SwapV2} layout={Layout} />
-              <CustomRoute exact strict path={`${MENU_LINK.stake}/:version`} component={StakeV2} layout={Layout} />
+              {routes.map(
+                (route, i) =>
+                  !shouldHideMenuItem(chainId, route?.menuLink || (route.path as MENU_LINK)) && (
+                    <CustomRoute
+                      key={i}
+                      exact
+                      strict={route?.strict}
+                      path={route.path}
+                      component={route.component}
+                      layout={route.layout}
+                    />
+                  )
+              )}
               {/* <CustomRoute
                 exact
                 strict
@@ -73,24 +155,6 @@ export default function App() {
                 component={ManageStakeV2}
                 layout={Layout}
               /> */}
-              {VOTE_PAGE_ACCESS[chainId] && (
-                <CustomRoute exact path={`${MENU_LINK.vote}`} component={GovernanceV2} layout={Layout} />
-              )}
-              {VOTE_PAGE_ACCESS[chainId] && (
-                <CustomRoute
-                  exact
-                  strict
-                  path={`${MENU_LINK.vote}/:id`}
-                  component={GovernanceDetailV2}
-                  layout={Layout}
-                />
-              )}
-
-              <CustomRoute exact strict path={`${MENU_LINK.buy}`} component={BuyV2} layout={Layout} />
-              <CustomRoute exact path={`${MENU_LINK.pool}`} component={PoolV2} layout={Layout} />
-              <CustomRoute exact path={`${MENU_LINK.bridge}`} component={BridgeV2} layout={Layout} />
-              <CustomRoute exact path={`${MENU_LINK.airdrop}`} component={AirdropV2} layout={Layout} />
-              <CustomRoute exact path={`${MENU_LINK.stakev2}`} component={SarStake} layout={Layout} />
 
               {/* <Route exact path="/beta/migrate/:version" component={MigrateV2} /> */}
 

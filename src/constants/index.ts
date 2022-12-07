@@ -9,7 +9,22 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].contracts!.router,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET]?.contracts!.router,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET]?.contracts!.router,
-  [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].contracts!.router
+  [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].contracts!.router,
+  [ChainId.ETHEREUM]: '',
+  [ChainId.POLYGON]: '',
+  [ChainId.FANTOM]: '',
+  [ChainId.XDAI]: '',
+  [ChainId.BSC]: '',
+  [ChainId.ARBITRUM]: '',
+  [ChainId.CELO]: '',
+  [ChainId.OKXCHAIN]: '',
+  [ChainId.VELAS]: '',
+  [ChainId.AURORA]: '',
+  [ChainId.CRONOS]: '',
+  [ChainId.FUSE]: '',
+  [ChainId.MOONRIVER]: '',
+  [ChainId.MOONBEAM]: '',
+  [ChainId.OP]: ''
 }
 
 export const ANALYTICS_PAGE = 'https://info.pangolin.exchange'
@@ -39,7 +54,22 @@ export const MINICHEF_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.HEDERA_TESTNET]: ZERO_ADDRESS,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].contracts!.mini_chef!.address,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].contracts!.mini_chef!.address,
-  [ChainId.EVMOS_TESTNET]: ZERO_ADDRESS
+  [ChainId.EVMOS_TESTNET]: ZERO_ADDRESS,
+  [ChainId.ETHEREUM]: ZERO_ADDRESS,
+  [ChainId.POLYGON]: ZERO_ADDRESS,
+  [ChainId.FANTOM]: ZERO_ADDRESS,
+  [ChainId.XDAI]: ZERO_ADDRESS,
+  [ChainId.BSC]: ZERO_ADDRESS,
+  [ChainId.ARBITRUM]: ZERO_ADDRESS,
+  [ChainId.CELO]: ZERO_ADDRESS,
+  [ChainId.OKXCHAIN]: ZERO_ADDRESS,
+  [ChainId.VELAS]: ZERO_ADDRESS,
+  [ChainId.AURORA]: ZERO_ADDRESS,
+  [ChainId.CRONOS]: ZERO_ADDRESS,
+  [ChainId.FUSE]: ZERO_ADDRESS,
+  [ChainId.MOONRIVER]: ZERO_ADDRESS,
+  [ChainId.MOONBEAM]: ZERO_ADDRESS,
+  [ChainId.OP]: ZERO_ADDRESS
 }
 
 // LEGACY AIRDROPS ADRESSES
@@ -62,7 +92,22 @@ export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].name,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].name,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].name,
-  [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].name
+  [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].name,
+  [ChainId.ETHEREUM]: CHAINS[ChainId.ETHEREUM].name,
+  [ChainId.POLYGON]: CHAINS[ChainId.POLYGON].name,
+  [ChainId.FANTOM]: CHAINS[ChainId.FANTOM].name,
+  [ChainId.XDAI]: CHAINS[ChainId.XDAI].name,
+  [ChainId.BSC]: CHAINS[ChainId.BSC].name,
+  [ChainId.ARBITRUM]: CHAINS[ChainId.ARBITRUM].name,
+  [ChainId.CELO]: CHAINS[ChainId.CELO].name,
+  [ChainId.OKXCHAIN]: CHAINS[ChainId.OKXCHAIN].name,
+  [ChainId.VELAS]: CHAINS[ChainId.VELAS].name,
+  [ChainId.AURORA]: CHAINS[ChainId.AURORA].name,
+  [ChainId.CRONOS]: CHAINS[ChainId.CRONOS].name,
+  [ChainId.FUSE]: CHAINS[ChainId.FUSE].name,
+  [ChainId.MOONRIVER]: CHAINS[ChainId.MOONRIVER].name,
+  [ChainId.MOONBEAM]: CHAINS[ChainId.MOONBEAM].name,
+  [ChainId.OP]: CHAINS[ChainId.OP].name
 }
 
 export const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
@@ -74,7 +119,22 @@ export const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
   [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].symbol,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].symbol,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].symbol,
-  [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].symbol
+  [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].symbol,
+  [ChainId.ETHEREUM]: CHAINS[ChainId.ETHEREUM].symbol,
+  [ChainId.POLYGON]: CHAINS[ChainId.POLYGON].symbol,
+  [ChainId.FANTOM]: CHAINS[ChainId.FANTOM].symbol,
+  [ChainId.XDAI]: CHAINS[ChainId.XDAI].symbol,
+  [ChainId.BSC]: CHAINS[ChainId.BSC].symbol,
+  [ChainId.ARBITRUM]: CHAINS[ChainId.ARBITRUM].symbol,
+  [ChainId.CELO]: CHAINS[ChainId.CELO].symbol,
+  [ChainId.OKXCHAIN]: CHAINS[ChainId.OKXCHAIN].symbol,
+  [ChainId.VELAS]: CHAINS[ChainId.VELAS].symbol,
+  [ChainId.AURORA]: CHAINS[ChainId.AURORA].symbol,
+  [ChainId.CRONOS]: CHAINS[ChainId.CRONOS].symbol,
+  [ChainId.FUSE]: CHAINS[ChainId.FUSE].symbol,
+  [ChainId.MOONRIVER]: CHAINS[ChainId.MOONRIVER].symbol,
+  [ChainId.MOONBEAM]: CHAINS[ChainId.MOONBEAM].symbol,
+  [ChainId.OP]: CHAINS[ChainId.OP].symbol
 }
 
 // default allowed slippage, in bips

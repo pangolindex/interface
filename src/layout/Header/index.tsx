@@ -89,11 +89,13 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
                 </NetworkCard>
               )}
             </Hidden>
-            <PNGWrapper onClick={() => setShowPngBalanceModal(true)}>
-              <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
-                {CHAINS[chainId].png_symbol}
-              </PNGAmount>
-            </PNGWrapper>
+            {CHAINS[chainId].png_symbol && (
+              <PNGWrapper onClick={() => setShowPngBalanceModal(true)}>
+                <PNGAmount active={!!account} style={{ pointerEvents: 'auto' }}>
+                  {CHAINS[chainId].png_symbol}
+                </PNGAmount>
+              </PNGWrapper>
+            )}
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
               {account && userEthBalance ? (
                 <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>

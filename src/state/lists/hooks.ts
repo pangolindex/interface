@@ -38,7 +38,22 @@ const EMPTY_LIST: TokenAddressMap = {
   [ChainId.HEDERA_TESTNET]: {},
   [ChainId.NEAR_MAINNET]: {},
   [ChainId.NEAR_TESTNET]: {},
-  [ChainId.EVMOS_TESTNET]: {}
+  [ChainId.EVMOS_TESTNET]: {},
+  [ChainId.ETHEREUM]: {},
+  [ChainId.POLYGON]: {},
+  [ChainId.FANTOM]: {},
+  [ChainId.XDAI]: {},
+  [ChainId.BSC]: {},
+  [ChainId.ARBITRUM]: {},
+  [ChainId.CELO]: {},
+  [ChainId.OKXCHAIN]: {},
+  [ChainId.VELAS]: {},
+  [ChainId.AURORA]: {},
+  [ChainId.CRONOS]: {},
+  [ChainId.FUSE]: {},
+  [ChainId.MOONRIVER]: {},
+  [ChainId.MOONBEAM]: {},
+  [ChainId.OP]: {}
 }
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =
