@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { MENU_LINK } from 'src/constants'
 import { ThemeContext } from 'styled-components'
 import { Menu, MenuItem, MenuLink, MenuName, MenuExternalLink, MenuWrapper } from './styled'
-import { Box, existSarContract, Text, useTranslation } from '@pangolindex/components'
+import { Box, Text, useTranslation } from '@pangolindex/components'
 import { Dashboard, Swap, Stake, Pool, Buy, Vote, Airdrop, Bridge as BridgeIcon } from '../../components/Icons'
 import Charts from '../../assets/svg/menu/analytics.svg'
 import { ANALYTICS_PAGE } from '../../constants'
@@ -97,20 +97,6 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       isActive: location?.pathname?.startsWith(MENU_LINK.bridge)
     }
   ].filter(link => !shouldHideMenuItem(chainId, link.link as MENU_LINK))
-
-  // for now, for non evm chain, hide all other menus except dashboard and swap
-  // if (!chain.evm) {
-  //   mainLinks.splice(4)
-  // }
-
-  // remove stakvev2 if not exist sar contract
-  if (!existSarContract(chainId)) {
-    const stakeV2PageIndex = mainLinks.findIndex(element => element?.id === 'stakev2')
-    mainLinks.splice(stakeV2PageIndex, 1)
-  } else {
-    const stakePageIndex = mainLinks.findIndex(element => element?.id === 'stake')
-    mainLinks.splice(stakePageIndex, 1)
-  }
 
   const pangolinLinks = [
     {
