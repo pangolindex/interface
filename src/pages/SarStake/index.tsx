@@ -7,7 +7,7 @@ import {
   existSarContract,
   useTranslation,
   Text,
-  useSarPositions,
+  useSarPositionsHook,
   Modal,
   Loader
 } from '@pangolindex/components'
@@ -26,6 +26,7 @@ export default function SarStaking() {
 
   const { t } = useTranslation()
 
+  const useSarPositions = useSarPositionsHook[chainId]
   const { positions, isLoading } = useSarPositions()
 
   const onSelectPosition = (position: Position | null) => {
