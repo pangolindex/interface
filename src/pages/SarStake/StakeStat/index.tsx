@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { CurrencyLogo, Text, useSarStakeInfo, useSarPositions, Position } from '@pangolindex/components'
+import { CurrencyLogo, Text, useSarStakeInfo, useSarPositionsHook, Position } from '@pangolindex/components'
 import { BigNumber } from '@ethersproject/bignumber'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
@@ -11,6 +11,8 @@ import { formatEther } from 'ethers/lib/utils'
 const StakeStat: React.FC = () => {
   const chainId = useChainId()
   const { apr, totalStaked } = useSarStakeInfo()
+
+  const useSarPositions = useSarPositionsHook[chainId]
   const { positions = [] as Position[] } = useSarPositions()
 
   const filteredPositions = positions.filter(position => !position.balance.isZero()) // remove zero balances
