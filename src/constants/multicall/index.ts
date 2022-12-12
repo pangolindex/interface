@@ -9,7 +9,22 @@ const MULTICALL_NETWORKS: { [chainId in ChainId]: string } = {
   [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD].contracts!.multicall,
   [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].contracts!.multicall,
   [ChainId.NEAR_MAINNET]: '',
-  [ChainId.NEAR_TESTNET]: ''
+  [ChainId.NEAR_TESTNET]: '',
+  [ChainId.ETHEREUM]: '',
+  [ChainId.POLYGON]: '',
+  [ChainId.FANTOM]: '',
+  [ChainId.XDAI]: '',
+  [ChainId.BSC]: '',
+  [ChainId.ARBITRUM]: '',
+  [ChainId.CELO]: '',
+  [ChainId.OKXCHAIN]: '',
+  [ChainId.VELAS]: '',
+  [ChainId.AURORA]: '',
+  [ChainId.CRONOS]: '',
+  [ChainId.FUSE]: '',
+  [ChainId.MOONRIVER]: '',
+  [ChainId.MOONBEAM]: '',
+  [ChainId.OP]: ''
 }
 
 export { MULTICALL_ABI, MULTICALL_NETWORKS }
