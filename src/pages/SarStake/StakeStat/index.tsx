@@ -6,7 +6,7 @@ import Stat from 'src/components/Stat'
 import { PNG } from 'src/constants/tokens'
 import { useChainId } from 'src/hooks'
 import { DestkopDetails, MobileDetails, Title, Wrapper } from './styleds'
-import { formatEther } from 'ethers/lib/utils'
+import { formatUnits } from 'ethers/lib/utils'
 
 const StakeStat: React.FC = () => {
   const chainId = useChainId()
@@ -48,7 +48,7 @@ const StakeStat: React.FC = () => {
         <Stat
           title="Your Stake"
           titlePosition="top"
-          stat={`${numeral(formatEther(userTotalStaked)).format('0.00a')} ${PNG[chainId].symbol}`}
+          stat={`${numeral(formatUnits(userTotalStaked, png.decimals)).format('0.00a')} ${PNG[chainId].symbol}`}
           titleColor="text2"
           statColor="text1"
           titleFontSize={16}
