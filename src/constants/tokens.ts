@@ -41,7 +41,7 @@ export const PNG: { [chainId in ChainId]: Token } = {
   [ChainId.HEDERA_TESTNET]: new Token(
     ChainId.HEDERA_TESTNET,
     CHAINS[ChainId.HEDERA_TESTNET].contracts!.png,
-    18,
+    8,
     CHAINS[ChainId.HEDERA_TESTNET].png_symbol,
     'Songbird Pangolin'
   ),
