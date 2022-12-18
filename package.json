@@ -20,10 +20,10 @@
     "@ethersproject/wallet": "5.6.2",
     "@gnosis.pm/safe-apps-web3-react": "0.6.8",
     "@metamask/jazzicon": "2.0.0",
-    "@pangolindex/components": "5.0.1-internal.dd615c0",
+    "@pangolindex/components": "5.0.1-internal.c2eda0e",
     "@pangolindex/exchange-contracts": "2.1.7",
     "@pangolindex/governance": "1.2.0",
-    "@pangolindex/sdk": "4.0.2-internal.fe5fb3a",
+    "@pangolindex/sdk": "4.1.0-rc.0",
     "@pangolindex/token-lists": "1.0.2",
     "@pangolindex/web3-react-injected-connector": "1.0.1",
     "@reach/dialog": "0.10.5",
@@ -159,10 +159,6 @@
     "near-api-js": "0.44.2",
     "npm-force-resolutions": "0.0.10",
     "patch-package": "6.4.7",
-    "react-collapsed": "3.4.0",
-    "react-portal": "4.2.1",
-    "react-select": "^5.4.0",
-    "react-tabs": "4.2.1",
-    "react-tooltip": "4.2.21"
+    "react-portal": "4.2.1"
   }
 }
