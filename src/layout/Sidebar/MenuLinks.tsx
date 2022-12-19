@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { MENU_LINK } from 'src/constants'
 import { ThemeContext } from 'styled-components'
 import { Menu, MenuItem, MenuLink, MenuName, MenuExternalLink, MenuWrapper } from './styled'
@@ -8,6 +8,7 @@ import Charts from '../../assets/svg/menu/analytics.svg'
 import { ANALYTICS_PAGE } from '../../constants'
 import Bridge from '../../assets/svg/menu/bridge.svg'
 import Governance from '../../assets/svg/menu/governance.svg'
+import CoinbasePayIcon from 'src/assets/svg/coinbase_coin_pay_blue.svg'
 import { useLocation } from 'react-router-dom'
 import { useChainId } from 'src/hooks'
 import { CHAINS } from '@pangolindex/sdk'
@@ -23,15 +24,42 @@ interface Link {
   icon: string
   title: string
   id: string
+  options?: Array<{
+    value: string
+    label: string
+    icon?: string
+  }>
 }
+
+const buyOptions = [
+  {
+    value: 'coinbase',
+    label: 'Coinbase Pay',
+    icon: CoinbasePayIcon
+  },
+  {
+    value: 'moonpay',
+    label: 'MoonPay'
+  }
+]
 
 export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
   const chainId = useChainId()
   const chain = CHAINS[chainId]
-
   const location: any = useLocation()
+  const [buyOptionsOpen, setBuyOptionsOpen] = useState(false)
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    const clickedLink = mainLinks.find(l => l.id === 'buy')
+    if (clickedLink && event.currentTarget.id === 'buy') {
+      setBuyOptionsOpen(!buyOptionsOpen)
+      event.stopPropagation()
+    } else {
+      onClick?.()
+    }
+  }
 
   const mainLinks = [
     {
@@ -53,7 +81,8 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       icon: Buy,
       title: t('header.buy'),
       id: 'buy',
-      isActive: location?.pathname?.startsWith(MENU_LINK.buy)
+      isActive: location?.pathname?.startsWith(MENU_LINK.buy),
+      options: buyOptions
     },
     {
       link: MENU_LINK.pool,
@@ -159,16 +188,33 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
           const Icon = x.icon
 
           return (
-            <MenuItem isActive={x.isActive} key={index}>
-              <MenuLink id={x.id} to={x.link} onClick={onClick}>
-                <Icon size={16} fillColor={x.isActive ? theme.black : theme.color22} />
-                {!collapsed && (
-                  <MenuName fontSize={[16, 14]} color={x.isActive ? 'black' : undefined}>
-                    {x.title}
-                  </MenuName>
-                )}
-              </MenuLink>
-            </MenuItem>
+            <>
+              <MenuItem isActive={x.isActive} key={index}>
+                <MenuLink id={x.id} to={x.link} onClick={handleClick}>
+                  <Icon size={16} fillColor={x.isActive ? theme.black : theme.color22} />
+                  {!collapsed && (
+                    <MenuName fontSize={[16, 14]} color={x.isActive ? 'black' : undefined}>
+                      {x.title}
+                    </MenuName>
+                  )}
+                </MenuLink>
+              </MenuItem>
+              {buyOptionsOpen &&
+                x.id === 'buy' &&
+                buyOptions.map((bo, i) => (
+                  <MenuItem key={index + '-sub-' + i}>
+                    <MenuLink
+                      key={'buyOption-' + bo.label}
+                      id={'buyOption-' + bo.label}
+                      to={x.link + '?provider=' + bo.value}
+                      onClick={handleClick}
+                    >
+                      {bo.icon && <img src={bo.icon} width={16} alt={bo.label} />}
+                      <MenuName fontSize={[16, 14]}>{bo.label}</MenuName>
+                    </MenuLink>
+                  </MenuItem>
+                ))}
+            </>
           )
         })}
       </Menu>

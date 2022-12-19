@@ -6,10 +6,6 @@ export const WalletText = styled(Box)`
   margin-top: 4px;
 `
 
-export const PayButton = styled(Button)`
-  max-width: 250px;
-`
-
 export const BackButton = styled(Button)`
   color: ${({ theme }) => theme.text1};
   max-width: 50px;
@@ -17,11 +13,6 @@ export const BackButton = styled(Button)`
 
 export const BackRow = styled.div`
   width: 100%;
-`
-
-export const CBIcon = styled.img`
-  width: 50px;
-  margin-right: 10px;
 `
 
 export const Container = styled(Box)`
