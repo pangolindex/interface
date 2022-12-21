@@ -22,11 +22,12 @@ import {
   NetworkCard,
   BalanceText,
   ThemeMode,
-  LegacyButtonWrapper
+  LegacyButtonWrapper,
+  SupportButton
 } from './styled'
 import { Hidden, MEDIA_WIDTHS } from 'src/theme'
 import { useChainId } from 'src/hooks'
-import { LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
+import { DISCORD_SUPPORT, LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
 import { CHAINS } from '@pangolindex/sdk'
@@ -77,6 +78,9 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
               <Button variant="primary" height={36} padding="4px 6px" href={LEGACY_PAGE} as="a">
                 <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
               </Button>
+              <SupportButton href={DISCORD_SUPPORT} target="_blank">
+                <span style={{ whiteSpace: 'nowrap' }}>Support</span>
+              </SupportButton>
             </LegacyButtonWrapper>
             <Hidden upToSmall={true}>
               <NetworkSelection open={openNetworkSelection} closeModal={closeNetworkSelection} />
