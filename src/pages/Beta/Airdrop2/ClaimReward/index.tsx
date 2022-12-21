@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Wrapper } from '../styleds'
-import { Text, Button, Box } from '@pangolindex/components'
+import { Text, Button, Box, Loader, Tooltip } from '@pangolindex/components'
 import { Chain, TokenAmount } from '@pangolindex/sdk'
 import { useClaimAirdrop, useMerkledropClaimedAmounts, useMerkledropProof } from 'src/state/airdrop/hooks'
 import { PNG } from 'src/constants/tokens'
@@ -10,6 +10,7 @@ import NotEligible from './NotEligible'
 import AlreadyClaimed from './Claimed'
 import Title from '../Title'
 import { AirdropData } from 'src/constants/airdrop'
+import { formatUnits } from 'ethers/lib/utils'
 
 interface Props extends AirdropData {
   chain: Chain
@@ -24,13 +25,13 @@ const ClaimReward: React.FC<Props> = ({ address, type, chain, title }) => {
 
   const { onClaim, onDimiss, hash, attempting, error } = useClaimAirdrop(address, type)
 
-  const { data } = useMerkledropProof(address)
-  const claimedAmount = useMerkledropClaimedAmounts(address)
+  const { data, isLoading: isLoadingProof } = useMerkledropProof(address)
+  const { data: _claimedAmount, isLoading } = useMerkledropClaimedAmounts(address)
 
-  const claimAmount = data?.amount ?? new TokenAmount(PNG[chainId], '0')
-  const totalToClaim = claimAmount.equalTo('0')
-    ? new TokenAmount(PNG[chainId], '0')
-    : claimAmount.subtract(claimedAmount)
+  const claimedAmount = _claimedAmount ?? new TokenAmount(png, '0')
+
+  const claimAmount = data?.amount ?? new TokenAmount(png, '0')
+  const totalToClaim = claimAmount.equalTo('0') ? new TokenAmount(png, '0') : claimAmount.subtract(claimedAmount)
 
   const handleConfirmDismiss = useCallback(() => {
     onDimiss()
@@ -45,6 +46,14 @@ const ClaimReward: React.FC<Props> = ({ address, type, chain, title }) => {
       setOpenDrawer(true)
     }
   }, [handleConfirmDismiss, attempting, error, hash, openDrawer])
+
+  if (isLoading || isLoadingProof) {
+    return (
+      <Wrapper>
+        <Loader size={40} />
+      </Wrapper>
+    )
+  }
 
   if (claimAmount.lessThan('0') || claimAmount.equalTo('0')) {
     return <NotEligible chain={chain} subtitle={title} />
@@ -61,8 +70,13 @@ const ClaimReward: React.FC<Props> = ({ address, type, chain, title }) => {
         <Text fontSize={16} fontWeight={500} color="text10">
           You are eligible for:
         </Text>
-        <Text fontSize={[22, 18]} fontWeight={700} color="primary" ml="10px">
-          {totalToClaim.lessThan('0') ? '0.00' : totalToClaim.toFixed(2)} {png.symbol}
+        <Tooltip id="airdrop-amount">
+          <Text fontSize={[22, 18]} fontWeight={700} color="primary" ml="10px">
+            {formatUnits(totalToClaim.raw.toString(), png.decimals)} {png.symbol}
+          </Text>
+        </Tooltip>
+        <Text fontSize={[22, 18]} fontWeight={700} color="primary" ml="10px" data-tip data-for="airdrop-amount">
+          {totalToClaim.toFixed(2)} {png.symbol}
         </Text>
       </Box>
       <Button variant="primary" color="black" height="46px" onClick={onClaim}>
