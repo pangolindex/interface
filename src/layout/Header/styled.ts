@@ -170,10 +170,23 @@ export const MobileLogoWrapper = styled.div`
 `
 
 export const LegacyButtonWrapper = styled.div`
-  display: block;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 10px;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;
   `};
+`
+
+export const SupportButton = styled.a`
+  background-color: ${({ theme }) => theme.color2};
+  color: ${({ theme }) => theme.text1};
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 8px 12px;
+  width: max-content;
+  display: flex;
+  justify-content: center;
 `
 
 //https://codepen.io/tt0113243/pen/oexJzE
