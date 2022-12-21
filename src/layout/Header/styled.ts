@@ -185,6 +185,8 @@ export const SupportButton = styled.a`
   border-radius: 12px;
   padding: 8px 12px;
   width: max-content;
+  display: flex;
+  justify-content: center;
 `
 
 //https://codepen.io/tt0113243/pen/oexJzE
