@@ -44,7 +44,7 @@ export function calculateSlippageAmount(value: CurrencyAmount, slippage: number)
 // menu access check
 export const shouldHideMenuItem = (chainId: ChainId, menuLink: MENU_LINK): boolean => {
   const hideMenus = HIDE_MENU_ACCESS_MANAGEMENT[chainId]
-  return hideMenus?.some(menu => menu === menuLink) ?? false
+  return hideMenus?.some(menu => menu === `/${menuLink.split('/')[1]}`) ?? false
 }
 
 // account is not optional

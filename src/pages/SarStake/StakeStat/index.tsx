@@ -1,16 +1,18 @@
 import React, { useMemo } from 'react'
-import { CurrencyLogo, Text, useSarStakeInfo, useSarPositions, Position } from '@pangolindex/components'
+import { CurrencyLogo, Text, useSarStakeInfo, useSarPositionsHook, Position } from '@pangolindex/components'
 import { BigNumber } from '@ethersproject/bignumber'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
 import { PNG } from 'src/constants/tokens'
 import { useChainId } from 'src/hooks'
 import { DestkopDetails, MobileDetails, Title, Wrapper } from './styleds'
-import { formatEther } from 'ethers/lib/utils'
+import { formatUnits } from 'ethers/lib/utils'
 
 const StakeStat: React.FC = () => {
   const chainId = useChainId()
   const { apr, totalStaked } = useSarStakeInfo()
+
+  const useSarPositions = useSarPositionsHook[chainId]
   const { positions = [] as Position[] } = useSarPositions()
 
   const filteredPositions = positions.filter(position => !position.balance.isZero()) // remove zero balances
@@ -46,7 +48,7 @@ const StakeStat: React.FC = () => {
         <Stat
           title="Your Stake"
           titlePosition="top"
-          stat={`${numeral(formatEther(userTotalStaked)).format('0.00a')} ${PNG[chainId].symbol}`}
+          stat={`${numeral(formatUnits(userTotalStaked, png.decimals)).format('0.00a')} ${PNG[chainId].symbol}`}
           titleColor="text2"
           statColor="text1"
           titleFontSize={16}

@@ -11,6 +11,7 @@ import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { useDarkModeManager } from '../../state/user/hooks'
 import NightMode from '../../assets/svg/nightMode.svg'
 import LightMode from '../../assets/svg/lightMode.svg'
+import { ReactComponent as DiscordIcon } from 'src/assets/svg/discord.svg'
 import {
   HeaderFrame,
   HeaderControls,
@@ -22,11 +23,12 @@ import {
   NetworkCard,
   BalanceText,
   ThemeMode,
-  LegacyButtonWrapper
+  LegacyButtonWrapper,
+  SupportButton
 } from './styled'
 import { Hidden, MEDIA_WIDTHS } from 'src/theme'
 import { useChainId } from 'src/hooks'
-import { LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
+import { DISCORD_SUPPORT, LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
 import { CHAINS } from '@pangolindex/sdk'
@@ -77,6 +79,10 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
               <Button variant="primary" height={36} padding="4px 6px" href={LEGACY_PAGE} as="a">
                 <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
               </Button>
+              <SupportButton href={DISCORD_SUPPORT} target="_blank">
+                <DiscordIcon style={{ width: '18px', fill: isDark ? '#fff' : undefined }} />
+                <span style={{ whiteSpace: 'nowrap', marginLeft: '5px' }}>Support</span>
+              </SupportButton>
             </LegacyButtonWrapper>
             <Hidden upToSmall={true}>
               <NetworkSelection open={openNetworkSelection} closeModal={closeNetworkSelection} />
