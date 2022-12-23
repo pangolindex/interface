@@ -5,28 +5,27 @@ import { calculateGasMargin, waitForTransaction } from '../../utils'
 import { useTransactionAdder } from '../transactions/hooks'
 import { AirdropType, TokenAmount } from '@pangolindex/sdk'
 import { PNG } from '../../constants/tokens'
-import { useSingleCallResult } from '../multicall/hooks'
 import { useLibrary } from '@pangolindex/components'
-import { ZERO_ADDRESS } from 'src/constants'
 import { useQuery } from 'react-query'
 import axios from 'axios'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { MixPanelEvents, useMixpanel } from 'src/hooks/mixpanel'
+import { BigNumber } from 'ethers'
 
 export function useMerkledropClaimedAmounts(airdropAddress: string) {
   const { account } = useWeb3React()
   const chainId = useChainId()
+  const png = PNG[chainId]
 
   const merkledropContract = useMerkledropContract(airdropAddress, AirdropType.MERKLE)
-  const claimedAmountsState = useSingleCallResult(merkledropContract, 'claimedAmounts', [account ?? ZERO_ADDRESS])
-
-  return useMemo(() => {
-    if (!account) {
-      return new TokenAmount(PNG[chainId], '0')
+  return useQuery(['claimed-airdrop-amount', merkledropContract?.address, account, chainId], async () => {
+    if (!account || !merkledropContract) {
+      return new TokenAmount(png, '0')
     }
-    return new TokenAmount(PNG[chainId], claimedAmountsState.result?.[0]?.toString() || '0')
-  }, [chainId, account, claimedAmountsState])
+    const claimedAmount: BigNumber = await merkledropContract.claimedAmounts(account)
+    return new TokenAmount(png, claimedAmount.toString())
+  })
 }
 
 export function useMerkledropProof(airdropAddress: string) {

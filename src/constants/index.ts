@@ -36,6 +36,8 @@ export const PANGOLIN_TOKENS_REPO_RAW_BASE_URL = `https://raw.githubusercontent.
 export const DIRECTUS_GRAPHQL_URL = `https://pangolin.directus.app/graphql`
 export const COINGECKO_API = 'https://api.coingecko.com/api/v3'
 
+export const DISCORD_SUPPORT = 'https://discord.com/channels/786999832027463710/1034725721660211210'
+
 export type LogoSize = 24 | 48
 export const getTokenLogoURL = (address: string, chainId: number, size: LogoSize = 24) =>
   `${PANGOLIN_TOKENS_REPO_RAW_BASE_URL}/main/assets/${chainId}/${address}/logo_${size}.png`
