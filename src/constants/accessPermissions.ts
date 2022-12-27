@@ -139,7 +139,7 @@ export const HIDE_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: MENU_LINK[] }
   [ChainId.HEDERA_TESTNET]: [MENU_LINK.vote, MENU_LINK.migrate, MENU_LINK.airdrop, MENU_LINK.stake],
   [ChainId.NEAR_MAINNET]: nonEvmHideList,
   [ChainId.NEAR_TESTNET]: nonEvmHideList,
-  [ChainId.COSTON2]: [MENU_LINK.stake],
+  [ChainId.COSTON2]: [MENU_LINK.stake, MENU_LINK.buy],
   [ChainId.ETHEREUM]: onlyBridgeHideOtherMenus,
   [ChainId.POLYGON]: onlyBridgeHideOtherMenus,
   [ChainId.FANTOM]: onlyBridgeHideOtherMenus,
