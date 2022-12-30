@@ -9,6 +9,7 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].contracts!.router,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET]?.contracts!.router,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET]?.contracts!.router,
+  [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].contracts!.router,
   [ChainId.ETHEREUM]: '',
   [ChainId.POLYGON]: '',
   [ChainId.FANTOM]: '',
@@ -55,6 +56,7 @@ export const MINICHEF_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.HEDERA_TESTNET]: ZERO_ADDRESS,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].contracts!.mini_chef!.address,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].contracts!.mini_chef!.address,
+  [ChainId.COSTON2]: ZERO_ADDRESS,
   [ChainId.ETHEREUM]: ZERO_ADDRESS,
   [ChainId.POLYGON]: ZERO_ADDRESS,
   [ChainId.FANTOM]: ZERO_ADDRESS,
@@ -79,7 +81,8 @@ export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.airdrop!.address,
   [ChainId.COSTON]: ZERO_ADDRESS,
   [ChainId.SONGBIRD]: ZERO_ADDRESS,
-  [ChainId.HEDERA_TESTNET]: ZERO_ADDRESS
+  [ChainId.HEDERA_TESTNET]: ZERO_ADDRESS,
+  [ChainId.COSTON2]: ZERO_ADDRESS
 }
 
 export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
@@ -91,6 +94,7 @@ export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].name,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].name,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].name,
+  [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].name,
   [ChainId.ETHEREUM]: CHAINS[ChainId.ETHEREUM].name,
   [ChainId.POLYGON]: CHAINS[ChainId.POLYGON].name,
   [ChainId.FANTOM]: CHAINS[ChainId.FANTOM].name,
@@ -117,6 +121,7 @@ export const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
   [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].symbol,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].symbol,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].symbol,
+  [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].symbol,
   [ChainId.ETHEREUM]: CHAINS[ChainId.ETHEREUM].symbol,
   [ChainId.POLYGON]: CHAINS[ChainId.POLYGON].symbol,
   [ChainId.FANTOM]: CHAINS[ChainId.FANTOM].symbol,

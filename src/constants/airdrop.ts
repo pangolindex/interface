@@ -35,6 +35,7 @@ export const logoMapping = {
   14: PNG, // Don't have flare on chain id mapping
   [ChainId.NEAR_MAINNET]: PNR,
   [ChainId.NEAR_TESTNET]: PNR,
+  [ChainId.COSTON2]: PNG,
   [ChainId.ETHEREUM]: '',
   [ChainId.POLYGON]: '',
   [ChainId.FANTOM]: '',
