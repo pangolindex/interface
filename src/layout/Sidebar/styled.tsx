@@ -70,16 +70,12 @@ export const MenuWrapper = styled.div`
   flex-direction: column;
 `
 
-const activeClassName = 'ACTIVE'
+const activeclassname = 'ACTIVE'
 
-// export const XYZ = styled(props => (props ? <Box {...props} /> : <div {...props} />))`
-//   ....
-// `
-
-export const MenuLink = styled((props: any) =>
-  props?.isHaveChildren ? <div {...props} /> : <NavLink {...props} />
+export const MenuLink = styled(({ isHaveChildren, ...rest }: any) =>
+  isHaveChildren ? <div {...rest} /> : <NavLink {...rest} />
 ).attrs({
-  activeClassName
+  activeclassname
 })`
   ${({ theme }) => theme.flexRowNoWrap}
   outline: none;
@@ -93,7 +89,7 @@ export const MenuLink = styled((props: any) =>
   align-items: center;
   font-weight: 500;
   width: 100%;
-  &.${activeClassName} {
+  &.${activeclassname} {
     color: ${({ theme }) => theme.white};
   }
 
@@ -105,7 +101,7 @@ export const MenuLink = styled((props: any) =>
 `
 
 export const MenuExternalLink = styled(ExternalLink).attrs({
-  activeClassName
+  activeclassname
 })`
   ${({ theme }) => theme.flexRowNoWrap}
 
