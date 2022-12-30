@@ -104,7 +104,7 @@ export default function App() {
       layout: Layout
     },
     {
-      path: MENU_LINK.buy,
+      path: `${MENU_LINK.buy}/:type`,
       strict: true,
       component: BuyV2,
       layout: Layout

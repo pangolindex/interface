@@ -152,6 +152,7 @@ export const BIG_INT_SECONDS_IN_WEEK = JSBI.BigInt(60 * 60 * 24 * 7)
 export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)) // .01 ETH
 
 export const MOONPAY_PK = process.env.REACT_APP_MOONPAY_PK || ''
+export const COINBASE_PK = process.env.REACT_APP_COINBASE_PK || ''
 export const SUBGRAPH_BASE_URL = process.env.REACT_APP_SUBGRAPH_BASE_URL
 
 export const TIMEFRAME = [
@@ -204,4 +205,9 @@ export enum MENU_LINK {
   bridge = '/bridge',
   airdrop = '/airdrop',
   stakev2 = '/stakev2'
+}
+
+export enum BUY_MENU_LINK {
+  moonpay = 'moonpay',
+  coinbasePay = 'coinbase-pay'
 }
