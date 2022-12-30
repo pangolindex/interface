@@ -73,7 +73,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
         {
           link: `${MENU_LINK.buy}/${BUY_MENU_LINK.coinbasePay}`,
           icon: CoinbasePay,
-          title: `Coinbasepay`,
+          title: `Coinbase Pay`,
           id: `${BUY_MENU_LINK.coinbasePay}`,
           isActive: location?.pathname?.startsWith(`${MENU_LINK.buy}/${BUY_MENU_LINK.coinbasePay}`)
         },
