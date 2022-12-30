@@ -1,8 +1,15 @@
 import React from 'react'
-import { MOONPAY_PK } from 'src/constants'
+import { useParams } from 'react-router-dom'
+import { MOONPAY_PK, BUY_MENU_LINK } from 'src/constants'
 import styled from 'styled-components'
 
+export interface BuyProps {
+  type: string
+}
+
 export default function BuyV2() {
+  const params = useParams<BuyProps>()
+
   const Iframe = styled.iframe`
     border: 0;
     position: absolute;
@@ -11,7 +18,10 @@ export default function BuyV2() {
     bottom: 0;
   `
 
-  const url = `https://buy.moonpay.io?apiKey=${MOONPAY_PK}`
+  const url =
+    params?.type === BUY_MENU_LINK.moonpay
+      ? `https://buy.moonpay.io?apiKey=${MOONPAY_PK}`
+      : `https://buy.moonpay.io?apiKey=${MOONPAY_PK}`
   return (
     <Iframe
       title="Buy"

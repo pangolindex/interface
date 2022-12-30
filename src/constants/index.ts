@@ -200,3 +200,8 @@ export enum MENU_LINK {
   airdrop = '/airdrop',
   stakev2 = '/stakev2'
 }
+
+export enum BUY_MENU_LINK {
+  moonpay = 'moonpay',
+  coinbasePay = 'coinbase-pay'
+}

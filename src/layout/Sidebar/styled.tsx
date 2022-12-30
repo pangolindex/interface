@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 import { darken } from 'polished'
 import { Text } from '@pangolindex/components'
@@ -71,7 +72,13 @@ export const MenuWrapper = styled.div`
 
 const activeClassName = 'ACTIVE'
 
-export const MenuLink = styled(NavLink).attrs({
+// export const XYZ = styled(props => (props ? <Box {...props} /> : <div {...props} />))`
+//   ....
+// `
+
+export const MenuLink = styled((props: any) =>
+  props?.isHaveChildren ? <div {...props} /> : <NavLink {...props} />
+).attrs({
   activeClassName
 })`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -122,7 +129,7 @@ export const MenuExternalLink = styled(ExternalLink).attrs({
   }
 `
 
-export const MenuItem = styled.div<{ isActive?: boolean }>`
+export const MenuItem = styled.div<{ isActive?: boolean; isChildren?: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
   display: flex;
   align-items: center;
@@ -134,6 +141,7 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
   line-height: 50px;
   padding: 0px;
   height: 50px;
+  padding-left: ${({ isChildren }) => (isChildren ? '10px' : '0px')};
   background-color: ${({ theme, isActive }) => (isActive ? theme.primary : 'transparent')};
   border-radius: 9px;
   margin-bottom: 5px;
