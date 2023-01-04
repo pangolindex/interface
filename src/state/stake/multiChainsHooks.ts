@@ -1,5 +1,5 @@
 import { ChainId } from '@pangolindex/sdk'
-import { useTotalPngEarned, useNearTotalPngEarned, useDummyStakingInfo, useStakingInfo } from 'src/state/stake/hooks'
+import { useTotalPngEarned, useNearTotalPngEarned } from 'src/state/stake/hooks'
 
 export function useDummyHook() {
   return undefined
@@ -19,37 +19,6 @@ export const useTotalPngEarnedHook: UseTotalPngEarnedHookType = {
   [ChainId.NEAR_MAINNET]: useNearTotalPngEarned,
   [ChainId.NEAR_TESTNET]: useNearTotalPngEarned,
   [ChainId.COSTON2]: useTotalPngEarned,
-  [ChainId.ETHEREUM]: useDummyHook,
-  [ChainId.POLYGON]: useDummyHook,
-  [ChainId.FANTOM]: useDummyHook,
-  [ChainId.XDAI]: useDummyHook,
-  [ChainId.BSC]: useDummyHook,
-  [ChainId.ARBITRUM]: useDummyHook,
-  [ChainId.CELO]: useDummyHook,
-  [ChainId.OKXCHAIN]: useDummyHook,
-  [ChainId.VELAS]: useDummyHook,
-  [ChainId.AURORA]: useDummyHook,
-  [ChainId.CRONOS]: useDummyHook,
-  [ChainId.FUSE]: useDummyHook,
-  [ChainId.MOONRIVER]: useDummyHook,
-  [ChainId.MOONBEAM]: useDummyHook,
-  [ChainId.OP]: useDummyHook
-}
-
-export type UseStakingInfoHookType = {
-  [chainId in ChainId]: typeof useStakingInfo | typeof useDummyStakingInfo | typeof useDummyHook
-}
-
-export const useStakingInfoHook: UseStakingInfoHookType = {
-  [ChainId.FUJI]: useStakingInfo,
-  [ChainId.AVALANCHE]: useStakingInfo,
-  [ChainId.WAGMI]: useStakingInfo,
-  [ChainId.COSTON]: useStakingInfo,
-  [ChainId.SONGBIRD]: useStakingInfo,
-  [ChainId.HEDERA_TESTNET]: useDummyStakingInfo,
-  [ChainId.NEAR_MAINNET]: useDummyStakingInfo,
-  [ChainId.NEAR_TESTNET]: useDummyStakingInfo,
-  [ChainId.COSTON2]: useStakingInfo,
   [ChainId.ETHEREUM]: useDummyHook,
   [ChainId.POLYGON]: useDummyHook,
   [ChainId.FANTOM]: useDummyHook,
