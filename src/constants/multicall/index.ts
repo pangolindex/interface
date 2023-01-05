@@ -25,7 +25,8 @@ const MULTICALL_NETWORKS: { [chainId in ChainId]: string } = {
   [ChainId.FUSE]: '',
   [ChainId.MOONRIVER]: '',
   [ChainId.MOONBEAM]: '',
-  [ChainId.OP]: ''
+  [ChainId.OP]: '',
+  [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].contracts!.multicall
 }
 
 export { MULTICALL_ABI, MULTICALL_NETWORKS }

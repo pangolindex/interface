@@ -39,6 +39,7 @@ const EMPTY_LIST: TokenAddressMap = {
   [ChainId.NEAR_MAINNET]: {},
   [ChainId.NEAR_TESTNET]: {},
   [ChainId.COSTON2]: {},
+  [ChainId.EVMOS_TESTNET]: {},
   [ChainId.ETHEREUM]: {},
   [ChainId.POLYGON]: {},
   [ChainId.FANTOM]: {},
