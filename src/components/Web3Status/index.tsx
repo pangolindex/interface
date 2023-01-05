@@ -75,7 +75,7 @@ const Web3StatusConnect = styled(Box)<{ faded?: boolean }>`
   border: none;
   color: ${({ theme }) => theme.black};
   font-weight: 500;
-  padding: 0.35rem;
+  padding: 8px 12px;
   :focus {
     outline: none;
   }
@@ -88,7 +88,7 @@ const Web3StatusConnected = styled(Box)<{ pending?: boolean }>`
   user-select: none;
   display: flex;
   font-size: 16px;
-  padding: 0.35rem;
+  padding: 8px 12px;
   border: 1px solid ${({ pending, theme }) => (pending ? theme.primary : theme.bg3)};
   background-color: ${({ pending, theme }) => (pending ? theme.primary : theme.color2)};
   color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};

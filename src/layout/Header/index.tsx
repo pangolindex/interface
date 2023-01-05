@@ -24,7 +24,8 @@ import {
   BalanceText,
   ThemeMode,
   LegacyButtonWrapper,
-  SupportButton
+  SupportButton,
+  Logo
 } from './styled'
 import { Hidden, MEDIA_WIDTHS } from 'src/theme'
 import { useChainId } from 'src/hooks'
@@ -91,6 +92,7 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
                   title={NETWORK_LABELS[chainId]}
                   onClick={() => setOpenNetworkSelection(!openNetworkSelection)}
                 >
+                  <Logo src={CHAINS[chainId].logo} />
                   {NETWORK_LABELS[chainId]}
                 </NetworkCard>
               )}

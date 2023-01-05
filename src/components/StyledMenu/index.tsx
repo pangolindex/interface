@@ -10,7 +10,7 @@ export const StyledMenuButton = styled.button`
   padding: 0;
   background-color: ${({ theme }) => theme.bg2};
 
-  padding: 0.15rem 0.5rem;
+  padding: 8px 12px;
   border-radius: 4px;
 
   :hover,

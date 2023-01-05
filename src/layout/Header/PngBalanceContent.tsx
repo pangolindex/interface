@@ -71,7 +71,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
   const pngToClaim: TokenAmount | undefined = useTotalPngEarned()
   const totalSupply: TokenAmount | undefined = useTotalSupply(png)
 
-  const oneToken = JSBI.BigInt(1000000000000000000)
+  const oneToken = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(png?.decimals))
   const { t } = useTranslation()
   let pngPrice
 
@@ -161,7 +161,7 @@ export default function PngBalanceContent({ setShowPngBalanceModal }: { setShowP
           <AutoColumn gap="md">
             <RowBetween>
               <TYPE.white color="white">{t('header.pngPrice', { symbol: pngSymbol })}</TYPE.white>
-              <TYPE.white color="white">${pngPrice?.toFixed(2, { groupSeparator: ',' }) ?? '-'}</TYPE.white>
+              <TYPE.white color="white">${pngPrice?.toFixed(6, { groupSeparator: ',' }) ?? '-'}</TYPE.white>
             </RowBetween>
             <RowBetween>
               <TYPE.white color="white">{t('header.pngCirculation', { symbol: pngSymbol })}</TYPE.white>
