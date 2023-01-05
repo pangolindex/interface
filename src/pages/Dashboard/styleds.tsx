@@ -10,6 +10,7 @@ export const TopContainer = styled(Box)<{ isMainnet: boolean }>`
   grid-template-columns: ${({ isMainnet }) => (isMainnet ? `50% 50%` : `100%`)};
   grid-gap: 12px;
   margin-bottom: 22px;
+  grid-template-rows: minmax(500px, 1fr);
   ${({ theme }) => theme.mediaWidth.upToSmall`
     grid-template-columns: none;
     grid-template-rows: max-content auto;
@@ -19,7 +20,7 @@ export const TopContainer = styled(Box)<{ isMainnet: boolean }>`
 
 export const StatsWrapper = styled(Box)<{ isShowWatchList: boolean }>`
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-rows: ${({ isShowWatchList }) => (isShowWatchList ? `auto auto` : `auto`)};
   grid-gap: ${({ isShowWatchList }) => (isShowWatchList ? `12px` : `0px`)};
   align-items: stretch;
 `
