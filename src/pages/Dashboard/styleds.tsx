@@ -3,6 +3,10 @@ import styled from 'styled-components'
 
 export const PageWrapper = styled(Box)`
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 `
 
 export const TopContainer = styled(Box)<{ isMainnet: boolean }>`
@@ -10,6 +14,7 @@ export const TopContainer = styled(Box)<{ isMainnet: boolean }>`
   grid-template-columns: ${({ isMainnet }) => (isMainnet ? `50% 50%` : `100%`)};
   grid-gap: 12px;
   margin-bottom: 22px;
+  flex: 1;
   grid-template-rows: minmax(500px, 1fr);
   ${({ theme }) => theme.mediaWidth.upToSmall`
     grid-template-columns: none;
