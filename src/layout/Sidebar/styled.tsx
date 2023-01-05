@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 import { darken } from 'polished'
 import { Text } from '@pangolindex/components'
@@ -69,10 +70,12 @@ export const MenuWrapper = styled.div`
   flex-direction: column;
 `
 
-const activeClassName = 'ACTIVE'
+const activeclassname = 'ACTIVE'
 
-export const MenuLink = styled(NavLink).attrs({
-  activeClassName
+export const MenuLink = styled(({ isHaveChildren, ...rest }: any) =>
+  isHaveChildren ? <div {...rest} /> : <NavLink {...rest} />
+).attrs({
+  activeclassname
 })`
   ${({ theme }) => theme.flexRowNoWrap}
   outline: none;
@@ -86,7 +89,7 @@ export const MenuLink = styled(NavLink).attrs({
   align-items: center;
   font-weight: 500;
   width: 100%;
-  &.${activeClassName} {
+  &.${activeclassname} {
     color: ${({ theme }) => theme.white};
   }
 
@@ -98,7 +101,7 @@ export const MenuLink = styled(NavLink).attrs({
 `
 
 export const MenuExternalLink = styled(ExternalLink).attrs({
-  activeClassName
+  activeclassname
 })`
   ${({ theme }) => theme.flexRowNoWrap}
 
@@ -122,7 +125,7 @@ export const MenuExternalLink = styled(ExternalLink).attrs({
   }
 `
 
-export const MenuItem = styled.div<{ isActive?: boolean }>`
+export const MenuItem = styled.div<{ isActive?: boolean; isChildren?: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
   display: flex;
   align-items: center;
@@ -134,6 +137,7 @@ export const MenuItem = styled.div<{ isActive?: boolean }>`
   line-height: 50px;
   padding: 0px;
   height: 50px;
+  padding-left: ${({ isChildren }) => (isChildren ? '10px' : '0px')};
   background-color: ${({ theme, isActive }) => (isActive ? theme.primary : 'transparent')};
   border-radius: 9px;
   margin-bottom: 5px;
