@@ -137,11 +137,12 @@ export const BalanceText = styled(Text)`
 
 export const ThemeMode = styled(BlackCard)`
   border-radius: 4px;
-  padding: 8px 12px;
+  padding: 10px 12px;
   margin-left: 0.5rem;
   cursor: pointer;
   /* height: 35px; */
   line-height: 20px;
+  display: flex;
 
   :hover,
   :focus {
