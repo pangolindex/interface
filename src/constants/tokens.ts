@@ -66,6 +66,13 @@ export const PNG: { [chainId in ChainId]: Token } = {
     CHAINS[ChainId.COSTON2].png_symbol,
     'Pangolin Coston2'
   ),
+  [ChainId.EVMOS_TESTNET]: new Token(
+    ChainId.EVMOS_TESTNET,
+    CHAINS[ChainId.EVMOS_TESTNET].contracts!.png,
+    18,
+    CHAINS[ChainId.EVMOS_TESTNET].png_symbol,
+    'Pangolin Evmos'
+  ),
   [ChainId.ETHEREUM]: new Token(ChainId.ETHEREUM, ZERO_ADDRESS, 18, '', ''),
   [ChainId.POLYGON]: new Token(ChainId.POLYGON, ZERO_ADDRESS, 18, '', ''),
   [ChainId.FANTOM]: new Token(ChainId.FANTOM, ZERO_ADDRESS, 18, '', ''),
@@ -99,6 +106,7 @@ export const USDC: { [chainId in ChainId]: Token } = {
   [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 18, '', ''),
   [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 18, '', ''),
   [ChainId.COSTON2]: new Token(ChainId.COSTON2, ZERO_ADDRESS, 18, '', ''),
+  [ChainId.EVMOS_TESTNET]: new Token(ChainId.EVMOS_TESTNET, ZERO_ADDRESS, 18, '', ''),
   [ChainId.ETHEREUM]: new Token(ChainId.ETHEREUM, ZERO_ADDRESS, 18, '', ''),
   [ChainId.POLYGON]: new Token(ChainId.POLYGON, ZERO_ADDRESS, 18, '', ''),
   [ChainId.FANTOM]: new Token(ChainId.FANTOM, ZERO_ADDRESS, 18, '', ''),
