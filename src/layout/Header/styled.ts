@@ -115,6 +115,9 @@ export const NetworkCard = styled(BlackCard)`
   padding: 8px 12px;
   cursor: pointer;
   width: max-content;
+  display: flex;
+  align-items: center;
+  border: 1px solid ${({ theme }) => theme.bg3};
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: 0;
     margin-right: 0.5rem;
@@ -134,11 +137,12 @@ export const BalanceText = styled(Text)`
 
 export const ThemeMode = styled(BlackCard)`
   border-radius: 4px;
-  padding: 0.15rem 0.6rem;
+  padding: 10px 12px;
   margin-left: 0.5rem;
   cursor: pointer;
-  height: 35px;
-  line-height: 34px;
+  /* height: 35px; */
+  line-height: 20px;
+  display: flex;
 
   :hover,
   :focus {
@@ -170,10 +174,23 @@ export const MobileLogoWrapper = styled.div`
 `
 
 export const LegacyButtonWrapper = styled.div`
-  display: block;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 10px;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;
   `};
+`
+
+export const SupportButton = styled.a`
+  background-color: ${({ theme }) => theme.color2};
+  color: ${({ theme }) => theme.text1};
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 8px 12px;
+  width: max-content;
+  display: flex;
+  justify-content: center;
 `
 
 //https://codepen.io/tt0113243/pen/oexJzE
@@ -272,4 +289,10 @@ export const IconMenu = styled.div`
   &.clicked .dot:nth-of-type(2) {
     width: 23px;
   }
+`
+export const Logo = styled.img`
+  border-radius: 20px;
+  height: 18px;
+  width: 18px;
+  margin-right: 10px;
 `

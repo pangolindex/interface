@@ -9,6 +9,8 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].contracts!.router,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET]?.contracts!.router,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET]?.contracts!.router,
+  [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].contracts!.router,
+  [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].contracts!.router,
   [ChainId.ETHEREUM]: '',
   [ChainId.POLYGON]: '',
   [ChainId.FANTOM]: '',
@@ -36,6 +38,8 @@ export const PANGOLIN_TOKENS_REPO_RAW_BASE_URL = `https://raw.githubusercontent.
 export const DIRECTUS_GRAPHQL_URL = `https://pangolin.directus.app/graphql`
 export const COINGECKO_API = 'https://api.coingecko.com/api/v3'
 
+export const DISCORD_SUPPORT = 'https://discord.com/channels/786999832027463710/1034725721660211210'
+
 export type LogoSize = 24 | 48
 export const getTokenLogoURL = (address: string, chainId: number, size: LogoSize = 24) =>
   `${PANGOLIN_TOKENS_REPO_RAW_BASE_URL}/main/assets/${chainId}/${address}/logo_${size}.png`
@@ -53,6 +57,8 @@ export const MINICHEF_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.HEDERA_TESTNET]: ZERO_ADDRESS,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].contracts!.mini_chef!.address,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].contracts!.mini_chef!.address,
+  [ChainId.COSTON2]: ZERO_ADDRESS,
+  [ChainId.EVMOS_TESTNET]: ZERO_ADDRESS,
   [ChainId.ETHEREUM]: ZERO_ADDRESS,
   [ChainId.POLYGON]: ZERO_ADDRESS,
   [ChainId.FANTOM]: ZERO_ADDRESS,
@@ -77,7 +83,9 @@ export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.airdrop!.address,
   [ChainId.COSTON]: ZERO_ADDRESS,
   [ChainId.SONGBIRD]: ZERO_ADDRESS,
-  [ChainId.HEDERA_TESTNET]: ZERO_ADDRESS
+  [ChainId.HEDERA_TESTNET]: ZERO_ADDRESS,
+  [ChainId.COSTON2]: ZERO_ADDRESS,
+  [ChainId.EVMOS_TESTNET]: ZERO_ADDRESS
 }
 
 export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
@@ -89,6 +97,8 @@ export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].name,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].name,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].name,
+  [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].name,
+  [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].name,
   [ChainId.ETHEREUM]: CHAINS[ChainId.ETHEREUM].name,
   [ChainId.POLYGON]: CHAINS[ChainId.POLYGON].name,
   [ChainId.FANTOM]: CHAINS[ChainId.FANTOM].name,
@@ -115,6 +125,8 @@ export const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
   [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].symbol,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].symbol,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].symbol,
+  [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].symbol,
+  [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].symbol,
   [ChainId.ETHEREUM]: CHAINS[ChainId.ETHEREUM].symbol,
   [ChainId.POLYGON]: CHAINS[ChainId.POLYGON].symbol,
   [ChainId.FANTOM]: CHAINS[ChainId.FANTOM].symbol,
@@ -145,6 +157,7 @@ export const BIG_INT_SECONDS_IN_WEEK = JSBI.BigInt(60 * 60 * 24 * 7)
 export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)) // .01 ETH
 
 export const MOONPAY_PK = process.env.REACT_APP_MOONPAY_PK || ''
+export const COINBASE_PK = process.env.REACT_APP_COINBASE_PK || ''
 export const SUBGRAPH_BASE_URL = process.env.REACT_APP_SUBGRAPH_BASE_URL
 
 export const TIMEFRAME = [
@@ -197,4 +210,9 @@ export enum MENU_LINK {
   bridge = '/bridge',
   airdrop = '/airdrop',
   stakev2 = '/stakev2'
+}
+
+export enum BUY_MENU_LINK {
+  moonpay = 'moonpay',
+  coinbasePay = 'coinbase-pay'
 }

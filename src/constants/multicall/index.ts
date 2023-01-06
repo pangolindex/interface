@@ -10,6 +10,7 @@ const MULTICALL_NETWORKS: { [chainId in ChainId]: string } = {
   [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].contracts!.multicall,
   [ChainId.NEAR_MAINNET]: '',
   [ChainId.NEAR_TESTNET]: '',
+  [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].contracts!.multicall,
   [ChainId.ETHEREUM]: '',
   [ChainId.POLYGON]: '',
   [ChainId.FANTOM]: '',
@@ -24,7 +25,8 @@ const MULTICALL_NETWORKS: { [chainId in ChainId]: string } = {
   [ChainId.FUSE]: '',
   [ChainId.MOONRIVER]: '',
   [ChainId.MOONBEAM]: '',
-  [ChainId.OP]: ''
+  [ChainId.OP]: '',
+  [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].contracts!.multicall
 }
 
 export { MULTICALL_ABI, MULTICALL_NETWORKS }

@@ -10,6 +10,8 @@ export const LIMITORDERLIST_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.HEDERA_TESTNET]: false,
   [ChainId.NEAR_MAINNET]: false,
   [ChainId.NEAR_TESTNET]: false,
+  [ChainId.COSTON2]: false,
+  [ChainId.EVMOS_TESTNET]: false,
   [ChainId.ETHEREUM]: false,
   [ChainId.POLYGON]: false,
   [ChainId.FANTOM]: false,
@@ -36,6 +38,8 @@ export const MYPORTFOLIO_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.HEDERA_TESTNET]: false,
   [ChainId.NEAR_MAINNET]: false,
   [ChainId.NEAR_TESTNET]: false,
+  [ChainId.COSTON2]: false,
+  [ChainId.EVMOS_TESTNET]: false,
   [ChainId.ETHEREUM]: false,
   [ChainId.POLYGON]: false,
   [ChainId.FANTOM]: false,
@@ -62,6 +66,8 @@ export const WATCHLIST_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.HEDERA_TESTNET]: false,
   [ChainId.NEAR_MAINNET]: false,
   [ChainId.NEAR_TESTNET]: false,
+  [ChainId.COSTON2]: false,
+  [ChainId.EVMOS_TESTNET]: false,
   [ChainId.ETHEREUM]: false,
   [ChainId.POLYGON]: false,
   [ChainId.FANTOM]: false,
@@ -88,6 +94,8 @@ export const PAIRINFO_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.HEDERA_TESTNET]: false,
   [ChainId.NEAR_MAINNET]: false,
   [ChainId.NEAR_TESTNET]: false,
+  [ChainId.COSTON2]: false,
+  [ChainId.EVMOS_TESTNET]: false,
   [ChainId.ETHEREUM]: false,
   [ChainId.POLYGON]: false,
   [ChainId.FANTOM]: false,
@@ -107,7 +115,6 @@ export const PAIRINFO_ACCESS: { [chainId in ChainId]: boolean } = {
 
 const onlyBridgeHideOtherMenus: MENU_LINK[] = [
   MENU_LINK.swap,
-  MENU_LINK.buy,
   MENU_LINK.pool,
   MENU_LINK.stake,
   MENU_LINK.vote,
@@ -117,7 +124,6 @@ const onlyBridgeHideOtherMenus: MENU_LINK[] = [
 ]
 
 const nonEvmHideList: MENU_LINK[] = [
-  MENU_LINK.buy,
   MENU_LINK.pool,
   MENU_LINK.stake,
   MENU_LINK.vote,
@@ -135,6 +141,8 @@ export const HIDE_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: MENU_LINK[] }
   [ChainId.HEDERA_TESTNET]: [MENU_LINK.vote, MENU_LINK.migrate, MENU_LINK.airdrop, MENU_LINK.stake],
   [ChainId.NEAR_MAINNET]: nonEvmHideList,
   [ChainId.NEAR_TESTNET]: nonEvmHideList,
+  [ChainId.COSTON2]: [MENU_LINK.stake],
+  [ChainId.EVMOS_TESTNET]: [MENU_LINK.stake],
   [ChainId.ETHEREUM]: onlyBridgeHideOtherMenus,
   [ChainId.POLYGON]: onlyBridgeHideOtherMenus,
   [ChainId.FANTOM]: onlyBridgeHideOtherMenus,
