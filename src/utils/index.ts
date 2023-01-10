@@ -19,7 +19,7 @@ export function isAddress(value: any): string | false {
   }
 }
 
-export function isEvmChain(chainId: ChainId = 43114): boolean {
+export function isEvmChain(chainId: ChainId = ChainId.AVALANCHE): boolean {
   if (CHAINS[chainId]?.evm) {
     return true
   }

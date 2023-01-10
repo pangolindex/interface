@@ -17,11 +17,13 @@ export interface AirdropData {
 }
 
 export const activeAirdrops: { [chainId in ChainId]?: AirdropData } = {
-  [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD]!.contracts!.airdrop
+  [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD]!.contracts!.airdrop,
+  [ChainId.FLARE_MAINNET]: CHAINS[ChainId.FLARE_MAINNET]!.contracts!.airdrop
 }
 
 export const specialAirdrops: { [chainId in ChainId]?: AirdropData[] } = {
-  [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD]!.contracts!.specialAirdrops
+  [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD]!.contracts!.specialAirdrops,
+  [ChainId.FLARE_MAINNET]: CHAINS[ChainId.FLARE_MAINNET]!.contracts!.specialAirdrops
 }
 
 export const commingSoonAirdrops = [NEAR_MAINNET, FLARE_MAINNET]
@@ -33,7 +35,7 @@ export const logoMapping = {
   [ChainId.FUJI]: PNG,
   [ChainId.AVALANCHE]: PNG,
   [ChainId.WAGMI]: PNG,
-  14: PNG, // Don't have flare on chain id mapping
+  [ChainId.FLARE_MAINNET]: PNG,
   [ChainId.NEAR_MAINNET]: PNR,
   [ChainId.NEAR_TESTNET]: PNR,
   [ChainId.COSTON2]: PNG,

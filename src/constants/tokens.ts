@@ -36,7 +36,14 @@ export const PNG: { [chainId in ChainId]: Token } = {
     CHAINS[ChainId.SONGBIRD].contracts!.png,
     18,
     CHAINS[ChainId.SONGBIRD].png_symbol,
-    'Songbird Pangolin'
+    'Pangolin Flare'
+  ),
+  [ChainId.FLARE_MAINNET]: new Token(
+    ChainId.FLARE_MAINNET,
+    CHAINS[ChainId.FLARE_MAINNET].contracts!.png,
+    18,
+    CHAINS[ChainId.FLARE_MAINNET].png_symbol,
+    'Pangolin Flare'
   ),
   [ChainId.HEDERA_TESTNET]: new Token(
     ChainId.HEDERA_TESTNET,
@@ -102,6 +109,7 @@ export const USDC: { [chainId in ChainId]: Token } = {
   [ChainId.WAGMI]: new Token(ChainId.WAGMI, ZERO_ADDRESS, 6, 'USDC', 'USD Coin'),
   [ChainId.COSTON]: new Token(ChainId.COSTON, ZERO_ADDRESS, 18, '', ''),
   [ChainId.SONGBIRD]: new Token(ChainId.SONGBIRD, ZERO_ADDRESS, 18, '', ''),
+  [ChainId.FLARE_MAINNET]: new Token(ChainId.FLARE_MAINNET, ZERO_ADDRESS, 18, '', ''),
   [ChainId.HEDERA_TESTNET]: new Token(ChainId.HEDERA_TESTNET, ZERO_ADDRESS, 18, '', ''),
   [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 18, '', ''),
   [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 18, '', ''),

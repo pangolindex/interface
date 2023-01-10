@@ -31,6 +31,7 @@ export const blockClients: { [chainId in ChainId]: ApolloClient<NormalizedCacheO
   [ChainId.WAGMI]: undefined,
   [ChainId.COSTON]: undefined,
   [ChainId.SONGBIRD]: undefined,
+  [ChainId.FLARE_MAINNET]: undefined,
   [ChainId.HEDERA_TESTNET]: undefined,
   [ChainId.NEAR_MAINNET]: undefined,
   [ChainId.NEAR_TESTNET]: undefined,
