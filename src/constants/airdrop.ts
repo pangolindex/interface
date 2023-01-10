@@ -35,7 +35,7 @@ export const logoMapping = {
   [ChainId.FUJI]: PNG,
   [ChainId.AVALANCHE]: PNG,
   [ChainId.WAGMI]: PNG,
-  [ChainId.FLARE_MAINNET]: PNG, // TODO: Don't have flare on chain id mapping
+  [ChainId.FLARE_MAINNET]: PNG,
   [ChainId.NEAR_MAINNET]: PNR,
   [ChainId.NEAR_TESTNET]: PNR,
   [ChainId.COSTON2]: PNG,
