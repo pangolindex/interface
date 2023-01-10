@@ -15,6 +15,7 @@ export const useTotalPngEarnedHook: UseTotalPngEarnedHookType = {
   [ChainId.WAGMI]: useTotalPngEarned,
   [ChainId.COSTON]: useTotalPngEarned,
   [ChainId.SONGBIRD]: useTotalPngEarned,
+  [ChainId.FLARE_MAINNET]: useTotalPngEarned,
   [ChainId.HEDERA_TESTNET]: useTotalPngEarned,
   [ChainId.NEAR_MAINNET]: useNearTotalPngEarned,
   [ChainId.NEAR_TESTNET]: useNearTotalPngEarned,
