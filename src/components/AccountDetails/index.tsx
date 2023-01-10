@@ -1,16 +1,17 @@
 import React, { useCallback, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
-import { useActiveWeb3React, useChainId } from '../../hooks'
-import { useDispatch } from '../../state'
-import { clearAllTransactions } from '../../state/transactions/actions'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
+import { useDispatch } from 'src/state'
+import { clearAllTransactions } from 'src/state/transactions/actions'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
-import CoinbaseWalletIcon from '../../assets/svg/coinbaseWalletIcon.svg'
-import WalletConnectIcon from '../../assets/svg/walletConnectIcon.svg'
-import GnosisSafeIcon from '../../assets/images/gnosis_safe.png'
-import BitKeep from '../../assets/svg/bitkeep.svg'
-import NearIcon from '../../assets/svg/near.svg'
+import CoinbaseWalletIcon from 'src/assets/svg/coinbaseWalletIcon.svg'
+import WalletConnectIcon from 'src/assets/svg/walletConnectIcon.svg'
+import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
+import NearIcon from 'src/assets/svg/near.svg'
+import avalancheCoreIcon from 'src/assets/svg/avalancheCore.svg'
+import BitKeep from 'src/assets/svg/bitkeep.svg'
 import HashIcon from 'src/assets/images/hashConnect.png'
 import {
   gnosisSafe,
@@ -18,6 +19,7 @@ import {
   walletconnect,
   walletlink,
   near,
+  avalancheCore,
   SUPPORTED_WALLETS,
   shortenAddress,
   NearConnector,
@@ -30,7 +32,7 @@ import {
 } from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ExternalLink as LinkIcon } from 'react-feather'
-import { LinkStyledButton, TYPE } from '../../theme'
+import { LinkStyledButton, TYPE } from 'src/theme'
 import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import {
@@ -85,12 +87,14 @@ export default function AccountDetails({
   const clearAllTxComponents = useAllTransactionsClearer()
 
   function formatConnectorName() {
-    const { ethereum } = window
+    const { ethereum, avalanche } = window
+
     const isTalisman = !!(ethereum && ethereum.isTalisman)
     const isMetaMask = !!(ethereum && ethereum.isMetaMask)
     const isXDEFI = !!(ethereum && ethereum.isXDEFI)
     const isRabby = !!(ethereum && ethereum.isRabby)
     const isCoinbase = !!(ethereum && ethereum.isCoinbaseWallet)
+    const isAvalancheCore = !!(avalanche && avalanche.isAvalanche)
 
     let name = Object.keys(SUPPORTED_WALLETS)
       .filter(k => SUPPORTED_WALLETS[k].connector === connector)
@@ -104,6 +108,7 @@ export default function AccountDetails({
       else if (isCoinbase) name = SUPPORTED_WALLETS.WALLET_LINK.name
       // metamask as last check, because most of the wallets above are likely to set isMetaMask to true too
       else if (isMetaMask) name = SUPPORTED_WALLETS.METAMASK.name
+      else if (isAvalancheCore) name = SUPPORTED_WALLETS.AVALANCHECORE.name
     }
 
     return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>
@@ -151,6 +156,12 @@ export default function AccountDetails({
       return (
         <IconWrapper size={16}>
           <img src={HashIcon} alt={'HashPack Wallet'} />
+        </IconWrapper>
+      )
+    } else if (connector === avalancheCore) {
+      return (
+        <IconWrapper size={16}>
+          <img src={avalancheCoreIcon} alt={'Avalanche Core Wallet'} />
         </IconWrapper>
       )
     }

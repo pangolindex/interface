@@ -10,14 +10,17 @@ import { WATCHLIST_ACCESS } from 'src/constants/accessPermissions'
 const Dashboard = () => {
   const { t } = useTranslation()
   const chainId = useChainId()
+
+  const isMainnet = CHAINS[chainId]?.mainnet
+
   return (
     <PageWrapper>
       <PageTitle>{t('dashboardPage.dashboard')}</PageTitle>
       <PageDescription>{t('dashboardPage.greetings')}</PageDescription>
 
-      <TopContainer>
-        {CHAINS[chainId]?.mainnet && (
-          <StatsWrapper>
+      <TopContainer isMainnet={isMainnet}>
+        {isMainnet && (
+          <StatsWrapper isShowWatchList={WATCHLIST_ACCESS[chainId]}>
             <Portfolio />
 
             {WATCHLIST_ACCESS[chainId] && (
@@ -27,7 +30,7 @@ const Dashboard = () => {
         )}
 
         <Hidden upToSmall={true}>
-          <NewsWidget boxHeight="450px" />
+          <NewsWidget boxHeight={isMainnet ? '100%' : '450px'} />
         </Hidden>
       </TopContainer>
 

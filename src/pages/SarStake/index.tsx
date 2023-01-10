@@ -7,7 +7,7 @@ import {
   existSarContract,
   useTranslation,
   Text,
-  useSarPositions,
+  useSarPositionsHook,
   Modal,
   Loader
 } from '@pangolindex/components'
@@ -26,6 +26,7 @@ export default function SarStaking() {
 
   const { t } = useTranslation()
 
+  const useSarPositions = useSarPositionsHook[chainId]
   const { positions, isLoading } = useSarPositions()
 
   const onSelectPosition = (position: Position | null) => {
@@ -73,13 +74,15 @@ export default function SarStaking() {
           {isLoading ? (
             <Loader size={100} />
           ) : (
-            <StyledSVG
-              dangerouslySetInnerHTML={{
-                __html: lastPostion
-                  ? Buffer.from(lastPostion.uri.image.replace('data:image/svg+xml;base64,', ''), 'base64').toString()
-                  : ''
-              }}
-            />
+            lastPostion?.uri?.image && (
+              <StyledSVG
+                dangerouslySetInnerHTML={{
+                  __html: lastPostion
+                    ? Buffer.from(lastPostion.uri.image.replace('data:image/svg+xml;base64,', ''), 'base64').toString()
+                    : ''
+                }}
+              />
+            )
           )}
         </Box>
       </Modal>

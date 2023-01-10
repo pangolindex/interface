@@ -3,14 +3,19 @@ import styled from 'styled-components'
 
 export const PageWrapper = styled(Box)`
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 `
 
-export const TopContainer = styled(Box)`
+export const TopContainer = styled(Box)<{ isMainnet: boolean }>`
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: ${({ isMainnet }) => (isMainnet ? `50% 50%` : `100%`)};
   grid-gap: 12px;
   margin-bottom: 22px;
-
+  flex: 1;
+  grid-template-rows: minmax(500px, 1fr);
   ${({ theme }) => theme.mediaWidth.upToSmall`
     grid-template-columns: none;
     grid-template-rows: max-content auto;
@@ -18,10 +23,11 @@ export const TopContainer = styled(Box)`
   `};
 `
 
-export const StatsWrapper = styled(Box)`
+export const StatsWrapper = styled(Box)<{ isShowWatchList: boolean }>`
   display: grid;
-  grid-template-rows: auto auto;
-  grid-gap: 12px;
+  grid-template-rows: ${({ isShowWatchList }) => (isShowWatchList ? `auto auto` : `auto`)};
+  grid-gap: ${({ isShowWatchList }) => (isShowWatchList ? `12px` : `0px`)};
+  align-items: stretch;
 `
 
 export const PageTitle = styled.div`

@@ -7,12 +7,16 @@ import {
   walletconnect,
   walletlink,
   xDefi,
+  avalancheCore,
   NetworkContextName,
   near,
   shortenAddress,
   useAllTransactions as useAllTransactionsComponents,
   useTranslation,
-  hashConnect
+  hashConnect,
+  useWalletModalToggle,
+  useModalOpen as useModalOpenComponents,
+  ApplicationModal as ApplicationModalComponents
 } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken } from 'polished'
@@ -24,8 +28,9 @@ import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
 import WalletConnectIcon from 'src/assets/svg/walletConnectIcon.svg'
 import XDefiIcon from 'src/assets/images/xDefi.png'
 import NearIcon from 'src/assets/svg/near.svg'
+import avalancheCoreIcon from 'src/assets/svg/avalancheCore.svg'
 import HashIcon from 'src/assets/images/hashConnect.png'
-import { useModalOpen, useWalletModalToggle, useAccountDetailToggle } from 'src/state/application/hooks'
+import { useModalOpen, useAccountDetailToggle } from 'src/state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from 'src/state/transactions/hooks'
 import { TransactionDetails } from 'src/state/transactions/reducer'
 import { ButtonSecondary } from '../Button'
@@ -70,7 +75,7 @@ const Web3StatusConnect = styled(Box)<{ faded?: boolean }>`
   border: none;
   color: ${({ theme }) => theme.black};
   font-weight: 500;
-  padding: 0.35rem;
+  padding: 8px 12px;
   :focus {
     outline: none;
   }
@@ -83,7 +88,7 @@ const Web3StatusConnected = styled(Box)<{ pending?: boolean }>`
   user-select: none;
   display: flex;
   font-size: 16px;
-  padding: 0.35rem;
+  padding: 8px 12px;
   border: 1px solid ${({ pending, theme }) => (pending ? theme.primary : theme.bg3)};
   background-color: ${({ pending, theme }) => (pending ? theme.primary : theme.color2)};
   color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
@@ -164,6 +169,12 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
     return (
       <IconWrapper size={16}>
         <img src={NearIcon} alt={'Near Wallet'} />
+      </IconWrapper>
+    )
+  } else if (connector === avalancheCore) {
+    return (
+      <IconWrapper size={16}>
+        <img src={avalancheCoreIcon} alt={'Avalanche Core Wallet'} />
       </IconWrapper>
     )
   } else if (connector === hashConnect) {
@@ -251,7 +262,7 @@ export default function Web3Status() {
     return { ...allTransactionsInterface, ...allTransactionsComponents }
   }, [allTransactionsInterface, allTransactionsComponents])
 
-  const walletModalOpen = useModalOpen(ApplicationModal.WALLET)
+  const walletModalOpen = useModalOpenComponents(ApplicationModalComponents.WALLET)
   const toggleWalletModal = useWalletModalToggle()
   const [, setWallet] = useWallet()
 

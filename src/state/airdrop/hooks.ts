@@ -5,27 +5,27 @@ import { calculateGasMargin, waitForTransaction } from '../../utils'
 import { useTransactionAdder } from '../transactions/hooks'
 import { AirdropType, TokenAmount } from '@pangolindex/sdk'
 import { PNG } from '../../constants/tokens'
-import { useSingleCallResult } from '../multicall/hooks'
 import { useLibrary } from '@pangolindex/components'
-import { ZERO_ADDRESS } from 'src/constants'
 import { useQuery } from 'react-query'
 import axios from 'axios'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
+import { MixPanelEvents, useMixpanel } from 'src/hooks/mixpanel'
+import { BigNumber } from 'ethers'
 
 export function useMerkledropClaimedAmounts(airdropAddress: string) {
   const { account } = useWeb3React()
   const chainId = useChainId()
+  const png = PNG[chainId]
 
   const merkledropContract = useMerkledropContract(airdropAddress, AirdropType.MERKLE)
-  const claimedAmountsState = useSingleCallResult(merkledropContract, 'claimedAmounts', [account ?? ZERO_ADDRESS])
-
-  return useMemo(() => {
-    if (!account) {
-      return new TokenAmount(PNG[chainId], '0')
+  return useQuery(['claimed-airdrop-amount', merkledropContract?.address, account, chainId], async () => {
+    if (!account || !merkledropContract) {
+      return new TokenAmount(png, '0')
     }
-    return new TokenAmount(PNG[chainId], claimedAmountsState.result?.[0]?.toString() || '0')
-  }, [chainId, account, claimedAmountsState])
+    const claimedAmount: BigNumber = await merkledropContract.claimedAmounts(account)
+    return new TokenAmount(png, claimedAmount.toString())
+  })
 }
 
 export function useMerkledropProof(airdropAddress: string) {
@@ -77,6 +77,7 @@ export function useMerkledropProof(airdropAddress: string) {
 
 export function useClaimAirdrop(airdropAddress: string, airdropType: AirdropType) {
   const { account } = useWeb3React()
+  const chainId = useChainId()
   const { library, provider } = useLibrary()
   const pngSymbol = usePngSymbol()
 
@@ -88,6 +89,8 @@ export function useClaimAirdrop(airdropAddress: string, airdropType: AirdropType
   const [error, setError] = useState<string | null>(null)
 
   const addTransaction = useTransactionAdder()
+
+  const mixpanel = useMixpanel()
 
   const onDimiss = () => {
     setHash(null)
@@ -106,10 +109,7 @@ export function useClaimAirdrop(airdropAddress: string, airdropType: AirdropType
         summary += ' and deposited in the SAR'
 
         const message = `By signing this transaction, I hereby acknowledge that I am not a US resident or citizen. (Citizens or residents of the United States of America are not allowed to the ${pngSymbol} token airdrop due to applicable law.)`
-        let signature = await provider?.request({
-          method: 'personal_sign',
-          params: [message, account]
-        })
+        let signature = await provider?.execute('personal_sign', [message, account])
 
         const v = parseInt(signature.slice(130, 132), 16)
 
@@ -135,6 +135,11 @@ export function useClaimAirdrop(airdropAddress: string, airdropType: AirdropType
         claim: { recipient: account }
       })
       setHash(response.hash)
+
+      mixpanel.track(MixPanelEvents.CLAIM_AIRDROP, {
+        chainId: chainId,
+        airdropType: airdropType
+      })
     } catch (err) {
       // we only care if the error is something _other_ than the user rejected the tx
       const _err = err as any

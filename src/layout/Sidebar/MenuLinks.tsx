@@ -1,35 +1,50 @@
-import React, { useContext } from 'react'
-import { MENU_LINK } from 'src/constants'
-import { ThemeContext } from 'styled-components'
-import { Menu, MenuItem, MenuLink, MenuName, MenuExternalLink, MenuWrapper } from './styled'
-import { Box, existSarContract, Text, useTranslation } from '@pangolindex/components'
-import { Dashboard, Swap, Stake, Pool, Buy, Vote, Airdrop } from '../../components/Icons'
-import Charts from '../../assets/svg/menu/analytics.svg'
-import { ANALYTICS_PAGE } from '../../constants'
-import Bridge from '../../assets/svg/menu/bridge.svg'
-import Governance from '../../assets/svg/menu/governance.svg'
+import React from 'react'
+import { Menu, MenuItem, MenuName, MenuExternalLink, MenuWrapper } from './styled'
+import { Box, Text, useTranslation } from '@pangolindex/components'
+import {
+  Dashboard,
+  Swap,
+  Stake,
+  Pool,
+  Buy,
+  Vote,
+  Airdrop,
+  Bridge as BridgeIcon,
+  CoinbasePay,
+  MoonPay
+} from 'src/components/Icons'
+import Charts from 'src/assets/svg/menu/analytics.svg'
+import { MENU_LINK, ANALYTICS_PAGE, BUY_MENU_LINK } from 'src/constants'
+import Bridge from 'src/assets/svg/menu/bridge.svg'
+import Governance from 'src/assets/svg/menu/governance.svg'
 import { useLocation } from 'react-router-dom'
 import { useChainId } from 'src/hooks'
-import { CHAINS } from '@pangolindex/sdk'
-import { VOTE_PAGE_ACCESS } from 'src/constants/accessPermissions'
+import { shouldHideMenuItem } from 'src/utils'
+import NavItem from './NavItem'
 
 interface Props {
   collapsed?: boolean
   onClick?: () => void
 }
 
-interface Link {
-  link: string
-  icon: string
+export interface LinkProps {
+  link: MENU_LINK | string
+  icon:
+    | string
+    | React.FC<{
+        size: number
+        fillColor: string
+      }>
+  //icon: any
   title: string
   id: string
+  isActive?: boolean
+  childrens?: Array<LinkProps>
 }
 
 export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
-  const theme = useContext(ThemeContext)
   const { t } = useTranslation()
   const chainId = useChainId()
-  const chain = CHAINS[chainId]
 
   const location: any = useLocation()
 
@@ -53,7 +68,23 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       icon: Buy,
       title: t('header.buy'),
       id: 'buy',
-      isActive: location?.pathname?.startsWith(MENU_LINK.buy)
+      isActive: location?.pathname?.startsWith(MENU_LINK.buy),
+      childrens: [
+        {
+          link: `${MENU_LINK.buy}/${BUY_MENU_LINK.coinbasePay}`,
+          icon: CoinbasePay,
+          title: `Coinbase Pay`,
+          id: `${BUY_MENU_LINK.coinbasePay}`,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.buy}/${BUY_MENU_LINK.coinbasePay}`)
+        },
+        {
+          link: `${MENU_LINK.buy}/${BUY_MENU_LINK.moonpay}`,
+          icon: MoonPay,
+          title: 'Moonpay',
+          id: `${BUY_MENU_LINK.moonpay}`,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.buy}/${BUY_MENU_LINK.moonpay}`)
+        }
+      ]
     },
     {
       link: MENU_LINK.pool,
@@ -89,27 +120,15 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       title: 'Airdrop',
       id: 'airdrop',
       isActive: location?.pathname?.startsWith(MENU_LINK.airdrop)
+    },
+    {
+      link: MENU_LINK.bridge,
+      icon: BridgeIcon,
+      title: `${t('header.bridge')}`,
+      id: 'bridge',
+      isActive: location?.pathname?.startsWith(MENU_LINK.bridge)
     }
-  ]
-
-  // for now, for non evm chain, hide all other menus except dashboard and swap
-  if (!chain.evm) {
-    mainLinks.splice(4)
-  }
-
-  if (!VOTE_PAGE_ACCESS[chainId]) {
-    const votePageIndex = mainLinks.findIndex(element => element?.id === 'vote')
-    mainLinks.splice(votePageIndex, 1)
-  }
-
-  // remove stakvev2 if not exist sar contract
-  if (!existSarContract(chainId)) {
-    const stakeV2PageIndex = mainLinks.findIndex(element => element?.id === 'stakev2')
-    mainLinks.splice(stakeV2PageIndex, 1)
-  } else {
-    const stakePageIndex = mainLinks.findIndex(element => element?.id === 'stake')
-    mainLinks.splice(stakePageIndex, 1)
-  }
+  ].filter(link => !shouldHideMenuItem(chainId, link.link as MENU_LINK))
 
   const pangolinLinks = [
     {
@@ -141,11 +160,11 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
     }
   ]
 
-  const createMenuLink = (link: Link, index: number) => {
+  const createMenuLink = (link: LinkProps, index: number) => {
     return (
       <MenuItem key={index}>
         <MenuExternalLink id={link.id} href={link.link}>
-          <img src={link.icon} width={16} alt={link.title} />
+          <img src={link.icon as string} width={16} alt={link.title} />
           {!collapsed && <MenuName fontSize={[16, 14]}>{link.title}</MenuName>}
         </MenuExternalLink>
       </MenuItem>
@@ -156,20 +175,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
     <MenuWrapper>
       <Menu>
         {mainLinks.map((x, index) => {
-          const Icon = x.icon
-
-          return (
-            <MenuItem isActive={x.isActive} key={index}>
-              <MenuLink id={x.id} to={x.link} onClick={onClick}>
-                <Icon size={16} fillColor={x.isActive ? theme.black : theme.color22} />
-                {!collapsed && (
-                  <MenuName fontSize={[16, 14]} color={x.isActive ? 'black' : undefined}>
-                    {x.title}
-                  </MenuName>
-                )}
-              </MenuLink>
-            </MenuItem>
-          )
+          return <NavItem key={index} item={x} onClick={onClick} collapsed={collapsed} />
         })}
       </Menu>
 

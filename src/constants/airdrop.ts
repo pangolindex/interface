@@ -2,6 +2,7 @@ import PNG from 'src/assets/svg/PNG/PNG.svg'
 import PNR from 'src/assets/svg/PNG/PNR.svg'
 import PSB from 'src/assets/svg/PNG/PSB.svg'
 import PNG_HEDRA from 'src/assets/svg/PNG/PNG_HEDERA.svg'
+import PNG_EVMOS from 'src/assets/svg/PNG/PNG_EVMOS.svg'
 import Airdrop from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/Airdrop.sol/Airdrop.json'
 import MerkleAirdrop from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/Merkledrop.sol/Merkledrop.json'
 import MerkleAirdropToStaking from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/MerkledropToStaking.sol/MerkledropToStaking.json'
@@ -36,7 +37,24 @@ export const logoMapping = {
   [ChainId.WAGMI]: PNG,
   [ChainId.FLARE_MAINNET]: PNG, // TODO: Don't have flare on chain id mapping
   [ChainId.NEAR_MAINNET]: PNR,
-  [ChainId.NEAR_TESTNET]: PNR
+  [ChainId.NEAR_TESTNET]: PNR,
+  [ChainId.COSTON2]: PNG,
+  [ChainId.EVMOS_TESTNET]: PNG_EVMOS,
+  [ChainId.ETHEREUM]: '',
+  [ChainId.POLYGON]: '',
+  [ChainId.FANTOM]: '',
+  [ChainId.XDAI]: '',
+  [ChainId.BSC]: '',
+  [ChainId.ARBITRUM]: '',
+  [ChainId.CELO]: '',
+  [ChainId.OKXCHAIN]: '',
+  [ChainId.VELAS]: '',
+  [ChainId.AURORA]: '',
+  [ChainId.CRONOS]: '',
+  [ChainId.FUSE]: '',
+  [ChainId.MOONRIVER]: '',
+  [ChainId.MOONBEAM]: '',
+  [ChainId.OP]: ''
 }
 
 export const airdropAbiMapping = {

@@ -1,16 +1,5 @@
 import { ChainId } from '@pangolindex/sdk'
-
-export const VOTE_PAGE_ACCESS: { [chainId in ChainId]: boolean } = {
-  [ChainId.FUJI]: true,
-  [ChainId.AVALANCHE]: true,
-  [ChainId.WAGMI]: true,
-  [ChainId.COSTON]: true,
-  [ChainId.SONGBIRD]: false,
-  [ChainId.FLARE_MAINNET]: false,
-  [ChainId.HEDERA_TESTNET]: false,
-  [ChainId.NEAR_MAINNET]: false,
-  [ChainId.NEAR_TESTNET]: false
-}
+import { MENU_LINK } from '.'
 
 export const LIMITORDERLIST_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.FUJI]: true,
@@ -21,7 +10,24 @@ export const LIMITORDERLIST_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.FLARE_MAINNET]: false,
   [ChainId.HEDERA_TESTNET]: false,
   [ChainId.NEAR_MAINNET]: false,
-  [ChainId.NEAR_TESTNET]: false
+  [ChainId.NEAR_TESTNET]: false,
+  [ChainId.COSTON2]: false,
+  [ChainId.EVMOS_TESTNET]: false,
+  [ChainId.ETHEREUM]: false,
+  [ChainId.POLYGON]: false,
+  [ChainId.FANTOM]: false,
+  [ChainId.XDAI]: false,
+  [ChainId.BSC]: false,
+  [ChainId.ARBITRUM]: false,
+  [ChainId.CELO]: false,
+  [ChainId.OKXCHAIN]: false,
+  [ChainId.VELAS]: false,
+  [ChainId.AURORA]: false,
+  [ChainId.CRONOS]: false,
+  [ChainId.FUSE]: false,
+  [ChainId.MOONRIVER]: false,
+  [ChainId.MOONBEAM]: false,
+  [ChainId.OP]: false
 }
 
 export const MYPORTFOLIO_ACCESS: { [chainId in ChainId]: boolean } = {
@@ -33,7 +39,24 @@ export const MYPORTFOLIO_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.FLARE_MAINNET]: false,
   [ChainId.HEDERA_TESTNET]: false,
   [ChainId.NEAR_MAINNET]: false,
-  [ChainId.NEAR_TESTNET]: false
+  [ChainId.NEAR_TESTNET]: false,
+  [ChainId.COSTON2]: false,
+  [ChainId.EVMOS_TESTNET]: false,
+  [ChainId.ETHEREUM]: false,
+  [ChainId.POLYGON]: false,
+  [ChainId.FANTOM]: false,
+  [ChainId.XDAI]: false,
+  [ChainId.BSC]: false,
+  [ChainId.ARBITRUM]: false,
+  [ChainId.CELO]: false,
+  [ChainId.OKXCHAIN]: false,
+  [ChainId.VELAS]: false,
+  [ChainId.AURORA]: false,
+  [ChainId.CRONOS]: false,
+  [ChainId.FUSE]: false,
+  [ChainId.MOONRIVER]: false,
+  [ChainId.MOONBEAM]: false,
+  [ChainId.OP]: false
 }
 
 export const WATCHLIST_ACCESS: { [chainId in ChainId]: boolean } = {
@@ -45,7 +68,24 @@ export const WATCHLIST_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.FLARE_MAINNET]: false,
   [ChainId.HEDERA_TESTNET]: false,
   [ChainId.NEAR_MAINNET]: false,
-  [ChainId.NEAR_TESTNET]: false
+  [ChainId.NEAR_TESTNET]: false,
+  [ChainId.COSTON2]: false,
+  [ChainId.EVMOS_TESTNET]: false,
+  [ChainId.ETHEREUM]: false,
+  [ChainId.POLYGON]: false,
+  [ChainId.FANTOM]: false,
+  [ChainId.XDAI]: false,
+  [ChainId.BSC]: false,
+  [ChainId.ARBITRUM]: false,
+  [ChainId.CELO]: false,
+  [ChainId.OKXCHAIN]: false,
+  [ChainId.VELAS]: false,
+  [ChainId.AURORA]: false,
+  [ChainId.CRONOS]: false,
+  [ChainId.FUSE]: false,
+  [ChainId.MOONRIVER]: false,
+  [ChainId.MOONBEAM]: false,
+  [ChainId.OP]: false
 }
 
 export const PAIRINFO_ACCESS: { [chainId in ChainId]: boolean } = {
@@ -57,5 +97,69 @@ export const PAIRINFO_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.FLARE_MAINNET]: false,
   [ChainId.HEDERA_TESTNET]: false,
   [ChainId.NEAR_MAINNET]: false,
-  [ChainId.NEAR_TESTNET]: false
+  [ChainId.NEAR_TESTNET]: false,
+  [ChainId.COSTON2]: false,
+  [ChainId.EVMOS_TESTNET]: false,
+  [ChainId.ETHEREUM]: false,
+  [ChainId.POLYGON]: false,
+  [ChainId.FANTOM]: false,
+  [ChainId.XDAI]: false,
+  [ChainId.BSC]: false,
+  [ChainId.ARBITRUM]: false,
+  [ChainId.CELO]: false,
+  [ChainId.OKXCHAIN]: false,
+  [ChainId.VELAS]: false,
+  [ChainId.AURORA]: false,
+  [ChainId.CRONOS]: false,
+  [ChainId.FUSE]: false,
+  [ChainId.MOONRIVER]: false,
+  [ChainId.MOONBEAM]: false,
+  [ChainId.OP]: false
+}
+
+const onlyBridgeHideOtherMenus: MENU_LINK[] = [
+  MENU_LINK.swap,
+  MENU_LINK.pool,
+  MENU_LINK.stake,
+  MENU_LINK.vote,
+  MENU_LINK.migrate,
+  MENU_LINK.airdrop,
+  MENU_LINK.stakev2
+]
+
+const nonEvmHideList: MENU_LINK[] = [
+  MENU_LINK.pool,
+  MENU_LINK.stake,
+  MENU_LINK.vote,
+  MENU_LINK.migrate,
+  MENU_LINK.airdrop,
+  MENU_LINK.stakev2
+]
+
+export const HIDE_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: MENU_LINK[] } = {
+  [ChainId.FUJI]: [MENU_LINK.stakev2],
+  [ChainId.AVALANCHE]: [MENU_LINK.stakev2],
+  [ChainId.WAGMI]: [],
+  [ChainId.COSTON]: [MENU_LINK.stake],
+  [ChainId.SONGBIRD]: [MENU_LINK.vote, MENU_LINK.stake],
+  [ChainId.HEDERA_TESTNET]: [MENU_LINK.vote, MENU_LINK.migrate, MENU_LINK.airdrop, MENU_LINK.stake],
+  [ChainId.NEAR_MAINNET]: nonEvmHideList,
+  [ChainId.NEAR_TESTNET]: nonEvmHideList,
+  [ChainId.COSTON2]: [MENU_LINK.stake],
+  [ChainId.EVMOS_TESTNET]: [MENU_LINK.stake],
+  [ChainId.ETHEREUM]: onlyBridgeHideOtherMenus,
+  [ChainId.POLYGON]: onlyBridgeHideOtherMenus,
+  [ChainId.FANTOM]: onlyBridgeHideOtherMenus,
+  [ChainId.XDAI]: onlyBridgeHideOtherMenus,
+  [ChainId.BSC]: onlyBridgeHideOtherMenus,
+  [ChainId.ARBITRUM]: onlyBridgeHideOtherMenus,
+  [ChainId.CELO]: onlyBridgeHideOtherMenus,
+  [ChainId.OKXCHAIN]: onlyBridgeHideOtherMenus,
+  [ChainId.VELAS]: onlyBridgeHideOtherMenus,
+  [ChainId.AURORA]: onlyBridgeHideOtherMenus,
+  [ChainId.CRONOS]: onlyBridgeHideOtherMenus,
+  [ChainId.FUSE]: onlyBridgeHideOtherMenus,
+  [ChainId.MOONRIVER]: onlyBridgeHideOtherMenus,
+  [ChainId.MOONBEAM]: onlyBridgeHideOtherMenus,
+  [ChainId.OP]: onlyBridgeHideOtherMenus
 }

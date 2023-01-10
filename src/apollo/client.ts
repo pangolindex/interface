@@ -34,5 +34,22 @@ export const blockClients: { [chainId in ChainId]: ApolloClient<NormalizedCacheO
   [ChainId.FLARE_MAINNET]: undefined,
   [ChainId.HEDERA_TESTNET]: undefined,
   [ChainId.NEAR_MAINNET]: undefined,
-  [ChainId.NEAR_TESTNET]: undefined
+  [ChainId.NEAR_TESTNET]: undefined,
+  [ChainId.COSTON2]: undefined,
+  [ChainId.EVMOS_TESTNET]: undefined,
+  [ChainId.ETHEREUM]: undefined,
+  [ChainId.POLYGON]: undefined,
+  [ChainId.FANTOM]: undefined,
+  [ChainId.XDAI]: undefined,
+  [ChainId.BSC]: undefined,
+  [ChainId.ARBITRUM]: undefined,
+  [ChainId.CELO]: undefined,
+  [ChainId.OKXCHAIN]: undefined,
+  [ChainId.VELAS]: undefined,
+  [ChainId.AURORA]: undefined,
+  [ChainId.CRONOS]: undefined,
+  [ChainId.FUSE]: undefined,
+  [ChainId.MOONRIVER]: undefined,
+  [ChainId.MOONBEAM]: undefined,
+  [ChainId.OP]: undefined
 }
