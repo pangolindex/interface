@@ -1,5 +1,5 @@
 import { Web3Provider } from '@ethersproject/providers'
-import { ChainId, ALL_CHAINS, CHAINS, AVALANCHE_MAINNET } from '@pangolindex/sdk'
+import { ChainId, ALL_CHAINS, CHAINS, AVALANCHE_MAINNET, TokenAmount } from '@pangolindex/sdk'
 import { UnsupportedChainIdError, useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -16,6 +16,10 @@ import {
 } from '@pangolindex/components'
 import { useWallet } from 'src/state/user/hooks'
 import { AbstractConnector } from '@web3-react/abstract-connector'
+import { PNG } from 'src/constants/tokens'
+import { useQuery } from 'react-query'
+import axios from 'axios'
+import { PANGOLIN_API_BASE_URL } from 'src/constants'
 
 export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & { chainId?: ChainId } {
   const context = useWeb3ReactCore<Web3Provider>()
@@ -188,4 +192,30 @@ export const useChain = (chainId: number) => {
 export const usePngSymbol = () => {
   const { chainId } = useActiveWeb3React()
   return CHAINS[chainId || ChainId.AVALANCHE].png_symbol!
+}
+
+export function usePNGCirculationSupply() {
+  const chainId = useChainId()
+  const png = PNG[chainId]
+
+  return useQuery(
+    ['png-circulation-supply', png.chainId, png.address],
+    async () => {
+      if (!png) return undefined
+
+      try {
+        const response = await axios.get(`${PANGOLIN_API_BASE_URL}/v2/${chainId}/png/circulating-supply`, {
+          timeout: 3 * 1000 // 3 seconds
+        })
+
+        const data = response.data
+        return new TokenAmount(png, data)
+      } catch (error) {
+        return undefined
+      }
+    },
+    {
+      cacheTime: 60 * 5 * 1000 // 5 minutes
+    }
+  )
 }

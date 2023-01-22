@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CBPayInstanceType, initOnRamp } from '@coinbase/cbpay-js'
 import { COINBASE_PK } from 'src/constants'
 import { useActiveWeb3React } from 'src/hooks'
@@ -8,7 +8,7 @@ import { Box, useWalletModalToggle } from '@pangolindex/components'
 export default function CoinbasePay() {
   const [init, setInit] = useState(false)
   const { account } = useActiveWeb3React()
-  const coinbasePayInstance = useRef<CBPayInstanceType>()
+  const [coinbasePayInstance, setCoinbasePayInstance] = useState<CBPayInstanceType | null>(null)
   const toggleWalletModal = useWalletModalToggle()
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function CoinbasePay() {
         if (err) {
           console.error(err)
         } else if (instance) {
-          coinbasePayInstance.current = instance
+          setCoinbasePayInstance(instance)
           instance.open()
         }
       }
@@ -42,8 +42,8 @@ export default function CoinbasePay() {
   }, [account, init])
 
   const openCoinbasePay = () => {
-    if (coinbasePayInstance.current) {
-      coinbasePayInstance.current.open()
+    if (coinbasePayInstance) {
+      coinbasePayInstance.open()
     }
   }
 
@@ -76,8 +76,13 @@ export default function CoinbasePay() {
           <Box bgColor="black" borderRadius="5px" mb="10px" color="white" p="10px">
             You will be redirected to Coinbase Pay shortly, if not please click below button
           </Box>
-          <ToggleWalletButton variant="primary" onClick={openCoinbasePay} width="100%">
-            Open Coinbase Pay
+          <ToggleWalletButton
+            variant="primary"
+            onClick={openCoinbasePay}
+            width="100%"
+            isDisabled={!coinbasePayInstance}
+          >
+            {!coinbasePayInstance ? 'Loading...' : 'Open Coinbase Pay'}
           </ToggleWalletButton>
         </Box>
       )}
