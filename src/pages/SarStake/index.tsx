@@ -11,7 +11,7 @@ import {
   Modal,
   Loader
 } from '@pangolindex/components'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import Confetti from 'src/components/Confetti'
 import { useChainId } from 'src/hooks'
 import useParsedQueryString from 'src/hooks/useParsedQueryString'
@@ -29,9 +29,9 @@ export default function SarStaking() {
   const useSarPositions = useSarPositionsHook[chainId]
   const { positions, isLoading } = useSarPositions()
 
-  const onSelectPosition = (position: Position | null) => {
+  const onSelectPosition = useCallback((position: Position | null) => {
     setSelectedPosition(position)
-  }
+  }, [])
 
   const [showClaimed, setShowClaimed] = useState(Boolean(params['showClaimed']))
 
@@ -61,7 +61,7 @@ export default function SarStaking() {
       </Box>
       <Box style={{ gridArea: 'stake' }} minWidth="330px" display="flex" flexDirection="column">
         <Box>
-          <SarManageWidget selectedPosition={selectedPosition} />
+          <SarManageWidget selectedPosition={selectedPosition} onSelectPosition={onSelectPosition} />
         </Box>
         <Box mt={10} mb={10}>
           <SarStakeWidget />
