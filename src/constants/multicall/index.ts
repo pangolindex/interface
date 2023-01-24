@@ -9,6 +9,7 @@ const MULTICALL_NETWORKS: { [chainId in ChainId]: string } = {
   [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD].contracts!.multicall,
   [ChainId.FLARE_MAINNET]: CHAINS[ChainId.FLARE_MAINNET].contracts!.multicall,
   [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].contracts!.multicall,
+  [ChainId.HEDERA_MAINNET]: CHAINS[ChainId.HEDERA_MAINNET].contracts!.multicall,
   [ChainId.NEAR_MAINNET]: '',
   [ChainId.NEAR_TESTNET]: '',
   [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].contracts!.multicall,

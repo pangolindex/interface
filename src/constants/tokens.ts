@@ -50,7 +50,14 @@ export const PNG: { [chainId in ChainId]: Token } = {
     CHAINS[ChainId.HEDERA_TESTNET].contracts!.png,
     8,
     CHAINS[ChainId.HEDERA_TESTNET].png_symbol,
-    'Songbird Pangolin'
+    'Pangolin Hedera'
+  ),
+  [ChainId.HEDERA_MAINNET]: new Token(
+    ChainId.HEDERA_MAINNET,
+    CHAINS[ChainId.HEDERA_MAINNET].contracts!.png,
+    8,
+    CHAINS[ChainId.HEDERA_MAINNET].png_symbol,
+    'Pangolin Hedera'
   ),
   [ChainId.NEAR_MAINNET]: new Token(
     ChainId.NEAR_MAINNET,
@@ -111,6 +118,7 @@ export const USDC: { [chainId in ChainId]: Token } = {
   [ChainId.SONGBIRD]: new Token(ChainId.SONGBIRD, ZERO_ADDRESS, 18, '', ''),
   [ChainId.FLARE_MAINNET]: new Token(ChainId.FLARE_MAINNET, ZERO_ADDRESS, 18, '', ''),
   [ChainId.HEDERA_TESTNET]: new Token(ChainId.HEDERA_TESTNET, ZERO_ADDRESS, 18, '', ''),
+  [ChainId.HEDERA_MAINNET]: new Token(ChainId.HEDERA_MAINNET, ZERO_ADDRESS, 18, '', ''),
   [ChainId.NEAR_MAINNET]: new Token(ChainId.NEAR_MAINNET, ZERO_ADDRESS, 18, '', ''),
   [ChainId.NEAR_TESTNET]: new Token(ChainId.NEAR_TESTNET, ZERO_ADDRESS, 18, '', ''),
   [ChainId.COSTON2]: new Token(ChainId.COSTON2, ZERO_ADDRESS, 18, '', ''),
