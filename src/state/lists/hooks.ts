@@ -37,6 +37,7 @@ const EMPTY_LIST: TokenAddressMap = {
   [ChainId.SONGBIRD]: {},
   [ChainId.FLARE_MAINNET]: {},
   [ChainId.HEDERA_TESTNET]: {},
+  [ChainId.HEDERA_MAINNET]: {},
   [ChainId.NEAR_MAINNET]: {},
   [ChainId.NEAR_TESTNET]: {},
   [ChainId.COSTON2]: {},

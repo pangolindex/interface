@@ -32,6 +32,7 @@ export const logoMapping = {
   [ChainId.COSTON]: PNG,
   [ChainId.SONGBIRD]: PSB,
   [ChainId.HEDERA_TESTNET]: PNG_HEDRA,
+  [ChainId.HEDERA_MAINNET]: PNG_HEDRA,
   [ChainId.FUJI]: PNG,
   [ChainId.AVALANCHE]: PNG,
   [ChainId.WAGMI]: PNG,
