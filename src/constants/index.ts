@@ -102,7 +102,7 @@ export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD].name,
   [ChainId.FLARE_MAINNET]: CHAINS[ChainId.FLARE_MAINNET].name,
   [ChainId.HEDERA_TESTNET]: CHAINS[ChainId.HEDERA_TESTNET].name,
-  [ChainId.HEDERA_MAINNET]: CHAINS[ChainId.HEDERA_TESTNET].name,
+  [ChainId.HEDERA_MAINNET]: CHAINS[ChainId.HEDERA_MAINNET].name,
   [ChainId.NEAR_MAINNET]: CHAINS[ChainId.NEAR_MAINNET].name,
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].name,
   [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].name,
