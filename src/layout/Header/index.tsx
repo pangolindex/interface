@@ -1,9 +1,13 @@
-import { Button, NetworkSelection, useAccountBalanceHook, useTranslation } from '@pangolindex/components'
+import {
+  Button,
+  NetworkSelection,
+  useAccountBalanceHook,
+  useTranslation,
+  TokenInfoModal
+} from '@pangolindex/components'
 import React, { useState, useRef, useMemo } from 'react'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, usePNGCirculationSupply } from '../../hooks'
 import Web3Status from '../../components/Web3Status'
-import Modal from '../../components/Modal'
-import PngBalanceContent from './PngBalanceContent'
 import LanguageSelection from '../../components/LanguageSelection'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
@@ -33,6 +37,8 @@ import { DISCORD_SUPPORT, LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from '
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
 import { CHAINS } from '@pangolindex/sdk'
+import { PNG } from 'src/constants/tokens'
+import { useTotalPngEarnedHook } from 'src/state/stake/multiChainsHooks'
 
 interface Props {
   activeMobileMenu: boolean
@@ -64,13 +70,20 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
     setOpenNetworkSelection(false)
   }
 
+  function closePngBalanceModal() {
+    setShowPngBalanceModal(false)
+  }
+
   const isMobile = useMedia(`(max-width: ${MEDIA_WIDTHS.upToMedium}px)`)
+
+  const png = PNG[chainId]
+
+  const unclaimedPNG = useTotalPngEarnedHook[chainId]()
+
+  const { data: pngCirculationSupply } = usePNGCirculationSupply()
 
   return (
     <HeaderFrame>
-      <Modal isOpen={showPngBalanceModal} onDismiss={() => setShowPngBalanceModal(false)}>
-        {showPngBalanceModal && <PngBalanceContent setShowPngBalanceModal={setShowPngBalanceModal} />}
-      </Modal>
       {isMobile ? (
         <MobileHeader activeMobileMenu={activeMobileMenu} handleMobileMenu={handleMobileMenu} />
       ) : (
@@ -125,6 +138,13 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
           </HeaderElementWrap>
         </HeaderControls>
       )}
+      <TokenInfoModal
+        open={showPngBalanceModal}
+        unclaimedAmount={unclaimedPNG}
+        circulationSupply={pngCirculationSupply}
+        closeModal={closePngBalanceModal}
+        token={png}
+      />
     </HeaderFrame>
   )
 }
