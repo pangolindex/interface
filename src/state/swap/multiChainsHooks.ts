@@ -21,6 +21,7 @@ export const useGelatoLimitOrdersHook: UseGelatoLimitOrdersHookType = {
   [ChainId.NEAR_TESTNET]: useDummyGelatoLimitOrders,
   [ChainId.COSTON2]: useDummyGelatoLimitOrders,
   [ChainId.EVMOS_TESTNET]: useDummyGelatoLimitOrders,
+  [ChainId.EVMOS_MAINNET]: useDummyGelatoLimitOrders,
   //TODO: Change following chains
   [ChainId.ETHEREUM]: useDummyGelatoLimitOrders,
   [ChainId.POLYGON]: useDummyGelatoLimitOrders,
