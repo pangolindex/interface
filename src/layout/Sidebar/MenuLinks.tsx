@@ -157,6 +157,12 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       icon: Bridge,
       title: `Satellite ${t('header.bridge')}`,
       id: 'satellite-bridge'
+    },
+    {
+      link: 'https://www.hashport.network/',
+      icon: Bridge,
+      title: `Hashport ${t('header.bridge')}`,
+      id: 'hashport-bridge'
     }
   ]
 
