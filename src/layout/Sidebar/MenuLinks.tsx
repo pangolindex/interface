@@ -163,7 +163,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       icon: Bridge,
       title: `Hashport ${t('header.bridge')}`,
       id: 'hashport-bridge'
-    },
+    }
   ]
 
   const createMenuLink = (link: LinkProps, index: number) => {
