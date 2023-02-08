@@ -6,10 +6,10 @@ export const PageWrapper = styled(Box)`
   display: flex;
   justify-content: start;
   gap: 20px;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    align-items: center;
+    justify-content: center;
   `};
 `
 
