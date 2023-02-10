@@ -10,13 +10,13 @@ import {
   avalancheCore,
   NetworkContextName,
   near,
-  shortenAddress,
   useAllTransactions as useAllTransactionsComponents,
   useTranslation,
   hashConnect,
   useWalletModalToggle,
   useModalOpen as useModalOpenComponents,
-  ApplicationModal as ApplicationModalComponents
+  ApplicationModal as ApplicationModalComponents,
+  shortenAddressMapping
 } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken } from 'polished'
@@ -194,6 +194,7 @@ function Web3StatusInner() {
   const chainId = useChainId()
 
   const allTransactions = useAllTransactions()
+  const shortenAddress = shortenAddressMapping[chainId]
 
   const sortedRecentTransactions = useMemo(() => {
     const txs = Object.values(allTransactions)
