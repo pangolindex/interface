@@ -32,6 +32,7 @@ const SwapUI = () => {
       return (
         <SwapWidgetWrapper>
           <SwapWidget
+            isTWAPOrderVisible={CHAINS[chainId]?.mainnet && CHAINS[chainId]?.supported_by_twap}
             onSwapTypeChange={onSwapTypeChange}
             isLimitOrderVisible={CHAINS[chainId]?.mainnet && CHAINS[chainId]?.supported_by_gelato}
           />
@@ -43,6 +44,7 @@ const SwapUI = () => {
           <TopContainer>
             <StatsWrapper>{PAIRINFO_ACCESS[chainId] ? <PairInfo /> : <ComingSoon />}</StatsWrapper>
             <SwapWidget
+              isTWAPOrderVisible={CHAINS[chainId]?.mainnet && CHAINS[chainId]?.supported_by_twap}
               onSwapTypeChange={onSwapTypeChange}
               isLimitOrderVisible={CHAINS[chainId]?.mainnet && CHAINS[chainId]?.supported_by_gelato}
             />
