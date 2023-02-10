@@ -21,14 +21,14 @@ import {
   near,
   avalancheCore,
   SUPPORTED_WALLETS,
-  shortenAddress,
   NearConnector,
   useAllTransactionsClearer,
   useTranslation,
   getEtherscanLink,
   bitKeep,
   hashConnect,
-  HashConnector
+  HashConnector,
+  shortenAddressMapping
 } from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ExternalLink as LinkIcon } from 'react-feather'
@@ -81,6 +81,8 @@ export default function AccountDetails({
 }: AccountDetailsProps) {
   const { account, connector } = useActiveWeb3React()
   const chainId = useChainId()
+
+  const shortenAddress = shortenAddressMapping[chainId]
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
   const dispatch = useDispatch()
