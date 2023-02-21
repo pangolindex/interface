@@ -28,7 +28,7 @@ notes.txt
 
 .vscode/
 
-package-lock.lock
+package-lock.json
 
 
 cypress/videos
