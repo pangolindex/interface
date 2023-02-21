@@ -28,7 +28,7 @@ notes.txt
 
 .vscode/
 
-yarn.lock
+package-lock.json
 
 
 cypress/videos
