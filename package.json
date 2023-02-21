@@ -126,7 +126,6 @@
     "prepare": "husky install",
     "type-check": "tsc --noEmit",
     "pre-commit-hook": "lint-staged",
-    "preinstall": "npx npm-force-resolutions",
     "postinstall": "patch-package"
   },
   "lint-staged": {
