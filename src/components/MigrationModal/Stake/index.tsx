@@ -9,7 +9,9 @@ import {
   StakingInfo,
   useDerivedStakeInfo,
   useTokenBalance,
-  MINICHEF_ADDRESS
+  MINICHEF_ADDRESS,
+  usePairContract,
+  useStakingContract
 } from '@pangolindex/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
@@ -17,7 +19,6 @@ import { tryParseAmount } from 'src/utils'
 import { useActiveWeb3React } from '../../../hooks'
 import { RowBetween } from '../../Row'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
-import { usePairContract, useStakingContract } from '../../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCallback'
 import { TransactionResponse } from '@ethersproject/providers'
 import { splitSignature } from 'ethers/lib/utils'

@@ -9,10 +9,9 @@ import { ButtonPrimary } from '../Button'
 import { useActiveWeb3React, useChainId, usePngSymbol } from '../../hooks'
 import AddressInputPanel from '../AddressInputPanel'
 import { isAddress } from 'ethers/lib/utils'
-import useENS from '../../hooks/useENS'
 import { useDelegateCallback } from '../../state/governance/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
-import { useTranslation, useTokenBalance, Tokens } from '@pangolindex/components'
+import { useTranslation, useTokenBalance, Tokens, useENS } from '@pangolindex/components'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;

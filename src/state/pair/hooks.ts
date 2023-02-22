@@ -2,7 +2,6 @@ import { useEffect, useMemo } from 'react'
 import { client } from '../../apollo/client'
 import { HOURLY_PAIR_RATES } from '../../apollo/pair'
 import { PRICES_BY_BLOCK } from '../../apollo/block'
-import { splitQuery } from 'src/utils/query'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import { useDispatch } from 'src/state'
@@ -16,7 +15,7 @@ import { COINGECKO_API } from 'src/constants'
 import { Time } from 'lightweight-charts'
 import { useQuery } from 'react-query'
 import axios from 'axios'
-import { useCoinGeckoTokenData } from '@pangolindex/components'
+import { useCoinGeckoTokenData, splitQuery } from '@pangolindex/components'
 
 dayjs.extend(utc)
 

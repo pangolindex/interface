@@ -6,9 +6,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
 import { maxAmountSpend } from 'src/utils'
 import { getRouterContract } from '../../utils'
-import { usePngContract, useStakingContract } from '../../hooks/useContract'
 import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
-import { wrappedCurrencyAmount } from 'src/utils/wrappedCurrency'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
@@ -27,7 +25,10 @@ import {
   useTokenBalance,
   useUSDCPrice,
   ZERO_ADDRESS,
-  Tokens
+  Tokens,
+  usePngContract,
+  useStakingContract,
+  wrappedCurrencyAmount
 } from '@pangolindex/components'
 
 export interface SingleSideStaking {

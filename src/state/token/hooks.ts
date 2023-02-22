@@ -1,9 +1,9 @@
 import { blockClients } from '../../apollo/client'
 import { GET_BLOCKS } from '../../apollo/block'
-import { splitQuery } from 'src/utils/query'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import { ChainId } from '@pangolindex/sdk'
+import { splitQuery } from '@pangolindex/components'
 
 dayjs.extend(utc)
 
