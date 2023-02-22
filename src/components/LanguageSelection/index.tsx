@@ -3,8 +3,7 @@ import { StyledMenu, MenuFlyout, StyledMenuButton } from '../StyledMenu'
 import styled from 'styled-components'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/actions'
-import { availableLanguages, i18n } from '@pangolindex/components'
-import { useOnClickOutside } from '../../hooks/useOnClickOutside'
+import { availableLanguages, i18n, useOnClickOutside } from '@pangolindex/components'
 
 const NarrowMenuFlyout = styled(MenuFlyout)`
   min-width: 7.125rem;

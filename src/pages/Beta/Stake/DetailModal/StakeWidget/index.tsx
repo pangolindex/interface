@@ -1,5 +1,5 @@
 import React from 'react'
-import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
+import { MENU_LINK } from 'src/constants'
 import { Root, Buttons, MaxButton, Balance, StakeWrapper, GridContainer } from './styled'
 import {
   Box,
@@ -11,7 +11,8 @@ import {
   useTranslation,
   Stat,
   Loader,
-  TransactionCompleted
+  TransactionCompleted,
+  ZERO_ADDRESS
 } from '@pangolindex/components'
 import { ApprovalState } from 'src/hooks/useApproveCallback'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'

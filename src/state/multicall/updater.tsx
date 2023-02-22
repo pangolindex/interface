@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef } from 'react'
 import { useDispatch } from 'src/state'
 import { useChainId } from '../../hooks'
 import { useMulticallContract } from '../../hooks/useContract'
-import useDebounce from '../../hooks/useDebounce'
 import chunkArray from '../../utils/chunkArray'
 import { CancelledError, retry, RetryableError } from '../../utils/retry'
 import { AppState, useSelector } from '../index'
@@ -14,7 +13,7 @@ import {
   parseCallKey,
   updateMulticallResults
 } from './actions'
-import { useBlockNumber } from '@pangolindex/components'
+import { useBlockNumber, useDebounce } from '@pangolindex/components'
 
 // chunk calls so we do not exceed the gas limit
 const CALL_CHUNK_SIZE = 500

@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Box } from '@pangolindex/components'
-import Drawer from 'src/components/Drawer'
+import { Box, Drawer } from '@pangolindex/components'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import ClaimWidget from '../ClaimWidget'
 import RewardStakeDrawer from '../RewardStakeDrawer'

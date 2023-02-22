@@ -10,9 +10,8 @@ import ERC20_ABI from '../constants/abis/erc20.json'
 import { MULTICALL_ABI, MULTICALL_NETWORKS } from '../constants/multicall'
 import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
-import { AIRDROP_ADDRESS, MINICHEF_ADDRESS, ZERO_ADDRESS, GOVERNANCE_ADDRESS } from '../constants'
-import { PNG } from '../constants/tokens'
-import { useLibrary } from '@pangolindex/components'
+import { AIRDROP_ADDRESS, GOVERNANCE_ADDRESS } from '../constants'
+import { useLibrary, ZERO_ADDRESS, MINICHEF_ADDRESS, Tokens } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 import { AirdropType } from '@pangolindex/sdk'
 import { airdropAbiMapping } from 'src/constants/airdrop'
@@ -52,6 +51,7 @@ export function useGovernanceContract(): Contract | null {
 
 export function usePngContract(): Contract | null {
   const chainId = useChainId()
+  const { PNG } = Tokens
   return useContract(chainId ? PNG[chainId].address : undefined, Png.abi, true)
 }
 

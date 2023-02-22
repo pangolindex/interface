@@ -1,7 +1,6 @@
 import { CHAINS, CurrencyAmount, JSBI, Pair, Token, TokenAmount, Percent } from '@pangolindex/sdk'
 import { useMemo, useEffect, useState, useCallback } from 'react'
-import { BIG_INT_ZERO, BIG_INT_ONE, BIG_INT_SECONDS_IN_WEEK, ZERO_ADDRESS } from '../../constants'
-import { PNG } from '../../constants/tokens'
+import { BIG_INT_ZERO, BIG_INT_ONE, BIG_INT_SECONDS_IN_WEEK } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
@@ -26,7 +25,9 @@ import {
   useDerivedStakeInfo,
   useTotalSupply,
   useTokenBalance,
-  useUSDCPrice
+  useUSDCPrice,
+  ZERO_ADDRESS,
+  Tokens
 } from '@pangolindex/components'
 
 export interface SingleSideStaking {
@@ -110,6 +111,7 @@ export function useSingleSideStakingInfo(
   // TODO: Take library from useLibrary
   const { library, account } = useActiveWeb3React()
   const chainId = useChainId()
+  const { PNG } = Tokens
 
   const info = useMemo(
     () =>
@@ -291,7 +293,7 @@ export function useSingleSideStakingInfo(
 
 export function useTotalPngEarned(): TokenAmount | undefined {
   const chainId = useChainId()
-
+  const { PNG } = Tokens
   const png = PNG[chainId]
   const useMinichefStakingInfos = useMinichefStakingInfosHook[chainId]
   const minichefInfo = useMinichefStakingInfos(2)
@@ -420,9 +422,11 @@ export function useGetPairDataFromPair(pair: Pair) {
 
 export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
   const { account } = useActiveWeb3React()
+
   const chainId = useChainId()
   const { library, provider } = useLibrary()
   const { t } = useTranslation()
+  const { PNG } = Tokens
   const png = PNG[chainId]
 
   const usdcPrice = useUSDCPrice(png)

@@ -5,7 +5,16 @@ import { DateTime } from 'luxon'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { TokenAmount, JSBI } from '@pangolindex/sdk'
-import { Text, Box, Loader, useTranslation, useTokenBalance, getEtherscanLink } from '@pangolindex/components'
+import {
+  Text,
+  Box,
+  Loader,
+  useTranslation,
+  useTokenBalance,
+  getEtherscanLink,
+  ZERO_ADDRESS,
+  Tokens
+} from '@pangolindex/components'
 import {
   PageWrapper,
   CardWrapper,
@@ -27,8 +36,7 @@ import VoteModal from 'src/components/vote/VoteModal'
 import { useGetProposalDetail, useUserVotes, useUserDelegatee, ProposalData } from 'src/state/governance/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 import { ExternalLink } from 'src/theme'
-import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
-import { PNG } from 'src/constants/tokens'
+import { MENU_LINK } from 'src/constants'
 import { isAddress } from 'src/utils'
 
 export interface GovernanceDetailProps {
@@ -39,6 +47,7 @@ export default function GovernanceDetail() {
   const params = useParams<GovernanceDetailProps>()
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
+  const { PNG } = Tokens
 
   // get data for this specific proposal
   const proposalData: ProposalData | undefined = useGetProposalDetail(params.id)

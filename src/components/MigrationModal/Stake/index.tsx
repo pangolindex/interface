@@ -8,7 +8,8 @@ import {
   useMinichefPools,
   StakingInfo,
   useDerivedStakeInfo,
-  useTokenBalance
+  useTokenBalance,
+  MINICHEF_ADDRESS
 } from '@pangolindex/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
@@ -19,7 +20,6 @@ import { useTransactionAdder } from '../../../state/transactions/hooks'
 import { usePairContract, useStakingContract } from '../../../hooks/useContract'
 import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCallback'
 import { TransactionResponse } from '@ethersproject/providers'
-import { MINICHEF_ADDRESS } from '../../../constants'
 import { splitSignature } from 'ethers/lib/utils'
 import useTransactionDeadline from '../../../hooks/useTransactionDeadline'
 import Loader from '../Loader'

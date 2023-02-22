@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, MenuItem, MenuName, MenuExternalLink, MenuWrapper } from './styled'
-import { Box, Text, useTranslation } from '@pangolindex/components'
+import { Box, Text, useTranslation, ANALYTICS_PAGE } from '@pangolindex/components'
 import {
   Dashboard,
   Swap,
@@ -14,7 +14,7 @@ import {
   MoonPay
 } from 'src/components/Icons'
 import Charts from 'src/assets/svg/menu/analytics.svg'
-import { MENU_LINK, ANALYTICS_PAGE, BUY_MENU_LINK } from 'src/constants'
+import { MENU_LINK, BUY_MENU_LINK } from 'src/constants'
 import Bridge from 'src/assets/svg/menu/bridge.svg'
 import Governance from 'src/assets/svg/menu/governance.svg'
 import { useLocation } from 'react-router-dom'

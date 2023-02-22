@@ -6,7 +6,9 @@ import {
   shortenAddress,
   useTranslation,
   useTokenBalance,
-  getEtherscanLink
+  getEtherscanLink,
+  ZERO_ADDRESS,
+  Tokens
 } from '@pangolindex/components'
 import {
   PageWrapper,
@@ -24,8 +26,7 @@ import GovernanceCard, { ProposalStates } from './GovernanceCard'
 import { useGetProposalsViaSubgraph, ProposalData, useUserVotes, useUserDelegatee } from 'src/state/governance/hooks'
 import DelegateModal from 'src/components/vote/DelegateModal'
 import { useActiveWeb3React, useChain, useChainId, usePngSymbol } from 'src/hooks'
-import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
-import { PNG } from 'src/constants/tokens'
+import { MENU_LINK } from 'src/constants'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
 import FormattedCurrencyAmount from 'src/components/FormattedCurrencyAmount'
 import { TYPE } from 'src/theme'
@@ -39,6 +40,7 @@ const GovernanceUI = () => {
   const chain = useChain(chainId)
   const { t } = useTranslation()
   const pngSymbol = usePngSymbol()
+  const { PNG } = Tokens
 
   // toggle for showing delegation modal
   const showDelegateModal = useModalOpen(ApplicationModal.DELEGATE)
