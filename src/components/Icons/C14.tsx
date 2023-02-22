@@ -7,7 +7,7 @@ interface Props {
 const C14: React.FC<Props> = props => {
   const { size } = props
   return (
-    <svg width={size} height={size} viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={size} height={size} viewBox="0 0 175 175" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="175" height="175" rx="87.5" fill="#FD7F3A" />
       <rect x="84" y="152" width="8" height="8" fill="#FFFAF8" />
       <rect x="77" y="139" width="8" height="8" fill="#FFFAF8" />
