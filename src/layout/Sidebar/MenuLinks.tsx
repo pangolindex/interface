@@ -1,6 +1,7 @@
 import React from 'react'
 import { Menu, MenuItem, MenuName, MenuExternalLink, MenuWrapper } from './styled'
 import { Box, Text, useTranslation } from '@pangolindex/components'
+import { ChainId } from '@pangolindex/sdk'
 import {
   Dashboard,
   Swap,
@@ -11,7 +12,8 @@ import {
   Airdrop,
   Bridge as BridgeIcon,
   CoinbasePay,
-  MoonPay
+  MoonPay,
+  C14
 } from 'src/components/Icons'
 import Charts from 'src/assets/svg/menu/analytics.svg'
 import { MENU_LINK, ANALYTICS_PAGE, BUY_MENU_LINK } from 'src/constants'
@@ -48,7 +50,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
 
   const location: any = useLocation()
 
-  const mainLinks = [
+  let mainLinks = [
     {
       link: MENU_LINK.dashboard,
       icon: Dashboard,
@@ -128,7 +130,20 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       id: 'bridge',
       isActive: location?.pathname?.startsWith(MENU_LINK.bridge)
     }
-  ].filter(link => !shouldHideMenuItem(chainId, link.link as MENU_LINK))
+  ]
+
+  // dirty way to add c14 buy link for evmos mainnet
+  if (chainId === ChainId.EVMOS_MAINNET && mainLinks?.[2]?.childrens) {
+    mainLinks[2].childrens.push({
+      link: `${MENU_LINK.buy}/${BUY_MENU_LINK.c14}`,
+      icon: C14,
+      title: 'C14',
+      id: `${BUY_MENU_LINK.c14}`,
+      isActive: location?.pathname?.startsWith(`${MENU_LINK.buy}/${BUY_MENU_LINK.c14}`)
+    })
+  }
+
+  mainLinks = mainLinks.filter(link => !shouldHideMenuItem(chainId, link.link as MENU_LINK))
 
   const pangolinLinks = [
     {

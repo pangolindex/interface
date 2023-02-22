@@ -13,6 +13,7 @@ export const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET]?.contracts!.router,
   [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].contracts!.router,
   [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].contracts!.router,
+  [ChainId.EVMOS_MAINNET]: CHAINS[ChainId.EVMOS_MAINNET].contracts!.router,
   [ChainId.ETHEREUM]: '',
   [ChainId.POLYGON]: '',
   [ChainId.FANTOM]: '',
@@ -63,6 +64,7 @@ export const MINICHEF_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].contracts!.mini_chef!.address,
   [ChainId.COSTON2]: ZERO_ADDRESS,
   [ChainId.EVMOS_TESTNET]: ZERO_ADDRESS,
+  [ChainId.EVMOS_MAINNET]: ZERO_ADDRESS,
   [ChainId.ETHEREUM]: ZERO_ADDRESS,
   [ChainId.POLYGON]: ZERO_ADDRESS,
   [ChainId.FANTOM]: ZERO_ADDRESS,
@@ -91,7 +93,8 @@ export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.HEDERA_TESTNET]: ZERO_ADDRESS,
   [ChainId.HEDERA_MAINNET]: ZERO_ADDRESS,
   [ChainId.COSTON2]: ZERO_ADDRESS,
-  [ChainId.EVMOS_TESTNET]: ZERO_ADDRESS
+  [ChainId.EVMOS_TESTNET]: ZERO_ADDRESS,
+  [ChainId.EVMOS_MAINNET]: ZERO_ADDRESS
 }
 
 export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
@@ -107,6 +110,7 @@ export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].name,
   [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].name,
   [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].name,
+  [ChainId.EVMOS_MAINNET]: CHAINS[ChainId.EVMOS_MAINNET].name,
   [ChainId.ETHEREUM]: CHAINS[ChainId.ETHEREUM].name,
   [ChainId.POLYGON]: CHAINS[ChainId.POLYGON].name,
   [ChainId.FANTOM]: CHAINS[ChainId.FANTOM].name,
@@ -137,6 +141,7 @@ export const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
   [ChainId.NEAR_TESTNET]: CHAINS[ChainId.NEAR_TESTNET].symbol,
   [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].symbol,
   [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].symbol,
+  [ChainId.EVMOS_MAINNET]: CHAINS[ChainId.EVMOS_MAINNET].symbol,
   [ChainId.ETHEREUM]: CHAINS[ChainId.ETHEREUM].symbol,
   [ChainId.POLYGON]: CHAINS[ChainId.POLYGON].symbol,
   [ChainId.FANTOM]: CHAINS[ChainId.FANTOM].symbol,
@@ -168,6 +173,7 @@ export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16))
 
 export const MOONPAY_PK = process.env.REACT_APP_MOONPAY_PK || ''
 export const COINBASE_PK = process.env.REACT_APP_COINBASE_PK || ''
+export const C14_ASSET_ID = 'e2e0546e-b51b-4d56-9426-3aff3a2418ba'
 export const SUBGRAPH_BASE_URL = process.env.REACT_APP_SUBGRAPH_BASE_URL
 
 export const TIMEFRAME = [
@@ -224,5 +230,6 @@ export enum MENU_LINK {
 
 export enum BUY_MENU_LINK {
   moonpay = 'moonpay',
-  coinbasePay = 'coinbase-pay'
+  coinbasePay = 'coinbase-pay',
+  c14 = 'c14'
 }
