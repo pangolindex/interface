@@ -115,7 +115,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts --max_old_space_size=5120 build",
+    "build": "react-scripts --max_old_space_size=8192 build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "serve": "serve build -l 3000",
@@ -126,7 +126,6 @@
     "prepare": "husky install",
     "type-check": "tsc --noEmit",
     "pre-commit-hook": "lint-staged",
-    "preinstall": "npx npm-force-resolutions",
     "postinstall": "patch-package"
   },
   "lint-staged": {
