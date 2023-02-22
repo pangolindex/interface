@@ -132,7 +132,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
   ]
 
   // dirty way to add c14 buy link for evmos mainnet
-  if (chainId == 9001 && mainLinks[2].childrens) {
+  if (chainId === ChainId.EVMOS_MAINNET && mainLinks?.[2]?.childrens) {
     mainLinks[2].childrens.push({
       link: `${MENU_LINK.buy}/${BUY_MENU_LINK.c14}`,
       icon: C14,
