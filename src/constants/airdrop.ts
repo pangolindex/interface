@@ -41,6 +41,7 @@ export const logoMapping = {
   [ChainId.NEAR_TESTNET]: PNR,
   [ChainId.COSTON2]: PNG,
   [ChainId.EVMOS_TESTNET]: PNG_EVMOS,
+  [ChainId.EVMOS_MAINNET]: '',
   [ChainId.ETHEREUM]: '',
   [ChainId.POLYGON]: '',
   [ChainId.FANTOM]: '',
