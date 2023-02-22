@@ -1,6 +1,7 @@
 import React from 'react'
 import { Menu, MenuItem, MenuName, MenuExternalLink, MenuWrapper } from './styled'
 import { Box, Text, useTranslation } from '@pangolindex/components'
+import { ChainId } from '@pangolindex/sdk'
 import {
   Dashboard,
   Swap,
