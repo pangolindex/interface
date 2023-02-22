@@ -5,14 +5,12 @@ import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import {
-  bitKeep,
   gnosisSafe,
   injected,
   // near,
   IS_IN_IFRAME,
   NetworkContextName,
-  SUPPORTED_WALLETS,
-  xDefi
+  SUPPORTED_WALLETS
 } from '@pangolindex/components'
 import { useWallet } from 'src/state/user/hooks'
 import { AbstractConnector } from '@web3-react/abstract-connector'
@@ -40,12 +38,7 @@ export function useEagerConnect() {
     if (wallet) {
       return SUPPORTED_WALLETS[wallet]?.connector
     }
-    if (window.xfi && window.xfi.ethereum) {
-      return xDefi
-    } else if (window.bitkeep && window.isBitKeep) {
-      return bitKeep
-    }
-    return window.ethereum
+    return null
   }, [wallet])
 
   const activateMobile = useCallback(async () => {
@@ -92,42 +85,44 @@ export function useEagerConnect() {
     }
   }, [activate, setWallet])
 
-  useEffect(() => {
-    const eagerConnect = async () => {
-      if (!triedSafe && connector === gnosisSafe) {
-        gnosisSafe.isSafeApp().then(loadedInSafe => {
-          if (loadedInSafe) {
-            activate(gnosisSafe, undefined, true).catch(() => {
-              setTriedSafe(true)
-            })
-          } else {
+  const eagerConnect = useCallback(async () => {
+    if (!triedSafe && connector === gnosisSafe) {
+      gnosisSafe.isSafeApp().then(loadedInSafe => {
+        if (loadedInSafe) {
+          activate(gnosisSafe, undefined, true).catch(() => {
             setTriedSafe(true)
-          }
-        })
-      } else if (connector?.isAuthorized) {
-        connector.isAuthorized?.().then(isAuthorized => {
-          if (isAuthorized) {
-            activate(connector, undefined, true).catch(() => {
-              setWallet(null)
-              setTried(true)
-            })
-          } else {
+          })
+        } else {
+          setTriedSafe(true)
+        }
+      })
+    } else if (connector?.isAuthorized) {
+      connector.isAuthorized?.().then(isAuthorized => {
+        if (isAuthorized) {
+          activate(connector, undefined, true).catch(() => {
             setWallet(null)
             setTried(true)
-          }
-        })
-      } else {
-        setWallet(null)
-        setTried(true)
-      }
+          })
+        } else {
+          setWallet(null)
+          setTried(true)
+        }
+      })
+    } else {
+      setWallet(null)
+      setTried(true)
     }
+  }, [activate, triedSafe, setTriedSafe, connector, setTried, setWallet])
+
+  useEffect(() => {
+    if (tried) return
 
     if (isMobile) {
       activateMobile()
     } else {
       eagerConnect()
     }
-  }, [activate, activateMobile, triedSafe, setTriedSafe, connector, setWallet, tried]) // intentionally only running on mount (make sure it's only mounted once :))
+  }, [activate, eagerConnect, activateMobile, tried]) // intentionally only running on mount (make sure it's only mounted once :))
 
   // if the connection worked, wait until we get confirmation of that to flip the flag
   useEffect(() => {
