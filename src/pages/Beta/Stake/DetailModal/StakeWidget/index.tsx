@@ -12,9 +12,9 @@ import {
   Stat,
   Loader,
   TransactionCompleted,
-  ZERO_ADDRESS
+  ZERO_ADDRESS,
+  ApprovalState
 } from '@pangolindex/components'
-import { ApprovalState } from 'src/hooks/useApproveCallback'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
 
 type Props = {
