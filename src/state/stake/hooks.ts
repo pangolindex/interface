@@ -29,7 +29,7 @@ import {
   useStakingContract,
   wrappedCurrencyAmount,
   useApproveCallbackHook,
-  ApprovalState
+  TransactionApprovalState as ApprovalState
 } from '@pangolindex/components'
 
 export interface SingleSideStaking {

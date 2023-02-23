@@ -13,7 +13,7 @@ import {
   usePairContract,
   useStakingContract,
   useApproveCallbackHook,
-  ApprovalState
+  TransactionApprovalState as ApprovalState
 } from '@pangolindex/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'

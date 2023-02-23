@@ -13,7 +13,7 @@ import {
   Loader,
   TransactionCompleted,
   ZERO_ADDRESS,
-  ApprovalState
+  TransactionApprovalState as ApprovalState
 } from '@pangolindex/components'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
 

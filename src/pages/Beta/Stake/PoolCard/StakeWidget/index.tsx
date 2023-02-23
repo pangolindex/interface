@@ -11,7 +11,7 @@ import {
   TransactionCompleted,
   useWalletModalToggle,
   ZERO_ADDRESS,
-  ApprovalState
+  TransactionApprovalState as ApprovalState
 } from '@pangolindex/components'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
 import { useActiveWeb3React } from 'src/hooks'
