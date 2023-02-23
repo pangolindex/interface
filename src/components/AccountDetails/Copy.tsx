@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import useCopyClipboard from '../../hooks/useCopyClipboard'
-
 import { LinkStyledButton } from '../../theme'
 import { CheckCircle, Copy } from 'react-feather'
 import { useTranslation } from '@pangolindex/components'

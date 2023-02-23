@@ -2,10 +2,9 @@ import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
 import { TokenAmount, CurrencyAmount, CAVAX, ChainId } from '@pangolindex/sdk'
 import { useCallback, useMemo } from 'react'
-import { useTokenAllowance } from '../data/Allowances'
+import { useTokenAllowance, useTokenContract } from '@pangolindex/components'
 import { useTransactionAdder, useHasPendingApproval } from '../state/transactions/hooks'
 import { calculateGasMargin } from '../utils'
-import { useTokenContract } from './useContract'
 import { useActiveWeb3React } from './index'
 
 export enum ApprovalState {

@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react'
-import { CurrencyLogo, Text, useSarStakeInfo, useSarPositionsHook, Position } from '@pangolindex/components'
+import { CurrencyLogo, Text, useSarStakeInfo, useSarPositionsHook, Position, Tokens } from '@pangolindex/components'
 import { BigNumber } from '@ethersproject/bignumber'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
-import { PNG } from 'src/constants/tokens'
 import { useChainId } from 'src/hooks'
 import { DestkopDetails, MobileDetails, Title, Wrapper } from './styleds'
 import { formatUnits } from 'ethers/lib/utils'
@@ -32,7 +31,7 @@ const StakeStat: React.FC = () => {
       .mul(100)
       .div(userTotalStaked)
   }, [filteredPositions, userTotalStaked])
-
+  const { PNG } = Tokens
   const png = PNG[chainId]
 
   return (

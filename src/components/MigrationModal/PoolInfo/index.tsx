@@ -8,13 +8,13 @@ import {
   Step,
   useTranslation,
   StakingInfo,
-  useTokenBalance
+  useTokenBalance,
+  wrappedCurrencyAmount
 } from '@pangolindex/components'
 import { Pair, TokenAmount, JSBI } from '@pangolindex/sdk'
 import { useGetPairDataFromPair } from '../../../state/stake/hooks'
 import numeral from 'numeral'
 import { useActiveWeb3React, useChainId, usePngSymbol } from '../../../hooks'
-import { wrappedCurrencyAmount } from '../../../utils/wrappedCurrency'
 import { tryParseAmount } from 'src/utils'
 
 export interface PoolInfoProps {

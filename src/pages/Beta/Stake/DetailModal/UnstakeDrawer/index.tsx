@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
-import Drawer from 'src/components/Drawer'
 import { useActiveWeb3React } from 'src/hooks'
-import { useStakingContract } from 'src/hooks/useContract'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Box, Button, Text, useTranslation, TransactionCompleted, Loader } from '@pangolindex/components'
+import {
+  Box,
+  Button,
+  Text,
+  useTranslation,
+  TransactionCompleted,
+  Loader,
+  Drawer,
+  useStakingContract
+} from '@pangolindex/components'
 import { ConfirmWrapper, Wrapper } from './styled'
 
 type Props = {

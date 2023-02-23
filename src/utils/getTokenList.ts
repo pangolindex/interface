@@ -2,8 +2,7 @@ import { TokenList } from '@pangolindex/token-lists'
 import schema from '@pangolindex/token-lists/src/tokenlist.schema.json'
 import Ajv from 'ajv'
 import contenthashToUri from './contenthashToUri'
-import { parseENSAddress } from './parseENSAddress'
-import uriToHttp from './uriToHttp'
+import { uriToHttp, parseENSAddress } from '@pangolindex/components'
 
 const tokenListValidator = new Ajv({ allErrors: true }).compile(schema)
 

@@ -1,14 +1,14 @@
-import { PNG } from '../../constants/tokens'
 import { JSBI, TokenAmount } from '@pangolindex/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { useChainId } from 'src/hooks'
 import { useTotalPngEarnedHook } from 'src/state/stake/multiChainsHooks'
-import { useTokenBalanceHook } from '@pangolindex/components'
+import { useTokenBalanceHook, Tokens } from '@pangolindex/components'
 
 // get the total owned and unharvested PNG for account
 export function useAggregatePngBalance(): TokenAmount | undefined {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
+  const { PNG } = Tokens
 
   const useTokenBalance_ = useTokenBalanceHook[chainId]
   const useTotalPngEarned = useTotalPngEarnedHook[chainId]

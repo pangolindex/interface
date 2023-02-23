@@ -2,12 +2,9 @@ import { getVersionUpgrade, minVersionBump, VersionUpgrade } from '@pangolindex/
 import { useCallback, useEffect } from 'react'
 import { useDispatch } from 'src/state'
 import { useFetchListCallback } from '../../hooks/useFetchListCallback'
-import useInterval from '../../hooks/useInterval'
-import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { AppState, useSelector } from '../index'
 import { acceptListUpdate } from './actions'
-import { DEFAULT_TOKEN_LISTS } from '../../constants/lists'
-import { useLibrary } from '@pangolindex/components'
+import { useLibrary, DEFAULT_TOKEN_LISTS, useInterval, useIsWindowVisible } from '@pangolindex/components'
 
 export default function Updater(): null {
   const { library } = useLibrary()
