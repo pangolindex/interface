@@ -11,7 +11,9 @@ import {
   useTokenBalance,
   MINICHEF_ADDRESS,
   usePairContract,
-  useStakingContract
+  useStakingContract,
+  useApproveCallbackHook,
+  TransactionApprovalState as ApprovalState
 } from '@pangolindex/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
@@ -19,7 +21,6 @@ import { tryParseAmount } from 'src/utils'
 import { useActiveWeb3React } from '../../../hooks'
 import { RowBetween } from '../../Row'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
-import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCallback'
 import { TransactionResponse } from '@ethersproject/providers'
 import { splitSignature } from 'ethers/lib/utils'
 import useTransactionDeadline from '../../../hooks/useTransactionDeadline'
@@ -49,7 +50,7 @@ const Stake = ({
   const chainId = useChainId()
   const { library, provider } = useLibrary()
   const { t } = useTranslation()
-
+  const useApproveCallback = useApproveCallbackHook[chainId]
   // state for pending and submitted txn views
   const addTransaction = useTransactionAdder()
   const [attempting, setAttempting] = useState<boolean>(false)

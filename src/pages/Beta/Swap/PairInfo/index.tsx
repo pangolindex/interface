@@ -1,9 +1,13 @@
 import React from 'react'
 import PairStat from './PairStat'
 import PairChart from './PairChart'
-import { Field } from 'src/state/swap/actions'
 import { useDerivedSwapInfo, wrappedCurrency, usePair, Tokens } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
+
+export enum Field {
+  INPUT = 'INPUT',
+  OUTPUT = 'OUTPUT'
+}
 
 const PairInfo = () => {
   const chainId = useChainId()

@@ -10,7 +10,6 @@ import { SINGLE_SIDE_STAKING_REWARDS_INFO } from './singleSideConfig'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
-import { useApproveCallback, ApprovalState } from 'src/hooks/useApproveCallback'
 import { splitSignature } from 'ethers/lib/utils'
 import { useChainId } from 'src/hooks'
 import {
@@ -28,7 +27,9 @@ import {
   Tokens,
   usePngContract,
   useStakingContract,
-  wrappedCurrencyAmount
+  wrappedCurrencyAmount,
+  useApproveCallbackHook,
+  TransactionApprovalState as ApprovalState
 } from '@pangolindex/components'
 
 export interface SingleSideStaking {
@@ -427,6 +428,9 @@ export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
   const chainId = useChainId()
   const { library, provider } = useLibrary()
   const { t } = useTranslation()
+
+  const useApproveCallback = useApproveCallbackHook[chainId]
+
   const { PNG } = Tokens
   const png = PNG[chainId]
 
