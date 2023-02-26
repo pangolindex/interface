@@ -39,9 +39,7 @@ import { ExternalLink } from 'src/theme'
 import { MENU_LINK } from 'src/constants'
 import { isAddress } from 'src/utils'
 
-export interface GovernanceDetailProps {
-  id: string
-}
+export type GovernanceDetailProps = Record<'id', 'string'>
 
 export default function GovernanceDetail() {
   const params = useParams<GovernanceDetailProps>()
@@ -50,7 +48,7 @@ export default function GovernanceDetail() {
   const { PNG } = Tokens
 
   // get data for this specific proposal
-  const proposalData: ProposalData | undefined = useGetProposalDetail(params.id)
+  const proposalData: ProposalData | undefined = useGetProposalDetail(params.id as string)
 
   // update support based on button interactions
   const [support, setSupport] = useState<boolean>(true)
