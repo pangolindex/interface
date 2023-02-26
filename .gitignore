@@ -39,3 +39,4 @@ cypress/fixtures/example.json
 .yalc
 yalc.lock
 
+dist
