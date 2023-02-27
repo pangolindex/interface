@@ -42,7 +42,7 @@ if ('ethereum' in window) {
   ;(window.ethereum as any).autoRefreshOnNetworkChange = false
 }
 
-const mixpanelToken = import.meta.env.VITE_APP_MIXPANEL
+const mixpanelToken = import.meta.env.VITE_MIXPANEL
 
 const queryClient = new QueryClient({
   defaultOptions: {
