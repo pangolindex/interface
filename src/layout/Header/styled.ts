@@ -96,6 +96,7 @@ export const PNGAmount = styled(AccountElement)`
   font-weight: 500;
   background-color: ${({ theme }) => theme.bg3};
   background: radial-gradient(174.47% 188.91% at 1.84% 0%, #ffc800 0%, #e1aa00 100%), #edeef2;
+  color: ${({ theme }) => theme.black};
 `
 
 export const PNGWrapper = styled.span`
