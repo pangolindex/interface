@@ -12,9 +12,7 @@ import { useModalOpen, useSingleSideStakingDetailnModalToggle } from 'src/state/
 import DetailModal from './DetailModal'
 import { ApplicationModal } from 'src/state/application/actions'
 
-interface RouteParams {
-  version: string
-}
+type RouteParams = Record<'version', 'string'>
 
 const StakeUI = () => {
   const params = useParams<RouteParams>()

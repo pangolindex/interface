@@ -104,10 +104,10 @@ export const BIG_INT_SECONDS_IN_WEEK = JSBI.BigInt(60 * 60 * 24 * 7)
 // used to ensure the user doesn't send so much ETH so they end up with <.01
 export const MIN_ETH: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)) // .01 ETH
 
-export const MOONPAY_PK = process.env.REACT_APP_MOONPAY_PK || ''
-export const COINBASE_PK = process.env.REACT_APP_COINBASE_PK || ''
+export const MOONPAY_PK = import.meta.env.VITE_MOONPAY_PK || ''
+export const COINBASE_PK = import.meta.env.VITE_COINBASE_PK || ''
 export const C14_ASSET_ID = 'e2e0546e-b51b-4d56-9426-3aff3a2418ba'
-export const SUBGRAPH_BASE_URL = process.env.REACT_APP_SUBGRAPH_BASE_URL
+export const SUBGRAPH_BASE_URL = import.meta.env.VITE_SUBGRAPH_BASE_URL
 
 export enum MENU_LINK {
   dashboard = '/dashboard',

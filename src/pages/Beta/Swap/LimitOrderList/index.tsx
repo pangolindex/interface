@@ -3,7 +3,7 @@ import {
   Text,
   Box,
   ToggleButtons,
-  useGelatoLimitOrderList,
+  useGelatoLimitOrdersListHook,
   useTranslation,
   DropdownMenu
 } from '@pangolindex/components'
@@ -15,6 +15,7 @@ import LimitOrderDetail from './LimitOrderDetail'
 import CancelOrderModal from './CancelOrderModal'
 import MobileLimitOrderRow from './MobileLimitOrderRow'
 import ShowMore from 'src/components/Beta/ShowMore'
+import { useChainId } from 'src/hooks'
 
 export enum TabType {
   open = 'OPEN',
@@ -44,6 +45,8 @@ const LimitOrderList = () => {
 
   const [showMore, setShowMore] = useState(false as boolean)
 
+  const chainId = useChainId()
+  const useGelatoLimitOrderList = useGelatoLimitOrdersListHook[chainId]
   const { allOpenOrders, allCancelledOrders, executed } = useGelatoLimitOrderList()
 
   const [isCancelLimitOrderModalOpen, setIsCancelLimitOrderModalOpen] = useState(false)
