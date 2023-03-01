@@ -155,14 +155,14 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
           </Buttons>
         </>
       )}
-      {attempting && !hash && <Loader size={100} label={'Staking'} />}
+      {attempting && !hash && <Loader size={100} label={t('sarStake.staking')} />}
       {hash && (
         <TransactionCompleted
           onClose={() => {
             wrappedOnDismiss()
             onClose && onClose()
           }}
-          submitText={'Staked'}
+          submitText={t('stakePage.staked')}
         />
       )}
     </Root>

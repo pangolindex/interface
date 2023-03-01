@@ -59,7 +59,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
         </PoolRewardsWrapper>
 
         <Stat
-          title={`APR`}
+          title={t('sarPortfolio.apr')}
           stat={
             JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0)) && !stakingInfo.isPeriodFinished
               ? `${stakingInfo.apr.toLocaleString()}%`
@@ -72,7 +72,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
         />
         {stakingInfo.stakedAmount.greaterThan('0') && (
           <Stat
-            title={`Your Weekly Rate`}
+            title={t('stakePage.yourWeeklyRate')}
             stat={userRewardRate ? `${userRewardRate}` : '-'}
             titlePosition="top"
             titleFontSize={[14, 12]}
@@ -82,7 +82,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
           />
         )}
         <Stat
-          title={`Weekly Pool Rate`}
+          title={t('stakePage.weeklyPoolRate')}
           stat={totalRewardRate ? `${totalRewardRate}` : '-'}
           titlePosition="top"
           titleFontSize={[14, 12]}

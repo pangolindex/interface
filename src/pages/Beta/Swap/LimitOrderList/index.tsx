@@ -5,7 +5,8 @@ import {
   ToggleButtons,
   useGelatoLimitOrdersListHook,
   useTranslation,
-  DropdownMenu
+  DropdownMenu,
+  ShowMore
 } from '@pangolindex/components'
 import LimitOrderRow from './LimitOrderRow'
 import { DesktopLimitOrderList, GridContainer, MobileLimitOrderList } from './styleds'
@@ -14,7 +15,6 @@ import LimitOrderDetail from './LimitOrderDetail'
 // import { Order } from '@gelatonetwork/limit-orders-react'
 import CancelOrderModal from './CancelOrderModal'
 import MobileLimitOrderRow from './MobileLimitOrderRow'
-import ShowMore from 'src/components/Beta/ShowMore'
 import { useChainId } from 'src/hooks'
 
 export enum TabType {
