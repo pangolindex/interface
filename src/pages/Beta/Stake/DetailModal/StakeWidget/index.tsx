@@ -110,19 +110,19 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
               </Box>
 
               <Text fontSize={['14px', '12px']} color="text2" textAlign="center" mt="15px" mb="15px">
-                Stake your rewards
+                {t('stakePage.stakeYourReward')}
               </Text>
             </Box>
           ) : (
             <Box>
               <Box mb="5px">
                 <Text color="color4" fontSize={[20, 16]} fontWeight={500} mb="5px">
-                  Stake
+                  {t('header.stake')}
                 </Text>
 
                 {/* show already staked amount */}
                 <Text color="color9" fontSize={[14, 12]}>
-                  Stake your PNG token to share platform fees
+                  {t('stakePage.stakePng')}
                 </Text>
               </Box>
               <TextInput
@@ -197,14 +197,16 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
           </Buttons>
         </>
       )}
-      {attempting && !hash && <Loader size={100} label={isRewardStake ? 'Reward Staking' : 'Staking'} />}
+      {attempting && !hash && (
+        <Loader size={100} label={isRewardStake ? `${t('stakePage.rewardStaking')}` : `${t('sarStake.staking')}`} />
+      )}
       {hash && (
         <TransactionCompleted
           onClose={() => {
             wrappedOnDismiss()
             onClose && onClose()
           }}
-          submitText={isRewardStake ? 'Your rewards have been staked.' : 'Staked'}
+          submitText={isRewardStake ? `${t('stakePage.stakeSuccessMsg')}` : `${t('stakePage.staked')}`}
           showCloseIcon={isRewardStake ? false : true}
         />
       )}

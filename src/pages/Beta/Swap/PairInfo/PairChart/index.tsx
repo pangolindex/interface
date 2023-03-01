@@ -6,7 +6,7 @@ import { useDarkModeManager } from 'src/state/user/hooks'
 import { usePairHourlyRateData, useHourlyPairTokensChartData, useCoingeckoChartData } from 'src/state/pair/hooks'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/svg/blue-loader.svg'
-import { Box, Text, TIMEFRAME } from '@pangolindex/components'
+import { Box, Text, TIMEFRAME, useTranslation } from '@pangolindex/components'
 import { ChartWrapper, ChartContainer } from './styleds'
 import { useChainId } from 'src/hooks'
 
@@ -14,7 +14,7 @@ type Props = { pair?: Pair | null; tokenB?: Token; tokenA?: Token }
 
 const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
   const chainId = useChainId()
-
+  const { t } = useTranslation()
   const [ref, { width, height }] = useMeasure()
 
   const [chartCreated, setChartCreated] = useState<IChartApi>()
@@ -184,7 +184,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
               justifyContent="center"
             >
               <Text color="text1" fontSize="24px">
-                Not supported on this chain
+                {t('votePage.notSupported')}
               </Text>
             </Box>
           )}
