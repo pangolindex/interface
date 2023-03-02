@@ -3,7 +3,9 @@ import {
   NetworkSelection,
   useAccountBalanceHook,
   useTranslation,
-  TokenInfoModal
+  TokenInfoModal,
+  Tokens,
+  useOnClickOutside
 } from '@pangolindex/components'
 import React, { useState, useRef, useMemo } from 'react'
 import { useActiveWeb3React, usePNGCirculationSupply } from '../../hooks'
@@ -11,7 +13,6 @@ import Web3Status from '../../components/Web3Status'
 import LanguageSelection from '../../components/LanguageSelection'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
-import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { useDarkModeManager } from '../../state/user/hooks'
 import NightMode from '../../assets/svg/nightMode.svg'
 import LightMode from '../../assets/svg/lightMode.svg'
@@ -37,7 +38,6 @@ import { DISCORD_SUPPORT, LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from '
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
 import { CHAINS } from '@pangolindex/sdk'
-import { PNG } from 'src/constants/tokens'
 import { useTotalPngEarnedHook } from 'src/state/stake/multiChainsHooks'
 
 interface Props {
@@ -49,7 +49,7 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const { t } = useTranslation()
-
+  const { PNG } = Tokens
   const useETHBalances = useAccountBalanceHook[chainId]
 
   const accounts = useMemo(() => (account ? [account] : []), [account])

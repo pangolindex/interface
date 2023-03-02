@@ -2,9 +2,6 @@ import { Contract } from '@ethersproject/contracts'
 import { useEffect, useMemo, useRef } from 'react'
 import { useDispatch } from 'src/state'
 import { useChainId } from '../../hooks'
-import { useMulticallContract } from '../../hooks/useContract'
-import useDebounce from '../../hooks/useDebounce'
-import chunkArray from '../../utils/chunkArray'
 import { CancelledError, retry, RetryableError } from '../../utils/retry'
 import { AppState, useSelector } from '../index'
 import {
@@ -14,7 +11,7 @@ import {
   parseCallKey,
   updateMulticallResults
 } from './actions'
-import { useBlockNumber } from '@pangolindex/components'
+import { useBlockNumber, useDebounce, useMulticallContract, chunkArray } from '@pangolindex/components'
 
 // chunk calls so we do not exceed the gas limit
 const CALL_CHUNK_SIZE = 500
@@ -155,7 +152,7 @@ export default function Updater(): null {
 
     cancellations.current = {
       blockNumber: latestBlockNumber,
-      cancellations: chunkedCalls.map((chunk, index) => {
+      cancellations: chunkedCalls.map((chunk: any, index: any) => {
         const { cancel, promise } = retry(() => fetchChunk(multicallContract, chunk, latestBlockNumber), {
           n: Infinity,
           minWait: 2500,
@@ -166,7 +163,9 @@ export default function Updater(): null {
             cancellations.current = { cancellations: [], blockNumber: latestBlockNumber }
 
             // accumulates the length of all previous indices
-            const firstCallKeyIndex = chunkedCalls.slice(0, index).reduce<number>((memo, curr) => memo + curr.length, 0)
+            const firstCallKeyIndex = chunkedCalls
+              .slice(0, index)
+              .reduce<number>((memo: number, curr: number[]) => memo + curr.length, 0)
             const lastCallKeyIndex = firstCallKeyIndex + returnData.length
 
             dispatch(

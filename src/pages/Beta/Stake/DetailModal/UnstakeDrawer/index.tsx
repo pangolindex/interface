@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
-import Drawer from 'src/components/Drawer'
 import { useActiveWeb3React } from 'src/hooks'
-import { useStakingContract } from 'src/hooks/useContract'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Box, Button, Text, useTranslation, TransactionCompleted, Loader } from '@pangolindex/components'
+import {
+  Box,
+  Button,
+  Text,
+  useTranslation,
+  TransactionCompleted,
+  Loader,
+  Drawer,
+  useStakingContract
+} from '@pangolindex/components'
 import { ConfirmWrapper, Wrapper } from './styled'
 
 type Props = {
@@ -86,7 +93,7 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
               </Box>
             </Box>
             <Text fontSize={['14px', '12px']} color="text2" mt={20}>
-              You can unstake your rewards.
+              {t('stakePage.unstakeYourReward')}
             </Text>
             <Box flex={1} />
             <Box mt={'10px'}>
@@ -96,8 +103,8 @@ const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
             </Box>
           </ConfirmWrapper>
         )}
-        {attempting && !hash && <Loader size={100} label="Unstaking" />}
-        {hash && <TransactionCompleted onClose={wrappedOnDismiss} submitText="Unstaked" />}
+        {attempting && !hash && <Loader size={100} label={t('stakePage.unstaking')} />}
+        {hash && <TransactionCompleted onClose={wrappedOnDismiss} submitText={t('stakePage.unstaked')} />}
       </Wrapper>
     </Drawer>
   )
