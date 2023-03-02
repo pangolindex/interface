@@ -9,6 +9,7 @@ import { NetworkContextName, PangolinProvider, useLibrary, fetchMinichefData } f
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
 import App from './pages/App'
+import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
 import store, { InterfaceContext } from './state'
@@ -27,7 +28,7 @@ try {
     release: `pangolin-interface@${Package.version}`, //manual for now
     tracesSampleRate: 0.4,
     allowUrls: ['https://app.pangolin.exchange', 'https://dev.pangolin.exchange'],
-    enabled: import.meta.env.PROD,
+    enabled: process.env.NODE_ENV === 'production',
     ignoreErrors: [
       'ResizeObserver loop limit exceeded',
       'Blocked a frame with origin "https://app.pangolin.exchange" from accessing a cross-origin frame.'
@@ -42,7 +43,7 @@ if ('ethereum' in window) {
   ;(window.ethereum as any).autoRefreshOnNetworkChange = false
 }
 
-const mixpanelToken = import.meta.env.VITE_MIXPANEL
+const mixpanelToken = process.env.REACT_APP_MIXPANEL
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -56,6 +57,7 @@ const queryClient = new QueryClient({
 function Updaters() {
   return (
     <>
+      <ListsUpdater />
       <UserUpdater />
       <TransactionUpdater />
       <MulticallUpdater />

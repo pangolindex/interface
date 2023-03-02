@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { ApplicationModal } from 'src/state/application/actions'
-import { Box, Modal, useTranslation } from '@pangolindex/components'
+import { Box, Modal } from '@pangolindex/components'
 import { useModalOpen, useSingleSideStakingDetailnModalToggle } from 'src/state/application/hooks'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { ThemeContext } from 'styled-components'
@@ -17,7 +17,6 @@ type Props = {
 }
 
 const DetailModal: React.FC<Props> = ({ stakingInfo, onClose }) => {
-  const { t } = useTranslation()
   const { height } = useWindowSize()
   const isDetailModalOpen = useModalOpen(ApplicationModal.SINGLE_SIDE_STAKE_DETAIL)
   const toggleModal = useSingleSideStakingDetailnModalToggle()
@@ -33,7 +32,7 @@ const DetailModal: React.FC<Props> = ({ stakingInfo, onClose }) => {
 
           <Box mt={25}>
             <Tabs>
-              <Tab>{t('votePage.details')}</Tab>
+              <Tab>Details</Tab>
             </Tabs>
             <Details stakingInfo={stakingInfo} />
           </Box>
@@ -44,7 +43,7 @@ const DetailModal: React.FC<Props> = ({ stakingInfo, onClose }) => {
         <DetailsWrapper>
           <LeftSection>
             <Tabs>
-              <Tab>{t('votePage.details')}</Tab>
+              <Tab>Details</Tab>
             </Tabs>
             <Details stakingInfo={stakingInfo} />
           </LeftSection>

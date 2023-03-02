@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { QuestionBox, TableContent, FullBox } from '../styleds'
-import { Text, useTranslation } from '@pangolindex/components'
+import { Text } from '@pangolindex/components'
 import { GeneralBox } from './QuestionBoxGeneral'
 import { SubCategories, useGetKnowledgeData, QuestionAnswerType } from 'src/state/bridge/hooks'
 
@@ -11,7 +11,6 @@ interface ShortArray {
 
 export const QuestionAnswer = () => {
   const [subcategory, setSubCategory] = useState<string>('General')
-  const { t } = useTranslation()
   const [active, setActive] = useState<number>(0)
   const { data: questions } = useGetKnowledgeData(QuestionAnswerType.Bridge, QuestionAnswerType.Undefined)
   const duplicate = questions && questions.map((e: SubCategories) => ({ id: e.id, subcategory: e.subcategory }))
@@ -39,7 +38,7 @@ export const QuestionAnswer = () => {
     <FullBox>
       <TableContent>
         <Text fontSize={21} fontWeight={500} lineHeight="32px" color="text10" padding={10}>
-          {t('bridge.tableOfContent')}
+          Table of Content
         </Text>
         {tabs &&
           tabs.map((tab: ShortArray) => (
@@ -60,7 +59,7 @@ export const QuestionAnswer = () => {
       </TableContent>
       <QuestionBox>
         <Text fontSize={32} fontWeight={500} lineHeight="48px" color="text10" paddingBottom={20}>
-          {t('bridge.haveQuestion')}
+          Have Questions? Look Here:
         </Text>
         <GeneralBox subcategory={subcategory} />
       </QuestionBox>

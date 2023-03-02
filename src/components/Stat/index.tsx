@@ -1,8 +1,9 @@
 import React from 'react'
-import { Text, Box, CurrencyLogo, ANALYTICS_PAGE } from '@pangolindex/components'
+import { Text, Box, CurrencyLogo } from '@pangolindex/components'
 import { Currency, Token, WAVAX } from '@pangolindex/sdk'
 import { Colors } from 'src/theme/styled'
 import { useChainId } from 'src/hooks'
+import { ANALYTICS_PAGE } from 'src/constants'
 import { ReactComponent as AnalyticsIcon } from 'src/assets/svg/menu/analytics.svg'
 import { AnalyticsLink } from './styled'
 

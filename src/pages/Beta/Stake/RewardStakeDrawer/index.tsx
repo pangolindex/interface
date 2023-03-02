@@ -1,7 +1,7 @@
 import React from 'react'
+import Drawer from 'src/components/Drawer'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import StakeWidget from '../DetailModal/StakeWidget'
-import { Drawer, useTranslation } from '@pangolindex/components'
 
 type Props = {
   isOpen: boolean
@@ -10,9 +10,8 @@ type Props = {
 }
 
 const RewardStakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
-  const { t } = useTranslation()
   return (
-    <Drawer title={t('stakePage.stakeReward')} isOpen={isOpen} onClose={onClose}>
+    <Drawer title="Stake Reward" isOpen={isOpen} onClose={onClose}>
       {isOpen && <StakeWidget stakingInfo={stakingInfo} onClose={onClose} isRewardStake={true} />}
     </Drawer>
   )

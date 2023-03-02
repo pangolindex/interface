@@ -3,11 +3,10 @@ import { CBPayInstanceType, initOnRamp } from '@coinbase/cbpay-js'
 import { COINBASE_PK } from 'src/constants'
 import { useActiveWeb3React } from 'src/hooks'
 import { ToggleWalletButton, WalletIcon } from '../styled'
-import { Box, useWalletModalToggle, useTranslation } from '@pangolindex/components'
+import { Box, useWalletModalToggle } from '@pangolindex/components'
 
 export default function CoinbasePay() {
   const [init, setInit] = useState(false)
-  const { t } = useTranslation()
   const { account } = useActiveWeb3React()
   const [coinbasePayInstance, setCoinbasePayInstance] = useState<CBPayInstanceType | null>(null)
   const toggleWalletModal = useWalletModalToggle()
@@ -64,17 +63,18 @@ export default function CoinbasePay() {
       {!account ? (
         <Box>
           <Box bgColor="black" borderRadius="5px" mb="10px" color="white" p="10px">
-            {t('buy.useCoinbasePay')}
+            To use Coinbase Pay first you need to connect your wallet to Pangolin dApp. Please proceed by clicking
+            button below.
           </Box>
           <ToggleWalletButton variant="primary" onClick={toggleWalletModal} width="100%">
             <WalletIcon color="black" />
-            {t('earn.connectWallet')}
+            Connect Wallet
           </ToggleWalletButton>
         </Box>
       ) : (
         <Box>
           <Box bgColor="black" borderRadius="5px" mb="10px" color="white" p="10px">
-            {t('buy.redirectCoinbasePay')}
+            You will be redirected to Coinbase Pay shortly, if not please click below button
           </Box>
           <ToggleWalletButton
             variant="primary"
@@ -82,7 +82,7 @@ export default function CoinbasePay() {
             width="100%"
             isDisabled={!coinbasePayInstance}
           >
-            {!coinbasePayInstance ? `${t('common.loading')}...` : 'Open Coinbase Pay'}
+            {!coinbasePayInstance ? 'Loading...' : 'Open Coinbase Pay'}
           </ToggleWalletButton>
         </Box>
       )}

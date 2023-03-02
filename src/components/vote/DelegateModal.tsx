@@ -9,9 +9,11 @@ import { ButtonPrimary } from '../Button'
 import { useActiveWeb3React, useChainId, usePngSymbol } from '../../hooks'
 import AddressInputPanel from '../AddressInputPanel'
 import { isAddress } from 'ethers/lib/utils'
+import useENS from '../../hooks/useENS'
 import { useDelegateCallback } from '../../state/governance/hooks'
+import { PNG } from '../../constants/tokens'
 import { LoadingView, SubmittedView } from '../ModalViews'
-import { useTranslation, useTokenBalance, Tokens, useENS } from '@pangolindex/components'
+import { useTranslation, useTokenBalance } from '@pangolindex/components'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -38,7 +40,6 @@ interface VoteModalProps {
 
 export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalProps) {
   const { account } = useActiveWeb3React()
-  const { PNG } = Tokens
   const { t } = useTranslation()
   const chainId = useChainId()
   const pngSymbol = usePngSymbol()

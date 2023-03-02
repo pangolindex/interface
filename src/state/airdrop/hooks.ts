@@ -4,7 +4,8 @@ import { useMerkledropContract } from '../../hooks/useContract'
 import { calculateGasMargin, waitForTransaction } from '../../utils'
 import { useTransactionAdder } from '../transactions/hooks'
 import { AirdropType, TokenAmount } from '@pangolindex/sdk'
-import { useLibrary, Tokens } from '@pangolindex/components'
+import { PNG } from '../../constants/tokens'
+import { useLibrary } from '@pangolindex/components'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import { useState } from 'react'
@@ -15,7 +16,6 @@ import { BigNumber } from 'ethers'
 export function useMerkledropClaimedAmounts(airdropAddress: string) {
   const { account } = useWeb3React()
   const chainId = useChainId()
-  const { PNG } = Tokens
   const png = PNG[chainId]
 
   const merkledropContract = useMerkledropContract(airdropAddress, AirdropType.MERKLE)
@@ -31,7 +31,6 @@ export function useMerkledropClaimedAmounts(airdropAddress: string) {
 export function useMerkledropProof(airdropAddress: string) {
   const { account } = useWeb3React()
   const chainId = useChainId()
-  const { PNG } = Tokens
 
   return useQuery(
     ['MerkledropProof', account, chainId, airdropAddress],

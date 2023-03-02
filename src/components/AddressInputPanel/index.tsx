@@ -1,10 +1,11 @@
 import React, { useContext, useCallback } from 'react'
 import styled, { ThemeContext } from 'styled-components'
+import useENS from '../../hooks/useENS'
 import { useChainId } from '../../hooks'
 import { ExternalLink, TYPE } from '../../theme'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
-import { useTranslation, getEtherscanLink, useENS } from '@pangolindex/components'
+import { useTranslation, getEtherscanLink } from '@pangolindex/components'
 
 const InputPanel = styled.div`
   ${({ theme }) => theme.flexColumnNoWrap}

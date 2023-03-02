@@ -1,18 +1,11 @@
 import React, { useState } from 'react'
-import {
-  Box,
-  Text,
-  Button,
-  useTranslation,
-  TransactionCompleted,
-  Loader,
-  useStakingContract
-} from '@pangolindex/components'
+import { Box, Text, Button, useTranslation, TransactionCompleted, Loader } from '@pangolindex/components'
 import { WidgetWrapper, Root } from './styled'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { useActiveWeb3React } from 'src/hooks'
+import { useStakingContract } from 'src/hooks/useContract'
 
 interface ClaimProps {
   stakingInfo: SingleSideStakingInfo

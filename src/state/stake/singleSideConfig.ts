@@ -1,8 +1,6 @@
 import { ChainId, WAVAX, AVALANCHE_FUJI } from '@pangolindex/sdk'
+import { PNG } from '../../constants/tokens'
 import { SingleSideStaking } from './hooks'
-import { Tokens } from '@pangolindex/components'
-
-const { PNG } = Tokens
 
 export const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
   WAVAX_V0: {
