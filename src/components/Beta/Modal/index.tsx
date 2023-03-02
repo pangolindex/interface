@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react'
-import { useOnClickOutside } from 'src/hooks/useOnClickOutside'
+import { useOnClickOutside } from '@pangolindex/components'
 import styled from 'styled-components'
 import '@reach/dialog/styles.css'
 import { Portal } from 'react-portal'

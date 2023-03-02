@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Wrapper } from '../styleds'
-import { Text, Button, Box, Loader, Tooltip } from '@pangolindex/components'
+import { Text, Button, Box, Loader, Tooltip, Tokens } from '@pangolindex/components'
 import { Chain, TokenAmount } from '@pangolindex/sdk'
 import { useClaimAirdrop, useMerkledropClaimedAmounts, useMerkledropProof } from 'src/state/airdrop/hooks'
-import { PNG } from 'src/constants/tokens'
 import { useChainId } from 'src/hooks'
 import ConfirmDrawer from './ConfirmDrawer'
 import NotEligible from './NotEligible'
@@ -18,7 +17,7 @@ interface Props extends AirdropData {
 
 const ClaimReward: React.FC<Props> = ({ address, type, chain, title }) => {
   const chainId = useChainId()
-
+  const { PNG } = Tokens
   const png = PNG[chainId]
 
   const [openDrawer, setOpenDrawer] = useState(false)

@@ -9,12 +9,12 @@ import {
   Text,
   useSarPositionsHook,
   Modal,
-  Loader
+  Loader,
+  useParsedQueryString
 } from '@pangolindex/components'
 import React, { useCallback, useState } from 'react'
 import Confetti from 'src/components/Confetti'
 import { useChainId } from 'src/hooks'
-import useParsedQueryString from 'src/hooks/useParsedQueryString'
 import StakeStat from './StakeStat'
 import { CloseButton, PageWrapper, StyledSVG } from './styleds'
 

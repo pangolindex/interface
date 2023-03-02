@@ -1,5 +1,5 @@
 import React from 'react'
-import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
+import { MENU_LINK } from 'src/constants'
 import { Root, Buttons, MaxButton, StakeWrapper, GridContainer, InputText } from './styled'
 import {
   Box,
@@ -9,9 +9,10 @@ import {
   Loader,
   Stat,
   TransactionCompleted,
-  useWalletModalToggle
+  useWalletModalToggle,
+  ZERO_ADDRESS,
+  TransactionApprovalState as ApprovalState
 } from '@pangolindex/components'
-import { ApprovalState } from 'src/hooks/useApproveCallback'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
 import { useActiveWeb3React } from 'src/hooks'
 
@@ -154,14 +155,14 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
           </Buttons>
         </>
       )}
-      {attempting && !hash && <Loader size={100} label={'Staking'} />}
+      {attempting && !hash && <Loader size={100} label={t('sarStake.staking')} />}
       {hash && (
         <TransactionCompleted
           onClose={() => {
             wrappedOnDismiss()
             onClose && onClose()
           }}
-          submitText={'Staked'}
+          submitText={t('stakePage.staked')}
         />
       )}
     </Root>

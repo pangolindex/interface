@@ -1,10 +1,13 @@
 import React from 'react'
 import PairStat from './PairStat'
 import PairChart from './PairChart'
-import { Field } from 'src/state/swap/actions'
-import { useDerivedSwapInfo, wrappedCurrency, usePair } from '@pangolindex/components'
+import { useDerivedSwapInfo, wrappedCurrency, usePair, Tokens } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
-import { USDC } from 'src/constants/tokens'
+
+export enum Field {
+  INPUT = 'INPUT',
+  OUTPUT = 'OUTPUT'
+}
 
 const PairInfo = () => {
   const chainId = useChainId()
@@ -14,7 +17,7 @@ const PairInfo = () => {
   const token1 = currencies[Field.OUTPUT]
 
   const tokenB = wrappedCurrency(token1 ?? undefined, chainId)
-
+  const { USDC } = Tokens
   // should show the price of tokenB in USD
   const [, tokenPair] = usePair(USDC[chainId], tokenB)
 
