@@ -23,6 +23,7 @@ export const useTotalPngEarnedHook: UseTotalPngEarnedHookType = {
   [ChainId.COSTON2]: useTotalPngEarned,
   [ChainId.EVMOS_TESTNET]: useTotalPngEarned,
   [ChainId.EVMOS_MAINNET]: useDummyHook,
+  [ChainId.ZKSYNC_TESTNET]: useTotalPngEarned,
   [ChainId.ETHEREUM]: useDummyHook,
   [ChainId.POLYGON]: useDummyHook,
   [ChainId.FANTOM]: useDummyHook,

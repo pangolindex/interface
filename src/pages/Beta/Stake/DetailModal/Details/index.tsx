@@ -3,14 +3,14 @@ import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { DetailsContainer } from './styled'
 import { Box, CoinDescription } from '@pangolindex/components'
 import StatDetails from '../StatDetail'
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
 }
 
 const Details: React.FC<Props> = ({ stakingInfo }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const amountInPNG = stakingInfo?.totalStakedInPng
   const isStaking = stakingInfo?.stakedAmount?.greaterThan('0')
   const bothCurrencySame = stakingInfo?.rewardToken?.equals(stakingInfo?.totalStakedAmount?.token)

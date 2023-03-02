@@ -3,6 +3,7 @@ import PNR from 'src/assets/svg/PNG/PNR.svg'
 import PSB from 'src/assets/svg/PNG/PSB.svg'
 import PNG_HEDRA from 'src/assets/svg/PNG/PNG_HEDERA.svg'
 import PNG_EVMOS from 'src/assets/svg/PNG/PNG_EVMOS.svg'
+import PNG_ZKSYNC from 'src/assets/svg/PNG/PNG_ZKSYNC.svg'
 import Airdrop from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/Airdrop.sol/Airdrop.json'
 import MerkleAirdrop from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/Merkledrop.sol/Merkledrop.json'
 import MerkleAirdropToStaking from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/MerkledropToStaking.sol/MerkledropToStaking.json'
@@ -42,6 +43,7 @@ export const logoMapping = {
   [ChainId.COSTON2]: PNG,
   [ChainId.EVMOS_TESTNET]: PNG_EVMOS,
   [ChainId.EVMOS_MAINNET]: '',
+  [ChainId.ZKSYNC_TESTNET]: PNG_ZKSYNC,
   [ChainId.ETHEREUM]: '',
   [ChainId.POLYGON]: '',
   [ChainId.FANTOM]: '',

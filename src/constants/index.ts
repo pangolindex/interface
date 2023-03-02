@@ -27,7 +27,8 @@ export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.HEDERA_MAINNET]: ZERO_ADDRESS,
   [ChainId.COSTON2]: ZERO_ADDRESS,
   [ChainId.EVMOS_TESTNET]: ZERO_ADDRESS,
-  [ChainId.EVMOS_MAINNET]: ZERO_ADDRESS
+  [ChainId.EVMOS_MAINNET]: ZERO_ADDRESS,
+  [ChainId.ZKSYNC_TESTNET]: ZERO_ADDRESS
 }
 
 export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
@@ -44,6 +45,7 @@ export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].name,
   [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].name,
   [ChainId.EVMOS_MAINNET]: CHAINS[ChainId.EVMOS_MAINNET].name,
+  [ChainId.ZKSYNC_TESTNET]: CHAINS[ChainId.ZKSYNC_TESTNET].name,
   [ChainId.ETHEREUM]: CHAINS[ChainId.ETHEREUM].name,
   [ChainId.POLYGON]: CHAINS[ChainId.POLYGON].name,
   [ChainId.FANTOM]: CHAINS[ChainId.FANTOM].name,
@@ -75,6 +77,7 @@ export const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
   [ChainId.COSTON2]: CHAINS[ChainId.COSTON2].symbol,
   [ChainId.EVMOS_TESTNET]: CHAINS[ChainId.EVMOS_TESTNET].symbol,
   [ChainId.EVMOS_MAINNET]: CHAINS[ChainId.EVMOS_MAINNET].symbol,
+  [ChainId.ZKSYNC_TESTNET]: CHAINS[ChainId.ZKSYNC_TESTNET].symbol,
   [ChainId.ETHEREUM]: CHAINS[ChainId.ETHEREUM].symbol,
   [ChainId.POLYGON]: CHAINS[ChainId.POLYGON].symbol,
   [ChainId.FANTOM]: CHAINS[ChainId.FANTOM].symbol,
