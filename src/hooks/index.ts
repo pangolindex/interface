@@ -10,14 +10,14 @@ import {
   // near,
   IS_IN_IFRAME,
   NetworkContextName,
-  SUPPORTED_WALLETS,
-  PANGOLIN_API_BASE_URL,
-  Tokens
+  SUPPORTED_WALLETS
 } from '@pangolindex/components'
 import { useWallet } from 'src/state/user/hooks'
 import { AbstractConnector } from '@web3-react/abstract-connector'
+import { PNG } from 'src/constants/tokens'
 import { useQuery } from 'react-query'
 import axios from 'axios'
+import { PANGOLIN_API_BASE_URL } from 'src/constants'
 
 export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & { chainId?: ChainId } {
   const context = useWeb3ReactCore<Web3Provider>()
@@ -191,7 +191,6 @@ export const usePngSymbol = () => {
 
 export function usePNGCirculationSupply() {
   const chainId = useChainId()
-  const { PNG } = Tokens
   const png = PNG[chainId]
 
   return useQuery(

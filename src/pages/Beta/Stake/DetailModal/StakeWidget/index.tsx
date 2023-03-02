@@ -1,5 +1,5 @@
 import React from 'react'
-import { MENU_LINK } from 'src/constants'
+import { MENU_LINK, ZERO_ADDRESS } from 'src/constants'
 import { Root, Buttons, MaxButton, Balance, StakeWrapper, GridContainer } from './styled'
 import {
   Box,
@@ -11,10 +11,9 @@ import {
   useTranslation,
   Stat,
   Loader,
-  TransactionCompleted,
-  ZERO_ADDRESS,
-  TransactionApprovalState as ApprovalState
+  TransactionCompleted
 } from '@pangolindex/components'
+import { ApprovalState } from 'src/hooks/useApproveCallback'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
 
 type Props = {
@@ -110,19 +109,19 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
               </Box>
 
               <Text fontSize={['14px', '12px']} color="text2" textAlign="center" mt="15px" mb="15px">
-                {t('stakePage.stakeYourReward')}
+                Stake your rewards
               </Text>
             </Box>
           ) : (
             <Box>
               <Box mb="5px">
                 <Text color="color4" fontSize={[20, 16]} fontWeight={500} mb="5px">
-                  {t('header.stake')}
+                  Stake
                 </Text>
 
                 {/* show already staked amount */}
                 <Text color="color9" fontSize={[14, 12]}>
-                  {t('stakePage.stakePng')}
+                  Stake your PNG token to share platform fees
                 </Text>
               </Box>
               <TextInput
@@ -197,16 +196,14 @@ const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose, isRewardStake }) =
           </Buttons>
         </>
       )}
-      {attempting && !hash && (
-        <Loader size={100} label={isRewardStake ? `${t('stakePage.rewardStaking')}` : `${t('sarStake.staking')}`} />
-      )}
+      {attempting && !hash && <Loader size={100} label={isRewardStake ? 'Reward Staking' : 'Staking'} />}
       {hash && (
         <TransactionCompleted
           onClose={() => {
             wrappedOnDismiss()
             onClose && onClose()
           }}
-          submitText={isRewardStake ? `${t('stakePage.stakeSuccessMsg')}` : `${t('stakePage.staked')}`}
+          submitText={isRewardStake ? 'Your rewards have been staked.' : 'Staked'}
           showCloseIcon={isRewardStake ? false : true}
         />
       )}

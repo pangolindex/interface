@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { client } from '../../apollo/client'
 import { HOURLY_PAIR_RATES } from '../../apollo/pair'
 import { PRICES_BY_BLOCK } from '../../apollo/block'
+import { splitQuery } from 'src/utils/query'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import { useDispatch } from 'src/state'
@@ -10,12 +11,12 @@ import { updatePairChartData, updatePairTokensChartData } from 'src/state/pair/a
 import { getBlocksFromTimestamps } from 'src/state/token/hooks'
 import { ChartState } from './reducer'
 import { Token, ChainId } from '@pangolindex/sdk'
+import { useCoinGeckoTokenData } from 'src/hooks/Tokens'
 import { useChainId } from 'src/hooks'
 import { COINGECKO_API } from 'src/constants'
 import { Time } from 'lightweight-charts'
 import { useQuery } from 'react-query'
 import axios from 'axios'
-import { useCoinGeckoTokenData, splitQuery } from '@pangolindex/components'
 
 dayjs.extend(utc)
 
@@ -404,7 +405,6 @@ interface Candle {
  */
 function useGetCoingeckoOHLC(token: Token) {
   const { data, isLoading } = useCoinGeckoTokenData(token)
-
   return useQuery(['getCoingeckOHLC', token.address, isLoading, data?.coinId], async () => {
     if (!data || isLoading) {
       return null

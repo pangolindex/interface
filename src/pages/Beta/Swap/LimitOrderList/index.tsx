@@ -3,10 +3,9 @@ import {
   Text,
   Box,
   ToggleButtons,
-  useGelatoLimitOrdersListHook,
+  useGelatoLimitOrderList,
   useTranslation,
-  DropdownMenu,
-  ShowMore
+  DropdownMenu
 } from '@pangolindex/components'
 import LimitOrderRow from './LimitOrderRow'
 import { DesktopLimitOrderList, GridContainer, MobileLimitOrderList } from './styleds'
@@ -15,7 +14,7 @@ import LimitOrderDetail from './LimitOrderDetail'
 // import { Order } from '@gelatonetwork/limit-orders-react'
 import CancelOrderModal from './CancelOrderModal'
 import MobileLimitOrderRow from './MobileLimitOrderRow'
-import { useChainId } from 'src/hooks'
+import ShowMore from 'src/components/Beta/ShowMore'
 
 export enum TabType {
   open = 'OPEN',
@@ -45,8 +44,6 @@ const LimitOrderList = () => {
 
   const [showMore, setShowMore] = useState(false as boolean)
 
-  const chainId = useChainId()
-  const useGelatoLimitOrderList = useGelatoLimitOrdersListHook[chainId]
   const { allOpenOrders, allCancelledOrders, executed } = useGelatoLimitOrderList()
 
   const [isCancelLimitOrderModalOpen, setIsCancelLimitOrderModalOpen] = useState(false)

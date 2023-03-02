@@ -4,6 +4,7 @@ import { NewsWidget, WatchList, Portfolio, useTranslation } from '@pangolindex/c
 import { CHAINS } from '@pangolindex/sdk'
 import { useChainId } from 'src/hooks'
 import { Hidden, Visible } from 'src/theme'
+import { MENU_LINK } from 'src/constants'
 import { WATCHLIST_ACCESS } from 'src/constants/accessPermissions'
 
 const Dashboard = () => {
@@ -22,7 +23,9 @@ const Dashboard = () => {
           <StatsWrapper isShowWatchList={WATCHLIST_ACCESS[chainId]}>
             <Portfolio />
 
-            {WATCHLIST_ACCESS[chainId] && <WatchList />}
+            {WATCHLIST_ACCESS[chainId] && (
+              <WatchList visibleTradeButton={true} tradeLinkUrl={MENU_LINK.swap} redirect={true} />
+            )}
           </StatsWrapper>
         )}
 

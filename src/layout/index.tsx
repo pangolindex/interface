@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Sidebar from './Sidebar'
 import { Wrapper, MainContent, AppContent } from './styled'
@@ -7,7 +6,7 @@ import Footer from './Footer'
 import URLWarning from 'src/components/Header/URLWarning'
 import MobileMenu from './Header/MobileMenu'
 
-const Layout: React.FC<unknown> = () => {
+const Layout: React.FC<unknown> = ({ children }) => {
   const [isDrawerCollapsed, setIsDrawerCollapsed] = useState(true)
 
   const [activeMobileMenu, setActiveMobileMenu] = useState(false)
@@ -26,9 +25,7 @@ const Layout: React.FC<unknown> = () => {
       <MainContent collapsed={isDrawerCollapsed}>
         <URLWarning />
         <Header activeMobileMenu={activeMobileMenu} handleMobileMenu={handleMobileMenu} />
-        <AppContent>
-          <Outlet />
-        </AppContent>
+        <AppContent>{children}</AppContent>
         {activeMobileMenu && <MobileMenu activeMobileMenu={activeMobileMenu} handleMobileMenu={handleMobileMenu} />}
         <Footer />
       </MainContent>

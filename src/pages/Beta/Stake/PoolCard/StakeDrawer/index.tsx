@@ -1,7 +1,8 @@
 import React from 'react'
+import Drawer from 'src/components/Drawer'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import StakeWidet from '../StakeWidget'
-import { useTranslation, Drawer } from '@pangolindex/components'
+import { useTranslation } from '@pangolindex/components'
 
 type Props = {
   isOpen: boolean

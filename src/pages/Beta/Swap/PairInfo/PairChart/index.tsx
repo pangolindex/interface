@@ -3,10 +3,11 @@ import { Pair, Token, CHAINS, WAVAX } from '@pangolindex/sdk'
 import { createChart, CrosshairMode, IChartApi, ISeriesApi } from 'lightweight-charts'
 import { useMeasure } from 'react-use'
 import { useDarkModeManager } from 'src/state/user/hooks'
+import { TIMEFRAME } from 'src/constants'
 import { usePairHourlyRateData, useHourlyPairTokensChartData, useCoingeckoChartData } from 'src/state/pair/hooks'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/svg/blue-loader.svg'
-import { Box, Text, TIMEFRAME, useTranslation } from '@pangolindex/components'
+import { Box, Text } from '@pangolindex/components'
 import { ChartWrapper, ChartContainer } from './styleds'
 import { useChainId } from 'src/hooks'
 
@@ -14,7 +15,7 @@ type Props = { pair?: Pair | null; tokenB?: Token; tokenA?: Token }
 
 const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
   const chainId = useChainId()
-  const { t } = useTranslation()
+
   const [ref, { width, height }] = useMeasure()
 
   const [chartCreated, setChartCreated] = useState<IChartApi>()
@@ -184,7 +185,7 @@ const PairChart: React.FC<Props> = ({ pair, tokenA, tokenB }) => {
               justifyContent="center"
             >
               <Text color="text1" fontSize="24px">
-                {t('votePage.notSupported')}
+                Not supported on this chain
               </Text>
             </Box>
           )}

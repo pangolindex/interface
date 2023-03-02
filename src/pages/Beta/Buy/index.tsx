@@ -5,7 +5,9 @@ import CoinbasePay from './CoinbasePay'
 import Moonpay from './Moonpay'
 import C14 from './C14'
 
-export type BuyProps = Record<'type', BUY_MENU_LINK>
+export interface BuyProps {
+  type: string
+}
 
 export default function BuyV2() {
   const params = useParams<BuyProps>()

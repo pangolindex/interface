@@ -4,6 +4,8 @@ import application from './application/reducer'
 import { updateVersion } from './global/actions'
 import user from './user/reducer'
 import transactions from './transactions/reducer'
+import swap from './swap/reducer'
+import lists from './lists/reducer'
 import multicall from './multicall/reducer'
 import watchlists from './watchlists/reducer'
 import token from './token/reducer'
@@ -18,7 +20,9 @@ const store = configureStore({
     application,
     user,
     transactions,
+    swap,
     multicall,
+    lists,
     watchlists,
     token,
     pair

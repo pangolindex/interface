@@ -1,7 +1,19 @@
-import { useCallback } from 'react'
+import { ChainId, Token } from '@pangolindex/sdk'
+import { useCallback, useMemo } from 'react'
 import { shallowEqual } from 'react-redux'
+import { useActiveWeb3React } from '../../hooks'
 import { AppState, useDispatch, useSelector } from '../index'
-import { updateUserDarkMode, toggleURLWarning, updateWallet } from './actions'
+import { SerializedToken, updateUserDarkMode, toggleURLWarning, updateWallet } from './actions'
+
+function deserializeToken(serializedToken: SerializedToken): Token {
+  return new Token(
+    serializedToken.chainId,
+    serializedToken.address,
+    serializedToken.decimals,
+    serializedToken.symbol,
+    serializedToken.name
+  )
+}
 
 export function useIsDarkMode(): boolean {
   const { userDarkMode, matchesDarkMode } = useSelector<{ userDarkMode: boolean | null; matchesDarkMode: boolean }>(
@@ -29,6 +41,16 @@ export function useDarkModeManager(): [boolean, () => void] {
   }, [darkMode, dispatch])
 
   return [darkMode, toggleSetDarkMode]
+}
+
+export function useUserAddedTokens(): Token[] {
+  const { chainId } = useActiveWeb3React()
+  const serializedTokensMap = useSelector<AppState['user']['tokens']>(({ user: { tokens } }) => tokens)
+
+  return useMemo(() => {
+    if (!chainId) return []
+    return Object.values(serializedTokensMap[chainId as ChainId] ?? {}).map(deserializeToken)
+  }, [serializedTokensMap, chainId])
 }
 
 export function useURLWarningVisible(): boolean {

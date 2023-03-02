@@ -28,7 +28,7 @@ notes.txt
 
 .vscode/
 
-package-lock.json
+yarn.lock
 
 
 cypress/videos
@@ -39,4 +39,3 @@ cypress/fixtures/example.json
 .yalc
 yalc.lock
 
-dist

@@ -1,6 +1,7 @@
+import { PNG } from 'src/constants/tokens'
 import { TokenAmount, JSBI, ChainId } from '@pangolindex/sdk'
 import { isAddress } from 'ethers/lib/utils'
-import { useGovernanceContract } from 'src/hooks/useContract'
+import { useGovernanceContract, usePngContract } from 'src/hooks/useContract'
 import { useSingleCallResult, useSingleContractMultipleData } from '../multicall/hooks'
 import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { ethers, utils } from 'ethers'
@@ -12,7 +13,7 @@ import GOV from '@pangolindex/governance/artifacts/contracts/GovernorAlpha.sol/G
 import { GET_BLOCK } from 'src/apollo/block'
 import { blockClients, governanceClient } from 'src/apollo/client'
 import { GET_PROPOSALS } from 'src/apollo/vote'
-import { useLibrary, Tokens, usePngContract } from '@pangolindex/components'
+import { useLibrary } from '@pangolindex/components'
 
 interface ProposalDetail {
   target: string
@@ -333,7 +334,6 @@ export function useUserDelegatee(): string {
 export function useUserVotes(): TokenAmount | undefined {
   const { account, chainId } = useActiveWeb3React()
   const pngContract = usePngContract()
-  const { PNG } = Tokens
 
   // check for available votes
   const png = chainId ? PNG[chainId] : undefined
