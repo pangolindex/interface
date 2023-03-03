@@ -23,10 +23,10 @@ export const TopContainer = styled(Box)<{ isMainnet: boolean }>`
   `};
 `
 
-export const StatsWrapper = styled(Box)<{ isShowWatchList: boolean }>`
+export const StatsWrapper = styled(Box)`
   display: grid;
-  grid-template-rows: ${({ isShowWatchList }) => (isShowWatchList ? `auto auto` : `auto`)};
-  grid-gap: ${({ isShowWatchList }) => (isShowWatchList ? `12px` : `0px`)};
+  grid-template-rows: auto auto;
+  grid-gap: 12px;
   align-items: stretch;
 `
 
