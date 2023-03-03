@@ -63,37 +63,6 @@ export const MYPORTFOLIO_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.OP]: false
 }
 
-export const WATCHLIST_ACCESS: { [chainId in ChainId]: boolean } = {
-  [ChainId.FUJI]: true,
-  [ChainId.AVALANCHE]: true,
-  [ChainId.WAGMI]: true,
-  [ChainId.COSTON]: true,
-  [ChainId.SONGBIRD]: false,
-  [ChainId.FLARE_MAINNET]: false,
-  [ChainId.HEDERA_TESTNET]: false,
-  [ChainId.HEDERA_MAINNET]: false,
-  [ChainId.NEAR_MAINNET]: false,
-  [ChainId.NEAR_TESTNET]: false,
-  [ChainId.COSTON2]: false,
-  [ChainId.EVMOS_TESTNET]: false,
-  [ChainId.EVMOS_MAINNET]: false,
-  [ChainId.ETHEREUM]: false,
-  [ChainId.POLYGON]: false,
-  [ChainId.FANTOM]: false,
-  [ChainId.XDAI]: false,
-  [ChainId.BSC]: false,
-  [ChainId.ARBITRUM]: false,
-  [ChainId.CELO]: false,
-  [ChainId.OKXCHAIN]: false,
-  [ChainId.VELAS]: false,
-  [ChainId.AURORA]: false,
-  [ChainId.CRONOS]: false,
-  [ChainId.FUSE]: false,
-  [ChainId.MOONRIVER]: false,
-  [ChainId.MOONBEAM]: false,
-  [ChainId.OP]: false
-}
-
 export const PAIRINFO_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.FUJI]: true,
   [ChainId.AVALANCHE]: true,
