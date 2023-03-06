@@ -6,7 +6,7 @@ export const HeaderRoot = styled(Box)`
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  border-bottom: 1px solid ${({ theme }) => theme.text9};
+  border-bottom: 1px solid ${({ theme }) => theme.text6};
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     border-bottom: none;

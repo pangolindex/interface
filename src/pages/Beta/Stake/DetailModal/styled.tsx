@@ -21,7 +21,7 @@ export const MobileWrapper = styled(Box)`
 `
 
 export const LeftSection = styled(Box)`
-  border-right: 2px solid ${({ theme }) => theme.text9};
+  border-right: 2px solid ${({ theme }) => theme.text6};
   display: flex;
   flex-direction: column;
 `
