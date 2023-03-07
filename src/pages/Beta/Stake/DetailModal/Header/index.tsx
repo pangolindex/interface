@@ -1,8 +1,15 @@
-import { Box, DoubleCurrencyLogo, Text, CurrencyLogo, useTranslation, Stat } from '@pangolindex/components'
+import {
+  Box,
+  DoubleCurrencyLogo,
+  Text,
+  CurrencyLogo,
+  useTranslation,
+  Stat,
+  unwrappedToken
+} from '@pangolindex/components'
 import React, { useContext } from 'react'
 import { JSBI } from '@pangolindex/sdk'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
-import { unwrappedToken } from 'src/utils/wrappedCurrency'
 import { ThemeContext } from 'styled-components'
 import { HeaderRoot, StatsWrapper, HeaderWrapper, PoolRewardsWrapper } from './styled'
 import { CloseIcon, Hidden, Visible } from 'src/theme'
@@ -52,7 +59,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
         </PoolRewardsWrapper>
 
         <Stat
-          title={`APR`}
+          title={t('sarPortfolio.apr')}
           stat={
             JSBI.greaterThan(stakingInfo.apr, JSBI.BigInt(0)) && !stakingInfo.isPeriodFinished
               ? `${stakingInfo.apr.toLocaleString()}%`
@@ -65,7 +72,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
         />
         {stakingInfo.stakedAmount.greaterThan('0') && (
           <Stat
-            title={`Your Weekly Rate`}
+            title={t('stakePage.yourWeeklyRate')}
             stat={userRewardRate ? `${userRewardRate}` : '-'}
             titlePosition="top"
             titleFontSize={[14, 12]}
@@ -75,7 +82,7 @@ const Header: React.FC<Props> = ({ stakingInfo, onClose }) => {
           />
         )}
         <Stat
-          title={`Weekly Pool Rate`}
+          title={t('stakePage.weeklyPoolRate')}
           stat={totalRewardRate ? `${totalRewardRate}` : '-'}
           titlePosition="top"
           titleFontSize={[14, 12]}

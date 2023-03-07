@@ -4,8 +4,6 @@ import { NewsWidget, WatchList, Portfolio, useTranslation } from '@pangolindex/c
 import { CHAINS } from '@pangolindex/sdk'
 import { useChainId } from 'src/hooks'
 import { Hidden, Visible } from 'src/theme'
-import { MENU_LINK } from 'src/constants'
-import { WATCHLIST_ACCESS } from 'src/constants/accessPermissions'
 
 const Dashboard = () => {
   const { t } = useTranslation()
@@ -20,12 +18,9 @@ const Dashboard = () => {
 
       <TopContainer isMainnet={isMainnet}>
         {isMainnet && (
-          <StatsWrapper isShowWatchList={WATCHLIST_ACCESS[chainId]}>
+          <StatsWrapper>
             <Portfolio />
-
-            {WATCHLIST_ACCESS[chainId] && (
-              <WatchList visibleTradeButton={true} tradeLinkUrl={MENU_LINK.swap} redirect={true} />
-            )}
+            <WatchList />
           </StatsWrapper>
         )}
 
