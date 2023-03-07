@@ -3927,25 +3927,48 @@
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.8.1.tgz#709cfc4bbb3ca9f4460d60101f15dac6b7a2d5e4"
   integrity sha512-xQ6eUZl+RDyb/FiZe1h+U7qr/f4p/SrTSQcTPH2bjur3C5DbuW/zFgCU/b1P/xcIaEqJep+9ju4xDRi3rmChdQ==
 
-"@orbs-network/twap-ui-pangolin@0.5.x":
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/@orbs-network/twap-ui-pangolin/-/twap-ui-pangolin-0.5.3.tgz#0c730aadd23b2fb11992d021120ef3a3bd7f9c62"
-  integrity sha512-vbKOQ/SsblIjPVgWXbACvb7M+g6wEvQmkqB7j3+lo0cVz39SHCgefdGg4/wcQsMN83pNChSB8TiZZUc4vcxOJQ==
+"@orbs-network/twap-ui-pangolin@0.5.4":
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/@orbs-network/twap-ui-pangolin/-/twap-ui-pangolin-0.5.4.tgz#e4b06c10d00da1464fe102ab1168cfa255e68bc2"
+  integrity sha512-D311y4TzPHUHNCBGFM/chRMJ4c3xxrS2LlrKAsoeahT3D9iU0RjR3URdzJTxmMwWb8kXrhKC9f3dMG+NqHJEsQ==
   dependencies:
     "@defi.org/web3-candies" "4.x"
     "@emotion/react" "11.x"
     "@mui/material" "5.x"
     "@mui/system" "5.x"
     "@orbs-network/twap" "1.9.x"
-    "@orbs-network/twap-ui" "^0.5.3"
+    "@orbs-network/twap-ui" "^0.5.4"
     lodash "4.x"
     react-icons "4.x"
     web3 "1.x"
 
-"@orbs-network/twap-ui@0.5.x", "@orbs-network/twap-ui@^0.5.3":
+"@orbs-network/twap-ui@0.5.x":
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/@orbs-network/twap-ui/-/twap-ui-0.5.3.tgz#fe0616b78607ef412eba17f167fe8bbed86d7257"
   integrity sha512-uS7vcLbZYqyUTZWtJgnIHGQgL8IgM8fKq6DTPIuObXpBYwKCKmJWaTWcw2HSnMxDSoTAurvTJDU9v1A1zlEcfQ==
+  dependencies:
+    "@defi.org/web3-candies" "4.x"
+    "@emotion/react" "11.x"
+    "@emotion/styled" "11.x"
+    "@mui/material" "5.x"
+    "@mui/system" "5.x"
+    "@open-defi-notification-protocol/widget" "0.0.x"
+    "@orbs-network/twap" "1.9.x"
+    "@tanstack/react-query" "4.x"
+    "@types/lodash" "4.x"
+    bignumber.js "9.x"
+    emotion-theming "11.x"
+    lodash "4.x"
+    moment "2.x"
+    react-icons "4.x"
+    react-number-format "5.x"
+    web3 "1.x"
+    zustand "4.x"
+
+"@orbs-network/twap-ui@^0.5.4":
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/@orbs-network/twap-ui/-/twap-ui-0.5.4.tgz#31119fc05cf3663692d894667dac50025dcf2d82"
+  integrity sha512-GCzWdVtnyy6p76CUWiFjLSEYEaQhnEyeN2RupK5O8zEim6F1l9aY2GsXcc4dlf+WrtDOAaqbZX/q+jb5yK6WlA==
   dependencies:
     "@defi.org/web3-candies" "4.x"
     "@emotion/react" "11.x"
@@ -3972,10 +3995,10 @@
   dependencies:
     "@defi.org/web3-candies" "4.x"
 
-"@pangolindex/components@6.0.2":
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-6.0.2.tgz#30c6c61b2c69b58ea4817f2887b6f1b6aa2d9e5f"
-  integrity sha512-oVHRqo+ZlDqx5GYiMQLmZKf4f/Atq6gkeAOV/caEdfAAOJnsr01XUZqylBA4gwHc2IfNt+rsyQTtceoLez0L+A==
+"@pangolindex/components@6.0.3":
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-6.0.3.tgz#a6ecbd11b1f2cc1ab6ff0d2f224cb68154cfea16"
+  integrity sha512-shEKdDX9VwYpyUn83S3nP9KsSBpRjDyXPTkrBqsFfOhWcHMRQwNpTJouQstQKrfaNF3E2YF1Xh87UE8Ymle6lg==
   dependencies:
     "@0xsquid/sdk" "1.3.2"
     "@ethersproject/abi" "5.6.4"
@@ -3993,7 +4016,7 @@
     "@hashgraph/sdk" "2.19.0"
     "@lifi/sdk" "^1.6.0"
     "@orbs-network/twap-ui" "0.5.x"
-    "@orbs-network/twap-ui-pangolin" "0.5.x"
+    "@orbs-network/twap-ui-pangolin" "0.5.4"
     "@pangolindex/exchange-contracts" "2.1.7"
     "@pangolindex/token-lists" "^1.0.2"
     "@pangolindex/web3-react-injected-connector" "1.0.2"
