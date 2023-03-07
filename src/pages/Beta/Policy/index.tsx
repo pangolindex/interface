@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown'
 
 import { PageWrapper, PolicyText } from './styled'
 
-import { CookiePolicy } from 'src/constants/Policies/CookiePolicy'
+import { CookiePolicy } from 'src/constants/Policies/CPolicy'
 import { PrivacyPolicy } from 'src/constants/Policies/PrivacyPolicy'
 import { TermsService } from 'src/constants/Policies/TermsService'
 

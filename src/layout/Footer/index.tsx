@@ -7,7 +7,7 @@ import { FooterFrame, Button, Policies } from './styled'
 import PolicyModal from './PolicyModal'
 import { PrivacyPolicy } from '../../constants/Policies/PrivacyPolicy'
 import { TermsService } from '../../constants/Policies/TermsService'
-import { CookiePolicy } from '../../constants/Policies/CookiePolicy'
+import { CookiePolicy } from '../../constants/Policies/CPolicy'
 
 export default function Footer() {
   const [selectedPolicy, setSelectPolicy] = useState<string>('')
