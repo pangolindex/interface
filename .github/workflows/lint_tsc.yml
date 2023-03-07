@@ -1,0 +1,27 @@
+name: Linting & Typescript Cheking
+
+env:
+  CI: true
+
+on:
+  pull_request:
+
+jobs:
+  lint_tsc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # we actually need "github.event.pull_request.commits + 1" commit
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'yarn'
+          registry-url: 'https://registry.npmjs.org/'
+
+      - run: yarn --frozen-lockfile
+      - run: yarn type-check
+      - run: yarn lint
