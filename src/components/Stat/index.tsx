@@ -3,7 +3,7 @@ import { Text, Box, CurrencyLogo, ANALYTICS_PAGE } from '@pangolindex/components
 import { Currency, Token, WAVAX } from '@pangolindex/sdk'
 import { Colors } from 'src/theme/styled'
 import { useChainId } from 'src/hooks'
-import { ReactComponent as AnalyticsIcon } from 'src/assets/svg/menu/analytics.svg'
+import { ReactComponent as AnalyticsIcon } from 'src/assets/svg/menu/statatics.svg'
 import { AnalyticsLink } from './styled'
 
 export interface StatProps {

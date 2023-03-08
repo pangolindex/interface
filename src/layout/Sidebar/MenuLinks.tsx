@@ -15,7 +15,7 @@ import {
   MoonPay,
   C14
 } from 'src/components/Icons'
-import Charts from 'src/assets/svg/menu/analytics.svg'
+import Charts from 'src/assets/svg/menu/statatics.svg'
 import { MENU_LINK, BUY_MENU_LINK } from 'src/constants'
 import Bridge from 'src/assets/svg/menu/bridge.svg'
 import Governance from 'src/assets/svg/menu/governance.svg'
