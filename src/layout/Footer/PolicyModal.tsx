@@ -1,9 +1,7 @@
 import React from 'react'
-import { Box } from '@pangolindex/components'
+import { Box, Modal } from '@pangolindex/components'
 import ReactMarkdown from 'react-markdown'
 import { Scrollbars } from 'react-custom-scrollbars'
-
-import Modal from 'src/components/Beta/Modal'
 import { CloseButton, Content, PolicyText } from './styled'
 
 interface Props {

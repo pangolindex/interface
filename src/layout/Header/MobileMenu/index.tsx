@@ -12,7 +12,7 @@ import {
 } from './styled'
 import { MenuLinks } from '../../Sidebar/MenuLinks'
 import SocialMedia from 'src/layout/SocialMedia'
-import { Box, Text, useTranslation } from '@pangolindex/components'
+import { Box, Text, useTranslation, Modal } from '@pangolindex/components'
 import { Scrollbars } from 'react-custom-scrollbars'
 import Logout from 'src/assets/svg/menu/logout.svg'
 import { useDarkModeManager } from 'src/state/user/hooks'
@@ -20,7 +20,6 @@ import LanguageSelection from 'src/components/LanguageSelection'
 import { MobileHeader } from '../MobileHeader'
 import Footer from 'src/layout/Footer'
 import TransactionModal from './TransactionModal'
-import Modal from 'src/components/Beta/Modal'
 import { LEGACY_PAGE } from 'src/constants'
 
 interface Props {

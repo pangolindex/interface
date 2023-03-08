@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Modal from '../Modal'
 import { AutoColumn } from '../Column'
 import styled from 'styled-components'
 import { RowBetween } from '../Row'
@@ -11,7 +10,7 @@ import AddressInputPanel from '../AddressInputPanel'
 import { isAddress } from 'ethers/lib/utils'
 import { useDelegateCallback } from '../../state/governance/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
-import { useTranslation, useTokenBalance, Tokens, useENS } from '@pangolindex/components'
+import { useTranslation, useTokenBalance, Tokens, useENS, Modal } from '@pangolindex/components'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -89,7 +88,7 @@ export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalPro
   }
 
   return (
-    <Modal isOpen={isOpen} onDismiss={wrappedOndismiss} maxHeight={90}>
+    <Modal isOpen={isOpen} onDismiss={wrappedOndismiss}>
       {!attempting && !hash && (
         <ContentWrapper gap="lg">
           <AutoColumn gap="lg" justify="center">
