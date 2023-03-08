@@ -1,7 +1,5 @@
 import React, { useState, useContext } from 'react'
 import { useChainId } from '../../hooks'
-
-import Modal from '../Modal'
 import { AutoColumn, ColumnCenter } from '../Column'
 import styled, { ThemeContext } from 'styled-components'
 import { RowBetween } from '../Row'
@@ -12,7 +10,7 @@ import Circle from '../../assets/svg/blue-loader.svg'
 import { useVoteCallback, useUserVotes } from '../../state/governance/hooks'
 import { ExternalLink } from '../../theme/components'
 import { TokenAmount } from '@pangolindex/sdk'
-import { useTranslation, getEtherscanLink } from '@pangolindex/components'
+import { useTranslation, getEtherscanLink, Modal } from '@pangolindex/components'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -84,7 +82,7 @@ export default function VoteModal({ isOpen, onDismiss, proposalId, support }: Vo
   }
 
   return (
-    <Modal isOpen={isOpen} onDismiss={wrappedOndismiss} maxHeight={90}>
+    <Modal isOpen={isOpen} onDismiss={wrappedOndismiss}>
       {!attempting && !hash && (
         <ContentWrapper gap="lg">
           <AutoColumn gap="lg" justify="center">
