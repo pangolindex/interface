@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 export const StyledMenuButton = styled.button`
   position: relative;
-  width: 100%;
   height: 100%;
   border: none;
   background-color: transparent;
