@@ -3995,10 +3995,10 @@
   dependencies:
     "@defi.org/web3-candies" "4.x"
 
-"@pangolindex/components@6.0.6":
-  version "6.0.6"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-6.0.6.tgz#f88d6b6c081c42517949fa7f86c8a9146a5497c7"
-  integrity sha512-2RLfymaqhpULvSJGx1hsvKpevM0KbP9aAQgFPtVsTq/ypGKCcuRLfBoohytyoqDQf/IerYgDna4301PlVS/Y6g==
+"@pangolindex/components@6.0.7-rc.1":
+  version "6.0.7-rc.1"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-6.0.7-rc.1.tgz#79b8bf0a11397ea33745eeb5030c1f04f9be777b"
+  integrity sha512-+nDqolpqhEN7bz6sgiJEBOmRxe6O/4nbTZ3M6vFyg4ayV4F0LmDDzn7KASB7Z84a1bEosq+KHonmIKFNBl5cTA==
   dependencies:
     "@0xsquid/sdk" "1.3.2"
     "@ethersproject/abi" "5.6.4"
@@ -4043,6 +4043,7 @@
     hashconnect "0.2.4"
     i18next "20.6.1"
     i18next-browser-languagedetector "^6.1.4"
+    jotai "^2.0.3"
     lodash.flatmap "4.5.0"
     lodash.get "^4.4.2"
     lodash.isequal "4.5.0"
@@ -13911,6 +13912,11 @@ joi@^17.4.0:
     "@sideway/address" "^4.1.3"
     "@sideway/formula" "^3.0.1"
     "@sideway/pinpoint" "^2.0.0"
+
+jotai@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/jotai/-/jotai-2.0.3.tgz#3b67cda9f6d5feb70a14db0b842a9873aacda8b5"
+  integrity sha512-MMjhSPAL3RoeZD9WbObufRT2quThEAEknHHridf2ma8Ml7ZVQmUiHk0ssdbR3F0h3kcwhYqSGJ59OjhPge7RRg==
 
 jpeg-js@^0.4.2:
   version "0.4.4"
