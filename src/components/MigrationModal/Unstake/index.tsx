@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Wrapper } from './styleds'
-import { Box, Button, useTranslation, StakingInfo, useStakingContract } from '@pangolindex/components'
+import { Box, Button, useTranslation, MinichefStakingInfo, useStakingContract } from '@pangolindex/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
 import { tryParseAmount } from 'src/utils'
@@ -11,7 +11,7 @@ import { RowBetween } from '../../Row'
 import { useChainId } from 'src/hooks'
 
 export interface UnstakeProps {
-  allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
+  allChoosePool: { [address: string]: { pair: Pair; staking: MinichefStakingInfo } }
   goNext: () => void
   goBack: () => void
   choosePoolIndex: number

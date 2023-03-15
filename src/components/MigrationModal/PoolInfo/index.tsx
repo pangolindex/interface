@@ -7,7 +7,7 @@ import {
   Steps,
   Step,
   useTranslation,
-  StakingInfo,
+  MinichefStakingInfo,
   useTokenBalance,
   wrappedCurrencyAmount
 } from '@pangolindex/components'
@@ -20,7 +20,7 @@ import { tryParseAmount } from 'src/utils'
 export interface PoolInfoProps {
   pair: Pair
   type: 'unstake' | 'remove' | 'stake' | 'add'
-  stakingInfo?: StakingInfo
+  stakingInfo?: MinichefStakingInfo
   stepIndex?: number
   onChangeDot?: (value: number) => void
   amount?: string

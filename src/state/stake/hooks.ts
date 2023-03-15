@@ -16,7 +16,7 @@ import {
   useLibrary,
   useTranslation,
   useMinichefStakingInfosHook,
-  StakingInfo,
+  MinichefStakingInfo,
   DoubleSideStakingInfo,
   fetchChunkedAprs,
   useDerivedStakeInfo,
@@ -305,7 +305,8 @@ export function useTotalPngEarned(): TokenAmount | undefined {
     if (!png) return new TokenAmount(png, '0')
     return (
       minichefInfo?.reduce(
-        (accumulator: StakingInfo, stakingInfo: StakingInfo) => accumulator.add(stakingInfo.earnedAmount),
+        (accumulator: MinichefStakingInfo, stakingInfo: MinichefStakingInfo) =>
+          accumulator.add(stakingInfo.earnedAmount),
         new TokenAmount(png, '0')
       ) ?? new TokenAmount(png, '0')
     )
@@ -328,8 +329,8 @@ export function useNearTotalPngEarned(): TokenAmount | undefined {
 
 export function useGetStakingDataWithAPR(version: number) {
   const chainId = useChainId()
-  const stakingInfos = [] as StakingInfo[]
-  const [stakingInfoData, setStakingInfoData] = useState<StakingInfo[]>(stakingInfos)
+  const stakingInfos = [] as MinichefStakingInfo[]
+  const [stakingInfoData, setStakingInfoData] = useState<MinichefStakingInfo[]>(stakingInfos)
 
   useEffect(() => {
     if (stakingInfos?.length > 0) {
