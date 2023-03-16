@@ -17,7 +17,7 @@ import {
 import { Pair } from '@pangolindex/sdk'
 import { useParams } from 'react-router-dom'
 import { useActiveWeb3React } from '../../hooks'
-import { Text, Box, useTranslation, StakingInfo } from '@pangolindex/components'
+import { Text, Box, useTranslation, MinichefStakingInfo } from '@pangolindex/components'
 import MigrationCard from '../../components/MigrationCard'
 import MigrationModal from '../../components/MigrationModal'
 import { useMigrationModalToggle } from '../../state/application/hooks'
@@ -32,7 +32,9 @@ const MigrateUI = () => {
   const below1080 = false
   const { t } = useTranslation()
   const params: any = useParams()
-  const [selectedPool, setSelectedPool] = useState({} as { [address: string]: { pair: Pair; staking: StakingInfo } })
+  const [selectedPool, setSelectedPool] = useState(
+    {} as { [address: string]: { pair: Pair; staking: MinichefStakingInfo } }
+  )
   const theme = useContext(ThemeContext)
   const { account } = useActiveWeb3React()
   const toggleMigrationModal = useMigrationModalToggle()
@@ -158,7 +160,7 @@ const MigrateUI = () => {
                 pair={pool?.pair}
                 stakingData={pool?.staking}
                 onClickMigrate={() => {
-                  const container = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
+                  const container = {} as { [address: string]: { pair: Pair; staking: MinichefStakingInfo } }
                   container[pool?.pair?.liquidityToken.address] = pool
                   setSelectedPool(container)
                   toggleMigrationModal()

@@ -1,11 +1,11 @@
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 import 'inter-ui'
-import React, { StrictMode, useContext, useEffect } from 'react'
+import React, { StrictMode, useContext } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { NetworkContextName, PangolinProvider, useLibrary, fetchMinichefData } from '@pangolindex/components'
+import { NetworkContextName, PangolinProvider, useLibrary } from '@pangolindex/components'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
 import App from './pages/App'
@@ -18,7 +18,6 @@ import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React, useChainId } from './hooks'
 import Package from '../package.json'
-import { ChainId } from '@pangolindex/sdk'
 
 try {
   Sentry.init({
@@ -63,11 +62,6 @@ function Updaters() {
   )
 }
 
-const prefetchImportantQueries = async (account: string, chainId: ChainId) => {
-  // pre-fetch minichef query
-  await queryClient.prefetchQuery(['get-minichef-farms-v2', account], fetchMinichefData(account, chainId))
-}
-
 const ComponentThemeProvider = () => {
   const chainId = useChainId()
   const theme = useContext(ThemeContext)
@@ -75,11 +69,6 @@ const ComponentThemeProvider = () => {
   const { account } = useActiveWeb3React()
 
   const { library } = useLibrary()
-  useEffect(() => {
-    if (chainId === ChainId.AVALANCHE) {
-      prefetchImportantQueries(account || '', chainId)
-    }
-  }, [account, chainId])
 
   return (
     <PangolinProvider

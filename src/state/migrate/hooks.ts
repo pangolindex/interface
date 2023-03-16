@@ -1,19 +1,19 @@
 import { useMemo, useState, useEffect } from 'react'
 import { Pair } from '@pangolindex/sdk'
 import { useGetStakingDataWithAPR } from '../../state/stake/hooks'
-import { useGetUserLP, useMinichefPools, StakingInfo } from '@pangolindex/components'
+import { useGetUserLP, useMinichefPools, MinichefStakingInfo } from '@pangolindex/components'
 
 export function useGetMigrationData(version: number) {
   const { v2IsLoading, allV2PairsWithLiquidity, allPairs } = useGetUserLP()
 
-  const [allPool, setAllPool] = useState({} as { [address: string]: { pair: Pair; staking: StakingInfo } })
+  const [allPool, setAllPool] = useState({} as { [address: string]: { pair: Pair; staking: MinichefStakingInfo } })
 
   const stakingInfos = useGetStakingDataWithAPR(Number(version))
 
   const poolMap = useMinichefPools()
   /* eslint-disable prefer-const */
   useEffect(() => {
-    let pairs = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
+    let pairs = {} as { [address: string]: { pair: Pair; staking: MinichefStakingInfo } }
 
     for (const stakingInfo of stakingInfos) {
       let pairAddress = stakingInfo?.stakedAmount?.token?.address
