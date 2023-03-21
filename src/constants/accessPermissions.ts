@@ -114,7 +114,7 @@ const nonEvmHideList: MENU_LINK[] = [
 ]
 
 export const HIDE_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: MENU_LINK[] } = {
-  [ChainId.FUJI]: [MENU_LINK.stakev2],
+  [ChainId.FUJI]: [],
   [ChainId.AVALANCHE]: [MENU_LINK.stakev2],
   [ChainId.WAGMI]: [],
   [ChainId.COSTON]: [MENU_LINK.stake],
