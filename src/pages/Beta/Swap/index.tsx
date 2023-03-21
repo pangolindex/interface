@@ -7,6 +7,7 @@ import { useChainId } from 'src/hooks'
 import { CHAINS } from '@pangolindex/sdk'
 import ComingSoon from 'src/components/Beta/ComingSoon'
 import { LIMITORDERLIST_ACCESS, MYPORTFOLIO_ACCESS, PAIRINFO_ACCESS } from 'src/constants/accessPermissions'
+import { Hidden, Visible } from 'src/theme'
 
 const SwapUI = () => {
   const chainId = useChainId()
@@ -21,12 +22,17 @@ const SwapUI = () => {
     if (isOnlySwapWidget) {
       return (
         <GridWrapper>
-          <WatchList coinChartVisible={true} />
+          <Hidden upToSmall={true}>
+            <WatchList coinChartVisible={true} />
+          </Hidden>
           <SwapWidget
             isTWAPOrderVisible={CHAINS[chainId]?.mainnet && CHAINS[chainId]?.supported_by_twap}
             onSwapTypeChange={onSwapTypeChange}
             isLimitOrderVisible={CHAINS[chainId]?.mainnet && CHAINS[chainId]?.supported_by_gelato}
           />
+          <Visible upToSmall={true} upToMedium={false}>
+            <WatchList coinChartVisible={true} />
+          </Visible>
         </GridWrapper>
       )
     } else {
