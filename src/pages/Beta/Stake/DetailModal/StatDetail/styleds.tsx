@@ -17,4 +17,8 @@ export const StateContainer = styled.div`
     grid-template-columns: 50% 50%;
     grid-gap: 8px;
   `};
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+  `};
 `
