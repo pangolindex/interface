@@ -8,7 +8,7 @@ export const HeaderRoot = styled(Box)`
   padding: 20px;
   border-bottom: 1px solid ${({ theme }) => theme.text6};
 
-  ${({ theme }) => theme.mediaWidth.upToSmall`
+  ${({ theme }) => theme.mediaWidth.upToMedium`
     border-bottom: none;
     display: flex;
     flex-direction: column;
@@ -21,19 +21,19 @@ export const StatsWrapper = styled(Box)<{ isStake?: boolean }>`
   grid-template-columns: repeat(5, auto);
   grid-gap: 20px;
   align-items: center;
-  ${({ theme, isStake }) => theme.mediaWidth.upToSmall`
+  ${({ theme, isStake }) => theme.mediaWidth.upToMedium`
     width: 100%;
     grid-gap: 10px;
     margin-top: 10px;
     grid-template-columns: ${isStake ? '50% 50%' : 'repeat(3, auto)'};
-  `};
+`};
 `
 
 export const HeaderWrapper = styled(Box)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
+  ${({ theme }) => theme.mediaWidth.upToMedium`
     width: 100%
   `};
 `
