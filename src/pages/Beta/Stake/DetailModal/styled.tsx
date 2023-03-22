@@ -5,7 +5,7 @@ export const DesktopWrapper = styled(Box)`
   width: 1080px;
   overflow: auto;
   border-radius: 10px;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
+  ${({ theme }) => theme.mediaWidth.upToMedium`
     display: none;
   `};
 `
@@ -14,7 +14,7 @@ export const MobileWrapper = styled(Box)`
   width: 100%;
   height: 100%;
   display: none;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
+  ${({ theme }) => theme.mediaWidth.upToMedium`
   display: block;
   overflow: scroll;
 `};
