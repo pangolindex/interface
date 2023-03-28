@@ -143,6 +143,14 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
     })
   }
 
+  if (chainId == ChainId.FUJI) {
+    mainLinks?.forEach(link => {
+      if (link.link === MENU_LINK.stakev2) {
+        link.title = 'SAR Stake'
+      }
+    })
+  }
+
   mainLinks = mainLinks.filter(link => !shouldHideMenuItem(chainId, link.link as MENU_LINK))
 
   const pangolinLinks = [
