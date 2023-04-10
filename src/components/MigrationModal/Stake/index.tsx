@@ -6,7 +6,7 @@ import {
   useLibrary,
   useTranslation,
   useMinichefPools,
-  StakingInfo,
+  MinichefStakingInfo,
   useDerivedStakeInfo,
   useTokenBalance,
   MINICHEF_ADDRESS,
@@ -28,7 +28,7 @@ import Loader from '../Loader'
 import { useChainId } from 'src/hooks'
 
 export interface StakeProps {
-  allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
+  allChoosePool: { [address: string]: { pair: Pair; staking: MinichefStakingInfo } }
   allChoosePoolLength: number
   setCompleted: () => void
   goBack: () => void

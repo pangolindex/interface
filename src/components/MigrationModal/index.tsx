@@ -4,11 +4,11 @@ import { useModalOpen, useMigrationModalToggle } from '../../state/application/h
 import { Wrapper } from './styleds'
 import StepView from './StepView'
 import { Pair } from '@pangolindex/sdk'
-import { StakingInfo, Modal } from '@pangolindex/components'
+import { MinichefStakingInfo, Modal } from '@pangolindex/components'
 import { ThemeContext } from 'styled-components'
 
 export interface MigrationModalProps {
-  selectedPool?: { [address: string]: { pair: Pair; staking: StakingInfo } }
+  selectedPool?: { [address: string]: { pair: Pair; staking: MinichefStakingInfo } }
   version: number
 }
 

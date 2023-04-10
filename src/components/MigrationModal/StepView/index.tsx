@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Wrapper, ConfirmedIcon, Section } from './styleds'
-import { Text, Steps, Step, Box, useTranslation, StakingInfo, useBlockNumber } from '@pangolindex/components'
+import { Text, Steps, Step, Box, useTranslation, MinichefStakingInfo, useBlockNumber } from '@pangolindex/components'
 import { CloseIcon } from '../../../theme/components'
 import ChoosePool from '../ChoosePool'
 import Unstake from '../Unstake'
@@ -14,7 +14,7 @@ import { ThemeContext } from 'styled-components'
 import Loader from '../Loader'
 
 export interface StepProps {
-  selectedPool?: { [address: string]: { pair: Pair; staking: StakingInfo } }
+  selectedPool?: { [address: string]: { pair: Pair; staking: MinichefStakingInfo } }
   version: number
   onDismiss?: () => void
 }
@@ -23,7 +23,9 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
   const { t } = useTranslation()
   const theme = useContext(ThemeContext)
   const [currentStep, setCurrentStep] = useState(0)
-  const [allChoosePool, setAllChoosePool] = useState({} as { [address: string]: { pair: Pair; staking: StakingInfo } })
+  const [allChoosePool, setAllChoosePool] = useState(
+    {} as { [address: string]: { pair: Pair; staking: MinichefStakingInfo } }
+  )
 
   const { allPool, v2IsLoading } = useGetMigrationData(version)
   const [completed, setCompleted] = useState(false)
@@ -62,7 +64,7 @@ const StepView = ({ selectedPool, version, onDismiss }: StepProps) => {
       setAllChoosePool({ ...newAllChoosePool })
     } else {
       const newObject = allPool[address]
-      const container = {} as { [address: string]: { pair: Pair; staking: StakingInfo } }
+      const container = {} as { [address: string]: { pair: Pair; staking: MinichefStakingInfo } }
       container[address] = newObject
       setAllChoosePool({ ...allChoosePool, ...container })
     }

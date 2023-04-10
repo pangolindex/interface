@@ -1,12 +1,12 @@
 import React from 'react'
 import { Wrapper } from './styleds'
-import { Text, Checkbox, Box, Button, useTranslation, StakingInfo } from '@pangolindex/components'
+import { Text, Checkbox, Box, Button, useTranslation, MinichefStakingInfo } from '@pangolindex/components'
 import { Pair } from '@pangolindex/sdk'
 import PairData from './PairData'
 
 export interface ChoosePoolProps {
-  allChoosePool: { [address: string]: { pair: Pair; staking: StakingInfo } }
-  allPool: { [address: string]: { pair: Pair; staking: StakingInfo } }
+  allChoosePool: { [address: string]: { pair: Pair; staking: MinichefStakingInfo } }
+  allPool: { [address: string]: { pair: Pair; staking: MinichefStakingInfo } }
   v2IsLoading: boolean
   toggleSelectAll: (value: boolean) => void
   toggleIndividualSelect: (address: string) => void

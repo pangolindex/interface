@@ -1,12 +1,12 @@
 import React from 'react'
 import { Pair } from '@pangolindex/sdk'
 import { PairBox } from './styleds'
-import { Text, Box, DoubleCurrencyLogo, Checkbox, useTranslation, StakingInfo } from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo, Checkbox, useTranslation, MinichefStakingInfo } from '@pangolindex/components'
 import { useGetPairDataFromPair } from '../../../state/stake/hooks'
 
 export interface PairDataProps {
   pair: Pair
-  stakingData: StakingInfo | undefined
+  stakingData: MinichefStakingInfo | undefined
   selected: boolean
   address: string
   toggleIndividualSelect: (address: string) => void
