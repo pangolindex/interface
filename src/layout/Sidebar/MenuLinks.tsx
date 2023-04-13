@@ -16,7 +16,7 @@ import {
   C14
 } from 'src/components/Icons'
 import Charts from 'src/assets/svg/menu/statatics.svg'
-import { MENU_LINK, BUY_MENU_LINK } from 'src/constants'
+import { MENU_LINK, BUY_MENU_LINK, POOL_MENU_LINK } from 'src/constants'
 import Bridge from 'src/assets/svg/menu/bridge.svg'
 import Governance from 'src/assets/svg/menu/governance.svg'
 import { useLocation } from 'react-router-dom'
@@ -93,7 +93,23 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       icon: Pool,
       title: `${t('header.pool')} & ${t('header.farm')}`,
       id: 'pool',
-      isActive: location?.pathname?.startsWith(MENU_LINK.pool)
+      isActive: location?.pathname?.startsWith(MENU_LINK.pool),
+      childrens: [
+        {
+          link: `${MENU_LINK.pool}/${POOL_MENU_LINK.v2}`,
+          icon: Pool,
+          title: 'V2',
+          id: `${POOL_MENU_LINK.v2}`,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.v2}`)
+        },
+        {
+          link: `${MENU_LINK.pool}/${POOL_MENU_LINK.concLiq}`,
+          icon: Pool,
+          title: 'Conc Liquidity',
+          id: `${POOL_MENU_LINK.concLiq}`,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.concLiq}`)
+        }
+      ]
     },
     {
       link: `${MENU_LINK.stake}/0`,
