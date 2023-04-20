@@ -184,9 +184,9 @@ export interface BetaColors extends Colors {
   }
 
   concentratedLiquidity?: {
-    primaryBgColor?: Color;
-    secondaryBgColor?: Color;
-  };
+    primaryBgColor?: Color
+    secondaryBgColor?: Color
+  }
 
   bridge?: {
     primaryBgColor?: Color

@@ -7,11 +7,11 @@ export type PoolProps = Record<'type', POOL_MENU_LINK>
 const Pool = () => {
   const params = useParams<PoolProps>()
 
-  if (params?.type === POOL_MENU_LINK.v2) {
+  if (params?.type === POOL_MENU_LINK.standart) {
     return <PoolsUI />
   }
 
-  if (params?.type === POOL_MENU_LINK.concLiq) {
+  if (params?.type === POOL_MENU_LINK.elixir) {
     return <ConcentratedLiquidity />
   }
 
