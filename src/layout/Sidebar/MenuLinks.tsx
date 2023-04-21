@@ -96,18 +96,18 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       isActive: location?.pathname?.startsWith(MENU_LINK.pool),
       childrens: [
         {
-          link: `${MENU_LINK.pool}/${POOL_MENU_LINK.v2}`,
+          link: `${MENU_LINK.pool}/${POOL_MENU_LINK.standard}`,
           icon: Pool,
-          title: 'V2',
-          id: `${POOL_MENU_LINK.v2}`,
-          isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.v2}`)
+          title: 'Standard',
+          id: `${POOL_MENU_LINK.standard}`,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.standard}`)
         },
         {
-          link: `${MENU_LINK.pool}/${POOL_MENU_LINK.concLiq}`,
+          link: `${MENU_LINK.pool}/${POOL_MENU_LINK.elixir}`,
           icon: Pool,
-          title: 'Conc Liquidity',
-          id: `${POOL_MENU_LINK.concLiq}`,
-          isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.concLiq}`)
+          title: 'Elixir',
+          id: `${POOL_MENU_LINK.elixir}`,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.elixir}`)
         }
       ]
     },

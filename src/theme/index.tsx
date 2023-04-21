@@ -160,7 +160,7 @@ export function colors(darkMode: boolean): Colors {
     color10: darkMode ? eerieBlack : white,
     color11: darkMode ? white : black,
     color12: darkMode ? darkSilver : platinum,
-    color13: darkMode ? darkGunmetal : platinum,
+    color13: darkMode ? darkGunmetal : platinum
   }
 }
 
@@ -309,7 +309,7 @@ export function betaColors(darkMode: boolean): BetaColors {
 
     concentratedLiquidity: {
       primaryBgColor: darkMode ? eerieBlack : white,
-      secondaryBgColor: darkMode ? chineseBlack : ghostWhite,
+      secondaryBgColor: darkMode ? chineseBlack : ghostWhite
     },
 
     bridge: {
