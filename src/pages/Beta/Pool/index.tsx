@@ -7,7 +7,7 @@ export type PoolProps = Record<'type', POOL_MENU_LINK>
 const Pool = () => {
   const params = useParams<PoolProps>()
 
-  if (params?.type === POOL_MENU_LINK.standart) {
+  if (params?.type === POOL_MENU_LINK.standard) {
     return <PoolsUI />
   }
 

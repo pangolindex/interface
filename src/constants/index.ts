@@ -129,6 +129,6 @@ export enum BUY_MENU_LINK {
 }
 
 export enum POOL_MENU_LINK {
-  standart = 'standart',
+  standard = 'standard',
   elixir = 'elixir'
 }
