@@ -3995,7 +3995,7 @@
   dependencies:
     "@defi.org/web3-candies" "4.x"
 
-"@pangolindex/components@7.0.1":
+"@pangolindex/components@7.0.2":
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-7.0.1.tgz#1a36cc9d62ddd2bb1001595893a6d108eaaa5f5b"
   integrity sha512-18zwyz6iddHN56IQZnzwjaedL7jgX/E9A0cAVfvjtYohjXXx5a+kMW0PW2Bn49peXgdHvB+no2e3m5pnxAigsQ==
