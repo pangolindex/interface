@@ -3995,10 +3995,10 @@
   dependencies:
     "@defi.org/web3-candies" "4.x"
 
-"@pangolindex/components@7.0.2-internal.e8131ab":
-  version "7.0.2-internal.e8131ab"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-7.0.2-internal.e8131ab.tgz#e8da2e9cde437db2378793b24668c61aba36f0a2"
-  integrity sha512-gr496L4bdAMCs8e5crmkCsTbnu5izSLYFs1n6I1tEWlstijF6ud5XY1LBAmAJQxzKVizy43Wz8kqhOddtE3NDg==
+"@pangolindex/components@7.0.2-internal.41f660a":
+  version "7.0.2-internal.41f660a"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-7.0.2-internal.41f660a.tgz#4e35485a60972be95710a9c63fb14dd44a1d214d"
+  integrity sha512-2oCMG35B475ppZPV4ovjEnRvuwEBPCq5chTONa64niMql8U0OD5T4MHTgLiTqoILRBDrLhh8b4uAbn3k0drs6w==
   dependencies:
     "@0xsquid/sdk" "1.3.2"
     "@ethersproject/abi" "5.6.4"
