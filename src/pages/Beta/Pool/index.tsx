@@ -1,5 +1,5 @@
 import React from 'react'
-import { ConcentratedLiquidity, PoolsUI } from '@pangolindex/components'
+import { Elixir, PoolsUI } from '@pangolindex/components'
 import { useParams } from 'react-router-dom'
 import { POOL_MENU_LINK } from 'src/constants'
 export type PoolProps = Record<'type', POOL_MENU_LINK>
@@ -12,7 +12,7 @@ const Pool = () => {
   }
 
   if (params?.type === POOL_MENU_LINK.elixir) {
-    return <ConcentratedLiquidity />
+    return <Elixir />
   }
 
   return <PoolsUI />

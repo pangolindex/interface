@@ -183,7 +183,7 @@ export interface BetaColors extends Colors {
     }
   }
 
-  concentratedLiquidity?: {
+  elixir?: {
     primaryBgColor?: Color
     secondaryBgColor?: Color
   }

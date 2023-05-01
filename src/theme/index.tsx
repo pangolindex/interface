@@ -307,7 +307,7 @@ export function betaColors(darkMode: boolean): BetaColors {
       }
     },
 
-    concentratedLiquidity: {
+    elixir: {
       primaryBgColor: darkMode ? eerieBlack : white,
       secondaryBgColor: darkMode ? chineseBlack : ghostWhite
     },
