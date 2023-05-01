@@ -159,7 +159,8 @@ export function colors(darkMode: boolean): Colors {
     color9: darkMode ? darkSilver : quickSilver,
     color10: darkMode ? eerieBlack : white,
     color11: darkMode ? white : black,
-    color12: darkMode ? darkSilver : platinum
+    color12: darkMode ? darkSilver : platinum,
+    color13: darkMode ? darkGunmetal : platinum
   }
 }
 
@@ -246,7 +247,7 @@ export function betaColors(darkMode: boolean): BetaColors {
       text: darkMode ? darkSilver : quickSilver,
       labelText: darkMode ? darkSilver : quickSilver,
       placeholderText: darkMode ? darkSilver : quickSilver,
-      backgroundColor: darkMode ? eerieBlack : white
+      backgroundColor: darkMode ? eerieBlack : platinum
     },
 
     currencySelect: {
@@ -305,6 +306,12 @@ export function betaColors(darkMode: boolean): BetaColors {
         borderColor: oceanBlue
       }
     },
+
+    elixir: {
+      primaryBgColor: darkMode ? eerieBlack : white,
+      secondaryBgColor: darkMode ? chineseBlack : ghostWhite
+    },
+
     bridge: {
       primaryBgColor: darkMode ? eerieBlack : white,
       secondaryBgColor: darkMode ? chineseBlack : ghostWhite,

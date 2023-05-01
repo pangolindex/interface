@@ -85,7 +85,7 @@ export default function App() {
       component: GovernanceDetailV2
     },
     {
-      path: MENU_LINK.pool,
+      path: `${MENU_LINK.pool}/:type`,
       component: PoolV2
     },
     {
