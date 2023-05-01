@@ -4025,10 +4025,10 @@
   dependencies:
     "@defi.org/web3-candies" "4.x"
 
-"@pangolindex/components@7.0.2-internal.ea10079":
-  version "7.0.2-internal.ea10079"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-7.0.2-internal.ea10079.tgz#c2b74361c3cb040b34a1dd52da4fb9f50bdbe8af"
-  integrity sha512-nfUw6fDQrNiDH9JfP5VMsYZOMvFSlyZSjseb4dERErf8RQhb493sEy+GMVGXQFKZJ+Xi6Lkd/TSZxtQARklcvw==
+"@pangolindex/components@7.0.2-internal.d4b48e0":
+  version "7.0.2-internal.d4b48e0"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-7.0.2-internal.d4b48e0.tgz#53c07b55591219d48d535505a6cb15a4d8fa1b30"
+  integrity sha512-IPiYKB8CFyAstT39FjI5mSU91cYmePTAfIIk7M4zlGFaQ+/atq1lBmX8q8iZTCiCS4WkjsPgYmVHdgXBOASZWw==
   dependencies:
     "@0xsquid/sdk" "1.3.2"
     "@ethersproject/abi" "5.6.4"
@@ -4170,10 +4170,10 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@pangolindex/sdk@5.0.2-internal.d611845":
-  version "5.0.2-internal.d611845"
-  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-5.0.2-internal.d611845.tgz#68a86a22c4c7660e0084f0b1379121510f5362c0"
-  integrity sha512-sjCQsQi941gTGfjoro85Foe2yXFKbkPIyXWMC+Qpq1S5FxMV9aqcEankVyeT2q61Kxuep4ufpkaEDyjCUcviaQ==
+"@pangolindex/sdk@5.0.2-internal.acee4fe":
+  version "5.0.2-internal.acee4fe"
+  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-5.0.2-internal.acee4fe.tgz#1fde97624fbf277281a4a9d1c1b3e1f68e803d58"
+  integrity sha512-BE1vRV/0xnHHXXAn2dupKLXqjJwYkQZ+WnwVCQhesLeVTJkhUF/+mtnFEPV2EvaNGImjuhXnQ37HAhdWd9YJRQ==
   dependencies:
     big.js "^5.2.2"
     decimal.js-light "^2.5.0"
