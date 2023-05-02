@@ -127,3 +127,8 @@ export enum BUY_MENU_LINK {
   coinbasePay = 'coinbase-pay',
   c14 = 'c14'
 }
+
+export enum POOL_MENU_LINK {
+  standard = 'standard',
+  elixir = 'elixir'
+}

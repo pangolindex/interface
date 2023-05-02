@@ -4090,6 +4090,7 @@
     react-circular-progressbar "^2.1.0"
     react-collapsed "3.4.0"
     react-content-loader "^6.2.1"
+    react-content-loader "^6.2.1"
     react-custom-scrollbars "^4.2.1"
     react-device-detect "^1.6.2"
     react-feather "^2.0.9"
@@ -4170,10 +4171,10 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@pangolindex/sdk@5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-5.0.2.tgz#8ae66cfc34132d07f4316ce93480e7d5cc059539"
-  integrity sha512-9DCGqGclGhb0cCDLTb9olmUaUqdNTd3VYuVFosp+UPvBFfilfYdaUB2RanzR8Tfc0hA6mdCKFvDSpIrwdRpcOA==
+"@pangolindex/sdk@5.1.0-rc.0":
+  version "5.1.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-5.1.0-rc.0.tgz#a1f06f43df1e84a0d1c6751075b0f43ee96d723a"
+  integrity sha512-JvxZ9qVsuI6I4X4rFehHacnZ9TFCbAe46veBp2stw+lL7IVucd3p8I3OYBHu8F+GFZQ33Rb5/RVJhY00oqZAyA==
   dependencies:
     big.js "^5.2.2"
     decimal.js-light "^2.5.0"
@@ -17848,6 +17849,11 @@ react-confetti@6.0.1:
   integrity sha512-ZpOTBrqSNhWE4rRXCZ6E6U+wGd7iYHF5MGrqwikoiBpgBq9Akdu0DcLW+FdFnLjyZYC+VfAiV2KeFgYRMyMrkA==
   dependencies:
     tween-functions "^1.2.0"
+
+react-content-loader@^6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-6.2.1.tgz#8feb733c2d2495002e1b216f13707f2b5f2a8ead"
+  integrity sha512-6ONbFX+Hi3SHuP66JB8CPvJn372pj+qwltJV0J8z/8MFrq98I1cbFdZuhDWeQXu3CFxiiDTXJn7DFxx2ZvrO7g==
 
 react-content-loader@^6.2.1:
   version "6.2.1"

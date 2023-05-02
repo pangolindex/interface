@@ -16,7 +16,7 @@ import {
   C14
 } from 'src/components/Icons'
 import Charts from 'src/assets/svg/menu/statatics.svg'
-import { MENU_LINK, BUY_MENU_LINK } from 'src/constants'
+import { MENU_LINK, BUY_MENU_LINK, POOL_MENU_LINK } from 'src/constants'
 import Bridge from 'src/assets/svg/menu/bridge.svg'
 import Governance from 'src/assets/svg/menu/governance.svg'
 import { useLocation } from 'react-router-dom'
@@ -93,7 +93,23 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       icon: Pool,
       title: `${t('header.pool')} & ${t('header.farm')}`,
       id: 'pool',
-      isActive: location?.pathname?.startsWith(MENU_LINK.pool)
+      isActive: location?.pathname?.startsWith(MENU_LINK.pool),
+      childrens: [
+        {
+          link: `${MENU_LINK.pool}/${POOL_MENU_LINK.standard}`,
+          icon: Pool,
+          title: 'Standard',
+          id: `${POOL_MENU_LINK.standard}`,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.standard}`)
+        },
+        {
+          link: `${MENU_LINK.pool}/${POOL_MENU_LINK.elixir}`,
+          icon: Pool,
+          title: 'Elixir',
+          id: `${POOL_MENU_LINK.elixir}`,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.elixir}`)
+        }
+      ]
     },
     {
       link: `${MENU_LINK.stake}/0`,
