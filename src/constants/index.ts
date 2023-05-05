@@ -132,3 +132,5 @@ export enum POOL_MENU_LINK {
   standard = 'standard',
   elixir = 'elixir'
 }
+
+export type CHILD_MENU_TYPES = BUY_MENU_LINK | POOL_MENU_LINK
