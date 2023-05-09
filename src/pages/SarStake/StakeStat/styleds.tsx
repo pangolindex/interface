@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { Box } from '@pangolindex/components'
-import { Hidden, Visible } from 'src/theme'
 
 export const Wrapper = styled(Box)`
   display: grid;
@@ -13,6 +12,10 @@ export const Wrapper = styled(Box)`
   @media (max-width: 920px) {
     grid-template-columns: 1fr 1fr;
   }
+
+  @media (max-width: 450px) {
+    grid-template-columns: 1fr;
+  }
 `
 
 export const Title = styled(Box)`
@@ -24,7 +27,7 @@ export const Title = styled(Box)`
   width: auto;
 `
 
-export const DestkopDetails = styled(Hidden)`
+export const StatWrapper = styled(Box)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(0, max-content));
   gap: 20px;
@@ -36,12 +39,4 @@ export const DestkopDetails = styled(Hidden)`
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
   }
-`
-
-export const MobileDetails = styled(Visible)`
-  justify-content: end;
-
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-  display: grid;
-`}
 `
