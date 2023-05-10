@@ -145,6 +145,7 @@
   ],
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@avvy/client": "^4.2.0",
     "@babel/core": "^7.20.5",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
     "@coinbase/cbpay-js": "^1.6.0",
