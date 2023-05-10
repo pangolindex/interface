@@ -20,7 +20,7 @@ import {
 } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken } from 'polished'
-import React, { useMemo, useContext, useCallback } from 'react'
+import React, { useState, useEffect, useMemo, useContext, useCallback } from 'react'
 import { Activity } from 'react-feather'
 import styled, { ThemeContext } from 'styled-components'
 import CoinbaseWalletIcon from 'src/assets/svg/coinbaseWalletIcon.svg'
@@ -41,6 +41,8 @@ import { ApplicationModal } from 'src/state/application/actions'
 import AccountDetailsModal from '../AccountDetailsModal'
 import { useChainId } from 'src/hooks'
 import { useWallet } from 'src/state/user/hooks'
+import { ethers } from 'ethers'
+import AVVY from '@avvy/client'
 
 const Web3StatusGeneric = styled(ButtonSecondary)`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -190,6 +192,7 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
 function Web3StatusInner() {
   const { t } = useTranslation()
   const { account, connector, error } = useWeb3React()
+  const [ domainName, setDomainName ] = useState(null)
 
   const chainId = useChainId()
 
@@ -200,6 +203,28 @@ function Web3StatusInner() {
     const txs = Object.values(allTransactions)
     return txs.filter(isTransactionRecent).sort(newTransactionsFirst)
   }, [allTransactions])
+
+  useEffect(() => {
+    let active = true
+    const provider = new ethers.providers.JsonRpcProvider('https://api.avax.network/ext/bc/C/rpc')
+    const avvy = new AVVY(provider)
+    const run = async () => {
+      try {
+        const hash = await avvy.reverse(avvy.RECORDS.EVM, account)
+        const name = await hash.lookup()
+        if (!active) return
+        if (name) {
+          setDomainName(name.name)
+        }
+      } catch (err) {
+        // do nothing
+      }
+    }
+    run()
+    return () => {
+      active = false
+    }
+  })
 
   const pending = sortedRecentTransactions.filter(tx => !tx.receipt).map(tx => tx.hash)
 
@@ -228,7 +253,7 @@ function Web3StatusInner() {
           </RowBetween>
         ) : (
           <>
-            <Text>{shortenAddress(account, chainId)}</Text>
+            <Text>{domainName || shortenAddress(account, chainId)}</Text>
           </>
         )}
         {!hasPendingTransactions && connector && <StatusIcon connector={connector} />}
