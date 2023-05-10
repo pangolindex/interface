@@ -9,6 +9,10 @@ export default function C14() {
     left: 0;
     right: 0;
     bottom: 0;
+
+    @media (max-width: 960px) {
+      top: 80px;
+    }
   `
 
   return (

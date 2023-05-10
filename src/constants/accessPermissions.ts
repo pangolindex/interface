@@ -1,5 +1,5 @@
 import { ChainId } from '@pangolindex/sdk'
-import { MENU_LINK } from '.'
+import { BUY_MENU_LINK, CHILD_MENU_TYPES, MENU_LINK, POOL_MENU_LINK } from '.'
 
 export const LIMITORDERLIST_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.FUJI]: true,
@@ -113,6 +113,11 @@ const nonEvmHideList: MENU_LINK[] = [
   MENU_LINK.stakev2
 ]
 
+/**
+ * An object that holds access management rules for base menu items in a navigation structure.
+ * It is typically used to conditionally hide or display certain child menu items based on specific criteria,
+ * such as the current active chain, or other application-specific conditions.
+ */
 export const HIDE_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: MENU_LINK[] } = {
   [ChainId.FUJI]: [MENU_LINK.stakev2],
   [ChainId.AVALANCHE]: [MENU_LINK.stakev2],
@@ -142,4 +147,40 @@ export const HIDE_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: MENU_LINK[] }
   [ChainId.MOONRIVER]: onlyBridgeHideOtherMenus,
   [ChainId.MOONBEAM]: onlyBridgeHideOtherMenus,
   [ChainId.OP]: onlyBridgeHideOtherMenus
+}
+
+/**
+ * An object that holds access management rules for child menu items in a navigation structure.
+ * It is typically used to conditionally hide or display certain child menu items based on specific criteria,
+ * such as the current active chain, or other application-specific conditions.
+ */
+export const HIDE_CHILD_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: CHILD_MENU_TYPES[] } = {
+  [ChainId.FUJI]: [BUY_MENU_LINK.c14],
+  [ChainId.AVALANCHE]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.WAGMI]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.COSTON]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.SONGBIRD]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.FLARE_MAINNET]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.HEDERA_TESTNET]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.HEDERA_MAINNET]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.NEAR_MAINNET]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.NEAR_TESTNET]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.COSTON2]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.EVMOS_TESTNET]: [BUY_MENU_LINK.c14],
+  [ChainId.EVMOS_MAINNET]: [POOL_MENU_LINK.elixir],
+  [ChainId.ETHEREUM]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.POLYGON]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.FANTOM]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.XDAI]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.BSC]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.ARBITRUM]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.CELO]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.OKXCHAIN]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.VELAS]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.AURORA]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.CRONOS]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.FUSE]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.MOONRIVER]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.MOONBEAM]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.OP]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14]
 }
