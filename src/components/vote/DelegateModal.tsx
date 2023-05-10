@@ -5,12 +5,13 @@ import { RowBetween } from '../Row'
 import { TYPE } from '../../theme'
 import { X } from 'react-feather'
 import { ButtonPrimary } from '../Button'
-import { useActiveWeb3React, useChainId, usePngSymbol } from '../../hooks'
+import { useChainId, usePngSymbol } from '../../hooks'
 import AddressInputPanel from '../AddressInputPanel'
 import { isAddress } from 'ethers/lib/utils'
 import { useDelegateCallback } from '../../state/governance/hooks'
 import { LoadingView, SubmittedView } from '../ModalViews'
 import { useTranslation, useTokenBalance, Tokens, useENS, Modal } from '@pangolindex/components'
+import { useWeb3React } from '@web3-react/core'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -36,7 +37,7 @@ interface VoteModalProps {
 }
 
 export default function DelegateModal({ isOpen, onDismiss, title }: VoteModalProps) {
-  const { account } = useActiveWeb3React()
+  const { account } = useWeb3React()
   const { PNG } = Tokens
   const { t } = useTranslation()
   const chainId = useChainId()

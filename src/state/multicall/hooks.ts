@@ -3,7 +3,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
 import { useEffect, useMemo } from 'react'
 import { useDispatch } from 'src/state'
-import { useActiveWeb3React } from '../../hooks'
+import { useWeb3React } from '@web3-react/core'
 import { AppState, useSelector } from '../index'
 import {
   addMulticallListeners,
@@ -50,7 +50,7 @@ export const NEVER_RELOAD: ListenerOptions = {
 
 // the lowest level call for subscribing to contract data
 function useCallsData(calls: (Call | undefined)[], options?: ListenerOptions): CallResult[] {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   const callResults = useSelector<AppState['multicall']['callResults']>(state => state.multicall.callResults)
   const dispatch = useDispatch()
 

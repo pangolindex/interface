@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 import { useDispatch } from 'src/state'
 import { clearAllTransactions } from 'src/state/transactions/actions'
 import { AutoRow } from '../Row'
@@ -26,7 +26,6 @@ import {
   useTranslation,
   getEtherscanLink,
   bitKeep,
-  hashConnect,
   HashConnector,
   shortenAddressMapping
 } from '@pangolindex/components'
@@ -53,6 +52,7 @@ import {
   YourAccount
 } from './styled'
 import Scrollbars from 'react-custom-scrollbars'
+import { useWeb3React } from '@web3-react/core'
 
 function renderTransactions(transactions: string[]) {
   return (
@@ -79,7 +79,7 @@ export default function AccountDetails({
   ENSName,
   openOptions
 }: AccountDetailsProps) {
-  const { account, connector } = useActiveWeb3React()
+  const { account, connector } = useWeb3React()
   const chainId = useChainId()
 
   const shortenAddress = shortenAddressMapping[chainId]
@@ -154,7 +154,7 @@ export default function AccountDetails({
           <img src={NearIcon} alt={'Near Wallet'} />
         </IconWrapper>
       )
-    } else if (connector === hashConnect) {
+    } else if (connector instanceof HashConnector) {
       return (
         <IconWrapper size={16}>
           <img src={HashIcon} alt={'HashPack Wallet'} />

@@ -12,7 +12,7 @@ import { WidgetWrapper, Root } from './styled'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
-import { useActiveWeb3React } from 'src/hooks'
+import { useWeb3React } from '@web3-react/core'
 
 interface ClaimProps {
   stakingInfo: SingleSideStakingInfo
@@ -21,7 +21,7 @@ interface ClaimProps {
 }
 
 const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) => {
-  const { account } = useActiveWeb3React()
+  const { account } = useWeb3React()
 
   const { t } = useTranslation()
   // monitor call to help UI loading state

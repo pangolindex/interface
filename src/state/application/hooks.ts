@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from 'react'
 import { useDispatch } from 'src/state'
 import { useActivePopups as useActiveComponentsPopup } from '@pangolindex/components'
-import { useActiveWeb3React } from '../../hooks'
+import { useWeb3React } from '@web3-react/core'
 import { AppState, useSelector } from '../index'
 import { ApplicationModal, setOpenModal } from './actions'
 
 export function useBlockNumber(): number | undefined {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   return useSelector((state: AppState) => state.application.blockNumber[chainId ?? -1])
 }
 

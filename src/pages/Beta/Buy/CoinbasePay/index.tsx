@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { CBPayInstanceType, initOnRamp } from '@coinbase/cbpay-js'
+import { useWeb3React } from '@web3-react/core'
 import { COINBASE_PK } from 'src/constants'
-import { useActiveWeb3React } from 'src/hooks'
 import { ToggleWalletButton, WalletIcon } from '../styled'
 import { Box, useWalletModalToggle, useTranslation } from '@pangolindex/components'
 
 export default function CoinbasePay() {
   const [init, setInit] = useState(false)
   const { t } = useTranslation()
-  const { account } = useActiveWeb3React()
+  const { account } = useWeb3React()
   const [coinbasePayInstance, setCoinbasePayInstance] = useState<CBPayInstanceType | null>(null)
   const toggleWalletModal = useWalletModalToggle()
 

@@ -12,9 +12,10 @@ import {
   wrappedCurrencyAmount
 } from '@pangolindex/components'
 import { Pair, TokenAmount, JSBI } from '@pangolindex/sdk'
+import { useWeb3React } from '@web3-react/core'
 import { useGetPairDataFromPair } from '../../../state/stake/hooks'
 import numeral from 'numeral'
-import { useActiveWeb3React, useChainId, usePngSymbol } from '../../../hooks'
+import { useChainId, usePngSymbol } from '../../../hooks'
 import { tryParseAmount } from 'src/utils'
 
 export interface PoolInfoProps {
@@ -40,7 +41,7 @@ const PoolInfo = ({
   userPoolBalance,
   onMax
 }: PoolInfoProps) => {
-  const { account } = useActiveWeb3React()
+  const { account } = useWeb3React()
   const chainId = useChainId()
   const pngSymbol = usePngSymbol()
   const { t } = useTranslation()

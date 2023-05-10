@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import { MENU_LINK } from 'src/constants'
 import { useChainId } from 'src/hooks'
 import { shouldHideMenuItem } from 'src/utils'
+import Web3ReactManager from 'src/components/Web3ReactManager'
 const Polling = React.lazy(() => import('../components/Header/Polling'))
 const Popups = React.lazy(() => import('../components/Popups'))
-const Web3ReactManager = React.lazy(() => import('../components/Web3ReactManager'))
 const Dashboard = React.lazy(() => import('./Dashboard'))
 const MigrateV2 = React.lazy(() => import('./Migrate'))
 const Layout = React.lazy(() => import('../layout'))

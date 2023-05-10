@@ -8,7 +8,7 @@ import {
   useOnClickOutside
 } from '@pangolindex/components'
 import React, { useState, useRef, useMemo } from 'react'
-import { useActiveWeb3React, usePNGCirculationSupply } from '../../hooks'
+import { usePNGCirculationSupply } from '../../hooks'
 import Web3Status from '../../components/Web3Status'
 import LanguageSelection from '../../components/LanguageSelection'
 import { ApplicationModal } from '../../state/application/actions'
@@ -39,6 +39,7 @@ import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
 import { CHAINS } from '@pangolindex/sdk'
 import { useTotalPngEarnedHook } from 'src/state/stake/multiChainsHooks'
+import { useWeb3React } from '@web3-react/core'
 
 interface Props {
   activeMobileMenu: boolean
@@ -46,7 +47,7 @@ interface Props {
 }
 
 export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
-  const { account } = useActiveWeb3React()
+  const { account } = useWeb3React()
   const chainId = useChainId()
   const { t } = useTranslation()
   const { PNG } = Tokens

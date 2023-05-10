@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useActiveWeb3React } from 'src/hooks'
+import { useWeb3React } from '@web3-react/core'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -24,7 +24,7 @@ type Props = {
 const UnstakeDrawer: React.FC<Props> = ({ isOpen, onClose, stakingInfo }) => {
   const { t } = useTranslation()
 
-  const { account } = useActiveWeb3React()
+  const { account } = useWeb3React()
 
   // monitor call to help UI loading state
   const addTransaction = useTransactionAdder()

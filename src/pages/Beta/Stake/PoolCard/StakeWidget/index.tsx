@@ -13,8 +13,8 @@ import {
   ZERO_ADDRESS,
   TransactionApprovalState as ApprovalState
 } from '@pangolindex/components'
+import { useWeb3React } from '@web3-react/core'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
-import { useActiveWeb3React } from 'src/hooks'
 
 type Props = {
   stakingInfo: SingleSideStakingInfo
@@ -23,7 +23,7 @@ type Props = {
 
 const StakeWidget: React.FC<Props> = ({ stakingInfo, onClose }) => {
   const { t } = useTranslation()
-  const { account } = useActiveWeb3React()
+  const { account } = useWeb3React()
 
   const toggleWalletModal = useWalletModalToggle()
 

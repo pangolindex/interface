@@ -2,7 +2,8 @@ import { TokenAmount, JSBI, ChainId } from '@pangolindex/sdk'
 import { isAddress } from 'ethers/lib/utils'
 import { useGovernanceContract } from 'src/hooks/useContract'
 import { useSingleCallResult, useSingleContractMultipleData } from '../multicall/hooks'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
+import { useChainId } from 'src/hooks'
+import { useWeb3React } from '@web3-react/core'
 import { ethers, utils } from 'ethers'
 import { calculateGasMargin } from 'src/utils'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -324,14 +325,15 @@ export function useGetProposalDetail(id: string): ProposalData | undefined {
 
 // get the users delegatee if it exists
 export function useUserDelegatee(): string {
-  const { account } = useActiveWeb3React()
+  const { account } = useWeb3React()
   const uniContract = usePngContract()
   const { result } = useSingleCallResult(uniContract, 'delegates', [account ?? undefined])
   return result?.[0] ?? undefined
 }
 
 export function useUserVotes(): TokenAmount | undefined {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useWeb3React()
+  const chainId = useChainId()
   const pngContract = usePngContract()
   const { PNG } = Tokens
 
@@ -342,7 +344,7 @@ export function useUserVotes(): TokenAmount | undefined {
 }
 
 export function useDelegateCallback(): (delegatee: string | undefined) => undefined | Promise<string> {
-  const { account, chainId } = useActiveWeb3React()
+  const { account, chainId } = useWeb3React()
   const { library } = useLibrary()
   const addTransaction = useTransactionAdder()
 
@@ -371,7 +373,7 @@ export function useDelegateCallback(): (delegatee: string | undefined) => undefi
 export function useVoteCallback(): {
   voteCallback: (proposalId: string | undefined, support: boolean) => undefined | Promise<string>
 } {
-  const { account } = useActiveWeb3React()
+  const { account } = useWeb3React()
 
   const govContract = useGovernanceContract()
   const addTransaction = useTransactionAdder()

@@ -16,9 +16,9 @@ import {
   TransactionApprovalState as ApprovalState
 } from '@pangolindex/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
+import { useWeb3React } from '@web3-react/core'
 import PoolInfo from '../PoolInfo'
 import { tryParseAmount } from 'src/utils'
-import { useActiveWeb3React } from '../../../hooks'
 import { RowBetween } from '../../Row'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -46,7 +46,7 @@ const Stake = ({
   setChoosePoolIndex,
   isStakingLoading
 }: StakeProps) => {
-  const { account } = useActiveWeb3React()
+  const { account } = useWeb3React()
   const chainId = useChainId()
   const { library, provider } = useLibrary()
   const { t } = useTranslation()

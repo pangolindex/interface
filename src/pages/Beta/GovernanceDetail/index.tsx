@@ -34,16 +34,18 @@ import { CardSection } from 'src/components/earn/styled'
 import { ButtonPrimary } from 'src/components/Button'
 import VoteModal from 'src/components/vote/VoteModal'
 import { useGetProposalDetail, useUserVotes, useUserDelegatee, ProposalData } from 'src/state/governance/hooks'
-import { useActiveWeb3React } from 'src/hooks'
+import { useWeb3React } from '@web3-react/core'
 import { ExternalLink } from 'src/theme'
 import { MENU_LINK } from 'src/constants'
 import { isAddress } from 'src/utils'
+import { useChainId } from 'src/hooks'
 
 export type GovernanceDetailProps = Record<'id', 'string'>
 
 export default function GovernanceDetail() {
   const params = useParams<GovernanceDetailProps>()
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useWeb3React()
+  const chainId = useChainId()
   const { t } = useTranslation()
   const { PNG } = Tokens
 

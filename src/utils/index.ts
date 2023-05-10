@@ -6,7 +6,18 @@ import { BigNumber } from '@ethersproject/bignumber'
 import IPangolinRouter from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-periphery/interfaces/IPangolinRouter.sol/IPangolinRouter.json'
 import { CHILD_MENU_TYPES, MENU_LINK, MIN_ETH } from '../constants'
 import { ROUTER_ADDRESS } from '@pangolindex/components'
-import { ChainId, JSBI, CurrencyAmount, CHAINS, TokenAmount, Currency, Token, CAVAX, Chain } from '@pangolindex/sdk'
+import {
+  ChainId,
+  JSBI,
+  CurrencyAmount,
+  CHAINS,
+  TokenAmount,
+  Currency,
+  Token,
+  CAVAX,
+  Chain,
+  NetworkType
+} from '@pangolindex/sdk'
 import { parseUnits } from 'ethers/lib/utils'
 import { wait } from './retry'
 import { HIDE_CHILD_MENU_ACCESS_MANAGEMENT, HIDE_MENU_ACCESS_MANAGEMENT } from 'src/constants/accessPermissions'
@@ -21,7 +32,7 @@ export function isAddress(value: any): string | false {
 }
 
 export function isEvmChain(chainId: ChainId = ChainId.AVALANCHE): boolean {
-  if (CHAINS[chainId]?.evm) {
+  if (CHAINS[chainId]?.network_type === NetworkType.EVM) {
     return true
   }
   return false
@@ -155,7 +166,7 @@ export async function waitForTransaction(
 export async function switchNetwork(chain: Chain) {
   const { ethereum } = window
 
-  if (ethereum && chain?.evm) {
+  if (ethereum && chain?.network_type === NetworkType.EVM) {
     try {
       await ethereum.request({
         method: 'wallet_switchEthereumChain',

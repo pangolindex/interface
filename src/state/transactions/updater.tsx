@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'src/state'
-import { useActiveWeb3React } from '../../hooks'
+import { useWeb3React } from '@web3-react/core'
 import { AppState, useSelector } from '../index'
 import { checkedTransaction, finalizeTransaction } from './actions'
 import { useLibrary, useAddPopup, useBlockNumber } from '@pangolindex/components'
@@ -33,7 +33,7 @@ export function shouldCheck(
 }
 
 export default function Updater(): null {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   const { library, provider } = useLibrary()
   const lastBlockNumber = useBlockNumber()
 

@@ -25,7 +25,8 @@ import {
 import GovernanceCard, { ProposalStates } from './GovernanceCard'
 import { useGetProposalsViaSubgraph, ProposalData, useUserVotes, useUserDelegatee } from 'src/state/governance/hooks'
 import DelegateModal from 'src/components/vote/DelegateModal'
-import { useActiveWeb3React, useChain, useChainId, usePngSymbol } from 'src/hooks'
+import { useChain, useChainId, usePngSymbol } from 'src/hooks'
+import { useWeb3React } from '@web3-react/core'
 import { MENU_LINK } from 'src/constants'
 import { JSBI, TokenAmount, ChainId } from '@pangolindex/sdk'
 import FormattedCurrencyAmount from 'src/components/FormattedCurrencyAmount'
@@ -35,7 +36,7 @@ import { useModalOpen, useToggleDelegateModal } from 'src/state/application/hook
 import { ApplicationModal } from 'src/state/application/actions'
 
 const GovernanceUI = () => {
-  const { account } = useActiveWeb3React()
+  const { account } = useWeb3React()
   const chainId = useChainId()
   const chain = useChain(chainId)
   const { t } = useTranslation()

@@ -1,11 +1,11 @@
-import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
+import { useWeb3React, Web3ReactProvider } from '@web3-react/core'
 import 'inter-ui'
 import React, { StrictMode, useContext } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { NetworkContextName, PangolinProvider, useLibrary } from '@pangolindex/components'
+import { PangolinProvider } from '@pangolindex/components'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
 import App from './pages/App'
@@ -16,8 +16,8 @@ import UserUpdater from './state/user/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
-import { useActiveWeb3React, useChainId } from './hooks'
 import Package from '../package.json'
+import { Web3Provider } from '@ethersproject/providers'
 
 try {
   Sentry.init({
@@ -36,7 +36,6 @@ try {
   console.log(error)
 }
 
-const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 if ('ethereum' in window) {
   ;(window.ethereum as any).autoRefreshOnNetworkChange = false
 }
@@ -63,13 +62,9 @@ function Updaters() {
 }
 
 const ComponentThemeProvider = () => {
-  const chainId = useChainId()
   const theme = useContext(ThemeContext)
 
-  const { account } = useActiveWeb3React()
-
-  const { library } = useLibrary()
-
+  const { library, account, chainId } = useWeb3React<Web3Provider>()
   return (
     <PangolinProvider
       library={library}
@@ -93,13 +88,11 @@ const ComponentThemeProvider = () => {
 ReactDOM.render(
   <StrictMode>
     <Web3ReactProvider getLibrary={getLibrary}>
-      <Web3ProviderNetwork getLibrary={getLibrary}>
-        <Provider store={store} context={InterfaceContext}>
-          <ThemeProvider>
-            <ComponentThemeProvider />
-          </ThemeProvider>
-        </Provider>
-      </Web3ProviderNetwork>
+      <Provider store={store} context={InterfaceContext}>
+        <ThemeProvider>
+          <ComponentThemeProvider />
+        </ThemeProvider>
+      </Provider>
     </Web3ReactProvider>
   </StrictMode>,
   document.getElementById('root')
