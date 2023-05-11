@@ -17,7 +17,6 @@ import {
 import Charts from 'src/assets/svg/menu/statatics.svg'
 import { MENU_LINK, BUY_MENU_LINK, POOL_MENU_LINK, CHILD_MENU_TYPES } from 'src/constants'
 import Bridge from 'src/assets/svg/menu/bridge.svg'
-import Governance from 'src/assets/svg/menu/governance.svg'
 import { useLocation } from 'react-router-dom'
 import { useChainId } from 'src/hooks'
 import { shouldHideChildItem, shouldHideMenuItem } from 'src/utils'
@@ -171,12 +170,6 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       icon: Charts,
       title: t('header.charts'),
       id: 'charts'
-    },
-    {
-      link: 'https://gov.pangolin.exchange',
-      icon: Governance,
-      title: t('header.forum'),
-      id: 'forum'
     }
   ]
 
