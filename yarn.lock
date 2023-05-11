@@ -4025,10 +4025,10 @@
   dependencies:
     "@defi.org/web3-candies" "4.x"
 
-"@pangolindex/components@7.1.0-rc.6":
-  version "7.1.0-rc.6"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-7.1.0-rc.6.tgz#3c4c9bd95a847d9463af20da6a5671087ab6bcb1"
-  integrity sha512-7WNb9DtWIKQ6vqaqmYCROW4r768i7RuV9QYtlgi7wM4ZOveH2K6rIEU8RujgUKzEcyJ7oo7bh+zk4ZTNmDXuSA==
+"@pangolindex/components@7.1.0-rc.7":
+  version "7.1.0-rc.7"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-7.1.0-rc.7.tgz#f0fff45ec2873969fa7f5e7d26478ea03092b8cb"
+  integrity sha512-V07vv0sR+bN5e3l1VdstAfdCzYcavHGwhR0K5niTe1M73bqvm5lO0dTGpm2zfCMPZPcNIGlV27fwOzBqQUJXrQ==
   dependencies:
     "@0xsquid/sdk" "1.3.2"
     "@ethersproject/abi" "5.6.4"
@@ -4170,10 +4170,10 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@pangolindex/sdk@5.1.0-rc.0":
-  version "5.1.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-5.1.0-rc.0.tgz#a1f06f43df1e84a0d1c6751075b0f43ee96d723a"
-  integrity sha512-JvxZ9qVsuI6I4X4rFehHacnZ9TFCbAe46veBp2stw+lL7IVucd3p8I3OYBHu8F+GFZQ33Rb5/RVJhY00oqZAyA==
+"@pangolindex/sdk@5.1.0-rc.1":
+  version "5.1.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-5.1.0-rc.1.tgz#6d07849b136817cd23ba95c3214f52a281a1abc4"
+  integrity sha512-qq1HaWShN6u5cEKP+l/2tRN4edBQGHJ8rsYGTw62vDBFyNEsh5mj5fdraWO50CCWuMDLHW7wCfbMU9PRrSGdFw==
   dependencies:
     big.js "^5.2.2"
     decimal.js-light "^2.5.0"
