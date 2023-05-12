@@ -12,7 +12,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'
 import { useChainId } from 'src/hooks'
-import { DestkopDetails, MobileDetails, Title, Wrapper } from './styleds'
+import { StatWrapper, Title, Wrapper } from './styleds'
 import { formatUnits } from 'ethers/lib/utils'
 
 const StakeStat: React.FC = () => {
@@ -52,7 +52,7 @@ const StakeStat: React.FC = () => {
         </Text>
       </Title>
 
-      <DestkopDetails upToMedium={true}>
+      <StatWrapper>
         <Stat
           title={t('pool.yourStake')}
           titlePosition="top"
@@ -89,18 +89,7 @@ const StakeStat: React.FC = () => {
           titleFontSize={16}
           statFontSize={18}
         />
-      </DestkopDetails>
-      <MobileDetails upToSmall={true}>
-        <Stat
-          title={t('sarPortfolio.apr')}
-          titlePosition="top"
-          stat={`${(apr ?? '-').toString()}%`}
-          titleColor="text2"
-          statColor="text1"
-          titleFontSize={12}
-          statFontSize={18}
-        />
-      </MobileDetails>
+      </StatWrapper>
     </Wrapper>
   )
 }

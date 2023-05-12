@@ -4,12 +4,12 @@ import { AddressZero } from '@ethersproject/constants'
 import { JsonRpcSigner, JsonRpcProvider, TransactionResponse, TransactionReceipt } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import IPangolinRouter from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-periphery/interfaces/IPangolinRouter.sol/IPangolinRouter.json'
-import { MENU_LINK, MIN_ETH } from '../constants'
+import { CHILD_MENU_TYPES, MENU_LINK, MIN_ETH } from '../constants'
 import { ROUTER_ADDRESS } from '@pangolindex/components'
 import { ChainId, JSBI, CurrencyAmount, CHAINS, TokenAmount, Currency, Token, CAVAX, Chain } from '@pangolindex/sdk'
 import { parseUnits } from 'ethers/lib/utils'
 import { wait } from './retry'
-import { HIDE_MENU_ACCESS_MANAGEMENT } from 'src/constants/accessPermissions'
+import { HIDE_CHILD_MENU_ACCESS_MANAGEMENT, HIDE_MENU_ACCESS_MANAGEMENT } from 'src/constants/accessPermissions'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -42,10 +42,37 @@ export function calculateSlippageAmount(value: CurrencyAmount, slippage: number)
   ]
 }
 
-// menu access check
+/**
+ * A function that determines whether a specific base menu item should be hidden based on certain conditions
+ * or criteria. These conditions may include the active chain, or other application-specific factors.
+ * By evaluating the child menu item against the set criteria, this function can dynamically adjust
+ * the visibility of child menu items, providing a customized navigation experience for users.
+ * @param chainId The active chain ID
+ * @param menuLink The menu link
+ * @returns A boolean value indicating whether the menu item should be hidden
+ */
 export const shouldHideMenuItem = (chainId: ChainId, menuLink: MENU_LINK): boolean => {
   const hideMenus = HIDE_MENU_ACCESS_MANAGEMENT[chainId]
   return hideMenus?.some(menu => menu === `/${menuLink.split('/')[1]}`) ?? false
+}
+
+/**
+ * A function that determines whether a specific child menu item should be hidden based on certain conditions
+ * or criteria. These conditions may include the active chain, or other application-specific factors.
+ * By evaluating the child menu item against the set criteria, this function can dynamically adjust
+ * the visibility of child menu items, providing a customized navigation experience for users.
+ * @param chainId The active chain ID
+ * @param parentMenuLink The parent menu link
+ * @param menuLink The child menu link
+ * @returns A boolean value indicating whether the child menu item should be hidden
+ */
+export const shouldHideChildItem = (
+  chainId: ChainId,
+  parentMenuLink: MENU_LINK,
+  menuLink: CHILD_MENU_TYPES
+): boolean => {
+  const hideMenus = HIDE_CHILD_MENU_ACCESS_MANAGEMENT[chainId]
+  return hideMenus?.some(menu => `${parentMenuLink}/${menu}` === menuLink) ?? false
 }
 
 // account is not optional

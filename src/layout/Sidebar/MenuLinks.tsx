@@ -1,7 +1,6 @@
 import React from 'react'
 import { Menu, MenuItem, MenuName, MenuExternalLink, MenuWrapper } from './styled'
 import { Box, Text, useTranslation, ANALYTICS_PAGE } from '@pangolindex/components'
-import { ChainId } from '@pangolindex/sdk'
 import {
   Dashboard,
   Swap,
@@ -16,12 +15,12 @@ import {
   C14
 } from 'src/components/Icons'
 import Charts from 'src/assets/svg/menu/statatics.svg'
-import { MENU_LINK, BUY_MENU_LINK } from 'src/constants'
+import { MENU_LINK, BUY_MENU_LINK, POOL_MENU_LINK, CHILD_MENU_TYPES } from 'src/constants'
 import Bridge from 'src/assets/svg/menu/bridge.svg'
 import Governance from 'src/assets/svg/menu/governance.svg'
 import { useLocation } from 'react-router-dom'
 import { useChainId } from 'src/hooks'
-import { shouldHideMenuItem } from 'src/utils'
+import { shouldHideChildItem, shouldHideMenuItem } from 'src/utils'
 import NavItem from './NavItem'
 
 interface Props {
@@ -85,6 +84,13 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
           title: 'Moonpay',
           id: `${BUY_MENU_LINK.moonpay}`,
           isActive: location?.pathname?.startsWith(`${MENU_LINK.buy}/${BUY_MENU_LINK.moonpay}`)
+        },
+        {
+          link: `${MENU_LINK.buy}/${BUY_MENU_LINK.c14}`,
+          icon: C14,
+          title: 'C14',
+          id: `${BUY_MENU_LINK.c14}`,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.buy}/${BUY_MENU_LINK.c14}`)
         }
       ]
     },
@@ -93,7 +99,23 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       icon: Pool,
       title: `${t('header.pool')} & ${t('header.farm')}`,
       id: 'pool',
-      isActive: location?.pathname?.startsWith(MENU_LINK.pool)
+      isActive: location?.pathname?.startsWith(MENU_LINK.pool),
+      childrens: [
+        {
+          link: `${MENU_LINK.pool}/${POOL_MENU_LINK.standard}`,
+          icon: Pool,
+          title: 'Standard',
+          id: `${POOL_MENU_LINK.standard}`,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.standard}`)
+        },
+        {
+          link: `${MENU_LINK.pool}/${POOL_MENU_LINK.elixir}`,
+          icon: Pool,
+          title: 'Elixir',
+          id: `${POOL_MENU_LINK.elixir}`,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.elixir}`)
+        }
+      ]
     },
     {
       link: `${MENU_LINK.stake}/0`,
@@ -132,18 +154,16 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
     }
   ]
 
-  // dirty way to add c14 buy link for evmos mainnet
-  if (chainId === ChainId.EVMOS_MAINNET && mainLinks?.[2]?.childrens) {
-    mainLinks[2].childrens.push({
-      link: `${MENU_LINK.buy}/${BUY_MENU_LINK.c14}`,
-      icon: C14,
-      title: 'C14',
-      id: `${BUY_MENU_LINK.c14}`,
-      isActive: location?.pathname?.startsWith(`${MENU_LINK.buy}/${BUY_MENU_LINK.c14}`)
+  mainLinks = mainLinks
+    .map(link => {
+      if (link.childrens) {
+        link.childrens = link.childrens.filter(
+          childLink => !shouldHideChildItem(chainId, link.link as MENU_LINK, childLink.link as CHILD_MENU_TYPES)
+        )
+      }
+      return link
     })
-  }
-
-  mainLinks = mainLinks.filter(link => !shouldHideMenuItem(chainId, link.link as MENU_LINK))
+    .filter(link => !shouldHideMenuItem(chainId, link.link as MENU_LINK))
 
   const pangolinLinks = [
     {
