@@ -7,7 +7,7 @@ import Airdrop from '@pangolindex/exchange-contracts/artifacts/contracts/pangoli
 import MerkleAirdrop from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/Merkledrop.sol/Merkledrop.json'
 import MerkleAirdropToStaking from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/MerkledropToStaking.sol/MerkledropToStaking.json'
 import MerkleAirdropCompliant from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/MerkledropToStakingCompliant.sol/MerkledropToStakingCompliant.json'
-import { NEAR_MAINNET, FLARE_MAINNET, ChainId, AirdropType, CHAINS } from '@pangolindex/sdk'
+import { ChainId, AirdropType, CHAINS } from '@pangolindex/sdk'
 
 export interface AirdropData {
   address: string
@@ -26,7 +26,7 @@ export const specialAirdrops: { [chainId in ChainId]?: AirdropData[] } = {
   [ChainId.FLARE_MAINNET]: CHAINS[ChainId.FLARE_MAINNET]!.contracts!.specialAirdrops
 }
 
-export const commingSoonAirdrops = [NEAR_MAINNET, FLARE_MAINNET]
+export const commingSoonAirdrops = []
 
 export const logoMapping = {
   [ChainId.COSTON]: PNG,
