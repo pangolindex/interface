@@ -1,7 +1,6 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import {
   Box,
-  WalletModal,
   gnosisSafe,
   injected,
   walletconnect,
@@ -12,8 +11,6 @@ import {
   useAllTransactions as useAllTransactionsComponents,
   useTranslation,
   useWalletModalToggle,
-  useModalOpen as useModalOpenComponents,
-  ApplicationModal as ApplicationModalComponents,
   shortenAddressMapping,
   HashConnector
 } from '@pangolindex/components'
@@ -39,7 +36,6 @@ import { RowBetween } from '../Row'
 import { ApplicationModal } from 'src/state/application/actions'
 import AccountDetailsModal from '../AccountDetailsModal'
 import { useChainId } from 'src/hooks'
-import { useWallet } from 'src/state/user/hooks'
 
 const Web3StatusGeneric = styled(ButtonSecondary)`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -259,9 +255,7 @@ export default function Web3Status() {
     return { ...allTransactionsInterface, ...allTransactionsComponents }
   }, [allTransactionsInterface, allTransactionsComponents])
 
-  const walletModalOpen = useModalOpenComponents(ApplicationModalComponents.WALLET)
   const toggleWalletModal = useWalletModalToggle()
-  const [, setWallet] = useWallet()
 
   const accountDetailModalOpen = useModalOpen(ApplicationModal.ACCOUNT_DETAIL)
   const toggleAccountDetailModal = useAccountDetailToggle()
@@ -270,14 +264,6 @@ export default function Web3Status() {
     toggleAccountDetailModal()
     toggleWalletModal()
   }, [toggleAccountDetailModal, toggleWalletModal])
-
-  const onWalletConnect = useCallback(
-    connectorKey => {
-      toggleWalletModal()
-      setWallet(connectorKey)
-    },
-    [setWallet, toggleWalletModal]
-  )
 
   const sortedRecentTransactions = useMemo(() => {
     const txs = Object.values(allTransactions)
@@ -288,9 +274,7 @@ export default function Web3Status() {
   const confirmed = sortedRecentTransactions.filter(tx => tx.receipt).map(tx => tx.hash)
 
   const renderModal = () => {
-    if (!account || walletModalOpen) {
-      return <WalletModal open={walletModalOpen} closeModal={toggleWalletModal} onWalletConnect={onWalletConnect} />
-    } else if (account) {
+    if (account) {
       return (
         <AccountDetailsModal
           ENSName={undefined}
