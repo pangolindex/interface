@@ -132,7 +132,7 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
               <NetworkSelection
                 open={openNetworkSelection}
                 closeModal={closeNetworkSelection}
-                onSelectChain={handleSelectChain}
+                onToogleWalletModal={handleSelectChain}
               />
               {chainId && NETWORK_LABELS[chainId] && (
                 <NetworkCard
