@@ -72,7 +72,7 @@ export const shouldHideChildItem = (
   menuLink: CHILD_MENU_TYPES
 ): boolean => {
   const hideMenus = HIDE_CHILD_MENU_ACCESS_MANAGEMENT[chainId]
-  return hideMenus?.some(menu => `${parentMenuLink}/${menu}` === menuLink) ?? false
+  return hideMenus?.some(menu => `${parentMenuLink}/${menu}` === `${parentMenuLink}/${menuLink}`) ?? false
 }
 
 // account is not optional

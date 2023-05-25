@@ -42,13 +42,32 @@ export interface LinkProps {
   childrens?: Array<LinkProps>
 }
 
+// Child MenuItem Interface
+interface IChildMenuItem {
+  link: string
+  icon: any
+  title: string
+  id: CHILD_MENU_TYPES
+  isActive: boolean
+}
+
+// Base level MenuItem Interface
+interface IMenuItem {
+  link: MENU_LINK | string
+  icon: any
+  title: string
+  id: string
+  isActive: boolean
+  childrens?: IChildMenuItem[]
+}
+
 export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
   const { t } = useTranslation()
   const chainId = useChainId()
 
   const location: any = useLocation()
 
-  let mainLinks = [
+  let mainLinks: IMenuItem[] = [
     {
       link: MENU_LINK.dashboard,
       icon: Dashboard,
@@ -74,21 +93,21 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
           link: `${MENU_LINK.buy}/${BUY_MENU_LINK.coinbasePay}`,
           icon: CoinbasePay,
           title: `Coinbase Pay`,
-          id: `${BUY_MENU_LINK.coinbasePay}`,
+          id: BUY_MENU_LINK.coinbasePay,
           isActive: location?.pathname?.startsWith(`${MENU_LINK.buy}/${BUY_MENU_LINK.coinbasePay}`)
         },
         {
           link: `${MENU_LINK.buy}/${BUY_MENU_LINK.moonpay}`,
           icon: MoonPay,
           title: 'Moonpay',
-          id: `${BUY_MENU_LINK.moonpay}`,
+          id: BUY_MENU_LINK.moonpay,
           isActive: location?.pathname?.startsWith(`${MENU_LINK.buy}/${BUY_MENU_LINK.moonpay}`)
         },
         {
           link: `${MENU_LINK.buy}/${BUY_MENU_LINK.c14}`,
           icon: C14,
           title: 'C14',
-          id: `${BUY_MENU_LINK.c14}`,
+          id: BUY_MENU_LINK.c14,
           isActive: location?.pathname?.startsWith(`${MENU_LINK.buy}/${BUY_MENU_LINK.c14}`)
         }
       ]
@@ -104,14 +123,14 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
           link: `${MENU_LINK.pool}/${POOL_MENU_LINK.standard}`,
           icon: Pool,
           title: 'Standard',
-          id: `${POOL_MENU_LINK.standard}`,
+          id: POOL_MENU_LINK.standard,
           isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.standard}`)
         },
         {
           link: `${MENU_LINK.pool}/${POOL_MENU_LINK.elixir}`,
           icon: Pool,
           title: 'Elixir',
-          id: `${POOL_MENU_LINK.elixir}`,
+          id: POOL_MENU_LINK.elixir,
           isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.elixir}`)
         }
       ]
@@ -157,7 +176,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
     .map(link => {
       if (link.childrens) {
         link.childrens = link.childrens.filter(
-          childLink => !shouldHideChildItem(chainId, link.link as MENU_LINK, childLink.link as CHILD_MENU_TYPES)
+          childLink => !shouldHideChildItem(chainId, link.link as MENU_LINK, childLink.id)
         )
       }
       return link
