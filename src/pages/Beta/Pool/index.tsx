@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { MENU_LINK, POOL_MENU_LINK } from 'src/constants'
 import { useChainId } from 'src/hooks'
 import { shouldHideChildItem } from 'src/utils'
-import { isMobile } from 'react-device-detect'
 import { AlertTriangle } from 'react-feather'
 export type PoolProps = Record<'type', POOL_MENU_LINK>
 
@@ -24,13 +23,7 @@ const PhishAlert = styled.div`
 const Alert = () => {
   const { t } = useTranslation()
 
-  return isMobile ? (
-    <PhishAlert>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <AlertTriangle style={{ marginRight: 6 }} size={12} /> {t('elixir.auditWarning')}
-      </div>
-    </PhishAlert>
-  ) : (
+  return (
     <PhishAlert>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <AlertTriangle style={{ marginRight: 6 }} size={12} /> {t('elixir.auditWarning')}
