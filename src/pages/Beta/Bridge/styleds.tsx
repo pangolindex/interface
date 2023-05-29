@@ -7,10 +7,6 @@ export const PageWrapper = styled(Box)`
   justify-content: start;
   gap: 20px;
   flex-direction: column;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    align-items: center;
-    justify-content: center;
-  `};
 `
 
 export const Ibridge = styled(Box)`
