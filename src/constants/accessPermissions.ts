@@ -125,7 +125,7 @@ export const HIDE_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: MENU_LINK[] }
   [ChainId.COSTON]: [MENU_LINK.stake],
   [ChainId.SONGBIRD]: [MENU_LINK.vote, MENU_LINK.stake],
   [ChainId.FLARE_MAINNET]: [MENU_LINK.vote, MENU_LINK.stake],
-  [ChainId.HEDERA_TESTNET]: [MENU_LINK.vote, MENU_LINK.migrate, MENU_LINK.airdrop, MENU_LINK.stake],
+  [ChainId.HEDERA_TESTNET]: [MENU_LINK.migrate, MENU_LINK.airdrop, MENU_LINK.stake],
   [ChainId.HEDERA_MAINNET]: [MENU_LINK.vote, MENU_LINK.migrate, MENU_LINK.airdrop, MENU_LINK.stake],
   [ChainId.NEAR_MAINNET]: nonEvmHideList,
   [ChainId.NEAR_TESTNET]: nonEvmHideList,
