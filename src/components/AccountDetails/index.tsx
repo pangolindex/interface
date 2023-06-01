@@ -196,7 +196,7 @@ export default function AccountDetails({
                     connector instanceof NearConnector ||
                     connector instanceof HashConnector) && (
                     <WalletAction
-                      style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
+                      variant="plain"
                       onClick={() => {
                         connector.close()
                         if (connector instanceof NearConnector) {
@@ -209,7 +209,7 @@ export default function AccountDetails({
                   )}
 
                   <WalletAction
-                    style={{ fontSize: '.825rem', fontWeight: 400 }}
+                    variant="plain"
                     onClick={() => {
                       openOptions()
                     }}
