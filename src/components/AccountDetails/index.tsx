@@ -112,7 +112,7 @@ export default function AccountDetails({
                 <WalletName>{t('accountDetails.connectedWith') + wallet?.name}</WalletName>
                 <div>
                   <WalletAction
-                    style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
+                    variant="plain"
                     onClick={() => {
                       wallet?.disconnect()
                       deactivate()
@@ -125,7 +125,7 @@ export default function AccountDetails({
                   </WalletAction>
 
                   <WalletAction
-                    style={{ fontSize: '.825rem', fontWeight: 400 }}
+                    variant="plain"
                     onClick={() => {
                       openOptions()
                     }}
