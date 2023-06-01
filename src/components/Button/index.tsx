@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 import { darken } from 'polished'
 
-import { Button as RebassButton } from 'rebass/styled-components'
+import { Button } from '@pangolindex/components'
 
-const Base = styled(RebassButton)<{
+const Base = styled(Button)<{
   padding?: string
   width?: string
   borderRadius?: string
