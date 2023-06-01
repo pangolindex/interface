@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-// import AccountDetails from '../AccountDetails'
+import AccountDetails from '../AccountDetails'
 import { Modal } from '@pangolindex/components'
 
 const Wrapper = styled.div`
@@ -25,22 +25,21 @@ export default function AccountDetailsModal({
   closeModal: () => void
   onWalletChange: () => void
 }) {
-  // const getModalContent = () => {
-  //   return (
-  //     <AccountDetails
-  //       toggleWalletModal={closeModal}
-  //       pendingTransactions={pendingTransactions}
-  //       confirmedTransactions={confirmedTransactions}
-  //       ENSName={ENSName}
-  //       openOptions={onWalletChange}
-  //     />
-  //   )
-  // }
+  const getModalContent = () => {
+    return (
+      <AccountDetails
+        toggleWalletModal={closeModal}
+        pendingTransactions={pendingTransactions}
+        confirmedTransactions={confirmedTransactions}
+        ENSName={ENSName}
+        openOptions={onWalletChange}
+      />
+    )
+  }
 
   return (
     <Modal isOpen={open} onDismiss={closeModal}>
-      {/* <Wrapper>{getModalContent()}</Wrapper> */}
-      <Wrapper>Test</Wrapper>
+      <Wrapper>{getModalContent()}</Wrapper>
     </Modal>
   )
 }

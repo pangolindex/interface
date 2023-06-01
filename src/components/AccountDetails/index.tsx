@@ -6,29 +6,29 @@ import { clearAllTransactions } from 'src/state/transactions/actions'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
-import CoinbaseWalletIcon from 'src/assets/svg/coinbaseWalletIcon.svg'
-import WalletConnectIcon from 'src/assets/svg/walletConnectIcon.svg'
-import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
-import NearIcon from 'src/assets/svg/near.svg'
-import avalancheCoreIcon from 'src/assets/svg/avalancheCore.svg'
-import BitKeep from 'src/assets/svg/bitkeep.svg'
-import HashIcon from 'src/assets/images/hashConnect.png'
+// import CoinbaseWalletIcon from 'src/assets/svg/coinbaseWalletIcon.svg'
+// import WalletConnectIcon from 'src/assets/svg/walletConnectIcon.svg'
+// import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
+// import NearIcon from 'src/assets/svg/near.svg'
+// import avalancheCoreIcon from 'src/assets/svg/avalancheCore.svg'
+// import BitKeep from 'src/assets/svg/bitkeep.svg'
+// import HashIcon from 'src/assets/images/hashConnect.png'
 import {
-  gnosisSafe,
-  injected,
-  walletconnect,
-  walletlink,
-  near,
-  avalancheCore,
-  SUPPORTED_WALLETS,
-  NearConnector,
+  // gnosisSafe,
+  // injected,
+  // walletconnect,
+  // walletlink,
+  // near,
+  // avalancheCore,
+  // SUPPORTED_WALLETS,
+  // NearConnector,
   useAllTransactionsClearer,
   useTranslation,
-  getEtherscanLink,
-  bitKeep,
-  hashConnect,
-  HashConnector,
-  shortenAddressMapping
+  // getEtherscanLink,
+  // bitKeep,
+  // hashConnect,
+  // HashConnector,
+  // shortenAddressMapping
 } from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ExternalLink as LinkIcon } from 'react-feather'
@@ -79,96 +79,96 @@ export default function AccountDetails({
   ENSName,
   openOptions
 }: AccountDetailsProps) {
-  const { account, connector } = useActiveWeb3React()
+  // const { account, connector } = useActiveWeb3React()
   const chainId = useChainId()
 
-  const shortenAddress = shortenAddressMapping[chainId]
+  // const shortenAddress = shortenAddressMapping[chainId]
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const clearAllTxComponents = useAllTransactionsClearer()
 
-  function formatConnectorName() {
-    const { ethereum, avalanche } = window
+  // function formatConnectorName() {
+  //   const { ethereum, avalanche } = window
 
-    const isTalisman = !!(ethereum && ethereum.isTalisman)
-    const isMetaMask = !!(ethereum && ethereum.isMetaMask)
-    const isXDEFI = !!(ethereum && ethereum.isXDEFI)
-    const isRabby = !!(ethereum && ethereum.isRabby)
-    const isCoinbase = !!(ethereum && ethereum.isCoinbaseWallet)
-    const isAvalancheCore = !!(avalanche && avalanche.isAvalanche)
+  //   const isTalisman = !!(ethereum && ethereum.isTalisman)
+  //   const isMetaMask = !!(ethereum && ethereum.isMetaMask)
+  //   const isXDEFI = !!(ethereum && ethereum.isXDEFI)
+  //   const isRabby = !!(ethereum && ethereum.isRabby)
+  //   const isCoinbase = !!(ethereum && ethereum.isCoinbaseWallet)
+  //   const isAvalancheCore = !!(avalanche && avalanche.isAvalanche)
 
-    let name = Object.keys(SUPPORTED_WALLETS)
-      .filter(k => SUPPORTED_WALLETS[k].connector === connector)
-      .map(k => SUPPORTED_WALLETS[k].name)[0]
+  //   let name = Object.keys(SUPPORTED_WALLETS)
+  //     .filter(k => SUPPORTED_WALLETS[k].connector === connector)
+  //     .map(k => SUPPORTED_WALLETS[k].name)[0]
 
-    // If injected connector, try to guess which one it is
-    if (name === 'Injected') {
-      if (isXDEFI) name = SUPPORTED_WALLETS.XDEFI.name
-      else if (isTalisman) name = SUPPORTED_WALLETS.TALISMAN.name
-      else if (isRabby) name = SUPPORTED_WALLETS.RABBY.name
-      else if (isCoinbase) name = SUPPORTED_WALLETS.WALLET_LINK.name
-      // metamask as last check, because most of the wallets above are likely to set isMetaMask to true too
-      else if (isMetaMask) name = SUPPORTED_WALLETS.METAMASK.name
-      else if (isAvalancheCore) name = SUPPORTED_WALLETS.AVALANCHECORE.name
-    }
+  //   // If injected connector, try to guess which one it is
+  //   if (name === 'Injected') {
+  //     if (isXDEFI) name = SUPPORTED_WALLETS.XDEFI.name
+  //     else if (isTalisman) name = SUPPORTED_WALLETS.TALISMAN.name
+  //     else if (isRabby) name = SUPPORTED_WALLETS.RABBY.name
+  //     else if (isCoinbase) name = SUPPORTED_WALLETS.WALLET_LINK.name
+  //     // metamask as last check, because most of the wallets above are likely to set isMetaMask to true too
+  //     else if (isMetaMask) name = SUPPORTED_WALLETS.METAMASK.name
+  //     else if (isAvalancheCore) name = SUPPORTED_WALLETS.AVALANCHECORE.name
+  //   }
 
-    return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>
-  }
+  //   return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>
+  // }
 
-  //TODO CHECK TESTING
-  function getStatusIcon() {
-    if (connector === injected) {
-      return (
-        <IconWrapper size={16}>
-          <Identicon />
-        </IconWrapper>
-      )
-    } else if (connector === walletlink) {
-      return (
-        <IconWrapper size={16}>
-          <img src={CoinbaseWalletIcon} alt={'Coinbase Wallet logo'} />
-        </IconWrapper>
-      )
-    } else if (connector === walletconnect) {
-      return (
-        <IconWrapper size={16}>
-          <img src={WalletConnectIcon} alt={'Wallet Connect logo'} />
-        </IconWrapper>
-      )
-    } else if (connector === gnosisSafe) {
-      return (
-        <IconWrapper size={16}>
-          <img src={GnosisSafeIcon} alt={'Gnosis Safe logo'} />
-        </IconWrapper>
-      )
-    } else if (connector === bitKeep) {
-      return (
-        <IconWrapper size={16}>
-          <img src={BitKeep} alt={'BitKeep logo'} />
-        </IconWrapper>
-      )
-    } else if (connector === near) {
-      return (
-        <IconWrapper size={16}>
-          <img src={NearIcon} alt={'Near Wallet'} />
-        </IconWrapper>
-      )
-    } else if (connector === hashConnect) {
-      return (
-        <IconWrapper size={16}>
-          <img src={HashIcon} alt={'HashPack Wallet'} />
-        </IconWrapper>
-      )
-    } else if (connector === avalancheCore) {
-      return (
-        <IconWrapper size={16}>
-          <img src={avalancheCoreIcon} alt={'Avalanche Core Wallet'} />
-        </IconWrapper>
-      )
-    }
-    return null
-  }
+  // //TODO CHECK TESTING
+  // function getStatusIcon() {
+  //   if (connector === injected) {
+  //     return (
+  //       <IconWrapper size={16}>
+  //         <Identicon />
+  //       </IconWrapper>
+  //     )
+  //   } else if (connector === walletlink) {
+  //     return (
+  //       <IconWrapper size={16}>
+  //         <img src={CoinbaseWalletIcon} alt={'Coinbase Wallet logo'} />
+  //       </IconWrapper>
+  //     )
+  //   } else if (connector === walletconnect) {
+  //     return (
+  //       <IconWrapper size={16}>
+  //         <img src={WalletConnectIcon} alt={'Wallet Connect logo'} />
+  //       </IconWrapper>
+  //     )
+  //   } else if (connector === gnosisSafe) {
+  //     return (
+  //       <IconWrapper size={16}>
+  //         <img src={GnosisSafeIcon} alt={'Gnosis Safe logo'} />
+  //       </IconWrapper>
+  //     )
+  //   } else if (connector === bitKeep) {
+  //     return (
+  //       <IconWrapper size={16}>
+  //         <img src={BitKeep} alt={'BitKeep logo'} />
+  //       </IconWrapper>
+  //     )
+  //   } else if (connector === near) {
+  //     return (
+  //       <IconWrapper size={16}>
+  //         <img src={NearIcon} alt={'Near Wallet'} />
+  //       </IconWrapper>
+  //     )
+  //   } else if (connector === hashConnect) {
+  //     return (
+  //       <IconWrapper size={16}>
+  //         <img src={HashIcon} alt={'HashPack Wallet'} />
+  //       </IconWrapper>
+  //     )
+  //   } else if (connector === avalancheCore) {
+  //     return (
+  //       <IconWrapper size={16}>
+  //         <img src={avalancheCoreIcon} alt={'Avalanche Core Wallet'} />
+  //       </IconWrapper>
+  //     )
+  //   }
+  //   return null
+  // }
 
   const clearAllTransactionsCallback = useCallback(() => {
     if (chainId) {
@@ -179,7 +179,7 @@ export default function AccountDetails({
 
   return (
     <>
-      <UpperSection>
+      {/* <UpperSection>
         <CloseIcon onClick={toggleWalletModal}>
           <CloseColor />
         </CloseIcon>
@@ -190,7 +190,6 @@ export default function AccountDetails({
               <AccountGroupingRow>
                 {formatConnectorName()}
                 <div>
-                  {/* TODO : CHECK on disccount  */}
                   {(connector instanceof WalletLinkConnector ||
                     connector instanceof WalletConnectConnector ||
                     connector instanceof NearConnector ||
@@ -287,7 +286,7 @@ export default function AccountDetails({
             </InfoCard>
           </YourAccount>
         </AccountSection>
-      </UpperSection>
+      </UpperSection> */}
       {!!pendingTransactions.length || !!confirmedTransactions.length ? (
         <LowerSection>
           <AutoRow mb={'1rem'} style={{ justifyContent: 'space-between' }}>
