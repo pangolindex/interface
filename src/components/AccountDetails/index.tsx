@@ -191,8 +191,7 @@ export default function AccountDetails({
               <AccountGroupingRow>
                 {formatConnectorName()}
                 <div>
-            
-                  {/* {(connector instanceof WalletLinkConnector ||
+                  {(connector instanceof WalletLinkConnector ||
                     connector instanceof WalletConnectConnector ||
                     connector instanceof NearConnector ||
                     connector instanceof HashConnector) && (
@@ -207,16 +206,16 @@ export default function AccountDetails({
                     >
                       {t('accountDetails.disconnect')}
                     </WalletAction>
-                  )} */}
+                  )}
 
-                  <WalletAction
+                  {/* <WalletAction
                     style={{ fontSize: '.825rem', fontWeight: 400 }}
                     onClick={() => {
                       openOptions()
                     }}
                   >
                     {t('accountDetails.change')}
-                  </WalletAction>
+                  </WalletAction> */}
                 </div>
               </AccountGroupingRow>
               <AccountGroupingRow id="web3-account-identifier-row">
