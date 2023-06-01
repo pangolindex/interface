@@ -200,7 +200,7 @@ function Web3StatusInner() {
 
   const hasPendingTransactions = !!pending.length
   const toggleWalletModal = useWalletModalToggle()
-  const toggleAccountDetailModal = useAccountDetailToggle()
+  //const toggleAccountDetailModal = useAccountDetailToggle()
 
   //ATTENTION ICI
   const StatusConnected: any = Web3StatusConnected
@@ -210,7 +210,7 @@ function Web3StatusInner() {
       <StatusConnected
         id="web3-status-connected"
         onClick={() => {
-          toggleAccountDetailModal()
+          toggleWalletModal()
         }}
         pending={hasPendingTransactions}
       >
