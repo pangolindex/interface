@@ -239,7 +239,7 @@ export default function AccountDetails({
                   )}
                 </AccountControl>
               </AccountGroupingRow>
-              <AccountGroupingRow>
+              <AccountGroupingRow id="web3-account-identifier-row1">
                 {ENSName ? (
                   <>
                     <AccountControl>
