@@ -2,8 +2,9 @@ import styled from 'styled-components'
 import { ReactComponent as Close } from '../../assets/svg/x.svg'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink } from '../../theme'
+import { Box } from '@pangolindex/components'
 
-export const HeaderRow = styled.div`
+export const HeaderRow = styled(Box)`
   ${({ theme }) => theme.flexRowNoWrap};
   padding: 1rem 1rem;
   font-weight: 500;
@@ -13,7 +14,7 @@ export const HeaderRow = styled.div`
 `};
 `
 
-export const UpperSection = styled.div`
+export const UpperSection = styled(Box)`
   position: relative;
 
   h5 {
@@ -33,7 +34,7 @@ export const UpperSection = styled.div`
   }
 `
 
-export const InfoCard = styled.div`
+export const InfoCard = styled(Box)`
   padding: 1rem;
   border: 1px solid ${({ theme }) => theme.bg3};
   border-radius: 20px;
@@ -43,7 +44,7 @@ export const InfoCard = styled.div`
   margin-bottom: 20px;
 `
 
-export const AccountGroupingRow = styled.div`
+export const AccountGroupingRow = styled(Box)`
   ${({ theme }) => theme.flexRowNoWrap};
   justify-content: space-between;
   align-items: center;
@@ -56,13 +57,13 @@ export const AccountGroupingRow = styled.div`
   }
 `
 
-export const AccountSection = styled.div`
+export const AccountSection = styled(Box)`
   background-color: ${({ theme }) => theme.bg1};
   padding: 0rem 1rem;
   ${({ theme }) => theme.mediaWidth.upToMedium`padding: 0rem 1rem 1.5rem 1rem;`};
 `
 
-export const YourAccount = styled.div`
+export const YourAccount = styled(Box)`
   h5 {
     margin: 0 0 1rem 0;
     font-weight: 400;
@@ -74,7 +75,7 @@ export const YourAccount = styled.div`
   }
 `
 
-export const LowerSection = styled.div`
+export const LowerSection = styled(Box)`
   ${({ theme }) => theme.flexColumnNoWrap}
   padding: 1.5rem;
   flex-grow: 1;
@@ -89,7 +90,7 @@ export const LowerSection = styled.div`
   }
 `
 
-export const AccountControl = styled.div`
+export const AccountControl = styled(Box)`
   display: flex;
   justify-content: space-between;
   min-width: 0;
@@ -122,7 +123,7 @@ export const AddressLink = styled(ExternalLink)<{ hasENS: boolean; isENS: boolea
   }
 `
 
-export const CloseIcon = styled.div`
+export const CloseIcon = styled(Box)`
   position: absolute;
   right: 1rem;
   top: 14px;
@@ -138,14 +139,14 @@ export const CloseColor = styled(Close)`
   }
 `
 
-export const WalletName = styled.div`
+export const WalletName = styled(Box)`
   width: initial;
   font-size: 0.825rem;
   font-weight: 500;
   color: ${({ theme }) => theme.text3};
 `
 
-export const IconWrapper = styled.div<{ size?: number }>`
+export const IconWrapper = styled(Box)<{ size?: number }>`
   ${({ theme }) => theme.flexColumnNoWrap};
   align-items: center;
   justify-content: center;
@@ -160,7 +161,7 @@ export const IconWrapper = styled.div<{ size?: number }>`
 `};
 `
 
-export const TransactionListWrapper = styled.div`
+export const TransactionListWrapper = styled(Box)`
   ${({ theme }) => theme.flexColumnNoWrap};
   line-heigth: 20px;
 `
