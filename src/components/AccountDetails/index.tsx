@@ -4,7 +4,7 @@ import { useActiveWeb3React, useChainId } from 'src/hooks'
 import { useDispatch } from 'src/state'
 import { clearAllTransactions } from 'src/state/transactions/actions'
 import { AutoRow } from '../Row'
-import Copy from './Copy'
+// import Copy from './Copy'
 import Transaction from './Transaction'
 // import CoinbaseWalletIcon from 'src/assets/svg/coinbaseWalletIcon.svg'
 // import WalletConnectIcon from 'src/assets/svg/walletConnectIcon.svg'
@@ -20,18 +20,18 @@ import {
   // walletlink,
   // near,
   // avalancheCore,
-  SUPPORTED_WALLETS,
+  // SUPPORTED_WALLETS,
   // NearConnector,
   useAllTransactionsClearer,
   useTranslation,
-  getEtherscanLink,
+  // getEtherscanLink,
   // bitKeep,
   // hashConnect,
   // HashConnector,
   shortenAddressMapping
 } from '@pangolindex/components'
 // import Identicon from '../Identicon'
-import { ExternalLink as LinkIcon } from 'react-feather'
+// import { ExternalLink as LinkIcon } from 'react-feather'
 import { LinkStyledButton, TYPE } from 'src/theme'
 // import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 // import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
@@ -39,7 +39,7 @@ import {
   AccountControl,
   AccountGroupingRow,
   AccountSection,
-  AddressLink,
+  // AddressLink,
   CloseColor,
   CloseIcon,
   HeaderRow,
@@ -49,7 +49,7 @@ import {
   TransactionListWrapper,
   UpperSection,
   WalletAction,
-  WalletName,
+  // WalletName,
   YourAccount
 } from './styled'
 import Scrollbars from 'react-custom-scrollbars'
@@ -88,35 +88,35 @@ export default function AccountDetails({
   const dispatch = useDispatch()
   const clearAllTxComponents = useAllTransactionsClearer()
 
-  function formatConnectorName() {
-    const { ethereum, avalanche } = window
+  // function formatConnectorName() {
+  //   const { ethereum, avalanche } = window
 
-    const isTalisman = !!(ethereum && ethereum.isTalisman)
-    const isMetaMask = !!(ethereum && ethereum.isMetaMask)
-    const isXDEFI = !!(ethereum && ethereum.isXDEFI)
-    const isRabby = !!(ethereum && ethereum.isRabby)
-    const isCoinbase = !!(ethereum && ethereum.isCoinbaseWallet)
-    const isAvalancheCore = !!(avalanche && avalanche.isAvalanche)
+  //   const isTalisman = !!(ethereum && ethereum.isTalisman)
+  //   const isMetaMask = !!(ethereum && ethereum.isMetaMask)
+  //   const isXDEFI = !!(ethereum && ethereum.isXDEFI)
+  //   const isRabby = !!(ethereum && ethereum.isRabby)
+  //   const isCoinbase = !!(ethereum && ethereum.isCoinbaseWallet)
+  //   const isAvalancheCore = !!(avalanche && avalanche.isAvalanche)
 
-    // let name = Object.keys(SUPPORTED_WALLETS)
-    //   .filter(k => SUPPORTED_WALLETS[k].connector === connector)
-    //   .map(k => SUPPORTED_WALLETS[k].name)[0]
+  //   // let name = Object.keys(SUPPORTED_WALLETS)
+  //   //   .filter(k => SUPPORTED_WALLETS[k].connector === connector)
+  //   //   .map(k => SUPPORTED_WALLETS[k].name)[0]
 
-    let name = 'MetaMask'
+  //   let name = 'MetaMask'
 
-    // If injected connector, try to guess which one it is
-    if (name === 'Injected') {
-      if (isXDEFI) name = SUPPORTED_WALLETS.XDEFI.name
-      else if (isTalisman) name = SUPPORTED_WALLETS.TALISMAN.name
-      else if (isRabby) name = SUPPORTED_WALLETS.RABBY.name
-      else if (isCoinbase) name = SUPPORTED_WALLETS.WALLET_LINK.name
-      // metamask as last check, because most of the wallets above are likely to set isMetaMask to true too
-      else if (isMetaMask) name = SUPPORTED_WALLETS.METAMASK.name
-      else if (isAvalancheCore) name = SUPPORTED_WALLETS.AVALANCHECORE.name
-    }
+  //   // If injected connector, try to guess which one it is
+  //   if (name === 'Injected') {
+  //     if (isXDEFI) name = SUPPORTED_WALLETS.XDEFI.name
+  //     else if (isTalisman) name = SUPPORTED_WALLETS.TALISMAN.name
+  //     else if (isRabby) name = SUPPORTED_WALLETS.RABBY.name
+  //     else if (isCoinbase) name = SUPPORTED_WALLETS.WALLET_LINK.name
+  //     // metamask as last check, because most of the wallets above are likely to set isMetaMask to true too
+  //     else if (isMetaMask) name = SUPPORTED_WALLETS.METAMASK.name
+  //     else if (isAvalancheCore) name = SUPPORTED_WALLETS.AVALANCHECORE.name
+  //   }
 
-    return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>
-  }
+  //   return <WalletName>{t('accountDetails.connectedWith') + name}</WalletName>
+  // }
 
   //TODO CHECK TESTING
   // function getStatusIcon() {
@@ -190,7 +190,7 @@ export default function AccountDetails({
           <YourAccount>
             <InfoCard>
               <AccountGroupingRow>
-                {formatConnectorName()}
+                {/* {formatConnectorName()} */}
                 <div>
                   {/* TODO : CHECK on disccount  */}
                   {/* {(connector instanceof WalletLinkConnector ||
@@ -239,7 +239,7 @@ export default function AccountDetails({
                   )}
                 </AccountControl>
               </AccountGroupingRow>
-              <AccountGroupingRow id="web3-account-identifier-row1">
+              {/* <AccountGroupingRow id="web3-account-identifier-row1">
                 {ENSName ? (
                   <>
                     <AccountControl>
@@ -285,7 +285,7 @@ export default function AccountDetails({
                     </AccountControl>
                   </>
                 )}
-              </AccountGroupingRow>
+              </AccountGroupingRow> */}
             </InfoCard>
           </YourAccount>
         </AccountSection>
