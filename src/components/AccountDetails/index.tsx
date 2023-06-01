@@ -188,11 +188,11 @@ export default function AccountDetails({
         <AccountSection>
           <YourAccount>
             <InfoCard>
-              {/* <AccountGroupingRow>
+              <AccountGroupingRow>
                 {formatConnectorName()}
                 <div>
             
-                  {(connector instanceof WalletLinkConnector ||
+                  {/* {(connector instanceof WalletLinkConnector ||
                     connector instanceof WalletConnectConnector ||
                     connector instanceof NearConnector ||
                     connector instanceof HashConnector) && (
@@ -207,7 +207,7 @@ export default function AccountDetails({
                     >
                       {t('accountDetails.disconnect')}
                     </WalletAction>
-                  )}
+                  )} */}
 
                   <WalletAction
                     style={{ fontSize: '.825rem', fontWeight: 400 }}
@@ -218,7 +218,7 @@ export default function AccountDetails({
                     {t('accountDetails.change')}
                   </WalletAction>
                 </div>
-              </AccountGroupingRow> */}
+              </AccountGroupingRow>
               <AccountGroupingRow id="web3-account-identifier-row">
                 <AccountControl>
                   {ENSName ? (
