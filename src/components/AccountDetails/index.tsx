@@ -1,10 +1,9 @@
 import React, { useCallback, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 import { useDispatch } from 'src/state'
 import { clearAllTransactions } from 'src/state/transactions/actions'
 import { AutoRow } from '../Row'
-import Copy from './Copy'
 import Transaction from './Transaction'
 // import CoinbaseWalletIcon from 'src/assets/svg/coinbaseWalletIcon.svg'
 // import WalletConnectIcon from 'src/assets/svg/walletConnectIcon.svg'
@@ -23,35 +22,16 @@ import {
   // SUPPORTED_WALLETS,
   // NearConnector,
   useAllTransactionsClearer,
-  useTranslation,
+  useTranslation
   // getEtherscanLink,
   // bitKeep,
   // hashConnect,
   // HashConnector,
   // shortenAddressMapping
 } from '@pangolindex/components'
-import Identicon from '../Identicon'
-import { ExternalLink as LinkIcon } from 'react-feather'
+
 import { LinkStyledButton, TYPE } from 'src/theme'
-import { WalletLinkConnector } from '@web3-react/walletlink-connector'
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
-import {
-  AccountControl,
-  AccountGroupingRow,
-  AccountSection,
-  AddressLink,
-  CloseColor,
-  CloseIcon,
-  HeaderRow,
-  IconWrapper,
-  InfoCard,
-  LowerSection,
-  TransactionListWrapper,
-  UpperSection,
-  WalletAction,
-  WalletName,
-  YourAccount
-} from './styled'
+import { LowerSection, TransactionListWrapper } from './styled'
 import Scrollbars from 'react-custom-scrollbars'
 
 function renderTransactions(transactions: string[]) {
