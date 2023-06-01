@@ -1,40 +1,40 @@
-import React, { useCallback, useContext } from 'react'
-import { ThemeContext } from 'styled-components'
-// import { useChainId } from 'src/hooks'
-import { useDispatch } from 'src/state'
-import { clearAllTransactions } from 'src/state/transactions/actions'
-import { AutoRow } from '../Row'
+import React from 'react'
+// import { ThemeContext } from 'styled-components'
+import { useActiveWeb3React, useChainId } from 'src/hooks'
+// import { useDispatch } from 'src/state'
+// import { clearAllTransactions } from 'src/state/transactions/actions'
+// import { AutoRow } from '../Row'
 import Copy from './Copy'
-import Transaction from './Transaction'
-// import CoinbaseWalletIcon from 'src/assets/svg/coinbaseWalletIcon.svg'
-// import WalletConnectIcon from 'src/assets/svg/walletConnectIcon.svg'
-// import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
-// import NearIcon from 'src/assets/svg/near.svg'
-// import avalancheCoreIcon from 'src/assets/svg/avalancheCore.svg'
-// import BitKeep from 'src/assets/svg/bitkeep.svg'
-// import HashIcon from 'src/assets/images/hashConnect.png'
+// import Transaction from './Transaction'
+import CoinbaseWalletIcon from 'src/assets/svg/coinbaseWalletIcon.svg'
+import WalletConnectIcon from 'src/assets/svg/walletConnectIcon.svg'
+import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
+import NearIcon from 'src/assets/svg/near.svg'
+import avalancheCoreIcon from 'src/assets/svg/avalancheCore.svg'
+import BitKeep from 'src/assets/svg/bitkeep.svg'
+import HashIcon from 'src/assets/images/hashConnect.png'
 import {
-  // gnosisSafe,
-  // injected,
-  // walletconnect,
-  // walletlink,
-  // near,
-  // avalancheCore,
+  gnosisSafe,
+  injected,
+  walletconnect,
+  walletlink,
+  near,
+  avalancheCore,
   SUPPORTED_WALLETS,
-  // NearConnector,
-  useAllTransactionsClearer,
+  NearConnector,
+  // useAllTransactionsClearer,
   useTranslation,
   getEtherscanLink,
-  // bitKeep,
-  // hashConnect,
-  // HashConnector,
+  bitKeep,
+  hashConnect,
+  HashConnector,
   shortenAddressMapping
 } from '@pangolindex/components'
-// import Identicon from '../Identicon'
+import Identicon from '../Identicon'
 import { ExternalLink as LinkIcon } from 'react-feather'
-import { LinkStyledButton, TYPE } from 'src/theme'
-// import { WalletLinkConnector } from '@web3-react/walletlink-connector'
-// import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
+// import { LinkStyledButton, TYPE } from 'src/theme'
+import { WalletLinkConnector } from '@web3-react/walletlink-connector'
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import {
   AccountControl,
   AccountGroupingRow,
@@ -43,27 +43,26 @@ import {
   CloseColor,
   CloseIcon,
   HeaderRow,
-  // IconWrapper,
+  IconWrapper,
   InfoCard,
-  LowerSection,
-  TransactionListWrapper,
+  // LowerSection,
+  // TransactionListWrapper,
   UpperSection,
   WalletAction,
   WalletName,
   YourAccount
 } from './styled'
-import Scrollbars from 'react-custom-scrollbars'
-import { ChainId } from '@pangolindex/sdk'
+// import Scrollbars from 'react-custom-scrollbars'
 
-function renderTransactions(transactions: string[]) {
-  return (
-    <TransactionListWrapper>
-      {transactions.map((hash, i) => {
-        return <Transaction key={i} hash={hash} />
-      })}
-    </TransactionListWrapper>
-  )
-}
+// function renderTransactions(transactions: string[]) {
+//   return (
+//     <TransactionListWrapper>
+//       {transactions.map((hash, i) => {
+//         return <Transaction key={i} hash={hash} />
+//       })}
+//     </TransactionListWrapper>
+//   )
+// }
 
 interface AccountDetailsProps {
   toggleWalletModal: () => void
@@ -80,17 +79,14 @@ export default function AccountDetails({
   ENSName,
   openOptions
 }: AccountDetailsProps) {
-  // const { connector } = useActiveWeb3React()
-
-  const account = '0x5F87d3b251Cd4066CC1e2b887593c51D3de55563'
-  // const chainId = useChainId()
-  const chainId = ChainId.AVALANCHE
+  const { account, connector } = useActiveWeb3React()
+  const chainId = useChainId()
 
   const shortenAddress = shortenAddressMapping[chainId]
-  const theme = useContext(ThemeContext)
+  // const theme = useContext(ThemeContext)
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const clearAllTxComponents = useAllTransactionsClearer()
+  // const dispatch = useDispatch()
+  // const clearAllTxComponents = useAllTransactionsClearer()
 
   function formatConnectorName() {
     const { ethereum, avalanche } = window
@@ -102,11 +98,9 @@ export default function AccountDetails({
     const isCoinbase = !!(ethereum && ethereum.isCoinbaseWallet)
     const isAvalancheCore = !!(avalanche && avalanche.isAvalanche)
 
-    // let name = Object.keys(SUPPORTED_WALLETS)
-    //   .filter(k => SUPPORTED_WALLETS[k].connector === connector)
-    //   .map(k => SUPPORTED_WALLETS[k].name)[0]
-
-    let name = 'MetaMask'
+    let name = Object.keys(SUPPORTED_WALLETS)
+      .filter(k => SUPPORTED_WALLETS[k].connector === connector)
+      .map(k => SUPPORTED_WALLETS[k].name)[0]
 
     // If injected connector, try to guess which one it is
     if (name === 'Injected') {
@@ -123,65 +117,65 @@ export default function AccountDetails({
   }
 
   //TODO CHECK TESTING
-  // function getStatusIcon() {
-  //   if (connector === injected) {
-  //     return (
-  //       <IconWrapper size={16}>
-  //         <Identicon />
-  //       </IconWrapper>
-  //     )
-  //   } else if (connector === walletlink) {
-  //     return (
-  //       <IconWrapper size={16}>
-  //         <img src={CoinbaseWalletIcon} alt={'Coinbase Wallet logo'} />
-  //       </IconWrapper>
-  //     )
-  //   } else if (connector === walletconnect) {
-  //     return (
-  //       <IconWrapper size={16}>
-  //         <img src={WalletConnectIcon} alt={'Wallet Connect logo'} />
-  //       </IconWrapper>
-  //     )
-  //   } else if (connector === gnosisSafe) {
-  //     return (
-  //       <IconWrapper size={16}>
-  //         <img src={GnosisSafeIcon} alt={'Gnosis Safe logo'} />
-  //       </IconWrapper>
-  //     )
-  //   } else if (connector === bitKeep) {
-  //     return (
-  //       <IconWrapper size={16}>
-  //         <img src={BitKeep} alt={'BitKeep logo'} />
-  //       </IconWrapper>
-  //     )
-  //   } else if (connector === near) {
-  //     return (
-  //       <IconWrapper size={16}>
-  //         <img src={NearIcon} alt={'Near Wallet'} />
-  //       </IconWrapper>
-  //     )
-  //   } else if (connector === hashConnect) {
-  //     return (
-  //       <IconWrapper size={16}>
-  //         <img src={HashIcon} alt={'HashPack Wallet'} />
-  //       </IconWrapper>
-  //     )
-  //   } else if (connector === avalancheCore) {
-  //     return (
-  //       <IconWrapper size={16}>
-  //         <img src={avalancheCoreIcon} alt={'Avalanche Core Wallet'} />
-  //       </IconWrapper>
-  //     )
-  //   }
-  //   return null
-  // }
-
-  const clearAllTransactionsCallback = useCallback(() => {
-    if (chainId) {
-      dispatch(clearAllTransactions({ chainId }))
-      clearAllTxComponents()
+  function getStatusIcon() {
+    if (connector === injected) {
+      return (
+        <IconWrapper size={16}>
+          <Identicon />
+        </IconWrapper>
+      )
+    } else if (connector === walletlink) {
+      return (
+        <IconWrapper size={16}>
+          <img src={CoinbaseWalletIcon} alt={'Coinbase Wallet logo'} />
+        </IconWrapper>
+      )
+    } else if (connector === walletconnect) {
+      return (
+        <IconWrapper size={16}>
+          <img src={WalletConnectIcon} alt={'Wallet Connect logo'} />
+        </IconWrapper>
+      )
+    } else if (connector === gnosisSafe) {
+      return (
+        <IconWrapper size={16}>
+          <img src={GnosisSafeIcon} alt={'Gnosis Safe logo'} />
+        </IconWrapper>
+      )
+    } else if (connector === bitKeep) {
+      return (
+        <IconWrapper size={16}>
+          <img src={BitKeep} alt={'BitKeep logo'} />
+        </IconWrapper>
+      )
+    } else if (connector === near) {
+      return (
+        <IconWrapper size={16}>
+          <img src={NearIcon} alt={'Near Wallet'} />
+        </IconWrapper>
+      )
+    } else if (connector === hashConnect) {
+      return (
+        <IconWrapper size={16}>
+          <img src={HashIcon} alt={'HashPack Wallet'} />
+        </IconWrapper>
+      )
+    } else if (connector === avalancheCore) {
+      return (
+        <IconWrapper size={16}>
+          <img src={avalancheCoreIcon} alt={'Avalanche Core Wallet'} />
+        </IconWrapper>
+      )
     }
-  }, [dispatch, chainId, clearAllTxComponents])
+    return null
+  }
+
+  // const clearAllTransactionsCallback = useCallback(() => {
+  //   if (chainId) {
+  //     dispatch(clearAllTransactions({ chainId }))
+  //     clearAllTxComponents()
+  //   }
+  // }, [dispatch, chainId, clearAllTxComponents])
 
   return (
     <>
@@ -197,7 +191,7 @@ export default function AccountDetails({
                 {formatConnectorName()}
                 <div>
                   {/* TODO : CHECK on disccount  */}
-                  {/* {(connector instanceof WalletLinkConnector ||
+                  {(connector instanceof WalletLinkConnector ||
                     connector instanceof WalletConnectConnector ||
                     connector instanceof NearConnector ||
                     connector instanceof HashConnector) && (
@@ -212,7 +206,7 @@ export default function AccountDetails({
                     >
                       {t('accountDetails.disconnect')}
                     </WalletAction>
-                  )} */}
+                  )}
 
                   <WalletAction
                     style={{ fontSize: '.825rem', fontWeight: 400 }}
@@ -229,14 +223,14 @@ export default function AccountDetails({
                   {ENSName ? (
                     <>
                       <div>
-                        {/* {getStatusIcon()} */}
+                        {getStatusIcon()}
                         <p> {ENSName}</p>
                       </div>
                     </>
                   ) : (
                     <>
                       <div>
-                        {/* {getStatusIcon()} */}
+                        {getStatusIcon()}
                         <p> {account && shortenAddress(account, chainId)}</p>
                       </div>
                     </>
@@ -294,7 +288,7 @@ export default function AccountDetails({
           </YourAccount>
         </AccountSection>
       </UpperSection>
-      {!!pendingTransactions.length || !!confirmedTransactions.length ? (
+      {/* {!!pendingTransactions.length || !!confirmedTransactions.length ? (
         <LowerSection>
           <AutoRow mb={'1rem'} style={{ justifyContent: 'space-between' }}>
             <TYPE.body>{t('accountDetails.recentTransactions')}</TYPE.body>
@@ -309,7 +303,7 @@ export default function AccountDetails({
         <LowerSection>
           <TYPE.body color={theme.text1}>{t('accountDetails.transactionAppear')}</TYPE.body>
         </LowerSection>
-      )}
+      )} */}
     </>
   )
 }
