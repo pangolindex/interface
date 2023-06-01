@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
-import { useChainId } from 'src/hooks'
+// import { useChainId } from 'src/hooks'
 import { useDispatch } from 'src/state'
 import { clearAllTransactions } from 'src/state/transactions/actions'
 import { AutoRow } from '../Row'
@@ -53,6 +53,7 @@ import {
   YourAccount
 } from './styled'
 import Scrollbars from 'react-custom-scrollbars'
+import { ChainId } from '@pangolindex/sdk'
 
 function renderTransactions(transactions: string[]) {
   return (
@@ -82,7 +83,8 @@ export default function AccountDetails({
   // const { connector } = useActiveWeb3React()
 
   const account = '0x5F87d3b251Cd4066CC1e2b887593c51D3de55563'
-  const chainId = useChainId()
+  // const chainId = useChainId()
+  const chainId = ChainId.AVALANCHE
 
   const shortenAddress = shortenAddressMapping[chainId]
   const theme = useContext(ThemeContext)
