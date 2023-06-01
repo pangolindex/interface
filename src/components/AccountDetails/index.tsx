@@ -188,10 +188,9 @@ export default function AccountDetails({
         <AccountSection>
           <YourAccount>
             <InfoCard>
-              {/* <AccountGroupingRow>
+              <AccountGroupingRow>
                 {formatConnectorName()}
                 <div>
-            
                   {(connector instanceof WalletLinkConnector ||
                     connector instanceof WalletConnectConnector ||
                     connector instanceof NearConnector ||
@@ -218,7 +217,7 @@ export default function AccountDetails({
                     {t('accountDetails.change')}
                   </WalletAction>
                 </div>
-              </AccountGroupingRow> */}
+              </AccountGroupingRow>
               {/* <AccountGroupingRow id="web3-account-identifier-row">
                 <AccountControl>
                   {ENSName ? (
