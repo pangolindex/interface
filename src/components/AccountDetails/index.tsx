@@ -209,6 +209,7 @@ export default function AccountDetails({
                   )}
 
                   <WalletAction
+                    id="change-network"
                     style={{ fontSize: '.825rem', fontWeight: 400 }}
                     onClick={() => {
                       //openOptions()
