@@ -6,17 +6,17 @@ import {
   getEtherscanLink,
   useModalOpen,
   useWalletModalToggle,
-  ApplicationModal
+  ApplicationModal,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import React, { useCallback, useContext } from 'react'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import { useChainId } from 'src/hooks'
-import { useWeb3React } from '@web3-react/core'
 import { ThemeContext } from 'styled-components'
 import { AccountLink, Copy, ToggleWalletButton, WalletIcon } from './styled'
 
 const MobileWeb3Status: React.FC = () => {
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
 
   const chainId = useChainId()
 

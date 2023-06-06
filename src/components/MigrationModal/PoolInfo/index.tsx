@@ -9,10 +9,10 @@ import {
   useTranslation,
   MinichefStakingInfo,
   useTokenBalance,
-  wrappedCurrencyAmount
+  wrappedCurrencyAmount,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import { Pair, TokenAmount, JSBI } from '@pangolindex/sdk'
-import { useWeb3React } from '@web3-react/core'
 import { useGetPairDataFromPair } from '../../../state/stake/hooks'
 import numeral from 'numeral'
 import { useChainId, usePngSymbol } from '../../../hooks'
@@ -41,7 +41,7 @@ const PoolInfo = ({
   userPoolBalance,
   onMax
 }: PoolInfoProps) => {
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const pngSymbol = usePngSymbol()
   const { t } = useTranslation()

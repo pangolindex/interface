@@ -1,11 +1,10 @@
 import { ChainId, ALL_CHAINS, CHAINS, TokenAmount } from '@pangolindex/sdk'
-import { useWeb3React } from '@web3-react/core'
-import { PANGOLIN_API_BASE_URL, Tokens } from '@pangolindex/components'
+import { PANGOLIN_API_BASE_URL, Tokens, useActiveWeb3React } from '@pangolindex/components'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 
 export function useChainId() {
-  const { chainId } = useWeb3React()
+  const { chainId } = useActiveWeb3React()
   return (chainId || ChainId.AVALANCHE) as ChainId
 }
 

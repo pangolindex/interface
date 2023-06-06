@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'src/state'
-import { useWeb3React } from '@web3-react/core'
 import { AppState, useSelector } from '../index'
 import { checkedTransaction, finalizeTransaction } from './actions'
-import { useLibrary, useAddPopup, useBlockNumber } from '@pangolindex/components'
+import { useLibrary, useAddPopup, useBlockNumber, useActiveWeb3React } from '@pangolindex/components'
 
 export function shouldCheck(
   lastBlockNumber: number,
@@ -33,7 +32,7 @@ export function shouldCheck(
 }
 
 export default function Updater(): null {
-  const { chainId } = useWeb3React()
+  const { chainId } = useActiveWeb3React()
   const { library, provider } = useLibrary()
   const lastBlockNumber = useBlockNumber()
 

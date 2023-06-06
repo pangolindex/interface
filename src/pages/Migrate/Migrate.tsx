@@ -16,8 +16,7 @@ import {
 } from './styleds'
 import { Pair } from '@pangolindex/sdk'
 import { useParams } from 'react-router-dom'
-import { useWeb3React } from '@web3-react/core'
-import { Text, Box, useTranslation, MinichefStakingInfo } from '@pangolindex/components'
+import { Text, Box, useTranslation, MinichefStakingInfo, useActiveWeb3React } from '@pangolindex/components'
 import MigrationCard from '../../components/MigrationCard'
 import MigrationModal from '../../components/MigrationModal'
 import { useMigrationModalToggle } from '../../state/application/hooks'
@@ -36,7 +35,7 @@ const MigrateUI = () => {
     {} as { [address: string]: { pair: Pair; staking: MinichefStakingInfo } }
   )
   const theme = useContext(ThemeContext)
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
   const toggleMigrationModal = useMigrationModalToggle()
 
   const { allPool, v2IsLoading } = useGetMigrationData(params?.version)

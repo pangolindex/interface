@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Wrapper } from './styleds'
-import { Box, Button, useTranslation, MinichefStakingInfo, useStakingContract } from '@pangolindex/components'
+import {
+  Box,
+  Button,
+  useTranslation,
+  MinichefStakingInfo,
+  useStakingContract,
+  useActiveWeb3React
+} from '@pangolindex/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
-import { useWeb3React } from '@web3-react/core'
 import PoolInfo from '../PoolInfo'
 import { tryParseAmount } from 'src/utils'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -18,7 +24,7 @@ export interface UnstakeProps {
 }
 
 const Unstake = ({ allChoosePool, goNext, goBack, choosePoolIndex }: UnstakeProps) => {
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const { t } = useTranslation()
   const [attempting, setAttempting] = useState(false as boolean)

@@ -1,10 +1,9 @@
 import React from 'react'
 import { PageWrapper, MainTitle, CenterText, Frame } from './styleds'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box, useActiveWeb3React } from '@pangolindex/components'
 import { useChainId } from 'src/hooks'
 import { QuestionAnswer } from './QuestionBox'
 import { Chain, CHAINS } from '@pangolindex/sdk'
-import { useWeb3React } from '@web3-react/core'
 import { activeAirdrops, commingSoonAirdrops, AirdropData, specialAirdrops } from 'src/constants/airdrop'
 import NotConnected from './NotConnected'
 import ChangeChain from './ChangeChain'
@@ -12,7 +11,7 @@ import ClaimReward from './ClaimReward'
 import CommingSoon from './CommingSoon'
 
 const AirdropUI: React.FC = () => {
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
   const renderAirdrop = (chain: Chain, key: number, airdropData: AirdropData) => {

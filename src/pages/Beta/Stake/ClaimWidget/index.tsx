@@ -6,13 +6,13 @@ import {
   useTranslation,
   TransactionCompleted,
   Loader,
-  useStakingContract
+  useStakingContract,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import { WidgetWrapper, Root } from './styled'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
-import { useWeb3React } from '@web3-react/core'
 
 interface ClaimProps {
   stakingInfo: SingleSideStakingInfo
@@ -21,7 +21,7 @@ interface ClaimProps {
 }
 
 const ClaimWidget = ({ stakingInfo, onClose, onClickRewardStake }: ClaimProps) => {
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
 
   const { t } = useTranslation()
   // monitor call to help UI loading state

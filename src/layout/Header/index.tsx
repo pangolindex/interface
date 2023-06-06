@@ -9,7 +9,8 @@ import {
   useWalletModalToggle,
   useModalOpen as useModalOpenComponents,
   ApplicationModal as ApplicationModalComponents,
-  WalletModal
+  WalletModal,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import React, { useState, useRef, useMemo, useCallback } from 'react'
 import { usePNGCirculationSupply } from '../../hooks'
@@ -43,7 +44,6 @@ import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
 import { CHAINS, Chain } from '@pangolindex/sdk'
 import { useTotalPngEarnedHook } from 'src/state/stake/multiChainsHooks'
-import { useWeb3React } from '@web3-react/core'
 import { useWallet } from 'src/state/user/hooks'
 
 interface Props {
@@ -52,7 +52,7 @@ interface Props {
 }
 
 export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const { t } = useTranslation()
   const { PNG } = Tokens

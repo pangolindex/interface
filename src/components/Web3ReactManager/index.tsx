@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import styled from 'styled-components'
-import { useTranslation } from '@pangolindex/components'
+import { NetworkContextName, useTranslation } from '@pangolindex/components'
 import Loader from '../Loader'
 
 const MessageWrapper = styled.div`
@@ -18,7 +18,7 @@ const Message = styled.h2`
 export default function Web3ReactManager({ children }: { children: JSX.Element }) {
   const { t } = useTranslation()
   const { active } = useWeb3React()
-  const { active: networkActive, error: networkError } = useWeb3React()
+  const { active: networkActive, error: networkError } = useWeb3React(NetworkContextName)
 
   // handle delayed loader state
   const [showLoader, setShowLoader] = useState(false)

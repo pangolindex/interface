@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import Jazzicon from '@metamask/jazzicon'
-import { useWeb3React } from '@web3-react/core'
+import { useActiveWeb3React } from '@pangolindex/components'
 
 const StyledIdenticonContainer = styled.div`
   height: 100%;
@@ -13,7 +13,7 @@ const StyledIdenticonContainer = styled.div`
 export default function Identicon() {
   const ref = useRef<HTMLDivElement>()
 
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
 
   useEffect(() => {
     if (account && ref.current) {

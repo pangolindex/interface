@@ -2,7 +2,6 @@ import { CHAINS, CurrencyAmount, JSBI, Pair, Token, TokenAmount, Percent } from 
 import { useMemo, useEffect, useState, useCallback } from 'react'
 import { BIG_INT_ZERO, BIG_INT_ONE, BIG_INT_SECONDS_IN_WEEK } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
-import { useWeb3React } from '@web3-react/core'
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
 import { maxAmountSpend } from 'src/utils'
 import { getRouterContract } from '../../utils'
@@ -29,7 +28,8 @@ import {
   useStakingContract,
   wrappedCurrencyAmount,
   useApproveCallbackHook,
-  TransactionApprovalState as ApprovalState
+  TransactionApprovalState as ApprovalState,
+  useActiveWeb3React
 } from '@pangolindex/components'
 
 export interface SingleSideStaking {
@@ -111,7 +111,7 @@ export function useSingleSideStakingInfo(
   rewardTokenToFilterBy?: Token | null
 ): SingleSideStakingInfo[] {
   // TODO: Take library from useLibrary
-  const { library, account } = useWeb3React()
+  const { library, account } = useActiveWeb3React()
   const chainId = useChainId()
   const { PNG } = Tokens
 
@@ -365,7 +365,7 @@ export function useGetStakingDataWithAPR(version: number) {
 }
 
 export function useGetPairDataFromPair(pair: Pair) {
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
 
   const dummyToken = new Token(chainId, ZERO_ADDRESS, 18, 'PNG', 'Pangolin')
@@ -424,7 +424,7 @@ export function useGetPairDataFromPair(pair: Pair) {
 }
 
 export function useDerivedStakingProcess(stakingInfo: SingleSideStakingInfo) {
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
 
   const chainId = useChainId()
   const { library, provider } = useLibrary()

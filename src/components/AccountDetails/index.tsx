@@ -14,7 +14,8 @@ import {
   getEtherscanLink,
   shortenAddressMapping,
   InjectedWallet,
-  injected
+  injected,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import Identicon from '../Identicon'
 import { ExternalLink as LinkIcon } from 'react-feather'
@@ -37,7 +38,6 @@ import {
   YourAccount
 } from './styled'
 import Scrollbars from 'react-custom-scrollbars'
-import { useWeb3React } from '@web3-react/core'
 
 function renderTransactions(transactions: string[]) {
   return (
@@ -64,7 +64,7 @@ export default function AccountDetails({
   ENSName,
   openOptions
 }: AccountDetailsProps) {
-  const { account, connector, deactivate } = useWeb3React()
+  const { account, connector, deactivate } = useActiveWeb3React()
   const chainId = useChainId()
 
   const shortenAddress = shortenAddressMapping[chainId]

@@ -6,10 +6,10 @@ import {
   useGelatoLimitOrderDetail,
   Order,
   useGelatoLimitOrdersHandlers,
-  useTranslation
+  useTranslation,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import { CancelOrderRoot, PendingWrapper, Root, Footer, Header } from './styleds'
-import { useWeb3React } from '@web3-react/core'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/svg/blue-loader.svg'
 import TransactionSubmitted from 'src/components/Beta/TransactionSubmitted'
@@ -20,7 +20,7 @@ interface ClaimProps {
 }
 const CancelOrder = ({ order, onClose }: ClaimProps) => {
   const { t } = useTranslation()
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
 
   const { handleLimitOrderCancellation } = useGelatoLimitOrdersHandlers()
 

@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Text, CurrencyLogo, useTranslation } from '@pangolindex/components'
+import { Text, CurrencyLogo, useTranslation, useActiveWeb3React } from '@pangolindex/components'
 import { JSBI } from '@pangolindex/sdk'
 import numeral from 'numeral'
-import { useWeb3React } from '@web3-react/core'
 import { Card, CardHeader, Stats, CardStats, TokenName, DetailButton, StakeButton, StatValue } from './styleds'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import ClaimDrawer from '../ClaimDrawer'
@@ -15,7 +14,7 @@ export interface PoolCardProps {
 
 const PoolCard = ({ stakingInfo, onViewDetailsClick }: PoolCardProps) => {
   const { t } = useTranslation()
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
   const [isClaimDrawerVisible, setShowClaimDrawer] = useState(false)
 
   const [isStakeDrawerVisible, setShowtakeDrawer] = useState(false)

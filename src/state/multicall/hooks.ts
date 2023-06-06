@@ -3,7 +3,6 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
 import { useEffect, useMemo } from 'react'
 import { useDispatch } from 'src/state'
-import { useWeb3React } from '@web3-react/core'
 import { AppState, useSelector } from '../index'
 import {
   addMulticallListeners,
@@ -13,7 +12,7 @@ import {
   toCallKey,
   ListenerOptions
 } from './actions'
-import { useBlockNumber } from '@pangolindex/components'
+import { useActiveWeb3React, useBlockNumber } from '@pangolindex/components'
 
 export interface Result extends ReadonlyArray<any> {
   readonly [key: string]: any
@@ -50,7 +49,7 @@ export const NEVER_RELOAD: ListenerOptions = {
 
 // the lowest level call for subscribing to contract data
 function useCallsData(calls: (Call | undefined)[], options?: ListenerOptions): CallResult[] {
-  const { chainId } = useWeb3React()
+  const { chainId } = useActiveWeb3React()
   const callResults = useSelector<AppState['multicall']['callResults']>(state => state.multicall.callResults)
   const dispatch = useDispatch()
 

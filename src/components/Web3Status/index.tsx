@@ -12,7 +12,8 @@ import {
   useTranslation,
   useWalletModalToggle,
   shortenAddressMapping,
-  HashConnector
+  HashConnector,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken } from 'polished'
@@ -246,7 +247,7 @@ function Web3StatusInner() {
 }
 
 export default function Web3Status() {
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
 
   const allTransactionsInterface = useAllTransactions()
   const allTransactionsComponents = useAllTransactionsComponents()
