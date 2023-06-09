@@ -6,13 +6,13 @@ import {
   useTranslation,
   TransactionCompleted,
   Loader,
-  useStakingContract
+  useStakingContract,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import { WidgetWrapper, Root } from './styled'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
-import { useActiveWeb3React } from 'src/hooks'
 
 interface ClaimProps {
   stakingInfo: SingleSideStakingInfo

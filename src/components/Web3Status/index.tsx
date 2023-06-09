@@ -1,28 +1,25 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import {
   Box,
-  WalletModal as NewWalletModal,
   gnosisSafe,
   injected,
   walletconnect,
   walletlink,
   xDefi,
   avalancheCore,
-  NetworkContextName,
   near,
   useAllTransactions as useAllTransactionsComponents,
   useTranslation,
-  hashConnect,
   useWalletModalToggle,
-  useModalOpen as useModalOpenComponents,
-  ApplicationModal as ApplicationModalComponents,
-  shortenAddressMapping
+  shortenAddressMapping,
+  HashConnector,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken } from 'polished'
-import React, { useMemo, useContext, useCallback } from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { Activity } from 'react-feather'
-import styled, { ThemeContext } from 'styled-components'
+import styled from 'styled-components'
 import CoinbaseWalletIcon from 'src/assets/svg/coinbaseWalletIcon.svg'
 import GnosisSafeIcon from 'src/assets/images/gnosis_safe.png'
 import WalletConnectIcon from 'src/assets/svg/walletConnectIcon.svg'
@@ -40,7 +37,6 @@ import { RowBetween } from '../Row'
 import { ApplicationModal } from 'src/state/application/actions'
 import AccountDetailsModal from '../AccountDetailsModal'
 import { useChainId } from 'src/hooks'
-import { useWallet } from 'src/state/user/hooks'
 
 const Web3StatusGeneric = styled(ButtonSecondary)`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -177,7 +173,7 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
         <img src={avalancheCoreIcon} alt={'Avalanche Core Wallet'} />
       </IconWrapper>
     )
-  } else if (connector === hashConnect) {
+  } else if (connector instanceof HashConnector) {
     return (
       <IconWrapper size={16}>
         <img src={HashIcon} alt={'HashPack Wallet'} />
@@ -251,10 +247,7 @@ function Web3StatusInner() {
 }
 
 export default function Web3Status() {
-  const { account, active } = useWeb3React()
-  const contextNetwork = useWeb3React(NetworkContextName)
-
-  const theme = useContext(ThemeContext)
+  const { account } = useActiveWeb3React()
 
   const allTransactionsInterface = useAllTransactions()
   const allTransactionsComponents = useAllTransactionsComponents()
@@ -263,9 +256,7 @@ export default function Web3Status() {
     return { ...allTransactionsInterface, ...allTransactionsComponents }
   }, [allTransactionsInterface, allTransactionsComponents])
 
-  const walletModalOpen = useModalOpenComponents(ApplicationModalComponents.WALLET)
   const toggleWalletModal = useWalletModalToggle()
-  const [, setWallet] = useWallet()
 
   const accountDetailModalOpen = useModalOpen(ApplicationModal.ACCOUNT_DETAIL)
   const toggleAccountDetailModal = useAccountDetailToggle()
@@ -275,19 +266,6 @@ export default function Web3Status() {
     toggleWalletModal()
   }, [toggleAccountDetailModal, toggleWalletModal])
 
-  const onClickBack = useCallback(() => {
-    toggleWalletModal()
-    toggleAccountDetailModal()
-  }, [toggleAccountDetailModal, toggleWalletModal])
-
-  const onWalletConnect = useCallback(
-    connectorKey => {
-      toggleWalletModal()
-      setWallet(connectorKey)
-    },
-    [setWallet, toggleWalletModal]
-  )
-
   const sortedRecentTransactions = useMemo(() => {
     const txs = Object.values(allTransactions)
     return txs.filter(isTransactionRecent).sort(newTransactionsFirst)
@@ -296,22 +274,8 @@ export default function Web3Status() {
   const pending = sortedRecentTransactions.filter(tx => !tx.receipt).map(tx => tx.hash)
   const confirmed = sortedRecentTransactions.filter(tx => tx.receipt).map(tx => tx.hash)
 
-  if (!contextNetwork.active && !active) {
-    return null
-  }
   const renderModal = () => {
-    if (!account || walletModalOpen) {
-      return (
-        <NewWalletModal
-          open={walletModalOpen}
-          closeModal={toggleWalletModal}
-          background={theme.bg2}
-          shouldShowBackButton={account ? true : false}
-          onWalletConnect={onWalletConnect}
-          onClickBack={onClickBack}
-        />
-      )
-    } else if (account) {
+    if (account) {
       return (
         <AccountDetailsModal
           ENSName={undefined}

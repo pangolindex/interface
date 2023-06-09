@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { useDispatch } from 'src/state'
-import { useActivePopups as useActiveComponentsPopup } from '@pangolindex/components'
-import { useActiveWeb3React } from '../../hooks'
+import { useActivePopups as useActiveComponentsPopup, useActiveWeb3React } from '@pangolindex/components'
 import { AppState, useSelector } from '../index'
 import { ApplicationModal, setOpenModal } from './actions'
 

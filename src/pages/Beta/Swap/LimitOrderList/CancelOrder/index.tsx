@@ -6,10 +6,10 @@ import {
   useGelatoLimitOrderDetail,
   Order,
   useGelatoLimitOrdersHandlers,
-  useTranslation
+  useTranslation,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import { CancelOrderRoot, PendingWrapper, Root, Footer, Header } from './styleds'
-import { useActiveWeb3React } from 'src/hooks'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/svg/blue-loader.svg'
 import TransactionSubmitted from 'src/components/Beta/TransactionSubmitted'

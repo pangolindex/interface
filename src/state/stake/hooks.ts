@@ -2,7 +2,6 @@ import { CHAINS, CurrencyAmount, JSBI, Pair, Token, TokenAmount, Percent } from 
 import { useMemo, useEffect, useState, useCallback } from 'react'
 import { BIG_INT_ZERO, BIG_INT_ONE, BIG_INT_SECONDS_IN_WEEK } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
-import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
 import { maxAmountSpend } from 'src/utils'
 import { getRouterContract } from '../../utils'
@@ -29,7 +28,8 @@ import {
   useStakingContract,
   wrappedCurrencyAmount,
   useApproveCallbackHook,
-  TransactionApprovalState as ApprovalState
+  TransactionApprovalState as ApprovalState,
+  useActiveWeb3React
 } from '@pangolindex/components'
 
 export interface SingleSideStaking {

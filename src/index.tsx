@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { NetworkContextName, PangolinProvider, useLibrary } from '@pangolindex/components'
+import { NetworkContextName, PangolinProvider, useActiveWeb3React } from '@pangolindex/components'
 import App from './pages/App'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
@@ -14,7 +14,6 @@ import UserUpdater from './state/user/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
 import { ThemeContext } from 'styled-components'
-import { useActiveWeb3React, useChainId } from './hooks'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 if ('ethereum' in window) {
@@ -44,13 +43,9 @@ function Updaters() {
 }
 
 const ComponentThemeProvider = () => {
-  const chainId = useChainId()
   const theme = useContext(ThemeContext)
 
-  const { account } = useActiveWeb3React()
-
-  const { library } = useLibrary()
-
+  const { library, account, chainId } = useActiveWeb3React()
   return (
     <PangolinProvider
       library={library}

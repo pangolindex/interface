@@ -6,11 +6,12 @@ import {
   getEtherscanLink,
   useModalOpen,
   useWalletModalToggle,
-  ApplicationModal
+  ApplicationModal,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import React, { useCallback, useContext } from 'react'
 import { ExternalLink as LinkIcon } from 'react-feather'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
+import { useChainId } from 'src/hooks'
 import { ThemeContext } from 'styled-components'
 import { AccountLink, Copy, ToggleWalletButton, WalletIcon } from './styled'
 
@@ -55,14 +56,7 @@ const MobileWeb3Status: React.FC = () => {
           </ToggleWalletButton>
         </Box>
       )}
-      <WalletModal
-        open={walletModalOpen}
-        closeModal={toggleWalletModal}
-        background={theme.color2}
-        shouldShowBackButton={true}
-        onWalletConnect={onWalletConnect}
-        onClickBack={toggleWalletModal}
-      />
+      <WalletModal open={walletModalOpen} closeModal={toggleWalletModal} onWalletConnect={onWalletConnect} />
     </>
   )
 }

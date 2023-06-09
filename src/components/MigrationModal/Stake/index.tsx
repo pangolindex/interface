@@ -13,12 +13,12 @@ import {
   usePairContract,
   useStakingContract,
   useApproveCallbackHook,
-  TransactionApprovalState as ApprovalState
+  TransactionApprovalState as ApprovalState,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
 import { tryParseAmount } from 'src/utils'
-import { useActiveWeb3React } from '../../../hooks'
 import { RowBetween } from '../../Row'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'

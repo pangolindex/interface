@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useActiveWeb3React } from 'src/hooks'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -11,7 +10,8 @@ import {
   TransactionCompleted,
   Loader,
   Drawer,
-  useStakingContract
+  useStakingContract,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import { ConfirmWrapper, Wrapper } from './styled'
 

@@ -5,10 +5,15 @@ import {
   useTranslation,
   TokenInfoModal,
   Tokens,
-  useOnClickOutside
+  useOnClickOutside,
+  useWalletModalToggle,
+  useModalOpen as useModalOpenComponents,
+  ApplicationModal as ApplicationModalComponents,
+  WalletModal,
+  useActiveWeb3React
 } from '@pangolindex/components'
-import React, { useState, useRef, useMemo } from 'react'
-import { useActiveWeb3React, usePNGCirculationSupply } from '../../hooks'
+import React, { useState, useRef, useMemo, useCallback } from 'react'
+import { usePNGCirculationSupply } from '../../hooks'
 import Web3Status from '../../components/Web3Status'
 import LanguageSelection from '../../components/LanguageSelection'
 import { ApplicationModal } from '../../state/application/actions'
@@ -37,8 +42,9 @@ import { useChainId } from 'src/hooks'
 import { DISCORD_SUPPORT, LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
-import { CHAINS } from '@pangolindex/sdk'
+import { CHAINS, Chain } from '@pangolindex/sdk'
 import { useTotalPngEarnedHook } from 'src/state/stake/multiChainsHooks'
+import { useWallet } from 'src/state/user/hooks'
 
 interface Props {
   activeMobileMenu: boolean
@@ -58,10 +64,16 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
 
   const [showPngBalanceModal, setShowPngBalanceModal] = useState(false)
   const [openNetworkSelection, setOpenNetworkSelection] = useState(false)
+  const [selectedChain, setSelectedChain] = useState<Chain | undefined>(undefined)
 
   const node = useRef<HTMLDivElement>()
   const open = useModalOpen(ApplicationModal.FARM)
   const toggle = useToggleModal(ApplicationModal.FARM)
+
+  const walletModalOpen = useModalOpenComponents(ApplicationModalComponents.WALLET)
+  const toggleWalletModal = useWalletModalToggle()
+  const [, setWallet] = useWallet()
+
   useOnClickOutside(node, open ? toggle : undefined)
 
   const [isDark, toggleDarkMode] = useDarkModeManager()
@@ -82,6 +94,24 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
 
   const { data: pngCirculationSupply } = usePNGCirculationSupply()
 
+  const handleSelectChain = useCallback(
+    (chain: Chain) => {
+      console.log('chain', chain)
+      setOpenNetworkSelection(false)
+      setSelectedChain(chain)
+      toggleWalletModal()
+    },
+    [setOpenNetworkSelection, setSelectedChain, toggleWalletModal]
+  )
+
+  const onWalletConnect = useCallback(
+    connectorKey => {
+      toggleWalletModal()
+      setWallet(connectorKey)
+    },
+    [setWallet, toggleWalletModal]
+  )
+
   return (
     <HeaderFrame>
       {isMobile ? (
@@ -99,7 +129,11 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
               </SupportButton>
             </LegacyButtonWrapper>
             <Hidden upToSmall={true}>
-              <NetworkSelection open={openNetworkSelection} closeModal={closeNetworkSelection} />
+              <NetworkSelection
+                open={openNetworkSelection}
+                closeModal={closeNetworkSelection}
+                onToogleWalletModal={handleSelectChain}
+              />
               {chainId && NETWORK_LABELS[chainId] && (
                 <NetworkCard
                   title={NETWORK_LABELS[chainId]}
@@ -144,6 +178,13 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
         circulationSupply={pngCirculationSupply}
         closeModal={closePngBalanceModal}
         token={png}
+      />
+
+      <WalletModal
+        open={walletModalOpen}
+        closeModal={toggleWalletModal}
+        onWalletConnect={onWalletConnect}
+        initialChainId={selectedChain?.chain_id}
       />
     </HeaderFrame>
   )
