@@ -42,6 +42,7 @@ if ('ethereum' in window) {
 }
 
 const mixpanelToken = import.meta.env.VITE_MIXPANEL
+const hasuraApiKey = import.meta.env.VITE_HASURAKEY
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -76,7 +77,10 @@ const ComponentThemeProvider = () => {
       chainId={chainId}
       account={account ?? undefined}
       theme={theme as any}
-      mixpanelToken={mixpanelToken}
+      config={{
+        mixpanelToken,
+        hasuraApiKey
+      }}
     >
       <QueryClientProvider client={queryClient}>
         <Updaters />
