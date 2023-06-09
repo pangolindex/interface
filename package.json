@@ -146,8 +146,6 @@
     "@babel/core": "^7.20.5",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
     "@coinbase/cbpay-js": "^1.6.0",
-    "@sentry/react": "7.38.0",
-    "@sentry/tracing": "7.38.0",
     "@types/react-portal": "4.0.4",
     "graphql-request": "4.2.0",
     "lightweight-charts": "3.8.0",
