@@ -156,7 +156,7 @@ export const HIDE_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: MENU_LINK[] }
  */
 export const HIDE_CHILD_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: CHILD_MENU_TYPES[] } = {
   [ChainId.FUJI]: [BUY_MENU_LINK.c14],
-  [ChainId.AVALANCHE]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
+  [ChainId.AVALANCHE]: [BUY_MENU_LINK.c14],
   [ChainId.WAGMI]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
   [ChainId.COSTON]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
   [ChainId.SONGBIRD]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14],
