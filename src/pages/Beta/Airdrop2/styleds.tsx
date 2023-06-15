@@ -5,15 +5,6 @@ export const PageWrapper = styled(Box)`
   width: 100%;
 `
 
-export const MainTitle = styled.p`
-  font-size: 32px;
-  font-weight: 500;
-  line-height: 66px;
-  color: white;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    font-size: 25px
-  `}
-`
 export const Frame = styled(Box)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
