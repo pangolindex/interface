@@ -9,7 +9,7 @@ const AirdropUI: React.FC = () => {
     <PageWrapper>
       <Box paddingBottom="20px">
         <CenterText>
-          <Text fontSize={[32, 24]} fontWeight={500} lineHeight="64px">
+          <Text fontSize={[24, 32]} fontWeight={500} lineHeight="64px">
             Pangolin Going Crosschain
           </Text>
           {(activeAirdrops.length > 0 || specialAirdrops.length > 0) && (
