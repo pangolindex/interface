@@ -132,8 +132,8 @@ export enum POOL_MENU_LINK {
 }
 
 export enum AIRDROP_MENU_LINK {
-  others = 'others',
-  hederaAirdrop = 'hedera-airdrop'
+  evmAirdrops = 'evm-airdrops',
+  hederaAirdrops = 'hedera-airdrops'
 }
 
 export type CHILD_MENU_TYPES = BUY_MENU_LINK | POOL_MENU_LINK | AIRDROP_MENU_LINK

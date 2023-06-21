@@ -164,18 +164,18 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       isActive: location?.pathname?.startsWith(MENU_LINK.airdrop),
       childrens: [
         {
-          link: `${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.others}`,
+          link: `${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.evmAirdrops}`,
           icon: Airdrop,
-          title: 'Others',
-          id: AIRDROP_MENU_LINK.others,
-          isActive: location?.pathname?.startsWith(`${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.others}`)
+          title: 'Evm Airdrops',
+          id: AIRDROP_MENU_LINK.evmAirdrops,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.evmAirdrops}`)
         },
         {
-          link: `${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.hederaAirdrop}`,
+          link: `${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.hederaAirdrops}`,
           icon: Airdrop,
-          title: 'Hedera',
-          id: AIRDROP_MENU_LINK.hederaAirdrop,
-          isActive: location?.pathname?.startsWith(`${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.hederaAirdrop}`)
+          title: 'Hedera Airdrops',
+          id: AIRDROP_MENU_LINK.hederaAirdrops,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.hederaAirdrops}`)
         }
       ]
     },

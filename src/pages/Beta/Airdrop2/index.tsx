@@ -18,11 +18,11 @@ const Airdrop = () => {
     }
   }, [chainId, params?.type])
 
-  if (params?.type === AIRDROP_MENU_LINK.others) {
+  if (params?.type === AIRDROP_MENU_LINK.evmAirdrops) {
     return <AirdropUI />
   }
 
-  if (params?.type === AIRDROP_MENU_LINK.hederaAirdrop) {
+  if (params?.type === AIRDROP_MENU_LINK.hederaAirdrops) {
     return <HederaAirdropUI />
   }
 
