@@ -97,7 +97,7 @@ export default function App() {
       component: BridgeV2
     },
     {
-      path: MENU_LINK.airdrop,
+      path: `${MENU_LINK.airdrop}/:type`,
       component: AirdropV2
     },
     {
