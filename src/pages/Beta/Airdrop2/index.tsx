@@ -21,7 +21,7 @@ const Airdrop = () => {
     else if (chainId && shouldHideChildItem(chainId, MENU_LINK.airdrop, params?.type as AIRDROP_MENU_LINK)) {
       switchNetwork(CHAINS[ChainId.FUJI])
     }
-  }, [chainId, params?.type])
+  }, [chainId, params?.type, account])
 
   if (params?.type === AIRDROP_MENU_LINK.evmAirdrops) {
     return <AirdropUI />
