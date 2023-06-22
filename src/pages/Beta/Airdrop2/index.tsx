@@ -1,63 +1,31 @@
-import React from 'react'
-import { PageWrapper, MainTitle, CenterText, Frame } from './styleds'
-import { Text, Box } from '@pangolindex/components'
-import { useActiveWeb3React, useChainId } from 'src/hooks'
-import { QuestionAnswer } from './QuestionBox'
-import { Chain, CHAINS } from '@pangolindex/sdk'
-import { activeAirdrops, commingSoonAirdrops, AirdropData, specialAirdrops } from 'src/constants/airdrop'
-import NotConnected from './NotConnected'
-import ChangeChain from './ChangeChain'
-import ClaimReward from './ClaimReward'
-import CommingSoon from './CommingSoon'
+import React, { useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { AIRDROP_MENU_LINK, MENU_LINK } from 'src/constants'
+import { useChainId } from 'src/hooks'
+import { shouldHideChildItem } from 'src/utils'
+import AirdropUI from '../Airdrop2/airdrop'
+import HederaAirdropUI from '../Airdrop2/hederaAirdrop'
+export type AirdropProps = Record<'type', AIRDROP_MENU_LINK>
 
-const AirdropUI: React.FC = () => {
-  const { account } = useActiveWeb3React()
+const Airdrop = () => {
+  const params = useParams<AirdropProps>()
   const chainId = useChainId()
+  const navigate = useNavigate()
 
-  const renderAirdrop = (chain: Chain, key: number, airdropData: AirdropData) => {
-    if (!account) {
-      return <NotConnected key={key} chain={chain} title={airdropData?.title} />
+  useEffect(() => {
+    if (chainId && shouldHideChildItem(chainId, MENU_LINK.airdrop, params?.type as AIRDROP_MENU_LINK)) {
+      navigate('/')
     }
-    if (chainId !== chain?.chain_id) {
-      return <ChangeChain key={key} chain={chain} />
-    }
-    return <ClaimReward key={key} chain={chain} {...airdropData} />
+  }, [chainId, params?.type])
+
+  if (params?.type === AIRDROP_MENU_LINK.evmAirdrops) {
+    return <AirdropUI />
   }
 
-  return (
-    <PageWrapper>
-      <Box paddingBottom="20px">
-        <CenterText>
-          <MainTitle>Pangolin Going Crosschain</MainTitle>
-          <Text fontSize={[18, 14]} fontWeight={500} lineHeight="27px" color="text10">
-            And we are not empty handed!
-          </Text>
-        </CenterText>
-      </Box>
-      <Frame>
-        {Object.entries(specialAirdrops).map(([chainId, airdrops], index) => {
-          return airdrops
-            ?.filter(data => data.active)
-            ?.map(data => renderAirdrop((CHAINS as any)[chainId], index, data))
-        })}
-        {Object.entries(activeAirdrops).map(([chainId, airdrop], index) => {
-          if (!!airdrop && airdrop.active) {
-            return renderAirdrop((CHAINS as any)[chainId], index, airdrop)
-          }
-          return null
-        })}
-        {commingSoonAirdrops.map((chain, index) => (
-          <CommingSoon key={index} chain={chain} />
-        ))}
-      </Frame>
-      <Box display="flex" flexDirection="column" alignItems="center" mb="20px">
-        <Text fontSize={[32, 24]} fontWeight={500} lineHeight="66px" color="text10">
-          HAVE QUESTIONS?
-        </Text>
-        <QuestionAnswer />
-      </Box>
-    </PageWrapper>
-  )
-}
+  if (params?.type === AIRDROP_MENU_LINK.hederaAirdrops) {
+    return <HederaAirdropUI />
+  }
 
-export default AirdropUI
+  return <AirdropUI />
+}
+export default Airdrop

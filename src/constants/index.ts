@@ -13,8 +13,6 @@ export type LogoSize = 24 | 48
 export const getTokenLogoURL = (address: string, chainId: number, size: LogoSize = 24) =>
   `${PANGOLIN_TOKENS_REPO_RAW_BASE_URL}/main/assets/${chainId}/${address}/logo_${size}.png`
 
-export const GOVERNANCE_ADDRESS = '0xb0Ff2b1047d9E8d294c2eD798faE3fA817F43Ee1'
-
 // LEGACY AIRDROPS ADDRESSES
 export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: ZERO_ADDRESS,
@@ -133,4 +131,9 @@ export enum POOL_MENU_LINK {
   elixir = 'elixir'
 }
 
-export type CHILD_MENU_TYPES = BUY_MENU_LINK | POOL_MENU_LINK
+export enum AIRDROP_MENU_LINK {
+  evmAirdrops = 'evm-airdrops',
+  hederaAirdrops = 'hedera-airdrops'
+}
+
+export type CHILD_MENU_TYPES = BUY_MENU_LINK | POOL_MENU_LINK | AIRDROP_MENU_LINK

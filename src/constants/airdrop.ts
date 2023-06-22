@@ -3,30 +3,15 @@ import PNR from 'src/assets/svg/PNG/PNR.svg'
 import PSB from 'src/assets/svg/PNG/PSB.svg'
 import PNG_HEDRA from 'src/assets/svg/PNG/PNG_HEDERA.svg'
 import PNG_EVMOS from 'src/assets/svg/PNG/PNG_EVMOS.svg'
-import Airdrop from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/Airdrop.sol/Airdrop.json'
-import MerkleAirdrop from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/Merkledrop.sol/Merkledrop.json'
-import MerkleAirdropToStaking from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/MerkledropToStaking.sol/MerkledropToStaking.json'
-import MerkleAirdropCompliant from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-token/MerkledropToStakingCompliant.sol/MerkledropToStakingCompliant.json'
-import { NEAR_MAINNET, FLARE_MAINNET, ChainId, AirdropType, CHAINS } from '@pangolindex/sdk'
+import { ChainId, Token, ALL_CHAINS, AirdropType } from '@pangolindex/sdk'
+import { Tokens } from '@pangolindex/components'
 
-export interface AirdropData {
-  address: string
-  active: boolean
+interface AirdropData {
+  contractAddress: string
   type: AirdropType
-  title?: string
+  token: Token
+  logo: string
 }
-
-export const activeAirdrops: { [chainId in ChainId]?: AirdropData } = {
-  [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD]!.contracts!.airdrop,
-  [ChainId.FLARE_MAINNET]: CHAINS[ChainId.FLARE_MAINNET]!.contracts!.airdrop
-}
-
-export const specialAirdrops: { [chainId in ChainId]?: AirdropData[] } = {
-  [ChainId.SONGBIRD]: CHAINS[ChainId.SONGBIRD]!.contracts!.specialAirdrops,
-  [ChainId.FLARE_MAINNET]: CHAINS[ChainId.FLARE_MAINNET]!.contracts!.specialAirdrops
-}
-
-export const commingSoonAirdrops = [NEAR_MAINNET, FLARE_MAINNET]
 
 export const logoMapping = {
   [ChainId.COSTON]: PNG,
@@ -59,10 +44,31 @@ export const logoMapping = {
   [ChainId.OP]: ''
 }
 
-export const airdropAbiMapping = {
-  [AirdropType.LEGACY]: Airdrop.abi,
-  [AirdropType.MERKLE]: MerkleAirdrop.abi,
-  [AirdropType.MERKLE_TO_STAKING]: MerkleAirdropToStaking.abi,
-  [AirdropType.MERKLE_TO_STAKING_COMPLIANT]: MerkleAirdropCompliant.abi,
-  [AirdropType.NEAR_AIRDROP]: undefined
-}
+const { PNG: PNG_TOKEN } = Tokens
+
+export const activeAirdrops: AirdropData[] = ALL_CHAINS.filter(
+  chain => chain.mainnet && chain.contracts?.airdrop?.active
+).map(chain => ({
+  contractAddress: chain!.contracts!.airdrop!.address,
+  type: chain!.contracts!.airdrop!.type,
+  token: PNG_TOKEN[(chain!.chain_id ?? ChainId.AVALANCHE) as ChainId],
+  logo: logoMapping[(chain!.chain_id ?? ChainId.AVALANCHE) as ChainId]
+}))
+
+export const specialAirdrops: AirdropData[] = ALL_CHAINS.filter(
+  chain => chain.contracts?.specialAirdrops && chain.contracts?.specialAirdrops.length > 0
+).reduce((acc, chain) => {
+  const airdrops = chain
+    .contracts!.specialAirdrops!.filter(airdrop => airdrop.active)
+    .map(airdrop => ({
+      contractAddress: airdrop!.address,
+      type: airdrop!.type,
+      token: PNG_TOKEN[(chain!.chain_id ?? ChainId.AVALANCHE) as ChainId],
+      logo: logoMapping[(chain!.chain_id ?? ChainId.AVALANCHE) as ChainId],
+      title: airdrop!.title
+    }))
+  const arr = acc.concat(airdrops)
+  return arr
+}, [] as AirdropData[])
+
+export const comingSoonAirdrops: { token: Token; logo: string }[] = []

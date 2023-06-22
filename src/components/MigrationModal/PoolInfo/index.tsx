@@ -9,12 +9,13 @@ import {
   useTranslation,
   MinichefStakingInfo,
   useTokenBalance,
-  wrappedCurrencyAmount
+  wrappedCurrencyAmount,
+  useActiveWeb3React
 } from '@pangolindex/components'
 import { Pair, TokenAmount, JSBI } from '@pangolindex/sdk'
 import { useGetPairDataFromPair } from '../../../state/stake/hooks'
 import numeral from 'numeral'
-import { useActiveWeb3React, useChainId, usePngSymbol } from '../../../hooks'
+import { useChainId, usePngSymbol } from '../../../hooks'
 import { tryParseAmount } from 'src/utils'
 
 export interface PoolInfoProps {

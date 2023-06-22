@@ -1,11 +1,10 @@
 import { TransactionResponse } from '@ethersproject/providers'
 import { useCallback, useMemo } from 'react'
 import { useDispatch } from 'src/state'
-
-import { useActiveWeb3React } from '../../hooks'
 import { AppState, useSelector } from '../index'
 import { addTransaction } from './actions'
 import { TransactionDetails } from './reducer'
+import { useActiveWeb3React } from '@pangolindex/components'
 
 // helper that can take a ethers library transaction response and add it to the list of transactions
 export function useTransactionAdder(): (

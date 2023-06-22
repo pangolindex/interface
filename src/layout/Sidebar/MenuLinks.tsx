@@ -15,9 +15,8 @@ import {
   C14
 } from 'src/components/Icons'
 import Charts from 'src/assets/svg/menu/statatics.svg'
-import { MENU_LINK, BUY_MENU_LINK, POOL_MENU_LINK, CHILD_MENU_TYPES } from 'src/constants'
+import { MENU_LINK, BUY_MENU_LINK, POOL_MENU_LINK, CHILD_MENU_TYPES, AIRDROP_MENU_LINK } from 'src/constants'
 import Bridge from 'src/assets/svg/menu/bridge.svg'
-import Governance from 'src/assets/svg/menu/governance.svg'
 import { useLocation } from 'react-router-dom'
 import { useChainId } from 'src/hooks'
 import { shouldHideChildItem, shouldHideMenuItem } from 'src/utils'
@@ -43,13 +42,32 @@ export interface LinkProps {
   childrens?: Array<LinkProps>
 }
 
+// Child MenuItem Interface
+interface IChildMenuItem {
+  link: string
+  icon: any
+  title: string
+  id: CHILD_MENU_TYPES
+  isActive: boolean
+}
+
+// Base level MenuItem Interface
+interface IMenuItem {
+  link: MENU_LINK | string
+  icon: any
+  title: string
+  id: string
+  isActive: boolean
+  childrens?: IChildMenuItem[]
+}
+
 export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
   const { t } = useTranslation()
   const chainId = useChainId()
 
   const location: any = useLocation()
 
-  let mainLinks = [
+  let mainLinks: IMenuItem[] = [
     {
       link: MENU_LINK.dashboard,
       icon: Dashboard,
@@ -75,21 +93,21 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
           link: `${MENU_LINK.buy}/${BUY_MENU_LINK.coinbasePay}`,
           icon: CoinbasePay,
           title: `Coinbase Pay`,
-          id: `${BUY_MENU_LINK.coinbasePay}`,
+          id: BUY_MENU_LINK.coinbasePay,
           isActive: location?.pathname?.startsWith(`${MENU_LINK.buy}/${BUY_MENU_LINK.coinbasePay}`)
         },
         {
           link: `${MENU_LINK.buy}/${BUY_MENU_LINK.moonpay}`,
           icon: MoonPay,
           title: 'Moonpay',
-          id: `${BUY_MENU_LINK.moonpay}`,
+          id: BUY_MENU_LINK.moonpay,
           isActive: location?.pathname?.startsWith(`${MENU_LINK.buy}/${BUY_MENU_LINK.moonpay}`)
         },
         {
           link: `${MENU_LINK.buy}/${BUY_MENU_LINK.c14}`,
           icon: C14,
           title: 'C14',
-          id: `${BUY_MENU_LINK.c14}`,
+          id: BUY_MENU_LINK.c14,
           isActive: location?.pathname?.startsWith(`${MENU_LINK.buy}/${BUY_MENU_LINK.c14}`)
         }
       ]
@@ -105,14 +123,14 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
           link: `${MENU_LINK.pool}/${POOL_MENU_LINK.standard}`,
           icon: Pool,
           title: 'Standard',
-          id: `${POOL_MENU_LINK.standard}`,
+          id: POOL_MENU_LINK.standard,
           isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.standard}`)
         },
         {
           link: `${MENU_LINK.pool}/${POOL_MENU_LINK.elixir}`,
           icon: Pool,
           title: 'Elixir',
-          id: `${POOL_MENU_LINK.elixir}`,
+          id: POOL_MENU_LINK.elixir,
           isActive: location?.pathname?.startsWith(`${MENU_LINK.pool}/${POOL_MENU_LINK.elixir}`)
         }
       ]
@@ -143,7 +161,23 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       icon: Airdrop,
       title: 'Airdrop',
       id: 'airdrop',
-      isActive: location?.pathname?.startsWith(MENU_LINK.airdrop)
+      isActive: location?.pathname?.startsWith(MENU_LINK.airdrop),
+      childrens: [
+        {
+          link: `${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.evmAirdrops}`,
+          icon: Airdrop,
+          title: 'Evm Airdrops',
+          id: AIRDROP_MENU_LINK.evmAirdrops,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.evmAirdrops}`)
+        },
+        {
+          link: `${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.hederaAirdrops}`,
+          icon: Airdrop,
+          title: 'Hedera Airdrops',
+          id: AIRDROP_MENU_LINK.hederaAirdrops,
+          isActive: location?.pathname?.startsWith(`${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.hederaAirdrops}`)
+        }
+      ]
     },
     {
       link: MENU_LINK.bridge,
@@ -158,7 +192,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
     .map(link => {
       if (link.childrens) {
         link.childrens = link.childrens.filter(
-          childLink => !shouldHideChildItem(chainId, link.link as MENU_LINK, childLink.link as CHILD_MENU_TYPES)
+          childLink => !shouldHideChildItem(chainId, link.link as MENU_LINK, childLink.id)
         )
       }
       return link
@@ -171,12 +205,6 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       icon: Charts,
       title: t('header.charts'),
       id: 'charts'
-    },
-    {
-      link: 'https://gov.pangolin.exchange',
-      icon: Governance,
-      title: t('header.forum'),
-      id: 'forum'
     }
   ]
 

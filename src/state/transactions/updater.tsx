@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'src/state'
-import { useActiveWeb3React } from '../../hooks'
 import { AppState, useSelector } from '../index'
 import { checkedTransaction, finalizeTransaction } from './actions'
-import { useLibrary, useAddPopup, useBlockNumber } from '@pangolindex/components'
+import { useLibrary, useAddPopup, useBlockNumber, useActiveWeb3React } from '@pangolindex/components'
 
 export function shouldCheck(
   lastBlockNumber: number,
