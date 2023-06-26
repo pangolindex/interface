@@ -53,5 +53,6 @@ export const blockClients: { [chainId in ChainId]: ApolloClient<NormalizedCacheO
   [ChainId.FUSE]: undefined,
   [ChainId.MOONRIVER]: undefined,
   [ChainId.MOONBEAM]: undefined,
-  [ChainId.OP]: undefined
+  [ChainId.OP]: undefined,
+  [ChainId.SKALE_BELLATRIX_TESTNET]: undefined
 }

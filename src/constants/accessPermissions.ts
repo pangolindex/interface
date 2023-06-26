@@ -29,7 +29,8 @@ export const LIMITORDERLIST_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.FUSE]: false,
   [ChainId.MOONRIVER]: false,
   [ChainId.MOONBEAM]: false,
-  [ChainId.OP]: false
+  [ChainId.OP]: false,
+  [ChainId.SKALE_BELLATRIX_TESTNET]: false
 }
 
 export const MYPORTFOLIO_ACCESS: { [chainId in ChainId]: boolean } = {
@@ -60,7 +61,8 @@ export const MYPORTFOLIO_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.FUSE]: false,
   [ChainId.MOONRIVER]: false,
   [ChainId.MOONBEAM]: false,
-  [ChainId.OP]: false
+  [ChainId.OP]: false,
+  [ChainId.SKALE_BELLATRIX_TESTNET]: false
 }
 
 export const PAIRINFO_ACCESS: { [chainId in ChainId]: boolean } = {
@@ -91,7 +93,8 @@ export const PAIRINFO_ACCESS: { [chainId in ChainId]: boolean } = {
   [ChainId.FUSE]: false,
   [ChainId.MOONRIVER]: false,
   [ChainId.MOONBEAM]: false,
-  [ChainId.OP]: false
+  [ChainId.OP]: false,
+  [ChainId.SKALE_BELLATRIX_TESTNET]: false
 }
 
 const onlyBridgeHideOtherMenus: MENU_LINK[] = [
@@ -146,7 +149,8 @@ export const HIDE_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: MENU_LINK[] }
   [ChainId.FUSE]: onlyBridgeHideOtherMenus,
   [ChainId.MOONRIVER]: onlyBridgeHideOtherMenus,
   [ChainId.MOONBEAM]: onlyBridgeHideOtherMenus,
-  [ChainId.OP]: onlyBridgeHideOtherMenus
+  [ChainId.OP]: onlyBridgeHideOtherMenus,
+  [ChainId.SKALE_BELLATRIX_TESTNET]: [MENU_LINK.vote, MENU_LINK.stake]
 }
 
 /**
@@ -182,5 +186,6 @@ export const HIDE_CHILD_MENU_ACCESS_MANAGEMENT: { [chainId in ChainId]?: CHILD_M
   [ChainId.FUSE]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14, AIRDROP_MENU_LINK.hederaAirdrops],
   [ChainId.MOONRIVER]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14, AIRDROP_MENU_LINK.hederaAirdrops],
   [ChainId.MOONBEAM]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14, AIRDROP_MENU_LINK.hederaAirdrops],
-  [ChainId.OP]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14, AIRDROP_MENU_LINK.hederaAirdrops]
+  [ChainId.OP]: [POOL_MENU_LINK.elixir, BUY_MENU_LINK.c14, AIRDROP_MENU_LINK.hederaAirdrops],
+  [ChainId.SKALE_BELLATRIX_TESTNET]: [BUY_MENU_LINK.c14, AIRDROP_MENU_LINK.hederaAirdrops]
 }

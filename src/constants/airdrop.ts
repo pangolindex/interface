@@ -41,7 +41,8 @@ export const logoMapping = {
   [ChainId.FUSE]: '',
   [ChainId.MOONRIVER]: '',
   [ChainId.MOONBEAM]: '',
-  [ChainId.OP]: ''
+  [ChainId.OP]: '',
+  [ChainId.SKALE_BELLATRIX_TESTNET]: PNG
 }
 
 const { PNG: PNG_TOKEN } = Tokens
