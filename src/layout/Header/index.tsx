@@ -39,7 +39,7 @@ import {
 } from './styled'
 import { Hidden, MEDIA_WIDTHS } from 'src/theme'
 import { useChainId } from 'src/hooks'
-import { DISCORD_SUPPORT, LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
+import { DISCORD_SUPPORT, LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS, supportedWallets } from 'src/constants'
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
 import { CHAINS, Chain } from '@pangolindex/sdk'
@@ -185,6 +185,7 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
         closeModal={toggleWalletModal}
         onWalletConnect={onWalletConnect}
         initialChainId={selectedChain?.chain_id}
+        supportedWallets={supportedWallets}
       />
     </HeaderFrame>
   )
