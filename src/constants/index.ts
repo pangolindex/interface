@@ -3,8 +3,8 @@ import {
   ZERO_ADDRESS,
   SUPPORTED_WALLETS,
   SUPPORTED_EVM_CHAINS_ID,
-  Pangolin_Wallet,
-  WalletConnectWallet
+  PangolinWallet,
+  PangolinWalletConnectWallet
 } from '@pangolindex/components'
 
 export const LEGACY_PAGE = 'https://legacy.pangolin.exchange'
@@ -149,7 +149,7 @@ export type CHILD_MENU_TYPES = BUY_MENU_LINK | POOL_MENU_LINK | AIRDROP_MENU_LIN
 
 const walletConnectProjectId = import.meta.env.VITE_WALLETCONNECT_PROJECTID
 
-export const supportedWallets: { [key: string]: Pangolin_Wallet } = {
+export const supportedWallets: { [key: string]: PangolinWallet } = {
   ...SUPPORTED_WALLETS
 }
 
@@ -163,7 +163,7 @@ if (walletConnectProjectId) {
     return acc
   }, {} as { [chainId in number]: string })
 
-  const walletConnectWallet = new WalletConnectWallet({
+  const walletConnectWallet = new PangolinWalletConnectWallet({
     rpcMap: rpcs,
     projectId: walletConnectProjectId,
     metadata: {
