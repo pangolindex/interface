@@ -44,9 +44,9 @@ const HederaAirdropUI: React.FC = () => {
     },
     {
       id: 5,
-      title: 'Will I need to claim on Hedera?',
+      title: 'Will I need to claim your PBAR on Hedera?',
       content:
-        'No. If you register in the time window and you qualify, we will automatically send your PBAR to your wallet.',
+        'Yes. If you register in the time window and you qualify, you will need to return here to claim your PBAR after the registration window.',
       subcategory: 'hedera'
     },
     {
