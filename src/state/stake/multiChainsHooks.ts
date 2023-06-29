@@ -37,5 +37,6 @@ export const useTotalPngEarnedHook: UseTotalPngEarnedHookType = {
   [ChainId.FUSE]: useDummyHook,
   [ChainId.MOONRIVER]: useDummyHook,
   [ChainId.MOONBEAM]: useDummyHook,
-  [ChainId.OP]: useDummyHook
+  [ChainId.OP]: useDummyHook,
+  [ChainId.SKALE_BELLATRIX_TESTNET]: useTotalPngEarned
 }

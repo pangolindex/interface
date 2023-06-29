@@ -25,7 +25,8 @@ export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
   [ChainId.HEDERA_MAINNET]: ZERO_ADDRESS,
   [ChainId.COSTON2]: ZERO_ADDRESS,
   [ChainId.EVMOS_TESTNET]: ZERO_ADDRESS,
-  [ChainId.EVMOS_MAINNET]: ZERO_ADDRESS
+  [ChainId.EVMOS_MAINNET]: ZERO_ADDRESS,
+  [ChainId.SKALE_BELLATRIX_TESTNET]: ZERO_ADDRESS
 }
 
 export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
@@ -56,7 +57,8 @@ export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUSE]: CHAINS[ChainId.FUSE].name,
   [ChainId.MOONRIVER]: CHAINS[ChainId.MOONRIVER].name,
   [ChainId.MOONBEAM]: CHAINS[ChainId.MOONBEAM].name,
-  [ChainId.OP]: CHAINS[ChainId.OP].name
+  [ChainId.OP]: CHAINS[ChainId.OP].name,
+  [ChainId.SKALE_BELLATRIX_TESTNET]: CHAINS[ChainId.SKALE_BELLATRIX_TESTNET].name
 }
 
 export const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
@@ -87,7 +89,8 @@ export const NETWORK_CURRENCY: { [chainId in ChainId]?: string } = {
   [ChainId.FUSE]: CHAINS[ChainId.FUSE].symbol,
   [ChainId.MOONRIVER]: CHAINS[ChainId.MOONRIVER].symbol,
   [ChainId.MOONBEAM]: CHAINS[ChainId.MOONBEAM].symbol,
-  [ChainId.OP]: CHAINS[ChainId.OP].symbol
+  [ChainId.OP]: CHAINS[ChainId.OP].symbol,
+  [ChainId.SKALE_BELLATRIX_TESTNET]: CHAINS[ChainId.SKALE_BELLATRIX_TESTNET].symbol
 }
 
 // default allowed slippage, in bips

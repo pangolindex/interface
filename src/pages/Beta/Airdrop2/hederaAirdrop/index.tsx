@@ -1,6 +1,6 @@
 import React from 'react'
 import { PageWrapper, CenterText, Frame } from '../airdrop/styleds'
-import { Text, Box, HederaAirdrop } from '@pangolindex/components'
+import { Text, Box, ClosedRegistration } from '@pangolindex/components'
 import { CHAINS, ChainId, Token } from '@pangolindex/sdk'
 import { QuestionAnswer } from '../QuestionBox'
 import { SubCategories } from 'src/state/bridge/hooks'
@@ -72,7 +72,7 @@ const HederaAirdropUI: React.FC = () => {
       </Box>
       <Frame>
         <>
-          <HederaAirdrop
+          <ClosedRegistration
             token={PBAR}
             logo={
               'https://raw.githubusercontent.com/pangolindex/tokens/main/assets/296/0x000000000000000000000000000000000040B1FA/logo_48.png'
