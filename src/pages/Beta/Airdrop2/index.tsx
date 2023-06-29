@@ -5,14 +5,13 @@ import { useChainId } from 'src/hooks'
 import { shouldHideChildItem, switchNetwork } from 'src/utils'
 import AirdropUI from '../Airdrop2/airdrop'
 import HederaAirdropUI from '../Airdrop2/hederaAirdrop'
-import { useWeb3React } from '@web3-react/core'
-import { useWalletModalToggle } from '@pangolindex/components'
+import { useActiveWeb3React, useWalletModalToggle } from '@pangolindex/components'
 import { CHAINS, ChainId } from '@pangolindex/sdk'
 export type AirdropProps = Record<'type', AIRDROP_MENU_LINK>
 
 const Airdrop = () => {
   const params = useParams<AirdropProps>()
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
   const chainId = useChainId()
   const toggleWalletModal = useWalletModalToggle()
 
