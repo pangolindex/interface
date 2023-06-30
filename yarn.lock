@@ -4077,10 +4077,10 @@
   dependencies:
     "@defi.org/web3-candies" "4.x"
 
-"@pangolindex/components@7.3.1-rc.0":
-  version "7.3.1-rc.0"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-7.3.1-rc.0.tgz#4795c5e5efe54e92c1a08b3e5fed46330e9f68b3"
-  integrity sha512-XG7hiVa4Xvm+130dUMfiXNrTgY5zWvnHBy9yRgQ+msx2ZHkwhH+mMIBrMs/eERvTHrzz2no65Zf3koMsSAYAjw==
+"@pangolindex/components@7.3.1":
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-7.3.1.tgz#2fa1ab009f101370c7db958dfccf2484e715931b"
+  integrity sha512-yqlxy00MIzs8LWIpe/KmI7t7D9maHq7XlHnoRQKSQi1R7KR7TpWKU+kxzsvVADUDEZgjqlts9frhVcGnzwwPrA==
   dependencies:
     "@0xsquid/sdk" "1.3.2"
     "@coinbase/wallet-sdk" "^3.6.3"
@@ -4223,10 +4223,10 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@pangolindex/sdk@5.3.1-rc.0":
-  version "5.3.1-rc.0"
-  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-5.3.1-rc.0.tgz#140f56c75ccd68fdb758ecc9080ad57ddd6374e6"
-  integrity sha512-Adj9TUvLkd5Ec4H79xEsm3Je81puOX69iSRxYwrzIUhTmhatleZVZZ4CNsrKY73UMU77CnKsqhh6g7EUujdK9Q==
+"@pangolindex/sdk@5.3.1":
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-5.3.1.tgz#8543f24cfe3cfc030cfb46466fcd2ada520a36f6"
+  integrity sha512-eAkzg0InbDU6UTfxAcl2gFM68fVTzJfKi7eVsQNB3HwG9Uzfnh9fwVsimjraRWLykMXqVvVVWfWOXcqmdQn5lw==
   dependencies:
     big.js "^5.2.2"
     decimal.js-light "^2.5.0"
