@@ -6,9 +6,7 @@ import { useChainId } from 'src/hooks'
 import { shouldHideMenuItem } from 'src/utils'
 import Web3ReactManager from 'src/components/Web3ReactManager'
 import Intercom from 'src/intercom'
-import { WalletModal } from '@pangolindex/components'
-import { useWeb3React } from '@web3-react/core'
-import { Web3Provider } from '@ethersproject/providers'
+import { WalletModal, useActiveWeb3React } from '@pangolindex/components'
 const Polling = React.lazy(() => import('../components/Header/Polling'))
 const Popups = React.lazy(() => import('../components/Popups'))
 const Dashboard = React.lazy(() => import('./Dashboard'))
@@ -112,19 +110,26 @@ export default function App() {
 
   const [walletModalActive, setWalletModalActive] = React.useState<boolean>(false)
 
-  const handleMessengerStatus = useCallback(() => {
-    setWalletModalActive(!walletModalActive)
-  }, [walletModalActive, setWalletModalActive])
+  const handleMessengerStatus = useCallback(
+    (status: boolean) => {
+      setWalletModalActive(status)
+    },
+    [setWalletModalActive]
+  )
 
-  const { account } = useWeb3React<Web3Provider>()
+  const { account } = useActiveWeb3React()
 
   return (
     <Suspense fallback={null}>
       <Intercom
         appID={'uj2kwt4z'}
         walletAddress={account as string}
-        onMessengerOpen={handleMessengerStatus}
-        onMessengerHide={handleMessengerStatus}
+        onMessengerOpen={() => {
+          handleMessengerStatus(true)
+        }}
+        onMessengerHide={() => {
+          handleMessengerStatus(false)
+        }}
       />
       {!account && (
         <WalletModal
