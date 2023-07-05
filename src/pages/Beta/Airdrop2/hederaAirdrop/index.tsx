@@ -1,19 +1,20 @@
 import React from 'react'
 import { PageWrapper, CenterText, Frame } from '../airdrop/styleds'
-import { Text, Box, HederaAirdrop } from '@pangolindex/components'
-import { CHAINS, ChainId, Token } from '@pangolindex/sdk'
+import { Text, Box, Airdrop, Tokens } from '@pangolindex/components'
+import { ChainId, HEDERA_MAINNET } from '@pangolindex/sdk'
 import { QuestionAnswer } from '../QuestionBox'
 import { SubCategories } from 'src/state/bridge/hooks'
+import { getTokenLogoURL } from 'src/constants'
+
+const { PNG } = Tokens
+const hederaAirdrop = {
+  contractAddress: HEDERA_MAINNET!.contracts!.airdrop!.address,
+  type: HEDERA_MAINNET!.contracts!.airdrop!.type,
+  token: PNG[ChainId.HEDERA_MAINNET],
+  logo: getTokenLogoURL(PNG[ChainId.HEDERA_MAINNET].address, ChainId.HEDERA_MAINNET, 48)
+}
 
 const HederaAirdropUI: React.FC = () => {
-  const PBAR = new Token(
-    ChainId.HEDERA_MAINNET,
-    CHAINS[ChainId.HEDERA_MAINNET].contracts!.png,
-    8,
-    CHAINS[ChainId.HEDERA_MAINNET].png_symbol,
-    'Pangolin Hedera'
-  )
-
   const data: SubCategories[] = [
     {
       id: 1,
@@ -44,9 +45,9 @@ const HederaAirdropUI: React.FC = () => {
     },
     {
       id: 5,
-      title: 'Will I need to claim on Hedera?',
+      title: 'Will I need to claim your PBAR on Hedera?',
       content:
-        'No. If you register in the time window and you qualify, we will automatically send your PBAR to your wallet.',
+        'Yes. If you register in the time window and you qualify, you will need to return here to claim your PBAR after the registration window.',
       subcategory: 'hedera'
     },
     {
@@ -72,12 +73,7 @@ const HederaAirdropUI: React.FC = () => {
       </Box>
       <Frame>
         <>
-          <HederaAirdrop
-            token={PBAR}
-            logo={
-              'https://raw.githubusercontent.com/pangolindex/tokens/main/assets/296/0x000000000000000000000000000000000040B1FA/logo_48.png'
-            }
-          />
+          <Airdrop {...hederaAirdrop} />
         </>
         <Box display="flex" flexDirection="column" alignItems="center" mb="20px">
           <Text fontSize={[32, 24]} fontWeight={500} lineHeight="66px" color="text10">
