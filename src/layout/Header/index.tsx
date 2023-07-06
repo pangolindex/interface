@@ -1,8 +1,6 @@
 import {
-  Button,
   NetworkSelection,
   useAccountBalanceHook,
-  useTranslation,
   TokenInfoModal,
   Tokens,
   useOnClickOutside,
@@ -10,7 +8,9 @@ import {
   useModalOpen as useModalOpenComponents,
   ApplicationModal as ApplicationModalComponents,
   WalletModal,
-  useActiveWeb3React
+  useActiveWeb3React,
+  ToggleButtons,
+  useApplicationState
 } from '@pangolindex/components'
 import React, { useState, useRef, useMemo, useCallback } from 'react'
 import { usePNGCirculationSupply } from '../../hooks'
@@ -39,7 +39,7 @@ import {
 } from './styled'
 import { Hidden, MEDIA_WIDTHS } from 'src/theme'
 import { useChainId } from 'src/hooks'
-import { DISCORD_SUPPORT, LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
+import { DISCORD_SUPPORT, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
 import { CHAINS, Chain } from '@pangolindex/sdk'
@@ -54,7 +54,7 @@ interface Props {
 export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
-  const { t } = useTranslation()
+  const { useSubgraph, setUseSubgraph } = useApplicationState()
   const { PNG } = Tokens
   const useETHBalances = useAccountBalanceHook[chainId]
 
@@ -120,9 +120,16 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
         <HeaderControls>
           <HeaderElement>
             <LegacyButtonWrapper>
-              <Button variant="primary" height={36} padding="4px 6px" href={LEGACY_PAGE} as="a">
-                <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
-              </Button>
+              <ToggleButtons
+                options={['Subgraph', 'Contract']}
+                value={useSubgraph[chainId] ? 'Subgraph' : 'Contract'}
+                onChange={value =>
+                  setUseSubgraph((state: any) => ({
+                    ...state,
+                    [chainId]: value === 'Subgraph'
+                  }))
+                }
+              />
               <SupportButton href={DISCORD_SUPPORT} target="_blank">
                 <DiscordIcon style={{ width: '18px', fill: isDark ? '#fff' : undefined }} />
                 <span style={{ whiteSpace: 'nowrap', marginLeft: '5px' }}>Support</span>
