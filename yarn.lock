@@ -4077,10 +4077,10 @@
   dependencies:
     "@defi.org/web3-candies" "4.x"
 
-"@pangolindex/components@7.3.3":
-  version "7.3.3"
-  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-7.3.3.tgz#93b4a7007fe59307e1f3fa2b304849bb2bc2cc67"
-  integrity sha512-rjNFXk8HEu6/Lnejq12ve3gk0CBCxeWFjrct912t9DqlFMJQf9X5EW94qTY580YH6vMFYAz0FkMBWDHi7pv4Gw==
+"@pangolindex/components@7.3.4":
+  version "7.3.4"
+  resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-7.3.4.tgz#341f8a6001ceaae867f7b4ecca7f35ea7e514399"
+  integrity sha512-JkowgOAoK3GlFj9k/NpGPqFXE+ey2NY5Fa6TI2ohlpxhEzmOigeW274vcrAtFCb2pi3qQHJ0osmbb45OCVuYmg==
   dependencies:
     "@0xsquid/sdk" "1.3.2"
     "@coinbase/wallet-sdk" "^3.6.3"
