@@ -10,7 +10,6 @@ import {
 export const LEGACY_PAGE = 'https://legacy.pangolin.exchange'
 export const PANGOLIN_TOKENS_REPO_RAW_BASE_URL = `https://raw.githubusercontent.com/pangolindex/tokens`
 
-export const DIRECTUS_GRAPHQL_URL = `https://pangolin.directus.app/graphql`
 export const COINGECKO_API = 'https://api.coingecko.com/api/v3'
 
 export const DISCORD_SUPPORT = 'https://discord.com/channels/786999832027463710/1034725721660211210'

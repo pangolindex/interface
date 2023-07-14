@@ -2,7 +2,7 @@ import React from 'react'
 import { PageWrapper, CenterText, Frame } from './styleds'
 import { Text, Box, Airdrop, ComingSoon } from '@pangolindex/components'
 import { QuestionAnswer } from '../QuestionBox'
-import { activeAirdrops, comingSoonAirdrops, specialAirdrops } from 'src/constants/airdrop'
+import { activeAirdrops, airdropQuestions, comingSoonAirdrops, specialAirdrops } from 'src/constants/airdrop'
 
 const AirdropUI: React.FC = () => {
   return (
@@ -42,7 +42,7 @@ const AirdropUI: React.FC = () => {
         <Text fontSize={[32, 24]} fontWeight={500} lineHeight="66px" color="text10">
           HAVE QUESTIONS?
         </Text>
-        <QuestionAnswer />
+        <QuestionAnswer questions={airdropQuestions} />
       </Box>
     </PageWrapper>
   )
