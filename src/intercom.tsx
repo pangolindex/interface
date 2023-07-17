@@ -2,24 +2,22 @@ import React, { useEffect } from 'react'
 
 interface IntercomProps {
   appID: string
-  walletAddress?: string
   onMessengerOpen?: () => void
   onMessengerHide?: () => void
 }
 
-const Intercom: React.FC<IntercomProps> = ({ appID, walletAddress, onMessengerOpen, onMessengerHide }) => {
+const Intercom: React.FC<IntercomProps> = ({ appID, onMessengerOpen, onMessengerHide }) => {
   useEffect(() => {
     ;(window as any).Intercom('boot', {
-      app_id: appID,
-      ...(walletAddress && { user_id: walletAddress })
+      app_id: appID
     })
-    if (onMessengerOpen && !walletAddress) {
+    if (onMessengerOpen) {
       ;(window as any).Intercom('onShow', onMessengerOpen)
     }
-    if (onMessengerHide && !walletAddress) {
+    if (onMessengerHide) {
       ;(window as any).Intercom('onHide', onMessengerHide)
     }
-  }, [appID, walletAddress, onMessengerOpen, onMessengerHide])
+  }, [appID, onMessengerOpen, onMessengerHide])
 
   useEffect(() => {
     return () => {
