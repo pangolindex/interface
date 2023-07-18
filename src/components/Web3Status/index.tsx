@@ -3,7 +3,6 @@ import {
   Box,
   gnosisSafe,
   injected,
-  walletconnect,
   walletlink,
   xDefi,
   avalancheCore,
@@ -13,7 +12,8 @@ import {
   useWalletModalToggle,
   shortenAddressMapping,
   HashConnector,
-  useActiveWeb3React
+  useActiveWeb3React,
+  WalletConnectConnector
 } from '@pangolindex/components'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken } from 'polished'
@@ -149,7 +149,7 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
         <img src={CoinbaseWalletIcon} alt={'CoinbaseWallet'} />
       </IconWrapper>
     )
-  } else if (connector === walletconnect) {
+  } else if (connector instanceof WalletConnectConnector) {
     return (
       <IconWrapper size={16}>
         <img src={WalletConnectIcon} alt={'WalletConnect'} />

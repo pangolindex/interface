@@ -5,6 +5,8 @@ import { MENU_LINK } from 'src/constants'
 import { useChainId } from 'src/hooks'
 import { shouldHideMenuItem } from 'src/utils'
 import Web3ReactManager from 'src/components/Web3ReactManager'
+import Intercom from 'src/intercom'
+
 const Polling = React.lazy(() => import('../components/Header/Polling'))
 const Popups = React.lazy(() => import('../components/Popups'))
 const Dashboard = React.lazy(() => import('./Dashboard'))
@@ -108,6 +110,7 @@ export default function App() {
 
   return (
     <Suspense fallback={null}>
+      <Intercom appID={'uj2kwt4z'} />
       <AppWrapper>
         <BodyWrapper>
           <Popups />

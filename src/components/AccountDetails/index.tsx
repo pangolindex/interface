@@ -7,13 +7,12 @@ import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
 import {
-  SUPPORTED_WALLETS,
   NearConnector,
   useAllTransactionsClearer,
   useTranslation,
   getEtherscanLink,
   shortenAddressMapping,
-  InjectedWallet,
+  PangolinInjectedWallet,
   injected,
   useActiveWeb3React
 } from '@pangolindex/components'
@@ -38,6 +37,7 @@ import {
   YourAccount
 } from './styled'
 import Scrollbars from 'react-custom-scrollbars'
+import { supportedWallets } from 'src/constants'
 
 function renderTransactions(transactions: string[]) {
   return (
@@ -73,10 +73,10 @@ export default function AccountDetails({
   const dispatch = useDispatch()
   const clearAllTxComponents = useAllTransactionsClearer()
 
-  const wallet = Object.values(SUPPORTED_WALLETS).find(_wallet => _wallet.isActive)
+  const wallet = Object.values(supportedWallets).find(_wallet => _wallet.isActive)
 
   function getStatusIcon() {
-    if (wallet instanceof InjectedWallet || wallet?.connector === injected) {
+    if (wallet instanceof PangolinInjectedWallet || wallet?.connector === injected) {
       return (
         <IconWrapper size={16}>
           <Identicon />
