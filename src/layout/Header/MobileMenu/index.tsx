@@ -12,15 +12,14 @@ import {
 } from './styled'
 import { MenuLinks } from '../../Sidebar/MenuLinks'
 import SocialMedia from 'src/layout/SocialMedia'
-import { Box, Text, useTranslation, Modal } from '@pangolindex/components'
+import { Box, Modal } from '@pangolindex/components'
 import { Scrollbars } from 'react-custom-scrollbars'
-import Logout from 'src/assets/svg/menu/logout.svg'
 import { useDarkModeManager } from 'src/state/user/hooks'
 import LanguageSelection from 'src/components/LanguageSelection'
 import { MobileHeader } from '../MobileHeader'
 import Footer from 'src/layout/Footer'
 import TransactionModal from './TransactionModal'
-import { LEGACY_PAGE } from 'src/constants'
+import SwitchSubgraph from 'src/components/SwitchSubgraph'
 
 interface Props {
   activeMobileMenu: boolean
@@ -31,8 +30,6 @@ const MobileMenu: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => 
   const [isDark, toggleDarkMode] = useDarkModeManager()
 
   const [openTransactions, setOpenTransactions] = useState(false)
-
-  const { t } = useTranslation()
 
   const onCloseTransactions = () => {
     setOpenTransactions(false)
@@ -62,14 +59,7 @@ const MobileMenu: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => 
           <Box style={{ flexGrow: 1 }}>
             <MenuLinks onClick={handleMobileMenu} />
           </Box>
-          <a href={LEGACY_PAGE} style={{ width: '100%', textDecoration: 'none', marginTop: '100px' }}>
-            <Box width="100%" display="flex" flexDirection="row" alignItems="center" style={{ gap: 20 }}>
-              <img src={Logout} alt="Logout" height="20px" />
-              <Text fontSize="16px" color="color22" fontWeight={500}>
-                {t('header.returnToLegacySite')}
-              </Text>
-            </Box>
-          </a>
+          <SwitchSubgraph />
           <Box width="100%" marginBottom="20px" marginTop="20px">
             <SocialMedia collapsed={false} />
           </Box>
