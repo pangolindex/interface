@@ -4284,10 +4284,10 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@pangolindex/sdk@5.3.2-rc.0":
-  version "5.3.2-rc.0"
-  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-5.3.2-rc.0.tgz#d271cfb80397be1a68b1953a435abfc95bd39774"
-  integrity sha512-aM48P/ZjlBD3WbAhWxP2G8p4h3vmHz/x5u2cphKB/0U+UP04uEE6T/gChwVkW+dVtfg/Rf9ZoMr5xaYTztaZRQ==
+"@pangolindex/sdk@5.3.2":
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/@pangolindex/sdk/-/sdk-5.3.2.tgz#bcffee5dadca9e4d6dfa66346971ea67a8b09fc7"
+  integrity sha512-vC7Rezi5wP0ZkLQaMVT3ls5rD1Kv1pZ75pJadHBcbhzVfbwjAp9wZumvVLOYNRhY11lVM6t/fpF00355MrBYOA==
   dependencies:
     big.js "^5.2.2"
     decimal.js-light "^2.5.0"
@@ -6116,9 +6116,9 @@
     tslib "1.14.1"
 
 "@walletconnect/jsonrpc-ws-connection@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@walletconnect/jsonrpc-ws-connection/-/jsonrpc-ws-connection-1.0.11.tgz#1ce59d86f273d576ca73385961303ebd44dd923f"
-  integrity sha512-TiFJ6saasKXD+PwGkm5ZGSw0837nc6EeFmurSPgIT/NofnOV4Tv7CVJqGQN0rQYoJUSYu21cwHNYaFkzNpUN+w==
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@walletconnect/jsonrpc-ws-connection/-/jsonrpc-ws-connection-1.0.13.tgz#23b0cdd899801bfbb44a6556936ec2b93ef2adf4"
+  integrity sha512-mfOM7uFH4lGtQxG+XklYuFBj6dwVvseTt5/ahOkkmpcAEgz2umuzu7fTR+h5EmjQBdrmYyEBOWADbeaFNxdySg==
   dependencies:
     "@walletconnect/jsonrpc-utils" "^1.0.6"
     "@walletconnect/safe-json" "^1.0.2"
@@ -15448,9 +15448,9 @@ lit-element@^3.3.0:
     lit-html "^2.7.0"
 
 lit-html@^2.7.0:
-  version "2.7.4"
-  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-2.7.4.tgz#6d75001977c206683685b9d76594a516afda2954"
-  integrity sha512-/Jw+FBpeEN+z8X6PJva5n7+0MzCVAH2yypN99qHYYkq8bI+j7I39GH+68Z/MZD6rGKDK9RpzBw7CocfmHfq6+g==
+  version "2.7.5"
+  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-2.7.5.tgz#0c1b9d381abe20c01475ae53ea4b07bf4c923eb8"
+  integrity sha512-YqUzpisJodwKIlbMFCtyrp58oLloKGnnPLMJ1t23cbfIJjg/H9pvLWK4XS69YeubK5HUs1UE4ys9w5dP1zg6IA==
   dependencies:
     "@types/trusted-types" "^2.0.2"
 

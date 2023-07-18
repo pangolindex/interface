@@ -6,6 +6,7 @@ import { Wrapper, MainContent, AppContent } from './styled'
 import Footer from './Footer'
 import URLWarning from 'src/components/Header/URLWarning'
 import MobileMenu from './Header/MobileMenu'
+import HederaPoolWarning from 'src/components/Header/HederaPoolWarning'
 
 const Layout: React.FC<unknown> = () => {
   const [isDrawerCollapsed, setIsDrawerCollapsed] = useState(true)
@@ -25,6 +26,7 @@ const Layout: React.FC<unknown> = () => {
       <Sidebar collapsed={isDrawerCollapsed} onCollapsed={value => setIsDrawerCollapsed(value)} />
       <MainContent collapsed={isDrawerCollapsed}>
         <URLWarning />
+        <HederaPoolWarning />
         <Header activeMobileMenu={activeMobileMenu} handleMobileMenu={handleMobileMenu} />
         <AppContent>
           <Outlet />
