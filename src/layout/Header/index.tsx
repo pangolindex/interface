@@ -94,7 +94,6 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
 
   const handleSelectChain = useCallback(
     (chain: Chain) => {
-      console.log('chain', chain)
       setOpenNetworkSelection(false)
       setSelectedChain(chain)
       toggleWalletModal()
