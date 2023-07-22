@@ -6,7 +6,6 @@ import { PageWrapper } from './styleds'
 const BridgeUI = () => {
   return (
     <PageWrapper>
-      {/* <QuestionAnswer /> */}
       <Bridge />
     </PageWrapper>
   )

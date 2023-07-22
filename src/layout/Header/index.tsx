@@ -1,8 +1,6 @@
 import {
-  Button,
   NetworkSelection,
   useAccountBalanceHook,
-  useTranslation,
   TokenInfoModal,
   Tokens,
   useOnClickOutside,
@@ -39,12 +37,13 @@ import {
 } from './styled'
 import { Hidden, MEDIA_WIDTHS } from 'src/theme'
 import { useChainId } from 'src/hooks'
-import { DISCORD_SUPPORT, LEGACY_PAGE, NETWORK_CURRENCY, NETWORK_LABELS } from 'src/constants'
+import { DISCORD_SUPPORT, NETWORK_CURRENCY, NETWORK_LABELS, supportedWallets } from 'src/constants'
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
 import { CHAINS, Chain } from '@pangolindex/sdk'
 import { useTotalPngEarnedHook } from 'src/state/stake/multiChainsHooks'
 import { useWallet } from 'src/state/user/hooks'
+import SwitchSubgraph from 'src/components/SwitchSubgraph'
 
 interface Props {
   activeMobileMenu: boolean
@@ -54,7 +53,6 @@ interface Props {
 export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
   const { account } = useActiveWeb3React()
   const chainId = useChainId()
-  const { t } = useTranslation()
   const { PNG } = Tokens
   const useETHBalances = useAccountBalanceHook[chainId]
 
@@ -120,9 +118,7 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
         <HeaderControls>
           <HeaderElement>
             <LegacyButtonWrapper>
-              <Button variant="primary" height={36} padding="4px 6px" href={LEGACY_PAGE} as="a">
-                <span style={{ whiteSpace: 'nowrap', color: '#000' }}>{t('header.returnToLegacySite')}</span>
-              </Button>
+              <SwitchSubgraph />
               <SupportButton href={DISCORD_SUPPORT} target="_blank">
                 <DiscordIcon style={{ width: '18px', fill: isDark ? '#fff' : undefined }} />
                 <span style={{ whiteSpace: 'nowrap', marginLeft: '5px' }}>Support</span>
@@ -185,6 +181,7 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
         closeModal={toggleWalletModal}
         onWalletConnect={onWalletConnect}
         initialChainId={selectedChain?.chain_id}
+        supportedWallets={supportedWallets}
       />
     </HeaderFrame>
   )

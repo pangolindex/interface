@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, MenuItem, MenuName, MenuExternalLink, MenuWrapper } from './styled'
-import { Box, Text, useTranslation, ANALYTICS_PAGE } from '@pangolindex/components'
+import { Box, Text, useTranslation, ANALYTICS_PAGE_MAPPING } from '@pangolindex/components'
 import {
   Dashboard,
   Swap,
@@ -64,7 +64,7 @@ interface IMenuItem {
 export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
   const { t } = useTranslation()
   const chainId = useChainId()
-
+  const analyticsPageUrl = ANALYTICS_PAGE_MAPPING[chainId]
   const location: any = useLocation()
 
   let mainLinks: IMenuItem[] = [
@@ -201,7 +201,7 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
 
   const pangolinLinks = [
     {
-      link: ANALYTICS_PAGE,
+      link: analyticsPageUrl,
       icon: Charts,
       title: t('header.charts'),
       id: 'charts'

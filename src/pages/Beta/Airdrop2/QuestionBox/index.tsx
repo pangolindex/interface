@@ -1,64 +1,56 @@
-import React, { useState } from 'react'
-import { Text } from '@pangolindex/components'
+import React, { useCallback, useState } from 'react'
+import { Text, Box } from '@pangolindex/components'
+import ReactMarkdown from 'react-markdown'
 import { StyledLogo, QuestionBox, StyledLogoMinus, Separator } from '../airdrop/styleds'
 import PlusLogo from 'src/assets/images/plus.png'
 import MinusLogo from 'src/assets/images/minus.png'
-import { SubCategories, useGetKnowledgeData, QuestionAnswerType } from 'src/state/bridge/hooks'
+import { AirdropQuestion } from 'src/constants/airdrop'
+import { Content } from './styled'
 
 interface QuestionAnswerProps {
-  extraQuestions?: SubCategories[]
+  questions: AirdropQuestion[]
 }
 
-export const QuestionAnswer = ({ extraQuestions = [] }: QuestionAnswerProps) => {
-  const [open, setOpen] = useState<number>()
-  const [text, setText] = useState<string>('')
-  const { data: questions } = useGetKnowledgeData(QuestionAnswerType.Airdrop, QuestionAnswerType.Undefined)
-  const allQuestions = extraQuestions.concat(questions || [])
+export const QuestionAnswer = ({ questions = [] }: QuestionAnswerProps) => {
+  const [openQuestion, setOpenQuestion] = useState<number>(-1)
 
   function activeLogo(key: number) {
-    if (open === key) return <StyledLogoMinus src={MinusLogo} size={'20px'} height={'4px'} />
+    if (openQuestion === key) return <StyledLogoMinus src={MinusLogo} size={'20px'} height={'4px'} />
     else return <StyledLogo src={PlusLogo} size={'20px'} />
   }
 
-  function activeText(key: number) {
-    if (open === key) {
-      return (
-        <Text fontSize={14} fontWeight={500} lineHeight="21px" color="text8" paddingX={31}>
-          {text}
-        </Text>
-      )
-    } else {
-      return <></>
-    }
-  }
+  const onToggle = useCallback(
+    (index: number) => {
+      if (index === openQuestion) {
+        setOpenQuestion(-1)
+        return
+      }
+      setOpenQuestion(index)
+    },
+    [openQuestion]
+  )
 
-  function deactivate(key: number) {
-    if (open === key) {
-      setOpen(undefined)
-    }
-  }
   return (
     <QuestionBox>
-      {allQuestions &&
-        allQuestions.map((question: SubCategories) => (
-          <div
-            key={question.id}
-            onClick={() => {
-              setOpen(question.id)
-              setText(question.content)
-              deactivate(question.id)
-            }}
-          >
-            <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              {activeLogo(question?.id)}
-              <Text fontSize={[24, 18]} fontWeight={500} lineHeight="36px" color="text10">
-                {question.title}
-              </Text>
-            </span>
-            {activeText(question?.id)}
-            <Separator />
-          </div>
-        ))}
+      {questions.map((question: AirdropQuestion, index) => (
+        <Box
+          key={index}
+          onClick={() => {
+            onToggle(index)
+          }}
+        >
+          <Box display="flex" alignItems="center" paddingTop="10px" style={{ gap: '10px' }}>
+            {activeLogo(index)}
+            <Text fontSize={[24, 18]} fontWeight={500} color="text10">
+              {question.title}
+            </Text>
+          </Box>
+          <Content isOpen={openQuestion === index}>
+            <ReactMarkdown>{question.content}</ReactMarkdown>
+          </Content>
+          <Separator />
+        </Box>
+      ))}
     </QuestionBox>
   )
 }
