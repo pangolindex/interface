@@ -9,7 +9,7 @@ import { ChainId } from '@pangolindex/sdk'
 const Alert = styled.div<{ isActive: any }>`
   width: 100%;
   padding: 6px 6px;
-  background-color: ${({ theme }) => theme.red1};
+  background-color: ${({ theme }) => theme.blue1};
   color: white;
   font-size: 11px;
   justify-content: space-between;
@@ -22,6 +22,8 @@ export const StyledClose = styled(X)`
     cursor: pointer;
   }
 `
+const message = `The wHBAR rewards have already been replenished, check the "Your farms" tab, stake some liquidity in the pool
+and click remove, this way your liquidity will be removed from the farm with your wHBAR rewards.`
 
 export default function HederaPoolWarning() {
   const chainId = useChainId()
@@ -45,8 +47,7 @@ export default function HederaPoolWarning() {
     <Alert isActive={isActive}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <AlertTriangle style={{ marginRight: 6 }} size={64} />
-        Some SuperFarms have run out of wHBAR rewards, but those affected by this shortage will be replenished next week
-        and allowed to stake any amount to claim their rewards. Further information can be found in our Discord.
+        {message}
       </div>
       <StyledClose size={64} onClick={onClose} />
     </Alert>
@@ -54,8 +55,7 @@ export default function HederaPoolWarning() {
     <Alert isActive={isActive}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <AlertTriangle style={{ marginRight: 6 }} size={12} />
-        Some SuperFarms have run out of wHBAR rewards, but those affected by this shortage will be replenished next week
-        and allowed to stake any amount to claim their rewards. Further information can be found in our Discord.
+        {message}
       </div>
       <StyledClose size={12} onClick={onClose} />
     </Alert>
