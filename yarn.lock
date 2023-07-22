@@ -4133,7 +4133,7 @@
   dependencies:
     "@defi.org/web3-candies" "4.x"
 
-"@pangolindex/components@7.3.6-rc.3":
+"@pangolindex/components@7.3.6":
   version "7.3.6-rc.3"
   resolved "https://registry.yarnpkg.com/@pangolindex/components/-/components-7.3.6-rc.3.tgz#f1c7407b83e753f286f42ade918dc26ca0c462de"
   integrity sha512-4PMgrz1uImd0l0bthkKuEJW4sYwckp03zQUx6ckx39oNYGefzacLsAMZoD7SbNnS2UDeV5LXm6UoH9BTKYUbsA==
