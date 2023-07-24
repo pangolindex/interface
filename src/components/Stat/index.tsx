@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box, CurrencyLogo, ANALYTICS_PAGE } from '@pangolindex/components'
+import { Text, Box, CurrencyLogo, ANALYTICS_PAGE_MAPPING } from '@pangolindex/components'
 import { Currency, Token, WAVAX } from '@pangolindex/sdk'
 import { Colors } from 'src/theme/styled'
 import { useChainId } from 'src/hooks'
@@ -32,6 +32,7 @@ const Stat = ({
   showAnalytics = false
 }: StatProps) => {
   const chainId = useChainId()
+  const analyticsPageUrl = ANALYTICS_PAGE_MAPPING[chainId]
   const token = currency instanceof Currency && currency instanceof Token ? currency : WAVAX[chainId]
   return (
     <Box
@@ -45,7 +46,7 @@ const Stat = ({
             {title}
           </Text>
           {showAnalytics && (
-            <AnalyticsLink href={`${ANALYTICS_PAGE}/#/token/${token.address}`} target="_blank">
+            <AnalyticsLink href={`${analyticsPageUrl}/#/token/${token.address}`} target="_blank">
               <AnalyticsIcon />
             </AnalyticsLink>
           )}
