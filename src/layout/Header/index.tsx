@@ -4,11 +4,12 @@ import {
   TokenInfoModal,
   Tokens,
   useOnClickOutside,
-  useWalletModalToggle,
+  useWalletModalToggleWithChainId,
   useModalOpen as useModalOpenComponents,
   ApplicationModal as ApplicationModalComponents,
   WalletModal,
-  useActiveWeb3React
+  useActiveWeb3React,
+  useApplicationState
 } from '@pangolindex/components'
 import React, { useState, useRef, useMemo, useCallback } from 'react'
 import { usePNGCirculationSupply } from '../../hooks'
@@ -62,14 +63,14 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
 
   const [showPngBalanceModal, setShowPngBalanceModal] = useState(false)
   const [openNetworkSelection, setOpenNetworkSelection] = useState(false)
-  const [selectedChain, setSelectedChain] = useState<Chain | undefined>(undefined)
 
   const node = useRef<HTMLDivElement>()
   const open = useModalOpen(ApplicationModal.FARM)
   const toggle = useToggleModal(ApplicationModal.FARM)
 
   const walletModalOpen = useModalOpenComponents(ApplicationModalComponents.WALLET)
-  const toggleWalletModal = useWalletModalToggle()
+  const toggleWalletModal = useWalletModalToggleWithChainId()
+  const { walletModalChainId } = useApplicationState()
   const [, setWallet] = useWallet()
 
   useOnClickOutside(node, open ? toggle : undefined)
@@ -94,17 +95,19 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
 
   const handleSelectChain = useCallback(
     (chain: Chain) => {
-      console.log('chain', chain)
       setOpenNetworkSelection(false)
-      setSelectedChain(chain)
-      toggleWalletModal()
+      toggleWalletModal(chain.chain_id)
     },
-    [setOpenNetworkSelection, setSelectedChain, toggleWalletModal]
+    [setOpenNetworkSelection, toggleWalletModal]
   )
+
+  const closeWalletModal = useCallback(() => {
+    toggleWalletModal(undefined)
+  }, [toggleWalletModal])
 
   const onWalletConnect = useCallback(
     connectorKey => {
-      toggleWalletModal()
+      toggleWalletModal(undefined)
       setWallet(connectorKey)
     },
     [setWallet, toggleWalletModal]
@@ -178,9 +181,9 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
 
       <WalletModal
         open={walletModalOpen}
-        closeModal={toggleWalletModal}
+        closeModal={closeWalletModal}
         onWalletConnect={onWalletConnect}
-        initialChainId={selectedChain?.chain_id}
+        initialChainId={walletModalChainId}
         supportedWallets={supportedWallets}
       />
     </HeaderFrame>
