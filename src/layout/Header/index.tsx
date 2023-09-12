@@ -14,7 +14,6 @@ import {
 import React, { useState, useRef, useMemo, useCallback } from 'react'
 import { usePNGCirculationSupply } from '../../hooks'
 import Web3Status from '../../components/Web3Status'
-import LanguageSelection from '../../components/LanguageSelection'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
@@ -160,7 +159,6 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
             </AccountElement>
           </HeaderElement>
           <HeaderElementWrap>
-            <LanguageSelection />
             <ThemeMode onClick={() => toggleDarkMode()}>
               {isDark ? (
                 <img width={'16px'} src={LightMode} alt={'Setting'} />
