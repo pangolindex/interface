@@ -1,7 +1,9 @@
 import React from 'react'
 import { Pair } from '@pangolindex/sdk'
 import { PairBox } from './styleds'
-import { Text, Box, DoubleCurrencyLogo, Checkbox, useTranslation, MinichefStakingInfo } from '@pangolindex/components'
+import { MinichefStakingInfo } from '@honeycomb-finance/pools'
+import { useTranslation } from '@honeycomb-finance/shared'
+import { Text, Box, DoubleCurrencyLogo, Checkbox } from '@honeycomb-finance/core'
 import { useGetPairDataFromPair } from '../../../state/stake/hooks'
 
 export interface PairDataProps {

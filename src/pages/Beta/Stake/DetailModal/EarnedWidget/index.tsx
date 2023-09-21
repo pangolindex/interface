@@ -1,4 +1,6 @@
-import { Box, Button, Text, useTranslation, Stat, useUSDCPrice } from '@pangolindex/components'
+import { Box, Button, Text, Stat } from '@honeycomb-finance/core'
+import { useTranslation } from '@honeycomb-finance/shared'
+import { useUSDCPrice } from '@honeycomb-finance/state-hooks'
 import { JSBI, CHAINS } from '@pangolindex/sdk'
 import React, { useState } from 'react'
 import numeral from 'numeral'

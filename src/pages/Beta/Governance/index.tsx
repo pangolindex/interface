@@ -1,5 +1,5 @@
 import React from 'react'
-import { GovernanceList } from '@pangolindex/components'
+import { GovernanceList } from '@honeycomb-finance/governance'
 
 function Governance() {
   return (

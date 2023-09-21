@@ -4,7 +4,7 @@ import PSB from 'src/assets/svg/PNG/PSB.svg'
 import PNG_HEDRA from 'src/assets/svg/PNG/PNG_HEDERA.svg'
 import PNG_EVMOS from 'src/assets/svg/PNG/PNG_EVMOS.svg'
 import { ChainId, Token, ALL_CHAINS, AirdropType, NetworkType } from '@pangolindex/sdk'
-import { Tokens } from '@pangolindex/components'
+import { Tokens } from '@honeycomb-finance/shared'
 
 interface AirdropData {
   contractAddress: string

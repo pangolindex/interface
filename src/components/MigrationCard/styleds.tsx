@@ -1,4 +1,4 @@
-import { Box, Button } from '@pangolindex/components'
+import { Box, Button } from '@honeycomb-finance/core'
 import styled from 'styled-components'
 
 export const Panel = styled(Box)`

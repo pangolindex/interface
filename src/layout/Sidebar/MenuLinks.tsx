@@ -1,6 +1,7 @@
 import React from 'react'
 import { Menu, MenuItem, MenuName, MenuExternalLink, MenuWrapper } from './styled'
-import { Box, Text, useTranslation, ANALYTICS_PAGE_MAPPING } from '@pangolindex/components'
+import { Box, Text, ANALYTICS_PAGE_MAPPING } from '@honeycomb-finance/core'
+import { useTranslation } from '@honeycomb-finance/shared'
 import {
   Dashboard,
   Swap,

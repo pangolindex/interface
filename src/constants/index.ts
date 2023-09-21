@@ -1,11 +1,7 @@
 import { ChainId, JSBI, CHAINS } from '@pangolindex/sdk'
-import {
-  ZERO_ADDRESS,
-  SUPPORTED_WALLETS,
-  SUPPORTED_EVM_CHAINS_ID,
-  PangolinWallet,
-  PangolinWalletConnectWallet
-} from '@pangolindex/components'
+import { ZERO_ADDRESS } from '@honeycomb-finance/shared'
+import { PangolinWallet, PangolinWalletConnectWallet, SUPPORTED_WALLETS } from '@honeycomb-finance/walletmodal'
+import { SUPPORTED_EVM_CHAINS_ID } from '@honeycomb-finance/wallet-connectors'
 
 export const LEGACY_PAGE = 'https://legacy.pangolin.exchange'
 export const PANGOLIN_TOKENS_REPO_RAW_BASE_URL = `https://raw.githubusercontent.com/pangolindex/tokens`

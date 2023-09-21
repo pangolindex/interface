@@ -1,5 +1,5 @@
 import React from 'react'
-import { Bridge } from '@pangolindex/components'
+import { Bridge } from '@honeycomb-finance/bridge'
 import { PageWrapper } from './styleds'
 // import { QuestionAnswer } from './TabulationBox'
 

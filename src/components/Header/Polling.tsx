@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
 import { TYPE, ExternalLink } from '../../theme'
-import { getEtherscanLink, useBlockNumber } from '@pangolindex/components'
+import { getEtherscanLink } from '@honeycomb-finance/shared'
+import { useBlockNumber } from '@honeycomb-finance/state-hooks'
 import { useChainId } from '../../hooks'
 
 const StyledPolling = styled.div`

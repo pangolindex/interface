@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { PageWrapper, GridContainer, TopContainer, StatsWrapper, GridWrapper } from './styleds'
-import { MyPortfolio, SwapWidget, WatchList, SwapTypes, useGelatoLimitOrdersListHook } from '@pangolindex/components'
+import { SwapWidget, SwapTypes, useGelatoLimitOrdersListHook } from '@honeycomb-finance/swap'
+import { WatchList, MyPortfolio } from '@honeycomb-finance/portfolio'
 import PairInfo from './PairInfo'
 import LimitOrderList from './LimitOrderList'
 import { useChainId } from 'src/hooks'

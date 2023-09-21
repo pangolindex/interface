@@ -1,5 +1,6 @@
 import React from 'react'
-import { Text, Box, Stat, useUSDCPrice } from '@pangolindex/components'
+import { Box, Text, Stat } from '@honeycomb-finance/core'
+import { useUSDCPrice } from '@honeycomb-finance/state-hooks'
 import { Currency, TokenAmount, CHAINS } from '@pangolindex/sdk'
 import { StateContainer } from './styleds'
 import numeral from 'numeral'

@@ -1,14 +1,7 @@
 import React from 'react'
-import {
-  Text,
-  Box,
-  Button,
-  DoubleCurrencyLogo,
-  useGelatoLimitOrderDetail,
-  LimitOrderInfo,
-  useTranslation,
-  Stat
-} from '@pangolindex/components'
+import { useGelatoLimitOrderDetail, LimitOrderInfo } from '@honeycomb-finance/swap'
+import { Text, Box, Button, DoubleCurrencyLogo, Stat } from '@honeycomb-finance/core'
+import { useTranslation } from '@honeycomb-finance/shared'
 import { Currency } from '@pangolindex/sdk'
 import { MobileRowWrapper, StatWrapper } from './styleds'
 

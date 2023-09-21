@@ -1,5 +1,7 @@
 import React from 'react'
-import { Text, useTranslation } from '@pangolindex/components'
+import { useTranslation } from '@honeycomb-finance/shared'
+import { Text } from '@honeycomb-finance/core'
+
 import { Wrapper } from './styled'
 
 const ComingSoon = () => {

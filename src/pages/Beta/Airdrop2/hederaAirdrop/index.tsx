@@ -1,6 +1,9 @@
 import React from 'react'
 import { PageWrapper, CenterText, Frame } from '../airdrop/styleds'
-import { Text, Box, Airdrop, Tokens } from '@pangolindex/components'
+import { Box, Text } from '@honeycomb-finance/core'
+import { Tokens } from '@honeycomb-finance/shared'
+import { Airdrop } from '@honeycomb-finance/airdrop'
+
 import { ChainId, HEDERA_MAINNET } from '@pangolindex/sdk'
 import { QuestionAnswer } from '../QuestionBox'
 import { getTokenLogoURL } from 'src/constants'

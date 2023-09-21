@@ -1,4 +1,4 @@
-import { Box, Button } from '@pangolindex/components'
+import { Box, Button } from '@honeycomb-finance/core'
 import { BlackCard } from 'src/components/Card'
 import styled from 'styled-components'
 import { ReactComponent as NightMode } from 'src/assets/svg/nightMode.svg'

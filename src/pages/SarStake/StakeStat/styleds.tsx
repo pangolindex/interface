@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Box } from '@pangolindex/components'
+import { Box } from '@honeycomb-finance/core'
 
 export const Wrapper = styled(Box)`
   display: grid;

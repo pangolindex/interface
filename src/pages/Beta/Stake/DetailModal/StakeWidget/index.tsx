@@ -8,13 +8,12 @@ import {
   TextInput,
   CurrencyLogo,
   NumberOptions,
-  useTranslation,
   Stat,
   Loader,
-  TransactionCompleted,
-  ZERO_ADDRESS,
-  TransactionApprovalState as ApprovalState
-} from '@pangolindex/components'
+  TransactionCompleted
+} from '@honeycomb-finance/core'
+import { useTranslation, ZERO_ADDRESS } from '@honeycomb-finance/shared'
+import { ApprovalState } from '@honeycomb-finance/state-hooks'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
 
 type Props = {

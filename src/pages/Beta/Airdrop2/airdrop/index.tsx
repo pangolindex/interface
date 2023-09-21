@@ -1,6 +1,7 @@
 import React from 'react'
 import { PageWrapper, CenterText, Frame } from './styleds'
-import { Text, Box, Airdrop, ComingSoon } from '@pangolindex/components'
+import { Text, Box } from '@honeycomb-finance/core'
+import { Airdrop, ComingSoon } from '@honeycomb-finance/airdrop'
 import { QuestionAnswer } from '../QuestionBox'
 import { activeAirdrops, airdropQuestions, comingSoonAirdrops, specialAirdrops } from 'src/constants/airdrop'
 

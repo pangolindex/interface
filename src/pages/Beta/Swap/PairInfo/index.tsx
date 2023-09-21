@@ -1,7 +1,9 @@
 import React from 'react'
 import PairStat from './PairStat'
 import PairChart from './PairChart'
-import { useDerivedSwapInfo, wrappedCurrency, usePair, Tokens } from '@pangolindex/components'
+import { useDerivedSwapInfo } from '@honeycomb-finance/swap'
+import { wrappedCurrency, Tokens } from '@honeycomb-finance/shared'
+import { usePair } from '@honeycomb-finance/state-hooks'
 import { useChainId } from 'src/hooks'
 
 export enum Field {

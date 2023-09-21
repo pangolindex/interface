@@ -2,7 +2,6 @@
 // import { AddressZero } from '@ethersproject/constants'
 // import { TokenAmount, Token, ChainId, Percent, JSBI } from '@pangolindex/sdk'
 // import { getEtherscanLink, calculateSlippageAmount, isAddress, calculateGasMargin, basisPointsToPercent } from '.'
-// import { shortenAddress } from '@pangolindex/components'
 
 describe.skip('utils', () => {
   describe('#getEtherscanLink', () => {

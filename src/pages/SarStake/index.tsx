@@ -1,17 +1,7 @@
-import {
-  Box,
-  SarStakeWidget,
-  SarManageWidget,
-  SarNFTPortfolio,
-  Position,
-  existSarContract,
-  useTranslation,
-  Text,
-  useSarPositionsHook,
-  Modal,
-  Loader,
-  useParsedQueryString
-} from '@pangolindex/components'
+import { SarStakeWidget, SarManageWidget, SarNFTPortfolio, Position, useSarPositionsHook } from '@honeycomb-finance/sar'
+import { Box, Text, Modal, Loader } from '@honeycomb-finance/core'
+import { useTranslation, existSarContract } from '@honeycomb-finance/shared'
+import { useParsedQueryString } from '@honeycomb-finance/state-hooks'
 import React, { useCallback, useState } from 'react'
 import Confetti from 'src/components/Confetti'
 import { useChainId } from 'src/hooks'

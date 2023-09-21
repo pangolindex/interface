@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Box } from '@pangolindex/components'
+import { Box } from '@honeycomb-finance/core'
 import { CloseIcon } from 'src/theme'
 
 export const PageWrapper = styled(Box)`

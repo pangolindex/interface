@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { darken } from 'polished'
 
-import { Button } from '@pangolindex/components'
+import { Button } from '@honeycomb-finance/core'
 
 const Base = styled(Button)<{
   padding?: string

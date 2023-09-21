@@ -2,7 +2,7 @@ import React, { HTMLProps } from 'react'
 import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
 import { X } from 'react-feather'
-import { Box } from '@pangolindex/components'
+import { Box } from '@honeycomb-finance/core'
 
 export const CloseIcon = styled(X)<{ onClick: () => void }>`
   cursor: pointer;

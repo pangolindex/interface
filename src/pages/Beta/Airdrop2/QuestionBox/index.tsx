@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Text, Box } from '@pangolindex/components'
+import { Text, Box } from '@honeycomb-finance/core'
 import ReactMarkdown from 'react-markdown'
 import { StyledLogo, QuestionBox, StyledLogoMinus, Separator } from '../airdrop/styleds'
 import PlusLogo from 'src/assets/images/plus.png'

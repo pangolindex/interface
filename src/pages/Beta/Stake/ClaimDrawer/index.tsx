@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Box, Drawer } from '@pangolindex/components'
+import { Box, Drawer } from '@honeycomb-finance/core'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import ClaimWidget from '../ClaimWidget'
 import RewardStakeDrawer from '../RewardStakeDrawer'

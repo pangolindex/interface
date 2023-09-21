@@ -11,7 +11,8 @@ import {
   parseCallKey,
   updateMulticallResults
 } from './actions'
-import { useBlockNumber, useDebounce, useMulticallContract, chunkArray } from '@pangolindex/components'
+import { useDebounce, useMulticallContract, chunkArray } from '@honeycomb-finance/shared'
+import { useBlockNumber } from '@honeycomb-finance/state-hooks'
 
 // chunk calls so we do not exceed the gas limit
 const CALL_CHUNK_SIZE = 500
@@ -165,7 +166,7 @@ export default function Updater(): null {
             // accumulates the length of all previous indices
             const firstCallKeyIndex = chunkedCalls
               .slice(0, index)
-              .reduce<number>((memo: number, curr: number[]) => memo + curr.length, 0)
+              .reduce<number>((memo: number, curr: Call[]) => memo + curr.length, 0)
             const lastCallKeyIndex = firstCallKeyIndex + returnData.length
 
             dispatch(

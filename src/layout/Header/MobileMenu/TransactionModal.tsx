@@ -1,12 +1,9 @@
 import {
-  Box,
-  Button,
-  Text,
   useAllTransactions as useAllTransactionsComponents,
-  useAllTransactionsClearer,
-  useTranslation,
-  getEtherscanLink
-} from '@pangolindex/components'
+  useAllTransactionsClearer
+} from '@honeycomb-finance/state-hooks'
+import { useTranslation, getEtherscanLink } from '@honeycomb-finance/shared'
+import { Box, Button, Text } from '@honeycomb-finance/core'
 import React, { useCallback, useContext, useMemo } from 'react'
 import Scrollbars from 'react-custom-scrollbars'
 import { CheckCircle, Triangle } from 'react-feather'

@@ -5,7 +5,7 @@ import { JsonRpcSigner, JsonRpcProvider, TransactionResponse, TransactionReceipt
 import { BigNumber } from '@ethersproject/bignumber'
 import IPangolinRouter from '@pangolindex/exchange-contracts/artifacts/contracts/pangolin-periphery/interfaces/IPangolinRouter.sol/IPangolinRouter.json'
 import { CHILD_MENU_TYPES, MENU_LINK, MIN_ETH } from '../constants'
-import { ROUTER_ADDRESS } from '@pangolindex/components'
+import { ROUTER_ADDRESS } from '@honeycomb-finance/shared'
 import {
   ChainId,
   JSBI,

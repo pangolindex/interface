@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Wrapper } from './styleds'
-import {
-  Box,
-  Button,
-  useTranslation,
-  MinichefStakingInfo,
-  useStakingContract,
-  useActiveWeb3React
-} from '@pangolindex/components'
+import { Box, Button } from '@honeycomb-finance/core'
+import { useTranslation, useActiveWeb3React } from '@honeycomb-finance/shared'
+import { MinichefStakingInfo, useStakingContract } from '@honeycomb-finance/pools'
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
 import { tryParseAmount } from 'src/utils'

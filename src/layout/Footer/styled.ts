@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Box, Text } from '@pangolindex/components'
+import { Box, Text } from '@honeycomb-finance/core'
 import { CloseIcon } from 'src/theme'
 
 export const FooterFrame = styled.footer`
