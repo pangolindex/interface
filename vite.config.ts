@@ -20,12 +20,15 @@ export default () => {
       }
     },
     build: {
-      commonjsOptions: { transformMixedEsModules: true, include: [] }
+      commonjsOptions: { transformMixedEsModules: true, include: [] },
+      minify: false,
+      sourcemap: false
     },
     optimizeDeps: {
       // this is needed because of js-sha256 & near-api-js library
       // @see https://github.com/near/near-api-js/issues/1035
       disabled: false,
+
       esbuildOptions: {
         // Node.js global to browser globalThis
         define: {
