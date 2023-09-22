@@ -1,6 +1,6 @@
 import { ChainId, JSBI, CHAINS } from '@pangolindex/sdk'
 import { ZERO_ADDRESS } from '@honeycomb-finance/shared'
-import { PangolinWallet, PangolinWalletConnectWallet, SUPPORTED_WALLETS } from '@honeycomb-finance/walletmodal'
+import { HoneycombWallet, HoneycombWalletConnectWallet, SUPPORTED_WALLETS } from '@honeycomb-finance/walletmodal'
 import { SUPPORTED_EVM_CHAINS_ID } from '@honeycomb-finance/wallet-connectors'
 
 export const LEGACY_PAGE = 'https://legacy.pangolin.exchange'
@@ -144,7 +144,7 @@ export type CHILD_MENU_TYPES = BUY_MENU_LINK | POOL_MENU_LINK | AIRDROP_MENU_LIN
 
 const walletConnectProjectId = import.meta.env.VITE_WALLETCONNECT_PROJECTID
 
-export const supportedWallets: { [key: string]: PangolinWallet } = {
+export const supportedWallets: { [key: string]: HoneycombWallet } = {
   ...SUPPORTED_WALLETS
 }
 
@@ -158,7 +158,7 @@ if (walletConnectProjectId) {
     return acc
   }, {} as { [chainId in number]: string })
 
-  const walletConnectWallet = new PangolinWalletConnectWallet({
+  const walletConnectWallet = new HoneycombWalletConnectWallet({
     rpcMap: rpcs,
     projectId: walletConnectProjectId,
     metadata: {

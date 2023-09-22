@@ -14,7 +14,9 @@ export default () => {
     resolve: {
       alias: {
         // here we are mapping "src" because in components we have absolute path that starts with "src"
-        src: path.resolve(__dirname, './src')
+        src: path.resolve(__dirname, './src'),
+        // refer https://github.com/vitejs/vite/issues/9511#issuecomment-1203555842
+        stream: 'rollup-plugin-node-polyfills/polyfills/stream' // add stream
       }
     },
     build: {
