@@ -35,7 +35,6 @@
     "@honeycomb-finance/wallet-connectors": "0.0.1-internal-20230922074227",
     "@honeycomb-finance/walletmodal": "0.0.1-internal-20230922074227",
     "@metamask/jazzicon": "2.0.0",
-    "@pangolindex/components": "7.3.10-rc.0",
     "@pangolindex/exchange-contracts": "2.1.7",
     "@pangolindex/governance": "1.2.0",
     "@pangolindex/sdk": "5.3.4",
