@@ -20,9 +20,7 @@ export default () => {
       }
     },
     build: {
-      commonjsOptions: { transformMixedEsModules: true, include: [] },
-      minify: false,
-      sourcemap: false
+      commonjsOptions: { transformMixedEsModules: true, include: [] }
     },
     optimizeDeps: {
       // this is needed because of js-sha256 & near-api-js library
