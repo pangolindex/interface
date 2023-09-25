@@ -20,7 +20,19 @@ export default () => {
       }
     },
     build: {
-      commonjsOptions: { transformMixedEsModules: true, include: [] }
+      commonjsOptions: { transformMixedEsModules: true, include: [] },
+      rollupOptions: {
+        // Define manualChunks to create custom chunks
+        output: {
+          manualChunks: {
+            // Here, we're creating a chunk named 'lodash' that includes only 'lodash' module.
+            shared: ['@honeycomb-finance/shared'],
+            state_hooks: ['@honeycomb-finance/state-hooks'],
+            wallet_connectors: ['@honeycomb-finance/wallet-connectors']
+            // You can create additional chunks and specify the modules to include in each chunk.
+          }
+        }
+      }
     },
     optimizeDeps: {
       // this is needed because of js-sha256 & near-api-js library
