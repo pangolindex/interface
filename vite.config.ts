@@ -7,7 +7,23 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 // https://vitejs.dev/config/
 export default () => {
   return defineConfig({
-    plugins: [react(), svgr()],
+    plugins: [
+      react(),
+      svgr(),
+      // TODO: remove this once OOM issue fixed
+      {
+        name: 'log-included-modules',
+        renderChunk(code, chunk) {
+          if (chunk.fileName.includes('wallet_connector_pkgs')) {
+            console.log(`Module ids for ${chunk.fileName} ======`)
+            console.log(chunk.moduleIds)
+            console.log(`Modules for ${chunk.fileName} ======`)
+            console.log(chunk.modules)
+          }
+          return null
+        }
+      }
+    ],
     define: {
       'process.env': {
         NODE_ENV: 'production'
@@ -24,6 +40,7 @@ export default () => {
     build: {
       commonjsOptions: { transformMixedEsModules: true, include: [] },
       rollupOptions: {
+        maxParallelFileOps: 100,
         // Define manualChunks to create custom chunks
         onwarn: function(message, defaultHandler) {
           if (message.code === 'EVAL') return
@@ -31,11 +48,27 @@ export default () => {
         },
         output: {
           manualChunks: {
-            // Here, we're creating a chunk named 'lodash' that includes only 'lodash' module.
+            'styled-components': ['styled-components'],
+            'react-query': ['react-query'],
+            axios: ['axios'],
+            '@ethersproject': [
+              '@ethersproject/abi',
+              '@ethersproject/address',
+              '@ethersproject/bignumber',
+              '@ethersproject/constants',
+              '@ethersproject/contracts',
+              '@ethersproject/experimental',
+              '@ethersproject/providers',
+              '@ethersproject/strings',
+              '@ethersproject/wallet',
+              '@ethersproject/units',
+              'ethers'
+            ],
+            '@hashgraph': ['@hashgraph/sdk', '@hashgraph/hethers'],
+            '@pangolindex_sdk': ['@pangolindex/sdk'],
+            '@honeycomb-finance_wallet-connectors': ['@honeycomb-finance/wallet-connectors'],
             '@honeycomb-finance_shared': ['@honeycomb-finance/shared'],
-            '@honeycomb-finance_state_hooks': ['@honeycomb-finance/state-hooks'],
-            '@honeycomb-finance_wallet_connectors': ['@honeycomb-finance/wallet-connectors']
-            // You can create additional chunks and specify the modules to include in each chunk.
+            '@honeycomb-finance_state_hooks': ['@honeycomb-finance/state-hooks']
           }
         }
       }
