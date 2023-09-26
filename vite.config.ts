@@ -7,9 +7,11 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 // https://vitejs.dev/config/
 export default () => {
   return defineConfig({
-    plugins: [svgr(), react()],
+    plugins: [react(), svgr()],
     define: {
-      'process.env': {}
+      'process.env': {
+        NODE_ENV: 'production'
+      }
     },
     resolve: {
       alias: {
@@ -23,12 +25,16 @@ export default () => {
       commonjsOptions: { transformMixedEsModules: true, include: [] },
       rollupOptions: {
         // Define manualChunks to create custom chunks
+        onwarn: function(message, defaultHandler) {
+          if (message.code === 'EVAL') return
+          defaultHandler(message)
+        },
         output: {
           manualChunks: {
             // Here, we're creating a chunk named 'lodash' that includes only 'lodash' module.
-            shared: ['@honeycomb-finance/shared'],
-            state_hooks: ['@honeycomb-finance/state-hooks'],
-            wallet_connectors: ['@honeycomb-finance/wallet-connectors']
+            '@honeycomb-finance_shared': ['@honeycomb-finance/shared'],
+            '@honeycomb-finance_state_hooks': ['@honeycomb-finance/state-hooks'],
+            '@honeycomb-finance_wallet_connectors': ['@honeycomb-finance/wallet-connectors']
             // You can create additional chunks and specify the modules to include in each chunk.
           }
         }
