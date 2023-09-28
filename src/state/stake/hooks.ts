@@ -36,13 +36,6 @@ import {
   useDerivedStakeInfo
 } from '@honeycomb-finance/pools'
 
-export interface SingleSideStaking {
-  rewardToken: Token
-  conversionRouteHops: Token[]
-  stakingRewardAddress: string
-  version: number
-}
-
 export interface DoubleSideStaking {
   tokens: [Token, Token]
   stakingRewardAddress: string
