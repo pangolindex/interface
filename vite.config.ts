@@ -7,23 +7,7 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 // https://vitejs.dev/config/
 export default () => {
   return defineConfig({
-    plugins: [
-      react(),
-      svgr(),
-      // TODO: remove this once OOM issue fixed
-      {
-        name: 'log-included-modules',
-        renderChunk(code, chunk) {
-          if (chunk.fileName.includes('wallet_connector_pkgs')) {
-            console.log(`Module ids for ${chunk.fileName} ======`)
-            console.log(chunk.moduleIds)
-            console.log(`Modules for ${chunk.fileName} ======`)
-            console.log(chunk.modules)
-          }
-          return null
-        }
-      }
-    ],
+    plugins: [react(), svgr()],
     define: {
       'process.env': {
         NODE_ENV: 'production'
