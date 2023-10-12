@@ -1,6 +1,5 @@
 import { ChainId, JSBI, CHAINS } from '@pangolindex/sdk'
 import {
-  ZERO_ADDRESS,
   SUPPORTED_WALLETS,
   SUPPORTED_EVM_CHAINS_ID,
   PangolinWallet,
@@ -17,22 +16,6 @@ export const DISCORD_SUPPORT = 'https://discord.com/channels/786999832027463710/
 export type LogoSize = 24 | 48
 export const getTokenLogoURL = (address: string, chainId: number, size: LogoSize = 24) =>
   `${PANGOLIN_TOKENS_REPO_RAW_BASE_URL}/main/assets/${chainId}/${address}/logo_${size}.png`
-
-// LEGACY AIRDROPS ADDRESSES
-export const AIRDROP_ADDRESS: { [chainId in ChainId]?: string } = {
-  [ChainId.FUJI]: ZERO_ADDRESS,
-  [ChainId.AVALANCHE]: CHAINS[ChainId.AVALANCHE].contracts!.airdrop!.address,
-  [ChainId.WAGMI]: CHAINS[ChainId.WAGMI].contracts!.airdrop!.address,
-  [ChainId.COSTON]: ZERO_ADDRESS,
-  [ChainId.SONGBIRD]: ZERO_ADDRESS,
-  [ChainId.FLARE_MAINNET]: ZERO_ADDRESS,
-  [ChainId.HEDERA_TESTNET]: ZERO_ADDRESS,
-  [ChainId.HEDERA_MAINNET]: ZERO_ADDRESS,
-  [ChainId.COSTON2]: ZERO_ADDRESS,
-  [ChainId.EVMOS_TESTNET]: ZERO_ADDRESS,
-  [ChainId.EVMOS_MAINNET]: ZERO_ADDRESS,
-  [ChainId.SKALE_BELLATRIX_TESTNET]: ZERO_ADDRESS
-}
 
 export const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.FUJI]: CHAINS[ChainId.FUJI].name,
@@ -124,7 +107,6 @@ export enum MENU_LINK {
   vote = '/vote',
   migrate = '/migrate',
   bridge = '/bridge',
-  airdrop = '/airdrop',
   stakev2 = '/stakev2'
 }
 
@@ -139,12 +121,7 @@ export enum POOL_MENU_LINK {
   elixir = 'elixir'
 }
 
-export enum AIRDROP_MENU_LINK {
-  evmAirdrops = 'evm-airdrops',
-  hederaAirdrops = 'hedera-airdrops'
-}
-
-export type CHILD_MENU_TYPES = BUY_MENU_LINK | POOL_MENU_LINK | AIRDROP_MENU_LINK
+export type CHILD_MENU_TYPES = BUY_MENU_LINK | POOL_MENU_LINK
 
 const walletConnectProjectId = import.meta.env.VITE_WALLETCONNECT_PROJECTID
 

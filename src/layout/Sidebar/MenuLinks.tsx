@@ -8,14 +8,13 @@ import {
   Pool,
   Buy,
   Vote,
-  Airdrop,
   Bridge as BridgeIcon,
   CoinbasePay,
   MoonPay,
   C14
 } from 'src/components/Icons'
 import Charts from 'src/assets/svg/menu/statatics.svg'
-import { MENU_LINK, BUY_MENU_LINK, POOL_MENU_LINK, CHILD_MENU_TYPES, AIRDROP_MENU_LINK } from 'src/constants'
+import { MENU_LINK, BUY_MENU_LINK, POOL_MENU_LINK, CHILD_MENU_TYPES } from 'src/constants'
 import Bridge from 'src/assets/svg/menu/bridge.svg'
 import { useLocation } from 'react-router-dom'
 import { useChainId } from 'src/hooks'
@@ -155,29 +154,6 @@ export const MenuLinks: React.FC<Props> = ({ collapsed = false, onClick }) => {
       title: t('header.vote'),
       id: 'vote',
       isActive: location?.pathname?.startsWith(MENU_LINK.vote)
-    },
-    {
-      link: MENU_LINK.airdrop,
-      icon: Airdrop,
-      title: 'Airdrop',
-      id: 'airdrop',
-      isActive: location?.pathname?.startsWith(MENU_LINK.airdrop),
-      childrens: [
-        {
-          link: `${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.evmAirdrops}`,
-          icon: Airdrop,
-          title: 'Evm Airdrops',
-          id: AIRDROP_MENU_LINK.evmAirdrops,
-          isActive: location?.pathname?.startsWith(`${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.evmAirdrops}`)
-        },
-        {
-          link: `${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.hederaAirdrops}`,
-          icon: Airdrop,
-          title: 'Hedera Airdrops',
-          id: AIRDROP_MENU_LINK.hederaAirdrops,
-          isActive: location?.pathname?.startsWith(`${MENU_LINK.airdrop}/${AIRDROP_MENU_LINK.hederaAirdrops}`)
-        }
-      ]
     },
     {
       link: MENU_LINK.bridge,
