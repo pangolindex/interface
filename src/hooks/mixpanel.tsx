@@ -4,9 +4,7 @@ import {
   MixPanelEvents as ComponentsMixPanelEvents
 } from '@pangolindex/components'
 
-export enum MixPanelEvents {
-  CLAIM_AIRDROP = 'Claimed Airdrop'
-}
+export enum MixPanelEvents {}
 
 export function useMixpanel() {
   const { track } = useComponentMixpanel()
