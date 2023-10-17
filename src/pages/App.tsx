@@ -18,7 +18,6 @@ const GovernanceDetailV2 = React.lazy(() => import('./Beta/GovernanceDetail'))
 const BuyV2 = React.lazy(() => import('./Beta/Buy'))
 const PoolV2 = React.lazy(() => import('./Beta/Pool'))
 const BridgeV2 = React.lazy(() => import('./Beta/Bridge'))
-const AirdropV2 = React.lazy(() => import('./Beta/Airdrop2'))
 const Policy = React.lazy(() => import('./Beta/Policy'))
 const SarStake = React.lazy(() => import('./SarStake'))
 
@@ -96,10 +95,6 @@ export default function App() {
     {
       path: MENU_LINK.bridge,
       component: BridgeV2
-    },
-    {
-      path: `${MENU_LINK.airdrop}/:type`,
-      component: AirdropV2
     },
     {
       path: MENU_LINK.stakev2,
