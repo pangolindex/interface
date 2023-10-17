@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import AccountDetails from '../AccountDetails'
-import { Modal } from '@pangolindex/components'
+import { Modal } from '@honeycomb-finance/core'
 
 const Wrapper = styled.div`
   ${({ theme }) => theme.flexColumnNoWrap}

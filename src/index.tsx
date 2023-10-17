@@ -5,7 +5,8 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { NetworkContextName, PangolinProvider, useActiveWeb3React } from '@pangolindex/components'
+import { HoneycombProvider } from '@honeycomb-finance/honeycomb-provider'
+import { NetworkContextName, useActiveWeb3React } from '@honeycomb-finance/shared'
 import App from './pages/App'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
@@ -47,7 +48,7 @@ const ComponentThemeProvider = () => {
 
   const { library, account, chainId } = useActiveWeb3React()
   return (
-    <PangolinProvider
+    <HoneycombProvider
       library={library}
       chainId={chainId}
       account={account ?? undefined}
@@ -65,7 +66,7 @@ const ComponentThemeProvider = () => {
           <App />
         </HashRouter>
       </QueryClientProvider>
-    </PangolinProvider>
+    </HoneycombProvider>
   )
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { darken } from 'polished'
-import { Text } from '@pangolindex/components'
+import { Text } from '@honeycomb-finance/core'
 import { NavLink } from 'react-router-dom'
 import { ExternalLink } from '../../theme'
 

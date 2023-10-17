@@ -1,6 +1,9 @@
 import React from 'react'
 import { Wrapper } from './styleds'
-import { Text, Checkbox, Box, Button, useTranslation, MinichefStakingInfo } from '@pangolindex/components'
+import { MinichefStakingInfo } from '@honeycomb-finance/pools'
+import { Text, Checkbox, Box, Button } from '@honeycomb-finance/core'
+import { useTranslation } from '@honeycomb-finance/shared'
+
 import { Pair } from '@pangolindex/sdk'
 import PairData from './PairData'
 

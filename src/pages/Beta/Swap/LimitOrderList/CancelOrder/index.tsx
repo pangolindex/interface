@@ -1,14 +1,7 @@
 import React, { useState, useCallback } from 'react'
-import {
-  Box,
-  Text,
-  Button,
-  useGelatoLimitOrderDetail,
-  Order,
-  useGelatoLimitOrdersHandlers,
-  useTranslation,
-  useActiveWeb3React
-} from '@pangolindex/components'
+import { useGelatoLimitOrderDetail, Order, useGelatoLimitOrdersHandlers } from '@honeycomb-finance/swap'
+import { Text, Box, Button } from '@honeycomb-finance/core'
+import { useTranslation, useActiveWeb3React } from '@honeycomb-finance/shared'
 import { CancelOrderRoot, PendingWrapper, Root, Footer, Header } from './styleds'
 import { CustomLightSpinner } from 'src/theme'
 import Circle from 'src/assets/svg/blue-loader.svg'

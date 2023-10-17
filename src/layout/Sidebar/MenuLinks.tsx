@@ -1,6 +1,7 @@
 import React from 'react'
 import { Menu, MenuItem, MenuName, MenuExternalLink, MenuWrapper } from './styled'
-import { Box, Text, useTranslation, ANALYTICS_PAGE_MAPPING } from '@pangolindex/components'
+import { Box, Text, ANALYTICS_PAGE_MAPPING } from '@honeycomb-finance/core'
+import { useTranslation } from '@honeycomb-finance/shared'
 import {
   Dashboard,
   Swap,
@@ -19,26 +20,11 @@ import Bridge from 'src/assets/svg/menu/bridge.svg'
 import { useLocation } from 'react-router-dom'
 import { useChainId } from 'src/hooks'
 import { shouldHideChildItem, shouldHideMenuItem } from 'src/utils'
-import NavItem from './NavItem'
+import NavItem, { LinkProps } from './NavItem'
 
 interface Props {
   collapsed?: boolean
   onClick?: () => void
-}
-
-export interface LinkProps {
-  link: MENU_LINK | string
-  icon:
-    | string
-    | React.FC<{
-        size: number
-        fillColor: string
-      }>
-  //icon: any
-  title: string
-  id: string
-  isActive?: boolean
-  childrens?: Array<LinkProps>
 }
 
 // Child MenuItem Interface

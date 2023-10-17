@@ -1,20 +1,20 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import {
-  Box,
-  gnosisSafe,
+  useWalletModalToggle,
+  useAllTransactions as useAllTransactionsComponents
+} from '@honeycomb-finance/state-hooks'
+import { Box } from '@honeycomb-finance/core'
+import {
   injected,
+  gnosisSafe,
   walletlink,
   xDefi,
   avalancheCore,
   near,
-  useAllTransactions as useAllTransactionsComponents,
-  useTranslation,
-  useWalletModalToggle,
-  shortenAddressMapping,
   HashConnector,
-  useActiveWeb3React,
   WalletConnectConnector
-} from '@pangolindex/components'
+} from '@honeycomb-finance/wallet-connectors'
+import { useActiveWeb3React, useTranslation, shortenAddressMapping } from '@honeycomb-finance/shared'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken } from 'polished'
 import React, { useMemo, useCallback } from 'react'

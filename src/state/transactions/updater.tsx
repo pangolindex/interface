@@ -2,7 +2,8 @@ import { useEffect } from 'react'
 import { useDispatch } from 'src/state'
 import { AppState, useSelector } from '../index'
 import { checkedTransaction, finalizeTransaction } from './actions'
-import { useLibrary, useAddPopup, useBlockNumber, useActiveWeb3React } from '@pangolindex/components'
+import { useActiveWeb3React, useLibrary } from '@honeycomb-finance/shared'
+import { useBlockNumber, useAddPopup } from '@honeycomb-finance/state-hooks'
 
 export function shouldCheck(
   lastBlockNumber: number,

@@ -1,4 +1,4 @@
-import { Box, TextInput } from '@pangolindex/components'
+import { Box, TextInput } from '@honeycomb-finance/core'
 import styled from 'styled-components'
 
 export const Root = styled(Box)`

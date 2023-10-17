@@ -11,33 +11,30 @@ import { useTransactionAdder } from 'src/state/transactions/hooks'
 import useTransactionDeadline from 'src/hooks/useTransactionDeadline'
 import { splitSignature } from 'ethers/lib/utils'
 import { useChainId } from 'src/hooks'
+import { usePngContract } from '@honeycomb-finance/governance'
 import {
   useLibrary,
+  Tokens,
+  useActiveWeb3React,
   useTranslation,
-  useMinichefStakingInfosHook,
-  MinichefStakingInfo,
-  DoubleSideStakingInfo,
-  fetchChunkedAprs,
-  useDerivedStakeInfo,
+  ZERO_ADDRESS,
+  wrappedCurrencyAmount
+} from '@honeycomb-finance/shared'
+import {
+  ApprovalState,
+  useApproveCallbackHook,
   useTotalSupply,
   useTokenBalance,
-  useUSDCPrice,
-  ZERO_ADDRESS,
-  Tokens,
-  usePngContract,
+  useUSDCPrice
+} from '@honeycomb-finance/state-hooks'
+import {
   useStakingContract,
-  wrappedCurrencyAmount,
-  useApproveCallbackHook,
-  TransactionApprovalState as ApprovalState,
-  useActiveWeb3React
-} from '@pangolindex/components'
-
-export interface SingleSideStaking {
-  rewardToken: Token
-  conversionRouteHops: Token[]
-  stakingRewardAddress: string
-  version: number
-}
+  MinichefStakingInfo,
+  DoubleSideStakingInfo,
+  useMinichefStakingInfosHook,
+  fetchChunkedAprs,
+  useDerivedStakeInfo
+} from '@honeycomb-finance/pools'
 
 export interface DoubleSideStaking {
   tokens: [Token, Token]
@@ -305,8 +302,7 @@ export function useTotalPngEarned(): TokenAmount | undefined {
     if (!png) return new TokenAmount(png, '0')
     return (
       minichefInfo?.reduce(
-        (accumulator: MinichefStakingInfo, stakingInfo: MinichefStakingInfo) =>
-          accumulator.add(stakingInfo.earnedAmount),
+        (accumulator: TokenAmount, stakingInfo: MinichefStakingInfo) => accumulator.add(stakingInfo.earnedAmount),
         new TokenAmount(png, '0')
       ) ?? new TokenAmount(png, '0')
     )
@@ -355,6 +351,7 @@ export function useGetStakingDataWithAPR(version: number) {
             ...aprResponses[i]
           }))
         )
+        //@ts-expect-error because this is neccesary
         .then(setStakingInfoData)
     }
 

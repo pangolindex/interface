@@ -1,13 +1,7 @@
 import React, { useMemo } from 'react'
-import {
-  CurrencyLogo,
-  Text,
-  useSarStakeInfo,
-  useSarPositionsHook,
-  Position,
-  Tokens,
-  useTranslation
-} from '@pangolindex/components'
+import { CurrencyLogo, Text } from '@honeycomb-finance/core'
+import { useSarStakeInfo, useSarPositionsHook, Position } from '@honeycomb-finance/sar'
+import { Tokens, useTranslation } from '@honeycomb-finance/shared'
 import { BigNumber } from '@ethersproject/bignumber'
 import numeral from 'numeral'
 import Stat from 'src/components/Stat'

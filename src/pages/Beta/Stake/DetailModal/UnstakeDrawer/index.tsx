@@ -2,17 +2,10 @@ import React, { useState } from 'react'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { useTransactionAdder } from 'src/state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
-import {
-  Box,
-  Button,
-  Text,
-  useTranslation,
-  TransactionCompleted,
-  Loader,
-  Drawer,
-  useStakingContract,
-  useActiveWeb3React
-} from '@pangolindex/components'
+import { useStakingContract } from '@honeycomb-finance/pools'
+import { Box, Button, Text, TransactionCompleted, Loader, Drawer } from '@honeycomb-finance/core'
+import { useTranslation, useActiveWeb3React } from '@honeycomb-finance/shared'
+
 import { ConfirmWrapper, Wrapper } from './styled'
 
 type Props = {

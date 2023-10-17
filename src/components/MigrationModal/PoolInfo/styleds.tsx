@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Box, TextInput } from '@pangolindex/components'
+import { Box, TextInput } from '@honeycomb-finance/core'
 
 export const InfoWrapper = styled.div`
   margin: 0;

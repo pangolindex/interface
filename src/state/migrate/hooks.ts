@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect } from 'react'
 import { Pair } from '@pangolindex/sdk'
 import { useGetStakingDataWithAPR } from '../../state/stake/hooks'
-import { useGetUserLP, useMinichefPools, MinichefStakingInfo } from '@pangolindex/components'
+import { useGetUserLP, useMinichefPools, MinichefStakingInfo } from '@honeycomb-finance/pools'
 
 export function useGetMigrationData(version: number) {
   const { v2IsLoading, allV2PairsWithLiquidity, allPairs } = useGetUserLP()

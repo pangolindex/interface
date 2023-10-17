@@ -1,4 +1,4 @@
-import { Box } from '@pangolindex/components'
+import { Box } from '@honeycomb-finance/core'
 import styled from 'styled-components'
 
 export const DesktopWrapper = styled(Box)`

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@pangolindex/components'
+import { Box } from '@honeycomb-finance/core'
 import Logo from 'src/assets/svg/logoIcon.svg'
 import LogoDark from 'src/assets/svg/logoSloganDark.svg'
 import LogoLight from 'src/assets/svg/logoSloganLight.svg'

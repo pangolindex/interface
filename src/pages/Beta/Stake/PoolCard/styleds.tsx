@@ -1,4 +1,4 @@
-import { Box, Button, Text } from '@pangolindex/components'
+import { Box, Button, Text } from '@honeycomb-finance/core'
 import styled from 'styled-components'
 
 export const Card = styled(Box)`

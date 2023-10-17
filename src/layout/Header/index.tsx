@@ -1,16 +1,13 @@
+import { TokenInfoModal } from '@honeycomb-finance/portfolio'
+import { WalletModal, NetworkSelection } from '@honeycomb-finance/walletmodal'
+import { useActiveWeb3React, useOnClickOutside, Tokens } from '@honeycomb-finance/shared'
 import {
-  NetworkSelection,
-  useAccountBalanceHook,
-  TokenInfoModal,
-  Tokens,
-  useOnClickOutside,
+  useApplicationState,
   useWalletModalToggleWithChainId,
-  useModalOpen as useModalOpenComponents,
+  useAccountBalanceHook,
   ApplicationModal as ApplicationModalComponents,
-  WalletModal,
-  useActiveWeb3React,
-  useApplicationState
-} from '@pangolindex/components'
+  useModalOpen as useModalOpenComponents
+} from '@honeycomb-finance/state-hooks'
 import React, { useState, useRef, useMemo, useCallback } from 'react'
 import { usePNGCirculationSupply } from '../../hooks'
 import Web3Status from '../../components/Web3Status'

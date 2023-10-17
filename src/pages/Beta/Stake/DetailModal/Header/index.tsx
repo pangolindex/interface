@@ -1,12 +1,5 @@
-import {
-  Box,
-  DoubleCurrencyLogo,
-  Text,
-  CurrencyLogo,
-  useTranslation,
-  Stat,
-  unwrappedToken
-} from '@pangolindex/components'
+import { Box, CurrencyLogo, Text, DoubleCurrencyLogo, Stat } from '@honeycomb-finance/core'
+import { useTranslation, unwrappedToken } from '@honeycomb-finance/shared'
 import React, { useContext } from 'react'
 import { JSBI } from '@pangolindex/sdk'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'

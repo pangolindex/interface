@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { ApplicationModal } from 'src/state/application/actions'
-import { Box, Modal, useTranslation } from '@pangolindex/components'
+import { useTranslation } from '@honeycomb-finance/shared'
+import { Box, Modal } from '@honeycomb-finance/core'
 import { useModalOpen, useSingleSideStakingDetailnModalToggle } from 'src/state/application/hooks'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { ThemeContext } from 'styled-components'

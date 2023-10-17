@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import {
   useMixpanel as useComponentMixpanel,
   MixPanelEvents as ComponentsMixPanelEvents
-} from '@pangolindex/components'
+} from '@honeycomb-finance/shared'
 
 export enum MixPanelEvents {}
 

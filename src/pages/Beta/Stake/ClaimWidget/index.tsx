@@ -1,14 +1,7 @@
 import React, { useState } from 'react'
-import {
-  Box,
-  Text,
-  Button,
-  useTranslation,
-  TransactionCompleted,
-  Loader,
-  useStakingContract,
-  useActiveWeb3React
-} from '@pangolindex/components'
+import { Box, Button, Text, TransactionCompleted, Loader } from '@honeycomb-finance/core'
+import { useTranslation, useActiveWeb3React } from '@honeycomb-finance/shared'
+import { useStakingContract } from '@honeycomb-finance/pools'
 import { WidgetWrapper, Root } from './styled'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { TransactionResponse } from '@ethersproject/providers'

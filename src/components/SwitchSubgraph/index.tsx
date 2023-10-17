@@ -1,5 +1,6 @@
 import React from 'react'
-import { ToggleButtons, useApplicationState } from '@pangolindex/components'
+import { ToggleButtons } from '@honeycomb-finance/core'
+import { useApplicationState } from '@honeycomb-finance/state-hooks'
 import { useChainId } from 'src/hooks'
 
 export default function SwitchSubgraph() {

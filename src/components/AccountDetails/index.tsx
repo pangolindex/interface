@@ -6,16 +6,10 @@ import { clearAllTransactions } from 'src/state/transactions/actions'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
-import {
-  NearConnector,
-  useAllTransactionsClearer,
-  useTranslation,
-  getEtherscanLink,
-  shortenAddressMapping,
-  PangolinInjectedWallet,
-  injected,
-  useActiveWeb3React
-} from '@pangolindex/components'
+import { useAllTransactionsClearer } from '@honeycomb-finance/state-hooks'
+import { NearConnector, injected } from '@honeycomb-finance/wallet-connectors'
+import { HoneycombInjectedWallet } from '@honeycomb-finance/walletmodal'
+import { useActiveWeb3React, useTranslation, getEtherscanLink, shortenAddressMapping } from '@honeycomb-finance/shared'
 import Identicon from '../Identicon'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import { LinkStyledButton, TYPE } from 'src/theme'
@@ -76,7 +70,7 @@ export default function AccountDetails({
   const wallet = Object.values(supportedWallets).find(_wallet => _wallet.isActive)
 
   function getStatusIcon() {
-    if (wallet instanceof PangolinInjectedWallet || wallet?.connector === injected) {
+    if (wallet instanceof HoneycombInjectedWallet || wallet?.connector === injected) {
       return (
         <IconWrapper size={16}>
           <Identicon />

@@ -1,8 +1,14 @@
-import { ChainId, WAVAX, AVALANCHE_FUJI } from '@pangolindex/sdk'
-import { SingleSideStaking } from './hooks'
-import { Tokens } from '@pangolindex/components'
+import { ChainId, WAVAX, AVALANCHE_FUJI, Token } from '@pangolindex/sdk'
+import { Tokens } from '@honeycomb-finance/shared'
 
 const { PNG } = Tokens
+
+export interface SingleSideStaking {
+  rewardToken: Token
+  conversionRouteHops: Token[]
+  stakingRewardAddress: string
+  version: number
+}
 
 export const SINGLE_SIDE_STAKING: { [key: string]: SingleSideStaking } = {
   WAVAX_V0: {

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
-import { Box, Text, Button, useTranslation, getEtherscanLink } from '@pangolindex/components'
+import { Box, Text, Button } from '@honeycomb-finance/core'
+import { useTranslation, getEtherscanLink } from '@honeycomb-finance/shared'
 import { Root, Link } from './styled'
 import { ArrowUpCircle } from 'react-feather'
 import { useChainId } from 'src/hooks'

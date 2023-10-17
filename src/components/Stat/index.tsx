@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box, CurrencyLogo, ANALYTICS_PAGE_MAPPING } from '@pangolindex/components'
+import { Text, Box, CurrencyLogo, ANALYTICS_PAGE_MAPPING } from '@honeycomb-finance/core'
 import { Currency, Token, WAVAX } from '@pangolindex/sdk'
 import { Colors } from 'src/theme/styled'
 import { useChainId } from 'src/hooks'

@@ -15,7 +15,8 @@ import { COINGECKO_API } from 'src/constants'
 import { Time } from 'lightweight-charts'
 import { useQuery } from 'react-query'
 import axios from 'axios'
-import { useCoinGeckoTokenData, splitQuery } from '@pangolindex/components'
+import { useCoinGeckoTokenData } from '@honeycomb-finance/state-hooks'
+import { splitQuery } from '@honeycomb-finance/shared'
 
 dayjs.extend(utc)
 
