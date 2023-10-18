@@ -2673,10 +2673,10 @@
     react-use "15.3.8"
     styled-components "5.3.3"
 
-"@honeycomb-finance/governance@0.1.0-rc.0":
-  version "0.1.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/governance/-/governance-0.1.0-rc.0.tgz#6889250c8e790ce046a8df75a3001a874f4c45c6"
-  integrity sha512-COKzQREcgBenGcxpc7hn21xl8okchY5yxSIy1QnIb+FNRkHHDzgvMGQhRtEzm7gGxdMZQAb37C/8GgE8Q7b25Q==
+"@honeycomb-finance/governance@0.1.0-rc.1":
+  version "0.1.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/governance/-/governance-0.1.0-rc.1.tgz#dc1c27203506b42cc2215a6c322f275820d88840"
+  integrity sha512-3xAt5ZRaz0tFAfusAUwLzz0GvxfdBo0In5l/0qeJDiBfKfuJ/7EKRjRxiFIeO4sixTeZx3yKvMkieBBDIfn9Ng==
   dependencies:
     "@ethersproject/abi" "5.6.4"
     "@ethersproject/providers" "5.6.8"
