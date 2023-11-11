@@ -40,3 +40,4 @@ cypress/fixtures/example.json
 yalc.lock
 
 dist
+.vercel
