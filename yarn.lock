@@ -2658,33 +2658,6 @@
     react-window "1.8.5"
     styled-components "5.3.3"
 
-"@honeycomb-finance/core@0.0.1-rc.0":
-  version "0.0.1-rc.0"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/core/-/core-0.0.1-rc.0.tgz#c486faa8f7664df96c3dc6d0e3eea5f1aa68ec40"
-  integrity sha512-EWjYUzie5ED/S7lLR4pwz4LA5UJgQv0zN0bvcAANfdCnzgARH8ZbKj4DiDGRcrvyDge+STltX96IwNhUgBer7w==
-  dependencies:
-    "@ethersproject/providers" "5.6.8"
-    "@honeycomb-finance/shared" "0.1.0-rc.0"
-    lodash.get "4.4.2"
-    polished "4.1.3"
-    prop-types "15.8.1"
-    react-circular-progressbar "2.1.0"
-    react-collapsed "3.4.0"
-    react-custom-scrollbars "4.2.1"
-    react-feather "2.0.9"
-    react-is "^17.0.2"
-    react-markdown "8.0.3"
-    react-paginate "8.1.3"
-    react-portal "4.2.1"
-    react-select "5.4.0"
-    react-slick "0.28.1"
-    react-switch "^6.0.0"
-    react-tabs "4.2.1"
-    react-tooltip "4.2.21"
-    remark-gfm "3.0.1"
-    styled-components "5.3.3"
-    styled-system "5.1.5"
-
 "@honeycomb-finance/core@0.1.0-rc.1":
   version "0.1.0-rc.1"
   resolved "https://registry.yarnpkg.com/@honeycomb-finance/core/-/core-0.1.0-rc.1.tgz#56acc56bcc6dec425027cbe65260228343b2ea00"
@@ -2780,16 +2753,16 @@
     remark-gfm "3.0.1"
     styled-components "5.3.3"
 
-"@honeycomb-finance/honeycomb-provider@0.0.1-rc.0":
-  version "0.0.1-rc.0"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/honeycomb-provider/-/honeycomb-provider-0.0.1-rc.0.tgz#b41d2f0958f543b483ab8a9467fb0c3c6004404b"
-  integrity sha512-Yn+U/1Ou2oIhXtFjHtloqCD5mPfiNfZ8NF6C6wSR/XXgf/NeqFYLNM72tjvmZ4xWJmXGhfMbGJoCt4JKdQmAwQ==
+"@honeycomb-finance/honeycomb-provider@0.0.1-rc.1":
+  version "0.0.1-rc.1"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/honeycomb-provider/-/honeycomb-provider-0.0.1-rc.1.tgz#5de80bb9ac71df95779859b18f802992135a1ef2"
+  integrity sha512-f3VUt5lNyG52fwNiKx3pO1gPDAivHa+GWhY6n5buOy3FE/uELfy23UlG5lVKxC1gbRDvHAoBMh9KN1o3mzcAGQ==
   dependencies:
     "@ethersproject/providers" "5.6.8"
-    "@honeycomb-finance/shared" "0.1.0-rc.0"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.0"
+    "@honeycomb-finance/shared" "0.1.0-rc.1"
+    "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
     "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
-    "@honeycomb-finance/walletmodal" "0.0.1-rc.0"
+    "@honeycomb-finance/walletmodal" "0.0.1-rc.1"
     "@web3-react/abstract-connector" "6.0.7"
     "@web3-react/core" "6.0.9"
     react-device-detect "1.6.2"
@@ -2873,38 +2846,6 @@
     react-use "15.3.8"
     styled-components "5.3.3"
 
-"@honeycomb-finance/shared@0.1.0-rc.0":
-  version "0.1.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/shared/-/shared-0.1.0-rc.0.tgz#2878d53dcb88770e1df346ff986c2821851b880f"
-  integrity sha512-1Sap1+Ef6nw6VffumoZ199/a0z7SUoPBsc4P+AQVttPvDAP+m5Bgrr4db7CpUTKCkGXN6aPgRlE40JmScMlGwA==
-  dependencies:
-    "@ethersproject/address" "5.6.1"
-    "@ethersproject/bignumber" "5.6.2"
-    "@ethersproject/constants" "5.6.1"
-    "@ethersproject/contracts" "5.6.2"
-    "@ethersproject/providers" "5.6.8"
-    "@ethersproject/units" "5.6.1"
-    "@hashgraph/hethers" "1.2.2"
-    "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
-    "@pangolindex/exchange-contracts" "2.1.7"
-    "@pangolindex/token-lists" "1.0.2"
-    "@web3-react/abstract-connector" "6.0.7"
-    "@web3-react/core" "6.0.9"
-    axios "0.26.0"
-    bn.js "5.2.1"
-    ethers "5.6.4"
-    graphql-request "4.2.0"
-    graphql-tag "2.11.0"
-    i18next "23.0.1"
-    i18next-browser-languagedetector "7.1.0"
-    lodash.merge "4.6.2"
-    lru-cache "7.13.2"
-    mixpanel-browser "2.45.0"
-    react-i18next "13.0.3"
-    react-query "3.39.3"
-    styled-components "5.3.3"
-    styled-system "5.1.5"
-
 "@honeycomb-finance/shared@0.1.0-rc.1":
   version "0.1.0-rc.1"
   resolved "https://registry.yarnpkg.com/@honeycomb-finance/shared/-/shared-0.1.0-rc.1.tgz#4b3268f722ae40605b3ef0e50479716991ba688e"
@@ -2936,26 +2877,6 @@
     react-query "3.39.3"
     styled-components "5.3.3"
     styled-system "5.1.5"
-
-"@honeycomb-finance/state-hooks@0.0.1-rc.0":
-  version "0.0.1-rc.0"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/state-hooks/-/state-hooks-0.0.1-rc.0.tgz#09077844222a07692e790afea0ec2b82640f2c77"
-  integrity sha512-3kcZs89jfJxsD3BkzQ9ZJ+oANGj3CEqBDARWkfZWHEJDq4ddWVfAVbP3/T5Sag6mCwEBfNRJ7mU2gzL4x4XImw==
-  dependencies:
-    "@ethersproject/abi" "5.6.4"
-    "@ethersproject/bignumber" "5.6.2"
-    "@ethersproject/contracts" "5.6.2"
-    "@ethersproject/providers" "5.6.8"
-    "@ethersproject/strings" "5.6.1"
-    "@ethersproject/units" "5.6.1"
-    "@honeycomb-finance/shared" "0.1.0-rc.0"
-    "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
-    "@pangolindex/token-lists" "1.0.2"
-    ajv "6.12.6"
-    ethers "5.6.4"
-    jotai "2.0.3"
-    lodash.flatmap "4.5.0"
-    react-query "3.39.3"
 
 "@honeycomb-finance/state-hooks@0.0.1-rc.1":
   version "0.0.1-rc.1"
@@ -3043,29 +2964,6 @@
     eventemitter3 "5.0.0"
     hashconnect "0.2.4"
     near-api-js "0.44.2"
-
-"@honeycomb-finance/walletmodal@0.0.1-rc.0":
-  version "0.0.1-rc.0"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/walletmodal/-/walletmodal-0.0.1-rc.0.tgz#2cd0d59c04f4bc9243917f0afab72b900b9b3a91"
-  integrity sha512-qZAIh1nbuW7EseQ9M02ApLLCFtcYGnjjfvDIVSweNKBrMNkh/EF9uOhjg9t9ba35rCraT7Gn1Kd2SNX8PiFnaQ==
-  dependencies:
-    "@ethersproject/providers" "5.6.8"
-    "@honeycomb-finance/core" "0.0.1-rc.0"
-    "@honeycomb-finance/shared" "0.1.0-rc.0"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.0"
-    "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
-    "@web3-react/abstract-connector" "6.0.7"
-    "@web3-react/core" "6.0.9"
-    deep-equal "2.0.5"
-    eventemitter3 "5.0.0"
-    jotai "2.0.3"
-    react-custom-scrollbars "4.2.1"
-    react-device-detect "1.6.2"
-    react-feather "2.0.9"
-    react-qr-code "2.0.11"
-    react-use "15.3.8"
-    react-virtualized-auto-sizer "1.0.2"
-    styled-components "5.3.3"
 
 "@honeycomb-finance/walletmodal@0.0.1-rc.1":
   version "0.0.1-rc.1"
