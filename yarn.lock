@@ -740,10 +740,10 @@
     typechain "8.x"
     typescript "4.x"
 
-"@defiedge/sdk@^0.0.7-b":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@defiedge/sdk/-/sdk-0.0.7.tgz#698152d503f74e3d9ac52fe6372e6df5342926f7"
-  integrity sha512-dkH0Vd+UhNgwZuC9xGdMU/wOjO1hd4iB6cz2x38KG3hFC4g5XRXOvGTYxBkrCF8QMhnq6fLvlyXpIvcQcrZpMA==
+"@defiedge/sdk@0.0.7-b":
+  version "0.0.7-b"
+  resolved "https://registry.yarnpkg.com/@defiedge/sdk/-/sdk-0.0.7-b.tgz#ec88531e483854e823469d5c8bd708871f4097c2"
+  integrity sha512-mFbOncgdIbH3X1TUWGPFh4VlFdVuFU8h9mM5cv/duXJN2a6pBF0Kw1AVC2UpINRyab94s3wDRbmBGB6UUhpJhA==
   dependencies:
     "@ethersproject/abstract-signer" "^5.6.2"
     "@ethersproject/address" "^5.6.0"
@@ -763,7 +763,7 @@
     ethereumjs-util "^7.1.4"
     ethers "^5.6.8"
     global "^4.4.0"
-    graphql "^16.6.0"
+    graphql "16.6.0"
     graphql-request "^6.0.0"
     jsbi "^3.1.5"
     typechain "^8.0.0"
@@ -2686,14 +2686,14 @@
     styled-components "5.3.3"
     styled-system "5.1.5"
 
-"@honeycomb-finance/elixir@0.1.0-rc.2":
-  version "0.1.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/elixir/-/elixir-0.1.0-rc.2.tgz#670f237daa6f6484ac14799021eb04179b03000f"
-  integrity sha512-DVbnwOn0rO/O+JyVZrCs+4Xa+z9fLSj0wypXR3CZ9BB+tha5WzAzFkZy0h3NmaKtofOy1iZFj9VgJQysGYKUZg==
+"@honeycomb-finance/elixir@0.1.0-rc.3":
+  version "0.1.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/elixir/-/elixir-0.1.0-rc.3.tgz#295b3b658a664e19183bfaba45d9915a59effee1"
+  integrity sha512-B8EGx04vlQh4HDUs64e2RkcCbyiEfr72QEuCza9Cq317ZARH0tjDjAV8Z9JeDkI8+WaY3ELBJ0T1AfBZlXyK/g==
   dependencies:
     "@ethersproject/contracts" "5.6.2"
     "@honeycomb-finance/core" "0.1.0-rc.1"
-    "@honeycomb-finance/elixirvaults" "1.0.0-rc.1"
+    "@honeycomb-finance/elixirvaults" "1.0.0-rc.2"
     "@honeycomb-finance/shared" "0.1.0-rc.1"
     "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
     "@honeycomb-finance/token-drawer" "0.0.1-rc.1"
@@ -2708,12 +2708,12 @@
     react-use "15.3.8"
     styled-components "5.3.3"
 
-"@honeycomb-finance/elixirvaults@1.0.0-rc.1":
-  version "1.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/elixirvaults/-/elixirvaults-1.0.0-rc.1.tgz#f1b67e7c5f402bc807e5943303cfd53090353e87"
-  integrity sha512-4esz5XNzkLm3rQuzmktWR5Vw/LwDUuo5KC+/pPGs/WjomimojO3iXPvB38U+Cr7r6nPTbqS8YLilxmjbIE38vg==
+"@honeycomb-finance/elixirvaults@1.0.0-rc.2":
+  version "1.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/elixirvaults/-/elixirvaults-1.0.0-rc.2.tgz#9630c6488ebd0e9eff5204e489df547b2e2895c4"
+  integrity sha512-OpQfQJwbb6qr2JLQs3hv+xtOTjlfYwcU3PR0ORAtdouRiEJvtMm+POOlG7id0fCFdjRzOaHo7FF+gxzDMhuo0w==
   dependencies:
-    "@defiedge/sdk" "^0.0.7-b"
+    "@defiedge/sdk" "0.0.7-b"
     "@ethersproject/contracts" "5.6.2"
     "@honeycomb-finance/core" "0.1.0-rc.1"
     "@honeycomb-finance/pools" "0.1.0-rc.2"
@@ -2898,15 +2898,15 @@
     lodash.flatmap "4.5.0"
     react-query "3.39.3"
 
-"@honeycomb-finance/swap@0.0.1-rc.2":
-  version "0.0.1-rc.2"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/swap/-/swap-0.0.1-rc.2.tgz#679493edfa175ea6a042346a99d22552a1223683"
-  integrity sha512-DYB9Fdhb8xgqYC0IsuIfTkKXy6WtsMOB9/ON8aYbqT9XicPWZ3hVH9ksVVWj0gk/rxOVrXbo/iwqRn/HePm9Iw==
+"@honeycomb-finance/swap@0.0.1-rc.3":
+  version "0.0.1-rc.3"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/swap/-/swap-0.0.1-rc.3.tgz#2f4ba1dd93fef36e38ea38d240fc035a17f14245"
+  integrity sha512-i+cV8oyAPjs/Lf1Gq7vej3kdRveTH2UvFVQbi091rw1aB0Xy7e9P5h1+myV518Td8LRHY5lFPPGZXZckntkt5Q==
   dependencies:
     "@ethersproject/providers" "5.6.8"
     "@gelatonetwork/limit-orders-react" "2.8.2"
     "@honeycomb-finance/core" "0.1.0-rc.1"
-    "@honeycomb-finance/elixir" "0.1.0-rc.2"
+    "@honeycomb-finance/elixir" "0.1.0-rc.3"
     "@honeycomb-finance/shared" "0.1.0-rc.1"
     "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
     "@honeycomb-finance/token-drawer" "0.0.1-rc.1"
@@ -11253,10 +11253,10 @@ graphql@15.8.0, graphql@^15.5.3:
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.8.0.tgz#33410e96b012fa3bdb1091cc99a94769db212b38"
   integrity sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==
 
-graphql@^16.6.0:
-  version "16.8.1"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.8.1.tgz#1930a965bef1170603702acdb68aedd3f3cf6f07"
-  integrity sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==
+graphql@16.6.0:
+  version "16.6.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.6.0.tgz#c2dcffa4649db149f6282af726c8c83f1c7c5fdb"
+  integrity sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==
 
 growl@1.10.5:
   version "1.10.5"
