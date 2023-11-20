@@ -740,10 +740,10 @@
     typechain "8.x"
     typescript "4.x"
 
-"@defiedge/sdk@0.0.7-b":
-  version "0.0.7-b"
-  resolved "https://registry.yarnpkg.com/@defiedge/sdk/-/sdk-0.0.7-b.tgz#ec88531e483854e823469d5c8bd708871f4097c2"
-  integrity sha512-mFbOncgdIbH3X1TUWGPFh4VlFdVuFU8h9mM5cv/duXJN2a6pBF0Kw1AVC2UpINRyab94s3wDRbmBGB6UUhpJhA==
+"@defiedge/sdk@0.0.9-b":
+  version "0.0.9-b"
+  resolved "https://registry.yarnpkg.com/@defiedge/sdk/-/sdk-0.0.9-b.tgz#ecea19f828f44a9326bfba60cd944372b45e33b8"
+  integrity sha512-PZsgwo7CDAt0Em/orpf6sZpZVbMY5qEuH7n32avLz42FCaHicHxhDX8VZGPzARvlcsWeFsqJf88mTFLqNOGuKg==
   dependencies:
     "@ethersproject/abstract-signer" "^5.6.2"
     "@ethersproject/address" "^5.6.0"
@@ -2612,17 +2612,17 @@
     "@hethers/signing-key" "1.2.0"
     "@hethers/transactions" "1.2.1"
 
-"@honeycomb-finance/airdrop@0.0.1-rc.1":
-  version "0.0.1-rc.1"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/airdrop/-/airdrop-0.0.1-rc.1.tgz#7f8396e53a972648aabf0fd4fbe83c13eaf7ecb1"
-  integrity sha512-pyc0DM37BRKDinVRb4iW1+yCMOUwlNayde0Xy4MlDgM5ttIPwMv2XoxyWQOQlitghFNJVNWe9CrNgJeYHW+M8w==
+"@honeycomb-finance/airdrop@0.0.1-rc.2":
+  version "0.0.1-rc.2"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/airdrop/-/airdrop-0.0.1-rc.2.tgz#605d73cee93644f84d405d0bea82e4b57ca966ed"
+  integrity sha512-XNsQT6CNFnw4I2d6GbP4YOMOOLwB6ZiX/t/Zub4HpK4YhvqqxshhK7wen9xueJLrnBZ247EITmbiCSmB4HeWJQ==
   dependencies:
     "@ethersproject/providers" "5.6.8"
-    "@honeycomb-finance/core" "0.1.0-rc.1"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
+    "@honeycomb-finance/core" "0.1.0-rc.2"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
+    "@honeycomb-finance/state-hooks" "0.0.1-rc.2"
     "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
-    "@honeycomb-finance/walletmodal" "0.0.1-rc.1"
+    "@honeycomb-finance/walletmodal" "0.0.1-rc.2"
     "@pangolindex/exchange-contracts" "2.1.7"
     "@web3-react/core" "6.0.9"
     axios "0.26.0"
@@ -2631,19 +2631,19 @@
     react-query "3.39.3"
     styled-components "5.3.3"
 
-"@honeycomb-finance/bridge@0.1.0-rc.1":
-  version "0.1.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/bridge/-/bridge-0.1.0-rc.1.tgz#b4dd8ebd447c6672782812a601eb3ce4350f02c5"
-  integrity sha512-tQFUp8yW8/SjECVnk3M0wpiaQwtULV1j9AlLgFXYrrYuAT/dfeFeImzmgI0I6rNF5u+gFqzrl6dh9Skj6kXZtQ==
+"@honeycomb-finance/bridge@0.1.0-rc.2":
+  version "0.1.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/bridge/-/bridge-0.1.0-rc.2.tgz#ea0dd29fae1322634541b6c4daf938dc54b4d647"
+  integrity sha512-e8Y/t9O5EyC/tcJsl7l4DFea11vPx7NZlhnbyHekTiv/MqglVjaVZDHFxQ7JPlbOpUwOQ/DR4NibWoAYgfsWTA==
   dependencies:
     "@0xsquid/sdk" "1.8.0"
     "@ethersproject/providers" "5.6.8"
     "@ethersproject/units" "5.6.1"
-    "@honeycomb-finance/core" "0.1.0-rc.1"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
+    "@honeycomb-finance/core" "0.1.0-rc.2"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
+    "@honeycomb-finance/state-hooks" "0.0.1-rc.2"
     "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
-    "@honeycomb-finance/walletmodal" "0.0.1-rc.1"
+    "@honeycomb-finance/walletmodal" "0.0.1-rc.2"
     "@lifi/sdk" "2.4.3"
     "@web3-react/core" "6.0.9"
     axios "0.26.0"
@@ -2658,13 +2658,13 @@
     react-window "1.8.5"
     styled-components "5.3.3"
 
-"@honeycomb-finance/core@0.1.0-rc.1":
-  version "0.1.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/core/-/core-0.1.0-rc.1.tgz#56acc56bcc6dec425027cbe65260228343b2ea00"
-  integrity sha512-fmDfFGT4UPQxM+4DKzqlbMBRaWa2Tonk1TBbgmj9itX8/I+MeE2AbmXxIPtj2XLk6/4lz59SQNn4AyGgY1cPsA==
+"@honeycomb-finance/core@0.1.0-rc.2":
+  version "0.1.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/core/-/core-0.1.0-rc.2.tgz#79afb8f9313fa99169a2d337a51f6fdc2a3e8d1b"
+  integrity sha512-j1kh6LC09H4XOd/ut3+xnpTSrhJya5Cek6ZsiawpPTuQVuPsdNsZj+yZnMCWr/Z5nbi76k0HRQoI+ftligOMDQ==
   dependencies:
     "@ethersproject/providers" "5.6.8"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
     "@tanstack/react-table" "^8.10.7"
     lodash.get "4.4.2"
     polished "4.1.3"
@@ -2686,17 +2686,17 @@
     styled-components "5.3.3"
     styled-system "5.1.5"
 
-"@honeycomb-finance/elixir@0.1.0-rc.3":
-  version "0.1.0-rc.3"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/elixir/-/elixir-0.1.0-rc.3.tgz#295b3b658a664e19183bfaba45d9915a59effee1"
-  integrity sha512-B8EGx04vlQh4HDUs64e2RkcCbyiEfr72QEuCza9Cq317ZARH0tjDjAV8Z9JeDkI8+WaY3ELBJ0T1AfBZlXyK/g==
+"@honeycomb-finance/elixir@0.1.0-rc.4":
+  version "0.1.0-rc.4"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/elixir/-/elixir-0.1.0-rc.4.tgz#48bb945eaeb9161f4cf9e4472a5630774f2733bb"
+  integrity sha512-ITXxtyEDrES8TduoY7op9TGy4FabB199GAmjpJ9lArzi2Z+MbJ3cHyCyty9/LkWt92kj9HKzNSPHX9yZRWs5Tw==
   dependencies:
     "@ethersproject/contracts" "5.6.2"
-    "@honeycomb-finance/core" "0.1.0-rc.1"
-    "@honeycomb-finance/elixirvaults" "1.0.0-rc.2"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
-    "@honeycomb-finance/token-drawer" "0.0.1-rc.1"
+    "@honeycomb-finance/core" "0.1.0-rc.2"
+    "@honeycomb-finance/elixirvaults" "1.0.0-rc.3"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
+    "@honeycomb-finance/state-hooks" "0.0.1-rc.2"
+    "@honeycomb-finance/token-drawer" "0.0.1-rc.2"
     "@web3-react/core" "6.0.9"
     d3 "7.6.1"
     ethers "5.6.4"
@@ -2708,18 +2708,18 @@
     react-use "15.3.8"
     styled-components "5.3.3"
 
-"@honeycomb-finance/elixirvaults@1.0.0-rc.2":
-  version "1.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/elixirvaults/-/elixirvaults-1.0.0-rc.2.tgz#9630c6488ebd0e9eff5204e489df547b2e2895c4"
-  integrity sha512-OpQfQJwbb6qr2JLQs3hv+xtOTjlfYwcU3PR0ORAtdouRiEJvtMm+POOlG7id0fCFdjRzOaHo7FF+gxzDMhuo0w==
+"@honeycomb-finance/elixirvaults@1.0.0-rc.3":
+  version "1.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/elixirvaults/-/elixirvaults-1.0.0-rc.3.tgz#e84a616178272786b88f4da5339eae9cfd3c6b9a"
+  integrity sha512-pv00FwjvE5rvLltKCQBU5RU3rJBKrqaLXndmawpdT0uC5EOMTxI4xOnUIBz3B8bic4wBh0eL6bMYxylCyQDvaw==
   dependencies:
-    "@defiedge/sdk" "0.0.7-b"
+    "@defiedge/sdk" "0.0.9-b"
     "@ethersproject/contracts" "5.6.2"
-    "@honeycomb-finance/core" "0.1.0-rc.1"
-    "@honeycomb-finance/pools" "0.1.0-rc.2"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
-    "@honeycomb-finance/token-drawer" "0.0.1-rc.1"
+    "@honeycomb-finance/core" "0.1.0-rc.2"
+    "@honeycomb-finance/pools" "0.1.0-rc.3"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
+    "@honeycomb-finance/state-hooks" "0.0.1-rc.2"
+    "@honeycomb-finance/token-drawer" "0.0.1-rc.2"
     "@web3-react/core" "6.0.9"
     d3 "7.6.1"
     ethers "5.6.4"
@@ -2732,17 +2732,17 @@
     sanitize-html "2.11.0"
     styled-components "5.3.3"
 
-"@honeycomb-finance/governance@0.1.0-rc.2":
-  version "0.1.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/governance/-/governance-0.1.0-rc.2.tgz#4b891635bcd60d76aeeaf7da424579d337e54152"
-  integrity sha512-tY+BChYEW2eb5jahqafMZOs3yFPq1wg8PqJdB6LyVRjDA4TqCeLGhRuauBHFT3HbApCceF+N8QlHRw3NfJPNSQ==
+"@honeycomb-finance/governance@0.1.0-rc.3":
+  version "0.1.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/governance/-/governance-0.1.0-rc.3.tgz#1fe7bf4ce1ec9df28432f118e1cfbee63bf0ce66"
+  integrity sha512-Nk54U966PVqv4UEBta7+EQYjaziXtgTIcCPHqnx2gr+h7P9DYmn2NQqjgcj6xgL2jiA7KXMHWIFOkDaw5XuUYw==
   dependencies:
     "@ethersproject/abi" "5.6.4"
     "@ethersproject/providers" "5.6.8"
-    "@honeycomb-finance/core" "0.1.0-rc.1"
-    "@honeycomb-finance/sar" "0.0.1-rc.1"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
+    "@honeycomb-finance/core" "0.1.0-rc.2"
+    "@honeycomb-finance/sar" "0.0.1-rc.2"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
+    "@honeycomb-finance/state-hooks" "0.0.1-rc.2"
     "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
     "@pangolindex/exchange-contracts" "2.1.7"
     "@pangolindex/governance" "^1.2.0"
@@ -2753,34 +2753,34 @@
     remark-gfm "3.0.1"
     styled-components "5.3.3"
 
-"@honeycomb-finance/honeycomb-provider@0.0.1-rc.1":
-  version "0.0.1-rc.1"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/honeycomb-provider/-/honeycomb-provider-0.0.1-rc.1.tgz#5de80bb9ac71df95779859b18f802992135a1ef2"
-  integrity sha512-f3VUt5lNyG52fwNiKx3pO1gPDAivHa+GWhY6n5buOy3FE/uELfy23UlG5lVKxC1gbRDvHAoBMh9KN1o3mzcAGQ==
+"@honeycomb-finance/honeycomb-provider@0.0.1-rc.2":
+  version "0.0.1-rc.2"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/honeycomb-provider/-/honeycomb-provider-0.0.1-rc.2.tgz#e7158eca1c71dc08853769ccc7e0401bd16a6765"
+  integrity sha512-myNNl9v3bh1pkR6YR3te4zEMQcS5F5ESbBrYsLDC/sNy2MM3esnTJIdegzVytpmilxerBZ6NmoQKHQuwGIomug==
   dependencies:
     "@ethersproject/providers" "5.6.8"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
+    "@honeycomb-finance/state-hooks" "0.0.1-rc.2"
     "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
-    "@honeycomb-finance/walletmodal" "0.0.1-rc.1"
+    "@honeycomb-finance/walletmodal" "0.0.1-rc.2"
     "@web3-react/abstract-connector" "6.0.7"
     "@web3-react/core" "6.0.9"
     react-device-detect "1.6.2"
     react-query "3.39.3"
     react-use "15.3.8"
 
-"@honeycomb-finance/pools@0.1.0-rc.2":
-  version "0.1.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/pools/-/pools-0.1.0-rc.2.tgz#10bdcb38462b208a4034d2988312253635b6d3a3"
-  integrity sha512-YAU6rq3YCNjGIsba58JtMCB8n+mqmMGYF/fvqN4+rUWo67K/OzUF0ylHOry4r+BOkMApTYn9JxQed1BQW3fcrw==
+"@honeycomb-finance/pools@0.1.0-rc.3":
+  version "0.1.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/pools/-/pools-0.1.0-rc.3.tgz#03e2ef623d67d29b4664ade272c3c69e57a49467"
+  integrity sha512-Z/WZ+5yVMKngY3XZOUlpHCWe3bYm6Z/QNbMGTypTWaSjWzgIIvo8oCXhlSxAs7cSPC8G96lm/rw87F+o6CbF4A==
   dependencies:
     "@ethersproject/abi" "5.6.4"
     "@ethersproject/providers" "5.6.8"
     "@ethersproject/units" "5.6.1"
-    "@honeycomb-finance/core" "0.1.0-rc.1"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
-    "@honeycomb-finance/token-drawer" "0.0.1-rc.1"
+    "@honeycomb-finance/core" "0.1.0-rc.2"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
+    "@honeycomb-finance/state-hooks" "0.0.1-rc.2"
+    "@honeycomb-finance/token-drawer" "0.0.1-rc.2"
     "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
     "@pangolindex/exchange-contracts" "2.1.7"
     axios "0.26.0"
@@ -2801,15 +2801,15 @@
     sanitize-html "2.11.0"
     styled-components "5.3.3"
 
-"@honeycomb-finance/portfolio@0.0.1-rc.1":
-  version "0.0.1-rc.1"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/portfolio/-/portfolio-0.0.1-rc.1.tgz#5fa0cb7e9b2b9a5d2410a37dd5cbf4eebd97f277"
-  integrity sha512-jzNFPPwt4BZ5yFanw4mZo+icTnAYukqOTASPu/B+MZrFYoTUJnsIJ+1hpSb94fea5RvtMZboPMQBDx0v1U/5pQ==
+"@honeycomb-finance/portfolio@0.0.1-rc.2":
+  version "0.0.1-rc.2"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/portfolio/-/portfolio-0.0.1-rc.2.tgz#74b55314c46980f30e0506e93813a812bcd0c715"
+  integrity sha512-OUUcKhidgbNt4U1/mqIXhmP+Jn9BhV7cz6iAP0I1yF5qwElcQKuPfHiU5c6Hrv2Av2+yjDHTd0ngmWALYh3LfA==
   dependencies:
     "@ethersproject/providers" "5.6.8"
-    "@honeycomb-finance/core" "0.1.0-rc.1"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
+    "@honeycomb-finance/core" "0.1.0-rc.2"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
+    "@honeycomb-finance/state-hooks" "0.0.1-rc.2"
     "@web3-react/core" "6.0.9"
     axios "0.26.0"
     dayjs "1.10.7"
@@ -2826,17 +2826,17 @@
     recharts "2.1.13"
     styled-components "5.3.3"
 
-"@honeycomb-finance/sar@0.0.1-rc.1":
-  version "0.0.1-rc.1"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/sar/-/sar-0.0.1-rc.1.tgz#b114fc57456ff6910fdd56aeee0308ade9b2a45c"
-  integrity sha512-rpM71pvZjJTo4xvWobyLXde0B7UqYsLZ0cGFuQmrWmBXpUBXRDnzwOF7ihaQ0p4ROa0IsuQLDn8Dr1Re6MRNPA==
+"@honeycomb-finance/sar@0.0.1-rc.2":
+  version "0.0.1-rc.2"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/sar/-/sar-0.0.1-rc.2.tgz#bc5d7201f7d77b9040d17ab99c977e2a7fed9f99"
+  integrity sha512-3RQ63/KEKvPRxrlCzlCkoKW9w70ehOg0lPr7+wzC4cS3N7Q8QkSmTtexXiogcI2h2pBE3UjqrBDnwzSB2O5ubw==
   dependencies:
     "@ethersproject/bignumber" "5.6.2"
     "@ethersproject/providers" "5.6.8"
     "@ethersproject/units" "5.6.1"
-    "@honeycomb-finance/core" "0.1.0-rc.1"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
+    "@honeycomb-finance/core" "0.1.0-rc.2"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
+    "@honeycomb-finance/state-hooks" "0.0.1-rc.2"
     "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
     "@web3-react/core" "6.0.9"
     ethers "5.6.4"
@@ -2846,10 +2846,10 @@
     react-use "15.3.8"
     styled-components "5.3.3"
 
-"@honeycomb-finance/shared@0.1.0-rc.1":
-  version "0.1.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/shared/-/shared-0.1.0-rc.1.tgz#4b3268f722ae40605b3ef0e50479716991ba688e"
-  integrity sha512-5ay6My5TNuaT+icamj5Ml3akXJCIt0nWeq/FqIjXl0TdNdLBlLo16dWXr3pgpF1Z0mJ9EP06CXfPAKUlHDqhXQ==
+"@honeycomb-finance/shared@0.1.0-rc.2":
+  version "0.1.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/shared/-/shared-0.1.0-rc.2.tgz#31642124df2da17196097e47c9686f0d9931fed4"
+  integrity sha512-19RxyASxouCKbWwrinCzs9lAqegPgL2941rR2DaEPnMBBCqjblj/uiyZLH3IPEsEoxFCZcB7aC1mPvfgwNZwjg==
   dependencies:
     "@ethersproject/address" "5.6.1"
     "@ethersproject/bignumber" "5.6.2"
@@ -2878,10 +2878,10 @@
     styled-components "5.3.3"
     styled-system "5.1.5"
 
-"@honeycomb-finance/state-hooks@0.0.1-rc.1":
-  version "0.0.1-rc.1"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/state-hooks/-/state-hooks-0.0.1-rc.1.tgz#b8c2895f7ce836fbfa7a379848dc90c3adb8b535"
-  integrity sha512-NfbM1d3KoTBnPwTUjBOaM5fxbQUIZX6vso7Kx2jQifDdZ8mJUdmB/n3xFzQbORT+VG2qfskdOy7VVNTaLQygRQ==
+"@honeycomb-finance/state-hooks@0.0.1-rc.2":
+  version "0.0.1-rc.2"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/state-hooks/-/state-hooks-0.0.1-rc.2.tgz#068352c7213396e8ccba79a7a17f8e3556e837af"
+  integrity sha512-8WbSifzmGVw3pdA1fL8yCiUyZ+Kdtz/1UwLY3ZcQaL9ymK9aMkQBYiY1GE2pOn7tIVXke/X94+ftaFP7qQEbBg==
   dependencies:
     "@ethersproject/abi" "5.6.4"
     "@ethersproject/bignumber" "5.6.2"
@@ -2889,7 +2889,7 @@
     "@ethersproject/providers" "5.6.8"
     "@ethersproject/strings" "5.6.1"
     "@ethersproject/units" "5.6.1"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
     "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
     "@pangolindex/token-lists" "1.0.2"
     ajv "6.12.6"
@@ -2898,18 +2898,18 @@
     lodash.flatmap "4.5.0"
     react-query "3.39.3"
 
-"@honeycomb-finance/swap@0.0.1-rc.3":
-  version "0.0.1-rc.3"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/swap/-/swap-0.0.1-rc.3.tgz#2f4ba1dd93fef36e38ea38d240fc035a17f14245"
-  integrity sha512-i+cV8oyAPjs/Lf1Gq7vej3kdRveTH2UvFVQbi091rw1aB0Xy7e9P5h1+myV518Td8LRHY5lFPPGZXZckntkt5Q==
+"@honeycomb-finance/swap@0.0.1-rc.4":
+  version "0.0.1-rc.4"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/swap/-/swap-0.0.1-rc.4.tgz#356aa9e6785b59326f69cacbda00c00d71c439d9"
+  integrity sha512-xO8uYH9vbyVn3i2NRHIC52LeX1pIYmkvYeeJ62pEiLIcifXoPT8wro/EbbWm9Gbjn6bWsix1FPJXnFcLWbSFzg==
   dependencies:
     "@ethersproject/providers" "5.6.8"
     "@gelatonetwork/limit-orders-react" "2.8.2"
-    "@honeycomb-finance/core" "0.1.0-rc.1"
-    "@honeycomb-finance/elixir" "0.1.0-rc.3"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
-    "@honeycomb-finance/token-drawer" "0.0.1-rc.1"
+    "@honeycomb-finance/core" "0.1.0-rc.2"
+    "@honeycomb-finance/elixir" "0.1.0-rc.4"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
+    "@honeycomb-finance/state-hooks" "0.0.1-rc.2"
+    "@honeycomb-finance/token-drawer" "0.0.1-rc.2"
     "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
     "@orbs-network/twap-ui" "0.5.2"
     "@orbs-network/twap-ui-pangolin" "0.5.4"
@@ -2922,14 +2922,14 @@
     styled-components "5.3.3"
     styled-system "5.1.5"
 
-"@honeycomb-finance/token-drawer@0.0.1-rc.1":
-  version "0.0.1-rc.1"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/token-drawer/-/token-drawer-0.0.1-rc.1.tgz#8151c5d1516ef6761db2f2fd7342770ca2a0144b"
-  integrity sha512-SiAsE0LI6EJ6G9udNDpPAL2FWsCZmZmerYg5ytTUa/4OD4rUnYirxqsNfq3wuih+U/OekguQ3eB6qPIIJNte+g==
+"@honeycomb-finance/token-drawer@0.0.1-rc.2":
+  version "0.0.1-rc.2"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/token-drawer/-/token-drawer-0.0.1-rc.2.tgz#860be8dc8ec39dce630196ed613101daa9a71b6d"
+  integrity sha512-k35wJpDz9GKcgY0Ahm2ttqR5YavENooSPoTc7dc63lovD0ryuK00aSCljVob6GyNMN5SZEKZJ8vC4J5zgCgQ2A==
   dependencies:
-    "@honeycomb-finance/core" "0.1.0-rc.1"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
+    "@honeycomb-finance/core" "0.1.0-rc.2"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
+    "@honeycomb-finance/state-hooks" "0.0.1-rc.2"
     "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
     deep-equal "2.0.5"
     polished "4.1.3"
@@ -2965,15 +2965,15 @@
     hashconnect "0.2.4"
     near-api-js "0.44.2"
 
-"@honeycomb-finance/walletmodal@0.0.1-rc.1":
-  version "0.0.1-rc.1"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/walletmodal/-/walletmodal-0.0.1-rc.1.tgz#83e7e900afb55d03f572d70a31c1c8a417cf8c01"
-  integrity sha512-N2Z1Mdwiv1Aothkx/2BtRz80qY1jsRhh92TfnepR2w7KrHR5rrBuG7L6LYEoomN/N7RyKv82DiYLJ7WSKJWWnQ==
+"@honeycomb-finance/walletmodal@0.0.1-rc.2":
+  version "0.0.1-rc.2"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/walletmodal/-/walletmodal-0.0.1-rc.2.tgz#2034c38e3ad88a1fd8b44f94290840b6e5426fd5"
+  integrity sha512-jpfMGfLzY4i6boSaICRDUTkEr82As2VayyD8VkF5sZSEpc6LKdprHGc7t44B+XaoOESjUdO+YzCZVYVR3fiLzQ==
   dependencies:
     "@ethersproject/providers" "5.6.8"
-    "@honeycomb-finance/core" "0.1.0-rc.1"
-    "@honeycomb-finance/shared" "0.1.0-rc.1"
-    "@honeycomb-finance/state-hooks" "0.0.1-rc.1"
+    "@honeycomb-finance/core" "0.1.0-rc.2"
+    "@honeycomb-finance/shared" "0.1.0-rc.2"
+    "@honeycomb-finance/state-hooks" "0.0.1-rc.2"
     "@honeycomb-finance/wallet-connectors" "0.0.1-rc.0"
     "@web3-react/abstract-connector" "6.0.7"
     "@web3-react/core" "6.0.9"
