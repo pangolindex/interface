@@ -2732,10 +2732,10 @@
     sanitize-html "2.11.0"
     styled-components "5.3.3"
 
-"@honeycomb-finance/governance@0.1.0-rc.4":
-  version "0.1.0-rc.4"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/governance/-/governance-0.1.0-rc.4.tgz#c8683f5a7d0a617a7fd569d7df16890dd5b5885f"
-  integrity sha512-bBcUzF2oGDpvIOFtfceuythEuxIfpr2WgNrhNVrumI6UgLrQedMAd8JMtucINnBamjjQQRBy7KTHbDAHFJPkLQ==
+"@honeycomb-finance/governance@0.1.0-rc.5":
+  version "0.1.0-rc.5"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/governance/-/governance-0.1.0-rc.5.tgz#daef2d6374ae5ebdd033d5fe165ddc077084774e"
+  integrity sha512-qY7x+y8zrJjHu2GGfWMq23r6dZFNq/BBOte/jtN6Iiqw9iKj3CaRrD5cmBUSNekoEv0Pcizz5g3gn2VCvTwisw==
   dependencies:
     "@ethersproject/abi" "5.6.4"
     "@ethersproject/providers" "5.6.8"
