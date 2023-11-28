@@ -1,9 +1,9 @@
 export const PrivacyPolicy = `
 # **Privacy Policy**
 
-Last updated: 23 September 2021
+Last updated: 1 November 2023
 
-Vizier Pte Limited, a limited company registered in the British Virgin Islands ("us", "we", or "our") operates and manages the [https://pangolin.exchange/](https://pangolin.exchange/), [https://info.pangolin.exchange](https://app.pangolin.exchange/) and [https://app.pangolin.exchange](https://app.pangolin.exchange/) websites (the "Service"). This page informs you of our policies regarding the collection, use and disclosure of Personal Information when you use our Service.
+Pangolin Inc, a limited company registered in the Panama ("us", "we", or "our") operates and manages the [https://pangolin.exchange/](https://pangolin.exchange/), [https://info.pangolin.exchange](https://app.pangolin.exchange/) and [https://app.pangolin.exchange](https://app.pangolin.exchange/) websites (the "Service"). This page informs you of our policies regarding the collection, use and disclosure of Personal Information when you use our Service.
 
 We will not use or share your information with anyone except as described in this Privacy Policy. We use your Personal Information for providing and improving the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms of Service.
 

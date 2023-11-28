@@ -37,7 +37,7 @@
     "@metamask/jazzicon": "2.0.0",
     "@pangolindex/exchange-contracts": "2.1.9",
     "@pangolindex/governance": "1.2.0",
-    "@pangolindex/sdk": "5.3.6-rc.4",
+    "@pangolindex/sdk": "5.3.8-rc.0",
     "@pangolindex/token-lists": "1.0.2",
     "@reach/dialog": "0.10.5",
     "@reduxjs/toolkit": "1.8.0",
