@@ -2686,14 +2686,14 @@
     styled-components "5.3.3"
     styled-system "5.1.5"
 
-"@honeycomb-finance/elixir@0.1.0-rc.6":
-  version "0.1.0-rc.6"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/elixir/-/elixir-0.1.0-rc.6.tgz#0306ec8fc853a9929fce98e362334c415a819cae"
-  integrity sha512-sSuVE4NItG5/3Vc4CRdW7wdFIHekf6c3U8VKuDOtidlJotun1hU+dZ0gU5jC3ns2U4TFCcOujX5s0E+UB7yJjA==
+"@honeycomb-finance/elixir@0.1.0-rc.7":
+  version "0.1.0-rc.7"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/elixir/-/elixir-0.1.0-rc.7.tgz#a1515b2efc9be48d861c82a008ee5432741b0244"
+  integrity sha512-EvDFszZ4TxIxDHicAPx+082/szHS68IRIvgddOWVeTp1Sjt7dpCvVDWiM92Pf2OTXHlpaZlzj178DcJbFJsO3A==
   dependencies:
     "@ethersproject/contracts" "5.6.2"
     "@honeycomb-finance/core" "0.1.0-rc.4"
-    "@honeycomb-finance/elixirvaults" "1.0.0-rc.5"
+    "@honeycomb-finance/elixirvaults" "1.0.0-rc.6"
     "@honeycomb-finance/shared" "0.1.0-rc.4"
     "@honeycomb-finance/state-hooks" "0.1.0-rc.4"
     "@honeycomb-finance/token-drawer" "0.0.1-rc.4"
@@ -2708,15 +2708,15 @@
     react-use "15.3.8"
     styled-components "5.3.3"
 
-"@honeycomb-finance/elixirvaults@1.0.0-rc.5":
-  version "1.0.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/elixirvaults/-/elixirvaults-1.0.0-rc.5.tgz#e30f612223d31b436a062ec12b00b751e0cc6a2b"
-  integrity sha512-1tvSUoMsLqRH56KlHnUZlhUjEJyUCGnSeijOrGlke+bTcJhknXNDGhuOrkInOmF/dmqLz14aaLojtE7kB/XNjw==
+"@honeycomb-finance/elixirvaults@1.0.0-rc.6":
+  version "1.0.0-rc.6"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/elixirvaults/-/elixirvaults-1.0.0-rc.6.tgz#4f47229d0f966ca4877d60fa2e6d1a96444fcbe9"
+  integrity sha512-YfdnpBE5Tp7N7tzpl7vJLCcXkuEgq7rLJpP8rvGuau/aNTWlG1nVhn0UXKP7jJLWp1p5wemrgTFcZd9ZZoyyrQ==
   dependencies:
     "@defiedge/sdk" "0.0.9-b"
     "@ethersproject/contracts" "5.6.2"
     "@honeycomb-finance/core" "0.1.0-rc.4"
-    "@honeycomb-finance/pools" "0.1.0-rc.5"
+    "@honeycomb-finance/pools" "0.1.0-rc.6"
     "@honeycomb-finance/shared" "0.1.0-rc.4"
     "@honeycomb-finance/state-hooks" "0.1.0-rc.4"
     "@honeycomb-finance/token-drawer" "0.0.1-rc.4"
@@ -2769,10 +2769,10 @@
     react-query "3.39.3"
     react-use "15.3.8"
 
-"@honeycomb-finance/pools@0.1.0-rc.5":
-  version "0.1.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/pools/-/pools-0.1.0-rc.5.tgz#0ef104c5bfeaf7ee6676e4fb6fe380cff8c4bb3c"
-  integrity sha512-B5wBKxyqmW64xV0GJsmE49H6hAwS5Kp+pQyjcRkwC/N+5dRJhnPwI2FRCrnpfNhEYZp4ILq0EELURQU9J2f04w==
+"@honeycomb-finance/pools@0.1.0-rc.6":
+  version "0.1.0-rc.6"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/pools/-/pools-0.1.0-rc.6.tgz#fdfe5d7995bb31d289a0cabd581178ae75c92563"
+  integrity sha512-/tPBW9jAJije7CWzq3bjuvUhHCCMqp4BL7bAAJJb6eGfQVpajMmRRzEl7vNpqE8/d3uMrzWijir69N0TouI5Vw==
   dependencies:
     "@ethersproject/abi" "5.6.4"
     "@ethersproject/providers" "5.6.8"
@@ -2898,15 +2898,15 @@
     lodash.flatmap "4.5.0"
     react-query "3.39.3"
 
-"@honeycomb-finance/swap@0.0.1-rc.6":
-  version "0.0.1-rc.6"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/swap/-/swap-0.0.1-rc.6.tgz#910782fcdd3553ec5a69447fab2d09169eda2d4c"
-  integrity sha512-avFBIdI+rZoMCjM/BAlTT/98Pt2E08/zE84CfIoNytluANRX37NbiMoBKMxoSOeo2VjavVnrHzw+rVGi0+kVhA==
+"@honeycomb-finance/swap@0.0.1-rc.7":
+  version "0.0.1-rc.7"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/swap/-/swap-0.0.1-rc.7.tgz#35aadc9298603a1fbc10c455618d9522050612f8"
+  integrity sha512-hIpcAYeNVftE7jQ/jOs9tqZDeqpF2Wzagq6l8b/uh3sVsyH+ECk23p+iUwykTEwbwkjjCcsrU/1K4GVogDyA8Q==
   dependencies:
     "@ethersproject/providers" "5.6.8"
     "@gelatonetwork/limit-orders-react" "2.8.2"
     "@honeycomb-finance/core" "0.1.0-rc.4"
-    "@honeycomb-finance/elixir" "0.1.0-rc.6"
+    "@honeycomb-finance/elixir" "0.1.0-rc.7"
     "@honeycomb-finance/shared" "0.1.0-rc.4"
     "@honeycomb-finance/state-hooks" "0.1.0-rc.4"
     "@honeycomb-finance/token-drawer" "0.0.1-rc.4"
