@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { GovernanceDetail } from '@pangolindex/components'
+import { GovernanceDetail } from '@honeycomb-finance/governance'
 
 export type GovernanceDetailProps = Record<'id', 'string'>
 

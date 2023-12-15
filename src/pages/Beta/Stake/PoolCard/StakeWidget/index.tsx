@@ -1,19 +1,9 @@
 import React from 'react'
 import { MENU_LINK } from 'src/constants'
 import { Root, Buttons, MaxButton, StakeWrapper, GridContainer, InputText } from './styled'
-import {
-  Box,
-  Button,
-  NumberOptions,
-  useTranslation,
-  Loader,
-  Stat,
-  TransactionCompleted,
-  useWalletModalToggle,
-  ZERO_ADDRESS,
-  TransactionApprovalState as ApprovalState,
-  useActiveWeb3React
-} from '@pangolindex/components'
+import { Box, Button, Loader, Stat, NumberOptions, TransactionCompleted } from '@honeycomb-finance/core'
+import { useTranslation, useActiveWeb3React, ZERO_ADDRESS } from '@honeycomb-finance/shared'
+import { ApprovalState, useWalletModalToggle } from '@honeycomb-finance/state-hooks'
 import { SingleSideStakingInfo, useDerivedStakingProcess } from 'src/state/stake/hooks'
 
 type Props = {

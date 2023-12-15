@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import {
-  Text,
-  Box,
-  ToggleButtons,
-  useGelatoLimitOrdersListHook,
-  useTranslation,
-  DropdownMenu,
-  ShowMore
-} from '@pangolindex/components'
+import { useGelatoLimitOrdersListHook } from '@honeycomb-finance/swap'
+import { Text, Box, ToggleButtons, DropdownMenu, ShowMore } from '@honeycomb-finance/core'
+import { useTranslation } from '@honeycomb-finance/shared'
 import LimitOrderRow from './LimitOrderRow'
 import { DesktopLimitOrderList, GridContainer, MobileLimitOrderList } from './styleds'
 import Scrollbars from 'react-custom-scrollbars'

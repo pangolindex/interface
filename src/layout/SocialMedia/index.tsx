@@ -1,5 +1,6 @@
 import React from 'react'
-import { Text, Box, useTranslation } from '@pangolindex/components'
+import { useTranslation } from '@honeycomb-finance/shared'
+import { Text, Box } from '@honeycomb-finance/core'
 import { Wrapper, IconWrapper, Icon, Link } from './styled'
 import Telegram from '../../assets/svg/social/telegram.svg'
 import Twitter from '../../assets/svg/social/twitter.svg'

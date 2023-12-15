@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { Wrapper } from './styleds'
+import { Box, Button } from '@honeycomb-finance/core'
 import {
-  Box,
-  Button,
   useLibrary,
+  useActiveWeb3React,
   useTranslation,
-  useMinichefPools,
-  MinichefStakingInfo,
-  useDerivedStakeInfo,
-  useTokenBalance,
-  MINICHEF_ADDRESS,
   usePairContract,
+  MINICHEF_ADDRESS
+} from '@honeycomb-finance/shared'
+import { ApprovalState, useApproveCallbackHook, useTokenBalance } from '@honeycomb-finance/state-hooks'
+import {
   useStakingContract,
-  useApproveCallbackHook,
-  TransactionApprovalState as ApprovalState,
-  useActiveWeb3React
-} from '@pangolindex/components'
+  MinichefStakingInfo,
+  useMinichefPools,
+  useDerivedStakeInfo
+} from '@honeycomb-finance/pools'
+
 import { Pair, JSBI, TokenAmount } from '@pangolindex/sdk'
 import PoolInfo from '../PoolInfo'
 import { tryParseAmount } from 'src/utils'

@@ -1,4 +1,4 @@
-import { Button } from '@pangolindex/components'
+import { Button } from '@honeycomb-finance/core'
 import styled from 'styled-components'
 import { ReactComponent as Wallet } from 'src/assets/svg/wallet.svg'
 

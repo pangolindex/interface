@@ -5,7 +5,6 @@ import { MENU_LINK } from 'src/constants'
 import { useChainId } from 'src/hooks'
 import { shouldHideMenuItem } from 'src/utils'
 import Web3ReactManager from 'src/components/Web3ReactManager'
-import Intercom from 'src/intercom'
 
 const Polling = React.lazy(() => import('../components/Header/Polling'))
 const Popups = React.lazy(() => import('../components/Popups'))
@@ -19,7 +18,6 @@ const GovernanceDetailV2 = React.lazy(() => import('./Beta/GovernanceDetail'))
 const BuyV2 = React.lazy(() => import('./Beta/Buy'))
 const PoolV2 = React.lazy(() => import('./Beta/Pool'))
 const BridgeV2 = React.lazy(() => import('./Beta/Bridge'))
-const AirdropV2 = React.lazy(() => import('./Beta/Airdrop2'))
 const Policy = React.lazy(() => import('./Beta/Policy'))
 const SarStake = React.lazy(() => import('./SarStake'))
 
@@ -99,10 +97,6 @@ export default function App() {
       component: BridgeV2
     },
     {
-      path: `${MENU_LINK.airdrop}/:type`,
-      component: AirdropV2
-    },
-    {
       path: MENU_LINK.stakev2,
       component: SarStake
     }
@@ -110,7 +104,6 @@ export default function App() {
 
   return (
     <Suspense fallback={null}>
-      <Intercom appID={'uj2kwt4z'} />
       <AppWrapper>
         <BodyWrapper>
           <Popups />

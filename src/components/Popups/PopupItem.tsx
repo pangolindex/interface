@@ -4,7 +4,7 @@ import { useSpring } from 'react-spring/web'
 import styled, { ThemeContext } from 'styled-components'
 import { animated } from 'react-spring'
 import { PopupContent } from 'src/state/application/actions'
-import { useRemovePopup } from '@pangolindex/components'
+import { useRemovePopup } from '@honeycomb-finance/state-hooks'
 import TransactionPopup from './TransactionPopup'
 
 export const StyledClose = styled(X)`

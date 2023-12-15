@@ -1,0 +1,50 @@
+name: Deployment
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+on:
+  push:
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'yarn'
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      ### Production Deployment ###
+      - name: Pull Vercel Environment Information ( Production )
+        if: github.ref == 'refs/heads/master'
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts ( Production )
+        if: github.ref == 'refs/heads/master'
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel ( Production )
+        if: github.ref == 'refs/heads/master'
+        run: vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+
+      ### Preview Deployment ###
+      - name: Pull Vercel Environment Information ( Preview )
+        if: github.ref != 'refs/heads/master'
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts ( Preview )
+        if: github.ref != 'refs/heads/master'
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel ( Preview )
+        if: github.ref != 'refs/heads/master'
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}

@@ -1,17 +1,9 @@
 import React from 'react'
 import { InfoWrapper, DataBox, ContentBox, TextBox, StyledBalanceMax } from './styleds'
-import {
-  Text,
-  Box,
-  DoubleCurrencyLogo,
-  Steps,
-  Step,
-  useTranslation,
-  MinichefStakingInfo,
-  useTokenBalance,
-  wrappedCurrencyAmount,
-  useActiveWeb3React
-} from '@pangolindex/components'
+import { Text, Box, DoubleCurrencyLogo, Steps, Step } from '@honeycomb-finance/core'
+import { useActiveWeb3React, useTranslation, wrappedCurrencyAmount } from '@honeycomb-finance/shared'
+import { useTokenBalance } from '@honeycomb-finance/state-hooks'
+import { MinichefStakingInfo } from '@honeycomb-finance/pools'
 import { Pair, TokenAmount, JSBI } from '@pangolindex/sdk'
 import { useGetPairDataFromPair } from '../../../state/stake/hooks'
 import numeral from 'numeral'

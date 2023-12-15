@@ -1,7 +1,22 @@
 import React, { useContext, useState, useCallback, useEffect } from 'react'
 import { ThemeContext } from 'styled-components'
 import { MenuItem, MenuLink, MenuName } from './styled'
-import { LinkProps } from './MenuLinks'
+import { MENU_LINK } from 'src/constants'
+
+export interface LinkProps {
+  link: MENU_LINK | string
+  icon:
+    | string
+    | React.FC<{
+        size: number
+        fillColor: string
+      }>
+  //icon: any
+  title: string
+  id: string
+  isActive?: boolean
+  childrens?: Array<LinkProps>
+}
 
 interface NavItemProps {
   item: LinkProps

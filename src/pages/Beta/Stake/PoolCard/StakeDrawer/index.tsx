@@ -1,7 +1,8 @@
 import React from 'react'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import StakeWidet from '../StakeWidget'
-import { useTranslation, Drawer } from '@pangolindex/components'
+import { useTranslation } from '@honeycomb-finance/shared'
+import { Drawer } from '@honeycomb-finance/core'
 
 type Props = {
   isOpen: boolean

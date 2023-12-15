@@ -4,7 +4,8 @@ import { useModalOpen, useMigrationModalToggle } from '../../state/application/h
 import { Wrapper } from './styleds'
 import StepView from './StepView'
 import { Pair } from '@pangolindex/sdk'
-import { MinichefStakingInfo, Modal } from '@pangolindex/components'
+import { MinichefStakingInfo } from '@honeycomb-finance/pools'
+import { Modal } from '@honeycomb-finance/core'
 import { ThemeContext } from 'styled-components'
 
 export interface MigrationModalProps {

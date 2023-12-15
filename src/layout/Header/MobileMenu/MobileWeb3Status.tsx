@@ -1,14 +1,7 @@
-import {
-  Box,
-  shortenAddress,
-  Text,
-  WalletModal,
-  getEtherscanLink,
-  useModalOpen,
-  useWalletModalToggle,
-  ApplicationModal,
-  useActiveWeb3React
-} from '@pangolindex/components'
+import { WalletModal } from '@honeycomb-finance/walletmodal'
+import { Box, Text } from '@honeycomb-finance/core'
+import { shortenAddress, useActiveWeb3React, getEtherscanLink } from '@honeycomb-finance/shared'
+import { ApplicationModal, useModalOpen, useWalletModalToggle } from '@honeycomb-finance/state-hooks'
 import React, { useCallback, useContext } from 'react'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import { useChainId } from 'src/hooks'

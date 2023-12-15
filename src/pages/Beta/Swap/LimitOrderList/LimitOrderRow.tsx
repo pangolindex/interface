@@ -1,5 +1,7 @@
 import React from 'react'
-import { Text, Box, useGelatoLimitOrderDetail, LimitOrderInfo, useTranslation } from '@pangolindex/components'
+import { useGelatoLimitOrderDetail, LimitOrderInfo } from '@honeycomb-finance/swap'
+import { Text, Box } from '@honeycomb-finance/core'
+import { useTranslation } from '@honeycomb-finance/shared'
 import { DesktopRowWrapper } from './styleds'
 
 type Props = {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text } from '@pangolindex/components'
+import { Text } from '@honeycomb-finance/core'
 import Circle from '../../../assets/svg/blue-loader.svg'
 import { CustomLightSpinner } from '../../../theme/components'
 import { Wrapper, ConfirmedIcon, Section } from './styleds'

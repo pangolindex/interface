@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react'
 import { useDispatch } from 'src/state'
-import { useActivePopups as useActiveComponentsPopup, useActiveWeb3React } from '@pangolindex/components'
+import { useActiveWeb3React } from '@honeycomb-finance/shared'
+import { useActivePopups as useActiveComponentsPopup } from '@honeycomb-finance/state-hooks'
 import { AppState, useSelector } from '../index'
 import { ApplicationModal, setOpenModal } from './actions'
 

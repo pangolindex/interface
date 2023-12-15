@@ -12,10 +12,9 @@ import {
 } from './styled'
 import { MenuLinks } from '../../Sidebar/MenuLinks'
 import SocialMedia from 'src/layout/SocialMedia'
-import { Box, Modal } from '@pangolindex/components'
+import { Box, Modal } from '@honeycomb-finance/core'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { useDarkModeManager } from 'src/state/user/hooks'
-import LanguageSelection from 'src/components/LanguageSelection'
 import { MobileHeader } from '../MobileHeader'
 import Footer from 'src/layout/Footer'
 import TransactionModal from './TransactionModal'
@@ -48,7 +47,6 @@ const MobileMenu: React.FC<Props> = ({ activeMobileMenu, handleMobileMenu }) => 
                   <TransactionIcon />
                 </Box>
               </TransactionButton>
-              <LanguageSelection />
               <ThemeMode onClick={() => toggleDarkMode()}>
                 <Box width="20px" height="20px">
                   {isDark ? <LightModeIcon /> : <NightModeIcon />}

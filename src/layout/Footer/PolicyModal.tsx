@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Modal } from '@pangolindex/components'
+import { Box, Modal } from '@honeycomb-finance/core'
 import ReactMarkdown from 'react-markdown'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { CloseButton, Content, PolicyText } from './styled'

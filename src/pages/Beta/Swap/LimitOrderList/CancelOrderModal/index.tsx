@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
-import { Text, Box, useTranslation, Modal } from '@pangolindex/components'
+import { Text, Box, Modal } from '@honeycomb-finance/core'
+import { useTranslation } from '@honeycomb-finance/shared'
 import { Wrapper } from './styleds'
 import { ThemeContext } from 'styled-components'
 // import { Order } from '@gelatonetwork/limit-orders-react'

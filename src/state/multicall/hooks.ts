@@ -12,7 +12,8 @@ import {
   toCallKey,
   ListenerOptions
 } from './actions'
-import { useActiveWeb3React, useBlockNumber } from '@pangolindex/components'
+import { useActiveWeb3React } from '@honeycomb-finance/shared'
+import { useBlockNumber } from '@honeycomb-finance/state-hooks'
 
 export interface Result extends ReadonlyArray<any> {
   readonly [key: string]: any

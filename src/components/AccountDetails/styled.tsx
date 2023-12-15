@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { ReactComponent as Close } from '../../assets/svg/x.svg'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink } from '../../theme'
-import { Box } from '@pangolindex/components'
+import { Box } from '@honeycomb-finance/core'
 
 export const HeaderRow = styled(Box)`
   ${({ theme }) => theme.flexRowNoWrap};

@@ -3,7 +3,7 @@ import { GET_BLOCKS } from '../../apollo/block'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import { ChainId } from '@pangolindex/sdk'
-import { splitQuery } from '@pangolindex/components'
+import { splitQuery } from '@honeycomb-finance/shared'
 
 dayjs.extend(utc)
 

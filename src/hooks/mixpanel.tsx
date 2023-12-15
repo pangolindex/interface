@@ -2,11 +2,9 @@ import { useCallback } from 'react'
 import {
   useMixpanel as useComponentMixpanel,
   MixPanelEvents as ComponentsMixPanelEvents
-} from '@pangolindex/components'
+} from '@honeycomb-finance/shared'
 
-export enum MixPanelEvents {
-  CLAIM_AIRDROP = 'Claimed Airdrop'
-}
+export enum MixPanelEvents {}
 
 export function useMixpanel() {
   const { track } = useComponentMixpanel()

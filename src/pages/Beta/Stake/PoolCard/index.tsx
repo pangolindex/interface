@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Text, CurrencyLogo, useTranslation, useActiveWeb3React } from '@pangolindex/components'
+import { Text, CurrencyLogo } from '@honeycomb-finance/core'
+import { useTranslation, useActiveWeb3React } from '@honeycomb-finance/shared'
 import { JSBI } from '@pangolindex/sdk'
 import numeral from 'numeral'
 import { Card, CardHeader, Stats, CardStats, TokenName, DetailButton, StakeButton, StatValue } from './styleds'

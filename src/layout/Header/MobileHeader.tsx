@@ -1,4 +1,4 @@
-import { Box } from '@pangolindex/components'
+import { Box } from '@honeycomb-finance/core'
 import React from 'react'
 import Logo from '../Logo'
 import { MenuIcon } from './MenuIcon'

@@ -6,7 +6,7 @@ import { TYPE } from '../../theme'
 import { ExternalLink } from '../../theme/components'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
-import { useTranslation, getEtherscanLink } from '@pangolindex/components'
+import { useTranslation, getEtherscanLink } from '@honeycomb-finance/shared'
 
 const RowNoFlex = styled(AutoRow)`
   flex-wrap: nowrap;

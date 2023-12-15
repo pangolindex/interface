@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { CBPayInstanceType, initOnRamp } from '@coinbase/cbpay-js'
 import { COINBASE_PK } from 'src/constants'
 import { ToggleWalletButton, WalletIcon } from '../styled'
-import { Box, useWalletModalToggle, useTranslation, useActiveWeb3React } from '@pangolindex/components'
+import { Box } from '@honeycomb-finance/core'
+import { useTranslation, useActiveWeb3React } from '@honeycomb-finance/shared'
+import { useWalletModalToggle } from '@honeycomb-finance/state-hooks'
 
 export default function CoinbasePay() {
   const [init, setInit] = useState(false)

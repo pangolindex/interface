@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import useCopyClipboard from '../../hooks/useCopyClipboard'
 import { LinkStyledButton } from '../../theme'
 import { CheckCircle, Copy } from 'react-feather'
-import { useTranslation } from '@pangolindex/components'
+import { useTranslation } from '@honeycomb-finance/shared'
 
 const CopyIcon = styled(LinkStyledButton)`
   color: ${({ theme }) => theme.text3};

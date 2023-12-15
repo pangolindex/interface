@@ -1,7 +1,8 @@
 import React from 'react'
 import { SingleSideStakingInfo } from 'src/state/stake/hooks'
 import { DetailsContainer } from './styled'
-import { Box, CoinDescription } from '@pangolindex/components'
+import { Box } from '@honeycomb-finance/core'
+import { CoinDescription } from '@honeycomb-finance/pools'
 import StatDetails from '../StatDetail'
 
 type Props = {
