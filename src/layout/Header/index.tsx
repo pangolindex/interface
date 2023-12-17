@@ -38,7 +38,6 @@ import { DISCORD_SUPPORT, NETWORK_CURRENCY, NETWORK_LABELS, supportedWallets } f
 import { useMedia } from 'react-use'
 import { MobileHeader } from './MobileHeader'
 import { CHAINS, Chain } from '@pangolindex/sdk'
-import { useTotalPngEarnedHook } from 'src/state/stake/multiChainsHooks'
 import { useWallet } from 'src/state/user/hooks'
 import SwitchSubgraph from 'src/components/SwitchSubgraph'
 
@@ -84,8 +83,6 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
   const isMobile = useMedia(`(max-width: ${MEDIA_WIDTHS.upToMedium}px)`)
 
   const png = PNG[chainId]
-
-  const unclaimedPNG = useTotalPngEarnedHook[chainId]()
 
   const { data: pngCirculationSupply } = usePNGCirculationSupply()
 
@@ -168,7 +165,6 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
       )}
       <TokenInfoModal
         open={showPngBalanceModal}
-        unclaimedAmount={unclaimedPNG}
         circulationSupply={pngCirculationSupply}
         closeModal={closePngBalanceModal}
         token={png}
