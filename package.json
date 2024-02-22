@@ -1,6 +1,6 @@
 {
   "name": "@pangolindex/interface",
-  "version": "1.0.60",
+  "version": "1.0.70",
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
@@ -32,7 +32,7 @@
     "@honeycomb-finance/shared": "1.0.1",
     "@honeycomb-finance/state-hooks": "1.0.1",
     "@honeycomb-finance/swap": "1.0.3",
-    "@honeycomb-finance/wallet-connectors": "1.0.1",
+    "@honeycomb-finance/wallet-connectors": "1.0.2",
     "@honeycomb-finance/walletmodal": "1.0.1",
     "@metamask/jazzicon": "2.0.0",
     "@pangolindex/exchange-contracts": "2.1.9",
