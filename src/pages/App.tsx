@@ -119,11 +119,11 @@ export default function App() {
                     return <Route key={i} path={route.path} element={<Component />} />
                   })}
 
-                <Route index element={<Dashboard />} />
+                <Route index element={<SwapV2 />} />
                 <Route path="policy/privacy" element={<Policy policy="privacy" />} />
                 <Route path="policy/cookie" element={<Policy policy="cookie" />} />
                 <Route path="policy/terms" element={<Policy policy="terms" />} />
-                <Route path="*" element={<Dashboard />} />
+                <Route path="*" element={<SwapV2 />} />
               </Route>
             </Routes>
           </Web3ReactManager>
