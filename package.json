@@ -3,9 +3,6 @@
   "version": "1.0.78",
   "description": "Pangolin Interface",
   "homepage": ".",
-  "engines": {
-    "node": ">=18.x.x <=20.x.x"
-  },
   "private": true,
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.18.9",
