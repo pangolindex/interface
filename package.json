@@ -1,6 +1,6 @@
 {
   "name": "@pangolindex/interface",
-  "version": "1.0.77",
+  "version": "1.0.78",
   "description": "Pangolin Interface",
   "homepage": ".",
   "engines": {
@@ -26,7 +26,7 @@
     "@honeycomb-finance/elixir": "1.0.5",
     "@honeycomb-finance/elixirvaults": "1.0.5",
     "@honeycomb-finance/governance": "1.0.4",
-    "@honeycomb-finance/honeycomb-provider": "1.0.4",
+    "@honeycomb-finance/honeycomb-provider": "1.0.5",
     "@honeycomb-finance/pools": "1.0.6",
     "@honeycomb-finance/portfolio": "1.0.3",
     "@honeycomb-finance/sar": "1.0.4",
@@ -35,7 +35,7 @@
     "@honeycomb-finance/swap": "1.0.6",
     "@honeycomb-finance/token-drawer": "1.0.4",
     "@honeycomb-finance/wallet-connectors": "1.0.4",
-    "@honeycomb-finance/walletmodal": "1.0.4",
+    "@honeycomb-finance/walletmodal": "1.0.5",
     "@metamask/jazzicon": "2.0.0",
     "@pangolindex/exchange-contracts": "2.1.9",
     "@pangolindex/governance": "1.2.0",
