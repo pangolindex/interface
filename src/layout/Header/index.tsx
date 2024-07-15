@@ -1,50 +1,87 @@
 import { TokenInfoModal } from '@honeycomb-finance/portfolio'
-import { WalletModal, NetworkSelection } from '@honeycomb-finance/walletmodal'
-import { useActiveWeb3React, useOnClickOutside, Tokens } from '@honeycomb-finance/shared'
+import { Tokens, useActiveWeb3React, useOnClickOutside } from '@honeycomb-finance/shared'
 import {
-  useApplicationState,
-  useWalletModalToggleWithChainId,
-  useAccountBalanceHook,
   ApplicationModal as ApplicationModalComponents,
-  useModalOpen as useModalOpenComponents
+  useAccountBalanceHook,
+  useApplicationState,
+  useModalOpen as useModalOpenComponents,
+  useWalletModalToggleWithChainId
 } from '@honeycomb-finance/state-hooks'
-import React, { useState, useRef, useMemo, useCallback } from 'react'
-import { usePNGCirculationSupply } from '../../hooks'
+import { NetworkSelection, WalletModal } from '@honeycomb-finance/walletmodal'
+import { CHAINS, Chain } from '@pangolindex/sdk'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
+import { useMedia } from 'react-use'
+import { ReactComponent as DiscordIcon } from 'src/assets/svg/discord.svg'
+import { ButtonPrimary } from 'src/components/Button'
+import SwitchSubgraph from 'src/components/SwitchSubgraph'
+import { DISCORD_SUPPORT, NETWORK_CURRENCY, NETWORK_LABELS, supportedWallets } from 'src/constants'
+import { useChainId } from 'src/hooks'
+import { useWallet } from 'src/state/user/hooks'
+import { Hidden, MEDIA_WIDTHS } from 'src/theme'
+import styled, { keyframes } from 'styled-components'
+import LightMode from '../../assets/svg/lightMode.svg'
+import NightMode from '../../assets/svg/nightMode.svg'
 import Web3Status from '../../components/Web3Status'
+import { usePNGCirculationSupply } from '../../hooks'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
-import NightMode from '../../assets/svg/nightMode.svg'
-import LightMode from '../../assets/svg/lightMode.svg'
-import { ReactComponent as DiscordIcon } from 'src/assets/svg/discord.svg'
+import { MobileHeader } from './MobileHeader'
 import {
-  HeaderFrame,
+  AccountElement,
+  BalanceText,
   HeaderControls,
   HeaderElement,
   HeaderElementWrap,
-  AccountElement,
+  HeaderFrame,
+  LegacyButtonWrapper,
+  Logo,
+  NetworkCard,
   PNGAmount,
   PNGWrapper,
-  NetworkCard,
-  BalanceText,
-  ThemeMode,
-  LegacyButtonWrapper,
   SupportButton,
-  Logo
+  ThemeMode
 } from './styled'
-import { Hidden, MEDIA_WIDTHS } from 'src/theme'
-import { useChainId } from 'src/hooks'
-import { DISCORD_SUPPORT, NETWORK_CURRENCY, NETWORK_LABELS, supportedWallets } from 'src/constants'
-import { useMedia } from 'react-use'
-import { MobileHeader } from './MobileHeader'
-import { CHAINS, Chain } from '@pangolindex/sdk'
-import { useWallet } from 'src/state/user/hooks'
-import SwitchSubgraph from 'src/components/SwitchSubgraph'
 
 interface Props {
   activeMobileMenu: boolean
   handleMobileMenu: () => void
 }
+
+// pulse animation keyframes with styled-components
+const pulse = keyframes`
+  0% {
+    box-shadow: 0 0 0 0 rgba(230, 180, 0, 0.8)
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(230, 180, 0, 0.8)
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(230, 180, 0, 0.8)
+  }
+`
+
+const SuperFarmButton = styled(ButtonPrimary)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 12px;
+  white-space: nowrap;
+  height: 40px;
+  width: 100%;
+  background-color: ${({ theme }) => theme.bg3};
+  transition: all 0.3s ease-in-out;
+  animation: ${pulse} 2s infinite;
+
+  :hover {
+    color: ${({ theme }) => theme.text6};
+    // box-shadow: 0 0 0 10px rgba(230, 180, 0, 0.3);
+  }
+
+  :focus {
+    border: 1px solid blue;
+  }
+`
 
 export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
   const { account } = useActiveWeb3React()
@@ -113,6 +150,14 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
       ) : (
         <HeaderControls>
           <HeaderElement>
+            <SuperFarmButton
+              variant="primary"
+              onClick={() => {
+                window.open('https://beta.pangolin.exchange/#/superfarms', '_blank')
+              }}
+            >
+              SuperFarms ⭐
+            </SuperFarmButton>
             <LegacyButtonWrapper>
               <SwitchSubgraph />
               <SupportButton href={DISCORD_SUPPORT} target="_blank">
