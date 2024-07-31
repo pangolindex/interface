@@ -351,7 +351,7 @@ export function useGetStakingDataWithAPR(version: number) {
             ...aprResponses[i]
           }))
         )
-        //@ts-expect-error because this is neccesary
+        //@ts-expect-error because this is necessary
         .then(setStakingInfoData)
     }
 

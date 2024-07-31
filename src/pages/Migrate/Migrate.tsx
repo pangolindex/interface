@@ -94,7 +94,7 @@ const MigrateUI = () => {
       {/*  />*/}
 
       {/*  <StatCard*/}
-      {/*    icon={<StatisticImage src={AlreadyEarned} alt="Alread yEarned" />}*/}
+      {/*    icon={<StatisticImage src={AlreadyEarned} alt="Already Earned" />}*/}
       {/*    title={t('migratePage.alreadyEarned')}*/}
       {/*    stat={`$150.000`}*/}
       {/*  />*/}
