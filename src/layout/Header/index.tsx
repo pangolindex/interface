@@ -153,7 +153,7 @@ export default function Header({ activeMobileMenu, handleMobileMenu }: Props) {
             <SuperFarmButton
               variant="primary"
               onClick={() => {
-                window.open('https://beta.pangolin.exchange/#/superfarms', '_blank')
+                window.open('https://beta.pangolin.exchange/superfarmsv2', '_blank', 'noopener')
               }}
             >
               SuperFarms ⭐

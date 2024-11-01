@@ -100,7 +100,7 @@ export const NewVersionModal = () => {
     setBetaModal(!betaModal)
   }
 
-  const goToBeta = () => window.open('https://beta.pangolin.exchange/', '_blank')
+  const goToBeta = () => window.open('https://beta.pangolin.exchange/', '_blank', 'noopener')
 
   return (
     <Modal isOpen={betaModal} onDismiss={toggleModal}>
