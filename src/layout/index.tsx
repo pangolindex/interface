@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import HederaPoolWarning from 'src/components/Header/HederaPoolWarning'
 import URLWarning from 'src/components/Header/URLWarning'
+import { NewVersionModal } from 'src/components/NewVersionModal'
 import styled from 'styled-components'
 import Footer from './Footer'
 import Header from './Header'
@@ -57,6 +58,7 @@ const Layout: React.FC<unknown> = () => {
         </AppContent>
         {activeMobileMenu && <MobileMenu activeMobileMenu={activeMobileMenu} handleMobileMenu={handleMobileMenu} />}
         <Footer />
+        <NewVersionModal />
       </MainContent>
     </Wrapper>
   )
