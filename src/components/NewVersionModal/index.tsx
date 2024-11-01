@@ -3,10 +3,10 @@ import styled, { css } from 'styled-components'
 import BetaImage from '../../assets/images/beta-image.jpg'
 import { ButtonPrimary, ButtonSecondary } from '../Button'
 
-const Modal = styled.div`
+const Modal = styled.div<{ isOpen: boolean }>`
   width: 100vw;
   height: 100dvh;
-  padding: 144px 0;
+  padding: 144px 16px;
   position: fixed;
   z-index: 9999999;
   top: 0;
@@ -26,20 +26,34 @@ const Modal = styled.div`
       visibility: visible;
       opacity: 1;
     `}
+
+  @media (min-width: 768px) {
+    padding: 144px 32px;
+  }
 `
 
 const ModalContent = styled.div`
   display: flex;
+  flex-direction: column;
   overflow: hidden;
   border-radius: 12px;
   height: 100%;
   background-color: #1c1c1c;
   box-shadow: 0 251px 70px hsla(0, 0%, 0%, 0), 0 161px 64px hsla(0, 0%, 0%, 4%), 0 90px 54px hsla(0, 0%, 0%, 13%),
     0 40px 40px hsla(0, 0%, 0%, 21%), 0 10px 22px hsla(0, 0%, 0%, 25%);
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 `
 
 const ModalColumn = styled.div`
   flex: 1;
+  height: 25%;
+
+  @media (min-width: 768px) {
+    height: auto;
+  }
 `
 
 const ModalImage = styled.img`
@@ -54,6 +68,11 @@ const Content = styled(ModalColumn)`
   flex-direction: column;
   justify-content: center;
   gap: 32px;
+  height: 75%;
+
+  @media (min-width: 768px) {
+    height: auto;
+  }
 `
 
 const ModalTextWrapper = styled.div`
@@ -65,18 +84,30 @@ const ModalTextWrapper = styled.div`
 const Actions = styled.div`
   display: flex;
   gap: 12px;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 `
 
 const ModalHeading = styled.h3`
-  font-size: 36px;
+  font-size: 24px;
   font-weight: bold;
   margin: 0;
+
+  @media (min-width: 768px) {
+    font-size: 36px;
+  }
 `
 
 const ModalText = styled.p`
   margin: 0;
   text-wrap: balance;
-  max-width: 85%;
+
+  @media (min-width: 768px) {
+    max-width: 85%;
+  }
 `
 
 const BtnPrimary = styled(ButtonPrimary)`
@@ -86,6 +117,7 @@ const BtnPrimary = styled(ButtonPrimary)`
   font-weight: semibold;
   display: inline-block;
 `
+
 const BtnSecondary = styled(ButtonSecondary)`
   border-radius: 4px;
   font-size: 14px;
@@ -103,7 +135,7 @@ export const NewVersionModal = () => {
   const goToBeta = () => window.open('https://beta.pangolin.exchange/', '_blank', 'noopener')
 
   return (
-    <Modal isOpen={betaModal} onDismiss={toggleModal}>
+    <Modal isOpen={betaModal}>
       <ModalContent>
         <ModalColumn>
           <ModalImage src={BetaImage} />
