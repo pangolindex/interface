@@ -30,6 +30,10 @@ const Modal = styled.div<{ isOpen: boolean }>`
   @media (min-width: 768px) {
     padding: 144px 32px;
   }
+
+  @media (max-height: 610px) {
+    padding: 32px;
+  }
 `
 
 const ModalContent = styled.div`
@@ -98,6 +102,10 @@ const ModalHeading = styled.h3`
 
   @media (min-width: 768px) {
     font-size: 36px;
+  }
+
+  @media (max-height: 610px) {
+    font-size: 20px;
   }
 `
 
