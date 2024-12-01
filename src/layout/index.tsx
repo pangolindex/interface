@@ -58,7 +58,7 @@ const Layout: React.FC<unknown> = () => {
         </AppContent>
         {activeMobileMenu && <MobileMenu activeMobileMenu={activeMobileMenu} handleMobileMenu={handleMobileMenu} />}
         <Footer />
-        <NewVersionModal />
+        {/* <NewVersionModal /> */}
       </MainContent>
     </Wrapper>
   )

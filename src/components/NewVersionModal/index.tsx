@@ -31,7 +31,7 @@ const Modal = styled.div<{ isOpen: boolean }>`
     padding: 144px 32px;
   }
 
-  @media (max-height: 610px) {
+  @media (max-height: 846px) {
     padding: 32px;
   }
 `
@@ -104,7 +104,7 @@ const ModalHeading = styled.h3`
     font-size: 36px;
   }
 
-  @media (max-height: 610px) {
+  @media (max-height: 846px) {
     font-size: 20px;
   }
 `
