@@ -29,7 +29,7 @@
     "@honeycomb-finance/sar": "1.0.4",
     "@honeycomb-finance/shared": "1.0.3",
     "@honeycomb-finance/state-hooks": "1.0.3",
-    "@honeycomb-finance/swap": "1.0.6",
+    "@honeycomb-finance/swap": "1.0.7",
     "@honeycomb-finance/token-drawer": "1.0.4",
     "@honeycomb-finance/wallet-connectors": "1.0.4",
     "@honeycomb-finance/walletmodal": "1.0.7",

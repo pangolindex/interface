@@ -2898,10 +2898,10 @@
     lodash.flatmap "4.5.0"
     react-query "3.39.3"
 
-"@honeycomb-finance/swap@1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@honeycomb-finance/swap/-/swap-1.0.6.tgz#528539dc1ffa9cb6e71b15dbb5caddfebe8d6834"
-  integrity sha512-mxrPRcJRkp9MuD96xxw76QWQciQJqB+5yeZaBrS/tjmgXJO1mTCGaFv6Ocr7RHBnD0vCuh/Xh/Zd9x9pmasqsw==
+"@honeycomb-finance/swap@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@honeycomb-finance/swap/-/swap-1.0.7.tgz#3a5e5bf66e55364bd49cffe84555964466e1ec07"
+  integrity sha512-lOmniNDXiq61qEUVxWCGzZ2aU8ij+Gy4GTbx4hbdLciBzDFyCjmqrp0JLLsni8DK3ebo7ewwI+eF+umiYjq2xA==
   dependencies:
     "@ethersproject/providers" "5.6.8"
     "@gelatonetwork/limit-orders-react" "2.8.2"
