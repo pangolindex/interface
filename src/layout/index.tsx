@@ -42,11 +42,11 @@ const Layout: React.FC<unknown> = () => {
     <Wrapper>
       <Sidebar collapsed={isDrawerCollapsed} onCollapsed={value => setIsDrawerCollapsed(value)} />
       <MainContent collapsed={isDrawerCollapsed}>
-        <APRWarning>
-          Please be advised that $PNG farming rewards have ceased and the APRs shown are inaccurate. Pangolin V3 will be
-          launching soon.{' '}
-          <APRWarningLink href="https://x.com/pangolindex/status/1788647901607985647" target="_blank" rel="noreferrer">
-            See more details here
+      <APRWarning>
+          Please be advised that $PNG has reached its final circulating supply of 230 million and standard farms are no longer in force or emitting PNG rewards.
+          We invite you to visit our new app, currently in Beta, to discover any ongoing SuperFarms. These are temporary farms that issue dual rewards.{' '}
+          <APRWarningLink href="https://beta.pangolin.exchange/superfarmsv2" target="_blank" rel="noreferrer">
+            Explore SuperFarms
           </APRWarningLink>
           .
         </APRWarning>
